@@ -8,6 +8,13 @@
       "when": 1787310220212,
       "tag": "0000_yellow_aqueduct",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1787328245610,
+      "tag": "0001_enable_rls_public_schema",
+      "breakpoints": true
     }
   ]
 }
