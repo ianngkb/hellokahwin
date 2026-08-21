@@ -1,0 +1,17 @@
+{
+  // CI type-check config (used by `pnpm typecheck`).
+  // `next build` skips type-checking (typescript.ignoreBuildErrors in
+  // next.config.ts); this config is the real gate. Test files are covered by
+  // `pnpm test` (vitest's own type context), not this pass — same as twn-new.
+  "extends": "./tsconfig.json",
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": [
+    "node_modules",
+    "_bmad-output",
+    "scripts",
+    ".next",
+    "**/__tests__/**",
+    "**/*.test.ts",
+    "**/*.test.tsx"
+  ]
+}

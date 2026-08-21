@@ -1,0 +1,1743 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+/* Tailwind v4 auto-scans the project for class names AND CSS variable references.
+   The _bmad-output/ tree contains helper scripts with raw Windows path strings
+   (e.g. "C--Users-...\337187...") that Tailwind misreads as CSS variable names
+   with escape sequences, causing "Invalid code point" build errors. */
+@source not '../../_bmad-output';
+
+/*
+ * Exclude generated artifacts from Tailwind v4's automatic content scan.
+ * Tailwind 4 auto-detects class names anywhere in the workspace; large
+ * generated HTML/JSON/MD files in _bmad-output/ contain inline CSS, hex
+ * colors, and unicode that crash markUsedVariable() with `Invalid code point`
+ * during build. .claude/ similarly holds large skill payloads we don't ship.
+ */
+@source not '../../_bmad-output';
+@source not '../../.claude';
+@source not '../../scripts';
+@source not '../../tests';
+
+@custom-variant dark (&:is(.dark *));
+
+/* HelloKahwin serves system font stacks — zero webfont bytes for an audience
+   on cheap Android + slow connections. These variables were populated by
+   next/font in twn-new; here they resolve to system faces. */
+:root {
+  --font-geist:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+  --font-cormorant: Georgia, 'Times New Roman', Times, serif;
+  --font-geist-mono:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+  --font-now-alt: var(--font-geist);
+  --font-poppins: var(--font-geist);
+}
+/* 1280px: clears all standard tablets (iPad Air 1180px, iPad Pro 11" 1194px).
+   No min-height gate (kept the legacy `tall-desktop` name): the two-column
+   sidebar layout — and its inline contact form — should appear on any
+   ≥1280px-wide screen, including 13" laptops and short browser windows whose
+   viewport is well under 800px. The sticky sidebar scrolls internally
+   (tall-desktop:overflow-y-auto in the listing page) when vertical space is
+   tight, so a short viewport no longer clips the form. */
+@custom-variant tall-desktop (@media (min-width: 1280px));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist);
+  --font-serif: var(--font-cormorant);
+  --font-mono: var(--font-geist-mono);
+  --font-accent: var(--font-cormorant);
+  --font-prose: var(--font-now-alt);
+  --font-poppins: var(--font-poppins); /* brand typeface — /brand specimen only */
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-brand-secondary: var(--brand-secondary);
+
+  /* ── Design System v2 "Plum Forward" — color mappings (DESIGN.md, ratified 2026-07-04) ── */
+  --color-plum-hover: var(--plum-hover);
+  --color-plum-deep: var(--plum-deep);
+  --color-plum-deep-foreground: var(--plum-deep-foreground);
+  --color-plum-deep-muted: var(--plum-deep-muted);
+  --color-plum-deep-accent: var(--plum-deep-accent);
+  --color-plum-wash: var(--plum-wash);
+  --color-plum-wash-border: var(--plum-wash-border);
+  --color-brass: var(--brass);
+  --color-brass-deep: var(--brass-deep);
+  --color-border-strong: var(--border-strong);
+  --color-hairline: var(--hairline);
+  --color-warning-strong: var(--warning-strong);
+  --color-surface-subtle: var(--surface-subtle);
+  --color-surface-raised: var(--surface-raised);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+
+  /* Semantic colors */
+  --color-success: var(--success);
+  --color-success-subtle: var(--success-subtle);
+  --color-warning: var(--warning);
+  --color-warning-subtle: var(--warning-subtle);
+  --color-error: var(--error);
+  --color-error-subtle: var(--error-subtle);
+  --color-info: var(--info);
+  --color-info-subtle: var(--info-subtle);
+
+  /* Radius — TWO scales coexist by design (see design-system audit):
+     • v2 SEMANTIC scale below (--radius-control/image/card/modal/chip) is
+       CANONICAL for new component work — pick by role, not size.
+     • v1 T-SHIRT scale here (--radius-sm..pill) is RETAINED because ~478
+       existing `rounded-sm/md/lg` utilities resolve to these custom values;
+       removing them would silently fall every one back to Tailwind's smaller
+       defaults. Full v1 retirement is a separate migration, intentionally
+       deferred. Prefer the v2 scale for anything new. */
+  --radius-sm: 0.25rem; /* 4px — badges, chips, small elements */
+  --radius-md: 0.75rem; /* 12px — cards, inputs, images, containers */
+  --radius-lg: 1rem; /* 16px — large cards, modals, sheets */
+  --radius-xl: 1.25rem; /* 20px */
+  --radius-2xl: 1.5rem; /* 24px — large dialogs, hero sections */
+  --radius-pill: 6.25rem; /* 100px — pill CTAs, signature buttons */
+
+  /* v2 semantic radius scale (DESIGN.md · Shapes) — additive; legacy scale above
+     stays untouched until each component migrates (adoption steps 2–8) */
+  --radius-control: 2px; /* buttons, inputs, selects, textareas */
+  --radius-image: 4px; /* card imagery */
+  --radius-card: 8px; /* cards, rating breakdown */
+  --radius-modal: 16px; /* dialogs, sheets */
+  --radius-chip: 6.25rem; /* chips — in v2, the only component that keeps the pill radius */
+
+  /* Shadow tokens — warm foreground color, not pure black */
+  --shadow-sm: 0 1px 2px oklch(0.18 0.005 75 / 0.05);
+  --shadow-md: 0 4px 12px oklch(0.18 0.005 75 / 0.08);
+  --shadow-lg: 0 8px 24px oklch(0.18 0.005 75 / 0.1);
+
+  /* Motion tokens */
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 400ms;
+  --ease-default: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+
+  /* Z-index scale — the app's overlay layering, tokenized (replaces scattered
+     z-[1100]/z-[1200] magic numbers). Reference as z-[var(--z-*)]. Higher =
+     closer to the viewer. Popovers sit ABOVE dialogs on purpose (a Select
+     inside a Dialog must open above it). */
+  --z-nav: 1000; /* sticky navbar */
+  --z-ad: 1001; /* ad banners, announcement bar, fullscreen media viewers */
+  --z-concierge: 1002; /* floating concierge widget — above ads */
+  --z-overlay: 1100; /* Dialog / Sheet scrims + panels */
+  --z-popover: 1200; /* Dropdown / Select / Popover / AlertDialog / Google pac-container — above dialogs */
+
+  /* Scrim / text-shadow effects (not palette colours; pure-black alpha for
+     legibility over imagery). Tokenized so no component carries a raw rgba. */
+  --text-shadow-scrim: 0 1px 3px oklch(0 0 0 / 0.8);
+  --overlay-scrim: oklch(1 0 0 / 0.3); /* frosted inner ring on brand bubbles */
+}
+
+/* =========================================
+   Light Mode — Quiet Luxury Palette
+   ========================================= */
+/* ── next/font source aliases ──
+   next/font sets --font-cormorant / --font-geist-mono on <html> (i.e. on
+   :root). `.font-ui-sans` SHADOWS both by name to collapse the console to one
+   font, so a descendant can never recover the originals by name. These aliases
+   are declared once at the document root and never overridden by the console,
+   so a public-surface preview nested inside the console shell can restore the
+   real serif + mono faces (see `.ds-surface-public` below).
+
+   Deliberately a :root-ONLY rule, not part of the shared `:root,
+   .ds-surface-public` list below: `.ds-surface-public` re-declares
+   --font-cormorant *from* this alias, so declaring the alias there too would
+   make the pair reference each other and both would compute as invalid. */
+:root {
+  --font-cormorant-src: var(--font-cormorant);
+  --font-geist-mono-src: var(--font-geist-mono);
+}
+
+:root,
+.ds-surface-public {
+  --radius: 0.75rem;
+
+  /* Brand */
+  --primary: oklch(0.22 0.055 310); /* Midnight plum */
+  --primary-foreground: oklch(0.985 0.004 75); /* Warm off-white */
+  --brand-secondary: oklch(0.78 0.065 85); /* Champagne brass */
+
+  /* ── Design System v2 "Plum Forward" tokens (DESIGN.md, ratified 2026-07-04) ── */
+  --plum-hover: oklch(0.3 0.06 310); /* hover state of plum fills */
+  --plum-deep: oklch(0.17 0.05 310); /* owned dark surfaces: footer, announcement */
+  --plum-deep-foreground: oklch(0.92 0.015 310); /* primary text on plum-deep (15.2:1) */
+  --plum-deep-muted: oklch(0.85 0.015 310); /* links/secondary text on plum-deep (12.2:1) */
+  --plum-deep-accent: oklch(0.78 0.04 310); /* italic taglines on plum-deep (9.5:1) */
+  --plum-wash: oklch(0.965 0.012 310); /* 3% tint for special sections */
+  --plum-wash-border: oklch(0.9 0.025 310); /* rules bounding plum-wash bands */
+  --brass: oklch(
+    0.78 0.065 85
+  ); /* champagne brass — Spotlight tab fill, rating/trust accents (= --brand-secondary) */
+  --brass-deep: oklch(0.55 0.065 85); /* text-legible brass — light surfaces only (4.87:1) */
+  --border-strong: oklch(0.62 0.008 75); /* form-control boundaries — ≥3:1 (WCAG 1.4.11) */
+  --hairline: oklch(0.91 0.008 75); /* decorative borders only, never control boundaries */
+  --warning-strong: oklch(0.55 0.12 75); /* warning text/icons — base warning is 2.93:1 */
+
+  /* Surfaces & backgrounds */
+  --background: oklch(0.985 0.004 75); /* Warm off-white */
+  --surface-subtle: oklch(0.97 0.005 75); /* Warm cream */
+  --surface-raised: oklch(0.95 0.008 75); /* Warm linen */
+  --card: oklch(1 0 0); /* Pure white */
+  --card-foreground: oklch(0.18 0.005 75);
+  --popover: oklch(
+    0.97 0.005 75
+  ); /* Warm cream (= surface-subtle) — dropdowns/popovers harmonize with the warm UI instead of reading as stark white */
+  --popover-foreground: oklch(0.18 0.005 75);
+
+  /* Text */
+  --foreground: oklch(0.18 0.005 75); /* Warm near-black */
+  --muted-foreground: oklch(0.45 0.008 75); /* Warm medium */
+
+  /* Interactive */
+  --secondary: oklch(0.95 0.008 75); /* Warm linen */
+  --secondary-foreground: oklch(0.18 0.005 75);
+  --accent: oklch(0.97 0.005 75); /* Warm cream */
+  --accent-foreground: oklch(0.18 0.005 75);
+  --muted: oklch(0.95 0.008 75); /* Warm linen */
+  --ring: oklch(0.22 0.055 310); /* Focus rings match primary */
+  --destructive: oklch(0.52 0.15 25); /* Muted error red */
+  --disabled: oklch(0.72 0.005 75); /* Disabled text */
+
+  /* ── External brand colours — INTENTIONAL literals, NOT design tokens ──
+     Brand-accurate values that must never be "tokenised" to plum/semantic.
+     Kept as CSS vars (not TS constants) because they're consumed in Tailwind
+     arbitrary classes: bg-[var(--brand-whatsapp)]. globals.css is exempt from
+     the no-raw-hex lint rule, so the literals live here, documented, once.
+     JS-consumed brand/chart/map/email literals live in src/lib/constants/*. */
+  --brand-whatsapp: #128c7e; /* WhatsApp CTA (intentional — see r2/design memory) */
+  --brand-whatsapp-hover: #0e7265;
+  --brand-whatsapp-bubble: #25d366; /* concierge WhatsApp bubble */
+  --brand-whatsapp-bubble-hover: #1ebe5b;
+  --brand-online: #5ee06f; /* "online" presence dot */
+
+  /* Borders */
+  --border: oklch(0.88 0.01 75); /* Warm sand */
+  --input: oklch(0.88 0.01 75);
+
+  /* Semantic */
+  --success: oklch(0.55 0.12 155);
+  --success-subtle: oklch(0.94 0.03 155);
+  --warning: oklch(0.68 0.12 75);
+  --warning-subtle: oklch(0.94 0.03 75);
+  --error: oklch(0.52 0.15 25);
+  --error-subtle: oklch(0.94 0.03 25);
+  --info: oklch(0.55 0.1 250);
+  --info-subtle: oklch(0.94 0.02 250);
+
+  /* Charts */
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+
+  /* Sidebar */
+  --sidebar: oklch(0.985 0.004 75);
+  --sidebar-foreground: oklch(0.18 0.005 75);
+  --sidebar-primary: oklch(0.22 0.055 310);
+  --sidebar-primary-foreground: oklch(0.985 0.004 75);
+  --sidebar-accent: oklch(0.97 0.005 75);
+  --sidebar-accent-foreground: oklch(0.18 0.005 75);
+  --sidebar-border: oklch(0.88 0.01 75);
+  --sidebar-ring: oklch(0.45 0.008 75);
+}
+
+/* =========================================
+   Dark Mode — Warm, Functional
+   -----------------------------------------
+   INTENTIONALLY UNWIRED (decision 2026-07-14): the full dark palette below is
+   maintained and correct, but there is NO ThemeProvider / class toggle on
+   <html>, so dark mode is not user-reachable. This is deliberate — the app
+   ships light-only for now. Keep this palette in sync so dark can be switched
+   on later by adding a root toggle; do not delete it.
+   ========================================= */
+.dark {
+  --primary: oklch(0.72 0.06 310); /* Soft plum */
+  --primary-foreground: oklch(0.15 0.005 75);
+  --brand-secondary: oklch(0.82 0.055 85); /* Soft brass */
+
+  /* ── Design System v2 "Plum Forward" — dark equivalents (DESIGN.md · Colors) ── */
+  --plum-hover: oklch(
+    0.78 0.06 310
+  ); /* hover of the dark soft-plum primary (0.72) — lightens, like all dark-mode fills */
+  --plum-deep: oklch(0.17 0.05 310); /* unchanged — already a dark surface */
+  --plum-deep-foreground: oklch(0.92 0.015 310);
+  --plum-deep-muted: oklch(0.85 0.015 310);
+  --plum-deep-accent: oklch(0.78 0.04 310);
+  --plum-wash: oklch(0.2 0.02 310);
+  --plum-wash-border: oklch(0.28 0.02 310);
+  --brass: oklch(0.82 0.055 85);
+  --brass-deep: oklch(0.72 0.05 85);
+  --border-strong: oklch(0.55 0.008 75);
+  --hairline: oklch(0.24 0.008 75);
+  --warning-strong: oklch(0.72 0.1 75);
+
+  --background: oklch(0.14 0.005 75); /* Warm dark */
+  --surface-subtle: oklch(0.18 0.005 75);
+  --surface-raised: oklch(0.22 0.008 75);
+  --card: oklch(0.2 0.005 75);
+  --card-foreground: oklch(0.94 0.005 75);
+  --popover: oklch(0.2 0.005 75);
+  --popover-foreground: oklch(0.94 0.005 75);
+
+  --foreground: oklch(0.94 0.005 75);
+  --muted-foreground: oklch(0.65 0.008 75);
+
+  --secondary: oklch(0.25 0.008 75);
+  --secondary-foreground: oklch(0.94 0.005 75);
+  --accent: oklch(0.25 0.008 75);
+  --accent-foreground: oklch(0.94 0.005 75);
+  --muted: oklch(0.25 0.008 75);
+  --ring: oklch(0.72 0.06 310);
+  --destructive: oklch(0.65 0.15 25);
+  --disabled: oklch(0.4 0.005 75);
+
+  --border: oklch(0.28 0.008 75);
+  --input: oklch(0.28 0.008 75);
+
+  --success: oklch(0.65 0.12 155);
+  --success-subtle: oklch(0.22 0.03 155);
+  --warning: oklch(0.72 0.1 75);
+  --warning-subtle: oklch(0.22 0.03 75);
+  --error: oklch(0.65 0.15 25);
+  --error-subtle: oklch(0.22 0.03 25);
+  --info: oklch(0.65 0.1 250);
+  --info-subtle: oklch(0.22 0.02 250);
+
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+
+  --sidebar: oklch(0.2 0.005 75);
+  --sidebar-foreground: oklch(0.94 0.005 75);
+  --sidebar-primary: oklch(0.72 0.06 310);
+  --sidebar-primary-foreground: oklch(0.94 0.005 75);
+  --sidebar-accent: oklch(0.25 0.008 75);
+  --sidebar-accent-foreground: oklch(0.94 0.005 75);
+  --sidebar-border: oklch(0.28 0.008 75);
+  --sidebar-ring: oklch(0.65 0.008 75);
+}
+
+/* =========================================
+   Base Layer
+   ========================================= */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    font-family: var(--font-geist);
+    @apply bg-background text-foreground;
+  }
+
+  /* Editorial typography scale — serif headings + sans body */
+  h1 {
+    font-family: var(--font-serif);
+    @apply text-[1.875rem] leading-[1.15] font-normal tracking-[-0.02em] md:text-[2.5rem];
+  }
+  h2 {
+    font-family: var(--font-serif);
+    @apply text-[1.5rem] leading-[1.2] font-normal tracking-[-0.015em] md:text-[1.875rem];
+  }
+  h3 {
+    font-family: var(--font-serif);
+    @apply text-[1.125rem] leading-[1.3] font-normal tracking-[-0.01em] md:text-[1.25rem];
+  }
+  h4 {
+    font-family: var(--font-geist);
+    @apply text-base leading-[1.4] font-semibold;
+  }
+  p {
+    font-family: var(--font-geist);
+    @apply text-base leading-[1.6];
+  }
+}
+
+/* =========================================
+   Admin + vendor sans scope (AV-1)
+   ----------------------------------------
+   Utility surfaces (the (admin) and (vendor) route groups) drop the editorial
+   serif for Geist to improve scannability on data-dense screens. Applied on
+   each route-group layout root. We override the font *variables* rather than
+   the base `h1–h3` rules so it stays scoped to the subtree and leaves the
+   public marketplace + `.inspire-*` editorial serif untouched.
+
+   Overriding `--font-cormorant` (the next/font source var) covers every path:
+   the base heading rules read `var(--font-serif)`, `.type-accent` reads
+   `var(--font-accent)`, and the `font-serif` Tailwind utility (e.g. CardTitle)
+   inlines to `var(--font-cormorant)`. All three resolve to Geist under this
+   class. Do NOT remove the Cormorant declaration from layout.tsx — public
+   pages still need it.
+   ========================================= */
+.font-ui-sans,
+.ds-surface-console {
+  --font-serif: var(--font-geist);
+  --font-accent: var(--font-geist);
+  --font-cormorant: var(--font-geist);
+  /* One font across the console: collapse the mono face to Geist too, so every
+     `font-mono` / `.num` figure renders in Geist. `tabular-nums` (kept on those
+     elements) still aligns columns — we lose the monospace look, not the
+     alignment. Scoped to the console; the public site keeps Geist Mono. */
+  --font-geist-mono: var(--font-geist);
+}
+
+/* =========================================
+   Gated landing surfaces — serif throughout (Newsreader)
+   ----------------------------------------
+   Scoped to `.ds-surface-landing` (the (landing) shell) exactly the way the
+   console scopes its own font override above. The public site, articles and
+   catalog are untouched and keep Cormorant + Geist.
+
+   Why a different serif rather than just widening Cormorant's remit: Cormorant
+   is a DISPLAY face — high contrast, small x-height — and gets thin and tiring
+   at 16px. Newsreader is drawn for screen at both display and text sizes, so
+   one family can carry headings, body copy and figures on this page.
+   ========================================= */
+.ds-surface-landing {
+  --font-serif: var(--font-newsreader);
+  --font-accent: var(--font-newsreader);
+  --font-cormorant: var(--font-newsreader);
+  /* Body copy too — `font-serif` only reaches elements that ask for it, and on
+     this page the paragraphs, prices and FAQ answers should all be serif. */
+  font-family: var(--font-newsreader);
+}
+
+/* The UI layer stays in Geist. An 11px uppercase eyebrow at 16% letter-spacing
+   is where serifs turn to mush, and the same is true of button labels and form
+   controls. `.uppercase` is Tailwind's own class, so this catches every eyebrow
+   and caps label on the page without threading a prop through 12 components. */
+.ds-surface-landing :is(.uppercase, button, [data-slot='button'], input, select, textarea) {
+  font-family: var(--font-sans);
+}
+
+/* The embedded inbox replica is a quotation of the console and must keep the
+   console's own face — it already carries `.ds-surface-console`. */
+.ds-surface-landing .ds-surface-console {
+  font-family: var(--font-geist);
+}
+
+/* Explicit mono wins over the serif body rule above. */
+.ds-surface-landing .font-mono {
+  font-family: var(--font-mono);
+}
+
+/* =========================================
+   Admin + vendor console — "Monochrome Precision" token override
+   ----------------------------------------
+   Scoped to `.font-ui-sans` (the (admin)/(vendor) shell wrappers) so the whole
+   console re-skins to a neutral ink-on-paper ramp WITHOUT touching :root — the
+   public marketplace keeps the Plum Forward palette untouched. Because @theme
+   inline emits the colour utilities as `var(--token)`, overriding the tokens
+   here re-resolves every `bg-card`/`text-foreground`/`border`/status utility
+   inside the console. Status hues are retained (the only chroma); everything
+   else is pure neutral (hue 0, chroma 0).
+
+   Dark mode is CONSOLE-ONLY and driven by `[data-theme="dark"]` set on this
+   same wrapper (cookie-persisted, SSR-read). We do NOT reuse the global `.dark`
+   block (that is Plum-dark + global) and never enable dark on the public site.
+   In dark, the primary fill inverts to light so actions/data stay highest-contrast.
+   See admin-vendor-design-system.md.
+   ========================================= */
+.font-ui-sans,
+.ds-surface-console {
+  /* Surfaces & text */
+  --background: oklch(1 0 0);
+  --surface-subtle: oklch(0.985 0 0);
+  --surface-raised: oklch(0.97 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --foreground: oklch(0.145 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.45 0 0);
+
+  /* Interactive / neutral */
+  --primary: oklch(0.145 0 0); /* fill = ink */
+  --primary-foreground: oklch(0.985 0 0);
+  --plum-hover: oklch(0.26 0 0); /* primary hover */
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --ring: oklch(0.145 0 0);
+  --disabled: oklch(0.72 0 0);
+
+  /* Brand accents → neutral ink (monochrome console) */
+  --brand-secondary: oklch(0.145 0 0);
+  --brass: oklch(0.145 0 0);
+  --brass-deep: oklch(0.3 0 0);
+  --plum-wash: oklch(0.97 0 0);
+  --plum-wash-border: oklch(0.922 0 0);
+  --plum-deep: oklch(0.205 0 0);
+
+  /* Borders */
+  --border: oklch(0.922 0 0);
+  --border-strong: oklch(0.7 0 0);
+  --hairline: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+
+  /* Status — the only retained chroma */
+  --success: oklch(0.5 0.11 155);
+  --success-subtle: oklch(0.95 0.03 155);
+  --warning: oklch(0.52 0.09 75);
+  --warning-strong: oklch(0.52 0.09 75);
+  --warning-subtle: oklch(0.96 0.04 80);
+  --error: oklch(0.52 0.15 25);
+  --error-subtle: oklch(0.95 0.03 25);
+  --info: oklch(0.5 0.1 250);
+  --info-subtle: oklch(0.95 0.03 250);
+  --destructive: oklch(0.52 0.15 25);
+
+  /* Charts → neutral ramp (darkest → lightest) */
+  --chart-1: oklch(0.145 0 0);
+  --chart-2: oklch(0.45 0 0);
+  --chart-3: oklch(0.65 0 0);
+  --chart-4: oklch(0.8 0 0);
+  --chart-5: oklch(0.9 0 0);
+
+  /* Codebase Scan — categorical hues for the architecture map (/admin/codebase-scan)
+     ------------------------------------------------------------------------
+     The SECOND deliberate reintroduction of chroma into the monochrome console,
+     after status. It is scoped to one page and earns it: that map's entire job
+     is telling eight node types apart at a glance, and the neutral chart ramp
+     above cannot carry eight steps that stay distinguishable next to each other.
+     Same shape as the status tokens — a readable accent plus a subtle fill —
+     and mirrored in the dark block below, because the console theme flips.
+     Consumed only through `src/lib/admin/codebase-scan/layout.ts`. */
+  --scan-entry: oklch(0.5 0.13 250);
+  --scan-entry-subtle: oklch(0.95 0.03 250);
+  --scan-cron: oklch(0.5 0.14 300);
+  --scan-cron-subtle: oklch(0.95 0.03 300);
+  --scan-agent: oklch(0.52 0.16 350);
+  --scan-agent-subtle: oklch(0.95 0.03 350);
+  --scan-model: oklch(0.53 0.14 40);
+  --scan-model-subtle: oklch(0.95 0.03 40);
+  --scan-tool: oklch(0.5 0.1 195);
+  --scan-tool-subtle: oklch(0.95 0.03 195);
+  --scan-service: oklch(0.5 0.11 155);
+  --scan-service-subtle: oklch(0.95 0.03 155);
+  --scan-store: oklch(0.5 0 0);
+  --scan-store-subtle: oklch(0.95 0 0);
+  --scan-external: oklch(0.52 0.09 85);
+  --scan-external-subtle: oklch(0.95 0.03 85);
+
+  /* Sidebar */
+  --sidebar: oklch(1 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.145 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.145 0 0);
+}
+
+.font-ui-sans[data-theme='dark'],
+.ds-surface-console[data-theme='dark'] {
+  /* Surfaces & text */
+  --background: oklch(0.145 0 0);
+  --surface-subtle: oklch(0.185 0 0);
+  --surface-raised: oklch(0.22 0 0);
+  --card: oklch(0.185 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.185 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --foreground: oklch(0.985 0 0);
+  --muted: oklch(0.22 0 0);
+  --muted-foreground: oklch(0.68 0 0);
+
+  /* Interactive / neutral — fill inverts to light */
+  --primary: oklch(0.985 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --plum-hover: oklch(0.87 0 0);
+  --secondary: oklch(0.22 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --accent: oklch(0.24 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --ring: oklch(0.985 0 0);
+  --disabled: oklch(0.45 0 0);
+
+  /* Brand accents → light ink */
+  --brand-secondary: oklch(0.985 0 0);
+  --brass: oklch(0.985 0 0);
+  --brass-deep: oklch(0.8 0 0);
+  --plum-wash: oklch(0.22 0 0);
+  --plum-wash-border: oklch(0.3 0 0);
+  --plum-deep: oklch(0.24 0 0);
+
+  /* Borders */
+  --border: oklch(0.27 0 0);
+  --border-strong: oklch(0.45 0 0);
+  --hairline: oklch(0.27 0 0);
+  --input: oklch(0.27 0 0);
+
+  /* Status — dark variants */
+  --success: oklch(0.7 0.15 155);
+  --success-subtle: oklch(0.27 0.05 155);
+  --warning: oklch(0.75 0.12 75);
+  --warning-strong: oklch(0.75 0.12 75);
+  --warning-subtle: oklch(0.27 0.05 75);
+  --error: oklch(0.68 0.17 25);
+  --error-subtle: oklch(0.27 0.05 25);
+  --info: oklch(0.68 0.12 250);
+  --info-subtle: oklch(0.27 0.04 250);
+  --destructive: oklch(0.68 0.17 25);
+
+  /* Charts → neutral ramp (lightest → darkest for dark bg) */
+  --chart-1: oklch(0.985 0 0);
+  --chart-2: oklch(0.7 0 0);
+  --chart-3: oklch(0.5 0 0);
+  --chart-4: oklch(0.37 0 0);
+  --chart-5: oklch(0.27 0 0);
+
+  /* Codebase Scan — dark variants (see the light block for why these exist) */
+  --scan-entry: oklch(0.72 0.13 250);
+  --scan-entry-subtle: oklch(0.27 0.05 250);
+  --scan-cron: oklch(0.72 0.14 300);
+  --scan-cron-subtle: oklch(0.27 0.05 300);
+  --scan-agent: oklch(0.72 0.16 350);
+  --scan-agent-subtle: oklch(0.27 0.05 350);
+  --scan-model: oklch(0.75 0.14 40);
+  --scan-model-subtle: oklch(0.27 0.05 40);
+  --scan-tool: oklch(0.75 0.1 195);
+  --scan-tool-subtle: oklch(0.27 0.04 195);
+  --scan-service: oklch(0.72 0.14 155);
+  --scan-service-subtle: oklch(0.27 0.05 155);
+  --scan-store: oklch(0.7 0 0);
+  --scan-store-subtle: oklch(0.27 0 0);
+  --scan-external: oklch(0.78 0.11 85);
+  --scan-external-subtle: oklch(0.27 0.05 85);
+
+  /* Sidebar */
+  --sidebar: oklch(0.185 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.985 0 0);
+  --sidebar-primary-foreground: oklch(0.205 0 0);
+  --sidebar-accent: oklch(0.24 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(0.27 0 0);
+  --sidebar-ring: oklch(0.985 0 0);
+}
+
+/* =========================================
+   Design-system PREVIEW-ONLY — public surface inside the console
+   ----------------------------------------
+   Used exclusively by /admin/design-system to instantiate the PUBLIC token
+   system inside the `.font-ui-sans` console shell. `.ds-surface-public` already
+   joins the `:root` selector list above, which restores every colour token; the
+   two things inheritance alone cannot undo are handled here:
+
+   1. FONTS — `.font-ui-sans` shadows `--font-cormorant` / `--font-geist-mono`
+      by name on an ancestor, so re-reading them yields Geist. We recover the
+      real faces from the `--font-*-src` aliases declared at `:root` (which the
+      console never overrides).
+   2. BUTTONS — the console's `[data-slot='button']` rule below is a descendant
+      selector on an ancestor `.font-ui-sans`, so it still matches inside the
+      preview. `revert-layer` rolls each property back to the previous cascade
+      layer — i.e. the Button's own cva utilities — rather than re-typing the
+      public values here (which would duplicate authored style).
+
+   Nothing outside /admin/design-system uses these classes. Do not apply them to
+   a shipped page. */
+.ds-surface-public {
+  --font-serif: var(--font-cormorant-src);
+  --font-accent: var(--font-cormorant-src);
+  --font-cormorant: var(--font-cormorant-src);
+  --font-geist-mono: var(--font-geist-mono-src);
+}
+
+/* ── Console button typography (Monochrome Precision) ──
+   The shared Button ships Plum Forward's uppercase caps style. Inside the
+   console we want the clean, sentence-case, compact look from the mockup. Scope
+   the typography + radius override to `.font-ui-sans` so the public marketplace
+   buttons are untouched. Colour still flows from the tokens (primary = ink). */
+.font-ui-sans [data-slot='button'] {
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 500;
+  border-radius: 8px;
+}
+.font-ui-sans [data-slot='button'][data-size='default'] {
+  min-height: 2.25rem;
+  padding-inline: 0.85rem;
+  font-size: 0.8125rem;
+}
+.font-ui-sans [data-slot='button'][data-size='sm'] {
+  min-height: 2rem;
+  padding-inline: 0.7rem;
+  font-size: 0.75rem;
+}
+.font-ui-sans [data-slot='button'][data-size='lg'] {
+  min-height: 2.6rem;
+  font-size: 0.875rem;
+}
+
+/* ── Checklist admin form controls (Monochrome Precision) ──
+   The shared Input/Select/Textarea ship Plum Forward v2's 44px, 2px-radius
+   recipe. On the /admin/checklist surfaces we want ONE control size that matches
+   the console button (36px) so a search box, a filter select, and a New button
+   sit flush. Scoped to `.checklist-fields` (set on the checklist layout wrapper,
+   checklist-chrome.tsx) — NOT console-wide — so other admin/vendor pages keep
+   their own deliberate control sizes (pill search bars, compact inputs, etc.).
+   These rules are UNLAYERED, which is what makes them win: Tailwind's `h-11` /
+   `data-[size]:h-11` utilities live in `@layer utilities`, and any unlayered rule
+   beats every layered rule regardless of specificity. Keep this block unlayered —
+   moving it into a layer would silently hand the win back to the utilities. The
+   `:not([type=…])` guard keeps a would-be checkbox/radio Input from being pinned
+   to 36px. Colour still flows from the `.font-ui-sans` console tokens. */
+.checklist-fields [data-slot='input']:not([type='checkbox']):not([type='radio']),
+.checklist-fields [data-slot='select-trigger'] {
+  height: 2.25rem; /* 36px — match [data-slot='button'][data-size='default'] */
+  min-height: 2.25rem;
+  border-radius: 8px;
+  font-size: 0.8125rem;
+}
+.checklist-fields [data-slot='textarea'] {
+  /* height is intentionally left to min-h so it grows with content; only the
+     radius + the text-base→md:text-sm jump are normalized to the control size. */
+  border-radius: 8px;
+  font-size: 0.8125rem;
+}
+
+/* PREVIEW-ONLY (see `.ds-surface-public` above): undo the console button rule
+   inside the design-system page's public preview. Must sit AFTER the rule above
+   — both selectors are (0,2,0), so source order decides the winner. Only the
+   four properties the console rule sets are reverted; the `[data-size]` metrics
+   are intentionally left alone (they are size, not palette/typography, and the
+   spec scopes this reset to the four properties). */
+.ds-surface-public [data-slot='button'] {
+  text-transform: revert-layer;
+  letter-spacing: revert-layer;
+  font-weight: revert-layer;
+  border-radius: revert-layer;
+}
+
+/* ── Console table (Monochrome Precision) ──
+   One class re-skins any semantic <table> to the console look: uppercase micro
+   thead, hairline rows, hover, mono numeric cells (`.num`). Scoped to the
+   console shell; pages write plain <thead>/<tbody> markup via <ConsoleTable>. */
+.font-ui-sans .console-table {
+  width: 100%;
+  /* `separate` (not `collapse`): collapsed borders detach from sticky cells in
+     Chrome, leaving the pinned thead border behind while rows scroll. */
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.font-ui-sans .console-table thead th {
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted-foreground);
+  font-weight: 600;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+/* Sticky header: pins to the top of the ConsoleTableScroller scrollport.
+   Child combinators on purpose — a nested plain <table> inside a cell (e.g.
+   the vendors table's expandable listings rows) must NOT inherit sticky
+   positioning or the opaque background; the cosmetic rule above may keep
+   leaking typography as it always has.
+   z ladder inside the scroller's `isolate` context: mastersheet sticky-column
+   tds = 1, thead th = 2 (this unlayered rule beats Tailwind utilities),
+   mastersheet corner th = 3 via inline style. Kept minimal so any
+   non-portalled positioned element in a row with a z-index utility still
+   paints above the header. The admin topbar's z-30 lives outside the isolated
+   context, so it always paints above table internals. The hairline is a
+   box-shadow, not border-bottom — a border wouldn't travel with the sticky
+   cell. */
+.font-ui-sans .console-table > thead > tr > th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--card);
+  border-bottom: 0;
+  box-shadow: inset 0 -1px 0 var(--border);
+}
+.font-ui-sans .console-table tbody td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13.5px;
+  vertical-align: middle;
+}
+.font-ui-sans .console-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+.font-ui-sans .console-table tbody tr:hover td {
+  background: var(--muted);
+}
+.font-ui-sans .console-table td.num,
+.font-ui-sans .console-table th.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-family: var(--font-geist-mono);
+  white-space: nowrap; /* numbers/dates never wrap mid-value */
+}
+/* Action column: keep buttons on one line, hug the right edge. */
+.font-ui-sans .console-table td.actions,
+.font-ui-sans .console-table th.actions {
+  text-align: right;
+  white-space: nowrap;
+  width: 1%; /* shrink-to-fit so the action column never steals width */
+}
+
+/* =========================================
+   Typography Utilities
+   ========================================= */
+
+/* Display heading — for hero sections */
+.text-display {
+  font-family: var(--font-serif);
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  font-weight: 300;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+
+/* Accent text — serif italic for locations, tags */
+.type-accent {
+  font-family: var(--font-accent);
+  font-weight: 300;
+  font-style: italic;
+}
+
+/* Article-page serif override — currently a no-op (site serif IS Cormorant),
+   kept as the hook for giving article surfaces their own serif if the split
+   is ever wanted again. */
+.serif-editorial {
+  --font-serif: var(--font-cormorant);
+  --font-accent: var(--font-cormorant);
+}
+
+/* Overline — for category labels */
+.text-overline {
+  font-family: var(--font-geist);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+/* Caption */
+.text-caption {
+  font-family: var(--font-geist);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+}
+
+/* =========================================
+   Utilities
+   ========================================= */
+
+/* Hide site navbar on mobile when page opts in (vendor detail, etc.) */
+@media (max-width: 767px) {
+  body:has([data-hide-mobile-nav]) header:first-child {
+    display: none;
+  }
+  body:has([data-hide-mobile-nav]) main {
+    padding-top: 0 !important;
+  }
+}
+
+/* Scrollbar hide */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Console scrollbars — token-driven so they adapt to light/dark. Scoped to the
+   .font-ui-sans shell (incl. portalled overlays via #console-root) so the
+   public site keeps its native scrollbars. `--border` / `--muted-foreground`
+   flip with [data-theme], so the track/thumb follow the console theme. */
+.font-ui-sans,
+.font-ui-sans * {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.font-ui-sans ::-webkit-scrollbar,
+.font-ui-sans::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.font-ui-sans ::-webkit-scrollbar-track,
+.font-ui-sans::-webkit-scrollbar-track {
+  background: transparent;
+}
+.font-ui-sans ::-webkit-scrollbar-thumb,
+.font-ui-sans::-webkit-scrollbar-thumb {
+  background-color: var(--border);
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background-clip: content-box;
+}
+.font-ui-sans ::-webkit-scrollbar-thumb:hover,
+.font-ui-sans::-webkit-scrollbar-thumb:hover {
+  background-color: var(--muted-foreground);
+  background-clip: content-box;
+}
+
+/* =========================================
+   Shimmer Animation — Loading Skeletons
+   ========================================= */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+@keyframes progress-indeterminate {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(250%);
+  }
+}
+.animate-progress-indeterminate {
+  animation: progress-indeterminate 1.5s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    oklch(0.95 0.008 75 / 0.7) 0%,
+    oklch(0.95 0.008 75 / 0.4) 50%,
+    oklch(0.95 0.008 75 / 0.7) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+/* =========================================
+   Reduced Motion
+   ========================================= */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* =========================================
+   Inspire Editorial — Scoped Typography
+   ========================================= */
+
+.inspire-editorial h1 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+.inspire-editorial h2 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+.inspire-editorial h3 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  line-height: 1.3;
+}
+.inspire-editorial p,
+.inspire-editorial span,
+.inspire-editorial a {
+  font-family: var(--font-geist);
+}
+
+/* Inspire overline — category labels, metadata */
+.inspire-overline {
+  font-family: var(--font-geist);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+/* Inspire display heading — hero titles */
+.inspire-display {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+/* Inspire article prose — magazine reading experience */
+.inspire-prose {
+  font-family: var(--font-prose);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+.inspire-prose p,
+.inspire-prose span,
+.inspire-prose a {
+  font-family: var(--font-prose);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+.inspire-prose p {
+  margin-bottom: 1em;
+}
+.inspire-prose p:last-child {
+  margin-bottom: 0;
+}
+.inspire-prose h2 {
+  font-family: var(--font-prose);
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: -0.0125em;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+.inspire-prose h3 {
+  font-family: var(--font-prose);
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+.inspire-prose h4 {
+  font-family: var(--font-prose);
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+.inspire-prose h5 {
+  font-family: var(--font-prose);
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.inspire-prose h6 {
+  font-family: var(--font-prose);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.inspire-prose blockquote {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  border-left-width: 2px;
+  border-left-color: var(--brand-secondary);
+  padding-left: 1.5rem;
+}
+.inspire-prose ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1em;
+}
+.inspire-prose ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin-bottom: 1em;
+}
+.inspire-prose ol[type='a'] {
+  list-style-type: lower-alpha;
+}
+.inspire-prose ol[type='A'] {
+  list-style-type: upper-alpha;
+}
+.inspire-prose ol[type='i'] {
+  list-style-type: lower-roman;
+}
+.inspire-prose ol[type='I'] {
+  list-style-type: upper-roman;
+}
+.inspire-prose ol ol {
+  list-style-type: lower-alpha;
+}
+.inspire-prose ol ol ol {
+  list-style-type: lower-roman;
+}
+.inspire-prose ol ol ol ol {
+  list-style-type: decimal;
+}
+.inspire-prose ol ol ol ol ol {
+  list-style-type: lower-alpha;
+}
+.inspire-prose ol ol ol ol ol ol {
+  list-style-type: lower-roman;
+}
+.inspire-prose ul ul {
+  list-style-type: circle;
+}
+.inspire-prose ul ul ul {
+  list-style-type: square;
+}
+.inspire-prose ul ul ul ul {
+  list-style-type: disc;
+}
+.inspire-prose ul ul ul ul ul {
+  list-style-type: circle;
+}
+.inspire-prose ul ul ul ul ul ul {
+  list-style-type: square;
+}
+.inspire-prose li {
+  margin-bottom: 0.25em;
+}
+.inspire-prose li p {
+  margin-bottom: 0;
+}
+.inspire-prose a {
+  color: var(--primary);
+  font-weight: bold;
+  text-decoration-line: underline;
+  text-decoration-color: var(--primary);
+}
+.inspire-prose a:hover {
+  text-decoration-color: color-mix(in oklch, var(--primary) 60%, transparent);
+}
+.inspire-prose figcaption a {
+  color: inherit;
+  font-weight: inherit;
+  text-decoration: none;
+}
+.inspire-prose a[href*='wa.link'] {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  text-decoration: none;
+  font-family: var(--font-geist);
+  font-weight: 500;
+  font-size: 0.9375rem;
+  letter-spacing: 0.01em;
+  padding: 0.75rem 2rem;
+  border-radius: 9999px;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  transition:
+    opacity 150ms,
+    transform 150ms,
+    box-shadow 150ms;
+}
+.inspire-prose a[href*='wa.link']:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+  text-decoration: none;
+}
+.inspire-prose a[href*='wa.link']:active {
+  transform: translateY(0);
+  opacity: 0.95;
+  box-shadow: none;
+}
+/* Force now-alt font on element and all descendants */
+.inspire-sidebar,
+.inspire-sidebar *,
+.font-now-alt,
+.font-now-alt * {
+  font-family: var(--font-prose) !important;
+}
+
+/* ── Inspire article sidebar — ONE type scale ────────────────────────────
+   The right-hand column had four competing treatments stacked on top of
+   each other, which read as "different fonts" even though every element
+   is Now Alt (the rule above forces it). The real problem was size,
+   weight, tracking and case disagreeing between neighbouring lines.
+
+   These live OUTSIDE `@layer base`, so they beat both the base element
+   rules and Tailwind utilities without needing `!important`. That matters:
+   the markup previously fought `@layer base`'s `p { text-base }` and
+   `h3/h4 { … }` with utility classes and lost UNPREDICTABLY — `text-xs`
+   won on size while the base `font-normal` won on weight for the same
+   `<h3>`. Setting the scale here, keyed to semantic class names rather
+   than to the tag, is what makes it deterministic.
+
+   The scale, largest to smallest:
+     name (14) > category (13) > meta (13) > section (11) > sublabel (10)
+   Only ONE thing is 14px — the vendor's name. That is the thing a reader
+   is actually hunting for; everything else is scaffolding around it.
+   ------------------------------------------------------------------- */
+
+/* Block heading — "Vendor Credits", "Tags". Quietest of the headings on
+   purpose: it names the block once, then gets out of the way. */
+.inspire-sidebar .sidebar-section-title {
+  font-size: 0.6875rem; /* 11px */
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+/* Trade heading — "Photographer", "Bridal Attire". The scannable spine of
+   the list: sentence case and full-contrast, so the eye can run down the
+   trades without reading the names. */
+.inspire-sidebar .sidebar-credit-category {
+  font-size: 0.8125rem; /* 13px */
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.4;
+  text-transform: none;
+  color: var(--foreground);
+}
+
+/* Sub-label — "Bridal Gown" under "Bridal Attire". Rendered ONLY when it
+   says something the category didn't; see `article-sidebar.tsx`. */
+.inspire-sidebar .sidebar-credit-label {
+  font-size: 0.625rem; /* 10px */
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+/* Vendor name. ONE declaration covering both the `<p>` (unlinked) and the
+   `<a>` (linked) form — they used to render 16px and 14px respectively,
+   because `@layer base`'s `p { text-base }` overrode the container's
+   `text-sm` while an `<a>` simply inherited it. Same list, two sizes, for
+   a reason that had nothing to do with meaning. */
+.inspire-sidebar .sidebar-credit-name {
+  font-size: 0.875rem; /* 14px */
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.45;
+  text-transform: none;
+  color: var(--foreground);
+}
+
+/* Metadata rows — updated date, categories, author. */
+.inspire-sidebar .sidebar-meta {
+  font-size: 0.8125rem; /* 13px */
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--muted-foreground);
+}
+
+/* Venue card interior. The name matches `sidebar-credit-name`'s size but
+   carries more weight — it is the one credit we can actually sell. */
+.inspire-sidebar .sidebar-card-name {
+  font-size: 0.875rem; /* 14px */
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--foreground);
+}
+.inspire-sidebar .sidebar-card-meta {
+  font-size: 0.75rem; /* 12px */
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--muted-foreground);
+}
+
+.inspire-prose img {
+  border-radius: var(--radius-md);
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.ProseMirror img {
+  max-width: min(480px, 100%);
+  height: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.ProseMirror img.ProseMirror-selectednode {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-md);
+}
+.ProseMirror a {
+  color: var(--primary);
+  font-weight: bold;
+  text-decoration-line: underline;
+  text-decoration-color: var(--primary);
+  cursor: pointer;
+}
+.ProseMirror a:hover {
+  text-decoration-color: color-mix(in oklch, var(--primary) 60%, transparent);
+}
+.ProseMirror > p {
+  margin-bottom: 1em;
+}
+.ProseMirror > p:last-of-type {
+  margin-bottom: 0;
+}
+.ProseMirror ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1em;
+}
+.ProseMirror ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin-bottom: 1em;
+}
+.ProseMirror ol[type='a'] {
+  list-style-type: lower-alpha;
+}
+.ProseMirror ol[type='A'] {
+  list-style-type: upper-alpha;
+}
+.ProseMirror ol[type='i'] {
+  list-style-type: lower-roman;
+}
+.ProseMirror ol[type='I'] {
+  list-style-type: upper-roman;
+}
+/* Google Docs-style nesting: decimal → lower-alpha → lower-roman → cycle */
+.ProseMirror ol ol {
+  list-style-type: lower-alpha;
+}
+.ProseMirror ol ol ol {
+  list-style-type: lower-roman;
+}
+.ProseMirror ol ol ol ol {
+  list-style-type: decimal;
+}
+.ProseMirror ol ol ol ol ol {
+  list-style-type: lower-alpha;
+}
+.ProseMirror ol ol ol ol ol ol {
+  list-style-type: lower-roman;
+}
+/* Bullet list nesting: disc → circle → square → cycle */
+.ProseMirror ul ul {
+  list-style-type: circle;
+}
+.ProseMirror ul ul ul {
+  list-style-type: square;
+}
+.ProseMirror ul ul ul ul {
+  list-style-type: disc;
+}
+.ProseMirror ul ul ul ul ul {
+  list-style-type: circle;
+}
+.ProseMirror ul ul ul ul ul ul {
+  list-style-type: square;
+}
+.ProseMirror li {
+  margin-bottom: 0.25em;
+}
+.ProseMirror li p {
+  margin-bottom: 0;
+}
+.ProseMirror blockquote {
+  border-left: 2px solid var(--brand-secondary);
+  padding-left: 1rem;
+  margin-bottom: 1em;
+  font-style: italic;
+  color: var(--muted-foreground);
+}
+
+/* ── Table styles (editor) ── */
+.ProseMirror table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+.ProseMirror th,
+.ProseMirror td {
+  border: 1px solid var(--border);
+  padding: 0.5rem 0.75rem;
+  min-width: 80px;
+  vertical-align: top;
+  position: relative;
+}
+.ProseMirror th {
+  background: var(--muted);
+  font-weight: 600;
+}
+.ProseMirror .selectedCell {
+  background: color-mix(in oklch, var(--primary) 10%, transparent);
+}
+.ProseMirror .column-resize-handle {
+  position: absolute;
+  right: -2px;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--primary);
+  cursor: col-resize;
+  z-index: 10;
+}
+.ProseMirror .tableWrapper {
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+/* ── Table styles (article preview/public) ── */
+.inspire-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+}
+.inspire-prose th,
+.inspire-prose td {
+  border: 1px solid var(--border);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+.inspire-prose th {
+  background: var(--muted);
+  font-weight: 600;
+}
+.inspire-prose tr:nth-child(even) td {
+  background: color-mix(in oklch, var(--muted) 30%, transparent);
+}
+/* Wide tables scroll inside their own wrapper (added post-sanitize by the
+   article renderer) instead of forcing whole-page sideways scroll on phones.
+   Mirrors the editor's `.ProseMirror .tableWrapper` above. */
+.inspire-prose .table-scroll-wrapper {
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+.inspire-prose .table-scroll-wrapper table {
+  /* Vertical rhythm lives on the wrapper — a margin here would scroll with the table. */
+  margin: 0;
+}
+@media print {
+  /* Paper has no scrollbars — overflow:auto would clip the hidden columns. */
+  .inspire-prose .table-scroll-wrapper {
+    overflow-x: visible;
+  }
+}
+
+/* ── CTA button block (editor) ── */
+.ProseMirror [data-type='cta-button-block'] {
+  margin: 1.5rem 0;
+}
+
+/* =========================================
+   Block Editor — Drag & Select States
+   ========================================= */
+.ProseMirror > .block-hovered {
+  box-shadow: inset 3px 0 0 color-mix(in oklch, var(--primary) 30%, transparent);
+}
+.ProseMirror > .block-selected {
+  background: color-mix(in oklch, var(--primary) 5%, transparent);
+  outline: 1px solid color-mix(in oklch, var(--primary) 20%, transparent);
+  border-radius: 2px;
+}
+.ProseMirror > .block-dragging {
+  opacity: 0.5;
+}
+/* Transition on base selector so padding animates both on entry and exit (F6 fix).
+   left: 6px in checkbox overlay depends on this 32px — keep in sync */
+.ProseMirror > * {
+  transition: padding-left 150ms ease;
+}
+.ProseMirror > .block-select-mode {
+  padding-left: 32px;
+}
+
+/* Inspire nav dropdown */
+.inspire-nav-dropdown {
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-md);
+  animation: inspire-fade-in var(--duration-fast) var(--ease-out);
+}
+@keyframes inspire-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Inspire nav item active state */
+.inspire-nav-item-active {
+  position: relative;
+}
+.inspire-nav-item-active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 1.5px;
+  background: var(--foreground);
+}
+
+/* Google Places autocomplete dropdown must appear above dialogs */
+.pac-container {
+  z-index: var(--z-popover) !important;
+}
+
+/* Inspire search results panel */
+.inspire-search-results {
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-md);
+  max-height: 320px;
+  overflow-y: auto;
+  animation: inspire-fade-in var(--duration-fast) var(--ease-out);
+}
+
+/* ── Wedding Checklist — Playful Streak gamification (CL-3.8) ──────────────
+   Confetti rise, streak-chip bounce, count-up pop, milestone medallion draw.
+   All suppressed under prefers-reduced-motion (handled in the component; these
+   keyframes are simply not applied). */
+@keyframes checklist-fleck-rise {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(0deg) scale(0.6);
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx), var(--dy)) rotate(var(--rot)) scale(1);
+  }
+}
+@keyframes checklist-chip-bounce {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  40% {
+    transform: translateY(-3px) scale(1.06);
+  }
+}
+@keyframes checklist-count-pop {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.18);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes checklist-medallion-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes checklist-overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ── Checklist print view (CL follow-up) ──────────────────────────────────────
+   Isolates the print document from the inherited app chrome (global navbar,
+   My-Wedding tabs, mobile bottom bar, concierge, toaster). The visibility
+   toggle is the reliable "print only this element" pattern: everything is
+   hidden, then the print root and its subtree are made visible and pulled to
+   the page origin so hidden chrome leaves no blank space. `size: auto` honors
+   whatever orientation the user chooses in the browser dialog. */
+@media print {
+  @page {
+    margin: 14mm;
+    size: auto;
+  }
+  html,
+  body {
+    background: #fff !important;
+  }
+  body * {
+    visibility: hidden;
+  }
+  /* Belt-and-suspenders: fully remove floating widgets / portaled overlays so
+     no toast, popover, concierge FAB, or dev overlay can ever reach paper.
+     `[data-print-toolbar]` is the PDF page's on-screen Print / Back bar: the
+     `visibility` toggle above already hides it, but a hidden element still
+     occupies its box, which would open a blank strip at the top of page 1 —
+     `display: none` removes it from flow entirely. */
+  [data-sonner-toaster],
+  [data-radix-popper-content-wrapper],
+  [data-wedding-concierge],
+  [data-print-toolbar],
+  nextjs-portal {
+    display: none !important;
+  }
+  .checklist-print-root,
+  .checklist-print-root * {
+    visibility: visible;
+  }
+  .checklist-print-root {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  /* Keep tasks and month headings from splitting across sheets. */
+  .checklist-print-item {
+    break-inside: avoid;
+  }
+  .checklist-print-section > h2 {
+    break-after: avoid;
+  }
+
+  /* ── Article print / PDF view (spec-article-draft-client-review) ────────────
+     Same isolation pattern as .checklist-print-root above: `body *` is already
+     hidden, so re-show only this subtree and pull it to the page origin. The
+     colour-adjust pair is what keeps the cover photo's dark gradient overlay —
+     and therefore the white title sitting on it — from being dropped by the
+     browser's default "don't waste ink on backgrounds" behaviour.
+
+     Note the cover photo itself is handled in the component, not here: the
+     desktop hero is `hidden lg:block`, and print media never matches `lg`
+     (the sheet is ~730px inside A4's margins), so no amount of CSS here could
+     un-hide it without ALSO leaving the `lg:hidden` mobile cover visible and
+     printing the cover twice. `ArticlePreviewView`'s `print` variant renders
+     the desktop hero unconditionally and skips the mobile one. */
+  .article-print-root,
+  .article-print-root * {
+    visibility: visible;
+  }
+  .article-print-root {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  /* The inner `container mx-auto` would otherwise re-impose a max-width and
+     centre the article inside the already-margined sheet, wasting the page. */
+  .article-print-root .container {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+  /* Never split a photo or a captioned figure across two sheets — half an
+     image at the foot of one page reads as a printing fault. */
+  .article-print-root figure,
+  .article-print-root img,
+  .article-print-root picture {
+    break-inside: avoid;
+  }
+  /* Never strand a heading alone at the foot of a page, orphaned from the
+     copy it introduces. */
+  .article-print-root h1,
+  .article-print-root h2,
+  .article-print-root h3,
+  .article-print-root h4 {
+    break-after: avoid;
+  }
+
+  /* ── Order-of-service builder sheet (/tools/order-of-service) ───────────────
+     Same isolation pattern as .checklist-print-root above: `body *` is already
+     hidden, so re-show only the printable sheet and pull it to the page origin.
+     The on-screen card chrome (border, shadow, rounding) is stripped so the
+     paper shows only the programme itself. */
+  .oos-print-root,
+  .oos-print-root * {
+    visibility: visible;
+  }
+  .oos-print-root {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  /* A long programme may span sheets — never split a timeline row mid-page. */
+  .oos-print-root tr {
+    break-inside: avoid;
+  }
+}
+
+/* =========================================
+   Codebase Scan canvas (/admin/codebase-scan)
+   -----------------------------------------
+   React Flow ships its own stylesheet with light-mode chrome baked in. These
+   four rules re-point that chrome at console tokens so the map follows the
+   admin theme instead of staying white when an admin flips to dark.
+
+   The `color` on the edges layer is load-bearing, not decoration: every edge's
+   arrowhead is drawn with `currentColor` (see codebase-scan-canvas.tsx for
+   why), and this is where that colour comes from.
+   ========================================= */
+.codebase-scan-canvas .react-flow__edges {
+  color: var(--border-strong);
+}
+
+.codebase-scan-canvas .react-flow__controls-button {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  fill: var(--foreground);
+}
+
+.codebase-scan-canvas .react-flow__controls-button:hover {
+  background: var(--surface-raised);
+}
+
+.codebase-scan-canvas .react-flow__minimap {
+  background: var(--surface-subtle);
+}
