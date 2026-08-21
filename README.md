@@ -161,3 +161,11 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## Support
 
 For support and documentation, visit: https://docs.hellokahwin.com
+
+## Dev server ports
+
+This project owns the **3200 band** machine-wide: CRA frontend on **3200**
+(`frontend/.env` sets `PORT=3200`; Electron dev loads `http://localhost:3200`),
+Express backend on **3201** (`backend/server.js` default). Moved off 3000/3001
+to stop clashing with thepicklebase. Cross-project port map: `devservers`
+skill in `~/.claude/skills`.

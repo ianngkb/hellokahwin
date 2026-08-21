@@ -15,12 +15,12 @@ const { errorHandler } = require('./middleware/errorHandler');
 const { setupWebSocket } = require('./services/websocket');
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3201;
 
 // Middleware
 app.use(helmet());
 app.use(cors({
-    origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+    origin: process.env.CORS_ORIGIN || 'http://localhost:3200',
     credentials: true
 }));
 app.use(morgan('combined'));
