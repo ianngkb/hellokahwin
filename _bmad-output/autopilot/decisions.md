@@ -559,3 +559,14 @@ Append-only. One line per decision autopilot made without interrupting the user.
   prerender of PUBLIC pages fails with ECONNREFUSED because this machine has no
   .env and no database. Untouched pages, environment gap, not a code defect.
   Left to /buildit, which owns this repo's real ship gate.
+- [2026-08-23] Orchestrator audit found the dispatched worker skipped the mandated
+  GPT-5.6 Sol code review (and the bmad-dev-auto track) before queueing. Paused the
+  worker between /imdone and /buildit; launched codex-reviewer (gpt-5.6-sol, high
+  reasoning, read-only) on origin/master..HEAD. Ship resumes only after the verdict:
+  clean -> ship worker runs /buildit; findings -> fix in this worktree, re-review, ship.
+- [2026-08-23] Review cycle 1 verdict: FINDINGS (1 high, 6 medium, 7 minor).
+  Triage: HIGH build-completion owned by /buildit gate (env gap, not code);
+  screenshot matrix deferred; all 13 code findings marked PATCH. Fix worker
+  (Opus 5) launched in a visible Orca terminal in the same worktree;
+  re-review required before /imdone re-runs. Orchestrator also corrects an
+  earlier premature "clean" status given from a partial read of pass 1 only.
