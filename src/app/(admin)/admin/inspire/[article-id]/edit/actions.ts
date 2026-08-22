@@ -24,6 +24,7 @@ import { diffFields } from '@/lib/audit/diff';
 import { articleUpdateSchema, formatArticleValidationError } from '@/lib/validations/article';
 import { INSPIRE_AUTHORS_TAG, listSelectableAuthors } from '@/lib/authors/queries';
 import { isAuthorReattribution } from '@/lib/authors/gate';
+import { extractImageUrlsFromContent } from '@/lib/inspire/content-media';
 import { getR2Client, getR2Bucket } from '@/lib/r2/client';
 import { generateVariants, getDefaultPresets } from '@/lib/storage/image-variants';
 import {
@@ -885,46 +886,6 @@ export async function checkLockAction(articleId: string) {
 }
 
 // ── Media usage sync ───────────────────────────────────────────────────
-
-function extractImageUrlsFromContent(content: unknown): string[] {
-  if (!content || typeof content !== 'object') return [];
-  const urls: string[] = [];
-
-  function walk(node: Record<string, unknown>) {
-    // CustomImage nodes
-    if (node.type === 'image' && node.attrs) {
-      const attrs = node.attrs as Record<string, unknown>;
-      if (typeof attrs.src === 'string') urls.push(attrs.src);
-    }
-    // GalleryBlock nodes
-    if (node.type === 'galleryBlock' && node.attrs) {
-      const attrs = node.attrs as Record<string, unknown>;
-      try {
-        const images = JSON.parse((attrs['data-images'] as string) || '[]');
-        for (const img of images) {
-          if (typeof img.src === 'string') urls.push(img.src);
-        }
-      } catch (err) {
-        console.warn('Failed to parse gallery block images:', err);
-      }
-    }
-    // PDF nodes (block or inline) — track the attached PDF as media usage
-    if ((node.type === 'pdfLinkBlock' || node.type === 'pdfLinkInline') && node.attrs) {
-      const attrs = node.attrs as Record<string, unknown>;
-      if (typeof attrs['data-url'] === 'string' && attrs['data-url']) {
-        urls.push(attrs['data-url'] as string);
-      }
-    }
-    if (Array.isArray(node.content)) {
-      for (const child of node.content) {
-        walk(child as Record<string, unknown>);
-      }
-    }
-  }
-
-  walk(content as Record<string, unknown>);
-  return urls;
-}
 
 async function syncMediaUsage(articleId: string, content: unknown) {
   const imageUrls = extractImageUrlsFromContent(content);

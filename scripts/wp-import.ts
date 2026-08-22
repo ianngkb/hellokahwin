@@ -49,7 +49,7 @@ if (envFile) {
 
 import postgres from 'postgres';
 import { drizzle } from 'drizzle-orm/postgres-js';
-import { eq } from 'drizzle-orm';
+import { and, eq, like, notInArray } from 'drizzle-orm';
 import {
   S3Client,
   PutObjectCommand,
@@ -447,6 +447,44 @@ async function uploadToR2(key: string, buffer: Buffer, contentType: string): Pro
 }
 
 /**
+ * The `media` row for an object this import just uploaded.
+ *
+ * Shaped to match what `createMediaRecordAction` writes on the live upload
+ * path so imported and admin-uploaded media are indistinguishable downstream:
+ * `r2Key` / `originalUrl` point at the ORIGINAL object, while `url` is what
+ * the article actually references (the `high` variant for inline images, the
+ * original for covers) — `syncMediaUsage()` matches on that exact string.
+ */
+function mediaRowFor(opts: {
+  articleId: string;
+  originalKey: string;
+  referencedUrl: string;
+  contentType: string;
+  sizeBytes: number;
+  variants?: ImageVariants | null;
+  smartCrops?: SmartCrops | null;
+  focalPoint?: FocalPoint | null;
+  detectionData?: object | null;
+}): typeof schema.media.$inferInsert {
+  return {
+    filename: opts.originalKey.split('/').pop() || opts.originalKey,
+    r2Key: opts.originalKey,
+    url: opts.referencedUrl,
+    originalUrl: `${R2_PUBLIC_URL}/${opts.originalKey}`,
+    mimeType: opts.contentType,
+    fileSize: opts.sizeBytes,
+    variants: opts.variants ?? null,
+    defaultQuality: 'high',
+    smartCrops: opts.smartCrops ?? null,
+    focalPoint: opts.focalPoint ?? null,
+    detectionData: opts.detectionData ?? null,
+    source: 'article_upload',
+    originalArticleId: opts.articleId,
+    uploadedBy: ADMIN_PROFILE_ID,
+  };
+}
+
+/**
  * Read an image from the local filesystem (for --local-images mode).
  * Falls back to null if the file doesn't exist.
  */
@@ -841,6 +879,20 @@ async function main() {
       // a2. PRE-GENERATE UUID
       const articleId = randomUUID();
 
+      // Media rows for everything this post uploads, written inside the same
+      // transaction as the article (they FK to it). Collected rather than
+      // inserted at upload time because `articles` does not exist yet.
+      //
+      // Registering these is not bookkeeping: WITHOUT a `media` row an uploaded
+      // object is invisible to /admin/inspire/media and unreachable from the
+      // crop editor, and `syncMediaUsage()` — which only ever RESOLVES content
+      // URLs to existing rows — can never create one afterwards. That omission
+      // is what left the library empty for the whole imported catalogue and
+      // needed `scripts/backfill-media.ts` to repair.
+      const pendingMedia: (typeof schema.media.$inferInsert)[] = [];
+      /** Content URLs from this post, for the media_article_usage junction. */
+      const pendingUsageUrls: string[] = [];
+
       // b. CATEGORY MAPPING
       const categoryIds: string[] = [];
       for (const wpCatId of post.categories) {
@@ -941,6 +993,24 @@ async function main() {
                   stats.errors.push(`${title}: Smart crop failed — ${err.message}`);
                 }
               }
+
+              // Register the cover in the media library. The article carries
+              // the same variants/crops, but only a `media` row makes the
+              // object browsable and editable in admin.
+              pendingMedia.push(
+                mediaRowFor({
+                  articleId,
+                  originalKey: key,
+                  // The cover URL on the article IS the original object.
+                  referencedUrl: coverImageUrl,
+                  contentType: ct,
+                  sizeBytes: imgBuffer.length,
+                  variants: coverImageVariants,
+                  smartCrops: coverImageSmartCrops,
+                  focalPoint: coverImageFocalPoint,
+                  detectionData: coverImageDetectionData,
+                }),
+              );
             } else {
               coverImageUrl = `${R2_PUBLIC_URL}/${key}`;
               log(`  [dry] Would upload cover image + generate variants/crops: ${key}`);
@@ -1038,19 +1108,32 @@ async function main() {
             await uploadToR2(key, imgBuffer, ct);
 
             // Generate variants for inline images and use high quality URL
+            let referencedUrl = `${R2_PUBLIC_URL}/${key}`;
+            let inlineVariants: ImageVariants | null = null;
             try {
-              const inlineVariants = await generateVariants(imgBuffer, key, variantPresets);
+              inlineVariants = await generateVariants(imgBuffer, key, variantPresets);
               registerDerivedKeys(inlineVariants);
               const highUrl = inlineVariants.high?.url;
-              if (highUrl) {
-                contentHtml = contentHtml.split(imgUrl).join(highUrl);
-              } else {
-                contentHtml = contentHtml.split(imgUrl).join(`${R2_PUBLIC_URL}/${key}`);
-              }
+              if (highUrl) referencedUrl = highUrl;
             } catch {
-              // Fallback to original URL if variant gen fails
-              contentHtml = contentHtml.split(imgUrl).join(`${R2_PUBLIC_URL}/${key}`);
+              // Fallback to the original URL if variant gen fails
+              inlineVariants = null;
             }
+            contentHtml = contentHtml.split(imgUrl).join(referencedUrl);
+
+            // Register the inline image in the media library, and remember the
+            // URL so the media_article_usage junction can be written with it.
+            pendingMedia.push(
+              mediaRowFor({
+                articleId,
+                originalKey: key,
+                referencedUrl,
+                contentType: ct,
+                sizeBytes: imgBuffer.length,
+                variants: inlineVariants,
+              }),
+            );
+            pendingUsageUrls.push(referencedUrl);
           } else {
             log(`  [dry] Would upload inline image + variants: ${key}`);
           }
@@ -1094,6 +1177,7 @@ async function main() {
         log(`  [dry] Would insert article: ${title}`);
         log(`    slug=${slug}, categories=${categoryIds.length}, tags=${tagIds.length}`);
         log(`    cover=${coverImageUrl ? 'yes' : 'no'}, inline_images=${inlineImageCount}`);
+        log(`    media_rows=${pendingMedia.length}, media_usage=${pendingUsageUrls.length}`);
         stats.imported++;
         continue;
       }
@@ -1138,6 +1222,28 @@ async function main() {
             tagId,
           });
         }
+
+        // Insert media rows for everything this post uploaded, plus the usage
+        // junction for the inline images. ON CONFLICT DO NOTHING rides
+        // `idx_media_r2_key_unique`: a --clean re-import re-uploads under fresh
+        // timestamped keys, but a partially-completed run re-processing the
+        // same key must not abort the whole article on a duplicate.
+        if (pendingMedia.length > 0) {
+          const insertedMedia = await tx
+            .insert(schema.media)
+            .values(pendingMedia)
+            .onConflictDoNothing({ target: schema.media.r2Key })
+            .returning({ id: schema.media.id, url: schema.media.url });
+
+          const mediaIdByUrl = new Map(insertedMedia.map((m) => [m.url, m.id]));
+          const usageRows = pendingUsageUrls
+            .map((url) => mediaIdByUrl.get(url))
+            .filter((id): id is string => !!id)
+            .map((mediaId) => ({ mediaId, articleId }));
+          if (usageRows.length > 0) {
+            await tx.insert(schema.mediaArticleUsage).values(usageRows).onConflictDoNothing();
+          }
+        }
       });
 
       // Clean up old R2 objects after successful re-import
@@ -1147,6 +1253,31 @@ async function main() {
           log(`  🧹 Cleaned ${deletedCount} old R2 objects from previous import`);
         } catch (err: any) {
           log(`  ⚠ R2 cleanup failed (orphaned objects at ${cleanupR2Prefix}): ${err.message}`);
+        }
+
+        // …and the media rows that pointed at them. `media.original_article_id`
+        // is ON DELETE SET NULL, so deleting the article leaves its media rows
+        // behind; once the objects are gone those rows are library entries with
+        // no file. Scoped to the old prefix and excluding the keys THIS run
+        // just wrote, so a re-import never deletes its own fresh media.
+        try {
+          const freshKeys = pendingMedia.map((m) => m.r2Key);
+          const deletedRows = await db
+            .delete(schema.media)
+            .where(
+              freshKeys.length > 0
+                ? and(
+                    like(schema.media.r2Key, `${cleanupR2Prefix}%`),
+                    notInArray(schema.media.r2Key, freshKeys),
+                  )
+                : like(schema.media.r2Key, `${cleanupR2Prefix}%`),
+            )
+            .returning({ id: schema.media.id });
+          if (deletedRows.length > 0) {
+            log(`  🧹 Removed ${deletedRows.length} stale media rows from previous import`);
+          }
+        } catch (err: any) {
+          log(`  ⚠ Stale media row cleanup failed: ${err.message}`);
         }
       }
 
