@@ -411,3 +411,68 @@ Append-only. One line per decision autopilot made without interrupting the user.
   reviewed design, not a cutover regression. The two outbound
   theweddingnotebook.com links are `target="_blank" rel="noopener"`, kept as-is
   per Ian.
+
+## Run 2026-08-22 — Phase B: production deploy + DNS cutover
+
+- [2026-08-22] `/imdone`: profile "New repo" (origin `ianngkb/hellokahwin` matched
+  nothing). Default branch is `master`, our branch fast-forwarded it, and Vercel
+  git was not connected yet — so land-on-master was chosen (push-branch would
+  have left the branch production deploys from stale). Landed 418a1e6, queued,
+  nothing built.
+- [2026-08-22] `/buildit`: gate re-run green on the exact shipping SHA; both
+  migrations already applied to prod (2/2), nothing new. Connected
+  `ianngkb/hellokahwin` to Vercel project `hellokahwin` (prod branch master),
+  deployed production — READY.
+- [2026-08-22] STAGED the cutover instead of flipping both records at once:
+  `www` first, apex left on WordPress, so the build could be proven on a real
+  domain with real TLS before the live site moved. It paid for itself — the
+  article page returned 500 on first hit. Checked rather than assumed: three
+  retries all 200 (0.54s → 0.14s) and a full sweep of all 34 sitemap URLs clean,
+  so it was a cold start, not a fault. Had it been real, the apex would still
+  have been serving WordPress.
+- [2026-08-22] Could not verify on the `*.vercel.app` URL: the team enforces
+  `ssoProtection: all_except_custom_domains`, and the automation-bypass PATCH is
+  rejected by this API version. Hence the staged domain approach rather than
+  cutting DNS to an unverified deploy.
+- [2026-08-22] ROLLBACK MAP — full 19-record snapshot saved before any change
+  (`.tmp-ops/dns-before.json`). Only TWO records changed:
+  · `A hellokahwin.com` — WAS `35.213.180.130`, proxied=true, ttl=auto (id
+    a69a9a4538b028dc78c9af8defe1e85c) → NOW `216.150.1.1`, DNS-only, ttl=60,
+    plus a second A record `216.150.16.1` (Vercel's rank-1 pair).
+  · `A www.hellokahwin.com` — WAS `35.213.180.130`, proxied=true (id
+    81ad3a9de3b5ee20bda295a1bf758002) → NOW CNAME
+    `b12943ea38e6aa24.vercel-dns-016.com`, DNS-only, ttl=60.
+  Untouched: all 5 Clerk CNAMEs, images/assets R2 CNAMEs, 3 MX, SPF, DMARC,
+  autoconfig/autodiscover/ftp/mail/ssh. WordPress server never touched.
+- [2026-08-22] Apex cert did not auto-issue after DNS moved (HTTPS dead ~10 min
+  while HTTP already 308'd from Vercel). Vercel reported `misconfigured=False,
+  configuredBy=A` but had a cert only for `www`. Forced issuance via
+  `POST /v7/certs {cns:[hellokahwin.com]}` → apex 200 within 20s.
+- [2026-08-22] Clerk interactive sign-in — the gap that could not be closed
+  locally — is now PROVEN on the live domain: the UI mounts, email + Google both
+  offered, `/admin` signed-out redirects to `/login`.
+- [2026-08-22] Google OAuth was broken at first with Google's own
+  `Error 400: invalid_request — Missing required parameter: client_id`.
+  Root cause was NOT our code: a Clerk PRODUCTION instance may not use Clerk's
+  shared dev OAuth credentials, so it emitted an empty `client_id`. Diagnosed by
+  capturing the actual authorize URL headlessly (`client_id=""`), and the correct
+  scopes were established empirically from TWN's working production instance
+  rather than guessed. Ian wired custom credentials; re-verified: client_id
+  present (72 chars), scopes `openid + userinfo.email + userinfo.profile`,
+  redirect `https://clerk.hellokahwin.com/v1/oauth_callback`, real consent screen.
+- [2026-08-22] `ianng@theweddingnotebook.com` added to `ADMIN_EMAILS` locally and
+  on Vercel Production, then redeployed so it takes effect. Note there is no user
+  table to "seed": access is a Clerk allowlist and every allowlisted admin is
+  already a super-admin (`checkIsSuperAdmin` delegates to `checkIsAdmin`). Did
+  NOT create the Clerk user — first sign-in is Ian's.
+- [2026-08-22] OPEN, flagged not fixed: (a) SPF still carries `+a`, which now
+  authorises Vercel rather than SiteGround — harmless if all mail goes via the
+  dnssmarthost include, but its meaning changed at cutover and editing mail
+  config was not authorised; (b) Clerk sign-up is `mode: public`, so anyone can
+  register (they hit `/no-access`, never the CMS).
+- [2026-08-22] Cleanup: the PRIMARY checkout
+  (`~/Documents/Code/hellokahwin/hellokahwin`) holds an unpushed local commit
+  `0d7b692 chore(dev): pin dev-server ports…` plus untracked `_bmad/`,
+  `.claude/skills/` and two export scripts. Not this run's work — left entirely
+  alone and surfaced in the ship report. It appears to duplicate the port change
+  already shipped, but that is Ian's call, not mine.
