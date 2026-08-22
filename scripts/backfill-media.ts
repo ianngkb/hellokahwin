@@ -61,10 +61,11 @@ if (envFile) {
 
 import postgres from 'postgres';
 import { drizzle } from 'drizzle-orm/postgres-js';
+import { eq } from 'drizzle-orm';
 import { S3Client, ListObjectsV2Command } from '@aws-sdk/client-s3';
 import * as schema from '../src/lib/db/schema';
 import { extractImageUrlsFromContent } from '../src/lib/inspire/content-media';
-import { HOUSE_AUTHOR_ID } from '../src/lib/authors/gate';
+import { resolveHouseAuthorId } from '../src/lib/authors/gate';
 import type { ImageVariants, ImageVariantMeta } from '../src/lib/storage/image-variants';
 import type { SmartCrops, FocalPoint } from '../src/lib/storage/smart-crop';
 
@@ -75,7 +76,25 @@ const args = process.argv.slice(2);
 const EXECUTE = args.includes('--execute');
 const VERBOSE = args.includes('--verbose');
 const limitIdx = args.indexOf('--limit');
-const LIMIT = limitIdx !== -1 ? parseInt(args[limitIdx + 1] ?? '', 10) : NaN;
+/**
+ * `--limit N`, or null for "every article".
+ *
+ * Validated rather than coerced: `parseInt` turns `--limit 0`, `--limit -5` and
+ * `--limit abc` into values that all previously fell through the
+ * `Number.isFinite(LIMIT) && LIMIT > 0` guard to mean "no limit" — so a typo in
+ * the flag meant to narrow a run silently widened it to the whole catalogue.
+ * On a `--execute` run that is the difference between a 5-article rehearsal and
+ * writing everything.
+ */
+const LIMIT: number | null = (() => {
+  if (limitIdx === -1) return null;
+  const raw = args[limitIdx + 1];
+  const parsed = Number(raw);
+  if (raw === undefined || !Number.isSafeInteger(parsed) || parsed < 1) {
+    throw new Error(`--limit expects a positive whole number, got: ${raw ?? '(nothing)'}`);
+  }
+  return parsed;
+})();
 
 // ── Config ───────────────────────────────────────────────────────────────────
 
@@ -90,6 +109,15 @@ if (!R2_BUCKET_NAME) throw new Error('R2_BUCKET_NAME is not set');
 if (!R2_ACCOUNT_ID) throw new Error('R2_ACCOUNT_ID is not set');
 
 const PUBLIC_BASE = R2_PUBLIC_URL.replace(/\/+$/, '');
+
+/**
+ * `media.uploaded_by` FKs to `profiles`, and these rows belong to whoever the
+ * import attributed the articles to. Resolved through the same helper the
+ * importer and the app use, so a `WP_IMPORT_AUTHOR_ID` override does not send
+ * the backfill at a profile that does not exist — which would fail the FK on
+ * the first insert, halfway through a run.
+ */
+const UPLOADED_BY = resolveHouseAuthorId();
 
 const client = postgres(DATABASE_URL, { max: 1, prepare: false });
 const db = drizzle(client, { schema });
@@ -137,6 +165,23 @@ const MIME_BY_EXT: Record<string, string> = {
 function mimeFromKey(key: string): string {
   const ext = key.split('.').pop()?.toLowerCase() ?? '';
   return MIME_BY_EXT[ext] ?? 'application/octet-stream';
+}
+
+/**
+ * `media.file_size` is a Postgres `integer` (4 bytes), so anything at or above
+ * 2^31 aborts the INSERT with a numeric-overflow error - and because the write
+ * is chunked, it would abort PART WAY through a run, leaving the library half
+ * populated. R2 happily stores objects past that (a 2 GiB+ video, a huge PDF),
+ * so clamp instead: the exact byte count of an outsized object is not worth
+ * failing a whole backfill over, and every caller of this column treats it as
+ * a display hint. The clamp is reported in the run output so it is never
+ * silent, and the column is deliberately NOT migrated here.
+ */
+const MAX_FILE_SIZE = 2147483647;
+
+function clampFileSize(bytes: number): number {
+  if (!Number.isFinite(bytes) || bytes < 0) return 0;
+  return Math.min(Math.trunc(bytes), MAX_FILE_SIZE);
 }
 
 function filenameFromKey(key: string): string {
@@ -243,6 +288,23 @@ async function main() {
     `\n=== Media backfill — ${EXECUTE ? 'EXECUTE (will write)' : 'DRY RUN (no writes)'} ===\n`,
   );
 
+  // Fail here, before a single object is listed, rather than on the first
+  // INSERT's foreign-key violation halfway through a run. Checked in dry run
+  // too: a rehearsal that "passes" and then dies on execute is worthless.
+  const [uploader] = await db
+    .select({ id: schema.profiles.id })
+    .from(schema.profiles)
+    .where(eq(schema.profiles.id, UPLOADED_BY))
+    .limit(1);
+  if (!uploader) {
+    throw new Error(
+      `media.uploaded_by would reference profile '${UPLOADED_BY}', which does not exist. ` +
+        `Set WP_IMPORT_AUTHOR_ID to the house profile on this database, or run the WordPress ` +
+        `import first (it creates the row).`,
+    );
+  }
+  console.log(`Uploader: ${UPLOADED_BY}`);
+
   const rows = await db
     .select({
       id: schema.articles.id,
@@ -257,7 +319,7 @@ async function main() {
     })
     .from(schema.articles);
 
-  const articles = Number.isFinite(LIMIT) && LIMIT > 0 ? rows.slice(0, LIMIT) : rows;
+  const articles = LIMIT === null ? rows : rows.slice(0, LIMIT);
   console.log(`Articles scanned: ${articles.length}`);
 
   // Pass 1 — collect every referenced in-bucket URL and who references it.
@@ -320,18 +382,38 @@ async function main() {
 
   const planned: PlannedMedia[] = [];
   const seenOriginalKeys = new Set<string>();
+  /**
+   * EVERY referenced URL to the original object it belongs to, aliases
+   * included.
+   *
+   * `r2_key` is uniquely indexed, so several references sharing one original
+   * (an article using both `high.webp` and `low.webp`, or a cover also used
+   * inline) collapse to a single `media` row whose `url` is whichever
+   * reference was seen first. Usage linking therefore CANNOT go through
+   * `media.url` - the runner-up URLs would match nothing and those articles
+   * would silently lose their usage rows. It goes through this map to the
+   * canonical key instead, which every alias shares.
+   */
+  const originalKeyByUrl = new Map<string, string>();
+  let aliasedUrls = 0;
+
   for (const [url, referencedKey] of referencedKeyByUrl) {
     const { originalKey, variants } = resolveFamily(referencedKey, inventory);
-    // `r2_key` is uniquely indexed, so two references sharing one original
-    // (a cover also used inline, say) must collapse to a single row.
-    if (seenOriginalKeys.has(originalKey)) continue;
+    originalKeyByUrl.set(url, originalKey);
+
+    // Two references to one original collapse to a single row, but BOTH URLs
+    // stay in `originalKeyByUrl` so both can still be linked for usage.
+    if (seenOriginalKeys.has(originalKey)) {
+      aliasedUrls++;
+      continue;
+    }
     seenOriginalKeys.add(originalKey);
 
     const cover = coverMetaByUrl.get(url);
     planned.push({
       url,
       originalKey,
-      fileSize: inventory.get(originalKey) ?? 0,
+      fileSize: clampFileSize(inventory.get(originalKey) ?? 0),
       // A cover's variants/crops were already generated by the importer and
       // stored on the article; prefer those over the ones derived from the
       // listing, since they are what the public page actually renders. The
@@ -355,9 +437,17 @@ async function main() {
   const toInsert = planned.filter((p) => !existingKeys.has(p.originalKey));
 
   const missingOriginal = toInsert.filter((p) => !inventory.has(p.originalKey)).length;
+  const clamped = toInsert.filter(
+    (p) => (inventory.get(p.originalKey) ?? 0) > MAX_FILE_SIZE,
+  ).length;
   const noSize = toInsert.filter((p) => p.fileSize === 0).length;
 
   console.log(`\nDistinct in-bucket media referenced: ${planned.length}`);
+  if (aliasedUrls > 0) {
+    console.log(
+      `  (${aliasedUrls} further URL(s) are variants of those same originals; still usage-linked)`,
+    );
+  }
   console.log(`  already registered: ${planned.length - toInsert.length}`);
   console.log(`  to insert:          ${toInsert.length}`);
   console.log(
@@ -368,6 +458,9 @@ async function main() {
     console.log(`  ⚠ ${missingOriginal} reference(s) whose original object is missing from R2`);
   }
   if (noSize > 0) console.log(`  ⚠ ${noSize} row(s) will get file_size = 0 (object not listed)`);
+  if (clamped > 0) {
+    console.log(`  ⚠ ${clamped} object(s) exceed 2 GiB; file_size clamped to ${MAX_FILE_SIZE}`);
+  }
   if (offBucket.size > 0) {
     console.log(`\nSkipped ${offBucket.size} URL(s) outside ${PUBLIC_BASE} (no derivable r2_key):`);
     for (const u of [...offBucket].slice(0, 10)) console.log(`  - ${u}`);
@@ -386,11 +479,19 @@ async function main() {
   }
 
   if (!EXECUTE) {
-    // Usage links can only be counted exactly once the media rows exist (the
-    // junction needs their ids), so the dry run reports the upper bound.
-    const plannedUsage = [...usageByArticle.values()].reduce((n, s) => n + s.size, 0);
+    // Counted the way the write path counts them: distinct (original object,
+    // article) pairs, so two variant URLs of one image inside one article are
+    // one link, not two.
+    const plannedPairs = new Set<string>();
+    for (const [articleId, urls] of usageByArticle) {
+      for (const url of urls) {
+        const key = originalKeyByUrl.get(url);
+        if (key) plannedPairs.add(`${key}::${articleId}`);
+      }
+    }
+    const plannedUsage = plannedPairs.size;
     console.log('\n--- media_article_usage ---');
-    console.log(`  up to ${plannedUsage} link(s) across ${usageByArticle.size} article(s)`);
+    console.log(`  ${plannedUsage} link(s) across ${usageByArticle.size} article(s)`);
     console.log('\nDRY RUN — nothing was written. Re-run with --execute to apply.\n');
     await client.end();
     return;
@@ -427,7 +528,7 @@ async function main() {
           // what `article_upload` means on the live upload path.
           source: 'article_upload' as const,
           originalArticleId: p.originalArticleId,
-          uploadedBy: HOUSE_AUTHOR_ID,
+          uploadedBy: UPLOADED_BY,
         })),
       )
       // Idempotency lives on `idx_media_r2_key_unique`.
@@ -439,16 +540,29 @@ async function main() {
 
   // Usage links. Re-read the full media set so URLs registered by an earlier
   // run (or by a live upload) get linked too, not only the ones inserted above.
+  // Keyed on `r2_key`, not `url`: see `originalKeyByUrl` above - several
+  // referenced URLs can share one row, and only the canonical key is common to
+  // all of them.
   const allMedia = await db
-    .select({ id: schema.media.id, url: schema.media.url })
+    .select({ id: schema.media.id, r2Key: schema.media.r2Key })
     .from(schema.media);
-  const mediaIdByUrl = new Map(allMedia.map((m) => [m.url, m.id]));
+  const mediaIdByKey = new Map(allMedia.map((m) => [m.r2Key, m.id]));
 
+  // De-duplicated: two aliases of one original inside the same article would
+  // otherwise name the identical (mediaId, articleId) pair twice, and Postgres
+  // rejects a single INSERT that hits the same conflict target row more than
+  // once even under ON CONFLICT DO NOTHING.
+  const usageSeen = new Set<string>();
   const usageValues: { mediaId: string; articleId: string }[] = [];
   for (const [articleId, urls] of usageByArticle) {
     for (const url of urls) {
-      const mediaId = mediaIdByUrl.get(url);
-      if (mediaId) usageValues.push({ mediaId, articleId });
+      const key = originalKeyByUrl.get(url);
+      const mediaId = key ? mediaIdByKey.get(key) : undefined;
+      if (!mediaId) continue;
+      const pair = `${mediaId}\u0000${articleId}`;
+      if (usageSeen.has(pair)) continue;
+      usageSeen.add(pair);
+      usageValues.push({ mediaId, articleId });
     }
   }
 
