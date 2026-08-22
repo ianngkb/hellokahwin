@@ -329,3 +329,34 @@ Append-only. One line per decision autopilot made without interrupting the user.
     of URL that returned 404 before the keep-set fix.
   · The two `theweddingnotebook.com` hits on the article page are outbound
     editorial links inside the imported WordPress copy, not assets.
+
+## Run 2026-08-22 (cont.) — Clerk activation verified
+
+- [2026-08-22] Clerk production instance is ACTIVE, confirmed independently of
+  Ian's report: TLS on clerk.hellokahwin.com now presents a dedicated
+  `CN=clerk.hellokahwin.com` certificate (SAN exactly that host) instead of our
+  zone's wildcard, and `GET /v1/environment` returns real config JSON (email +
+  password, `oauth_google`). Cloudflare Error 1000 is gone — the SaaS custom
+  hostname registered once Ian pressed the dashboard button, exactly as
+  diagnosed.
+- [2026-08-22] Interactive sign-in could NOT be verified from this machine, and
+  it is not a defect: clerk-js gets HTTP 400 `origin_invalid` on every call
+  ("The Request HTTP Origin header must be equal to or a subdomain of the
+  requesting URL") because a pk_live_ instance only accepts origins under its
+  own domain. Made a genuine effort — three distinct origins, all rejected:
+  `http://localhost:3200`; `http://local.hellokahwin.com:3200` via Chromium's
+  `--host-resolver-rules=MAP ... 127.0.0.1`, which needs no hosts-file change;
+  and the same host over HTTPS after starting `next dev --experimental-https`.
+  Also checked for a headless path via the Backend API: the instance has 0
+  users, so no actor token can be minted, and Clerk testing tokens are
+  development-instance only.
+- [2026-08-22] Did NOT add the dev origin to the production instance's
+  `allowed_origins` (currently null) to force a local sign-in. It would have
+  produced the screenshot asked for, but it loosens the origin restriction on a
+  live auth instance and was not authorised. Named it in the spec as one of the
+  two ways to close the gap; the other is signing in on the real domain after
+  deploy.
+- [2026-08-22] `next dev --experimental-https` generated a local mkcert pair
+  under `certificates/` and auto-appended `certificates` to .gitignore. Deleted
+  the certs and tidied the ignore entry to `certificates/` with a comment — no
+  private key was ever staged.

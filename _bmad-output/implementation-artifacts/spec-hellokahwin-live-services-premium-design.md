@@ -2,7 +2,7 @@
 title: 'HelloKahwin — live services wiring + premium monotone design pass'
 type: 'feature'
 created: '2026-08-22'
-status: 'reviewed'
+status: 'verified'
 review_loop_iteration: 1
 baseline_commit: 'ea684be'
 predecessor_spec: 'spec-hellokahwin-cms-directory.md'
@@ -116,8 +116,11 @@ publication Ian wants.
 - [x] Clerk: allowlist env, middleware, `/admin` gating verified signed-out
 - [x] Clerk: CSP fix for the production Frontend API host
 - [x] Clerk: 5 production CNAMEs added on hellokahwin.com (DNS-only)
-- [ ] Clerk: production instance ACTIVE — **BLOCKED on Clerk's side**: Cloudflare
-      Error 1000, Clerk has not registered the SaaS custom hostname (see below)
+- [x] Clerk: production instance ACTIVE — dedicated cert `CN=clerk.hellokahwin.com`
+      deployed, FAPI `/v1/environment` returns real JSON (email + oauth_google)
+- [ ] Clerk: interactive sign-in — NOT provable from this machine. The production
+      instance rejects every local origin with `origin_invalid`; it needs the app
+      served from hellokahwin.com (see Verification)
 - [x] R2: buckets created in the TWN account, custom domains `images.` /
       `assets.hellokahwin.com` attached and `ssl=active`
 - [x] R2: 29 covers + 594 inline images uploaded with variants and saliency
@@ -231,3 +234,41 @@ Screenshots note: `after-tag-*` and `after-author-*` were captured while the
 temporary tag/author fixtures existed. The real imported content has no tags and
 no public author, so those two routes correctly 404 today; the screenshots stand
 as design evidence for when that content exists.
+
+## Clerk verification — what is and is not proven
+
+**Proven, against the live production instance:**
+- Instance `ins_3IEa91…` is active and production: `GET /v1/instance` returns
+  `environment_type: production`; the Backend API authenticates with the vaulted
+  secret key.
+- The custom hostname is deployed: TLS on `clerk.hellokahwin.com` presents a
+  dedicated `CN=clerk.hellokahwin.com` certificate (SAN exactly that host), and
+  `GET /v1/environment` returns real configuration JSON — email + password with
+  `oauth_google`. The earlier Cloudflare Error 1000 is gone.
+- All five CNAMEs resolve and remain DNS-only; the WordPress A records are
+  untouched, so hellokahwin.com still serves the old site.
+- The CSP carries the instance's Frontend API host, derived from the publishable
+  key — without it clerk-js is blocked outright.
+- `/admin` signed-out returns 307 to `/login`, verified over both HTTP and a
+  `hellokahwin.com` subdomain origin; the browser follows it to `/login`.
+- The allowlist shim is covered by 11 unit tests: case-insensitive matching,
+  closed when `ADMIN_EMAILS` is unset, UNVERIFIED addresses ignored, any verified
+  address (not just primary) matched, signed-out → `/login`, signed-in but not
+  allowlisted → `/no-access`, profile row provisioned as the FK target, and the
+  action variants returning errors rather than redirecting.
+
+**NOT proven, and why:** the Clerk sign-in UI never mounts locally. Every
+clerk-js call returns HTTP 400 `origin_invalid` — "The Request HTTP Origin header
+must be equal to or a subdomain of the requesting URL". A `pk_live_` instance
+only accepts origins under its own domain. Three approaches were tried and all
+rejected: `http://localhost:3200`, `http://local.hellokahwin.com:3200` (Chromium
+`--host-resolver-rules`, no hosts-file change), and the same over HTTPS with a
+generated cert. So the following are untested end-to-end: the rendered sign-in
+form, an actual credential round-trip, and the signed-in allowlisted path
+through `requireAdmin` into `/admin`. The instance has zero users, so no actor
+token could be minted either. Two ways to close this, both Ian's call: deploy to
+hellokahwin.com (or a Vercel domain registered with the instance) and sign in
+there, or add the dev origin to the instance's `allowed_origins` — deliberately
+not done here, as it loosens origin restriction on a production auth instance.
+The `after-login-*.png` screenshots therefore show the blocked local state, not
+a defect in the app.

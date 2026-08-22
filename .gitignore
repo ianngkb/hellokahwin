@@ -35,3 +35,6 @@ next-env.d.ts
 
 # autopilot scratch space (ops scripts, dev logs) — never committed
 .tmp-ops/
+
+# self-signed certs from `next dev --experimental-https`
+certificates/
