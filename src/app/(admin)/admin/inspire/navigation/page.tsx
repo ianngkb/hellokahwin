@@ -1,44 +1,25 @@
-import { eq, sql, isNull, asc, count } from 'drizzle-orm';
+import { asc } from 'drizzle-orm';
 import { db } from '@/lib/db/drizzle';
-import { inspireNavItems, inspireCategories, articleCategories } from '@/lib/db/schema/articles';
+import { inspireCategories } from '@/lib/db/schema/articles';
 import { requireAdminSection } from '@/lib/auth/admin';
+import { getCategoryFallbackNav } from '@/lib/services/inspire-nav';
 import { ConsoleBreadcrumb } from '@/components/console/console-breadcrumb';
 import { PageHeader } from '@/components/layout/page-header';
 import { NavManager } from './nav-manager';
+import { listNavItems } from './queries';
 
 export const metadata = { title: 'Navigation | Inspire' };
 
 export default async function InspireNavigationPage() {
   await requireAdminSection('inspire');
 
-  // Article count subquery
-  const articleCountSub = db
-    .select({
-      categoryId: articleCategories.categoryId,
-      count: count().as('article_count'),
-    })
-    .from(articleCategories)
-    .groupBy(articleCategories.categoryId)
-    .as('article_count_sub');
+  const allItems = await listNavItems();
 
-  // Fetch all nav items with category slugs and article counts
-  const allItems = await db
-    .select({
-      id: inspireNavItems.id,
-      type: inspireNavItems.type,
-      label: inspireNavItems.label,
-      categoryId: inspireNavItems.categoryId,
-      categorySlug: inspireCategories.slug,
-      url: inspireNavItems.url,
-      parentId: inspireNavItems.parentId,
-      position: inspireNavItems.position,
-      isActive: inspireNavItems.isActive,
-      articleCount: sql<number>`COALESCE(${articleCountSub.count}, 0)`.as('article_count'),
-    })
-    .from(inspireNavItems)
-    .leftJoin(inspireCategories, eq(inspireNavItems.categoryId, inspireCategories.id))
-    .leftJoin(articleCountSub, eq(inspireNavItems.categoryId, articleCountSub.categoryId))
-    .orderBy(asc(inspireNavItems.position));
+  // What the public masthead is currently deriving from categories. Read only
+  // when the table is empty, because that is the only time
+  // `getMastheadCategories()` takes its fallback branch — and the only time the
+  // empty state needs to explain it.
+  const fallbackNavCount = allItems.length === 0 ? (await getCategoryFallbackNav()).length : 0;
 
   // Fetch all categories (primary + secondary) for the "Add Category" dropdown
   // Only exclude categories already used as top-level nav items
@@ -71,7 +52,11 @@ export default async function InspireNavigationPage() {
         title="Navigation"
         description="Manage the navigation menu on the Inspire page. Drag to reorder, toggle visibility, or add new items."
       />
-      <NavManager items={allItems} availableCategories={filteredCategories} />
+      <NavManager
+        items={allItems}
+        availableCategories={filteredCategories}
+        fallbackNavCount={fallbackNavCount}
+      />
     </div>
   );
 }

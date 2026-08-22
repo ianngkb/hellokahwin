@@ -58,8 +58,13 @@ export const getInspireNavCategories = unstable_cache(
  * admin-managed nav. Used as the masthead fallback: a fresh install (or a
  * WordPress import, which creates categories but no nav_items) would otherwise
  * render a masthead with no navigation at all.
+ *
+ * Exported because `seedNavFromCategoriesAction` seeds `inspire_nav_items`
+ * from exactly this list. Seeding from the same function the public masthead
+ * falls back to is the point: what the admin screen gains control of is
+ * precisely the menu readers are already seeing, not a second guess at it.
  */
-const getCategoryFallbackNav = unstable_cache(
+export const getCategoryFallbackNav = unstable_cache(
   async (): Promise<MenuCategory[]> => {
     const rows = await db
       .select({

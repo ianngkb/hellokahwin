@@ -7,6 +7,8 @@ import { inspireNavItems, inspireCategories } from '@/lib/db/schema/articles';
 import { requireAdminSectionAction } from '@/lib/auth/admin';
 import { logAuditEvent } from '@/lib/audit/log';
 import { navItemCreateSchema, navItemUpdateSchema } from '@/lib/validations/article';
+import { getCategoryFallbackNav } from '@/lib/services/inspire-nav';
+import { listNavItems } from './queries';
 
 const REVALIDATE_PATHS = ['/admin/inspire/navigation', '/artikel'];
 
@@ -15,6 +17,95 @@ function revalidateAll() {
   // revalidatePath does NOT clear unstable_cache entries — `getInspireNavCategories`
   // feeds the navbar on every public page, not just the two paths above.
   revalidateTag('inspire-nav', 'max');
+}
+
+/**
+ * Seed `inspire_nav_items` from the category menu the public site is already
+ * rendering.
+ *
+ * A WordPress import creates categories but no nav items, so the masthead has
+ * been falling back to `getCategoryFallbackNav()` while this admin screen —
+ * which reads the table directly and has no fallback — showed nothing. That
+ * reads as "the site has no navigation" when in fact it has one that simply
+ * isn't editable. Seeding writes the fallback down as real rows, so the menu
+ * readers see is the menu this screen manages, and `getMastheadCategories()`
+ * stops taking the fallback branch from the next request on.
+ *
+ * REFUSES to run when the table already has rows. It is a one-time handover,
+ * not a reset: re-running it over a hand-curated nav would duplicate every
+ * item and resurrect entries an admin had deliberately deleted.
+ */
+export async function seedNavFromCategoriesAction() {
+  const { error: authError, user } = await requireAdminSectionAction('inspire');
+  if (authError || !user) return { error: authError ?? 'Unauthorized' };
+
+  const [existing] = await db.select({ id: inspireNavItems.id }).from(inspireNavItems).limit(1);
+  if (existing) {
+    return { error: 'Navigation already has items — seeding is only for an empty navigation.' };
+  }
+
+  const fallback = await getCategoryFallbackNav();
+  if (fallback.length === 0) {
+    return { error: 'No categories with published articles to seed from.' };
+  }
+
+  // The fallback is shaped for rendering and carries slugs, not ids; nav rows
+  // FK to `inspire_categories`, so resolve them back here in one read.
+  const categories = await db
+    .select({ id: inspireCategories.id, slug: inspireCategories.slug })
+    .from(inspireCategories);
+  const idBySlug = new Map(categories.map((c) => [c.slug, c.id]));
+
+  let seeded = 0;
+  await db.transaction(async (tx) => {
+    for (const [position, parent] of fallback.entries()) {
+      const parentCategoryId = idBySlug.get(parent.slug);
+      // A slug with no row can only mean the category was deleted between the
+      // cached fallback being built and this seed running. Skipping keeps the
+      // rest of the menu rather than failing the whole handover.
+      if (!parentCategoryId) continue;
+
+      const [inserted] = await tx
+        .insert(inspireNavItems)
+        .values({
+          type: 'category' as const,
+          label: parent.name,
+          categoryId: parentCategoryId,
+          position,
+        })
+        .returning({ id: inspireNavItems.id });
+      seeded++;
+
+      const children = (parent.children ?? [])
+        .map((child, i) => ({ child, i }))
+        .filter(({ child }) => idBySlug.has(child.slug));
+      if (children.length > 0) {
+        await tx.insert(inspireNavItems).values(
+          children.map(({ child, i }) => ({
+            type: 'category' as const,
+            label: child.name,
+            categoryId: idBySlug.get(child.slug)!,
+            parentId: inserted.id,
+            position: i,
+          })),
+        );
+        seeded += children.length;
+      }
+    }
+  });
+
+  logAuditEvent({
+    entityType: 'inspire_nav_item',
+    entityId: 'root',
+    action: 'seeded',
+    performedBy: user.id,
+    metadata: { source: 'category_fallback', seeded },
+  });
+
+  revalidateAll();
+  // The manager keeps `items` in local state, so hand back the seeded list
+  // rather than leaving it to a refresh the mounted `useState` would ignore.
+  return { success: true, seeded, items: await listNavItems() };
 }
 
 export async function createNavItemAction(input: {
