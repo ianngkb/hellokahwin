@@ -1,0 +1,497 @@
+# Investigation — /admin/inspire bug report (4 issues)
+
+**Date:** 2026-08-23
+**Worktree:** `C:\Users\Ian Ng\orca\workspaces\hellokahwin\inspire-fixes` (branch `ianng89/inspire-fixes`)
+**Method:** read-only static analysis + read-only `SELECT`s against the production database
+(credentials already present in the worktree's `.env.local`, which is a `vercel env pull` of
+**VERCEL_ENV=production**). No writes, no edits, no destructive commands. The temporary
+inspection script was deleted after use.
+
+## Production data snapshot (the evidence behind issues 1–3)
+
+Run at investigation time against the prod Supabase pooler:
+
+| Query | Result |
+|---|---|
+| `SELECT COUNT(*) FROM media` | **0** |
+| `SELECT COUNT(*) FROM media_article_usage` | **0** |
+| `SELECT COUNT(*) FROM inspire_nav_items` | **0** |
+| `SELECT COUNT(*) FROM inspire_categories` | **24** |
+| `SELECT status, COUNT(*) FROM articles GROUP BY status` | **29 published**, 0 other |
+| `SELECT id,email,role,is_public_author,author_slug FROM profiles` | **2 rows** (below) |
+
+```
+id                              email                          role   is_public_author  author_slug
+hellokahwin-editorial           editorial@hellokahwin.com      admin  false             NULL
+user_3IHGHN4wXTBBMfCtvRkCMklIWzJ  ianng@theweddingnotebook.com   admin  false             NULL
+```
+
+All **29** articles are attributed to `hellokahwin-editorial`.
+
+> Note: code comments reference a "~2,235-article house back catalogue"
+> (`src/app/(admin)/admin/inspire/actions.ts:598`). Production currently holds 29 articles, so
+> the WordPress import has only partially run. This does not change any root cause below, but it
+> does change the size of every backfill.
+
+---
+
+## Issue 1 — "That author is not available for attribution." when saving an existing article
+
+### Symptom
+Saving (or autosaving) an existing article in `/admin/inspire/[id]/edit` returns the error
+"That author is not available for attribution." even when the admin never touched the Author
+dropdown.
+
+### Root cause
+Two independent facts combine into a hard block on every save.
+
+**(a) The save path re-validates the author on every save, not only when it changes.**
+
+`src/app/(admin)/admin/inspire/[article-id]/edit/actions.ts:181-189`
+
+```ts
+let authorChanged = false;
+if (validated.authorId) {
+  const selectable = await listSelectableAuthors();
+  if (!selectable.some((a) => a.id === validated.authorId)) {
+    return { error: 'That author is not available for attribution.' };   // :185
+  }
+  updateData.authorId = validated.authorId;
+  authorChanged = true;
+}
+```
+
+The client **always** sends `authorId`, whether or not it changed — manual save at
+`article-editor.tsx:1245` and the 60-second autosave at `article-editor.tsx:1169`, both seeded
+from `useState(article.authorId)` at `article-editor.tsx:680`. So the guard fires on a no-op
+field.
+
+**(b) `listSelectableAuthors()` returns an empty list on this database.**
+
+`src/lib/authors/queries.ts:238-271` selects profiles where
+`role = 'admin' AND (( is_public_author AND author_slug IS NOT NULL ) OR email = HOUSE_AUTHOR_EMAIL)`.
+
+`HOUSE_AUTHOR_EMAIL` is `'hello@hellokahwin.com'` (`src/lib/authors/gate.ts:19`).
+
+The WordPress importer creates its house author with a **different email**:
+
+`scripts/wp-import.ts:114-115`
+```ts
+const ADMIN_PROFILE_ID    = process.env.WP_IMPORT_AUTHOR_ID    ?? 'hellokahwin-editorial';
+const ADMIN_PROFILE_EMAIL = process.env.WP_IMPORT_AUTHOR_EMAIL ?? 'editorial@hellokahwin.com';
+```
+
+`editorial@hellokahwin.com` ≠ `hello@hellokahwin.com`. Neither `WP_IMPORT_AUTHOR_*` var appears in
+`.env.example`, so the defaults were used — and prod confirms it. Both profile rows also have
+`is_public_author = false` and `author_slug = NULL`, so neither qualifies under the other branch
+either. **`listSelectableAuthors()` returns zero rows.**
+
+The editor UI hides this. `page.tsx:271-288` appends the article's *current* author as a
+synthetic option so the Select is never blank, and the `safePanel` fallback at `page.tsx:171-178`
+degrades a failed read to `[]` — both making an empty list look normal. The author picker
+therefore renders one option ("HelloKahwin") that the server will always reject.
+
+**Note this is not limited to existing articles.** `create/actions.ts:32` sets
+`authorId: user.id` (the Clerk admin, also non-selectable), so newly created articles hit the same
+wall on their first save.
+
+### Confidence
+**High / certain.** The error string, the always-sent field, and the empty selectable list are all
+directly verified — the last one against production.
+
+### Proposed fix
+Two changes, both worth making:
+
+1. **Only validate when the author actually changes** (the real defect — the guard is an
+   authorisation check on a *change*, not on a *value*). Read the article's current `author_id`
+   and skip the membership check when `validated.authorId` equals it:
+
+   ```ts
+   if (validated.authorId && validated.authorId !== current.authorId) { ...check... }
+   ```
+
+   This preserves the security property described in the comment at `actions.ts:173-180` — an
+   admin still cannot *move* an article onto an arbitrary profile — while letting an article with
+   a legacy author be saved. Apply the same treatment at `actions.ts:592-594`'s sibling in
+   `src/app/(admin)/admin/inspire/actions.ts:589-594` only if bulk re-attribution shows the same
+   symptom (it should not — that path is always an explicit change).
+
+2. **Make the house account selectable**, so re-attribution back to the house byline works at all.
+   Pick one:
+   - *Data*: set the importer profile's email to `hello@hellokahwin.com`; or
+   - *Code*: point `HOUSE_AUTHOR_EMAIL` at the importer's value; or
+   - *Better*: key the house account on its stable id `'hellokahwin-editorial'`
+     (`scripts/wp-import.ts:114`) rather than on an email, and have both the importer and
+     `gate.ts` import one shared constant. The current arrangement has the same identity spelled
+     two different ways in two files, which is what broke.
+
+   **Product decision needed:** whether the human admin (Ian) should also become a selectable
+   author. Doing so requires ticking `is_public_author` and setting an `author_slug` via
+   `/admin/inspire/authors` — which by design also publishes a public author archive page at
+   `/artikel/author/<slug>`. That is a real publishing decision, not a bug fix.
+
+### Files to touch
+- `src/app/(admin)/admin/inspire/[article-id]/edit/actions.ts` (the guard, ~181-189)
+- `src/lib/authors/gate.ts` (`HOUSE_AUTHOR_EMAIL`, :19) and/or `scripts/wp-import.ts` (:114-115)
+- possibly `src/app/(admin)/admin/inspire/actions.ts` (:589-594)
+
+### Data/backfill needed
+**Yes, one row** — either update the house profile's email, or (if the shared-constant route is
+taken) nothing at all. Optionally tick `is_public_author` + set `author_slug` for the human admin,
+but that is a product decision, not a backfill.
+
+---
+
+## Issue 2 — `/admin/inspire/media` is empty
+
+### Symptom
+The media library page renders with no items even though the site has images (imported from
+WordPress, served from R2).
+
+### Root cause
+**Pure data gap. The page and its queries are correct.** `SELECT COUNT(*) FROM media` returns
+**0**; `media_article_usage` returns **0**.
+
+The page (`src/app/(admin)/admin/inspire/media/page.tsx:35-69`) builds `conditions = []` and only
+pushes filters when `source`, `articleId` or `search` are present, so an unfiltered visit issues
+`SELECT * FROM media ORDER BY created_at DESC LIMIT 48` with `whereClause = undefined`. There is
+no hidden filter. `MediaGallery` renders `initialItems` straight from props
+(`src/components/media/media-gallery.tsx:107`). Nothing client-side suppresses rows.
+
+**The WordPress importer never wrote media rows.** `scripts/wp-import.ts` uploads every cover and
+inline image directly to R2 via its own `uploadToR2()` (:430-441, called at :910, :1033) and
+rewrites the article HTML to the R2 URL (:1043, :1047) — but a grep for `schema.media` across
+`scripts/` returns **no matches**. Its only inserts are `profiles` (:124), `inspireCategories`
+(:687), `inspireTags` (:727), `articles` (:1098), `articleCategories` (:1123), `articleTags`
+(:1131).
+
+Nothing downstream repairs this. `syncMediaUsage()`
+(`src/app/(admin)/admin/inspire/[article-id]/edit/actions.ts:911-926`) resolves content image URLs
+to **existing** `media` rows by exact URL match and only writes the `media_article_usage`
+junction — it never creates a `media` row. So no amount of re-saving articles will populate the
+library.
+
+Media rows are only ever created by `createMediaRecordAction`
+(`src/app/(admin)/admin/inspire/media/actions.ts:388-410`), called from the live upload paths
+(`src/lib/storage/inspire-upload.ts:139-142`, `inspire-pdf-upload.ts:59-61`,
+`src/components/media/media-image-editor.tsx:101`). New uploads through the admin will therefore
+appear; the ~29 articles' worth of imported images never will.
+
+### Confidence
+**High / certain** — confirmed against the production database.
+
+### Proposed fix
+No page-code change. Write a **backfill script** that registers the already-uploaded R2 objects as
+`media` rows, then reconciles usage. Two viable sources of truth:
+
+- **Walk R2** under the `inspire/<slug>/` prefixes and create one row per original object; or
+- **Walk `articles.content`** with the existing `extractImageUrlsFromContent()` helper
+  (`edit/actions.ts:869-909`) plus `articles.cover_image_url`, and create a row per distinct URL.
+  This is the safer option — it registers exactly what the site actually references.
+
+Either way each row needs the NOT NULL columns from `src/lib/db/schema/media.ts:21-51`:
+`filename`, `r2_key`, `url`, `original_url`, `mime_type`, `file_size`, `source`
+(`mediaSourceEnum`), `uploaded_by` (FK to `profiles` — use `hellokahwin-editorial`). Note
+`idx_media_r2_key_unique` (:53) makes the script safely idempotent on re-run. `width`/`height` and
+`variants` can be filled from an R2 `HeadObject` + sharp, or left null.
+
+Then run `syncMediaUsage()` (or an equivalent bulk pass) over every article to populate
+`media_article_usage`.
+
+Longer term, add the media-row insert to `scripts/wp-import.ts` so future import runs do not
+re-open the gap.
+
+### Files to touch
+- **New**: `scripts/backfill-media.ts` (the backfill)
+- `scripts/wp-import.ts` — add a `schema.media` insert alongside each `uploadToR2()` call
+  (:910, :1033) so re-imports stay consistent
+- No change to `src/app/(admin)/admin/inspire/media/page.tsx`
+
+### Data/backfill needed
+**Yes — this issue is entirely a backfill.** Nothing in the UI is broken.
+
+---
+
+## Issue 3 — Site structure / Navigation shows no existing navigation
+
+### Symptom
+`/admin/inspire/navigation` (the "Site structure › Navigation" screen — see
+`src/app/(admin)/admin-nav-sections.ts:135-158`) lists nothing, even though the live site renders
+a navigation menu.
+
+### Root cause
+**`inspire_nav_items` is empty (verified: 0 rows), and the public site does not read that table
+when it is empty — it falls back to deriving nav from categories. The admin screen has no such
+fallback.** So the public site shows a menu that has no corresponding rows for the admin screen to
+list.
+
+The codebase already documents this exact scenario. `src/lib/services/inspire-nav.ts:56-61`:
+
+> "Top-level categories that actually have published articles, shaped like the admin-managed nav.
+> Used as the masthead fallback: a fresh install (**or a WordPress import, which creates
+> categories but no nav_items**) would otherwise render a masthead with no navigation at all."
+
+- Public path: `getMastheadCategories()` (`inspire-nav.ts:118-122`) calls
+  `getInspireNavCategories()` (reads `inspire_nav_items`, :12-54); when it returns empty it calls
+  `getCategoryFallbackNav()` (:62-115), which builds the menu from `inspire_categories` +
+  published article counts. With 24 categories and 29 published articles, this produces a
+  populated menu.
+- Admin path: `src/app/(admin)/admin/inspire/navigation/page.tsx:25-41` selects from
+  `inspireNavItems` with **no fallback** and passes the empty array to `NavManager` (:74).
+
+Neither `scripts/wp-import.ts` nor any other script inserts `inspireNavItems` (grep across
+`scripts/` returns no matches), and there is no seed migration — `src/lib/db/migrations/` contains
+only `0000_yellow_aqueduct.sql` and `0001_enable_rls_public_schema.sql`.
+
+So this is a **data gap plus a UX gap**: the table was never seeded, and the admin screen gives no
+indication that the live nav is coming from the fallback.
+
+### Confidence
+**High / certain** — confirmed against production and corroborated by an explicit comment in the
+code.
+
+### Proposed fix
+1. **Seed `inspire_nav_items`** from what the site currently renders. The cleanest approach is to
+   reuse `getCategoryFallbackNav()`'s output as the seed: for each top-level category with
+   published articles, insert a `type: 'category'` row with the category id, label, and
+   incrementing `position`; children become rows with `parentId` set. That makes the admin screen
+   show exactly the menu users already see, and hands over control.
+2. **Make the admin screen honest about the fallback.** When `allItems.length === 0`, render an
+   empty state explaining that the public nav is currently auto-generated from categories, with a
+   "Seed from categories" button wired to a new server action that performs (1). Without this,
+   the same confusion returns on any fresh environment.
+
+### Files to touch
+- `src/app/(admin)/admin/inspire/navigation/page.tsx` (empty-state branch)
+- `src/app/(admin)/admin/inspire/navigation/actions.ts` (new seed action; must
+  `revalidateTag('inspire-nav')` — see `inspire-nav.ts:53`)
+- `src/app/(admin)/admin/inspire/navigation/nav-manager.tsx` (empty-state UI)
+- optionally **new** `scripts/seed-nav.ts` for a one-off prod seed
+
+### Data/backfill needed
+**Yes** — `inspire_nav_items` must be seeded (24 categories to draw from). Small enough to do via
+the proposed in-admin "seed from categories" action rather than a script.
+
+---
+
+## Issue 4 — Editor formatting functions (Bold, Italic, …)
+
+### Symptom
+Formatting controls in the article editor reportedly do not work.
+
+### Root cause (primary): the editor and its toolbar are rendered **twice**
+
+`src/app/(admin)/admin/inspire/[article-id]/edit/article-editor.tsx` has a single `return (` at
+**:1554** opening a two-column grid at **:1555**
+(`grid grid-cols-1 gap-6 lg:grid-cols-[1fr_340px]`). That grid has **three** direct children, not
+two — verified by indentation scan:
+
+```
+1557 - 1932   <div className="space-y-4">              main content  (editor #1 :1790-1930, toolbar #1 :1905)
+1935 - 2614   <div className="space-y-6 lg:sticky …">  sidebar #1 — CORRUPTED
+2617 - 3198   <div className="space-y-6 lg:sticky …">  sidebar #2 — the complete sidebar
+```
+
+Sidebar #1 has a full copy of the block editor spliced into it (`{/* Block editor */}` at
+**:2463**, `<EditorRoot>` **:2472**, `<EditorContent>` **:2473**, `<EditorToolbar>` **:2587**),
+and its own tail was lost in the process. A `Compare-Object` of the two sidebar ranges shows 147
+lines present only in sidebar #1 (almost entirely the spliced editor) and 49 lines present only in
+sidebar #2 (the "Delete actions" block, `:3200`-ish, including Master Delete). **Sidebar #2 is the
+complete one.**
+
+Neither editor is behind a conditional and there are no responsive-visibility classes anywhere in
+the file (`grep` for `lg:hidden|hidden lg:|md:hidden|hidden md:|isMobile` returns nothing), so
+**both editors mount simultaneously**. This is a committed merge artifact, introduced in
+`181bf02 feat(public): Editorial Monotone design pass + live-service wiring` — i.e. it is live in
+production.
+
+Why this breaks formatting:
+
+- Both `EditorContent`s are constructed from the **same `extensions` array instance**
+  (`:627-629`, passed at `:1792` and `:2474`). TipTap v2 `Extension` objects are stateful and bind
+  to a single editor (`extension.editor`, `extension.storage`); sharing instances across two
+  editors is unsupported and makes command dispatch and plugin state bind unpredictably.
+- `editorRef.current` is last-writer-wins across both instances — assigned in `onCreate`
+  (:1796 / :2478), `onUpdate` (:1815 / :2497) and `onSelectionUpdate` (:1836 / :2518). Save
+  (`handleSave`, :1135) and `getFormData` (:963) read `editorRef.current?.getJSON()`, so a save
+  can serialise the wrong document — formatting that appeared correctly in the editor vanishes
+  after save/reload.
+- `novel`'s `EditorRoot` wraps a module-singleton jotai store, so the two roots share
+  `queryAtom`/`rangeAtom` and the slash-command state collides.
+
+### Root cause (secondary, must be ruled out live): the read-only lock silently disables the toolbar
+
+`article-editor.tsx:1552` — `const isReadOnly = !!lockedByOther || lockLost;` feeds
+`editable={!isReadOnly}` at **:1855** and **:2537**. A non-editable TipTap editor makes every
+command a silent no-op. `EditorToolbar` receives no `disabled` prop and sits *inside* the editor
+container (:1905 / :2587), **not** inside the `<fieldset disabled={isReadOnly}>` wrappers
+(:1605, :2128, :2810) — so it renders fully enabled while every click does nothing. This triggers
+when another admin holds the lock (`lockStatus.locked` → `lockedByOther`, :711-713) or when the
+lock expires mid-session (`use-autosave.ts:46` `setLockLost(true)`). A banner does render
+(:1559-1584), but a user may not connect it to the dead buttons.
+
+`degraded` / `DegradedControls` does **not** affect the toolbar.
+
+### Toolbar audit (`src/components/inspire/editor-toolbar.tsx`)
+
+Package versions: all `@tiptap/*` are **`^2.27.2`** (`package.json:31-44`), plus `novel@^1.0.2`.
+Single copy in `node_modules`, no nested duplicates. StarterKit is **v2**, so it does *not* bundle
+Link or Underline — and `article-extensions.ts:32-33` adds `TiptapLink` and `TiptapUnderline`
+explicitly, which is correct (no duplicate-extension warning, no missing extension). StarterKit is
+registered unconfigured (`article-extensions.ts:20`), so nothing is disabled.
+
+Controls, with verdicts:
+
+- **Bold** :113-120 — PASS
+- **Italic** :121-128 — PASS
+- **Underline** :129-136 — PASS (extension present, :33)
+- **Heading 2 / 3 / 4** :141-164 — PASS
+- **Heading 5 / 6** :165-180 — SUSPECT (editor CSS, see below)
+- **Blockquote** :181-188 — PASS
+- **Bullet list** :193-200, **Ordered list** :202-210 — PASS
+- **Ordered-list style (1/a/A/i/I)** :211-250 (handler :234-243) — **BROKEN on the public page**
+- **Link popover** :256, component :474-611 — PASS in the editor; SUSPECT UX (see S2)
+- **Insert-block dropdown** :257-428 — mostly PASS:
+  Text :270-272, H2–H6 :273-297, bullet :298-300, numbered :301-303, quote :304-306,
+  image upload :310-331, gallery :335-353, table :357-363, CTA button :364-377,
+  PDF :378-391, section :409-423, divider :424-426
+  - **Media Library** :332-334 + `handleMediaSelect` :58-105 — **BROKEN**
+  - **Embed** :392-405 — **BROKEN**
+- **Undo** :433-442, **Redo** :443-452 — PASS
+
+There are **no orphaned buttons**: the toolbar offers no TextAlign, Color, Highlight, Subscript,
+Superscript or TaskList control, and correspondingly none of those extensions is registered. The
+classic "Underline button with no Underline extension" does not apply here. Every `onClick` /
+`onPressedChange` is bound to a real chained command; no dead handlers. `isActive` names and attrs
+are all correct, and re-render-on-transaction is on by default, so `pressed` states and
+`disabled={!editor.can().undo()}` update live. The toolbar correctly returns `null` when `editor`
+is falsy (:107), so "toolbar rendered with a null editor" is not the bug. `immediatelyRender:
+false` is set on both editors (:1794, :2476) and `ArticleEditorLoader` gates on `mounted`
+(:549-550, :581-583), so there is no SSR/hydration hazard. `articleUpdateSchema`'s content field
+(`src/lib/validations/article.ts:32-35`) is `z.object({type: z.literal('doc'), content:
+z.array(z.unknown())})` — it strips nothing.
+
+### Additional defects found in the audit
+
+**B2 — "Embed" inserts a node type that does not exist.**
+`editor-toolbar.tsx:392-405` calls `insertContent({ type: 'embedBlock', … })`. Grep across `src/`
+finds `embedBlock` at that one line only; the registered node is `dynamicBlockEmbed`
+(`src/lib/tiptap/dynamic-block-embed.ts:21`). TipTap swallows this as `[tiptap warn]: Invalid
+content` — the menu item silently does nothing.
+
+**B3 — Media Library insert loses all its metadata.**
+`editor-toolbar.tsx:65-76` chains `.setImage({src})` then `.updateAttributes('image', {…})`.
+`updateAttributes` iterates `nodesBetween(from, to)` and the selection after insertion sits
+*after* the atom, so the image is never matched and the whole attribute update is a no-op. The
+correct pattern already exists in this repo at `article-editor.tsx:1437-1443`
+(`.setNodeSelection(nodePos).updateAttributes('image', …)`). Separately,
+`src/lib/tiptap/custom-image.ts:6-15` overrides `addAttributes()` **without** `...this.parent?.()`
+and never declares `data-caption` / `data-caption-url`, so ProseMirror drops them even if the
+selection were fixed. The public renderer *does* read those attrs
+(`article-renderer.tsx:60-71`, :204-205) — so the caption pipeline can never produce a caption.
+
+**B4 — Ordered-list numbering style is stripped on the public page.**
+The editor side is fine (`@tiptap/extension-ordered-list` declares a `type` attribute;
+`globals.css:1386-1397` styles `.ProseMirror ol[type=…]`). But `article-renderer.tsx:895-904`'s
+`allowedAttributes` has no `ol` entry and no `'*'` wildcard, so `sanitize-html` strips `type` (and
+`start`). The matching `.inspire-prose ol[type=…]` rules at `globals.css:1151-1162` can therefore
+never match, and **every a/A/i/I choice reverts to 1, 2, 3 on the live article.**
+
+**B5 — every `prose` / `not-prose` class in the app is dead.**
+`@tailwindcss/typography` is not in `package.json`, is not in `node_modules`, and no `.css` file
+carries the `@plugin` directive Tailwind v4 requires. Affects `article-editor.tsx:1858` and
+`:2540` (`class: 'prose max-w-none p-4 …'`) and `article-renderer.tsx:702, 784, 811, 876, 960`.
+Both surfaces survive only because `globals.css` hand-rolls `.inspire-prose` (:1075-1513) and
+`.ProseMirror …` (:1348-1542) rules.
+
+**B6 — H5 and H6 produce no visible change *in the editor*.**
+`globals.css` styles only `h1–h4` in the base layer (:369-384); there are no `.ProseMirror h1–h6`
+rules, and the `prose` fallback is dead (B5). Tailwind v4 preflight sets
+`h1–h6 { font-size: inherit; font-weight: inherit }`. So clicking Heading 5 (:165-172) or
+Heading 6 (:173-180) looks like nothing happened. **If the user's "formatting doesn't work"
+report was about H5/H6 specifically, this is the whole explanation.** The public page is fine
+(`globals.css:1116-1131`). Headings also get no vertical margin in the editor.
+
+**S2 — Link popover trigger probably double-fires.**
+`editor-toolbar.tsx:546-555` puts a `Toggle` with `onPressedChange={() => handleOpen(true)}`
+inside `<PopoverTrigger asChild>`; Radix composes its own open-toggle onto the child's `onClick`,
+so click-to-close likely fails. Link application itself (:493-537) is correct.
+
+**S3 — five custom nodes are missing from the public renderer's extension list.**
+`article-renderer.tsx:133-144` registers StarterKit, image, `pdfLinkInline`, `dynamicBlockEmbed`,
+Link, Underline and the Table family — but **not** `galleryBlock`, `sectionBlock`, `figureBlock`,
+`ctaButtonBlock` or `pdfLinkBlock`. Those survive only because `unwrapSections` (:253-264) and
+`splitContentByGalleryBlocks` (:290-409) intercept them **at document top level**. Any such node
+nested in a blockquote, table cell or list item reaches `generateHTML`, which throws — and the
+throw is swallowed at :862-864 (`catch { /* Skip unrenderable chunk */ }`), silently deleting that
+slice of the article, or at :986-988 / :1011-1013, rendering the whole article as "Unable to
+render content." **No mark is dropped** (bold/italic/strike/code/underline/link are all present on
+both sides), so basic formatting does reach the public page.
+
+### Confidence
+- Duplicate editor render: **high / certain** (structurally verified by indentation scan and
+  range diff; no conditional, no responsive split).
+- Duplicate render being *the* cause of the user's specific complaint: **medium** — it is
+  certainly a severe bug, but which symptom the user actually hit needs the live check below.
+- Read-only lock disabling the toolbar: **medium** — mechanism is certain, whether it was active
+  for this user is not.
+- B2, B3, B4, B5, B6, S2, S3: **high** (each verified at the named lines).
+
+### Proposed fix
+Order matters — fix the duplication first, because it makes everything else hard to reason about.
+
+1. **Delete the corrupted sidebar #1, lines 1935-2614**, leaving `main (1557-1932)` +
+   `sidebar (2617-3198)`. Diff the two sidebar ranges before deleting to confirm sidebar #1
+   contributes nothing unique beyond the spliced editor.
+2. Disable or visually gate `EditorToolbar` when `isReadOnly` (:1552).
+3. Remove or implement the Embed item (:392-405).
+4. Fix `handleMediaSelect` to `.setNodeSelection(pos).updateAttributes('image', …)` (:65-76), and
+   add `...this.parent?.()` + `data-caption` / `data-caption-url` to `custom-image.ts:6-15`.
+5. Add `ol: ['type', 'start']` to `article-renderer.tsx:895-904`.
+6. Register render-only defs for the five missing nodes in `article-renderer.tsx:133-144`, and
+   make the `catch {}` at :862-864 log rather than swallow.
+7. Add `.ProseMirror h1…h6` rules (at minimum h5/h6) + heading margins to `globals.css`.
+8. Either install `@tailwindcss/typography` and add `@plugin "@tailwindcss/typography";`, or strip
+   the dead `prose*` classes.
+
+### Files to touch
+- `src/app/(admin)/admin/inspire/[article-id]/edit/article-editor.tsx` (the deletion; toolbar gating)
+- `src/components/inspire/editor-toolbar.tsx`
+- `src/lib/tiptap/custom-image.ts`
+- `src/components/inspire/article-renderer.tsx`
+- `src/app/globals.css`
+- `package.json` (only if adopting `@tailwindcss/typography`)
+
+### Data/backfill needed
+**None.** Pure code.
+
+### Live checks to run, in order
+1. Is the article lock held by another admin or expired? (explains a totally dead toolbar)
+2. Which of the two rendered toolbars is being clicked? (the second one lives inside the 340px
+   sidebar column)
+3. Which specific button "does nothing"? H5/H6 → B6; Embed → B2; Media Library caption → B3;
+   a/A/i/I numbering that reverts on the public page → B4.
+
+---
+
+## Cross-cutting notes
+
+### What blocks a fix
+- **Nothing is blocked on missing credentials.** The worktree's `.env.local` has a working
+  production `DATABASE_URL` and R2 keys; `node_modules` is installed and `tsx` is available, so
+  backfill scripts can be written and run from here. Be aware this points at **production** —
+  any backfill needs a dry-run mode and should be rehearsed before it writes.
+- **One product decision is needed** (issue 1): whether the human admin should become a public,
+  URL-addressable author. Ticking `is_public_author` publishes an author archive page; that is a
+  publishing choice, not a bug fix. The save bug can and should be fixed without it.
+- **One scope question**: the WordPress import has only brought over 29 of the expected ~2,235
+  articles. Whether to finish the import before backfilling media is worth deciding, since
+  finishing it afterwards would require re-running the media backfill anyway.
+
+### Summary of code vs data
+| Issue | Code bug | Data/backfill |
+|---|---|---|
+| 1 — author attribution | Yes (guard validates unchanged field) | Yes (one profile row / shared constant) |
+| 2 — empty media library | No (page is correct) | Yes (entire `media` table) |
+| 3 — no navigation | Partly (no empty-state / seed affordance) | Yes (seed `inspire_nav_items`) |
+| 4 — editor formatting | Yes (several) | No |
