@@ -30,9 +30,37 @@ export const HOUSE_AUTHOR_ID = 'hellokahwin-editorial';
 
 /**
  * The email the house profile is created with. Only used when the importer
- * CREATES that row — never as an identity test; use `HOUSE_AUTHOR_ID` for that.
+ * CREATES that row — never as an identity test; use `resolveHouseAuthorId()`
+ * for that.
  */
 export const HOUSE_AUTHOR_EMAIL = 'editorial@hellokahwin.com';
+
+/**
+ * The house account's id ON THIS INSTALLATION.
+ *
+ * `scripts/wp-import.ts` accepts `WP_IMPORT_AUTHOR_ID` to point an import at a
+ * different house profile, so the app must honour the same override — with the
+ * constant hardcoded, an installation using the override would attribute every
+ * article to a profile `listSelectableAuthors()` refused to offer, which is the
+ * exact failure this whole fix exists to remove. Resolved through ONE function
+ * so the importer and the app can never disagree about who the house is.
+ *
+ * A function rather than a module constant on purpose: `gate.ts` is pulled into
+ * client bundles (the byline, the author box), where a non-`NEXT_PUBLIC_` env
+ * read is inlined as `undefined` at build time. Evaluating lazily means only
+ * server callers ever read it, and a client bundle that somehow did would still
+ * land on the correct default rather than on a baked-in wrong value.
+ */
+export function resolveHouseAuthorId(): string {
+  return process.env.WP_IMPORT_AUTHOR_ID?.trim() || HOUSE_AUTHOR_ID;
+}
+
+/**
+ * Ditto for the email the house profile is created with.
+ */
+export function resolveHouseAuthorEmail(): string {
+  return process.env.WP_IMPORT_AUTHOR_EMAIL?.trim() || HOUSE_AUTHOR_EMAIL;
+}
 
 /** What the house account's byline reads as when no real author is credited. */
 export const HOUSE_AUTHOR_NAME = 'HelloKahwin';

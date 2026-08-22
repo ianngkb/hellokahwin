@@ -3,7 +3,7 @@ import { and, desc, eq, inArray, isNotNull, or, sql } from 'drizzle-orm';
 import { db } from '@/lib/db/drizzle';
 import { profiles } from '@/lib/db/schema/profiles';
 import { articles, articleCategories, inspireCategories } from '@/lib/db/schema/articles';
-import { HOUSE_AUTHOR_ID } from './gate';
+import { resolveHouseAuthorId } from './gate';
 
 /**
  * The one place every surface reads author data from.
@@ -237,6 +237,9 @@ export interface SelectableAuthor {
  */
 export const listSelectableAuthors = unstable_cache(
   async (): Promise<SelectableAuthor[]> => {
+    // Resolved once per call so the SQL and the `isHouseAccount` flag below
+    // can never be computed against two different ids.
+    const houseAuthorId = resolveHouseAuthorId();
     const rows = await db
       .select({
         id: profiles.id,
@@ -252,7 +255,7 @@ export const listSelectableAuthors = unstable_cache(
           eq(profiles.role, 'admin'),
           or(
             and(eq(profiles.isPublicAuthor, true), isNotNull(profiles.authorSlug)),
-            eq(profiles.id, HOUSE_AUTHOR_ID),
+            eq(profiles.id, houseAuthorId),
           ),
         ),
       )
@@ -263,7 +266,7 @@ export const listSelectableAuthors = unstable_cache(
       name: [r.firstName, r.lastName].filter(Boolean).join(' ').trim() || r.email,
       slug: r.authorSlug,
       isPublicAuthor: r.isPublicAuthor,
-      isHouseAccount: r.id === HOUSE_AUTHOR_ID,
+      isHouseAccount: r.id === houseAuthorId,
     }));
   },
   ['inspire-selectable-authors'],
