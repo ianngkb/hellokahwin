@@ -51,7 +51,7 @@ describe('flattenCategoriesByArticleCount', () => {
     for (const c of flat) expect(c.articleCount).toBeGreaterThan(0);
   });
 
-  it('does not double-count a shared subtree across sibling branches', () => {
+  it('gives every node its own subtree sum, siblings independent', () => {
     const rows = [
       cat('root', null, 1),
       cat('left', 'root', 2),

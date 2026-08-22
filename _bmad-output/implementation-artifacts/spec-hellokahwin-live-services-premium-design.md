@@ -2,8 +2,8 @@
 title: 'HelloKahwin — live services wiring + premium monotone design pass'
 type: 'feature'
 created: '2026-08-22'
-status: 'in-review'
-review_loop_iteration: 0
+status: 'reviewed'
+review_loop_iteration: 1
 baseline_commit: 'ea684be'
 predecessor_spec: 'spec-hellokahwin-cms-directory.md'
 context: []
@@ -172,3 +172,23 @@ and login, against the live database.
 **Manual checks:** `/admin` → 307 `/login`; legacy `/x` 308, `/category/x` 301,
 `/tag/x` 301, `/feed` 301; `/login` fails only on `ERR_NAME_NOT_RESOLVED` for
 `clerk.hellokahwin.com` (the escalated DNS item), no CSP violation.
+
+## Spec Change Log
+
+- **2026-08-22 — review iteration 1 (codex-reviewer, GPT-5.6 Sol, high reasoning).**
+  Five findings, all patched in `180e796`, re-reviewed clean (NO_FINDINGS):
+  - **Blocker:** the masthead is in the public layout, so an unhandled throw from
+    its category query 500s every public page rather than losing the nav. Now
+    `withDeadline(3s)` + catch, degrading to an empty rail.
+  - **Major:** both category rails rolled their own subtree arithmetic and both
+    under-counted deep branches. Extracted one recursive, memoised, cycle-guarded
+    walk (`src/lib/inspire/category-tree.ts`) with 6 unit tests.
+  - CSP `frame-src` narrowed below `script-src`; `*.clerk.com` is a CDN origin and
+    is no longer frameable.
+  - `--muted-foreground` measured at 5.80:1, not the claimed ~7:1 — moved to
+    oklch 0.46 (6.89:1). It is the colour of every small label on the site.
+  - Dead `coverImageSaved`/`hideMoodboard` props and their last caller removed.
+  - Unprompted polish in the same commit: the card eyebrow shows one category
+    (line-clamping a list cut mid-word and left a dangling separator), and the
+    category page's subcategory filters became `hk-chip`s so the site has one
+    filter affordance.

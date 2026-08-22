@@ -88,3 +88,13 @@ Append-only. One line per decision autopilot made without interrupting the user.
   author page designs could be screenshotted against real routes: tags `hantaran`
   and `bajet` (2 articles each) and the house profile promoted to a public author.
   Flagged in the handover — Ian's call whether to keep them.
+- [2026-08-22] Code review: 2 rounds via the codex-reviewer agent (GPT-5.6 Sol,
+  high reasoning), inside the 3-cycle budget. Round 1: 1 critical + 1 major +
+  3 minor, all patched. Round 2 on the fix commit: NO_FINDINGS.
+- [2026-08-22] Updated the devservers registry (hellokahwin band 3200–3201 now
+  "web (Next.js) 3200"), recording that 4095–4194 is Windows-reserved on this
+  machine. Synced to the canonical copy at
+  `buddy/skillcentral/skills/devservers/SKILL.md` but left UNCOMMITTED there —
+  buddy is not this run's repo.
+- [2026-08-22] `package-lock.json` sits untracked in the worktree and predates
+  this run (the repo uses pnpm). Left alone, not committed — not this run's file.
