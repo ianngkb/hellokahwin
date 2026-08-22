@@ -18,7 +18,13 @@ import {
   arrayMove,
 } from '@dnd-kit/sortable';
 import { toast } from 'sonner';
-import { PlusIcon, ChevronDownIcon, ChevronRightIcon, SearchIcon } from 'lucide-react';
+import {
+  PlusIcon,
+  ChevronDownIcon,
+  ChevronRightIcon,
+  SearchIcon,
+  ListTreeIcon,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { FormField } from '@/components/ui/form-field';
@@ -45,6 +51,7 @@ import {
   deleteNavItemAction,
   toggleNavItemActiveAction,
   reorderNavItemsAction,
+  seedNavFromCategoriesAction,
 } from './actions';
 
 interface CategoryOption {
@@ -57,11 +64,18 @@ interface CategoryOption {
 interface NavManagerProps {
   items: NavItemData[];
   availableCategories: CategoryOption[];
+  /**
+   * How many top-level entries the public masthead is currently deriving from
+   * categories. Only meaningful while `items` is empty — that is exactly when
+   * `getMastheadCategories()` takes its fallback branch.
+   */
+  fallbackNavCount: number;
 }
 
 export function NavManager({
   items: initialItems,
   availableCategories: initialCategories,
+  fallbackNavCount,
 }: NavManagerProps) {
   const [items, setItems] = useState(initialItems);
   const [availableCategories, setAvailableCategories] = useState(initialCategories);
@@ -167,6 +181,28 @@ export function NavManager({
     },
     [items],
   );
+
+  // --- Seed from categories ---
+  // One-time handover: writes the category-derived menu the masthead is
+  // already showing into `inspire_nav_items` so it becomes editable. The action
+  // refuses if the table is non-empty, so this cannot duplicate a curated nav.
+  const handleSeedFromCategories = useCallback(() => {
+    startTransition(async () => {
+      const result = await seedNavFromCategoriesAction();
+      if ('error' in result && result.error) {
+        toast.error(result.error);
+        return;
+      }
+      if (result.items) {
+        setItems(result.items);
+        setExpandedParents(new Set(result.items.filter((i) => !i.parentId).map((i) => i.id)));
+        setAvailableCategories((cur) =>
+          cur.filter((c) => !result.items.some((i) => !i.parentId && i.categoryId === c.id)),
+        );
+      }
+      toast.success(`Seeded ${result.seeded} navigation item${result.seeded === 1 ? '' : 's'}`);
+    });
+  }, []);
 
   // --- Add ---
   const openAddDialog = useCallback((parentId?: string) => {
@@ -367,9 +403,41 @@ export function NavManager({
 
       {topLevelItems.length === 0 && (
         <div className="bg-card rounded-card border-hairline border">
+          {/* An empty table does NOT mean the site has no menu: the masthead
+              falls back to deriving one from categories. Saying so — and
+              offering to write that menu down as editable rows — is the
+              difference between "nothing here" and "not yours to edit yet". */}
           <EmptyState
+            icon={<ListTreeIcon />}
             title="No navigation items yet"
-            description="Click “Add Item” to get started."
+            description={
+              fallbackNavCount > 0 ? (
+                <>
+                  The public menu is currently generated automatically from your{' '}
+                  <span className="text-foreground font-medium tabular-nums">
+                    {fallbackNavCount}
+                  </span>{' '}
+                  top-level categories with published articles. Seed it here to turn that same menu
+                  into items you can rename, reorder and hide.
+                </>
+              ) : (
+                'Click “Add Item” to get started.'
+              )
+            }
+            action={
+              fallbackNavCount > 0 ? (
+                <div className="flex flex-wrap items-center justify-center gap-2">
+                  <Button size="sm" onClick={handleSeedFromCategories} disabled={isPending}>
+                    <ListTreeIcon className="mr-1 size-4" />
+                    Seed from categories
+                  </Button>
+                  <Button size="sm" variant="outline" onClick={() => openAddDialog()}>
+                    <PlusIcon className="mr-1 size-4" />
+                    Add Item
+                  </Button>
+                </div>
+              ) : undefined
+            }
           />
         </div>
       )}

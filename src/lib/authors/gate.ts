@@ -15,8 +15,52 @@
  * only the predicate — and the unit tests — don't drag a DB client in.
  */
 
-/** The email of the house account. */
-export const HOUSE_AUTHOR_EMAIL = 'hello@hellokahwin.com';
+/**
+ * The house account's STABLE identity: its `profiles.id`.
+ *
+ * Keyed on the id rather than the email because the id is the primary key the
+ * importer writes (`scripts/wp-import.ts`) and the value every imported
+ * article's `author_id` points at — it cannot drift. The email previously used
+ * here DID drift: `gate.ts` said `hello@hellokahwin.com` while the importer
+ * wrote `editorial@hellokahwin.com`, so `listSelectableAuthors()` matched
+ * nothing on production and every article save failed the attribution guard.
+ * Both files now import this one constant so the identity is spelled once.
+ */
+export const HOUSE_AUTHOR_ID = 'hellokahwin-editorial';
+
+/**
+ * The email the house profile is created with. Only used when the importer
+ * CREATES that row — never as an identity test; use `resolveHouseAuthorId()`
+ * for that.
+ */
+export const HOUSE_AUTHOR_EMAIL = 'editorial@hellokahwin.com';
+
+/**
+ * The house account's id ON THIS INSTALLATION.
+ *
+ * `scripts/wp-import.ts` accepts `WP_IMPORT_AUTHOR_ID` to point an import at a
+ * different house profile, so the app must honour the same override — with the
+ * constant hardcoded, an installation using the override would attribute every
+ * article to a profile `listSelectableAuthors()` refused to offer, which is the
+ * exact failure this whole fix exists to remove. Resolved through ONE function
+ * so the importer and the app can never disagree about who the house is.
+ *
+ * A function rather than a module constant on purpose: `gate.ts` is pulled into
+ * client bundles (the byline, the author box), where a non-`NEXT_PUBLIC_` env
+ * read is inlined as `undefined` at build time. Evaluating lazily means only
+ * server callers ever read it, and a client bundle that somehow did would still
+ * land on the correct default rather than on a baked-in wrong value.
+ */
+export function resolveHouseAuthorId(): string {
+  return process.env.WP_IMPORT_AUTHOR_ID?.trim() || HOUSE_AUTHOR_ID;
+}
+
+/**
+ * Ditto for the email the house profile is created with.
+ */
+export function resolveHouseAuthorEmail(): string {
+  return process.env.WP_IMPORT_AUTHOR_EMAIL?.trim() || HOUSE_AUTHOR_EMAIL;
+}
 
 /** What the house account's byline reads as when no real author is credited. */
 export const HOUSE_AUTHOR_NAME = 'HelloKahwin';
@@ -39,6 +83,27 @@ export function isLinkableAuthor(p: {
   authorSlug: string | null;
 }): boolean {
   return p.role === 'admin' && p.isPublicAuthor && !!p.authorSlug;
+}
+
+/**
+ * Does a submitted `authorId` amount to a RE-ATTRIBUTION, i.e. must it clear
+ * `listSelectableAuthors()` before it may be written?
+ *
+ * The editor posts the whole form on every manual save and on every 60-second
+ * autosave, so `authorId` arrives on the wire whether or not the admin touched
+ * the picker. Treating its mere presence as an attribution attempt made every
+ * save of an article whose author is not in the selectable list — which on a
+ * freshly imported database is every article — fail the guard. Only a value
+ * that differs from the stored one is a change, and only a change needs
+ * authorising: an admin still cannot MOVE an article onto an arbitrary profile.
+ *
+ * Pure so the rule can be unit-tested without a database, like the gate above.
+ */
+export function isAuthorReattribution(
+  submittedAuthorId: string | null | undefined,
+  currentAuthorId: string | null | undefined,
+): boolean {
+  return !!submittedAuthorId && submittedAuthorId !== currentAuthorId;
 }
 
 /**

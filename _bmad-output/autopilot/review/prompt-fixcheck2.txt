@@ -1,0 +1,3 @@
+Here is one review finding that was supposedly fixed. Examine `git diff 6c07f21..HEAD` plus the current code at the cited locations and answer only: CLOSED | file:line | one-line evidence, or STILL_OPEN | file:line | what remains. Judge ONLY this finding - do not report anything else.
+--- FINDINGS ---
+STILL_OPEN | src/components/inspire/article-renderer.tsx:1050 | Renderer wrappers still retain inert prose/prose-* Tailwind typography classes (also line 1144); @tailwindcss/typography is intentionally NOT installed, so all prose/prose-*/not-prose utility classes must be removed (the project's own inspire-prose class is fine and should stay).

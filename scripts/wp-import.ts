@@ -49,7 +49,9 @@ if (envFile) {
 
 import postgres from 'postgres';
 import { drizzle } from 'drizzle-orm/postgres-js';
-import { eq } from 'drizzle-orm';
+// `sql` is aliased: this script's postgres-js client is already called `sql`
+// at module scope, and importing drizzle's tag under the same name shadows it.
+import { and, eq, inArray, notInArray, sql as dsql } from 'drizzle-orm';
 import {
   S3Client,
   PutObjectCommand,
@@ -70,6 +72,7 @@ import * as schema from '../src/lib/db/schema';
 import { generateVariants, getDefaultPresets } from '../src/lib/storage/image-variants';
 import type { ImageVariants } from '../src/lib/storage/image-variants';
 import { processSmartCrops } from '../src/lib/storage/smart-crop';
+import { resolveHouseAuthorId, resolveHouseAuthorEmail } from '../src/lib/authors/gate';
 import type { FocalPoint, SmartCrops } from '../src/lib/storage/smart-crop';
 
 // ── Tiptap Extensions (MUST match article-renderer.tsx exactly) ──────────────
@@ -109,10 +112,15 @@ const R2_BUCKET_NAME = process.env.R2_BUCKET_NAME!;
 const R2_PUBLIC_URL = process.env.R2_PUBLIC_URL!;
 
 const WP_BASE = 'https://hellokahwin.com/wp-json/wp/v2';
-// The house author every imported article is attributed to. Overridable via
-// env; ensureHouseAuthor() below creates the profiles row if it is missing.
-const ADMIN_PROFILE_ID = process.env.WP_IMPORT_AUTHOR_ID ?? 'hellokahwin-editorial';
-const ADMIN_PROFILE_EMAIL = process.env.WP_IMPORT_AUTHOR_EMAIL ?? 'editorial@hellokahwin.com';
+// The house author every imported article is attributed to. Resolved through
+// `src/lib/authors/gate.ts` rather than re-reading the env here: when the two
+// spelled the identity separately they drifted, and `listSelectableAuthors()`
+// stopped recognising the house account entirely. The resolver honours the same
+// `WP_IMPORT_AUTHOR_*` overrides the app now honours, so an override cannot put
+// the importer and the admin on different house accounts. ensureHouseAuthor()
+// below creates the profiles row if it is missing.
+const ADMIN_PROFILE_ID = resolveHouseAuthorId();
+const ADMIN_PROFILE_EMAIL = resolveHouseAuthorEmail();
 
 async function ensureHouseAuthor(): Promise<void> {
   const existing = await db
@@ -329,14 +337,25 @@ function normalizeWpHtml(html: string): { html: string; strippedShortcodes: stri
 /**
  * Extract all image URLs from HTML string.
  */
+/**
+ * Every DISTINCT `<img src>` in the HTML, in first-appearance order.
+ *
+ * De-duplicated deliberately. The rewrite below is a global
+ * `split(imgUrl).join(newUrl)`, so the FIRST time a repeated source is
+ * processed it replaces every occurrence at once. A second pass over the same
+ * URL therefore found nothing left to rewrite but still downloaded the image,
+ * uploaded a second copy to R2 under a fresh key, and registered a `media` row
+ * for an object no article references - paying for and then orphaning a
+ * duplicate of every image a post uses twice.
+ */
 function extractImageUrls(html: string): string[] {
-  const urls: string[] = [];
+  const urls = new Set<string>();
   const re = /<img[^>]+src="([^"]+)"/gi;
   let match: RegExpExecArray | null;
   while ((match = re.exec(html)) !== null) {
-    urls.push(match[1]);
+    urls.add(match[1]);
   }
-  return urls;
+  return [...urls];
 }
 
 /**
@@ -439,6 +458,44 @@ async function uploadToR2(key: string, buffer: Buffer, contentType: string): Pro
   );
   uploadedKeysThisRun.add(key);
   return `${R2_PUBLIC_URL}/${key}`;
+}
+
+/**
+ * The `media` row for an object this import just uploaded.
+ *
+ * Shaped to match what `createMediaRecordAction` writes on the live upload
+ * path so imported and admin-uploaded media are indistinguishable downstream:
+ * `r2Key` / `originalUrl` point at the ORIGINAL object, while `url` is what
+ * the article actually references (the `high` variant for inline images, the
+ * original for covers) — `syncMediaUsage()` matches on that exact string.
+ */
+function mediaRowFor(opts: {
+  articleId: string;
+  originalKey: string;
+  referencedUrl: string;
+  contentType: string;
+  sizeBytes: number;
+  variants?: ImageVariants | null;
+  smartCrops?: SmartCrops | null;
+  focalPoint?: FocalPoint | null;
+  detectionData?: object | null;
+}): typeof schema.media.$inferInsert {
+  return {
+    filename: opts.originalKey.split('/').pop() || opts.originalKey,
+    r2Key: opts.originalKey,
+    url: opts.referencedUrl,
+    originalUrl: `${R2_PUBLIC_URL}/${opts.originalKey}`,
+    mimeType: opts.contentType,
+    fileSize: opts.sizeBytes,
+    variants: opts.variants ?? null,
+    defaultQuality: 'high',
+    smartCrops: opts.smartCrops ?? null,
+    focalPoint: opts.focalPoint ?? null,
+    detectionData: opts.detectionData ?? null,
+    source: 'article_upload',
+    originalArticleId: opts.articleId,
+    uploadedBy: ADMIN_PROFILE_ID,
+  };
 }
 
 /**
@@ -584,6 +641,15 @@ const stats = {
   localImageHits: 0,
   localImageMisses: 0,
   errors: [] as string[],
+  /**
+   * Failures that leave the DATABASE inconsistent with R2, as opposed to the
+   * content-level problems `errors` collects (a broken source image, a post
+   * that would not convert). Kept apart because these are the only ones worth
+   * failing the whole run over: a stale `media` row pointing at a deleted
+   * object is invisible until someone opens the media library and finds a
+   * dead thumbnail, so it must not be reported as a clean import.
+   */
+  integrityFailures: [] as string[],
 };
 
 // ── Main ─────────────────────────────────────────────────────────────────────
@@ -836,6 +902,20 @@ async function main() {
       // a2. PRE-GENERATE UUID
       const articleId = randomUUID();
 
+      // Media rows for everything this post uploads, written inside the same
+      // transaction as the article (they FK to it). Collected rather than
+      // inserted at upload time because `articles` does not exist yet.
+      //
+      // Registering these is not bookkeeping: WITHOUT a `media` row an uploaded
+      // object is invisible to /admin/inspire/media and unreachable from the
+      // crop editor, and `syncMediaUsage()` — which only ever RESOLVES content
+      // URLs to existing rows — can never create one afterwards. That omission
+      // is what left the library empty for the whole imported catalogue and
+      // needed `scripts/backfill-media.ts` to repair.
+      const pendingMedia: (typeof schema.media.$inferInsert)[] = [];
+      /** Content URLs from this post, for the media_article_usage junction. */
+      const pendingUsageUrls: string[] = [];
+
       // b. CATEGORY MAPPING
       const categoryIds: string[] = [];
       for (const wpCatId of post.categories) {
@@ -936,6 +1016,24 @@ async function main() {
                   stats.errors.push(`${title}: Smart crop failed — ${err.message}`);
                 }
               }
+
+              // Register the cover in the media library. The article carries
+              // the same variants/crops, but only a `media` row makes the
+              // object browsable and editable in admin.
+              pendingMedia.push(
+                mediaRowFor({
+                  articleId,
+                  originalKey: key,
+                  // The cover URL on the article IS the original object.
+                  referencedUrl: coverImageUrl,
+                  contentType: ct,
+                  sizeBytes: imgBuffer.length,
+                  variants: coverImageVariants,
+                  smartCrops: coverImageSmartCrops,
+                  focalPoint: coverImageFocalPoint,
+                  detectionData: coverImageDetectionData,
+                }),
+              );
             } else {
               coverImageUrl = `${R2_PUBLIC_URL}/${key}`;
               log(`  [dry] Would upload cover image + generate variants/crops: ${key}`);
@@ -1033,19 +1131,32 @@ async function main() {
             await uploadToR2(key, imgBuffer, ct);
 
             // Generate variants for inline images and use high quality URL
+            let referencedUrl = `${R2_PUBLIC_URL}/${key}`;
+            let inlineVariants: ImageVariants | null = null;
             try {
-              const inlineVariants = await generateVariants(imgBuffer, key, variantPresets);
+              inlineVariants = await generateVariants(imgBuffer, key, variantPresets);
               registerDerivedKeys(inlineVariants);
               const highUrl = inlineVariants.high?.url;
-              if (highUrl) {
-                contentHtml = contentHtml.split(imgUrl).join(highUrl);
-              } else {
-                contentHtml = contentHtml.split(imgUrl).join(`${R2_PUBLIC_URL}/${key}`);
-              }
+              if (highUrl) referencedUrl = highUrl;
             } catch {
-              // Fallback to original URL if variant gen fails
-              contentHtml = contentHtml.split(imgUrl).join(`${R2_PUBLIC_URL}/${key}`);
+              // Fallback to the original URL if variant gen fails
+              inlineVariants = null;
             }
+            contentHtml = contentHtml.split(imgUrl).join(referencedUrl);
+
+            // Register the inline image in the media library, and remember the
+            // URL so the media_article_usage junction can be written with it.
+            pendingMedia.push(
+              mediaRowFor({
+                articleId,
+                originalKey: key,
+                referencedUrl,
+                contentType: ct,
+                sizeBytes: imgBuffer.length,
+                variants: inlineVariants,
+              }),
+            );
+            pendingUsageUrls.push(referencedUrl);
           } else {
             log(`  [dry] Would upload inline image + variants: ${key}`);
           }
@@ -1089,6 +1200,7 @@ async function main() {
         log(`  [dry] Would insert article: ${title}`);
         log(`    slug=${slug}, categories=${categoryIds.length}, tags=${tagIds.length}`);
         log(`    cover=${coverImageUrl ? 'yes' : 'no'}, inline_images=${inlineImageCount}`);
+        log(`    media_rows=${pendingMedia.length}, media_usage=${pendingUsageUrls.length}`);
         stats.imported++;
         continue;
       }
@@ -1133,6 +1245,52 @@ async function main() {
             tagId,
           });
         }
+
+        // Insert media rows for everything this post uploaded, plus the usage
+        // junction for the inline images. ON CONFLICT DO NOTHING rides
+        // `idx_media_r2_key_unique`: a --clean re-import re-uploads under fresh
+        // timestamped keys, but a partially-completed run re-processing the
+        // same key must not abort the whole article on a duplicate.
+        if (pendingMedia.length > 0) {
+          await tx
+            .insert(schema.media)
+            .values(pendingMedia)
+            .onConflictDoNothing({ target: schema.media.r2Key });
+
+          // Read the ids back by key instead of using the insert's RETURNING:
+          // ON CONFLICT DO NOTHING returns only the rows it actually inserted,
+          // so a key that already existed came back empty and its article-usage
+          // row was silently skipped - exactly the gap this whole change exists
+          // to close. Selecting every pending key covers inserted and
+          // pre-existing rows alike.
+          const pendingKeys = pendingMedia.map((m) => m.r2Key);
+          const mediaRows = await tx
+            .select({ id: schema.media.id, r2Key: schema.media.r2Key })
+            .from(schema.media)
+            .where(inArray(schema.media.r2Key, pendingKeys));
+
+          // Usage is expressed as content URLs; map them back through the
+          // pending rows, whose `url` is the exact string the article
+          // references and whose `r2Key` is what the ids came back keyed on.
+          const keyByUrl = new Map(pendingMedia.map((m) => [m.url, m.r2Key]));
+          const idByKey = new Map(mediaRows.map((m) => [m.r2Key, m.id]));
+
+          // De-duplicated: the same image used twice in one article would
+          // otherwise name one (mediaId, articleId) pair twice in a single
+          // INSERT, which Postgres rejects even under ON CONFLICT DO NOTHING.
+          const seenMediaIds = new Set<string>();
+          const usageRows: { mediaId: string; articleId: string }[] = [];
+          for (const url of pendingUsageUrls) {
+            const key = keyByUrl.get(url);
+            const mediaId = key ? idByKey.get(key) : undefined;
+            if (!mediaId || seenMediaIds.has(mediaId)) continue;
+            seenMediaIds.add(mediaId);
+            usageRows.push({ mediaId, articleId });
+          }
+          if (usageRows.length > 0) {
+            await tx.insert(schema.mediaArticleUsage).values(usageRows).onConflictDoNothing();
+          }
+        }
       });
 
       // Clean up old R2 objects after successful re-import
@@ -1142,6 +1300,45 @@ async function main() {
           log(`  🧹 Cleaned ${deletedCount} old R2 objects from previous import`);
         } catch (err: any) {
           log(`  ⚠ R2 cleanup failed (orphaned objects at ${cleanupR2Prefix}): ${err.message}`);
+          const msg = `${title}: R2 cleanup failed at ${cleanupR2Prefix} - ${err.message}`;
+          stats.errors.push(msg);
+          stats.integrityFailures.push(msg);
+        }
+
+        // ...and the media rows that pointed at them. `media.original_article_id`
+        // is ON DELETE SET NULL, so deleting the article leaves its media rows
+        // behind; once the objects are gone those rows are library entries with
+        // no file. Scoped to the old prefix and excluding the keys THIS run
+        // just wrote, so a re-import never deletes its own fresh media.
+        //
+        // A prefix comparison, NOT `LIKE`. A slug containing `%` or `_` - both
+        // legal in a WordPress slug and both LIKE wildcards - would otherwise
+        // widen the pattern and delete media belonging to OTHER articles.
+        // `starts_with` is not a pattern language, so there is nothing to
+        // escape and nothing to get wrong.
+        try {
+          const freshKeys = pendingMedia.map((m) => m.r2Key);
+          const startsWithPrefix = dsql`starts_with(${schema.media.r2Key}, ${cleanupR2Prefix})`;
+          const deletedRows = await db
+            .delete(schema.media)
+            .where(
+              freshKeys.length > 0
+                ? and(startsWithPrefix, notInArray(schema.media.r2Key, freshKeys))
+                : startsWithPrefix,
+            )
+            .returning({ id: schema.media.id });
+          if (deletedRows.length > 0) {
+            log(`  🧹 Removed ${deletedRows.length} stale media rows from previous import`);
+          }
+        } catch (err: any) {
+          // Recorded, not just logged: a swallowed failure here leaves dead
+          // library rows pointing at deleted R2 objects, and the run would
+          // otherwise finish reporting complete success. `integrityFailures`
+          // is what makes the process exit non-zero in the summary below.
+          log(`  ⚠ Stale media row cleanup failed: ${err.message}`);
+          const msg = `${title}: stale media cleanup failed at ${cleanupR2Prefix} - ${err.message}`;
+          stats.errors.push(msg);
+          stats.integrityFailures.push(msg);
         }
       }
 
@@ -1208,11 +1405,25 @@ async function main() {
   } else {
     console.log('Errors: none');
   }
+  if (stats.integrityFailures.length > 0) {
+    console.log('');
+    console.log(`DATA INTEGRITY FAILURES: ${stats.integrityFailures.length}`);
+    for (const e of stats.integrityFailures) {
+      console.log(`  ! ${e}`);
+    }
+    console.log('The database and R2 may now disagree. Re-run --clean for the');
+    console.log('affected slugs, or clear the stale media rows by hand.');
+  }
   console.log('═══════════════════════════════════════');
 
   // Cleanup
   await sql.end();
   log('Done');
+
+  // Content-level errors leave the import usable and keep exit 0, as before.
+  // An integrity failure does not: it must be impossible for CI, a wrapper
+  // script or a human skimming the tail to read this run as successful.
+  if (stats.integrityFailures.length > 0) process.exit(1);
 }
 
 // ── Run ──────────────────────────────────────────────────────────────────────
