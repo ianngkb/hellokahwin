@@ -130,11 +130,50 @@ const DynamicBlockEmbedRenderer = Node.create({
   },
 });
 
+/**
+ * Render-only stand-ins for the editor's custom block nodes.
+ *
+ * `splitContentByGalleryBlocks` and `unwrapSections` intercept these at the
+ * document's TOP LEVEL and render them as React, so they normally never reach
+ * `generateHTML`. One nested inside a blockquote, a table cell or a list item
+ * does — and `generateHTML` throws on a node type it has no extension for,
+ * which the catch below then swallows, silently deleting that slice of the
+ * article. Declaring them means a nested block degrades to a `data-` div that
+ * sanitize-html drops, instead of taking its neighbours down with it.
+ *
+ * Deliberately attribute-less and content-less: these must never become a
+ * second rendering path competing with the React one above.
+ */
+const NESTED_BLOCK_FALLBACK_NAMES = [
+  'galleryBlock',
+  'sectionBlock',
+  'figureBlock',
+  'ctaButtonBlock',
+  'pdfLinkBlock',
+] as const;
+
+const NestedBlockFallbacks = NESTED_BLOCK_FALLBACK_NAMES.map((name) =>
+  Node.create({
+    name,
+    group: 'block',
+    // `sectionBlock` is the only one that wraps other nodes; giving the rest a
+    // content expression they never satisfy would make the document invalid.
+    content: name === 'sectionBlock' ? 'block+' : undefined,
+    atom: name !== 'sectionBlock',
+    renderHTML() {
+      return name === 'sectionBlock'
+        ? ['div', { 'data-type': name }, 0]
+        : ['div', { 'data-type': name }];
+    },
+  }),
+);
+
 const extensions = [
   StarterKit,
   CustomImageRenderer,
   PdfLinkInlineRenderer,
   DynamicBlockEmbedRenderer,
+  ...NestedBlockFallbacks,
   LinkExtension.configure({ openOnClick: false }),
   UnderlineExtension,
   Table,
@@ -859,8 +898,16 @@ export function ArticleRenderer({
           `p${partIndex}`,
         );
         allElements.push(...htmlElements);
-      } catch {
-        // Skip unrenderable chunk
+      } catch (err) {
+        // Still skip the chunk — one bad slice must not take the article down —
+        // but say so. Swallowing this silently deleted content from published
+        // articles with nothing anywhere to indicate it had happened.
+        console.error('[article-renderer] skipped unrenderable content chunk', {
+          articleId,
+          partIndex,
+          nodeTypes: [...new Set(part.nodes.map((n) => (n as { type?: string }).type))],
+          error: err,
+        });
       }
     }
     partIndex++;
@@ -879,7 +926,12 @@ export function ArticleRenderer({
   );
 }
 
-const sanitizeOptions = {
+/**
+ * Exported for `__tests__/article-sanitize.test.ts`. The allowlist is the only
+ * thing standing between editor output and the public page, so which
+ * attributes survive it is worth asserting rather than eyeballing.
+ */
+export const sanitizeOptions = {
   allowedTags: sanitizeHtml.defaults.allowedTags.concat([
     'img',
     'figure',
@@ -901,6 +953,11 @@ const sanitizeOptions = {
     iframe: ['src', 'width', 'height', 'frameborder', 'allowfullscreen', 'loading', 'scrolling'],
     th: ['colspan', 'rowspan', 'colwidth', 'style'],
     td: ['colspan', 'rowspan', 'colwidth', 'style'],
+    // The editor lets an author pick a/A/i/I numbering (and a start value),
+    // and `globals.css` has the matching `.inspire-prose ol[type=…]` rules —
+    // but with no `ol` entry here sanitize-html stripped the attributes, so
+    // every choice silently reverted to 1, 2, 3 on the live article.
+    ol: ['type', 'start'],
   },
   allowedStyles: {
     th: { width: [/^\d+(\.\d+)?px$/], 'min-width': [/^\d+(\.\d+)?px$/] },

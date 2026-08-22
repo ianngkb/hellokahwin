@@ -43,16 +43,42 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
 } from '@/components/ui/dropdown-menu';
 import { MediaPickerDialog } from '@/components/media/media-picker-dialog';
 import type { PickedMedia } from '@/lib/media/picked-media';
+import type { DynamicBlockOption } from '@/components/inspire/dynamic-blocks-panel';
 
 interface EditorToolbarProps {
   articleId?: string;
   articleSlug?: string;
+  /**
+   * Mirrors the editor's own `editable={false}`, which the editor lock sets
+   * when another admin holds the article or this session's lock expired.
+   *
+   * The toolbar sits INSIDE the editor container rather than inside the
+   * `<fieldset disabled>` wrappers the rest of the form uses, so without this
+   * it rendered fully enabled while a non-editable ProseMirror silently
+   * swallowed every command — the exact shape of "the formatting buttons do
+   * nothing". Disabling the controls is what makes the dead state legible.
+   */
+  disabled?: boolean;
+  /**
+   * Published + active dynamic blocks, for the Embed submenu. The node this
+   * inserts (`dynamicBlockEmbed`) is a reference and is useless without a real
+   * `blockId`, so with an empty list the Embed item is not offered at all.
+   */
+  dynamicBlocks?: DynamicBlockOption[];
 }
 
-export function EditorToolbar({ articleId, articleSlug }: EditorToolbarProps) {
+export function EditorToolbar({
+  articleId,
+  articleSlug,
+  disabled = false,
+  dynamicBlocks = [],
+}: EditorToolbarProps) {
   const { editor } = useEditor();
   const [pickerOpen, setPickerOpen] = useState(false);
   const handleMediaSelect = useCallback(
@@ -60,20 +86,36 @@ export function EditorToolbar({ articleId, articleSlug }: EditorToolbarProps) {
       if (!editor || items.length === 0) return;
 
       if (items.length === 1) {
-        // Single image → insert as CustomImage node
+        // Single image → insert as CustomImage node.
+        //
+        // `.setImage(...).updateAttributes('image', …)` looked right but was a
+        // no-op: `updateAttributes` walks `nodesBetween(from, to)` and the
+        // selection after inserting an atom sits AFTER the node, so nothing
+        // matched and every attribute — variants, quality, caption — was
+        // dropped. Select the inserted node first, which is the pattern the
+        // upload path already uses (`article-editor.tsx`, placeholder swap).
         const item = items[0];
-        editor
-          .chain()
-          .focus()
-          .setImage({ src: item.url })
-          .updateAttributes('image', {
-            'data-original-src': item.originalUrl,
-            'data-quality': item.defaultQuality ?? 'high',
-            'data-variants': JSON.stringify(item.variants),
-            'data-caption': item.caption || undefined,
-            'data-caption-url': item.captionUrl || undefined,
-          })
-          .run();
+        editor.chain().focus().setImage({ src: item.url }).run();
+
+        let inserted = false;
+        editor.state.doc.descendants((node, pos) => {
+          if (inserted) return false;
+          if (node.type.name === 'image' && node.attrs.src === item.url) {
+            inserted = true;
+            editor
+              .chain()
+              .setNodeSelection(pos)
+              .updateAttributes('image', {
+                'data-original-src': item.originalUrl,
+                'data-quality': item.defaultQuality ?? 'high',
+                'data-variants': JSON.stringify(item.variants),
+                'data-caption': item.caption || null,
+                'data-caption-url': item.captionUrl || null,
+              })
+              .run();
+            return false;
+          }
+        });
       } else {
         // Multiple images → insert as gallery block
         const galleryImages = items.map((item) => ({
@@ -108,7 +150,13 @@ export function EditorToolbar({ articleId, articleSlug }: EditorToolbarProps) {
 
   return (
     <>
-      <div className="bg-background/95 sticky bottom-0 z-10 flex flex-wrap items-center gap-0.5 border-t p-1 backdrop-blur-sm">
+      {/* A `fieldset` rather than a `disabled` prop on each of ~30 controls:
+          it disables the ones added after this too, and it is the same
+          mechanism the surrounding form already uses. */}
+      <fieldset
+        disabled={disabled}
+        className="bg-background/95 sticky bottom-0 z-10 flex flex-wrap items-center gap-0.5 border-t p-1 backdrop-blur-sm disabled:opacity-50"
+      >
         {/* Text formatting */}
         <Toggle
           size="sm"
@@ -389,20 +437,38 @@ export function EditorToolbar({ articleId, articleSlug }: EditorToolbarProps) {
             >
               <FileText className="mr-2 h-4 w-4" /> PDF
             </DropdownMenuItem>
-            <DropdownMenuItem
-              onSelect={() =>
-                editor
-                  .chain()
-                  .focus()
-                  .insertContent({
-                    type: 'embedBlock',
-                    attrs: { 'data-embed-url': '', 'data-embed-type': 'unknown' },
-                  })
-                  .run()
-              }
-            >
-              <Video className="mr-2 h-4 w-4" /> Embed
-            </DropdownMenuItem>
+            {/* Was inserting `embedBlock`, a node type that does not exist —
+                Tiptap rejected the content as invalid and the item silently
+                did nothing. The registered node is `dynamicBlockEmbed`, and it
+                is a REFERENCE: it carries a block id and renders that block's
+                content at publish time, so it cannot be inserted blank. The
+                submenu is the block list; no blocks, no item. */}
+            {dynamicBlocks.length > 0 && (
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>
+                  <Video className="mr-2 h-4 w-4" /> Embed block
+                </DropdownMenuSubTrigger>
+                <DropdownMenuSubContent className="max-h-64 overflow-y-auto">
+                  {dynamicBlocks.map((block) => (
+                    <DropdownMenuItem
+                      key={block.id}
+                      onSelect={() =>
+                        editor
+                          .chain()
+                          .focus()
+                          .insertContent({
+                            type: 'dynamicBlockEmbed',
+                            attrs: { blockId: block.id, blockName: block.name },
+                          })
+                          .run()
+                      }
+                    >
+                      {block.name}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuSubContent>
+              </DropdownMenuSub>
+            )}
 
             <div className="bg-border my-1 h-px" />
 
@@ -450,7 +516,7 @@ export function EditorToolbar({ articleId, articleSlug }: EditorToolbarProps) {
         >
           <Redo className="h-4 w-4" />
         </Button>
-      </div>
+      </fieldset>
 
       <MediaPickerDialog
         open={pickerOpen}
@@ -543,13 +609,14 @@ function LinkPopover({ editor }: { editor: NonNullable<ReturnType<typeof useEdit
 
   return (
     <Popover open={open} onOpenChange={handleOpen}>
+      {/* No `onPressedChange` here on purpose. `PopoverTrigger asChild`
+          composes its own click-to-toggle onto this Toggle, so a handler that
+          also forced `handleOpen(true)` fought it: the click that should have
+          closed the popover immediately reopened it. The Popover owns `open`;
+          `handleOpen` (wired to onOpenChange above) seeds the form from the
+          current link when it opens. */}
       <PopoverTrigger asChild>
-        <Toggle
-          size="sm"
-          pressed={editor.isActive('link')}
-          onPressedChange={() => handleOpen(true)}
-          aria-label="Link"
-        >
+        <Toggle size="sm" pressed={editor.isActive('link')} aria-label="Link">
           <Link className="h-4 w-4" />
         </Toggle>
       </PopoverTrigger>
