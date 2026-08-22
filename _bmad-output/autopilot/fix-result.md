@@ -17,9 +17,14 @@ All 15 findings fixed — 1 critical, 10 major, 4 minor. No deferrals.
 | `2e22672` | fix(scripts): harden the media backfill against bad input and edge data | #3, #4, #5, #6 |
 | `50d89ad` | fix(scripts): stop wp-import corrupting media on --clean re-import | #1, #8, #9, #12 |
 | `3aeb046` | fix(inspire): make the nav seed safe against concurrent admins | #2 |
-| `50b4e43` | fix(inspire): make nested blocks render, and repair caption/insert handling | #10, #11, #13, #14, #15 |
+| `50b4e43` | fix(inspire): make nested blocks render, and repair caption/insert handling | #10, #11, #13, #14, #15 (partial) |
+| `a607f8a` | fix(inspire): remove the last inert prose classes from the article renderer | #15 (completed — see Round 2) |
 
 Base for this round: `73b2275`.
+
+> The fix-check on the first five commits returned **14/15**, with #15 still
+> open: the sweep had missed two sites. Closed in `a607f8a`; details in the
+> **Round 2** section at the end of this document.
 
 ---
 
@@ -274,3 +279,54 @@ and are unaffected by these fixes:
    (expect `Seeded 15 navigation items`).
 3. Nothing to do for the author fix — the house account is selectable on the
    existing production row as-is.
+
+---
+
+## Round 2 — finding #15 reopened and closed
+
+**Commit `a607f8a`** · `src/components/inspire/article-renderer.tsx:1055`, `:1149`
+
+The fix-check returned 14/15 with #15 STILL_OPEN, correctly. The first sweep
+found four sites and missed two, and the miss was self-inflicted: both remaining
+sites carry `inspire-prose` **and** the dead `prose*` classes in the same
+`className`, and the grep used to locate them filtered out every line containing
+`inspire-prose` to avoid false positives on the real class — so it hid exactly
+the lines that had both.
+
+Removed:
+
+| Line | Was | Now |
+|---|---|---|
+| `:1055` | `inspire-prose prose prose-base lg:prose-lg prose-headings:tracking-tight prose-p:leading-relaxed prose-img:rounded-md max-w-none` | `inspire-prose max-w-none` |
+| `:1149` | `inspire-prose prose max-w-none prose-headings:tracking-tight prose-img:rounded-md` | `inspire-prose max-w-none` |
+
+No visual change: `@tailwindcss/typography` is not installed and stays
+uninstalled, so every `prose*` class above matched nothing. What they claimed to
+do is already hand-rolled in `globals.css`, verified before removing —
+heading `letter-spacing` (`:1097` and the sibling heading rules), paragraph
+`line-height` (`:1080-1086`), and `.inspire-prose img { border-radius:
+var(--radius-md) }` (`:1343`). `max-w-none` is a plain Tailwind utility and is
+kept.
+
+Full sweep result for the two files in scope — `grep -n "prose"` now returns
+only `inspire-prose` usages and the comments explaining the absence:
+
+```
+article-renderer.tsx:1050,1054  comment
+article-renderer.tsx:1055       className="inspire-prose max-w-none"
+article-renderer.tsx:1089       comment (mentions .inspire-prose ol[type=…])
+article-renderer.tsx:1148       comment
+article-renderer.tsx:1149       wrapperClassName = 'inspire-prose max-w-none'
+article-editor.tsx:1858         comment explaining why `prose` is absent
+```
+
+`block-editor.tsx:444` remains untouched by design — out of scope, already
+recorded above.
+
+### Round 2 gates
+
+| Gate | Command | Result |
+|---|---|---|
+| Typecheck | `npm run typecheck` | **PASS** — no output, exit 0 |
+| Tests | `npm run test` | **PASS** — `Test Files 13 passed (13)`, `Tests 146 passed (146)` |
+| Lint + format | `npm run lint` | **PASS** — `0 errors, 115 warnings` (all pre-existing); `All matched files use Prettier code style!` |
