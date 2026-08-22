@@ -3,7 +3,7 @@ import { and, desc, eq, inArray, isNotNull, or, sql } from 'drizzle-orm';
 import { db } from '@/lib/db/drizzle';
 import { profiles } from '@/lib/db/schema/profiles';
 import { articles, articleCategories, inspireCategories } from '@/lib/db/schema/articles';
-import { HOUSE_AUTHOR_EMAIL } from './gate';
+import { HOUSE_AUTHOR_ID } from './gate';
 
 /**
  * The one place every surface reads author data from.
@@ -252,7 +252,7 @@ export const listSelectableAuthors = unstable_cache(
           eq(profiles.role, 'admin'),
           or(
             and(eq(profiles.isPublicAuthor, true), isNotNull(profiles.authorSlug)),
-            eq(profiles.email, HOUSE_AUTHOR_EMAIL),
+            eq(profiles.id, HOUSE_AUTHOR_ID),
           ),
         ),
       )
@@ -263,7 +263,7 @@ export const listSelectableAuthors = unstable_cache(
       name: [r.firstName, r.lastName].filter(Boolean).join(' ').trim() || r.email,
       slug: r.authorSlug,
       isPublicAuthor: r.isPublicAuthor,
-      isHouseAccount: r.email === HOUSE_AUTHOR_EMAIL,
+      isHouseAccount: r.id === HOUSE_AUTHOR_ID,
     }));
   },
   ['inspire-selectable-authors'],

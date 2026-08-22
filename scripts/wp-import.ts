@@ -70,6 +70,7 @@ import * as schema from '../src/lib/db/schema';
 import { generateVariants, getDefaultPresets } from '../src/lib/storage/image-variants';
 import type { ImageVariants } from '../src/lib/storage/image-variants';
 import { processSmartCrops } from '../src/lib/storage/smart-crop';
+import { HOUSE_AUTHOR_ID, HOUSE_AUTHOR_EMAIL } from '../src/lib/authors/gate';
 import type { FocalPoint, SmartCrops } from '../src/lib/storage/smart-crop';
 
 // ── Tiptap Extensions (MUST match article-renderer.tsx exactly) ──────────────
@@ -109,10 +110,14 @@ const R2_BUCKET_NAME = process.env.R2_BUCKET_NAME!;
 const R2_PUBLIC_URL = process.env.R2_PUBLIC_URL!;
 
 const WP_BASE = 'https://hellokahwin.com/wp-json/wp/v2';
-// The house author every imported article is attributed to. Overridable via
-// env; ensureHouseAuthor() below creates the profiles row if it is missing.
-const ADMIN_PROFILE_ID = process.env.WP_IMPORT_AUTHOR_ID ?? 'hellokahwin-editorial';
-const ADMIN_PROFILE_EMAIL = process.env.WP_IMPORT_AUTHOR_EMAIL ?? 'editorial@hellokahwin.com';
+// The house author every imported article is attributed to. The defaults come
+// from `src/lib/authors/gate.ts` rather than being retyped here: when they were
+// spelled separately the two drifted, and `listSelectableAuthors()` stopped
+// recognising the house account entirely. Still overridable via env for a
+// non-standard target database; ensureHouseAuthor() below creates the profiles
+// row if it is missing.
+const ADMIN_PROFILE_ID = process.env.WP_IMPORT_AUTHOR_ID ?? HOUSE_AUTHOR_ID;
+const ADMIN_PROFILE_EMAIL = process.env.WP_IMPORT_AUTHOR_EMAIL ?? HOUSE_AUTHOR_EMAIL;
 
 async function ensureHouseAuthor(): Promise<void> {
   const existing = await db
