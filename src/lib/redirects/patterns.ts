@@ -50,8 +50,36 @@ export function getPatternRedirect(rawPathname: string): PatternRedirect | null 
     return { destinationPath: '/artikel', statusCode: 301 };
   }
 
+  // Legacy sitemap URLs. All in One SEO served a sitemap index at
+  // /sitemap.xml plus per-type children (/post-sitemap.xml, /page-sitemap.xml,
+  // /category-sitemap.xml, /addl-sitemap.xml) and 302'd /sitemap_index.xml and
+  // /wp-sitemap.xml to the index. All of those returned 200/302 on the live
+  // site and are the URLs search engines already hold, so point every one of
+  // them at the app's own sitemap. `/sitemap.xml` itself is excluded from the
+  // middleware matcher, so it can never be caught by this rule.
+  if (/^\/(?:[a-z0-9-]+-)?sitemap(?:_index)?\.(?:xml|rss)$/.test(pathname)) {
+    return { destinationPath: '/sitemap.xml', statusCode: 301 };
+  }
+
   // Feeds — site-wide or per-post — have no equivalent; send to the source page.
-  if (pathname === '/feed' || pathname === '/comments/feed') {
+  // `/rss` is included because the live site 301s it rather than 404ing.
+  if (pathname === '/feed' || pathname === '/comments/feed' || pathname === '/rss') {
+    return { destinationPath: '/', statusCode: 301 };
+  }
+
+  // WordPress admin/login entry points. No WordPress here, but these are the
+  // paths the team (and every bot on the internet) still hits, and the live
+  // site 302s them rather than 404ing. Point them at this app's sign-in; Clerk
+  // still gates everything behind it.
+  if (pathname === '/wp-admin' || pathname === '/wp-login.php') {
+    return { destinationPath: '/login', statusCode: 301 };
+  }
+
+  // WordPress' default sample page. It is still 200 on the live site and sits
+  // in the page sitemap, so it is a real indexed URL — but there is no
+  // equivalent here, and letting it 404 would turn an indexed 200 into a new
+  // crawl error at cutover.
+  if (pathname === '/sample-page') {
     return { destinationPath: '/', statusCode: 301 };
   }
   const postFeedMatch = pathname.match(/^\/([^/]+)\/feed$/);

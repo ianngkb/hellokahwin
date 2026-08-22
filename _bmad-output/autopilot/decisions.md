@@ -360,3 +360,54 @@ Append-only. One line per decision autopilot made without interrupting the user.
   under `certificates/` and auto-appended `certificates` to .gitignore. Deleted
   the certs and tidied the ignore entry to `certificates/` with a comment — no
   private key was ever staged.
+- [2026-08-22] GO-LIVE: Ian explicitly chose "Deploy + switch over now" — full DNS
+  cutover of hellokahwin.com to Vercel, WordPress retired at DNS level (server
+  untouched as rollback). Condition attached: full URL/SEO integrity audit against
+  the live WP URL surface BEFORE shipping, zero failures allowed. TWN editorial
+  links: keep (folded into audit as a link-integrity check). Clerk end-to-end
+  sign-in gets its first real test post-cutover on the live domain, by Ian.
+
+## Run 2026-08-22 — Phase A: URL/SEO integrity audit before cutover
+
+- [2026-08-22] Enumerated the live URL surface from source of truth, not from
+  guesswork: walked all 5 All-in-One-SEO sitemaps (the `<loc>` values are
+  CDATA-wrapped, which defeated the first regex and silently returned 0 URLs —
+  caught because "0 from sitemap" was implausible), plus wp-json posts/
+  categories/tags/users/pages, RSS, date archives derived from post dates,
+  pagination variants and a sample of the 5,963 wp-content image URLs. 126
+  distinct URLs audited.
+- [2026-08-22] Judged every URL against LIVE behaviour rather than against my
+  own expectation of what it "should" do. That reversed two calls: `/coming-soon/`
+  looked like a failure but 404s on WordPress too, and `/rss` looked fine but
+  301s on WordPress. First pass: 23 "failures", several of them my error.
+- [2026-08-22] FINAL: 126/126 PASS, 0 FAIL. Four real defects fixed:
+  1. Nine empty WP categories were never imported, so 18 legacy category URLs
+     redirected into a 404. Ran `scripts/wp-import-categories.ts` (created 9
+     with correct parents) rather than inventing hub redirects — the category
+     page already renders the spec'd empty state at 200 with noindex, which is
+     exactly what WordPress returns today. Perfect integrity, single hop.
+  2. `legacy_image_redirects` was EMPTY — the table and route handler were
+     fully built but the importer never populated them, so every
+     `/wp-content/uploads/…` URL 404'd (Google Images + every external hotlink).
+     Built the map from both real artefacts: WordPress media library (including
+     every registered size variant) matched to R2 objects by sanitized
+     basename. 1,639 rows.
+  3. Two encoding traps in that mapping, which had to be solved together: the
+     importer sanitizes the PERCENT-ENCODED path (em dash → `_E2_80_94`), while
+     Next hands the route handler the DECODED path. Matching therefore uses the
+     encoded form and the stored lookup key uses the decoded form. Decoding
+     before sanitizing silently broke every em-dash filename; the fix was found
+     by querying for a specific failing row rather than assuming.
+  4. Legacy sitemap aliases (`/post-sitemap.xml` etc., `/sitemap_index.xml`,
+     `/wp-sitemap.xml`), `/rss`, `/sample-page` and `/wp-admin` all extended in
+     `patterns.ts`.
+- [2026-08-22] Verified beyond the matrix: 120 randomly sampled legacy image
+  URLs each 301 to an R2 object that returns 200. 1,346 WP media URLs remain
+  unmapped by design — orphan uploads no published post references, not in any
+  sitemap, nothing links to them.
+- [2026-08-22] Left alone deliberately: child category pages are absent from
+  the sitemap because they emit `noindex, follow` and canonicalise to the
+  parent — listing noindex URLs in a sitemap is an anti-pattern. Pre-existing
+  reviewed design, not a cutover regression. The two outbound
+  theweddingnotebook.com links are `target="_blank" rel="noopener"`, kept as-is
+  per Ian.
