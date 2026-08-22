@@ -12,6 +12,13 @@ import { listNavItems } from './queries';
 
 const REVALIDATE_PATHS = ['/admin/inspire/navigation', '/artikel'];
 
+/**
+ * Advisory-lock key for `seedNavFromCategoriesAction`. Arbitrary but fixed —
+ * every caller of that action must contend on the same number for the lock to
+ * mean anything.
+ */
+const NAV_SEED_LOCK_KEY = 4820771;
+
 function revalidateAll() {
   for (const p of REVALIDATE_PATHS) revalidatePath(p);
   // revalidatePath does NOT clear unstable_cache entries — `getInspireNavCategories`
@@ -39,11 +46,6 @@ export async function seedNavFromCategoriesAction() {
   const { error: authError, user } = await requireAdminSectionAction('inspire');
   if (authError || !user) return { error: authError ?? 'Unauthorized' };
 
-  const [existing] = await db.select({ id: inspireNavItems.id }).from(inspireNavItems).limit(1);
-  if (existing) {
-    return { error: 'Navigation already has items — seeding is only for an empty navigation.' };
-  }
-
   const fallback = await getCategoryFallbackNav();
   if (fallback.length === 0) {
     return { error: 'No categories with published articles to seed from.' };
@@ -57,7 +59,27 @@ export async function seedNavFromCategoriesAction() {
   const idBySlug = new Map(categories.map((c) => [c.slug, c.id]));
 
   let seeded = 0;
+  let alreadySeeded = false;
+
   await db.transaction(async (tx) => {
+    // The emptiness check has to happen INSIDE the transaction, behind a lock.
+    // Two admins clicking "Seed from categories" at the same time would both
+    // pass a check made outside it and both insert the full menu, leaving a
+    // duplicated navigation that nothing in the UI would explain.
+    //
+    // A transaction-scoped advisory lock rather than a row lock: there are no
+    // rows to lock in the case this guards (the table is empty), so
+    // SELECT ... FOR UPDATE has nothing to take. The lock is released on
+    // COMMIT or ROLLBACK, so a failed seed cannot wedge the next attempt. The
+    // key is an arbitrary constant private to this action.
+    await tx.execute(sql`SELECT pg_advisory_xact_lock(${NAV_SEED_LOCK_KEY}::bigint)`);
+
+    const [existing] = await tx.select({ id: inspireNavItems.id }).from(inspireNavItems).limit(1);
+    if (existing) {
+      alreadySeeded = true;
+      return;
+    }
+
     for (const [position, parent] of fallback.entries()) {
       const parentCategoryId = idBySlug.get(parent.slug);
       // A slug with no row can only mean the category was deleted between the
@@ -93,6 +115,12 @@ export async function seedNavFromCategoriesAction() {
       }
     }
   });
+
+  // Reported from outside the transaction so the early `return` above rolls
+  // nothing back and writes no audit entry — the loser of a race did nothing.
+  if (alreadySeeded) {
+    return { error: 'Navigation already has items - seeding is only for an empty navigation.' };
+  }
 
   logAuditEvent({
     entityType: 'inspire_nav_item',
