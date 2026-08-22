@@ -1047,9 +1047,12 @@ export function ArticleRenderer({
   }
 
   return (
-    <div className="inspire-prose prose prose-base lg:prose-lg prose-headings:tracking-tight prose-p:leading-relaxed prose-img:rounded-md max-w-none">
-      {allElements}
-    </div>
+    // `inspire-prose` and `max-w-none` only: the `prose*` variants that used to
+    // sit alongside them were inert, because @tailwindcss/typography is not
+    // installed and deliberately stays uninstalled. What they claimed to do is
+    // already done by hand in globals.css - heading tracking, paragraph
+    // leading and `img { border-radius }` all live under `.inspire-prose`.
+    <div className="inspire-prose max-w-none">{allElements}</div>
   );
 }
 
@@ -1140,8 +1143,8 @@ function renderOriginal(
   vendorCredits?: { listingId: string | null; vendorName: string }[],
   inlineBanner?: React.ReactNode,
 ): React.ReactNode {
-  const wrapperClassName =
-    'inspire-prose prose max-w-none prose-headings:tracking-tight prose-img:rounded-md';
+  // Same as the wrapper above: the `prose*` classes here matched nothing.
+  const wrapperClassName = 'inspire-prose max-w-none';
 
   const renderHalf = (nodes: unknown[], keyPrefix: string): React.ReactNode[] => {
     const subDoc = { type: 'doc', content: nodes };
