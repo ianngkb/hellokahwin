@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { generateHTML } from '@tiptap/html';
 import { Node } from '@tiptap/core';
 import sanitizeHtml from 'sanitize-html';
+import { decode as decodeEntities } from 'he';
 import StarterKit from '@tiptap/starter-kit';
 import ImageExtension from '@tiptap/extension-image';
 import LinkExtension from '@tiptap/extension-link';
@@ -137,12 +138,18 @@ const DynamicBlockEmbedRenderer = Node.create({
  * document's TOP LEVEL and render them as React, so they normally never reach
  * `generateHTML`. One nested inside a blockquote, a table cell or a list item
  * does — and `generateHTML` throws on a node type it has no extension for,
- * which the catch below then swallows, silently deleting that slice of the
- * article. Declaring them means a nested block degrades to a `data-` div that
- * sanitize-html drops, instead of taking its neighbours down with it.
+ * which the catch further down then swallows, silently deleting that slice of
+ * the article.
  *
- * Deliberately attribute-less and content-less: these must never become a
- * second rendering path competing with the React one above.
+ * These therefore have to do more than stop the throw: they have to RENDER.
+ * An attribute-less stub would emit an empty div that sanitize-html strips,
+ * which trades a crash for a quieter version of the same data loss — the
+ * nested gallery, figure, CTA or PDF would still vanish. Each definition below
+ * emits the same information the React path emits, in plain HTML: gallery
+ * images as `<figure><img>`, a figure as image plus `<figcaption>`, a CTA and
+ * a PDF as ordinary links. Unstyled and non-interactive by design — this is a
+ * degraded path for content that should have been top-level, not a second
+ * renderer competing with the React one above.
  */
 const NESTED_BLOCK_FALLBACK_NAMES = [
   'galleryBlock',
@@ -152,23 +159,132 @@ const NESTED_BLOCK_FALLBACK_NAMES = [
   'pdfLinkBlock',
 ] as const;
 
+/** Attributes each fallback needs to reproduce its content, per node name. */
+const NESTED_BLOCK_ATTRS: Record<string, string[]> = {
+  galleryBlock: ['data-images', 'data-layout', 'data-gap', 'data-show-captions'],
+  sectionBlock: [],
+  figureBlock: ['src', 'alt', 'data-caption', 'data-caption-url'],
+  ctaButtonBlock: ['data-text', 'data-url', 'data-new-tab', 'data-align'],
+  pdfLinkBlock: ['data-url', 'data-text', 'data-style', 'data-align', 'data-file-size'],
+};
+
+type DomOutput = (string | Record<string, string> | DomOutput)[];
+
+/** `<figure><img …>[<figcaption>…</figcaption>]</figure>` in Tiptap's DOM-spec form. */
+function figureSpec(src: string, alt: string, caption: string, captionUrl: string): DomOutput {
+  const children: DomOutput = [['img', { src, alt, loading: 'lazy' }]];
+  if (caption) {
+    children.push([
+      'figcaption',
+      {},
+      captionUrl ? ['a', { href: captionUrl, rel: 'noopener noreferrer' }, caption] : caption,
+    ]);
+  }
+  return ['figure', {}, ...children];
+}
+
+function nestedGallerySpec(attrs: Record<string, unknown>): DomOutput {
+  let images: unknown = [];
+  try {
+    images = JSON.parse((attrs['data-images'] as string) || '[]');
+  } catch {
+    images = [];
+  }
+  const figures: DomOutput = [];
+  if (Array.isArray(images)) {
+    for (const img of images) {
+      if (!img || typeof img !== 'object') continue;
+      const { src, alt, caption, captionUrl } = img as Record<string, unknown>;
+      if (typeof src !== 'string' || !src) continue;
+      figures.push(
+        figureSpec(
+          src,
+          typeof alt === 'string' ? alt : '',
+          typeof caption === 'string' ? caption : '',
+          typeof captionUrl === 'string' ? captionUrl : '',
+        ),
+      );
+    }
+  }
+  return ['div', { 'data-type': 'galleryBlock' }, ...figures];
+}
+
 const NestedBlockFallbacks = NESTED_BLOCK_FALLBACK_NAMES.map((name) =>
   Node.create({
     name,
     group: 'block',
-    // `sectionBlock` is the only one that wraps other nodes; giving the rest a
-    // content expression they never satisfy would make the document invalid.
-    content: name === 'sectionBlock' ? 'block+' : undefined,
-    atom: name !== 'sectionBlock',
-    renderHTML() {
-      return name === 'sectionBlock'
-        ? ['div', { 'data-type': name }, 0]
-        : ['div', { 'data-type': name }];
+    // `sectionBlock` is the only one that wraps other nodes, and `figureBlock`
+    // may carry a legacy inline caption. Giving the rest a content expression
+    // they never satisfy would make the document invalid.
+    content: name === 'sectionBlock' ? 'block+' : name === 'figureBlock' ? 'inline*' : undefined,
+    atom: name !== 'sectionBlock' && name !== 'figureBlock',
+    addAttributes() {
+      return Object.fromEntries(
+        (NESTED_BLOCK_ATTRS[name] ?? []).map((attr) => [attr, { default: null }]),
+      );
+    },
+    renderHTML({ node }) {
+      const attrs = node.attrs as Record<string, unknown>;
+      const str = (key: string) => (typeof attrs[key] === 'string' ? (attrs[key] as string) : '');
+
+      switch (name) {
+        case 'sectionBlock':
+          // A transparent wrapper: `0` is the content hole, so the children
+          // render exactly as they would have unwrapped.
+          return ['div', { 'data-type': 'sectionBlock' }, 0] as never;
+
+        case 'galleryBlock':
+          return nestedGallerySpec(attrs) as never;
+
+        case 'figureBlock': {
+          const src = str('src');
+          // No src and no stored caption means the caption lives in the node's
+          // inline content (the legacy shape); keep the hole so it survives.
+          if (!src) return ['figure', {}, ['figcaption', {}, 0]] as never;
+          return figureSpec(src, str('alt'), str('data-caption'), str('data-caption-url')) as never;
+        }
+
+        case 'ctaButtonBlock': {
+          const url = str('data-url');
+          const text = str('data-text') || 'Learn More';
+          if (!url) return ['p', {}, text] as never;
+          return [
+            'p',
+            {},
+            [
+              'a',
+              str('data-new-tab') === 'true'
+                ? { href: url, target: '_blank', rel: 'noopener noreferrer' }
+                : { href: url },
+              text,
+            ],
+          ] as never;
+        }
+
+        case 'pdfLinkBlock': {
+          const url = str('data-url');
+          const text = str('data-text') || 'Download PDF';
+          if (!url) return ['p', {}, text] as never;
+          return [
+            'p',
+            {},
+            ['a', { href: url, target: '_blank', rel: 'noopener noreferrer', download: '' }, text],
+          ] as never;
+        }
+
+        default:
+          return ['div', { 'data-type': name }] as never;
+      }
     },
   }),
 );
 
-const extensions = [
+/**
+ * Also exported for `__tests__/article-nested-blocks.test.ts`, which asserts
+ * that a custom block nested inside a blockquote/list/table still renders its
+ * content rather than throwing or vanishing.
+ */
+export const extensions = [
   StarterKit,
   CustomImageRenderer,
   PdfLinkInlineRenderer,
@@ -238,17 +354,28 @@ function splitHtmlByImages(html: string): HtmlPart[] {
       if (segment) parts.push({ type: 'html', value: segment });
     }
 
-    // Extract alt, data-caption, and data-caption-url attributes
+    // Extract alt, data-caption, and data-caption-url attributes.
+    //
+    // These are pulled with a regex out of ALREADY-SANITIZED HTML, where
+    // sanitize-html has entity-encoded the attribute values. React then
+    // renders the extracted string as text and escapes it again, so a caption
+    // reading `Tom & Jerry` reached the page as `Tom &amp; Jerry` — and a
+    // caption URL with a query string lost its `&` separators outright.
+    // Decoding once here undoes the sanitizer's encoding and nothing more:
+    // sanitize-html parses and validates on the DECODED value (that is how it
+    // rejects `javascript:` however it is spelled) and only re-encodes on
+    // output, so this cannot resurrect a scheme it already refused.
     const altMatch = match[0].match(/alt="([^"]*)"/i);
     const captionMatch = match[0].match(/data-caption="([^"]*)"/i);
     const captionUrlMatch = match[0].match(/data-caption-url="([^"]*)"/i);
-    const { width, height } = parseImageDims(match[1]);
+    const src = decodeEntities(match[1]);
+    const { width, height } = parseImageDims(src);
     parts.push({
       type: 'img',
-      src: match[1],
-      alt: altMatch?.[1] ?? '',
-      caption: captionMatch?.[1] || null,
-      captionUrl: captionUrlMatch?.[1] || null,
+      src,
+      alt: altMatch?.[1] ? decodeEntities(altMatch[1]) : '',
+      caption: captionMatch?.[1] ? decodeEntities(captionMatch[1]) : null,
+      captionUrl: captionUrlMatch?.[1] ? decodeEntities(captionUrlMatch[1]) : null,
       width,
       height,
     });
@@ -738,7 +865,7 @@ export function ArticleRenderer({
   for (const part of contentParts) {
     if (part.type === 'gallery') {
       allElements.push(
-        <div key={`gallery-${partIndex}`} className="not-prose my-8 lg:mx-auto lg:max-w-[680px]">
+        <div key={`gallery-${partIndex}`} className="my-8 lg:mx-auto lg:max-w-[680px]">
           <GalleryRenderer
             data={part.data}
             articleId={articleId}
@@ -820,7 +947,7 @@ export function ArticleRenderer({
       allElements.push(
         <div
           key={`cta-${partIndex}`}
-          className={`not-prose my-8 flex ${part.data.align === 'left' ? 'justify-start' : part.data.align === 'right' ? 'justify-end' : 'justify-center'}`}
+          className={`my-8 flex ${part.data.align === 'left' ? 'justify-start' : part.data.align === 'right' ? 'justify-end' : 'justify-center'}`}
         >
           {ctaHref ? (
             <a
@@ -847,7 +974,7 @@ export function ArticleRenderer({
       allElements.push(
         <div
           key={`pdf-${partIndex}`}
-          className={`not-prose my-4 flex ${part.data.align === 'left' ? 'justify-start' : part.data.align === 'right' ? 'justify-end' : 'justify-center'}`}
+          className={`my-4 flex ${part.data.align === 'left' ? 'justify-start' : part.data.align === 'right' ? 'justify-end' : 'justify-center'}`}
         >
           {pdfHref ? (
             isButton ? (

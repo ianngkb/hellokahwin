@@ -29,9 +29,23 @@ export function extractImageUrlsFromContent(content: unknown): string[] {
     if (node.type === 'galleryBlock' && node.attrs) {
       const attrs = node.attrs as Record<string, unknown>;
       try {
-        const images = JSON.parse((attrs['data-images'] as string) || '[]');
-        for (const img of images) {
-          if (typeof img.src === 'string') urls.push(img.src);
+        const images: unknown = JSON.parse((attrs['data-images'] as string) || '[]');
+        // Every entry is checked rather than trusted. `data-images` is
+        // free-form JSON on a node attribute, so a null or a non-object entry
+        // is reachable — and reading `.src` off it threw, which the catch
+        // below turned into "this gallery has no images at all", silently
+        // dropping the VALID URLs that came after it. A bad entry must cost
+        // its own entry and nothing more.
+        if (Array.isArray(images)) {
+          for (const img of images) {
+            if (
+              img &&
+              typeof img === 'object' &&
+              typeof (img as { src?: unknown }).src === 'string'
+            ) {
+              urls.push((img as { src: string }).src);
+            }
+          }
         }
       } catch (err) {
         console.warn('Failed to parse gallery block images:', err);

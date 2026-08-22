@@ -86,36 +86,38 @@ export function EditorToolbar({
       if (!editor || items.length === 0) return;
 
       if (items.length === 1) {
-        // Single image → insert as CustomImage node.
+        // Single image -> insert as CustomImage node, attributes and all, in
+        // ONE insertContent.
         //
-        // `.setImage(...).updateAttributes('image', …)` looked right but was a
-        // no-op: `updateAttributes` walks `nodesBetween(from, to)` and the
-        // selection after inserting an atom sits AFTER the node, so nothing
-        // matched and every attribute — variants, quality, caption — was
-        // dropped. Select the inserted node first, which is the pattern the
-        // upload path already uses (`article-editor.tsx`, placeholder swap).
+        // Two earlier attempts were both wrong. `.setImage(...)` followed by
+        // `.updateAttributes('image', ...)` was a no-op: `updateAttributes`
+        // walks `nodesBetween(from, to)` and the selection after inserting an
+        // atom sits AFTER the node, so nothing matched and variants, quality
+        // and caption were all dropped. Searching the document afterwards for
+        // a node whose `src` matches then updated the FIRST image with that
+        // URL — insert an image already used earlier in the article and the
+        // metadata landed on the wrong copy, leaving the new one bare.
+        //
+        // Building the node with its attributes avoids both: there is no
+        // second step to aim, and nothing to find. `custom-image.ts` declares
+        // every one of these attributes, so they survive into the document.
         const item = items[0];
-        editor.chain().focus().setImage({ src: item.url }).run();
-
-        let inserted = false;
-        editor.state.doc.descendants((node, pos) => {
-          if (inserted) return false;
-          if (node.type.name === 'image' && node.attrs.src === item.url) {
-            inserted = true;
-            editor
-              .chain()
-              .setNodeSelection(pos)
-              .updateAttributes('image', {
-                'data-original-src': item.originalUrl,
-                'data-quality': item.defaultQuality ?? 'high',
-                'data-variants': JSON.stringify(item.variants),
-                'data-caption': item.caption || null,
-                'data-caption-url': item.captionUrl || null,
-              })
-              .run();
-            return false;
-          }
-        });
+        editor
+          .chain()
+          .focus()
+          .insertContent({
+            type: 'image',
+            attrs: {
+              src: item.url,
+              alt: item.alt ?? null,
+              'data-original-src': item.originalUrl,
+              'data-quality': item.defaultQuality ?? 'high',
+              'data-variants': JSON.stringify(item.variants),
+              'data-caption': item.caption || null,
+              'data-caption-url': item.captionUrl || null,
+            },
+          })
+          .run();
       } else {
         // Multiple images → insert as gallery block
         const galleryImages = items.map((item) => ({

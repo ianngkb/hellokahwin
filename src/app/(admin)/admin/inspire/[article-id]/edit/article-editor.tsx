@@ -1855,7 +1855,12 @@ export function ArticleEditor({
               editable={!isReadOnly}
               editorProps={{
                 attributes: {
-                  class: 'prose max-w-none p-4 focus:outline-none min-h-[450px]',
+                  // No `prose` here: @tailwindcss/typography is not installed
+                  // (and deliberately is not - it would restyle the public
+                  // site), so the class matched nothing. The editor surface is
+                  // styled by the hand-rolled `.ProseMirror` rules in
+                  // globals.css, which ProseMirror applies itself.
+                  class: 'max-w-none p-4 focus:outline-none min-h-[450px]',
                 },
                 handleDOMEvents: {
                   keydown: (_view, event) => handleCommandNavigation(event),
