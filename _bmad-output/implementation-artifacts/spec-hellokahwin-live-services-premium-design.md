@@ -115,8 +115,12 @@ publication Ian wants.
 - [x] Run the WP import against the live DB (29/29 published, 15 categories)
 - [x] Clerk: allowlist env, middleware, `/admin` gating verified signed-out
 - [x] Clerk: CSP fix for the production Frontend API host
-- [ ] Clerk: 5 production CNAMEs on hellokahwin.com — **BLOCKED, see decisions**
-- [ ] R2: images into the bucket — **BLOCKED on a write-capable key, see decisions**
+- [ ] Clerk: 5 production CNAMEs on hellokahwin.com — **BLOCKED**: the granted
+      Cloudflare token is read-only (introspected; see decisions log)
+- [ ] R2: buckets in the TWN account + images uploaded — **BLOCKED** on the same
+      read-only token; `r2.twn-rw-*` can write objects but cannot create buckets
+- [x] Verification fixtures removed; live DB holds only real imported content
+- [x] Vercel Production env verified byte-identical to `.env.local` (all 15 vars)
 - [x] Editorial Monotone design layer + all seven public page types
 - [x] Malay copy sweep on the public surface
 - [x] Build gate green
@@ -192,3 +196,35 @@ and login, against the live database.
     (line-clamping a list cut mid-word and left a dangling separator), and the
     category page's subcategory filters became `hk-chip`s so the site has one
     filter affordance.
+
+## Handover state (2026-08-22, end of worker run)
+
+**Ship-ready except for two Cloudflare permissions.** Gate green, review clean,
+Vercel Production env verified, live DB clean.
+
+What is live and verified:
+- Supabase `nyidzlupgmyyazhyykuk`: 2 migrations, 18 tables, 29 published
+  articles, 15 categories, 0 tags, 0 public authors — real imported content only.
+- Vercel project `hellokahwin` (team `thewednotebook`), Production env carries
+  all 15 variables, each byte-identical to `.env.local` (compared by SHA-256
+  fingerprint, values never printed). Git intentionally not connected.
+- Clerk backend reachable with the production secret key; `/admin` gates to
+  `/login`; the CSP now carries the production Frontend API host.
+
+What is blocked, and precisely why:
+- Vault token `cloudflare.hellokahwin` (CF token id
+  `81c43eae2e12c78bb3e9a1f6c036bbb2`, name "master-token", TWN account) holds
+  **only Read permission groups** — verified by introspecting the token itself.
+  Both remaining tasks need one Edit group each:
+  - Zone → DNS Write, group id `4755a26eedb94da69e1066d98aa820be`, on
+    `hellokahwin.com` — for the 5 Clerk CNAMEs.
+  - Account → Workers R2 Storage Write, group id
+    `bf7481a1826f439697cb59a20b22293e` — to create the two buckets and attach
+    their custom domains.
+- The playbase-account buckets are deliberately NOT deleted yet: the ruling
+  assumed TWN replacements would exist first, and they do not.
+
+Screenshots note: `after-tag-*` and `after-author-*` were captured while the
+temporary tag/author fixtures existed. The real imported content has no tags and
+no public author, so those two routes correctly 404 today; the screenshots stand
+as design evidence for when that content exists.

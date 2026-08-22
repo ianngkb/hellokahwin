@@ -98,3 +98,63 @@ Append-only. One line per decision autopilot made without interrupting the user.
   buddy is not this run's repo.
 - [2026-08-22] `package-lock.json` sits untracked in the worktree and predates
   this run (the repo uses pnpm). Left alone, not committed — not this run's file.
+
+## Run 2026-08-22 (cont.) — orchestrator: Vercel setup (Ian's green light)
+- [2026-08-22] Ian approved hosting setup mid-run: new Vercel project `hellokahwin`
+  created in the SAME team as The Wedding Notebook (`thewednotebook`), per his
+  explicit choice. Linked from the cms-premium worktree (.vercel/, gitignored).
+- [2026-08-22] All 15 env vars from the worker's verified `.env.local` set on
+  Production via stdin piping (values never printed/committed); first pass had
+  trailing-newline contamination from PowerShell piping — wiped and re-set clean.
+  R2 keys currently stored are the READ-ONLY pair; must be replaced when write
+  keys exist (open escalation).
+- [2026-08-22] Preview environment deliberately NOT populated: the Vercel CLI
+  only accepts preview values via `--value` on the command line (secrets in argv
+  — vault iron rule forbids), and the ship flow deploys Production only.
+- [2026-08-22] GitHub repo NOT yet connected to the Vercel project — deferred to
+  ship time so mid-run pushes don't trigger failing preview builds.
+- [2026-08-22] Ian granted a TWN-account Cloudflare API token (vault
+  `cloudflare.hellokahwin`; R2 edit + DNS edit scoped to hellokahwin.com; Ian
+  will rotate it post-run). Working TWN R2 object-write keys found in twn-new's
+  production env, vaulted as `r2.twn-rw-*`. Worker resumed with all three
+  escalations answered: DNS approved (self-serve), buckets to TWN + delete
+  playbase pair, fixtures removed.
+
+## Run 2026-08-22 (cont.) — worker: rulings applied
+
+- [2026-08-22] Ruling 3 (fixtures) DONE: deleted the seeded `hantaran`/`bajet`
+  tags and their article links, and reverted the house profile to
+  non-public (`author_slug` null, `is_public_author` false, title/bio cleared).
+  Live DB now holds only real imported content: 29 published articles,
+  15 categories, 0 tags, 0 public authors.
+- [2026-08-22] Rulings 1 and 2 are BLOCKED on the same cause and could not be
+  executed: the new token in vault `cloudflare.hellokahwin` is READ-ONLY.
+  Evidence, not inference — introspected it via
+  `GET /accounts/249af9c6…/tokens/81c43eae2e12c78bb3e9a1f6c036bbb2` (the token
+  carries "Account API Tokens Read", so it can describe itself): it is named
+  "master-token", is active, last modified 2026-08-22T09:14:10Z, and every one
+  of its ~190 permission groups across both policies ends in "Read". There is
+  no Edit/Write group anywhere on it. Consistent with the observed behaviour:
+  zone GET and R2 bucket LIST both succeed; `POST dns_records` and
+  `POST r2/buckets` both return `10000 Authentication error`. Ian's own
+  verification ("sees the zone, lists the buckets") only exercised reads.
+  Also confirmed distinct from `cloudflare.twn` (different SHA-256 prefix), so
+  this is a genuinely new token that was minted/edited with read groups only.
+- [2026-08-22] Did NOT delete the playbase R2 buckets despite the ruling. The
+  instruction was conditional on TWN replacements existing; they do not, so
+  deleting now would leave the app with no image bucket at all. Deferred until
+  the TWN buckets are created and the import has written to them.
+- [2026-08-22] Also confirmed the two fallback paths are dead ends, so this is
+  a real block and not a missing idea: wrangler's OAuth is scoped to the
+  playbase account and cannot act on the TWN account, and the
+  `r2.twn-rw-*` S3 keys are object-scoped (CreateBucket → AccessDenied), which
+  matches Ian's own note about them.
+- [2026-08-22] Verified the Vercel Production env against `.env.local` by
+  SHA-256 fingerprint per key (pull to a gitignored temp file, compare, delete;
+  no value ever printed). All 15 of our variables match byte-for-byte — the
+  earlier trailing-newline contamination is gone. The 9 non-matching keys are
+  Vercel's own injected variables (VERCEL*, TURBO_*, NX_DAEMON, OIDC token),
+  which have no counterpart in `.env.local`. No refresh was needed because the
+  R2 move is blocked, so no value changed.
+- [2026-08-22] No codex review this cycle: the run produced zero source changes
+  (fixture deletion is data, the rest is docs). Nothing new to review.
