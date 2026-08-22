@@ -22,11 +22,13 @@ import {
   ChevronRight,
   Search,
   Loader2,
+  ImageIcon,
   X,
 } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
 import { getMediaListAction } from '@/app/(admin)/admin/inspire/media/actions';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { ConsoleTable, MediaCell } from '@/components/ui/console-table';
+import { EmptyState } from '@/components/ui/empty-state';
 import { MediaDetailPanel } from './media-detail-panel';
 import { BulkUploadDialog } from './bulk-upload-dialog';
 import { ArticleCombobox } from './article-combobox';
@@ -238,242 +240,253 @@ export function MediaGallery({
 
   return (
     <>
-      <Tabs defaultValue="library">
-        <TabsList className="mb-4">
-          <TabsTrigger value="library">Library</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="library">
-          {/* Controls bar */}
-          <div className="mb-4 flex flex-wrap items-center gap-3">
-            <div className="relative max-w-sm min-w-[200px] flex-1">
-              <Search className="text-muted-foreground absolute top-1/2 left-2.5 size-4 -translate-y-1/2" />
-              <Input
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search by filename or caption..."
-                className="pl-9 text-sm"
-              />
-            </div>
-
-            <ArticleCombobox
-              value={selectedArticle}
-              onChange={(article) => {
-                setSelectedArticle(article);
-                if (article) setSearch('');
-              }}
+      {/* No tab row here. This page had a `Tabs` whose list held exactly one
+          trigger, "Library" — a control that can only ever be in the state it
+          is already in, so it navigates nowhere and communicates nothing. The
+          console shell owns second-level navigation (`AdminGroupTabs`), and it
+          deliberately renders nothing for a group with fewer than two
+          destinations, for the same reason. */}
+      <div>
+        {/* Controls bar */}
+        <div className="mb-4 flex flex-wrap items-center gap-3">
+          <div className="relative max-w-sm min-w-[200px] flex-1">
+            <Search className="text-muted-foreground absolute top-1/2 left-2.5 size-4 -translate-y-1/2" />
+            <Input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search by filename or caption..."
+              className="pl-9 text-sm"
             />
+          </div>
 
-            <Select value={sourceFilter} onValueChange={setSourceFilter}>
-              <SelectTrigger className="w-[160px]">
-                <SelectValue placeholder="All sources" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All sources</SelectItem>
-                <SelectItem value="article_upload">Article uploads</SelectItem>
-                <SelectItem value="library_upload">Library uploads</SelectItem>
-              </SelectContent>
-            </Select>
+          <ArticleCombobox
+            value={selectedArticle}
+            onChange={(article) => {
+              setSelectedArticle(article);
+              if (article) setSearch('');
+            }}
+          />
 
-            <div className="flex items-center rounded-md border">
-              <Button
-                variant={viewMode === 'grid' ? 'quiet' : 'ghost'}
-                size="sm"
-                className="h-8 rounded-r-none px-2"
-                onClick={() => setViewMode('grid')}
-              >
-                <Grid3X3 className="size-4" />
-              </Button>
-              <Button
-                variant={viewMode === 'list' ? 'quiet' : 'ghost'}
-                size="sm"
-                className="h-8 rounded-l-none px-2"
-                onClick={() => setViewMode('list')}
-              >
-                <List className="size-4" />
-              </Button>
-            </div>
+          <Select value={sourceFilter} onValueChange={setSourceFilter}>
+            <SelectTrigger className="w-[160px]">
+              <SelectValue placeholder="All sources" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All sources</SelectItem>
+              <SelectItem value="article_upload">Article uploads</SelectItem>
+              <SelectItem value="library_upload">Library uploads</SelectItem>
+            </SelectContent>
+          </Select>
 
-            <Button onClick={() => setUploadOpen(true)} className="ml-auto gap-1.5">
-              <Upload className="size-4" />
-              Upload
+          <div className="flex items-center rounded-md border">
+            <Button
+              variant={viewMode === 'grid' ? 'quiet' : 'ghost'}
+              size="sm"
+              className="h-8 rounded-r-none px-2"
+              onClick={() => setViewMode('grid')}
+            >
+              <Grid3X3 className="size-4" />
+            </Button>
+            <Button
+              variant={viewMode === 'list' ? 'quiet' : 'ghost'}
+              size="sm"
+              className="h-8 rounded-l-none px-2"
+              onClick={() => setViewMode('list')}
+            >
+              <List className="size-4" />
             </Button>
           </div>
 
-          {/* Bulk action bar */}
-          {isBulkMode && (
-            <div className="bg-muted mb-4 flex items-center gap-3 rounded-md p-3">
-              <Checkbox
-                checked={selectedIds.size === items.length}
-                onCheckedChange={toggleSelectAll}
-              />
-              <span className="text-sm font-medium">{selectedIds.size} selected</span>
-              <Button
-                variant="destructive"
-                size="sm"
-                onClick={handleBulkDelete}
-                disabled={isPending}
-                className="gap-1.5"
-              >
-                <Trash2 className="size-3.5" />
-                Delete selected
-              </Button>
-            </div>
-          )}
+          <Button onClick={() => setUploadOpen(true)} className="ml-auto gap-1.5">
+            <Upload className="size-4" />
+            Upload
+          </Button>
+        </div>
 
-          {/* Media items */}
-          {items.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-20 text-center">
-              <p className="text-muted-foreground mb-4">No media found.</p>
-              <Button onClick={() => setUploadOpen(true)} variant="quiet" className="gap-1.5">
-                <Upload className="size-4" />
-                Upload your first images
-              </Button>
-            </div>
-          ) : viewMode === 'grid' ? (
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-              {items.map((item) => (
-                <div
-                  key={item.id}
-                  className={cn(
-                    'group relative cursor-pointer overflow-hidden rounded-md border transition-shadow hover:shadow-md',
-                    selectedIds.has(item.id) && 'ring-primary ring-2',
-                  )}
+        {/* Bulk action bar */}
+        {isBulkMode && (
+          <div className="bg-muted mb-4 flex items-center gap-3 rounded-md p-3">
+            <Checkbox
+              checked={selectedIds.size === items.length}
+              onCheckedChange={toggleSelectAll}
+            />
+            <span className="text-sm font-medium">{selectedIds.size} selected</span>
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={handleBulkDelete}
+              disabled={isPending}
+              className="gap-1.5"
+            >
+              <Trash2 className="size-3.5" />
+              Delete selected
+            </Button>
+          </div>
+        )}
+
+        {/* Media items */}
+        {items.length === 0 ? (
+          <div className="bg-card rounded-card border-hairline border">
+            <EmptyState
+              icon={<ImageIcon />}
+              title="No media found"
+              description="Nothing matches the current filters yet. Upload images to start building the library."
+              action={
+                <Button onClick={() => setUploadOpen(true)} variant="quiet" className="gap-1.5">
+                  <Upload className="size-4" />
+                  Upload your first images
+                </Button>
+              }
+            />
+          </div>
+        ) : viewMode === 'grid' ? (
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+            {items.map((item) => (
+              <div
+                key={item.id}
+                className={cn(
+                  // Hairlines, not shadows (design contract §3 rule 3): the
+                  // card states hover with its border, and the console radius
+                  // is 8px rather than Tailwind's `rounded-md`.
+                  'group bg-card border-hairline hover:border-border-strong relative cursor-pointer overflow-hidden rounded-[8px] border transition-colors',
+                  selectedIds.has(item.id) && 'border-foreground',
+                )}
+              >
+                <div className="absolute top-2 left-2 z-10">
+                  <Checkbox
+                    checked={selectedIds.has(item.id)}
+                    onCheckedChange={() => toggleSelect(item.id)}
+                    className={cn(
+                      'bg-background/80 backdrop-blur-sm',
+                      // Same reveal-on-hover caveat as the sidebar pin: with
+                      // no hover state on touch, an always-hidden checkbox
+                      // makes bulk selection unreachable there.
+                      !isBulkMode &&
+                        'opacity-0 transition-opacity group-hover:opacity-100 [@media(hover:none)]:opacity-100',
+                    )}
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                </div>
+                <button
+                  type="button"
+                  className="bg-muted relative aspect-square w-full"
+                  onClick={() => setDetailMediaId(item.id)}
                 >
-                  <div className="absolute top-2 left-2 z-10">
+                  <Image
+                    src={item.url}
+                    alt={item.alt ?? item.filename}
+                    fill
+                    sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 16vw"
+                    className="object-cover"
+                  />
+                </button>
+                <div className="border-hairline border-t px-2 py-1.5">
+                  <p className="truncate text-xs font-medium" title={item.filename}>
+                    {item.filename}
+                  </p>
+                  {item.width && item.height && (
+                    // Dimensions are a measurement, so they get the console's
+                    // figure treatment even outside a `.num` table cell.
+                    <p className="text-muted-foreground font-mono text-[10px] tabular-nums">
+                      {item.width}&times;{item.height}
+                    </p>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="bg-card rounded-card border-hairline overflow-hidden border">
+            <ConsoleTable>
+              <thead>
+                <tr>
+                  <th className="w-8">
                     <Checkbox
-                      checked={selectedIds.has(item.id)}
-                      onCheckedChange={() => toggleSelect(item.id)}
-                      className={cn(
-                        'bg-background/80 backdrop-blur-sm',
-                        !isBulkMode && 'opacity-0 transition-opacity group-hover:opacity-100',
-                      )}
-                      onClick={(e) => e.stopPropagation()}
+                      checked={selectedIds.size === items.length && items.length > 0}
+                      onCheckedChange={toggleSelectAll}
                     />
-                  </div>
-                  <button
-                    type="button"
-                    className="bg-muted relative aspect-square w-full"
+                  </th>
+                  <th>Filename</th>
+                  <th className="num hidden md:table-cell">Dimensions</th>
+                  <th className="num hidden md:table-cell">Size</th>
+                  <th className="hidden lg:table-cell">Source</th>
+                  <th className="num hidden lg:table-cell">Uploaded</th>
+                </tr>
+              </thead>
+              <tbody>
+                {items.map((item) => (
+                  <tr
+                    key={item.id}
+                    className={cn(
+                      'cursor-pointer',
+                      // The row's own cells carry the skin's background, so a
+                      // selected row is stated on the cells rather than by a
+                      // row background the `td`s would paint over.
+                      selectedIds.has(item.id) && '[&>td]:bg-muted',
+                    )}
                     onClick={() => setDetailMediaId(item.id)}
                   >
-                    <Image
-                      src={item.url}
-                      alt={item.alt ?? item.filename}
-                      fill
-                      sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 16vw"
-                      className="object-cover"
-                    />
-                  </button>
-                  <div className="p-1.5">
-                    <p className="truncate text-xs" title={item.filename}>
-                      {item.filename}
-                    </p>
-                    {item.width && item.height && (
-                      <p className="text-muted-foreground text-[10px]">
-                        {item.width}&times;{item.height}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="overflow-hidden rounded-md border">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="bg-muted/50 border-b">
-                    <th className="w-8 p-2">
+                    <td onClick={(e) => e.stopPropagation()}>
                       <Checkbox
-                        checked={selectedIds.size === items.length && items.length > 0}
-                        onCheckedChange={toggleSelectAll}
+                        checked={selectedIds.has(item.id)}
+                        onCheckedChange={() => toggleSelect(item.id)}
                       />
-                    </th>
-                    <th className="w-12 p-2" />
-                    <th className="p-2 text-left font-medium">Filename</th>
-                    <th className="hidden p-2 text-left font-medium md:table-cell">Dimensions</th>
-                    <th className="hidden p-2 text-left font-medium md:table-cell">Size</th>
-                    <th className="hidden p-2 text-left font-medium lg:table-cell">Source</th>
-                    <th className="hidden p-2 text-left font-medium lg:table-cell">Uploaded</th>
+                    </td>
+                    {/* Thumbnail and name are ONE cell now — that pairing is
+                          exactly what `MediaCell` exists for, and it folds away
+                          the old bare thumbnail column. */}
+                    <td title={item.filename}>
+                      <MediaCell
+                        title={item.filename}
+                        subtitle={item.alt || undefined}
+                        src={item.url}
+                      />
+                    </td>
+                    <td className="num hidden md:table-cell">
+                      {item.width && item.height ? `${item.width}\u00D7${item.height}` : '—'}
+                    </td>
+                    <td className="num hidden md:table-cell">{formatFileSize(item.fileSize)}</td>
+                    <td className="text-muted-foreground hidden lg:table-cell">
+                      {item.source === 'article_upload' ? 'Article' : 'Library'}
+                    </td>
+                    <td className="num hidden lg:table-cell">
+                      {formatDate(item.createdAt as unknown as string)}
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {items.map((item) => (
-                    <tr
-                      key={item.id}
-                      className={cn(
-                        'hover:bg-muted/30 cursor-pointer border-b transition-colors',
-                        selectedIds.has(item.id) && 'bg-primary/5',
-                      )}
-                      onClick={() => setDetailMediaId(item.id)}
-                    >
-                      <td className="p-2" onClick={(e) => e.stopPropagation()}>
-                        <Checkbox
-                          checked={selectedIds.has(item.id)}
-                          onCheckedChange={() => toggleSelect(item.id)}
-                        />
-                      </td>
-                      <td className="p-2">
-                        <div className="bg-muted relative size-10 overflow-hidden rounded">
-                          <Image
-                            src={item.url}
-                            alt={item.alt ?? ''}
-                            fill
-                            sizes="40px"
-                            className="object-cover"
-                          />
-                        </div>
-                      </td>
-                      <td className="max-w-[200px] truncate p-2" title={item.filename}>
-                        {item.filename}
-                      </td>
-                      <td className="text-muted-foreground hidden p-2 md:table-cell">
-                        {item.width && item.height ? `${item.width}\u00D7${item.height}` : '—'}
-                      </td>
-                      <td className="text-muted-foreground hidden p-2 md:table-cell">
-                        {formatFileSize(item.fileSize)}
-                      </td>
-                      <td className="text-muted-foreground hidden p-2 lg:table-cell">
-                        {item.source === 'article_upload' ? 'Article' : 'Library'}
-                      </td>
-                      <td className="text-muted-foreground hidden p-2 lg:table-cell">
-                        {formatDate(item.createdAt as unknown as string)}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+                ))}
+              </tbody>
+            </ConsoleTable>
+          </div>
+        )}
 
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="mt-6 flex items-center justify-between">
-              <p className="text-muted-foreground text-sm">{total} items total</p>
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="quiet"
-                  size="sm"
-                  disabled={currentPage <= 1}
-                  onClick={() => handlePageChange(currentPage - 1)}
-                >
-                  <ChevronLeft className="size-4" />
-                </Button>
-                <span className="text-sm">
-                  Page {currentPage} of {totalPages}
-                </span>
-                <Button
-                  variant="quiet"
-                  size="sm"
-                  disabled={currentPage >= totalPages}
-                  onClick={() => handlePageChange(currentPage + 1)}
-                >
-                  <ChevronRight className="size-4" />
-                </Button>
-              </div>
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="mt-6 flex items-center justify-between">
+            <p className="text-muted-foreground text-sm">{total} items total</p>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="quiet"
+                size="sm"
+                disabled={currentPage <= 1}
+                onClick={() => handlePageChange(currentPage - 1)}
+              >
+                <ChevronLeft className="size-4" />
+              </Button>
+              <span className="text-sm">
+                Page {currentPage} of {totalPages}
+              </span>
+              <Button
+                variant="quiet"
+                size="sm"
+                disabled={currentPage >= totalPages}
+                onClick={() => handlePageChange(currentPage + 1)}
+              >
+                <ChevronRight className="size-4" />
+              </Button>
             </div>
-          )}
-        </TabsContent>
-      </Tabs>
+          </div>
+        )}
+      </div>
 
       {/* Detail panel */}
       <MediaDetailPanel

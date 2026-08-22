@@ -431,11 +431,28 @@
   --font-serif: var(--font-geist);
   --font-accent: var(--font-geist);
   --font-cormorant: var(--font-geist);
-  /* One font across the console: collapse the mono face to Geist too, so every
-     `font-mono` / `.num` figure renders in Geist. `tabular-nums` (kept on those
-     elements) still aligns columns — we lose the monospace look, not the
-     alignment. Scoped to the console; the public site keeps Geist Mono. */
-  --font-geist-mono: var(--font-geist);
+  /* Geist MONO for figures — deliberately NOT collapsed into Geist.
+     ----------------------------------------
+     An earlier revision pointed this at `--font-geist` so the console spoke in
+     one voice, on the reasoning that `tabular-nums` keeps columns aligned
+     without the monospace face. That reads the design contract too narrowly:
+     §3 rule 2 is "numbers are data", and the mono face is what SAYS a value is
+     data — an id, a byte count, a timestamp — before you have read it. Aligned
+     proportional figures line up; they do not announce themselves.
+     Loaded the same way as Geist above: `(admin)/layout.tsx` requests it
+     through next/font on admin routes only and exposes it as
+     `--font-geist-mono-console`, with the system mono stack as the fallback so
+     `.ds-surface-console` outside that layout still renders in a mono face. */
+  --font-geist-mono: var(
+    --font-geist-mono-console,
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    'Liberation Mono',
+    monospace
+  );
 }
 
 /* =========================================

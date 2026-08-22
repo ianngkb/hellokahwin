@@ -39,7 +39,16 @@ export function AdminMobileNav({ badges }: { badges?: Record<string, number> }) 
           <MenuIcon className="size-5" />
         </button>
       </SheetTrigger>
-      <SheetContent side="left" className="bg-sidebar text-foreground w-80 overflow-y-auto p-0">
+      {/* `min(20rem,100vw)`, not a bare `w-80`: 320px is wider than a 280px
+          Galaxy Fold cover screen or a 320px iPhone SE in landscape zoom, and a
+          fixed-width sheet on those viewports pushes its own content off-screen
+          with no way to scroll to it horizontally. Clamping to the viewport
+          keeps the 20rem design width everywhere it fits and degrades to
+          full-bleed where it does not. */}
+      <SheetContent
+        side="left"
+        className="bg-sidebar text-foreground w-[min(20rem,100vw)] max-w-full overflow-y-auto p-0"
+      >
         <div className="border-hairline border-b px-5 pt-5 pb-4">
           <SheetTitle className="text-[15px] font-semibold tracking-[-0.02em]">
             HelloKahwin Admin

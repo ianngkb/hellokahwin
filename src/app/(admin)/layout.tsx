@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers';
-import { Geist } from 'next/font/google';
+import { Geist, Geist_Mono } from 'next/font/google';
 import { ClerkProvider, UserButton } from '@clerk/nextjs';
 
 import { requireAdmin } from '@/lib/auth/admin';
@@ -23,6 +23,19 @@ const geist = Geist({
   // loads is worse than one frame of the system stack.
   display: 'swap',
   variable: '--font-geist-console',
+});
+
+/**
+ * The console's figure face. Design contract §3 rule 2 — "numbers are data" —
+ * asks for mono/tabular figures on every metric, count, id and timestamp, and
+ * `globals.css` points the console's `--font-geist-mono` at this variable (with
+ * the system mono stack as the fallback). Scoped to this layout for the same
+ * reason as Geist: the public site's zero-webfont budget stays intact.
+ */
+const geistMono = Geist_Mono({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-geist-mono-console',
 });
 
 /**
@@ -59,7 +72,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       <div
         id="console-root"
         data-theme={consoleTheme}
-        className={`${geist.variable} font-ui-sans bg-background text-foreground flex min-h-screen`}
+        className={`${geist.variable} ${geistMono.variable} font-ui-sans bg-background text-foreground flex min-h-screen`}
       >
         <AdminSidebar />
         <main className="flex min-w-0 flex-1 flex-col">

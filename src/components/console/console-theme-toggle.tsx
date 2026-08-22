@@ -30,6 +30,24 @@ export function ConsoleThemeToggle({
   const btnRef = useRef<HTMLButtonElement>(null);
   const [theme, setTheme] = useState<'light' | 'dark'>(initialTheme);
 
+  // `initialTheme` is a prop, but it is not immutable: it is the cookie value
+  // resolved on the server, and the cookie is shared by every tab. Flip the
+  // theme in one tab and the next server render this tab does — a navigation, a
+  // `router.refresh()` — arrives with the new value while this component keeps
+  // its mount, leaving the icon and the aria-label describing the opposite of
+  // what the shell is actually showing.
+  //
+  // Adopted DURING RENDER rather than in an effect — the pattern React
+  // documents for deriving state from a changed prop, and the one
+  // `articles-table.tsx` already uses for its search box. An effect would paint
+  // the stale icon first and correct it a frame later; this re-renders before
+  // anything reaches the screen. The inequality guard is what terminates it.
+  const [syncedTheme, setSyncedTheme] = useState<'light' | 'dark'>(initialTheme);
+  if (initialTheme !== syncedTheme) {
+    setSyncedTheme(initialTheme);
+    setTheme(initialTheme);
+  }
+
   function toggle() {
     const next = theme === 'dark' ? 'light' : 'dark';
     const root = btnRef.current?.closest('.font-ui-sans');

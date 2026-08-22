@@ -47,13 +47,15 @@ function NavRow({
 
   return (
     <div className="group/row relative">
-      {/* prefetch={false}: every admin destination is a dynamic, DB-backed
-          page, so the default viewport prefetch would make merely RENDERING
-          the sidebar fan out a request per destination. Admin nav is
-          deliberate clicking, not browsing — the prefetch is not worth it. */}
+      {/* Default prefetching, deliberately. An earlier revision set
+          prefetch={false} here to stop the sidebar fanning out a request per
+          destination, but the facelift's contract is a skin change with zero
+          change to data flow (spec §2) — and prefetch is request behaviour, not
+          appearance. If the fan-out is worth suppressing it is a separate,
+          reviewed change that applies to the console as a whole, not something
+          this re-dress slips in. */}
       <Link
         href={item.href}
-        prefetch={false}
         onClick={() => onNavigate?.()}
         aria-current={active ? 'page' : undefined}
         className={cn(
@@ -104,7 +106,13 @@ function NavRow({
           'hover:text-foreground focus-visible:ring-ring absolute top-1/2 right-1.5 -translate-y-1/2 rounded p-1 transition-opacity focus-visible:opacity-100 focus-visible:ring-2 focus-visible:outline-none',
           pinned
             ? 'text-foreground opacity-100'
-            : 'text-muted-foreground opacity-0 group-hover/row:opacity-100',
+            : // Reveal-on-hover is a pointer affordance and nothing else. On a
+              // touch device there is no hover state to enter, so the star
+              // never appears and pinning — the whole favourites feature —
+              // becomes undiscoverable and unreachable from the mobile sheet.
+              // `(hover: none)` pins it visible on exactly those devices while
+              // keeping the quiet reveal on mouse.
+              'text-muted-foreground opacity-0 group-hover/row:opacity-100 [@media(hover:none)]:opacity-100',
         )}
       >
         <StarIcon className={cn('size-3.5', pinned && 'fill-current')} />

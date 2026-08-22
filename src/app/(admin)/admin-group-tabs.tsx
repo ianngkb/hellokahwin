@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { cn } from '@/lib/utils';
 import { findActiveTabHref, findGroupForPath, resolveAdminGroups } from './admin-nav-sections';
 
 /**
@@ -18,6 +18,17 @@ import { findActiveTabHref, findGroupForPath, resolveAdminGroups } from './admin
  * can be left with one permitted tab and deserves the same positional chrome;
  * HelloKahwin has no per-section roles, so a one-tab group is one-tab for
  * everyone, always, and the row would never be anything but noise.)
+ *
+ * A `<nav>` of links, NOT a Radix `Tabs`. It looks like a tab strip, but there
+ * are no tabpanels here — each "tab" is a route, and following one replaces the
+ * whole page. Dressing that up in `role="tablist"`/`role="tab"` promises a
+ * widget contract the markup cannot keep: assistive tech announces "tab, 2 of
+ * 4" and then finds no `tabpanel` to move into, and Radix's roving tabindex
+ * takes the arrow keys hostage so only one link is reachable by Tab. Plain
+ * links restore the ordinary link contract — Tab through them, Enter follows,
+ * middle-click opens a new tab — and `aria-current="page"` states which one you
+ * are on. The `line`-variant look is reproduced with the same utilities the
+ * Radix triggers carried, so nothing changes visually.
  */
 export function AdminGroupTabs({ badges }: { badges?: Record<string, number> }) {
   const pathname = usePathname();
@@ -29,30 +40,34 @@ export function AdminGroupTabs({ badges }: { badges?: Record<string, number> }) 
   const activeHref = findActiveTabHref(group, pathname);
 
   return (
-    <Tabs value={activeHref ?? ''} className="mb-6">
-      <TabsList variant="line" className="max-w-full overflow-x-auto">
-        {group.tabs.map((tab) => (
-          <TabsTrigger key={tab.href} value={tab.href} asChild>
-            {/* These are navigation links, not a tab-panel widget (there is no
-                TabsContent), so the current PAGE must be announced with
-                aria-current — Radix's aria-selected points at no panel.
-                prefetch={false} for the same reason as the sidebar: these
-                siblings are dynamic, DB-backed pages. */}
-            <Link
-              href={tab.href}
-              prefetch={false}
-              aria-current={tab.href === activeHref ? 'page' : undefined}
-            >
-              {tab.label}
-              {tab.badge != null && tab.badge > 0 ? (
-                <span className="text-muted-foreground ml-1.5 tracking-normal normal-case tabular-nums">
-                  {tab.badge > 99 ? '99+' : tab.badge}
-                </span>
-              ) : null}
-            </Link>
-          </TabsTrigger>
-        ))}
-      </TabsList>
-    </Tabs>
+    <nav
+      aria-label={`${group.label} sections`}
+      className="border-hairline mb-6 flex max-w-full items-center overflow-x-auto border-b"
+    >
+      {group.tabs.map((tab) => {
+        const active = tab.href === activeHref;
+        return (
+          <Link
+            key={tab.href}
+            href={tab.href}
+            aria-current={active ? 'page' : undefined}
+            className={cn(
+              'focus-visible:outline-ring relative inline-flex items-center justify-center gap-1.5 px-5 py-3 text-xs font-medium tracking-[0.08em] whitespace-nowrap uppercase transition-colors focus-visible:outline-1',
+              'after:bg-primary after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:opacity-0 after:transition-opacity',
+              active
+                ? 'text-primary after:opacity-100'
+                : 'text-muted-foreground hover:text-foreground',
+            )}
+          >
+            {tab.label}
+            {tab.badge != null && tab.badge > 0 ? (
+              <span className="text-muted-foreground ml-1.5 tracking-normal normal-case tabular-nums">
+                {tab.badge > 99 ? '99+' : tab.badge}
+              </span>
+            ) : null}
+          </Link>
+        );
+      })}
+    </nav>
   );
 }

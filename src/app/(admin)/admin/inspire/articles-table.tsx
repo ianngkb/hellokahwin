@@ -25,6 +25,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { ConsoleTable } from '@/components/ui/console-table';
+import { FilterPills } from '@/components/ui/filter-pills';
 import { EmptyState } from '@/components/ui/empty-state';
 import { formatDate, formatDateTime } from '@/lib/utils/format-date';
 import {
@@ -92,6 +93,18 @@ const STATUS_VARIANTS: Record<ArticleStatus, 'outline' | 'success' | 'error'> = 
   published: 'success',
   deleted: 'error',
 };
+
+/**
+ * The status filter's options, in bar order. `''` is "no filter" — the same
+ * value `handleFilter` used to send for the select's `all` sentinel, which
+ * `buildHref` drops from the query string entirely.
+ */
+const STATUS_FILTERS: Array<{ label: string; value: string }> = [
+  { label: 'All', value: '' },
+  { label: 'Draft', value: 'draft' },
+  { label: 'Scheduled', value: 'scheduled' },
+  { label: 'Published', value: 'published' },
+];
 
 export function ArticlesTable({
   articles,
@@ -333,20 +346,26 @@ export function ArticlesTable({
           aria-label="Search articles by title"
           onChange={(e) => setSearchInput(e.target.value)}
         />
-        <Select
-          value={searchParams.status ?? 'all'}
-          onValueChange={(v) => handleFilter('status', v === 'all' ? '' : v)}
-        >
-          <SelectTrigger className="w-[calc(50%-0.25rem)] sm:w-[140px]">
-            <SelectValue placeholder="All statuses" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All statuses</SelectItem>
-            <SelectItem value="draft">Draft</SelectItem>
-            <SelectItem value="scheduled">Scheduled</SelectItem>
-            <SelectItem value="published">Published</SelectItem>
-          </SelectContent>
-        </Select>
+        {/* Status is the filter that gets used on nearly every visit, and it
+            has four fixed values — the exact case the design system reserves
+            pills for (§5 "Filter pills"): every option visible and one click
+            away, instead of two clicks through a menu that hides the choices
+            until you open it. The other three filters stay as selects because
+            their option lists are unbounded (categories, hidden tags) or long
+            enough to wrap the bar (source).
+
+            The URL mechanics are unchanged: the pill hrefs come from the same
+            `buildHref` the select's `handleFilter` calls, so they carry the
+            same params and the same page-1 reset. Real links, so a filtered
+            view is now also copyable and middle-clickable. */}
+        <FilterPills
+          label="Status"
+          options={STATUS_FILTERS.map((option) => ({
+            label: option.label,
+            href: buildHref({ status: option.value }),
+            active: (pStatus ?? '') === option.value,
+          }))}
+        />
         <Select
           value={searchParams.categoryId ?? 'all'}
           onValueChange={(v) => handleFilter('categoryId', v === 'all' ? '' : v)}

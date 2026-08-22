@@ -21,24 +21,37 @@ export function AdminCommandPalette() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
-  const [activeIndex, setActiveIndex] = useState(0);
+  // The selection is tracked by HREF, not by row index. An index is a pointer
+  // into a list that changes under it: type one more character, the list
+  // re-ranks and shrinks, and index 2 silently comes to mean a different
+  // destination — so Enter navigates somewhere the highlight was never on. An
+  // href identifies the row itself, so narrowing the results either keeps the
+  // same destination highlighted or, when it drops out, falls back to the first
+  // row. Nothing in between.
+  const [activeHref, setActiveHref] = useState<string | null>(null);
   const listRef = useRef<HTMLDivElement>(null);
 
   const flat = useMemo(() => flattenAdminNav(resolveAdminGroups()), []);
   const results = useMemo(() => searchAdminNav(flat, query), [flat, query]);
 
-  // Clamp rather than reset-on-every-render: the highlighted row should survive
-  // a keystroke that merely narrows the list, and only snap back when the row
-  // it pointed at is gone.
-  useEffect(() => {
-    setActiveIndex((i) => (i >= results.length ? 0 : i));
-  }, [results.length]);
+  // Derived, never stored: no effect, no stale-clamp window between the results
+  // changing and the index being corrected.
+  const activeIndex = useMemo(() => {
+    const i = results.findIndex((r) => r.href === activeHref);
+    return i >= 0 ? i : 0;
+  }, [results, activeHref]);
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
+      // `e.repeat` guard: holding ⌘K fires this handler at the OS key-repeat
+      // rate, and a toggle would flap the dialog open/closed dozens of times a
+      // second. Opening is also idempotent now — ⌘K means "open the palette",
+      // and Escape (owned by Dialog) means close — so a repeat that slips
+      // through can only re-open something already open.
+      if (e.repeat) return;
       if (e.key.toLowerCase() === 'k' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
-        setOpen((prev) => !prev);
+        setOpen(true);
       }
     }
     window.addEventListener('keydown', onKeyDown);
@@ -49,19 +62,20 @@ export function AdminCommandPalette() {
     (href: string) => {
       setOpen(false);
       setQuery('');
-      setActiveIndex(0);
+      setActiveHref(null);
       router.push(href);
     },
     [router],
   );
 
   function onInputKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (results.length === 0) return;
     if (e.key === 'ArrowDown') {
       e.preventDefault();
-      setActiveIndex((i) => (results.length === 0 ? 0 : (i + 1) % results.length));
+      setActiveHref(results[(activeIndex + 1) % results.length].href);
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
-      setActiveIndex((i) => (results.length === 0 ? 0 : (i - 1 + results.length) % results.length));
+      setActiveHref(results[(activeIndex - 1 + results.length) % results.length].href);
     } else if (e.key === 'Enter') {
       e.preventDefault();
       const target = results[activeIndex];
@@ -126,7 +140,7 @@ export function AdminCommandPalette() {
                     key={item.href}
                     type="button"
                     data-active={active}
-                    onMouseEnter={() => setActiveIndex(i)}
+                    onMouseEnter={() => setActiveHref(item.href)}
                     onClick={() => go(item.href)}
                     className={cn(
                       'flex w-full items-center gap-2.5 rounded-[8px] px-3 py-2 text-left text-[13.5px] transition-colors',
