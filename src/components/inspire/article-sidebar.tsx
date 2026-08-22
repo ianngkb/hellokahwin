@@ -130,7 +130,6 @@ export function ArticleSidebar({
           <PhotoGallery images={galleryImages} />
         </div>
       )}
-
     </aside>
   );
 }

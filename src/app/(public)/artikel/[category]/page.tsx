@@ -360,7 +360,7 @@ export default async function InspireCategoryPage({ params, searchParams }: Cate
 
   const breadcrumbItems = [
     { label: 'Utama', href: '/' },
-    { label: 'Inspire', href: '/artikel' },
+    { label: 'Artikel', href: '/artikel' },
     ...(sp.sub && activeChild
       ? [
           { label: category.name, href: `/artikel/${categorySlug}` },
@@ -387,8 +387,7 @@ export default async function InspireCategoryPage({ params, searchParams }: Cate
             '@context': 'https://schema.org',
             '@type': 'CollectionPage',
             name: category.name,
-            description:
-              category.description ?? `Artikel ${category.name} di HelloKahwin.`,
+            description: category.description ?? `Artikel ${category.name} di HelloKahwin.`,
             url: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com'}/artikel/${categorySlug}`,
             numberOfItems: Number(total),
             provider: {
@@ -400,13 +399,12 @@ export default async function InspireCategoryPage({ params, searchParams }: Cate
       />
       <Breadcrumbs items={breadcrumbItems} />
 
-      <div className="inspire-editorial">
-        <div className="mb-8">
-          <h1 className="inspire-display text-3xl">{category.name}</h1>
-          {category.description && (
-            <p className="text-muted-foreground mt-2">{category.description}</p>
-          )}
-        </div>
+      <div>
+        <header className="border-border mx-auto max-w-3xl border-b pt-4 pb-10 text-center">
+          <span className="hk-eyebrow">Kategori</span>
+          <h1 className="hk-display mt-3 text-[2rem] lg:text-[2.75rem]">{category.name}</h1>
+          {category.description && <p className="hk-deck mt-4">{category.description}</p>}
+        </header>
 
         {/* Subcategory filter chips */}
         {children.length > 0 && (
@@ -421,7 +419,7 @@ export default async function InspireCategoryPage({ params, searchParams }: Cate
                 }`}
                 style={{ fontFamily: 'var(--font-geist)' }}
               >
-                All
+                Semua
               </Link>
               {children.map((child) => (
                 <Link
@@ -456,7 +454,7 @@ export default async function InspireCategoryPage({ params, searchParams }: Cate
                       }`}
                       style={{ fontFamily: 'var(--font-geist)' }}
                     >
-                      All {activeChild.name}
+                      Semua {activeChild.name}
                     </Link>
                     {childGrandchildren.map((gc) => (
                       <Link
@@ -481,7 +479,7 @@ export default async function InspireCategoryPage({ params, searchParams }: Cate
         {/* Article grid */}
         {data.length > 0 ? (
           <>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-10 pt-10 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-14">
               {data.map((article, index) => (
                 <Fragment key={article.id}>
                   <ArticleCard

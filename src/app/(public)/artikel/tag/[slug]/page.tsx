@@ -229,7 +229,7 @@ export default async function InspireTagPage({ params, searchParams }: TagPagePr
 
   const breadcrumbItems = [
     { label: 'Utama', href: '/' },
-    { label: 'Inspire', href: '/artikel' },
+    { label: 'Artikel', href: '/artikel' },
     { label: tag.name },
   ];
 
@@ -257,14 +257,15 @@ export default async function InspireTagPage({ params, searchParams }: TagPagePr
       )}
       <Breadcrumbs items={breadcrumbItems} />
 
-      <div className="inspire-editorial">
-        <div className="mb-8">
-          <h1 className="inspire-display text-3xl">{tag.name}</h1>
-        </div>
+      <div>
+        <header className="border-border mx-auto max-w-3xl border-b pt-4 pb-10 text-center">
+          <span className="hk-eyebrow">Tag</span>
+          <h1 className="hk-display mt-3 text-[2rem] lg:text-[2.75rem]">{tag.name}</h1>
+        </header>
 
         {data.length > 0 ? (
           <>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-10 pt-10 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-14">
               {data.map((article, index) => (
                 <Fragment key={article.id}>
                   <ArticleCard
@@ -301,9 +302,9 @@ export default async function InspireTagPage({ params, searchParams }: TagPagePr
             )}
           </>
         ) : (
-          <div className="py-20 text-center">
-            <p className="text-lg font-medium">Tiada artikel dijumpai</p>
-            <p className="text-muted-foreground mt-1 text-sm">
+          <div className="py-24 text-center">
+            <h2 className="hk-display text-2xl">Tiada artikel dijumpai</h2>
+            <p className="hk-deck mt-3">
               Artikel bertag {tag.name.toLowerCase()} akan datang tidak lama lagi.
             </p>
           </div>

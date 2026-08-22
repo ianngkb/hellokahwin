@@ -517,7 +517,6 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
     }
   }
 
-
   const bodyImages = extractImageUrlsWithVariants(renderContent);
 
   const coverGalleryImage: GalleryImage | null = article.coverImageUrl
@@ -591,7 +590,7 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
 
   const breadcrumbItems = [
     { label: 'Utama', href: '/' },
-    { label: 'Inspire', href: '/artikel' },
+    { label: 'Artikel', href: '/artikel' },
     {
       label: article.categoryName ?? 'Category',
       href: `/artikel/${article.categorySlug ?? categorySlug}`,
@@ -676,53 +675,56 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
   return (
     <>
       <div
-          className="serif-editorial container mx-auto px-4 pb-20 lg:px-6 lg:pt-8 lg:pb-8"
-          data-hide-mobile-nav
-        >
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify(articleJsonLd).replace(/</g, '\\u003c'),
-            }}
-          />
-          <BreadcrumbJsonLd items={breadcrumbItems} />
-          <div className="hidden lg:block">
-            <Breadcrumbs items={breadcrumbItems} />
-          </div>
+        className="serif-editorial container mx-auto px-4 pb-20 lg:px-6 lg:pt-8 lg:pb-8"
+        data-hide-mobile-nav
+      >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(articleJsonLd).replace(/</g, '\\u003c'),
+          }}
+        />
+        <BreadcrumbJsonLd items={breadcrumbItems} />
+        <div className="hidden lg:block">
+          <Breadcrumbs items={breadcrumbItems} />
+        </div>
 
-          <div className="inspire-editorial">
-            {/* Mobile cover — full-bleed 4:5 with overlay nav + curved panel.
+        <div className="inspire-editorial">
+          {/* Mobile cover — full-bleed 4:5 with overlay nav + curved panel.
           Prefer coverImageVariants.high.url over the legacy /{ts}-cover.{ext}
           original URL — the high webp variant is much smaller for the same
           rendered quality. Smart crops still take precedence when present. */}
-            {article.coverImageUrl ? (
-              (() => {
-                const coverHigh =
-                  (article.coverImageVariants as { high?: { url: string } } | null)?.high?.url ??
-                  article.coverImageUrl;
-                return (
-                  <>
-                    <ArticleCoverMobile
-                      coverImageUrl={coverHigh}
-                      smartCrops={
-                        article.coverImageSmartCrops as
-                          | Record<string, { url: string; width: number; height: number }>
-                          | undefined
-                      }
-                      categoryName={article.categoryName ?? 'Tiada kategori'}
-                      categorySlug={article.categorySlug ?? categorySlug}
-                      title={article.title}
-                      authorName={authorName}
-                      authorSlug={authorSlug}
-                      authorAvatarUrl={authorAvatarUrl}
-                      updatedAt={article.updatedAt}
-                      readTime={readTime}
-                      galleryImages={galleryImages}
-                      articleId={article.id}
-                    />
+          {article.coverImageUrl ? (
+            (() => {
+              const coverHigh =
+                (article.coverImageVariants as { high?: { url: string } } | null)?.high?.url ??
+                article.coverImageUrl;
+              return (
+                <>
+                  <ArticleCoverMobile
+                    coverImageUrl={coverHigh}
+                    smartCrops={
+                      article.coverImageSmartCrops as
+                        Record<string, { url: string; width: number; height: number }> | undefined
+                    }
+                    categoryName={article.categoryName ?? 'Tiada kategori'}
+                    categorySlug={article.categorySlug ?? categorySlug}
+                    title={article.title}
+                    authorName={authorName}
+                    authorSlug={authorSlug}
+                    authorAvatarUrl={authorAvatarUrl}
+                    updatedAt={article.updatedAt}
+                    readTime={readTime}
+                    galleryImages={galleryImages}
+                    articleId={article.id}
+                  />
 
-                    {/* Desktop cover — 3.52:1 crop; box is aspect-[2.2/1] capped at 350px */}
-                    <div className="rounded-card relative mb-8 hidden aspect-[2.2/1] max-h-[350px] w-full overflow-hidden lg:block">
+                  {/* Desktop cover — Editorial Monotone: the plate carries no
+                        type at all. Category, headline and byline sit beneath it
+                        on paper, which keeps the photograph whole and holds the
+                        headline at full contrast. */}
+                  <div className="mb-10 hidden lg:block">
+                    <div className="bg-muted relative aspect-[2.4/1] max-h-[420px] w-full overflow-hidden">
                       <Image
                         src={
                           getSmartCropUrl(
@@ -736,88 +738,85 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
                         className="object-cover"
                         priority
                       />
-                      <div className="absolute inset-0 flex flex-col items-center justify-end bg-gradient-to-t from-black/60 to-transparent px-6 pb-10 text-center text-white">
-                        <span className="inspire-overline text-brand-secondary">
-                          {article.categoryName ?? 'Tiada kategori'}
-                        </span>
-                        <h1 className="mt-2 max-w-[700px] text-[2.25rem] text-white">
-                          {article.title}
-                        </h1>
-                        <p className="mt-3 text-sm text-white/60">
-                          {authorSlug ? (
-                            <Link
-                              href={authorArchivePath(authorSlug)}
-                              className="underline-offset-2 transition-colors hover:text-white hover:underline"
-                            >
-                              {authorName}
-                            </Link>
-                          ) : (
-                            authorName
-                          )}
-                          {article.updatedAt && (
-                            <>
-                              {' '}
-                              &middot; Dikemas kini{' '}
-                              {new Date(article.updatedAt).toLocaleDateString('ms-MY', {
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric',
-                              })}
-                            </>
-                          )}
-                          {readTime && <> &middot; {readTime}</>}
-                        </p>
-                      </div>
                     </div>
-                  </>
-                );
-              })()
-            ) : (
-              <div className="mb-8">
-                <div className="bg-muted rounded-card mb-6 aspect-[2.2/1] max-h-[350px] w-full" />
-                <div className="mb-8 text-center">
-                  <span className="inspire-overline text-brand-secondary">
-                    {article.categoryName ?? 'Tiada kategori'}
-                  </span>
-                  <h1 className="mx-auto mt-2 max-w-[700px] text-[2.25rem]">{article.title}</h1>
-                  <p className="text-muted-foreground mt-3 text-sm">
-                    {authorSlug ? (
-                      <Link
-                        href={authorArchivePath(authorSlug)}
-                        className="hover:text-foreground underline-offset-2 transition-colors hover:underline"
-                      >
-                        {authorName}
-                      </Link>
-                    ) : (
-                      authorName
-                    )}
-                    {article.updatedAt && (
-                      <>
-                        {' '}
-                        &middot; Dikemas kini{' '}
-                        {new Date(article.updatedAt).toLocaleDateString('ms-MY', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric',
-                        })}
-                      </>
-                    )}
-                    {readTime && <> &middot; {readTime}</>}
-                  </p>
-                </div>
+                    <header className="mx-auto max-w-3xl pt-8 text-center">
+                      <span className="hk-eyebrow">{article.categoryName ?? 'Tiada kategori'}</span>
+                      <h1 className="hk-display mt-3 text-[2.5rem]">{article.title}</h1>
+                      <p className="hk-meta mt-5">
+                        {authorSlug ? (
+                          <Link
+                            href={authorArchivePath(authorSlug)}
+                            className="hover:text-foreground underline-offset-2 transition-colors hover:underline"
+                          >
+                            {authorName}
+                          </Link>
+                        ) : (
+                          authorName
+                        )}
+                        {article.updatedAt && (
+                          <>
+                            {' '}
+                            &middot; Dikemas kini{' '}
+                            {new Date(article.updatedAt).toLocaleDateString('ms-MY', {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric',
+                            })}
+                          </>
+                        )}
+                        {readTime && <> &middot; {readTime}</>}
+                      </p>
+                    </header>
+                  </div>
+                </>
+              );
+            })()
+          ) : (
+            <div className="mb-10">
+              <div className="border-border mx-auto max-w-3xl border-b pb-8 text-center">
+                <span className="hk-eyebrow">{article.categoryName ?? 'Tiada kategori'}</span>
+                <h1 className="hk-display mx-auto mt-3 text-[1.875rem] lg:text-[2.5rem]">
+                  {article.title}
+                </h1>
+                <p className="hk-meta mt-5">
+                  {authorSlug ? (
+                    <Link
+                      href={authorArchivePath(authorSlug)}
+                      className="hover:text-foreground underline-offset-2 transition-colors hover:underline"
+                    >
+                      {authorName}
+                    </Link>
+                  ) : (
+                    authorName
+                  )}
+                  {article.updatedAt && (
+                    <>
+                      {' '}
+                      &middot; Dikemas kini{' '}
+                      {new Date(article.updatedAt).toLocaleDateString('ms-MY', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })}
+                    </>
+                  )}
+                  {readTime && <> &middot; {readTime}</>}
+                </p>
               </div>
-            )}
+            </div>
+          )}
 
-            <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_280px]">
-              {/* Main article content */}
-              <article>
-                <div className="mb-6">
-                  <WhatsAppShare title={article.title} url={canonicalUrl} />
-                </div>
-                <ArticleRenderer content={renderContent} articleId={article.id} />
-              </article>
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_280px]">
+            {/* Main article content */}
+            <article>
+              <div className="border-border mb-8 flex flex-wrap items-center justify-between gap-4 border-y py-4">
+                <span className="hk-eyebrow">Kongsi artikel ini</span>
+                <WhatsAppShare title={article.title} url={canonicalUrl} />
+              </div>
+              <ArticleRenderer content={renderContent} articleId={article.id} />
+            </article>
 
-              {/* Sidebar.
+            {/* Sidebar.
 
                   Deliberately NOT sticky. When this column was pinned
                   (`lg:sticky lg:top-[120px]`) its height was capped at the
@@ -825,21 +824,7 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
                   below that edge on a normal laptop with no way to scroll to
                   them. Letting the column scroll with the page makes every
                   credit reachable. */}
-              <div className="hidden lg:block">
-                <ArticleSidebar
-                  updatedAt={new Date(article.updatedAt).toISOString()}
-                  categories={categories}
-                  authorName={authorName}
-                  authorSlug={authorSlug}
-                  authorAvatarUrl={authorAvatarUrl}
-                  tags={tags}
-                  galleryImages={galleryImages}
-                />
-              </div>
-            </div>
-
-            {/* Mobile sidebar content */}
-            <div className="mt-8 border-t pt-8 lg:hidden">
+            <div className="hidden lg:block">
               <ArticleSidebar
                 updatedAt={new Date(article.updatedAt).toISOString()}
                 categories={categories}
@@ -848,64 +833,82 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
                 authorAvatarUrl={authorAvatarUrl}
                 tags={tags}
                 galleryImages={galleryImages}
-                variant="mobile"
               />
             </div>
-
-            {/* End-of-article author box. Rendered ONLY for a linkable author,
-                which is why the house account's articles look exactly as they
-                do today: no box, no photo, no link. */}
-            {authorSlug && (
-              <AuthorBox
-                name={authorName}
-                slug={authorSlug}
-                avatarUrl={article.authorAvatarUrl}
-                title={article.authorTitle}
-                bio={article.authorBio}
-                websiteUrl={article.authorWebsiteUrl}
-                instagramUrl={article.authorInstagramUrl}
-                linkedinUrl={article.authorLinkedinUrl}
-              />
-            )}
-
-            {/* Related articles — crawlable internal links to same-category content.
-          The primary mechanism (with the sitemap) for distributing crawl depth
-          across deep/older articles that otherwise have no inbound links. */}
-            {relatedArticles.length > 0 && (
-              <section className="mt-12 border-t pt-8" aria-labelledby="related-articles-heading">
-                <h2 id="related-articles-heading" className="inspire-display mb-6 text-2xl">
-                  More in {article.categoryName ?? 'Inspire'}
-                </h2>
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                  {relatedArticles.map((related) => (
-                    <ArticleCard
-                      key={related.id}
-                      title={related.title}
-                      slug={related.slug}
-                      categorySlug={related.categorySlug ?? categorySlug}
-                      categories={[]}
-                      coverImageUrl={related.coverImageUrl}
-                      coverImageVariants={
-                        related.coverImageVariants as Record<
-                          string,
-                          { url: string; sizeBytes: number }
-                        > | null
-                      }
-                      smartCrops={
-                        related.coverImageSmartCrops as Record<
-                          string,
-                          { url: string; width: number; height: number }
-                        > | null
-                      }
-                      publishedAt={null}
-                    />
-                  ))}
-                </div>
-              </section>
-            )}
           </div>
 
-          <MobilePhotoBar galleryImages={galleryImages} />
+          {/* Mobile sidebar content */}
+          <div className="mt-8 border-t pt-8 lg:hidden">
+            <ArticleSidebar
+              updatedAt={new Date(article.updatedAt).toISOString()}
+              categories={categories}
+              authorName={authorName}
+              authorSlug={authorSlug}
+              authorAvatarUrl={authorAvatarUrl}
+              tags={tags}
+              galleryImages={galleryImages}
+              variant="mobile"
+            />
+          </div>
+
+          {/* End-of-article author box. Rendered ONLY for a linkable author,
+                which is why the house account's articles look exactly as they
+                do today: no box, no photo, no link. */}
+          {authorSlug && (
+            <AuthorBox
+              name={authorName}
+              slug={authorSlug}
+              avatarUrl={article.authorAvatarUrl}
+              title={article.authorTitle}
+              bio={article.authorBio}
+              websiteUrl={article.authorWebsiteUrl}
+              instagramUrl={article.authorInstagramUrl}
+              linkedinUrl={article.authorLinkedinUrl}
+            />
+          )}
+
+          {/* Related articles — crawlable internal links to same-category content.
+          The primary mechanism (with the sitemap) for distributing crawl depth
+          across deep/older articles that otherwise have no inbound links. */}
+          {relatedArticles.length > 0 && (
+            <section className="mt-16 border-t pt-10" aria-labelledby="related-articles-heading">
+              <div className="hk-rule pb-8">
+                <h2 id="related-articles-heading" className="hk-eyebrow whitespace-nowrap">
+                  {article.categoryName
+                    ? 'Lagi dalam ' + article.categoryName
+                    : 'Artikel berkaitan'}
+                </h2>
+              </div>
+              <div className="grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-3 lg:gap-8">
+                {relatedArticles.map((related) => (
+                  <ArticleCard
+                    key={related.id}
+                    title={related.title}
+                    slug={related.slug}
+                    categorySlug={related.categorySlug ?? categorySlug}
+                    categories={[]}
+                    coverImageUrl={related.coverImageUrl}
+                    coverImageVariants={
+                      related.coverImageVariants as Record<
+                        string,
+                        { url: string; sizeBytes: number }
+                      > | null
+                    }
+                    smartCrops={
+                      related.coverImageSmartCrops as Record<
+                        string,
+                        { url: string; width: number; height: number }
+                      > | null
+                    }
+                    publishedAt={null}
+                  />
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
+
+        <MobilePhotoBar galleryImages={galleryImages} />
       </div>
     </>
   );

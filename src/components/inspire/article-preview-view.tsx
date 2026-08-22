@@ -59,8 +59,7 @@ export function ArticlePreviewView({ data, banner, variant = 'screen' }: Article
   ];
 
   const authorName =
-    [article.authorFirstName, article.authorLastName].filter(Boolean).join(' ') ||
-    'HelloKahwin';
+    [article.authorFirstName, article.authorLastName].filter(Boolean).join(' ') || 'HelloKahwin';
 
   const categories = [
     ...(article.categoryName && article.categorySlug
@@ -121,8 +120,7 @@ export function ArticlePreviewView({ data, banner, variant = 'screen' }: Article
                       coverImageUrl={coverHigh}
                       smartCrops={
                         article.coverImageSmartCrops as
-                          | Record<string, { url: string; width: number; height: number }>
-                          | undefined
+                          Record<string, { url: string; width: number; height: number }> | undefined
                       }
                       categoryName={article.categoryName ?? 'Uncategorized'}
                       categorySlug={article.categorySlug ?? 'inspire'}

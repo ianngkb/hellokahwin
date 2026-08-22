@@ -5,6 +5,9 @@ import { MessageCircle } from 'lucide-react';
  * near the top of the article rather than buried in a share sheet (Mobbin
  * research, article-page recommendations). Pure link, no JS: wa.me pre-fills
  * the message with title + URL.
+ *
+ * Styled as the system's ink button rather than WhatsApp green: the public
+ * surface is monotone, and the label already says where the share goes.
  */
 export function WhatsAppShare({ title, url }: { title: string; url: string }) {
   const text = encodeURIComponent(`${title}\n${url}`);
@@ -13,10 +16,10 @@ export function WhatsAppShare({ title, url }: { title: string; url: string }) {
       href={`https://wa.me/?text=${text}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-[#25D366] px-5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+      className="hk-btn"
     >
       <MessageCircle className="size-4" aria-hidden />
-      Kongsi di WhatsApp
+      WhatsApp
     </a>
   );
 }

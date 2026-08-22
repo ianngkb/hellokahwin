@@ -8,7 +8,6 @@ import { db } from '@/lib/db/drizzle';
 import { articles, inspireCategories, articleCategories } from '@/lib/db/schema/articles';
 import { ArticleCard } from '@/components/inspire/article-card';
 import { getSmartCropUrl } from '@/lib/storage/smart-crop-url';
-import { Chip } from '@/components/ui/chip';
 import { InspireArticleSearch } from '@/components/inspire/inspire-article-search';
 
 // ISR: getInspireHomeData() is unstable_cache-wrapped, but the page itself
@@ -144,8 +143,12 @@ export default async function InspireHomePage() {
       return { ...parent, articleCount: totalCount, children, grandchildren };
     });
 
-  // Sort categories by article count descending for bottom pills
-  const bottomCategories = [...topCategories]
+  // Bottom browse rail: every category that actually has published articles,
+  // parents and children alike, busiest first. Restricting this to top-level
+  // categories rendered a two-chip row against the imported WordPress
+  // taxonomy, where nearly all the depth sits one level down.
+  const bottomCategories = topCategories
+    .flatMap((parent) => [parent, ...parent.children, ...(parent.grandchildren ?? [])])
     .filter((c) => c.articleCount > 0)
     .sort((a, b) => b.articleCount - a.articleCount);
 
@@ -153,7 +156,7 @@ export default async function InspireHomePage() {
   const latest = latestArticles.slice(3);
 
   return (
-    <div className="inspire-editorial">
+    <div>
       {/* The visible "Inspire · N articles" row was removed to lift the featured
           cover above the fold. Keep an sr-only h1 so this hub still has a
           top-level heading for the document outline and for SEO — without it the
@@ -164,15 +167,18 @@ export default async function InspireHomePage() {
         <div className="container mx-auto px-4 lg:px-6">
           {latestArticles.length > 0 ? (
             <>
-              {/* Featured hero section */}
-              {featured.length >= 3 ? (
-                <div className="mb-1 grid grid-cols-1 gap-4 lg:mb-12 lg:grid-cols-[1.4fr_1fr] lg:grid-rows-2">
-                  {/* Main featured article */}
+              {/* Featured — Editorial Monotone.
+                  One lead plate, then two supporting stories. Every headline
+                  sits BELOW its photograph: overlaying type on a wedding photo
+                  fights the imagery and drops contrast on a cheap screen in
+                  daylight, which is most of this audience. */}
+              {featured.length > 0 && (
+                <div className="mb-12 lg:mb-16">
                   <Link
                     href={`/artikel/${featured[0].categorySlug}/${featured[0].slug}`}
-                    className="group rounded-card relative min-h-[240px] overflow-hidden lg:row-span-2 lg:min-h-[480px]"
+                    className="group block"
                   >
-                    <div className="bg-muted absolute inset-0">
+                    <div className="bg-muted relative aspect-[4/3] w-full overflow-hidden sm:aspect-[16/9] lg:aspect-[2.4/1]">
                       {featured[0].coverImageUrl ? (
                         <Image
                           src={
@@ -190,131 +196,56 @@ export default async function InspireHomePage() {
                           }
                           alt={featured[0].title}
                           fill
-                          sizes="(max-width: 1024px) 100vw, 60vw"
-                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          sizes="100vw"
+                          className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
                           priority
                         />
                       ) : (
                         <div className="flex h-full items-center justify-center">
-                          <span className="text-muted-foreground text-sm">Tiada gambar</span>
+                          <span className="hk-meta">Tiada gambar</span>
                         </div>
                       )}
                     </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                    <div className="absolute right-0 bottom-0 left-0 p-6 text-white lg:p-8">
-                      <span className="inspire-overline text-brand-secondary">
-                        {featured[0].categoryName}
-                      </span>
-                      <h2 className="mt-2 text-xl leading-tight text-white lg:text-[1.75rem]">
-                        {featured[0].title}
+                    <div className="mx-auto max-w-3xl pt-6 text-center lg:pt-8">
+                      <span className="hk-eyebrow">{featured[0].categoryName}</span>
+                      <h2 className="hk-display mt-3 text-[1.625rem] sm:text-3xl lg:text-[2.5rem]">
+                        <span className="decoration-border-strong underline-offset-[0.14em] group-hover:underline">
+                          {featured[0].title}
+                        </span>
                       </h2>
-                      {featured[0].publishedAt && (
-                        <p className="mt-2 text-sm text-white/60">
-                          {new Date(featured[0].publishedAt).toLocaleDateString('ms-MY', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                          })}
-                        </p>
-                      )}
                     </div>
                   </Link>
 
-                  {/* Side featured articles */}
-                  {featured.slice(1, 3).map((article) => (
-                    <Link
-                      key={article.id}
-                      href={`/artikel/${article.categorySlug}/${article.slug}`}
-                      className="group rounded-card relative min-h-[240px] overflow-hidden lg:min-h-[230px]"
-                    >
-                      <div className="bg-muted absolute inset-0">
-                        {article.coverImageUrl ? (
-                          <Image
-                            src={
-                              getSmartCropUrl(
-                                article.coverImageSmartCrops,
-                                'crop-4x3-article-card',
-                              ) ??
-                              (article.coverImageVariants as Record<string, { url: string }> | null)
-                                ?.low?.url ??
-                              article.coverImageUrl
-                            }
-                            alt={article.title}
-                            fill
-                            sizes="(max-width: 1024px) 100vw, 40vw"
-                            className="object-cover transition-transform duration-500 group-hover:scale-105"
-                          />
-                        ) : (
-                          <div className="flex h-full items-center justify-center">
-                            <span className="text-muted-foreground text-sm">Tiada gambar</span>
-                          </div>
-                        )}
-                      </div>
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                      <div className="absolute right-0 bottom-0 left-0 p-5 text-white">
-                        <span className="inspire-overline text-brand-secondary">
-                          {article.categoryName}
-                        </span>
-                        <h2 className="mt-1.5 text-xl leading-snug text-white lg:text-lg">
-                          {article.title}
-                        </h2>
-                        {article.publishedAt && (
-                          <p className="mt-1.5 text-xs text-white/60">
-                            {new Date(article.publishedAt).toLocaleDateString('ms-MY', {
-                              year: 'numeric',
-                              month: 'long',
-                              day: 'numeric',
-                            })}
-                          </p>
-                        )}
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              ) : (
-                /* Fewer than 3 articles — simpler hero */
-                <div className="mb-1 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:mb-12">
-                  {featured.map((article) => (
-                    <Link
-                      key={article.id}
-                      href={`/artikel/${article.categorySlug}/${article.slug}`}
-                      className="group rounded-card relative min-h-[280px] overflow-hidden"
-                    >
-                      <div className="bg-muted absolute inset-0">
-                        {article.coverImageUrl ? (
-                          <Image
-                            src={
-                              getSmartCropUrl(
-                                article.coverImageSmartCrops,
-                                'crop-4x3-article-card',
-                              ) ??
-                              (article.coverImageVariants as Record<string, { url: string }> | null)
-                                ?.low?.url ??
-                              article.coverImageUrl
-                            }
-                            alt={article.title}
-                            fill
-                            sizes="(max-width: 640px) 100vw, 50vw"
-                            className="object-cover transition-transform duration-500 group-hover:scale-105"
-                          />
-                        ) : (
-                          <div className="flex h-full items-center justify-center">
-                            <span className="text-muted-foreground text-sm">Tiada gambar</span>
-                          </div>
-                        )}
-                      </div>
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                      <div className="absolute right-0 bottom-0 left-0 p-6 text-white">
-                        <span className="inspire-overline text-brand-secondary">
-                          {article.categoryName}
-                        </span>
-                        <h2 className="mt-2 text-xl leading-snug text-white">{article.title}</h2>
-                      </div>
-                    </Link>
-                  ))}
+                  {featured.length > 1 && (
+                    <div className="border-border mt-12 grid grid-cols-1 gap-8 border-t pt-10 sm:grid-cols-2 lg:mt-16 lg:gap-12">
+                      {featured.slice(1, 3).map((article) => (
+                        <ArticleCard
+                          key={article.id}
+                          title={article.title}
+                          slug={article.slug}
+                          categorySlug={article.categorySlug ?? 'artikel'}
+                          categories={article.categories}
+                          coverImageUrl={article.coverImageUrl}
+                          coverImageVariants={
+                            article.coverImageVariants as Record<
+                              string,
+                              { url: string; sizeBytes: number }
+                            > | null
+                          }
+                          smartCrops={
+                            article.coverImageSmartCrops as Record<
+                              string,
+                              { url: string; width: number; height: number }
+                            > | null
+                          }
+                          publishedAt={null}
+                          priority
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
-
 
               {/* Search — sticky-adjacent, always visible (Mobbin: search + chips) */}
               <div className="mx-auto max-w-xl py-4">
@@ -324,11 +255,10 @@ export default async function InspireHomePage() {
               {/* Latest section */}
               {latest.length > 0 && (
                 <>
-                  <div className="flex items-center gap-4 py-3">
-                    <h2 className="text-2xl whitespace-nowrap">Terkini</h2>
-                    <div className="bg-border h-px flex-1" />
+                  <div className="hk-rule py-8">
+                    <h2 className="hk-eyebrow whitespace-nowrap">Terkini</h2>
                   </div>
-                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                  <div className="grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-14">
                     {latest.map((article, index) => (
                       <Fragment key={article.id}>
                         <ArticleCard
@@ -358,9 +288,9 @@ export default async function InspireHomePage() {
               )}
             </>
           ) : (
-            <div className="py-20 text-center">
-              <p className="text-lg font-medium">Belum ada artikel</p>
-              <p className="text-muted-foreground mt-1 text-sm">
+            <div className="py-24 text-center">
+              <h2 className="hk-display text-2xl">Belum ada artikel</h2>
+              <p className="hk-deck mt-3">
                 Idea dan panduan perkahwinan akan datang tidak lama lagi.
               </p>
             </div>
@@ -370,14 +300,16 @@ export default async function InspireHomePage() {
 
       {/* Browse by Category — pills sorted by article count */}
       {bottomCategories.length > 0 && (
-        <section className="border-border border-t py-12">
+        <section className="border-border mt-16 border-t py-14">
           <div className="container mx-auto px-4 lg:px-6">
-            <h2 className="inspire-display mb-8 text-center text-2xl">Ikut Kategori</h2>
-            <div className="flex flex-wrap justify-center gap-2">
+            <div className="hk-rule pb-8">
+              <h2 className="hk-eyebrow whitespace-nowrap">Ikut Kategori</h2>
+            </div>
+            <div className="flex flex-wrap justify-center gap-3">
               {bottomCategories.map((cat) => (
-                <Chip key={cat.id} variant="outline" asChild>
-                  <Link href={`/artikel/${cat.slug}`}>{cat.name}</Link>
-                </Chip>
+                <Link key={cat.id} href={`/artikel/${cat.slug}`} className="hk-chip">
+                  {cat.name}
+                </Link>
               ))}
             </div>
           </div>

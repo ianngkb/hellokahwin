@@ -16,15 +16,49 @@ const r2CspHosts = r2Hostnames.filter((v, i, arr) => arr.indexOf(v) === i);
 
 const isDev = process.env.NODE_ENV === 'development';
 
+// Clerk's Frontend API host.
+//
+// A DEVELOPMENT instance serves from `*.clerk.accounts.dev`, which the
+// wildcard below already covers. A PRODUCTION instance serves clerk-js, the
+// UI bundle and every API call from a CNAME on the customer's own domain
+// (here: clerk.hellokahwin.com) — a host no wildcard in this policy matches,
+// so with a pk_live_ key the sign-in page loads a blank screen and the only
+// clue is a CSP violation in the console. Verified 2026-08-22.
+//
+// The host is encoded in the publishable key: `pk_live_` + base64("<host>$").
+// Deriving it here keeps the policy correct across instance swaps without a
+// second env var to forget.
+function clerkFrontendApiHost(): string | null {
+  const key = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+  if (!key) return null;
+  const encoded = key.replace(/^pk_(live|test)_/, '');
+  if (encoded === key) return null;
+  try {
+    const host = Buffer.from(encoded, 'base64').toString('utf8').replace(/\$+$/, '');
+    // Guard against a malformed key turning into a CSP-breaking string.
+    return /^[a-z0-9.-]+\.[a-z]{2,}$/i.test(host) ? host : null;
+  } catch {
+    return null;
+  }
+}
+
+const clerkHost = clerkFrontendApiHost();
+const clerkCspHosts = [
+  'https://challenges.cloudflare.com',
+  'https://*.clerk.accounts.dev',
+  'https://*.clerk.com',
+  ...(clerkHost ? [`https://${clerkHost}`] : []),
+].join(' ');
+
 const csp = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''} https://challenges.cloudflare.com https://*.clerk.accounts.dev https://*.clerk.com`,
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''} ${clerkCspHosts}`,
   "style-src 'self' 'unsafe-inline'",
   `img-src 'self' data: blob: ${r2CspHosts.join(' ')} https://hellokahwin.com https://*.clerk.com https://img.clerk.com`,
-  `connect-src 'self'${isDev ? ' ws://localhost:*' : ''} https://*.r2.cloudflarestorage.com https://*.clerk.accounts.dev https://*.clerk.com`,
+  `connect-src 'self'${isDev ? ' ws://localhost:*' : ''} https://*.r2.cloudflarestorage.com ${clerkCspHosts}`,
   "font-src 'self' data:",
   `media-src 'self' ${r2CspHosts.join(' ')}`,
-  "frame-src 'self' https://challenges.cloudflare.com",
+  `frame-src 'self' ${clerkCspHosts}`,
   "worker-src 'self' blob:",
   "child-src 'self' blob:",
   "frame-ancestors 'none'",

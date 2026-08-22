@@ -217,7 +217,6 @@ export const categoryCreateSchema = z.object({
 
 export type CategoryCreateInput = z.infer<typeof categoryCreateSchema>;
 
-
 export const tagCreateSchema = z.object({
   name: z.string().min(1, 'Tag name is required'),
   slug: urlSlugSchema.optional(),

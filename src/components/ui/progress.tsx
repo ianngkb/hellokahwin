@@ -1,8 +1,7 @@
 import { cn } from '@/lib/utils';
 
 type ProgressProps = { className?: string } & (
-  | { indeterminate: true; value?: never }
-  | { indeterminate?: false; value: number }
+  { indeterminate: true; value?: never } | { indeterminate?: false; value: number }
 );
 
 export function Progress({ value, indeterminate, className }: ProgressProps) {

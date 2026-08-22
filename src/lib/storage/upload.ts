@@ -10,12 +10,7 @@ export interface UploadResult {
 }
 
 export type UploadStage =
-  | 'compressing'
-  | 'uploading'
-  | 'generating'
-  | 'smart-cropping'
-  | 'done'
-  | 'error';
+  'compressing' | 'uploading' | 'generating' | 'smart-cropping' | 'done' | 'error';
 
 const COMPRESSION_OPTIONS = {
   maxSizeMB: 1,

@@ -115,7 +115,9 @@ import { RedirectHistory } from './redirect-history';
 import { ShareDraftDialog } from './share-draft-dialog';
 import { toast } from 'sonner';
 // No Sentry in HelloKahwin — degrade error capture to console.
-const Sentry = { captureException: (err: unknown, ctx?: unknown) => console.error('[article-editor]', err, ctx) };
+const Sentry = {
+  captureException: (err: unknown, ctx?: unknown) => console.error('[article-editor]', err, ctx),
+};
 import Link from 'next/link';
 import {
   ChevronDownIcon,
@@ -2456,7 +2458,6 @@ export function ArticleEditor({
               </div>
             )}
           </div>
-
         </fieldset>
 
         {/* Block editor */}
@@ -3139,7 +3140,6 @@ export function ArticleEditor({
               </div>
             )}
           </div>
-
         </fieldset>
 
         {/* Delete actions */}

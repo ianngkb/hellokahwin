@@ -64,10 +64,7 @@ export function getR2GalleriesPublicUrl(): string {
 // Every R2 public host an image URL may have been stored under — the current
 // env-configured hosts. We persist full absolute URLs, so extractKeyFromUrl
 // must recognize any host a stored URL may carry.
-const KNOWN_R2_PUBLIC_URL_BASES = [
-  process.env.R2_PUBLIC_URL,
-  process.env.R2_ASSETS_PUBLIC_URL,
-]
+const KNOWN_R2_PUBLIC_URL_BASES = [process.env.R2_PUBLIC_URL, process.env.R2_ASSETS_PUBLIC_URL]
   .filter((u): u is string => Boolean(u))
   .map((u) => u.replace(/\/+$/, ''));
 

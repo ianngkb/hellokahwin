@@ -168,7 +168,6 @@ export function MediaPickerDialog({
               <TabsTrigger value="library">Library</TabsTrigger>
               {/* Venue photos are always images, so this tab would let a PDF
                   attachment pick a JPEG. Hide it when picking a PDF. */}
-              
             </TabsList>
 
             <TabsContent value="library" className="flex min-h-0 flex-1 flex-col gap-3">
@@ -271,7 +270,6 @@ export function MediaPickerDialog({
                 )}
               </div>
             </TabsContent>
-
           </Tabs>
 
           {/* Footer */}

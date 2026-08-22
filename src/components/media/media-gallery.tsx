@@ -473,7 +473,6 @@ export function MediaGallery({
             </div>
           )}
         </TabsContent>
-
       </Tabs>
 
       {/* Detail panel */}

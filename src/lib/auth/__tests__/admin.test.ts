@@ -36,7 +36,10 @@ function clerkUser(emails: Array<string | { email: string; verified: boolean }>,
     emailAddresses: emails.map((e) =>
       typeof e === 'string'
         ? { emailAddress: e, verification: { status: 'verified' } }
-        : { emailAddress: e.email, verification: { status: e.verified ? 'verified' : 'unverified' } },
+        : {
+            emailAddress: e.email,
+            verification: { status: e.verified ? 'verified' : 'unverified' },
+          },
     ),
   };
 }

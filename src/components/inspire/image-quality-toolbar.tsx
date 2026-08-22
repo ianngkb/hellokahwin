@@ -286,8 +286,7 @@ export function ArticleImagesList({ editor, images }: ArticleImagesListProps) {
     const updates: Record<string, number> = {};
     for (const img of toResolve) {
       const entry = performance.getEntriesByName(img.src).pop() as
-        | PerformanceResourceTiming
-        | undefined;
+        PerformanceResourceTiming | undefined;
       const size = entry?.transferSize || entry?.encodedBodySize || 0;
       updates[img.src] = size > 0 ? size : -1;
     }

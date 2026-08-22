@@ -17,8 +17,15 @@ interface ArticleCardProps {
   publishedAt: string | null;
   /** When provided (inspire list pages), the card shows the last-updated date instead of published. */
   updatedAt?: string | null;
+  /** First screenful on the hub/home grid — skips lazy-loading for LCP. */
+  priority?: boolean;
 }
 
+/**
+ * Editorial Monotone card: square 4:3 plate, eyebrow, serif title below the
+ * image. Deliberately no rounded corners, no shadow, no save icon and no
+ * timestamp — the plate and the hairline do all the work.
+ */
 export function ArticleCard({
   title,
   slug,
@@ -29,6 +36,7 @@ export function ArticleCard({
   smartCrops,
   publishedAt,
   updatedAt,
+  priority = false,
 }: ArticleCardProps) {
   const href = `/artikel/${categorySlug}/${slug}`;
   // Prefer last-updated when the caller supplies it; fall back to published.
@@ -39,7 +47,7 @@ export function ArticleCard({
 
   return (
     <article className="group">
-      <div className="bg-muted rounded-image relative aspect-[4/3] overflow-hidden">
+      <div className="bg-muted relative aspect-[4/3] overflow-hidden">
         {/* Stretched link covers the image for article navigation */}
         <Link href={href} className="absolute inset-0 z-[1]" aria-label={title} />
         {cardImageUrl ? (
@@ -47,26 +55,27 @@ export function ArticleCard({
             src={cardImageUrl}
             alt={title}
             fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+            priority={priority}
           />
         ) : (
           <div className="flex h-full items-center justify-center">
-            <span className="text-muted-foreground text-sm">Tiada gambar</span>
+            <span className="hk-meta">Tiada gambar</span>
           </div>
         )}
       </div>
-      <div className="mt-2 space-y-0.5">
+      <div className="mt-3">
         {categories[0] && (
-          <p className="text-primary text-[10px] font-semibold tracking-[0.12em] uppercase">
+          <p className="hk-eyebrow line-clamp-1">
             <Link
               href={`/artikel/${categories[0].slug}`}
-              className="relative z-[2] transition-opacity hover:opacity-70"
+              className="hover:text-foreground relative z-[2] transition-colors"
             >
               {categories[0].name}
             </Link>
-            {categories.slice(1).map((cat) => (
-              <span key={cat.slug} className="text-muted-foreground">
+            {categories.slice(1, 2).map((cat) => (
+              <span key={cat.slug}>
                 {' · '}
                 <Link
                   href={`/artikel/${cat.slug}`}
@@ -78,13 +87,16 @@ export function ArticleCard({
             ))}
           </p>
         )}
-        <h3 className="line-clamp-2 font-serif text-[15px] leading-snug font-normal">
-          <Link href={href} className="hover:underline">
+        <h3 className="hk-card-title mt-1.5 line-clamp-3 text-[1.0625rem] lg:text-[1.125rem]">
+          <Link
+            href={href}
+            className="decoration-border-strong underline-offset-[0.2em] hover:underline"
+          >
             {title}
           </Link>
         </h3>
         {displayDate && (
-          <p className="text-muted-foreground text-xs">
+          <p className="hk-meta mt-2">
             {new Date(displayDate).toLocaleDateString('ms-MY', {
               year: 'numeric',
               month: 'long',

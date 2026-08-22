@@ -159,7 +159,6 @@ export default async function EditArticlePage({ params }: EditPageProps) {
     ),
   ]);
 
-
   // Who this article may be attributed to. Issued separately for the same
   // reason as the credit taxonomy above — the two batches are sized at four to
   // stay under the five-connection pool — and it is an `unstable_cache` read

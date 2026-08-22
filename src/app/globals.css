@@ -27,8 +27,7 @@
    next/font in twn-new; here they resolve to system faces. */
 :root {
   --font-geist:
-    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
-    sans-serif;
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --font-cormorant: Georgia, 'Times New Roman', Times, serif;
   --font-geist-mono:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
@@ -1740,4 +1739,313 @@
 
 .codebase-scan-canvas .react-flow__minimap {
   background: var(--surface-subtle);
+}
+
+/* =========================================================================
+   HelloKahwin — "Editorial Monotone" public surface
+   -------------------------------------------------------------------------
+   Scoped to `.hk-public`, the wrapper in `src/app/(public)/layout.tsx`, so it
+   re-skins ONLY the public directory. The admin console keeps its own
+   `.font-ui-sans` override and the ported `:root` Plum tokens stay untouched
+   for any surface that still reads them (draft preview, admin article preview).
+
+   Direction (Mobbin research 2026-08-22 — Julienne, UNIQLO LifeWear, NYTimes,
+   Ghost; brief: theweddingnotebook.com): classy, premium, editorial. A
+   monotone ink-on-paper ramp, a serif voice for everything the reader reads,
+   a sans voice for everything the interface says, hairlines instead of boxes,
+   and square imagery instead of rounded cards.
+
+   Chroma is capped at 0.004 — enough to read as warm paper rather than a
+   screen, still monotone by any practical measure.
+
+   Mobile-first: the audience is mostly low-end Android on slow data, so the
+   type stack stays 100% system fonts (zero webfont bytes) and every effect
+   here is a colour, a border or a transform — nothing that forces layout.
+   ========================================================================= */
+
+.hk-public {
+  /* --- Paper & ink --------------------------------------------------- */
+  --background: oklch(0.988 0.002 85); /* warm paper */
+  --surface-subtle: oklch(0.966 0.003 85);
+  --surface-raised: oklch(0.947 0.003 85);
+  --card: oklch(0.988 0.002 85);
+  --card-foreground: oklch(0.19 0.004 85);
+  --popover: oklch(0.988 0.002 85);
+  --popover-foreground: oklch(0.19 0.004 85);
+  --foreground: oklch(0.19 0.004 85); /* ink */
+  --muted: oklch(0.955 0.003 85);
+  --muted-foreground: oklch(0.5 0.004 85); /* ~7:1 on paper */
+
+  /* --- Interactive: ink is the only "brand colour" -------------------- */
+  --primary: oklch(0.19 0.004 85);
+  --primary-foreground: oklch(0.985 0.002 85);
+  --plum-hover: oklch(0.3 0.004 85);
+  --secondary: oklch(0.955 0.003 85);
+  --secondary-foreground: oklch(0.24 0.004 85);
+  --accent: oklch(0.955 0.003 85);
+  --accent-foreground: oklch(0.19 0.004 85);
+  --ring: oklch(0.19 0.004 85);
+  --disabled: oklch(0.74 0.003 85);
+
+  /* Ported components paint overlines and rules with these; neutralise them
+     so no plum or brass leaks onto the public site. */
+  --brand-secondary: oklch(0.5 0.004 85);
+  --brass: oklch(0.19 0.004 85);
+  --brass-deep: oklch(0.32 0.004 85);
+  --plum-wash: oklch(0.955 0.003 85);
+  --plum-wash-border: oklch(0.9 0.003 85);
+  --plum-deep: oklch(0.24 0.004 85);
+
+  /* --- Rules ---------------------------------------------------------- */
+  --border: oklch(0.885 0.003 85);
+  --border-strong: oklch(0.66 0.004 85); /* >=3:1 — WCAG 1.4.11 */
+  --hairline: oklch(0.9 0.003 85);
+  --input: oklch(0.885 0.003 85);
+
+  background-color: var(--background);
+  color: var(--foreground);
+  text-rendering: optimizeLegibility;
+}
+
+/* Reader voice — serif. Interface voice — sans, quiet, small. */
+.hk-public h1,
+.hk-public h2,
+.hk-public h3,
+.hk-public h4 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.018em;
+  text-wrap: balance;
+}
+
+/* --- Editorial primitives -------------------------------------------- */
+
+/* Eyebrow: the category / section micro-label. */
+.hk-eyebrow {
+  font-family: var(--font-geist);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+/* Display headline — home hero, article title. */
+.hk-display {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.022em;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+/* Section rule: a label sitting between two full-width hairlines. */
+.hk-rule {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.hk-rule::before,
+.hk-rule::after {
+  content: '';
+  flex: 1 1 0%;
+  height: 1px;
+  background-color: var(--border);
+}
+
+/* Standfirst / deck under a headline. */
+.hk-deck {
+  font-family: var(--font-serif);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  color: var(--muted-foreground);
+}
+
+/* Byline / meta line. */
+.hk-meta {
+  font-family: var(--font-geist);
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  color: var(--muted-foreground);
+}
+
+/* Ink button — the single filled action in the system. */
+.hk-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px; /* touch target */
+  padding-inline: 1.75rem;
+  border: 1px solid var(--foreground);
+  background-color: var(--foreground);
+  color: var(--background);
+  font-family: var(--font-geist);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+.hk-btn:hover {
+  background-color: transparent;
+  color: var(--foreground);
+}
+
+/* Ghost button — same geometry, hairline only. */
+.hk-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding-inline: 1.75rem;
+  border: 1px solid var(--border-strong);
+  background-color: transparent;
+  color: var(--foreground);
+  font-family: var(--font-geist);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+.hk-btn-ghost:hover {
+  border-color: var(--foreground);
+  background-color: var(--foreground);
+  color: var(--background);
+}
+
+/* Flat chip — the only filter affordance. No pill, no shadow: a hairline
+   rectangle that inverts to ink when active. 44px tall for thumbs. */
+.hk-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: 1rem;
+  border: 1px solid var(--border);
+  background-color: transparent;
+  color: var(--muted-foreground);
+  font-family: var(--font-geist);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+.hk-chip:hover {
+  border-color: var(--foreground);
+  color: var(--foreground);
+}
+.hk-chip[data-active='true'] {
+  border-color: var(--foreground);
+  background-color: var(--foreground);
+  color: var(--background);
+}
+
+/* Card title — serif, tight. */
+.hk-card-title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.012em;
+  line-height: 1.26;
+}
+
+/* Reading column: ~68 characters at 17px, the classic editorial measure. */
+.hk-measure {
+  max-width: 40rem;
+  margin-inline: auto;
+}
+
+/* --- Reading experience ---------------------------------------------- */
+/* The ported `.inspire-prose` sets 14px/1.5. That fails the spec's own
+   legibility budget for this audience (16px minimum, line-height >= 1.45)
+   and reads as a UI, not an article. Inside the public shell the body
+   becomes a proper serif reading column. */
+.hk-public .inspire-prose,
+.hk-public .inspire-prose p,
+.hk-public .inspire-prose span,
+.hk-public .inspire-prose a,
+.hk-public .inspire-prose li {
+  font-family: var(--font-serif);
+  font-size: 1.0625rem; /* 17px */
+  line-height: 1.7;
+}
+.hk-public .inspire-prose p {
+  margin-bottom: 1.15em;
+}
+.hk-public .inspire-prose h2 {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: -0.018em;
+  line-height: 1.2;
+  margin-top: 2.25rem;
+  margin-bottom: 0.75rem;
+}
+.hk-public .inspire-prose h3 {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 400;
+  letter-spacing: -0.012em;
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+.hk-public .inspire-prose h4,
+.hk-public .inspire-prose h5 {
+  font-family: var(--font-geist);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+.hk-public .inspire-prose blockquote {
+  font-family: var(--font-serif);
+  font-style: normal;
+  font-size: 1.375rem;
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+  color: var(--foreground);
+  border-left: none;
+  border-top: 1px solid var(--foreground);
+  border-bottom: 1px solid var(--foreground);
+  padding: 1.5rem 0;
+  margin: 2rem 0;
+  text-align: center;
+}
+.hk-public .inspire-prose img {
+  border-radius: 0;
+}
+.hk-public .inspire-prose a {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--border-strong);
+}
+.hk-public .inspire-prose a:hover {
+  text-decoration-color: var(--foreground);
+}
+
+/* Ported inspire chrome inside the public shell: square off twn's rounded
+   card system and neutralise its accents. Editorial means sharp corners. */
+.hk-public .rounded-card,
+.hk-public .rounded-image {
+  border-radius: 0;
+}
+.hk-public .inspire-overline {
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  color: var(--muted-foreground);
 }

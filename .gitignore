@@ -32,3 +32,6 @@ next-env.d.ts
 
 # test artifacts
 /coverage
+
+# autopilot scratch space (ops scripts, dev logs) — never committed
+.tmp-ops/

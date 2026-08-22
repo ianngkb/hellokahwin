@@ -26,4 +26,3 @@ describe('generateSlug', () => {
     expect(generateSlug('  Rowan & Parsley!  ')).toBe('rowan-parsley');
   });
 });
-

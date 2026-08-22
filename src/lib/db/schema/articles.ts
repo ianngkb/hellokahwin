@@ -214,7 +214,6 @@ export const articleCategoriesRelations = relations(articleCategories, ({ one })
   }),
 }));
 
-
 export const articleCategoryRedirects = pgTable(
   'article_category_redirects',
   {

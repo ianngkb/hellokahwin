@@ -61,8 +61,7 @@ export function FigureBlockNodeView({
 
       try {
         const storage = editor.storage.figureBlock as
-          | { articleId?: string; articleSlug?: string }
-          | undefined;
+          { articleId?: string; articleSlug?: string } | undefined;
         const articleId = storage?.articleId || '';
         const articleSlug = storage?.articleSlug || '';
 

@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeftIcon, ShareIcon } from 'lucide-react';
-import { MoodboardSaveButton } from '@/components/moodboard/moodboard-save-button';
 import { PhotoGallery } from './photo-gallery';
 import { authorArchivePath } from '@/lib/authors/gate';
 import type { GalleryImage } from './article-renderer';
@@ -44,8 +43,6 @@ export function ArticleCoverMobile({
   readTime,
   galleryImages,
   articleId,
-  coverImageSaved,
-  hideMoodboard = false,
 }: ArticleCoverMobileProps) {
   return (
     <div className="-mx-4 lg:hidden">
@@ -61,12 +58,13 @@ export function ArticleCoverMobile({
             priority
           />
 
-          {/* Overlay nav — back, share, heart */}
+          {/* Overlay controls — back and share only. The spec bans save/heart
+              icons on this surface, so the moodboard button is not rendered. */}
           <div className="absolute top-0 right-0 left-0 z-10 flex items-center justify-between px-4 pt-4">
             <Link
               href={`/artikel/${categorySlug}`}
-              className="flex size-10 items-center justify-center rounded-full bg-white/90 shadow-md backdrop-blur-sm"
-              aria-label="Go back"
+              className="flex size-11 items-center justify-center bg-white/90 backdrop-blur-sm"
+              aria-label="Kembali ke kategori"
             >
               <ArrowLeftIcon className="size-5" />
             </Link>
@@ -82,20 +80,11 @@ export function ArticleCoverMobile({
                     navigator.clipboard.writeText(window.location.href);
                   }
                 }}
-                className="flex size-10 items-center justify-center rounded-full bg-white/90 shadow-md backdrop-blur-sm"
-                aria-label="Share"
+                className="flex size-11 items-center justify-center bg-white/90 backdrop-blur-sm"
+                aria-label="Kongsi artikel"
               >
                 <ShareIcon className="size-5" />
               </button>
-              {!hideMoodboard && (
-                <MoodboardSaveButton
-                  photoUrl={coverImageUrl}
-                  source="inspire_upload"
-                  sourceMetadata={{ type: 'inspire_upload', articleId }}
-                  isSaved={coverImageSaved}
-                  className="flex size-10 items-center justify-center rounded-full bg-white/90 shadow-md backdrop-blur-sm transition-colors hover:bg-white disabled:opacity-50"
-                />
-              )}
             </div>
           </div>
 
@@ -105,8 +94,8 @@ export function ArticleCoverMobile({
               <PhotoGallery
                 images={galleryImages}
                 trigger={
-                  <span className="rounded-full bg-black/60 px-2.5 py-1 text-xs text-white">
-                    View all photos ({galleryImages.length})
+                  <span className="hk-eyebrow bg-black/70 px-3 py-2 !text-white">
+                    Lihat semua foto ({galleryImages.length})
                   </span>
                 }
               />
@@ -114,16 +103,17 @@ export function ArticleCoverMobile({
           )}
         </div>
 
-        {/* Curved content panel — overlaps photo like Airbnb */}
-        <div className="relative -mt-6 overflow-hidden">
-          <div className="bg-background -mx-1 rounded-t-[24px] px-1">
-            <div className="px-4 pt-6">
-              <span className="inspire-overline text-brand-secondary">{categoryName}</span>
-              <h1 className="mt-2 text-2xl leading-tight">{title}</h1>
+        {/* Editorial header — headline on paper directly under the plate,
+            never over it. */}
+        <div className="relative">
+          <div className="bg-background">
+            <div className="px-4 pt-7 text-center">
+              <span className="hk-eyebrow">{categoryName}</span>
+              <h1 className="hk-display mt-3 text-[1.75rem]">{title}</h1>
               {/* Kept as flowing inline text, not a flex row: the "· Updated
                   {date} · {readTime}" tail below is a fragment of loose text
                   nodes, and each one would become its own flex item. */}
-              <p className="text-muted-foreground mt-2 text-sm">
+              <p className="hk-meta mt-4">
                 {authorAvatarUrl && (
                   <Image
                     src={authorAvatarUrl}
@@ -146,7 +136,7 @@ export function ArticleCoverMobile({
                 {updatedAt && (
                   <>
                     {' '}
-                    &middot; Updated{' '}
+                    &middot; Dikemas kini{' '}
                     {new Date(updatedAt).toLocaleDateString('ms-MY', {
                       year: 'numeric',
                       month: 'long',
@@ -157,7 +147,6 @@ export function ArticleCoverMobile({
                 {readTime && <> &middot; {readTime}</>}
               </p>
             </div>
-            <div className="bg-border mx-4 my-5 h-px" />
           </div>
         </div>
       </div>

@@ -9,11 +9,7 @@ import {
   ListObjectsV2Command,
 } from '@aws-sdk/client-s3';
 import { db } from '@/lib/db/drizzle';
-import {
-  articles,
-  articleCategories,
-  inspireCategories,
-} from '@/lib/db/schema/articles';
+import { articles, articleCategories, inspireCategories } from '@/lib/db/schema/articles';
 import { media } from '@/lib/db/schema/media';
 import { requireAdminSectionAction } from '@/lib/auth/admin';
 import { logAuditEvent, logAuditEventAsync } from '@/lib/audit/log';

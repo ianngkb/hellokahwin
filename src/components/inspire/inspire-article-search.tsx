@@ -56,8 +56,6 @@ export function InspireArticleSearch() {
       setResults(articles);
       setHasSearched(true);
       setIsOpen(true);
-
-
     } catch (err) {
       if (err instanceof DOMException && err.name === 'AbortError') return;
       setResults([]);

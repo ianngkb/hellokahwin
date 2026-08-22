@@ -1,0 +1,25 @@
+node_modules
+.next
+dist
+pnpm-lock.yaml
+package-lock.json
+
+# Build & tooling output
+out
+build
+.vercel
+.turbo
+coverage
+
+# Generated / vendored assets
+next-env.d.ts
+public
+
+# Agent tooling, generated output and scratch space
+_bmad
+_bmad-output
+.claude
+.tmp-ops
+
+# drizzle-kit owns these; reformatting them makes the next `db:generate` fight prettier
+src/lib/db/migrations

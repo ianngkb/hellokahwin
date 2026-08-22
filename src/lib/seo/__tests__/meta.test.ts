@@ -4,7 +4,7 @@ import {
   decodeMetaEntities,
   truncateForMeta,
   buildArticleDescription,
-  } from '../meta';
+} from '../meta';
 
 describe('stripBrandSuffix', () => {
   it('strips a complete trailing brand suffix', () => {
@@ -14,9 +14,7 @@ describe('stripBrandSuffix', () => {
   });
 
   it('strips a partial-brand truncation (the import bug)', () => {
-    expect(stripBrandSuffix('A Rustic Tuscan Wedding | HelloKah')).toBe(
-      'A Rustic Tuscan Wedding',
-    );
+    expect(stripBrandSuffix('A Rustic Tuscan Wedding | HelloKah')).toBe('A Rustic Tuscan Wedding');
     expect(stripBrandSuffix('An Intimate Wedding at Kayu Puti | Hello')).toBe(
       'An Intimate Wedding at Kayu Puti',
     );

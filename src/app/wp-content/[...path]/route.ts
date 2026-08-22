@@ -7,10 +7,7 @@ import { lookupLegacyImageRedirect } from '@/lib/services/legacy-image-redirects
  * `wp_url`), 404 otherwise. Image fetchers get the image; a browser deep-link
  * gets the article the image lives in.
  */
-export async function GET(
-  request: NextRequest,
-  context: { params: Promise<{ path: string[] }> },
-) {
+export async function GET(request: NextRequest, context: { params: Promise<{ path: string[] }> }) {
   const { path } = await context.params;
   const wpPath = `/wp-content/${path.join('/')}`;
 

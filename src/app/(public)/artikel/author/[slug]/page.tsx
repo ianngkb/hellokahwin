@@ -141,7 +141,7 @@ export default async function InspireAuthorPage({ params, searchParams }: Author
 
   const breadcrumbItems = [
     { label: 'Utama', href: '/' },
-    { label: 'Inspire', href: '/artikel' },
+    { label: 'Artikel', href: '/artikel' },
     { label: author.name },
   ];
 
@@ -189,57 +189,52 @@ export default async function InspireAuthorPage({ params, searchParams }: Author
       )}
       <Breadcrumbs items={breadcrumbItems} />
 
-      <div className="inspire-editorial">
-        {/* Author header */}
-        <header className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-start">
+      <div>
+        {/* Author header — centred colophon, matching the category and tag
+            archives. */}
+        <header className="border-border mx-auto max-w-2xl border-b pt-4 pb-10 text-center">
           {author.avatarUrl ? (
             <Image
               src={author.avatarUrl}
               alt=""
               width={96}
               height={96}
-              className="size-24 shrink-0 rounded-full object-cover"
+              className="mx-auto size-20 rounded-full object-cover"
               priority
             />
           ) : (
-            <span className="bg-muted text-muted-foreground flex size-24 shrink-0 items-center justify-center rounded-full">
-              <UserIcon className="size-9" />
+            <span className="bg-muted text-muted-foreground mx-auto flex size-20 items-center justify-center rounded-full">
+              <UserIcon className="size-8" />
             </span>
           )}
-          <div className="min-w-0">
-            <h1 className="inspire-display text-3xl">{author.name}</h1>
-            {author.title && <p className="text-muted-foreground mt-1 text-sm">{author.title}</p>}
-            {author.bio && (
-              <p className="mt-3 max-w-[65ch] text-sm leading-relaxed">{author.bio}</p>
+          <span className="hk-eyebrow mt-5 block">Penulis</span>
+          <h1 className="hk-display mt-2 text-[2rem] lg:text-[2.5rem]">{author.name}</h1>
+          {author.title && <p className="hk-meta mt-2">{author.title}</p>}
+          {author.bio && <p className="hk-deck mx-auto mt-4 max-w-[60ch]">{author.bio}</p>}
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-5">
+            <p className="hk-eyebrow">{total} Artikel</p>
+            {socials.length > 0 && (
+              <span className="flex items-center gap-4">
+                {socials.map(({ href, Icon, label }) => (
+                  <a
+                    key={href}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer nofollow"
+                    aria-label={label}
+                    className="text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    <Icon className="size-4" />
+                  </a>
+                ))}
+              </span>
             )}
-            <div className="mt-3 flex flex-wrap items-center gap-4">
-              <p className="text-muted-foreground text-sm">
-                <span className="text-foreground font-mono font-medium tabular-nums">{total}</span>{' '}
-                article{Number(total) === 1 ? '' : 's'}
-              </p>
-              {socials.length > 0 && (
-                <span className="flex items-center gap-3">
-                  {socials.map(({ href, Icon, label }) => (
-                    <a
-                      key={href}
-                      href={href}
-                      target="_blank"
-                      rel="noopener noreferrer nofollow"
-                      aria-label={label}
-                      className="text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                      <Icon className="size-4" />
-                    </a>
-                  ))}
-                </span>
-              )}
-            </div>
           </div>
         </header>
 
         {data.length > 0 ? (
           <>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-10 pt-10 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-14">
               {data.map((article, index) => (
                 <Fragment key={article.id}>
                   <ArticleCard

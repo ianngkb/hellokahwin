@@ -133,7 +133,9 @@ export async function requireAdminSection(
 /** Server actions. `section` is ignored — see module docblock. */
 export async function requireAdminSectionAction(
   _section: AdminSection,
-): Promise<{ error: null; user: AdminAuthUser } | { error: 'Unauthorized' | 'Forbidden'; user: null }> {
+): Promise<
+  { error: null; user: AdminAuthUser } | { error: 'Unauthorized' | 'Forbidden'; user: null }
+> {
   return requireAdminAction();
 }
 
