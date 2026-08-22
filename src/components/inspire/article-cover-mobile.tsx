@@ -26,8 +26,6 @@ interface ArticleCoverMobileProps {
   readTime: string | null;
   galleryImages: GalleryImage[];
   articleId: string;
-  coverImageSaved?: boolean;
-  hideMoodboard?: boolean;
 }
 
 export function ArticleCoverMobile({

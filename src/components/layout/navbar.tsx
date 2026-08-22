@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { getMastheadCategories } from '@/lib/services/inspire-nav';
-import { InspireNavMenu } from '@/components/inspire/inspire-nav-menu';
+import { InspireNavMenu, type MenuCategory } from '@/components/inspire/inspire-nav-menu';
+import { withDeadline } from '@/lib/api/timeout';
 
 /**
  * Public masthead — Editorial Monotone.
@@ -13,9 +14,20 @@ import { InspireNavMenu } from '@/components/inspire/inspire-nav-menu';
  *
  * The rail uses the admin-managed navigation (inspire_nav_items) and falls
  * back to top-level categories with published articles.
+ *
+ * SOFT-FAIL, DELIBERATELY. This component sits in the public layout, so it
+ * renders on every public page — an unhandled throw here does not lose the
+ * navigation, it 500s the entire site. A DB blip, a cold pool or a stalled
+ * connection must cost us the category rail and nothing else, which is the
+ * same `withDeadline` + swallow pattern the article pages already use.
  */
 export async function Navbar() {
-  const categories = await getMastheadCategories();
+  let categories: MenuCategory[] = [];
+  try {
+    categories = await withDeadline(getMastheadCategories(), 3000, 'masthead-categories');
+  } catch (err) {
+    console.error('[navbar] category rail unavailable:', err);
+  }
 
   return (
     <header className="border-border bg-background sticky top-0 z-40 border-b">

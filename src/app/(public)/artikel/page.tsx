@@ -8,6 +8,7 @@ import { db } from '@/lib/db/drizzle';
 import { articles, inspireCategories, articleCategories } from '@/lib/db/schema/articles';
 import { ArticleCard } from '@/components/inspire/article-card';
 import { getSmartCropUrl } from '@/lib/storage/smart-crop-url';
+import { flattenCategoriesByArticleCount } from '@/lib/inspire/category-tree';
 import { InspireArticleSearch } from '@/components/inspire/inspire-article-search';
 
 // ISR: getInspireHomeData() is unstable_cache-wrapped, but the page itself
@@ -128,29 +129,12 @@ const getInspireHomeData = unstable_cache(
 export default async function InspireHomePage() {
   const { latestArticles, allCategories } = await getInspireHomeData();
 
-  // Build top-level categories with aggregated descendant counts
-  const topCategories = allCategories
-    .filter((c) => !c.parentId)
-    .map((parent) => {
-      const children = allCategories.filter((c) => c.parentId === parent.id);
-      const grandchildren = allCategories.filter((c) =>
-        children.some((ch) => ch.id === c.parentId),
-      );
-      const totalCount =
-        parent.articleCount +
-        children.reduce((sum, c) => sum + c.articleCount, 0) +
-        grandchildren.reduce((sum, c) => sum + c.articleCount, 0);
-      return { ...parent, articleCount: totalCount, children, grandchildren };
-    });
-
-  // Bottom browse rail: every category that actually has published articles,
-  // parents and children alike, busiest first. Restricting this to top-level
-  // categories rendered a two-chip row against the imported WordPress
-  // taxonomy, where nearly all the depth sits one level down.
-  const bottomCategories = topCategories
-    .flatMap((parent) => [parent, ...parent.children, ...(parent.grandchildren ?? [])])
-    .filter((c) => c.articleCount > 0)
-    .sort((a, b) => b.articleCount - a.articleCount);
+  // Bottom browse index: every category that actually has something to read,
+  // counted with its full subtree, busiest first. Uncapped — unlike the home
+  // rail, this is a full index rather than a one-swipe row. Restricting it to
+  // top-level categories rendered a two-chip row against the imported
+  // WordPress taxonomy, where nearly all the depth sits one level down.
+  const bottomCategories = flattenCategoriesByArticleCount(allCategories);
 
   const featured = latestArticles.slice(0, 3);
   const latest = latestArticles.slice(3);

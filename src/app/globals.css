@@ -1774,7 +1774,11 @@
   --popover-foreground: oklch(0.19 0.004 85);
   --foreground: oklch(0.19 0.004 85); /* ink */
   --muted: oklch(0.955 0.003 85);
-  --muted-foreground: oklch(0.5 0.004 85); /* ~7:1 on paper */
+  /* Measured against the paper below, not estimated: 6.89:1 (WCAG 2.x).
+     0.50 lightness — the first value tried — is only 5.80:1, which clears AA
+     but is thin for 11px uppercase eyebrows on a cheap screen in daylight,
+     and this is the colour almost every label on the site uses. */
+  --muted-foreground: oklch(0.46 0.004 85);
 
   /* --- Interactive: ink is the only "brand colour" -------------------- */
   --primary: oklch(0.19 0.004 85);

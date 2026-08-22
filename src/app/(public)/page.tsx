@@ -7,6 +7,7 @@ import { db } from '@/lib/db/drizzle';
 import { articles, inspireCategories, articleCategories } from '@/lib/db/schema/articles';
 import { ArticleCard } from '@/components/inspire/article-card';
 import { getSmartCropUrl } from '@/lib/storage/smart-crop-url';
+import { flattenCategoriesByArticleCount } from '@/lib/inspire/category-tree';
 
 // ISR — same cadence as the artikel hub.
 export const revalidate = 1800;
@@ -78,33 +79,14 @@ const getHomeData = unstable_cache(
         .orderBy(inspireCategories.displayOrder),
     ]);
 
-    // The rail is a browse affordance, not a taxonomy view: it lists every
-    // category that actually has published articles — top level counted with
-    // its descendants, children on their own count — busiest first, capped at
-    // ten so it stays a swipe rather than a scroll. Listing only top-level
-    // categories left a two-chip rail on the imported WordPress taxonomy,
-    // where almost all the depth lives one level down.
-    const withDescendantCounts = categories.map((c) => {
-      const descendants = categories.filter((d) => d.parentId === c.id);
-      return {
-        id: c.id,
-        name: c.name,
-        slug: c.slug,
-        parentId: c.parentId,
-        articleCount:
-          Number(c.articleCount) + descendants.reduce((sum, d) => sum + Number(d.articleCount), 0),
-      };
-    });
-
-    const topCategories = withDescendantCounts
-      .filter((c) => c.articleCount > 0)
-      .sort((a, b) => {
-        // Parents first at equal weight so the rail reads broad-to-narrow.
-        if (b.articleCount !== a.articleCount) return b.articleCount - a.articleCount;
-        return (a.parentId ? 1 : 0) - (b.parentId ? 1 : 0);
-      })
-      .slice(0, 10)
-      .map(({ id, name, slug, articleCount }) => ({ id, name, slug, articleCount }));
+    // The rail is a browse affordance, not a taxonomy view: every category
+    // that actually has something to read, counted with its full subtree,
+    // busiest first — capped at ten so it stays a swipe rather than a scroll.
+    // Listing only top-level categories left a two-chip rail on the imported
+    // WordPress taxonomy, where almost all the depth lives one level down.
+    // `/artikel`'s bottom index shares the helper and differs only in having
+    // no cap, because that section is a full browse index.
+    const topCategories = flattenCategoriesByArticleCount(categories).slice(0, 10);
 
     return { latestArticles, topCategories };
   },

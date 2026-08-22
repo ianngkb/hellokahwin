@@ -412,12 +412,8 @@ export default async function InspireCategoryPage({ params, searchParams }: Cate
             <div className="flex flex-wrap gap-2">
               <Link
                 href={`/artikel/${categorySlug}`}
-                className={`rounded-full border px-4 py-1.5 text-xs font-medium tracking-wider uppercase transition-colors ${
-                  !sp.sub
-                    ? 'bg-foreground text-background border-foreground'
-                    : 'text-muted-foreground hover:text-foreground hover:border-foreground'
-                }`}
-                style={{ fontFamily: 'var(--font-geist)' }}
+                className="hk-chip"
+                data-active={Boolean(!sp.sub)}
               >
                 Semua
               </Link>
@@ -425,12 +421,8 @@ export default async function InspireCategoryPage({ params, searchParams }: Cate
                 <Link
                   key={child.id}
                   href={`/artikel/${categorySlug}?sub=${child.slug}`}
-                  className={`rounded-full border px-4 py-1.5 text-xs font-medium tracking-wider uppercase transition-colors ${
-                    activeChild?.id === child.id
-                      ? 'bg-foreground text-background border-foreground'
-                      : 'text-muted-foreground hover:text-foreground hover:border-foreground'
-                  }`}
-                  style={{ fontFamily: 'var(--font-geist)' }}
+                  className="hk-chip"
+                  data-active={Boolean(activeChild?.id === child.id)}
                 >
                   {child.name}
                 </Link>
@@ -447,12 +439,8 @@ export default async function InspireCategoryPage({ params, searchParams }: Cate
                   <div className="flex flex-wrap gap-2 pl-2">
                     <Link
                       href={`/artikel/${categorySlug}?sub=${activeChild.slug}`}
-                      className={`rounded-full border px-3 py-1 text-[11px] font-medium tracking-wider uppercase transition-colors ${
-                        !activeGrandchild
-                          ? 'bg-foreground text-background border-foreground'
-                          : 'text-muted-foreground hover:text-foreground hover:border-foreground'
-                      }`}
-                      style={{ fontFamily: 'var(--font-geist)' }}
+                      className="hk-chip"
+                      data-active={Boolean(!activeGrandchild)}
                     >
                       Semua {activeChild.name}
                     </Link>
@@ -460,12 +448,8 @@ export default async function InspireCategoryPage({ params, searchParams }: Cate
                       <Link
                         key={gc.id}
                         href={`/artikel/${categorySlug}?sub=${gc.slug}`}
-                        className={`rounded-full border px-3 py-1 text-[11px] font-medium tracking-wider uppercase transition-colors ${
-                          activeGrandchild?.id === gc.id
-                            ? 'bg-foreground text-background border-foreground'
-                            : 'text-muted-foreground hover:text-foreground hover:border-foreground'
-                        }`}
-                        style={{ fontFamily: 'var(--font-geist)' }}
+                        className="hk-chip"
+                        data-active={Boolean(activeGrandchild?.id === gc.id)}
                       >
                         {gc.name}
                       </Link>

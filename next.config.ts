@@ -43,10 +43,24 @@ function clerkFrontendApiHost(): string | null {
 }
 
 const clerkHost = clerkFrontendApiHost();
+
+// Script/XHR surface: clerk-js and the UI bundle load from the instance's
+// Frontend API, and Clerk's CDN + telemetry live on *.clerk.com.
 const clerkCspHosts = [
   'https://challenges.cloudflare.com',
   'https://*.clerk.accounts.dev',
   'https://*.clerk.com',
+  ...(clerkHost ? [`https://${clerkHost}`] : []),
+].join(' ');
+
+// Framing surface is deliberately NARROWER than the script surface. Only two
+// things are ever framed: the Turnstile challenge, and Clerk's own hosted
+// pages (the accounts portal on a dev instance, the Frontend API host on a
+// production one). `*.clerk.com` is Clerk's CDN/telemetry origin and has no
+// business being frameable by us, so it is not listed here.
+const clerkFrameHosts = [
+  'https://challenges.cloudflare.com',
+  'https://*.clerk.accounts.dev',
   ...(clerkHost ? [`https://${clerkHost}`] : []),
 ].join(' ');
 
@@ -58,7 +72,7 @@ const csp = [
   `connect-src 'self'${isDev ? ' ws://localhost:*' : ''} https://*.r2.cloudflarestorage.com ${clerkCspHosts}`,
   "font-src 'self' data:",
   `media-src 'self' ${r2CspHosts.join(' ')}`,
-  `frame-src 'self' ${clerkCspHosts}`,
+  `frame-src 'self' ${clerkFrameHosts}`,
   "worker-src 'self' blob:",
   "child-src 'self' blob:",
   "frame-ancestors 'none'",

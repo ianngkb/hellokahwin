@@ -130,7 +130,6 @@ export function ArticlePreviewView({ data, banner, variant = 'screen' }: Article
                       readTime={readTime}
                       galleryImages={galleryImages}
                       articleId={article.id}
-                      hideMoodboard
                     />
                   )}
 

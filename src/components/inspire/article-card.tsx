@@ -67,24 +67,13 @@ export function ArticleCard({
       </div>
       <div className="mt-3">
         {categories[0] && (
-          <p className="hk-eyebrow line-clamp-1">
+          <p className="hk-eyebrow truncate">
             <Link
               href={`/artikel/${categories[0].slug}`}
               className="hover:text-foreground relative z-[2] transition-colors"
             >
               {categories[0].name}
             </Link>
-            {categories.slice(1, 2).map((cat) => (
-              <span key={cat.slug}>
-                {' · '}
-                <Link
-                  href={`/artikel/${cat.slug}`}
-                  className="hover:text-foreground relative z-[2] transition-colors"
-                >
-                  {cat.name}
-                </Link>
-              </span>
-            ))}
           </p>
         )}
         <h3 className="hk-card-title mt-1.5 line-clamp-3 text-[1.0625rem] lg:text-[1.125rem]">
