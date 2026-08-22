@@ -2,6 +2,7 @@ import { eq, sql, isNull, asc, count } from 'drizzle-orm';
 import { db } from '@/lib/db/drizzle';
 import { inspireNavItems, inspireCategories, articleCategories } from '@/lib/db/schema/articles';
 import { requireAdminSection } from '@/lib/auth/admin';
+import { ConsoleBreadcrumb } from '@/components/console/console-breadcrumb';
 import { PageHeader } from '@/components/layout/page-header';
 import { NavManager } from './nav-manager';
 
@@ -62,7 +63,12 @@ export default async function InspireNavigationPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Inspire Navigation"
+        breadcrumb={
+          <ConsoleBreadcrumb
+            items={[{ label: 'Admin' }, { label: 'Site structure' }, { label: 'Navigation' }]}
+          />
+        }
+        title="Navigation"
         description="Manage the navigation menu on the Inspire page. Drag to reorder, toggle visibility, or add new items."
       />
       <NavManager items={allItems} availableCategories={filteredCategories} />

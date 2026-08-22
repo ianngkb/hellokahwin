@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { eq, desc } from 'drizzle-orm';
 import { notFound } from 'next/navigation';
-import { ArrowLeftIcon } from 'lucide-react';
 import { requireAdminSection } from '@/lib/auth/admin';
+import { ConsoleBreadcrumb } from '@/components/console/console-breadcrumb';
 import { db } from '@/lib/db/drizzle';
 import {
   articles,
@@ -252,13 +251,17 @@ export default async function EditArticlePage({ params }: EditPageProps) {
 
   return (
     <div>
-      <Link
-        href="/admin/inspire"
-        className="text-muted-foreground hover:text-foreground mb-4 inline-flex items-center text-sm transition-colors"
-      >
-        <ArrowLeftIcon className="mr-1 size-4" />
-        Back to Inspire
-      </Link>
+      {/* The editor supplies its own title chrome, so this is a bare trail
+          rather than a full PageHeader — it states where you are and offers
+          the way back without competing with the editor's own header. */}
+      <ConsoleBreadcrumb
+        className="mb-4"
+        items={[
+          { label: 'Admin' },
+          { label: 'Inspire', href: '/admin/inspire' },
+          { label: article.title || 'Untitled article' },
+        ]}
+      />
       <ArticleEditorLoader
         article={serializedArticle}
         categories={allCategories ?? []}

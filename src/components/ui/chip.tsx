@@ -58,6 +58,12 @@ type ChipProps = React.ComponentProps<'span'> &
     /** Renders a trailing ✕ with a ≥32px hit-area. Forces non-`sm` per DESIGN.md. */
     onRemove?: () => void;
     removeLabel?: string;
+    /**
+     * Leading status dot (Monochrome Precision §5 StatusChip). Painted in
+     * `currentColor`, so it takes the variant's own status hue with no extra
+     * token. Ignored under `asChild`, where Slot permits exactly one child.
+     */
+    dot?: boolean;
   };
 
 function Chip({
@@ -67,6 +73,7 @@ function Chip({
   selected = false,
   onRemove,
   removeLabel = 'Remove',
+  dot = false,
   asChild = false,
   onClick,
   children,
@@ -115,6 +122,12 @@ function Chip({
         children
       ) : (
         <>
+          {dot && (
+            <span
+              aria-hidden="true"
+              className="-ml-0.5 size-1.5 shrink-0 rounded-full bg-current opacity-80"
+            />
+          )}
           {children}
           {onRemove && (
             <button

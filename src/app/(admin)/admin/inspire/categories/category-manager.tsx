@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { PlusIcon, PencilIcon, TrashIcon, ChevronRightIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { FormField } from '@/components/ui/form-field';
 import { EmptyState } from '@/components/ui/empty-state';
 import {
   Select,
@@ -286,27 +286,23 @@ function CategoryFormDialog({
         <DialogHeader>
           <DialogTitle>{mode === 'create' ? 'Add Category' : 'Edit Category'}</DialogTitle>
         </DialogHeader>
-        <form action={formAction} className="space-y-4">
+        <form action={formAction} className="flex flex-col gap-5">
           {mode === 'edit' && category && <input type="hidden" name="id" value={category.id} />}
-          <div className="space-y-2">
-            <Label htmlFor="name">Name</Label>
+          <FormField label="Name" htmlFor="name" required>
             <Input id="name" name="name" defaultValue={category?.name} required />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="slug">Slug</Label>
+          </FormField>
+          <FormField label="Slug" htmlFor="slug" hint="Leave blank to generate one from the name.">
             <Input
               id="slug"
               name="slug"
               defaultValue={category?.slug}
               placeholder="Auto-generated from name"
             />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
+          </FormField>
+          <FormField label="Description" htmlFor="description">
             <Input id="description" name="description" defaultValue={category?.description ?? ''} />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="parentId">Parent Category</Label>
+          </FormField>
+          <FormField label="Parent category" htmlFor="parentId">
             <Select name="parentId" defaultValue={category?.parentId ?? 'none'}>
               <SelectTrigger>
                 <SelectValue placeholder="None (top-level)" />
@@ -321,9 +317,9 @@ function CategoryFormDialog({
                 ))}
               </SelectContent>
             </Select>
-          </div>
+          </FormField>
           {state && 'error' in state && state.error && (
-            <p className="text-destructive text-sm">{state.error}</p>
+            <p className="text-error text-[13px]">{state.error}</p>
           )}
           <DialogFooter>
             <Button type="button" variant="quiet" onClick={() => onOpenChange(false)}>

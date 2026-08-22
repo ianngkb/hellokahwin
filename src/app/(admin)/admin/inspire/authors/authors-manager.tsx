@@ -7,7 +7,7 @@ import { ExternalLinkIcon, PencilIcon, UploadIcon, UserIcon } from 'lucide-react
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { FormField } from '@/components/ui/form-field';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Chip } from '@/components/ui/chip';
@@ -210,7 +210,7 @@ function AuthorFormDialog({
         <DialogHeader>
           <DialogTitle>{author.name}</DialogTitle>
         </DialogHeader>
-        <form action={formAction} className="space-y-4">
+        <form action={formAction} className="flex flex-col gap-5">
           <input type="hidden" name="profileId" value={author.id} />
           <input type="hidden" name="avatarUrl" value={avatarUrl} />
 
@@ -228,7 +228,7 @@ function AuthorFormDialog({
                 <UploadIcon className="mr-1 size-3.5" />
                 {uploadPct !== null ? `Uploading ${uploadPct}%` : 'Upload photo'}
               </Button>
-              <p className="text-muted-foreground text-xs">JPG, PNG or WEBP, under 5MB.</p>
+              <p className="text-muted-foreground text-[11.5px]">JPG, PNG or WEBP, under 5MB.</p>
               <input
                 ref={fileInputRef}
                 type="file"
@@ -244,7 +244,7 @@ function AuthorFormDialog({
 
           {/* The gate. Both halves are required — the checkbox alone publishes
               nobody, which is the point (see the migration's comment block). */}
-          <div className="border-hairline rounded-card space-y-2 border p-3">
+          <div className="border-hairline rounded-[8px] border p-3.5">
             <label className="flex items-start gap-2.5">
               <Checkbox
                 name="isPublicAuthor"
@@ -258,9 +258,11 @@ function AuthorFormDialog({
                 }}
                 className="mt-0.5"
               />
-              <span className="text-sm">
-                <span className="font-medium">Publish as a public author</span>
-                <span className="text-muted-foreground block text-xs">
+              <span>
+                <span className="block text-[12.5px] font-semibold">
+                  Publish as a public author
+                </span>
+                <span className="text-muted-foreground block text-[11.5px]">
                   Links the byline on every article they wrote and creates /inspire/author/
                   {slug || '…'}. Untick to de-list them — nothing is deleted.
                 </span>
@@ -268,8 +270,7 @@ function AuthorFormDialog({
             </label>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="authorSlug">Slug</Label>
+          <FormField label="Slug" htmlFor="authorSlug">
             <Input
               id="authorSlug"
               name="authorSlug"
@@ -277,10 +278,9 @@ function AuthorFormDialog({
               onChange={(e) => setSlug(e.target.value)}
               placeholder="esther-kang"
             />
-          </div>
+          </FormField>
 
-          <div className="space-y-2">
-            <Label htmlFor="authorTitle">Title</Label>
+          <FormField label="Title" htmlFor="authorTitle">
             <Input
               id="authorTitle"
               name="authorTitle"
@@ -288,10 +288,9 @@ function AuthorFormDialog({
               placeholder="Founder & Editor"
               maxLength={120}
             />
-          </div>
+          </FormField>
 
-          <div className="space-y-2">
-            <Label htmlFor="authorBio">Bio</Label>
+          <FormField label="Bio" htmlFor="authorBio">
             <Textarea
               id="authorBio"
               name="authorBio"
@@ -300,40 +299,37 @@ function AuthorFormDialog({
               maxLength={1000}
               placeholder="A short third-person bio shown under their articles."
             />
-          </div>
+          </FormField>
 
-          <div className="space-y-2">
-            <Label htmlFor="authorWebsiteUrl">Website</Label>
+          <FormField label="Website" htmlFor="authorWebsiteUrl">
             <Input
               id="authorWebsiteUrl"
               name="authorWebsiteUrl"
               defaultValue={author.authorWebsiteUrl ?? ''}
               placeholder="https://example.com"
             />
-          </div>
+          </FormField>
 
-          <div className="space-y-2">
-            <Label htmlFor="authorInstagramUrl">Instagram</Label>
+          <FormField label="Instagram" htmlFor="authorInstagramUrl">
             <Input
               id="authorInstagramUrl"
               name="authorInstagramUrl"
               defaultValue={author.authorInstagramUrl ?? ''}
               placeholder="https://instagram.com/username"
             />
-          </div>
+          </FormField>
 
-          <div className="space-y-2">
-            <Label htmlFor="authorLinkedinUrl">LinkedIn</Label>
+          <FormField label="LinkedIn" htmlFor="authorLinkedinUrl">
             <Input
               id="authorLinkedinUrl"
               name="authorLinkedinUrl"
               defaultValue={author.authorLinkedinUrl ?? ''}
               placeholder="https://linkedin.com/in/username"
             />
-          </div>
+          </FormField>
 
           {state && 'error' in state && state.error && (
-            <p className="text-destructive text-sm">{state.error}</p>
+            <p className="text-error text-[13px]">{state.error}</p>
           )}
 
           <DialogFooter>

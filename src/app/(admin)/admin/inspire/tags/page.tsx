@@ -1,11 +1,9 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { eq, and, ilike, count, sql } from 'drizzle-orm';
 import { requireAdminSection } from '@/lib/auth/admin';
 import { db } from '@/lib/db/drizzle';
 import { inspireTags, articleTags } from '@/lib/db/schema/articles';
-import { Button } from '@/components/ui/button';
-import { ArrowLeftIcon } from 'lucide-react';
+import { ConsoleBreadcrumb } from '@/components/console/console-breadcrumb';
 import { PageHeader } from '@/components/layout/page-header';
 import { TagManager } from './tag-manager';
 
@@ -68,14 +66,15 @@ export default async function AdminInspireTagsPage({
     <div>
       <PageHeader
         breadcrumb={
-          <Button asChild variant="ghost" size="sm" className="-ml-2">
-            <Link href="/admin/inspire">
-              <ArrowLeftIcon className="mr-1 size-4" />
-              Back to Inspire
-            </Link>
-          </Button>
+          <ConsoleBreadcrumb
+            items={[
+              { label: 'Admin' },
+              { label: 'Inspire', href: '/admin/inspire' },
+              { label: 'Tags' },
+            ]}
+          />
         }
-        title="Inspire Tags"
+        title="Tags"
         description="Manage article tags for taxonomy and filtering."
       />
 

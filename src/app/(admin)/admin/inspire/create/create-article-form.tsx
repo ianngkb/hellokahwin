@@ -3,8 +3,9 @@
 import { useState } from 'react';
 import { useActionState } from 'react';
 import { Button } from '@/components/ui/button';
+import { FormField } from '@/components/ui/form-field';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { SectionCard } from '@/components/ui/section-card';
 import {
   CategorySelect,
   CategoryMultiSelect,
@@ -43,66 +44,66 @@ export function CreateArticleForm({ categories }: { categories: Category[] }) {
   }
 
   return (
-    <form action={formAction} className="max-w-lg space-y-6">
-      <div className="space-y-2">
-        <Label htmlFor="title">Article Title</Label>
-        <Input id="title" name="title" placeholder="Enter article title" required />
-      </div>
+    <form action={formAction} className="max-w-2xl">
+      <SectionCard title="Article details" bodyClassName="flex flex-col gap-5">
+        <FormField label="Article title" htmlFor="title" required>
+          <Input id="title" name="title" placeholder="Enter article title" required />
+        </FormField>
 
-      <div className="space-y-2">
-        <Label htmlFor="primaryCategoryId">Primary Category</Label>
-        <CategorySelect
-          categories={categories}
-          name="primaryCategoryId"
-          value={primaryCategoryId}
-          onValueChange={handlePrimaryCategoryChange}
-          placeholder="Select a category"
-          required
-        />
-      </div>
-
-      {primaryCategoryId && (
-        <div className="space-y-2">
-          <Label>Secondary Categories</Label>
-          <p className="text-muted-foreground text-xs">
-            Article will also appear on these category pages
-          </p>
-          <CategoryMultiSelect
+        <FormField label="Primary category" htmlFor="primaryCategoryId" required>
+          <CategorySelect
             categories={categories}
-            primaryCategoryId={primaryCategoryId}
-            selectedIds={secondaryCategoryIds}
-            onChange={handleSecondaryCategoryChange}
+            name="primaryCategoryId"
+            value={primaryCategoryId}
+            onValueChange={handlePrimaryCategoryChange}
+            placeholder="Select a category"
+            required
           />
+        </FormField>
+
+        {primaryCategoryId && (
+          <FormField
+            label="Secondary categories"
+            hint="Article will also appear on these category pages."
+          >
+            <CategoryMultiSelect
+              categories={categories}
+              primaryCategoryId={primaryCategoryId}
+              selectedIds={secondaryCategoryIds}
+              onChange={handleSecondaryCategoryChange}
+            />
+          </FormField>
+        )}
+
+        {secondaryCategoryIds.length > 0 && (
+          <FormField
+            label="Tertiary categories"
+            hint="Specific sub-categories for finer cross-listing."
+          >
+            <CategoryTertiarySelect
+              categories={categories}
+              secondaryCategoryIds={secondaryCategoryIds}
+              selectedIds={tertiaryCategoryIds}
+              onChange={setTertiaryCategoryIds}
+            />
+          </FormField>
+        )}
+
+        {/* Hidden inputs for all additional category IDs */}
+        {[...secondaryCategoryIds, ...tertiaryCategoryIds].map((id) => (
+          <input key={id} type="hidden" name="additionalCategoryIds" value={id} />
+        ))}
+
+        {state && 'error' in state && state.error && (
+          <p className="text-error text-[13px]">{state.error}</p>
+        )}
+
+        <div className="border-hairline -mx-5 -mb-5 mt-1 flex justify-end border-t px-5 py-4">
+          <Button type="submit" disabled={pending}>
+            {pending ? 'Creating…' : 'Create article'}
+          </Button>
         </div>
-      )}
-
-      {secondaryCategoryIds.length > 0 && (
-        <div className="space-y-2">
-          <Label>Tertiary Categories</Label>
-          <p className="text-muted-foreground text-xs">
-            Specific sub-categories for finer cross-listing
-          </p>
-          <CategoryTertiarySelect
-            categories={categories}
-            secondaryCategoryIds={secondaryCategoryIds}
-            selectedIds={tertiaryCategoryIds}
-            onChange={setTertiaryCategoryIds}
-          />
-        </div>
-      )}
-
-      {/* Hidden inputs for all additional category IDs */}
-      {[...secondaryCategoryIds, ...tertiaryCategoryIds].map((id) => (
-        <input key={id} type="hidden" name="additionalCategoryIds" value={id} />
-      ))}
-
-      {state && 'error' in state && state.error && (
-        <p className="text-destructive text-sm">{state.error}</p>
-      )}
-
-      <Button type="submit" disabled={pending}>
-        {pending ? 'Creating...' : 'Create Article'}
-      </Button>
+      </SectionCard>
     </form>
   );
 }

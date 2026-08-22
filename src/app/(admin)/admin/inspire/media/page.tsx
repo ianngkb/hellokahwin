@@ -1,12 +1,11 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { desc, count, eq, and, ilike, or, inArray } from 'drizzle-orm';
 import { requireAdminSection } from '@/lib/auth/admin';
 import { db } from '@/lib/db/drizzle';
 import { media, mediaArticleUsage } from '@/lib/db/schema/media';
 import { articles } from '@/lib/db/schema/articles';
 import { profiles } from '@/lib/db/schema/profiles';
-import { Button } from '@/components/ui/button';
+import { ConsoleBreadcrumb } from '@/components/console/console-breadcrumb';
 import { PageHeader } from '@/components/layout/page-header';
 import { MediaGallery } from '@/components/media/media-gallery';
 import type { Media } from '@/lib/db/schema/media';
@@ -92,13 +91,9 @@ export default async function AdminMediaPage({
   return (
     <div>
       <PageHeader
-        title="Media Library"
+        breadcrumb={<ConsoleBreadcrumb items={[{ label: 'Admin' }, { label: 'Media library' }]} />}
+        title="Media library"
         description="Browse, upload, and manage images across all articles."
-        actions={
-          <Button asChild variant="quiet">
-            <Link href="/admin/inspire">Articles</Link>
-          </Button>
-        }
       />
 
       <MediaGallery

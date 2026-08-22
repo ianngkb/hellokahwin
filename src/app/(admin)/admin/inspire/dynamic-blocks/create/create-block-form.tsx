@@ -19,7 +19,7 @@ export function CreateBlockForm() {
 
   return (
     <SectionCard title="Block details">
-      <form action={formAction} className="space-y-6">
+      <form action={formAction} className="flex flex-col gap-5">
         <FormField
           label="Name"
           htmlFor="name"
@@ -50,11 +50,13 @@ export function CreateBlockForm() {
           </Select>
         </FormField>
 
-        {state?.error && <p className="text-destructive text-sm">{state.error}</p>}
+        {state?.error && <p className="text-error text-[13px]">{state.error}</p>}
 
-        <Button type="submit" disabled={isPending}>
-          {isPending ? 'Creating…' : 'Create Block'}
-        </Button>
+        <div className="border-hairline -mx-5 -mb-5 mt-1 flex justify-end border-t px-5 py-4">
+          <Button type="submit" disabled={isPending}>
+            {isPending ? 'Creating…' : 'Create block'}
+          </Button>
+        </div>
       </form>
     </SectionCard>
   );

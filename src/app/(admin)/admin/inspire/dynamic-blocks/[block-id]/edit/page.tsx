@@ -8,7 +8,7 @@ import { isUuid } from '@/lib/auth/is-uuid';
 import { db } from '@/lib/db/drizzle';
 import { dynamicBlocks, dynamicBlockRules } from '@/lib/db/schema/dynamic-blocks';
 import { articles, inspireCategories, inspireTags } from '@/lib/db/schema/articles';
-import { Button } from '@/components/ui/button';
+import { ConsoleBreadcrumb } from '@/components/console/console-breadcrumb';
 import { PageHeader } from '@/components/layout/page-header';
 import { BlockEditorLoader } from './block-editor';
 
@@ -62,14 +62,16 @@ export default async function EditDynamicBlockPage({ params }: EditBlockPageProp
     <div>
       <PageHeader
         breadcrumb={
-          <Button asChild variant="ghost" size="sm" className="-ml-2">
-            <Link href="/admin/inspire/dynamic-blocks">
-              <ArrowLeftIcon className="mr-1 size-4" />
-              Back to Dynamic Blocks
-            </Link>
-          </Button>
+          <ConsoleBreadcrumb
+            items={[
+              { label: 'Admin' },
+              { label: 'Inspire', href: '/admin/inspire' },
+              { label: 'Dynamic blocks', href: '/admin/inspire/dynamic-blocks' },
+              { label: block.name },
+            ]}
+          />
         }
-        title="Edit Dynamic Block"
+        title="Edit dynamic block"
         description="Content, placement and targeting rules for this block."
       />
       <BlockEditorLoader

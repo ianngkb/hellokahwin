@@ -1,4 +1,7 @@
+import { CheckCircle2Icon, TriangleAlertIcon } from 'lucide-react';
 import { requireAdminSection } from '@/lib/auth/admin';
+import { ConsoleBreadcrumb } from '@/components/console/console-breadcrumb';
+import { EmptyState } from '@/components/ui/empty-state';
 import { PageHeader } from '@/components/layout/page-header';
 import { analyzeTagsForMergeAction } from '../actions';
 import { MergeReview } from './merge-review';
@@ -9,8 +12,12 @@ export default async function MergeTagsPage() {
 
   if (error) {
     return (
-      <div>
-        <p className="text-error">Error: {error}</p>
+      <div className="bg-card rounded-card border-hairline border">
+        <EmptyState
+          icon={<TriangleAlertIcon className="text-error" />}
+          title="Could not analyse tags"
+          description={error}
+        />
       </div>
     );
   }
@@ -20,7 +27,17 @@ export default async function MergeTagsPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Tag Merge Tool"
+        breadcrumb={
+          <ConsoleBreadcrumb
+            items={[
+              { label: 'Admin' },
+              { label: 'Inspire', href: '/admin/inspire' },
+              { label: 'Tags', href: '/admin/inspire/tags' },
+              { label: 'Merge' },
+            ]}
+          />
+        }
+        title="Merge tags"
         description={
           <>
             <span className="font-mono tabular-nums">{groups.length}</span> merge group
@@ -33,7 +50,13 @@ export default async function MergeTagsPage() {
       />
 
       {groups.length === 0 ? (
-        <p className="text-muted-foreground">No duplicate tags detected. All clean!</p>
+        <div className="bg-card rounded-card border-hairline border">
+          <EmptyState
+            icon={<CheckCircle2Icon />}
+            title="No duplicate tags"
+            description="Every tag is distinct — there is nothing to merge right now."
+          />
+        </div>
       ) : (
         <MergeReview groups={groups} />
       )}

@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
-import { ArrowLeftIcon } from 'lucide-react';
 import { requireAdminSection } from '@/lib/auth/admin';
 import { db } from '@/lib/db/drizzle';
 import { inspireCategories } from '@/lib/db/schema/articles';
+import { ConsoleBreadcrumb } from '@/components/console/console-breadcrumb';
 import { PageHeader } from '@/components/layout/page-header';
 import { CreateArticleForm } from './create-article-form';
 
@@ -26,15 +25,16 @@ export default async function CreateArticlePage() {
   return (
     <div>
       <PageHeader
-        title="New Article"
+        title="New article"
+        description="Title and category start the draft — everything else is set in the editor."
         breadcrumb={
-          <Link
-            href="/admin/inspire"
-            className="text-muted-foreground hover:text-foreground inline-flex items-center transition-colors"
-          >
-            <ArrowLeftIcon className="mr-1 size-4" />
-            Back to Inspire
-          </Link>
+          <ConsoleBreadcrumb
+            items={[
+              { label: 'Admin' },
+              { label: 'Inspire', href: '/admin/inspire' },
+              { label: 'New article' },
+            ]}
+          />
         }
       />
       <CreateArticleForm categories={categories} />

@@ -476,3 +476,86 @@ Append-only. One line per decision autopilot made without interrupting the user.
   `.claude/skills/` and two export scripts. Not this run's work — left entirely
   alone and surfaced in the ship report. It appears to duplicate the port change
   already shipped, but that is Ian's call, not mine.
+
+## Admin console facelift (branch ianng89/admin-facelift)
+
+- [2026-08-23] Resumed at Phase 2: worktree clean, no commits ahead of
+  origin/master, no spec for this task. Brief was on record via --dispatched, so
+  intake was skipped.
+- [2026-08-23] The brief describes a ./frontend React 18 SPA with pages
+  PublishingDashboard / ContentDiscovery / ReviewWorkspace / TranslationWorkspace
+  / Settings. No such directory or pages exist. Chose to target the real admin
+  surface (Next.js App Router, src/app/(admin)/admin/**: articles, editor,
+  create, categories, tags, tag-merge, authors, navigation, dynamic-blocks,
+  media) over stopping for clarification, because the intent -- adopt TWN's
+  admin look and feel -- is unambiguous and only the path description is stale.
+- [2026-08-23] Discovery that reshaped the plan: HK globals.css ALREADY carries
+  the full Monochrome Precision token layer, the .console-table skin and the
+  console button metrics, all scoped to .font-ui-sans -- and no component in the
+  repo uses that class. Chose activation + shell construction + screen
+  composition over re-porting the design from scratch: less new CSS, far less
+  regression surface, and it uses a colour layer that has already shipped.
+- [2026-08-23] Omitted TWN's per-section permissions filter from the nav
+  registry. HK gates admin access with a Clerk email allowlist where every admin
+  is a super-admin, so the filter would be dead code. Existing
+  requireAdminSection() calls in pages are left untouched.
+- [2026-08-23] Kept Clerk's <UserButton /> in the command bar rather than porting
+  TWN's AdminUserMenu. The user menu is auth functionality, and the brief forbids
+  functional change.
+- [2026-08-23] No cmdk dependency for the command palette -- built on the Dialog
+  primitive already in the repo, per "ordinary dependencies only when needed".
+- [2026-08-23] (admin-preview) and (print) route groups deliberately excluded.
+  The first must look like the public site so draft previews are truthful; the
+  second is bare on purpose for PDF output.
+- [2026-08-23] article-editor.tsx (3.2k lines) gets chrome-only restyling, not a
+  recomposition. It is the highest-risk behavioural surface in the app and the
+  brief's hard constraint is that nothing stops working.
+- [2026-08-23] Ran planning and implementation inline in this session rather than
+  dispatching child-worktree subagents: this session is configured not to use the
+  Agent tool. The one-spec rule is still honoured (one spec file, auto-accepted).
+- [2026-08-23] _bmad/ is untracked in the primary checkout and therefore absent
+  from this worktree; copied it in and added it to .git/info/exclude so the
+  engine is available locally without polluting the commit.
+- [2026-08-23] RESOLVED the ./frontend mystery, and it changes nothing about the
+  target. `frontend/` is real, but only on the STALE LOCAL `master` branch in the
+  primary checkout -- which is 1 commit ahead of and 10+ commits behind
+  origin/master, with an entirely different tree (backend/, database/, frontend/,
+  *_tasks.md). It is the pre-migration prototype: an Electron desktop app,
+  package.json description "Desktop application for TWN to HelloKahwin content
+  migration", CRA + React 18 + Tailwind 3, pages PublishingDashboard /
+  ContentDiscovery / ReviewWorkspace / TranslationWorkspace / Settings -- exactly
+  what the brief described. Two commits ever touched it.
+  Chose the live Next.js admin console anyway, on three grounds: (a) the brief
+  says "the CMS frontend", and the Electron tool is a one-off migration utility,
+  not the CMS; (b) the brief directs the work to a worktree cut from fresh
+  origin/master, where `frontend/` does not exist at all, so work there could not
+  be committed on this branch or shipped; (c) origin/master is what is deployed
+  to hellokahwin.com. Flagged prominently in the final report so it can be
+  redirected if this reading is wrong.
+- [2026-08-23] Closed twn-new design-system §7's KNOWN GAP on geometry by adding
+  console-scoped --radius-card: 12px / --radius-control: 8px / --radius-image:
+  8px. TWN left this unfixed because changing it would move values already in
+  production; HelloKahwin's console had never been switched on, so these are
+  being set to the specified values on first render rather than moved off them.
+- [2026-08-23] Set PageHeader's type to the design system's exact §3 scale
+  (25px/600/-0.03em title, 13.5px body) instead of the nearest Tailwind steps.
+  Safe because PageHeader is used by the (admin) group only -- verified zero
+  public callers -- so the literals cannot leak onto a public page.
+- [2026-08-23] Replaced every "<- Back to Inspire" ghost button with a
+  ConsoleBreadcrumb micro-label trail. Those buttons existed because the old
+  shell was one row of top-bar links with no sense of place; the sidebar and tab
+  row now do that job, and a back BUTTON reads as an action -- the loudest thing
+  in a header whose job is to be quiet.
+- [2026-08-23] Rendered the console brand lockup as TYPE, not the logo asset.
+  /hellokahwin-logo.png is fully opaque RGBA on a cream field (alpha 255
+  everywhere, verified by decoding the PNG), so TWN's CSS-mask-over-currentColor
+  technique would paint a solid rectangle, and an <img> would plant a cream block
+  in a dark console.
+- [2026-08-23] Group tab bar renders only for groups with 2+ destinations. TWN
+  keeps single-tab bars because a restricted ROLE there can be left with one
+  permitted tab; HelloKahwin has no per-section roles, so a one-tab group is
+  one-tab for everyone and the row would be pure noise.
+- [2026-08-23] Local `pnpm build` COMPILES cleanly but cannot finish: static
+  prerender of PUBLIC pages fails with ECONNREFUSED because this machine has no
+  .env and no database. Untouched pages, environment gap, not a code defect.
+  Left to /buildit, which owns this repo's real ship gate.

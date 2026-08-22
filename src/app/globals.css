@@ -406,6 +406,28 @@
    ========================================= */
 .font-ui-sans,
 .ds-surface-console {
+  /* Geist itself, for the console only.
+     ----------------------------------------
+     `:root` maps `--font-geist` to a SYSTEM stack — a deliberate choice for the
+     public site, whose audience is on cheap Android and slow connections and
+     which therefore ships zero webfont bytes. That reasoning does not extend to
+     the console: it is a handful of staff on desktops, and the design system
+     specifies Geist by name. `(admin)/layout.tsx` loads it through `next/font`
+     and exposes it as `--font-geist-console`, so the bytes are requested on
+     admin routes only and the public site's font budget is untouched.
+     The fallback keeps the system stack, so anything carrying
+     `.ds-surface-console` outside that layout still renders correctly. */
+  --font-geist: var(
+    --font-geist-console,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    'Helvetica Neue',
+    Arial,
+    sans-serif
+  );
   --font-serif: var(--font-geist);
   --font-accent: var(--font-geist);
   --font-cormorant: var(--font-geist);
@@ -566,6 +588,28 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.145 0 0);
+
+  /* Geometry — admin-vendor-design-system.md §4
+     ----------------------------------------
+     The design system specifies card 12px / control 8px / chip 999px for the
+     console, which is deliberately crisper than the public site's v2 semantic
+     scale (`--radius-card: 8px`, `--radius-control: 2px`). Overriding the two
+     tokens here is what makes `rounded-card` and every control that reads
+     `--radius-control` resolve to the console's own geometry, instead of the
+     per-component `border-radius: 8px` literals further down this file.
+
+     twn-new lists this as a KNOWN GAP (§7) precisely because fixing it there
+     would change values already in production. HelloKahwin's console had never
+     been switched on at all before this change, so there is no shipped
+     geometry to disturb — the tokens are being set to the specified values on
+     their first render, not moved off them.
+
+     `--radius-modal` (16px) and the legacy t-shirt scale are untouched: the
+     spec has nothing to say about modals, and `rounded-md`/`rounded-lg` are
+     shared with the public site through `@theme inline`. */
+  --radius-card: 12px;
+  --radius-control: 8px;
+  --radius-image: 8px;
 }
 
 .font-ui-sans[data-theme='dark'],

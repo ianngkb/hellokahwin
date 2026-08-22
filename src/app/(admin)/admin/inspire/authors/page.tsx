@@ -1,12 +1,10 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { and, count, eq, sql } from 'drizzle-orm';
-import { ArrowLeftIcon } from 'lucide-react';
 import { requireAdminSection } from '@/lib/auth/admin';
 import { db } from '@/lib/db/drizzle';
 import { profiles } from '@/lib/db/schema/profiles';
 import { articles } from '@/lib/db/schema/articles';
-import { Button } from '@/components/ui/button';
+import { ConsoleBreadcrumb } from '@/components/console/console-breadcrumb';
 import { PageHeader } from '@/components/layout/page-header';
 import { authorDisplayName } from '@/lib/authors/gate';
 import { generateSlug } from '@/lib/utils/slug';
@@ -82,12 +80,13 @@ export default async function AdminInspireAuthorsPage() {
     <div>
       <PageHeader
         breadcrumb={
-          <Button asChild variant="ghost" size="sm" className="-ml-2">
-            <Link href="/admin/inspire">
-              <ArrowLeftIcon className="mr-1 size-4" />
-              Back to Inspire
-            </Link>
-          </Button>
+          <ConsoleBreadcrumb
+            items={[
+              { label: 'Admin' },
+              { label: 'Inspire', href: '/admin/inspire' },
+              { label: 'Authors' },
+            ]}
+          />
         }
         title="Authors"
         description="Photo, bio and socials for the people credited on articles. An author is only public once they are explicitly published."

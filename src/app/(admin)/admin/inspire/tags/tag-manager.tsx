@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { FormField } from '@/components/ui/form-field';
 import { Chip } from '@/components/ui/chip';
 import { ConsoleTable } from '@/components/ui/console-table';
 import { EmptyState } from '@/components/ui/empty-state';
@@ -287,43 +287,43 @@ function TagFormDialog({
         <DialogHeader>
           <DialogTitle>{mode === 'create' ? 'Add Tag' : 'Edit Tag'}</DialogTitle>
         </DialogHeader>
-        <form action={formAction} className="space-y-4">
+        <form action={formAction} className="flex flex-col gap-5">
           {mode === 'edit' && tag && <input type="hidden" name="id" value={tag.id} />}
           {/* Sentinel — an unchecked checkbox is absent from FormData, which is
               indistinguishable from "field not submitted". This marks the
               isHidden checkbox as part of the submission so the action can tell
               "unchecked" from "omitted". */}
           <input type="hidden" name="isHiddenPresent" value="1" />
-          <div className="space-y-2">
-            <Label htmlFor="name">Name</Label>
+          <FormField label="Name" htmlFor="name" required>
             <Input id="name" name="name" defaultValue={tag?.name} required />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="slug">Slug</Label>
+          </FormField>
+          <FormField label="Slug" htmlFor="slug" hint="Leave blank to generate one from the name.">
             <Input
               id="slug"
               name="slug"
               defaultValue={tag?.slug}
               placeholder="Auto-generated from name"
             />
-          </div>
-          <div className="space-y-2">
-            <label className="flex items-center gap-2 text-sm">
+          </FormField>
+          <div className="border-hairline rounded-[8px] border p-3.5">
+            <label className="flex items-start gap-2.5">
               <input
                 type="checkbox"
                 name="isHidden"
                 defaultChecked={tag?.isHidden ?? false}
-                className="size-4"
+                className="border-hairline mt-0.5 size-4 rounded"
               />
-              Hidden from front end
+              <span>
+                <span className="block text-[12.5px] font-semibold">Hidden from front end</span>
+                <span className="text-muted-foreground block text-[11.5px]">
+                  Admin-only tag. Still assignable to articles, but never shown to readers and its
+                  archive page returns 404.
+                </span>
+              </span>
             </label>
-            <p className="text-muted-foreground text-xs">
-              Admin-only tag. Still assignable to articles, but never shown to readers and its
-              archive page returns 404.
-            </p>
           </div>
           {state && 'error' in state && state.error && (
-            <p className="text-destructive text-sm">{state.error}</p>
+            <p className="text-error text-[13px]">{state.error}</p>
           )}
           <DialogFooter>
             <Button type="button" variant="quiet" onClick={() => onOpenChange(false)}>

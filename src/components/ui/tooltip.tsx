@@ -4,6 +4,7 @@ import * as React from 'react';
 import { Tooltip as TooltipPrimitive } from 'radix-ui';
 
 import { cn } from '@/lib/utils';
+import { getConsolePortalContainer } from '@/lib/ui/console-portal';
 
 function TooltipProvider({
   delayDuration = 200,
@@ -35,7 +36,11 @@ function TooltipContent({
   ...props
 }: React.ComponentProps<typeof TooltipPrimitive.Content>) {
   return (
-    <TooltipPrimitive.Portal>
+    /* Portalled into `#console-root` when one exists, so a tooltip opened
+       inside the admin console inherits the console tokens (and dark mode)
+       instead of falling back to the public palette. Returns null on public
+       pages, where Radix then uses `document.body` exactly as before. */
+    <TooltipPrimitive.Portal container={getConsolePortalContainer()}>
       <TooltipPrimitive.Content
         sideOffset={sideOffset}
         className={cn(

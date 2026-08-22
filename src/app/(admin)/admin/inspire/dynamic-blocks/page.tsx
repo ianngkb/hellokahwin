@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
 import { ConsoleTable } from '@/components/ui/console-table';
 import { EmptyState } from '@/components/ui/empty-state';
+import { ConsoleBreadcrumb } from '@/components/console/console-breadcrumb';
 import { PageHeader } from '@/components/layout/page-header';
 import { StatusChip } from '@/lib/ui/status-chip';
 
@@ -96,14 +97,15 @@ export default async function AdminDynamicBlocksPage() {
     <div>
       <PageHeader
         breadcrumb={
-          <Button asChild variant="ghost" size="sm" className="-ml-2">
-            <Link href="/admin/inspire">
-              <ArrowLeftIcon className="mr-1 size-4" />
-              Back to Inspire
-            </Link>
-          </Button>
+          <ConsoleBreadcrumb
+            items={[
+              { label: 'Admin' },
+              { label: 'Inspire', href: '/admin/inspire' },
+              { label: 'Dynamic blocks' },
+            ]}
+          />
         }
-        title="Dynamic Blocks"
+        title="Dynamic blocks"
         description="Reusable content blocks injected into matching articles at render time, or embedded manually from the article editor."
         actions={
           <Button asChild>

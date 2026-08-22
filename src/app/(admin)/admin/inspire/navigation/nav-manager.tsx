@@ -21,7 +21,7 @@ import { toast } from 'sonner';
 import { PlusIcon, ChevronDownIcon, ChevronRightIcon, SearchIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { FormField } from '@/components/ui/form-field';
 import { EmptyState } from '@/components/ui/empty-state';
 import {
   Select,
@@ -382,8 +382,7 @@ export function NavManager({
           </DialogHeader>
           <div className="space-y-4">
             {!addParentId && (
-              <div className="space-y-2">
-                <Label>Type</Label>
+              <FormField label="Type">
                 <Select
                   value={addType}
                   onValueChange={(v) => setAddType(v as 'category' | 'custom_link')}
@@ -396,12 +395,11 @@ export function NavManager({
                     <SelectItem value="custom_link">Custom Link</SelectItem>
                   </SelectContent>
                 </Select>
-              </div>
+              </FormField>
             )}
 
             {addType === 'category' && !addParentId && (
-              <div className="space-y-2">
-                <Label>Category</Label>
+              <FormField label="Category">
                 <div className="relative">
                   <SearchIcon className="text-muted-foreground absolute top-1/2 left-2.5 size-3.5 -translate-y-1/2" />
                   <Input
@@ -441,27 +439,25 @@ export function NavManager({
                     })
                   )}
                 </div>
-              </div>
+              </FormField>
             )}
 
-            <div className="space-y-2">
-              <Label>Label</Label>
+            <FormField label="Label">
               <Input
                 value={addLabel}
                 onChange={(e) => setAddLabel(e.target.value)}
                 placeholder="Menu label..."
               />
-            </div>
+            </FormField>
 
             {(addType === 'custom_link' || addParentId) && (
-              <div className="space-y-2">
-                <Label>URL {addParentId && '(optional for custom links)'}</Label>
+              <FormField label="URL" hint={addParentId ? 'Optional for custom links.' : undefined}>
                 <Input
                   value={addUrl}
                   onChange={(e) => setAddUrl(e.target.value)}
                   placeholder="/artikel/..."
                 />
-              </div>
+              </FormField>
             )}
           </div>
           <DialogFooter>
@@ -490,15 +486,13 @@ export function NavManager({
             <DialogTitle>Edit Navigation Item</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
-            <div className="space-y-2">
-              <Label>Label</Label>
+            <FormField label="Label">
               <Input value={editLabel} onChange={(e) => setEditLabel(e.target.value)} />
-            </div>
+            </FormField>
             {editItem?.type === 'custom_link' && (
-              <div className="space-y-2">
-                <Label>URL</Label>
+              <FormField label="URL">
                 <Input value={editUrl} onChange={(e) => setEditUrl(e.target.value)} />
-              </div>
+              </FormField>
             )}
           </div>
           <DialogFooter>
