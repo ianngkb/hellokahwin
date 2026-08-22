@@ -111,14 +111,17 @@ publication Ian wants.
 - [x] Resolve Clerk / Supabase / R2 credentials from the vault into `.env.local`
 - [x] Rotate + vault the Supabase DB password; verify the pooler connection
 - [x] Confirm migrations against the live DB (2 applied, 18 public tables)
-- [x] Create + confirm R2 buckets and public URLs
-- [x] Run the WP import against the live DB (29/29 published, 15 categories)
+- [x] Run the WP import against the live DB (29/29 published, 15 categories,
+      images to R2, zero duplicates)
 - [x] Clerk: allowlist env, middleware, `/admin` gating verified signed-out
 - [x] Clerk: CSP fix for the production Frontend API host
-- [ ] Clerk: 5 production CNAMEs on hellokahwin.com — **BLOCKED**: the granted
-      Cloudflare token is read-only (introspected; see decisions log)
-- [ ] R2: buckets in the TWN account + images uploaded — **BLOCKED** on the same
-      read-only token; `r2.twn-rw-*` can write objects but cannot create buckets
+- [x] Clerk: 5 production CNAMEs added on hellokahwin.com (DNS-only)
+- [ ] Clerk: production instance ACTIVE — **BLOCKED on Clerk's side**: Cloudflare
+      Error 1000, Clerk has not registered the SaaS custom hostname (see below)
+- [x] R2: buckets created in the TWN account, custom domains `images.` /
+      `assets.hellokahwin.com` attached and `ssl=active`
+- [x] R2: 29 covers + 594 inline images uploaded with variants and saliency
+      smart crops; 1985 objects (623 originals / 1246 variants / 116 crops)
 - [x] Verification fixtures removed; live DB holds only real imported content
 - [x] Vercel Production env verified byte-identical to `.env.local` (all 15 vars)
 - [x] Editorial Monotone design layer + all seven public page types

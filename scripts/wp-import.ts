@@ -380,6 +380,51 @@ function getExtFromContentType(ct: string): string {
 const uploadedKeysThisRun = new Set<string>();
 
 /**
+ * Register the R2 keys behind a variant / smart-crop record.
+ *
+ * `uploadToR2` below adds its own keys, but variants and smart crops are
+ * written by the storage helpers (`generateVariants`, `processSmartCrops`),
+ * which own their own R2 client and know nothing about this script's keep-set.
+ * Left unregistered, `deleteR2Prefix` treats every derivative as stale and
+ * deletes it moments after it was generated — on a `--clean` re-import with an
+ * unchanged slug the originals survive, every variant and crop 404s, and the
+ * DB still records their URLs so the whole site renders broken images while
+ * looking perfectly healthy in the import summary. Verified 2026-08-22.
+ *
+ * Crop URLs carry a `?v=<focal>` cache-bust token; `extractKeyFromUrl` strips
+ * the query, which is exactly what the ListObjectsV2 comparison needs.
+ */
+function registerDerivedKeys(record: unknown): void {
+  if (!record || typeof record !== 'object') return;
+  for (const entry of Object.values(record as Record<string, unknown>)) {
+    if (entry && typeof entry === 'object') {
+      const { url } = entry as { url?: unknown };
+      if (typeof url === 'string' && url.length > 0) {
+        const key = r2KeyFromUrl(url);
+        if (key) uploadedKeysThisRun.add(key);
+      }
+    }
+  }
+}
+
+/**
+ * Public R2 URL -> object key.
+ *
+ * Deliberately NOT `extractKeyFromUrl` from `src/lib/r2/client`. That helper
+ * builds its host list in a module-level constant, and ES module imports are
+ * evaluated before this script's body — which is where the .env file is read.
+ * Imported from here it captures `R2_PUBLIC_URL` as undefined, matches nothing
+ * and hands back the whole URL, so the keep-set fills with URLs that can never
+ * equal an R2 key and the cleanup deletes the derivatives anyway. This local
+ * version closes over the script's own constant, read after env loading.
+ */
+function r2KeyFromUrl(url: string): string | null {
+  const [withoutQuery] = url.split(/[?#]/, 1);
+  const base = R2_PUBLIC_URL.replace(/\/+$/, '');
+  return withoutQuery.startsWith(base + '/') ? withoutQuery.slice(base.length + 1) : null;
+}
+
+/**
  * Upload a buffer to R2 and return the public URL.
  */
 async function uploadToR2(key: string, buffer: Buffer, contentType: string): Promise<string> {
@@ -867,6 +912,7 @@ async function main() {
               // Generate variants
               try {
                 coverImageVariants = await generateVariants(imgBuffer, key, variantPresets);
+                registerDerivedKeys(coverImageVariants);
                 coverImageQuality = 'high';
                 stats.variantsGenerated++;
                 log(`  ✓ Variants generated`);
@@ -882,6 +928,7 @@ async function main() {
                   coverImageFocalPoint = cropResult.focalPoint;
                   coverImageDetectionData = cropResult.detectionData;
                   coverImageSmartCrops = cropResult.smartCrops;
+                  registerDerivedKeys(coverImageSmartCrops);
                   stats.smartCropsGenerated++;
                   log(`  ✓ Smart crops generated (method: ${cropResult.focalPoint.method})`);
                 } catch (err: any) {
@@ -988,6 +1035,7 @@ async function main() {
             // Generate variants for inline images and use high quality URL
             try {
               const inlineVariants = await generateVariants(imgBuffer, key, variantPresets);
+              registerDerivedKeys(inlineVariants);
               const highUrl = inlineVariants.high?.url;
               if (highUrl) {
                 contentHtml = contentHtml.split(imgUrl).join(highUrl);

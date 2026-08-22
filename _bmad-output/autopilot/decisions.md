@@ -158,3 +158,174 @@ Append-only. One line per decision autopilot made without interrupting the user.
   R2 move is blocked, so no value changed.
 - [2026-08-22] No codex review this cycle: the run produced zero source changes
   (fixture deletion is data, the rest is docs). Nothing new to review.
+- [2026-08-22] Ruling 1 (Clerk DNS) DONE: `DNS Write` appeared on token
+  81c43eae, and all 5 Clerk CNAMEs were created on hellokahwin.com as
+  DNS-only (proxied=false, TTL auto), each tagged with a comment identifying
+  it as Clerk production. Additive only — the WordPress A records on
+  35.213.180.130 were not touched, so the live site is unaffected.
+- [2026-08-22] Re-checked the token before starting the R2 half, per orders:
+  its non-Read groups are now DNS Write, Zone Write, Zone Settings Write, Zone
+  Versioning Write, Zone DNS Settings Write, Zone Custom Asset Write and
+  Workers R2 Data Catalog Write. `Workers R2 Storage Write`
+  (bf7481a1826f439697cb59a20b22293e) is still absent — note that "R2 Data
+  Catalog Write" is the R2 SQL/Iceberg catalog permission, NOT bucket
+  management, so it does not substitute.
+- [2026-08-22] `Workers R2 Storage Write` appeared on token 81c43eae at 09:45.
+  Ruling 2 executed: buckets `hellokahwin-images` and `hellokahwin-assets`
+  created in the TWN account (location hint apac), custom domains
+  `images.hellokahwin.com` / `assets.hellokahwin.com` attached via the R2
+  custom-domain API (which wrote their DNS records itself, using the same
+  token's DNS Write). Object read/write with `r2.twn-rw-*` verified against
+  both new buckets before committing to the import.
+- [2026-08-22] `.env.local` rewritten for the TWN account. Supabase, Clerk and
+  cron values were carried over from the previous file verbatim rather than
+  re-derived, so the already-verified bytes are untouched and only the six R2
+  values changed.
+- [2026-08-22] Vercel Production refreshed via the **REST API**, not the CLI.
+  The CLI path (`env rm` + `env add` piping the value on stdin) failed with
+  exit 1 on all six from a spawned process; checked immediately and confirmed
+  the removes had NOT gone through either, so Production was never left
+  incomplete. `PATCH /v9/projects/{id}/env/{envId}` carries the value in a JSON
+  body — no argv exposure, and no window where the variable is missing.
+  Re-verified afterwards: all 15 variables match `.env.local` byte-for-byte.
+- [2026-08-22] Ran the import WITHOUT `--skip-smart-crops` (an earlier attempt
+  with the flag was killed after 30s). The Editorial Monotone layout reads
+  `crop-4x5-mobile-cover`, `crop-4x3-article-card` and `crop-4.3x1-desktop-hero`
+  directly; skipping crop generation would have silently degraded every hero
+  and card to an un-cropped variant.
+- [2026-08-22] Clerk production activation: DNS is correct but the Frontend API
+  is NOT live yet, and the cause is now identified rather than assumed. The
+  error page served at `https://clerk.hellokahwin.com` is titled
+  **"DNS points to prohibited IP | clerk.hellokahwin.com | Cloudflare"** —
+  Cloudflare Error 1000 — and the TLS certificate presented is our own zone's
+  Universal SSL (`CN=hellokahwin.com`, SAN `*.hellokahwin.com`), not a
+  Clerk-issued one. For comparison, TWN's working instance presents
+  `CN=clerk.theweddingnotebook.com`. So: our grey-cloud CNAME resolves to
+  Cloudflare anycast IPs, Cloudflare matches the SNI to OUR zone (which has no
+  edge origin for it) and returns 1000. This clears the moment Clerk registers
+  `clerk.hellokahwin.com` as a Cloudflare-for-SaaS custom hostname, at which
+  point the SaaS zone wins the SNI.
+- [2026-08-22] That registration is not reachable from Clerk's Backend API:
+  `PATCH /v1/domains/{id}` succeeds but changes nothing observable, and
+  `POST /v1/domains/{id}/verify|deploy|ssl`, `/v1/instance/deploy` and
+  `/v1/instance/verify_domain` all 404. `GET /v1/instance` exposes no status
+  field. So there is no API lever left — it is either Clerk's background job or
+  a dashboard action.
+- [2026-08-22] Deliberately did NOT "fix" Clerk's Error 1000 by turning the
+  proxy on. Tempting, because the R2 custom domains Cloudflare created for us
+  in the same zone ARE proxied (`images/assets.hellokahwin.com -> public.r2.dev`,
+  orange cloud) and they work. But that is Cloudflare proxying to Cloudflare's
+  own R2, a different mechanism. The evidence says our Clerk config is already
+  correct: TWN's working `clerk.theweddingnotebook.com` presents a dedicated
+  single-hostname certificate (`CN=clerk.theweddingnotebook.com`), which is the
+  signature of a grey-cloud record fronted by an ACTIVE Cloudflare-for-SaaS
+  custom hostname — exactly our setup minus the activation. Proxying Clerk's
+  FAPI would make Cloudflare terminate TLS with our wildcard cert and is not a
+  configuration Clerk supports. So: leave it grey-cloud and wait for Clerk.
+- [2026-08-22] Caught mid-import: smart crops were failing on EVERY image with
+  "AWS_REKOGNITION_REGION env var is not set". Two bugs behind it. (a) The
+  committed `.env.example` documents `AWS_REGION` / `AWS_ACCESS_KEY_ID` /
+  `AWS_SECRET_ACCESS_KEY`, but the code reads `AWS_REKOGNITION_*` — those
+  conventional names are never read by anything in this repo, so my `.env.local`
+  (copied from the template) configured nothing. (b) `getRekognitionClient()`
+  THROWS when they are absent, so the "pure-Sharp fallback used when absent"
+  the template promises never runs. The supported AWS-free path is the
+  documented switch `REKOGNITION_ENABLED=false`, which short-circuits detection
+  and lets crops fall back to the Sharp saliency focal point.
+  Fixed `.env.example` (committed) and `.env.local`, dropped the dead
+  `AWS_REGION` from Vercel Production and added `REKOGNITION_ENABLED=false`.
+- [2026-08-22] Killed the in-flight import at 12/29 and restarted it `--clean`
+  rather than finishing and patching afterwards. The Editorial Monotone layout
+  reads `crop-4x5-mobile-cover`, `crop-4x3-article-card` and
+  `crop-4.3x1-desktop-hero` directly; 29 articles of un-cropped covers would
+  have shipped a visibly worse site and needed the same re-run later anyway.
+  Confirmed on the restart: "✓ Smart crops generated (method: saliency)".
+- [2026-08-22] Playbase R2 buckets deleted, on positive evidence: the only
+  object in either was my own `_probe.txt` write test (fetched and read back to
+  confirm before deleting); `hellokahwin-assets` was empty; `.env.local` and
+  Vercel Production both point at the TWN account; and a repo-wide grep for the
+  playbase account id and the two `pub-*.r2.dev` hostnames found hits only in
+  stale `.next` build output, never in source. Both buckets are gone from the
+  playbase account.
+- [2026-08-22] Two real defects surfaced when verifying the finished import, and
+  both are now fixed rather than worked around:
+  1. **Duplicate articles.** The DB held 38 published rows, not 29 — nine
+     `-wp`-suffixed duplicates left by the run I killed mid-flight. Cause is in
+     `scripts/wp-import.ts`: the `--clean` dedup check is
+     `select ... where wpId = X limit(1)` and then deletes that ONE row, so a
+     second row for the same `wp_id` survives forever and the fresh import
+     parks under the slug-conflict ladder's `-wp` name. Deleted the nine stale
+     rows by explicit id (each identified positively: `-wp` slug AND
+     `cover_image_smart_crops is null`, i.e. from the crop-less killed run).
+     Left their R2 objects alone — both rows in a pair share one
+     `inspire/<slug>/` prefix with different timestamped keys, so a
+     prefix-delete would have destroyed the LIVE article's images.
+  2. **Every derivative image 404'd.** `--clean` deletes the old article prefix
+     after a successful re-import, skipping keys in `uploadedKeysThisRun`. But
+     that set is populated only by the script's own `uploadToR2`; variants and
+     smart crops are written by `generateVariants` / `processSmartCrops` in
+     `src/lib/storage/**`, which own their own R2 client. So with an unchanged
+     slug the cleanup deleted exactly the derivatives it had just generated:
+     originals returned 200, every `.../high.webp` and
+     `.../crop-4x3-article-card.webp` returned 404, and the DB still held their
+     URLs — so the import summary read "29 variants, 29 smart crops, errors:
+     none" while the whole site rendered broken images. Fixed with
+     `registerDerivedKeys()`, called after each variant/crop generation, and
+     re-ran the import.
+- [2026-08-22] Clerk, final read after ~50 minutes of polling across the run:
+  NOT time-based. `https://clerk.hellokahwin.com` still returns Cloudflare
+  Error 1000 ("DNS points to prohibited IP") behind OUR zone's wildcard
+  certificate (`CN=hellokahwin.com`). Slow certificate provisioning would show
+  a TLS failure or a Clerk-issued cert, not our own zone answering. The state
+  is stable: Clerk has not registered `clerk.hellokahwin.com` as a
+  Cloudflare-for-SaaS custom hostname, so Cloudflare keeps matching the SNI to
+  our zone, which has no edge origin for a DNS-only record. Our five records
+  are correct and unchanged. No API lever remains (see the earlier entry), so
+  this needs a Clerk dashboard action or Clerk support — escalated, not waited
+  on further.
+- [2026-08-22] The first attempt at the keep-set fix did not work, caught by
+  checking R2 one article into the re-run instead of waiting 30 minutes for the
+  summary. Cause: it called `extractKeyFromUrl` from `src/lib/r2/client`, whose
+  host list is a MODULE-LEVEL constant. ES module imports are evaluated before
+  the importing module's body, and this script reads its .env file in its body
+  — so from the script that helper captures `R2_PUBLIC_URL` as undefined,
+  matches no host, and returns the entire URL. The keep-set filled with URLs
+  that can never equal an R2 key, so the cleanup deleted the derivatives again.
+  Replaced with a local `r2KeyFromUrl()` closing over the script's own
+  `R2_PUBLIC_URL` constant (line 109, evaluated after env loading).
+  Proved with a `--limit 1 --clean` smoke test before committing to the full
+  run: the article's prefix went from 11 objects (originals only) to 25 —
+  originals + high/low variants + all four smart crops
+  (4x5-mobile-cover, 4x3-article-card, 4.3x1-desktop-hero, 16x9-og).
+- [2026-08-22] Lesson recorded for the ship report: this class of bug is
+  invisible in the import summary, which cheerfully reported "Variants
+  generated: 29, Smart crops generated: 29, Errors: none" while every
+  derivative had been deleted moments after creation. Verifying the artefact
+  (objects actually in the bucket, URLs actually 200) rather than the log is
+  what caught it.
+- [2026-08-22] Did NOT declare ready-to-ship on `.tmp-ops/import.log`. That run
+  finished cleanly (`exit=0`, "623 images, 29 variants, 29 smart crops, Errors:
+  none") but it is the run whose derivatives the `--clean` keep-set bug deleted
+  moments after generating them — originals 200, every `.../high.webp` and
+  `.../crop-*.webp` 404, DB still holding their URLs. Its summary is precisely
+  the misleading output that made the bug invisible. Shipping on it would have
+  put a site full of broken images live. The authoritative run is `import3.log`,
+  started after the verified fix.
+- [2026-08-22] The shell wrapping import3 was orphaned when the previous Claude
+  process exited, so its `IMPORT3 exit=` marker will never be written even
+  though the node processes survived and kept importing. Switched the
+  completion watcher from grepping that marker to polling for the absence of a
+  `wp-import` node process — otherwise the wait would never have terminated.
+- [2026-08-22] FINAL VERIFICATION of the authoritative import (`import3`,
+  finished 11:16:45, 29/29, 623 images, errors none). Checked the artefacts,
+  not the summary — the whole point of the earlier bug:
+  · R2 bucket audit: 1985 objects = 623 originals + 1246 variants (low+high per
+    image) + 116 smart crops (4 per cover). Exactly the expected arithmetic.
+  · DB: 29 articles, 29 published, 0 duplicates, 0 `-wp` slugs, 29 with smart
+    crops, 29 covers on images.hellokahwin.com, 0 tags, 0 public authors.
+  · Rendered HTML: home 75, hub 63, article 110 asset references, every one on
+    images.hellokahwin.com; zero wp-content references remain. Six sampled
+    URLs (4 smart crops + 2 inline variants) all return 200 — the exact class
+    of URL that returned 404 before the keep-set fix.
+  · The two `theweddingnotebook.com` hits on the article page are outbound
+    editorial links inside the imported WordPress copy, not assets.
