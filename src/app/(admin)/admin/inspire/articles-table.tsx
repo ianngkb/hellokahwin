@@ -304,11 +304,30 @@ export function ArticlesTable({
     key: 'status' | 'categoryId' | 'authorship' | 'review' | 'hiddenTagId',
     value: string,
   ) {
-    // `source` is dropped whenever either new filter is touched. Leaving the
-    // legacy param in the URL alongside them would keep re-applying the old
-    // combined meaning on every subsequent navigation, so the control the admin
-    // just used would appear not to work.
-    navigate(buildHref({ [key]: value, source: '' }));
+    // Filters unrelated to authorship/review leave `source` completely alone.
+    // Clearing it here — which an earlier version did on EVERY filter change —
+    // silently widened the list: an admin sitting on `?source=ai-unreviewed` who
+    // merely switched the status pill to "Draft" lost the AI-and-pending
+    // constraint entirely and was shown every draft on the site, with the filter
+    // bar giving no hint that anything had been dropped.
+    if (key !== 'authorship' && key !== 'review') {
+      navigate(buildHref({ [key]: value }));
+      return;
+    }
+
+    // Touching either new control DOES retire the alias — otherwise the legacy
+    // combined meaning keeps re-applying and the control the admin just used
+    // appears not to work. But retire it by MATERIALIZING both axes first, so
+    // the constraint the alias was carrying survives on the axis the admin did
+    // not touch.
+    const keep = (v: string) => (v === 'all' ? '' : v);
+    navigate(
+      buildHref({
+        authorship: key === 'authorship' ? value : keep(activeAuthorshipFilter),
+        review: key === 'review' ? value : keep(activeReviewFilter),
+        source: '',
+      }),
+    );
   }
 
   const offset = (currentPage - 1) * pageSize;
@@ -316,6 +335,24 @@ export function ArticlesTable({
   const hasActiveFilters = Boolean(
     searchInput || pStatus || pCategoryId || pSource || pAuthorship || pReview || pHiddenTagId,
   );
+
+  // What the two selects should SHOW, and what `handleFilter` materializes when
+  // it retires a legacy alias. A bookmarked `?source=ai-unreviewed` URL still
+  // filters server-side through the alias map, so the controls have to reflect
+  // it — otherwise the bar reads "All / All" over a visibly filtered list, and
+  // the admin cannot tell what they are looking at.
+  //
+  // A Map for the same reason as the server-side table in page.tsx: a lookup
+  // keyed by a URL parameter should not reach the Object prototype.
+  const SOURCE_ALIAS_DISPLAY = new Map<string, { authorship: string; review: string }>([
+    ['ai', { authorship: 'ai', review: 'all' }],
+    ['human', { authorship: 'human', review: 'all' }],
+    ['ai-unreviewed', { authorship: 'ai', review: 'pending_review' }],
+    ['ai-reviewed', { authorship: 'ai', review: 'reviewed' }],
+  ]);
+  const aliasDisplay = pSource ? SOURCE_ALIAS_DISPLAY.get(pSource) : undefined;
+  const activeAuthorshipFilter = pAuthorship ?? aliasDisplay?.authorship ?? 'all';
+  const activeReviewFilter = pReview ?? aliasDisplay?.review ?? 'all';
 
   function handleDelete(articleId: string) {
     if (!confirm('Delete this article?')) return;
@@ -401,23 +438,6 @@ export function ArticlesTable({
       }
     });
   }
-
-  // What the two selects should SHOW. A bookmarked `?source=ai-unreviewed` URL
-  // still filters server-side via the alias map, so the controls have to reflect
-  // that or the bar would read "All / All" over a visibly filtered list.
-  // A Map for the same reason as the server-side table in page.tsx: a lookup
-  // keyed by a URL parameter should not reach the Object prototype.
-  const SOURCE_ALIAS_DISPLAY = new Map<string, { authorship: string; review: string }>([
-    ['ai', { authorship: 'ai', review: 'all' }],
-    ['human', { authorship: 'human', review: 'all' }],
-    ['ai-unreviewed', { authorship: 'ai', review: 'pending_review' }],
-    ['ai-reviewed', { authorship: 'ai', review: 'reviewed' }],
-  ]);
-  const aliasDisplay = searchParams.source
-    ? SOURCE_ALIAS_DISPLAY.get(searchParams.source)
-    : undefined;
-  const activeAuthorshipFilter = searchParams.authorship ?? aliasDisplay?.authorship ?? 'all';
-  const activeReviewFilter = searchParams.review ?? aliasDisplay?.review ?? 'all';
 
   return (
     <div className="space-y-4">

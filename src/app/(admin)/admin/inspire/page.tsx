@@ -138,17 +138,24 @@ export default async function AdminInspirePage({
   ]);
   const sourceAlias = source ? SOURCE_ALIASES.get(source) : undefined;
 
-  // An explicit param always wins over the alias, so a half-migrated URL
-  // carrying both does the thing the newer control says.
-  const rawAuthorship = authorshipParam ?? sourceAlias?.authorship;
-  const rawReview = reviewParam ?? sourceAlias?.review;
+  // Each source is validated on its OWN before either can win, and the explicit
+  // param overrides the alias only when it is itself VALID.
+  //
+  // The order matters, and getting it wrong widens the filter. Resolving first
+  // and validating after — `(explicit ?? alias)` then check — means
+  // `?source=ai-unreviewed&authorship=garbage` picks `garbage`, fails
+  // validation, and drops the authorship constraint ENTIRELY. The admin asked
+  // for AI-awaiting-review and would silently be shown human articles too. The
+  // whole point of honouring the alias is that an old link must never widen; a
+  // junk value alongside it must not be the way round that.
+  const validAuthorship = (v: string | undefined): ArticleAuthorship | null =>
+    ARTICLE_AUTHORSHIPS.includes(v as ArticleAuthorship) ? (v as ArticleAuthorship) : null;
+  const validReview = (v: string | undefined): ArticleReviewStatus | null =>
+    ARTICLE_REVIEW_STATUSES.includes(v as ArticleReviewStatus) ? (v as ArticleReviewStatus) : null;
 
-  const activeAuthorship = ARTICLE_AUTHORSHIPS.includes(rawAuthorship as ArticleAuthorship)
-    ? (rawAuthorship as ArticleAuthorship)
-    : null;
-  const activeReview = ARTICLE_REVIEW_STATUSES.includes(rawReview as ArticleReviewStatus)
-    ? (rawReview as ArticleReviewStatus)
-    : null;
+  const activeAuthorship =
+    validAuthorship(authorshipParam) ?? validAuthorship(sourceAlias?.authorship);
+  const activeReview = validReview(reviewParam) ?? validReview(sourceAlias?.review);
 
   if (activeAuthorship) {
     conditions.push(eq(articles.authorship, activeAuthorship));
