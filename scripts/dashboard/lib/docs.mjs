@@ -104,9 +104,15 @@ export function normaliseStatus(raw) {
 
   if (/supersed/.test(s) && !negated(s, 'supersed')) return 'SUPERSEDED';
   if (/abandon/.test(s) && !negated(s, 'abandon')) return 'ABANDONED';
-  if (/\bdraft\b|awaiting (?:board|ceo|the board|approval)|awaiting approval|pending approval/.test(s)) {
-    return 'DRAFT';
+
+  const awaiting = /awaiting (?:board|ceo|the board|approval)|awaiting approval|pending approval|not deployed/.test(s);
+  // Finished work waiting on an approval is NOT a draft. Calling it DRAFT
+  // undersells work that is done; calling it COMPLETED oversells work that is
+  // not live. It gets its own status because the difference is the whole point.
+  if (awaiting && /\bbuilt\b|\bcomplete|\bverified\b|\bfinished\b|\bready\b|publish-ready/.test(s)) {
+    return 'HELD';
   }
+  if (/\bdraft\b/.test(s) || awaiting) return 'DRAFT';
   // Anything still negated falls through to OTHER rather than to a positive status.
   if (negated(s, 'approv') || negated(s, 'complet') || negated(s, 'deploy') || negated(s, 'done')) {
     return 'OTHER';

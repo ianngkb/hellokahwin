@@ -99,6 +99,7 @@ section.panel > .lede{color:var(--ink-2);font-size:13.5px;margin:0 0 14px;max-wi
 .pill.superseded{background:var(--info-soft);color:var(--info);border-color:var(--info)}
 .pill.abandoned{background:var(--bad-soft);color:var(--bad);border-color:var(--bad)}
 .pill.partial{background:var(--warn-soft);color:var(--warn);border-color:var(--warn)}
+.pill.held{background:var(--gold-soft);color:var(--gold);border-color:var(--gold)}
 .pill.decision{background:var(--accent-soft);color:var(--accent-ink);border-color:var(--accent)}
 .pill.other,.pill.none{background:var(--panel-2);color:var(--ink-2);border-color:var(--line)}
 .pill.tier1{background:var(--accent-soft);color:var(--accent-ink);border-color:var(--accent)}

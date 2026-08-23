@@ -136,6 +136,21 @@ export function buildBlocked(docs, today) {
       });
     }
 
+    if (d.status === 'HELD') {
+      items.push({
+        id: 'blk-held-' + d.id,
+        title: d.title,
+        reason: 'Finished and waiting on an approval to go live',
+        severity: 'approval',
+        detail: d.statusRaw || 'HELD',
+        owner: d.owner,
+        docPath: d.path,
+        docId: d.id,
+        since: d.date,
+        waitingDays: d.date && today ? daysBetween(d.date, today) : null,
+      });
+    }
+
     if (d.status === 'DRAFT') {
       items.push({
         id: 'blk-draft-' + d.id,

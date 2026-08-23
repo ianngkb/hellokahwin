@@ -23,10 +23,13 @@ has('never abandoned is not ABANDONED', normaliseStatus('this work was never aba
 has('plain APPROVED still reads APPROVED', normaliseStatus('APPROVED 23 Aug 2026 (v3)') === 'APPROVED');
 has('plain completed still reads COMPLETED', normaliseStatus('completed') === 'COMPLETED');
 has('DRAFT still reads DRAFT', normaliseStatus('DRAFT — awaiting board approval') === 'DRAFT');
-has(
-  'built-but-not-deployed is not COMPLETED',
-  normaliseStatus('BUILT AND VERIFIED LOCALLY — NOT DEPLOYED. Awaiting board approval.') !== 'COMPLETED'
-);
+// Finished work waiting on an approval is neither COMPLETED (it is not live)
+// nor DRAFT (it is not unfinished). It gets its own status.
+const held = normaliseStatus('BUILT AND VERIFIED LOCALLY — NOT DEPLOYED. Awaiting board approval.');
+has('built-but-not-deployed is not COMPLETED', held !== 'COMPLETED');
+has('built-but-not-deployed is not DRAFT', held !== 'DRAFT');
+has('built-but-not-deployed reads HELD', held === 'HELD');
+has('an actual draft awaiting approval still reads DRAFT', normaliseStatus('DRAFT — awaiting board approval') === 'DRAFT');
 
 // --- stage parsing ---------------------------------------------------------
 // An article must never be advanced or marked live by a negated sentence.
