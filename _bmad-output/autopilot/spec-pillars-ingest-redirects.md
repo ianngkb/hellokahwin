@@ -148,10 +148,6 @@ production SEO.
 `--commit` to write, refuses to run against a database whose host is not
 explicitly allow-listed on the command line.
 
-- Requires an explicit `--db`; refuses to WRITE to a non-local host without
-  `--i-know-this-is-remote`. It will still CONNECT to a remote host to print a
-  dry-run plan, deliberately — seeing the plan against production before
-  approving the write is the safest thing this script does.
 - Upserts the 7 pillars and 26 clusters from a checked-in data file
   (`src/lib/inspire/pillars.ts`) keyed on `slug`.
 - Never touches a row it did not create (matched by `pillar_code`).
@@ -301,15 +297,9 @@ goodwill is what supplies the programme).
 
 ### B4. What ingest deliberately does not do
 
-It does not publish BY DEFAULT. A file may carry `status: published`, but only
-an explicit `--publish` flag honours it; otherwise the article lands as a draft
-and the run says so. Making publication impossible would leave the ingest path
-unable to do the job it exists for — Stage 7 of the production workflow is
-"ingest and publish" — so the gate is an explicit, typed, logged act rather
-than an absence.
-
-It does not invent metadata — a missing `metaDescription` is a refusal, not a
-generated string.
+It does not publish. `status` defaults to `draft`; publishing to production
+remains a board-approved act. It does not invent metadata — a missing
+`metaDescription` is a refusal, not a generated string.
 
 ---
 
