@@ -44,8 +44,14 @@ import {
   creditLine,
   type ArticleImage,
 } from '../src/lib/inspire/article-file';
-import { generateVariants, getDefaultPresets } from '../src/lib/storage/image-variants';
-import { getR2Client, getR2Bucket, getR2PublicUrl } from '../src/lib/r2/client';
+
+// R2 and the variant pipeline are imported DYNAMICALLY, inside main(), after
+// the environment has been settled by `bootstrapEnv()`. See the long comment
+// there: both modules read process.env at module-load time, and a static
+// import here would evaluate them before `--db` had been applied — which is
+// exactly the defect this arrangement fixes.
+type R2Module = typeof import('../src/lib/r2/client');
+type VariantsModule = typeof import('../src/lib/storage/image-variants');
 
 interface Args {
   file: string;
@@ -70,6 +76,17 @@ interface Args {
 
 /** Hosts that are unambiguously a throwaway database on this machine. */
 const LOCAL_HOSTS = new Set(['localhost', '127.0.0.1', '::1', '0.0.0.0']);
+
+/**
+ * Mirrors DEFAULT_PRESETS in lib/storage/image-variants.ts. Duplicated on
+ * purpose: importing it would pull the module (and the global Drizzle client
+ * it binds) back into this file's static graph, which is what bootstrapEnv
+ * exists to prevent. Two lines of drift risk beats re-arming the defect.
+ */
+const DEFAULT_PRESET_FALLBACK: Record<string, { quality: number; maxWidth: number }> = {
+  low: { quality: 30, maxWidth: 1200 },
+  high: { quality: 80, maxWidth: 2400 },
+};
 
 function isLocalDb(url: string): boolean {
   try {
@@ -110,13 +127,6 @@ function parseArgs(argv: string[]): Args {
     problems.push(
       '--skip-media only works against a local database. It writes placeholder image URLs that no browser can load.',
     );
-  // Checked BEFORE anything is written, not after. Discovering the secret is
-  // missing once the row is in the database leaves the article written and the
-  // site stale — the exact half-done state this script exists to avoid.
-  if (revalidateUrl && !process.env.CRON_SECRET)
-    problems.push(
-      '--revalidate-url was given but CRON_SECRET is not set, so the caches could not be cleared after the write.',
-    );
   // A real run against a real database with no way to clear the caches would
   // write an article the site cannot show. Refuse up front rather than produce
   // a row nobody can see.
@@ -129,6 +139,90 @@ function parseArgs(argv: string[]): Args {
     process.exit(1);
   }
   return { file, db, commit, update, skipMedia, publish, revalidateUrl };
+}
+
+/**
+ * Settle the environment BEFORE any module that reads it is loaded.
+ *
+ * TWO DEFECTS THIS FIXES, and they compounded — fixing either one naively
+ * would have armed the other. Both were caught in review; neither was
+ * theoretical.
+ *
+ * 1. **Nothing loaded `.env` at all.** `tsx` does not read env files, and this
+ *    script never asked it to. Probed: with no loader, `R2_ACCESS_KEY_ID` and
+ *    `R2_BUCKET_NAME` are both absent, so `getR2Client()` throws and the image
+ *    half of ingest could not have worked — not "unproven", broken.
+ *
+ * 2. **`--db` did not actually control the target.** `getDefaultPresets()`
+ *    reads through the GLOBAL Drizzle client in `lib/db/drizzle.ts`, which
+ *    binds `process.env.DATABASE_URL` at module load and knows nothing about
+ *    this script's flag. A run believed to be local would read from whatever
+ *    DATABASE_URL happened to be — production, in any shell where it is set.
+ *
+ * The compounding: `.env` in this worktree holds the PRODUCTION DATABASE_URL.
+ * Adding a bare `dotenv.config()` to fix (1) would have pointed the global
+ * client at production while writes went to `--db`. A split-brain run reading
+ * production and writing elsewhere is worse than either bug alone.
+ *
+ * So the order below is load-bearing and must not be rearranged:
+ *   a. `--db` is written into process.env FIRST;
+ *   b. the env files are then loaded WITHOUT override, so they can supply R2
+ *      credentials but cannot touch DATABASE_URL;
+ *   c. the assertion proves (b) held;
+ *   d. only then are the env-reading modules imported.
+ */
+async function bootstrapEnv(dbUrl: string): Promise<{ r2: R2Module; variants: VariantsModule }> {
+  // (a) One source of truth for the database target, set before anything reads it.
+  process.env.DATABASE_URL = dbUrl;
+
+  // (b) `override: false` is the whole safety property here, not a default to
+  //     shrug at: it lets the files supply R2_* and CRON_SECRET while leaving
+  //     the DATABASE_URL set above untouched.
+  const dotenv = await import('dotenv');
+  for (const file of ['.env.local', '.env']) {
+    dotenv.config({ path: file, override: false, quiet: true });
+  }
+
+  // (c) Cheap, and it fails loudly rather than silently writing to the wrong
+  //     database if dotenv's behaviour ever changes under us.
+  if (process.env.DATABASE_URL !== dbUrl) {
+    console.error(
+      'Refusing: loading the environment changed the database target away from --db.\n' +
+        'This would read one database and write another. Aborting before any write.',
+    );
+    process.exit(1);
+  }
+
+  // (d) Now safe to load the modules that bind env at import time.
+  const [r2, variants] = await Promise.all([
+    import('../src/lib/r2/client'),
+    import('../src/lib/storage/image-variants'),
+  ]);
+  return { r2, variants };
+}
+
+/**
+ * The image-quality presets, read over THIS script's connection.
+ *
+ * `getDefaultPresets()` from the variants module would do the same job through
+ * the global Drizzle client. `bootstrapEnv` now points that client at the same
+ * database, so it would be correct — but correct-by-coincidence, resting on a
+ * global that some future import could rebind. Reading it here over the
+ * connection this script opened makes `--db` the only thing that decides, and
+ * removes the question.
+ */
+async function readPresets(
+  sql: postgres.Sql,
+  fallback: Record<string, { quality: number; maxWidth: number }>,
+): Promise<Record<string, { quality: number; maxWidth: number }>> {
+  try {
+    const [row] = await sql<{ value: unknown }[]>`
+      select value from admin_settings where key = 'image_quality_presets' limit 1`;
+    if (row?.value) return row.value as Record<string, { quality: number; maxWidth: number }>;
+  } catch {
+    // Table may not exist on a fresh database — the built-in defaults stand.
+  }
+  return fallback;
 }
 
 function describeTarget(url: string): string {
@@ -212,6 +306,22 @@ function toFigureBlock(image: ArticleImage, url: string) {
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
+
+  // Before anything else touches the environment. See bootstrapEnv().
+  const { r2: r2Module, variants: variantsModule } = await bootstrapEnv(args.db);
+
+  // CRON_SECRET can only be checked AFTER the env files are loaded — it lives
+  // in one of them. Still strictly before any write: discovering it missing
+  // once the row is in the database leaves the article written and the site
+  // stale, which is the half-done state this script exists to avoid.
+  if (args.revalidateUrl && !process.env.CRON_SECRET) {
+    console.error(
+      '  - --revalidate-url was given but CRON_SECRET is not set in the environment or in ' +
+        '.env.local / .env, so the caches could not be cleared after the write.',
+    );
+    process.exit(1);
+  }
+
   const filePath = resolve(args.file);
   const fileDir = dirname(filePath);
 
@@ -323,10 +433,11 @@ async function main() {
     { url: string; key: string; variants: unknown; width?: number; height?: number; size: number }
   >();
   if (!args.skipMedia) {
-    const r2 = getR2Client();
-    const bucket = getR2Bucket();
-    const publicUrl = getR2PublicUrl();
-    const presets = await getDefaultPresets();
+    const r2 = r2Module.getR2Client();
+    const bucket = r2Module.getR2Bucket();
+    const publicUrl = r2Module.getR2PublicUrl();
+    // Read over THIS script's connection, not the global one — `--db` decides.
+    const presets = await readPresets(sql, DEFAULT_PRESET_FALLBACK);
 
     for (const image of images) {
       const buffer = imageBuffers.get(image.file)!;
@@ -355,7 +466,7 @@ async function main() {
           CacheControl: 'public, max-age=31536000, immutable',
         }),
       );
-      const variants = await generateVariants(buffer, key, presets);
+      const variants = await variantsModule.generateVariants(buffer, key, presets);
       uploaded.set(image.file, {
         url: `${publicUrl}/${key}`,
         key,

@@ -651,3 +651,20 @@ Append-only. One line per decision autopilot made without interrupting the user.
   _bmad-output/autopilot/OPEN-ESCALATIONS.md with the original wording, what the code
   does, and my argument. The owner decides whether the spec moves, not me.
   Reverting the spec text breaks no gate — nothing in build/test/typecheck/lint reads it.
+- [2026-08-23] ECH-9 confirmed and fixed: the ingest script loaded NO .env file at
+  all (tsx does not), so R2_ACCESS_KEY_ID/R2_BUCKET_NAME were absent and
+  getR2Client() would have thrown. The image half of Task 2 was not merely
+  "unproven" — it was broken. Corrected in the report.
+- [2026-08-23] ECH-8 confirmed and fixed, and it was a production-safety defect,
+  not a minor: getDefaultPresets() reads through the GLOBAL Drizzle client bound to
+  process.env.DATABASE_URL, which --db never touched. The two defects COMPOUNDED —
+  fixing ECH-9 with a bare dotenv.config() would have loaded .env's PRODUCTION
+  DATABASE_URL and produced a run reading production while writing to --db.
+  bootstrapEnv() now sets DATABASE_URL from --db FIRST, loads env files with
+  override:false (so they supply R2 creds but cannot touch the DB target), asserts
+  the target did not move, and only then dynamically imports the env-reading
+  modules. Presets are additionally read over this script's own connection.
+  This retires the justification I used to defend finding #6.
+- [2026-08-23] R2 credentials verified by a READ-ONLY probe (GetObject on a missing
+  key -> HTTP 404 = authenticated, plus a ListObjectsV2 over inspire/). No write of
+  any kind. A real upload still has never been performed.
