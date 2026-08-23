@@ -65,16 +65,25 @@ function valid(year, month, day) {
 }
 
 export function addDays(isoDate, days) {
+  // Both guards matter: a bad date, and a bad offset. Without the second,
+  // setUTCDate(NaN) makes the date invalid and toISOString() throws a
+  // RangeError that takes the whole generator down.
+  // null and undefined must not slip through as Number(null) === 0, which would
+  // silently answer "the same day" to a question that had no offset.
+  if (days === null || days === undefined || days === '') return null;
+  if (!Number.isFinite(Number(days))) return null;
   const d = new Date(isoDate + 'T00:00:00Z');
   if (Number.isNaN(d.getTime())) return null;
-  d.setUTCDate(d.getUTCDate() + days);
+  d.setUTCDate(d.getUTCDate() + Number(days));
+  if (Number.isNaN(d.getTime())) return null;
   return d.toISOString().slice(0, 10);
 }
 
 export function daysBetween(a, b) {
+  if (!a || !b) return null;
   const da = new Date(a + 'T00:00:00Z').getTime();
   const db = new Date(b + 'T00:00:00Z').getTime();
-  if (Number.isNaN(da) || Number.isNaN(db)) return null;
+  if (!Number.isFinite(da) || !Number.isFinite(db)) return null;
   return Math.round((db - da) / 86400000);
 }
 

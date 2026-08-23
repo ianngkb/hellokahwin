@@ -6,7 +6,7 @@
 
 import path from 'node:path';
 import { renderMarkdown } from '../lib/md.mjs';
-import { parseDate, normaliseStatus } from '../lib/docs.mjs';
+import { parseDate, normaliseStatus, addDays, daysBetween } from '../lib/docs.mjs';
 import { parseStage } from '../lib/clusters.mjs';
 import { CSS, JS } from '../lib/assets.mjs';
 import { contains } from '../serve.mjs';
@@ -54,6 +54,22 @@ has('English still works', parseDate('23 Aug 2026') === '2026-08-23');
 has('impossible date rejected, not rolled over', parseDate('31 Feb 2026') === null);
 has('impossible ISO date rejected', parseDate('2026-02-30') === null);
 has('month 13 rejected', parseDate('2026-13-01') === null);
+
+// addDays threw a RangeError on a non-finite offset, taking the whole run down.
+for (const bad of [NaN, Infinity, -Infinity, 1e21, undefined, null, 'x']) {
+  let threw = false;
+  let out;
+  try { out = addDays('2026-08-23', bad); } catch { threw = true; }
+  has('addDays survives an offset of ' + String(bad), !threw && out === null);
+}
+has('addDays still works', addDays('2026-08-23', 30) === '2026-09-22');
+for (const pair of [[null, '2026-01-01'], ['2026-01-01', null], ['x', 'y']]) {
+  let threw = false;
+  let out;
+  try { out = daysBetween(pair[0], pair[1]); } catch { threw = true; }
+  has('daysBetween survives ' + JSON.stringify(pair), !threw && out === null);
+}
+has('daysBetween still works', daysBetween('2026-08-23', '2026-11-21') === 90);
 
 // --- list nesting ----------------------------------------------------------
 const nested = renderMarkdown('- top\n  - nested\n    - deeper\n- back');
@@ -106,7 +122,12 @@ if (escBody) {
   }
 }
 has('changed-document feed uses no inline onclick', !/onclick="location\.hash/.test(JS));
-has('search results escape their target', /data-go="' \+ esc\(/.test(JS));
+// Both innerHTML paths must escape the target rather than rely on it being
+// normalised upstream. The previous version of this check only looked at the
+// feed, so the search path stayed unescaped and the test passed anyway.
+has('search results escape their target', /var tgt = esc\(/.test(JS));
+has('no raw target lands in an href', !/href="#' \+ h\.row\.target/.test(JS));
+has('no raw target lands in data-go', !/data-go="' \+ h\.row\.target/.test(JS));
 
 // --- error handling / network ---------------------------------------------
 const gscSrc = await import('node:fs').then((fs) =>

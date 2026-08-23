@@ -428,7 +428,11 @@ export const JS = `
     hits.sort(function(a,b){ return b.score - a.score; });
     if(!hits.length){ results.innerHTML = '<div class="none">Nothing matches &ldquo;' + esc(term) + '&rdquo;.</div>'; results.classList.add('on'); return; }
     results.innerHTML = hits.slice(0,40).map(function(h){
-      return '<a href="#' + h.row.target + '" data-go="' + h.row.target + '"><span class="rt">' + esc(h.row.title) +
+      // The target is safe by construction today (every id is normalised before
+      // it reaches the index) — but "safe because of the normalizer" is not the
+      // same as escaped, and this is an attribute.
+      var tgt = esc(String(h.row.target).replace(/[^A-Za-z0-9_.:-]/g, '-'));
+      return '<a href="#' + tgt + '" data-go="' + tgt + '"><span class="rt">' + esc(h.row.title) +
         '</span><br><span class="rs">' + esc(h.row.kind) + ' &middot; ' + esc(h.row.sub || '') + '</span></a>';
     }).join('');
     results.classList.add('on');
