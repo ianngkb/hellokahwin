@@ -108,6 +108,28 @@ _Last updated: 2026-08-23 (founding meeting)._
   permission directly. **ALWAYS credit the original image source** so it can
   be traced back; this is now a hard rule in every editorial persona.
 
+## Dispatch hazards learned the hard way (2026-08-23)
+
+- **Dispatch the engineer into the SITE worktree, not the docs repo.** The
+  permission classifier refuses every file write outside the session's root
+  directory. Editorial agents work in `~/Documents/Code/hellokahwin/hellokahwin`
+  (docs); the engineer must be dispatched with `-RepoPath` pointing at
+  `~/orca/workspaces/hellokahwin-site/<branch>` or `~/Documents/Code/hellokahwin-site`.
+  Getting this wrong cost a whole deploy run that wrote nothing.
+- **Scope review gates to the DIFF, not the codebase.** "Zero open findings"
+  applied to everything visible blocked a clean branch behind 15 inherited
+  `inspire-fixes` defects in files it never touched.
+- **A quiet Orca terminal is not a finished one.** An agent that backgrounds a
+  subagent stops emitting output, so `lastOutputAt` goes stale and a naive
+  watcher reports false completion. Use
+  `skillcentral/skills/hellokahwin/scripts/status-board.py`, which classifies
+  DELEGATING separately from IDLE/DONE and STALLED.
+- **Orca cannot inject input into a terminal showing an interactive menu**
+  (`agent_prompt_blocked`). Prevention is the only cure: brief agents to prefer
+  non-interactive flags and to ask questions as a final message, not mid-run.
+- **Never background a watcher with `&` inside a `run_in_background` call** —
+  the parent returns immediately and takes the child with it.
+
 ## Owner directives (standing)
 
 - North star: organic traffic & audience growth; monetization later.
