@@ -465,7 +465,7 @@ function sectionPeople(d) {
         : '<div class="tiny muted" style="margin-top:6px">Nothing attributed to this seat yet in docs/plans or docs/work-done.</div>';
 
       return (
-        '<details class="person" id="agent-' + e(a.name) + '" data-row data-dept="' + e(a.department) +
+        '<details class="person" id="agent-' + jsId(a.name) + '" data-row data-dept="' + e(a.department) +
         '" data-manager="' + e(a.reportsTo || '') + '" data-text="' + e(a.name + ' ' + a.role + ' ' + a.description) + '">' +
         '<summary><span class="caret">▶</span><span style="flex:1;min-width:220px">' +
         '<span style="font-weight:640;font-size:15px">' + e(a.role) + '</span>' +
@@ -476,7 +476,7 @@ function sectionPeople(d) {
         '</summary>' +
         '<div class="person-facts">' +
         '<div class="fact"><div class="k">Reports to</div><div class="v">' +
-        (a.reportsTo ? '<a href="#agent-' + e(a.reportsTo) + '">' + e(a.reportsTo) + '</a>' : '<span class="muted">the owner (board)</span>') + '</div></div>' +
+        (a.reportsTo ? '<a href="#agent-' + jsId(a.reportsTo) + '">' + e(a.reportsTo) + '</a>' : '<span class="muted">the owner (board)</span>') + '</div></div>' +
         '<div class="fact"><div class="k">Owns</div><div class="v">' +
         (a.owns ? renderInline(a.owns) : '<span class="muted">not listed in the workflow table</span>') + '</div></div>' +
         '<div class="fact"><div class="k">Cannot do</div><div class="v">' +
@@ -489,8 +489,8 @@ function sectionPeople(d) {
         '<div class="pad" style="border-top:1px solid var(--line-2)">' +
         '<div class="tiny muted" style="text-transform:uppercase;letter-spacing:.05em;font-weight:650;margin-bottom:6px">' +
         'The full persona file — <span class="mono">' + e(a.file) + '</span></div>' +
-        '<div class="doc-body md" id="persona-' + e(a.name) + '">' + a.html + '</div>' +
-        '<div class="expand-note" style="padding-left:0"><a href="#" data-expand="persona-' + e(a.name) + '">Expand the whole document</a></div>' +
+        '<div class="doc-body md" id="persona-' + jsId(a.name) + '">' + a.html + '</div>' +
+        '<div class="expand-note" style="padding-left:0"><a href="#" data-expand="persona-' + jsId(a.name) + '">Expand the whole document</a></div>' +
         '</div></details>'
       );
     })

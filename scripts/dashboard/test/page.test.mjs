@@ -44,6 +44,30 @@ has('section balanced', count(/<section\b/g) === count(/<\/section>/g));
 has('table balanced', count(/<table\b/g) === count(/<\/table>/g));
 has('div balanced', count(/<div\b/g) === count(/<\/div>/g));
 
+// Every navigable target must resolve to a real element. A search hit or a
+// "what changed" row that scrolls nowhere is a silent dead end.
+const payloadMatch = html.match(/window\.__HK__=(\{[\s\S]*?\});<\/script>/);
+has('search payload parses', Boolean(payloadMatch));
+if (payloadMatch) {
+  const data = JSON.parse(payloadMatch[1]);
+  const ids = new Set([...html.matchAll(/id="([^"]+)"/g)].map((m) => m[1]));
+  const deadSearch = data.search.filter((r) => !ids.has(r.target));
+  const deadFeed = data.changes.filter((c) => !ids.has(c.docId));
+  has('every search result points at a real element', deadSearch.length === 0);
+  has('every changed-document row points at a real element', deadFeed.length === 0);
+  if (deadSearch.length) console.log('  dead search targets:', deadSearch.slice(0, 5).map((r) => r.target));
+  if (deadFeed.length) console.log('  dead feed targets:', deadFeed.slice(0, 5).map((c) => c.docId));
+
+  // Same for the in-page links the sections render — but scan the markup only.
+  // The inline script contains href="#' + target + '" as source text, which is
+  // a template, not a link.
+  const markup = html.replace(/<script[\s\S]*?<\/script>/g, '');
+  const hrefs = [...markup.matchAll(/href="#([^"]+)"/g)].map((m) => m[1]).filter(Boolean);
+  const deadHrefs = [...new Set(hrefs)].filter((h) => !ids.has(h));
+  has('every in-page link resolves', deadHrefs.length === 0);
+  if (deadHrefs.length) console.log('  dead links:', deadHrefs.slice(0, 8));
+}
+
 let bad = 0;
 for (const [n, ok] of checks) if (!ok) { bad++; console.log('FAIL:', n); }
 console.log(bad === 0 ? 'ALL ' + checks.length + ' PAGE CHECKS PASS  (' + Math.round(html.length/1024) + ' KB)' : bad + ' of ' + checks.length + ' FAILED');

@@ -24,6 +24,20 @@ const TIMELINE_TYPES = {
   hire: { label: 'Org change', weight: 5 },
 };
 
+/** Ids must survive being used as an anchor and inside a click handler. */
+const idSafe = (v) => String(v === null || v === undefined ? '' : v).replace(/[^A-Za-z0-9_.:-]/g, '-');
+
+/**
+ * The anchor a document actually has on the page. Most get one from the
+ * timeline; the decision log and the folder READMEs are deliberately not
+ * timeline events, so they point at the section that presents their content.
+ */
+function anchorFor(d) {
+  if (d.type === 'decision-log') return 'decisions';
+  if (d.type === 'index') return d.path.startsWith('work-done/') ? 'workdone' : 'plans';
+  return 'doc-' + d.id;
+}
+
 export function buildTimeline({ docs, decisions, orgChangelog }) {
   const events = [];
 
@@ -278,11 +292,19 @@ export function weeklyArticleCount(register, today, weeks = 12) {
 
 /** Recently touched documents, newest first — the "what changed" feed. */
 export function recentChanges(docs, agents) {
+  // docId here is the ANCHOR the page emits, not the raw document id — the feed
+  // navigates by it, and a bare id scrolls to nothing.
   const all = [
     ...docs
       .filter((d) => d.type !== 'index')
-      .map((d) => ({ kind: 'document', title: d.title, path: d.path, docId: d.id, mtime: d.mtime })),
-    ...agents.map((a) => ({ kind: 'persona', title: a.role + ' (' + a.name + ')', path: 'org-chart/' + a.file, docId: 'agent-' + a.name, mtime: a.mtime })),
+      .map((d) => ({ kind: 'document', title: d.title, path: d.path, docId: anchorFor(d), mtime: d.mtime })),
+    ...agents.map((a) => ({
+      kind: 'persona',
+      title: a.role + ' (' + a.name + ')',
+      path: 'org-chart/' + a.file,
+      docId: 'agent-' + idSafe(a.name),
+      mtime: a.mtime,
+    })),
   ];
   return all.sort((a, b) => b.mtime.localeCompare(a.mtime));
 }
@@ -335,7 +357,7 @@ export function buildSearchIndex(docs, agents, decisions, clusters) {
       title: d.title,
       sub: d.path,
       text: (d.title + ' ' + d.path + ' ' + d.plain).toLowerCase().slice(0, 4000),
-      target: 'doc-' + d.id,
+      target: anchorFor(d),
     });
   }
   for (const a of agents) {
@@ -345,7 +367,8 @@ export function buildSearchIndex(docs, agents, decisions, clusters) {
       title: a.role,
       sub: a.name + ' · ' + a.department,
       text: (a.name + ' ' + a.role + ' ' + a.description + ' ' + a.plain).toLowerCase().slice(0, 4000),
-      target: 'agent-' + a.name,
+      // Must match the id render.mjs emits for this person.
+      target: 'agent-' + idSafe(a.name),
     });
   }
   for (const dec of decisions) {
