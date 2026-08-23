@@ -58,7 +58,7 @@ function parseArgs(argv: string[]): Args {
     );
     process.exit(1);
   }
-  return { db, commit };
+  return { db, commit, allowRemote };
 }
 
 /** Redacted for logs — the host tells you which database, the password does not. */
@@ -172,7 +172,24 @@ async function main() {
           intro = excluded.intro,
           is_pillar = true,
           updated_at = now()
+        -- Ownership, enforced by the WRITE and not only by the pre-check above.
+        -- The conflict target has to be the slug column (that is the unique
+        -- constraint the insert can collide on), so this WHERE is what
+        -- guarantees the update can only ever land on a row this script
+        -- created, or on a brand-new one. A row carrying another pillar code
+        -- is left untouched and RETURNING comes back empty, which the check
+        -- below catches.
+        where inspire_categories.pillar_code IS NULL
+           or inspire_categories.pillar_code = excluded.pillar_code
         returning id`;
+
+      if (!pillarRow) {
+        throw new Error(
+          `Refusing: /artikel/${pillar.slug} already exists and carries a different pillar ` +
+            'code. Resolve it by hand — renaming a category this script does not own is ' +
+            'not its call.',
+        );
+      }
 
       for (const [clusterIndex, cluster] of pillar.clusters.entries()) {
         await tx`
@@ -188,7 +205,9 @@ async function main() {
             pillar_code = excluded.pillar_code,
             entity_phrase = excluded.entity_phrase,
             is_pillar = false,
-            updated_at = now()`;
+            updated_at = now()
+          where inspire_categories.pillar_code IS NULL
+             or inspire_categories.pillar_code = excluded.pillar_code`;
       }
     }
   });

@@ -180,12 +180,21 @@ export function parseArticleFile(raw: string): ParsedArticleFile {
   //
   // Images are declared in front matter, where the credit fields are required.
   // There is no second way in.
-  const inlineImages = [...markdown.matchAll(/!\[[^\]]*\]\(([^)]+)\)/g)];
-  if (inlineImages.length > 0) {
+  // Three ways to put a picture in a markdown body, and all three are closed.
+  // The first pass caught only the inline form; review pointed out that
+  // reference-style images and raw HTML both went straight past it, which would
+  // have left the gate looking shut while two doors stood open.
+  const inlineImages = [...markdown.matchAll(/!\[[^\]]*\]\(([^)]+)\)/g)].map((m) => m[1]);
+  const referenceImages = [...markdown.matchAll(/!\[[^\]]*\]\[([^\]]*)\]/g)].map(
+    (m) => `[${m[1]}]`,
+  );
+  const htmlImages = [...markdown.matchAll(/<img\b[^>]*?src=["']?([^"'\s>]+)/gi)].map((m) => m[1]);
+  const smuggled = [...inlineImages, ...referenceImages, ...htmlImages];
+  if (smuggled.length > 0) {
     throw new ArticleFileError(
-      inlineImages.map(
-        (m) =>
-          `inline image ![...](${m[1]}) in the body — every image must be declared under \`images:\` in the front matter, where its credit, licence class and licensor are required`,
+      smuggled.map(
+        (src) =>
+          `image "${src}" is written into the body — every image must be declared under \`images:\` in the front matter, where its credit, licence class and licensor are required`,
       ),
     );
   }

@@ -488,20 +488,46 @@ async function main() {
       );
     } else {
       const endpoint = new URL('/api/cron/revalidate-content', args.revalidateUrl).toString();
-      const res = await fetch(endpoint, {
-        method: 'POST',
-        headers: { authorization: `Bearer ${secret}` },
-      });
-      console.log(
-        res.ok
-          ? 'Content caches dropped — the article is visible on the site now.'
-          : `⚠ Cache drop failed (HTTP ${res.status}). The article is written; the site will\n  serve stale pages until the caches are cleared.`,
-      );
+      // Three attempts. A cold serverless function or a momentary blip must not
+      // be the reason a correctly-written article stays invisible, and the
+      // request is idempotent so retrying costs nothing.
+      let ok = false;
+      let detail = '';
+      for (let attempt = 1; attempt <= 3 && !ok; attempt++) {
+        try {
+          const res = await fetch(endpoint, {
+            method: 'POST',
+            headers: { authorization: `Bearer ${secret}` },
+          });
+          ok = res.ok;
+          detail = `HTTP ${res.status}`;
+        } catch (err) {
+          detail = err instanceof Error ? err.message : String(err);
+        }
+        if (!ok && attempt < 3) await new Promise((r) => setTimeout(r, attempt * 1000));
+      }
+      if (ok) {
+        console.log('Content caches dropped — the article is visible on the site now.');
+      } else {
+        // Non-zero exit: the row is written but the site is still serving the
+        // old pages, so the run did NOT achieve what it was asked to. Reporting
+        // that as success is how a publishing path quietly stops working.
+        console.error(
+          `\n⚠ Cache drop failed after 3 attempts (${detail}).\n` +
+            '  The article IS written, but the site will keep serving stale pages until the\n' +
+            '  caches are cleared. Re-run the revalidate call before calling this published.',
+        );
+        await sql.end();
+        process.exit(2);
+      }
     }
-  } else {
-    console.log(
-      '\nNo --revalidate-url given, so the site caches were not dropped. Pass the site\n' +
-        'base URL to make the article appear immediately.',
+  } else if (!args.skipMedia) {
+    // Only worth shouting about on a real run: a --skip-media run is a local
+    // verification and has no site in front of it to go stale.
+    console.warn(
+      '\n⚠ No --revalidate-url given, so the site caches were NOT dropped. The article is\n' +
+        '  in the database and will stay invisible on the site until they are. Pass the\n' +
+        '  site base URL to finish the job.',
     );
   }
   await sql.end();

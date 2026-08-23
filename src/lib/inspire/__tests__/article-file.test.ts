@@ -86,18 +86,27 @@ describe('parseArticleFile', () => {
   // page while never passing through `images:` — no credit, no media row, no
   // upload. That is an uncredited photograph on a live page, which is the one
   // thing this gate exists to prevent.
-  it('REFUSES an image written inline in the body instead of declared in front matter', () => {
+  // All THREE ways to put a picture in a markdown body. The first version of
+  // this gate caught only the inline form; reference-style and raw HTML went
+  // straight past it, leaving the gate looking shut with two doors open.
+  it.each([
+    ['inline', '![Dulang hantaran](./images/sneaky.jpg)', 'sneaky\\.jpg'],
+    ['reference-style', '![Dulang hantaran][foto]\n\n[foto]: ./images/sneaky.jpg', '\\[foto\\]'],
+    ['raw HTML', '<img src="./images/sneaky.jpg" alt="Dulang">', 'sneaky\\.jpg'],
+    ['raw HTML, unquoted', '<img src=./images/sneaky.jpg>', 'sneaky\\.jpg'],
+  ])('REFUSES a %s image written into the body', (_kind, snippet, expected) => {
     const file = validFile().replace(
       'Kadar mas kahwin berbeza mengikut negeri.',
-      'Kadar mas kahwin berbeza.\n\n![Dulang hantaran](./images/sneaky.jpg)\n',
+      `Kadar mas kahwin berbeza.\n\n${snippet}\n`,
     );
     try {
       parseArticleFile(file);
       throw new Error('should have refused');
     } catch (err) {
       expect(err).toBeInstanceOf(ArticleFileError);
-      expect((err as ArticleFileError).problems.join('\n')).toMatch(/inline image/);
-      expect((err as ArticleFileError).problems.join('\n')).toMatch(/sneaky\.jpg/);
+      const problems = (err as ArticleFileError).problems.join('\n');
+      expect(problems).toMatch(/written into the body/);
+      expect(problems).toMatch(new RegExp(expected));
     }
   });
 
