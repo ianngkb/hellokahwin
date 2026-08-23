@@ -76,3 +76,15 @@ Thumbs.db
 .pnp.*
 # Generated internal dashboard (regenerate with: npm run dashboard)
 docs/dashboard/
+
+# Verification scratch: saved gazette/SERP pages pulled while fact-checking
+# mas kahwin figures. Evidence of the check, not an input to anything — the
+# findings live in docs/plans/*/aug-23-2026-mas-kahwin-state-table-verified.md
+*.html
+!docs/**/*.html
+cdx*.txt
+
+# Project agents are DERIVED from skillcentral/agents/projects/hellokahwin/
+# by install.sh. Committing them would create a second source of truth that
+# silently drifts from the org chart.
+.claude/agents/
