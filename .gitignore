@@ -74,3 +74,5 @@ Thumbs.db
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+# Generated internal dashboard (regenerate with: npm run dashboard)
+docs/dashboard/

@@ -20,7 +20,11 @@
     "lint": "npm run lint:backend && npm run lint:frontend",
     "lint:backend": "cd backend && npx eslint .",
     "lint:frontend": "cd frontend && npx eslint src/",
-    "package": "cd frontend && npm run electron-pack"
+    "package": "cd frontend && npm run electron-pack",
+    "dashboard": "node scripts/dashboard/generate.mjs",
+    "dashboard:open": "node scripts/dashboard/generate.mjs --open",
+    "dashboard:serve": "node scripts/dashboard/serve.mjs",
+    "dashboard:test": "node scripts/dashboard/test/md.test.mjs && node scripts/dashboard/test/page.test.mjs"
   },
   "devDependencies": {
     "concurrently": "^8.2.1"
