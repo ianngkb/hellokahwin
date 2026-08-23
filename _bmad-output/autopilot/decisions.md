@@ -610,3 +610,35 @@ Append-only. One line per decision autopilot made without interrupting the user.
 - [2026-08-23] Baseline `pnpm build` against the local mirror completes INCLUDING
   static prerender (exit 0) — the previous run could not get past prerender for
   want of a database. The build gate is genuinely available this run.
+- [2026-08-23] Pillars modelled as CATEGORIES (top-level = pillar, child = cluster)
+  rather than seven static routes. Static routes would shadow /artikel/[category]
+  and cut the pillars off from the category system — no automatic article roll-up,
+  no breadcrumbs, no sitemap, no admin picker. The category model is what makes the
+  brief's "wires the links automatically" requirementstructural rather than manual.
+- [2026-08-23] The brief says four category hubs are missing from the sitemap. It is
+  SIX — the audit missed minimalis-mewah and pantai-santai. And all six emit
+  noindex, so adding them to the sitemap alone would have been strictly worse than
+  doing nothing. Fixed both halves together and flagged it to the CEO rather than
+  implementing the instruction as literally written.
+- [2026-08-23] Ingest does NOT publish on its own: a file asking for
+  `status: published` lands as a draft unless --publish is passed. The spec said
+  ingest does not publish; the first implementation accepted the field anyway.
+  Review caught the contradiction; resolved in favour of the spec.
+- [2026-08-23] Added `yaml` and `marked` as devDependencies for the ingest parser.
+  Both ordinary, well-known, dependency-light. Auto-approved per the dependency rule.
+- [2026-08-23] Ingest's TipTap extension list is built from direct @tiptap/* imports
+  rather than `createArticleBaseExtensions()`, which is built on `novel` — ESM-only
+  and unloadable from a CLI script. Same vocabulary the server renderer uses.
+- [2026-08-23] R2 upload leg NOT exercised: running it writes objects into the live
+  hellokahwin-images bucket, which is a production side effect. Used --skip-media
+  locally (now refused against any non-local database) and reported the gap rather
+  than taking the write.
+- [2026-08-23] Review found 8 critical issues including an auth bypass I introduced:
+  /admin/ matched the legacy-permalink shape and was REWRITTEN, skipping Clerk.
+  Measured: /admin gave 307 -> /login, /admin/ gave 500 from inside the route. All 8
+  fixed and re-verified. Two findings rejected with reasons (cover-credit rendering
+  is required by the brief, not scope creep; up-links deriving from any assigned
+  pillar category is deliberate).
+- [2026-08-23] STOPPED before /imdone and /buildit. The brief forbids a production
+  deploy without board approval, and in this repo a push to master IS a production
+  deploy. Branch is committed locally and unpushed.
