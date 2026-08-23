@@ -165,7 +165,13 @@ export function loadOrgChart(orgRoot) {
         canBlockPublication: /\byou\b[^.]{0,80}\bcan block publication\b/i.test(body),
         hardRules: extractBullets(body, 'Hard rules'),
         body,
-        html: renderMarkdown(body, { headingOffset: 2, collectHeadings: headings }),
+        html: renderMarkdown(body, {
+          headingOffset: 2,
+          collectHeadings: headings,
+          // Distinct from the container id ("persona-<name>"), so heading ids
+          // inside a persona can never be confused with the persona itself.
+          idPrefix: 'pf-' + name,
+        }),
         headings,
         plain: toPlainText(body),
         words: toPlainText(body).split(/\s+/).length,

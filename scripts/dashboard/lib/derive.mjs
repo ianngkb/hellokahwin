@@ -32,20 +32,26 @@ const idSafe = (v) => String(v === null || v === undefined ? '' : v).replace(/[^
  * timeline; the decision log and the folder READMEs are deliberately not
  * timeline events, so they point at the section that presents their content.
  */
-function anchorFor(d) {
+function anchorFor(d, withDisclosure) {
   if (d.type === 'decision-log') return 'decisions';
   if (d.type === 'index') return d.path.startsWith('work-done/') ? 'workdone' : 'plans';
-  return 'doc-' + d.id;
+  // Documents rendered as an expandable disclosure own the "doc-" id. Everything
+  // else (drafts, meetings, company memory) is anchored by its timeline row.
+  // Emitting the same id in both places made getElementById return whichever
+  // came first, so half the navigation quietly landed on the wrong element.
+  if (withDisclosure && withDisclosure.has(d.path)) return 'doc-' + d.id;
+  return 'tl-doc-' + d.id;
 }
 
-export function buildTimeline({ docs, decisions, orgChangelog }) {
+export function buildTimeline({ docs, decisions, orgChangelog, withDisclosure }) {
   const events = [];
 
   for (const d of docs) {
     if (d.type === 'index' || d.type === 'decision-log') continue;
     const kind = TIMELINE_TYPES[d.type] ? d.type : 'plan';
     events.push({
-      id: 'doc-' + d.id,
+      id: 'tl-doc-' + d.id,
+      anchor: anchorFor(d, withDisclosure),
       date: d.date,
       kind,
       kindLabel: TIMELINE_TYPES[kind].label,
@@ -104,7 +110,10 @@ const BLOCK_SECTIONS = [
   { titles: ['follow-up', 'follow up'], reason: 'Open follow-up', severity: 'follow-up' },
   { titles: ['what i need from the ceo'], reason: 'Waiting on the CEO', severity: 'approval' },
   { titles: ['what i need from the board'], reason: 'Waiting on the board', severity: 'approval' },
+  { titles: ['what i need from the owner'], reason: 'Waiting on the owner', severity: 'approval' },
   { titles: ['owner requests'], reason: 'Waiting on the owner', severity: 'approval' },
+  // Ordered most specific first: sectionByTitle prefix-matches, so this bare
+  // entry would otherwise re-file a request already claimed above.
   { titles: ['what i need'], reason: 'Waiting on a decision', severity: 'approval' },
   { titles: ['risks'], reason: 'Flagged risk', severity: 'risk' },
 ];
@@ -113,7 +122,7 @@ const BLOCK_SECTIONS = [
  * Items something is holding up. Sources are all explicit: a DRAFT status line,
  * a Follow-ups section, a "what I need from…" section, or an open meeting action.
  */
-export function buildBlocked(docs, today) {
+export function buildBlocked(docs, today, withDisclosure) {
   const items = [];
 
   for (const d of docs) {
@@ -131,6 +140,7 @@ export function buildBlocked(docs, today) {
         owner: d.owner,
         docPath: d.path,
         docId: d.id,
+        anchor: anchorFor(d, withDisclosure),
         since: d.date,
         waitingDays: d.date && today ? daysBetween(d.date, today) : null,
       });
@@ -146,6 +156,7 @@ export function buildBlocked(docs, today) {
         owner: d.owner,
         docPath: d.path,
         docId: d.id,
+        anchor: anchorFor(d, withDisclosure),
         since: d.date,
         waitingDays: d.date && today ? daysBetween(d.date, today) : null,
       });
@@ -161,15 +172,19 @@ export function buildBlocked(docs, today) {
         owner: d.owner,
         docPath: d.path,
         docId: d.id,
+        anchor: anchorFor(d, withDisclosure),
         since: d.date,
         waitingDays: d.date && today ? daysBetween(d.date, today) : null,
       });
     }
 
+    const claimedSections = new Set();
     for (const spec of BLOCK_SECTIONS) {
       if (spec.severity === 'risk') continue; // risks are informational, not blocks
       const sec = sectionByTitle(d.sections, ...spec.titles);
       if (!sec || !sec.body.trim()) continue;
+      if (claimedSections.has(sec.title)) continue; // already filed under a more specific reason
+      claimedSections.add(sec.title);
       const bullets = collapseListItems(sec.body);
       const entries = bullets.length ? bullets : [sec.body.replace(/\s+/g, ' ').trim()];
       for (const e of entries) {
@@ -186,6 +201,7 @@ export function buildBlocked(docs, today) {
           owner: d.owner,
           docPath: d.path,
           docId: d.id,
+        anchor: anchorFor(d, withDisclosure),
           since: d.date,
           waitingDays: d.date && today ? daysBetween(d.date, today) : null,
         });
@@ -211,6 +227,7 @@ export function buildBlocked(docs, today) {
             owner: m[2].replace(/`/g, '').trim(),
             docPath: d.path,
             docId: d.id,
+        anchor: anchorFor(d, withDisclosure),
             since: d.date,
             waitingDays: d.date && today ? daysBetween(d.date, today) : null,
           });
@@ -219,8 +236,17 @@ export function buildBlocked(docs, today) {
     }
   }
 
+  // The same request can be reached by more than one route; the board sees it
+  // once, under the most specific reason.
+  const seenItems = new Map();
+  for (const it of items) {
+    const key = it.docPath + '::' + it.title.toLowerCase().replace(/s+/g, ' ').slice(0, 120);
+    if (!seenItems.has(key)) seenItems.set(key, it);
+  }
+  const items2 = [...seenItems.values()];
+
   const order = { approval: 0, action: 1, 'follow-up': 2, risk: 3 };
-  return items.sort((a, b) => (order[a.severity] - order[b.severity]) || (b.waitingDays || 0) - (a.waitingDays || 0));
+  return items2.sort((a, b) => (order[a.severity] - order[b.severity]) || (b.waitingDays || 0) - (a.waitingDays || 0));
 }
 
 /** The approvals queue is the subset of blocked items that sit with the board. */
@@ -306,13 +332,13 @@ export function weeklyArticleCount(register, today, weeks = 12) {
 }
 
 /** Recently touched documents, newest first — the "what changed" feed. */
-export function recentChanges(docs, agents) {
+export function recentChanges(docs, agents, withDisclosure) {
   // docId here is the ANCHOR the page emits, not the raw document id — the feed
   // navigates by it, and a bare id scrolls to nothing.
   const all = [
     ...docs
       .filter((d) => d.type !== 'index')
-      .map((d) => ({ kind: 'document', title: d.title, path: d.path, docId: anchorFor(d), mtime: d.mtime })),
+      .map((d) => ({ kind: 'document', title: d.title, path: d.path, docId: anchorFor(d, withDisclosure), mtime: d.mtime })),
     ...agents.map((a) => ({
       kind: 'persona',
       title: a.role + ' (' + a.name + ')',
@@ -363,7 +389,7 @@ export function parseCheckpoints(planDoc) {
 }
 
 /** Everything that can be searched from the one box at the top of the page. */
-export function buildSearchIndex(docs, agents, decisions, clusters) {
+export function buildSearchIndex(docs, agents, decisions, clusters, withDisclosure) {
   const rows = [];
   for (const d of docs) {
     rows.push({
@@ -372,7 +398,7 @@ export function buildSearchIndex(docs, agents, decisions, clusters) {
       title: d.title,
       sub: d.path,
       text: (d.title + ' ' + d.path + ' ' + d.plain).toLowerCase().slice(0, 4000),
-      target: anchorFor(d),
+      target: anchorFor(d, withDisclosure),
     });
   }
   for (const a of agents) {

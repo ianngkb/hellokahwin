@@ -68,6 +68,16 @@ if (payloadMatch) {
   if (deadHrefs.length) console.log('  dead links:', deadHrefs.slice(0, 8));
 }
 
+// Element ids must be unique. Two elements sharing an id means
+// getElementById returns whichever came first, and half the navigation lands
+// somewhere plausible but wrong — which is harder to notice than a dead link.
+const allIds = [...html.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
+const idCounts = new Map();
+for (const id of allIds) idCounts.set(id, (idCounts.get(id) || 0) + 1);
+const duped = [...idCounts].filter(([, n]) => n > 1);
+has('every element id is unique (' + allIds.length + ' ids)', duped.length === 0);
+if (duped.length) console.log('  duplicated:', duped.slice(0, 6).map(([id, n]) => id + ' x' + n));
+
 let bad = 0;
 for (const [n, ok] of checks) if (!ok) { bad++; console.log('FAIL:', n); }
 console.log(bad === 0 ? 'ALL ' + checks.length + ' PAGE CHECKS PASS  (' + Math.round(html.length/1024) + ' KB)' : bad + ' of ' + checks.length + ' FAILED');

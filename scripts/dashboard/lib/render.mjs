@@ -173,7 +173,8 @@ function sectionTimeline(d) {
         '<div class="tl-item card" data-row data-kind="' + e(x.kindLabel) + '" data-owner="' + e(x.owner || '') +
         '" data-session="' + e(x.session || '') + '" data-status="' + e(x.status || '') +
         '" data-text="' + e(x.title + ' ' + x.summary) + '" id="' + e(x.id) + '">' +
-        '<div class="tl-head" onclick="location.hash=\'' + jsId(x.docId ? 'doc-' + x.docId : x.decisionId ? 'decision-' + x.decisionId : x.id) + '\'">' +
+        '<div class="tl-head" onclick="location.hash=\'' +
+        jsId(x.anchor || (x.decisionId ? 'decision-' + x.decisionId : x.id)) + '\'">' +
         '<div class="tl-date">' + e(x.date || '—') + '</div>' +
         '<div style="flex:1;min-width:180px"><div class="tl-title">' + e(x.title) + '</div>' +
         '<div class="tl-meta"><span>' + e(x.kindLabel) + '</span>' +
@@ -824,6 +825,18 @@ function sectionPipeline(d) {
       'They have cleared the review board, the humanizer and SEO QC, and are held short of publication. ' +
       'Reason given: ' + e(clip(d.board.stuck[0].heldReason || 'not stated', 200)) + '</div>'
     : '';
+  // An article whose stage cannot be read must be visible, not silently absent.
+  // A card that quietly disappears is worse than a card in the wrong column.
+  const unplaced = d.board.unplaced.length
+    ? '<div class="empty" style="border-color:var(--bad);border-style:solid;margin-top:12px"><strong>' +
+      fmt(d.board.unplaced.length) + ' article' + (d.board.unplaced.length === 1 ? '' : 's') +
+      ' could not be placed on the board.</strong>' +
+      'Their status line does not name a stage this workflow has, so they are listed here rather than dropped: ' +
+      d.board.unplaced.map((a) => '<span class="mono">' + e(a.code || a.title.slice(0, 40)) +
+        '</span> (' + e(clip(a.statusText || 'no status line', 60)) + ')').join(', ') +
+      '</div>'
+    : '';
+
   const boardEmpty = d.board.empty
     ? emptyState(
         'No article is anywhere on this board.',
@@ -839,6 +852,7 @@ function sectionPipeline(d) {
     '<p class="lede">The assembly line every article passes through, with each stage’s owner and the gate it must clear before it moves on.</p>' +
     stuckNote +
     boardEmpty +
+    unplaced +
     '<div class="kanban" style="margin-top:12px">' + cols + '</div>' +
     '<h3 style="font-size:14px;margin:22px 0 8px">Pillar readiness — no article publishes without its pillar page</h3>' +
     '<div class="dt-wrap"><table class="dt"><thead><tr><th>Pillar</th><th>Name</th><th>Page</th><th>Status</th><th>Evidence</th><th class="right">Live / mapped</th></tr></thead><tbody>' +
@@ -851,20 +865,20 @@ function sectionPipeline(d) {
   );
 }
 
-function blockedList(items, emptyTitle, emptyWhy) {
+function blockedList(items, emptyTitle, emptyWhy, idPrefix) {
   if (!items.length) return emptyState(emptyTitle, emptyWhy);
   return items
     .map(
       (b) =>
         '<div class="card pad" data-row data-severity="' + e(b.severity) + '" data-owner="' + e(b.owner || '') +
-        '" data-text="' + e(b.title + ' ' + b.reason) + '" style="margin-bottom:8px" id="' + e(b.id) + '">' +
+        '" data-text="' + e(b.title + ' ' + b.reason) + '" style="margin-bottom:8px" id="' + e((idPrefix || '') + b.id) + '">' +
         '<div style="display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap">' +
         '<span class="pill ' + (b.severity === 'approval' ? 'draft' : b.severity === 'action' ? 'decision' : 'other') + '">' + e(b.severity) + '</span>' +
         '<div style="flex:1;min-width:220px"><div style="font-weight:560">' + (b.titleHtml || e(b.title)) + '</div>' +
         '<div class="tl-meta"><span>' + e(b.reason) + '</span>' +
         (b.owner ? '<span>owner: ' + e(b.owner) + '</span>' : '') +
         (b.waitingDays !== null && b.waitingDays !== undefined ? '<span>' + b.waitingDays + ' day' + (b.waitingDays === 1 ? '' : 's') + ' open</span>' : '') +
-        '<span><a href="#doc-' + e(b.docId) + '" class="mono">' + e(b.docPath) + '</a></span></div></div>' +
+        '<span><a href="#' + jsId(b.anchor || ('doc-' + b.docId)) + '" class="mono">' + e(b.docPath) + '</a></span></div></div>' +
         '</div></div>'
     )
     .join('');
@@ -882,7 +896,7 @@ function sectionBlocked(d) {
     '<h2>Blocked and open</h2>' +
     '<p class="lede">Anything a missing approval, an open follow-up or an unfinished action is holding up. Short list, high value.</p>' +
     filters +
-    blockedList(d.blocked, 'Nothing is blocked.', 'No DRAFT status, open follow-up, meeting action or “what I need from…” request was found in any document.') +
+    blockedList(d.blocked, 'Nothing is blocked.', 'No DRAFT status, open follow-up, meeting action or “what I need from…” request was found in any document.', 'blocked-') +
     '</section>'
   );
 }
@@ -892,7 +906,7 @@ function sectionApprovals(d) {
     '<section class="panel" id="approvals">' +
     '<h2>Approvals queue</h2>' +
     '<p class="lede">What is sitting with the board right now, and how long it has been waiting.</p>' +
-    blockedList(d.approvals, 'Nothing is waiting on the board.', 'No plan reads DRAFT and no document asks the board or the owner for a decision.') +
+    blockedList(d.approvals, 'Nothing is waiting on the board.', 'No plan reads DRAFT and no document asks the board or the owner for a decision.', 'appr-') +
     '</section>'
   );
 }

@@ -126,16 +126,19 @@ export function barChart(buckets, opts) {
   const height = (opts && opts.height) || 150;
   const pad = { t: 12, r: 12, b: 30, l: 34 };
   if (!buckets.length) return '<div class="empty">No weeks to draw.</div>';
-  const max = Math.max(1, ...buckets.map((b) => b.count));
+  // One non-finite count would make max NaN and every bar would render as NaN.
+  const counts = buckets.map((b) => (Number.isFinite(b.count) ? b.count : 0));
+  const max = Math.max(1, ...counts);
   const bw = (width - pad.l - pad.r) / buckets.length;
   let bars = '';
   buckets.forEach((b, i) => {
-    const h = ((height - pad.t - pad.b) * b.count) / max;
+    const count = counts[i];
+    const h = ((height - pad.t - pad.b) * count) / max;
     const x = pad.l + i * bw + bw * 0.16;
     const y = height - pad.b - h;
     bars +=
       '<rect x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" width="' + (bw * 0.68).toFixed(1) +
-      '" height="' + Math.max(h, b.count ? 2 : 0).toFixed(1) + '" rx="2" fill="var(--accent)"/>';
+      '" height="' + Math.max(h, count ? 2 : 0).toFixed(1) + '" rx="2" fill="var(--accent)"/>';
     if (i % 2 === 0) {
       bars +=
         '<text x="' + (x + bw * 0.34).toFixed(1) + '" y="' + (height - 10) +

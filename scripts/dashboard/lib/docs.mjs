@@ -267,9 +267,11 @@ function walk(dir, out) {
  * @param {string} docsRoot
  * @returns {Array<object>} document records
  */
-export function loadDocuments(docsRoot) {
+export function loadDocuments(docsRoot, onError) {
   const files = walk(docsRoot, []);
-  return files.map((full) => {
+  return files
+    .map((full) => {
+      try {
     const raw = fs.readFileSync(full, 'utf8').replace(/\r\n?/g, '\n');
     const rel = path.relative(docsRoot, full).replace(/\\/g, '/');
     const fileName = path.basename(full);
@@ -301,7 +303,11 @@ export function loadDocuments(docsRoot) {
 
     const plain = toPlainText(body);
     const headings = [];
-    const html = renderMarkdown(body, { headingOffset: 1, collectHeadings: headings });
+    const html = renderMarkdown(body, {
+      headingOffset: 1,
+      collectHeadings: headings,
+      idPrefix: slugify(rel.replace(/\.md$/, '')),
+    });
 
     return {
       id: slugify(rel.replace(/\.md$/, '')),
@@ -325,7 +331,14 @@ export function loadDocuments(docsRoot) {
       sections,
       headings,
     };
-  });
+      } catch (err) {
+        // A file removed or locked between the walk and the read must not take
+        // the whole run down. It is skipped and reported on the page instead.
+        if (onError) onError({ path: full, error: String(err && err.message ? err.message : err) });
+        return null;
+      }
+    })
+    .filter(Boolean);
 }
 
 /**

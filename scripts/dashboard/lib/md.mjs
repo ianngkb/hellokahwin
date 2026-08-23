@@ -137,6 +137,10 @@ export function renderMarkdown(markdown, opts) {
   const options = opts || {};
   const headingOffset = options.headingOffset || 0;
   const collect = options.collectHeadings;
+  // Dozens of documents are embedded in one page and many share heading text
+  // ("Rules", "Evidence", "Output"). Without a per-document prefix their ids
+  // collide and getElementById returns whichever happens to come first.
+  const idPrefix = options.idPrefix ? options.idPrefix + '--' : '';
   const lines = String(markdown === null || markdown === undefined ? '' : markdown)
     .replace(/\r\n?/g, '\n')
     .split('\n');
@@ -212,7 +216,7 @@ export function renderMarkdown(markdown, opts) {
       closeAllLists();
       const level = Math.min(6, h[1].length + headingOffset);
       const text = h[2];
-      const id = slugify(text);
+      const id = idPrefix + slugify(text);
       if (collect) collect.push({ level: h[1].length, text: text, id: id });
       out.push('<h' + level + ' id="' + id + '">' + inline(text) + '</h' + level + '>');
       i++;
@@ -262,9 +266,18 @@ export function renderMarkdown(markdown, opts) {
         buf.push(lines[i].replace(/^\s*>\s?/, ''));
         i++;
       }
+      // Cap the recursion: ">>>>>…" nested hundreds deep would otherwise
+      // recurse until the stack gives out.
+      const depth = options.depth || 0;
       out.push(
         '<blockquote>' +
-          renderMarkdown(buf.join('\n'), { headingOffset: headingOffset }) +
+          (depth >= 8
+            ? '<p>' + inline(buf.join(' ')) + '</p>'
+            : renderMarkdown(buf.join('\n'), {
+                headingOffset: headingOffset,
+                idPrefix: options.idPrefix,
+                depth: depth + 1,
+              })) +
           '</blockquote>'
       );
       continue;

@@ -160,13 +160,20 @@ async function main() {
   }
   openPredictionRows.sort((a, b) => (a.dueDate || '9999').localeCompare(b.dueDate || '9999'));
 
-  const timeline = buildTimeline({ docs, decisions, orgChangelog });
-  const blocked = buildBlocked(docs, today);
+  // Exactly the documents render.mjs gives an expandable disclosure to. They own
+  // the "doc-<id>" anchor; everything else is anchored by its timeline row.
+  const planDocs = docs.filter(
+    (d) => d.path.startsWith('plans/') && d.type !== 'index' && d.type !== 'draft'
+  );
+  const withDisclosure = new Set([...planDocs, ...workDoneDocs].map((d) => d.path));
+
+  const timeline = buildTimeline({ docs, decisions, orgChangelog, withDisclosure });
+  const blocked = buildBlocked(docs, today, withDisclosure);
   const approvals = buildApprovals(blocked);
   const activity = buildActivity(org.agents, docs, decisions);
   const weekly = weeklyArticleCount(register, today);
-  const changes = recentChanges(docs, org.agents);
-  const searchIndex = buildSearchIndex(docs, org.agents, decisions, clusterPlan.clusters);
+  const changes = recentChanges(docs, org.agents, withDisclosure);
+  const searchIndex = buildSearchIndex(docs, org.agents, decisions, clusterPlan.clusters, withDisclosure);
 
   const sourceStatus = [
     { name: 'Boardroom', ok: fs.existsSync(PATHS.boardroom), detail: docs.filter((d) => d.path.startsWith('boardroom/')).length + ' files', path: 'docs/boardroom/' },
@@ -182,7 +189,7 @@ async function main() {
     generatedAt: new Date().toISOString().replace('T', ' ').slice(0, 16) + ' UTC',
     today,
     docs,
-    planDocs: docs.filter((d) => d.path.startsWith('plans/') && d.type !== 'index' && d.type !== 'draft'),
+    planDocs,
     draftDocs,
     workDoneDocs,
     revisions,

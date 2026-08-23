@@ -137,6 +137,31 @@ has('server never leaks a stack trace', !/res\.end\((?:err|String\(err)/.test(se
 // --- theme/style sanity (cheap, catches a truncated asset) ------------------
 has('stylesheet is present and closed', CSS.length > 2000 && CSS.includes('.org-node'));
 
+// --- chart robustness ------------------------------------------------------
+import { barChart } from '../lib/charts.mjs';
+const nanBars = barChart([{ from: 'a', to: '2026-01-01', count: NaN }, { from: 'b', to: '2026-01-08', count: 3 }], {});
+has('a NaN bucket does not poison every bar', !nanBars.includes('NaN'));
+const infBars = barChart([{ from: 'a', to: '2026-01-01', count: Infinity }], {});
+has('an infinite bucket does not poison the chart', !infBars.includes('NaN') && !infBars.includes('Infinity'));
+
+// --- the board never silently drops an article -----------------------------
+import { buildBoard } from '../lib/pipeline.mjs';
+const stubWorkflow = { stages: Array.from({ length: 8 }, (_, i) => ({ n: i + 1, name: 'S' + (i + 1) })) };
+const board = buildBoard(stubWorkflow, {
+  articles: [
+    { code: 'A1', title: 'placed', stageNumber: 7, held: false },
+    { code: 'A9', title: 'unplaceable', stageNumber: 11, held: false },
+  ],
+});
+has('an article with an unknown stage is kept, not dropped', board.unplaced.length === 1);
+has('a placeable article still lands in its column', board.columns[6].cards.length === 1);
+
+// --- blockquote depth is bounded -------------------------------------------
+const deepQuote = '>'.repeat(500) + ' deep';
+let quoteOk = true;
+try { renderMarkdown(deepQuote); } catch { quoteOk = false; }
+has('deeply nested blockquotes do not blow the stack', quoteOk);
+
 let bad = 0;
 for (const [name, ok] of checks) if (!ok) { bad++; console.log('FAIL:', name); }
 console.log(bad === 0 ? 'ALL ' + checks.length + ' GAP CHECKS PASS' : bad + ' of ' + checks.length + ' FAILED');
