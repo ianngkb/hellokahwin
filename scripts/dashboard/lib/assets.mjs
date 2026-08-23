@@ -405,7 +405,10 @@ export const JS = `
   var q = document.getElementById('q');
   var results = document.getElementById('results');
   var index = D.search || [];
-  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  // Escapes the apostrophe and backtick too: everything built here goes through
+  // innerHTML, and a value can land in an attribute quoted either way.
+  var ESC = {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','\`':'&#96;'};
+  function esc(s){ return String(s === null || s === undefined ? '' : s).replace(/[&<>"'\`]/g, function(c){ return ESC[c]; }); }
   function search(term){
     var t = term.toLowerCase().trim();
     if(t.length < 2){ results.classList.remove('on'); results.innerHTML=''; return; }

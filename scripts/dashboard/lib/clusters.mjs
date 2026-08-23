@@ -174,13 +174,20 @@ export function parseStage(statusText, fallback) {
   const s = String(statusText || '');
   const held = s.match(/held\s+at\s+stage\s*(\d)/i);
   if (held) return { stage: Number(held[1]), held: true, reason: heldReason(s) };
-  const live = /\b(published|live on|now live)\b/i.test(s);
+  // "not published" and "nothing published, by design" must not mark an article
+  // live — that would turn held work into coverage.
+  const live =
+    /\b(published|live on|now live)\b/i.test(s) &&
+    !/\b(?:not|never|nothing|isn't|is not|yet to be|pending|awaiting)\b[^.;]{0,30}(?:published|live)/i.test(s);
   if (live) return { stage: 8, held: false, reason: null };
   const stages = [...s.matchAll(/stage\s*(\d)/gi)].map((m) => Number(m[1]));
   if (stages.length) {
     const highest = Math.max(...stages);
-    // "Stage 6 … complete" means it is waiting to enter stage 7.
-    return { stage: /complete/i.test(s) ? Math.min(8, highest + 1) : highest, held: false, reason: null };
+    // "Stage 6 … complete" means it is waiting to enter stage 7 — but only when
+    // the completion is asserted, not denied. "review is not complete" must not
+    // advance an article, which is the direction that would overstate progress.
+    const completed = /\bcomplete/i.test(s) && !/\b(?:not|never|isn't|is not|yet to be|pending|awaiting)\b[^.;]{0,30}complete/i.test(s);
+    return { stage: completed ? Math.min(8, highest + 1) : highest, held: false, reason: null };
   }
   return { stage: fallback || 3, held: false, reason: null };
 }

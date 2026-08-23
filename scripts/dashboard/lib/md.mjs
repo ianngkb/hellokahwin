@@ -143,10 +143,26 @@ export function renderMarkdown(markdown, opts) {
   const out = [];
   let i = 0;
 
-  const listStack = []; // { tag, indent }
+  const listStack = []; // { tag, indent, closeLi }
 
+  // A nested list belongs INSIDE the <li> above it, not beside it. When a deeper
+  // level opens we reopen the previous item by stripping its </li>, and put that
+  // </li> back when the nested list closes.
+  function popList() {
+    const entry = listStack.pop();
+    out.push('</' + entry.tag + '>' + (entry.closeLi ? '</li>' : ''));
+  }
+  function openList(tag, indent) {
+    let closeLi = false;
+    if (listStack.length && out.length && out[out.length - 1].endsWith('</li>')) {
+      out[out.length - 1] = out[out.length - 1].slice(0, -5);
+      closeLi = true;
+    }
+    listStack.push({ tag: tag, indent: indent, closeLi: closeLi });
+    out.push('<' + tag + '>');
+  }
   function closeAllLists() {
-    while (listStack.length) out.push('</' + listStack.pop().tag + '>');
+    while (listStack.length) popList();
   }
 
   while (i < lines.length) {
@@ -263,16 +279,14 @@ export function renderMarkdown(markdown, opts) {
 
       // Close any deeper levels first.
       while (listStack.length && listStack[listStack.length - 1].indent > indent) {
-        out.push('</' + listStack.pop().tag + '>');
+        popList();
       }
       const top = listStack[listStack.length - 1];
       if (!top || indent > top.indent) {
-        listStack.push({ tag: tag, indent: indent });
-        out.push('<' + tag + '>');
+        openList(tag, indent);
       } else if (top.tag !== tag) {
-        out.push('</' + listStack.pop().tag + '>');
-        listStack.push({ tag: tag, indent: indent });
-        out.push('<' + tag + '>');
+        popList();
+        openList(tag, indent);
       }
 
       // Absorb lazy continuation lines belonging to this item.

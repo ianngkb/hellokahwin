@@ -6,10 +6,24 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { renderMarkdown, toPlainText, slugify } from './md.mjs';
 
+// English and Malay. The writers date their drafts in Malay ("23 Ogos 2026"),
+// and without these the date silently fell back to the file's mtime.
 const MONTHS = {
   jan: 1, feb: 2, mar: 3, apr: 4, may: 5, jun: 6,
   jul: 7, aug: 8, sep: 9, sept: 9, oct: 10, nov: 11, dec: 12,
+  // Malay: Januari Februari Mac April Mei Jun Julai Ogos September Oktober November Disember
+  mac: 3, mei: 5, jul_: 7, julai: 7, ogo: 8, ogos: 8, okt: 10, dis: 12, disember: 12,
 };
+
+/** Month number from an English or Malay month word, else null. */
+function monthOf(word) {
+  if (!word) return null;
+  const w = String(word).toLowerCase().replace(/\.$/, '');
+  if (MONTHS[w] !== undefined) return MONTHS[w];
+  if (MONTHS[w.slice(0, 4)] !== undefined) return MONTHS[w.slice(0, 4)];
+  if (MONTHS[w.slice(0, 3)] !== undefined) return MONTHS[w.slice(0, 3)];
+  return null;
+}
 
 /** ISO date (YYYY-MM-DD) from the many shapes these documents use, else null. */
 export function parseDate(text) {
@@ -17,34 +31,37 @@ export function parseDate(text) {
   const s = String(text);
 
   let m = s.match(/(\d{4})-(\d{2})-(\d{2})/);
-  if (m) return `${m[1]}-${m[2]}-${m[3]}`;
+  if (m) return valid(Number(m[1]), Number(m[2]), Number(m[3]));
 
-  // "23 Aug 2026" / "21 November 2026"
-  m = s.match(/\b(\d{1,2})\s+([A-Za-z]{3,9})\.?\s+(\d{4})\b/);
-  if (m && MONTHS[m[2].toLowerCase().slice(0, 4)] !== undefined) {
-    const mo = MONTHS[m[2].toLowerCase().slice(0, 4)] ?? MONTHS[m[2].toLowerCase().slice(0, 3)];
-    if (mo) return `${m[3]}-${String(mo).padStart(2, '0')}-${String(m[1]).padStart(2, '0')}`;
-  }
+  // "23 Aug 2026" / "23 Ogos 2026" / "21 November 2026"
   m = s.match(/\b(\d{1,2})\s+([A-Za-z]{3,9})\.?\s+(\d{4})\b/);
   if (m) {
-    const mo = MONTHS[m[2].toLowerCase().slice(0, 3)];
-    if (mo) return `${m[3]}-${String(mo).padStart(2, '0')}-${String(m[1]).padStart(2, '0')}`;
+    const mo = monthOf(m[2]);
+    if (mo) return valid(Number(m[3]), mo, Number(m[1]));
   }
 
   // "aug-23-2026" (the filename convention)
   m = s.match(/\b([a-z]{3,9})-(\d{1,2})-(\d{4})\b/i);
   if (m) {
-    const mo = MONTHS[m[1].toLowerCase().slice(0, 3)];
-    if (mo) return `${m[3]}-${String(mo).padStart(2, '0')}-${String(m[2]).padStart(2, '0')}`;
+    const mo = monthOf(m[1]);
+    if (mo) return valid(Number(m[3]), mo, Number(m[2]));
   }
 
   // "Aug 23 2026" / "Nov 21, 2026"
   m = s.match(/\b([A-Za-z]{3,9})\.?\s+(\d{1,2}),?\s+(\d{4})\b/);
   if (m) {
-    const mo = MONTHS[m[1].toLowerCase().slice(0, 3)];
-    if (mo) return `${m[3]}-${String(mo).padStart(2, '0')}-${String(m[2]).padStart(2, '0')}`;
+    const mo = monthOf(m[1]);
+    if (mo) return valid(Number(m[3]), mo, Number(m[2]));
   }
   return null;
+}
+
+/** Reject a date that does not exist (31 Feb, month 13) rather than rolling it over. */
+function valid(year, month, day) {
+  if (!year || !month || !day || month < 1 || month > 12 || day < 1 || day > 31) return null;
+  const d = new Date(Date.UTC(year, month - 1, day));
+  if (d.getUTCFullYear() !== year || d.getUTCMonth() !== month - 1 || d.getUTCDate() !== day) return null;
+  return d.toISOString().slice(0, 10);
 }
 
 export function addDays(isoDate, days) {
@@ -61,17 +78,38 @@ export function daysBetween(a, b) {
   return Math.round((db - da) / 86400000);
 }
 
+const NEGATORS = /\b(?:not|never|no longer|isn't|is not|are not|yet to be|awaiting|pending|without)\b/;
+
 /**
- * Normalise a raw status string to one of the statuses the board uses.
- * Anything it cannot place stays OTHER rather than being guessed into a bucket.
+ * True when `stem` appears in the text but is negated shortly before it.
+ * "not yet approved" is the opposite of APPROVED, and reading it as approval is
+ * the worst direction to be wrong in on a page the board decides from.
  */
+function negated(text, stem) {
+  const re = new RegExp(stem, 'g');
+  let m;
+  while ((m = re.exec(text))) {
+    // Look back a short window — far enough for "not yet" or "no longer",
+    // short enough not to reach across into an unrelated clause.
+    const window = text.slice(Math.max(0, m.index - 40), m.index);
+    const at = window.search(NEGATORS);
+    if (at !== -1 && !/[.;]/.test(window.slice(at))) return true;
+  }
+  return false;
+}
+
 export function normaliseStatus(raw) {
   if (!raw) return null;
   const s = String(raw).toLowerCase();
-  if (/supersed/.test(s)) return 'SUPERSEDED';
-  if (/abandon/.test(s)) return 'ABANDONED';
+
+  if (/supersed/.test(s) && !negated(s, 'supersed')) return 'SUPERSEDED';
+  if (/abandon/.test(s) && !negated(s, 'abandon')) return 'ABANDONED';
   if (/\bdraft\b|awaiting (?:board|ceo|the board|approval)|awaiting approval|pending approval/.test(s)) {
     return 'DRAFT';
+  }
+  // Anything still negated falls through to OTHER rather than to a positive status.
+  if (negated(s, 'approv') || negated(s, 'complet') || negated(s, 'deploy') || negated(s, 'done')) {
+    return 'OTHER';
   }
   if (/\bapproved\b|\baccepted\b/.test(s)) return 'APPROVED';
   if (/\bcompleted\b|\bcomplete\b|\bdone\b/.test(s)) return 'COMPLETED';

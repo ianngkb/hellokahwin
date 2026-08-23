@@ -13,6 +13,27 @@ import path from 'node:path';
 
 const TOKEN_URL = 'https://oauth2.googleapis.com/token';
 const SCOPE = 'https://www.googleapis.com/auth/webmasters.readonly';
+const REQUEST_TIMEOUT_MS = Number(process.env.HELLOKAHWIN_GSC_TIMEOUT_MS) || 20000;
+
+/**
+ * fetch with a hard deadline. Without one, a hung connection hangs the whole
+ * generator indefinitely — and a dashboard that never finishes regenerating is
+ * indistinguishable from a broken one.
+ */
+async function fetchWithTimeout(url, options, label) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+  try {
+    return await fetch(url, { ...options, signal: controller.signal });
+  } catch (err) {
+    if (err && err.name === 'AbortError') {
+      throw new Error(label + ' timed out after ' + Math.round(REQUEST_TIMEOUT_MS / 1000) + 's.');
+    }
+    throw new Error(label + ' failed: ' + (err && err.message ? err.message : String(err)));
+  } finally {
+    clearTimeout(timer);
+  }
+}
 
 function b64url(input) {
   return Buffer.from(input).toString('base64').replace(/=+$/, '').replace(/\+/g, '-').replace(/\//g, '_');
@@ -58,14 +79,14 @@ async function getAccessToken(credentialPath) {
   const signature = b64url(signer.sign(creds.private_key));
   const assertion = header + '.' + claims + '.' + signature;
 
-  const res = await fetch(TOKEN_URL, {
+  const res = await fetchWithTimeout(TOKEN_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: new URLSearchParams({
       grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
       assertion,
     }),
-  });
+  }, 'Search Console sign-in');
   if (!res.ok) {
     const body = await res.text();
     // Never surface the assertion or the key; only Google's own error text.
@@ -80,11 +101,15 @@ async function query(token, siteUrl, body) {
     'https://searchconsole.googleapis.com/webmasters/v3/sites/' +
     encodeURIComponent(siteUrl) +
     '/searchAnalytics/query';
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
-  });
+  const res = await fetchWithTimeout(
+    url,
+    {
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    },
+    'Search Console query'
+  );
   if (!res.ok) {
     const text = await res.text();
     throw new Error('Search Console query failed (' + res.status + '): ' + text.slice(0, 300));
