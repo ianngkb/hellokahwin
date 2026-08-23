@@ -26,15 +26,30 @@ import { PILLARS } from '../src/lib/inspire/pillars';
 interface Args {
   db: string;
   commit: boolean;
+  /** Required to write to anything that is not a local throwaway database. */
+  allowRemote: boolean;
+}
+
+/** Hosts that are unambiguously a throwaway database on this machine. */
+const LOCAL_HOSTS = new Set(['localhost', '127.0.0.1', '::1', '0.0.0.0']);
+
+function isLocalDb(url: string): boolean {
+  try {
+    return LOCAL_HOSTS.has(new URL(url).hostname);
+  } catch {
+    return false;
+  }
 }
 
 function parseArgs(argv: string[]): Args {
   let db = '';
   let commit = false;
+  let allowRemote = false;
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === '--db') db = argv[++i] ?? '';
     else if (argv[i] === '--commit') commit = true;
     else if (argv[i] === '--dry-run') commit = false;
+    else if (argv[i] === '--i-know-this-is-remote') allowRemote = true;
   }
   if (!db) {
     console.error(
@@ -63,13 +78,41 @@ async function main() {
   console.log(`Target: ${describeTarget(args.db)}`);
   console.log(args.commit ? 'Mode:   COMMIT (will write)\n' : 'Mode:   DRY RUN (no writes)\n');
 
+  // Writing to anything other than a local throwaway creates PUBLIC URLs on a
+  // live site. `--db` alone is not enough of a speed bump for that: the whole
+  // point of having to type a URL out is that it is easy to type the wrong one.
+  if (args.commit && !isLocalDb(args.db) && !args.allowRemote) {
+    console.error(
+      `Refusing: ${describeTarget(args.db)} is not a local database, and writing to it\n` +
+        'would create public URLs on a live site. Re-run with --i-know-this-is-remote if\n' +
+        'that is genuinely what the board approved.',
+    );
+    await sql.end();
+    process.exit(1);
+  }
+
   // Slug collisions are the one failure that would be expensive to undo: a
   // pillar silently adopting an existing category's slug would either fail on
   // the unique index or, worse, be interpreted later as "that category IS the
   // pillar". Check before touching anything.
   const existing = await sql<{ slug: string; pillar_code: string | null }[]>`
     select slug, pillar_code from inspire_categories`;
-  const foreignSlugs = new Set(existing.filter((r) => !r.pillar_code).map((r) => r.slug));
+  // A slug belongs to somebody else if it carries NO pillar code (a legacy
+  // WordPress category) or a DIFFERENT one. The second case matters because
+  // the upserts below conflict on `slug`: without this check, an existing row
+  // carrying code C2.1 whose slug we also wanted would have had its code
+  // silently overwritten, breaking the promise that this script never touches
+  // a row it did not create. Caught in review.
+  const wantedByCode = new Map<string, string>();
+  for (const pillar of PILLARS) {
+    wantedByCode.set(pillar.code, pillar.slug);
+    for (const cluster of pillar.clusters) wantedByCode.set(cluster.code, cluster.slug);
+  }
+  const foreignSlugs = new Set(
+    existing
+      .filter((r) => !r.pillar_code || wantedByCode.get(r.pillar_code) !== r.slug)
+      .map((r) => r.slug),
+  );
   const wanted = PILLARS.flatMap((p) => [p.slug, ...p.clusters.map((c) => c.slug)]);
   const collisions = wanted.filter((s) => foreignSlugs.has(s));
   if (collisions.length > 0) {

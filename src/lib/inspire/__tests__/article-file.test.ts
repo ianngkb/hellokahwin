@@ -75,6 +75,32 @@ describe('parseArticleFile', () => {
     }
   });
 
+  // Regression: a whitespace-only credit passed the owner-level gate. An image
+  // credited to "   " is an uncredited image.
+  it.each(['credit', 'licensorName', 'alt'])('REFUSES a whitespace-only %s', (field) => {
+    const file = validFile().replace(new RegExp(`  ${field}: .*`), `  ${field}: "   "`);
+    expect(() => parseArticleFile(file)).toThrow(ArticleFileError);
+  });
+
+  // Regression: a markdown image written inline in the body rendered on the
+  // page while never passing through `images:` — no credit, no media row, no
+  // upload. That is an uncredited photograph on a live page, which is the one
+  // thing this gate exists to prevent.
+  it('REFUSES an image written inline in the body instead of declared in front matter', () => {
+    const file = validFile().replace(
+      'Kadar mas kahwin berbeza mengikut negeri.',
+      'Kadar mas kahwin berbeza.\n\n![Dulang hantaran](./images/sneaky.jpg)\n',
+    );
+    try {
+      parseArticleFile(file);
+      throw new Error('should have refused');
+    } catch (err) {
+      expect(err).toBeInstanceOf(ArticleFileError);
+      expect((err as ArticleFileError).problems.join('\n')).toMatch(/inline image/);
+      expect((err as ArticleFileError).problems.join('\n')).toMatch(/sneaky\.jpg/);
+    }
+  });
+
   it('REFUSES an unknown licence class — there is no sixth class', () => {
     const file = validFile().replace('licenseClass: V', 'licenseClass: X');
     try {

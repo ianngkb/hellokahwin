@@ -49,6 +49,37 @@ export type TrailingSlashAction =
  */
 const LEGACY_ROOT_SLUG = /^\/[a-z0-9][a-z0-9-]*$/;
 
+/**
+ * Single-segment paths that belong to the APP, not to a WordPress-era article,
+ * and must never be rewritten.
+ *
+ * This list exists because of a real bug, caught in review: `/admin/` matches
+ * `LEGACY_ROOT_SLUG`, so the rewrite branch served the admin route WITHOUT
+ * running Clerk. Measured against the production build before the fix,
+ * `/admin` correctly returned 307 → /login while `/admin/` returned 500 — it
+ * had already reached the route with no auth middleware in front of it.
+ *
+ * A rewrite is invisible to the client, which is exactly what makes it
+ * dangerous here: it skips the rest of the middleware chain. Anything the app
+ * owns gets the plain 308 instead, so the canonical URL is what runs, with
+ * every gate in front of it.
+ *
+ * Keep this in step with `isClerkRoute` in src/middleware.ts and with the
+ * app's own top-level routes.
+ */
+const RESERVED_ROOT_SEGMENTS = new Set([
+  'admin',
+  'login',
+  'no-access',
+  'sso-callback',
+  'api',
+  'artikel',
+  'draft',
+  'wp-content',
+  'sitemap',
+  'robots',
+]);
+
 export function resolveTrailingSlash(rawPathname: string): TrailingSlashAction {
   // Bare root is legitimately "/" and must never be rewritten to "".
   if (rawPathname === '/') return { kind: 'none' };
@@ -73,7 +104,7 @@ export function resolveTrailingSlash(rawPathname: string): TrailingSlashAction {
   // Trade-off, accepted deliberately: an UNKNOWN slug now 404s at `/unknown/`
   // instead of 308-ing to `/unknown` and 404ing there. It is a 404 either way,
   // no indexable URL changes, and paying a redirect to reach a 404 helps nobody.
-  if (LEGACY_ROOT_SLUG.test(stripped)) {
+  if (LEGACY_ROOT_SLUG.test(stripped) && !RESERVED_ROOT_SEGMENTS.has(stripped.slice(1))) {
     return { kind: 'rewrite', path: stripped };
   }
 

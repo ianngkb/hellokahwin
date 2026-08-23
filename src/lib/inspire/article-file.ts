@@ -52,14 +52,24 @@ const imageSchema = z.object({
   file: z.string().min(1, 'file is required'),
   alt: z
     .string()
+    .trim()
     .min(1, 'alt is required — write it in Malay, for somebody who cannot see the image'),
   caption: z.string().optional(),
-  credit: z.string().min(1, 'credit is required — every image must name its original source'),
+  // `.trim()` before `.min(1)` on every required field, not decoration: a
+  // credit of "   " passed the owner-level gate before review caught it, and
+  // an image credited to whitespace is an uncredited image.
+  credit: z
+    .string()
+    .trim()
+    .min(1, 'credit is required — every image must name its original source'),
   creditUrl: z.string().url('creditUrl must be a full URL').optional(),
   licenseClass: z.enum(LICENSE_CLASSES, {
     message: `licenseClass is required and must be one of ${LICENSE_CLASSES.join(', ')}`,
   }),
-  licensorName: z.string().min(1, 'licensorName is required — the legal name of the licensor'),
+  licensorName: z
+    .string()
+    .trim()
+    .min(1, 'licensorName is required — the legal name of the licensor'),
 });
 
 export type ArticleImage = z.infer<typeof imageSchema>;
@@ -70,7 +80,7 @@ const internalLinkSchema = z.object({
 });
 
 export const articleFileSchema = z.object({
-  title: z.string().min(1, 'title is required'),
+  title: z.string().trim().min(1, 'title is required'),
   slug: z
     .string()
     .regex(
@@ -83,13 +93,14 @@ export const articleFileSchema = z.object({
   cluster: z.string().regex(/^C[1-7]\.\d+$/, 'cluster must look like C2.4'),
   metaDescription: z
     .string()
+    .trim()
     .min(1, 'metaDescription is required')
     // 160 is where Google reliably truncates. A description written to fit is
     // an editorial decision; one silently cut in half is not.
     .max(160, 'metaDescription must be 160 characters or fewer'),
   excerpt: z.string().optional(),
   /** A `profiles.id` or an email that resolves to one. */
-  author: z.string().min(1, 'author is required'),
+  author: z.string().trim().min(1, 'author is required'),
   status: z.enum(['draft', 'published']).default('draft'),
   publishedAt: z.string().datetime().optional(),
   tags: z.array(z.string().min(1)).default([]),
@@ -158,6 +169,25 @@ export function parseArticleFile(raw: string): ParsedArticleFile {
   const markdown = match[2].trim();
   if (markdown.length === 0) {
     throw new ArticleFileError(['the file has front matter but no article body']);
+  }
+
+  // THE HOLE THIS CLOSES, caught in review: a markdown image written inline in
+  // the body (`![alt](./foto.jpg)`) becomes an image node and renders on the
+  // page — while never passing through `images`, never getting a credit, never
+  // getting a media row and never being uploaded. It would have been an
+  // uncredited photograph on a live page, which is the one thing the gate
+  // exists to prevent.
+  //
+  // Images are declared in front matter, where the credit fields are required.
+  // There is no second way in.
+  const inlineImages = [...markdown.matchAll(/!\[[^\]]*\]\(([^)]+)\)/g)];
+  if (inlineImages.length > 0) {
+    throw new ArticleFileError(
+      inlineImages.map(
+        (m) =>
+          `inline image ![...](${m[1]}) in the body — every image must be declared under \`images:\` in the front matter, where its credit, licence class and licensor are required`,
+      ),
+    );
   }
 
   return { frontMatter: result.data, markdown };

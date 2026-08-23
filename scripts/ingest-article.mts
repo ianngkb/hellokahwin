@@ -52,8 +52,31 @@ interface Args {
   db: string;
   commit: boolean;
   update: boolean;
-  /** Skip R2 entirely — used by local verification runs with no bucket access. */
+  /**
+   * Skip R2 entirely. LOCAL DATABASES ONLY — it writes `local://` URLs that no
+   * browser can load, so letting it near a real database would create articles
+   * with permanently broken images.
+   */
   skipMedia: boolean;
+  /**
+   * Actually set `status: published`. Without it, an article whose file says
+   * `published` is inserted as a DRAFT and the run says so. Publishing is a
+   * board-approved act and does not happen because a file asked for it.
+   */
+  publish: boolean;
+  /** Base URL of a running site whose content caches should be dropped after the write. */
+  revalidateUrl: string;
+}
+
+/** Hosts that are unambiguously a throwaway database on this machine. */
+const LOCAL_HOSTS = new Set(['localhost', '127.0.0.1', '::1', '0.0.0.0']);
+
+function isLocalDb(url: string): boolean {
+  try {
+    return LOCAL_HOSTS.has(new URL(url).hostname);
+  } catch {
+    return false;
+  }
 }
 
 function parseArgs(argv: string[]): Args {
@@ -62,13 +85,17 @@ function parseArgs(argv: string[]): Args {
   let commit = false;
   let update = false;
   let skipMedia = false;
+  let publish = false;
+  let revalidateUrl = '';
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === '--db') db = argv[++i] ?? '';
+    else if (a === '--revalidate-url') revalidateUrl = argv[++i] ?? '';
     else if (a === '--commit') commit = true;
     else if (a === '--dry-run') commit = false;
     else if (a === '--update') update = true;
     else if (a === '--skip-media') skipMedia = true;
+    else if (a === '--publish') publish = true;
     else if (!a.startsWith('--')) file = a;
   }
   const problems: string[] = [];
@@ -77,11 +104,17 @@ function parseArgs(argv: string[]): Args {
     problems.push(
       'no --db <postgres-url> given. There is deliberately no default: DATABASE_URL points at production.',
     );
+  // `local://` URLs would render as broken images on a real site. The flag
+  // exists for local verification and must never reach a hosted database.
+  if (skipMedia && db && !isLocalDb(db))
+    problems.push(
+      '--skip-media only works against a local database. It writes placeholder image URLs that no browser can load.',
+    );
   if (problems.length) {
     console.error(problems.map((p) => `  - ${p}`).join('\n'));
     process.exit(1);
   }
-  return { file, db, commit, update, skipMedia };
+  return { file, db, commit, update, skipMedia, publish, revalidateUrl };
 }
 
 function describeTarget(url: string): string {
@@ -239,7 +272,17 @@ async function main() {
 
   console.log(`Pillar:  ${pillar.name} (${frontMatter.pillar})`);
   console.log(`Cluster: ${cluster.name} (${frontMatter.cluster})`);
-  console.log(`Status:  ${frontMatter.status}`);
+  // A file may ASK to be published; only --publish makes it so. Putting a page
+  // in front of readers is a board-approved act and does not happen because a
+  // YAML field said `published`.
+  const effectiveStatus =
+    frontMatter.status === 'published' && args.publish ? 'published' : 'draft';
+  console.log(
+    `Status:  ${effectiveStatus}` +
+      (frontMatter.status === 'published' && !args.publish
+        ? '  (file asks for published; pass --publish to honour it)'
+        : ''),
+  );
   console.log(`Images:  ${images.length}, every one credited`);
   for (const image of images) {
     console.log(
@@ -274,7 +317,17 @@ async function main() {
     for (const image of images) {
       const buffer = imageBuffers.get(image.file)!;
       const ext = extname(image.file) || '.jpg';
-      const name = basename(image.file, ext);
+      // Derived from the DECLARED PATH, not the basename. Two images named
+      // `hero.jpg` in different folders produced the same key before review
+      // caught it, and the second silently overwrote the first under an
+      // immutable cache header. The path is what makes them distinct, so the
+      // path is what the key is built from.
+      const name = image.file
+        .replace(/^\.\/+/, '')
+        .replace(/\.[^.]+$/, '')
+        .replace(/[^a-zA-Z0-9]+/g, '-')
+        .replace(/^-|-$/g, '')
+        .toLowerCase();
       // The established prefix: inspire/<article-slug>/<name>/original.<ext>
       const key = `inspire/${frontMatter.slug}/${name}/original${ext}`;
       const meta = await sharp(buffer).metadata();
@@ -333,8 +386,8 @@ async function main() {
         (${frontMatter.title}, ${frontMatter.slug}, ${frontMatter.excerpt ?? null},
          ${JSON.stringify(contentWithFigures)}::jsonb, ${cover.url},
          ${cover.variants ? JSON.stringify(cover.variants) : null}::jsonb,
-         ${frontMatter.metaDescription}, ${frontMatter.status}, ${author.id}, ${pillar.id},
-         ${frontMatter.status === 'published' ? (frontMatter.publishedAt ?? new Date().toISOString()) : null},
+         ${frontMatter.metaDescription}, ${effectiveStatus}, ${author.id}, ${pillar.id},
+         ${effectiveStatus === 'published' ? (frontMatter.publishedAt ?? new Date().toISOString()) : null},
          false)
       on conflict (slug) do update set
         title = excluded.title,
@@ -351,6 +404,17 @@ async function main() {
     // Both the pillar AND the cluster. The pillar link is what puts the article
     // at /artikel/<pillar>/<slug>; the cluster link is what makes it appear in
     // the right section of the pillar page and what scopes its sibling links.
+    // On --update these are RECONCILED, not merely added. Adding only would
+    // leave an article listed under the cluster it was moved OUT of, on a page
+    // whose entire job is to be an accurate map of its pillar. Only categories
+    // that participate in the pillar architecture are touched — a legacy
+    // WordPress category on an older article is somebody else's decision.
+    await tx`
+      delete from article_categories
+      where article_id = ${row.id}
+        and category_id <> ${pillar.id}
+        and category_id <> ${cluster.id}
+        and category_id in (select id from inspire_categories where pillar_code is not null)`;
     for (const categoryId of [pillar.id, cluster.id]) {
       await tx`
         insert into article_categories (article_id, category_id)
@@ -358,6 +422,9 @@ async function main() {
         on conflict do nothing`;
     }
 
+    // Same reconciliation for tags: a tag removed from the approved file must
+    // come off the article, not linger in the sidebar.
+    await tx`delete from article_tags where article_id = ${row.id}`;
     for (const tagName of frontMatter.tags) {
       const tagSlug = tagName
         .toLowerCase()
@@ -402,8 +469,41 @@ async function main() {
     }
   });
 
-  console.log(`\nDone. /artikel/${pillar.slug}/${frontMatter.slug} (${frontMatter.status})`);
+  console.log(`\nDone. /artikel/${pillar.slug}/${frontMatter.slug} (${effectiveStatus})`);
   console.log('It will appear on the pillar page under its cluster with no further action.');
+
+  // Drop the content caches. The public read layer caches with
+  // `revalidate: false` and is invalidated only by `revalidateTag` calls from
+  // the admin write paths — none of which fire for a direct database write. An
+  // ingested article would otherwise sit in the database and be invisible on
+  // the site indefinitely: no pillar entry, no sitemap row, no page. Caught in
+  // review; it is the difference between an ingest path that works and one
+  // that appears to.
+  if (args.revalidateUrl) {
+    const secret = process.env.CRON_SECRET;
+    if (!secret) {
+      console.warn(
+        '\n⚠ CRON_SECRET is not set, so the caches were NOT dropped. The article is in\n' +
+          '  the database but the site will keep serving cached pages until they are.',
+      );
+    } else {
+      const endpoint = new URL('/api/cron/revalidate-content', args.revalidateUrl).toString();
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { authorization: `Bearer ${secret}` },
+      });
+      console.log(
+        res.ok
+          ? 'Content caches dropped — the article is visible on the site now.'
+          : `⚠ Cache drop failed (HTTP ${res.status}). The article is written; the site will\n  serve stale pages until the caches are cleared.`,
+      );
+    }
+  } else {
+    console.log(
+      '\nNo --revalidate-url given, so the site caches were not dropped. Pass the site\n' +
+        'base URL to make the article appear immediately.',
+    );
+  }
   await sql.end();
 }
 

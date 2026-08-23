@@ -215,7 +215,13 @@ export async function generateMetadata({
   // fotografi-videografi, glamor-eksklusif, minimalis-mewah and pantai-santai.
   // See lib/inspire/category-indexability.ts.
   if (cat.parentId) {
-    let ownsArticles = false;
+    // FAIL OPEN on a timeout. `revalidate: false` means whatever this returns
+    // is cached indefinitely, so a transient DB blip during one render would
+    // otherwise pin `noindex` on a hub that owns live article URLs — the exact
+    // defect this whole block exists to fix, re-created by its own error path.
+    // An over-indexed thin hub is recoverable; a stuck noindex is the thing
+    // that costs rankings.
+    let ownsArticles = true;
     try {
       ownsArticles = await withDeadline(
         categoryOwnsPublishedArticles(cat.id),
@@ -223,7 +229,7 @@ export async function generateMetadata({
         `inspire-category-owns:${categorySlug}`,
       );
     } catch {
-      // Couldn't determine within the deadline — keep the safe old behaviour.
+      // Left as `true` — see above.
     }
     if (!ownsArticles) {
       return { ...baseMeta, robots: { index: false, follow: true } };

@@ -14,6 +14,10 @@ const isClerkRoute = createRouteMatcher([
   '/api/v1/inspire(.*)',
 ]);
 
+// The same surfaces as `isClerkRoute`, as plain prefixes, so the trailing-slash
+// branch can consult them without constructing a request. Keep the two in step.
+const CLERK_PATH_PREFIXES = ['/admin', '/login', '/no-access', '/api/v1/inspire'];
+
 const withClerk = clerkMiddleware();
 
 export default function middleware(request: NextRequest, event: NextFetchEvent) {
@@ -33,6 +37,16 @@ export default function middleware(request: NextRequest, event: NextFetchEvent) 
   if (slash.kind === 'rewrite') {
     const target = new URL(slash.path, request.url);
     target.search = request.nextUrl.search;
+    // Second guard, deliberately redundant with RESERVED_ROOT_SEGMENTS. A
+    // rewrite is invisible to the client and skips the rest of this function —
+    // Clerk included. Before review caught it, `/admin/` rewrote straight onto
+    // the admin route with no auth in front of it (measured: `/admin` gave
+    // 307 → /login, `/admin/` gave 500 from inside the route). The reserved
+    // list is the fix; this is what holds if that list ever drifts out of step
+    // with the Clerk matcher.
+    if (CLERK_PATH_PREFIXES.some((prefix) => slash.path.startsWith(prefix))) {
+      return NextResponse.redirect(target, 308);
+    }
     return NextResponse.rewrite(target);
   }
 

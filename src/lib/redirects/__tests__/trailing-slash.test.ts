@@ -79,8 +79,40 @@ describe('resolveTrailingSlash', () => {
     });
   });
 
+  // Regression: `/admin/` matched the legacy-permalink shape and was REWRITTEN,
+  // which skips the rest of middleware — Clerk included. Measured against the
+  // production build before the fix: `/admin` returned 307 → /login while
+  // `/admin/` returned 500, having already reached the route unauthenticated.
+  // A rewrite must never be the answer for a path the app owns.
+  it.each(['admin', 'login', 'no-access', 'sso-callback', 'api', 'artikel', 'draft'])(
+    'never REWRITES the reserved path /%s/ — it 308s so the gates still run',
+    (segment) => {
+      expect(resolveTrailingSlash(`/${segment}/`)).toEqual({
+        kind: 'redirect',
+        path: `/${segment}`,
+        statusCode: 308,
+      });
+    },
+  );
+
   it('handles a slashed WP pagination path through the pattern rules', () => {
     expect(resolveTrailingSlash('/category/venue/page/2/')).toEqual({
+      kind: 'redirect',
+      path: '/artikel/venue',
+      statusCode: 301,
+    });
+  });
+
+  // The caller preserves the query string on every branch; these assert the
+  // resolver never swallows the path it needs to preserve it against.
+  it('resolves the path independently of any query string the caller carries', () => {
+    // Query strings are not part of `pathname`, so the resolver must decide on
+    // path alone — and middleware copies `nextUrl.search` onto every target.
+    expect(resolveTrailingSlash('/dewan-kahwin/')).toEqual({
+      kind: 'rewrite',
+      path: '/dewan-kahwin',
+    });
+    expect(resolveTrailingSlash('/category/venue/')).toEqual({
       kind: 'redirect',
       path: '/artikel/venue',
       statusCode: 301,
