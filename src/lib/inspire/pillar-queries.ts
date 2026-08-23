@@ -2,6 +2,7 @@ import { eq, and, desc, inArray, isNotNull, sql } from 'drizzle-orm';
 import { unstable_cache } from 'next/cache';
 import { db } from '@/lib/db/drizzle';
 import { articles, inspireCategories, articleCategories } from '@/lib/db/schema/articles';
+import { media } from '@/lib/db/schema/media';
 
 /**
  * Reads behind the pillar architecture.
@@ -147,6 +148,33 @@ export const getPillarView = unstable_cache(
   },
   ['inspire-pillar-view'],
   { tags: ['articles', 'inspire-categories'], revalidate: false },
+);
+
+/**
+ * The credit for an article's cover image, looked up by URL.
+ *
+ * By URL rather than by a foreign key because `articles.cover_image_url` is how
+ * the cover has always been stored — there is no cover_media_id — and
+ * `media.url` is indexed for exactly this kind of exact-match lookup (see
+ * `idx_media_url` and the note on it in the media schema).
+ *
+ * Returns null for the 682 imported images that have no credit, which is why
+ * the component renders nothing rather than an empty label.
+ */
+export const getCoverCredit = unstable_cache(
+  async (
+    coverImageUrl: string,
+  ): Promise<{ credit: string | null; creditUrl: string | null } | null> => {
+    const [row] = await db
+      .select({ credit: media.credit, creditUrl: media.creditUrl })
+      .from(media)
+      .where(eq(media.url, coverImageUrl))
+      .limit(1);
+    if (!row?.credit) return null;
+    return row;
+  },
+  ['inspire-cover-credit'],
+  { tags: ['articles'], revalidate: false },
 );
 
 export interface PillarUpLink {

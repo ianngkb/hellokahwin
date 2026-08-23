@@ -37,7 +37,8 @@ import { ArticleCoverMobile } from '@/components/inspire/article-cover-mobile';
 import { MobilePhotoBar } from '@/components/inspire/mobile-photo-bar';
 import { Breadcrumbs, BreadcrumbJsonLd } from '@/components/common/breadcrumbs';
 import { PillarUpLinkBlock } from '@/components/inspire/pillar-up-link';
-import { getPillarUpLink, getClusterSiblings } from '@/lib/inspire/pillar-queries';
+import { getPillarUpLink, getClusterSiblings, getCoverCredit } from '@/lib/inspire/pillar-queries';
+import { ImageCredit } from '@/components/inspire/image-credit';
 import { stripBrandSuffix, buildArticleDescription, decodeMetaEntities } from '@/lib/seo/meta';
 import { AuthorBox } from '@/components/inspire/author-box';
 import { WhatsAppShare } from '@/components/inspire/whatsapp-share';
@@ -520,6 +521,23 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
     // Non-critical — render the article without the up-link.
   }
 
+  // The cover image's credit. In-article images carry theirs in the figure
+  // caption, which the renderer already emits; the cover has no figcaption and
+  // would otherwise be the largest photograph on the page with no attribution
+  // anywhere. Owner-level requirement, board 23 Aug 2026.
+  let coverCredit: Awaited<ReturnType<typeof getCoverCredit>> = null;
+  if (article.coverImageUrl) {
+    try {
+      coverCredit = await withDeadline(
+        getCoverCredit(article.coverImageUrl),
+        budgetLeft(),
+        `inspire-cover-credit:${slug}`,
+      );
+    } catch {
+      // Non-critical — render the cover without the credit line.
+    }
+  }
+
   // Related articles — non-critical crawlable link block. Deadline-guarded and
   // defaults to [] so a slow/failed query never breaks the article render.
   //
@@ -754,6 +772,14 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
                     galleryImages={galleryImages}
                     articleId={article.id}
                   />
+                  {/* Mobile cover credit. The mobile hero is a full-bleed
+                      photograph with an overlay, so the credit sits under it on
+                      paper rather than fighting the scrim for contrast. */}
+                  <ImageCredit
+                    credit={coverCredit?.credit}
+                    creditUrl={coverCredit?.creditUrl}
+                    className="text-muted-foreground px-4 pt-2 text-xs lg:hidden"
+                  />
 
                   {/* Desktop cover — Editorial Monotone: the plate carries no
                         type at all. Category, headline and byline sit beneath it
@@ -775,6 +801,13 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
                         priority
                       />
                     </div>
+                    {/* Cover credit — the courtesy that earns the next licence,
+                        and the record that makes the owner findable later. */}
+                    <ImageCredit
+                      credit={coverCredit?.credit}
+                      creditUrl={coverCredit?.creditUrl}
+                      className="text-muted-foreground mt-2 text-right text-xs"
+                    />
                     <header className="mx-auto max-w-3xl pt-8 text-center">
                       <span className="hk-eyebrow">{article.categoryName ?? 'Tiada kategori'}</span>
                       <h1 className="hk-display mt-3 text-[2.5rem]">{article.title}</h1>

@@ -13,14 +13,10 @@ import TableHeader from '@tiptap/extension-table-header';
 import TableCell from '@tiptap/extension-table-cell';
 import { MoodboardSaveButton } from '@/components/moodboard/moodboard-save-button';
 import { getArticleVariantUrl } from '@/lib/storage/article-image-variant';
-
-/** Only allow http(s) URLs to prevent javascript: XSS. Auto-prepend https:// for plain domains. */
-function safeHref(url: string | null | undefined): string | null {
-  if (!url) return null;
-  if (/^https?:\/\//i.test(url)) return url;
-  if (/^[a-z0-9][\w.-]*\.[a-z]{2,}/i.test(url)) return `https://${url}`;
-  return null;
-}
+// Moved to lib/utils when the image-credit block needed the same guard.
+// Duplicating a security check is how one copy quietly stops matching the
+// other, so there is exactly one.
+import { safeHref } from '@/lib/utils/safe-href';
 
 function ExternalLinkIcon() {
   return (
