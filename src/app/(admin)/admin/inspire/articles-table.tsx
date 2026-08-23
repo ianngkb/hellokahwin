@@ -405,13 +405,17 @@ export function ArticlesTable({
   // What the two selects should SHOW. A bookmarked `?source=ai-unreviewed` URL
   // still filters server-side via the alias map, so the controls have to reflect
   // that or the bar would read "All / All" over a visibly filtered list.
-  const SOURCE_ALIAS_DISPLAY: Record<string, { authorship: string; review: string }> = {
-    ai: { authorship: 'ai', review: 'all' },
-    human: { authorship: 'human', review: 'all' },
-    'ai-unreviewed': { authorship: 'ai', review: 'pending_review' },
-    'ai-reviewed': { authorship: 'ai', review: 'reviewed' },
-  };
-  const aliasDisplay = searchParams.source ? SOURCE_ALIAS_DISPLAY[searchParams.source] : undefined;
+  // A Map for the same reason as the server-side table in page.tsx: a lookup
+  // keyed by a URL parameter should not reach the Object prototype.
+  const SOURCE_ALIAS_DISPLAY = new Map<string, { authorship: string; review: string }>([
+    ['ai', { authorship: 'ai', review: 'all' }],
+    ['human', { authorship: 'human', review: 'all' }],
+    ['ai-unreviewed', { authorship: 'ai', review: 'pending_review' }],
+    ['ai-reviewed', { authorship: 'ai', review: 'reviewed' }],
+  ]);
+  const aliasDisplay = searchParams.source
+    ? SOURCE_ALIAS_DISPLAY.get(searchParams.source)
+    : undefined;
   const activeAuthorshipFilter = searchParams.authorship ?? aliasDisplay?.authorship ?? 'all';
   const activeReviewFilter = searchParams.review ?? aliasDisplay?.review ?? 'all';
 

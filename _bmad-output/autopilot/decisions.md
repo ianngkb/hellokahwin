@@ -691,3 +691,53 @@ Append-only. One line per decision autopilot made without interrupting the user.
   cache (purge_cache -> 10000 Authentication error), so I could not clear them.
   Needs the Cache Purge permission on the hellokahwin.com zone, or 30 seconds in
   the dashboard.
+
+---
+
+## Run: AI authorship tag + deploy (23 Aug 2026, session 01)
+
+- [2026-08-23] Resumed at Phase 3 (build), not Phase 0. Evidence: a
+  ready-for-development spec existed (`aug-23-2026-spec-ai-authorship-tag.md`),
+  the branch existed with Chunks A/B/C committed, and `grep authorship src/
+  scripts/` returned nothing — so Chunk D was planned but unbuilt.
+- [2026-08-23] Verified the CEO's amendment rather than accepting it. Diffed
+  `master...ianng89/pillars-ingest-redirects`: six of the seven flagged files
+  have ZERO lines in this diff, and the seventh (`article-renderer.tsx`) changes
+  only 12 lines, all of them extracting `safeHref` into a shared module. The
+  CEO's conclusion holds, and for a stronger reason than stated — see
+  `review/inherited-findings.md`.
+- [2026-08-23] Wrote `review/inherited-findings.md` with finding #1 flagged
+  critical as instructed, but ALSO recorded each finding's verified current
+  status, because all fifteen turned out to be already closed on master. Handing
+  the CEO a remediation backlog that is already done would have wasted their
+  scheduling.
+- [2026-08-23] Chose to build in-session rather than in a spawned worker
+  terminal. `orca terminal create ... --permission-mode bypassPermissions` was
+  refused by the permission classifier. Did NOT attempt to route around the
+  refusal through a different shell — the refusal is about spawning an
+  unsupervised agent, and evading it via PowerShell would defeat its intent.
+  Logged as a deviation from the visible-terminal rule; reported to the CEO.
+- [2026-08-23] Hand-ordered migration 0003 instead of shipping what
+  `drizzle-kit generate` produced. The generated form adds the columns with
+  `DEFAULT 'ai' NOT NULL` in the ADD COLUMN, which back-stamps existing rows;
+  against production that would have marked all 29 legacy WordPress posts as
+  AI-written.
+- [2026-08-23] Backfill written as a DERIVATION from `is_ai_generated` /
+  `human_reviewed_at` rather than as literals, so it is also correct on a
+  restore or a preview branch where the old flag has actually been used.
+  Verified against exactly those mixed cases on a throwaway database.
+- [2026-08-23] Fixed a build-breaking defect inherited from Chunk B rather than
+  reporting it and stopping: `getIndexableCategoryIds` returned a `Set` from
+  inside `unstable_cache`, which serializes, so `/sitemap.xml` failed to
+  prerender. Small, safe, and it blocked the sacred build gate. Regression test
+  added and proven to catch the original shape.
+- [2026-08-23] Rolled a hand-written logical backup instead of pg_dump.
+  Production is PostgreSQL 17.6; the only pg_dump available is 16.15, which
+  refuses a newer server, and the Supabase CLI's dump path runs pg_dump in
+  Docker, whose daemon is down. The project reports `pitr_enabled=false` with
+  zero listed platform backups, so there was no existing restore point either.
+- [2026-08-23] STOPPED before seeding the pillar categories into production.
+  `/artikel/<pillar>` 404s until ~33 rows are written to `inspire_categories`,
+  and that write is the subject of OPEN Escalation 2, which the previous
+  engineer explicitly reserved for the owner. Escalated rather than typing
+  `--i-know-this-is-remote` on the CEO's behalf.

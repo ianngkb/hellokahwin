@@ -32,6 +32,16 @@ export async function createArticleAction(_prev: unknown, formData: FormData) {
         authorId: user.id,
         primaryCategoryId,
         publishedAt: null,
+        // Set EXPLICITLY, not left to the column default. The default is 'ai'
+        // because that is the fail-safe direction for a forgotten code path —
+        // but this path is not forgotten, and it is not AI: a signed-in admin is
+        // about to type this article themselves. Leaving it to the default would
+        // tag every hand-written article as AI and drop it into the owner's
+        // review queue, which is exactly the noise the queue must not have.
+        authorship: 'human' as const,
+        reviewStatus: 'pending_review' as const,
+        // Compat mirror for rollback safety — removed in the follow-up migration that drops these columns.
+        isAiGenerated: false,
       })
       .returning({ id: articles.id });
 

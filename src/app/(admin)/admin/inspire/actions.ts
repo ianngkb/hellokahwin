@@ -325,6 +325,17 @@ export async function duplicateArticleAction(articleId: string) {
         status: 'draft',
         authorId: user.id,
         primaryCategoryId: original.primaryCategoryId,
+        // A copy is the same provenance as its original — duplicating a
+        // human-written article must not silently relabel it AI, which is what
+        // falling through to the column default would do.
+        authorship: original.authorship,
+        // ...but the COPY has not been reviewed, whatever the original's state.
+        // Carrying `reviewed` across would let edited copy inherit a sign-off
+        // for text nobody has read.
+        reviewStatus: 'pending_review',
+        // Compat mirror for rollback safety — removed in the follow-up migration that drops these columns.
+        isAiGenerated: original.isAiGenerated,
+        humanReviewedAt: null,
       })
       .returning({ id: articles.id });
 

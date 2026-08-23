@@ -125,13 +125,18 @@ export default async function AdminInspirePage({
   // leaving it dead means an old link narrows the way it always did instead of
   // silently widening to everything — the failure that would quietly show the
   // owner a queue they thought was filtered.
-  const SOURCE_ALIASES: Record<string, { authorship?: string; review?: string }> = {
-    ai: { authorship: 'ai' },
-    human: { authorship: 'human' },
-    'ai-unreviewed': { authorship: 'ai', review: 'pending_review' },
-    'ai-reviewed': { authorship: 'ai', review: 'reviewed' },
-  };
-  const sourceAlias = source ? SOURCE_ALIASES[source] : undefined;
+  // A Map, not an object literal: `?source=constructor` on a plain object
+  // returns Object's constructor rather than undefined. Nothing downstream would
+  // break today — the enum validation below rejects whatever came out — but a
+  // lookup table keyed by a URL parameter should not be reachable through the
+  // prototype chain in the first place.
+  const SOURCE_ALIASES = new Map<string, { authorship?: string; review?: string }>([
+    ['ai', { authorship: 'ai' }],
+    ['human', { authorship: 'human' }],
+    ['ai-unreviewed', { authorship: 'ai', review: 'pending_review' }],
+    ['ai-reviewed', { authorship: 'ai', review: 'reviewed' }],
+  ]);
+  const sourceAlias = source ? SOURCE_ALIASES.get(source) : undefined;
 
   // An explicit param always wins over the alias, so a half-migrated URL
   // carrying both does the thing the newer control says.
