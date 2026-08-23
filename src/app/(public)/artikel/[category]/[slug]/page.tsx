@@ -509,7 +509,8 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
   // deriving it from the category tree makes that structural rather than
   // something a writer can forget or a rename can break. Returns null for the
   // legacy articles outside the pillar architecture, which render as before.
-  // Non-critical: a failure loses the block, never the article.
+  // A failure DEGRADES this block; it must never silently delete it — see the
+  // catch, which is where the interesting decision lives.
   let pillarUpLink: Awaited<ReturnType<typeof getPillarUpLink>> = null;
   try {
     pillarUpLink = await withDeadline(
@@ -518,7 +519,24 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
       `inspire-pillar-uplink:${slug}`,
     );
   } catch {
-    // Non-critical — render the article without the up-link.
+    // NOT "non-critical", which is what this used to say. The plan's rule is
+    // that every article links back up to its pillar and nothing is orphaned;
+    // a swallowed timeout silently removed that backlink while the page
+    // rendered looking perfectly fine, so nobody would ever have noticed.
+    //
+    // Degrade instead of vanish. The primary category IS the pillar under this
+    // model, and its name and slug are already in hand from the article query
+    // — no second read, no extra deadline, nothing left to fail. The anchor
+    // falls back to the category name rather than the Malay entity phrase,
+    // which is a slightly weaker link; a slightly weaker link beats none.
+    if (article.categorySlug && article.categoryName) {
+      pillarUpLink = {
+        slug: article.categorySlug,
+        name: article.categoryName,
+        anchor: article.categoryName,
+        cluster: null,
+      };
+    }
   }
 
   // The cover image's credit. In-article images carry theirs in the figure

@@ -63,9 +63,23 @@ const imageSchema = z.object({
     .trim()
     .min(1, 'credit is required — every image must name its original source'),
   creditUrl: z.string().url('creditUrl must be a full URL').optional(),
-  licenseClass: z.enum(LICENSE_CLASSES, {
-    message: `licenseClass is required and must be one of ${LICENSE_CLASSES.join(', ')}`,
-  }),
+  /**
+   * Normalised before it is checked. The five classes are policy (visual-asset
+   * strategy §3.1) and stay closed — but a writer typing `v` or ` V ` has
+   * supplied a perfectly legitimate credit, and refusing it teaches people the
+   * gate is capricious rather than protective. A gate that rejects correct work
+   * is one people learn to route around, which is the single outcome the image
+   * rule cannot afford. A genuinely wrong class is still refused, and the
+   * message now says what each letter means instead of listing bare letters.
+   */
+  licenseClass: z.preprocess(
+    (v) => (typeof v === 'string' ? v.trim().toUpperCase() : v),
+    z.enum(LICENSE_CLASSES, {
+      message:
+        'licenseClass is required and must be one of ' +
+        LICENSE_CLASSES.map((c) => `${c} = ${LICENSE_CLASS_LABELS[c]}`).join(' · '),
+    }),
+  ),
   licensorName: z
     .string()
     .trim()
@@ -213,6 +227,40 @@ export function parseArticleFile(raw: string): ParsedArticleFile {
 /** Every image the file references, cover first. */
 export function allImages(file: ArticleFile): ArticleImage[] {
   return [file.cover, ...file.images];
+}
+
+/**
+ * Every on-site link written in the BODY, as article slugs.
+ *
+ * The front-matter `internalLinks` list was the only thing being validated,
+ * which left the links a writer actually types into their prose completely
+ * unchecked. On this site that is the wrong way round: internal linking IS the
+ * architecture — the whole pillar/cluster design exists to make link structure
+ * load-bearing — so a dead `[hantaran kahwin](/artikel/…/typo)` in the body is
+ * a defect in the thing we are building, not a cosmetic slip.
+ *
+ * Recognises both shapes an editor can produce:
+ *   /artikel/<category>/<slug>   the canonical article URL
+ *   /<slug>                      a legacy root permalink, which still resolves
+ *
+ * External links (`https://…`), anchors (`#…`) and mailto are not ours to
+ * verify and are left alone.
+ */
+export function bodyInternalLinks(markdown: string): string[] {
+  const slugs = new Set<string>();
+  for (const m of markdown.matchAll(/\[[^\]]*\]\((\/[^)\s]*)\)/g)) {
+    const path = m[1].split('#')[0].split('?')[0].replace(/\/+$/, '');
+    if (!path) continue;
+    const segments = path.split('/').filter(Boolean);
+    if (segments[0] === 'artikel') {
+      // /artikel/<category>/<slug> — the last segment is the article.
+      // /artikel/<category> is a hub, not an article; nothing to resolve.
+      if (segments.length >= 3) slugs.add(segments[segments.length - 1]);
+    } else if (segments.length === 1) {
+      slugs.add(segments[0]);
+    }
+  }
+  return [...slugs];
 }
 
 /**

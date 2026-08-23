@@ -668,3 +668,26 @@ Append-only. One line per decision autopilot made without interrupting the user.
 - [2026-08-23] R2 credentials verified by a READ-ONLY probe (GetObject on a missing
   key -> HTTP 404 = authenticated, plus a ListObjectsV2 over inspire/). No write of
   any kind. A real upload still has never been performed.
+- [2026-08-23] R2 UNBLOCKED by the CEO. Switched to r2.twn-master-* (verified:
+  ListBuckets returns 10 buckets; both HK buckets readable; hellokahwin-assets
+  empty). cloudflare.twn is genuinely reissued and works — zones?name=hellokahwin.com
+  returns the active zone. Its /user/tokens/verify 401 is expected for an ACCOUNT
+  token, not a fault, exactly as the CEO said.
+- [2026-08-23] RAISE, not decide: the master keys are ACCOUNT-scoped and reach all
+  ten TWN buckets including twn-backups and twn-archive-wordpress. The runtime
+  ingest path only needs PutObject on hellokahwin-images, which the bucket-scoped
+  r2.twn-rw-* pair already covers. Recommendation is r2.twn-rw-* for the ingest
+  script and master only for account-level work — but that is the CEO's call and
+  I have not silently substituted either way. Used master for this run as directed.
+- [2026-08-23] BH-8/ECH-10 CLOSED: processSmartCrops wired; key shape now matches
+  the existing bucket exactly (inspire/<slug>/<ts>-<name>.<ext> + <ts>-<name>/ folder).
+  First real upload produced 14 objects: 2 originals + 6 derivatives each
+  (high/low + the 4 named crops). Crops, focal point and detection data persisted
+  on both the article and the media rows.
+- [2026-08-23] LEFTOVER, reported not hidden: all 14 scratch objects were deleted
+  from the bucket (verified KeyCount=0 under the prefix), but 3 URLs remain in
+  Cloudflare's edge cache — precisely the 3 I fetched while verifying delivery,
+  under max-age=31536000, immutable. cloudflare.twn can read zones but NOT purge
+  cache (purge_cache -> 10000 Authentication error), so I could not clear them.
+  Needs the Cache Purge permission on the hellokahwin.com zone, or 30 seconds in
+  the dashboard.

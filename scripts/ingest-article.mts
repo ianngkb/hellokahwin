@@ -42,6 +42,7 @@ import {
   parseArticleFile,
   allImages,
   creditLine,
+  bodyInternalLinks,
   type ArticleImage,
 } from '../src/lib/inspire/article-file';
 
@@ -52,6 +53,7 @@ import {
 // exactly the defect this arrangement fixes.
 type R2Module = typeof import('../src/lib/r2/client');
 type VariantsModule = typeof import('../src/lib/storage/image-variants');
+type SmartCropModule = typeof import('../src/lib/storage/smart-crop');
 
 interface Args {
   file: string;
@@ -171,7 +173,9 @@ function parseArgs(argv: string[]): Args {
  *   c. the assertion proves (b) held;
  *   d. only then are the env-reading modules imported.
  */
-async function bootstrapEnv(dbUrl: string): Promise<{ r2: R2Module; variants: VariantsModule }> {
+async function bootstrapEnv(
+  dbUrl: string,
+): Promise<{ r2: R2Module; variants: VariantsModule; smartCrop: SmartCropModule }> {
   // (a) One source of truth for the database target, set before anything reads it.
   process.env.DATABASE_URL = dbUrl;
 
@@ -194,11 +198,12 @@ async function bootstrapEnv(dbUrl: string): Promise<{ r2: R2Module; variants: Va
   }
 
   // (d) Now safe to load the modules that bind env at import time.
-  const [r2, variants] = await Promise.all([
+  const [r2, variants, smartCrop] = await Promise.all([
     import('../src/lib/r2/client'),
     import('../src/lib/storage/image-variants'),
+    import('../src/lib/storage/smart-crop'),
   ]);
-  return { r2, variants };
+  return { r2, variants, smartCrop };
 }
 
 /**
@@ -308,7 +313,11 @@ async function main() {
   const args = parseArgs(process.argv.slice(2));
 
   // Before anything else touches the environment. See bootstrapEnv().
-  const { r2: r2Module, variants: variantsModule } = await bootstrapEnv(args.db);
+  const {
+    r2: r2Module,
+    variants: variantsModule,
+    smartCrop: smartCropModule,
+  } = await bootstrapEnv(args.db);
 
   // CRON_SECRET can only be checked AFTER the env files are loaded — it lives
   // in one of them. Still strictly before any write: discovering it missing
@@ -377,6 +386,20 @@ async function main() {
       );
   }
 
+  // And the links written in the PROSE, which went unchecked until review
+  // caught it. Only the front-matter list was validated, which is the wrong way
+  // round on this site: the whole pillar/cluster design exists to make internal
+  // link structure load-bearing, so a dead link in the body is a defect in the
+  // thing being built, not a cosmetic slip.
+  for (const slug of bodyInternalLinks(markdown)) {
+    const [target] = await sql<{ slug: string }[]>`
+      select slug from articles where slug = ${slug} and status = 'published' limit 1`;
+    if (!target)
+      problems.push(
+        `body link: no published article with slug "${slug}" — fix the link in the article text, or publish the target first`,
+      );
+  }
+
   // Image files must exist on disk before anything is uploaded.
   const images = allImages(frontMatter);
   const imageBuffers = new Map<string, Buffer>();
@@ -430,8 +453,22 @@ async function main() {
   // second uploader, so there is one place where an image becomes web-ready.
   const uploaded = new Map<
     string,
-    { url: string; key: string; variants: unknown; width?: number; height?: number; size: number }
+    {
+      url: string;
+      key: string;
+      variants: unknown;
+      smartCrops?: unknown;
+      focalPoint?: unknown;
+      detectionData?: unknown;
+      width?: number;
+      height?: number;
+      size: number;
+    }
   >();
+  // One timestamp for the whole run, so every image of an article shares a
+  // prefix and a re-ingest is visibly a new generation rather than a partial
+  // overwrite of the last one.
+  const uploadStamp = Date.now();
   if (!args.skipMedia) {
     const r2 = r2Module.getR2Client();
     const bucket = r2Module.getR2Bucket();
@@ -441,20 +478,28 @@ async function main() {
 
     for (const image of images) {
       const buffer = imageBuffers.get(image.file)!;
-      const ext = extname(image.file) || '.jpg';
-      // Derived from the DECLARED PATH, not the basename. Two images named
+      const ext = (extname(image.file) || '.jpg').toLowerCase();
+      // Slug derived from the DECLARED PATH, not the basename: two images named
       // `hero.jpg` in different folders produced the same key before review
       // caught it, and the second silently overwrote the first under an
-      // immutable cache header. The path is what makes them distinct, so the
-      // path is what the key is built from.
+      // immutable cache header. Stripping to [a-z0-9-] also disposes of spaces,
+      // Unicode, `?` and `#`, any of which would otherwise produce a key that
+      // cannot be fetched back.
       const name = image.file
         .replace(/^\.\/+/, '')
         .replace(/\.[^.]+$/, '')
+        .normalize('NFKD')
         .replace(/[^a-zA-Z0-9]+/g, '-')
         .replace(/^-|-$/g, '')
         .toLowerCase();
-      // The established prefix: inspire/<article-slug>/<name>/original.<ext>
-      const key = `inspire/${frontMatter.slug}/${name}/original${ext}`;
+      // MATCHES THE EXISTING BUCKET SHAPE, verified against real objects:
+      //   inspire/amankila-bali/1787396256716-cover.jpg
+      //   inspire/amankila-bali/1787396256716-cover/crop-16x9-og.webp
+      // The timestamp is what makes a re-ingest write a NEW object rather than
+      // overwrite one already served under `max-age=31536000, immutable` — a
+      // replaced byte-stream at a cached URL is unfixable for a year.
+      const base = `${uploadStamp}-${name || 'image'}`;
+      const key = `inspire/${frontMatter.slug}/${base}${ext}`;
       const meta = await sharp(buffer).metadata();
 
       await r2.send(
@@ -467,15 +512,43 @@ async function main() {
         }),
       );
       const variants = await variantsModule.generateVariants(buffer, key, presets);
+
+      // The named crops every existing article uses. Without this an ingested
+      // cover rendered through the generic fallback while all 29 existing
+      // articles used crop-16x9-og / crop-4.3x1-desktop-hero / …, so the first
+      // ingested article would have looked visibly unlike the rest of the site.
+      // Rekognition is optional (REKOGNITION_ENABLED=false falls back to the
+      // Sharp saliency focal point), so this works without AWS.
+      let smartCrops: unknown = null;
+      let focalPoint: unknown = null;
+      let detectionData: unknown = null;
+      try {
+        const crops = await smartCropModule.processSmartCrops(key, { originalBuffer: buffer });
+        smartCrops = crops.smartCrops;
+        focalPoint = crops.focalPoint;
+        detectionData = crops.detectionData;
+        console.log(`  uploaded ${image.file} (+${Object.keys(crops.smartCrops).length} crops)`);
+      } catch (err) {
+        // The variants are already up and the article is usable; losing the
+        // crops costs framing, not the image. Say so rather than hide it.
+        console.warn(
+          `  uploaded ${image.file} BUT smart crops failed: ${
+            err instanceof Error ? err.message : String(err)
+          }`,
+        );
+      }
+
       uploaded.set(image.file, {
         url: `${publicUrl}/${key}`,
         key,
         variants,
+        smartCrops,
+        focalPoint,
+        detectionData,
         width: meta.width,
         height: meta.height,
         size: buffer.length,
       });
-      console.log(`  uploaded ${image.file}`);
     }
   } else {
     console.log('\n--skip-media: images are NOT uploaded; media rows reference local paths.');
@@ -506,11 +579,15 @@ async function main() {
     const [row] = await tx<{ id: string }[]>`
       insert into articles
         (title, slug, excerpt, content, cover_image_url, cover_image_variants,
+         cover_image_smart_crops, cover_image_focal_point, cover_image_detection_data,
          meta_description, status, author_id, primary_category_id, published_at, is_ai_generated)
       values
         (${frontMatter.title}, ${frontMatter.slug}, ${frontMatter.excerpt ?? null},
          ${JSON.stringify(contentWithFigures)}::jsonb, ${cover.url},
          ${cover.variants ? JSON.stringify(cover.variants) : null}::jsonb,
+         ${cover.smartCrops ? JSON.stringify(cover.smartCrops) : null}::jsonb,
+         ${cover.focalPoint ? JSON.stringify(cover.focalPoint) : null}::jsonb,
+         ${cover.detectionData ? JSON.stringify(cover.detectionData) : null}::jsonb,
          ${frontMatter.metaDescription}, ${effectiveStatus}, ${author.id}, ${pillar.id},
          ${effectiveStatus === 'published' ? (frontMatter.publishedAt ?? new Date().toISOString()) : null},
          false)
@@ -520,9 +597,21 @@ async function main() {
         content = excluded.content,
         cover_image_url = excluded.cover_image_url,
         cover_image_variants = excluded.cover_image_variants,
+        cover_image_smart_crops = excluded.cover_image_smart_crops,
+        cover_image_focal_point = excluded.cover_image_focal_point,
+        cover_image_detection_data = excluded.cover_image_detection_data,
         meta_description = excluded.meta_description,
         status = excluded.status,
         primary_category_id = excluded.primary_category_id,
+        -- These three were MISSING, and their absence had teeth. Re-ingesting a
+        -- draft with --publish flipped the status to published while leaving
+        -- published_at NULL: a live article with no date, a wrong sitemap
+        -- lastmod, and a JSON-LD datePublished of null. The approved author was
+        -- silently ignored on update too, so a byline correction in the file
+        -- never reached the page.
+        author_id = excluded.author_id,
+        published_at = excluded.published_at,
+        is_ai_generated = excluded.is_ai_generated,
         updated_at = now()
       returning id`;
 
@@ -569,18 +658,30 @@ async function main() {
       const [mediaRow] = await tx<{ id: string }[]>`
         insert into media
           (filename, r2_key, url, original_url, mime_type, file_size, width, height,
-           alt, caption, variants, credit, credit_url, license_class, licensor_name,
+           alt, caption, variants, smart_crops, focal_point, detection_data,
+           credit, credit_url, license_class, licensor_name,
            source, original_article_id, uploaded_by)
         values
           (${basename(image.file)}, ${up.key}, ${up.url}, ${up.url},
            ${'image/' + (extname(image.file).slice(1) || 'jpeg')}, ${up.size},
            ${up.width ?? null}, ${up.height ?? null}, ${image.alt}, ${image.caption ?? ''},
            ${up.variants ? JSON.stringify(up.variants) : null}::jsonb,
+           ${up.smartCrops ? JSON.stringify(up.smartCrops) : null}::jsonb,
+           ${up.focalPoint ? JSON.stringify(up.focalPoint) : null}::jsonb,
+           ${up.detectionData ? JSON.stringify(up.detectionData) : null}::jsonb,
            ${image.credit}, ${image.creditUrl ?? null}, ${image.licenseClass}, ${image.licensorName},
            'article_upload', ${row.id}, ${author.id})
         on conflict (r2_key) do update set
           alt = excluded.alt,
           caption = excluded.caption,
+          variants = excluded.variants,
+          smart_crops = excluded.smart_crops,
+          focal_point = excluded.focal_point,
+          detection_data = excluded.detection_data,
+          width = excluded.width,
+          height = excluded.height,
+          file_size = excluded.file_size,
+          mime_type = excluded.mime_type,
           credit = excluded.credit,
           credit_url = excluded.credit_url,
           license_class = excluded.license_class,

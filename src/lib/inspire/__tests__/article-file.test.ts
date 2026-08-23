@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parseArticleFile, ArticleFileError, creditLine } from '../article-file';
+import { parseArticleFile, ArticleFileError, creditLine, bodyInternalLinks } from '../article-file';
 
 /** A file that should pass, used as the base for every "one thing wrong" case. */
 function validFile(overrides: { coverExtra?: string; drop?: string } = {}) {
@@ -116,6 +116,15 @@ describe('parseArticleFile', () => {
     }
   });
 
+  // AA-6. The five classes are policy and stay closed, but a gate that rejects
+  // CORRECT work teaches people to route around it, and the image rule cannot
+  // afford that. `v` and ` V ` are legitimate credits.
+  it.each(['v', 'V ', ' v ', 'c', 'g'])('ACCEPTS licenceClass %o, normalising it', (raw) => {
+    const file = validFile().replace('licenseClass: V', `licenseClass: "${raw}"`);
+    const parsed = parseArticleFile(file);
+    expect(parsed.frontMatter.cover.licenseClass).toBe(raw.trim().toUpperCase());
+  });
+
   it('REFUSES an unknown licence class — there is no sixth class', () => {
     const file = validFile().replace('licenseClass: V', 'licenseClass: X');
     try {
@@ -203,6 +212,45 @@ describe('parseArticleFile', () => {
     } catch (err) {
       expect((err as ArticleFileError).problems.length).toBeGreaterThanOrEqual(3);
     }
+  });
+});
+
+// ECH-7. Only the front-matter list was validated; the links a writer actually
+// types into their prose went unchecked. On this site internal linking IS the
+// architecture, so a dead body link is a defect in the thing being built.
+describe('bodyInternalLinks', () => {
+  it('finds a canonical article link', () => {
+    expect(
+      bodyInternalLinks('See [hantaran kahwin](/artikel/hantaran-mas-kahwin/hantaran-kahwin).'),
+    ).toEqual(['hantaran-kahwin']);
+  });
+
+  it('finds a legacy root permalink', () => {
+    expect(bodyInternalLinks('See [mas kahwin](/mas-kahwin-ikut-negeri).')).toEqual([
+      'mas-kahwin-ikut-negeri',
+    ]);
+  });
+
+  it('strips fragments, query strings and trailing slashes', () => {
+    expect(
+      bodyInternalLinks(
+        '[a](/artikel/p/slug-a#bahagian-2) [b](/artikel/p/slug-b?utm=x) [c](/artikel/p/slug-c/)',
+      ),
+    ).toEqual(['slug-a', 'slug-b', 'slug-c']);
+  });
+
+  it('ignores a category hub — it is not an article', () => {
+    expect(bodyInternalLinks('[hub](/artikel/hantaran-mas-kahwin)')).toEqual([]);
+  });
+
+  it('ignores external links, anchors and mailto', () => {
+    expect(
+      bodyInternalLinks('[a](https://example.com/x) [b](#heading) [c](mailto:me@ian.ng)'),
+    ).toEqual([]);
+  });
+
+  it('deduplicates repeated links to the same article', () => {
+    expect(bodyInternalLinks('[a](/artikel/p/x) and again [a](/artikel/p/x)')).toEqual(['x']);
   });
 });
 
