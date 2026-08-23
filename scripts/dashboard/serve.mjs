@@ -14,7 +14,10 @@ http
   .createServer((req, res) => {
     const rel = decodeURIComponent((req.url || '/').split('?')[0]);
     const target = path.join(root, rel === '/' ? 'index.html' : rel);
-    if (!path.resolve(target).startsWith(path.resolve(root))) {
+    // startsWith alone is not containment: root "/x/dashboard" would also match
+    // "/x/dashboard-evil/secret". Compare the relative path instead.
+    const rel2 = path.relative(path.resolve(root), path.resolve(target));
+    if (rel2.startsWith('..') || path.isAbsolute(rel2)) {
       res.writeHead(403).end('forbidden');
       return;
     }

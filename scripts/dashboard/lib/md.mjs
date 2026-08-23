@@ -41,23 +41,36 @@ function inline(src) {
   return out;
 }
 
+// Only these schemes may reach an href/src. Anything else (javascript:, data:,
+// vbscript:) is rendered as inert text rather than a working link.
+const SAFE_URL = /^(?:https?:\/\/|mailto:|#|\/|\.{0,2}\/|[\w.-]+(?:[/#?]|$))/i;
+function safeUrl(href) {
+  const h = String(href).trim();
+  if (/^[a-z][a-z0-9+.-]*:/i.test(h) && !/^(?:https?|mailto):/i.test(h)) return null;
+  return SAFE_URL.test(h) ? h : null;
+}
+
 // Inline markup for a chunk that is already HTML-escaped and holds no code spans.
 function emphasise(s) {
   // Images before links (same bracket shape).
   s = s.replace(
     /!\[([^\]]*)\]\(([^)\s]+)(?:\s+&quot;[^&]*&quot;)?\)/g,
-    (_m, alt, href) => '<img src="' + href + '" alt="' + alt + '" loading="lazy">'
+    (_m, alt, href) => {
+      const safe = safeUrl(href);
+      return safe ? '<img src="' + safe + '" alt="' + alt + '" loading="lazy">' : alt;
+    }
   );
   s = s.replace(
     /\[([^\]]+)\]\(([^)\s]+)(?:\s+&quot;[^&]*&quot;)?\)/g,
-    (_m, text, href) =>
-      '<a href="' +
-      href +
-      '"' +
-      (/^https?:/.test(href) ? ' target="_blank" rel="noopener"' : '') +
-      '>' +
-      text +
-      '</a>'
+    (_m, text, href) => {
+      const safe = safeUrl(href);
+      if (!safe) return text;
+      return (
+        '<a href="' + safe + '"' +
+        (/^https?:/i.test(safe) ? ' target="_blank" rel="noopener"' : '') +
+        '>' + text + '</a>'
+      );
+    }
   );
 
   s = s.replace(/\*\*\*([^*]+)\*\*\*/g, '<strong><em>$1</em></strong>');
@@ -73,7 +86,10 @@ export const renderInline = inline;
 // --- block ----------------------------------------------------------------
 
 function isTableDelim(line) {
-  return line.includes('|') && /^\s*\|?\s*:?-{2,}:?\s*(\|\s*:?-{2,}:?\s*)*\|?\s*$/.test(line);
+  // The length cap keeps a pathological line of pipes and spaces away from the
+  // nested quantifier below, which would otherwise backtrack badly.
+  if (!line.includes('|') || line.length > 2000) return false;
+  return /^\s*\|?\s*:?-{2,}:?\s*(\|\s*:?-{2,}:?\s*)*\|?\s*$/.test(line);
 }
 
 function splitRow(line) {

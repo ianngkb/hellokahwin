@@ -478,12 +478,19 @@ export const JS = `
       head.textContent = fresh.length + ' document' + (fresh.length===1?'':'s') + ' changed since your last visit (' + last.slice(0,16).replace('T',' ') + ').';
     }
     var list = (fresh.length ? fresh : D.changes.slice(0,8));
+    // data-go plus a delegated listener, never an inline handler built from data:
+    // a value inside an onclick string is decoded by the HTML parser before the
+    // JS parser sees it, so a quote in it would break out of the string.
     feed.innerHTML = list.map(function(c){
-      return '<div class="tl-item"><div class="tl-head" onclick="location.hash=\\'' + c.docId + '\\'">' +
-        '<div class="tl-date">' + c.mtime.slice(0,10) + '</div>' +
+      return '<div class="tl-item"><div class="tl-head" data-go="' + esc(c.docId) + '">' +
+        '<div class="tl-date">' + esc(c.mtime.slice(0,10)) + '</div>' +
         '<div style="flex:1"><div class="tl-title">' + esc(c.title) + '</div>' +
         '<div class="tl-meta"><span>' + esc(c.kind) + '</span><span class="mono">' + esc(c.path) + '</span></div></div></div></div>';
     }).join('');
+    feed.addEventListener('click', function(ev){
+      var row = ev.target.closest('[data-go]');
+      if(row) reveal(row.getAttribute('data-go'));
+    });
     try{ localStorage.setItem(key, new Date().toISOString()); }catch(e){}
   }
 

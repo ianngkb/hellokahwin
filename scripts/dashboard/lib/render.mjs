@@ -5,7 +5,7 @@
 //   2. When a source is empty or unreachable, the page says so in plain words —
 //      never a hopeful zero, never a blank space.
 
-import { escapeHtml, renderInline } from './md.mjs';
+import { escapeHtml, renderInline, slugify } from './md.mjs';
 import { lineChart, barChart, formatNumber as fmt, formatPosition as pos1 } from './charts.mjs';
 import { CSS, JS } from './assets.mjs';
 import { MIGRATION_DATE } from './config.mjs';
@@ -35,6 +35,14 @@ function selectFilter(key, label, values) {
 }
 
 const uniq = (arr) => [...new Set(arr.filter(Boolean))].sort();
+
+/**
+ * A value that lands inside a JS string literal in an inline handler needs more
+ * than escapeHtml: the HTML parser turns &#39; back into a quote before the JS
+ * parser sees it, so an apostrophe would break out of the string. Everything
+ * used this way is an id, so restrict it to id characters.
+ */
+const jsId = (v) => String(v === null || v === undefined ? '' : v).replace(/[^A-Za-z0-9_.:-]/g, '-');
 
 /** Truncate without pretending the sentence ended there. */
 const clip = (text, n) => {
@@ -165,7 +173,7 @@ function sectionTimeline(d) {
         '<div class="tl-item card" data-row data-kind="' + e(x.kindLabel) + '" data-owner="' + e(x.owner || '') +
         '" data-session="' + e(x.session || '') + '" data-status="' + e(x.status || '') +
         '" data-text="' + e(x.title + ' ' + x.summary) + '" id="' + e(x.id) + '">' +
-        '<div class="tl-head" onclick="location.hash=\'' + e(x.docId ? 'doc-' + x.docId : x.decisionId ? 'decision-' + x.decisionId : x.id) + '\'">' +
+        '<div class="tl-head" onclick="location.hash=\'' + jsId(x.docId ? 'doc-' + x.docId : x.decisionId ? 'decision-' + x.decisionId : x.id) + '\'">' +
         '<div class="tl-date">' + e(x.date || '—') + '</div>' +
         '<div style="flex:1;min-width:180px"><div class="tl-title">' + e(x.title) + '</div>' +
         '<div class="tl-meta"><span>' + e(x.kindLabel) + '</span>' +
@@ -386,7 +394,7 @@ function orgNode(agent, activity) {
   const act = activity[agent.name] || { produced: 0, completed: 0 };
   return (
     '<button class="org-node' + (agent.department === 'Executive' ? ' exec' : '') + '" ' +
-    'onclick="location.hash=\'agent-' + e(agent.name) + '\'">' +
+    'onclick="location.hash=\'agent-' + jsId(agent.name) + '\'">' +
     '<div class="role">' + e(agent.role) + '</div>' +
     '<div class="who">' + e(agent.name) + '</div>' +
     '<div class="dept">' + e(agent.department) + '</div>' +
@@ -654,7 +662,7 @@ function sectionMetrics(d) {
     '<div class="kpi"><div class="label">Clicks</div><div class="value">' + fmt(g.current.clicks) + '</div><div class="note">' + e(g.current.range) + '</div></div>' +
     '<div class="kpi"><div class="label">Impressions</div><div class="value">' + fmt(g.current.impressions) + '</div><div class="note">' + e(g.current.range) + '</div></div>' +
     '<div class="kpi"><div class="label">CTR</div><div class="value">' + pct(g.current.ctr, 2) + '</div><div class="note">clicks ÷ impressions</div></div>' +
-    '<div class="kpi"><div class="label">Average position</div><div class="value">' + fmt(g.current.position) + '</div><div class="note">impression-weighted</div></div>' +
+    '<div class="kpi"><div class="label">Average position</div><div class="value">' + pos1(g.current.position) + '</div><div class="note">impression-weighted</div></div>' +
     '</div>' +
     '<div class="grid2">' +
     '<div class="chart-wrap"><div class="chart-legend"><span><span class="swatch" style="background:var(--accent)"></span>Clicks per day</span></div>' + traffic + '</div>' +

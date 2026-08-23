@@ -48,7 +48,10 @@ export function lineChart(opts) {
     return pad.l + ((width - pad.l - pad.r) * i) / span;
   };
 
-  const values = series.flatMap((s) => s.points.map((p) => p.value)).filter((v) => typeof v === 'number');
+  // Number.isFinite, not typeof: one NaN would make min/max NaN and every
+  // coordinate in the chart would render as "MNaN NaN".
+  const values = series.flatMap((s) => s.points.map((p) => p.value)).filter((v) => Number.isFinite(v));
+  if (!values.length) return '<div class="empty">No numeric data points to draw.</div>';
   let min = Math.min(...values);
   let max = Math.max(...values);
   if (opts.invertY) {
@@ -78,16 +81,20 @@ export function lineChart(opts) {
   for (const m of opts.markers || []) {
     if (!dates.includes(m.date)) continue;
     const x = xOf(m.date);
+    // A marker near the right edge — which is exactly where a recent event sits —
+    // would have its label clipped, so flip the label to the left of the line.
+    const flip = x > width - 150;
     markerSvg +=
       '<line x1="' + x.toFixed(1) + '" x2="' + x.toFixed(1) + '" y1="' + pad.t + '" y2="' + (height - pad.b) +
       '" stroke="var(--gold)" stroke-width="1.5" stroke-dasharray="4 3"/>' +
-      '<text x="' + (x + 4).toFixed(1) + '" y="' + (pad.t + 10) + '" font-size="10" fill="var(--gold)">' +
+      '<text x="' + (flip ? x - 5 : x + 4).toFixed(1) + '" y="' + (pad.t + 10) +
+      '" font-size="10" fill="var(--gold)" text-anchor="' + (flip ? 'end' : 'start') + '">' +
       escapeHtml(m.label) + '</text>';
   }
 
   let paths = '';
   for (const s of series) {
-    const pts = s.points.filter((p) => typeof p.value === 'number');
+    const pts = s.points.filter((p) => Number.isFinite(p.value));
     if (!pts.length) continue;
     const d = pts
       .map((p, i) => (i ? 'L' : 'M') + xOf(p.date).toFixed(1) + ' ' + yOf(p.value).toFixed(1))

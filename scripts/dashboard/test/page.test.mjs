@@ -9,7 +9,16 @@ const has = (name, cond) => checks.push([name, Boolean(cond)]);
 for (const id of ['overview','timeline','decisions','plans','workdone','people','metrics','clusters','pipeline','blocked','approvals']) {
   has('section #' + id, html.includes('id="' + id + '"'));
 }
-has('no unresolved template holes', !/undefined|\[object Object\]|NaN(?![a-z])/.test(html.replace(/undefined-/g,'')));
+// Look for the SHAPE of a template hole (a bare value dropped into a slot),
+// and only outside <code> spans — documents legitimately quote the words
+// "undefined" and "NaN" when they discuss this very check.
+const prose = html.replace(/<code>[\s\S]*?<\/code>/g, '<code/>');
+has(
+  'no unresolved template holes',
+  !/>\s*(undefined|NaN|\[object Object\])\s*</.test(prose) &&
+    !/="\s*(undefined|NaN|\[object Object\])\s*"/.test(prose) &&
+    !/\[object Object\]/.test(prose)
+);
 has('every persona embedded', (html.match(/id="persona-/g) || []).length === 7);
 has('org chart nodes present', (html.match(/class="org-node/g) || []).length >= 7);
 has('blocking authority shown', html.includes('can block publication'));
