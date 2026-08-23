@@ -10,6 +10,9 @@ import { articles, inspireCategories, articleCategories } from '@/lib/db/schema/
 import { ArticleCard } from '@/components/inspire/article-card';
 import { Pagination } from '@/components/ui/pagination';
 import { Breadcrumbs, BreadcrumbJsonLd } from '@/components/common/breadcrumbs';
+import { PillarBody } from '@/components/inspire/pillar-body';
+import { getPillarView } from '@/lib/inspire/pillar-queries';
+import { categoryOwnsPublishedArticles } from '@/lib/inspire/category-indexability';
 
 // Cache forever; invalidate via `revalidateTag('articles')` /
 // `revalidateTag('inspire-categories')` from admin write paths. See
@@ -197,13 +200,35 @@ export async function generateMetadata({
     },
   };
 
-  // Child/grandchild category hubs are reached in-app only via the parent's
-  // `?sub=` form (which canonicalises to the parent) and are excluded from the
-  // sitemap. Their standalone /inspire/{childSlug} URL is therefore an orphaned
-  // duplicate of the parent view — noindex,follow so signals consolidate onto
-  // the parent hub while crawlers still follow the article links here.
+  // Child/grandchild category hubs are USUALLY reached in-app only via the
+  // parent's `?sub=` form (which canonicalises to the parent), which makes
+  // their standalone /artikel/{childSlug} URL an orphaned duplicate of the
+  // parent view — noindex,follow so signals consolidate onto the parent hub
+  // while crawlers still follow the article links here.
+  //
+  // THE EXCEPTION, and it is not a small one. A child category that is the
+  // PRIMARY category of a published article has its slug baked into that
+  // article's canonical URL: /artikel/hiasan-dekorasi/hantaran-kahwin. It is
+  // not an orphan; it is the folder every one of those articles lives in.
+  // Measured on production 23 Aug 2026, six such hubs were serving 200 while
+  // telling Google not to index them — hiasan-dekorasi, moden-kontemporari,
+  // fotografi-videografi, glamor-eksklusif, minimalis-mewah and pantai-santai.
+  // See lib/inspire/category-indexability.ts.
   if (cat.parentId) {
-    return { ...baseMeta, robots: { index: false, follow: true } };
+    let ownsArticles = false;
+    try {
+      ownsArticles = await withDeadline(
+        categoryOwnsPublishedArticles(cat.id),
+        3_000,
+        `inspire-category-owns:${categorySlug}`,
+      );
+    } catch {
+      // Couldn't determine within the deadline — keep the safe old behaviour.
+    }
+    if (!ownsArticles) {
+      return { ...baseMeta, robots: { index: false, follow: true } };
+    }
+    return baseMeta;
   }
 
   // Soft-404 prevention for `?sub=` URLs (~3 in the May 2026 GSC bucket):
@@ -290,6 +315,71 @@ export async function generateMetadata({
   return baseMeta;
 }
 
+type CategoryRow = NonNullable<Awaited<ReturnType<typeof getCategoryBySlugCached>>>;
+
+/**
+ * The pillar layout. Separate function, same route — see the call site.
+ *
+ * The article listing is soft-failed the same way the grid below is: a DB blip
+ * renders the pillar with its intro and empty clusters rather than a 5xx.
+ */
+async function renderPillarPage(category: CategoryRow, categorySlug: string) {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com';
+
+  let view: Awaited<ReturnType<typeof getPillarView>> = {
+    clusters: [],
+    unclustered: [],
+    totalArticles: 0,
+  };
+  try {
+    view = await withDeadline(getPillarView(category.id), 3_000, `inspire-pillar:${categorySlug}`);
+  } catch (err) {
+    console.error(`[inspire-pillar:${categorySlug}] view fetch failed:`, err);
+  }
+
+  const breadcrumbItems = [
+    { label: 'Utama', href: '/' },
+    { label: 'Artikel', href: '/artikel' },
+    { label: category.name },
+  ];
+
+  return (
+    <div className="container mx-auto px-4 py-8 lg:px-6">
+      <BreadcrumbJsonLd items={breadcrumbItems} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'CollectionPage',
+            name: category.name,
+            description: category.description ?? `Artikel ${category.name} di HelloKahwin.`,
+            url: `${baseUrl}/artikel/${categorySlug}`,
+            numberOfItems: view.totalArticles,
+            // The clusters, declared as parts of the pillar. This is the
+            // machine-readable half of the same statement the headings make:
+            // these sub-topics belong to this entity.
+            hasPart: view.clusters.map((cluster) => ({
+              '@type': 'CollectionPage',
+              name: cluster.name,
+              url: `${baseUrl}/artikel/${categorySlug}#cluster-${cluster.id}`,
+            })),
+            provider: { '@type': 'Organization', name: 'HelloKahwin' },
+          }).replace(/</g, '\\u003c'),
+        }}
+      />
+      <Breadcrumbs items={breadcrumbItems} />
+
+      <header className="border-border mx-auto max-w-3xl border-b pt-4 pb-10 text-center">
+        <span className="hk-eyebrow">Panduan</span>
+        <h1 className="hk-display mt-3 text-[2rem] lg:text-[2.75rem]">{category.name}</h1>
+      </header>
+
+      <PillarBody view={view} intro={category.intro} />
+    </div>
+  );
+}
+
 export default async function InspireCategoryPage({ params, searchParams }: CategoryPageProps) {
   const { category: categorySlug } = await params;
   const sp = await searchParams;
@@ -300,6 +390,15 @@ export default async function InspireCategoryPage({ params, searchParams }: Cate
     `inspire-category:${categorySlug}`,
   );
   if (!category) notFound();
+
+  // A PILLAR renders as the map of its pillar — every cluster, and every
+  // article under each cluster — instead of a flat reverse-chronological grid.
+  // It stays on this route rather than becoming seven static pages so that
+  // pillars remain ordinary categories: same breadcrumbs, same sitemap logic,
+  // same admin category picker, and one code path instead of two that drift.
+  if (category.isPillar) {
+    return renderPillarPage(category, categorySlug);
+  }
 
   // Children + grandchildren — shared cache with generateMetadata.
   const { children, grandchildren } = await getCategoryHierarchyCached(category.id);

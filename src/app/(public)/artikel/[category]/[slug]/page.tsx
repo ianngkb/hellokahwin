@@ -36,6 +36,8 @@ import {
 import { ArticleCoverMobile } from '@/components/inspire/article-cover-mobile';
 import { MobilePhotoBar } from '@/components/inspire/mobile-photo-bar';
 import { Breadcrumbs, BreadcrumbJsonLd } from '@/components/common/breadcrumbs';
+import { PillarUpLinkBlock } from '@/components/inspire/pillar-up-link';
+import { getPillarUpLink, getClusterSiblings } from '@/lib/inspire/pillar-queries';
 import { stripBrandSuffix, buildArticleDescription, decodeMetaEntities } from '@/lib/seo/meta';
 import { AuthorBox } from '@/components/inspire/author-box';
 import { WhatsAppShare } from '@/components/inspire/whatsapp-share';
@@ -501,11 +503,45 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
     permanentRedirect(`/artikel/${article.categorySlug}/${slug}`);
   }
 
-  // Related articles (same primary category) — non-critical crawlable link
-  // block. Deadline-guarded and defaults to [] so a slow/failed query never
-  // breaks the article render.
+  // The link back UP to this article's pillar. The approved plan requires every
+  // article to link up with the pillar's Malay entity phrase as anchor text;
+  // deriving it from the category tree makes that structural rather than
+  // something a writer can forget or a rename can break. Returns null for the
+  // legacy articles outside the pillar architecture, which render as before.
+  // Non-critical: a failure loses the block, never the article.
+  let pillarUpLink: Awaited<ReturnType<typeof getPillarUpLink>> = null;
+  try {
+    pillarUpLink = await withDeadline(
+      getPillarUpLink(article.id),
+      budgetLeft(),
+      `inspire-pillar-uplink:${slug}`,
+    );
+  } catch {
+    // Non-critical — render the article without the up-link.
+  }
+
+  // Related articles — non-critical crawlable link block. Deadline-guarded and
+  // defaults to [] so a slow/failed query never breaks the article render.
+  //
+  // Scoped to the article's CLUSTER when it has one. "Same primary category"
+  // was right when a category held a dozen articles; under the pillar model the
+  // primary category IS the pillar, which the plan maps at up to 38 articles —
+  // far too loose an association for a sideways link, and the plan is explicit
+  // that siblings link inside their own cluster. Articles outside the pillar
+  // architecture keep the original behaviour via the fallback below.
   let relatedArticles: Awaited<ReturnType<typeof getRelatedArticles>> = [];
-  if (article.primaryCategoryId) {
+  if (pillarUpLink?.cluster) {
+    try {
+      relatedArticles = await withDeadline(
+        getClusterSiblings(pillarUpLink.cluster.id, article.id, 6),
+        budgetLeft(),
+        `inspire-cluster-siblings:${slug}`,
+      );
+    } catch {
+      // Non-critical — fall through to the primary-category block below.
+    }
+  }
+  if (relatedArticles.length === 0 && article.primaryCategoryId) {
     try {
       relatedArticles = await withDeadline(
         getRelatedArticles(article.primaryCategoryId, article.id),
@@ -814,6 +850,10 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
                 <WhatsAppShare title={article.title} url={canonicalUrl} />
               </div>
               <ArticleRenderer content={renderContent} articleId={article.id} />
+              {/* Link back up to the pillar. Inside <article> and immediately
+                  after the body, so it reads as part of the piece rather than
+                  as chrome, and so it sits above the fold of the related block. */}
+              <PillarUpLinkBlock link={pillarUpLink} />
             </article>
 
             {/* Sidebar.

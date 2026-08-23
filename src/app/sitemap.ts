@@ -1,9 +1,10 @@
 import type { MetadataRoute } from 'next';
-import { eq, isNull } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import { db } from '@/lib/db/drizzle';
 import { articles, inspireCategories } from '@/lib/db/schema/articles';
 import { getSitemapAuthors } from '@/lib/authors/queries';
 import { authorArchivePath } from '@/lib/authors/gate';
+import { getIndexableCategoryIds, getSitemapCategories } from '@/lib/inspire/category-indexability';
 
 // ISR: cache the rendered sitemap for 1h. Googlebot fetches the cached XML
 // directly from the edge — DB queries only run on background regeneration.
@@ -48,13 +49,47 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .innerJoin(inspireCategories, eq(articles.primaryCategoryId, inspireCategories.id))
     .where(eq(articles.status, 'published'));
 
-  // Category hubs — TOP-LEVEL ONLY. Child categories are surfaced in-app via
-  // the `?sub=` form (which canonicalises to the parent) and emit `noindex`;
-  // listing them here would advertise orphaned duplicates.
-  const categoryRows = await db
-    .select({ slug: inspireCategories.slug })
-    .from(inspireCategories)
-    .where(isNull(inspireCategories.parentId));
+  // Category hubs. The rule USED to be "top-level only", on the reasoning that
+  // child categories are orphaned duplicates reached via `?sub=`. Two things
+  // were wrong with it, and they have to be fixed together:
+  //
+  //  1. A child category that is the PRIMARY category of a published article is
+  //     not an orphan — its slug is the middle segment of that article's
+  //     canonical URL. Six such hubs existed on production on 23 Aug 2026
+  //     (hiasan-dekorasi, moden-kontemporari, fotografi-videografi,
+  //     glamor-eksklusif, minimalis-mewah, pantai-santai) and none was listed.
+  //     The Phase 1 audit reported four of them; it missed the last two.
+  //  2. A hub with NO published articles was listed anyway when it happened to
+  //     be top-level, while the route emitted `noindex` for it — advertising a
+  //     noindex URL, which is a permanent Search Console error. That matters
+  //     more now than it did: the seven pillars start empty by design.
+  //
+  // The rule is now the same one the route uses to decide `noindex`: include a
+  // hub when it owns at least one published article, or when it is a pillar
+  // with at least one published article anywhere beneath it. See
+  // lib/inspire/category-indexability.ts.
+  const [allCategories, indexableCategoryIds] = await Promise.all([
+    getSitemapCategories(),
+    getIndexableCategoryIds(),
+  ]);
+  const childrenByParent = new Map<string, string[]>();
+  for (const cat of allCategories) {
+    if (!cat.parentId) continue;
+    const list = childrenByParent.get(cat.parentId) ?? [];
+    list.push(cat.id);
+    childrenByParent.set(cat.parentId, list);
+  }
+  /** Does this category, or anything beneath it, own a live article URL? */
+  const hasLiveArticles = (categoryId: string, depth = 0): boolean => {
+    if (indexableCategoryIds.has(categoryId)) return true;
+    // Depth guard: the tree is two levels by design, but a bad parent_id could
+    // make it cyclic and a sitemap render must not be the thing that finds out.
+    if (depth >= 3) return false;
+    return (childrenByParent.get(categoryId) ?? []).some((childId) =>
+      hasLiveArticles(childId, depth + 1),
+    );
+  };
+  const categoryRows = allCategories.filter((cat) => hasLiveArticles(cat.id));
 
   const articleDatesByCategory = new Map<string, Date[]>();
   const articlePages: MetadataRoute.Sitemap = publishedArticles.map((article) => {

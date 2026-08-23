@@ -33,6 +33,42 @@ export const media = pgTable(
     alt: text('alt').default(''),
     caption: text('caption').default(''),
     captionUrl: text('caption_url'),
+    // ── Image credit (owner-level requirement, board 23 Aug 2026) ────────────
+    //
+    // "ALWAYS credit the original image source so it can be traced back."
+    // The company approaches image owners for permission directly rather than
+    // hiring a rights coordinator, so the credit does two jobs at once: it is
+    // the courtesy that earns the next grant, and it is the record that makes
+    // the owner findable years later when somebody has to ask about scope.
+    //
+    // `caption` is NOT this field. Captions describe the picture; some of the
+    // 682 imported rows have a photographer's name stuffed into one, which is
+    // exactly the untraceable state these columns replace.
+    //
+    // NULLABLE in the database, REQUIRED by ingest. Those legacy rows have no
+    // credit and never will — NOT NULL here would make the migration
+    // destructive. The gate lives in scripts/ingest-article.ts, which refuses
+    // the whole file rather than publish an uncredited image.
+    /** Visible credit, in the licensor's own preferred wording. */
+    credit: text('credit'),
+    /**
+     * Where the credit points. Rendered as a FOLLOWED link — the approved
+     * visual-asset strategy is explicit that a nofollow credit is worth much
+     * less to the vendor, and vendor goodwill is what keeps the programme
+     * supplied with photographs.
+     */
+    creditUrl: text('credit_url'),
+    /**
+     * Licence class, approved visual-asset strategy §3.1. The five are the
+     * whole permitted set:
+     *   V vendor/photographer licence · C couple submission · O commissioned
+     *   S stock · G our own graphic
+     * Text rather than a pg enum so adding a class later is a data change
+     * rather than a migration taking a lock on the media table.
+     */
+    licenseClass: text('license_class'),
+    /** Legal name of whoever granted the licence — who to ask, years from now. */
+    licensorName: text('licensor_name'),
     variants: jsonb('variants').$type<ImageVariants>(),
     defaultQuality: text('default_quality').default('high'),
     smartCrops: jsonb('smart_crops').$type<SmartCrops>(),

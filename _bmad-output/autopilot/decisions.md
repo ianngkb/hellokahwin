@@ -581,3 +581,32 @@ Append-only. One line per decision autopilot made without interrupting the user.
 - [2026-08-23] Review complete: 15 findings (1 critical / 10 major / 4 minor) all fixed and closure-verified across two fix-check rounds. Verdict clean at d458020.
 - [2026-08-23] OVERTURNED the `prose` decision above: review finding #15 required removing the inert `prose`/`prose-*`/`not-prose` classes after all (6 sites across article-renderer.tsx and article-editor.tsx). The plugin is still NOT installed — the classes matched nothing, and what they claimed to do is already hand-rolled in globals.css, verified before removal. `block-editor.tsx:444` left alone as out of scope.
 - [2026-08-23] `/imdone`: profile "New repo" again, but the ship model FLIPPED to push-branch. The 2026-08-22 land-on-master choice was valid only because Vercel git was disconnected at that moment; that same run then connected it (prod branch `master`). With no `ignoreCommand` in vercel.json and no GitHub Actions workflow, a push to `master` now fires a production deploy — so land-on-master would deploy from /imdone, which it must never do. Confirmed with the user before pushing.
+
+## Run 2026-08-23 — pillar pages, content-ingest path, single-hop redirects
+
+- [2026-08-23] Cloned the LIVE site repo `ianngkb/hellokahwin` to
+  `~/Documents/Code/hellokahwin-site` — deliberately NOT nested under
+  `~/Documents/Code/hellokahwin/`, where the old Electron migration tool lives.
+  Orca's repo registry had `hellokahwin` pointing at the Electron tool; registered
+  the site separately as `hellokahwin-site` so the two-repo trap cannot bite again.
+- [2026-08-23] Verification database: Docker Desktop's Linux engine is broken on
+  this machine (every API call returns HTTP 500; the `docker-desktop` WSL distro
+  stays Stopped), so `supabase db start` and a Postgres container were both
+  unavailable. Did NOT spend the run repairing Docker. Used the already-installed
+  PostgreSQL 16 in the Ubuntu WSL distro instead, on port 5433, database `hklocal`,
+  seeded with a READ-ONLY snapshot of production (24 categories, 29 articles,
+  623 media rows, 65 article-category links). `.env.local` points every local run
+  at it and overrides `.env`, so no verification step can reach Supabase.
+  PGlite was tried first and rejected: its socket server serves one connection at
+  a time, and `next build` opens ~30 prerender workers with a pool each.
+- [2026-08-23] Dev work executed in this session rather than dispatched to a
+  separate Claude in the Orca terminal. The terminal WAS created and visible
+  ("dev (opus) — pillars/ingest/redirects"), but Orca refuses to let an agent
+  auto-answer the workspace-trust prompt (`agent_prompt_blocked`), and this
+  session's permission classifier blocks `--permission-mode bypassPermissions`.
+  Both are safety gates and neither is mine to bypass, so the work is done
+  directly against the same spec, in the same worktree, with the same gate.
+  Reported to the CEO rather than worked around.
+- [2026-08-23] Baseline `pnpm build` against the local mirror completes INCLUDING
+  static prerender (exit 0) — the previous run could not get past prerender for
+  want of a database. The build gate is genuinely available this run.

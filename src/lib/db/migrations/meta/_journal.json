@@ -15,6 +15,13 @@
       "when": 1787328245610,
       "tag": "0001_enable_rls_public_schema",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1787463366295,
+      "tag": "0002_pillars_and_image_credits",
+      "breakpoints": true
     }
   ]
 }

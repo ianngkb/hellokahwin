@@ -92,12 +92,42 @@ export const inspireCategories = pgTable(
     parentId: uuid('parent_id'),
     displayOrder: integer('display_order').default(0),
     wpId: integer('wp_id'),
+    // ── Topical-authority architecture (approved cluster plan, 23 Aug 2026) ──
+    //
+    // A PILLAR is a top-level category (`isPillar`, `parentId` NULL); a CLUSTER
+    // is its child. Modelling them as categories rather than bespoke pages is
+    // what makes the link graph maintain itself: assigning an article to a
+    // cluster is the ONLY act required for the pillar to list it and for the
+    // article to link back up. The plan maps 204 articles across 26 clusters,
+    // and a hand-maintained link graph at that size does not survive the
+    // publishing cadence.
+    //
+    // All four are NULLABLE on purpose. The 24 categories imported from
+    // WordPress predate the concept and must keep working untouched.
+    /** `P1`…`P7` on a pillar, `C1.1`…`C7.5` on a cluster. NULL on legacy rows. */
+    pillarCode: text('pillar_code'),
+    /**
+     * The Malay entity phrase used as anchor text whenever anything links to
+     * this category — a pillar's head term, or a cluster's head keyword. The
+     * plan is explicit that anchors are the target entity phrase, never "baca
+     * lagi". Falls back to `name` when absent.
+     */
+    entityPhrase: text('entity_phrase'),
+    /** A pillar page's editorial introduction. One paragraph per blank line. */
+    intro: text('intro'),
+    isPillar: boolean('is_pillar').notNull().default(false),
     createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
     updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
   },
   (table) => [
     index('inspire_categories_slug_idx').on(table.slug),
     index('inspire_categories_parent_id_idx').on(table.parentId),
+    // Partial + unique: the seed script matches on this to guarantee it never
+    // touches a row it did not create, and two categories claiming the same
+    // pillar code would silently split a cluster's articles across two hubs.
+    uniqueIndex('inspire_categories_pillar_code_idx')
+      .on(table.pillarCode)
+      .where(sql`${table.pillarCode} IS NOT NULL`),
   ],
 );
 
