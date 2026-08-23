@@ -184,12 +184,20 @@ export function parseArticleFile(raw: string): ParsedArticleFile {
   // The first pass caught only the inline form; review pointed out that
   // reference-style images and raw HTML both went straight past it, which would
   // have left the gate looking shut while two doors stood open.
-  const inlineImages = [...markdown.matchAll(/!\[[^\]]*\]\(([^)]+)\)/g)].map((m) => m[1]);
-  const referenceImages = [...markdown.matchAll(/!\[[^\]]*\]\[([^\]]*)\]/g)].map(
-    (m) => `[${m[1]}]`,
+  // `![...]` covers all three markdown image forms in one pass — inline
+  // `![alt](src)`, full reference `![alt][ref]` and SHORTCUT reference
+  // `![ref]`, which has no second bracket at all and slipped through a
+  // narrower pattern. Whatever follows is captured only to name it in the
+  // error; the `![` is what decides.
+  const markdownImages = [...markdown.matchAll(/!\[([^\]]*)\](\([^)]*\)|\[[^\]]*\])?/g)].map((m) =>
+    m[2]?.startsWith('(') ? m[2].slice(1, -1) : `![${m[1]}]`,
   );
-  const htmlImages = [...markdown.matchAll(/<img\b[^>]*?src=["']?([^"'\s>]+)/gi)].map((m) => m[1]);
-  const smuggled = [...inlineImages, ...referenceImages, ...htmlImages];
+  // `src` with whitespace either side of the `=`, quoted or not — HTML allows
+  // all of it, so the pattern has to as well.
+  const htmlImages = [
+    ...markdown.matchAll(/<img\b[^>]*?\bsrc\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/gi),
+  ].map((m) => m[1] ?? m[2] ?? m[3]);
+  const smuggled = [...markdownImages, ...htmlImages];
   if (smuggled.length > 0) {
     throw new ArticleFileError(
       smuggled.map(

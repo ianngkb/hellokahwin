@@ -110,6 +110,20 @@ function parseArgs(argv: string[]): Args {
     problems.push(
       '--skip-media only works against a local database. It writes placeholder image URLs that no browser can load.',
     );
+  // Checked BEFORE anything is written, not after. Discovering the secret is
+  // missing once the row is in the database leaves the article written and the
+  // site stale — the exact half-done state this script exists to avoid.
+  if (revalidateUrl && !process.env.CRON_SECRET)
+    problems.push(
+      '--revalidate-url was given but CRON_SECRET is not set, so the caches could not be cleared after the write.',
+    );
+  // A real run against a real database with no way to clear the caches would
+  // write an article the site cannot show. Refuse up front rather than produce
+  // a row nobody can see.
+  if (commit && db && !isLocalDb(db) && !revalidateUrl)
+    problems.push(
+      '--revalidate-url is required when committing to a non-local database. Without it the article is written but the site keeps serving its cached pages, so nobody sees it.',
+    );
   if (problems.length) {
     console.error(problems.map((p) => `  - ${p}`).join('\n'));
     process.exit(1);

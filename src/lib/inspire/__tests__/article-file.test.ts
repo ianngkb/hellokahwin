@@ -91,9 +91,15 @@ describe('parseArticleFile', () => {
   // straight past it, leaving the gate looking shut with two doors open.
   it.each([
     ['inline', '![Dulang hantaran](./images/sneaky.jpg)', 'sneaky\\.jpg'],
-    ['reference-style', '![Dulang hantaran][foto]\n\n[foto]: ./images/sneaky.jpg', '\\[foto\\]'],
+    ['full reference', '![Dulang][foto]\n\n[foto]: ./images/sneaky.jpg', 'Dulang'],
+    // No second bracket at all — the form a narrower pattern missed.
+    ['shortcut reference', '![foto]\n\n[foto]: ./images/sneaky.jpg', 'foto'],
+    ['collapsed reference', '![foto][]\n\n[foto]: ./images/sneaky.jpg', 'foto'],
     ['raw HTML', '<img src="./images/sneaky.jpg" alt="Dulang">', 'sneaky\\.jpg'],
     ['raw HTML, unquoted', '<img src=./images/sneaky.jpg>', 'sneaky\\.jpg'],
+    // Whitespace around `=` is legal HTML and slipped past a tighter pattern.
+    ['raw HTML, spaced =', '<img  src = "./images/sneaky.jpg" >', 'sneaky\\.jpg'],
+    ['raw HTML, single quotes', "<img src='./images/sneaky.jpg'>", 'sneaky\\.jpg'],
   ])('REFUSES a %s image written into the body', (_kind, snippet, expected) => {
     const file = validFile().replace(
       'Kadar mas kahwin berbeza mengikut negeri.',
