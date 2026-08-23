@@ -82,6 +82,19 @@ const nextConfig: NextConfig = {
   // Type-checking runs separately via `pnpm typecheck` (tsconfig.typecheck.json),
   // keeping the full tsc pass off the build critical path — same setup as twn-new.
   typescript: { ignoreBuildErrors: true },
+  // Hand trailing-slash handling to middleware. Next's own normalisation runs in
+  // the redirects step, BEFORE middleware, which is what made every legacy
+  // permalink cost two redirects: /slug/ →308→ /slug →308→ /artikel/{cat}/{slug}
+  // (measured against production 2026-08-23). Middleware can collapse that to
+  // one; Next cannot, because it has already answered by the time middleware runs.
+  //
+  // ⚠️ This removes normalisation EVERYWHERE, not just where it hurt. Anything
+  // middleware does not handle now serves at both /x and /x/. src/middleware.ts
+  // puts the 308 back for every path except the two it improves — do not delete
+  // that branch. Paths excluded by the middleware matcher (_next, static assets,
+  // robots.txt, sitemap.xml) are no longer normalised at all; they are
+  // non-indexable asset paths, which is why that is acceptable.
+  skipTrailingSlashRedirect: true,
   async headers() {
     return [
       {
