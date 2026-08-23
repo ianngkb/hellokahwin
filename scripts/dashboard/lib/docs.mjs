@@ -156,7 +156,13 @@ function parseMeta(lines) {
       const fragments = line.split(/\s+[·|]\s+/);
       let matchedAny = false;
       for (const frag of fragments) {
-        const m = frag.match(/^\s*\*\*(.+?):\*\*\s*(.*)$/) || frag.match(/^\s*\*\*(.+?):\s*(.*?)\*\*\s*$/);
+        // The key is bounded: a metadata key is a few words, and an unbounded
+        // lazy quantifier here is quadratic on a line of many colons — the lazy
+        // group expands to each colon in turn and re-checks. Measured before
+        // bounding: 3,000 colons 1.6ms, 6,000 6.3ms, 12,000 26.6ms.
+        const m =
+          frag.match(/^\s*\*\*(.{1,120}?):\*\*\s*(.*)$/) ||
+          frag.match(/^\s*\*\*(.{1,120}?):\s*(.{0,400}?)\*\*\s*$/);
         if (m) {
           const key = m[1].trim().toLowerCase();
           meta[key] = (m[2] || '').trim();

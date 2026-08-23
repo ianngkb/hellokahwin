@@ -53,15 +53,21 @@ function safeUrl(href) {
 // Inline markup for a chunk that is already HTML-escaped and holds no code spans.
 function emphasise(s) {
   // Images before links (same bracket shape).
+  //
+  // The character classes are bounded on purpose. Unbounded, they are quadratic
+  // on a run of unmatched brackets: with no closing bracket anywhere, the global
+  // scan restarts at every position. Measured before bounding: 3,000 brackets
+  // 2.3ms, 6,000 8.8ms, 12,000 35.3ms, 24,000 136.7ms. No real link text or URL
+  // in these documents comes close to the limits.
   s = s.replace(
-    /!\[([^\]]*)\]\(([^)\s]+)(?:\s+&quot;[^&]*&quot;)?\)/g,
+    /!\[([^\]]{0,300})\]\(([^)\s]{1,500})(?:\s+&quot;[^&]{0,200}&quot;)?\)/g,
     (_m, alt, href) => {
       const safe = safeUrl(href);
       return safe ? '<img src="' + safe + '" alt="' + alt + '" loading="lazy">' : alt;
     }
   );
   s = s.replace(
-    /\[([^\]]+)\]\(([^)\s]+)(?:\s+&quot;[^&]*&quot;)?\)/g,
+    /\[([^\]]{1,300})\]\(([^)\s]{1,500})(?:\s+&quot;[^&]{0,200}&quot;)?\)/g,
     (_m, text, href) => {
       const safe = safeUrl(href);
       if (!safe) return text;

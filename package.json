@@ -24,7 +24,7 @@
     "dashboard": "node scripts/dashboard/generate.mjs",
     "dashboard:open": "node scripts/dashboard/generate.mjs --open",
     "dashboard:serve": "node scripts/dashboard/serve.mjs",
-    "dashboard:test": "node scripts/dashboard/test/md.test.mjs && node scripts/dashboard/test/safety.test.mjs && node scripts/dashboard/test/gaps.test.mjs && node scripts/dashboard/test/page.test.mjs"
+    "dashboard:test": "node scripts/dashboard/test/md.test.mjs && node scripts/dashboard/test/safety.test.mjs && node scripts/dashboard/test/gaps.test.mjs && node scripts/dashboard/test/perf.test.mjs && node scripts/dashboard/test/page.test.mjs"
   },
   "devDependencies": {
     "concurrently": "^8.2.1"
