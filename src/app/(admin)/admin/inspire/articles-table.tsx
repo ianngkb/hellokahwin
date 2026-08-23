@@ -39,13 +39,19 @@ import {
   deleteArticleAction,
   duplicateArticleAction,
   toggleArticleStatusAction,
-  toggleHumanReviewedAction,
+  setReviewStatusAction,
   bulkDeleteArticlesAction,
   bulkStatusChangeArticlesAction,
   bulkRegenerateImagesAction,
   bulkReassignAuthorAction,
 } from './actions';
-import type { ArticleStatus } from '@/lib/constants';
+import {
+  ARTICLE_AUTHORSHIP_LABELS,
+  ARTICLE_REVIEW_STATUS_LABELS,
+  type ArticleAuthorship,
+  type ArticleReviewStatus,
+  type ArticleStatus,
+} from '@/lib/constants';
 import { toast } from 'sonner';
 
 interface ArticleRow {
@@ -55,8 +61,11 @@ interface ArticleRow {
   coverImageUrl: string | null;
   hasVariants: boolean;
   status: ArticleStatus;
-  isAiGenerated: boolean;
-  humanReviewedAt: string | null;
+  authorship: ArticleAuthorship;
+  reviewStatus: ArticleReviewStatus;
+  reviewedAt: string | null;
+  /** NULL when unreviewed, or when the reviewer's profile has since been deleted. */
+  reviewedByName: string | null;
   categoryName: string | null;
   categorySlug: string | null;
   secondaryCategories: string[];
@@ -106,6 +115,38 @@ const STATUS_FILTERS: Array<{ label: string; value: string }> = [
   { label: 'Published', value: 'published' },
 ];
 
+/**
+ * Every row gets an authorship chip, including `human`. A row with NO chip would
+ * be ambiguous between "a human wrote this" and "nobody set it" — and removing
+ * exactly that ambiguity is why the column is NOT NULL.
+ */
+const AUTHORSHIP_VARIANTS: Record<ArticleAuthorship, 'info' | 'brass' | 'outline'> = {
+  ai: 'info',
+  ai_assisted: 'brass',
+  human: 'outline',
+};
+
+const REVIEW_VARIANTS: Record<ArticleReviewStatus, 'warning' | 'success' | 'error'> = {
+  pending_review: 'warning',
+  reviewed: 'success',
+  needs_changes: 'error',
+};
+
+/** Two independent filters, replacing the old combined four-value `source` select. */
+const AUTHORSHIP_FILTERS: Array<{ label: string; value: string }> = [
+  { label: 'All authorship', value: 'all' },
+  { label: 'AI', value: 'ai' },
+  { label: 'AI-assisted', value: 'ai_assisted' },
+  { label: 'Human', value: 'human' },
+];
+
+const REVIEW_FILTERS: Array<{ label: string; value: string }> = [
+  { label: 'All review states', value: 'all' },
+  { label: 'Needs review', value: 'pending_review' },
+  { label: 'Reviewed', value: 'reviewed' },
+  { label: 'Needs changes', value: 'needs_changes' },
+];
+
 export function ArticlesTable({
   articles,
   categories,
@@ -126,6 +167,8 @@ export function ArticlesTable({
     status?: string;
     categoryId?: string;
     source?: string;
+    authorship?: string;
+    review?: string;
     hiddenTagId?: string;
     page?: string;
   };
@@ -151,6 +194,8 @@ export function ArticlesTable({
     status: pStatus,
     categoryId: pCategoryId,
     source: pSource,
+    authorship: pAuthorship,
+    review: pReview,
     hiddenTagId: pHiddenTagId,
   } = searchParams;
 
@@ -162,7 +207,17 @@ export function ArticlesTable({
   const buildHref = useCallback(
     (
       overrides: Partial<
-        Record<'search' | 'status' | 'categoryId' | 'source' | 'hiddenTagId' | 'page', string>
+        Record<
+          | 'search'
+          | 'status'
+          | 'categoryId'
+          | 'source'
+          | 'authorship'
+          | 'review'
+          | 'hiddenTagId'
+          | 'page',
+          string
+        >
       >,
     ) => {
       const merged = {
@@ -170,11 +225,21 @@ export function ArticlesTable({
         status: pStatus,
         categoryId: pCategoryId,
         source: pSource,
+        authorship: pAuthorship,
+        review: pReview,
         hiddenTagId: pHiddenTagId,
         ...overrides,
       };
       const next = new URLSearchParams();
-      for (const key of ['search', 'status', 'categoryId', 'source', 'hiddenTagId'] as const) {
+      for (const key of [
+        'search',
+        'status',
+        'categoryId',
+        'source',
+        'authorship',
+        'review',
+        'hiddenTagId',
+      ] as const) {
         if (merged[key]) next.set(key, merged[key]);
       }
       const page = overrides.page ?? '1';
@@ -182,7 +247,7 @@ export function ArticlesTable({
       const qs = next.toString();
       return qs ? `/admin/inspire?${qs}` : '/admin/inspire';
     },
-    [pSearch, pStatus, pCategoryId, pSource, pHiddenTagId],
+    [pSearch, pStatus, pCategoryId, pSource, pAuthorship, pReview, pHiddenTagId],
   );
 
   /**
@@ -235,14 +300,21 @@ export function ArticlesTable({
     });
   }
 
-  function handleFilter(key: 'status' | 'categoryId' | 'source' | 'hiddenTagId', value: string) {
-    navigate(buildHref({ [key]: value }));
+  function handleFilter(
+    key: 'status' | 'categoryId' | 'authorship' | 'review' | 'hiddenTagId',
+    value: string,
+  ) {
+    // `source` is dropped whenever either new filter is touched. Leaving the
+    // legacy param in the URL alongside them would keep re-applying the old
+    // combined meaning on every subsequent navigation, so the control the admin
+    // just used would appear not to work.
+    navigate(buildHref({ [key]: value, source: '' }));
   }
 
   const offset = (currentPage - 1) * pageSize;
 
   const hasActiveFilters = Boolean(
-    searchInput || pStatus || pCategoryId || pSource || pHiddenTagId,
+    searchInput || pStatus || pCategoryId || pSource || pAuthorship || pReview || pHiddenTagId,
   );
 
   function handleDelete(articleId: string) {
@@ -270,14 +342,11 @@ export function ArticlesTable({
     });
   }
 
-  function handleToggleHumanReviewed(articleId: string) {
+  function handleSetReviewStatus(articleId: string, target: ArticleReviewStatus) {
     startTransition(async () => {
-      const result = await toggleHumanReviewedAction(articleId);
+      const result = await setReviewStatusAction(articleId, target);
       if (result.error) toast.error(result.error);
-      else
-        toast.success(
-          result.humanReviewed ? 'Marked as human reviewed' : 'Human-review mark removed',
-        );
+      else toast.success(`Marked as ${ARTICLE_REVIEW_STATUS_LABELS[target].toLowerCase()}`);
     });
   }
 
@@ -333,6 +402,19 @@ export function ArticlesTable({
     });
   }
 
+  // What the two selects should SHOW. A bookmarked `?source=ai-unreviewed` URL
+  // still filters server-side via the alias map, so the controls have to reflect
+  // that or the bar would read "All / All" over a visibly filtered list.
+  const SOURCE_ALIAS_DISPLAY: Record<string, { authorship: string; review: string }> = {
+    ai: { authorship: 'ai', review: 'all' },
+    human: { authorship: 'human', review: 'all' },
+    'ai-unreviewed': { authorship: 'ai', review: 'pending_review' },
+    'ai-reviewed': { authorship: 'ai', review: 'reviewed' },
+  };
+  const aliasDisplay = searchParams.source ? SOURCE_ALIAS_DISPLAY[searchParams.source] : undefined;
+  const activeAuthorshipFilter = searchParams.authorship ?? aliasDisplay?.authorship ?? 'all';
+  const activeReviewFilter = searchParams.review ?? aliasDisplay?.review ?? 'all';
+
   return (
     <div className="space-y-4">
       {/* Filters */}
@@ -382,19 +464,40 @@ export function ArticlesTable({
             ))}
           </SelectContent>
         </Select>
+        {/*
+          Two independent selects, not one combined one. "AI + Needs review" —
+          the owner's primary workflow — needs both axes at once, and "anything
+          needing changes regardless of who wrote it" needs the review axis
+          alone. The old single four-value control could express neither.
+        */}
         <Select
-          value={searchParams.source ?? 'all'}
-          onValueChange={(v) => handleFilter('source', v === 'all' ? '' : v)}
+          value={activeAuthorshipFilter}
+          onValueChange={(v) => handleFilter('authorship', v === 'all' ? '' : v)}
         >
           <SelectTrigger className="w-[calc(50%-0.25rem)] sm:w-[150px]">
-            <SelectValue placeholder="All sources" />
+            <SelectValue placeholder="All authorship" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All sources</SelectItem>
-            <SelectItem value="ai">AI generated</SelectItem>
-            <SelectItem value="ai-unreviewed">AI · needs review</SelectItem>
-            <SelectItem value="ai-reviewed">AI · human reviewed</SelectItem>
-            <SelectItem value="human">Human written</SelectItem>
+            {AUTHORSHIP_FILTERS.map((option) => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Select
+          value={activeReviewFilter}
+          onValueChange={(v) => handleFilter('review', v === 'all' ? '' : v)}
+        >
+          <SelectTrigger className="w-[calc(50%-0.25rem)] sm:w-[165px]">
+            <SelectValue placeholder="All review states" />
+          </SelectTrigger>
+          <SelectContent>
+            {REVIEW_FILTERS.map((option) => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
         {hiddenTags.length > 0 && (
@@ -671,40 +774,73 @@ export function ArticlesTable({
                               .filter(Boolean)
                               .join(' · ')}
                           </span>
-                          {article.isAiGenerated ? (
-                            // Lifted above the edit overlay for the same reason
-                            // as the variants dot: these Chips are unpositioned,
-                            // so the overlay would otherwise intercept their
-                            // hover and show the article title instead of their
-                            // own tooltip. The "Reviewed" chip's tooltip is the
-                            // ONLY place this table surfaces the human-review
-                            // date, so a wrong tooltip there is a real loss. The
-                            // cost is that this strip no longer click-throughs
-                            // to the editor — the title line above still does.
-                            <span className="relative z-20 mt-1 flex flex-wrap items-center gap-1">
-                              <Chip variant="outline" size="sm" title="AI-generated article">
-                                AI
+                          {/*
+                            Lifted above the edit overlay for the same reason as
+                            the variants dot: these Chips are unpositioned, so
+                            the overlay would otherwise intercept their hover and
+                            show the article title instead of their own tooltip.
+                            The "Reviewed" chip's tooltip is the ONLY place this
+                            table surfaces the review date, so a wrong tooltip
+                            there is a real loss. The cost is that this strip no
+                            longer click-throughs to the editor — the title line
+                            above still does.
+
+                            Rendered for EVERY row now, human included. Under the
+                            old `isAiGenerated ? ... : null` a human article got
+                            no chip at all, which read identically to "nobody set
+                            this" — the ambiguity the NOT NULL column exists to
+                            remove.
+                          */}
+                          <span className="relative z-20 mt-1 flex flex-wrap items-center gap-1">
+                            <Chip
+                              variant={AUTHORSHIP_VARIANTS[article.authorship]}
+                              size="sm"
+                              title={`Authorship: ${ARTICLE_AUTHORSHIP_LABELS[article.authorship]}`}
+                            >
+                              {ARTICLE_AUTHORSHIP_LABELS[article.authorship]}
+                            </Chip>
+                            {article.reviewStatus === 'reviewed' ? (
+                              <Chip
+                                variant={REVIEW_VARIANTS.reviewed}
+                                size="sm"
+                                title={
+                                  article.reviewedAt
+                                    ? `Reviewed ${formatDate(article.reviewedAt)}${
+                                        article.reviewedByName
+                                          ? ` by ${article.reviewedByName}`
+                                          : ''
+                                      }`
+                                    : 'Reviewed'
+                                }
+                              >
+                                <BadgeCheckIcon className="size-3" />
+                                {ARTICLE_REVIEW_STATUS_LABELS.reviewed}
                               </Chip>
-                              {article.humanReviewedAt ? (
-                                <Chip
-                                  variant="success"
-                                  size="sm"
-                                  title={`Human reviewed ${formatDate(article.humanReviewedAt)}`}
+                            ) : (
+                              // The chip IS the button. The brief asked for one
+                              // click; the dropdown route is two (open the menu,
+                              // then click). `disabled` while a transition is in
+                              // flight so a double-click cannot fire the action
+                              // twice. Chip derives its interactive styling from
+                              // `asChild` delegating to a real <button>, so
+                              // there is no `interactive` prop to pass.
+                              <Chip
+                                asChild
+                                variant={REVIEW_VARIANTS[article.reviewStatus]}
+                                size="sm"
+                              >
+                                <button
+                                  type="button"
+                                  disabled={isPending}
+                                  onClick={() => handleSetReviewStatus(article.id, 'reviewed')}
+                                  title={`${ARTICLE_REVIEW_STATUS_LABELS[article.reviewStatus]} — click to mark reviewed`}
+                                  aria-label={`Mark "${article.title}" as reviewed`}
                                 >
-                                  <BadgeCheckIcon className="size-3" />
-                                  Reviewed
-                                </Chip>
-                              ) : (
-                                <Chip
-                                  variant="warning"
-                                  size="sm"
-                                  title="AI-generated article awaiting human review"
-                                >
-                                  Needs review
-                                </Chip>
-                              )}
-                            </span>
-                          ) : null}
+                                  {ARTICLE_REVIEW_STATUS_LABELS[article.reviewStatus]}
+                                </button>
+                              </Chip>
+                            )}
+                          </span>
                           {article.secondaryCategories.length > 0 ? (
                             <span className="text-muted-foreground block truncate text-xs">
                               {article.secondaryCategories.join(' · ')}
@@ -770,15 +906,36 @@ export function ArticlesTable({
                           >
                             {article.status === 'draft' ? 'Publish' : 'Unpublish'}
                           </DropdownMenuItem>
-                          {article.isAiGenerated && (
+                          {/*
+                            The less common review transitions live here; the
+                            common one ("I have reviewed this") is the one-click
+                            chip on the row itself. Shown for every article, not
+                            just AI ones — the owner may want to sign off a
+                            legacy human post too.
+                          */}
+                          {article.reviewStatus !== 'reviewed' && (
                             <DropdownMenuItem
-                              onClick={() => handleToggleHumanReviewed(article.id)}
+                              onClick={() => handleSetReviewStatus(article.id, 'reviewed')}
                               disabled={isPending}
                             >
                               <BadgeCheckIcon className="mr-2 size-4" />
-                              {article.humanReviewedAt
-                                ? 'Unmark human reviewed'
-                                : 'Mark as human reviewed'}
+                              Mark as reviewed
+                            </DropdownMenuItem>
+                          )}
+                          {article.reviewStatus !== 'needs_changes' && (
+                            <DropdownMenuItem
+                              onClick={() => handleSetReviewStatus(article.id, 'needs_changes')}
+                              disabled={isPending}
+                            >
+                              Mark as needs changes
+                            </DropdownMenuItem>
+                          )}
+                          {article.reviewStatus !== 'pending_review' && (
+                            <DropdownMenuItem
+                              onClick={() => handleSetReviewStatus(article.id, 'pending_review')}
+                              disabled={isPending}
+                            >
+                              Move back to needs review
                             </DropdownMenuItem>
                           )}
                           <DropdownMenuSeparator />

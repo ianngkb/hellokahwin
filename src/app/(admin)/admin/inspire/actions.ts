@@ -15,7 +15,11 @@ import { requireAdminSectionAction } from '@/lib/auth/admin';
 import { logAuditEvent, logAuditEventAsync } from '@/lib/audit/log';
 import { checkIsSuperAdmin } from '@/lib/auth/admin';
 import { generateSlug } from '@/lib/utils/slug';
-import type { ArticleStatus } from '@/lib/constants';
+import {
+  ARTICLE_REVIEW_STATUSES,
+  type ArticleReviewStatus,
+  type ArticleStatus,
+} from '@/lib/constants';
 import { getR2Client, getR2Bucket, getR2PublicUrl } from '@/lib/r2/client';
 import { generateVariants, getDefaultPresets } from '@/lib/storage/image-variants';
 import type { ImageVariants } from '@/lib/storage/image-variants';
@@ -355,38 +359,66 @@ export async function duplicateArticleAction(articleId: string) {
   return { success: true, newArticleId: newArticle.id };
 }
 
-export async function toggleHumanReviewedAction(articleId: string) {
+/**
+ * Move an article to an explicit review status.
+ *
+ * Takes a TARGET status rather than toggling. A toggle over three states is
+ * ambiguous, and the list's one-click "Needs review" chip has to be predictable:
+ * clicking it always means "I have reviewed this", never "cycle to whatever is
+ * next".
+ *
+ * Note there is no `isAiGenerated` guard any more. Review status now applies to
+ * every article regardless of authorship — the owner may well want to sign off a
+ * legacy human post, and the old guard made that impossible.
+ */
+export async function setReviewStatusAction(articleId: string, target: ArticleReviewStatus) {
   const { error: authError, user } = await requireAdminSectionAction('inspire');
   if (authError || !user) return { error: authError ?? 'Unauthorized' };
 
+  // Validated before it reaches Postgres: an unknown value would otherwise be
+  // sent as an invalid enum literal and raise 22P02. This is a server action, so
+  // the argument is attacker-controllable regardless of what the UI sends.
+  if (!ARTICLE_REVIEW_STATUSES.includes(target)) {
+    return { error: 'Unknown review status' };
+  }
+
   const [article] = await db
-    .select({
-      id: articles.id,
-      isAiGenerated: articles.isAiGenerated,
-      humanReviewedAt: articles.humanReviewedAt,
-    })
+    .select({ id: articles.id })
     .from(articles)
     .where(eq(articles.id, articleId))
     .limit(1);
 
   if (!article) return { error: 'Article not found' };
-  if (!article.isAiGenerated)
-    return { error: 'Human-review state only applies to AI-generated articles' };
 
-  const humanReviewedAt = article.humanReviewedAt ? null : new Date();
+  const reviewed = target === 'reviewed';
+  const reviewedAt = reviewed ? new Date() : null;
+  // Cleared on any non-reviewed status: a stale "reviewed by X" sitting against
+  // an article the owner has just sent back for changes is worse than no
+  // attribution at all.
+  const reviewedBy = reviewed ? user.id : null;
+
   // Deliberately does not bump updatedAt: the review mark is admin metadata,
-  // not a content change, and the field is not rendered publicly.
-  await db.update(articles).set({ humanReviewedAt }).where(eq(articles.id, articleId));
+  // not a content change, and none of it is rendered publicly.
+  await db
+    .update(articles)
+    .set({
+      reviewStatus: target,
+      reviewedAt,
+      reviewedBy,
+      // Compat mirror for rollback safety — removed in the follow-up migration that drops these columns.
+      humanReviewedAt: reviewedAt,
+    })
+    .where(eq(articles.id, articleId));
 
   logAuditEvent({
     entityType: 'article',
     entityId: articleId,
-    action: humanReviewedAt ? 'human_review_marked' : 'human_review_unmarked',
+    action: `review_status_${target}`,
     performedBy: user.id,
   });
 
   revalidatePath('/admin/inspire');
-  return { success: true, humanReviewed: Boolean(humanReviewedAt) };
+  return { success: true, reviewStatus: target };
 }
 
 export async function toggleArticleStatusAction(articleId: string) {

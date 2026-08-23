@@ -76,7 +76,7 @@ import { useRouter } from 'next/navigation';
 import {
   deleteArticleAction,
   masterDeleteArticleAction,
-  toggleHumanReviewedAction,
+  setReviewStatusAction,
 } from '../../actions';
 import {
   updateArticleAction,
@@ -133,7 +133,13 @@ import {
   Share2Icon,
   FileDownIcon,
 } from 'lucide-react';
-import type { ArticleStatus } from '@/lib/constants';
+import {
+  ARTICLE_AUTHORSHIP_LABELS,
+  ARTICLE_REVIEW_STATUS_LABELS,
+  type ArticleAuthorship,
+  type ArticleReviewStatus,
+  type ArticleStatus,
+} from '@/lib/constants';
 import type { EditorInstance } from 'novel';
 import type { ImageVariants } from '@/lib/storage/image-variants';
 import type { SmartCrops, FocalPoint } from '@/lib/storage/smart-crop';
@@ -259,8 +265,9 @@ interface ArticleEditorProps {
     metaDescription: string | null;
     pinterestBoardName: string | null;
     status: ArticleStatus;
-    isAiGenerated: boolean;
-    humanReviewedAt: string | null;
+    authorship: ArticleAuthorship;
+    reviewStatus: ArticleReviewStatus;
+    reviewedAt: string | null;
     primaryCategoryId: string | null;
     authorId: string;
     publishedAt: string | null;
@@ -660,19 +667,22 @@ export function ArticleEditor({
   const [metaDescription, setMetaDescription] = useState(article.metaDescription ?? '');
   const [pinterestBoardName, setPinterestBoardName] = useState(article.pinterestBoardName ?? '');
   const [status, setStatus] = useState<ArticleStatus>(article.status);
-  const [humanReviewedAt, setHumanReviewedAt] = useState<string | null>(article.humanReviewedAt);
+  const [reviewStatus, setReviewStatus] = useState<ArticleReviewStatus>(article.reviewStatus);
+  const [reviewedAt, setReviewedAt] = useState<string | null>(article.reviewedAt);
 
-  function handleToggleHumanReviewed() {
+  function handleSetReviewStatus(target: ArticleReviewStatus) {
     startTransition(async () => {
-      const result = await toggleHumanReviewedAction(article.id);
+      const result = await setReviewStatusAction(article.id, target);
       if (result.error) {
         toast.error(result.error);
         return;
       }
-      setHumanReviewedAt(result.humanReviewed ? new Date().toISOString() : null);
-      toast.success(
-        result.humanReviewed ? 'Marked as human reviewed' : 'Marked back to Needs review',
-      );
+      setReviewStatus(target);
+      // Mirrors the server: the stamp is set only on `reviewed` and cleared on
+      // every other status, so a stale date cannot linger in the sidebar after
+      // the article is sent back for changes.
+      setReviewedAt(target === 'reviewed' ? new Date().toISOString() : null);
+      toast.success(`Marked as ${ARTICLE_REVIEW_STATUS_LABELS[target].toLowerCase()}`);
     });
   }
   // The credited author. Never an empty string — `articles.author_id` is NOT
@@ -1943,49 +1953,45 @@ export function ArticleEditor({
 
       {/* Right sidebar */}
       <div className="space-y-6 lg:sticky lg:top-6 lg:max-h-[calc(100vh-3rem)] lg:self-start lg:overflow-y-auto">
-        {/* AI review status — only for AI-generated articles */}
-        {article.isAiGenerated && (
-          <div className="rounded-lg border p-4">
-            <div className="mb-3 flex items-center justify-between gap-2">
-              <span className="text-sm font-medium">Review status</span>
-              {humanReviewedAt ? (
-                <Chip
-                  variant="success"
-                  size="sm"
-                  title={`Human reviewed ${formatDate(humanReviewedAt)}`}
-                >
-                  <BadgeCheckIcon className="mr-1 size-3" />
-                  Reviewed
-                </Chip>
-              ) : (
-                <Chip
-                  variant="warning"
-                  size="sm"
-                  title="AI-generated article awaiting human review"
-                >
-                  Needs review
-                </Chip>
-              )}
-            </div>
-            <p className="text-muted-foreground mb-3 text-xs">
-              This article was AI-generated.{' '}
-              {humanReviewedAt
-                ? 'It has been reviewed by an admin.'
-                : 'Mark it reviewed once an admin has checked it.'}
-            </p>
-            <Button
-              type="button"
-              variant={humanReviewedAt ? 'quiet' : 'primary'}
+        {/* Review status — shown for EVERY article now, not only AI ones. The
+            owner may want to sign off a legacy human post too, and hiding the
+            panel made that impossible. Internal only; nothing here is public. */}
+        <div className="rounded-lg border p-4">
+          <div className="mb-3 flex items-center justify-between gap-2">
+            <span className="text-sm font-medium">Review status</span>
+            <Chip
+              variant={reviewStatus === 'reviewed' ? 'success' : 'warning'}
               size="sm"
-              className="w-full"
-              onClick={handleToggleHumanReviewed}
-              disabled={isPending || isReadOnly}
+              title={
+                reviewStatus === 'reviewed' && reviewedAt
+                  ? `Reviewed ${formatDate(reviewedAt)}`
+                  : ARTICLE_REVIEW_STATUS_LABELS[reviewStatus]
+              }
             >
-              <BadgeCheckIcon className="mr-2 size-4" />
-              {humanReviewedAt ? 'Mark back to Needs review' : 'Mark as reviewed'}
-            </Button>
+              {reviewStatus === 'reviewed' && <BadgeCheckIcon className="mr-1 size-3" />}
+              {ARTICLE_REVIEW_STATUS_LABELS[reviewStatus]}
+            </Chip>
           </div>
-        )}
+          <p className="text-muted-foreground mb-3 text-xs">
+            Authorship: {ARTICLE_AUTHORSHIP_LABELS[article.authorship]}.{' '}
+            {reviewStatus === 'reviewed'
+              ? 'An admin has signed this off.'
+              : 'Mark it reviewed once an admin has checked it.'}
+          </p>
+          <Button
+            type="button"
+            variant={reviewStatus === 'reviewed' ? 'quiet' : 'primary'}
+            size="sm"
+            className="w-full"
+            onClick={() =>
+              handleSetReviewStatus(reviewStatus === 'reviewed' ? 'pending_review' : 'reviewed')
+            }
+            disabled={isPending || isReadOnly}
+          >
+            <BadgeCheckIcon className="mr-2 size-4" />
+            {reviewStatus === 'reviewed' ? 'Mark back to Needs review' : 'Mark as reviewed'}
+          </Button>
+        </div>
 
         {/* Block outline */}
         {editorReady && editorRef.current && (

@@ -16,7 +16,14 @@ import { Button } from '@/components/ui/button';
 import { PageHeader } from '@/components/layout/page-header';
 import { ArticlesTable } from './articles-table';
 import { listSelectableAuthors, type SelectableAuthor } from '@/lib/authors/queries';
-import type { ArticleStatus } from '@/lib/constants';
+import {
+  ARTICLE_AUTHORSHIPS,
+  ARTICLE_REVIEW_STATUSES,
+  type ArticleAuthorship,
+  type ArticleReviewStatus,
+  type ArticleStatus,
+} from '@/lib/constants';
+import { alias } from 'drizzle-orm/pg-core';
 
 export const metadata: Metadata = {
   title: 'Inspire - Admin',
@@ -29,7 +36,11 @@ export default async function AdminInspirePage({
     search?: string;
     status?: string;
     categoryId?: string;
+    // Superseded by `authorship` + `review`, still accepted as an alias so a
+    // bookmarked admin URL does not silently widen to "everything".
     source?: string;
+    authorship?: string;
+    review?: string;
     hiddenTagId?: string;
     page?: string;
   }>;
@@ -99,19 +110,55 @@ export default async function AdminInspirePage({
     const escaped = search.replace(/[%_\\]/g, '\\$&');
     conditions.push(ilike(articles.title, `%${escaped}%`));
   }
-  if (source === 'ai') {
-    conditions.push(eq(articles.isAiGenerated, true));
-  } else if (source === 'human') {
-    conditions.push(eq(articles.isAiGenerated, false));
-  } else if (source === 'ai-unreviewed') {
-    conditions.push(eq(articles.isAiGenerated, true));
-    conditions.push(isNull(articles.humanReviewedAt));
-  } else if (source === 'ai-reviewed') {
-    conditions.push(eq(articles.isAiGenerated, true));
-    conditions.push(isNotNull(articles.humanReviewedAt));
+  // Two INDEPENDENT filters, replacing the old single four-value `source`
+  // select. Independent so that "AI + needs review" — the owner's stated primary
+  // workflow — is expressible, and so is "anything needing changes regardless of
+  // who wrote it", which the combined control could not express at all.
+  //
+  // Both are validated against their enum's members before reaching Postgres.
+  // The same reason the hiddenTagId filter above is validated: an unvalidated
+  // value reaches the driver as an invalid enum literal, raises 22P02, and 500s
+  // the page. Anything unrecognised is ignored and the full list renders.
+  const { authorship: authorshipParam, review: reviewParam } = params;
+
+  // A bookmarked `?source=` URL keeps working. Mapping it here rather than
+  // leaving it dead means an old link narrows the way it always did instead of
+  // silently widening to everything — the failure that would quietly show the
+  // owner a queue they thought was filtered.
+  const SOURCE_ALIASES: Record<string, { authorship?: string; review?: string }> = {
+    ai: { authorship: 'ai' },
+    human: { authorship: 'human' },
+    'ai-unreviewed': { authorship: 'ai', review: 'pending_review' },
+    'ai-reviewed': { authorship: 'ai', review: 'reviewed' },
+  };
+  const sourceAlias = source ? SOURCE_ALIASES[source] : undefined;
+
+  // An explicit param always wins over the alias, so a half-migrated URL
+  // carrying both does the thing the newer control says.
+  const rawAuthorship = authorshipParam ?? sourceAlias?.authorship;
+  const rawReview = reviewParam ?? sourceAlias?.review;
+
+  const activeAuthorship = ARTICLE_AUTHORSHIPS.includes(rawAuthorship as ArticleAuthorship)
+    ? (rawAuthorship as ArticleAuthorship)
+    : null;
+  const activeReview = ARTICLE_REVIEW_STATUSES.includes(rawReview as ArticleReviewStatus)
+    ? (rawReview as ArticleReviewStatus)
+    : null;
+
+  if (activeAuthorship) {
+    conditions.push(eq(articles.authorship, activeAuthorship));
+  }
+  if (activeReview) {
+    conditions.push(eq(articles.reviewStatus, activeReview));
   }
 
   const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
+
+  // Second join onto profiles for the REVIEWER, distinct from the author join
+  // below. LEFT, not INNER: reviewed_by is nullable (nothing is reviewed yet on
+  // a fresh database, and ON DELETE SET NULL can clear it later) and an inner
+  // join would silently drop every unreviewed article from the list.
+  const reviewer = alias(profiles, 'reviewer');
 
   const [rows, totalResult] = await Promise.all([
     db
@@ -122,8 +169,15 @@ export default async function AdminInspirePage({
         coverImageUrl: articles.coverImageUrl,
         hasVariants: sql<boolean>`${articles.coverImageVariants} IS NOT NULL`,
         status: articles.status,
-        isAiGenerated: articles.isAiGenerated,
-        humanReviewedAt: articles.humanReviewedAt,
+        authorship: articles.authorship,
+        reviewStatus: articles.reviewStatus,
+        reviewedAt: articles.reviewedAt,
+        // NULL when nobody has reviewed it, and also when the reviewer's profile
+        // has since been deleted (ON DELETE SET NULL) — the table renders the
+        // timestamp without attribution in that case rather than hiding it.
+        reviewedByName: sql<
+          string | null
+        >`NULLIF(TRIM(CONCAT(${reviewer.firstName}, ' ', ${reviewer.lastName})), '')`,
         categoryName: inspireCategories.name,
         // Primary category slug — the first segment of the article's CANONICAL
         // live URL (/inspire/{categorySlug}/{slug}). The public route matches on
@@ -141,8 +195,22 @@ export default async function AdminInspirePage({
       .from(articles)
       .leftJoin(inspireCategories, eq(articles.primaryCategoryId, inspireCategories.id))
       .innerJoin(profiles, eq(articles.authorId, profiles.id))
+      .leftJoin(reviewer, eq(articles.reviewedBy, reviewer.id))
       .where(whereClause)
-      .orderBy(desc(articles.createdAt))
+      // Pending-first, replacing the old plain `created_at DESC`. What the owner
+      // opens this page to do is work a review queue, so the queue is what the
+      // page opens on: everything awaiting a decision, then everything already
+      // settled. Within the pending band, AI above human — that is the queue the
+      // owner actually asked for — and newest first inside that.
+      .orderBy(
+        sql`CASE ${articles.reviewStatus}
+              WHEN 'pending_review' THEN 0
+              WHEN 'needs_changes'  THEN 1
+              ELSE 2
+            END`,
+        sql`CASE WHEN ${articles.authorship} = 'human' THEN 1 ELSE 0 END`,
+        desc(articles.createdAt),
+      )
       .limit(limit)
       .offset(offset),
     db.select({ count: count() }).from(articles).where(whereClause),
@@ -186,7 +254,7 @@ export default async function AdminInspirePage({
     ...r,
     hasVariants: Boolean(r.hasVariants),
     secondaryCategories: secondaryCategoriesByArticle.get(r.id) ?? [],
-    humanReviewedAt: r.humanReviewedAt?.toISOString() ?? null,
+    reviewedAt: r.reviewedAt?.toISOString() ?? null,
     publishedAt: r.publishedAt?.toISOString() ?? null,
     scheduledPublishAt: r.scheduledPublishAt?.toISOString() ?? null,
     createdAt: r.createdAt.toISOString(),

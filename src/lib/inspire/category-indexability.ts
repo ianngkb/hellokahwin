@@ -36,18 +36,43 @@ import { articles, inspireCategories } from '@/lib/db/schema/articles';
  * would have made the site's technical SEO worse, not better.
  */
 
-/** Category ids that own at least one published article as its primary category. */
-export const getIndexableCategoryIds = unstable_cache(
-  async (): Promise<Set<string>> => {
+/**
+ * Category ids that own at least one published article as its primary category.
+ *
+ * The CACHED function returns a plain `string[]`, not a `Set`, and that is
+ * load-bearing rather than stylistic. `unstable_cache` serializes whatever its
+ * callback returns in order to store it; a `Set` does not survive that round
+ * trip and comes back as a plain `{}`, so `.has()` is not a function.
+ *
+ * The nasty part is where it surfaces. In `next dev` the first call returns the
+ * live in-memory value, so the Set works and the page looks fine; the failure
+ * only appears once the value has actually been through the cache — which is
+ * exactly what `next build`'s prerender does. This shipped as a green dev run
+ * and a red build:
+ *
+ *     TypeError: r.has is not a function
+ *     Export encountered an error on /sitemap.xml/route
+ *
+ * TypeScript could not catch it either, because the annotation claimed
+ * `Promise<Set<string>>` and the compiler believed it.
+ *
+ * So: serialize an array, and rebuild the Set outside the cache boundary.
+ */
+const getIndexableCategoryIdList = unstable_cache(
+  async (): Promise<string[]> => {
     const rows = await db
       .selectDistinct({ id: articles.primaryCategoryId })
       .from(articles)
       .where(eq(articles.status, 'published'));
-    return new Set(rows.map((r) => r.id).filter((id): id is string => Boolean(id)));
+    return rows.map((r) => r.id).filter((id): id is string => Boolean(id));
   },
   ['inspire-indexable-category-ids'],
   { tags: ['articles', 'inspire-categories'], revalidate: false },
 );
+
+export async function getIndexableCategoryIds(): Promise<Set<string>> {
+  return new Set(await getIndexableCategoryIdList());
+}
 
 /**
  * Does this one category own a live article URL? Single-category form for the

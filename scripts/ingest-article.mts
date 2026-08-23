@@ -430,6 +430,12 @@ async function main() {
         ? '  (file asks for published; pass --publish to honour it)'
         : ''),
   );
+  // Defaults to 'ai' via the schema — everything arriving here came through the
+  // agent pipeline unless the file explicitly says otherwise. Every ingested
+  // article lands at `pending_review` regardless of what this says, so declaring
+  // `human` does not buy a writer a way past the owner's queue.
+  const authorship = frontMatter.authorship;
+  console.log(`Author:  ${authorship} · review_status pending_review`);
   console.log(`Images:  ${images.length}, every one credited`);
   for (const image of images) {
     console.log(
@@ -580,7 +586,8 @@ async function main() {
       insert into articles
         (title, slug, excerpt, content, cover_image_url, cover_image_variants,
          cover_image_smart_crops, cover_image_focal_point, cover_image_detection_data,
-         meta_description, status, author_id, primary_category_id, published_at, is_ai_generated)
+         meta_description, status, author_id, primary_category_id, published_at,
+         authorship, review_status, is_ai_generated)
       values
         (${frontMatter.title}, ${frontMatter.slug}, ${frontMatter.excerpt ?? null},
          ${JSON.stringify(contentWithFigures)}::jsonb, ${cover.url},
@@ -590,7 +597,9 @@ async function main() {
          ${cover.detectionData ? JSON.stringify(cover.detectionData) : null}::jsonb,
          ${frontMatter.metaDescription}, ${effectiveStatus}, ${author.id}, ${pillar.id},
          ${effectiveStatus === 'published' ? (frontMatter.publishedAt ?? new Date().toISOString()) : null},
-         false)
+         ${authorship}::article_authorship,
+         'pending_review'::article_review_status,
+         ${authorship !== 'human'})
       on conflict (slug) do update set
         title = excluded.title,
         excerpt = excluded.excerpt,
@@ -611,7 +620,19 @@ async function main() {
         -- never reached the page.
         author_id = excluded.author_id,
         published_at = excluded.published_at,
+        -- Re-ingested after an edit, the article is AI content again and goes
+        -- BACK in the owner's queue. Carrying a previous "reviewed" forward
+        -- would mean a human sign-off silently covering text they never read —
+        -- the one outcome this whole tag exists to prevent.
+        -- (No backticks in this comment: it lives inside a tagged template
+        -- literal, where a backtick would terminate the SQL string.)
+        authorship = excluded.authorship,
+        review_status = excluded.review_status,
+        reviewed_at = null,
+        reviewed_by = null,
+        -- Compat mirror for rollback safety — removed in the follow-up migration that drops these columns.
         is_ai_generated = excluded.is_ai_generated,
+        human_reviewed_at = null,
         updated_at = now()
       returning id`;
 

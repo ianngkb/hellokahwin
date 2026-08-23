@@ -116,6 +116,18 @@ export const articleFileSchema = z.object({
   /** A `profiles.id` or an email that resolves to one. */
   author: z.string().trim().min(1, 'author is required'),
   status: z.enum(['draft', 'published']).default('draft'),
+  /**
+   * How this article was produced. Optional, and `ai` when absent — everything
+   * arriving through the agent pipeline is AI-produced unless a writer says
+   * otherwise, and the safe default is the one that puts the piece in the
+   * owner's review queue rather than out of it.
+   *
+   * A writer who genuinely hand-wrote a piece can declare `human`; one who
+   * edited a draft heavily can declare `ai_assisted`. Neither changes the review
+   * status — every ingested article starts at `pending_review` regardless, so
+   * the claim itself still gets checked.
+   */
+  authorship: z.enum(['ai', 'ai_assisted', 'human']).default('ai'),
   publishedAt: z.string().datetime().optional(),
   tags: z.array(z.string().min(1)).default([]),
   cover: imageSchema,
