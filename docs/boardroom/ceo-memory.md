@@ -124,9 +124,22 @@ _Last updated: 2026-08-23 (founding meeting)._
   watcher reports false completion. Use
   `skillcentral/skills/hellokahwin/scripts/status-board.py`, which classifies
   DELEGATING separately from IDLE/DONE and STALLED.
-- **Orca cannot inject input into a terminal showing an interactive menu**
-  (`agent_prompt_blocked`). Prevention is the only cure: brief agents to prefer
-  non-interactive flags and to ask questions as a final message, not mid-run.
+- **Orca cannot inject input into some interactive menus** (`agent_prompt_blocked`)
+  but CAN send bare Enter and Escape to others — worth trying both before
+  concluding a terminal is unrecoverable. A menu that refuses free text often
+  accepts `--text "" --enter`.
+- **Claude Code fires TWO blocking first-run prompts in any directory it has
+  not seen**, and they killed three dispatch runs before being diagnosed:
+  1. *"Quick safety check: is this a project you trust?"* — fixed permanently
+     by pre-setting `hasTrustDialogAccepted` in `~/.claude.json` under
+     `projects.<path>`. `dispatch-agent.ps1` now does this automatically for
+     whatever `-RepoPath` it is given, registering BOTH the backslash and
+     forward-slash spellings, because Claude Code keys projects by literal
+     string.
+  2. *"N new MCP servers found in this project"* — a checkbox list. Empty
+     `enabledMcpjsonServers`/`disabledMcpjsonServers` means UNDECIDED, not
+     declined, so pre-writing empty arrays does not suppress it. Clearing it
+     with Enter then Escape worked. Not yet automated.
 - **Never background a watcher with `&` inside a `run_in_background` call** —
   the parent returns immediately and takes the child with it.
 

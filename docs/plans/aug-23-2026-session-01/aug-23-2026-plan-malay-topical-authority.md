@@ -195,13 +195,23 @@ any kind before the framework and cluster plan are approved.
 
 ## Metrics & review cadence
 
-| Metric | Baseline (21 Aug) | 30 days | 60 days | 90 days |
-|---|---|---|---|---|
-| Clicks / 28d | 32 | 150 | 500 | **1,500** |
-| Impressions / 28d | 2,163 | 12,000 | 40,000 | 90,000 |
-| Avg position | 20.6 | 18 | 14 | 10 |
-| Malay-query share of impressions | ~minimal (to be quantified) | 40% | 60% | 75% |
-| Published Malay articles (new, cumulative) | 0 | 25 | 55 | **80** |
+| Metric | OLD baseline (28d to 21 Aug, **dead URLs**) | RE-BASELINE (21–24 Aug, new URLs) | 30 days | 60 days | 90 days |
+|---|---|---|---|---|---|
+| Clicks / 28d | 32 | **~65 equivalent** (7 clicks in 3 days) | 150 | 500 | **1,500** |
+| Impressions / 28d | 2,163 | **~2,290 equivalent** (245 in 3 days) | 12,000 | 40,000 | 90,000 |
+| CTR | 1.48% | **2.86%** | — | — | — |
+| Avg position | 20.6 | **16.9** | 18 | 14 | 10 |
+| Malay-query share of impressions | ~minimal | to be quantified | 40% | 60% | 75% |
+| Published Malay articles (new, cumulative) | 0 | 0 | 25 | 55 | **80** |
+
+**⚠ Corrected 24 Aug 2026.** The original baseline was captured on the OLD
+WordPress URLs, every one of which was replaced in the 21 Aug migration — so
+the checkpoints were comparing a dead structure to a live one. The re-baseline
+above is measured on the new structure. Three days is a small sample and the
+equivalents are extrapolations, not measurements; treat them as directional
+until a full 28 days of post-migration data exists. **The early read is that
+the migration helped**: the click rate roughly doubled, CTR nearly doubled,
+and average position improved by 3.7 places.
 
 The article count is the leading indicator — if it slips, the click target
 slips with it, and that shows up 30 days before the traffic does.
