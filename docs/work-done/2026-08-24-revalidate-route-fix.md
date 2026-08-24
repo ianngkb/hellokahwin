@@ -155,9 +155,49 @@ the hub is indexable on the first crawl. `GET /sitemap.xml -> 200`, probe URL
 present on request #1. The article page's single response carried
 `<title>Ujian Revalidate Probe (Buang Selepas Guna) | HelloKahwin</title>`.
 
-Gates: `pnpm test` 223 passed / 19 files · `pnpm typecheck` clean ·
+Gates: `pnpm test` 224 passed / 19 files · `pnpm typecheck` clean ·
 `pnpm lint` 0 errors (118 pre-existing warnings), Prettier clean ·
 `pnpm build` exit 0.
+
+## 4a. Code review
+
+Reviewed by Codex (GPT-5.6 Sol, high reasoning) across three layers — Blind
+Hunter, Edge Case Hunter, Acceptance Auditor — against the client's contract.
+Seven findings. Two were fixed in `556247f`; the rest were answered.
+
+**Fixed**
+
+- The regression guard could be walked around by
+  `import { revalidateTag as bust } from 'next/cache'` — the whole check
+  defeated by a rename. A second assertion now refuses any aliased import.
+- `areTagsExpired()` compares with a strict `>`, so an entry written in the same
+  millisecond as the purge survives it. Documented rather than worked around:
+  the no-argument `revalidateTag(tag)` form stamps the identical `expired: now`
+  and carries the identical edge, so no form avoids it, and the ingest CLI
+  writes and purges seconds apart.
+
+**Answered, not changed**
+
+- _"Published autosaves now force a route re-render."_ They do not.
+  `revalidatePath()` always sets `store.pathWasRevalidated`, and
+  `edit/actions.ts:461` already calls `revalidatePath('/artikel')` on the very
+  same `affectsPublic` condition as the `revalidateTag` on line 496. The flag
+  was already being set on that path before this change; net new refreshes: zero.
+- _"Thundering herd against the 5-connection pool."_ Serving stale is the defect
+  being fixed, so a cold rebuild instead of a background refresh is intrinsic,
+  not incidental. It is also bounded: ~30 published articles behind an
+  `affectsPublic` gate. Sentry TWN-NEW-47 was 2,286 articles in the sibling
+  project, evicted by an over-broad `listings` **tag**, and was fixed by
+  narrowing that tag. Tag breadth is the lever there, not expiry timing.
+- _"`.claude/settings.local.json` exposes production credentials."_ It does not,
+  and it is not in this commit. `git show --stat 9409bd4` does not list it; it is
+  an uncommitted working-tree change that predates this session and was
+  deliberately left unstaged. Its diff adds only `enabledMcpjsonServers`, a list
+  of MCP server names. Scanned the committed file and the uncommitted diff for
+  `sbp_`, `sk_live`, `pk_live`, `postgres://`, `service_role`, JWT-shaped strings
+  and `password`: zero matches.
+- The CDN findings were correct and are escalated as decision 2 below rather than
+  changed unilaterally.
 
 ## 5. Data hygiene
 
@@ -180,12 +220,38 @@ Gates: `pnpm test` 223 passed / 19 files · `pnpm typecheck` clean ·
    that specific handler cannot be exercised without a deploy. First action after
    approval should be to repeat exactly this test against production and confirm
    the pillar lists the article on request #1.
-2. **A second, independent staleness source remains, and it is not this bug.**
-   `next.config.ts` sets `Vercel-CDN-Cache-Control: s-maxage=300,
+2. **A second, independent staleness source remains, and it is not this bug —
+   this one needs a decision.** `next.config.ts` sets an explicit
+   `Vercel-CDN-Cache-Control` on three routes: `s-maxage=300,
 stale-while-revalidate=600` on `/artikel/:category` and
-   `/artikel/:category/:slug`. That is a CDN cache, separate from the tag system.
-   A brand-new article URL has no CDN entry so it is unaffected, but a pillar page
-   can serve an edge copy up to 5 minutes old. Flagged, not changed — it is a
-   deliberate performance setting and narrowing it is a business call.
-3. The branch's last recorded code-review verdict predates this work; a fresh
-   review verdict for this HEAD accompanies the ship report.
+   `/artikel/:category/:slug`, and `s-maxage=3600` on `/sitemap.xml`. That is
+   Vercel's edge cache, a different system from the tag cache this fix repairs,
+   and an explicit `Vercel-CDN-Cache-Control` takes the route out of automatic
+   purge-on-revalidate.
+
+   What that does and does not cost:
+   - The **article's own URL is unaffected** — a brand-new slug has no edge entry
+     to serve, which is why the one-request proof holds.
+   - The **pillar page** that lists it can serve an edge copy up to 5 minutes old,
+     and the **sitemap** up to an hour old. If Googlebot crawls the pillar inside
+     that window it sees the pre-ingest hub, still `noindex`.
+
+   Three options, in the order I would take them:
+   - **(a) Do nothing, and time the ingest.** Publish, wait five minutes, then
+     invite the crawl. Costs nothing, needs discipline.
+   - **(b) Purge the edge for the affected paths as part of ingest.** Correct on
+     the first request every time. Needs a Vercel API token in the vault and a
+     step added to the ingest CLI — perhaps half a day, and my recommendation if
+     articles are going to publish regularly.
+   - **(c) Drop the CDN header on the pillar route.** Immediate, one line, but it
+     sends every pillar request to the origin and undoes a deliberate performance
+     decision. I would not do this without traffic numbers.
+
+   Not changed unilaterally: this is a performance-versus-freshness trade, which
+   is a business call rather than a bug fix.
+
+3. **The eight C2.4 articles are still held**, as instructed. Once decision 2 is
+   settled they can go out; the seven pillars will then leave `noindex` on the
+   first crawl rather than the second.
+4. The branch's last recorded code-review verdict predates this work; a fresh
+   verdict for this HEAD accompanies the ship report.
