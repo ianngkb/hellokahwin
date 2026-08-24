@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { revalidatePath, revalidateTag } from 'next/cache';
+import { PURGE_IMMEDIATELY } from '@/lib/cache/purge';
 import { and, eq, isNotNull, lte } from 'drizzle-orm';
 import { db } from '@/lib/db/drizzle';
 import { articles, inspireCategories } from '@/lib/db/schema/articles';
@@ -94,7 +95,7 @@ export async function GET(request: NextRequest) {
   if (published.length > 0) {
     revalidatePath('/artikel');
     revalidatePath('/sitemap.xml');
-    revalidateTag('articles', 'max');
+    revalidateTag('articles', PURGE_IMMEDIATELY);
   }
 
   return NextResponse.json({ published: published.length });

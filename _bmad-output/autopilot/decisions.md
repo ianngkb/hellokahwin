@@ -794,3 +794,48 @@ Append-only. One line per decision autopilot made without interrupting the user.
   published article. Pillars have zero because the eight C2.4 articles are
   held by the CEO. The live pages agree — pillar pages serve `noindex, follow`
   while empty. Reported the tension instead of defeating the rule.
+
+## Run 2026-08-24 — fix the content revalidation route
+
+- [2026-08-24] Phase R: resumed, not restarted. Branch `ianng89/pillars-ingest-redirects`
+  is already shipped (deploy-only run, HEAD `b899345`); this brief is NEW work on
+  top, and the brief itself is the confirmed intake — went straight to build.
+- [2026-08-24] MECHANISM, measured not guessed. `revalidateTag(tag, 'max')` marks
+  tags STALE, never EXPIRED. Traced through the installed Next 16.1.6:
+  `revalidate.js` records the profile → `revalidation-utils.js` resolves `max` to
+  `{expire: 31_536_000}` (one year, `config-shared.js`) → `file-system-cache.js`
+  stamps `{stale: now, expired: now + 1yr}` → `tags-manifest.external.js`
+  `areTagsExpired()` is false, `areTagsStale()` is true → `unstable-cache.js`
+  RETURNS THE CACHED VALUE and refreshes in the background. Hence: first request
+  after a write serves the pre-write page, second serves the new one.
+- [2026-08-24] Reproduced on a production build of this app against the local
+  mirror DB before changing a line. Ingest into pillar P1: pillar page request #1
+  = 0 articles and `noindex, follow`; request #2 = 1 article and indexable. The
+  ARTICLE's own URL was 200 on request #1 in both cases — it was never the
+  failing surface (a brand-new slug has no cache entry to be stale). What fails
+  is every page that LISTS it, which is exactly the SEO exposure in the brief:
+  Googlebot's first crawl of the pillar sees an empty, noindexed hub.
+- [2026-08-24] Chose `{ expire: 0 }` (exported as `PURGE_IMMEDIATELY` from
+  `src/lib/cache/purge.ts`) over the two alternatives. `revalidateTag(tag)` with
+  no second argument purges correctly but is deprecated in 16.1.6 and warns on
+  every call; `updateTag(tag)` is the sanctioned immediate purge but THROWS in a
+  Route Handler (E872) — and the ingest CLI arrives through exactly such a
+  handler. `{expire: 0}` is the documented `CacheLifeConfig` form, stamps
+  `expired = now`, and `revalidate()` special-cases `expire === 0` to give the
+  same read-your-own-writes semantics as the no-argument form.
+- [2026-08-24] Fixed ALL 48 call sites, not just the cron route. The brief names
+  the route, but the identical wrong argument is in every admin write path — an
+  editor saving an article had the same one-request-stale defect. Fixing one and
+  leaving 47 would have left the same bug under a different trigger.
+- [2026-08-24] Added `src/lib/cache/__tests__/purge.test.ts`, which walks the
+  source tree and fails if any `revalidateTag` call passes anything other than
+  `PURGE_IMMEDIATELY`. A unit test on the constant would not have caught this —
+  the constant was never wrong, the argument at the call sites was. Verified the
+  guard by reintroducing `'max'` in the route: it failed, naming the file.
+- [2026-08-24] No production data was written. `.env.local` already points at a
+  throwaway local Postgres mirror, so the whole reproduce-fix-prove cycle ran
+  against that. The mirror was 1 migration behind (`0003_article_authorship`);
+  applied it to the LOCAL database only, with an explicit refusal guard on any
+  non-localhost URL.
+- [2026-08-24] NOT deployed. Production deploys need board approval per the
+  brief; the ship report goes back to the CEO instead.

@@ -22,7 +22,7 @@ export const ARTICLE_PAGE_CACHE_KEY = 'inspire-article-page-v7';
  *
  * ⚠️ `listings` MUST NOT APPEAR HERE. It was present from v4 until 2026-08-15,
  * which meant the ~30 admin/vendor write paths that fire
- * `revalidateTag('listings', 'max')` — every listing edit, every vendor photo
+ * `revalidateTag('listings', PURGE_IMMEDIATELY)` — every listing edit, every vendor photo
  * upload — evicted the cached payload of all ~2,286 published articles at once.
  * A crawler then re-rendered the corpus cold against a 5-wide DB pool, which is
  * Sentry TWN-NEW-47 (2,716 `deadline_exceeded` errors in 48h, 89 distinct slugs

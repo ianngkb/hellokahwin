@@ -1,6 +1,7 @@
 'use server';
 
 import { revalidatePath, revalidateTag } from 'next/cache';
+import { PURGE_IMMEDIATELY } from '@/lib/cache/purge';
 import { after } from 'next/server';
 import { z } from 'zod/v4';
 import { eq, ilike, and, inArray, not, sql } from 'drizzle-orm';
@@ -493,14 +494,14 @@ export async function updateArticleAction(
   // public re-render reads them. Putting it earlier would race the
   // redirect insert against the cache rebuild. Gated on the same
   // public-visibility test as `/artikel` above.
-  if (affectsPublic) revalidateTag('articles', 'max');
+  if (affectsPublic) revalidateTag('articles', PURGE_IMMEDIATELY);
 
   // Moving an article between authors changes BOTH archives — the one it left
   // and the one it joined — and those are cached on the author tag, not the
   // article tag. Fired whenever the picker sent a value (even if it matched the
   // stored one): the cost is one extra cache bust, and the alternative is
   // reasoning about whether `beforeRow` was read before or after the write.
-  if (authorChanged && affectsPublic) revalidateTag(INSPIRE_AUTHORS_TAG, 'max');
+  if (authorChanged && affectsPublic) revalidateTag(INSPIRE_AUTHORS_TAG, PURGE_IMMEDIATELY);
 
   // `affectsPublic` is returned so the caller can pass it to the sibling
   // actions it fires as part of the same save (see
@@ -549,7 +550,7 @@ export async function updateArticleCategoriesAction(
   // common path: `updateArticleAction` politely skips its `revalidatePath`, and
   // then this call throws the entry away one line later anyway.
   if (!options?.silent) revalidatePath(`/admin/inspire/${articleId}/edit`);
-  if (affectsPublic) revalidateTag('articles', 'max');
+  if (affectsPublic) revalidateTag('articles', PURGE_IMMEDIATELY);
   return { success: true };
 }
 
@@ -580,7 +581,7 @@ export async function updateArticleTagsAction(articleId: string, tagIds: string[
   });
 
   revalidatePath(`/admin/inspire/${articleId}/edit`);
-  revalidateTag('articles', 'max');
+  revalidateTag('articles', PURGE_IMMEDIATELY);
   return { success: true };
 }
 
@@ -663,7 +664,7 @@ export async function regenerateArticleImagesAction(articleId: string) {
   revalidatePath(`/admin/inspire/${articleId}/edit`);
   revalidatePath('/admin/inspire');
   revalidatePath('/artikel');
-  revalidateTag('articles', 'max');
+  revalidateTag('articles', PURGE_IMMEDIATELY);
   return { success: true, variants, smartCrops };
 }
 

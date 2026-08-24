@@ -1,6 +1,7 @@
 'use server';
 
 import { revalidatePath, revalidateTag } from 'next/cache';
+import { PURGE_IMMEDIATELY } from '@/lib/cache/purge';
 import { eq, and, desc, count, sql, ilike, or, inArray, asc } from 'drizzle-orm';
 import { DeleteObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3';
 import { db } from '@/lib/db/drizzle';
@@ -759,7 +760,7 @@ async function scrubArticlesForDeletedMedia(mediaIds: string[], urlsToRemove: Se
     // revalidatePath does NOT clear unstable_cache entries — the public article
     // pages are pinned at `revalidate: false`, so a scrubbed image would keep
     // rendering from cache.
-    revalidateTag('articles', 'max');
+    revalidateTag('articles', PURGE_IMMEDIATELY);
   } catch (err) {
     console.warn('Failed to scrub articles for deleted media:', err);
   }
@@ -818,7 +819,7 @@ async function cleanupDeletedArticleIfEmpty(articleId: string) {
   revalidatePath('/admin/inspire/media');
   // revalidatePath does NOT clear unstable_cache entries — the hard-deleted
   // article must also drop out of the tag-cached public listings.
-  revalidateTag('articles', 'max');
+  revalidateTag('articles', PURGE_IMMEDIATELY);
 }
 
 // ── Helper: delete a single R2 file ───────────────────────────────────

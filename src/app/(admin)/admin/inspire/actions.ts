@@ -1,6 +1,7 @@
 'use server';
 
 import { revalidatePath, revalidateTag } from 'next/cache';
+import { PURGE_IMMEDIATELY } from '@/lib/cache/purge';
 import { eq, ne, and, inArray, isNull, like, sql } from 'drizzle-orm';
 import {
   GetObjectCommand,
@@ -197,7 +198,7 @@ export async function deleteArticleAction(articleId: string) {
 
   revalidatePath('/admin/inspire');
   revalidatePath('/artikel');
-  revalidateTag('articles', 'max');
+  revalidateTag('articles', PURGE_IMMEDIATELY);
   return { success: true };
 }
 
@@ -286,7 +287,7 @@ export async function masterDeleteArticleAction(articleId: string) {
   // readers outranks the audit row, which is best-effort by design.
   revalidatePath('/admin/inspire');
   revalidatePath('/artikel');
-  revalidateTag('articles', 'max');
+  revalidateTag('articles', PURGE_IMMEDIATELY);
 
   // F5: Await audit log for this critical destructive action
   try {
@@ -366,7 +367,7 @@ export async function duplicateArticleAction(articleId: string) {
   });
 
   revalidatePath('/admin/inspire');
-  revalidateTag('articles', 'max');
+  revalidateTag('articles', PURGE_IMMEDIATELY);
   return { success: true, newArticleId: newArticle.id };
 }
 
@@ -469,7 +470,7 @@ export async function toggleArticleStatusAction(articleId: string) {
 
   revalidatePath('/admin/inspire');
   revalidatePath('/artikel');
-  revalidateTag('articles', 'max');
+  revalidateTag('articles', PURGE_IMMEDIATELY);
 
   // Revalidate the sitemap entries that newly-published URLs land in, and
   // push the URL to IndexNow (Bing/Yandex hub). Only fire on the
@@ -541,7 +542,7 @@ export async function bulkDeleteArticlesAction(articleIds: string[]) {
 
   revalidatePath('/admin/inspire');
   revalidatePath('/artikel');
-  revalidateTag('articles', 'max');
+  revalidateTag('articles', PURGE_IMMEDIATELY);
   return { success: true };
 }
 
@@ -601,7 +602,7 @@ export async function bulkStatusChangeArticlesAction(
 
   revalidatePath('/admin/inspire');
   revalidatePath('/artikel');
-  revalidateTag('articles', 'max');
+  revalidateTag('articles', PURGE_IMMEDIATELY);
   return { success: true };
 }
 
@@ -678,8 +679,8 @@ export async function bulkReassignAuthorAction(articleIds: string[], authorId: s
   // changed, `inspire-authors` holds the archive listings the articles moved
   // between. Article pages are `revalidate = false`, so without this bust a
   // re-credited byline would never reach a reader.
-  revalidateTag('articles', 'max');
-  revalidateTag(INSPIRE_AUTHORS_TAG, 'max');
+  revalidateTag('articles', PURGE_IMMEDIATELY);
+  revalidateTag(INSPIRE_AUTHORS_TAG, PURGE_IMMEDIATELY);
   return { success: true, moved: articleIds.length };
 }
 
@@ -782,6 +783,6 @@ export async function bulkRegenerateImagesAction(articleIds: string[]) {
 
   revalidatePath('/admin/inspire');
   revalidatePath('/artikel');
-  revalidateTag('articles', 'max');
+  revalidateTag('articles', PURGE_IMMEDIATELY);
   return { success: true, processed, failed };
 }

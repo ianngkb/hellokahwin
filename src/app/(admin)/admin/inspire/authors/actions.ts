@@ -1,6 +1,7 @@
 'use server';
 
 import { revalidatePath, revalidateTag, updateTag } from 'next/cache';
+import { PURGE_IMMEDIATELY } from '@/lib/cache/purge';
 import { eq } from 'drizzle-orm';
 import { db } from '@/lib/db/drizzle';
 import { profiles } from '@/lib/db/schema/profiles';
@@ -32,7 +33,7 @@ function isUniqueViolation(err: unknown): boolean {
 /**
  * Bust every surface that renders an author.
  *
- * `revalidateTag('articles', 'max')` is the load-bearing one and is NOT
+ * `revalidateTag('articles', PURGE_IMMEDIATELY)` is the load-bearing one and is NOT
  * optional. Article pages are `export const revalidate = false` — cached until
  * something busts a tag — and the byline, the avatar and the author box are
  * baked into that cached HTML. Without this, an edited bio or a de-listed
@@ -48,9 +49,9 @@ function isUniqueViolation(err: unknown): boolean {
 function revalidateAuthorSurfaces(slugs: (string | null | undefined)[]) {
   revalidatePath('/admin/inspire/authors');
   revalidatePath('/artikel');
-  revalidateTag(INSPIRE_AUTHORS_TAG, 'max');
+  revalidateTag(INSPIRE_AUTHORS_TAG, PURGE_IMMEDIATELY);
   updateTag(INSPIRE_AUTHORS_TAG);
-  revalidateTag('articles', 'max');
+  revalidateTag('articles', PURGE_IMMEDIATELY);
   for (const slug of new Set(slugs.filter(Boolean) as string[])) {
     revalidatePath(authorArchivePath(slug));
   }

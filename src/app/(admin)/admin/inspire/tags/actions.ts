@@ -1,6 +1,7 @@
 'use server';
 
 import { revalidatePath, revalidateTag, updateTag } from 'next/cache';
+import { PURGE_IMMEDIATELY } from '@/lib/cache/purge';
 import { eq, ne, count, sql, inArray, and } from 'drizzle-orm';
 import { db } from '@/lib/db/drizzle';
 import { inspireTags, articleTags, articles } from '@/lib/db/schema/articles';
@@ -57,7 +58,7 @@ export async function createTagAction(_prev: unknown, formData: FormData) {
 
   revalidatePath('/admin/inspire/tags');
   revalidatePath('/artikel');
-  revalidateTag(INSPIRE_TAGS_TAG, 'max');
+  revalidateTag(INSPIRE_TAGS_TAG, PURGE_IMMEDIATELY);
   // The article editor now reads the tag vocabulary from a `cachedJson` entry on
   // this same tag, so it stops costing a DB round-trip on every render and every
   // autosave. `updateTag` is the server-action-only variant that gives
@@ -65,7 +66,7 @@ export async function createTagAction(_prev: unknown, formData: FormData) {
   // selectable in the editor until the 300s TTL expired.
   updateTag(INSPIRE_TAGS_TAG);
   // Article cards display tag names — invalidate article caches too.
-  revalidateTag('articles', 'max');
+  revalidateTag('articles', PURGE_IMMEDIATELY);
   return { success: true };
 }
 
@@ -126,10 +127,10 @@ export async function updateTagAction(_prev: unknown, formData: FormData) {
 
   revalidatePath('/admin/inspire/tags');
   revalidatePath('/artikel');
-  revalidateTag(INSPIRE_TAGS_TAG, 'max');
+  revalidateTag(INSPIRE_TAGS_TAG, PURGE_IMMEDIATELY);
   updateTag(INSPIRE_TAGS_TAG);
   // Article cards display tag names — invalidate article caches too.
-  revalidateTag('articles', 'max');
+  revalidateTag('articles', PURGE_IMMEDIATELY);
   return { success: true };
 }
 
@@ -158,10 +159,10 @@ export async function deleteTagAction(tagId: string) {
 
   revalidatePath('/admin/inspire/tags');
   revalidatePath('/artikel');
-  revalidateTag(INSPIRE_TAGS_TAG, 'max');
+  revalidateTag(INSPIRE_TAGS_TAG, PURGE_IMMEDIATELY);
   updateTag(INSPIRE_TAGS_TAG);
   // Article cards display tag names — invalidate article caches too.
-  revalidateTag('articles', 'max');
+  revalidateTag('articles', PURGE_IMMEDIATELY);
   return { success: true };
 }
 
@@ -187,13 +188,13 @@ export async function flushInspireCacheAction() {
 
   revalidatePath('/admin/inspire/tags');
   revalidatePath('/artikel');
-  revalidateTag(INSPIRE_TAGS_TAG, 'max');
+  revalidateTag(INSPIRE_TAGS_TAG, PURGE_IMMEDIATELY);
   updateTag(INSPIRE_TAGS_TAG);
-  revalidateTag(INSPIRE_CATEGORIES_TAG, 'max');
+  revalidateTag(INSPIRE_CATEGORIES_TAG, PURGE_IMMEDIATELY);
   updateTag(INSPIRE_CATEGORIES_TAG);
-  revalidateTag(DYNAMIC_BLOCKS_TAG, 'max');
+  revalidateTag(DYNAMIC_BLOCKS_TAG, PURGE_IMMEDIATELY);
   updateTag(DYNAMIC_BLOCKS_TAG);
-  revalidateTag('articles', 'max');
+  revalidateTag('articles', PURGE_IMMEDIATELY);
 
   logAuditEvent({
     entityType: 'inspire_tag',
@@ -477,9 +478,9 @@ export async function executeTagMergeAction(
 
   revalidatePath('/admin/inspire/tags');
   revalidatePath('/artikel');
-  revalidateTag(INSPIRE_TAGS_TAG, 'max');
+  revalidateTag(INSPIRE_TAGS_TAG, PURGE_IMMEDIATELY);
   updateTag(INSPIRE_TAGS_TAG);
   // Article cards display tag names — invalidate article caches too.
-  revalidateTag('articles', 'max');
+  revalidateTag('articles', PURGE_IMMEDIATELY);
   return { error: null, summary };
 }

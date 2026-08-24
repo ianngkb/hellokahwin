@@ -1,6 +1,7 @@
 'use server';
 
 import { revalidatePath, revalidateTag } from 'next/cache';
+import { PURGE_IMMEDIATELY } from '@/lib/cache/purge';
 import { eq, and, sql } from 'drizzle-orm';
 import { db } from '@/lib/db/drizzle';
 import { inspireNavItems, inspireCategories } from '@/lib/db/schema/articles';
@@ -23,7 +24,7 @@ function revalidateAll() {
   for (const p of REVALIDATE_PATHS) revalidatePath(p);
   // revalidatePath does NOT clear unstable_cache entries — `getInspireNavCategories`
   // feeds the navbar on every public page, not just the two paths above.
-  revalidateTag('inspire-nav', 'max');
+  revalidateTag('inspire-nav', PURGE_IMMEDIATELY);
 }
 
 /**

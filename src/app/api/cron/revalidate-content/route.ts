@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { revalidateTag } from 'next/cache';
+import { PURGE_IMMEDIATELY } from '@/lib/cache/purge';
 
 /**
  * Drop the content caches. Bearer-authenticated with `CRON_SECRET`, exactly
@@ -15,6 +16,13 @@ import { revalidateTag } from 'next/cache';
  *
  * Caught in review before it could bite. It is the difference between an ingest
  * path that works and one that appears to work.
+ *
+ * IT THEN BIT ANYWAY, in a subtler place. This route shipped calling
+ * `revalidateTag(tag, 'max')`, which marks the tags STALE rather than expired —
+ * so the first request after an ingest still served the pre-ingest page and the
+ * second served the new one. See `@/lib/cache/purge` for the trace through
+ * Next's source and the measurements. The `'max'` here is what
+ * `PURGE_IMMEDIATELY` replaced.
  */
 export async function POST(request: NextRequest) {
   const secret = process.env.CRON_SECRET;
@@ -22,11 +30,11 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  // The two tags the whole inspire read layer is keyed on. 'max' matches what
-  // the admin actions pass, so a CLI write and an editor save invalidate
-  // identically — one cache-invalidation behaviour, not two.
-  revalidateTag('articles', 'max');
-  revalidateTag('inspire-categories', 'max');
+  // The two tags the whole inspire read layer is keyed on. `PURGE_IMMEDIATELY`
+  // matches what the admin actions pass, so a CLI write and an editor save
+  // invalidate identically — one cache-invalidation behaviour, not two.
+  revalidateTag('articles', PURGE_IMMEDIATELY);
+  revalidateTag('inspire-categories', PURGE_IMMEDIATELY);
 
   return NextResponse.json({ revalidated: ['articles', 'inspire-categories'] });
 }

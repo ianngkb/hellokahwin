@@ -2,6 +2,7 @@
 
 import { redirect } from 'next/navigation';
 import { revalidatePath, revalidateTag, updateTag } from 'next/cache';
+import { PURGE_IMMEDIATELY } from '@/lib/cache/purge';
 import { eq, ilike, sql } from 'drizzle-orm';
 import { db } from '@/lib/db/drizzle';
 import { dynamicBlocks, dynamicBlockRules } from '@/lib/db/schema/dynamic-blocks';
@@ -43,7 +44,7 @@ export async function createDynamicBlockAction(_prev: unknown, formData: FormDat
   });
 
   revalidatePath('/admin/inspire/dynamic-blocks');
-  revalidateTag('articles', 'max');
+  revalidateTag('articles', PURGE_IMMEDIATELY);
   // The article editor's Insert picker now reads the published-block list from a
   // `cachedJson` entry on this tag, so it stops costing a DB round-trip on every
   // render and every autosave. `updateTag` is the server-action-only variant
@@ -126,7 +127,7 @@ export async function updateDynamicBlockAction(blockId: string, data: Record<str
   revalidatePath('/admin/inspire/dynamic-blocks');
   revalidatePath(`/admin/inspire/dynamic-blocks/${blockId}/edit`);
   // Article pages cache forever — without this, block edits never propagate.
-  revalidateTag('articles', 'max');
+  revalidateTag('articles', PURGE_IMMEDIATELY);
   // An edit can flip `status`/`isActive`, which is exactly what decides whether
   // the block appears in the editor's cached picker list.
   updateTag(DYNAMIC_BLOCKS_TAG);
@@ -159,7 +160,7 @@ export async function deleteDynamicBlockAction(blockId: string) {
   });
 
   revalidatePath('/admin/inspire/dynamic-blocks');
-  revalidateTag('articles', 'max');
+  revalidateTag('articles', PURGE_IMMEDIATELY);
   // A deleted block must leave the editor's cached picker immediately, or the
   // admin can insert a block that no longer exists.
   updateTag(DYNAMIC_BLOCKS_TAG);

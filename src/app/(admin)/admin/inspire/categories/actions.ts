@@ -1,6 +1,7 @@
 'use server';
 
 import { revalidatePath, revalidateTag, updateTag } from 'next/cache';
+import { PURGE_IMMEDIATELY } from '@/lib/cache/purge';
 import { eq, count, sql } from 'drizzle-orm';
 import { db } from '@/lib/db/drizzle';
 import { inspireCategories, articleCategories } from '@/lib/db/schema/articles';
@@ -98,7 +99,7 @@ export async function createCategoryAction(_prev: unknown, formData: FormData) {
 
   revalidatePath('/admin/inspire/categories');
   revalidatePath('/artikel');
-  revalidateTag(INSPIRE_CATEGORIES_TAG, 'max');
+  revalidateTag(INSPIRE_CATEGORIES_TAG, PURGE_IMMEDIATELY);
   // The article editor now reads the category tree from a `cachedJson` entry on
   // this same tag, so that it stops costing a DB round-trip on every render and
   // every autosave. `updateTag` is the server-action-only variant that gives
@@ -106,7 +107,7 @@ export async function createCategoryAction(_prev: unknown, formData: FormData) {
   // keep seeing the old name in the editor's selects until the 300s TTL expired.
   updateTag(INSPIRE_CATEGORIES_TAG);
   // Article cards display category names — invalidate article caches too.
-  revalidateTag('articles', 'max');
+  revalidateTag('articles', PURGE_IMMEDIATELY);
   return { success: true };
 }
 
@@ -171,10 +172,10 @@ export async function updateCategoryAction(_prev: unknown, formData: FormData) {
 
   revalidatePath('/admin/inspire/categories');
   revalidatePath('/artikel');
-  revalidateTag(INSPIRE_CATEGORIES_TAG, 'max');
+  revalidateTag(INSPIRE_CATEGORIES_TAG, PURGE_IMMEDIATELY);
   updateTag(INSPIRE_CATEGORIES_TAG);
   // Article cards display category names — invalidate article caches too.
-  revalidateTag('articles', 'max');
+  revalidateTag('articles', PURGE_IMMEDIATELY);
   return { success: true };
 }
 
@@ -213,10 +214,10 @@ export async function deleteCategoryAction(categoryId: string) {
 
   revalidatePath('/admin/inspire/categories');
   revalidatePath('/artikel');
-  revalidateTag(INSPIRE_CATEGORIES_TAG, 'max');
+  revalidateTag(INSPIRE_CATEGORIES_TAG, PURGE_IMMEDIATELY);
   updateTag(INSPIRE_CATEGORIES_TAG);
   // Article cards display category names — invalidate article caches too.
-  revalidateTag('articles', 'max');
+  revalidateTag('articles', PURGE_IMMEDIATELY);
   return { success: true };
 }
 
@@ -235,9 +236,9 @@ export async function reorderCategoriesAction(orderedIds: string[]) {
 
   revalidatePath('/admin/inspire/categories');
   revalidatePath('/artikel');
-  revalidateTag(INSPIRE_CATEGORIES_TAG, 'max');
+  revalidateTag(INSPIRE_CATEGORIES_TAG, PURGE_IMMEDIATELY);
   updateTag(INSPIRE_CATEGORIES_TAG);
   // Article cards display category names — invalidate article caches too.
-  revalidateTag('articles', 'max');
+  revalidateTag('articles', PURGE_IMMEDIATELY);
   return { success: true };
 }
