@@ -14,7 +14,7 @@ authenticated, returned 200, and named the right tags. **It asked Next to mark
 those tags stale rather than expired**, and a stale entry is served once more
 before it is refreshed.
 
-The offending line, present at 48 call sites across the app:
+The offending line, present at 45 call sites across the app:
 
 ```ts
 revalidateTag('articles', 'max');
@@ -100,14 +100,21 @@ which is why this survived review.
 | `src/lib/cache/purge.ts`                                | **New.** Exports `PURGE_IMMEDIATELY = { expire: 0 }`, with the full trace above as its doc comment so the next person does not have to re-derive it. |
 | `src/app/api/cron/revalidate-content/route.ts`          | Both `revalidateTag` calls now pass `PURGE_IMMEDIATELY`; the comment that claimed `'max'` was correct is replaced with what actually happened.       |
 | `src/app/api/cron/publish-scheduled/route.ts`           | Same substitution.                                                                                                                                   |
-| `src/app/(admin)/admin/inspire/**/actions.ts` (8 files) | Same substitution — 46 further call sites.                                                                                                           |
+| `src/app/(admin)/admin/inspire/**/actions.ts` (8 files) | Same substitution — 42 further call sites.                                                                                                           |
 | `src/lib/inspire/article-cache.ts`                      | Comment updated so it no longer documents the removed argument.                                                                                      |
 | `src/lib/cache/__tests__/purge.test.ts`                 | **New.** Walks the source tree and fails if any `revalidateTag` call passes anything but `PURGE_IMMEDIATELY`.                                        |
 
-**Why all 48 and not just the route.** The brief names the cron route, but the
+Executable call sites, comments stripped and tests excluded: 12 in `tags`, 9 in
+`inspire/actions.ts`, 8 in `categories`, 5 in the article editor, 3 in
+`dynamic-blocks`, 2 each in `authors`, `media` and the revalidate route, 1 each
+in `navigation` and the scheduled-publish route — **45 across 10 files**, plus 2
+comment references updated. (The commit messages of `9409bd4` and `556247f` say 48. That was a `grep | wc -l` line count, not a call count; 45 is the correct
+figure, confirmed by stripping comments and re-counting.)
+
+**Why all 45 and not just the route.** The brief names the cron route, but the
 identical wrong argument sits in every admin write path. An editor saving an
 article had the same one-request-stale defect, from the same cause. Fixing one
-and leaving 47 would have left the bug in place under a different trigger.
+and leaving 44 would have left the bug in place under a different trigger.
 
 **Why `{ expire: 0 }` and not the alternatives.**
 
