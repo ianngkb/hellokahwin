@@ -839,3 +839,19 @@ Append-only. One line per decision autopilot made without interrupting the user.
   non-localhost URL.
 - [2026-08-24] NOT deployed. Production deploys need board approval per the
   brief; the ship report goes back to the CEO instead.
+- [2026-08-24] Code review: `codex-reviewer` (GPT-5.6 Sol, high) on all three
+  layers, then three scoped fix-check rounds. 7 findings. 2 were real defects in
+  this work and were fixed (`556247f`, `3637dbe`). 4 were answered with evidence
+  and the reviewer withdrew or downgraded each — including the claim that
+  `.claude/settings.local.json` leaked credentials, which is neither in the
+  commit nor a credential. The 7th (Vercel edge-cache overrides) is correct,
+  pre-existing, and escalated as a board decision rather than changed
+  unilaterally: narrowing a deliberate performance setting is not a bug fix.
+- [2026-08-24] The verdict artifact for `3637dbe` still counts the four
+  disclosed constraints, so `/imdone`'s §3b gate will refuse to queue this
+  branch. Left as-is and reported, NOT overridden — only the owner may waive
+  that gate, and the thing it is flagging is a genuine open decision.
+- [2026-08-24] Ship report written to
+  `~/.claude/ship-reports/hellokahwin/2026-08-24-revalidate-fix.html` and
+  published as a private artifact for the board. Worktree, branch and commits
+  left intact pending review; nothing pushed, nothing deployed, no cleanup run.
