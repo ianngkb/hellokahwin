@@ -48,11 +48,33 @@ describe('PURGE_IMMEDIATELY', () => {
         // 16.1.6 and warns on every invocation; anything other than
         // PURGE_IMMEDIATELY as the second argument is a cache-life profile,
         // which does NOT purge.
+        //
+        // A call whose FIRST argument itself contains parentheses —
+        // `revalidateTag(tagFor(x), PURGE_IMMEDIATELY)` — is truncated by this
+        // pattern at the inner `)` and so reports as an offender. That is
+        // deliberate: a false positive costs one rewritten call site, a false
+        // negative costs another silent staleness bug.
         if (!call.includes('PURGE_IMMEDIATELY')) {
           offenders.push(`${file.slice(SRC.length + 1)}: ${call}`);
         }
       }
     }
     expect(offenders).toEqual([]);
+  });
+
+  it('cannot be evaded by importing revalidateTag under another name', () => {
+    // Without this, `import { revalidateTag as bust } from 'next/cache'` puts
+    // calls beyond the reach of the check above — the whole guard, defeated by
+    // a rename. Raised in review 2026-08-24.
+    const aliased: string[] = [];
+    for (const file of sourceFiles(SRC)) {
+      const code = stripComments(readFileSync(file, 'utf8'));
+      for (const decl of code.match(/import\s*\{[^}]*\}\s*from\s*'next\/cache'/g) ?? []) {
+        if (/\brevalidateTag\s+as\s+\w+/.test(decl)) {
+          aliased.push(`${file.slice(SRC.length + 1)}: ${decl.replace(/\s+/g, ' ')}`);
+        }
+      }
+    }
+    expect(aliased).toEqual([]);
   });
 });

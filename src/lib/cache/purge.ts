@@ -54,6 +54,24 @@
  *   read-your-own-writes semantics as the no-argument form — without the
  *   deprecation warning.
  *
+ * ONE KNOWN EDGE, and it is Next's, not ours. `areTagsExpired()` requires
+ * `expired > entry.lastModified` with a strict `>`, so a cache entry written in
+ * the SAME millisecond as the purge is not expired by it. The no-argument
+ * `revalidateTag(tag)` form stamps `expired: now` too and has exactly the same
+ * edge, so this is not a cost of choosing `{ expire: 0 }` — there is no form
+ * that avoids it. It needs a write and a purge to collide inside one
+ * millisecond; the ingest CLI writes and purges seconds apart.
+ *
+ * A NOTE ON LOAD. Immediate expiry means the next reader rebuilds rather than
+ * being handed a stale copy, so a purge of the `articles` tag costs a cold
+ * rebuild of the entries under it instead of a background refresh. That is the
+ * point — a stale copy is the bug — and here it is bounded: this site has ~30
+ * published articles, and the write paths gate on `affectsPublic` so a draft
+ * save costs nothing. The corpus-wide storm recorded in
+ * `@/lib/inspire/article-cache` (Sentry TWN-NEW-47) was a different shape: 2,286
+ * articles evicted by an over-broad `listings` TAG, which that file fixed by
+ * narrowing the tag. Tag breadth is the lever there, not expiry timing.
+ *
  * USE THIS FOR EVERY CONTENT PURGE. If a future call site wants genuine
  * stale-while-revalidate, it should say so with its own explicit profile and a
  * comment explaining why one stale response is acceptable there.
