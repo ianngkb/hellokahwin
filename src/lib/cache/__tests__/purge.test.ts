@@ -66,10 +66,15 @@ describe('PURGE_IMMEDIATELY', () => {
     // Without this, `import { revalidateTag as bust } from 'next/cache'` puts
     // calls beyond the reach of the check above — the whole guard, defeated by
     // a rename. Raised in review 2026-08-24.
+    //
+    // Both quote styles are matched. Prettier normalises this repo to single
+    // quotes, but a guard that only holds while the formatter is happy is not a
+    // guard; a hand-edited `from "next/cache"` must not slip past. Raised in the
+    // same review, second round.
     const aliased: string[] = [];
     for (const file of sourceFiles(SRC)) {
       const code = stripComments(readFileSync(file, 'utf8'));
-      for (const decl of code.match(/import\s*\{[^}]*\}\s*from\s*'next\/cache'/g) ?? []) {
+      for (const decl of code.match(/import\s*\{[^}]*\}\s*from\s*['"]next\/cache['"]/g) ?? []) {
         if (/\brevalidateTag\s+as\s+\w+/.test(decl)) {
           aliased.push(`${file.slice(SRC.length + 1)}: ${decl.replace(/\s+/g, ' ')}`);
         }
