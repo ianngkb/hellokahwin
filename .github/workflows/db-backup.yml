@@ -62,6 +62,16 @@ jobs:
             | sudo tee /etc/apt/sources.list.d/pgdg.list > /dev/null
           sudo apt-get update -qq
           sudo apt-get install -y -qq "postgresql-client-${PGMAJOR}"
+
+          # The runner image ships its own postgresql-client (16 at time of
+          # writing) at /usr/bin, which shadows the version we just installed.
+          # Put the pinned bin dir first so `pg_dump` means the one we asked for.
+          echo "/usr/lib/postgresql/${PGMAJOR}/bin" >> "$GITHUB_PATH"
+
+      - name: Report the client actually on PATH
+        run: |
+          set -euo pipefail
+          which pg_dump pg_restore psql
           pg_dump --version
           pg_restore --version
 
