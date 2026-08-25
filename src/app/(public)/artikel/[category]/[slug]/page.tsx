@@ -9,6 +9,7 @@ import { eq, ne, and, desc } from 'drizzle-orm';
 import { db } from '@/lib/db/drizzle';
 import { withDeadline, startDeadlineBudget } from '@/lib/api/timeout';
 import { lookupRedirect } from '@/lib/redirects/lookup';
+import { tagEdgeResponse } from '@/lib/cache/edge-tag';
 import { getSmartCropUrl } from '@/lib/storage/smart-crop-url';
 import {
   articles,
@@ -493,6 +494,12 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
 
 export default async function InspireArticlePage({ params }: ArticlePageProps) {
   const { category: categorySlug, slug } = await params;
+
+  // Make this page's CDN entry deletable by name — see the pillar page and
+  // `@/lib/cache/edge-tag`. A brand-new slug has no edge entry to purge, so
+  // this earns its keep on the OTHER path: `pnpm ingest --update`, which
+  // rewrites an article that has been live long enough to be cached.
+  await tagEdgeResponse(`/artikel/${categorySlug}/${slug}`);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com';
 
   // ONE SHARED BUDGET across every sequential read in this render, not a fresh

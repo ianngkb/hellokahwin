@@ -12,6 +12,7 @@ import { Pagination } from '@/components/ui/pagination';
 import { Breadcrumbs, BreadcrumbJsonLd } from '@/components/common/breadcrumbs';
 import { PillarBody } from '@/components/inspire/pillar-body';
 import { getPillarView } from '@/lib/inspire/pillar-queries';
+import { tagEdgeResponse } from '@/lib/cache/edge-tag';
 import { categoryOwnsPublishedArticles } from '@/lib/inspire/category-indexability';
 
 // Cache forever; invalidate via `revalidateTag('articles')` /
@@ -389,6 +390,15 @@ async function renderPillarPage(category: CategoryRow, categorySlug: string) {
 export default async function InspireCategoryPage({ params, searchParams }: CategoryPageProps) {
   const { category: categorySlug } = await params;
   const sp = await searchParams;
+
+  // Make this page's CDN entry deletable by name. The `Vercel-CDN-Cache-Control`
+  // in next.config.ts keeps a copy of this HTML at the edge for five minutes,
+  // which is five minutes in which a freshly ingested article is missing from
+  // its own pillar and the hub still says `noindex`. Tagging it lets ingest
+  // delete exactly this page. Stamped before the reads below because the tag
+  // belongs to the response either way — including the `notFound()` path, whose
+  // 404 is cacheable too. See `@/lib/cache/edge-tag`.
+  await tagEdgeResponse(`/artikel/${categorySlug}`);
 
   const category = await withDeadline(
     getCategoryBySlugCached(categorySlug),

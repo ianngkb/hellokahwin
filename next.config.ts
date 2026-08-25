@@ -1,5 +1,4 @@
 import type { NextConfig } from 'next';
-import { EDGE_TAGGED_ROUTES, EDGE_CACHE_TAG_HEADER } from './src/lib/cache/edge-purge';
 
 // Extract R2 hostnames from env vars (build-time only, avoids wildcard *.r2.dev)
 const r2Hostnames: string[] = [];
@@ -149,22 +148,16 @@ const nextConfig: NextConfig = {
           },
         ],
       },
-      // The other half of the three cache rules above. Those headers create a
-      // CDN entry that outlives a publish by up to five minutes (an hour for
-      // the sitemap) and that `revalidateTag` cannot reach; these headers make
-      // each entry addressable so an ingest can delete exactly the pages it
-      // invalidated, instead of blanket-purging the project and throwing away
-      // the performance decision the TTLs exist to make.
-      //
-      // Vercel has no purge-by-path — tags are the only handle — so the tag a
-      // page carries is its own path. `:category`/`:slug` interpolate from
-      // `source` (Next compiles header values with path-to-regexp), which is
-      // what makes the tag the CONCRETE path rather than the route pattern.
-      // `src/lib/cache/edge-purge.ts` owns both halves and explains the rest.
-      ...EDGE_TAGGED_ROUTES.map((route) => ({
-        source: route.source,
-        headers: [{ key: EDGE_CACHE_TAG_HEADER, value: route.tag }],
-      })),
+      // NO `Vercel-Cache-Tag` HERE, and it is worth a line to say why, because
+      // this is the obvious place for it. The three rules above create CDN
+      // entries an ingest needs to be able to delete, and the only handle
+      // Vercel offers is a cache tag — but a tag declared as a header in this
+      // file is applied by the routing layer, which the CDN's tag index does
+      // not read. It looked correct end to end: the header appeared on the
+      // response with `:category` interpolated, and the purge API returned 200.
+      // The entry simply never moved. Measured 26 Aug 2026; the transcript is
+      // in `src/lib/cache/edge-tag.ts`, which does the job from inside the
+      // render instead, where `addCacheTag` actually reaches the CDN.
     ];
   },
   // sharp and gs-wasm load native/wasm assets at runtime — keep them external.

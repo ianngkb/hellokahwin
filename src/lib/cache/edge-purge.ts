@@ -39,13 +39,17 @@
  * ends at a tag, and the only tag that reaches everything is `*`, which is the
  * blanket purge this work exists to avoid.
  *
- * So the path IS the tag. Each cached route stamps a `Vercel-Cache-Tag` equal
- * to its own URL path (`ROUTES` below, consumed by `next.config.ts`), and this
- * module purges by the paths it is handed. One rule, no mapping table, nothing
- * to drift: **the tag for a page is its path.** A useful side effect is that a
+ * So the path IS the tag. Each cached route stamps a tag equal to its own URL
+ * path — `@/lib/cache/edge-tag`, called from the render — and this module
+ * purges by the paths it is handed. One rule, no mapping table, nothing to
+ * drift: **the tag for a page is its path.** A useful side effect is that a
  * pillar's paginated variants (`?page=2`, `?sub=…`) are separate CDN entries
  * under the same tag, so one purge takes all of them — which a path-level purge
  * would not have done.
+ *
+ * The tag has to be stamped from inside the render, not declared as a header in
+ * `next.config.ts`. That was tried first and silently does nothing; the
+ * measurements are in `@/lib/cache/edge-tag`.
  *
  * ── WHY `dangerously-delete`, WHICH THE DOCS TELL YOU NOT TO USE ──────────
  *
@@ -78,27 +82,6 @@
  * 200" into "the reader will see fresh HTML". The only proof of the latter is a
  * request to the page.
  */
-
-/**
- * The routes whose CDN entries carry a purgeable tag, and the tag each carries.
- *
- * `next.config.ts` turns this into `Vercel-Cache-Tag` response headers. `tag`
- * is a path-to-regexp template compiled against `source`, so `:category` and
- * `:slug` interpolate — which is what keeps the tag equal to the concrete path
- * rather than to the route pattern.
- *
- * Adding a route here is half the job: the route must also be CDN-cached (a
- * `Cache-Control`/`Vercel-CDN-Cache-Control` with `s-maxage`), or there is no
- * entry to tag and the purge is a no-op that still returns 200.
- */
-export const EDGE_TAGGED_ROUTES = [
-  { source: '/artikel/:category', tag: '/artikel/:category' },
-  { source: '/artikel/:category/:slug', tag: '/artikel/:category/:slug' },
-  { source: '/sitemap.xml', tag: '/sitemap.xml' },
-] as const;
-
-/** The response header Vercel reads cache tags from. */
-export const EDGE_CACHE_TAG_HEADER = 'Vercel-Cache-Tag';
 
 /**
  * Project and team the purge is scoped to.

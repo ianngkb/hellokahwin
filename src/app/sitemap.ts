@@ -5,6 +5,7 @@ import { articles, inspireCategories } from '@/lib/db/schema/articles';
 import { getSitemapAuthors } from '@/lib/authors/queries';
 import { authorArchivePath } from '@/lib/authors/gate';
 import { getIndexableCategoryIds, getSitemapCategories } from '@/lib/inspire/category-indexability';
+import { tagEdgeResponse } from '@/lib/cache/edge-tag';
 
 // ISR: cache the rendered sitemap for 1h. Googlebot fetches the cached XML
 // directly from the edge — DB queries only run on background regeneration.
@@ -37,6 +38,11 @@ function newestDate(dates: Date[]): Date {
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com';
+
+  // The longest-lived edge entry on the site: `s-maxage=3600`, so without a tag
+  // a newly published article can be absent from the sitemap for an hour after
+  // it is live. Tagging it lets ingest delete it. See `@/lib/cache/edge-tag`.
+  await tagEdgeResponse('/sitemap.xml');
 
   // Article detail pages (published only), joined to their primary category.
   const publishedArticles = await db
