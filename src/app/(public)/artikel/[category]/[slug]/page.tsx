@@ -18,6 +18,7 @@ import {
   inspireTags,
 } from '@/lib/db/schema/articles';
 import { profiles } from '@/lib/db/schema/profiles';
+import { media } from '@/lib/db/schema/media';
 import {
   ArticleRenderer,
   extractImageUrlsWithVariants,
@@ -37,7 +38,7 @@ import { ArticleCoverMobile } from '@/components/inspire/article-cover-mobile';
 import { MobilePhotoBar } from '@/components/inspire/mobile-photo-bar';
 import { Breadcrumbs, BreadcrumbJsonLd } from '@/components/common/breadcrumbs';
 import { PillarUpLinkBlock } from '@/components/inspire/pillar-up-link';
-import { getPillarUpLink, getClusterSiblings, getCoverCredit } from '@/lib/inspire/pillar-queries';
+import { getPillarUpLink, getClusterSiblings } from '@/lib/inspire/pillar-queries';
 import { ImageCredit } from '@/components/inspire/image-credit';
 import { stripBrandSuffix, buildArticleDescription, decodeMetaEntities } from '@/lib/seo/meta';
 import { AuthorBox } from '@/components/inspire/author-box';
@@ -131,9 +132,46 @@ const getArticlePageDataCached = unstable_cache(
         authorWebsiteUrl: profiles.authorWebsiteUrl,
         authorInstagramUrl: profiles.authorInstagramUrl,
         authorLinkedinUrl: profiles.authorLinkedinUrl,
+        // ── The cover image's credit, on the article's own row ──────────────
+        //
+        // "ALWAYS credit the original image source so it can be traced back"
+        // is an owner-level rule (board 23 Aug 2026), and until 25 Aug 2026
+        // this was the one piece of the page that could go missing without
+        // anybody being told. It was a SECOND read — `getCoverCredit`, third
+        // in a shared 4s budget, wrapped in `withDeadline` and a bare
+        // `catch {}` that rendered the cover with no credit line and logged
+        // nothing.
+        //
+        // That is not a theoretical hole. Audited against production on
+        // 25 Ogos 2026: eight of the twenty-four live non-legacy articles were
+        // serving a licensed photograph with no visible credit, every one of
+        // them with a correct `credit`, `license_class` and `licensor_name` in
+        // the database and an exact `media.url` match. The ingest gate had done
+        // its job perfectly; the credit was being dropped at render and then
+        // FROZEN — `revalidate = false` here plus `stale-while-revalidate=
+        // 31535400` at the edge means one unlucky render publishes an
+        // uncredited photograph for up to a year.
+        //
+        // Riding the primary join removes the failure mode rather than
+        // shortening it. There is no second round trip to time out, no budget
+        // to run down and nothing left to swallow: if this row answers, the
+        // credit is in it, and if it does not answer the page 404s or errors
+        // instead of quietly publishing an uncredited image. The join is an
+        // exact match on the indexed `media.url` (`idx_media_url`) against a
+        // column that is 1:1 with it in practice — verified 25 Ogos 2026, zero
+        // duplicate `media.url` values on production and exactly one media row
+        // per published cover.
+        //
+        // DO NOT move this back out into its own deadline-guarded read. The
+        // credit is not a nice-to-have that may degrade; it is the courtesy
+        // that earns the next licence and the record that makes the owner
+        // findable years later.
+        coverCredit: media.credit,
+        coverCreditUrl: media.creditUrl,
       })
       .from(articles)
       .leftJoin(inspireCategories, eq(articles.primaryCategoryId, inspireCategories.id))
+      .leftJoin(media, eq(media.url, articles.coverImageUrl))
       .innerJoin(profiles, eq(articles.authorId, profiles.id))
       .where(and(eq(articles.slug, slug), eq(articles.status, 'published')))
       .limit(1);
@@ -458,14 +496,18 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com';
 
   // ONE SHARED BUDGET across every sequential read in this render, not a fresh
-  // deadline per read. This render now issues three of them in sequence —
-  // payload, then credits (which needs `article.id`), then related articles —
-  // and giving each its own ceiling would permit 3s + 1.5s + 2s = 6.5s against
-  // `maxDuration = 5`, i.e. Vercel kills the function before any fallback can
-  // even log. (Even before the credits read existed, 3s + 2s already sat exactly
-  // on the limit.) A 4s total leaves ~1s for the render itself, and
+  // deadline per read. Giving each its own ceiling would permit 3s + 1.5s + 2s
+  // = 6.5s against `maxDuration = 5`, i.e. Vercel kills the function before any
+  // fallback can even log. A 4s total leaves ~1s for the render itself, and
   // `startDeadlineBudget` floors each read at 250ms so a late one still gets a
   // real attempt rather than an already-expired deadline.
+  //
+  // It covers TWO sequential reads now, not three. The cover credit was the
+  // middle one and it is gone — folded into the payload's own join on
+  // 25 Ogos 2026, because losing that race silently published an uncredited
+  // photograph (see `coverCredit` above). What is left is the payload and the
+  // related-articles block, and the related block is genuinely allowed to
+  // degrade: an absent sideways link costs crawl depth, not a licence.
   //
   // This route has no build-phase concern to carve out: `generateStaticParams`
   // returns [] (see the note there), so nothing renders this page during
@@ -543,18 +585,14 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
   // caption, which the renderer already emits; the cover has no figcaption and
   // would otherwise be the largest photograph on the page with no attribution
   // anywhere. Owner-level requirement, board 23 Aug 2026.
-  let coverCredit: Awaited<ReturnType<typeof getCoverCredit>> = null;
-  if (article.coverImageUrl) {
-    try {
-      coverCredit = await withDeadline(
-        getCoverCredit(article.coverImageUrl),
-        budgetLeft(),
-        `inspire-cover-credit:${slug}`,
-      );
-    } catch {
-      // Non-critical — render the cover without the credit line.
-    }
-  }
+  //
+  // It arrives ON `article`, from the primary join — see the long note on
+  // `coverCredit` in `getArticlePageDataCached`. It used to be a third
+  // sequential read against this render's shared budget, and eight live
+  // articles were serving uncredited licensed photographs because of it.
+  const coverCredit = article.coverCredit
+    ? { credit: article.coverCredit, creditUrl: article.coverCreditUrl }
+    : null;
 
   // Related articles — non-critical crawlable link block. Deadline-guarded and
   // defaults to [] so a slow/failed query never breaks the article render.

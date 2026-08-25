@@ -2,7 +2,6 @@ import { eq, and, desc, inArray, isNotNull, sql } from 'drizzle-orm';
 import { unstable_cache } from 'next/cache';
 import { db } from '@/lib/db/drizzle';
 import { articles, inspireCategories, articleCategories } from '@/lib/db/schema/articles';
-import { media } from '@/lib/db/schema/media';
 
 /**
  * Reads behind the pillar architecture.
@@ -150,32 +149,26 @@ export const getPillarView = unstable_cache(
   { tags: ['articles', 'inspire-categories'], revalidate: false },
 );
 
-/**
- * The credit for an article's cover image, looked up by URL.
- *
- * By URL rather than by a foreign key because `articles.cover_image_url` is how
- * the cover has always been stored — there is no cover_media_id — and
- * `media.url` is indexed for exactly this kind of exact-match lookup (see
- * `idx_media_url` and the note on it in the media schema).
- *
- * Returns null for the 682 imported images that have no credit, which is why
- * the component renders nothing rather than an empty label.
- */
-export const getCoverCredit = unstable_cache(
-  async (
-    coverImageUrl: string,
-  ): Promise<{ credit: string | null; creditUrl: string | null } | null> => {
-    const [row] = await db
-      .select({ credit: media.credit, creditUrl: media.creditUrl })
-      .from(media)
-      .where(eq(media.url, coverImageUrl))
-      .limit(1);
-    if (!row?.credit) return null;
-    return row;
-  },
-  ['inspire-cover-credit'],
-  { tags: ['articles'], revalidate: false },
-);
+// `getCoverCredit` LIVED HERE AND MUST NOT COME BACK. Removed 25 Ogos 2026.
+//
+// It read the cover's credit by exact `media.url` match, which was the right
+// query — but it was a SEPARATE read, and the article page called it third in a
+// shared 4-second deadline budget behind a bare `catch {}`. When it lost that
+// race the page rendered a licensed photograph with no credit line, logged
+// nothing, and then froze that HTML: `revalidate = false` on the route plus
+// `stale-while-revalidate=31535400` at the Vercel edge means a single unlucky
+// render can publish an uncredited photograph for up to a year.
+//
+// Audited against production on 25 Ogos 2026: EIGHT of the twenty-four live
+// non-legacy articles were in that state, every one of them with a correct
+// `credit`, `license_class` and `licensor_name` in the database. The ingest
+// gate had never once failed. The renderer had.
+//
+// The credit now rides the article page's primary join
+// (`getArticlePageDataCached` in `src/app/(public)/artikel/[category]/[slug]/
+// page.tsx`), so it costs no extra round trip and has no separate deadline to
+// lose. A credit that can be dropped independently of the image it belongs to
+// is a credit that will eventually be dropped. Do not reintroduce one.
 
 export interface PillarUpLink {
   slug: string;

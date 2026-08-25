@@ -11,11 +11,20 @@
 /**
  * Cache key for the article payload entry.
  *
+ * v8 (2026-08-25): the payload gained `coverCredit` / `coverCreditUrl`. They
+ * used to come from a separate deadline-guarded read whose failure was
+ * swallowed, which is how eight live articles came to serve a licensed
+ * photograph with no visible credit while the database held a correct one. The
+ * bump is not cosmetic: with `revalidate: false` every already-cached v7 entry
+ * lacks the two fields, so without a new key those articles would keep
+ * rendering an uncredited cover for as long as the entry survived — which is
+ * exactly the defect. See the note on `coverCredit` in `page.tsx`.
+ *
  * v7 (2026-08-15): the merged shape after two independent v6 bumps landed in
  * one batch — author profile columns added, `credits` removed. See the version
  * history in `page.tsx` for why reusing v6 was unsafe.
  */
-export const ARTICLE_PAGE_CACHE_KEY = 'inspire-article-page-v7';
+export const ARTICLE_PAGE_CACHE_KEY = 'inspire-article-page-v8';
 
 /**
  * Tags for the article payload entry.

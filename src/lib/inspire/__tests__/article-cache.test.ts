@@ -36,12 +36,16 @@ describe('article payload cache identity', () => {
     ]);
   });
 
-  it('uses a v7 key so neither of the two conflicting v6 shapes is served', () => {
-    // Two independent v6 bumps landed in one batch — author profile columns
-    // added, `credits` removed — describing different shapes under one name.
-    // With `revalidate: false` an entry written under either would otherwise be
-    // served against the other forever.
-    expect(ARTICLE_PAGE_CACHE_KEY).toBe('inspire-article-page-v7');
+  it('uses a v8 key so no cached entry can serve an uncredited cover', () => {
+    // v8 added `coverCredit`/`coverCreditUrl` to the payload. With
+    // `revalidate: false` a surviving v7 entry has neither field, and would
+    // render the cover with no credit line — the exact defect the change was
+    // made to end. The key bump is what makes the fix reach already-cached
+    // articles instead of only new ones.
+    //
+    // v7 itself resolved two conflicting v6 shapes that landed in one batch
+    // (author profile columns added, `credits` removed).
+    expect(ARTICLE_PAGE_CACHE_KEY).toBe('inspire-article-page-v8');
   });
 });
 
