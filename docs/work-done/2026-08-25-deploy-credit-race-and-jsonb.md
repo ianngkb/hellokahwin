@@ -436,12 +436,38 @@ live at once**. Their worker did exactly what it was authorised to do. So:
 That is the same shape as the two findings above, one level up. A shared worktree
 gives an uncommitted edit no owner; a hold negotiated in conversation leaves no
 artifact to find; and a hold contradicted by a standing instruction to a third party
-is not a hold at all — it is two authorisations racing, which is structurally the
-same defect as the credit race this whole ship was about. **The fix is the same one
-in all three cases: put the constraint where the actor will trip over it, not where
+is not a hold at all — it is two authorisations racing. **The fix is the same one in
+all three cases: put the constraint where the actor will trip over it, not where
 someone would have to know to look.** The manifest note that now sits at the top of
 that directory — *deleted once, under hold, master copy elsewhere* — is a better
 artifact than this paragraph, because it lives with the thing it protects.
+
+### The fourth term, and why this retrospective is not process grumbles
+
+`pillars-ingest-redirects-0b` supplied the step I stopped one short of. **The bug
+this ship was about is the same defect at a lower altitude.**
+
+The credit was fetched *apart from* the image it belonged to — a second read, its
+own deadline, its own way to fail — so the one that could be lost was lost, and lost
+silently, because a missing credit renders as nothing by design. The constraint was
+held *apart from* the tree it applied to — a hold in a conversation, an ownership
+claim in nobody's head — so the one that could be lost was lost, and lost silently,
+because a contradicted hold looks exactly like a hold right up until someone acts on
+the wrong half.
+
+Two things carried alongside each other instead of attached, and the failure
+invisible at the moment it happens. That is one defect, described four times.
+
+Which makes the remedy identical at both altitudes, and it is the remedy already
+written into `page.tsx`: **attach the thing to what it describes; never carry it
+beside.** The credit now rides the article's own row, so there is no separate read
+to lose. The hold has to ride the tree, so there is no separate conversation to
+miss. *Put the constraint where the actor will trip over it* is that same sentence
+written for process rather than for code.
+
+Worth stating plainly because it changes what this section is. These are not
+complaints appended to a bug report. **It is the same bug at a different altitude,
+and the fix that closed it in the renderer is the fix the process needs.**
 
 ### One more, from this run's own method
 
