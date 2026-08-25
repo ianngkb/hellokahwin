@@ -46,6 +46,7 @@ import {
   type ArticleImage,
   type ArticleBodyImage,
 } from '../src/lib/inspire/article-file';
+import { purgeVercelEdge, pathsInvalidatedByIngest } from '../src/lib/cache/edge-purge';
 
 // R2 and the variant pipeline are imported DYNAMICALLY, inside main(), after
 // the environment has been settled by `bootstrapEnv()`. See the long comment
@@ -388,6 +389,25 @@ async function main() {
     process.exit(1);
   }
 
+  // VERCEL_TOKEN is checked here too, and DELIBERATELY only warns where
+  // CRON_SECRET refuses. The two failures are not the same size: without
+  // CRON_SECRET the origin never rebuilds and the article is invisible
+  // indefinitely, which is the half-done state this script exists to prevent.
+  // Without VERCEL_TOKEN the origin is correct and only the CDN copy lags — up
+  // to five minutes on the pillar, an hour on the sitemap — so refusing would
+  // block a correct publish over a bounded staleness. Said before the write,
+  // not after, so the operator can stop and re-run under the vault rather than
+  // discover it once the row is in.
+  if (args.revalidateUrl && !process.env.VERCEL_TOKEN) {
+    console.warn(
+      '⚠ VERCEL_TOKEN is not set, so the Vercel EDGE cache will NOT be purged after the\n' +
+        '  write. The article will be correct at the origin but the pillar page can serve a\n' +
+        '  pre-publish copy for up to 5 minutes and the sitemap for up to an hour.\n' +
+        '  To purge it, re-run under the vault:\n' +
+        '    vault.ps1 run vercel.twn -EnvVar VERCEL_TOKEN -Cmd pwsh,"-NoProfile","-Command",\'<ingest command>\'\n',
+    );
+  }
+
   const filePath = resolve(args.file);
   const fileDir = dirname(filePath);
 
@@ -437,10 +457,21 @@ async function main() {
   for (const link of frontMatter.internalLinks) {
     const [target] = await sql<{ slug: string }[]>`
       select slug from articles where slug = ${link.slug} and status = 'published' limit 1`;
-    if (!target)
+    if (!target) {
+      // A hub slug here is the common case, not a typo, and the generic message
+      // sent one run hunting for a dead link that was in fact a live page.
+      // Pillar and cluster hubs are categories, not articles, so they can never
+      // resolve — and they never needed to. Say so.
+      const [hub] = await sql<{ slug: string; pillar_code: string | null }[]>`
+        select slug, pillar_code from inspire_categories where slug = ${link.slug} limit 1`;
       problems.push(
-        `internalLinks: no published article with slug "${link.slug}" — fix the link or publish the target first`,
+        hub
+          ? `internalLinks: "${link.slug}" is a CATEGORY hub (${hub.pillar_code ?? 'no pillar code'}), not an article, ` +
+              `so it cannot resolve here — /artikel/${hub.slug} is live regardless. Link it from the body prose instead, ` +
+              `or drop this entry: internalLinks is validated, never rendered.`
+          : `internalLinks: no published article with slug "${link.slug}" — fix the link or publish the target first`,
       );
+    }
   }
 
   // And the links written in the PROSE, which went unchecked until review
@@ -465,7 +496,17 @@ async function main() {
     try {
       imageBuffers.set(image.file, await readFile(imagePath));
     } catch {
-      problems.push(`image not found: ${image.file}`);
+      // Names the resolved path, not just the declared one. The two ways this
+      // fails look identical in the front matter and need opposite fixes:
+      // a graphic that was specified but never rendered (Stage 6b did not
+      // finish — go render it, or stage a copy without it and record the gap),
+      // and a path that is right relative to the wrong directory, which is what
+      // a staging copy one level down does to every `images/…` entry.
+      problems.push(
+        `image not found: ${image.file}\n      resolved to: ${imagePath}\n` +
+          `      (a declared-but-never-rendered graphic, or a path relative to the wrong directory — ` +
+          `paths resolve against the ARTICLE FILE, not the drafts root)`,
+      );
     }
   }
 
@@ -846,9 +887,7 @@ async function main() {
         }
         if (!ok && attempt < 3) await new Promise((r) => setTimeout(r, attempt * 1000));
       }
-      if (ok) {
-        console.log('Content caches dropped — the article is visible on the site now.');
-      } else {
+      if (!ok) {
         // Non-zero exit: the row is written but the site is still serving the
         // old pages, so the run did NOT achieve what it was asked to. Reporting
         // that as success is how a publishing path quietly stops working.
@@ -859,6 +898,59 @@ async function main() {
         );
         await sql.end();
         process.exit(2);
+      }
+
+      // ── The SECOND cache ────────────────────────────────────────────────
+      //
+      // The origin is now correct. In front of it sits the Vercel edge, which
+      // holds its own copy of the rendered HTML and which the call above
+      // cannot reach: `next.config.ts` sets an explicit
+      // `Vercel-CDN-Cache-Control` on the pillar and article routes, and that
+      // header opts them out of purge-on-revalidate. Measured 25 Aug 2026, the
+      // pillar served a 717-second-old `noindex` copy 457 seconds after the
+      // last write. Delete exactly the three paths this ingest invalidated —
+      // see `@/lib/cache/edge-purge` for why the tag is the path and why the
+      // `dangerously-` form is the only one that helps.
+      //
+      // The success line moved DOWN here on purpose. "Content caches dropped —
+      // the article is visible on the site now" printing while a reader still
+      // got the old page is precisely the failure that let the original bug
+      // survive review; it may only be said once BOTH caches are clear.
+      const purgePaths = pathsInvalidatedByIngest(pillar.slug, frontMatter.slug);
+      const purge = await purgeVercelEdge(purgePaths);
+      if (purge.ok) {
+        console.log(
+          'Content caches dropped and the Vercel edge purged — the article is visible on the\n' +
+            `site now. Purged (${purge.detail}):\n` +
+            purgePaths.map((p) => `  ${p}`).join('\n'),
+        );
+      } else {
+        // NOT a non-zero exit, unlike the origin failure above, and the
+        // difference is the point: that one leaves the article invisible, this
+        // one leaves it correct but up to five minutes late. A degradation is
+        // not a corruption, so the publish stands — but the operator is told,
+        // in the terms they act on, and is never told the caches are clear.
+        console.error(
+          '\n' +
+            '  ════════════════════════════════════════════════════════════════════\n' +
+            '  ⚠  THE VERCEL EDGE WAS NOT PURGED. The article is published and the\n' +
+            '     origin is correct, but readers — Googlebot included — can be\n' +
+            `     served the PRE-PUBLISH page for up to 5 minutes:\n` +
+            purgePaths
+              .slice(0, 2)
+              .map((p) => `       https://hellokahwin.com${p}\n`)
+              .join('') +
+            '     and the sitemap for up to an hour:\n' +
+            '       https://hellokahwin.com/sitemap.xml\n' +
+            '\n' +
+            `     Reason: ${purge.detail}\n` +
+            '\n' +
+            (purge.skipped
+              ? '     Re-run the ingest under the vault to purge, or wait out the TTL\n' +
+                '     before inviting a crawl.\n'
+              : '     Retry the purge, or wait out the TTL before inviting a crawl.\n') +
+            '  ════════════════════════════════════════════════════════════════════',
+        );
       }
     }
   } else if (!args.skipMedia) {

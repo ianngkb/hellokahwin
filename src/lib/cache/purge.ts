@@ -75,5 +75,49 @@
  * USE THIS FOR EVERY CONTENT PURGE. If a future call site wants genuine
  * stale-while-revalidate, it should say so with its own explicit profile and a
  * comment explaining why one stale response is acceptable there.
+ *
+ * THE SECOND CACHE, WHICH THIS DOES NOT TOUCH — and the trap it sets for proof.
+ *
+ * Everything above is the Next data cache, inside the origin. In front of it
+ * sits the **Vercel edge**, which stores its own copy of a rendered page and
+ * which `revalidateTag` cannot reach. `/api/cron/revalidate-content` returning
+ * 200 means the origin will render fresh HTML on its next miss. It does not
+ * mean a reader gets fresh HTML.
+ *
+ * Measured publishing P1 and P6, 25 Aug 2026. Eight articles written, the last
+ * at 10:13:20Z, `--revalidate-url` on every run. Then a 457-second wait — past
+ * the 300s edge TTL — and the pillar page still came back:
+ *
+ *     x-vercel-cache: STALE   age: 717   <meta name="robots" content="noindex, follow">
+ *
+ * `age: 717` is older than the wait: the edge was serving the copy stored by a
+ * BASELINE request taken at 10:09:49Z, before the write, and it served it
+ * stale-while-revalidate rather than revalidating inline. The immediately
+ * following request returned `x-vercel-cache: HIT`, `age: 16`, no `noindex`,
+ * and 4.5 KB more body — the four new article cards.
+ *
+ * So the shape is the same one described above, one layer out, and waiting does
+ * not fix it: **the first request past the TTL is the one that triggers the
+ * refresh, and it is served the old copy while doing so.** Two consequences for
+ * anyone taking publish proof:
+ *
+ *   1. Do not request the URL whose after-state is the deliverable BEFORE
+ *      publishing. A baseline request re-arms the edge for another TTL and
+ *      makes the proof request measure the baseline.
+ *   2. The article URLs above were never requested before publishing, and every
+ *      one came back `x-vercel-cache: MISS` and correct on the FIRST request.
+ *      That is the control, and it is why the pillar-page staleness is the
+ *      baseline's fault rather than a purge failure.
+ *
+ * Record `x-vercel-cache` and `age` on every proof request. Without those two
+ * headers a stale 200 is indistinguishable from a fresh one, and the honest
+ * reading of the pillar response above would have been "publish failed".
+ *
+ * That second cache now HAS an owner: `@/lib/cache/edge-purge`, which deletes
+ * the CDN entries for exactly the paths an ingest invalidates — the article,
+ * its pillar, and the sitemap. It is a separate module because it is a separate
+ * cache with separate credentials and a separate failure mode: this one can
+ * only degrade freshness, never lose a write. The two are called back to back
+ * at the end of `scripts/ingest-article.mts`, origin first.
  */
 export const PURGE_IMMEDIATELY = { expire: 0 } as const;
