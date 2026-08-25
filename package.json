@@ -18,7 +18,10 @@
     "wp-import": "tsx scripts/wp-import.ts",
     "format": "prettier --write .",
     "ingest": "tsx scripts/ingest-article.mts",
-    "seed:pillars": "tsx scripts/seed-pillars.ts"
+    "audit:images": "tsx scripts/audit-live-images.mts",
+    "seed:pillars": "tsx scripts/seed-pillars.ts",
+    "covers": "tsx scripts/generate-cover-graphics.mts",
+    "links:audit": "tsx scripts/audit-internal-links.mts"
   },
   "dependencies": {
     "@aws-sdk/client-rekognition": "^3.996.0",

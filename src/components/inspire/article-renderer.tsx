@@ -5,7 +5,7 @@ import sanitizeHtml from 'sanitize-html';
 import { decode as decodeEntities } from 'he';
 import StarterKit from '@tiptap/starter-kit';
 import ImageExtension from '@tiptap/extension-image';
-import LinkExtension from '@tiptap/extension-link';
+import { InternalAwareLink } from '@/lib/inspire/internal-links';
 import UnderlineExtension from '@tiptap/extension-underline';
 import Table from '@tiptap/extension-table';
 import TableRow from '@tiptap/extension-table-row';
@@ -286,7 +286,8 @@ export const extensions = [
   PdfLinkInlineRenderer,
   DynamicBlockEmbedRenderer,
   ...NestedBlockFallbacks,
-  LinkExtension.configure({ openOnClick: false }),
+  // Internal links are emitted followed and same-tab; see the module header.
+  InternalAwareLink.configure({ openOnClick: false }),
   UnderlineExtension,
   Table,
   TableRow,

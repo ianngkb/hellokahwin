@@ -205,11 +205,52 @@ export async function purgeVercelEdge(paths: string[]): Promise<EdgePurgeResult>
 
   const url = `${ENDPOINT}?projectIdOrName=${encodeURIComponent(projectId())}&teamId=${encodeURIComponent(teamId())}`;
 
+  // Every batch is sent separately, and a batch that fails fails the whole
+  // purge. Found 26 Aug 2026 by SEO-02, which changed 45 articles in one pass
+  // and asked for 58 paths: the API answered
+  //   400 `tags` should NOT have more than 16 items
+  // and NOTHING was purged. The ingest path never met this because
+  // `pathsInvalidatedByIngest` returns exactly three paths, so the ceiling sat
+  // one article below the first batch job that would ever hit it. A cap that
+  // only breaks above a batch size nobody has used yet is not a safe cap.
+  for (let i = 0; i < paths.length; i += MAX_TAGS_PER_REQUEST) {
+    const batch = paths.slice(i, i + MAX_TAGS_PER_REQUEST);
+    // The endpoint also allows only MAX_REQUESTS_PER_WINDOW calls per minute.
+    // Spacing the batches costs a publish about twelve seconds and is the
+    // difference between a purge that completes and one that 429s halfway,
+    // leaving an arbitrary subset of pages stale with no record of which.
+    if (i > 0) await new Promise((r) => setTimeout(r, REQUEST_SPACING_MS));
+    const result = await purgeBatch(url, token, batch);
+    // `paths` on the result stays the FULL list on failure: the operator needs
+    // to know every path still stale, not just the batch that happened to fail.
+    if (!result.ok) return { ok: false, paths, skipped: false, detail: result.detail };
+  }
+  return {
+    ok: true,
+    paths,
+    skipped: false,
+    detail: `HTTP 200 in ${Math.ceil(paths.length / MAX_TAGS_PER_REQUEST)} request(s)`,
+  };
+}
+
+/** Vercel's documented ceiling on `tags` per purge request. */
+const MAX_TAGS_PER_REQUEST = 16;
+/** And on purge requests per minute, measured against the live API 26 Aug 2026. */
+const MAX_REQUESTS_PER_WINDOW = 5;
+const REQUEST_SPACING_MS = Math.ceil(60_000 / MAX_REQUESTS_PER_WINDOW) + 500;
+/** Cap on how long a single 429 may hold a publish up. */
+const MAX_RATE_LIMIT_WAIT_MS = 90_000;
+
+async function purgeBatch(
+  url: string,
+  token: string,
+  batch: string[],
+): Promise<{ ok: boolean; detail: string }> {
   // No `target`. Omitting it purges every environment for the project, which is
   // still narrow BY PATH — the thing that matters — and removes a whole class
   // of silent no-op where a run guesses the environment wrong and the API
   // cheerfully returns 200 for a tag it never looked at.
-  const body = JSON.stringify({ tags: paths });
+  const body = JSON.stringify({ tags: batch });
 
   // Three attempts, matching the origin revalidate call next to it. A cold
   // edge-API request or a momentary blip must not be the reason a correctly
@@ -224,16 +265,56 @@ export async function purgeVercelEdge(paths: string[]): Promise<EdgePurgeResult>
         body,
         signal: AbortSignal.timeout(15_000),
       });
-      if (res.ok) return { ok: true, paths, skipped: false, detail: `HTTP ${res.status}` };
+      if (res.ok) return { ok: true, detail: `HTTP ${res.status}` };
       // The response body carries Vercel's reason (bad tag, wrong project, no
       // permission). It cannot contain the token, and an operator staring at a
       // 403 needs it.
       const text = await res.text().catch(() => '');
       detail = `HTTP ${res.status}${text ? ` ${text.slice(0, 300)}` : ''}`;
+
+      if (res.status === 429) {
+        // The one 4xx worth waiting out. Vercel returns the reset instant, so
+        // sleep to it rather than guessing — and cap the wait so a stuck limit
+        // degrades to "purge failed" instead of hanging a publish.
+        const wait = Math.min(rateLimitWaitMs(text), MAX_RATE_LIMIT_WAIT_MS);
+        if (attempt < 3) {
+          await new Promise((r) => setTimeout(r, wait));
+          continue;
+        }
+        return { ok: false, detail };
+      }
+      // Every other 4xx is a fact about the request, not a blip: the same body
+      // will get the same answer. Retrying it twice more only spends the
+      // five-per-minute budget that the NEXT batch needs. This is how the
+      // 16-tag 400 above turned into a 429 on the retry.
+      if (res.status >= 400 && res.status < 500) return { ok: false, detail };
     } catch (err) {
       detail = err instanceof Error ? err.message : String(err);
     }
     if (attempt < 3) await new Promise((r) => setTimeout(r, attempt * 1000));
   }
-  return { ok: false, paths, skipped: false, detail };
+  return { ok: false, detail };
+}
+
+/**
+ * How long to wait out a 429, read from Vercel's own reset timestamp.
+ *
+ * The body carries `limit.reset` as epoch MILLISECONDS. Falls back to the full
+ * window when the shape is anything else, because guessing short is the
+ * expensive direction: it spends another request and re-arms the limit.
+ */
+export function rateLimitWaitMs(body: string, now: number = Date.now()): number {
+  try {
+    const reset = JSON.parse(body)?.error?.limit?.reset;
+    if (typeof reset === 'number' && Number.isFinite(reset)) {
+      // Tolerate seconds as well as milliseconds — a ten-digit value is
+      // seconds, and treating it as ms would compute a wait in 1970.
+      const ms = reset < 1e12 ? reset * 1000 : reset;
+      const delta = ms - now;
+      if (delta > 0) return delta + 1_000;
+    }
+  } catch {
+    // fall through
+  }
+  return 61_000;
 }

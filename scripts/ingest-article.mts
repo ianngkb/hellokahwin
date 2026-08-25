@@ -31,7 +31,7 @@ import { PutObjectCommand } from '@aws-sdk/client-s3';
 import sharp from 'sharp';
 import { generateJSON } from '@tiptap/html';
 import StarterKit from '@tiptap/starter-kit';
-import LinkExtension from '@tiptap/extension-link';
+import { InternalAwareLink, normaliseInternalLinkMarks } from '../src/lib/inspire/internal-links';
 import UnderlineExtension from '@tiptap/extension-underline';
 import Table from '@tiptap/extension-table';
 import TableRow from '@tiptap/extension-table-row';
@@ -274,7 +274,7 @@ function markdownExtensions() {
   return [
     StarterKit,
     ImageExtension,
-    LinkExtension.configure({ openOnClick: false, defaultProtocol: 'https' }),
+    InternalAwareLink.configure({ openOnClick: false, defaultProtocol: 'https' }),
     UnderlineExtension,
     Table.configure({ resizable: true }),
     TableRow,
@@ -292,7 +292,13 @@ function markdownExtensions() {
  */
 function markdownToTiptap(markdown: string): unknown {
   const html = marked.parse(markdown, { async: false, gfm: true }) as string;
-  return generateJSON(html, markdownExtensions() as never[]);
+  const doc = generateJSON(html, markdownExtensions() as never[]);
+  // `generateJSON` fills the missing rel/target from TipTap's Link defaults,
+  // which are `rel="noopener noreferrer nofollow" target="_blank"` — so every
+  // internal link a writer put in the markdown would be STORED nofollowed.
+  // The renderer no longer emits that, but the row should not claim it either.
+  normaliseInternalLinkMarks(doc);
+  return doc;
 }
 
 /**
@@ -695,6 +701,48 @@ async function main() {
 
   const cover = uploaded.get(frontMatter.cover.file)!;
 
+  // ── WHAT `articles.content` IS, FOR ANYONE WRITING IT BY HAND ────────────
+  //
+  // A ProseMirror/TipTap DOCUMENT: `{ type: 'doc', content: [ …block nodes ] }`.
+  // Never an HTML string. Not for the WordPress-migrated rows either, which is
+  // the belief that keeps coming back. Census on production, 26 Aug 2026:
+  //
+  //   shape   doc_type  wordpress_migrated  rows
+  //   object  doc       true                29
+  //   object  doc       false               32
+  //
+  //   select jsonb_typeof(content), content->>'type', wp_id is not null,
+  //          count(*) from articles group by 1,2,3;
+  //
+  // Zero rows have ever held a jsonb string except the eight the
+  // double-encoding bug below produced, and those were objects that had been
+  // stringified — not HTML.
+  //
+  // WHY THIS IS WRITTEN DOWN. `kursus-kahwin` is a WordPress row and its fee
+  // section was replaced on 26 Aug from a written instruction that described
+  // the column as "a legacy jsonb object holding a TipTap HTML string" and gave
+  // an HTML find-string to substring-replace. That instruction cannot be
+  // followed, and the near-miss is the point: the obvious way to make it
+  // followable is to render the document to HTML, patch the string, and write
+  // it back — which rewrites all 18 `image` nodes on that row with the Next.js
+  // Image attributes (`data-nimg`, `loading`, generated `class`/`style`) that
+  // exist only in the render. The same instruction forbids exactly that
+  // collateral edit, two paragraphs above the method that causes it.
+  //
+  // SO: to edit a legacy row by hand, walk `doc.content`, splice the nodes, and
+  // carry every other node across by identity. Build replacement nodes with
+  // `generateJSON(html, markdownExtensions())` — the function `markdownToTiptap`
+  // above uses — so hand-written sections and ingested ones are the same shape
+  // rather than two shapes that render differently. Then assert it: the node
+  // count outside the spliced window, and the `image` nodes, must be
+  // byte-identical before and after.
+  //
+  // The one other place that repeats the HTML-string belief is the header
+  // comment of `scripts/audit-internal-links.mts` ("the raw TipTap HTML string
+  // the WordPress-migration rows carry"). Its `typeof content === 'string'`
+  // branch is unreachable against this database — harmless as defence, wrong as
+  // documentation.
+  //
   // ── EVERY jsonb PARAMETER BELOW GOES THROUGH `sql.json()`. DO NOT
   //    "SIMPLIFY" IT BACK TO `JSON.stringify()`. ────────────────────────────
   //

@@ -6,6 +6,7 @@ import {
   edgePurgeSuccessNotice,
   edgePurgeFailureNotice,
   purgeVercelEdge,
+  rateLimitWaitMs,
   type EdgePurgeResult,
 } from '../edge-purge';
 
@@ -97,6 +98,97 @@ describe('purgeVercelEdge', () => {
     } finally {
       if (saved !== undefined) process.env.VERCEL_TOKEN = saved;
     }
+  });
+
+  /**
+   * The batch and rate-limit guards, both added 26 Aug 2026 after SEO-02 asked
+   * for 58 paths in one call and purged NOTHING.
+   *
+   * The ingest path never met either ceiling because it sends exactly three
+   * paths. A limit that only bites above the batch size anyone has used yet is
+   * not a limit anyone has tested.
+   */
+  describe('batching and rate limits', () => {
+    const withToken = async (fn: () => Promise<void>) => {
+      const saved = process.env.VERCEL_TOKEN;
+      const savedFetch = globalThis.fetch;
+      process.env.VERCEL_TOKEN = 'test-token';
+      try {
+        await fn();
+      } finally {
+        globalThis.fetch = savedFetch;
+        if (saved === undefined) delete process.env.VERCEL_TOKEN;
+        else process.env.VERCEL_TOKEN = saved;
+      }
+    };
+
+    it('never sends more than 16 tags in one request', async () => {
+      await withToken(async () => {
+        const sent: string[][] = [];
+        globalThis.fetch = (async (_url: string, init: { body: string }) => {
+          sent.push(JSON.parse(init.body).tags);
+          return { ok: true, status: 200, text: async () => '' };
+        }) as unknown as typeof fetch;
+
+        const paths = Array.from({ length: 58 }, (_, i) => `/artikel/c/a${i}`);
+        const result = await purgeVercelEdge(paths);
+
+        expect(result.ok).toBe(true);
+        expect(sent).toHaveLength(4);
+        for (const batch of sent) expect(batch.length).toBeLessThanOrEqual(16);
+        expect(sent.flat()).toEqual(paths);
+      });
+    }, 120_000);
+
+    it('does not retry a 400 — retrying it only spends the rate-limit budget', async () => {
+      await withToken(async () => {
+        let calls = 0;
+        globalThis.fetch = (async () => {
+          calls++;
+          return { ok: false, status: 400, text: async () => '{"error":{"code":"bad_request"}}' };
+        }) as unknown as typeof fetch;
+
+        const result = await purgeVercelEdge(['/artikel/c/a']);
+        expect(result.ok).toBe(false);
+        expect(calls).toBe(1);
+      });
+    });
+
+    it('reports the FULL path list on failure, not just the failing batch', async () => {
+      await withToken(async () => {
+        globalThis.fetch = (async () => ({
+          ok: false,
+          status: 403,
+          text: async () => 'forbidden',
+        })) as unknown as typeof fetch;
+
+        const paths = Array.from({ length: 20 }, (_, i) => `/artikel/c/a${i}`);
+        const result = await purgeVercelEdge(paths);
+        expect(result.ok).toBe(false);
+        expect(result.paths).toEqual(paths);
+      });
+    });
+  });
+});
+
+describe('rateLimitWaitMs', () => {
+  const body = (reset: number) =>
+    JSON.stringify({ error: { code: 'rate_limited', limit: { total: 5, remaining: 0, reset } } });
+
+  it("waits to Vercel's own reset instant, in milliseconds", () => {
+    const now = 1_787_681_000_000;
+    expect(rateLimitWaitMs(body(now + 30_000), now)).toBe(31_000);
+  });
+
+  it('reads a ten-digit reset as seconds rather than computing a wait in 1970', () => {
+    const now = 1_787_681_000_000;
+    expect(rateLimitWaitMs(body(1_787_681_030), now)).toBe(31_000);
+  });
+
+  it('falls back to a full window on any other shape — guessing short re-arms the limit', () => {
+    expect(rateLimitWaitMs('not json')).toBe(61_000);
+    expect(rateLimitWaitMs('{}')).toBe(61_000);
+    expect(rateLimitWaitMs(body(1_000), 2_000_000_000_000)).toBe(61_000);
   });
 });
 
