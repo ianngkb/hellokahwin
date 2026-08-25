@@ -54,7 +54,34 @@ internal links it will carry (**specified before drafting** — retrofitting
 links across 80 articles is a project; specifying them up front is one line),
 the cluster it belongs to, and the supply lever.
 
-**Gate:** no writer starts without a brief.
+Every brief closes by quoting the **Stage 9 gate verbatim** in its "When done"
+section, naming the exact company-entry path the retrospective must land in.
+Added 25 Aug 2026: the first run under Stage 9 wrote a complete retrospective
+into the wrong file. The brief had asked for one; it had not said which file, and
+"the work-done log" is ambiguous in a two-repo workflow. **State the path.**
+
+#### A publish brief's scope table is the count of record
+
+Added 25 Aug 2026. The P3/P4/P7 brief said "**Ten** verified articles" in its
+prose and listed **nine** in its scope table; its predicted sitemap number,
+57 → 70, was arithmetic on the wrong figure. The tenth was
+`C5-2-A1-contoh-kad-jemputan-kahwin`, which that same brief then blocked two
+paragraphs later along with the rest of P5. The count had been carried forward
+from the verification batch and never re-derived after P5 was cut.
+
+Nobody was going to publish the blocked article — the exclusion was stated
+loudly. The cost is that the executor cannot tell a stale count from a missing
+table row, so the brief's own proof target became unverifiable and had to be
+recomputed and defended mid-run.
+
+**Rule: the scope table is normative and every number in the prose is derived
+from it.** When something is cut from a brief, re-derive the count, the
+predicted sitemap delta and the pillar arithmetic in the same edit. A brief that
+asks for proof against a number must state a number that is true.
+
+**Gate:** no writer starts without a brief; no brief ships without the Stage 9
+gate quoted in it with a concrete target path; and no publish brief ships with a
+prose count that disagrees with its scope table.
 
 ### Stage 2 — Source
 The writer retrieves primary sources **before drafting**. For the authority
@@ -135,7 +162,15 @@ house definitions and shared citations agree.
 or the review undoes it. Owner-level rule: nothing is done until it has
 passed.
 
-**Gate:** humanizer pass complete and re-checked.
+**A humanizer pass edits the file, so it re-arms the Stage 6b dry run.** The
+front matter lives in the same file as the prose, and `metaDescription` has a
+hard 160-character ceiling a rewrite crosses without complaint. `C5-1-A1-pelamin`
+reached its production publish window at 169 characters and ingest refused it —
+board-cleared, BLOCK-closed, humanized, and unpublishable. See *"A block expires
+when the file changes"* in Stage 6b.
+
+**Gate:** humanizer pass complete and re-checked, **and `pnpm --silent ingest
+<file> --db "$DB"` re-run as a dry run afterwards, exiting 0.**
 
 ### Stage 6 — SEO QC
 `head-of-seo-content` walks the 21-point quality bar. Failing any point sends
@@ -143,12 +178,624 @@ it back; failing the humanizer point means it was never finished.
 
 **Gate:** all 21 points true.
 
-### Stage 7 — Ingest and publish
-`full-stack-engineer` runs the approved article through the content-ingest
-path into Supabase with correct slug, meta, category, internal links and
-media. Production publication follows board approval rules.
+### Stage 6b — Visual build (`managing-editor`)
+Added 25 Aug 2026 after eight finished articles sat unpublishable for a day
+because nobody owned their images. **This stage is not optional and it is not
+the writer's job to improvise.**
 
-**Gate:** the page is live, linked from its pillar, and in the sitemap.
+**The cover is a licensed photograph of people.** Malaysian Malay people in a
+Malay wedding context — baju melayu, songkok, tudung, songket, pelamin, akad
+nikah. Owner directive, 25 Aug: covers are human, not text.
+
+### NO TEXT CARDS. ANYWHERE. (owner directive, 25 Aug 2026)
+
+*"No i do not want a text card, it looks ugly. Find alternatives, no text card
+at all."*
+
+**A typographic card is never a cover and never an in-article image.** Not as a
+fallback, not when a photograph is hard to find, not "just this once". This
+supersedes the earlier position that data cards earn their place in-article on
+image-pack evidence — the owner has ruled on the visual and that ruling stands.
+
+**When a photograph is hard to find, widen the search — do not settle.**
+Wikimedia Commons categories for Malay weddings, Malaysian cultural events,
+songket, hantaran, kenduri, masjid interiors, henna, traditional dress;
+Openverse; Pexels and Unsplash searched in Malay and for adjacent subjects.
+**Reuse across closely-related articles is expected**, not a compromise.
+
+**If no correct photograph exists after a real search, escalate to the CEO with
+what you tried.** The only thing that still outranks this rule: never a
+culturally wrong image. A Western church wedding or a white-studio stock couple
+is not an alternative to a text card — widening the search is.
+
+**Supporting images: aim for one per major H2 section**, from three kinds —
+
+1. **Licensed photographs**, `licenseClass: S`. **Flickr first for Malay
+   wedding subject matter**, then Wikimedia Commons, Pexels and Unsplash.
+   **CC BY-NC and CC BY-ND both fail us** — non-commercial is disqualifying and
+   no-derivatives breaks the crop pipeline. Verify at origin, never from an
+   aggregator's label. Never Google Images, Pinterest, another wedding blog, or
+   a vendor's site without written permission.
+2. **Our own NON-TEXT graphics**, `licenseClass: G`, `credit: HelloKahwin` —
+   diagrams, maps, illustrations. **Not typographic cards**; see the rule above.
+   Data belongs in a markdown table in the body, where it is readable and
+   indexable as text, not re-rendered as a picture of words.
+3. **Authority screenshots**, only where the source's own terms permit reuse.
+
+#### Where Malay wedding photography actually is (added 26 Aug 2026)
+
+Settled by the C2.3 run, and it reverses the source order this stage carried
+until now. Search in this order and stop re-deriving it per brief.
+
+**1. Flickr, licence-filtered at the query.** Append
+`&license=4,5,7,9,10` to `https://www.flickr.com/search/?text=<query>` — that is
+CC BY, CC BY-SA, no-known-restrictions, CC0 and PDM, and it excludes every NC and
+ND file before a human looks at one. Query in Malay: `hantaran`, `sirih junjung`,
+`majlis pertunangan`, `akad nikah`, `kenduri kahwin`, `berinai`, `bersanding`.
+This is a deep seam of Malaysian wedding photography from roughly 2007 to 2012
+that no earlier run had swept, and on 26 Aug 2026 it produced the only
+full-resolution Malaysian sirih junjung photograph found under any open licence.
+**Read the size from the photo page, not the result list** — the search JSON caps
+at 1024px while originals are often 4000px and up.
+
+**2. Wikimedia Commons.** Good for museum objects and cultural artefacts —
+`tepak sirih`, songket, dress on display. **It returns nothing for Malaysian
+hantaran**, and this is now a settled negative rather than a search to repeat.
+Confirmed empty on 25 Aug 2026 and again on 26 Aug 2026 for `hantaran`,
+`dulang hantaran`, `sirih junjung`, `gubahan hantaran` and `pahar sirih`. What it
+does return in volume is Indonesian: Melayu Deli, Riau, Palembang. Do not spend a
+second run proving this.
+
+**3. Pexels and Unsplash.** Verify the photographer's stated location on their
+profile before accepting; subject matter alone cannot separate Malaysia from
+Indonesia.
+
+**Openverse is out.** Its API returned HTTP 401 on every request on 26 Aug 2026.
+It needs credentials nobody on the team holds.
+
+**A watermark only shows up once the file is on disk.** A CC BY set can be
+perfectly licensed and still unusable because the photographer burnt a studio URL
+into every frame. Cropping it out strips an attribution notice the photographer
+placed inside the work, so the whole set is rejected, not cropped. This is the
+second independent reason the download-and-look rule is not optional.
+
+**Two rules that override the count.** An image that illustrates nothing is
+padding and makes the article worse. And a culturally wrong image — a Western
+church wedding, a white-studio stock couple — is worse than no image at all,
+whatever the coverage target. An article that can honestly carry two carries
+two, and the editor says which and why.
+
+**Every image, without exception:** real Malay alt text written for someone who
+cannot see it; a caption that *teaches* rather than describes; `credit`,
+`creditUrl`, `licensorName`, `licenseClass`; and an entry in the asset register.
+The parser refuses a cover missing any of the three credit fields — that gate is
+the owner's rule in code, not a formality.
+
+#### A declared image is not a delivered image
+
+Added 25 Aug 2026, after the P3/P4/P7 publish. **Every file named under `cover:`
+or `images:` must exist on disk when the article leaves this stage.** Not
+designed, not specified, not entered in the article-to-graphic map — present, as
+bytes, at the path the front matter states.
+
+This is a separate requirement from the credit chain and it has to be stated
+separately, because the credit chain was intact and the files were not. Nine
+`licenseClass: G` graphics across six P4/P7 articles carried a full credit,
+`creditUrl`, licensor and licence class, and a real spec in
+`aug-25-2026-map-article-to-graphic.md` — and had never been rendered, because
+the templates they call for (`jadual-perbandingan`, `grid-kategori`,
+`garis-masa`, `kad-senarai-semak`) are still only a spec. `ingest-article.mts`
+refuses a file with an unresolved image, so **six finished, board-cleared
+articles were unpublishable and nothing in this workflow said so.**
+
+It cost two runs. The covers work of 25 Aug found it, recorded it as "not mine
+to unblock", and moved on; the publish run found it again from scratch three
+hours later. A gate that checks the credit on an image that does not exist is
+checking the wrong thing first.
+
+Prove it with the one command, from the site worktree, before handing over:
+
+```
+pnpm --silent ingest <file.md> --db "$DB"        # dry run, no --commit
+```
+
+A dry run resolves every image path, every internal link and both categories
+against the real database and writes nothing. **It is the handover gate, not a
+Stage 7 convenience.** If it refuses, the article is not finished.
+
+**If a declared graphic genuinely cannot be rendered in time**, say so by name
+in the handover — `<file> — template <name> does not exist` — and say whether
+the article still stands without it. Do not hand over silently and do not delete
+the entry from the draft: the entry *is* the spec.
+
+**If the dry run itself is unreachable, say that too, and run the parts you can.**
+Added 26 Aug 2026, after the C2.3 run. A writer dispatched into the
+`hellokahwin` docs repo has no `hellokahwin-site` worktree and therefore no
+`pnpm ingest`, no `articleFileSchema` and no database. The gate cannot close, and
+pretending otherwise is worse than saying so. What a writer in that position owes
+the handover, all four:
+
+1. **Every declared path resolves on disk.** Walk `cover.file` and every
+   `images[].file` in the front matter and stat each one. This is the check that
+   cost two runs on 25 Aug, and it needs no site repo.
+2. **The front matter parses as YAML**, and `cover` carries all of `file`, `alt`,
+   `caption`, `credit`, `creditUrl`, `licenseClass`, `licensorName`.
+3. **`metaDescription` counted, not estimated** — 155 editorial, 160 schema. Count
+   it again after `/humanizer`, which is an edit like any other.
+4. **Every `internalLinks` slug is live**, checked with `curl -o /dev/null -w
+   '%{http_code}'` against the real URL, and the declared list matches the links
+   in the body exactly. A slug declared but never linked, or linked but never
+   declared, is a defect the dry run would have caught.
+
+Then hand over with the line **"dry run NOT taken, no site worktree on this
+machine"** in the log, so whoever ingests runs it first instead of assuming the
+gate closed upstream.
+
+#### A block expires when the file changes. Re-run the check, never cite it.
+
+Added 25 Aug 2026, after the P5 publish — the last pillar, and it was nearly held
+dark by a blocker that had already been resolved.
+
+The P5 handover carried a block: **"27 named-but-missing `.png` files."** True
+when it was written. By publish day it was false, and nothing noticed. The
+no-text-card directive had removed the `kad-tajuk` entries from those articles,
+and the image references went with them. The block was resolved as a **side
+effect of an unrelated edit**, in a different file, by a different run — which is
+the ordinary way blocks die, and the reason none of them can be trusted on sight.
+
+It survived because it was written as **prose in a log** and then carried forward
+by **citation**. Three runs repeated the number without re-measuring it. It took
+the CEO thirty seconds to disprove by listing the directory.
+
+**A block is a claim about the current state of a file, and it has a shelf life
+of exactly one edit to that file.** So:
+
+1. **Record a block as the command that reproduces it, never as a sentence.**
+   If you cannot state a block as something the next person re-runs in under a
+   minute, it is not a block, it is an opinion. `"27 missing .png"` is an
+   opinion. `pnpm --silent ingest <file> --db "$DB"` is a block.
+2. **Re-run it before you act on it.** Inheriting a block from a log, a brief or
+   a handover note obliges you to re-derive it first. Citing a previous run's
+   finding is not evidence about today.
+3. **The dry run is not a one-time handover gate — it re-runs after every
+   subsequent edit.** This is the half that was missing. Stage 6b already
+   required a passing dry run at handover; nothing required it again after the
+   article was reopened. Both P5 articles were reopened after that gate — pricing
+   re-sourced, `/humanizer` re-run — and neither was re-validated.
+
+**What that cost, concretely, on the run that wrote this rule.** `C5-1-A1-pelamin`
+reached publish day with a **169-character `metaDescription`** against the
+schema's `.max(160)`. Ingest refused the file outright. It is a board-cleared,
+BLOCK-closed article that had been through `/humanizer` after its review, and no
+dry run was taken after that edit — so the defect travelled all the way to a
+production publish window before anything looked at it. One command at the end of
+Stage 5 would have caught it, in the worktree, for free.
+
+**This applies to `/humanizer` in particular.** Stage 5 rewrites prose, and the
+front matter sits in the same file. `metaDescription` has a hard 160-character
+ceiling that a rewrite crosses silently — the schema comment says why: *"160 is
+where Google reliably truncates. A description written to fit is an editorial
+decision; one silently cut in half is not."* A humanizer pass is an edit like any
+other, and it re-arms the gate.
+
+**Gate:** cover is a credited human photograph; every image has its full credit
+chain; **every declared image file resolves on disk and `pnpm --silent ingest
+<file> --db "$DB"` exits 0 as a dry run — re-run after EVERY later edit to the
+file, `/humanizer` included, not once at handover**; every inherited block has
+been re-derived rather than cited; the register is updated. **Do not
+hand an article to Stage 7 without this** — an article with no images is not
+finished, it is stalled, and an article whose images are named but absent is
+worse, because it looks finished.
+
+### Stage 7 — Ingest and publish
+BMAD (the outsourced development team) runs the approved article through the
+content-ingest path into Supabase with correct slug, meta, category, internal
+links and media.
+
+**Updating a live article is `--update` on the same slug — never a second
+article.** Article URLs are `/artikel/{categorySlug}/{slug}`, so changing an
+article's parent changes its URL; re-parenting is a migration with redirects,
+not a database update.
+
+#### Never reconstruct a live article's body from its rendered page
+
+Added 26 Aug 2026, on SEO-03, before it cost anything.
+
+A brief that says "deliver the updated article body" for a page that is already
+live reads naturally as *fetch the page, edit the part you own, write the whole
+thing back*. **On the WordPress-migration rows that is silent corruption.**
+
+`articles.content` on a legacy row holds TipTap HTML. What the site serves is
+that HTML **after Next.js has rendered it**, and the render is not the source.
+Every `<img>` comes back carrying `data-nimg`, `loading`, `decoding`, a generated
+`class` and an inline `style` that appear nowhere in the stored value. On
+`/artikel/idea-dan-nasihat/kursus-kahwin` that is **18 image nodes** which a
+round-trip through the rendered page would have rewritten, on an article whose
+other content the same brief had declared out of scope. Nothing downstream would
+have flagged it: the page would still render, the images would still resolve, and
+the diff nobody took would have been the only evidence.
+
+So:
+
+1. **Editing one section of a live article is a substring swap, not a body
+   write.** The deliverable is the replacement block plus the exact find-string
+   it replaces, and the find-string must be verified to match **exactly once**
+   against the current content before anyone runs anything.
+2. **The before-state comes from the database, never from the page.** This is the
+   same reason Stage 7 already forbids baselining a URL whose after-state is the
+   proof: the rendered copy is a derivative, and it is not the thing you are
+   about to overwrite.
+3. **A rendered capture may be kept as reference, and must be labelled as
+   rendered.** It is evidence about what readers see. It is not a candidate for
+   write-back, and a file that could be mistaken for one should say so in its
+   name.
+
+This applies to the 29 WordPress-migration rows in particular, because those are
+the ones nobody holds a source file for.
+
+#### The run, exactly
+
+Written out 25 Aug 2026 after the P1+P6 batch, because every item below had to
+be rediscovered by reading the script. The command is
+
+```
+pnpm --silent ingest <file.md> --db "$DB" --commit --publish --revalidate-url https://hellokahwin.com
+```
+
+- **`pnpm --silent`, never `pnpm run`.** The runner's banner echoes argv, and
+  argv here contains the production database password. It has leaked into a
+  transcript once already.
+- **Publishing takes TWO keys, and one alone does nothing.** The file must say
+  `status: published` AND the run must pass `--publish`. A file saying
+  `published` without the flag inserts a **draft**, silently, and a draft never
+  reaches the pillar page. Drafts arrive from Stage 6b saying `status: draft`,
+  so **flipping that field is part of Stage 7**, not an edit to the article.
+- **Re-ingesting a LIVE article without `publishedAt:` moves its publish date to
+  now.** Added 26 Aug 2026, found while purging the P1/P6 text cards. The
+  `on conflict` clause sets `published_at = excluded.published_at`, and that
+  value is `frontMatter.publishedAt ?? new Date().toISOString()`
+  (`scripts/ingest-article.mts:713`). **No draft in `drafts/` carries
+  `publishedAt:`.** So any `--update --publish` re-ingest of the eight P1/P6
+  articles — a correction, a backfill, CONT-02's image pass — silently restamps
+  eight indexed pages with today's date, and the JSON-LD `datePublished` and the
+  sitemap `lastmod` follow it. **Before re-ingesting anything already live, read
+  its `published_at` out of the database and put it in the file.** This run did
+  exactly that and verified all eight dates unchanged afterwards; nothing in the
+  script or the file format will do it for you.
+- **`--revalidate-url` is mandatory against any non-local database** — the
+  script refuses without it. It drops the Next data cache. It does **not** purge
+  the Vercel edge, which holds pillar pages up to 300s.
+- **Wait a full five minutes after the last write before inviting any crawl**,
+  and before taking the proof requests. A probe fired earlier both measures the
+  stale copy and re-arms the edge for another 300s. Ingest-time edge purge is
+  not built.
+- **Never take a "before" request on a URL whose after-state is the proof.**
+  This has now cost two runs. `--revalidate-url` clears the Next data cache
+  inside the origin; the Vercel edge in front of it keeps its own copy and is
+  not purged by anything we run. A baseline request stores that copy and re-arms
+  it for another 300s, so the proof request measures the baseline — on 25 Aug
+  the pillar page returned `age: 717` with `noindex` still on it, 457 seconds
+  after the last write, because of a baseline taken 3.5 minutes before it. Take
+  the before-state from the database and the sitemap, which are not edge-cached
+  per-URL. If a URL was unavoidably baselined, the first request past the TTL
+  triggers the refresh and is served the old copy while doing so; the SECOND
+  request is the honest one, and the log must say that is what happened.
+- **Record `x-vercel-cache` and `age` on every proof request.** Without them a
+  stale 200 is indistinguishable from a fresh one. This is the only thing that
+  separated "publish failed" from "the edge is serving my own baseline" on
+  25 Aug.
+- **On a one-shot capture, KEEP THE BODY.** Added 25 Aug 2026 after the P5
+  publish lost the only measurement that mattered. A cold render happens once per
+  URL, ever. The P5 proof script recorded status, cache, age, bytes, robots meta
+  and the `noindex` string for its one clean cold render — and discarded the body
+  (`keepBody: false`). When the cover-credit question arrived four minutes later
+  the answer was unrecoverable: every remaining fetch was warm, and the build had
+  changed underneath. The script was not wrong about what it was asked; it was
+  wrong about what it would be asked **next**. **When a measurement is
+  unrepeatable, store the artefact, not the verdict** — write the full response
+  body to a file alongside the summary line. Booleans can be recomputed from a
+  body forever; a body cannot be reconstructed from booleans.
+- **RECORD BODY SIZE ON EVERY PROOF REQUEST**, alongside `x-vercel-cache` and
+  `age`. Added 25 Aug 2026. Two bytes of instrumentation, and on the P5 publish it
+  was the difference between catching a production incident and certifying it.
+
+  **A degraded `200` and a healthy `200` are identical to a checker that only
+  looks for the thing it is counting.** The P5 proof **happened** to record body
+  size and link count — for reasons unrelated to catching a cache defect, because
+  nobody was looking for one — and that accident is the only reason four poisoned
+  hub pages were visible:
+
+  ```
+  healthy article render     118,696 bytes
+  degraded hub (P1)           29,066 bytes   links=0/4
+  degraded hub (P2)           28,968 bytes   links=0/8
+  degraded hub (P3)           28,870 bytes   links=0/3
+  degraded hub (P4)           28,707 bytes   links=0/3
+  ```
+
+  Status was `200` on every one. `x-vercel-cache` was `HIT` on every one. No
+  robots meta on any of them, so all four were "indexable" by every other check
+  being made. **Byte count and link count were the only two fields separating a
+  poisoned page from a healthy one** — had the script recorded status and cache
+  alone, four hubs would have passed their own verification while serving empty
+  article lists to readers, and nobody would have purged anything.
+
+  **Write this down as a near-miss, not a success.** The instrument was not
+  designed to catch this and the run took no credit for foresight. Had the script
+  been built to the obvious minimal spec — status and cache, the two fields anyone
+  would think to record — the incident would have been invisible and the run would
+  have certified four empty pillar hubs as correct. The rule exists because the
+  luck should not be needed twice.
+
+  **The sharper form, found by `pillars-ingest-redirects-59` and credited to it:**
+  the exposure depends on what the sweep is counting for.
+
+  - In a sweep counting for a feature that should be **present**, a thin degraded
+    body scores as a miss. It looks like a failure, so it cannot hide one.
+  - In a **negative control**, where absence is the expected result, a thin
+    degraded page and a correctly-negative page are **indistinguishable**. The
+    degradation scores as a pass.
+
+  That session found its own `cold-1` / `cold-2` runs had recorded no body size —
+  the very runs where the connection pool was pressured at 3.2–5.6s — so its
+  result is *verified under light load and merely unfalsified under heavy load.*
+  Those are not the same claim, and only the body size tells them apart.
+
+  The general rule, and it is the same family as the two below: **an instrument
+  that cannot distinguish a degraded response from a correct one will certify the
+  degraded one.** Paired with the keep-the-body rule above, the two say one thing:
+  **record more than the question you currently have.**
+
+- **RESERVE ONE FRESHLY PUBLISHED SET FOR A COLD-CONCURRENT FIRST-RENDER
+  MEASUREMENT.** Added 25 Aug 2026. Standing practice, and it is the pair to the
+  rule below rather than a contradiction of it.
+
+  A newly published URL has never been requested, so it is the only place a
+  **cold** render can be observed at all — and a cold render can be observed
+  exactly once per URL, ever. Load-dependent defects live precisely there: they
+  appear under concurrency on a cold cache and hide under everything else. On
+  25 Aug the cover-credit race was diagnosed only because someone happened to
+  sweep concurrently; every other observation that day was serial or warm, and
+  by the time the question was asked properly the build carrying the defect had
+  been fixed and deployed. **The defect can now never be measured under cold
+  concurrency — that evidence is permanently unavailable.**
+
+  So on each publish batch, nominate a small set — two or three URLs is enough —
+  and take ONE deliberate concurrent cold sweep of just those, recording
+  `x-vercel-cache`, `age`, and the full body for each. Then pace everything else
+  per the rule below. **The point is not to prove the site works; it is to make
+  the next defect of this shape measurable when it appears, rather than after
+  somebody has fixed it.**
+
+  Two things that make the measurement worth anything: record the **sweep shape**
+  (serial, or concurrency N) beside every result, and record the **edge state**.
+  A concurrent observation whose cache headers were not captured cannot be called
+  cold or warm, and therefore proves nothing in either direction — 25 Aug produced
+  three such rows across two sessions, and every one of them had to be discarded.
+
+  Keep the nominated set small and keep it away from hub URLs, which is where the
+  degradation below occurs.
+
+- **A PROOF SWEEP IS PRODUCTION TRAFFIC. Take proof requests ONE AT A TIME, with
+  a few seconds between them, and never fire a set of cold URLs concurrently.**
+  Added 25 Aug 2026 after the P5 publish, where doing so degraded six live pillar
+  hubs that the run never touched.
+
+  **Verifying is not a read-only act.** A proof sweep hits cold origin renders on
+  a production database, which is load; and where the page has a timeout fallback
+  sitting under a long-lived cache, that load does not merely *observe* a bad
+  state, it *writes* one. **A `GET` published a broken page.** Any future run
+  reproducing the P5 proof will walk into this identically unless it paces the
+  requests, so treat this as part of the proof procedure and not as a caution.
+
+  The hub page wraps its article query in `withDeadline(..., 3_000)` and, on
+  timeout, renders the hub **with an empty article list** rather than failing —
+  see `src/app/(public)/artikel/[category]/page.tsx`. That fallback is sound on
+  its own. What makes it dangerous is the layer above: the read layer caches with
+  `revalidate: false`, i.e. **forever, until something purges it**. So a
+  render that degraded for three seconds gets stored permanently.
+
+  Requesting all seven pillar hubs in one burst forced seven simultaneous cold
+  origin renders against one pooled connection. **Six of the seven blew the
+  deadline** and were served to real visitors showing their intro copy, their
+  navigation, and **zero articles** — a page that looks finished, not broken. Two
+  recovered as their entries happened to be replaced; **four (P1, P2, P3, P4) did
+  not, and stayed empty for 7 minutes 14 seconds until a deliberate purge.**
+  Retrying does not fix it: a `HIT` never re-renders, so the bad entry only ages —
+  128s, 181s, 234s, 288s. **Left alone it would not have expired at all.** The
+  measurement created the defect and the cache then preserved it.
+
+  Two rules follow. **Pace the requests** — sequential, a few seconds apart, so
+  no two cold renders compete. And **if a proof request ever returns fewer
+  articles than the database holds, treat it as a poisoned cache entry, not a
+  publishing failure**: purge and re-warm, do not roll anything back.
+
+  ```
+  POST https://hellokahwin.com/api/cron/revalidate-content
+  Authorization: Bearer $CRON_SECRET
+  ```
+
+  Then re-request each hub sequentially and assert the link count against the
+  database. A proof that only checks `noindex` and the status code passes
+  happily while the page is empty — all four degraded hubs returned `200` with
+  no robots meta, which is "indexable" by every check the proof was making.
+  **Assert the article count on every hub, not just the one being published.**
+- **Record the undo BEFORE the first write.** Production runs
+  `pitr_enabled=false` with zero platform backups. The undo is the only way
+  back, and it must name the slugs verbatim. One trap to get right:
+  `media.original_article_id` is `ON DELETE SET NULL`, not cascade, so media
+  rows must be deleted *before* the articles or they become unfindable orphans.
+  Worked example: `docs/work-done/2026-08-25-publish-p1-p6-UNDO.md` in the site
+  repo.
+- **Ingest order follows the internal links.** The parser refuses a link — in
+  the body as well as the front matter — that does not resolve to a *published*
+  article. Resolve every link target against the database before starting; if a
+  batch cross-links internally, order it so each target is published first.
+  **Two batches running, two briefs predicting internal cross-links, zero found
+  so far.** Resolve the list; do not design the ordering exercise first.
+- **A writer who finds a sibling link delivers it with the publish order, and
+  never silently drops it.** Added 26 Ogos 2026, from CONT-03. That brief said
+  "internal links must point at published articles", which is true at ingest and
+  wrong at drafting: it made the writer delete a genuine
+  `skrip-pengacara-majlis-perkahwinan` to `walimatul-urus` link between two
+  articles shipping in the same batch. Both drafts lost a link that the ordering
+  rule above already solves. **The writer's deliverable is the link plus one
+  line naming which sibling publishes first.** `head-of-seo-content` adds it to
+  the second file's front matter after the first is live. Three batches have now
+  predicted cross-links and found none; at least one of those three was a
+  reporting artefact, not an absence.
+- **`internalLinks[].slug` must be an ARTICLE slug, never a pillar or cluster
+  slug.** Pillar hubs live in `inspire_categories`, not `articles`, so
+  `slug: hantaran-mas-kahwin` cannot resolve and refuses the file — even though
+  `/artikel/hantaran-mas-kahwin` is a real, live URL. `P7-A3` shipped with
+  exactly this and the verification board flagged it as "worth a dry run"; the
+  dry run was not taken until publish day. To link a hub, write it in the body
+  prose: `bodyInternalLinks()` ignores `/artikel/<hub>` deliberately, because a
+  hub is not an article and needs no resolving.
+- **`internalLinks` is validated, never rendered.** It is read twice in
+  `ingest-article.mts` — once to check each slug resolves, once to print a count
+  — and is never written to the database. Nothing a reader sees depends on it,
+  which is worth knowing when one entry is blocking nine articles.
+
+#### A LINK YOU WROTE IS NOT A LINK GOOGLE FOLLOWS. Check the emitted `<a>`.
+
+Added 26 Ogos 2026 by SEO-02, and it is the most expensive thing this document
+has had to record.
+
+Every internal editorial link on the live site was `rel="nofollow"`. Seventy-nine
+of one hundred and nine, including all five out of `mas-kahwin-ikut-negeri` — the
+highest-impression page on the domain — and **every link on all twenty-eight
+pillar articles published that week.** `nofollow` instructs Googlebot not to
+follow the link. The site had an internal link graph no crawler would walk.
+
+**Nobody typed the word.** TipTap's Link extension ships
+`HTMLAttributes = { target: '_blank', rel: 'noopener noreferrer nofollow' }`,
+and those are the *defaults of the attributes themselves*. `marked` turns
+`[anchor](/artikel/c/s)` into a bare `<a href>`; `generateJSON` fills the missing
+attributes from those defaults and writes them into the row; `generateHTML`
+emits them. A writer wrote a link, the pipeline switched it off, and nothing in
+the pipeline said so.
+
+It survived because **every check we had looked at the page, and the block was
+on the link.** SEO-01 verified status 200, no `robots` meta and no
+`X-Robots-Tag` on all 28 articles, concluded "nothing is blocked; the constraint
+is crawl scheduling alone", and that sentence went into `ceo-memory.md` as fact.
+It was true about the pages and false about the site. The instruction not to
+crawl was one layer down, in markup nobody had looked at, on the pages doing the
+*linking* rather than the pages being diagnosed.
+
+So:
+
+1. **When a page is "not blocked" and still not crawled, go and read what the
+   pages linking to it EMIT** — the rendered `<a>`, not the markdown, not the
+   front matter, not `internalLinks`. `curl` the linking page and grep for
+   `rel=`. It takes a minute.
+2. **Never conclude "the only remaining explanation is X" from the absence of
+   the blockers you thought to check.** The list of things you checked is not
+   the list of things that exist. Say "no page-level block found" and name what
+   was checked, which leaves the next person somewhere to look.
+3. **Link the canonical `/artikel/{category}/{slug}`, never the legacy root
+   slug.** `lokasi-pre-wedding-photoshoot-terbaik` had three inbound links from
+   indexed pages and had still never been crawled: all three pointed at the root
+   slug, which 308s, and URL Inspection reports that root as **"unknown to
+   Google"**. A link through a redirect splits the signal and spends a hop.
+4. **A rendered-HTML assertion is the only real regression guard.** The fix
+   (`src/lib/inspire/internal-links.ts`) is covered by a test that runs markdown
+   through the *actual* ingest extensions and the *actual* renderer and asserts
+   the delivered anchor. A unit test on the extension in isolation would have
+   passed on the day production shipped 79 nofollowed links.
+
+The measurement command is `pnpm --silent links:audit --db "$DB"`, which counts
+orphans, dead links, redirect hops and inbound links per article over the live
+rows. **Run it before and after any linking work and paste both.**
+
+#### When a declared asset is genuinely absent: stage a copy, never edit the draft
+
+Added 25 Aug 2026. Stage 6b now gates on assets existing, so this should be
+rare — but when Stage 7 inherits an article naming a file that was never
+rendered, the draft in `drafts/` is the **spec of record** and does not get
+edited. The unrendered entry is the only surviving description of the graphic
+somebody still has to make.
+
+Instead, write a staging copy to `drafts/ingest/` and ingest that. Mechanical
+changes only, every one reported in the log:
+
+1. `status: draft` → `status: published` (the two-key rule above);
+2. drop `images:` entries whose file is not on disk;
+3. drop `internalLinks:` entries that cannot resolve;
+4. re-root sibling-folder paths — `images/x.jpg` → `../images/x.jpg` — because
+   `resolve()` is relative to the **article file** and the staging copy sits one
+   directory down. This changes nothing that reaches the site: the R2 key is the
+   declared path slugified with every run of non-alphanumerics collapsed to one
+   hyphen and a leading hyphen stripped, so both spellings derive the same key.
+
+**Assert the body is byte-identical** between draft and staging copy, and print
+the assertion. That is what makes "no sentence was rewritten" a measurement
+rather than a claim. Worked example: `.tmp-ops/stage-p3-p4-p7.mjs` in the site
+repo, and the diff quoted in
+`docs/work-done/2026-08-25-publish-p3-p4-p7.md`.
+
+Then record in the work-done log, per article, exactly which declared assets did
+**not** ship, so adding them later is a `--update` against a known list and not
+a re-discovery.
+
+#### Image paths in the article file
+
+**One convention: relative to the article file, no `./` prefix.** A cover
+photograph in a sibling folder is `images/S-name.jpg`; a graphic beside the
+article file is `name.png`. `./name.png` resolves identically and is not a bug,
+but two spellings of one path invite a review round every batch, so the file
+format has one spelling. Enforced by convention and by the comment on
+`imageSchema.file` in `src/lib/inspire/article-file.ts`, not by the parser.
+
+**Gate:** the page is live, linked from its pillar, and in the sitemap; the
+undo record exists; the proof requests were taken after the five-minute wait.
+
+### A shared worktree has no owner — and a hold between two sessions does not bind a third
+
+Added 25 Aug 2026, after the P5 publish. A build/deploy hold was in force, agreed
+between two sessions, and production shipped anyway.
+
+A third session committed the worktree's dirty tree in good faith, believing the
+edits were its own, and pushed to `origin/master` mid-publish. **It behaved
+carefully** — it took only the four files belonging to its own work and left the
+other five modified files untouched. It was still a deploy nobody had cleared.
+
+The failure is structural and it will recur unless the process changes:
+
+- **A hold negotiated between two sessions cannot bind a third that was never
+  party to it.** The agreement lives in two conversations. The worktree knows
+  nothing about it, and a session that arrives later has no way to discover it.
+- **"Commit only my files" is not "commit only my changes."** Nothing in
+  `git status` records *whose* edits a modified file holds. A shared dirty tree
+  offers no attribution, so even the most careful reading of it can ship someone
+  else's boundary.
+
+**Three rules.**
+
+1. **Announce a hold in the tree, not only in conversation.** A hold that exists
+   only in a chat binds only its participants. Write it where `git status` and a
+   `cd` will show it — a `HOLD.md` at the repo root naming who set it, why, and
+   what it blocks — and delete it when it lifts.
+2. **Never commit a file you did not personally edit in a shared worktree.** A
+   modified file you do not recognise is not yours to reason about, and a
+   clean-looking diff is not evidence of authorship. `git add -p` on your own
+   hunks, or nothing.
+3. **Serialise concurrent write-authorised runs against production first.** Two
+   runs with database CRUD in the same window, on a database with
+   `pitr_enabled=false` and zero backups, is the highest-consequence overlap
+   available. On 25 Aug it cost nothing only because the second run turned out to
+   be read-only — scheduling, not a control. Establish read-only vs
+   write-authorised before the second run starts, not after.
+
+**The general defect, worth naming because it produced four separate near-misses
+in one morning:** state that lives only in one session's head is invisible to
+every other session touching the same tree. A stale block alive only in a log; an
+attribution sitting legible in `git status` and read by nobody; a hold held in two
+heads but not the third; two write-authorised runs unaware of each other. Same
+bug, four costumes. **If a fact must constrain another session, it has to live
+somewhere that session will trip over — the tree, the database, or a file — never
+only in a conversation or a log.**
 
 ### Stage 8 — Measure
 `head-of-seo-content` checks the article at **14 and 45 days**: does it rank
@@ -158,9 +805,66 @@ register with its next check date.
 
 **Gate:** none — this loop never closes. It feeds the next brief.
 
+### Stage 9 — Retrospective (MANDATORY — no workflow is finished without it)
+
+Added 25 Aug 2026 on owner directive: *"there must be a retrospective at the end
+of all workflows to ensure we update our learning."*
+
+**Why this exists.** For two days the CEO updated its own persona after every
+meeting while the team's process documents sat static. Real lessons — that
+`pdftotext -layout` misaligns government fee columns, that an agent reporting
+"blocked on a credential" usually means its session lacks permission rather than
+the company lacking the credential, that converting editorial deliverables into
+articles can carry internal sections into production — lived in one persona and
+a changelog instead of in the workflow anyone actually follows. **Learning that
+only updates the CEO is not organisational learning.**
+
+**Runs at the end of every completed workflow** — a cluster shipped, a batch
+published, a phase closed. Not only at board meetings.
+
+**Who:** the seat that owned the work, with `managing-editor` chairing. Five
+minutes of writing, not a ceremony.
+
+**Four questions, answered in the work-done log under `## Retrospective`:**
+
+1. **What did we learn that is not already written down?** A fact, a tool
+   behaviour, a failure mode. Be specific enough that someone could act on it
+   without having been there.
+2. **Which document must change, and who owns the edit?** This workflow, the
+   style guide, the production doctrine, a persona, a brief template, the
+   `/tokens` registry. **Name the file.** A lesson with no target file is a
+   lesson that evaporates.
+3. **What did we do twice that we should never do again?** Repetition is the
+   cheapest defect signal we have. Three articles blocked for the same reason
+   means the brief template is wrong, not the writer.
+4. **What did we nearly ship that we caught?** Near-misses are worth more than
+   successes. Record the mechanism that caught it, so we keep the mechanism —
+   the review board's fabricated-quotation catch and the wali rule found
+   backwards both exist because someone read the primary source rather than the
+   draft.
+
+**Then make the edits.** A retrospective that identifies a document and does not
+change it has failed. Log the file paths touched.
+
+**Where it goes — this is the part that failed on the first run.** This
+workflow produces two logs: a build log in the site repo and a company entry in
+`docs/work-done/<session>/` in the docs repo. **`## Retrospective` belongs in the
+docs-repo company entry.** That is the file the CEO and the next seat read. A
+copy in the site-repo log is welcome and optional; **a pointer from the company
+entry to a retrospective living elsewhere does not satisfy this gate.** On
+25 Aug 2026 the section was written in full, both files existed, every named
+document was edited — and the gate still failed, because the section was not
+where the reader looks.
+
+**Gate:** the docs-repo work-done company entry carries a literal
+`## Retrospective` heading, answering all four questions, and every document it
+names has actually been edited. Check it with
+`grep -c '^## Retrospective' docs/work-done/<session>/<entry>.md` — expect `1`,
+not a cross-reference. **A workflow without this is not closed.**
+
 ---
 
-## The two standing loops
+## The three standing loops
 
 **Currency loop** (`editorial-verification-lead`): monitors the sources behind
 the register and flags a page for refresh **when the fact changes, not when
@@ -172,6 +876,218 @@ outcomes are logged, so recurring failure modes get fixed **upstream in the
 brief** rather than caught again downstream in every review. If three
 articles in a row get blocked for the same reason, the brief template is
 wrong, not the writer.
+
+### Standards loop — a changed standard is not applied until the backfill is named
+
+**Added 25 Aug 2026, after the C2.4 cover swap.** The currency loop watches
+**facts** and the learning loop feeds **forward** into the next brief. Between
+them sat an uncovered case, and it is the one that keeps happening: **a standard
+changes, and the pages already published under the old standard are nobody's
+job.**
+
+The evidence is one cluster in one day. Covers were typographic `kad-tajuk`
+cards; on 25 Aug the owner ruled covers must be human photographs. P1 and P6 had
+not shipped yet, so they got photographs and looked correct. The eight C2.4
+articles had shipped the day before, so they silently kept text cards — live,
+indexed, and wrong — until somebody happened to check every live `og:image` by
+hand and wrote a brief. **Nothing in this workflow caused that check.** Had
+nobody looked, the eight would still be wrong, and the more we publish the wider
+that gap gets on the next ruling.
+
+**The rule.** Any directive that changes a production standard — visual, credit,
+schema, structural — is not applied, and must not be logged as applied, until it
+carries all three:
+
+1. **A backfill list.** Every already-published URL that fails the new standard,
+   enumerated by query or by fetch, not estimated. `head-of-seo-content` owns
+   producing it; the seat that proposed the standard owns checking it.
+2. **A named owner and a date** for that backfill, in the same document that
+   announces the standard. "We will fix the old ones" is not an owner.
+3. **A re-check after the backfill ships**, against the same query that produced
+   the list. Expect zero. A backfill nobody verified is a backfill that half ran.
+
+**Write the standard so it can be queried.** A rule that cannot be turned into a
+check is a rule the next batch will drift from without anyone noticing. "Covers
+are photographs" became checkable the moment it was expressed as
+`cover_image_url not like '%kad-tajuk%'` across every published row. Prefer
+standards with that shape, and record the query beside the rule.
+
+#### The recorded check must cover the WHOLE standard, and must be proven to fire
+
+**Added 26 Aug 2026, after the P1/P6 body cards.** Everything above this line was
+already written down on 25 Aug, and the eight P1 and P6 articles still went to
+26 Aug serving a text card in the body. The loop did not fail because nobody ran
+it. It failed because **the check that got recorded was narrower than the rule it
+was recorded against, so running it produced a clean result and closed the
+question.**
+
+The owner's directive has two halves — *no text card as a cover, and none in the
+body*. The query recorded beside it was `cover_image_url not like '%kad-tajuk%'`.
+That is half a check. It ran, it came back clean, and the run reported **"25 of
+25 photograph covers, zero text cards"** — a sentence that is true about covers
+and false about pages. The covers had been swapped correctly; the displaced cards
+were sitting in the body of all eight, live and indexed, for a day.
+
+**And the recorded pattern could not have found them even aimed at the body.**
+Ingest stores a figure's `src` as the WebP derivative
+(`…/1787652677828-cover-borang-nikah/high.webp`), so `like '%.png'` and `like
+'%kad-tajuk%'` both return nothing against a body card, forever. The card is only
+visible by resolving each `src` back to its `media` row and reading the FILENAME
+the article file declared. A check that cannot in principle see the thing it
+forbids is worse than no check: it manufactures evidence of compliance.
+
+**Three rules, and the first two are the cheap ones.**
+
+1. **Enumerate the check against the standard, clause by clause.** Write the
+   clauses out — "not as a cover" / "not in the body" — and show which part of
+   the query covers each. A clause with no column under it is the gap.
+2. **Prove the check fires before trusting that it passed.** Point it at a known
+   bad instance — an old row, a fixture, a page you have not fixed yet — and
+   confirm it goes red. A check first exercised on already-clean data has never
+   demonstrated it can do anything at all. Both of this run's PASS results are
+   only worth reading because the same code returned **8 across 8 articles** on
+   the before-state, from the same production database, an hour earlier.
+3. **Derive the population from the data, never from the brief's table.** The
+   brief for this run listed 17 cards across the eight articles. The data held
+   **8** — one per article — and the other nine had been generated at 18:45 on
+   25 Aug, staged into the drafts, and never ingested. A run that had trusted the
+   table would have hunted nine cards that were not there and reported failure,
+   or "fixed" them and never noticed the drafts were the actual exposure.
+
+**The runnable form of this rule now exists and has no excuse for not being
+used:** `scripts/audit-live-images.mts` in the site repo, `pnpm --silent
+audit:images --db <url> --live`. It walks every published article's `content`
+document, resolves every `src` to its `media` row, classifies text cards by
+declared filename rather than by served URL, checks cover AND body, optionally
+re-checks the rendered HTML of every live page, and exits non-zero on a card.
+**Run it after any image-standard change, and quote its numbers rather than a
+sentence about covers.**
+
+#### A directive that changes mid-flight must reach the work in flight
+
+**Same day, same cluster, twice.** The C2.4 cover brief was rewritten on disk
+**while the run that was executing it was mid-commit** — item 4 reversed from
+"keep the card, move it in-article" to "remove the card entirely" — and the
+workflow was updated 21 seconds later with the matching standing rule. The
+running agent had already published eight articles under the superseded
+instruction. It found out only because it opened this file for an unrelated
+reason.
+
+**Two rules, and they are cheap.**
+
+- **Editing a brief that is being executed does not deliver the edit.** Whoever
+  changes a live brief tells the running seat directly. A file edit is a record,
+  not a message.
+- **Re-read the brief before the final write, and again before writing the
+  log.** Diff it against the version the run started from. If it moved, stop and
+  reconcile before reporting — a run that reports success against a superseded
+  brief is worse than one that reports nothing, because it closes the ticket.
+
+Both are the same failure as the backfill gap, one timescale down: **a standard
+changed, and the work already done under the old one was nobody's job.**
+
+#### A withdrawn directive must not survive as a citation inside a build artefact
+
+**This is the one that actually caused the damage**, and it is worth separating
+from the two above because no amount of telling the running seat would have
+caught it.
+
+When the "move the card in-article" instruction was withdrawn, the ruling was
+updated in the brief and in this file. **It was not removed from the eight
+`drafts/ingest/A1..A8-*.md` files that had been built under it** — and those
+files carried the withdrawn instruction *as an approving comment citing the
+owner*:
+
+```yaml
+  # Kad tajuk yang dahulunya menjadi cover, dipindahkan ke dalam artikel
+  # mengikut arahan pemilik 25 Ogos 2026. Datanya masih yang terbaik ada
+  # pada kami, jadi kad ini kekal — ia cuma tidak lagi menjadi muka depan.
+  - file: mas-kahwin-johor-kad-tajuk.png
+```
+
+A later run opened that file, read a specific instruction attributed to the
+owner and dated, had no way to know it had been superseded, and **executed it in
+good faith onto eight indexed production pages.** The comment did not merely
+fail to stop the run — it actively vouched for the wrong behaviour. The build
+artefact outranked the ruling because it was the thing actually being read.
+
+**Three rules.**
+
+1. **A generated or hand-built artefact does not get to cite authority.** No
+   "mengikut arahan pemilik", no "as approved by", no directive quoted as
+   justification inside a draft, an ingest file or a template. Artefacts carry
+   *what to do*; the *why it is allowed* lives in the ruling document, which is
+   the only copy anyone can withdraw. Two copies of a directive means one of
+   them is eventually stale, and it will be the one being executed.
+2. **Withdrawing a directive includes sweeping the artefacts built under it.**
+   `grep` for the instruction across `drafts/`, not only for the rule in the
+   docs. The withdrawal is not complete while a file still tells the next run to
+   do the old thing. This is the backfill rule applied to source files rather
+   than to published pages, and it is the same failure.
+3. **A run that finds a directive quoted in a build artefact verifies it against
+   the ruling document before acting on it.** If the artefact and the ruling
+   disagree, the ruling wins and the run stops and says so. Treat an authority
+   citation in a file as a claim to be checked, exactly as a brief's description
+   of the filesystem is a claim to be checked.
+4. **The asset register is authoritative, and must be READ before an artefact is
+   regenerated — not merely written to afterwards.** This is the concrete,
+   machine-readable form of rules 1–3, and it already worked on 25 Aug: the
+   eight retired cards were set to `status_guna: jangan-guna` with
+   `digunakan_dalam` emptied and the owner's directive recorded in `nota`, the
+   moment they came off the pages. A regenerating run that consults the register
+   cannot miss that; the run that put the cards back **did not consult it**.
+   Treat `status_guna` as a gate: **an asset marked `jangan-guna` may not be
+   written into any draft, ingest file or template**, whatever a comment beside
+   it claims and whoever it cites. The register is the one copy that is updated
+   when a directive changes, which is exactly what makes it the one to trust.
+
+**A note on why an authority citation is the dangerous form.** When the card
+came back at 11:08:24Z its comment cited the owner *and* the editorial board,
+and added `jangan tulis semula tanpa melalui lembaga`. Every clause was true in
+isolation — the board really had approved that alt text on 24 Aug. What had been
+withdrawn was the **entry**, which makes the approval of its alt text irrelevant,
+and nothing in the comment let a reader see that. **A citation that is locally
+true and globally stale is harder to catch than a plain mistake**, because it
+survives review by looking well-sourced. That is the case rule 1 is for.
+
+### Stage 9b — The ship check. Fixed is not shipped.
+
+Added 25 Aug 2026 (sprint item RISK-03) after a verified fix for a live,
+rule-breaking defect sat **uncommitted in the working tree** while four agents
+worked on other things. The CEO found it by running `git status`, not from any
+report — every report on that work read as complete, because the code *was*
+correct. It just was not anywhere a reader could reach.
+
+**Owner: the CEO.** Not the agent that did the work — an agent reporting on its
+own shipping is precisely the failure mode this exists to catch.
+
+**Run before any item is marked done, and again before a sprint moves to
+review.** Two commands, in the repository the work touched:
+
+```
+git status --short                              # uncommitted changes
+git rev-list --count origin/master..HEAD        # unpushed commits
+```
+
+**Both must be accounted for, not merely run.** Uncommitted files unrelated to
+the item are fine — say which and why. Unpushed commits belonging to the item are
+**not** fine: the item is not done, whatever its report says.
+
+**Then check the user-visible surface**, because a push is not a deploy either:
+the URL returns what it should, the row holds what it should, the page renders
+what it should. Deployment is asynchronous and a green push proves nothing about
+production.
+
+**Three states, all of which have been mistaken for "done" in this project:**
+
+| Looks done | Actually is | How to tell |
+|---|---|---|
+| Code is correct | Not committed | `git status --short` is non-empty |
+| Committed | Not deployed | `git rev-list --count origin/master..HEAD` is non-zero |
+| Deployed | Not visibly working | The URL, row or render still says otherwise |
+
+**Gate:** both commands run and accounted for, and the user-visible surface
+checked, before any item is marked done.
 
 ---
 
