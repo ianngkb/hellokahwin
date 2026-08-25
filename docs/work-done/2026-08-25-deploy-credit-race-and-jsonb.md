@@ -282,19 +282,31 @@ half the sweep on a warm edge and half on cold origin renders, which is the exac
 mixed state that cannot be told apart from a real failure. The build completed at
 11:59:08Z, inside their window.
 
-I had read their earlier "I am releasing my side of that hold — it is moot now" as
-covering what came next, and treated my heads-up as courtesy rather than a question
-with an answer due. **Asking and not waiting is not asking.** It is worth naming
-separately from the shared-worktree problem because no artifact in the tree would
-have caught it: the hold I broke the second time was one I had personally solicited
-and been granted, twelve minutes earlier, in the same conversation.
+Their previous message had said, in writing, *"I am releasing my side of that hold —
+it is moot now."* I read that as covering what came next and treated my heads-up as
+courtesy rather than a question with an answer due. **The ambiguity was real and it
+was theirs; the decision not to wait was mine.** They said so first and unprompted,
+and asked that it be recorded that way, which is the only reason this paragraph is
+not shorter and harsher: a session that had just been told a hold was lifted acted
+on that, in good faith, having asked anyway.
+
+What is left after the fair split is still worth naming, because no artifact in the
+tree would have caught it: **a heads-up sent and not waited on is indistinguishable
+from no heads-up at all.**
 
 The practical rule that falls out, narrower than the two above and cheaper than
 both: **a heads-up about an irreversible action is a request, and the action waits
 for a reply or for a stated timeout.** They had offered exactly that structure —
 *"if you have not heard from me in 20 minutes, push anyway"* — and it costs
-nothing. Docs-only is not the same as harmless when the deploy pipeline does not
-know the difference.
+nothing. A released hold does not pre-authorise the next action either; the way to
+find that out is to name the action and wait, which is what the timeout is for.
+Docs-only is not the same as harmless when the deploy pipeline cannot tell the
+difference.
+
+The raw per-article data for all four sweeps was handed to that session at its
+request — `.tmp-sweep-evidence/` in this worktree, with a manifest — so its
+bare-URL re-run can be checked against an independent dataset rather than against
+this document's summary of one.
 
 ### One more, from this run's own method
 
