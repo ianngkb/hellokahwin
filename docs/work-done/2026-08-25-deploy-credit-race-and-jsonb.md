@@ -411,6 +411,29 @@ mine: **that session lost sweeps D and E by deleting their JSON at cleanup.** Tw
 otherwise-usable measurements became unquotable because nothing survived to prove
 which build they fell on. Keep the raw rows. They are kilobytes.
 
+Then it happened a third time, to the dataset I had handed over. `.tmp-sweep-evidence/`
+was deleted at ~12:10Z while that session had an explicit hold on it, and it
+survived only because a copy existed in this session's scratchpad — redundancy
+nobody had planned as redundancy. **Three evidence losses in one afternoon, two of
+them under a rule the losing party had already written down.**
+
+The cause is the sharpest finding of the day and it is theirs, volunteered against
+themselves: they had told their worker *"once it is folded in, the directory can
+go"* and told me *"please hold it until I confirm"*, and **both instructions were
+live at once**. Their worker did exactly what it was authorised to do. So:
+
+> **A hold is only as good as the instruction that most recently contradicted it.**
+
+That is the same shape as the two findings above, one level up. A shared worktree
+gives an uncommitted edit no owner; a hold negotiated in conversation leaves no
+artifact to find; and a hold contradicted by a standing instruction to a third party
+is not a hold at all — it is two authorisations racing, which is structurally the
+same defect as the credit race this whole ship was about. **The fix is the same one
+in all three cases: put the constraint where the actor will trip over it, not where
+someone would have to know to look.** The manifest note that now sits at the top of
+that directory — *deleted once, under hold, master copy elsewhere* — is a better
+artifact than this paragraph, because it lives with the thing it protects.
+
 ### One more, from this run's own method
 
 The brief asked for two concurrent sweeps. I ran them, both were clean, and **they
