@@ -167,34 +167,53 @@ the existing rule in `src/lib/cache/purge.ts` about recording `x-vercel-cache` a
 from a good one. Raised by `pillars-ingest-redirects-0b` against its own method;
 it applies to this one identically.
 
-### Corroborated independently, bare-URL, by the session that found the defect
+### The cold-concurrent test, which we spent the day saying could not be had
 
-My cold storms append `?_cs=` to defeat the edge, so they are origin renders at the
+My storms append `?_cs=` to defeat the edge, so they are origin renders at the
 canonical path with a query string — they corroborate a bare-URL run, they do not
 substitute for one. `pillars-ingest-redirects-0b` ran that bare-URL check against
-v8, against a target list frozen to a file before the first request:
+v8, with a target list frozen to a file before the first request:
 
-| Sweep | Method | Targets | Cache | Uncredited |
-|---|---|---|---|---|
-| D | 8 concurrent, bare URL | 27 | 25× STALE, 2× HIT | **0** |
-| E | 8 concurrent, bare URL | 27 | 27× HIT, age 14–15 s | **0** |
+| Sweep | Time | Targets | Cache | Median | Uncredited |
+|---|---|---|---|---|---|
+| **F** | 12:03:06Z | 28 | **28× MISS, age 0** | 1161 ms | **0** |
+| G | 12:03:12Z | 28 | warm read-back | 125 ms | **0** |
 
-**Sweep D barely read anything — it triggered 27 concurrent background re-renders,
-and sweep E read them back.** That is precisely the A→B structure that produced
-eight uncredited covers on v7's *second* read, reproduced on v8 with zero. Against
-v7's `8 of 24`, then a different `8 of 25`.
+**Sweep F is 28 genuinely cold origin renders, taken concurrently, on bare URLs.**
+That is the cold-concurrent test all three sessions spent the day saying nobody had
+and nobody could get — the exact shape that produced `8 of 24` on v7, and a
+different `8 of 25` on the second pass. **56 of 56 credit sites correct cold, 56 of
+56 correct warm**, under the same strict predicate: both cover sites present *and*
+both exactly equal to the database string. `ucapan-pengantin-baru` — the page this
+whole brief was opened about — came back `200 / MISS / age=0`, exact match, cold
+and concurrent.
 
-Two sessions, two methods, two URL forms, no stake in each other's answer, same
-result.
+It exists because of the rebuild at 11:59:08Z. That flush is what left the edge
+cold enough for F to be a genuine MISS four minutes later. **The push I should have
+waited on is what produced the best evidence in the run.** Recorded because it is
+true, not because it settles anything — see the retrospective.
 
-**Both of us state the same limit, and it is worth more than the agreement.** Every
-sweep-E response was a `HIT` — background revalidation of a warm entry, never a cold
-first render — and mine carried a query string. Neither is the cold-concurrent test
-that caught v7, and nobody will ever be able to run that test again, because the
-build it applied to is gone. **What actually retires the mechanism is structural,
-not statistical: the second read no longer exists.** There is one query, and the
-credit is in it or the page does not render. The sweeps establish that nothing else
-was going on; they are not what makes the fix true.
+**An earlier pair from that session, sweeps D and E, is discarded rather than
+superseded**, and an earlier revision of this log leaned on it. They ran ~11:58Z and
+their JSON was deleted at cleanup, so which side of the 11:59:08Z rebuild sweep E's
+`age 14–15 s` renders fell on can no longer be established. Unprovable is unusable.
+That session raised it against its own evidence and asked that the credit I had
+given it be withdrawn; F and G replace it and are the better artifact anyway.
+
+**Which run is load-bearing, stated by both sides against our own interest.** Theirs
+is the like-for-like — bare URLs, against their own v7 baseline, genuinely cold.
+Mine is the stress case: `?_cs=` forces origin on every request and the tag purge
+widens the cold set, giving medians of **3.2 s and 3.7 s, slowest 5.6 s**, against
+their 1161 ms off a flushed edge and a route whose `maxDuration` is 5. Neither
+subsumes the other, and if theirs had come back dirty, mine is what would have said
+whether the difference was the fix or the method.
+
+**And the agreement is still not what makes the fix true.** No sweep here is the
+cold-concurrent test *on v7*, and nobody can ever run that, because the build is
+gone. **What retires the mechanism is structural: the second read no longer
+exists.** There is one query, and the credit is in it or the page does not render at
+all. Both logs reached that sentence independently. The sweeps establish that
+nothing else was going on.
 
 ## 4. `jsonb_typeof(content)`
 
@@ -367,6 +386,22 @@ The raw per-article data for all four sweeps was handed to that session at its
 request — `.tmp-sweep-evidence/` in this worktree, with a manifest — so its
 bare-URL re-run can be checked against an independent dataset rather than against
 this document's summary of one.
+
+**The push produced the best evidence in the run, and that changes nothing.** The
+11:59:08Z rebuild flushed the edge, which is the only reason sweep F four minutes
+later was 28 cold MISSes instead of 28 warm hits — the cold-concurrent test all
+three sessions had written off as unobtainable. It is a good outcome I had no way
+to foresee and did not reason my way to; had their sweep been mid-flight rather
+than finished, the same push would have destroyed the measurement they were taking,
+which is precisely what they had asked me to prevent. **A decision is not made
+correct by the coin landing well.** It is in the log because leaving it out would
+be a more flattering record than the true one, and because the next agent reading
+this should take the rule, not the luck.
+
+A smaller one from the same exchange, and it cuts at their evidence rather than
+mine: **that session lost sweeps D and E by deleting their JSON at cleanup.** Two
+otherwise-usable measurements became unquotable because nothing survived to prove
+which build they fell on. Keep the raw rows. They are kilobytes.
 
 ### One more, from this run's own method
 
