@@ -75,7 +75,9 @@ export const InternalAwareLink = LinkExtension.extend({
     // Drop whatever target/rel the row happens to carry and state ours. `rel`
     // is set rather than omitted because `mergeAttributes` would otherwise let
     // the extension default — the nofollow triple — back in.
-    const { target: _target, rel: _rel, ...rest } = HTMLAttributes;
+    const rest = { ...HTMLAttributes };
+    delete rest.target;
+    delete rest.rel;
     return ['a', mergeAttributes(rest, { rel: 'noopener' }), 0];
   },
 });
