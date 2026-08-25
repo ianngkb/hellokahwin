@@ -135,6 +135,56 @@ describe('parseArticleFile', () => {
     }
   });
 
+  // `placeAfter` is what lets an editor put a photograph near the TOP of a
+  // piece. Without it every credited figure landed after the last FAQ answer,
+  // which on these articles is the worst place on the page.
+  it('accepts a body image with a declared placeAfter, and defaults to none', () => {
+    const withPlacement = validFile().replace(
+      '---\n\n# Mas kahwin',
+      `images:
+  - file: ../images/S-pengantin-selepas-akad.jpg
+    alt: Pengantin Melayu berbaju putih sebaik selesai akad nikah
+    credit: 'Kredit: Azlan DuPree (CC BY 2.0)'
+    creditUrl: https://commons.wikimedia.org/wiki/File:Malay_couple.jpg
+    licenseClass: S
+    licensorName: Azlan DuPree
+    placeAfter: 2
+  - file: ../images/S-dulang-hantaran.jpg
+    alt: Dulang hantaran berisi buah dan bunga
+    credit: 'Kredit: mohd hasan / Pexels'
+    licenseClass: S
+    licensorName: mohd hasan
+---
+
+# Mas kahwin`,
+    );
+    const { frontMatter } = parseArticleFile(withPlacement);
+    expect(frontMatter.images[0].placeAfter).toBe(2);
+    // Omitted means "append after the body" — the behaviour every file that
+    // predates this field relies on, so it must stay undefined and not 0.
+    expect(frontMatter.images[1].placeAfter).toBeUndefined();
+  });
+
+  it.each([
+    ['negative', '-1'],
+    ['fractional', '1.5'],
+  ])('REFUSES a %s placeAfter rather than rounding it into something', (_label, value) => {
+    const file = validFile().replace(
+      '---\n\n# Mas kahwin',
+      `images:
+  - file: ../images/S-akad.jpg
+    alt: Pengantin Melayu sebaik selesai akad nikah
+    credit: 'Kredit: Azlan DuPree (CC BY 2.0)'
+    licenseClass: S
+    licensorName: Azlan DuPree
+    placeAfter: ${value}
+---
+
+# Mas kahwin`,
+    );
+    expect(() => parseArticleFile(file)).toThrow(ArticleFileError);
+  });
+
   it('REFUSES an in-article image missing a credit, not just the cover', () => {
     const file = validFile().replace(
       '---\n\n# Mas kahwin',

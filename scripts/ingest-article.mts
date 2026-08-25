@@ -44,6 +44,7 @@ import {
   creditLine,
   bodyInternalLinks,
   type ArticleImage,
+  type ArticleBodyImage,
 } from '../src/lib/inspire/article-file';
 
 // R2 and the variant pipeline are imported DYNAMICALLY, inside main(), after
@@ -289,6 +290,33 @@ function markdownToTiptap(markdown: string): unknown {
 }
 
 /**
+ * THE URL A READER'S BROWSER ACTUALLY FETCHES, which is not the same thing as
+ * the URL of the file we uploaded.
+ *
+ * `next.config.ts` sets `images.unoptimized: true` — every variant is made by
+ * Sharp at upload time, so Next serves the `src` byte-for-byte and there is no
+ * image optimiser behind it to rescue a large one. Whatever goes in this
+ * attribute is what a phone downloads.
+ *
+ * Ingest used to store `up.url`, the ORIGINAL upload. `getArticleVariantUrl`
+ * in the renderer cannot rewrite that: its pattern only matches a URL already
+ * ending in `high.webp` / `low.webp` / `original.<ext>`, and an original keyed
+ * `…/1787-foto.jpg` matches none of them, so it is returned untouched and
+ * served whole. Several of the sourced photographs are 12–15 MB. That is the
+ * defect, and it is why this returns the `high` variant instead — which is
+ * also the shape every one of the 29 existing articles already stores
+ * (`…/<timestamp>-<name>/high.webp`), so the renderer's low/high swap works on
+ * an ingested figure exactly as it does everywhere else.
+ *
+ * Falls back to the original only when there are no variants at all, which is
+ * the `--skip-media` local path.
+ */
+function figureSrc(up: { url: string; variants: unknown }): string {
+  const high = (up.variants as { high?: { url?: string } } | null)?.high?.url;
+  return typeof high === 'string' && high ? high : up.url;
+}
+
+/**
  * Replace each markdown image with a figureBlock carrying the credit.
  *
  * The credit rides in `data-caption` / `data-caption-url` because that is the
@@ -307,6 +335,35 @@ function toFigureBlock(image: ArticleImage, url: string) {
       'data-caption-url': image.creditUrl ?? null,
     },
   };
+}
+
+/**
+ * The body blocks with the credited figures put where the file asked for them.
+ *
+ * An image carrying `placeAfter: n` is inserted below the nth top-level block;
+ * one without it is appended after the body, which is the behaviour every
+ * existing file relies on. Insertions run from the LAST declared position
+ * backwards so that each splice cannot shift an index that has not been used
+ * yet — doing it forwards silently drifts every figure after the first by the
+ * number of figures already inserted above it.
+ */
+function composeBody(
+  bodyNodes: unknown[],
+  images: ArticleBodyImage[],
+  srcFor: (image: ArticleBodyImage) => string,
+): unknown[] {
+  const nodes = [...bodyNodes];
+  const declared = images
+    .map((image, index) => ({ image, index }))
+    .filter((entry) => typeof entry.image.placeAfter === 'number')
+    .sort((a, b) => b.image.placeAfter! - a.image.placeAfter! || b.index - a.index);
+  for (const { image } of declared) {
+    nodes.splice(image.placeAfter!, 0, toFigureBlock(image, srcFor(image)));
+  }
+  const appended = images
+    .filter((image) => typeof image.placeAfter !== 'number')
+    .map((image) => toFigureBlock(image, srcFor(image)));
+  return [...nodes, ...appended];
 }
 
 async function main() {
@@ -410,6 +467,19 @@ async function main() {
     } catch {
       problems.push(`image not found: ${image.file}`);
     }
+  }
+
+  // The body, converted once and reused for the write. Done HERE, before the
+  // refuse gate, so a `placeAfter` pointing past the end of the article is
+  // caught with everything else rather than after 15 MB has gone to R2.
+  const content = markdownToTiptap(markdown) as { type: string; content?: unknown[] };
+  const bodyNodes = content.content ?? [];
+  for (const image of frontMatter.images) {
+    if (typeof image.placeAfter === 'number' && image.placeAfter > bodyNodes.length)
+      problems.push(
+        `${image.file}: placeAfter is ${image.placeAfter} but the body has only ` +
+          `${bodyNodes.length} top-level blocks`,
+      );
   }
 
   if (problems.length) {
@@ -568,19 +638,42 @@ async function main() {
     }
   }
 
-  const content = markdownToTiptap(markdown);
-  // Append the credited figures after the body. Placing them inline would mean
-  // guessing where the writer wanted each one, and ingest does not guess.
+  // The credited figures, placed where the approved file asked for them and
+  // appended after the body when it did not ask. Ingest still guesses nothing.
   const contentWithFigures = {
-    ...(content as { type: string; content: unknown[] }),
-    content: [
-      ...((content as { content?: unknown[] }).content ?? []),
-      ...frontMatter.images.map((image) => toFigureBlock(image, uploaded.get(image.file)!.url)),
-    ],
+    ...content,
+    content: composeBody(bodyNodes, frontMatter.images, (image) =>
+      figureSrc(uploaded.get(image.file)!),
+    ),
   };
 
   const cover = uploaded.get(frontMatter.cover.file)!;
 
+  // ── EVERY jsonb PARAMETER BELOW GOES THROUGH `sql.json()`. DO NOT
+  //    "SIMPLIFY" IT BACK TO `JSON.stringify()`. ────────────────────────────
+  //
+  // postgres.js reads the `::jsonb` cast that follows a placeholder and uses it
+  // to type the PARAMETER, then serialises the value with that type's
+  // serializer — and the json serializer is `JSON.stringify`. Hand it a string
+  // that has ALREADY been stringified and it stringifies it a second time, so
+  // Postgres receives `"{\"type\":\"doc\"}"` and stores a jsonb STRING
+  // scalar instead of the object. Probed against a real database:
+  //
+  //   ${JSON.stringify(doc)}::jsonb   ->  jsonb_typeof = string   (the bug)
+  //   ${JSON.stringify(doc)}::text::jsonb -> object  (the cast decides, not the value)
+  //   ${sql.json(doc)}::jsonb         ->  jsonb_typeof = object   (correct)
+  //
+  // This shipped: all eight articles ingested on 24 Aug stored `content`,
+  // `cover_image_variants`, `cover_image_smart_crops`, `media.variants` and
+  // their siblings as jsonb strings, while all 29 legacy articles held objects.
+  // It hid for a day because Drizzle's `jsonb` column runs `JSON.parse` on a
+  // string value on the way out, so every RENDER path saw a proper document and
+  // nothing looked wrong. What does not recover is SQL: `content->'content'` is
+  // NULL on a string row, so any query, migration, backfill or audit that
+  // reaches into the document silently sees an empty article.
+  //
+  // The `as never` casts are only there because these values are typed
+  // `unknown` upstream; they carry no runtime meaning.
   await sql.begin(async (tx) => {
     const [row] = await tx<{ id: string }[]>`
       insert into articles
@@ -590,11 +683,11 @@ async function main() {
          authorship, review_status, is_ai_generated)
       values
         (${frontMatter.title}, ${frontMatter.slug}, ${frontMatter.excerpt ?? null},
-         ${JSON.stringify(contentWithFigures)}::jsonb, ${cover.url},
-         ${cover.variants ? JSON.stringify(cover.variants) : null}::jsonb,
-         ${cover.smartCrops ? JSON.stringify(cover.smartCrops) : null}::jsonb,
-         ${cover.focalPoint ? JSON.stringify(cover.focalPoint) : null}::jsonb,
-         ${cover.detectionData ? JSON.stringify(cover.detectionData) : null}::jsonb,
+         ${sql.json(contentWithFigures as never)}::jsonb, ${cover.url},
+         ${cover.variants ? sql.json(cover.variants as never) : null}::jsonb,
+         ${cover.smartCrops ? sql.json(cover.smartCrops as never) : null}::jsonb,
+         ${cover.focalPoint ? sql.json(cover.focalPoint as never) : null}::jsonb,
+         ${cover.detectionData ? sql.json(cover.detectionData as never) : null}::jsonb,
          ${frontMatter.metaDescription}, ${effectiveStatus}, ${author.id}, ${pillar.id},
          ${effectiveStatus === 'published' ? (frontMatter.publishedAt ?? new Date().toISOString()) : null},
          ${authorship}::article_authorship,
@@ -686,10 +779,10 @@ async function main() {
           (${basename(image.file)}, ${up.key}, ${up.url}, ${up.url},
            ${'image/' + (extname(image.file).slice(1) || 'jpeg')}, ${up.size},
            ${up.width ?? null}, ${up.height ?? null}, ${image.alt}, ${image.caption ?? ''},
-           ${up.variants ? JSON.stringify(up.variants) : null}::jsonb,
-           ${up.smartCrops ? JSON.stringify(up.smartCrops) : null}::jsonb,
-           ${up.focalPoint ? JSON.stringify(up.focalPoint) : null}::jsonb,
-           ${up.detectionData ? JSON.stringify(up.detectionData) : null}::jsonb,
+           ${up.variants ? sql.json(up.variants as never) : null}::jsonb,
+           ${up.smartCrops ? sql.json(up.smartCrops as never) : null}::jsonb,
+           ${up.focalPoint ? sql.json(up.focalPoint as never) : null}::jsonb,
+           ${up.detectionData ? sql.json(up.detectionData as never) : null}::jsonb,
            ${image.credit}, ${image.creditUrl ?? null}, ${image.licenseClass}, ${image.licensorName},
            'article_upload', ${row.id}, ${author.id})
         on conflict (r2_key) do update set

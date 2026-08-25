@@ -88,6 +88,32 @@ const imageSchema = z.object({
 
 export type ArticleImage = z.infer<typeof imageSchema>;
 
+/**
+ * A body image, plus where the editor wants it.
+ *
+ * `placeAfter` is the number of top-level body blocks the figure sits BELOW —
+ * `placeAfter: 2` puts it under the second paragraph, `0` puts it above the
+ * first. Omit it and the figure is appended after the body, which is what
+ * every file did before this field existed.
+ *
+ * It is a DECLARED position, not an inferred one, and that distinction is the
+ * whole point: ingest still makes no editorial judgement about where a picture
+ * belongs, it just does what the approved file says. An out-of-range value is
+ * a refusal rather than a silent clamp — a figure quietly landing at the end
+ * of an article the editor wanted illustrated at the top is the failure this
+ * field exists to remove, and reintroducing it as a fallback would be worse
+ * than not having the field at all.
+ */
+const bodyImageSchema = imageSchema.extend({
+  placeAfter: z
+    .number()
+    .int('placeAfter must be a whole number of top-level blocks')
+    .min(0, 'placeAfter cannot be negative')
+    .optional(),
+});
+
+export type ArticleBodyImage = z.infer<typeof bodyImageSchema>;
+
 const internalLinkSchema = z.object({
   slug: z.string().min(1),
   anchor: z.string().min(1, 'anchor is required — use the target’s Malay entity phrase'),
@@ -131,7 +157,7 @@ export const articleFileSchema = z.object({
   publishedAt: z.string().datetime().optional(),
   tags: z.array(z.string().min(1)).default([]),
   cover: imageSchema,
-  images: z.array(imageSchema).default([]),
+  images: z.array(bodyImageSchema).default([]),
   internalLinks: z.array(internalLinkSchema).default([]),
 });
 
