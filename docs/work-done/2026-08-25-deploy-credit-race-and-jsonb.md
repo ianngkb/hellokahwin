@@ -208,6 +208,15 @@ their JSON was deleted at cleanup, so which side of the 11:59:08Z rebuild sweep 
 That session raised it against its own evidence and asked that the credit I had
 given it be withdrawn; F and G replace it and are the better artifact anyway.
 
+**Two limits on F and G, confirmed by that session against its own headline.** They
+swept **only the 28 credit-bearing articles**, so that run says nothing about legacy
+covers correctly rendering nothing — a coverage gap, not an instrument one, and this
+run's four sweeps are the only evidence on that axis. And their retained rows carry
+no body size either, so like `cold-1`/`cold-2` the parser could not have told a
+degraded response from a clean one. Neither limit moves the 56 of 56: a degraded
+page scores as a *failure* under the strict predicate, and there were none. Both are
+recorded because a reader citing sweep F should know what it did not look at.
+
 **Which run is load-bearing, stated by both sides against our own interest.** Theirs
 is the like-for-like — bare URLs, against their own v7 baseline, genuinely cold.
 Mine is the stress case: `?_cs=` forces origin on every request and the tag purge
