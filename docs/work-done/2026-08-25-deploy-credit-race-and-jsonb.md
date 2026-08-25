@@ -164,8 +164,16 @@ line is weaker than it reads and should not be quoted without this paragraph.
 Recording body size on every proof request is the cheap fix, and it belongs next to
 the existing rule in `src/lib/cache/purge.ts` about recording `x-vercel-cache` and
 `age`. Same failure shape: without the field, a bad response is indistinguishable
-from a good one. Raised by `pillars-ingest-redirects-0b` against its own method;
-it applies to this one identically.
+from a good one.
+
+**Provenance, because it was got wrong once already.** The underlying observation —
+a concurrent burst of cold URLs degrading pages that then return `200` with an empty
+body — belongs to the **P5 run, `pillars-ingest-redirects-b7`**.
+`pillars-ingest-redirects-0b` relayed it, initially misattributing it to this
+session, then corrected it unprompted and told P5 the finding was theirs. What 0b
+added is the turn that makes it bite here: that a sweep at concurrency 8 is itself
+the load, so the instrument and the fault become indistinguishable. Both halves are
+other people's; only the check against this run's own `bytes` data is mine.
 
 ### The cold-concurrent test, which we spent the day saying could not be had
 
