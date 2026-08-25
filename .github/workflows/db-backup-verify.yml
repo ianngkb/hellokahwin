@@ -29,7 +29,7 @@ env:
   R2_BUCKET: hellokahwin-assets
   # 26h, not 24h: a backup that runs at 18:17 UTC and is delayed an hour is
   # healthy, not missing. Anything past 26h means a run was genuinely skipped.
-  MAX_AGE_HOURS: '-1'   # TEMPORARY: deliberate alarm test, reverted immediately
+  MAX_AGE_HOURS: '26'
   MIN_DUMP_BYTES: '100000'
 
 jobs:
