@@ -121,6 +121,63 @@ export function pathsInvalidatedByIngest(categorySlug: string, articleSlug: stri
   return [`/artikel/${categorySlug}/${articleSlug}`, `/artikel/${categorySlug}`, '/sitemap.xml'];
 }
 
+const SITE = 'https://hellokahwin.com';
+
+/**
+ * What the operator is told when the purge worked.
+ *
+ * It is the ONLY place allowed to say the caches are clear, and it exists as a
+ * function so that claim and the failure notice below can be asserted in a
+ * test. "Content caches dropped — the article is visible on the site now"
+ * printing while a reader still got the pre-publish page is the exact failure
+ * that let the original bug survive review; a unit test is cheap insurance
+ * against someone re-attaching that sentence to the wrong branch.
+ */
+export function edgePurgeSuccessNotice(result: EdgePurgeResult): string {
+  return (
+    'Content caches dropped and the Vercel edge purged — the article is visible on the\n' +
+    `site now. Purged (${result.detail}):\n` +
+    result.paths.map((p) => `  ${p}`).join('\n')
+  );
+}
+
+/**
+ * What the operator is told when the purge did NOT work.
+ *
+ * Three properties, all deliberate and all asserted in
+ * `edge-purge-notices.test.ts`:
+ *
+ *  1. It never contains the success sentence. A degraded run must not read like
+ *     a clean one at a glance.
+ *  2. It names the URLs that are actually stale, in full, and the window they
+ *     are stale for — because "the purge failed" is not something an operator
+ *     can act on, and "do not invite a crawl of these two URLs for five
+ *     minutes" is.
+ *  3. It carries Vercel's own reason verbatim. A 403 and a DNS failure need
+ *     different responses and only the literal detail separates them.
+ */
+export function edgePurgeFailureNotice(result: EdgePurgeResult): string {
+  const pages = result.paths.filter((p) => p !== '/sitemap.xml');
+  return (
+    '\n' +
+    '  ════════════════════════════════════════════════════════════════════\n' +
+    '  ⚠  THE VERCEL EDGE WAS NOT PURGED. The article is published and the\n' +
+    '     origin is correct, but readers — Googlebot included — can be\n' +
+    '     served the PRE-PUBLISH page for up to 5 minutes:\n' +
+    pages.map((p) => `       ${SITE}${p}\n`).join('') +
+    '     and the sitemap for up to an hour:\n' +
+    `       ${SITE}/sitemap.xml\n` +
+    '\n' +
+    `     Reason: ${result.detail}\n` +
+    '\n' +
+    (result.skipped
+      ? '     Re-run the ingest under the vault to purge, or wait out the TTL\n' +
+        '     before inviting a crawl.\n'
+      : '     Retry the purge, or wait out the TTL before inviting a crawl.\n') +
+    '  ════════════════════════════════════════════════════════════════════'
+  );
+}
+
 /**
  * Delete the CDN entries tagged with `paths`.
  *

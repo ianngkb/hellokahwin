@@ -46,7 +46,12 @@ import {
   type ArticleImage,
   type ArticleBodyImage,
 } from '../src/lib/inspire/article-file';
-import { purgeVercelEdge, pathsInvalidatedByIngest } from '../src/lib/cache/edge-purge';
+import {
+  purgeVercelEdge,
+  pathsInvalidatedByIngest,
+  edgePurgeSuccessNotice,
+  edgePurgeFailureNotice,
+} from '../src/lib/cache/edge-purge';
 
 // R2 and the variant pipeline are imported DYNAMICALLY, inside main(), after
 // the environment has been settled by `bootstrapEnv()`. See the long comment
@@ -919,38 +924,14 @@ async function main() {
       const purgePaths = pathsInvalidatedByIngest(pillar.slug, frontMatter.slug);
       const purge = await purgeVercelEdge(purgePaths);
       if (purge.ok) {
-        console.log(
-          'Content caches dropped and the Vercel edge purged — the article is visible on the\n' +
-            `site now. Purged (${purge.detail}):\n` +
-            purgePaths.map((p) => `  ${p}`).join('\n'),
-        );
+        console.log(edgePurgeSuccessNotice(purge));
       } else {
         // NOT a non-zero exit, unlike the origin failure above, and the
         // difference is the point: that one leaves the article invisible, this
         // one leaves it correct but up to five minutes late. A degradation is
         // not a corruption, so the publish stands — but the operator is told,
         // in the terms they act on, and is never told the caches are clear.
-        console.error(
-          '\n' +
-            '  ════════════════════════════════════════════════════════════════════\n' +
-            '  ⚠  THE VERCEL EDGE WAS NOT PURGED. The article is published and the\n' +
-            '     origin is correct, but readers — Googlebot included — can be\n' +
-            `     served the PRE-PUBLISH page for up to 5 minutes:\n` +
-            purgePaths
-              .slice(0, 2)
-              .map((p) => `       https://hellokahwin.com${p}\n`)
-              .join('') +
-            '     and the sitemap for up to an hour:\n' +
-            '       https://hellokahwin.com/sitemap.xml\n' +
-            '\n' +
-            `     Reason: ${purge.detail}\n` +
-            '\n' +
-            (purge.skipped
-              ? '     Re-run the ingest under the vault to purge, or wait out the TTL\n' +
-                '     before inviting a crawl.\n'
-              : '     Retry the purge, or wait out the TTL before inviting a crawl.\n') +
-            '  ════════════════════════════════════════════════════════════════════',
-        );
+        console.error(edgePurgeFailureNotice(purge));
       }
     }
   } else if (!args.skipMedia) {
