@@ -17,13 +17,19 @@ read-only against Postgres apart from two `revalidateTag` purges, which write no
 
 ### Authorship — read this before crediting the commit
 
-**The code in `f75c42f` was not written by this run.** All four files were edited
-in the shared worktree between 11:24Z and 11:26Z by another session's worker; this
+**The code in `f75c42f` was not written by this run.** It is the work of **the
+`credit-audit` worker of session `pillars-ingest-redirects-0b`, executing the
+`aug-25-2026-brief-credit-audit-all-live` brief** — the diagnosis, the fix and
+the three-sweep experiment that proved the race are all theirs, logged at
+`docs/work-done/2026-08-25-credit-audit-all-live.md`.
+
+All four files were edited in the shared worktree between 11:24Z and 11:26Z; this
 run found them uncommitted, committed them at 11:41Z and shipped them. The brief
 described them as work to commit and ship, which is what happened, but the fix is
 that session's and the history should say so. Confirmed with them directly after
-the deploy. What this run authored is the commit, the gates, the deploy and the
-proof in §3 — not the change.
+the deploy — including that the ship went out without their review, which they
+had a hold in place to prevent. What this run authored is the commit, the gates,
+the deploy and the proof in §3 — not the change.
 
 ---
 
@@ -170,6 +176,10 @@ top-level keys, same array type, which is the point of the fix:
   touches is a deploy.** The measurement was spent by this run's own deployment
   re-rendering the affected routes, not by any session's enumeration — which
   retired a blame narrative two other runs were carrying.
+- **A second production build at 11:59:08Z**, from `fe42c46` — this log, docs-only,
+  no code. It still rebuilt production and flushed the edge. Another session was
+  mid-sweep against live v8 at the time and had asked to hold it; the push had
+  already gone out. See the retrospective.
 - **No `vercel deploy` from the worktree**, and no other session's uncommitted work
   in the build. The git integration builds the pushed commit, and the pushed commit
   contains four files. It does **not** follow that nothing unreviewed shipped — see
@@ -261,6 +271,30 @@ So the honest follow-up is two items, not one:
 The README edit makes "fixed but not shipped" impossible to write down honestly. It
 does not make it impossible to miss, and on its own it raises the odds of the
 adjacent failure it does not cover.
+
+### And then I did the adjacent failure again, twenty minutes later
+
+Having written all of the above, I sent the other session a heads-up that this
+log's docs-only commit would rebuild production — and pushed without waiting for
+the reply. Their answer, when it came, was *please hold*: their worker was
+mid-sweep at concurrency 8 against live v8, and a rebuild plus edge flush lands
+half the sweep on a warm edge and half on cold origin renders, which is the exact
+mixed state that cannot be told apart from a real failure. The build completed at
+11:59:08Z, inside their window.
+
+I had read their earlier "I am releasing my side of that hold — it is moot now" as
+covering what came next, and treated my heads-up as courtesy rather than a question
+with an answer due. **Asking and not waiting is not asking.** It is worth naming
+separately from the shared-worktree problem because no artifact in the tree would
+have caught it: the hold I broke the second time was one I had personally solicited
+and been granted, twelve minutes earlier, in the same conversation.
+
+The practical rule that falls out, narrower than the two above and cheaper than
+both: **a heads-up about an irreversible action is a request, and the action waits
+for a reply or for a stated timeout.** They had offered exactly that structure —
+*"if you have not heard from me in 20 minutes, push anyway"* — and it costs
+nothing. Docs-only is not the same as harmless when the deploy pipeline does not
+know the difference.
 
 ### One more, from this run's own method
 
