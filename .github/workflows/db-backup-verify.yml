@@ -1,0 +1,130 @@
+name: DB backup freshness alarm
+
+# The dead-man's switch for `db-backup.yml`.
+#
+# A failing backup job is easy to notice: it goes red and files an issue. The
+# dangerous case is the job that stops running at all — a disabled workflow, a
+# revoked credential, a schedule that silently stopped firing. Nothing is red,
+# because nothing ran, and the false confidence lasts until someone needs a
+# restore.
+#
+# So this workflow does not watch the job. It watches the *artifact*: it lists
+# `db-backups/` in R2 and fails if the newest object is older than the alarm
+# threshold or implausibly small. That check is true or false regardless of why
+# a backup is missing, which is the property the alarm needs.
+#
+# It runs four hours after the backup, giving a delayed run time to land before
+# the alarm calls it missing.
+
+on:
+  schedule:
+    - cron: '17 22 * * *'   # 22:17 UTC = 06:17 MYT, four hours after the backup
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+env:
+  R2_BUCKET: hellokahwin-assets
+  # 26h, not 24h: a backup that runs at 18:17 UTC and is delayed an hour is
+  # healthy, not missing. Anything past 26h means a run was genuinely skipped.
+  MAX_AGE_HOURS: '26'
+  MIN_DUMP_BYTES: '100000'
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check the newest backup in R2
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          EP="https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com"
+
+          # `sort` over the whole listing works because the key layout is
+          # zero-padded and date-ordered, so lexical order is chronological.
+          newest="$(aws s3 ls "s3://${R2_BUCKET}/db-backups/" --recursive \
+            --endpoint-url "$EP" | awk '{print $4}' | grep '\.dump$' | sort | tail -1)"
+
+          if [ -z "$newest" ]; then
+            echo "::error::No database backups exist in s3://${R2_BUCKET}/db-backups/ at all."
+            echo "REASON=there are no backup objects in R2 at all" >> "$GITHUB_ENV"
+            exit 1
+          fi
+          echo "newest key: $newest"
+
+          bytes="$(aws s3api head-object --bucket "$R2_BUCKET" --key "$newest" \
+            --endpoint-url "$EP" --query ContentLength --output text)"
+          modified="$(aws s3api head-object --bucket "$R2_BUCKET" --key "$newest" \
+            --endpoint-url "$EP" --query LastModified --output text)"
+
+          age_h=$(( ( $(date -u +%s) - $(date -u -d "$modified" +%s) ) / 3600 ))
+          echo "size: ${bytes} bytes"
+          echo "last modified: ${modified}"
+          echo "age: ${age_h}h (threshold ${MAX_AGE_HOURS}h)"
+
+          fail=0
+          if [ "$age_h" -gt "$MAX_AGE_HOURS" ]; then
+            echo "::error::Newest backup is ${age_h}h old, over the ${MAX_AGE_HOURS}h threshold — the backup job has stopped running."
+            echo "REASON=the newest backup is ${age_h}h old (threshold ${MAX_AGE_HOURS}h) — the backup job has stopped running" >> "$GITHUB_ENV"
+            fail=1
+          fi
+          if [ "$bytes" -lt "$MIN_DUMP_BYTES" ]; then
+            echo "::error::Newest backup is only ${bytes} bytes — it is running but producing a suspect dump."
+            echo "REASON=the newest backup is only ${bytes} bytes, under the ${MIN_DUMP_BYTES} floor" >> "$GITHUB_ENV"
+            fail=1
+          fi
+          [ "$fail" -eq 0 ] || exit 1
+
+          {
+            echo "### Backup freshness OK"
+            echo ""
+            echo "| field | value |"
+            echo "| --- | --- |"
+            echo "| newest key | \`${newest}\` |"
+            echo "| size | ${bytes} bytes |"
+            echo "| age | ${age_h}h |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Raise the alarm
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const reason = process.env.REASON || 'the freshness check failed; see the run log';
+            const url = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const body = [
+              '**The production database has no fresh recovery point.**',
+              '',
+              `Detected: ${reason}.`,
+              '',
+              `Run: ${url}`,
+              '',
+              'This alarm checks the backup *objects in R2*, not the backup job,',
+              'so it fires whether the job failed or simply stopped running.',
+              '',
+              'Fix: Actions -> "DB backup to R2" -> Run workflow, and confirm a new',
+              'object appears under `db-backups/`.',
+            ].join('\n');
+
+            const { data: open } = await github.rest.issues.listForRepo({
+              ...context.repo, state: 'open', labels: 'backup-alarm',
+            });
+            if (open.length > 0) {
+              await github.rest.issues.createComment({
+                ...context.repo, issue_number: open[0].number, body,
+              });
+            } else {
+              await github.rest.issues.create({
+                ...context.repo,
+                title: 'ALARM: hellokahwin production DB backup is stale or missing',
+                body,
+                labels: ['backup-alarm'],
+              });
+            }

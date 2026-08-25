@@ -1,0 +1,234 @@
+name: DB backup to R2
+
+# Daily logical backup of the production Supabase database into the R2 bucket
+# `hellokahwin-assets`, under a sortable `db-backups/UTC-Y/M/D/` prefix.
+#
+# Why a GitHub Action and not a Vercel cron: the backup is `pg_dump`, a binary.
+# Vercel's serverless runtime has no PostgreSQL client and no way to install
+# one, so a Vercel cron route could only hand-roll row-by-row SQL — which is
+# exactly the fragile thing this job replaces. A GitHub runner can install the
+# real `pg_dump`, pinned to the server's major version.
+#
+# The credential never touches the repo: it lives in GitHub Actions secrets and
+# is injected as an env var for the one step that needs it.
+#
+# Failure is loud in two independent ways:
+#   1. this job opens a GitHub issue if any step fails;
+#   2. `db-backup-verify.yml` runs separately and checks the *artifact* in R2,
+#      so it still fires if this workflow stops running altogether.
+
+on:
+  schedule:
+    # 18:17 UTC daily = 02:17 MYT. Off the hour on purpose: the top of the hour
+    # is when GitHub's scheduler is most congested and runs get delayed.
+    - cron: '17 18 * * *'
+  workflow_dispatch:
+  # TEMPORARY - removed before merge. workflow_dispatch only fires from the
+  # default branch, so this is the only way to prove the job works in CI first.
+  push:
+    branches: [ianngkb/risk01-db-backup-to-r2]
+
+concurrency:
+  group: db-backup
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  issues: write
+
+env:
+  PGMAJOR: '17'
+  R2_BUCKET: hellokahwin-assets
+  # Floor for a sane dump. The first real dump was 497,489 bytes; anything
+  # under 100 KB means the dump silently produced an empty or truncated file.
+  MIN_DUMP_BYTES: '100000'
+  # Retention: every daily kept for 30 days, then the 1st of each month for a year.
+  DAILY_RETAIN_DAYS: '30'
+  MONTHLY_RETAIN_DAYS: '365'
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Install PostgreSQL ${{ env.PGMAJOR }} client
+        run: |
+          set -euo pipefail
+          sudo install -d /usr/share/postgresql-common/pgdg
+          sudo curl -fsSL -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \
+            https://www.postgresql.org/media/keys/ACCC4CF8.asc
+          echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" \
+            | sudo tee /etc/apt/sources.list.d/pgdg.list > /dev/null
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq "postgresql-client-${PGMAJOR}"
+          pg_dump --version
+          pg_restore --version
+
+      - name: Refuse to run if client and server majors disagree
+        env:
+          PGURL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          set -euo pipefail
+          client="$(pg_dump --version | grep -oE '[0-9]+' | head -1)"
+          server="$(psql "$PGURL" -Atqc 'SHOW server_version' | grep -oE '^[0-9]+')"
+          echo "pg_dump major=$client   server major=$server"
+          if [ "$client" != "$server" ]; then
+            echo "::error::pg_dump $client cannot be trusted against server $server — bump PGMAJOR and re-run."
+            exit 1
+          fi
+
+      - name: Dump production (read-only)
+        env:
+          PGURL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          set -euo pipefail
+          # Both the filename and the key path come from the SAME `date -u` call,
+          # so the directory date can never drift from the timestamp in the name.
+          TS="$(date -u +%Y%m%dT%H%M%SZ)"
+          DATEPATH="$(date -u +%Y/%m/%d)"
+          FILE="hellokahwin-${TS}.dump"
+          echo "TS=$TS"           >> "$GITHUB_ENV"
+          echo "FILE=$FILE"       >> "$GITHUB_ENV"
+          echo "KEY=db-backups/${DATEPATH}/${FILE}" >> "$GITHUB_ENV"
+
+          # `public` holds all application data; `drizzle` holds the migration
+          # ledger so a restore knows which migrations it is already at. `auth`
+          # and `storage` are deliberately excluded — Clerk owns auth and R2
+          # owns media, so both schemas are structurally present but hold zero
+          # business rows. Re-check that assumption if either ever gets used.
+          pg_dump "$PGURL" \
+            --format=custom --compress=9 \
+            --schema=public --schema=drizzle \
+            --file="$FILE"
+
+          ls -l "$FILE"
+
+      - name: Verify the dump before trusting it
+        run: |
+          set -euo pipefail
+          bytes="$(stat -c %s "$FILE")"
+          echo "dump bytes: $bytes"
+          if [ "$bytes" -lt "$MIN_DUMP_BYTES" ]; then
+            echo "::error::dump is ${bytes} bytes, under the ${MIN_DUMP_BYTES} floor — refusing to upload a suspect backup."
+            exit 1
+          fi
+          # A custom-format dump that pg_restore cannot list is not restorable.
+          # This catches truncation and corruption before it reaches R2.
+          tables="$(pg_restore --list "$FILE" | grep -c 'TABLE DATA' || true)"
+          echo "restorable TABLE DATA entries: $tables"
+          if [ "$tables" -lt 1 ]; then
+            echo "::error::pg_restore found no table data in the dump."
+            exit 1
+          fi
+          echo "DUMP_BYTES=$bytes" >> "$GITHUB_ENV"
+
+      - name: Upload to R2
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          EP="https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com"
+          echo "R2_ENDPOINT=$EP" >> "$GITHUB_ENV"
+          aws s3 cp "$FILE" "s3://${R2_BUCKET}/${KEY}" \
+            --endpoint-url "$EP" --content-type application/octet-stream
+
+          # Read it back. R2 returns the MD5 as the ETag for a single-part PUT,
+          # so this proves the bytes in the bucket are the bytes we dumped.
+          remote_bytes="$(aws s3api head-object --bucket "$R2_BUCKET" --key "$KEY" \
+            --endpoint-url "$EP" --query ContentLength --output text)"
+          remote_etag="$(aws s3api head-object --bucket "$R2_BUCKET" --key "$KEY" \
+            --endpoint-url "$EP" --query ETag --output text | tr -d '"')"
+          local_md5="$(md5sum "$FILE" | cut -d' ' -f1)"
+
+          echo "key:          ${KEY}"
+          echo "local bytes:  ${DUMP_BYTES}"
+          echo "remote bytes: ${remote_bytes}"
+          echo "local md5:    ${local_md5}"
+          echo "remote etag:  ${remote_etag}"
+
+          if [ "$remote_bytes" != "$DUMP_BYTES" ]; then
+            echo "::error::size mismatch between local dump and R2 object."
+            exit 1
+          fi
+          if [ "$remote_etag" != "$local_md5" ]; then
+            echo "::error::ETag does not match local MD5 — the object in R2 is not the dump we took."
+            exit 1
+          fi
+
+      - name: Apply retention policy
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+        run: |
+          set -euo pipefail
+          now="$(date -u +%s)"
+
+          # Keys are db-backups/YYYY/MM/DD/hellokahwin-<TS>.dump, so the date is
+          # readable straight off the key — no need to trust object metadata.
+          aws s3 ls "s3://${R2_BUCKET}/db-backups/" --recursive \
+            --endpoint-url "$R2_ENDPOINT" | awk '{print $4}' | grep '\.dump$' | sort \
+          | while read -r key; do
+              d="$(echo "$key" | sed -nE 's#^db-backups/([0-9]{4})/([0-9]{2})/([0-9]{2})/.*#\1-\2-\3#p')"
+              [ -z "$d" ] && { echo "skip (unparseable): $key"; continue; }
+              age_days=$(( ( now - $(date -u -d "$d" +%s) ) / 86400 ))
+              dom="${d:8:2}"
+
+              if   [ "$age_days" -le "$DAILY_RETAIN_DAYS" ];   then verdict="keep (daily window)"
+              elif [ "$dom" = "01" ] && [ "$age_days" -le "$MONTHLY_RETAIN_DAYS" ]; then verdict="keep (monthly)"
+              else verdict="PRUNE"
+              fi
+
+              echo "${d}  age=${age_days}d  ${verdict}  ${key}"
+              if [ "$verdict" = "PRUNE" ]; then
+                aws s3 rm "s3://${R2_BUCKET}/${key}" --endpoint-url "$R2_ENDPOINT"
+              fi
+            done
+
+      - name: Summary
+        run: |
+          {
+            echo "### Database backup succeeded"
+            echo ""
+            echo "| field | value |"
+            echo "| --- | --- |"
+            echo "| R2 key | \`${KEY}\` |"
+            echo "| size | ${DUMP_BYTES} bytes |"
+            echo "| bucket | \`${R2_BUCKET}\` |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Raise the alarm
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = 'ALARM: hellokahwin production DB backup failed';
+            const url = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const body = [
+              'The daily database backup to R2 **failed**.',
+              '',
+              `Run: ${url}`,
+              '',
+              'Until this is green the production database has no fresh recovery point.',
+              'Check the failing step, fix it, then re-run the workflow manually',
+              '(Actions -> DB backup to R2 -> Run workflow) to confirm.',
+            ].join('\n');
+
+            // Reuse one open issue rather than filing a new one every night —
+            // a repeating failure should nag in one place, not bury the repo.
+            const { data: open } = await github.rest.issues.listForRepo({
+              ...context.repo, state: 'open', labels: 'backup-alarm',
+            });
+            if (open.length > 0) {
+              await github.rest.issues.createComment({
+                ...context.repo, issue_number: open[0].number, body,
+              });
+            } else {
+              await github.rest.issues.create({
+                ...context.repo, title, body, labels: ['backup-alarm'],
+              });
+            }
