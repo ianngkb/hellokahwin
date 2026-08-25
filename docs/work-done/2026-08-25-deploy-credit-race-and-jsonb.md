@@ -143,6 +143,35 @@ Sample, quoted from the live HTML: `rukun-nikah` → `Kredit: Azlan DuPree (CC B
 **And the negative control held**: zero of the 28 legacy articles rendered a credit
 line in any sweep. The join adds nothing where there is nothing to add.
 
+### Corroborated independently, bare-URL, by the session that found the defect
+
+My cold storms append `?_cs=` to defeat the edge, so they are origin renders at the
+canonical path with a query string — they corroborate a bare-URL run, they do not
+substitute for one. `pillars-ingest-redirects-0b` ran that bare-URL check against
+v8, against a target list frozen to a file before the first request:
+
+| Sweep | Method | Targets | Cache | Uncredited |
+|---|---|---|---|---|
+| D | 8 concurrent, bare URL | 27 | 25× STALE, 2× HIT | **0** |
+| E | 8 concurrent, bare URL | 27 | 27× HIT, age 14–15 s | **0** |
+
+**Sweep D barely read anything — it triggered 27 concurrent background re-renders,
+and sweep E read them back.** That is precisely the A→B structure that produced
+eight uncredited covers on v7's *second* read, reproduced on v8 with zero. Against
+v7's `8 of 24`, then a different `8 of 25`.
+
+Two sessions, two methods, two URL forms, no stake in each other's answer, same
+result.
+
+**Both of us state the same limit, and it is worth more than the agreement.** Every
+sweep-E response was a `HIT` — background revalidation of a warm entry, never a cold
+first render — and mine carried a query string. Neither is the cold-concurrent test
+that caught v7, and nobody will ever be able to run that test again, because the
+build it applied to is gone. **What actually retires the mechanism is structural,
+not statistical: the second read no longer exists.** There is one query, and the
+credit is in it or the page does not render. The sweeps establish that nothing else
+was going on; they are not what makes the fix true.
+
 ## 4. `jsonb_typeof(content)`
 
 ```
@@ -267,6 +296,13 @@ So the honest follow-up is two items, not one:
   hold that lives in a file in the tree rather than in a conversation between two
   sessions; or the stronger version, one worktree per session. Today the only way to
   learn a hold existed was to violate it and be told.
+
+  `pillars-ingest-redirects-0b` put the sharper form of it: **in a shared tree an
+  uncommitted edit has no owner — nothing in `git status` says which session made
+  it — so "leave it uncommitted" is not a way to hold work back. It reads to every
+  other session as work waiting to be tidied up.** That is exactly how this run read
+  it, and exactly what it then did. A hold expressed as an absence cannot be found;
+  it has to be expressed as a file.
 
 The README edit makes "fixed but not shipped" impossible to write down honestly. It
 does not make it impossible to miss, and on its own it raises the odds of the
