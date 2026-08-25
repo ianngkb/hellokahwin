@@ -143,6 +143,30 @@ Sample, quoted from the live HTML: `rukun-nikah` → `Kredit: Azlan DuPree (CC B
 **And the negative control held**: zero of the 28 legacy articles rendered a credit
 line in any sweep. The join adds nothing where there is nothing to add.
 
+**The negative control is also the weakest part of this evidence, and the sweeps
+are their own confounder.** Concurrency 8 against a five-lane pool is load, and a
+route that degrades under load can return `200` with a thin or empty body — which
+this parser would score as *a page with no credit*. For the 28 credit-bearing
+articles that is harmless, because it would have counted as a miss and there were
+none. For the 28 legacy articles it is not: a degraded page and a correctly
+uncredited page are **indistinguishable to this instrument**.
+
+What the data does say: sweeps 1 and 2 recorded body size, and across both the
+minimum response was **80,168 bytes** with an identical byte distribution between
+them — no page was thin, degraded, or empty, legacy included. What it does not say:
+**`cold-1` and `cold-2` did not record body size at all**, and those are the runs
+where the pool was genuinely under pressure at 3.2–5.6 s. So the negative control
+is verified under light load and merely *unfalsified* under heavy load. The fix
+itself is unaffected either way — a degraded page cannot manufacture a correct
+credit, and 112 of 112 were correct — but the "zero stray credits on legacy covers"
+line is weaker than it reads and should not be quoted without this paragraph.
+
+Recording body size on every proof request is the cheap fix, and it belongs next to
+the existing rule in `src/lib/cache/purge.ts` about recording `x-vercel-cache` and
+`age`. Same failure shape: without the field, a bad response is indistinguishable
+from a good one. Raised by `pillars-ingest-redirects-0b` against its own method;
+it applies to this one identically.
+
 ### Corroborated independently, bare-URL, by the session that found the defect
 
 My cold storms append `?_cs=` to defeat the edge, so they are origin renders at the
