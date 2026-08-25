@@ -23,10 +23,6 @@ on:
     # is when GitHub's scheduler is most congested and runs get delayed.
     - cron: '17 18 * * *'
   workflow_dispatch:
-  # TEMPORARY - removed before merge. workflow_dispatch only fires from the
-  # default branch, so this is the only way to prove the job works in CI first.
-  push:
-    branches: [ianngkb/risk01-db-backup-to-r2]
 
 concurrency:
   group: db-backup
