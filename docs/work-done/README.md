@@ -24,6 +24,38 @@ phase closes, a plan is delivered, or infrastructure lands. Log the work when
 it is DONE, not when it is started — an abandoned task is logged as abandoned,
 with the reason, never quietly dropped.
 
+### Code work is not done until it is deployed
+
+A fix that exists only in a working tree has not happened.
+
+On 25 Ogos 2026 a verified fix for a live, owner-rule-breaking defect — article
+covers serving uncredited photographs, non-deterministically, on any page — sat
+**uncommitted** in `orca/workspaces/hellokahwin-site/pillars-ingest-redirects`
+while four agents worked in the same repository. The audit that produced it was
+logged, thorough and correct, and it read as finished. The CEO found the gap by
+running `git status`, not from any report. Nothing in this file would have
+caught it, because nothing in this file asks where the code IS.
+
+So, for any entry whose work touched code:
+
+- **`completed` requires all three** — committed, on `origin/master`, and live
+  in production with a deployment id. Miss any one and the status is
+  `partial`, and the **Ship state** block below says which one.
+- **Run this before writing the entry, and paste its output into Evidence:**
+
+  ```
+  git status --porcelain -- src/ scripts/ && git log --oneline origin/master..HEAD
+  ```
+
+  Two empty outputs is the only thing that earns `completed`. Anything printed
+  is uncommitted or unpushed work and goes into the entry **by path** — including
+  work that belongs to somebody else's task, because the agent standing in that
+  tree is the one who can still ship it. Reporting another agent's unshipped fix
+  is not interference; leaving it unreported is how one gets lost.
+- **An entry that hands work on names the unshipped paths in its title.**
+  "Fixed" and "shipped" are different words and the index has to be able to tell
+  them apart at a glance.
+
 ## Entry format
 
 ```markdown
@@ -33,6 +65,13 @@ with the reason, never quietly dropped.
 
 ## What was done
 <plain account of the work>
+
+## Ship state
+<!-- Code work only — delete this block for docs-only entries. -->
+**Commit:** <sha + subject, or `UNCOMMITTED — <paths>`>
+**On `origin/master`:** yes | no
+**Deployed:** <deployment id + state, or `not deployed`>
+**Still uncommitted in the tree:** <paths, or `none`>
 
 ## Evidence
 <files produced, commands run, metrics before/after, links — how a reader verifies it>
@@ -54,3 +93,7 @@ with the reason, never quietly dropped.
 | 01 | Aug 23 2026 | [Production doctrine: overtaking mechanism, per-competitor case, compounding, counter-attack, stop rule](aug-23-2026-session-01/aug-23-2026-done-production-doctrine.md) | head-of-seo-content | completed |
 | 01 | Aug 23 2026 | [Visual asset strategy: media audit, sourcing model, rights policy, pipeline, hire recommendation](aug-23-2026-session-01/aug-23-2026-done-visual-asset-strategy.md) | head-of-seo-content | completed |
 | 01 | Aug 23 2026 | [The HelloKahwin Command Centre: internal tracking dashboard](aug-23-2026-session-01/aug-23-2026-done-internal-dashboard.md) | full-stack-engineer | completed |
+| 01 | Aug 24 2026 | [Four P1 articles for C1.1 and C1.2: rukun nikah, syarat sah nikah, lafaz taklik, borang nikah](aug-23-2026-session-01/aug-24-2026-done-write-c1-nikah-procedure.md) | writer-adat-agama-prosedur | completed |
+| 01 | Aug 25 2026 | [Supporting images: six graphic template specs, the article-to-graphic map, ranked rights risk, and the credit-enforcement answer](aug-23-2026-session-01/aug-25-2026-done-supporting-images-and-credit.md) | managing-editor | completed |
+| 01 | Aug 25 2026 | [P1 and P6 published: eight articles live, two pillars lost `noindex`, sitemap 47 → 57](aug-23-2026-session-01/aug-25-2026-done-publish-p1-p6.md) | BMAD | completed |
+| 01 | Aug 25 2026 | [The two P5 blocks re-sourced: bunga telur across three named suppliers, pelamin as an honest negative, and the price-currency rule added to the style guide and QC](aug-23-2026-session-01/aug-25-2026-done-resource-p5-blocks.md) | writer-inspirasi-vendor-venue | completed |
