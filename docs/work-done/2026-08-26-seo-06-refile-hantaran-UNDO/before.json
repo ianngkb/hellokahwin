@@ -1,0 +1,63 @@
+{
+  "capturedAt": "2026-08-26T14:47:24.009Z",
+  "articles": [
+    {
+      "id": "de528bb4-650a-4c19-a1fa-5770d5963d0d",
+      "slug": "hantaran-kahwin",
+      "primary_category_id": "d8b9992d-7553-45ac-be4f-a2036db37f98",
+      "updated_at": "2026-08-25T18:01:59.511Z",
+      "status": "published"
+    },
+    {
+      "id": "dd3bf19c-f43d-4907-87ee-fd8c41fc6664",
+      "slug": "hantaran-tunang",
+      "primary_category_id": "d8b9992d-7553-45ac-be4f-a2036db37f98",
+      "updated_at": "2026-08-26T13:40:15.652Z",
+      "status": "published"
+    }
+  ],
+  "article_categories": [
+    {
+      "id": "53051083-c416-4aa0-94c3-bc07fa36ce11",
+      "article_id": "dd3bf19c-f43d-4907-87ee-fd8c41fc6664",
+      "category_id": "d8b9992d-7553-45ac-be4f-a2036db37f98",
+      "category_slug": "hiasan-dekorasi"
+    },
+    {
+      "id": "819695d2-2676-4f74-a7ad-39ccf080853a",
+      "article_id": "dd3bf19c-f43d-4907-87ee-fd8c41fc6664",
+      "category_id": "1d81e279-c4d0-4daa-a870-f57f752cbe87",
+      "category_slug": "idea-dan-nasihat"
+    },
+    {
+      "id": "055cd193-4dfa-4604-84ad-c06bb704483f",
+      "article_id": "dd3bf19c-f43d-4907-87ee-fd8c41fc6664",
+      "category_id": "22a2a694-5929-477e-adf4-e8d795ab661e",
+      "category_slug": "perancangan"
+    },
+    {
+      "id": "5772f2f7-0619-4171-bda2-8b7ca339dc27",
+      "article_id": "de528bb4-650a-4c19-a1fa-5770d5963d0d",
+      "category_id": "d8b9992d-7553-45ac-be4f-a2036db37f98",
+      "category_slug": "hiasan-dekorasi"
+    },
+    {
+      "id": "cab33b21-ee44-4fef-a105-65f885e7d0b2",
+      "article_id": "de528bb4-650a-4c19-a1fa-5770d5963d0d",
+      "category_id": "1d81e279-c4d0-4daa-a870-f57f752cbe87",
+      "category_slug": "idea-dan-nasihat"
+    },
+    {
+      "id": "85e86e44-1199-4134-99a5-f9b3bdd37279",
+      "article_id": "de528bb4-650a-4c19-a1fa-5770d5963d0d",
+      "category_id": "22a2a694-5929-477e-adf4-e8d795ab661e",
+      "category_slug": "perancangan"
+    }
+  ],
+  "census": {
+    "articles": 61,
+    "article_categories": 131,
+    "redirects": 0,
+    "article_category_redirects": 0
+  }
+}
