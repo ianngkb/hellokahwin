@@ -1,0 +1,495 @@
+{
+ "measuredAt": "2026-08-26T18:10:41.506Z",
+ "method": "strictly sequential, one request at a time, no purge and no revalidate beforehand",
+ "total": 69,
+ "cacheMix": {
+  "HIT": 63,
+  "STALE": 6
+ },
+ "servingDefaultTitle": [],
+ "rows": [
+  {
+   "slug": "adat-hantaran-berbeza-negeri",
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/adat-hantaran-berbeza-negeri",
+   "cache": "HIT",
+   "age": "194",
+   "isDefault": false
+  },
+  {
+   "slug": "amankila-bali",
+   "url": "https://hellokahwin.com/artikel/glamor-eksklusif/amankila-bali",
+   "cache": "HIT",
+   "age": "276",
+   "isDefault": false
+  },
+  {
+   "slug": "apa-itu-mas-kahwin",
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/apa-itu-mas-kahwin",
+   "cache": "HIT",
+   "age": "147",
+   "isDefault": false
+  },
+  {
+   "slug": "bajet-kahwin",
+   "url": "https://hellokahwin.com/artikel/venue-perancangan/bajet-kahwin",
+   "cache": "HIT",
+   "age": "263",
+   "isDefault": false
+  },
+  {
+   "slug": "baju-pengantin-sewa-atau-beli",
+   "url": "https://hellokahwin.com/artikel/busana-pengantin/baju-pengantin-sewa-atau-beli",
+   "cache": "HIT",
+   "age": "279",
+   "isDefault": false
+  },
+  {
+   "slug": "bilangan-dulang-hantaran-ganjil",
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/bilangan-dulang-hantaran-ganjil",
+   "cache": "HIT",
+   "age": "199",
+   "isDefault": false
+  },
+  {
+   "slug": "borang-nikah",
+   "url": "https://hellokahwin.com/artikel/nikah-undang-undang/borang-nikah",
+   "cache": "HIT",
+   "age": "187",
+   "isDefault": false
+  },
+  {
+   "slug": "bunga-telur",
+   "url": "https://hellokahwin.com/artikel/pelamin-kad-cenderahati/bunga-telur",
+   "cache": "HIT",
+   "age": "190",
+   "isDefault": false
+  },
+  {
+   "slug": "cara-buat-kad-kahwin-digital",
+   "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/cara-buat-kad-kahwin-digital",
+   "cache": "HIT",
+   "age": "241",
+   "isDefault": false
+  },
+  {
+   "slug": "cara-tetapkan-duit-hantaran",
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/cara-tetapkan-duit-hantaran",
+   "cache": "HIT",
+   "age": "196",
+   "isDefault": false
+  },
+  {
+   "slug": "checklist-kahwin",
+   "url": "https://hellokahwin.com/artikel/venue-perancangan/checklist-kahwin",
+   "cache": "HIT",
+   "age": "279",
+   "isDefault": false
+  },
+  {
+   "slug": "cheong-fatt-tze-mansion",
+   "url": "https://hellokahwin.com/artikel/real-wedding/cheong-fatt-tze-mansion",
+   "cache": "HIT",
+   "age": "216",
+   "isDefault": false
+  },
+  {
+   "slug": "cincin-tunang",
+   "url": "https://hellokahwin.com/artikel/sebelum-nikah/cincin-tunang",
+   "cache": "HIT",
+   "age": "265",
+   "isDefault": false
+  },
+  {
+   "slug": "contoh-kad-jemputan-kahwin",
+   "url": "https://hellokahwin.com/artikel/pelamin-kad-cenderahati/contoh-kad-jemputan-kahwin",
+   "cache": "HIT",
+   "age": "258",
+   "isDefault": false
+  },
+  {
+   "slug": "dewan-kahwin",
+   "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/dewan-kahwin",
+   "cache": "STALE",
+   "age": "325",
+   "isDefault": false
+  },
+  {
+   "slug": "doa-majlis-perkahwinan",
+   "url": "https://hellokahwin.com/artikel/ucapan-doa/doa-majlis-perkahwinan",
+   "cache": "HIT",
+   "age": "238",
+   "isDefault": false
+  },
+  {
+   "slug": "doa-majlis-pertunangan",
+   "url": "https://hellokahwin.com/artikel/sebelum-nikah/doa-majlis-pertunangan",
+   "cache": "HIT",
+   "age": "198",
+   "isDefault": false
+  },
+  {
+   "slug": "doa-pengantin-baru",
+   "url": "https://hellokahwin.com/artikel/ucapan-doa/doa-pengantin-baru",
+   "cache": "HIT",
+   "age": "261",
+   "isDefault": false
+  },
+  {
+   "slug": "duit-hantaran-kahwin",
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/duit-hantaran-kahwin",
+   "cache": "HIT",
+   "age": "198",
+   "isDefault": false
+  },
+  {
+   "slug": "dulang-hantaran",
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/dulang-hantaran",
+   "cache": "HIT",
+   "age": "145",
+   "isDefault": false
+  },
+  {
+   "slug": "garden-wedding",
+   "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding",
+   "cache": "HIT",
+   "age": "175",
+   "isDefault": false
+  },
+  {
+   "slug": "goodies-kahwin",
+   "url": "https://hellokahwin.com/artikel/hiasan-dekorasi/goodies-kahwin",
+   "cache": "STALE",
+   "age": "303",
+   "isDefault": false
+  },
+  {
+   "slug": "grand-hyatt-kuala-lumpur",
+   "url": "https://hellokahwin.com/artikel/glamor-eksklusif/grand-hyatt-kuala-lumpur",
+   "cache": "HIT",
+   "age": "267",
+   "isDefault": false
+  },
+  {
+   "slug": "gubahan-hantaran",
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/gubahan-hantaran",
+   "cache": "HIT",
+   "age": "181",
+   "isDefault": false
+  },
+  {
+   "slug": "hadiah-untuk-pengantin",
+   "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/hadiah-untuk-pengantin",
+   "cache": "HIT",
+   "age": "157",
+   "isDefault": false
+  },
+  {
+   "slug": "hantaran-kahwin",
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-kahwin",
+   "cache": "HIT",
+   "age": "179",
+   "isDefault": false
+  },
+  {
+   "slug": "hantaran-kahwin-5-balas-7",
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-kahwin-5-balas-7",
+   "cache": "HIT",
+   "age": "208",
+   "isDefault": false
+  },
+  {
+   "slug": "hantaran-tunang",
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang",
+   "cache": "HIT",
+   "age": "212",
+   "isDefault": false
+  },
+  {
+   "slug": "hantaran-tunang-3-balas-5",
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang-3-balas-5",
+   "cache": "HIT",
+   "age": "204",
+   "isDefault": false
+  },
+  {
+   "slug": "hantaran-wajib-atau-adat",
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat",
+   "cache": "HIT",
+   "age": "207",
+   "isDefault": false
+  },
+  {
+   "slug": "harga-sewa-dewan-kahwin",
+   "url": "https://hellokahwin.com/artikel/venue-perancangan/harga-sewa-dewan-kahwin",
+   "cache": "HIT",
+   "age": "235",
+   "isDefault": false
+  },
+  {
+   "slug": "inai-tangan-pengantin",
+   "url": "https://hellokahwin.com/artikel/busana-pengantin/inai-tangan-pengantin",
+   "cache": "HIT",
+   "age": "210",
+   "isDefault": false
+  },
+  {
+   "slug": "jw-marriott-kuala-lumpur",
+   "url": "https://hellokahwin.com/artikel/moden-kontemporari/jw-marriott-kuala-lumpur",
+   "cache": "HIT",
+   "age": "194",
+   "isDefault": false
+  },
+  {
+   "slug": "kursus-kahwin",
+   "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/kursus-kahwin",
+   "cache": "STALE",
+   "age": "326",
+   "isDefault": false
+  },
+  {
+   "slug": "lafaz-taklik",
+   "url": "https://hellokahwin.com/artikel/nikah-undang-undang/lafaz-taklik",
+   "cache": "HIT",
+   "age": "185",
+   "isDefault": false
+  },
+  {
+   "slug": "lokasi-pre-wedding-photoshoot-terbaik",
+   "url": "https://hellokahwin.com/artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik",
+   "cache": "HIT",
+   "age": "246",
+   "isDefault": false
+  },
+  {
+   "slug": "majlis-kahwin",
+   "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/majlis-kahwin",
+   "cache": "HIT",
+   "age": "178",
+   "isDefault": false
+  },
+  {
+   "slug": "marriott-putrajaya",
+   "url": "https://hellokahwin.com/artikel/moden-kontemporari/marriott-putrajaya",
+   "cache": "HIT",
+   "age": "262",
+   "isDefault": false
+  },
+  {
+   "slug": "mas-kahwin-ikut-negeri",
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri",
+   "cache": "STALE",
+   "age": "328",
+   "isDefault": false
+  },
+  {
+   "slug": "mas-kahwin-johor",
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-johor",
+   "cache": "HIT",
+   "age": "153",
+   "isDefault": false
+  },
+  {
+   "slug": "mas-kahwin-kelantan-terengganu",
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-kelantan-terengganu",
+   "cache": "HIT",
+   "age": "283",
+   "isDefault": false
+  },
+  {
+   "slug": "mas-kahwin-melebihi-kadar-minimum",
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-melebihi-kadar-minimum",
+   "cache": "HIT",
+   "age": "151",
+   "isDefault": false
+  },
+  {
+   "slug": "mas-kahwin-pahang-negeri-sembilan",
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-pahang-negeri-sembilan",
+   "cache": "HIT",
+   "age": "265",
+   "isDefault": false
+  },
+  {
+   "slug": "mas-kahwin-perak",
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-perak",
+   "cache": "HIT",
+   "age": "162",
+   "isDefault": false
+  },
+  {
+   "slug": "mas-kahwin-sabah-sarawak",
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-sabah-sarawak",
+   "cache": "HIT",
+   "age": "284",
+   "isDefault": false
+  },
+  {
+   "slug": "nisbah-hantaran",
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/nisbah-hantaran",
+   "cache": "HIT",
+   "age": "212",
+   "isDefault": false
+  },
+  {
+   "slug": "pakej-dewan-kahwin",
+   "url": "https://hellokahwin.com/artikel/venue-perancangan/pakej-dewan-kahwin",
+   "cache": "HIT",
+   "age": "270",
+   "isDefault": false
+  },
+  {
+   "slug": "pelamin",
+   "url": "https://hellokahwin.com/artikel/pelamin-kad-cenderahati/pelamin",
+   "cache": "HIT",
+   "age": "162",
+   "isDefault": false
+  },
+  {
+   "slug": "pelamin-kahwin-dewan",
+   "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/pelamin-kahwin-dewan",
+   "cache": "HIT",
+   "age": "218",
+   "isDefault": false
+  },
+  {
+   "slug": "perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan",
+   "url": "https://hellokahwin.com/artikel/real-wedding/perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan",
+   "cache": "HIT",
+   "age": "201",
+   "isDefault": false
+  },
+  {
+   "slug": "perkahwinan-indah-di-laman-fajar-menyinsing-port-dickson",
+   "url": "https://hellokahwin.com/artikel/pantai-santai/perkahwinan-indah-di-laman-fajar-menyinsing-port-dickson",
+   "cache": "HIT",
+   "age": "200",
+   "isDefault": false
+  },
+  {
+   "slug": "perkahwinan-romantis-di-jen-shangri-la-puteri-harbour",
+   "url": "https://hellokahwin.com/artikel/moden-kontemporari/perkahwinan-romantis-di-jen-shangri-la-puteri-harbour",
+   "cache": "HIT",
+   "age": "195",
+   "isDefault": false
+  },
+  {
+   "slug": "perkahwinan-taman-kebun-yang-minimalis-di-hulu-langat",
+   "url": "https://hellokahwin.com/artikel/real-wedding/perkahwinan-taman-kebun-yang-minimalis-di-hulu-langat",
+   "cache": "HIT",
+   "age": "207",
+   "isDefault": false
+  },
+  {
+   "slug": "rukun-nikah",
+   "url": "https://hellokahwin.com/artikel/nikah-undang-undang/rukun-nikah",
+   "cache": "HIT",
+   "age": "284",
+   "isDefault": false
+  },
+  {
+   "slug": "sentosa-janda-baik",
+   "url": "https://hellokahwin.com/artikel/real-wedding/sentosa-janda-baik",
+   "cache": "HIT",
+   "age": "220",
+   "isDefault": false
+  },
+  {
+   "slug": "sewa-dewan-kahwin",
+   "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/sewa-dewan-kahwin",
+   "cache": "HIT",
+   "age": "179",
+   "isDefault": false
+  },
+  {
+   "slug": "sime-darby-convention-centre",
+   "url": "https://hellokahwin.com/artikel/moden-kontemporari/sime-darby-convention-centre",
+   "cache": "HIT",
+   "age": "238",
+   "isDefault": false
+  },
+  {
+   "slug": "sirih-junjung",
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/sirih-junjung",
+   "cache": "STALE",
+   "age": "305",
+   "isDefault": false
+  },
+  {
+   "slug": "skrip-pengacara-majlis-perkahwinan",
+   "url": "https://hellokahwin.com/artikel/ucapan-doa/skrip-pengacara-majlis-perkahwinan",
+   "cache": "HIT",
+   "age": "149",
+   "isDefault": false
+  },
+  {
+   "slug": "songket-tenunan-tangan-atau-cetak",
+   "url": "https://hellokahwin.com/artikel/busana-pengantin/songket-tenunan-tangan-atau-cetak",
+   "cache": "HIT",
+   "age": "165",
+   "isDefault": false
+  },
+  {
+   "slug": "syarat-sah-nikah",
+   "url": "https://hellokahwin.com/artikel/nikah-undang-undang/syarat-sah-nikah",
+   "cache": "HIT",
+   "age": "154",
+   "isDefault": false
+  },
+  {
+   "slug": "taaruf-maksud",
+   "url": "https://hellokahwin.com/artikel/sebelum-nikah/taaruf-maksud",
+   "cache": "HIT",
+   "age": "158",
+   "isDefault": false
+  },
+  {
+   "slug": "tempat-honeymoon-di-malaysia",
+   "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/tempat-honeymoon-di-malaysia",
+   "cache": "STALE",
+   "age": "307",
+   "isDefault": false
+  },
+  {
+   "slug": "the-danna-langkawi",
+   "url": "https://hellokahwin.com/artikel/minimalis-mewah/the-danna-langkawi",
+   "cache": "HIT",
+   "age": "211",
+   "isDefault": false
+  },
+  {
+   "slug": "ucapan-pengantin-baru",
+   "url": "https://hellokahwin.com/artikel/ucapan-doa/ucapan-pengantin-baru",
+   "cache": "HIT",
+   "age": "271",
+   "isDefault": false
+  },
+  {
+   "slug": "villa-warisan",
+   "url": "https://hellokahwin.com/artikel/real-wedding/villa-warisan",
+   "cache": "HIT",
+   "age": "267",
+   "isDefault": false
+  },
+  {
+   "slug": "walimatul-urus",
+   "url": "https://hellokahwin.com/artikel/ucapan-doa/walimatul-urus",
+   "cache": "HIT",
+   "age": "153",
+   "isDefault": false
+  },
+  {
+   "slug": "wedding-planner-terbaik-di-malaysia",
+   "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/wedding-planner-terbaik-di-malaysia",
+   "cache": "HIT",
+   "age": "161",
+   "isDefault": false
+  },
+  {
+   "slug": "yasaka-shrine",
+   "url": "https://hellokahwin.com/artikel/real-wedding/yasaka-shrine",
+   "cache": "HIT",
+   "age": "192",
+   "isDefault": false
+  }
+ ]
+}
