@@ -3,8 +3,8 @@
   "name": "Close the publishing hole, then earn a click",
   "state": "planned",
   "planned_at": "2026-08-26",
-  "points": 53,
-  "points_note": "Opened at 35 across 10 items. The UI/UX review added UX-01..04 (13pt) and the SEO review added RISK-06 and SEO-06 (5pt) — both were commissioned during the meeting and reported before it adjourned. The owner approved 29 of the original proposal; 53 is well past that and was flagged back to them rather than absorbed. This file was reconciled against the tracker item-by-item at close: 16 items both sides, no drift.",
+  "points": 74,
+  "points_note": "Opened at 35 across 10 items. The UI/UX review added UX-01..04 (13pt) and the SEO review added RISK-06 and SEO-06 (5pt), both commissioned during the meeting and reporting before it adjourned. The owner then directed that Tier 1 be FINISHED, replacing a 4-article CONT-05 with the full 25-article completion across CONT-05..08 (+21pt). Final: 74 points across 19 items. The owner approved 29 of the original proposal; 74 is far past that and every increment was flagged back to them rather than absorbed. Reconciled against the tracker item-by-item at close: 19 items both sides, no drift.",
   "note": "This file records how Sprint 02 was ORIGINALLY SCOPED. It is not the live state — the tracker in buddy is (`pnpm --silent sprint list --sprint 2`, or buddy.ian.ng/sprints). Never rewritten after close.",
   "governance": {
     "body_of_work": "A sprint ends when every item is done and the owner has reviewed them, however long that takes. No calendar window, no rolling work to hit a date.",
@@ -128,12 +128,12 @@
     {
       "id": "CONT-05",
       "track": "content",
-      "points": 4,
+      "points": 5,
       "state": "todo",
       "owner": "writer-inspirasi-vendor-venue",
-      "title": "Cluster queue continues — 4 articles",
-      "why": "Owner decision this meeting: run venue pages AND cluster articles. Safe to write only because RISK-04 closes the publishing hole in the same sprint — Sprint 01's five newest articles are still unknown to Google.",
-      "dod": "Four articles ingested to production, each returning 200 on FIRST request, each appearing on its pillar page, each with a photograph cover and zero text cards, every image carrying credit, creditUrl, licensorName and licenseClass plus a register entry. No IMEJ markers — a leftover marker is a format error. Each URL checked against GSC after RISK-04 ships and shown to leave 'unknown to Google'."
+      "title": "C2.2 Hantaran tunang — complete the cluster (5 articles)",
+      "why": "Highest-volume INCOMPLETE Tier 1 cluster at ~7,000/mo, and we hold 1 of 6 mapped topics. The plan's own rule is finish Tier 1 before opening others. SERP is weak: 4,700 head at KD 0, flat all year, one editorial incumbent, six of nine slots social. DEPENDENCY: the seed article is STRANDED in hiasan-dekorasi, so SEO-06 must land before or with this or we write into a cluster whose pillar still says 'akan datang tidak lama lagi'.",
+      "dod": "Topics 2-6: what goes on his trays at an engagement with prices; the same for hers; how many trays and who decides; a simple engagement hantaran done well at a stated budget; which items are kept, returned or carried to the wedding. Cluster verified complete at 6/6, cross-linked, pillar showing them as real entries rather than a coming-soon state."
     },
     {
       "id": "UX-01",
@@ -202,6 +202,36 @@
       "title": "The Hantaran pillar advertises its own ranking articles as missing",
       "why": "/artikel/hantaran-mas-kahwin renders THREE 'akan datang tidak lama lagi' empty states — Hantaran kahwin, Hantaran tunang, Duit hantaran — and we have published, indexed, RANKING articles for the first two: hiasan-dekorasi/hantaran-kahwin at position 6.5, and hiasan-dekorasi/hantaran-tunang at 49 impressions position 9.6. They are filed under hiasan-dekorasi, so the pillar never links down to them and tells a reader the section is empty. That breaks the bidirectional pillar rule and strands two of our better-ranking pages. Taxonomy, not design.",
       "dod": "Both articles re-filed into hantaran-mas-kahwin with the redirect verified as ONE hop to 200 — CONT-04 established that re-parenting needs no redirect-table entry because the route self-heals, so confirm which applies rather than assuming. The pillar shows them as real entries and the three empty states drop to at most one. Old URLs still resolve. Sitemap reflects the move. GSC positions for both recorded before and after so a ranking loss would be visible. COORDINATE WITH UX-03 — it touches the same pillar rendering and these two must not run concurrently on the same files."
+    },
+    {
+      "id": "CONT-06",
+      "track": "content",
+      "points": 5,
+      "state": "todo",
+      "owner": "writer-inspirasi-vendor-venue",
+      "title": "C2.3 Gubahan & dulang hantaran — complete the cluster (5 articles)",
+      "why": "~6,600/mo, 3 of 8 done — Sprint 01 shipped dulang-hantaran, gubahan-hantaran and sirih-junjung. Finishing what we started costs less than opening anything new, and a DR-0 shop page ranks second on this SERP with only one editorial article present.",
+      "dod": "Topics 3, 4, 6, 7, 8: which simple arrangement styles look expensive and which look homemade; arranging around a colour theme without buying twice; a chocolate or food hantaran that survives a hot afternoon; what hidden hantaran is and how it is done; what to commission versus make, with a realistic cost comparison. Cluster verified complete at 8/8, cross-linked, pillar shows all eight."
+    },
+    {
+      "id": "CONT-07",
+      "track": "content",
+      "points": 7,
+      "state": "todo",
+      "owner": "writer-inspirasi-vendor-venue",
+      "title": "C2.1 Hantaran kahwin — complete the cluster (7 articles)",
+      "why": "~5,900/mo, 1 of 8 done. Half of page one is Pinterest, Shopee and Facebook — not editorial content. The incumbent worth naming is songketdunia.my at DR 3 with 823 organic keywords, a shop blog rather than a publication. DEPENDENCY: the seed article is STRANDED in hiasan-dekorasi — SEO-06 first. CAPACITY FLAG: this plus CONT-05 and CONT-06 puts 17 of the sprint's 25 articles on one seat.",
+      "dod": "Topics 2-8: groom's trays by category with real price bands; the same for the bride's; a complete hantaran under a stated budget without looking cheap; what people actually give and what gets quietly discarded; how hantaran differs by state and family tradition and how to handle two families who disagree; what to prepare and how far ahead at eight weeks out; where to buy, commission or rent and what each route costs. Cluster verified at 8/8."
+    },
+    {
+      "id": "CONT-08",
+      "track": "content",
+      "points": 8,
+      "state": "todo",
+      "owner": "writer-adat-agama-prosedur",
+      "title": "C2.5 Nisbah, duit hantaran & etika — open and complete the cluster (8 articles)",
+      "why": "~2,900/mo and 0 of 8 done — the only Tier 1 cluster with nothing published. Lowest volume of the five, but the plan calls it impossible to copy from outside the culture and the best organic result on page one earns 152 visits. Assigned to the adat seat because the cluster is ratio, entitlement and etiquette rather than products and prices.",
+      "dod": "The dulang ratio and where the custom came from; what 5 balas 7 means across the twelve trays; what 3 balas 5 means at an engagement; whether the ratio must be odd and what happens when a family insists otherwise; what duit hantaran is, how it differs from mas kahwin and who is entitled to it; plus the remaining three mapped topics READ FROM THE CLUSTER PLAN rather than invented. EVERY claim about entitlement or religious ruling carries its authority and the date checked — this is the highest factual risk in Tier 1 and the review board blocked a fabricated quotation on similar material in August. Cluster verified at 8/8."
     }
   ],
   "seo_review_corrections": {
@@ -237,5 +267,19 @@
     "Re-parenting the 13 legacy articles — CONT-04 produced the plan in Sprint 01 and found it needs no redirects. Not executed here: the venue and zero-CTR work touches the same pillar pages, and two agents on the same files is how Sprint 01 nearly lost work.",
     "A UI/UX overhaul of the homepage, category and article pages — under review as this sprint was scoped. Findings land after planning, so any work is added deliberately rather than absorbed silently."
   ],
-  "retro": null
+  "retro": null,
+  "tier_1_completion": {
+    "decision": "Owner, 26 Aug: finish Tier 1 in Sprint 02 — all 25 missing articles.",
+    "the_finding_that_should_govern_it": "C2.4 Mas kahwin ikut negeri is ALREADY COMPLETE at 8 of 8 mapped topics, addresses ~11,000 searches/mo, and produces 388 impressions with ZERO clicks. We have already run this experiment once. Either the cluster model works and the titles are broken (SEO-05's finding), or complete clusters do not convert for us yet. SEO-05 is the test and it is in this sprint.",
+    "sequencing": "Writers start as soon as RISK-04 opens the gate — NOT gated on SEO results, which take days to weeks and would idle the seats for most of the sprint. When SEO-05 ships C2.4's title fix and GSC reflects it, read the answer BEFORE the last batch and re-plan if it is bad news.",
+    "status_at_planning": {
+      "C2.4": "8/8 complete",
+      "C2.2": "1/6",
+      "C2.3": "3/8",
+      "C2.1": "1/8",
+      "C2.5": "0/8"
+    },
+    "dependencies": "SEO-06 must land before or with CONT-05 and CONT-07 — both seed articles are stranded in hiasan-dekorasi. RISK-04 gates every content item: Sprint 01's five newest articles are still unknown to Google.",
+    "capacity_flag": "17 of the 25 articles sit on writer-inspirasi-vendor-venue and 8 on writer-adat-agama-prosedur. Sprint 01 delivered FIVE articles across both seats. The 23 Aug plan already budgets two writer hires for Phase 2. Decide at dispatch whether to hire, split or sequence — do not silently overload a seat, and watch editorial-verification-lead as the second constraint: Sprint 01's review board raised 27 blocks across 8 articles, and 25 articles at that rate is a review bottleneck before it is a writing one."
+  }
 }
