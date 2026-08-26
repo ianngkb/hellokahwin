@@ -874,6 +874,52 @@ pnpm --silent ingest <file.md> --db "$DB" --commit --publish --revalidate-url ht
   — and is never written to the database. Nothing a reader sees depends on it,
   which is worth knowing when one entry is blocking nine articles.
 
+#### Resuming after a session death mid-ingest: production is the record, not git
+
+Added 27 Aug 2026, from the CONT-06 resume. The session that ingested C2.3
+A4–A8 died on an auth failure after the production write and before committing
+anything about it. The resume brief said, from git evidence alone, that the
+ingest was "NOT yet done". It was done — all five articles had been live for
+nine hours.
+
+**Git can only show what a session committed, and a write to production is not
+a commit.** Before re-running any ingest a resumed session must check, in
+order:
+
+1. **The working tree.** The ingest script stamps `publishedAt:` back into the
+   source draft at write time. An *uncommitted* `publishedAt:` line in a draft
+   is the on-disk signature of an ingest that ran and a session that died
+   before committing — it is the strongest single indicator, and it is also the
+   write-back that must be committed, not discarded, because it protects the
+   article's publish date on the next re-ingest.
+2. **The production sitemap.** `curl -s https://hellokahwin.com/sitemap.xml`
+   and grep for the slug. Present means live; no database access needed.
+3. **The database, if the sitemap says live.**
+   `select slug, published_at from articles where slug in (…)` — the values
+   must match the write-backs in step 1 to the millisecond. On CONT-06 all five
+   did, which converted "probably ingested" into "verified ingested".
+
+Re-ingesting on the assumption of "not done" is not idempotent: `--update
+--publish` restamps dates (see the `publishedAt` bullet above) and a non-update
+re-run can refuse or duplicate. **Check all three before touching the ingest
+command.**
+
+Two smaller findings from the same resume:
+
+- **The undo-before-write ordering is precisely a session-death guarantee.**
+  CONT-06's undo record had to be reconstructed from production afterwards
+  because the write happened first. The reconstruction was exact, but only
+  because every row was a pure insert with its slug known; an in-place update
+  reconstructed after the fact would have lost the before-state forever. Commit
+  the undo, then write — the rule already says so; this is what it costs when
+  the ordering flips.
+- **A stale edge render is not a missing feature.** Two of the three Sprint 01
+  C2.3 articles appeared to lack links to the five new ones on first fetch;
+  minutes later the links were there. The related-articles module renders
+  cluster siblings from the category at request time, so old articles pick up
+  new siblings without a re-ingest — but the edge can serve a render from
+  before the ingest for up to its TTL. Re-fetch before diagnosing.
+
 #### A LINK YOU WROTE IS NOT A LINK GOOGLE FOLLOWS. Check the emitted `<a>`.
 
 Added 26 Ogos 2026 by SEO-02, and it is the most expensive thing this document

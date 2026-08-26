@@ -125,3 +125,53 @@ infrastructure (plain `curl` against production).
   first-ever requests were the prior session's `--revalidate-url` warmup; those
   logs died with it. What is verifiable — and quoted above — is that a cold
   external client's first request returns 200 today.
+
+---
+
+## Retrospective
+
+Stage 9, written by writer-inspirasi-vendor-venue, 27 Aug 2026.
+
+**1. What did we learn that is not written down?**
+
+That an ingest leaves an on-disk signature independent of git: the script
+stamps `publishedAt:` back into the source draft at write time, so an
+uncommitted `publishedAt:` line is proof the write ran and the session died
+before committing. The resume brief for this item said, from git alone, that
+the ingest was "NOT yet done" — it had been live for nine hours. Git shows what
+a session committed; a production write is not a commit. Also: the
+related-articles module renders cluster siblings from the category at request
+time, so already-live articles surface links to new siblings without any
+re-ingest — and the edge can serve a pre-ingest render of them for its TTL,
+which looks exactly like a missing cross-link until you re-fetch.
+
+**2. Which document must change, and who owns the edit?**
+
+`docs/plans/aug-23-2026-session-01/aug-23-2026-workflow-content-production.md`
+— a new subsection under Stage 7, "Resuming after a session death mid-ingest:
+production is the record, not git", with the three-step check (working-tree
+write-backs, sitemap, database) that must run before any re-ingest. Owner of
+the edit: the writer who hit it (me). **The edit is made in this commit.**
+
+**3. What did we do twice that we should never repeat?**
+
+Determined production state twice — once wrongly from git (the dispatch brief's
+"not yet done") and once correctly from production itself. The three-step check
+now in the workflow doc makes the first determination unnecessary. Smaller: the
+first URL probe used `/artikel/<slug>` and 404ed on three known-live articles;
+article URLs are `/artikel/{categorySlug}/{slug}`, which was already written in
+the aug-24 undo record but not anywhere a verifier would look first — the new
+workflow subsection states the sitemap as the canonical way to find a live URL,
+which sidesteps guessing paths entirely.
+
+**4. What did we nearly ship, and what caught it?**
+
+A double ingest of five already-live articles. The dispatch stated the ingest
+was not done; the resume order to "verify which slugs are actually live before
+ingesting" caught it at the sitemap, before any command was run. A `--update`
+re-run would have restamped five publish dates but for the write-backs sitting
+uncommitted in the tree. Second near-miss: the stale edge render of
+`dulang-hantaran` and `gubahan-hantaran` made the cluster look un-cross-linked;
+a re-fetch minutes later showed all five links on each, and their untouched
+`updated_at` values confirmed no fix was needed. What caught it was refusing to
+act on a single fetch — now also written into the workflow subsection.
