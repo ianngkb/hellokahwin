@@ -1,0 +1,3 @@
+{"headerHeight":118,"headerVisible":"block","navAnchors":[44,44,44],"bottomBarDisplay":"none","mobileCoverHiddenOnDesktop":true,"desktopHeroPresent":true,"h1":"Mas Kahwin Ikut Negeri: Negeri Mana Paling Tinggi "}
+dropdown rows: {"count":9,"heights":[44]}
+SCREENSHOT: C:/Users/IANNG~1/AppData/Local/Temp/claude/C--Users-Ian-Ng-orca-workspaces-hellokahwin-site-pillars-ingest-redirects/f3c51738-04f4-4a3f-805b-85a3fac44e76/scratchpad/shots/tmp2.png

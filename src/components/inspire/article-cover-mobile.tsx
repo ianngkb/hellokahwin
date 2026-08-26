@@ -2,8 +2,9 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeftIcon, ShareIcon } from 'lucide-react';
+import { ShareIcon } from 'lucide-react';
 import { PhotoGallery } from './photo-gallery';
+import { getMobileCoverUrl } from '@/lib/storage/smart-crop-url';
 import { authorArchivePath } from '@/lib/authors/gate';
 import type { GalleryImage } from './article-renderer';
 
@@ -11,6 +12,14 @@ interface ArticleCoverMobileProps {
   coverImageUrl: string;
   smartCrops?: Record<string, { url: string; width: number; height: number }>;
   categoryName: string;
+  /**
+   * Retained on the interface but no longer read. It fed the overlay back
+   * arrow, which UX-01 removed once the site header stopped being hidden on
+   * article pages — the masthead's category rail is a strictly better escape
+   * (every category, not just this one) and the arrow's destination is an empty
+   * state on at least one pillar. Kept so the admin draft-preview surface's
+   * call signature is untouched; drop it when that surface is next edited.
+   */
   categorySlug: string;
   title: string;
   authorName: string;
@@ -31,7 +40,6 @@ interface ArticleCoverMobileProps {
 export function ArticleCoverMobile({
   coverImageUrl,
   smartCrops,
-  categorySlug,
   categoryName,
   title,
   authorName,
@@ -45,10 +53,21 @@ export function ArticleCoverMobile({
   return (
     <div className="-mx-4 lg:hidden">
       <div className="relative">
-        {/* Cover image — 4:5 full-bleed */}
-        <div className="relative aspect-[4/5] w-full overflow-hidden">
+        {/* Cover image — 3:2 full-bleed.
+            Was 4:5 (487px tall at 390px wide), which is a portrait plate on a
+            portrait screen: it pushed the headline, the byline and the share
+            row down far enough that the first sentence of the article started
+            at 793px, 50px off the bottom of an 844px viewport. A reader who
+            arrived from Google saw a photograph and nothing else. 3:2 is 260px
+            at the same width — 227px handed back to the words, which is what
+            the reader came for. Do not make this plate taller without
+            re-measuring where the first paragraph lands at 390px. */}
+        <div data-mobile-cover className="relative aspect-[3/2] w-full overflow-hidden">
+          {/* Crop preference follows the plate, not habit — see
+              getMobileCoverUrl. Shared with the route's LCP preload hint so the
+              two cannot resolve to different URLs. */}
           <Image
-            src={smartCrops?.['crop-4x5-mobile-cover']?.url ?? coverImageUrl}
+            src={getMobileCoverUrl(smartCrops, coverImageUrl)}
             alt={title}
             fill
             sizes="100vw"
@@ -56,43 +75,44 @@ export function ArticleCoverMobile({
             priority
           />
 
-          {/* Overlay controls — back and share only. The spec bans save/heart
-              icons on this surface, so the moodboard button is not rendered. */}
-          <div className="absolute top-0 right-0 left-0 z-10 flex items-center justify-between px-4 pt-4">
-            <Link
-              href={`/artikel/${categorySlug}`}
+          {/* Overlay controls — share only.
+              The back arrow that used to sit opposite is gone: the site header
+              is no longer hidden here, so the masthead and its category rail
+              are pinned above this plate and offer every category rather than
+              just the one. Two navigation affordances 60px apart, one of them
+              strictly weaker, is a choice the reader should not have to make.
+              The spec bans save/heart icons on this surface, so the moodboard
+              button is still not rendered. */}
+          <div className="absolute top-0 right-0 left-0 z-10 flex items-center justify-end px-4 pt-4">
+            <button
+              type="button"
+              onClick={() => {
+                if (navigator.share) {
+                  // Swallow the rejection when the user dismisses the native
+                  // share sheet (AbortError) — it's not an error.
+                  void navigator.share({ title, url: window.location.href }).catch(() => {});
+                } else {
+                  navigator.clipboard.writeText(window.location.href);
+                }
+              }}
               className="flex size-11 items-center justify-center bg-white/90 backdrop-blur-sm"
-              aria-label="Kembali ke kategori"
+              aria-label="Kongsi artikel"
             >
-              <ArrowLeftIcon className="size-5" />
-            </Link>
-            <div className="flex items-center gap-4">
-              <button
-                type="button"
-                onClick={() => {
-                  if (navigator.share) {
-                    // Swallow the rejection when the user dismisses the native
-                    // share sheet (AbortError) — it's not an error.
-                    void navigator.share({ title, url: window.location.href }).catch(() => {});
-                  } else {
-                    navigator.clipboard.writeText(window.location.href);
-                  }
-                }}
-                className="flex size-11 items-center justify-center bg-white/90 backdrop-blur-sm"
-                aria-label="Kongsi artikel"
-              >
-                <ShareIcon className="size-5" />
-              </button>
-            </div>
+              <ShareIcon className="size-5" />
+            </button>
           </div>
 
-          {/* View all photos pill */}
+          {/* View all photos pill. This is where the gallery lives now — on the
+              photograph, where the offer makes sense. It used to be here AND in
+              a fixed bottom bar, the same words twice, occupying both of the
+              two most valuable positions on a phone. The bottom bar now carries
+              the next article instead. */}
           {galleryImages.length > 0 && (
-            <div className="absolute right-4 bottom-10 z-10">
+            <div className="absolute right-4 bottom-3 z-10">
               <PhotoGallery
                 images={galleryImages}
                 trigger={
-                  <span className="hk-eyebrow bg-black/70 px-3 py-2 !text-white">
+                  <span className="hk-eyebrow flex min-h-11 items-center bg-black/70 px-3 py-2 !text-white">
                     Lihat semua foto ({galleryImages.length})
                   </span>
                 }

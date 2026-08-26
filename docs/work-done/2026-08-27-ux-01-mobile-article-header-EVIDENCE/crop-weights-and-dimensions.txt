@@ -1,0 +1,8 @@
+Cover crop inventory for /artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri
+Fetched from images.hellokahwin.com; dimensions parsed from the WebP container header.
+Mobile plate renders 390x260 CSS px = 780x520 device px at DPR2.
+
+crop-16x9-og              564x296    ratio=1.905     59848 bytes
+crop-4.3x1-desktop-hero   564x160    ratio=3.525     33336 bytes
+crop-4x3-article-card     564x423    ratio=1.333     90910 bytes
+crop-4x5-mobile-cover     338x423    ratio=0.799     60150 bytes

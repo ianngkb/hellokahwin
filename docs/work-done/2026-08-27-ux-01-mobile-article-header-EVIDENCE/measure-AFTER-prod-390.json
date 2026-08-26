@@ -1,0 +1,76 @@
+### measure :: http://localhost:3201/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri
+{
+  "viewport": {
+    "w": 390,
+    "h": 844
+  },
+  "header": {
+    "display": "block",
+    "visibility": "visible",
+    "position": "sticky",
+    "rect": {
+      "top": 0,
+      "height": 102,
+      "width": 390
+    },
+    "brandText": "HelloKahwin",
+    "navCount": 1
+  },
+  "headerNavA": {
+    "count": 3,
+    "items": [
+      {
+        "text": "Real Wedding",
+        "href": "/artikel/real-wedding",
+        "minHeight": "44px",
+        "computedHeight": 44,
+        "display": "inline-flex"
+      },
+      {
+        "text": "Idea dan nasihat",
+        "href": "/artikel/idea-dan-nasihat",
+        "minHeight": "44px",
+        "computedHeight": 44,
+        "display": "inline-flex"
+      },
+      {
+        "text": "Hantaran & Mas Kahwin",
+        "href": "/artikel/hantaran-mas-kahwin",
+        "minHeight": "44px",
+        "computedHeight": 44,
+        "display": "inline-flex"
+      }
+    ]
+  },
+  "cover": {
+    "aspectRatioCss": "3 / 2",
+    "width": 390,
+    "height": 260,
+    "ratioWbyH": 1.5,
+    "top": 102,
+    "bottom": 362
+  },
+  "firstParagraph": {
+    "text": "Mas kahwin ikut negeri merupakan panduan penting yang membantu bakal pengantin memahami ka",
+    "top": 667.75,
+    "aboveFold": true,
+    "pxAboveFold": 176.25
+  },
+  "bottomBar": [
+    {
+      "tag": "div",
+      "cls": "bg-background fixed inset-x-0 bottom-0 z-40 border-t transition-transform duration-200 eas",
+      "text": "Baca seterusnyaGubahan Dulang Hantaran 2026 — Susunan, Kos dan Kesilapan Biasa",
+      "height": 70.14,
+      "links": [
+        {
+          "text": "Baca seterusnyaGubahan Dulang Hantaran 2",
+          "href": "/artikel/hantaran-mas-kahwin/gubahan-dulang-hantaran-2026",
+          "h": 53.14
+        }
+      ]
+    }
+  ],
+  "docHeight": 13099,
+  "footerTop": 12778
+}

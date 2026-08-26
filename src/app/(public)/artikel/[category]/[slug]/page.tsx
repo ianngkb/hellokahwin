@@ -10,7 +10,7 @@ import { db } from '@/lib/db/drizzle';
 import { withDeadline, startDeadlineBudget } from '@/lib/api/timeout';
 import { lookupRedirect } from '@/lib/redirects/lookup';
 import { tagEdgeResponse } from '@/lib/cache/edge-tag';
-import { getSmartCropUrl } from '@/lib/storage/smart-crop-url';
+import { getSmartCropUrl, getMobileCoverUrl } from '@/lib/storage/smart-crop-url';
 import {
   articles,
   inspireCategories,
@@ -36,7 +36,7 @@ import {
   collectEmbeddedBlockIds,
 } from '@/lib/inspire/dynamic-blocks';
 import { ArticleCoverMobile } from '@/components/inspire/article-cover-mobile';
-import { MobilePhotoBar } from '@/components/inspire/mobile-photo-bar';
+import { MobileArticleBar } from '@/components/inspire/mobile-article-bar';
 import { Breadcrumbs, BreadcrumbJsonLd } from '@/components/common/breadcrumbs';
 import { PillarUpLinkBlock } from '@/components/inspire/pillar-up-link';
 import { getPillarUpLink, getClusterSiblings } from '@/lib/inspire/pillar-queries';
@@ -634,6 +634,24 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
     }
   }
 
+  // The one onward link the mobile bottom bar carries. Deliberately the SAME
+  // article as the first card in the related grid at the foot of the page —
+  // the bar is a shortcut to the best next read, not a second opinion about
+  // what it is. Costs no extra query: `relatedArticles` is already loaded, and
+  // is already cluster-scoped (or category-scoped for pre-pillar articles), so
+  // the bar inherits that relevance for free. Null when an article has no
+  // siblings at all, and the bar handles that.
+  const nextUp = relatedArticles[0];
+  const nextArticle = nextUp
+    ? {
+        title: nextUp.title,
+        href: `/artikel/${nextUp.categorySlug ?? categorySlug}/${nextUp.slug}`,
+        thumbnailUrl:
+          (nextUp.coverImageVariants as Record<string, { url: string }> | null)?.low?.url ??
+          nextUp.coverImageUrl,
+      }
+    : null;
+
   const bodyImages = extractImageUrlsWithVariants(renderContent);
 
   const coverGalleryImage: GalleryImage | null = article.coverImageUrl
@@ -658,8 +676,10 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
       article.coverImageUrl;
     const desktopHero =
       getSmartCropUrl(article.coverImageSmartCrops, 'crop-4.3x1-desktop-hero') ?? coverHigh;
-    const mobileCover =
-      getSmartCropUrl(article.coverImageSmartCrops, 'crop-4x5-mobile-cover') ?? coverHigh;
+    // Must stay identical to what ArticleCoverMobile renders — both resolve
+    // through getMobileCoverUrl for exactly that reason. A mismatch here costs
+    // a duplicate high-priority image fetch and silently voids the LCP hint.
+    const mobileCover = getMobileCoverUrl(article.coverImageSmartCrops, coverHigh);
     ReactDOM.preload(desktopHero, {
       as: 'image',
       fetchPriority: 'high',
@@ -791,10 +811,15 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
 
   return (
     <>
-      <div
-        className="serif-editorial container mx-auto px-4 pb-20 lg:px-6 lg:pt-8 lg:pb-8"
-        data-hide-mobile-nav
-      >
+      {/* NO `data-hide-mobile-nav` HERE. It was on this div until UX-01
+          (26 Aug 2026), which hid the site header below 767px — the attribute
+          was written for chromeless vendor-detail surfaces and applied to the
+          route that receives essentially all of the site's search traffic, on
+          phones. A reader from Google got no logo, no brand, no navigation and
+          no search, with the footer 12,000px away as the nearest escape. If you
+          are about to re-add it here, read the block above the rule in
+          globals.css first. */}
+      <div className="serif-editorial container mx-auto px-4 pb-20 lg:px-6 lg:pt-8 lg:pb-8">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -1044,7 +1069,7 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
           )}
         </div>
 
-        <MobilePhotoBar galleryImages={galleryImages} />
+        <MobileArticleBar nextArticle={nextArticle} galleryImages={galleryImages} />
       </div>
     </>
   );
