@@ -57,6 +57,7 @@ const getHomeData = unstable_cache(
           coverImageUrl: articles.coverImageUrl,
           coverImageVariants: articles.coverImageVariants,
           coverImageSmartCrops: articles.coverImageSmartCrops,
+          coverImageLqip: articles.coverImageLqip,
           publishedAt: articles.publishedAt,
           categoryName: inspireCategories.name,
           categorySlug: inspireCategories.slug,
@@ -129,6 +130,9 @@ export default async function HomePage() {
                     sizes="100vw"
                     className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
                     priority
+                    {...(hero.coverImageLqip
+                      ? { placeholder: 'blur' as const, blurDataURL: hero.coverImageLqip }
+                      : {})}
                   />
                 ) : (
                   <div className="flex h-full items-center justify-center">
@@ -209,6 +213,7 @@ export default async function HomePage() {
                 }
                 publishedAt={null}
                 priority={i < 2}
+                lqip={article.coverImageLqip}
               />
             ))}
           </div>

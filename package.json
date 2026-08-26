@@ -23,7 +23,8 @@
     "seed:pillars": "tsx scripts/seed-pillars.ts",
     "covers": "tsx scripts/generate-cover-graphics.mts",
     "links:audit": "tsx scripts/audit-internal-links.mts",
-    "monitor:indexing": "tsx scripts/indexing-monitor.mts"
+    "monitor:indexing": "tsx scripts/indexing-monitor.mts",
+    "backfill:lqip": "tsx scripts/backfill-cover-lqip.mts"
   },
   "dependencies": {
     "@aws-sdk/client-rekognition": "^3.996.0",

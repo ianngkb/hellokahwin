@@ -23,6 +23,7 @@ import {
 } from '@/lib/constants';
 import { getR2Client, getR2Bucket, getR2PublicUrl } from '@/lib/r2/client';
 import { generateVariants, getDefaultPresets } from '@/lib/storage/image-variants';
+import { generateLqipForCover } from '@/lib/storage/lqip';
 import type { ImageVariants } from '@/lib/storage/image-variants';
 import {
   framingFromStoredOverride,
@@ -749,11 +750,16 @@ export async function bulkRegenerateImagesAction(articleIds: string[]) {
         originalBuffer,
       });
 
+      // The blur placeholder is derived AFTER the crops exist, from the same
+      // crop the card renders — see generateLqipForCover.
+      const lqip = await generateLqipForCover(smartCrops, variants, article.coverImageUrl);
+
       // Update DB
       await db
         .update(articles)
         .set({
           coverImageVariants: variants,
+          coverImageLqip: lqip,
           coverImageQuality: 'high',
           coverImageFocalPoint: focalPoint,
           coverImageSmartCrops: smartCrops,

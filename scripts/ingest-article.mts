@@ -29,6 +29,7 @@ import postgres from 'postgres';
 import { marked } from 'marked';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import sharp from 'sharp';
+import { generateLqip } from '../src/lib/storage/lqip';
 import { generateJSON } from '@tiptap/html';
 import StarterKit from '@tiptap/starter-kit';
 import { InternalAwareLink, normaliseInternalLinkMarks } from '../src/lib/inspire/internal-links';
@@ -437,7 +438,11 @@ async function main() {
   // between publishing and publishing into a drawer. Four articles were live
   // for a day on 26 Aug 2026 while Search Console reported `URL is unknown to
   // Google` for every one of them.
-  if (args.revalidateUrl && !process.env.GSC_SERVICE_ACCOUNT_JSON && !process.env.GSC_CREDENTIALS_PATH) {
+  if (
+    args.revalidateUrl &&
+    !process.env.GSC_SERVICE_ACCOUNT_JSON &&
+    !process.env.GSC_CREDENTIALS_PATH
+  ) {
     console.warn(
       '⚠ No GSC credential (GSC_SERVICE_ACCOUNT_JSON or GSC_CREDENTIALS_PATH), so Google\n' +
         '  will NOT be asked to re-read the sitemap. The article will be live and in the\n' +
@@ -614,6 +619,7 @@ async function main() {
       url: string;
       key: string;
       variants: unknown;
+      lqip?: string | null;
       smartCrops?: unknown;
       focalPoint?: unknown;
       detectionData?: unknown;
@@ -695,10 +701,30 @@ async function main() {
         );
       }
 
+      // Blur placeholder. Derived from the same 4:3 crop the card renders
+      // (falling back to the original when crops failed above), so the blur
+      // and the photograph that replaces it are framed identically.
+      const cardCropUrl = (smartCrops as Record<string, { url: string }> | null)?.[
+        'crop-4x3-article-card'
+      ]?.url;
+      let lqip: string | null = null;
+      try {
+        lqip = cardCropUrl
+          ? await generateLqip(Buffer.from(await (await fetch(cardCropUrl)).arrayBuffer()))
+          : await generateLqip(buffer);
+      } catch (err) {
+        // Say it rather than hide it: a null placeholder is the old flat
+        // plate, which is a degradation, not a broken article.
+        console.warn(
+          `  no blur placeholder for ${image.file}: ${err instanceof Error ? err.message : String(err)}`,
+        );
+      }
+
       uploaded.set(image.file, {
         url: `${publicUrl}/${key}`,
         key,
         variants,
+        lqip,
         smartCrops,
         focalPoint,
         detectionData,
@@ -808,6 +834,7 @@ async function main() {
       insert into articles
         (title, slug, excerpt, content, cover_image_url, cover_image_variants,
          cover_image_smart_crops, cover_image_focal_point, cover_image_detection_data,
+         cover_image_lqip,
          meta_description, status, author_id, primary_category_id, published_at,
          authorship, review_status, is_ai_generated)
       values
@@ -817,6 +844,7 @@ async function main() {
          ${cover.smartCrops ? sql.json(cover.smartCrops as never) : null}::jsonb,
          ${cover.focalPoint ? sql.json(cover.focalPoint as never) : null}::jsonb,
          ${cover.detectionData ? sql.json(cover.detectionData as never) : null}::jsonb,
+         ${cover.lqip ?? null},
          ${frontMatter.metaDescription}, ${effectiveStatus}, ${author.id}, ${pillar.id},
          ${effectiveStatus === 'published' ? (frontMatter.publishedAt ?? new Date().toISOString()) : null},
          ${authorship}::article_authorship,
@@ -831,6 +859,7 @@ async function main() {
         cover_image_smart_crops = excluded.cover_image_smart_crops,
         cover_image_focal_point = excluded.cover_image_focal_point,
         cover_image_detection_data = excluded.cover_image_detection_data,
+        cover_image_lqip = excluded.cover_image_lqip,
         meta_description = excluded.meta_description,
         status = excluded.status,
         primary_category_id = excluded.primary_category_id,

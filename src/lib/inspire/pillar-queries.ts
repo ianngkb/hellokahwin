@@ -275,6 +275,7 @@ export const getClusterSiblings = unstable_cache(
         coverImageUrl: articles.coverImageUrl,
         coverImageVariants: articles.coverImageVariants,
         coverImageSmartCrops: articles.coverImageSmartCrops,
+        coverImageLqip: articles.coverImageLqip,
         categorySlug: inspireCategories.slug,
         publishedAt: articles.publishedAt,
       })

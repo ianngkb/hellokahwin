@@ -8,6 +8,7 @@ import { AdminCommandPalette } from './admin-command-palette';
 import { AdminGroupTabs } from './admin-group-tabs';
 import { AdminMobileNav } from './admin-mobile-nav';
 import { AdminSidebar } from './admin-sidebar';
+import { Toaster } from '@/components/ui/sonner';
 
 /**
  * The console's typeface, per the design system. Loaded in THIS layout rather
@@ -89,6 +90,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             {children}
           </div>
         </main>
+        {/* Moved down from the root layout by UX-04. Every toast() call
+            site in the app is admin-only, so mounting it there shipped
+            sonner to every public article for nothing. */}
+        <Toaster />
       </div>
     </ClerkProvider>
   );

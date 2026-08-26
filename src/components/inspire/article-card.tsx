@@ -19,6 +19,13 @@ interface ArticleCardProps {
   updatedAt?: string | null;
   /** First screenful on the hub/home grid — skips lazy-loading for LCP. */
   priority?: boolean;
+  /**
+   * Base64 LQIP for the blur placeholder. Only the first two cards get
+   * `priority`; every card below the fold is `loading="lazy"`, so without this
+   * the reader watches a flat plate sit where a photograph belongs until the
+   * WebP decodes. Null falls back to that flat plate.
+   */
+  lqip?: string | null;
 }
 
 /**
@@ -37,6 +44,7 @@ export function ArticleCard({
   publishedAt,
   updatedAt,
   priority = false,
+  lqip,
 }: ArticleCardProps) {
   const href = `/artikel/${categorySlug}/${slug}`;
   // Prefer last-updated when the caller supplies it; fall back to published.
@@ -58,6 +66,7 @@ export function ArticleCard({
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
             className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
             priority={priority}
+            {...(lqip ? { placeholder: 'blur' as const, blurDataURL: lqip } : {})}
           />
         ) : (
           <div className="flex h-full items-center justify-center">

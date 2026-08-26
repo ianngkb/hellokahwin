@@ -35,6 +35,14 @@ interface ArticleCoverMobileProps {
   readTime: string | null;
   galleryImages: GalleryImage[];
   articleId: string;
+  /**
+   * Base64 LQIP for the blur placeholder (UX-04). The mobile cover is
+   * `priority`, so it is never lazy — but priority only wins the request, it
+   * does not make the decode instant. Until UX-04 the plate under it was flat
+   * `bg-muted`, which is what a reader arriving from Google saw first. Optional
+   * so the admin draft-preview surfaces keep their call signature.
+   */
+  lqip?: string | null;
 }
 
 export function ArticleCoverMobile({
@@ -49,6 +57,7 @@ export function ArticleCoverMobile({
   readTime,
   galleryImages,
   articleId,
+  lqip,
 }: ArticleCoverMobileProps) {
   return (
     <div className="-mx-4 lg:hidden">
@@ -73,6 +82,7 @@ export function ArticleCoverMobile({
             sizes="100vw"
             className="object-cover"
             priority
+            {...(lqip ? { placeholder: 'blur' as const, blurDataURL: lqip } : {})}
           />
 
           {/* Overlay controls — share only.

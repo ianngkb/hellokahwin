@@ -28,6 +28,7 @@ import { isAuthorReattribution } from '@/lib/authors/gate';
 import { extractImageUrlsFromContent } from '@/lib/inspire/content-media';
 import { getR2Client, getR2Bucket } from '@/lib/r2/client';
 import { generateVariants, getDefaultPresets } from '@/lib/storage/image-variants';
+import { generateLqipForCover } from '@/lib/storage/lqip';
 import {
   processSmartCrops,
   resolveOriginalKey,
@@ -122,6 +123,24 @@ export async function updateArticleAction(
     updateData.coverImageSmartCrops = validated.coverImageSmartCrops ?? null;
   if ('coverImageFocalPointOverride' in validated)
     updateData.coverImageFocalPointOverride = validated.coverImageFocalPointOverride ?? null;
+
+  // Re-derive the blur placeholder whenever the cover itself moved. Without
+  // this the editor could swap a cover and leave the previous photograph's
+  // colours blurred underneath the new one — worse than the flat plate, because
+  // it is confidently wrong rather than obviously absent.
+  if (
+    'coverImageUrl' in validated ||
+    'coverImageVariants' in validated ||
+    'coverImageSmartCrops' in validated
+  ) {
+    updateData.coverImageLqip = validated.coverImageUrl
+      ? await generateLqipForCover(
+          validated.coverImageSmartCrops,
+          validated.coverImageVariants,
+          validated.coverImageUrl as string,
+        )
+      : null;
+  }
 
   // SEO meta — preserve a user-provided override; otherwise clear it so the
   // public page falls back to the clean `title`. We must NOT auto-append the
@@ -639,11 +658,16 @@ export async function regenerateArticleImagesAction(articleId: string) {
     originalBuffer,
   });
 
+  // The blur placeholder is derived AFTER the crops exist, from the same crop
+  // the card renders — see generateLqipForCover.
+  const lqip = await generateLqipForCover(smartCrops, variants, article.coverImageUrl);
+
   // Update DB
   await db
     .update(articles)
     .set({
       coverImageVariants: variants,
+      coverImageLqip: lqip,
       coverImageQuality: 'high',
       coverImageFocalPoint: focalPoint,
       coverImageSmartCrops: smartCrops,

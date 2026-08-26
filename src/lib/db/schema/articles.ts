@@ -156,6 +156,11 @@ export const articles = pgTable(
     coverImageDetectionData: jsonb('cover_image_detection_data'),
     coverImageSmartCrops: jsonb('cover_image_smart_crops'),
     coverImageFocalPointOverride: jsonb('cover_image_focal_point_override'),
+    // Base64 LQIP for `next/image` `placeholder="blur"`. ~190 chars of WebP at
+    // 16px wide, so it inlines into the HTML once per card without meaningfully
+    // moving the document size. Null is a supported state: the card falls back
+    // to the flat `bg-muted` plate it rendered before UX-04.
+    coverImageLqip: text('cover_image_lqip'),
     fts: tsvector('fts'),
     metaTitle: text('meta_title'),
     metaDescription: text('meta_description'),

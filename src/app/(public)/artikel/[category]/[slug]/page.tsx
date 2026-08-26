@@ -107,6 +107,7 @@ const getArticlePageDataCached = unstable_cache(
         coverImageUrl: articles.coverImageUrl,
         coverImageSmartCrops: articles.coverImageSmartCrops,
         coverImageVariants: articles.coverImageVariants,
+        coverImageLqip: articles.coverImageLqip,
         excerpt: articles.excerpt,
         metaTitle: articles.metaTitle,
         metaDescription: articles.metaDescription,
@@ -353,6 +354,7 @@ const getRelatedArticles = unstable_cache(
         coverImageUrl: articles.coverImageUrl,
         coverImageVariants: articles.coverImageVariants,
         coverImageSmartCrops: articles.coverImageSmartCrops,
+        coverImageLqip: articles.coverImageLqip,
         publishedAt: articles.publishedAt,
         categorySlug: inspireCategories.slug,
       })
@@ -859,6 +861,7 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
                     readTime={readTime}
                     galleryImages={galleryImages}
                     articleId={article.id}
+                    lqip={article.coverImageLqip}
                   />
                   {/* Mobile cover credit. The mobile hero is a full-bleed
                       photograph with an overlay, so the credit sits under it on
@@ -887,6 +890,9 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
                         sizes="(max-width: 1280px) 100vw, 1280px"
                         className="object-cover"
                         priority
+                        {...(article.coverImageLqip
+                          ? { placeholder: 'blur' as const, blurDataURL: article.coverImageLqip }
+                          : {})}
                       />
                     </div>
                     {/* Cover credit — the courtesy that earns the next licence,
@@ -1062,6 +1068,7 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
                       > | null
                     }
                     publishedAt={null}
+                    lqip={related.coverImageLqip}
                   />
                 ))}
               </div>

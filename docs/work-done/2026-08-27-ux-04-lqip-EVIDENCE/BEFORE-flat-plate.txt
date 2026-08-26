@@ -1,0 +1,18 @@
+### BEFORE-flat-plate :: https://hellokahwin.com/ :: Slow 3G (400kbps, 400ms RTT)
+  ms   imgs  painted  blurred  flatPlates
+  3408   (document not yet parsed)
+  4145    13        0        0          13
+  4859    13        0        0          13
+  5572    13        0        0          13
+  6286    13        0        0          13
+  7003    13        0        0          13
+  7714    13        0        0          13
+  8434    13        0        0          13
+  9144    13        0        0          13
+  9855    13        0        0          13
+ 10568    13        0        0          13
+ 11282    13        0        0          13
+ 11985    13        0        0          13
+ 12686    13        0        0          13
+ 13388    13        0        0          13
+ 14099    13        0        0          13

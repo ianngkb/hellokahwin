@@ -60,6 +60,7 @@ const getInspireHomeData = unstable_cache(
           coverImageUrl: articles.coverImageUrl,
           coverImageVariants: articles.coverImageVariants,
           coverImageSmartCrops: articles.coverImageSmartCrops,
+          coverImageLqip: articles.coverImageLqip,
           publishedAt: articles.publishedAt,
           categoryName: inspireCategories.name,
           categorySlug: inspireCategories.slug,
@@ -183,6 +184,12 @@ export default async function InspireHomePage() {
                           sizes="100vw"
                           className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
                           priority
+                          {...(featured[0].coverImageLqip
+                            ? {
+                                placeholder: 'blur' as const,
+                                blurDataURL: featured[0].coverImageLqip,
+                              }
+                            : {})}
                         />
                       ) : (
                         <div className="flex h-full items-center justify-center">
@@ -223,6 +230,7 @@ export default async function InspireHomePage() {
                             > | null
                           }
                           publishedAt={null}
+                          lqip={article.coverImageLqip}
                           priority
                         />
                       ))}
@@ -264,6 +272,7 @@ export default async function InspireHomePage() {
                             > | null
                           }
                           publishedAt={null}
+                          lqip={article.coverImageLqip}
                         />
                       </Fragment>
                     ))}

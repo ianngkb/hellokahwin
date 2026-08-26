@@ -256,6 +256,7 @@ export default async function InspireAuthorPage({ params, searchParams }: Author
                       > | null
                     }
                     publishedAt={null}
+                    lqip={article.coverImageLqip}
                   />
                 </Fragment>
               ))}

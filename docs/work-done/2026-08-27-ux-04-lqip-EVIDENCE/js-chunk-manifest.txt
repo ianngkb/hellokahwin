@@ -1,0 +1,26 @@
+# Production JS chunks, 27 Aug 2026 (deployment dpl_Cd1tG9yp2bWw6tqnKRmtV87E59Cz)
+
+Downloaded from https://hellokahwin.com/_next/static/chunks/ and fingerprinted by
+string literals. Raw files deliberately NOT committed: 570KB of third-party
+minified code, re-downloadable from the URLs below.
+
+sha256 (of the decoded file) | decoded bytes | chunk
+--- | --- | ---
+371f45cb73029a2e | 202014 | e0cb623bd8a72dec.js
+4114e229748d41c1 | 84887 | 7f062668825b6601.js
+2d59a95af7aa0eb3 | 49639 | 6108050fbc72e56b.js
+b5fce105e83ce2c1 | 36495 | 4802b08049425a09.js
+ac8e2d6684c08d7e | 33799 | 1e7bef9b15323574.js
+a58d85d12eb14073 | 30782 | e859c9405ddbd6b6.js
+24b5e684388fb229 | 30224 | d9c99a638b563072.js
+4bbc0df665b9d48f | 29946 | 262c59f60e4ff485.js
+748e246b7922de74 | 27555 | 939b826e656fef53.js
+92b5fced3a7cf02d | 14133 | e67338159cdbc0d5.js
+87012f153abb1626 | 13149 | b6858af96963657f.js
+5a4e3eeba7ffc312 | 10708 | turbopack-cc76d34adaa39cae.js
+c595a1bf3806c0bf | 2904 | 3d0f0ead0e39d76c.js
+b1b4d2a25bd652b0 | 2393 | 3d3d4cf224efa263.js
+924fc16295c7c682 | 770 | c7cc48cf693e06e4.js
+555aa73c8c650b29 | 688 | dde61626dcb67a6c.js
+
+TOTAL decoded: 570086 bytes across 16 files.

@@ -104,6 +104,7 @@ const getCategoryArticles = unstable_cache(
           coverImageUrl: articles.coverImageUrl,
           coverImageVariants: articles.coverImageVariants,
           coverImageSmartCrops: articles.coverImageSmartCrops,
+          coverImageLqip: articles.coverImageLqip,
           publishedAt: articles.publishedAt,
           categoryName: inspireCategories.name,
           categorySlug: inspireCategories.slug,
@@ -600,6 +601,7 @@ export default async function InspireCategoryPage({ params, searchParams }: Cate
                       > | null
                     }
                     publishedAt={null}
+                    lqip={article.coverImageLqip}
                   />
                 </Fragment>
               ))}
