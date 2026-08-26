@@ -411,6 +411,37 @@ minute to relaunch; the prompts will otherwise recur indefinitely.
 - GSC runs ~1–2 days behind. Today's date will read as zero; that is lag, not a
   cliff.
 
+## ⚠ A PERSONA EDIT IS NOT LIVE UNTIL IT IS DEPLOYED, AND GIT CANNOT SEE THAT
+
+Found 26 Aug 2026 by SEO-05 and CONT-07, after both had written rules into agent
+personas and reported them as landed.
+
+- **`.claude/agents/` IS GIT-IGNORED** (`.gitignore:90` in this repo). The
+  deployed agent is a plain COPY, not a symlink, so it does not track the
+  source. **A stale deployed persona therefore produces no `git status`, no
+  diff, and no unpushed-commit count — nothing any ship gate inspects.**
+- **Both editorial personas were stale on the evening they were edited.**
+  `head-of-seo-content` deployed at **264 lines against a 429-line source**;
+  `writer-inspirasi-vendor-venue` at **276 against 313**. Every rule written into
+  them that day was dead for the next seat. The personas that were current were
+  current because the scripts their author happened to use wrote to both paths —
+  **luck, not process.**
+- **CONT-07's formulation, and it is the one to keep:** an agent edit has exactly
+  the same fork as content — **correct → committed → DEPLOYED** — and git can
+  only see the middle step, the one that reaches nobody. It is the same blindness
+  the ship gate has to an un-ingested draft, which this project has already
+  written down once.
+- **So: never hand over "re-run `install.sh`". Hand over the diff that proves it
+  landed** — an instruction to run a command is exactly the
+  asserted-and-unverified shape that cost this sprint repeatedly. The `tr` is
+  required or CRLF makes every line read as changed:
+
+      diff <(tr -d '' < skillcentral/agents/projects/<proj>/<Cat>/<agent>.md)            <(tr -d '' < <repo>/.claude/agents/<agent>.md)
+
+- **Status 26 Aug: both personas deployed and verified**, source and deployed
+  identical, and the individual rules confirmed present in the deployed files by
+  grep rather than inferred from a line count.
+
 ## SEO defects open on the live site (26 Aug 2026)
 
 - **🔴 NO ARTICLE ON THE SITE EMITS `FAQPage` SCHEMA, and 31 are carrying the
