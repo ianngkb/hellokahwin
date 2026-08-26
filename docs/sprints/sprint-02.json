@@ -51,9 +51,10 @@
     },
     {
       "id": "SEO-05", "track": "seo", "points": 2, "state": "todo", "owner": "head-of-seo-content",
-      "title": "Zero-CTR audit — page one, no clicks",
-      "why": "The legacy /dewan-kahwin/ takes 11 of the site's 15 weekly clicks at position 9.9, while the new path for the same content sits at 7.6 and earns nothing. We rank and do not convert, which is a different problem from indexing.",
-      "dod": "Every live URL at average position under 10 with zero clicks over 28 days listed with impressions, position, and the queries it surfaces for. Each gets a NAMED diagnosis — wrong page type, weak title, SERP feature above it, or intent mismatch — not a generic recommendation. Titles and meta rewritten and SHIPPED for the five worst, before/after quoted from live HTML."
+      "title": "Entity-match in the SERP snippet — the one real zero, not the phantom five",
+      "rescoped": "26 Aug 2026, before work started. The original item — 'audit every live URL at average position under 10 with zero clicks' — was wrong and would have spent the sprint on noise.",
+      "why": "Two checks killed the original framing. (1) At position 7–10 with 25–50 impressions, expected clicks are 0.3–1.5, so zero is inside normal variance. (2) Sharper, and the reason the CEO should not have trusted its own list: those AVERAGED POSITIONS DESCRIBE NO ACTUAL QUERY. The hantaran-tunang page at 'average position 9.8' is really 4 impressions at 10.2, 2 at 13.5, 1 at 33 and 1 at 56 — a mean across a long tail, not a page ranking at 9.8. ONE case survives: dewan komuniti setiawangsa, 104 impressions at position 9.0, zero clicks, where 2–3 were expected. Its cause is not the page, because the visitor never reaches the page. Someone types one hall's name and Google shows a generic listicle title about cheap halls in Selangor and KL; 'Setiawangsa' appears nowhere in the title or description, so they scan, miss their hall, and click a Facebook or council listing instead.",
+      "dod": "Fix and measure the one real case rather than auditing five phantoms. Title and meta for the dewan-kahwin listicle rewritten so a named-hall searcher sees their hall matched — SHIPPED, quoted from live HTML before and after. Write the rule for when a zero IS a finding: the expected-click calculation, and never trusting an averaged position without pulling the per-query breakdown. That rule lands in ceo-memory.md AND the head-of-seo-content persona, not only in this item. Baseline re-recorded on ship day. Explicitly OUT of scope: the other four pages — name them and say why, so a later sprint does not rediscover them as a finding."
     },
     {
       "id": "PLAT-05", "track": "platform", "points": 8, "state": "todo", "owner": "BMAD",
