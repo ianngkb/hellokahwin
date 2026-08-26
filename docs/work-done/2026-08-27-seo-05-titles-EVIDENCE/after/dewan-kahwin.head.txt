@@ -1,0 +1,12 @@
+# dewan-kahwin  — head excerpt from live production HTML, 2026-08-26T17:22Z
+# (full response bodies were ~130KB each and are not committed; these are the tags SEO-05 changed,
+#  plus the H1 on the same page, quoted verbatim from the fetched document.)
+
+<title>Dewan Kahwin KL &amp; Selangor 2026 Bawah RM5,000 | HelloKahwin</title>
+<meta name="description" content="10 dewan kahwin di KL dan Selangor dengan sewa bawah RM5,000, termasuk RM3,000 di Dewan Komuniti AU2 dan RM4,000 di Dewan Sivik MBPJ. Kemas kini 2026."/>
+<link rel="canonical" href="https://hellokahwin.com/artikel/idea-dan-nasihat/dewan-kahwin"/>
+<meta property="og:title" content="10 Dewan Kahwin Murah di Selangor &amp; KL – Sesuai untuk Bajet Bawah RM5,000"/>
+<meta property="og:description" content="10 dewan kahwin di KL dan Selangor dengan sewa bawah RM5,000, termasuk RM3,000 di Dewan Komuniti AU2 dan RM4,000 di Dewan Sivik MBPJ. Kemas kini 2026."/>
+<meta name="robots" content="index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1"/>
+
+<h1>: 10 Dewan Kahwin Murah di Selangor &amp; KL – Sesuai untuk Bajet Bawah RM5,000

@@ -1,0 +1,12 @@
+# tempat-honeymoon-di-malaysia  — head excerpt from live production HTML, 2026-08-26T17:22Z
+# (full response bodies were ~130KB each and are not committed; these are the tags SEO-05 changed,
+#  plus the H1 on the same page, quoted verbatim from the fetched document.)
+
+<title>19 Tempat Honeymoon Terbaik di Malaysia 2026 | HelloKahwin</title>
+<meta name="description" content="19 tempat honeymoon di Malaysia: pulau, pantai dan pergunungan sejuk, dengan waktu terbaik untuk pergi dan resort pilihan bagi setiap destinasi."/>
+<link rel="canonical" href="https://hellokahwin.com/artikel/idea-dan-nasihat/tempat-honeymoon-di-malaysia"/>
+<meta property="og:title" content="19 Tempat Honeymoon di Malaysia yang Wajib Masuk Wishlist Pasangan"/>
+<meta property="og:description" content="19 tempat honeymoon di Malaysia: pulau, pantai dan pergunungan sejuk, dengan waktu terbaik untuk pergi dan resort pilihan bagi setiap destinasi."/>
+<meta name="robots" content="index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1"/>
+
+<h1>: 19 Tempat Honeymoon di Malaysia yang Wajib Masuk Wishlist Pasangan

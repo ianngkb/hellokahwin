@@ -1,0 +1,696 @@
+{
+ "auditedAt": "2026-08-26T17:05Z (pre-write)",
+ "total": 69,
+ "rows": [
+  {
+   "slug": "adat-hantaran-berbeza-negeri",
+   "cat": "hantaran-mas-kahwin",
+   "mt": null,
+   "h1": "Adat hantaran berbeza negeri: bila dua keluarga tak sama",
+   "same": true,
+   "rl": 70,
+   "md": 148,
+   "mdTrunc": false
+  },
+  {
+   "slug": "amankila-bali",
+   "cat": "glamor-eksklusif",
+   "mt": "Majlis Perkahwinan Mewah dan Berkonsep Organik di Amankila, Bali",
+   "h1": "Majlis Perkahwinan Mewah dan Berkonsep Organik di Amankila, Bali",
+   "same": true,
+   "rl": 78,
+   "md": 113,
+   "mdTrunc": true
+  },
+  {
+   "slug": "apa-itu-mas-kahwin",
+   "cat": "hantaran-mas-kahwin",
+   "mt": null,
+   "h1": "Maksud mas kahwin: hak isteri dan beza dengan hantaran",
+   "same": true,
+   "rl": 68,
+   "md": 143,
+   "mdTrunc": false
+  },
+  {
+   "slug": "bajet-kahwin",
+   "cat": "venue-perancangan",
+   "mt": null,
+   "h1": "Bajet Kahwin 2026: Apa yang Boleh Diharga Tepat, dan Apa yang Tidak",
+   "same": true,
+   "rl": 81,
+   "md": 148,
+   "mdTrunc": false
+  },
+  {
+   "slug": "baju-pengantin-sewa-atau-beli",
+   "cat": "busana-pengantin",
+   "mt": null,
+   "h1": "Baju pengantin: sewa atau beli, dan kos sebenar 2026",
+   "same": true,
+   "rl": 66,
+   "md": 150,
+   "mdTrunc": false
+  },
+  {
+   "slug": "bilangan-dulang-hantaran-ganjil",
+   "cat": "hantaran-mas-kahwin",
+   "mt": null,
+   "h1": "Bilangan dulang hantaran ganjil: adat, atau boleh genap?",
+   "same": true,
+   "rl": 70,
+   "md": 151,
+   "mdTrunc": false
+  },
+  {
+   "slug": "borang-nikah",
+   "cat": "nikah-undang-undang",
+   "mt": null,
+   "h1": "Borang Nikah: Borang Mana, Isi Apa, Hantar Ke Mana",
+   "same": true,
+   "rl": 64,
+   "md": 138,
+   "mdTrunc": false
+  },
+  {
+   "slug": "bunga-telur",
+   "cat": "pelamin-kad-cenderahati",
+   "mt": null,
+   "h1": "Bunga telur: maksud, beza dengan bunga pahar, dan kos",
+   "same": true,
+   "rl": 67,
+   "md": 139,
+   "mdTrunc": false
+  },
+  {
+   "slug": "cara-buat-kad-kahwin-digital",
+   "cat": "idea-dan-nasihat",
+   "mt": "Cara Buat Kad Kahwin Digital Sendiri – Lengkap Dengan Contoh & Template Percuma",
+   "h1": "Cara Buat Kad Kahwin Digital Sendiri – Lengkap Dengan Contoh & Template Percuma",
+   "same": true,
+   "rl": 93,
+   "md": 119,
+   "mdTrunc": true
+  },
+  {
+   "slug": "cara-tetapkan-duit-hantaran",
+   "cat": "hantaran-mas-kahwin",
+   "mt": null,
+   "h1": "Cara tetapkan jumlah duit hantaran tanpa jatuh air muka",
+   "same": true,
+   "rl": 69,
+   "md": 146,
+   "mdTrunc": false
+  },
+  {
+   "slug": "checklist-kahwin",
+   "cat": "venue-perancangan",
+   "mt": null,
+   "h1": "Checklist Kahwin: Senarai Persediaan 12 Bulan Sebelum Majlis, Ikut Urutan",
+   "same": true,
+   "rl": 87,
+   "md": 141,
+   "mdTrunc": false
+  },
+  {
+   "slug": "cheong-fatt-tze-mansion",
+   "cat": "real-wedding",
+   "mt": "Perkahwinan Pelbagai Budaya di Cheong Fatt Tze Mansion, Ikon Bersejarah Pulau Pinang",
+   "h1": "Perkahwinan Pelbagai Budaya di Cheong Fatt Tze Mansion, Ikon Bersejarah Pulau Pinang",
+   "same": true,
+   "rl": 98,
+   "md": 125,
+   "mdTrunc": true
+  },
+  {
+   "slug": "cincin-tunang",
+   "cat": "sebelum-nikah",
+   "mt": null,
+   "h1": "Cincin Tunang, Nikah dan Merisik: Tiga Cincin, Siapa Beri yang Mana",
+   "same": true,
+   "rl": 81,
+   "md": 132,
+   "mdTrunc": false
+  },
+  {
+   "slug": "contoh-kad-jemputan-kahwin",
+   "cat": "pelamin-kad-cenderahati",
+   "mt": null,
+   "h1": "Contoh kad jemputan kahwin: susunan, ayat dan silap biasa",
+   "same": true,
+   "rl": 71,
+   "md": 150,
+   "mdTrunc": false
+  },
+  {
+   "slug": "dewan-kahwin",
+   "cat": "idea-dan-nasihat",
+   "mt": "10 Dewan Kahwin Murah di Selangor & KL – Sesuai untuk Bajet Bawah RM5,000",
+   "h1": "10 Dewan Kahwin Murah di Selangor & KL – Sesuai untuk Bajet Bawah RM5,000",
+   "same": true,
+   "rl": 87,
+   "md": 112,
+   "mdTrunc": true
+  },
+  {
+   "slug": "doa-majlis-perkahwinan",
+   "cat": "ucapan-doa",
+   "mt": null,
+   "h1": "Doa majlis perkahwinan: struktur, tempoh dan siapa baca",
+   "same": true,
+   "rl": 69,
+   "md": 150,
+   "mdTrunc": false
+  },
+  {
+   "slug": "doa-majlis-pertunangan",
+   "cat": "sebelum-nikah",
+   "mt": null,
+   "h1": "Doa Majlis Pertunangan: Apa yang Sebenarnya Dibaca, dan Apa yang Tidak",
+   "same": true,
+   "rl": 84,
+   "md": 147,
+   "mdTrunc": false
+  },
+  {
+   "slug": "doa-pengantin-baru",
+   "cat": "ucapan-doa",
+   "mt": null,
+   "h1": "Doa pengantin baru: lafaz penuh, rumi dan maksudnya",
+   "same": true,
+   "rl": 65,
+   "md": 137,
+   "mdTrunc": false
+  },
+  {
+   "slug": "duit-hantaran-kahwin",
+   "cat": "hantaran-mas-kahwin",
+   "mt": null,
+   "h1": "Duit hantaran kahwin: beza dengan mas kahwin dan hak siapa",
+   "same": true,
+   "rl": 72,
+   "md": 151,
+   "mdTrunc": false
+  },
+  {
+   "slug": "dulang-hantaran",
+   "cat": "hantaran-mas-kahwin",
+   "mt": null,
+   "h1": "Dulang hantaran: jenis, saiz dan kos beli atau sewa",
+   "same": true,
+   "rl": 65,
+   "md": 136,
+   "mdTrunc": false
+  },
+  {
+   "slug": "garden-wedding",
+   "cat": "idea-dan-nasihat",
+   "mt": "20 Venue Garden Wedding Paling Cantik di Malaysia",
+   "h1": "20 Venue Garden Wedding Paling Cantik di Malaysia",
+   "same": true,
+   "rl": 63,
+   "md": 140,
+   "mdTrunc": true
+  },
+  {
+   "slug": "goodies-kahwin",
+   "cat": "hiasan-dekorasi",
+   "mt": "20+ Idea Goodies Kahwin dan Hadiah yang Patut Dielakkan",
+   "h1": "20+ Idea Goodies Kahwin dan Hadiah yang Patut Dielakkan",
+   "same": true,
+   "rl": 69,
+   "md": 127,
+   "mdTrunc": true
+  },
+  {
+   "slug": "grand-hyatt-kuala-lumpur",
+   "cat": "glamor-eksklusif",
+   "mt": "Majlis Perkahwinan Putih Bergaya di Grand Hyatt Kuala Lumpur",
+   "h1": "Majlis Perkahwinan Putih Bergaya di Grand Hyatt Kuala Lumpur",
+   "same": true,
+   "rl": 74,
+   "md": 138,
+   "mdTrunc": true
+  },
+  {
+   "slug": "gubahan-hantaran",
+   "cat": "hantaran-mas-kahwin",
+   "mt": null,
+   "h1": "Gubahan hantaran: cara susun dan cara baca sebut harga",
+   "same": true,
+   "rl": 68,
+   "md": 135,
+   "mdTrunc": false
+  },
+  {
+   "slug": "hadiah-untuk-pengantin",
+   "cat": "idea-dan-nasihat",
+   "mt": "Hadiah untuk Pengantin Sesuai untuk Semua Bajet – 17 Pilihan",
+   "h1": "Hadiah untuk Pengantin Sesuai untuk Semua Bajet – 17 Pilihan",
+   "same": true,
+   "rl": 74,
+   "md": 138,
+   "mdTrunc": true
+  },
+  {
+   "slug": "hantaran-kahwin",
+   "cat": "hantaran-mas-kahwin",
+   "mt": "Hantaran Kahwin Lengkap Untuk Lelaki dan Perempuan – Panduan & Tips Bajet Terkini",
+   "h1": "Hantaran Kahwin Lengkap Untuk Lelaki dan Perempuan – Panduan & Tips Bajet Terkini",
+   "same": true,
+   "rl": 95,
+   "md": 137,
+   "mdTrunc": true
+  },
+  {
+   "slug": "hantaran-kahwin-5-balas-7",
+   "cat": "hantaran-mas-kahwin",
+   "mt": null,
+   "h1": "Hantaran kahwin 5 balas 7: isi dua belas dulang itu",
+   "same": true,
+   "rl": 65,
+   "md": 154,
+   "mdTrunc": false
+  },
+  {
+   "slug": "hantaran-tunang",
+   "cat": "hantaran-mas-kahwin",
+   "mt": "Hantaran Tunang Lelaki & Perempuan – Barang Apa Patut Ada Dalam Dulang?",
+   "h1": "Hantaran Tunang Lelaki & Perempuan – Barang Apa Patut Ada Dalam Dulang?",
+   "same": true,
+   "rl": 85,
+   "md": 148,
+   "mdTrunc": true
+  },
+  {
+   "slug": "hantaran-tunang-3-balas-5",
+   "cat": "hantaran-mas-kahwin",
+   "mt": null,
+   "h1": "Hantaran tunang 3 balas 5: apa yang dibawa dan dibalas",
+   "same": true,
+   "rl": 68,
+   "md": 151,
+   "mdTrunc": false
+  },
+  {
+   "slug": "hantaran-wajib-atau-adat",
+   "cat": "hantaran-mas-kahwin",
+   "mt": null,
+   "h1": "Hantaran wajib atau adat: mana yang boleh ditolak",
+   "same": true,
+   "rl": 63,
+   "md": 146,
+   "mdTrunc": false
+  },
+  {
+   "slug": "harga-sewa-dewan-kahwin",
+   "cat": "venue-perancangan",
+   "mt": null,
+   "h1": "Harga Sewa Dewan Kahwin 2026: Kadar Rasmi Majlis Perbandaran, Bukan Anggaran",
+   "same": true,
+   "rl": 90,
+   "md": 145,
+   "mdTrunc": false
+  },
+  {
+   "slug": "inai-tangan-pengantin",
+   "cat": "busana-pengantin",
+   "mt": null,
+   "h1": "Inai tangan pengantin: mana selamat, berapa lama tahan",
+   "same": true,
+   "rl": 68,
+   "md": 149,
+   "mdTrunc": false
+  },
+  {
+   "slug": "jw-marriott-kuala-lumpur",
+   "cat": "moden-kontemporari",
+   "mt": "Perkahwinan Kontemporari Bertema Chinoiserie di JW Marriott Kuala Lumpur",
+   "h1": "Perkahwinan Kontemporari Bertema Chinoiserie di JW Marriott Kuala Lumpur",
+   "same": true,
+   "rl": 86,
+   "md": 125,
+   "mdTrunc": true
+  },
+  {
+   "slug": "kursus-kahwin",
+   "cat": "idea-dan-nasihat",
+   "mt": "Kursus Kahwin: Panduan Lengkap Daftar, Syarat & Tempat di Seluruh Malaysia",
+   "h1": "Kursus Kahwin: Panduan Lengkap Daftar, Syarat & Tempat di Seluruh Malaysia",
+   "same": true,
+   "rl": 88,
+   "md": 120,
+   "mdTrunc": true
+  },
+  {
+   "slug": "lafaz-taklik",
+   "cat": "nikah-undang-undang",
+   "mt": null,
+   "h1": "Lafaz Taklik: Apa Suami Baca Selepas Akad, dan Apa Ertinya",
+   "same": true,
+   "rl": 72,
+   "md": 143,
+   "mdTrunc": false
+  },
+  {
+   "slug": "lokasi-pre-wedding-photoshoot-terbaik",
+   "cat": "fotografi-videografi",
+   "mt": "20 Lokasi Terbaik Pre Wedding Photoshoot di Malaysia – Dari Alam Semula Jadi Hingga Urban City!",
+   "h1": "20 Lokasi Terbaik Pre Wedding Photoshoot di Malaysia – Dari Alam Semula Jadi Hingga Urban City!",
+   "same": true,
+   "rl": 109,
+   "md": 127,
+   "mdTrunc": true
+  },
+  {
+   "slug": "majlis-kahwin",
+   "cat": "idea-dan-nasihat",
+   "mt": "10 Lokasi Majlis Kahwin yang Popular di Shah Alam",
+   "h1": "10 Lokasi Majlis Kahwin yang Popular di Shah Alam",
+   "same": true,
+   "rl": 63,
+   "md": 122,
+   "mdTrunc": true
+  },
+  {
+   "slug": "marriott-putrajaya",
+   "cat": "moden-kontemporari",
+   "mt": "Tema Perkahwinan Monokrom yang Bergaya di Marriott Putrajaya",
+   "h1": "Tema Perkahwinan Monokrom yang Bergaya di Marriott Putrajaya",
+   "same": true,
+   "rl": 74,
+   "md": 138,
+   "mdTrunc": true
+  },
+  {
+   "slug": "mas-kahwin-ikut-negeri",
+   "cat": "hantaran-mas-kahwin",
+   "mt": "Mas Kahwin Ikut Negeri: Negeri Mana Paling Tinggi & Paling Rendah?",
+   "h1": "Mas kahwin ikut negeri 2026: kadar minimum setiap negeri",
+   "same": false,
+   "rl": 80,
+   "md": 148,
+   "mdTrunc": false
+  },
+  {
+   "slug": "mas-kahwin-johor",
+   "cat": "hantaran-mas-kahwin",
+   "mt": null,
+   "h1": "Mas kahwin Johor 2026: RM22.50 dan asal usul angkanya",
+   "same": true,
+   "rl": 67,
+   "md": 143,
+   "mdTrunc": false
+  },
+  {
+   "slug": "mas-kahwin-kelantan-terengganu",
+   "cat": "hantaran-mas-kahwin",
+   "mt": null,
+   "h1": "Mas kahwin Kelantan dan Terengganu 2026: tiada kadar tetap",
+   "same": true,
+   "rl": 72,
+   "md": 146,
+   "mdTrunc": false
+  },
+  {
+   "slug": "mas-kahwin-melebihi-kadar-minimum",
+   "cat": "hantaran-mas-kahwin",
+   "mt": null,
+   "h1": "Bolehkah mas kahwin melebihi kadar minimum negeri?",
+   "same": true,
+   "rl": 64,
+   "md": 153,
+   "mdTrunc": false
+  },
+  {
+   "slug": "mas-kahwin-pahang-negeri-sembilan",
+   "cat": "hantaran-mas-kahwin",
+   "mt": null,
+   "h1": "Mas kahwin Pahang dan Negeri Sembilan 2026: kadar rasmi",
+   "same": true,
+   "rl": 69,
+   "md": 143,
+   "mdTrunc": false
+  },
+  {
+   "slug": "mas-kahwin-perak",
+   "cat": "hantaran-mas-kahwin",
+   "mt": null,
+   "h1": "Mas kahwin Perak 2026: tiada kadar minimum ditetapkan",
+   "same": true,
+   "rl": 67,
+   "md": 151,
+   "mdTrunc": false
+  },
+  {
+   "slug": "mas-kahwin-sabah-sarawak",
+   "cat": "hantaran-mas-kahwin",
+   "mt": null,
+   "h1": "Mas kahwin Sabah dan Sarawak 2026: tiada kadar tetap",
+   "same": true,
+   "rl": 66,
+   "md": 152,
+   "mdTrunc": false
+  },
+  {
+   "slug": "nisbah-hantaran",
+   "cat": "hantaran-mas-kahwin",
+   "mt": null,
+   "h1": "Nisbah hantaran: maksud dulang berbalas dan asal usulnya",
+   "same": true,
+   "rl": 70,
+   "md": 154,
+   "mdTrunc": false
+  },
+  {
+   "slug": "pakej-dewan-kahwin",
+   "cat": "venue-perancangan",
+   "mt": null,
+   "h1": "Pakej Dewan Kahwin: Apa yang Termasuk, dan Apa yang Selalu Tak Termasuk",
+   "same": true,
+   "rl": 85,
+   "md": 138,
+   "mdTrunc": false
+  },
+  {
+   "slug": "pelamin",
+   "cat": "pelamin-kad-cenderahati",
+   "mt": null,
+   "h1": "Pelamin 2026: jenis, saiz dan apa yang menentukan harga",
+   "same": true,
+   "rl": 69,
+   "md": 160,
+   "mdTrunc": false
+  },
+  {
+   "slug": "pelamin-kahwin-dewan",
+   "cat": "idea-dan-nasihat",
+   "mt": "10 Jenis Venue Dewan Kahwin yang Sesuai untuk Pelamin Gaya Moden",
+   "h1": "10 Jenis Venue Dewan Kahwin yang Sesuai untuk Pelamin Gaya Moden",
+   "same": true,
+   "rl": 78,
+   "md": 136,
+   "mdTrunc": true
+  },
+  {
+   "slug": "perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan",
+   "cat": "real-wedding",
+   "mt": "Perkahwinan di Ruma Hotel Kuala Lumpur Dengan Sentuhan Warisan Peranakan",
+   "h1": "Perkahwinan di Ruma Hotel Kuala Lumpur Dengan Sentuhan Warisan Peranakan",
+   "same": true,
+   "rl": 86,
+   "md": 114,
+   "mdTrunc": true
+  },
+  {
+   "slug": "perkahwinan-indah-di-laman-fajar-menyinsing-port-dickson",
+   "cat": "pantai-santai",
+   "mt": "Perkahwinan Indah di Laman Fajar Menyinsing, Port Dickson",
+   "h1": "Perkahwinan Indah di Laman Fajar Menyinsing, Port Dickson",
+   "same": true,
+   "rl": 71,
+   "md": 125,
+   "mdTrunc": true
+  },
+  {
+   "slug": "perkahwinan-romantis-di-jen-shangri-la-puteri-harbour",
+   "cat": "moden-kontemporari",
+   "mt": "Perkahwinan Romantis di JEN Shangri-La, Puteri Harbour",
+   "h1": "Perkahwinan Romantis di JEN Shangri-La, Puteri Harbour",
+   "same": true,
+   "rl": 68,
+   "md": 125,
+   "mdTrunc": true
+  },
+  {
+   "slug": "perkahwinan-taman-kebun-yang-minimalis-di-hulu-langat",
+   "cat": "real-wedding",
+   "mt": "Perkahwinan Taman Kebun yang Minimalis di Hulu Langat",
+   "h1": "Perkahwinan Taman Kebun yang Minimalis di Hulu Langat",
+   "same": true,
+   "rl": 67,
+   "md": 112,
+   "mdTrunc": true
+  },
+  {
+   "slug": "rukun-nikah",
+   "cat": "nikah-undang-undang",
+   "mt": null,
+   "h1": "Rukun Nikah: 5 Rukun dan Apa Yang Membatalkannya",
+   "same": true,
+   "rl": 62,
+   "md": 132,
+   "mdTrunc": false
+  },
+  {
+   "slug": "sentosa-janda-baik",
+   "cat": "real-wedding",
+   "mt": "Majlis Perkahwinan Penuh Nilai Budaya di Sentosa, Janda Baik dengan Inspirasi Warisan Diraja",
+   "h1": "Majlis Perkahwinan Penuh Nilai Budaya di Sentosa, Janda Baik dengan Inspirasi Warisan Diraja",
+   "same": true,
+   "rl": 106,
+   "md": 141,
+   "mdTrunc": true
+  },
+  {
+   "slug": "sewa-dewan-kahwin",
+   "cat": "idea-dan-nasihat",
+   "mt": "Checklist Sewa Dewan Kahwin: Apa yang Perlu Ditanya Sebelum Bayar Deposit",
+   "h1": "Checklist Sewa Dewan Kahwin: Apa yang Perlu Ditanya Sebelum Bayar Deposit",
+   "same": true,
+   "rl": 87,
+   "md": 153,
+   "mdTrunc": true
+  },
+  {
+   "slug": "sime-darby-convention-centre",
+   "cat": "moden-kontemporari",
+   "mt": "Majlis Perkahwinan Mewah dengan Sentuhan Warna Lembut di Sime Darby Convention Centre",
+   "h1": "Majlis Perkahwinan Mewah dengan Sentuhan Warna Lembut di Sime Darby Convention Centre",
+   "same": true,
+   "rl": 99,
+   "md": 138,
+   "mdTrunc": true
+  },
+  {
+   "slug": "sirih-junjung",
+   "cat": "hantaran-mas-kahwin",
+   "mt": null,
+   "h1": "Sirih junjung: maksud, cara dibuat dan harganya 2026",
+   "same": true,
+   "rl": 66,
+   "md": 142,
+   "mdTrunc": false
+  },
+  {
+   "slug": "skrip-pengacara-majlis-perkahwinan",
+   "cat": "ucapan-doa",
+   "mt": null,
+   "h1": "Skrip pengacara majlis perkahwinan: susunan dan lafaz",
+   "same": true,
+   "rl": 67,
+   "md": 152,
+   "mdTrunc": false
+  },
+  {
+   "slug": "songket-tenunan-tangan-atau-cetak",
+   "cat": "busana-pengantin",
+   "mt": null,
+   "h1": "Kain songket tenunan tangan atau cetak: beza dan harga",
+   "same": true,
+   "rl": 68,
+   "md": 150,
+   "mdTrunc": false
+  },
+  {
+   "slug": "syarat-sah-nikah",
+   "cat": "nikah-undang-undang",
+   "mt": null,
+   "h1": "Syarat Sah Nikah: Senarai Penuh Ikut Setiap Pihak",
+   "same": true,
+   "rl": 63,
+   "md": 139,
+   "mdTrunc": false
+  },
+  {
+   "slug": "taaruf-maksud",
+   "cat": "sebelum-nikah",
+   "mt": null,
+   "h1": "Taaruf Maksud: Apa Itu Taaruf dan Apa Bezanya dengan Bercinta",
+   "same": true,
+   "rl": 75,
+   "md": 151,
+   "mdTrunc": false
+  },
+  {
+   "slug": "tempat-honeymoon-di-malaysia",
+   "cat": "idea-dan-nasihat",
+   "mt": "19 Tempat Honeymoon di Malaysia yang Wajib Masuk Wishlist Pasangan",
+   "h1": "19 Tempat Honeymoon di Malaysia yang Wajib Masuk Wishlist Pasangan",
+   "same": true,
+   "rl": 80,
+   "md": 133,
+   "mdTrunc": true
+  },
+  {
+   "slug": "the-danna-langkawi",
+   "cat": "minimalis-mewah",
+   "mt": "Majlis Perkahwinan Intim Bertemakan Warna Pastel Tropika di The Danna Langkawi",
+   "h1": "Majlis Perkahwinan Intim Bertemakan Warna Pastel Tropika di The Danna Langkawi",
+   "same": true,
+   "rl": 92,
+   "md": 138,
+   "mdTrunc": true
+  },
+  {
+   "slug": "ucapan-pengantin-baru",
+   "cat": "ucapan-doa",
+   "mt": null,
+   "h1": "Ucapan pengantin baru: apa yang ditulis ikut siapa dia",
+   "same": true,
+   "rl": 68,
+   "md": 141,
+   "mdTrunc": false
+  },
+  {
+   "slug": "villa-warisan",
+   "cat": "real-wedding",
+   "mt": "Villa Warisan: Majlis Perkahwinan Tradisional di Lokasi Bernuansa Kayu dan Penuh Nilai Warisan",
+   "h1": "Villa Warisan: Majlis Perkahwinan Tradisional di Lokasi Bernuansa Kayu dan Penuh Nilai Warisan",
+   "same": true,
+   "rl": 108,
+   "md": 138,
+   "mdTrunc": true
+  },
+  {
+   "slug": "walimatul-urus",
+   "cat": "ucapan-doa",
+   "mt": null,
+   "h1": "Walimatul urus: maksud, hukum dan adab jemputan",
+   "same": true,
+   "rl": 61,
+   "md": 152,
+   "mdTrunc": false
+  },
+  {
+   "slug": "wedding-planner-terbaik-di-malaysia",
+   "cat": "idea-dan-nasihat",
+   "mt": "14 Wedding Planner Terbaik di Malaysia Pilihan Pengantin Tahun Ini",
+   "h1": "14 Wedding Planner Terbaik di Malaysia Pilihan Pengantin Tahun Ini",
+   "same": true,
+   "rl": 80,
+   "md": 137,
+   "mdTrunc": true
+  },
+  {
+   "slug": "yasaka-shrine",
+   "cat": "real-wedding",
+   "mt": "Perkahwinan Jepun di Yasaka Shrine & Majlis Resepsi Bertemakan Sakura di Sodoh Higashiyama",
+   "h1": "Perkahwinan Jepun di Yasaka Shrine & Majlis Resepsi Bertemakan Sakura di Sodoh Higashiyama",
+   "same": true,
+   "rl": 104,
+   "md": 112,
+   "mdTrunc": true
+  }
+ ]
+}
