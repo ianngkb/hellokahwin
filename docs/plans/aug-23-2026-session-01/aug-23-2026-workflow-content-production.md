@@ -212,6 +212,18 @@ Two things to read in the result, not one:
    worth thousands. It is a reason to stop calling that term a head term, and to
    re-check the article is aimed where the demand actually is.
 
+**Two rules about the query itself, both learned the expensive way on
+27 Ogos 2026 by SEO-05, and both cost multiple sessions a round each.**
+
+- **Never derive a target keyword from a slug.** A slug is a URL, shortened and
+  hyphenated by whoever wrote it. Reading it back as the keyword scored a
+  742/mo page at 15/mo. Take the target term from the brief, or from the
+  article's own H1, never from the path.
+- **Always name the volume field.** `volume` is the 12-month average;
+  `volume_monthly` is the latest month. They disagree — 700 against 947 for the
+  same term on the same day — and a number quoted without its field cannot be
+  reconciled with anybody else's. **House standard: `volume`, and say so.**
+
 **Run it at Stage 1, when the brief is written, and again here at Stage 6.** At
 Stage 1 a collision costs one line in a plan. At Stage 6 it costs a rewrite. At
 Stage 7 it costs a migration with redirects, and by then the DoD usually says

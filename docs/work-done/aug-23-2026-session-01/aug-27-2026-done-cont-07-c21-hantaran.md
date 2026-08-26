@@ -221,9 +221,10 @@ satisfied point 10. The sentence read as a measurement and was an assumption.
 
 CONT-05 flagged a slug-similarity risk, SEO-05 ran `parent_topic` properly, and
 I then re-ran it myself across every target term in this cluster. Ahrefs
-Keywords Explorer, country `my`, 27 Ogos 2026:
+Keywords Explorer, country `my`, 27 Ogos 2026, field **`volume`** (the
+12-month average, not `volume_monthly`):
 
-| Keyword | Volume | `parent_topic` | Which article targets it |
+| Keyword | `volume` | `parent_topic` | Which article targets it |
 |---|---|---|---|
 | hantaran kahwin | 2,000 | **barang hantaran lelaki** | legacy seed `hantaran-kahwin` |
 | hantaran untuk lelaki | 700 | **barang hantaran lelaki** | topic 2 |
@@ -267,13 +268,40 @@ and a rule that says a shared parent topic must merge, both satisfied, pointing
 opposite ways. **My half is narrower and entirely mine: I published a claim
 about a check I had not run.**
 
-**Not acted on.** Merging or re-parenting live articles changes their URLs and
-is a migration with redirects, not an edit — and the DoD for this item is
-"cluster verified at 8/8", which a merge would undo. That decision belongs to
-`head-of-seo-content` with the CEO, on the numbers above, not to the writer who
-produced the collision. Raised, with data, in this log and in
-`ceo-memory.md` (`dfed097`) and
+**Not acted on, and `parent_topic` on its own is not enough to act on.** Two
+reasons, and the second is SEO-05's, recorded here because whoever picks this up
+needs it.
+
+Merging or re-parenting live articles changes their URLs and is a migration with
+redirects, not an edit — and this item's DoD is "cluster verified at 8/8", which
+a merge would undo. That is a `head-of-seo-content` and CEO decision on the
+numbers, not the writer's who produced the collision.
+
+And the signal itself is incoherent in this pillar. Ahrefs gives the head term
+`hantaran tunang` a traffic potential of 400 while four of its children score
+1,100 to 1,300, which is backwards. **So a shared `parent_topic` here raises the
+question and does not answer it.** CONT-05 settled the C2.2 case with a SERP
+query that found Google's People Also Ask box carrying two C2.2 titles near
+verbatim. **No equivalent query has been run on `barang hantaran lelaki` or
+`barang hantaran perempuan`, and deciding C2.1 on C2.2's evidence would repeat,
+one level up, the exact error this whole thread spent the evening correcting.**
+
+The test that settles it, named rather than vaguely deferred: does the MY SERP
+split the groom and bride angles, and do dedicated sub-angle pages rank on it.
+SEO-05 owns that call and is holding C2.1 open until the query is run.
+
+Data: this table, `ceo-memory.md` (`dfed097`, `4f74e6d`) and
 `docs/work-done/2026-08-27-seo-05-titles-EVIDENCE/parent-topic-scan.json`.
+
+**The four zero-volume head terms do not wait on that decision.** They are
+target selection, not consolidation: `hantaran kahwin bajet`,
+`kos hantaran kahwin`, `adat hantaran` and `persiapan hantaran` are terms nobody
+searches, on articles whose surrounding parents carry 2,400 to 2,700 traffic
+potential. The articles are aimed at real subject matter through terms that do
+not exist. Re-pointing them is a title, meta and tag change on four live rows —
+cheap, independent of the merge question, and it needs an owner. Not done here
+because it is SEO strategy on a closed DoD, and because every `--update` costs
+duplicate media rows (§5).
 
 What does stand: the C2.2 `hantaran-tunang-*` pair is a genuinely separate
 parent topic (`hantaran tunang`, 4,700), and the C2.3
