@@ -930,7 +930,18 @@
    Utilities
    ========================================= */
 
-/* Hide site navbar on mobile when page opts in (vendor detail, etc.) */
+/* Hide site navbar on mobile when page opts in.
+   ONLY for chromeless surfaces that are not entry points: the admin
+   draft-preview view, and vendor-detail screens reached from inside a flow the
+   reader is already in.
+
+   NEVER opt a public /artikel/ page in. Article pages are where search traffic
+   LANDS — a reader arriving from Google gets no brand, no navigation and no
+   search, and the nearest escape is the footer, which on a long article is over
+   12,000px away. That is what UX-01 (26 Aug 2026) removed: the article route
+   carried `data-hide-mobile-nav` for months, so on a phone the site was
+   effectively one page deep. If you are adding this attribute, check that the
+   surface cannot be a landing page first. */
 @media (max-width: 767px) {
   body:has([data-hide-mobile-nav]) header:first-child {
     display: none;

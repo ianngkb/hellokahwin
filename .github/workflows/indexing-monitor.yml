@@ -1,0 +1,306 @@
+name: Indexing monitor
+
+# Ask Google, every day, what it actually knows about every URL in the live
+# sitemap — and file a loud issue when a URL has been dark for more than 72
+# hours.
+#
+# WHY THIS EXISTS. On 27 Aug 2026 the owner ran a URL inspection by hand and
+# found five published articles Google had never heard of. SEO-01 had taken a
+# coverage baseline in Sprint 01; a baseline you take once is a photograph, so
+# it could not have caught them, and nothing else was looking. This is the thing
+# that looks.
+#
+# ── THE ONE THING THAT SILENTLY BREAKS A JOB LIKE THIS ────────────────────
+#
+# A scheduled workflow only runs from the repository's DEFAULT branch. A cron
+# sitting on a feature branch never fires and NOTHING tells you: no error, no
+# missed-run notice, no red tick. That cost a reopen in Sprint 01 when RISK-01's
+# backup schedule was marked done while its workflow sat on a feature branch.
+# If you are reading this on a branch, this file is decorative until it reaches
+# `master`. Check with `gh workflow list`.
+#
+# ── WHY A GITHUB ACTION AND NOT A VERCEL CRON ─────────────────────────────
+#
+# Same reasoning as `db-backup.yml`, plus one of its own: the monitor must be
+# able to fire when the SITE is the thing that is broken. A Vercel cron lives
+# inside the deployment it is supposed to be watching, so a bad deploy takes the
+# watchman with it. A GitHub runner is outside.
+#
+# ── WHERE THE STATE LIVES, AND WHY NOT IN THIS REPO ───────────────────────
+#
+# The 72h window needs to know when a URL first appeared in the sitemap, so
+# state has to survive between runs. It lives in R2 under
+# `indexing-monitor/`, moved with the `aws` CLI exactly the way `db-backup.yml`
+# already does it on this repo. It is deliberately NOT committed back to
+# `master`: a nightly commit would trigger a production Vercel deploy every
+# night, so the monitor would become a source of the very churn it is meant to
+# observe.
+#
+# The download is NOT allowed to fail quietly. A missing state file makes the
+# monitor treat every URL as new and restart every grace window, which would
+# mean a dark URL never reaches 72h and the alarm can never fire. So the job
+# asks whether the object EXISTS before downloading, and treats "exists but
+# would not download" as a hard failure.
+#
+# ── FAILURE IS LOUD IN TWO INDEPENDENT WAYS, AND THEY ARE NOT THE SAME ────
+#
+#   1. `indexing-alarm`  — the sitemap has URLs Google cannot see.
+#                          The SITE is broken.
+#   2. `monitor-blind`   — the sweep itself could not complete.
+#                          The WATCHMAN is broken.
+#
+# They have different fixes and they must never be collapsed into one issue. A
+# monitor that reports a clean sweep of a smaller denominator is the exact lie
+# this item exists to end.
+
+on:
+  schedule:
+    # 20:43 UTC daily = 04:43 MYT. Off the hour on purpose (GitHub's scheduler
+    # is most congested on the hour), and two and a half hours after
+    # `db-backup.yml` so the two never contend for a runner.
+    - cron: '43 20 * * *'
+  workflow_dispatch:
+    inputs:
+      probe_url:
+        description: >-
+          A URL to feed the monitor on purpose so the alarm fires. Use a path
+          you know Google has never seen. It is inspected, assessed and alarmed
+          on through the IDENTICAL code path a real dark URL takes, and is
+          excluded from the persisted state so it does not alarm again tomorrow.
+        required: false
+        type: string
+
+concurrency:
+  group: indexing-monitor
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  issues: write
+
+env:
+  R2_BUCKET: hellokahwin-assets
+  STATE_KEY: indexing-monitor/state.json
+  OUT_DIR: .tmp-indexing-monitor
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install
+        # `--ignore-scripts` skips sharp's native build. Nothing on this path
+        # loads it, and the build is the slowest thing in the install.
+        run: pnpm install --frozen-lockfile --ignore-scripts
+
+      - name: Fetch the ledger from R2
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          EP="https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com"
+          echo "R2_ENDPOINT=$EP" >> "$GITHUB_ENV"
+          mkdir -p "$OUT_DIR"
+
+          # Existence is checked SEPARATELY from the download so that "there is
+          # no ledger yet" and "the ledger is there but we could not read it"
+          # cannot produce the same outcome. The second silently resets every
+          # grace window, which would stop the alarm ever firing.
+          if aws s3api head-object --bucket "$R2_BUCKET" --key "$STATE_KEY" \
+               --endpoint-url "$EP" > /dev/null 2>&1; then
+            echo "ledger exists in R2 — downloading (a failure here FAILS the run)"
+            aws s3 cp "s3://${R2_BUCKET}/${STATE_KEY}" "${OUT_DIR}/state.json" \
+              --endpoint-url "$EP"
+            echo "bytes: $(stat -c %s "${OUT_DIR}/state.json")"
+          else
+            echo "::notice::no ledger at s3://${R2_BUCKET}/${STATE_KEY} — this run is a FIRST RUN."
+            echo "Every grace window will be measured from the sitemap's own lastmod."
+            echo "If this notice appears on a day that is not the first, the ledger was lost."
+          fi
+
+      - name: Sweep every sitemap URL through Google
+        id: sweep
+        env:
+          GSC_SERVICE_ACCOUNT_JSON: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}
+          MONITOR_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          PROBE_URL: ${{ inputs.probe_url }}
+        run: |
+          set -euo pipefail
+          args=(--out "$OUT_DIR")
+          if [ -n "${PROBE_URL:-}" ]; then
+            echo "::warning::probe URL injected on purpose: ${PROBE_URL}"
+            args+=(--probe-url "$PROBE_URL")
+          fi
+          pnpm --silent monitor:indexing "${args[@]}"
+
+      # Immediately after the decision, and before anything slower (the R2
+      # upload, the summary). The DoD asks for the alarm within 10s of
+      # detection; the next step MEASURES that rather than asserting it.
+      - name: Raise the indexing alarm
+        id: alarm
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = `${process.env.OUT_DIR}/alarm.json`;
+            if (!fs.existsSync(path)) {
+              core.info('no alarm.json — the sweep did not get far enough to decide.');
+              return;
+            }
+            const alarm = JSON.parse(fs.readFileSync(path, 'utf8'));
+            core.setOutput('detected_at', alarm.detectedAt);
+            if (!alarm.alarm) {
+              core.info(`clean: 0 alarming, ${alarm.watchingCount} watching, ${alarm.blindCount} blind.`);
+              return;
+            }
+
+            // One open issue, reused. A repeating failure should nag in one
+            // place rather than bury the repo — same rule as db-backup.yml.
+            // Dedupe is by LABEL, never by title: the title carries the count,
+            // so it changes between runs.
+            const { data: open } = await github.rest.issues.listForRepo({
+              ...context.repo, state: 'open', labels: 'indexing-alarm',
+            });
+            let issue;
+            if (open.length > 0) {
+              const { data: comment } = await github.rest.issues.createComment({
+                ...context.repo, issue_number: open[0].number, body: alarm.body,
+              });
+              issue = { number: open[0].number, created_at: comment.created_at, html_url: comment.html_url };
+            } else {
+              const { data: created } = await github.rest.issues.create({
+                ...context.repo, title: alarm.title, body: alarm.body, labels: ['indexing-alarm'],
+              });
+              issue = { number: created.number, created_at: created.created_at, html_url: created.html_url };
+            }
+            core.setOutput('issue_number', String(issue.number));
+            core.setOutput('issue_url', issue.html_url);
+            core.setOutput('issue_created_at', issue.created_at);
+            core.notice(`indexing alarm filed: ${issue.html_url}`);
+
+      - name: Prove the alarm was loud within 10s
+        if: always() && steps.alarm.outputs.issue_created_at != ''
+        env:
+          DETECTED_AT: ${{ steps.alarm.outputs.detected_at }}
+          CREATED_AT: ${{ steps.alarm.outputs.issue_created_at }}
+          ISSUE_URL: ${{ steps.alarm.outputs.issue_url }}
+        run: |
+          set -euo pipefail
+          d="$(date -u -d "$DETECTED_AT" +%s)"
+          c="$(date -u -d "$CREATED_AT" +%s)"
+          gap=$(( c - d ))
+          echo "detected at : $DETECTED_AT"
+          echo "issue at    : $CREATED_AT"
+          echo "gap         : ${gap}s"
+          echo "issue       : $ISSUE_URL"
+          {
+            echo "| alarm latency | value |"
+            echo "| --- | --- |"
+            echo "| detected | \`${DETECTED_AT}\` |"
+            echo "| filed | \`${CREATED_AT}\` |"
+            echo "| gap | ${gap}s |"
+            echo "| issue | ${ISSUE_URL} |"
+          } >> "$GITHUB_STEP_SUMMARY"
+          # The DoD's number, enforced rather than claimed. If a future change
+          # puts a slow step between detection and the issue, this is what says
+          # so — an alarm that arrives late is a defect, not a warning.
+          if [ "$gap" -gt 10 ]; then
+            echo "::error::the alarm took ${gap}s to reach GitHub; the bar is 10s."
+            exit 1
+          fi
+
+      - name: Archive the sweep and the ledger to R2
+        if: always()
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+        run: |
+          set -euo pipefail
+          if [ ! -f "${OUT_DIR}/snapshot.json" ]; then
+            echo "no snapshot to archive — the sweep did not complete."
+            exit 0
+          fi
+          # Both the filename and the key path come from the SAME `date -u`
+          # call, so the directory date can never drift from the timestamp in
+          # the name. Same rule as db-backup.yml.
+          TS="$(date -u +%Y%m%dT%H%M%SZ)"
+          DATEPATH="$(date -u +%Y/%m/%d)"
+          KEY="indexing-monitor/${DATEPATH}/sweep-${TS}.json"
+          aws s3 cp "${OUT_DIR}/snapshot.json" "s3://${R2_BUCKET}/${KEY}" \
+            --endpoint-url "$R2_ENDPOINT" --content-type application/json
+          echo "archived: ${KEY}"
+
+          # The mutable ledger goes up LAST, so a run that dies mid-sweep leaves
+          # yesterday's ledger intact rather than a half-written one.
+          if [ -f "${OUT_DIR}/state.json" ]; then
+            aws s3 cp "${OUT_DIR}/state.json" "s3://${R2_BUCKET}/${STATE_KEY}" \
+              --endpoint-url "$R2_ENDPOINT" --content-type application/json
+            echo "ledger updated: ${STATE_KEY}"
+          fi
+
+      - name: Summary
+        if: always()
+        run: |
+          set -euo pipefail
+          if [ -f "${OUT_DIR}/summary.md" ]; then
+            cat "${OUT_DIR}/summary.md" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "### Indexing monitor did not produce a summary — the sweep failed." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      # The watchman is broken, which is a different incident from the site
+      # being broken. Deliberately a different label and a different sentence,
+      # so the two can never be mistaken for each other in the issue list.
+      - name: Raise the blind-monitor alarm
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = 'ALARM: hellokahwin indexing monitor could not complete its sweep';
+            const url = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const body = [
+              'The daily indexing monitor **failed**, so nobody checked whether the site is',
+              'visible to Google today. This is NOT the same as a clean sweep — it is no sweep.',
+              '',
+              `Run: ${url}`,
+              '',
+              'Likely causes, in the order they actually happen:',
+              '',
+              '- the `GSC_SERVICE_ACCOUNT_JSON` secret expired or the service account lost',
+              '  `siteFullUser` on `https://hellokahwin.com/`;',
+              '- Google answered 429 for some URLs (per-property quota is 2,000/day, 600/min);',
+              '- `/sitemap.xml` did not serve, or served a document with zero URLs;',
+              '- the R2 ledger existed but would not download.',
+              '',
+              'Re-run manually (Actions -> Indexing monitor -> Run workflow) once fixed.',
+            ].join('\n');
+
+            const { data: open } = await github.rest.issues.listForRepo({
+              ...context.repo, state: 'open', labels: 'monitor-blind',
+            });
+            if (open.length > 0) {
+              await github.rest.issues.createComment({
+                ...context.repo, issue_number: open[0].number, body,
+              });
+            } else {
+              await github.rest.issues.create({
+                ...context.repo, title, body, labels: ['monitor-blind'],
+              });
+            }

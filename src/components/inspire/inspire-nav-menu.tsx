@@ -17,6 +17,13 @@ interface InspireNavMenuProps {
   align?: 'start' | 'center' | 'end';
 }
 
+/**
+ * The breakpoint the rail switches interaction model at: hover/focus opens the
+ * dropdown above it, tap toggles the inline accordion below it. Matches the
+ * `md:` boundary the markup already uses.
+ */
+const isTouchLayout = () => window.matchMedia('(max-width: 767px)').matches;
+
 export function InspireNavMenu({ menuCategories, align = 'center' }: InspireNavMenuProps) {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const leaveTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -32,9 +39,25 @@ export function InspireNavMenu({ menuCategories, align = 'center' }: InspireNavM
     return () => clearLeaveTimeout();
   }, [clearLeaveTimeout]);
 
-  // Desktop: hover open
+  // Desktop: hover open.
+  //
+  // The touch-layout bail-out is load-bearing, not defensive. A tap on a phone
+  // emits compatibility mouse events, so `mouseenter` (twice) and `focus` all
+  // fire BEFORE `click` — measured, on a real touch tap at 390px. Each of them
+  // used to open the menu, so by the time the tap handler ran it saw the menu
+  // already open and toggled it shut, while preventDefault() suppressed the
+  // navigation that would otherwise have happened. The result was that every
+  // parent category in the rail did NOTHING when tapped, and every category in
+  // the live rail has children.
+  //
+  // Nobody noticed because article pages hid the header entirely below 767px,
+  // so on the surface that receives essentially all of the site's search
+  // traffic this navigation was not on screen at all. Restoring the header
+  // (UX-01) makes it the primary navigation on a phone, so hover and focus must
+  // stay strictly desktop and leave the touch layout to the tap toggle below.
   const handleEnter = useCallback(
     (slug: string) => {
+      if (isTouchLayout()) return;
       clearLeaveTimeout();
       setActiveMenu(slug);
     },
@@ -43,6 +66,7 @@ export function InspireNavMenu({ menuCategories, align = 'center' }: InspireNavM
 
   // Desktop: hover close with delay
   const handleLeave = useCallback(() => {
+    if (isTouchLayout()) return;
     leaveTimeout.current = setTimeout(() => {
       setActiveMenu(null);
     }, 150);
@@ -56,7 +80,7 @@ export function InspireNavMenu({ menuCategories, align = 'center' }: InspireNavM
   const handleToggle = useCallback((slug: string, hasChildren: boolean, e: React.MouseEvent) => {
     if (!hasChildren) return; // no children — let the link navigate
     // On mobile, prevent navigation and toggle dropdown
-    if (window.matchMedia('(max-width: 767px)').matches) {
+    if (isTouchLayout()) {
       e.preventDefault();
       setActiveMenu((prev) => (prev === slug ? null : slug));
     }
@@ -69,6 +93,12 @@ export function InspireNavMenu({ menuCategories, align = 'center' }: InspireNavM
   }, []);
 
   return (
+    /* Every anchor in here carries `min-h-11` (44px) deliberately. The rail is
+       set in 11px type, which on its own gives a 32.5px target — measured, at
+       390px — and 44px is the floor the rest of the design system already
+       meets. This is the site's only navigation on a phone once an article
+       stops hiding the header, so the targets have to be thumb-sized. Do not
+       trade the min-height back for a tighter masthead. */
     <nav className="" style={{ fontFamily: 'var(--font-geist)' }} onKeyDown={handleKeyDown}>
       <div
         className={`flex flex-wrap gap-x-1 gap-y-2 text-[11px] ${
@@ -85,7 +115,7 @@ export function InspireNavMenu({ menuCategories, align = 'center' }: InspireNavM
               <Link
                 key={cat.slug}
                 href={cat.url!}
-                className="text-muted-foreground hover:text-foreground px-4 py-2 text-[length:inherit] font-medium tracking-[1.1px] uppercase transition-colors"
+                className="text-muted-foreground hover:text-foreground inline-flex min-h-11 items-center px-4 py-2 text-[length:inherit] font-medium tracking-[1.1px] uppercase transition-colors"
               >
                 {cat.name}
               </Link>
@@ -101,7 +131,7 @@ export function InspireNavMenu({ menuCategories, align = 'center' }: InspireNavM
             >
               <Link
                 href={cat.url ?? `/artikel/${cat.slug}`}
-                className={`inline-flex items-center gap-1 px-4 py-2 text-[length:inherit] font-medium tracking-[1.1px] uppercase transition-colors ${
+                className={`inline-flex min-h-11 items-center gap-1 px-4 py-2 text-[length:inherit] font-medium tracking-[1.1px] uppercase transition-colors ${
                   isActive
                     ? 'text-foreground inspire-nav-item-active'
                     : 'text-muted-foreground hover:text-foreground'
@@ -129,7 +159,7 @@ export function InspireNavMenu({ menuCategories, align = 'center' }: InspireNavM
                         <Link
                           key={child.slug}
                           href={child.url ?? `/artikel/${cat.slug}?sub=${child.slug}`}
-                          className="border-border text-foreground hover:border-primary hover:text-primary rounded-full border px-3 py-1 text-[11px] font-medium tracking-[1.1px] uppercase transition-colors"
+                          className="border-border text-foreground hover:border-primary hover:text-primary inline-flex min-h-11 items-center rounded-full border px-3 py-1 text-[11px] font-medium tracking-[1.1px] uppercase transition-colors"
                           role="menuitem"
                           onClick={handleClose}
                         >
@@ -139,7 +169,7 @@ export function InspireNavMenu({ menuCategories, align = 'center' }: InspireNavM
                     </div>
                     <Link
                       href={`/artikel/${cat.slug}`}
-                      className="text-brand-secondary hover:text-foreground mt-2 inline-block px-1 text-[11px] font-medium tracking-wider uppercase transition-colors"
+                      className="text-brand-secondary hover:text-foreground mt-2 inline-flex min-h-11 items-center px-1 text-[11px] font-medium tracking-wider uppercase transition-colors"
                       role="menuitem"
                       onClick={handleClose}
                     >
@@ -169,7 +199,7 @@ export function InspireNavMenu({ menuCategories, align = 'center' }: InspireNavM
                         <Link
                           key={child.slug}
                           href={child.url ?? `/artikel/${cat.slug}?sub=${child.slug}`}
-                          className="text-muted-foreground hover:text-foreground hover:bg-accent block rounded-sm px-3 py-1.5 text-sm whitespace-nowrap transition-colors"
+                          className="text-muted-foreground hover:text-foreground hover:bg-accent flex min-h-11 items-center rounded-sm px-3 py-1.5 text-sm whitespace-nowrap transition-colors"
                           role="menuitem"
                           onClick={handleClose}
                         >
@@ -180,7 +210,7 @@ export function InspireNavMenu({ menuCategories, align = 'center' }: InspireNavM
                     <div className="border-border mt-3 border-t pt-2">
                       <Link
                         href={`/artikel/${cat.slug}`}
-                        className="text-muted-foreground hover:text-foreground block px-3 py-1 text-xs font-medium tracking-wider uppercase transition-colors"
+                        className="text-muted-foreground hover:text-foreground flex min-h-11 items-center px-3 py-1 text-xs font-medium tracking-wider uppercase transition-colors"
                         role="menuitem"
                         onClick={handleClose}
                       >
