@@ -84,10 +84,17 @@ meeting and reports after it.
 - **RISK-05 catches at least one real problem in its first fortnight.** If it never
   fires, either the pipeline is healthier than we think or the monitor is wrong;
   either finding is worth the 2 points.
-- **The venue pages convert where the listicle did not.** Concretely: at least one
-  of the four named-hall queries earns non-zero clicks within 28 days of ship.
-  This is the sprint's real bet and the one most likely to be wrong — position 4.5
-  with zero clicks may be a SERP-feature problem we cannot fix with a better page.
+- ~~**The venue pages convert where the listicle did not.** At least one of the
+  four named-hall queries earns non-zero clicks within 28 days of ship.~~
+  **WITHDRAWN before the meeting adjourned — the premise was disproved (decision
+  83).** The four halls were council halls totalling ~30 searches/month behind the
+  operator's own DR 64 portal, so this prediction would have scored as a failure
+  of execution when the target selection was the error. **Replaced:** at least
+  three of the eight commercial-brand entity pages reach **position 3–5** on their
+  brand query within 28 days of ship, and the Setiawangsa control earns **zero** —
+  confirming the council-hall category is structurally dead rather than
+  under-built. If Setiawangsa *does* earn clicks, the re-scope was wrong and the
+  original target list deserves another look.
 - **Indexing count keeps rising without further linking work.** SEO-02's links are
   still being followed.
 - **Total clicks stay small.** Nothing here moves a 2-clicks/day site to a large
@@ -116,3 +123,50 @@ are the entire list and none is engaged.
 
 One thing for the owner's awareness rather than action: persona and skill edits
 made this session load at the **next** session start, not this one.
+
+---
+
+## Addendum — the two reviews reported before the meeting adjourned
+
+Both reviews commissioned under decision 76 returned within the session. Between
+them they corrected the CEO **eight times**, and corrected each other once. Full
+detail in decision-log entries 79–88; the pattern is recorded here because it is
+about how this meeting was run, not about any single finding.
+
+**Every CEO error had the same shape: a confident, specific cause inferred from a
+symptom that was never measured.**
+
+| CEO claim | What measurement showed |
+|---|---|
+| Legacy URL out-converts the new one | **One page.** Same Google-selected canonical, same crawl timestamp. A GSC attribution artifact |
+| Grey homepage card = broken image variant | A lazy-load with no blur placeholder. Every image resolves |
+| No search anywhere on the site | Search is built, wired, working — just not linked from the masthead |
+| Six pillars in the nav | **Nine.** 850px clipped off-screen behind a hidden scrollbar |
+| Hero crop is the headline UX problem | Desktop-only, on a page with **10 impressions in 28 days** |
+| Five zero-CTR pages need fixing | Four are variance. The one real zero was a page nobody had looked at |
+| We rank and do not convert | **1.65% CTR at position 20 — at or above curve.** A position and volume problem |
+| Named halls dominate demand | ~7% of impressions. Row count is not impression share |
+| Last week was bad | **1.96% CTR, better than the 30-day average.** Sprint 01 is working |
+
+**Two of those the CEO wrote into `sprint-02.json` as findings before they were
+disproved**, which is why the file now carries `ux_review_corrections` and
+`seo_review_corrections` blocks rather than quiet edits. The reasoning error is
+the more useful record.
+
+**The reviews also corrected each other.** The UX review killed the CEO's
+zero-CTR list on a significance test, then exempted the single page it had built
+its own theory around; the SEO review applied the same test to that page and
+killed it too. The lesson the second reviewer drew about itself — that it had
+ranked a comparison hub above entity pages because the hub's *queries* had bigger
+headline volume, without checking what the incumbent actually earns from each
+page type — is the same class of error as everything in the table above.
+
+**What this changes about how the CEO runs a review.** Recorded in the persona:
+report the symptom, and name what would distinguish the candidate causes. Compute
+what the system predicts a number should be before calling that number a defect.
+Both are in `ceo-hellokahwin.md`; the measurement rules are in `ceo-memory.md`
+and the target-selection rule is in `head-of-seo-content.md`.
+
+**Sprint 02 closes planning at 53 points across 16 items** — 24 past the 29 the
+owner approved. Flagged back rather than absorbed. The CEO's own cut list, if the
+owner wants one: UX-04, PLAT-06, and a reconsidered SEO-04.

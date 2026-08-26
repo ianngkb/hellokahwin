@@ -215,6 +215,33 @@ minute to relaunch; the prompts will otherwise recur indefinitely.
 
 ## Measurement rules
 
+- **⚠ GSC ATTRIBUTES AN IMPRESSION TO THE URL STRING GOOGLE PRINTED, NOT TO THE
+  CANONICAL. Never read two rows as two pages.** Learned 26 Aug 2026, and it
+  cost a whole board finding. The CEO reported that a legacy URL "out-converts"
+  its replacement from a worse position and built a theory about titles and brand
+  recognition on it. **They are one page.** URL Inspection shows `/dewan-kahwin/`
+  as *Page with redirect* with a Google-selected canonical pointing at
+  `/artikel/idea-dan-nasihat/dewan-kahwin` — the same canonical the new URL
+  reports, same crawl timestamp. Added together the real page is 34 clicks /
+  1,090 impressions / **3.1% CTR at position 9.3, above the curve.**
+  Consequence: **89% of our search presence is still attributed to three legacy
+  URL strings** (2,318 of 2,605 impressions). Every dashboard is measuring
+  pre-migration strings. It resolves itself; do not act on it, and never treat
+  the rows as competing pages.
+- **⚠ AGGREGATE THE REDIRECT FAMILY BEFORE JUDGING A ZERO.** The corollary, and
+  it hid the biggest real finding on the site. `mas kahwin ikut negeri` runs
+  across three URLs at 365 + 15 + 8 impressions. Every single row reads as
+  dismissible noise; **added, it is 388 impressions with zero clicks, expected
+  ~5.8, P(zero) ≈ 0.3%** — the one statistically real zero we have. Same class of
+  error as the averaged position below: a number that describes no real thing.
+- **⚠ CHOOSE TARGETS ON SEARCH VOLUME AND SERP OWNERSHIP — NOT ON OUR OWN GSC
+  IMPRESSIONS.** GSC shows you where you already appear, which is not where the
+  demand is. The CEO picked four council halls off the impression list; combined
+  they are ~30 searches/month and positions 1–2 belong to the council's own
+  booking portal at DR 64. **Before committing to a target, ask who holds
+  position 1 and whether we can ever displace them.** An official operator portal
+  or the brand's own site usually means no. The commercial-venue equivalents run
+  500–2,400/month with no official portal above them.
 - **⚠ ZERO CLICKS AT LOW IMPRESSIONS IS NOT A FINDING. Learned 26 Aug 2026, and
   it nearly cost a sprint item.** At position 7–10 with 25–50 impressions,
   *expected* clicks are roughly **0.3–1.5**. Zero is inside normal variance.
