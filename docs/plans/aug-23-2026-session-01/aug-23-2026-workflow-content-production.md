@@ -262,6 +262,17 @@ request list. **A generic wedding photograph in the cover slot is not a
 placeholder; it is a wrong answer that nobody ever comes back to.** Six live
 articles are on that list as of 26 Aug and that number is the case for outreach.
 
+**And know what ESCALATE costs before you write it: `cover:` is a REQUIRED
+field in `articleFileSchema`, so a file carrying `cover: ESCALATE` cannot pass
+ingest.** Added 26 Aug 2026 by CONT-08. A Rule 6 escalation does not stage the
+article for later — it stops it from shipping at all, and in a batch whose DoD
+counts published articles that means the article misses the batch. The only
+*shippable* degraded state is Rule 7 Q5: a correct-but-mediocre photograph with
+its weakness written in the article file and the register `nota`. So the real
+decision at this stage is three-way — good cover ships, correct-but-mediocre
+ships WITH ITS NOTE, no correct image at all means the article HOLDS while the
+escalation stands. Write which of the three you chose.
+
 **Rule 7 — Look in our own library FIRST.** Of the 19 covers re-selected on
 26 Aug, **19 came from images already in the register** — a sirih junjung, a row
 of dulang hantaran, a bunga telur close-up, an invitation card in a hand, all
@@ -411,7 +422,16 @@ This is a deep seam of Malaysian wedding photography from roughly 2007 to 2012
 that no earlier run had swept, and on 26 Aug 2026 it produced the only
 full-resolution Malaysian sirih junjung photograph found under any open licence.
 **Read the size from the photo page, not the result list** — the search JSON caps
-at 1024px while originals are often 4000px and up.
+at 1024px while originals are often 4000px and up. The original's true
+dimensions are printed on `…/sizes/o/` as `(W × H)`, which makes batch
+size-checking scriptable. Named seams inside this filter, both proven on
+26 Aug 2026: **Azlan DuPree is `flickr.com/photos/diloz`** — the same
+photographer our register already licenses via Wikimedia — and his
+"nizam + izmira // the engagement" set (Gombak, 28 April 2012) is ~36
+professional, watermark-free CC BY frames at 3888×2592; Mohd Nasir's
+`mynasir` stream holds the 2009 Zeeana engagement set beyond the frames
+already in the library. Rejected pools stay rejected: Mueaz Photography,
+OB Photography and mohamad fazil all watermark every frame.
 
 **2. Wikimedia Commons.** Good for museum objects and cultural artefacts —
 `tepak sirih`, songket, dress on display. **It returns nothing for Malaysian
