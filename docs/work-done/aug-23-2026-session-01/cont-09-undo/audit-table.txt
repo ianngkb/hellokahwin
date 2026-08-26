@@ -1,0 +1,80 @@
+
+== FAIL-FIXED — 19
+  apa-itu-mas-kahwin                   S-pengantin-putih-jambangan-azman-aziz.jpg       -> S-akad-ijab-qabul-mylifestory.jpg
+  borang-nikah                         S-selepas-akad-raja-abd-kadir.jpg                -> S-kaunter-utc-keramat-angys.jpg
+  bunga-telur                          S-tetamu-tiba-majlis-ahmad-ali-karim.jpg         -> S-bunga-telur-daun-getah-fuzuri.jpg
+  cincin-tunang                        S-kuku-berinai-pengantin-azman-aziz.jpg          -> S-cincin-tunang-kotak-mohd-nasir.jpg
+  contoh-kad-jemputan-kahwin           S-keluarga-payung-kuning-mohd-hasan.jpg          -> S-kad-jemputan-tangan-sham-hardy.jpg
+  doa-majlis-perkahwinan               S-jemaah-doa-masjid-ahmad-ali-karim.jpg          -> S-majlis-doa-selamat-ahmad-ali-karim.jpg
+  doa-majlis-pertunangan               S-lelaki-menadah-doa-ahmad-ali-karim.jpg         -> S-pertunangan-zeeana-mohd-nasir.jpg
+  dulang-hantaran                      S-pertunangan-zeeana-mohd-nasir.jpg              -> S-dulang-hantaran-masjid-mylifestory.jpg
+  hantaran-tunang                      1787395743620-cover.jpg                          -> S-dulang-buah-hantaran-mohd-hasan.jpg
+  harga-sewa-dewan-kahwin              S-jamuan-kenduri-raja-abd-kadir.jpg              -> S-dewan-majlis-daerah-labis-chongkian.jpg
+  mas-kahwin-melebihi-kadar-minimum    S-pengantin-melayu-pelamin-fyruz-alqadiri.jpg    -> S-kedai-emas-johor-bahru-chongkian.jpg
+  mas-kahwin-pahang-negeri-sembilan    S-pasangan-pelamin-bunga-duduk-mohd-hasan.jpg    -> S-pejabat-agama-cameron-highlands-gula-kapas.jpg
+  mas-kahwin-perak                     S-muzik-tradisional-kenduri-malexi.jpg           -> S-maipk-perak-chongkian.jpg
+  mas-kahwin-sabah-sarawak             S-pasangan-baju-oren-azman-aziz.jpg              -> S-mahkamah-syariah-keningau-sabah-aranas.jpg
+  pakej-dewan-kahwin                   S-pasangan-dan-keluarga-pelamin-mohd-hasan.jpg   -> S-hidangan-bufet-pulau-pinang-ciksitimelati.jpg
+  pelamin-kahwin-dewan                 1787397125976-cover.png                          -> S-pelamin-putih-shahnazshahizan.jpg
+  sirih-junjung                        S-pertunangan-zeeana-shopedah-mohd-nasir.jpg     -> S-sirih-junjung-mohd-nasir.jpg
+  skrip-pengacara-majlis-perkahwinan   S-pasangan-dan-keluarga-pelamin-mohd-hasan.jpg   -> S-tok-kadi-baca-khutbah-mylifestory.jpg
+  songket-tenunan-tangan-atau-cetak    S-pengantin-pelamin-bunga-mohd-hasan.jpg         -> S-songket-limar-terengganu-daderot.jpg
+
+== FAIL-ESCALATE — 6
+  checklist-kahwin                     a kompang troupe on a 12-month checklist; a checklist has no photographable moment
+  hadiah-untuk-pengantin               a Western white-gown couple at a floral wall, no gifts; nothing in the pool depicts wedding gifts
+  kursus-kahwin                        a generic couple in a garden; nothing in the pool depicts a kursus kahwin
+  majlis-kahwin                        a tropical resort at dusk on an article about Shah Alam venues
+  mas-kahwin-ikut-negeri               was and remains a couple on a pelamin; nothing licensable depicts 14 states' rates
+  taaruf-maksud                        a couple holding hands — CONTRADICTS the article, which places taaruf before merisik; nothing licensable depicts taaruf
+
+== WEAK — 7
+  bajet-kahwin                         a kenduri at a house — Rule 3, the biggest budget line, but abstract
+  cara-buat-kad-kahwin-digital         printed invitation flat-lay on an article about digital cards
+  lafaz-taklik                         a lone man in baju melayu — Rule 3 reads as the husband, but thinly
+  mas-kahwin-johor                     kompang troupe photographed in Johor — Rule 3, correct state, but not mas kahwin
+  mas-kahwin-kelantan-terengganu       arak pengantin photographed in Melor, Kelantan — Rule 3, correct state
+  ucapan-pengantin-baru                guests arriving at a majlis — Rule 3, thin, and was duplicated onto bunga-telur
+  wedding-planner-terbaik-di-malaysia  a planned wedding setup — the planner's output, not a planner
+
+== PASS — 29
+  amankila-bali                        the wedding the article is about
+  baju-pengantin-sewa-atau-beli        baju pengantin — bride in beaded baju nikah and tudung
+  cheong-fatt-tze-mansion              the wedding the article is about
+  dewan-kahwin                         a hall set for a wedding
+  doa-pengantin-baru                   qaris reading from a kitab — Rule 3, a doa being recited
+  garden-wedding                       an outdoor garden ceremony
+  goodies-kahwin                       wedding favours in frame
+  grand-hyatt-kuala-lumpur             the wedding the article is about
+  gubahan-hantaran                     a gubahan being handed over at the akad
+  hantaran-kahwin                      a hantaran tray being carried
+  inai-tangan-pengantin                inai — henna on the hands, close up
+  jw-marriott-kuala-lumpur             the wedding the article is about
+  lokasi-pre-wedding-photoshoot-terbai a pre-wedding shoot at a named location
+  marriott-putrajaya                   the wedding the article is about
+  pelamin                              a couple bersanding on a pelamin
+  perkahwinan-di-ruma-hotel-kuala-lump the wedding the article is about
+  perkahwinan-indah-di-laman-fajar-men the wedding the article is about
+  perkahwinan-romantis-di-jen-shangri- the wedding the article is about
+  perkahwinan-taman-kebun-yang-minimal the wedding the article is about
+  rukun-nikah                          an akad nikah in a mosque
+  sentosa-janda-baik                   the wedding the article is about
+  sewa-dewan-kahwin                    a hall set up, on an article about renting one
+  sime-darby-convention-centre         the wedding the article is about
+  syarat-sah-nikah                     the groom facing the tok kadi at the akad
+  tempat-honeymoon-di-malaysia         a honeymoon couple on a beach
+  the-danna-langkawi                   the wedding the article is about
+  villa-warisan                        the wedding the article is about
+  walimatul-urus                       a kenduri feast laid out
+  yasaka-shrine                        the wedding the article is about
+
+========================================================================
+LIVE ARTICLES AUDITED                    61
+FAILED THE STANDARD (pre-change)         25
+  of which re-selected 26 Aug            19
+  of which CANNOT be fixed from the pool 6   <- the case for outreach
+PASSED, Rule 3 but thin (upgrade wanted) 7
+PASSED cleanly                           29
+========================================================================
+covers shared by more than one article    7 -> 1
+covers with a full credit chain           33 -> 35

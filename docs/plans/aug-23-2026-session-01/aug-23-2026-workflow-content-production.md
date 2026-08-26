@@ -380,6 +380,22 @@ cannot see it; a caption that *teaches* rather than describes; `credit`,
 The parser refuses a cover missing any of the three credit fields — that gate is
 the owner's rule in code, not a formality.
 
+#### Working notes for this stage (26 Aug 2026)
+
+- **Anything importing `src/lib/**` runs under `tsx`, never bare `node`** — the
+  repo's `@/` path alias does not resolve otherwise, and `generateSmartCrops`
+  lives behind it. Two runs have now lost time to this.
+- **Render the four crop windows LOCALLY before writing anything.**
+  `computeCropWindow(width, height, ratio, focalPoint, safeZone)` is exported and
+  pure; extracting with sharp costs nothing and needs no R2 write. Decide by
+  looking at all four, then regenerate once.
+- **A cover shared by two articles is a symptom.** A photograph chosen for topic
+  rather than subject fits every article on that topic equally badly, so the
+  duplicate is usually the same wrong answer given twice. Seven pairs existed on
+  26 Aug; one remains, and it is on the escalation list. Reuse of a
+  subject-correct image across closely-related articles is still expected — the
+  test is whether it depicts each article's subject, not whether it repeats.
+
 #### A declared image is not a delivered image
 
 Added 25 Aug 2026, after the P3/P4/P7 publish. **Every file named under `cover:`
