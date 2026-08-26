@@ -15,6 +15,10 @@ interface InspireNavMenuProps {
   menuCategories: MenuCategory[];
   /** Horizontal alignment of the item row — 'start' in the navbar filters slot, 'end' beside a left title. */
   align?: 'start' | 'center' | 'end';
+  /** Accessible name for the <nav>. The page has two landmarks — this one and
+   *  the footer's "Pautan kaki" — and an unnamed one is just "navigation" in a
+   *  screen reader's landmark list, which is not a choice anyone can make. */
+  ariaLabel?: string;
 }
 
 /**
@@ -24,7 +28,11 @@ interface InspireNavMenuProps {
  */
 const isTouchLayout = () => window.matchMedia('(max-width: 767px)').matches;
 
-export function InspireNavMenu({ menuCategories, align = 'center' }: InspireNavMenuProps) {
+export function InspireNavMenu({
+  menuCategories,
+  align = 'center',
+  ariaLabel,
+}: InspireNavMenuProps) {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const leaveTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -99,7 +107,12 @@ export function InspireNavMenu({ menuCategories, align = 'center' }: InspireNavM
        meets. This is the site's only navigation on a phone once an article
        stops hiding the header, so the targets have to be thumb-sized. Do not
        trade the min-height back for a tighter masthead. */
-    <nav className="" style={{ fontFamily: 'var(--font-geist)' }} onKeyDown={handleKeyDown}>
+    <nav
+      aria-label={ariaLabel}
+      className=""
+      style={{ fontFamily: 'var(--font-geist)' }}
+      onKeyDown={handleKeyDown}
+    >
       <div
         className={`flex flex-wrap gap-x-1 gap-y-2 text-[11px] ${
           align === 'end' ? 'justify-end' : align === 'start' ? 'justify-start' : 'justify-center'

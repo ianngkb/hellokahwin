@@ -76,9 +76,9 @@ export async function Navbar() {
 
       {categories.length > 0 && (
         <div className="mx-auto max-w-7xl px-2 lg:px-4">
-          <EdgeScroller ariaLabel="Kategori">
+          <EdgeScroller>
             <div className="flex min-w-max justify-start lg:justify-center">
-              <InspireNavMenu menuCategories={categories} align="center" />
+              <InspireNavMenu menuCategories={categories} align="center" ariaLabel="Kategori" />
             </div>
           </EdgeScroller>
         </div>
