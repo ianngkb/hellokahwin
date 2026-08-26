@@ -411,6 +411,24 @@ minute to relaunch; the prompts will otherwise recur indefinitely.
 - GSC runs ~1–2 days behind. Today's date will read as zero; that is lag, not a
   cliff.
 
+## SEO defects open on the live site (26 Aug 2026)
+
+- **🔴 NO ARTICLE ON THE SITE EMITS `FAQPage` SCHEMA, and 31 are carrying the
+  block that was written for it.** Found by CONT-07, measured sitewide by SEO-05
+  on 26 Aug — sequential sweep of the 69 articles published at the time:
+  **31 carry a "Soalan lazim" block, 0 emit FAQPage.** The only structured data
+  we emit anywhere is `Article`, `BreadcrumbList` and `ItemList`.
+  **Every writer has been told the block "is marked up as FAQ schema by the
+  engineer at ingest" and nothing does it.** So thirty-one compliant
+  question-and-answer blocks are earning no rich result, on a site whose whole
+  Malay long tail is question-shaped. Evidence:
+  site repo `docs/work-done/2026-08-27-seo-05-titles-EVIDENCE/faq-schema-gap.json`.
+  **Owner: full-stack-engineer** (CONT-07's assignment; neither agent touched the
+  article route). Fix the emitter, then correct the writer instruction so it
+  describes what actually happens.
+- **🔴 The cached-metadata / wrong-`<title>` defect** — see "OPEN AND UNFIXED"
+  above under Site state. Route is on master and unblocked; needs an owner.
+
 ## Site state (verified 2026-08-24)
 
 - **All seven pillar pages live in production, 200** — `nikah-undang-undang`,
@@ -492,14 +510,42 @@ minute to relaunch; the prompts will otherwise recur indefinitely.
   same confound and is **withdrawn as a measurement of what
   `revalidate-content` does**. A clean SEQUENTIAL census, no purge and no
   revalidate, 26 Aug 18:10:41Z: **0 of 69**.
-- **⚠ COLD IS NOT THE TRIGGER — CONTENTION IS. Evidence from UX-01, not SEO-05.**
-  A production deploy landed ~17:53Z — the most total cache drop available — and
-  UX-01 audited every live article 12 minutes later, strictly sequentially:
-  **74 of 74 correct, 0 default.** Most had not been requested since the deploy,
-  so her request WAS the cold render. So the reframing: it is not "the data
-  cache was empty", it is **N cold renders contending for the same DB pool at
-  once**, all missing 1.5s together. The same stampede shape as the synchronised
-  ISR expiry the article route's own comment describes.
+- **⚠ THE TRIGGER IS A COLD ORIGIN DATA CACHE. Settled 26 Aug by CONT-05 and
+  CONT-07, and it overturns the "contention" reading recorded here earlier
+  today.** Both ran STRICTLY SEQUENTIAL proof sweeps on freshly-ingested
+  articles, one request at a time, 4–6 s apart, no concurrency anywhere:
+  CONT-05 hit the default title **5 of 5** (cold renders 3.0, 3.5, 3.5, 3.9,
+  5.7 s), CONT-07 **6 of 7** (cold renders 3.5–6.3 s, one 504 twice before a
+  200). Every response `MISS, age=0`. **A single cold render is already slower
+  than the 1.5 s deadline; contention aggravates it and is not required.**
+- **What reconciles that with the passing measurements, and it is the variable
+  nobody was controlling: CDN temperature is not ORIGIN temperature.** SEO-05's
+  ten sequential cold renders passed at 1.1–3.1 s and UX-01's post-deploy audit
+  passed 74 of 74 — but in both cases only the CDN entry was cold; the origin
+  data cache was warm from earlier traffic. CONT-05's and CONT-07's pages were
+  cold at BOTH layers, because an ingest's `--revalidate-url` (and
+  `POST /api/cron/revalidate-content`) drops the origin data cache **site-wide**.
+  So `revalidate-content` IS the sitewide trigger after all — SEO-05 recorded
+  that first, withdrew it under UX-01's counter-example, and it is now restored
+  on better evidence. The withdrawal was itself an over-correction, made because
+  two people compared warm-origin results without knowing that is what they had.
+- **⚠ ANY SESSION'S INGEST RE-ARMS IT, INCLUDING WHILE YOU ARE MEASURING.**
+  CONT-05 repaired five articles at 22:05:04Z; CONT-07's unrelated ingests landed
+  at 22:02:48 and 22:03:17; CONT-05's own 22:05:25 verification census then hit
+  cold renders and **re-cached the bad metadata on all five**. Their words: the
+  verification sweep re-created the defect it was measuring. SEO-05 hit the same
+  thing at 22:20Z — a sequential sweep returned 48 of 69 while `hantaran-tunang`
+  had been written 2.9 minutes earlier.
+  **RULE: before taking proof, check `select max(updated_at) from articles` and
+  wait if anything moved in the last five minutes.** A census taken during
+  another session's publish measures your own cold renders, not the site.
+- **The repair only holds once writes stop**, and CONT-05 needed three attempts
+  before one stuck. Their working sequence: purge ONE path, absorb the
+  `REVALIDATED` response (served stale), wait ~6 s, then take the honest
+  request — 5/5 first attempt, renders 340–495 ms. CONT-07 adds the scheduling
+  rule: **the heal cycle belongs after the LAST PURGE OF A BATCH, not after the
+  last write** — they healed seven, then re-ingested two for an unrelated reason,
+  and that purge broke four of the seven again.
 - **⚠ WHICH MEANS THE BULK-PURGE REPAIR IS ITSELF A TRIGGER.** SEO-05's repair
   deletes 69 cache tags at once and then fetches sequentially, and round 1 still
   left 55 of 69 wrong; round 2 (55 tags) left 1; round 3 (1 tag) left 0. Read as
