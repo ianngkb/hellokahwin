@@ -518,6 +518,19 @@ minute to relaunch; the prompts will otherwise recur indefinitely.
   5.7 s), CONT-07 **6 of 7** (cold renders 3.5–6.3 s, one 504 twice before a
   200). Every response `MISS, age=0`. **A single cold render is already slower
   than the 1.5 s deadline; contention aggravates it and is not required.**
+- **✅ AND IT IS PROVED IN CODE, NOT INFERRED FROM TIMING.** Verified by CONT-07
+  and independently from `origin/master` by SEO-05. `api/cron/revalidate-content`
+  expires exactly **two tags, both sitewide**:
+
+      revalidateTag('articles', PURGE_IMMEDIATELY)
+      revalidateTag('inspire-categories', PURGE_IMMEDIATELY)
+
+  and every article page's cached read is keyed
+  `{ tags: ['articles'], revalidate: 1800 }`. **One tag covers all 86 articles.**
+  The ingest CLI *requires* `--revalidate-url` on any non-local commit, so every
+  ingest fires it, and a batch of seven fires it seven times. **A single article
+  publish makes every article on the site origin-cold.** That is why a strictly
+  sequential sweep afterwards finds most of them wrong.
 - **What reconciles that with the passing measurements, and it is the variable
   nobody was controlling: CDN temperature is not ORIGIN temperature.** SEO-05's
   ten sequential cold renders passed at 1.1–3.1 s and UX-01's post-deploy audit
