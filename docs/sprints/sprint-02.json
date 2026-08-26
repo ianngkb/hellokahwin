@@ -3,10 +3,9 @@
   "name": "Close the publishing hole, then earn a click",
   "state": "planned",
   "planned_at": "2026-08-26",
-  "points": 48,
-  "points_note": "Opened at 35 across 10 items. The UI/UX review, commissioned during the meeting, reported before it adjourned and added UX-01..04 (13pt). The owner approved 29 of the original proposal; 48 is past that and was flagged back to them rather than absorbed.",
+  "points": 53,
+  "points_note": "Opened at 35 across 10 items. The UI/UX review added UX-01..04 (13pt) and the SEO review added RISK-06 and SEO-06 (5pt) — both were commissioned during the meeting and reported before it adjourned. The owner approved 29 of the original proposal; 53 is well past that and was flagged back to them rather than absorbed. This file was reconciled against the tracker item-by-item at close: 16 items both sides, no drift.",
   "note": "This file records how Sprint 02 was ORIGINALLY SCOPED. It is not the live state — the tracker in buddy is (`pnpm --silent sprint list --sprint 2`, or buddy.ian.ng/sprints). Never rewritten after close.",
-
   "governance": {
     "body_of_work": "A sprint ends when every item is done and the owner has reviewed them, however long that takes. No calendar window, no rolling work to hit a date.",
     "completeness_over_budget": "The owner would rather each task be done completely than have the sprint sized to a number. Scope is not cut for tidiness.",
@@ -14,113 +13,206 @@
     "review_gate": "Every item presented as CLAIM + EVIDENCE + LIVE LINK. Not a summary.",
     "dod_never_narrowed": "A definition of done is never rewritten after the sprint starts. An item that outgrows its DoD stays open, is parked with a reason, or carries forward."
   },
-
   "owner_decisions_this_meeting": [
     "Scope: all 29 proposed points, plus the cluster queue and the sidebar task. 35 total.",
     "Content: run venue pages AND cluster articles, not one or the other. This modifies the 23 Aug cluster plan, which had cluster articles alone.",
     "Sidebar: buddy's nav must carry the latest additions (added mid-meeting as PLAT-09)."
   ],
-
   "the_finding_that_shaped_this_sprint": {
     "what": "Sprint 01 published five articles that Google has never heard of.",
     "evidence": "sirih-junjung, dulang-hantaran, gubahan-hantaran and walimatul-urus all report coverage_state 'URL is unknown to Google', last_crawled 'Never'. All four are in the live sitemap (78 URLs). Google last fetched the sitemap at 73 URLs on 2026-08-25 15:58 — before they existed.",
     "why_it_matters": "Nothing tells Google we published. The ingest CLI purges our own caches and stops there.",
     "the_good_news": "Sprint 01's internal-linking work DID land. Six of six formerly-uncrawled articles sampled are now 'Submitted and indexed', crawled 23–26 Aug, against a baseline of 8 of 28. Six is a sample, not a census, but against that baseline it is not noise.",
-    "the_harder_news": "Indexing was never the business problem, it was the prerequisite. dewan komuniti setiawangsa is indexed, crawled, ranks 8.8, has 34 impressions and earns ZERO clicks. We have proven we can get indexed and have not yet proven we can earn a click."
+    "the_harder_news": "Indexing was never the business problem, it was the prerequisite. We have proven we can get indexed and have not yet proven we can earn a click at scale.",
+    "correction_to_the_above": "The CEO originally wrote this line citing dewan komuniti setiawangsa as proof, and the SEO review disproved it later the same meeting: 104 impressions at position 9.0 predicts ~2.1 clicks, so its zero is ordinary variance, not evidence of anything. The conclusion survives on other grounds — sitewide CTR of 1.65% at average position 20 is at or above the published curve, meaning the constraint is POSITION AND VOLUME, not conversion. The original sentence is corrected here rather than deleted, because the reasoning error is the more useful record."
   },
-
   "items": [
     {
-      "id": "RISK-04", "track": "risk", "points": 3, "state": "todo", "owner": "BMAD",
+      "id": "RISK-04",
+      "track": "risk",
+      "points": 3,
+      "state": "todo",
+      "owner": "BMAD",
       "title": "Publishing tells Google — resubmit the sitemap on ingest",
-      "flags": ["gate", "blocks-all-content"],
+      "flags": [
+        "gate",
+        "blocks-all-content"
+      ],
       "why": "Every content point in this sprint is worthless until this closes. NOTE: the Indexing API is restricted to JobPosting and BroadcastEvent — using it for articles is a policy violation. The CEO proposed it in the meeting and withdrew it. The sanctioned mechanism is sitemap resubmission with accurate lastmod.",
       "dod": "Ingest an article; the same run resubmits the sitemap through the GSC API and prints the literal API response. Verified by: GSC sitemap last_downloaded moves past the ingest timestamp, AND a URL inspection of the new article leaves 'URL is unknown to Google' within 48h — show the before and after inspection verbatim. lastmod on the new entry equals the ingest date, not the build date. Re-run ingest on an unchanged article and show the sitemap is NOT needlessly resubmitted."
     },
     {
-      "id": "RISK-05", "track": "risk", "points": 2, "state": "todo", "owner": "BMAD",
+      "id": "RISK-05",
+      "track": "risk",
+      "points": 2,
+      "state": "todo",
+      "owner": "BMAD",
       "title": "The indexing monitor — a baseline you take once is a photograph",
       "why": "Murat, this meeting: the CEO found five dark articles by hand because it happened to run a URL inspection. SEO-01 was a one-off baseline. Nothing would have caught this, and nothing will catch the next one.",
       "dod": "A scheduled job inspects every URL in the live sitemap, records coverage_state per URL with the date, and files a loud alarm (the RISK-01 pattern — a GitHub issue within 10s) when any URL is unknown-to-Google or uncrawled more than 72h after appearing in the sitemap. Proved by deliberately feeding it a URL known to be unknown and showing the alarm fired. Runs from the DEFAULT branch — scheduled workflows do not run from feature branches, which cost a reopen in Sprint 01."
     },
     {
-      "id": "SEO-04", "track": "seo", "points": 5, "state": "todo", "owner": "BMAD",
+      "id": "SEO-04",
+      "track": "seo",
+      "points": 5,
+      "state": "todo",
+      "owner": "BMAD",
       "title": "The venue page type — we rank page one for named halls and earn nothing",
       "why": "dewan komuniti setiawangsa: 34 impressions, position 8.8, zero clicks. dewan keramat: position 4.5, zero clicks. People search for a NAMED HALL and we answer with a generic listicle. Flagged 24 Aug as decision 50, assigned, and nothing happened — CEO failure to follow up, recorded as such.",
       "dod": "A venue page type exists and is live for at least the four named halls, each reachable from the venue pillar and in the sitemap. Each answers what head-of-seo-content specs, with every fact carrying its source and the date checked — no invented capacities or prices. Proof: quote the capacity and booking line from live HTML for two halls, with a negative control. Baseline recorded per query on ship day."
     },
     {
-      "id": "SEO-05", "track": "seo", "points": 2, "state": "todo", "owner": "head-of-seo-content",
-      "title": "Entity-match in the SERP snippet — the one real zero, not the phantom five",
-      "rescoped": "26 Aug 2026, before work started. The original item — 'audit every live URL at average position under 10 with zero clicks' — was wrong and would have spent the sprint on noise.",
-      "why": "Two checks killed the original framing. (1) At position 7–10 with 25–50 impressions, expected clicks are 0.3–1.5, so zero is inside normal variance. (2) Sharper, and the reason the CEO should not have trusted its own list: those AVERAGED POSITIONS DESCRIBE NO ACTUAL QUERY. The hantaran-tunang page at 'average position 9.8' is really 4 impressions at 10.2, 2 at 13.5, 1 at 33 and 1 at 56 — a mean across a long tail, not a page ranking at 9.8. ONE case survives: dewan komuniti setiawangsa, 104 impressions at position 9.0, zero clicks, where 2–3 were expected. Its cause is not the page, because the visitor never reaches the page. Someone types one hall's name and Google shows a generic listicle title about cheap halls in Selangor and KL; 'Setiawangsa' appears nowhere in the title or description, so they scan, miss their hall, and click a Facebook or council listing instead.",
-      "dod": "Fix and measure the one real case rather than auditing five phantoms. Title and meta for the dewan-kahwin listicle rewritten so a named-hall searcher sees their hall matched — SHIPPED, quoted from live HTML before and after. Write the rule for when a zero IS a finding: the expected-click calculation, and never trusting an averaged position without pulling the per-query breakdown. That rule lands in ceo-memory.md AND the head-of-seo-content persona, not only in this item. Baseline re-recorded on ship day. Explicitly OUT of scope: the other four pages — name them and say why, so a later sprint does not rediscover them as a finding."
+      "id": "SEO-05",
+      "track": "seo",
+      "points": 2,
+      "state": "todo",
+      "owner": "head-of-seo-content",
+      "title": "Titles: the one statistically real zero, and a seo_title drift audit",
+      "rescoped": "TWICE on 26 Aug, both before work started. v1 'audit every page at position <10 with zero clicks' was noise. v2 'dewan komuniti setiawangsa entity-match' was ALSO wrong and was killed by the item's own owner. v3 is this.",
+      "why": "v1 died on two counts: at 25–50 impressions expected clicks are 0.3–1.5 so zero is variance, and worse, the AVERAGED POSITIONS DESCRIBE NO ACTUAL QUERY — hantaran-tunang at 'average 9.8' is really 4 impressions at 10.2, 2 at 13.5, 1 at 33 and 1 at 56. v2 died because setiawangsa is not a real zero either: 104 impressions at position 9.0 predicts ~2.1 clicks, P(zero) ≈ 12%, and its SERP is DBKL's own booking portal at 1–2 with Instagram, Facebook, Waze and TikTok at 3–6, so realistic organic CTR is under 1%. The owner of this item put it sharply: the UX review applied a significance test and then exempted the one page it had already built a theory around. THE REAL ZERO IS `mas kahwin ikut negeri` — 388 impressions across THREE URLs of one redirect family (365 + 15 + 8), zero clicks, position 10–13, expected ~5.8 clicks, P(zero) ≈ 0.3%. It clears the bar by an order of magnitude and was missed because every single row reads as noise until you aggregate the family. Its cause is diagnosable, unlike setiawangsa's: CEO-verified against production, the title is 85 chars, asks a question instead of answering it, and carries no year — while the page's own H1 already reads 'Mas kahwin ikut negeri 2026: kadar minimum setiap negeri' and its meta already says 'RM22.50 hingga RM300'. A stale WordPress-era field disagreeing with its own page. SEPARATELY: our best page's title is 93 chars and Google prints it truncated, cutting away 'RM5,000' — the most clickable token in it. That is a TRUNCATION fix on a page already running 3.1% CTR at position 9.3, not an entity-match fix.",
+      "dod": "`mas kahwin ikut negeri` is item one, NOT setiawangsa. Five titles and metas rewritten and SHIPPED, each under 60 characters, each carrying the year, quoted from live HTML before and after. AUDIT EVERY seo_title FIELD FOR DRIFT against its H1 and meta — at least one is a stale pre-rewrite value and the total is unknown. TWO RULES land in ceo-memory.md AND the head-of-seo-content persona, not only in this item: (1) never trust an averaged position without the per-query breakdown; (2) AGGREGATE THE REDIRECT FAMILY BEFORE JUDGING A ZERO. Same class of error — a number that describes no real thing. State explicitly this is NOT funded as a conversion fix: sitewide CTR is 1.65% at average position 20, at or above the published curve. We have a position and volume problem; titles are cheap, not the bottleneck. OUT OF SCOPE with reasons: setiawangsa (P(zero) ≈ 12%, SERP owned by the operator's portal and social), dewan keramat (3 impressions), dewan mpaj tasik tambahan (1), hiasan-dekorasi/hantaran-kahwin (4). Hall-level entity-match is SEO-04's job — one 60-character listicle title cannot match seventeen distinct hall names and this item must not pretend otherwise."
     },
     {
-      "id": "PLAT-05", "track": "platform", "points": 8, "state": "todo", "owner": "BMAD",
+      "id": "PLAT-05",
+      "track": "platform",
+      "points": 8,
+      "state": "todo",
+      "owner": "BMAD",
       "title": "Document store — all 422 documents ingested, searchable and readable in buddy",
       "why": "Owner direction 26 Aug: an Atlassian-like place for all our documents, and make sure retros are stored. 422 markdown documents across two repos and no way to find any of them. Retros named explicitly — Sprint 01's was written to a repo root because nothing said where it belonged, and the previous spec omitted them.",
       "spec": "_bmad-output/implementation-artifacts/spec-plat-05-document-store.md",
       "dod": "Both repos synced. Search any phrase at buddy.ian.ng/docs and get the document with its space, path and a highlighted snippet. Sprint 01's retro findable by searching a phrase from inside it. Re-running sync reports every document unchanged and moves no updated_at. A document containing a connection string is SKIPPED and named, and every other document still stores. Proof from the response body with a negative control."
     },
     {
-      "id": "PLAT-06", "track": "platform", "points": 5, "state": "todo", "owner": "BMAD",
+      "id": "PLAT-06",
+      "track": "platform",
+      "points": 5,
+      "state": "todo",
+      "owner": "BMAD",
       "title": "Spaces and the page tree — browse the document store like Confluence",
       "why": "PLAT-05 answers 'where did we decide X'. It does not answer 'show me everything about this project'. A flat list of 422 results is a grep with a nicer font.",
       "spec": "_bmad-output/implementation-artifacts/spec-plat-06-document-spaces.md",
       "dod": "Every space listed with counts and last sync. A space opens to a navigable tree derived from origin paths. A document shows breadcrumbs and a 'Referenced by' list. A relative link to a synced document navigates in-app; a link to something not in the store renders as marked plain text and produces NO 404."
     },
     {
-      "id": "PLAT-07", "track": "platform", "points": 1, "state": "todo", "owner": "BMAD",
+      "id": "PLAT-07",
+      "track": "platform",
+      "points": 1,
+      "state": "todo",
+      "owner": "BMAD",
       "title": "sprint retro N is write-only — make it readable",
       "why": "Found closing Sprint 01. The CLI stores a retro and has no command to read one back; velocity cross-checks the row, proving it is there, but nothing prints it. Also: --backlog is documented in --help as a bare flag but the parser demands a value.",
       "dod": "`sprint retro 1` with no --file prints Sprint 01's stored retro. `sprint get PLAT-05 --backlog` works as documented, without a value. Both covered by a test."
     },
     {
-      "id": "PLAT-08", "track": "platform", "points": 3, "state": "todo", "owner": "BMAD",
+      "id": "PLAT-08",
+      "track": "platform",
+      "points": 3,
+      "state": "todo",
+      "owner": "BMAD",
       "title": "A working preview environment — \"show me before you ship\" has nowhere to point",
       "why": "Carried from Sprint 01, unassigned. All 39 Vercel env vars on buddy-web target production only; hellokahwin preview builds fail on unpopulated env vars. Two projects, same failure. The owner review path agreed 26 Aug depends on a URL that can be handed over before merge, and today there is none.",
       "dod": "Open a PR on each project and get a working preview URL that renders the changed page. Proof: quote content from the preview response body that only the changed version contains, plus a negative control. Preview-scoped env vars named in the /tokens registry with which are safe to share and which are not. If a project genuinely cannot have one, say so with the specific blocker."
     },
     {
-      "id": "PLAT-09", "track": "platform", "points": 2, "state": "todo", "owner": "BMAD",
+      "id": "PLAT-09",
+      "track": "platform",
+      "points": 2,
+      "state": "todo",
+      "owner": "BMAD",
       "title": "buddy sidebar carries the latest additions",
       "why": "Owner request, 26 Aug. /sprints shipped in Sprint 01 and reaching it means typing the URL. /docs arrives with PLAT-05 and will have the same problem. A surface nobody can navigate to is close to a surface that does not exist — two of Sprint 01's three unshipped items hid behind exactly that.",
       "dod": "Every app route a signed-in user is meant to reach appears in the sidebar, grouped sensibly, with the current route highlighted. /sprints and /docs both present. Verified by listing routes under apps/web/app/(app) and showing each has a nav entry or a written reason it does not. Proof from the rendered response body with a negative control."
     },
     {
-      "id": "CONT-05", "track": "content", "points": 4, "state": "todo", "owner": "writer-inspirasi-vendor-venue",
+      "id": "CONT-05",
+      "track": "content",
+      "points": 4,
+      "state": "todo",
+      "owner": "writer-inspirasi-vendor-venue",
       "title": "Cluster queue continues — 4 articles",
       "why": "Owner decision this meeting: run venue pages AND cluster articles. Safe to write only because RISK-04 closes the publishing hole in the same sprint — Sprint 01's five newest articles are still unknown to Google.",
       "dod": "Four articles ingested to production, each returning 200 on FIRST request, each appearing on its pillar page, each with a photograph cover and zero text cards, every image carrying credit, creditUrl, licensorName and licenseClass plus a register entry. No IMEJ markers — a leftover marker is a format error. Each URL checked against GSC after RISK-04 ships and shown to leave 'unknown to Google'."
     },
     {
-      "id": "UX-01", "track": "platform", "points": 3, "state": "todo", "owner": "BMAD",
+      "id": "UX-01",
+      "track": "platform",
+      "points": 3,
+      "state": "todo",
+      "owner": "BMAD",
       "title": "Mobile article pages delete the site header — restore it",
-      "flags": ["worst-finding", "affects-79pct-of-clicks"],
+      "flags": [
+        "worst-finding",
+        "affects-79pct-of-clicks"
+      ],
       "why": "`[slug]/page.tsx:796` sets `data-hide-mobile-nav`; `globals.css:934-939` then hides `header:first-child` below 767px. Someone arriving from Google onto an article on their phone — 34 of the site's 43 monthly clicks — gets no logo, no brand, no navigation, no search. The only escapes are a back arrow to the category page (which on venue-perancangan lands on 'akan datang tidak lama lagi') and a footer up to 10,638px below. On mobile this is a one-page site. Written for vendor-detail surfaces, applied to the pages that receive all the search traffic.",
       "dod": "At 390px an article renders the site header with brand and navigation — screenshot it. `header nav a` computes min-height >= 44px (it measures 33px today; the design system already meets 44 elsewhere). The bottom bar offers something other than a photo gallery, with the choice justified. Mobile cover no taller than aspect-[3/2] with the first paragraph above the fold. Every claim proved from the RENDERED page at 390px, not from source."
     },
     {
-      "id": "UX-02", "track": "seo", "points": 5, "state": "todo", "owner": "BMAD",
+      "id": "UX-02",
+      "track": "seo",
+      "points": 5,
+      "state": "todo",
+      "owner": "BMAD",
       "title": "Named halls are invisible to Google as entities — heading anchors, TOC, ItemList",
       "why": "The highest-expected-value finding on the site. Our best page is a listicle with 11 h2s naming specific halls, and the rendered DOM has ZERO id attributes on any heading, zero in-page anchors, no TOC, no table, and JSON-LD carrying only Article + BreadcrumbList. `article-renderer.tsx` has no slugify logic at all, so this is true of every article. Someone searches one hall by name; Google has no entity to match and shows a generic listicle title. The cheap 60% of what SEO-04 completes.",
       "dod": "Every h2/h3 carries a deterministic slugified id — quote three from live HTML. Articles with >=4 h2s render a TOC with working anchors. Listicle-shaped articles emit ItemList and Place JSON-LD, validated against a schema validator with the validator's output shown. Applied by the renderer, not per-article. Baseline recorded for dewan komuniti setiawangsa (104 impressions, position 9.0, zero clicks over 28 days)."
     },
     {
-      "id": "UX-03", "track": "platform", "points": 3, "state": "todo", "owner": "BMAD",
+      "id": "UX-03",
+      "track": "platform",
+      "points": 3,
+      "state": "todo",
+      "owner": "BMAD",
       "title": "The cheap cluster — hero crop, duplicate nav, hidden pillars, empty clusters, search",
       "why": "Six small fixes the review measured and located. The homepage hero requests crop-4x3-article-card into a 1905x560 box, discarding 61% of the frame and upscaling 19%, when crop-4.3x1-desktop-hero already exists at near-exact ratio and pads above detected faces. Two nav bars exist because two different queries feed them. THERE ARE NINE PILLARS, NOT SIX — 850px is clipped off-screen with the scrollbar hidden, so three pillars are invisible. Empty clusters render above real content, and on venue-perancangan the empty one is the exact cluster matching our only real search demand. Search EXISTS and works but nothing in the masthead links to it. hk-chip borders compute 1.36:1 against WCAG's 3:1.",
       "dod": "Hero uses the desktop-hero preset — source and rendered dimensions before and after. Duplicate homepage rail deleted. Both scrollers show a right-edge affordance and all nine pillars reachable at 1400px — screenshot. Empty clusters sort below non-empty. Search reachable from the masthead on every page. hk-chip border contrast >= 3:1 with computed values shown."
     },
     {
-      "id": "UX-04", "track": "platform", "points": 2, "state": "todo", "owner": "BMAD",
+      "id": "UX-04",
+      "track": "platform",
+      "points": 2,
+      "state": "todo",
+      "owner": "BMAD",
       "title": "Cards go grey because they lazy-load with no placeholder — LQIP and a JS audit",
       "why": "The CEO reported a broken card-image variant. WRONG, disproved by measurement: every homepage image resolves at naturalWidth 1600. Cards 3-12 are loading=lazy over a bg-muted plate with no blur placeholder, so until the WebP decodes the card IS a grey box. Measured FCP 3,040ms with a warm cache on a fast connection: TTFB 22ms, HTML 147KB, CSS 135KB, and 542KB of JavaScript across 14 files for a page of static prose.",
       "dod": "Cards and covers render a base64 LQIP via placeholder=blur — no flat grey plate at any point during load. FCP re-measured under the same conditions against the 3,040ms baseline. JS payload enumerated per file with keep/defer/drop decided for each; if it cannot be reduced, the blocking dependency is named."
+    },
+    {
+      "id": "RISK-06",
+      "track": "risk",
+      "points": 3,
+      "state": "todo",
+      "owner": "BMAD",
+      "title": "stale-while-revalidate is set to 365 days — cap it",
+      "flags": [
+        "outranks-seo-05",
+        "affects-every-page"
+      ],
+      "why": "Found by the SEO review, CONFIRMED by the CEO against production. Every article page ships `Cache-Control: s-maxage=600, stale-while-revalidate=31535400` — 365 DAYS of stale-serving. Verified live: mas-kahwin-ikut-negeri returned X-Vercel-Cache STALE at Age 787, dewan-kahwin STALE at Age 575, both past the 600s freshness window. The reviewer caught six distinct pages served from that window carrying the SITE-DEFAULT HOMEPAGE TITLE, no canonical and no og tags, while their H1 and JSON-LD were correct; each self-healed once the request triggered revalidation. The CEO could NOT reproduce it afterwards — six consecutive fetches all HIT with the correct title — because those earlier requests had already warmed the cache. Reported as EXPOSURE, not confirmed loss: nobody has proven Google indexed a stale shell. The mechanism is real and its blast radius is every page, which is why it outranks every title we ship this sprint.",
+      "dod": "stale-while-revalidate capped at hours rather than a year, with the number justified against how often content actually changes. Ingest purges the edge for affected paths — this COMPOSES WITH RISK-04, do not build two purge paths. Show the header before and after on three pages. Then ATTEMPT TO REPRODUCE the stale-shell symptom deliberately before fixing: request a cold path repeatedly and capture title, canonical and og tags on a STALE response. If it cannot be reproduced, say so plainly and ship the header cap on the mechanism alone. DO NOT report the symptom as fixed if it was never reproduced."
+    },
+    {
+      "id": "SEO-06",
+      "track": "seo",
+      "points": 2,
+      "state": "todo",
+      "owner": "head-of-seo-content",
+      "title": "The Hantaran pillar advertises its own ranking articles as missing",
+      "why": "/artikel/hantaran-mas-kahwin renders THREE 'akan datang tidak lama lagi' empty states — Hantaran kahwin, Hantaran tunang, Duit hantaran — and we have published, indexed, RANKING articles for the first two: hiasan-dekorasi/hantaran-kahwin at position 6.5, and hiasan-dekorasi/hantaran-tunang at 49 impressions position 9.6. They are filed under hiasan-dekorasi, so the pillar never links down to them and tells a reader the section is empty. That breaks the bidirectional pillar rule and strands two of our better-ranking pages. Taxonomy, not design.",
+      "dod": "Both articles re-filed into hantaran-mas-kahwin with the redirect verified as ONE hop to 200 — CONT-04 established that re-parenting needs no redirect-table entry because the route self-heals, so confirm which applies rather than assuming. The pillar shows them as real entries and the three empty states drop to at most one. Old URLs still resolve. Sitemap reflects the move. GSC positions for both recorded before and after so a ranking loss would be visible. COORDINATE WITH UX-03 — it touches the same pillar rendering and these two must not run concurrently on the same files."
     }
   ],
-
+  "seo_review_corrections": {
+    "note": "The SEO review corrected the CEO, the UX review, AND the CEO's own first re-scope of SEO-05. Recorded because two of the three had already been written into this file as findings.",
+    "old_vs_new_url": "THE CEO'S HEADLINE FINDING WAS A MEASUREMENT ARTIFACT. /dewan-kahwin/ and /artikel/idea-dan-nasihat/dewan-kahwin are ONE page: URL Inspection shows the legacy URL as 'Page with redirect' with Google-selected canonical pointing at the new path — the same canonical the new URL reports, same crawl timestamp. GSC attributes an impression to the URL STRING Google printed in the SERP, not to the canonical. Added together the real page is 34 clicks / 1,090 impressions / 3.1% CTR at position 9.3 — ABOVE the curve. It is our best page and it is working. The CEO read two rows as two pages.",
+    "setiawangsa_is_not_a_real_zero": "The UX review's replacement finding also failed its own test. 104 impressions at position 9.0 predicts ~2.1 clicks; P(zero) ≈ 12%. Its SERP is DBKL's own booking portal at 1–2, Instagram/Facebook/Waze/TikTok at 3–6, image pack at 7 — realistic organic CTR under 1%.",
+    "the_real_zero": "`mas kahwin ikut negeri` — 388 impressions across three URLs of one redirect family, zero clicks, P(zero) ≈ 0.3%. Visible only when the family is aggregated.",
+    "not_a_conversion_problem": "Sitewide CTR is 1.65% at average position 20, at or above the published curve. 'We rank and do not convert' is the wrong diagnosis — we have a POSITION and VOLUME problem. We are a small site sitting on page two.",
+    "named_halls_are_7pct": "By ROW COUNT the hall queries dominate; by IMPRESSIONS they are ~7% of 2,605. English `garden wedding` queries are ~25%. Counting rows instead of impressions is what made halls look like the story, and it is why SEO-04 should be judged as a scale bet rather than a quick win.",
+    "the_week_was_good": "The CEO presented the last 7 days as a problem. 15 clicks on 765 impressions is 1.96% CTR — BETTER than the 30-day 1.65%. Impressions rose 88/day to 165/day and average position improved 21.4 to 14.7 across the month. Sprint 01 is working.",
+    "attribution_warning": "89% of the site's entire search presence is attributed to three legacy URL strings (2,318 of 2,605 impressions). Every dashboard is currently measuring pre-migration strings. This resolves itself — do not act on it, but never read two rows as two pages."
+  },
   "ux_review_corrections": {
     "note": "The review disproved five CEO findings by measurement. Recorded because the errors were confident and specific, which is what made them dangerous.",
     "grey_card": "Not a broken image variant. A lazy-load with no blur placeholder. The CEO saw a slow decode and diagnosed a broken variant; the article page 'showed its cover fine' only because it was viewed after painting.",
@@ -130,21 +222,19 @@
     "zero_ctr": "Mostly a phantom. At position 7-10 with 25-50 impressions, expected clicks are 0.3-1.5, so zero is inside normal variance. SEO-05 as originally scoped would have burned a sprint on noise. ONE case is real: dewan komuniti setiawangsa, 104 impressions at position 9.0, zero clicks. Its cause is an entity-match failure in the SERP snippet, not the page.",
     "legacy_url": "/dewan-kahwin/ is not a different template — it redirects into the article template under review. The problem is Google indexing BOTH URLs (1,056 impressions old, 34 new), splitting the site's best asset."
   },
-
   "measurement_baseline_28d": {
     "window": "2026-07-27 to 2026-08-25",
-    "clicks": 43, "impressions": 2599,
+    "clicks": 43,
+    "impressions": 2599,
     "concentration": "Two pages carry 86% of clicks and 75% of impressions. The homepage got 10 impressions.",
     "device_split": "MOBILE 34 clicks / 1,440 impressions / average position 9.4. DESKTOP 9 clicks / 1,151 impressions / average position 32.3.",
     "why_it_matters": "We rank on mobile and barely rank on desktop. Any desktop-only fix is worth a fraction of the same effort on mobile."
   },
-
   "out_of_scope": [
     "RISK-02 password rotation — stays parked. The owner accepted the credential risk on 25 Aug with a stated revisit trigger: if the transcript is ever shared or exported.",
     "The cold-render finding — 5–22s against a route declaring maxDuration=5, and one new article URL returned 502 FUNCTION_RESPONSE_STREAM_INCOMPLETE. Measured in Sprint 01, never root-caused. NOT scoped here because RISK-04 and RISK-05 change what Googlebot actually meets first, and the monitor will show whether this still bites. Revisit at Sprint 03 planning with the monitor's data rather than guessing now.",
     "Re-parenting the 13 legacy articles — CONT-04 produced the plan in Sprint 01 and found it needs no redirects. Not executed here: the venue and zero-CTR work touches the same pillar pages, and two agents on the same files is how Sprint 01 nearly lost work.",
     "A UI/UX overhaul of the homepage, category and article pages — under review as this sprint was scoped. Findings land after planning, so any work is added deliberately rather than absorbed silently."
   ],
-
   "retro": null
 }
