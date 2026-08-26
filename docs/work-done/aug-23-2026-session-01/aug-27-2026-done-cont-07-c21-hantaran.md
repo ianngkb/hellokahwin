@@ -270,6 +270,20 @@ the engineer at ingest", and nothing does the marking up. SEO-05 then sized it o
 `mas-kahwin-ikut-negeri`, item one of this very sprint item. Evidence: site repo
 `docs/work-done/2026-08-27-seo-05-titles-EVIDENCE/faq-schema-gap.json`.
 
+**And it is one fix, not 31.** CONT-05's framing, verified here against the
+stored TipTap of all seven of this batch: every FAQ question is already an `h3`
+under the `## Soalan lazim` `h2`, four per article, with no other heading level
+inside the block. The content is already correct and already uniform, so this is
+a renderer change over existing rows, not 31 edits, and nothing editorial moves.
+That is the difference between a ticket that gets scheduled and one that does
+not, which is why it belongs next to the finding rather than in a follow-up.
+
+The article template emits six schema types, re-measured across this batch's
+rendered pages counting nested `@type` rather than top-level only: `Article`,
+`BreadcrumbList`, `ImageObject`, `ListItem`, `Organization`, `WebPage`.
+SEO-05's site-wide sweep adds `ItemList` from listing pages. `FAQPage` is absent
+under either extraction.
+
 ### Which document must change, and who owns the edit?
 
 1. `docs/plans/aug-23-2026-session-01/aug-23-2026-workflow-content-production.md`,
