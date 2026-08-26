@@ -1,0 +1,368 @@
+<title>Malay Wedding Photographers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#FBFAF7; --card:#FFFFFF; --sunk:#F3F1EA; --rule:#E3DFD4;
+  --ink:#16242B; --ink2:#42555E; --muted:#7B8A90;
+  --jade:#1B5E51; --jade-soft:#E8F0ED; --brass:#9A6F25; --brass-soft:#F5EEDF;
+  --warn:#8C3A2E; --warn-soft:#F8ECE9;
+}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0F1618; --card:#172125; --sunk:#1D292E; --rule:#2C3B40;
+  --ink:#EDF2F1; --ink2:#B6C6C6; --muted:#7E9295;
+  --jade:#6FC0AC; --jade-soft:#16302B; --brass:#D6A75A; --brass-soft:#2C2517;
+  --warn:#E08B7C; --warn-soft:#2E1B18;
+}}
+:root[data-theme="dark"]{
+  --paper:#0F1618; --card:#172125; --sunk:#1D292E; --rule:#2C3B40;
+  --ink:#EDF2F1; --ink2:#B6C6C6; --muted:#7E9295;
+  --jade:#6FC0AC; --jade-soft:#16302B; --brass:#D6A75A; --brass-soft:#2C2517;
+  --warn:#E08B7C; --warn-soft:#2E1B18;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:Inter,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px 96px}
+.prose{max-width:66ch}
+a{color:var(--jade)}
+code,.mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+
+header{padding:56px 0 28px;border-bottom:1px solid var(--rule)}
+.eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--brass);font-weight:700;margin:0 0 14px}
+h1{font-family:Newsreader,Georgia,serif;font-weight:500;font-size:clamp(2.1rem,5.5vw,3.4rem);
+  line-height:1.02;letter-spacing:-.02em;margin:0 0 16px;text-wrap:balance}
+.standfirst{font-family:Newsreader,Georgia,serif;font-size:1.22rem;line-height:1.5;color:var(--ink2);max-width:60ch;margin:0}
+.meta{margin-top:22px;display:flex;flex-wrap:wrap;gap:6px 26px;font-size:12.5px;color:var(--muted)}
+.meta b{color:var(--ink2);font-weight:600}
+
+section{margin-top:56px}
+h2{font-family:Newsreader,Georgia,serif;font-weight:600;font-size:1.75rem;letter-spacing:-.01em;margin:0 0 10px}
+h3{font-family:Newsreader,Georgia,serif;font-weight:600;font-size:1.2rem;margin:0 0 8px}
+p{margin:0 0 14px}
+
+.note{border-left:3px solid var(--warn);background:var(--warn-soft);padding:20px 22px;border-radius:0 6px 6px 0}
+.note h3{color:var(--warn);margin-bottom:9px}
+.note p{color:var(--ink2);max-width:64ch}
+.note p:last-child{margin:0}
+
+.key{border-left:3px solid var(--jade);background:var(--jade-soft);padding:20px 22px;border-radius:0 6px 6px 0}
+.key h3{color:var(--jade)}
+.key p{color:var(--ink2);max-width:64ch}
+.key p:last-child{margin:0}
+
+.msg{background:var(--sunk);border:1px solid var(--rule);border-radius:8px;padding:0;overflow:hidden;margin:20px 0}
+.msg-head{display:flex;align-items:center;gap:12px;padding:11px 16px;border-bottom:1px solid var(--rule);background:var(--card)}
+.msg-head span{font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.msg-body{padding:20px 22px;font-size:15px;line-height:1.65;color:var(--ink);white-space:pre-wrap}
+button.copy{margin-left:auto;font:inherit;font-size:12.5px;font-weight:600;color:var(--jade);
+  background:transparent;border:1px solid var(--rule);border-radius:5px;padding:5px 12px;cursor:pointer;min-height:34px}
+button.copy:hover{border-color:var(--jade)}
+button.copy:focus-visible{outline:2px solid var(--jade);outline-offset:2px}
+
+ol.asks{counter-reset:a;list-style:none;padding:0;margin:18px 0 0;display:grid;gap:10px}
+ol.asks li{counter-increment:a;position:relative;padding-left:42px;color:var(--ink2);max-width:60ch}
+ol.asks li::before{content:counter(a);position:absolute;left:0;top:1px;width:26px;height:26px;border-radius:50%;
+  background:var(--brass-soft);color:var(--brass);font-size:12px;font-weight:700;
+  display:grid;place-items:center;font-family:"JetBrains Mono",monospace}
+ol.asks b{color:var(--ink)}
+
+.tier{display:flex;align-items:baseline;gap:12px;margin:0 0 6px}
+.tier h2{margin:0}
+.tier .count{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.lede{color:var(--ink2);max-width:64ch;margin:0 0 22px}
+
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(310px,1fr))}
+.p{background:var(--card);border:1px solid var(--rule);border-radius:9px;padding:18px 19px;display:flex;flex-direction:column;gap:11px}
+.p.feat{border-color:var(--brass);box-shadow:0 1px 0 var(--brass-soft)}
+.p-top{display:flex;align-items:flex-start;gap:10px}
+.p-name{font-family:Newsreader,Georgia,serif;font-size:1.16rem;font-weight:600;line-height:1.25;margin:0}
+.p-studio{display:block;font-family:Inter,sans-serif;font-size:12px;font-weight:600;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--muted);margin-top:4px}
+.p-why{font-size:14px;color:var(--ink2);margin:0;flex:1}
+.p-links{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:2px}
+.ig{display:inline-flex;align-items:center;gap:7px;font-family:"JetBrains Mono",monospace;font-size:12.5px;
+  font-weight:500;text-decoration:none;color:var(--jade);background:var(--jade-soft);
+  border:1px solid transparent;border-radius:6px;padding:7px 11px;min-height:36px}
+.ig:hover{border-color:var(--jade)}
+.ig:focus-visible{outline:2px solid var(--jade);outline-offset:2px}
+.ig svg{width:14px;height:14px;flex:none}
+.web{font-size:12.5px;color:var(--muted);text-decoration:none;border-bottom:1px solid var(--rule);padding-bottom:1px}
+.web:hover{color:var(--ink2);border-color:var(--ink2)}
+.unconf{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--warn);
+  background:var(--warn-soft);border-radius:4px;padding:3px 7px}
+.track{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);
+  border-top:1px solid var(--rule);padding-top:11px;margin-top:2px;cursor:pointer;user-select:none}
+.track input{width:16px;height:16px;accent-color:var(--jade);cursor:pointer;margin:0}
+.track.done{color:var(--jade);font-weight:600}
+
+.tw{overflow-x:auto;border:1px solid var(--rule);border-radius:8px;background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:520px}
+th{text-align:left;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);
+  font-weight:700;padding:11px 14px;border-bottom:1px solid var(--rule);background:var(--sunk)}
+td{padding:11px 14px;border-bottom:1px solid var(--rule);vertical-align:top;color:var(--ink2)}
+tbody tr:last-child td{border-bottom:none}
+
+footer{margin-top:64px;padding-top:22px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted);max-width:70ch}
+footer a{color:var(--muted)}
+footer ul{padding-left:18px;margin:10px 0}
+footer li{margin-bottom:5px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+
+<header>
+  <p class="eyebrow">HelloKahwin · Cover photography · 26 August 2026</p>
+  <h1>Malay wedding photographers</h1>
+  <p class="standfirst">Twelve studios worth writing to, and the one paragraph that turns a yes into something we can actually publish.</p>
+  <div class="meta">
+    <span><b>Outreach:</b> manual, owner's own — nothing has been sent from our side</span>
+    <span><b>Sources:</b> named per entry</span>
+  </div>
+</header>
+
+<section class="prose">
+  <div class="note">
+    <h3>Credit is not a licence</h3>
+    <p>A photographer's images are copyrighted from the moment of capture. Using them with attribution but without permission is still infringement — attribution changes the courtesy, not the legality.</p>
+    <p>Our own asset register already says this. Class <code>V</code> requires <em>"a written grant naming the images, the scope and the credit wording."</em> We currently hold <strong>zero</strong> class-V assets and 658 rows with an unknown licensor, so sourcing on credit alone would deepen a rights debt rather than replace it.</p>
+    <p><strong>The good news: this is normally free.</strong> Photographers are usually glad to be published with a credit and a link — it is how they get booked. The ask is small. What matters is that the yes is <em>written</em> and <em>names HelloKahwin</em>.</p>
+  </div>
+</section>
+
+<section>
+  <h2>The message</h2>
+  <p class="lede">Short, specific, and asks for the three things the register needs before an image can go live.</p>
+
+  <div class="msg">
+    <div class="msg-head">
+      <span>Copy and adapt</span>
+      <button class="copy" id="cp" type="button">Copy</button>
+    </div>
+    <div class="msg-body" id="msg">Hi — we publish HelloKahwin (hellokahwin.com), a Malay-language wedding guide.
+
+We'd love to feature some of your work as article photography, with your name and a link back to your Instagram on every image.
+
+We're mostly after detail shots rather than portraits — hantaran trays, sirih junjung, bunga telur, pelamin, the akad table. The frames that usually don't make the client gallery.
+
+If you're happy with that, could you reply confirming:
+1. which images or galleries we may use,
+2. that this covers hellokahwin.com including social posts promoting those articles, and
+3. exactly how you'd like to be credited.
+
+Happy to work to whatever wording you prefer.</div>
+  </div>
+
+  <ol class="asks">
+    <li><b>Which images.</b> A named set or a gallery link — not "some of my work".</li>
+    <li><b>What scope.</b> The site, plus social posts promoting those articles.</li>
+    <li><b>What credit.</b> Their exact preferred wording and the link they want.</li>
+  </ol>
+  <p style="margin-top:16px;color:var(--muted);font-size:14px;max-width:62ch">Keep the reply itself. The register field <code>bukti_lesen</code> is meant to hold the evidence — a forwarded email or a screenshot of the DM, stored, not paraphrased.</p>
+</section>
+
+<section class="prose">
+  <div class="key">
+    <h3>Ask for the detail shots, not the hero portraits</h3>
+    <p>Our covers fail because they don't <strong>depict their subject</strong>. The <code>dulang-hantaran</code> article is about gift trays and its cover is a tight crop of two guests' torsos, with no tray in frame. A more beautiful couple portrait would not have fixed that.</p>
+    <p>The images worth asking for are trays and their arrangement, sirih junjung, bunga telur, the pelamin as a set, hantaran laid out before the ceremony, the akad table, the borang being signed. Photographers shoot these constantly — they're the establishing frames in every wedding gallery — and almost never publish them, because clients want the portraits.</p>
+    <p><strong>Which makes the ask easier, not harder.</strong> We're asking for the frames they aren't otherwise using, and they're worth far more to us than another beautiful couple shot.</p>
+  </div>
+</section>
+
+<section>
+  <div class="tier"><h2>The premium end</h2><span class="count">Tier 1 · 4 studios</span></div>
+  <p class="lede">Named in editorial round-ups for the aesthetic you asked for.</p>
+  <div class="grid">
+
+    <article class="p feat">
+      <div class="p-top"><div><h3 class="p-name">Azizul Azman<span class="p-studio">Candid Pictures Studio</span></h3></div></div>
+      <p class="p-why">Nostalgic 70s–80s vintage tone, softly blurred backgrounds, candids over staged poses. A Fujifilm X-Photographer, noted specifically for authentic Malay wedding moments.</p>
+      <div class="p-links">
+        <a class="ig" href="https://www.instagram.com/_azizulazman/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>@_azizulazman</a>
+      </div>
+      <label class="track"><input type="checkbox" data-k="azizul"> Contacted</label>
+    </article>
+
+    <article class="p feat">
+      <div class="p-top"><div><h3 class="p-name">Whitenery</h3></div></div>
+      <p class="p-why">Soft clean palette, graceful composition, a timeless almost ethereal finish. Called out specifically for <strong>intricately styled akad nikah</strong> — the closest match here to the subjects we actually need.</p>
+      <div class="p-links">
+        <a class="ig" href="https://www.instagram.com/explore/search/keyword/?q=whitenery" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>search</a>
+        <span class="unconf">handle unconfirmed</span>
+      </div>
+      <label class="track"><input type="checkbox" data-k="whitenery"> Contacted</label>
+    </article>
+
+    <article class="p feat">
+      <div class="p-top"><div><h3 class="p-name">Redhu Malek<span class="p-studio">Twig Studio</span></h3></div></div>
+      <p class="p-why">Full-time wedding photographer and cinematographer working central and northern Peninsular Malaysia. Head photographer at Twig Studio.</p>
+      <div class="p-links">
+        <a class="ig" href="https://www.instagram.com/redhumalek/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>@redhumalek</a>
+        <a class="web" href="https://blog.redhumalek.com" target="_blank" rel="noopener noreferrer">blog.redhumalek.com</a>
+      </div>
+      <label class="track"><input type="checkbox" data-k="redhu"> Contacted</label>
+    </article>
+
+    <article class="p feat">
+      <div class="p-top"><div><h3 class="p-name">Anan Amri</h3></div></div>
+      <p class="p-why">Visual artist based in Shah Alam, shooting since 2007. Positioned around capturing the soul of a moment rather than covering an event.</p>
+      <div class="p-links">
+        <a class="ig" href="https://www.instagram.com/ananamri/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>@ananamri</a>
+        <a class="web" href="https://ananamri.com" target="_blank" rel="noopener noreferrer">ananamri.com</a>
+      </div>
+      <label class="track"><input type="checkbox" data-k="anan"> Contacted</label>
+    </article>
+
+  </div>
+</section>
+
+<section>
+  <div class="tier"><h2>Established Malay-wedding studios</h2><span class="count">Tier 2 · 8 studios</span></div>
+  <p class="lede">From SAYS' <em>10 Jurugambar 'Malay Wedding' Dengan Sentuhan Artistik Terbaik</em> — a Malay-wedding-specific round-up rather than a general Malaysian one. That distinction matters: most "best of Malaysia" lists skew Chinese and Indian.</p>
+  <div class="grid">
+
+    <article class="p">
+      <h3 class="p-name">Mukhrizudey</h3>
+      <p class="p-why">Two-person partnership in Ampang, Kuala Lumpur, working together since 2009.</p>
+      <div class="p-links">
+        <a class="ig" href="https://www.instagram.com/mukhrizudey/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>@mukhrizudey</a>
+        <a class="web" href="https://mukhrizudey.com" target="_blank" rel="noopener noreferrer">mukhrizudey.com</a>
+      </div>
+      <label class="track"><input type="checkbox" data-k="mukhriz"> Contacted</label>
+    </article>
+
+    <article class="p">
+      <h3 class="p-name">Avicenna Studio</h3>
+      <p class="p-why">Started solo in 2005 and grown into a full team. Weddings, corporate and private events.</p>
+      <div class="p-links">
+        <a class="ig" href="https://www.instagram.com/avicennastudio/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>@avicennastudio</a>
+        <a class="web" href="https://www.avicennastudio.com" target="_blank" rel="noopener noreferrer">avicennastudio.com</a>
+      </div>
+      <label class="track"><input type="checkbox" data-k="avicenna"> Contacted</label>
+    </article>
+
+    <article class="p">
+      <h3 class="p-name">Ministry Of Moment</h3>
+      <p class="p-why">Young KL team combining formal portraiture with a photojournalistic approach.</p>
+      <div class="p-links">
+        <a class="ig" href="https://www.instagram.com/ministryofmoment/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>@ministryofmoment</a>
+        <a class="web" href="https://booking.ministryofmoment.com" target="_blank" rel="noopener noreferrer">booking.ministryofmoment.com</a>
+      </div>
+      <label class="track"><input type="checkbox" data-k="ministry"> Contacted</label>
+    </article>
+
+    <article class="p">
+      <h3 class="p-name">Mangotouch</h3>
+      <p class="p-why">Blends artistic technique with documentary-style wedding coverage.</p>
+      <div class="p-links">
+        <a class="ig" href="https://www.instagram.com/mangotouch/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>@mangotouch</a>
+        <a class="web" href="https://www.mangotouch.com" target="_blank" rel="noopener noreferrer">mangotouch.com</a>
+      </div>
+      <label class="track"><input type="checkbox" data-k="mango"> Contacted</label>
+    </article>
+
+    <article class="p">
+      <h3 class="p-name">Anna-Rina Photography</h3>
+      <p class="p-why">Sabah-origin, based in Petaling Jaya, full-time since 2007.</p>
+      <div class="p-links">
+        <a class="ig" href="https://www.instagram.com/annarinaphoto/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>@annarinaphoto</a>
+        <a class="web" href="https://www.anna-rina.com" target="_blank" rel="noopener noreferrer">anna-rina.com</a>
+      </div>
+      <label class="track"><input type="checkbox" data-k="annarina"> Contacted</label>
+    </article>
+
+    <article class="p">
+      <h3 class="p-name">Lensa Arshad</h3>
+      <p class="p-why">Emphasis on meaningful moments through artistic interpretation.</p>
+      <div class="p-links">
+        <a class="ig" href="https://www.instagram.com/lensaarshad.photographer/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>@lensaarshad.photographer</a>
+        <a class="web" href="https://lensaarshad.500px.com" target="_blank" rel="noopener noreferrer">lensaarshad.500px.com</a>
+      </div>
+      <label class="track"><input type="checkbox" data-k="lensa"> Contacted</label>
+    </article>
+
+    <article class="p">
+      <h3 class="p-name">Prettypeektures</h3>
+      <p class="p-why">Professional wedding photography based in Subang Jaya, Selangor.</p>
+      <div class="p-links">
+        <a class="ig" href="https://www.instagram.com/prettypeektures/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>@prettypeektures</a>
+      </div>
+      <label class="track"><input type="checkbox" data-k="pretty"> Contacted</label>
+    </article>
+
+    <article class="p">
+      <h3 class="p-name">Detik Indah Photography</h3>
+      <p class="p-why">Penang-based — useful for northern regional spread beyond the Klang Valley.</p>
+      <div class="p-links">
+        <a class="ig" href="https://www.instagram.com/detikindahphoto/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>@detikindahphoto</a>
+        <a class="web" href="https://www.detikindah.com" target="_blank" rel="noopener noreferrer">detikindah.com</a>
+      </div>
+      <label class="track"><input type="checkbox" data-k="detik"> Contacted</label>
+    </article>
+
+  </div>
+</section>
+
+<section class="prose">
+  <h2>The warmest opening</h2>
+  <p>The Wedding Notebook already carries photographers as vendors and has published its own <em>15 Best Wedding Photographers in Malaysia 2026</em>. Those are warm relationships rather than cold approaches, and the same person owns both properties — which makes the conversation easy.</p>
+  <p><strong>It does not make the licence transferable.</strong> A vendor relationship with TWN grants TWN nothing that carries across; anything used on HelloKahwin still needs a yes that names HelloKahwin. Same ask, much warmer opening.</p>
+  <p style="color:var(--muted);font-size:14px">The TWN article returned HTTP 403 to an automated fetch, so its fifteen names aren't reproduced here — they're readable from your own site or CMS.</p>
+</section>
+
+<section>
+  <h2>What happens on our side</h2>
+  <p class="lede">Nothing needs building. The pipeline exists and has simply never been used at class V.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Step</th><th>What it means</th></tr></thead>
+    <tbody>
+      <tr><td><b>Register the grant</b></td><td><code>license_class: V</code>, <code>licensor_name</code>, <code>bukti_lesen</code> (the reply itself), <code>skop_lesen</code>, <code>tarikh_geran</code>, plus the agreed <code>credit</code> and <code>credit_url</code>.</td></tr>
+      <tr><td><b>Ingest as normal</b></td><td>Every image already renders a visible credit line — that shipped in Sprint 01 and is verified across 145 live images.</td></tr>
+      <tr><td><b>Selection is separate</b></td><td>CONT-09 decides <em>which</em> frame becomes a cover. This list only changes the pool it's chosen from.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<footer>
+  <p><strong>Accuracy caveat, stated plainly.</strong> Every name and handle here is transcribed from the sources below, not verified account by account. These are real businesses and real people — check a handle resolves before sending, and treat a wrong one as a transcription error on our side rather than a dead studio.</p>
+  <p style="margin-top:14px"><strong>Sources</strong></p>
+  <ul>
+    <li>SAYS — <a href="https://says.com/my/seismik/wedding-photographers-jurugambar-perkahwinan" target="_blank" rel="noopener noreferrer">10 Jurugambar 'Malay Wedding' Dengan Sentuhan Artistik Terbaik</a></li>
+    <li>The Wedding Notebook — <a href="https://theweddingnotebook.com/inspire/ideas-and-advice/15-best-wedding-photographers-in-malaysia-2026" target="_blank" rel="noopener noreferrer">15 Best Wedding Photographers in Malaysia 2026</a></li>
+    <li>Fujifilm X — <a href="https://www.facebook.com/x.fujifilm/posts/1106959601464403/" target="_blank" rel="noopener noreferrer">Azizul Azman, X-Photographer</a></li>
+    <li>Recommend.my — <a href="https://www.recommend.my/professionals/wedding-photographer" target="_blank" rel="noopener noreferrer">The 10 Best Wedding Photographers in Malaysia</a></li>
+  </ul>
+  <p style="margin-top:14px">Contact ticks are saved in this browser only — they never leave your device and aren't visible to anyone else.</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var K='hk-photographer-outreach-v1', state={};
+  try{ state = JSON.parse(localStorage.getItem(K)||'{}') || {}; }catch(e){ state={}; }
+  document.querySelectorAll('.track input').forEach(function(box){
+    var k=box.dataset.k, label=box.closest('.track');
+    if(state[k]){ box.checked=true; label.classList.add('done'); }
+    box.addEventListener('change',function(){
+      label.classList.toggle('done', box.checked);
+      state[k]=box.checked;
+      try{ localStorage.setItem(K, JSON.stringify(state)); }catch(e){}
+    });
+  });
+  var btn=document.getElementById('cp');
+  if(btn){ btn.addEventListener('click',function(){
+    var t=document.getElementById('msg').innerText;
+    function done(){ btn.textContent='Copied'; setTimeout(function(){btn.textContent='Copy';},1600); }
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(t).then(done,function(){done();});
+    } else {
+      var ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta);
+      ta.select(); try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); done();
+    }
+  }); }
+})();
+</script>
