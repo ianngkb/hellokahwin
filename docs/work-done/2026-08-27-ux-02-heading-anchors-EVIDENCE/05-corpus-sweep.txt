@@ -1,0 +1,52 @@
+UX-02 corpus sweep - local production build, every published article page
+
+article                                             h2/h3  ids  toc  list  place
+fotografi-videografi/lokasi-pre-wedding-photoshoot     21   21   21    20      0
+glamor-eksklusif/amankila-bali                          0    0    0     0      0
+glamor-eksklusif/grand-hyatt-kuala-lumpur               0    0    0     0      0
+hantaran-mas-kahwin/gubahan-dulang-hantaran-2026        2    2    0     0      0
+hantaran-mas-kahwin/hantaran-kahwin                    24   24   24     0      0
+hantaran-mas-kahwin/hantaran-tunang                     5    5    5     0      0
+hantaran-mas-kahwin/mas-kahwin-ikut-negeri             19   19   19     0      0
+hiasan-dekorasi/goodies-kahwin                          3    3    0     0      0
+idea-dan-nasihat/cara-buat-kad-kahwin-digital           9    9    9     0      0
+idea-dan-nasihat/dewan-kahwin                          11   11   11    10     10
+idea-dan-nasihat/garden-wedding                        21   21   21    20      0
+idea-dan-nasihat/hadiah-untuk-pengantin                18   18   18    17      0
+idea-dan-nasihat/kursus-kahwin                          9    9    9     0      0
+idea-dan-nasihat/majlis-kahwin                         11   11   11    10      0
+idea-dan-nasihat/pelamin-kahwin-dewan                  11   11   11    10      0
+idea-dan-nasihat/sewa-dewan-kahwin                     13   13   13    12      0
+idea-dan-nasihat/tempat-honeymoon-di-malaysia          21   21    0     0      0
+idea-dan-nasihat/wedding-planner-terbaik-di-malays     16   16   16     0      0
+minimalis-mewah/the-danna-langkawi                      0    0    0     0      0
+moden-kontemporari/jw-marriott-kuala-lumpur             0    0    0     0      0
+moden-kontemporari/marriott-putrajaya                   0    0    0     0      0
+moden-kontemporari/sime-darby-convention-centre         0    0    0     0      0
+pantai-santai/perkahwinan-indah-di-laman-fajar-men      0    0    0     0      0
+real-wedding/cheong-fatt-tze-mansion                    0    0    0     0      0
+real-wedding/perkahwinan-taman-kebun-yang-minimali      0    0    0     0      0
+real-wedding/sentosa-janda-baik                         0    0    0     0      0
+real-wedding/villa-warisan                              0    0    0     0      0
+real-wedding/yasaka-shrine                              0    0    0     0      0
+
+pages                       : 28
+body h2/h3 total            : 214
+body h2/h3 carrying an id   : 214
+pages with a TOC            : 13  (threshold: >=4 h2s)
+pages emitting ItemList     : 7  (threshold: >=4 numbered h2s)
+Place claims, whole corpus  : 10
+
+INVARIANT VIOLATIONS: NONE
+
+every Place claimed anywhere on the site:
+  Putrajaya        | Dewan Seri Siantan, Putrajaya
+  Taman Keramat    | Dewan Komuniti AU2 Taman Keramat
+  Petaling Jaya    | Dewan Sivik MBPJ, Petaling Jaya
+  Shah Alam        | Dewan Kenanga MBSA, Shah Alam
+  Keramat          | Dewan Perdana Keramat
+  Setiawangsa      | Pusat Komuniti Setiawangsa
+  Bukit Jalil      | Pusat Komuniti PPR Pinggiran Bukit Jalil
+  Subang           | Dewan Warisan Kampung Melayu Subang
+  Gombak           | Dewan Seri Melati, Gombak
+  Shah Alam        | Dewan MBSA Seksyen 7, Shah Alam

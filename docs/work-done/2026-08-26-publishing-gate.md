@@ -587,3 +587,49 @@ time-based ISR caused bot-crawl stampedes. Reading the manifest of a real build
 rather than reasoning about it showed article pages get no expiry, because they
 are `revalidate = false`. Had they been `revalidate = 1800`, an hour-long
 `expireTime` would have re-armed exactly the failure that comment warns about.
+
+---
+
+# Amendment, 27 Aug 2026 — the gate is blind to anything you can only see
+
+Added by UX-02 (`2026-08-27-ux-02-heading-anchors.md`), whose retrospective names
+this document as the one that had to change.
+
+Every check this gate names is a check on text: the build compiles, the types
+resolve, the tests assert, the header reads what it should, the JSON-LD
+validates. UX-02 passed all of them — `npm test` 334/334, `typecheck` clean,
+`build` clean, schema validator 0 errors 0 warnings — **while carrying two real
+defects that a reader would have hit on the first tap.**
+
+1. Following an in-page anchor parked the target heading **behind** the 102px
+   sticky header. The HTML was correct. The id was correct. The link worked.
+   `scroll-margin-top` was 22px too small and the heading was clipped.
+2. The new table of contents inherited `.inspire-prose`'s rules and rendered as
+   body copy — Georgia 17px, bold, underlined, with the browser's own `<ol>`
+   markers doubling the numbering already in every heading and clipping "10."
+   and "11." into the gutter. Every assertion about that markup passed.
+
+A 390px screenshot found both in seconds. Nothing else would have.
+
+**So the gate gains one clause:**
+
+> **An item that changes a rendered surface ships a capture of that surface at
+> 390px as part of its evidence, and the agent looks at it.** Not a probe that
+> reports coordinates — the image. A probe returning `count: 11` and
+> `topPx: 120` was correct and said nothing about either defect.
+
+`docs/work-done/2026-08-27-ux-02-heading-anchors-EVIDENCE/shot.mjs` and
+`toc-shot.mjs` are the rig: `playwright-core` driving the installed Chrome at
+390×844, DPR 2, iPhone UA. `shot.mjs` also **taps the link a reader would tap**
+rather than setting `location.hash`, because those are not the same test — the
+first one is the one that found the clipped heading.
+
+Two operational notes that cost time and belong here:
+
+- **Kill the port before every measurement.** A `next start` from before a
+  rebuild reported `scroll-margin-top: 0px` and looked exactly like a broken
+  feature. A stale server is indistinguishable from a real defect.
+- **When CSS does not apply, ask the browser which rule won** — CDP
+  `CSS.getMatchedStylesForNode` — instead of guessing at specificity. In this
+  repo the answer is often `.hk-public .inspire-prose …`, which ties on
+  specificity with anything you write and wins on source order.
