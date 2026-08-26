@@ -26,6 +26,8 @@ import {
   extractTextContent,
 } from '@/components/inspire/article-renderer';
 import { ArticleCard } from '@/components/inspire/article-card';
+import { extractHeadings } from '@/lib/inspire/heading-anchors';
+import { buildItemListJsonLd } from '@/lib/inspire/listicle-schema';
 import type { GalleryImage } from '@/components/inspire/article-renderer';
 import { ArticleSidebar } from '@/components/inspire/article-sidebar';
 import { ARTICLE_PAGE_CACHE_KEY, ARTICLE_PAGE_CACHE_TAGS } from '@/lib/inspire/article-cache';
@@ -812,6 +814,18 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
     ...(article.categoryName ? { articleSection: article.categoryName } : {}),
   };
 
+  // ItemList for listicle-shaped articles. Derived from the article's own
+  // numbered `<h2>`s and the anchors the renderer gives them — the SAME
+  // `extractHeadings` call the renderer makes, so every `url` in the list
+  // resolves to a heading that exists on the page. `null` for anything that is
+  // not a list. See `lib/inspire/listicle-schema.ts` for why a list entry only
+  // becomes a `Place` when the heading names both a venue and a locality.
+  const itemListJsonLd = buildItemListJsonLd({
+    title: article.title,
+    canonicalUrl,
+    headings: extractHeadings(article.content),
+  });
+
   return (
     <>
       {/* NO `data-hide-mobile-nav` HERE. It was on this div until UX-01
@@ -829,6 +843,14 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
             __html: JSON.stringify(articleJsonLd).replace(/</g, '\\u003c'),
           }}
         />
+        {itemListJsonLd && (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(itemListJsonLd).replace(/</g, '\\u003c'),
+            }}
+          />
+        )}
         <BreadcrumbJsonLd items={breadcrumbItems} />
         <div className="hidden lg:block">
           <Breadcrumbs items={breadcrumbItems} />

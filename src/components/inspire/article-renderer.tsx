@@ -17,6 +17,12 @@ import { getArticleVariantUrl } from '@/lib/storage/article-image-variant';
 // Duplicating a security check is how one copy quietly stops matching the
 // other, so there is exactly one.
 import { safeHref } from '@/lib/utils/safe-href';
+import {
+  extractHeadings,
+  createHeadingIdAssigner,
+  injectHeadingIds,
+} from '@/lib/inspire/heading-anchors';
+import { ArticleToc } from './article-toc';
 
 function ExternalLinkIcon() {
   return (
@@ -847,13 +853,32 @@ export function ArticleRenderer({
   // Split content into segments: regular nodes and gallery blocks
   const contentParts = splitContentByGalleryBlocks(content);
 
+  // Anchors, and the contents list built from them. `extractHeadings` walks
+  // the Tiptap JSON; `assignId` walks the rendered HTML further down. Both go
+  // in document order through the same id contract, which is what makes every
+  // `href="#…"` in the TOC resolve — see `lib/inspire/heading-anchors.ts`.
+  const headings = extractHeadings(content);
+  const toc = <ArticleToc headings={headings} />;
+
   // If no gallery/figure blocks exist, fall back to the original single-pass approach.
   // Build a clean doc from the unwrapped nodes (sections removed) so generateHTML works.
   if (contentParts.length === 0 || contentParts.every((p) => p.type === 'nodes')) {
     const allNodes = contentParts.flatMap((p) => (p.type === 'nodes' ? p.nodes : []));
     const cleanContent = allNodes.length > 0 ? { type: 'doc', content: allNodes } : content;
-    return renderOriginal(cleanContent, articleId, savedImageUrls, vendorCredits, inlineBanner);
+    return renderOriginal(
+      cleanContent,
+      articleId,
+      savedImageUrls,
+      vendorCredits,
+      inlineBanner,
+      toc,
+    );
   }
+
+  // ONE assigner for the whole article: the renderer sanitises each content
+  // chunk separately, and a fresh assigner per chunk would restart the
+  // de-duplication counter partway down the page.
+  const assignId = createHeadingIdAssigner();
 
   // Render each segment
   const allElements: React.ReactNode[] = [];
@@ -1013,7 +1038,10 @@ export function ArticleRenderer({
           subDoc as Parameters<typeof generateHTML>[0],
           extensions as Parameters<typeof generateHTML>[1],
         );
-        const html = wrapTablesForScroll(sanitizeHtml(raw, sanitizeOptions));
+        const html = injectHeadingIds(
+          wrapTablesForScroll(sanitizeHtml(raw, sanitizeOptions)),
+          assignId,
+        );
         const htmlElements = renderHtmlParts(
           html,
           articleId,
@@ -1049,7 +1077,10 @@ export function ArticleRenderer({
     // installed and deliberately stays uninstalled. What they claimed to do is
     // already done by hand in globals.css - heading tracking, paragraph
     // leading and `img { border-radius }` all live under `.inspire-prose`.
-    <div className="inspire-prose max-w-none">{allElements}</div>
+    <div className="inspire-prose max-w-none">
+      {toc}
+      {allElements}
+    </div>
   );
 }
 
@@ -1139,17 +1170,30 @@ function renderOriginal(
   savedImageUrls?: string[],
   vendorCredits?: { listingId: string | null; vendorName: string }[],
   inlineBanner?: React.ReactNode,
+  toc?: React.ReactNode,
 ): React.ReactNode {
   // Same as the wrapper above: the `prose*` classes here matched nothing.
   const wrapperClassName = 'inspire-prose max-w-none';
 
-  const renderHalf = (nodes: unknown[], keyPrefix: string): React.ReactNode[] => {
+  // One assigner per ATTEMPT, shared across that attempt's halves: the banner
+  // path sanitises the article in two passes, and restarting the counter at
+  // the midpoint would let a heading in the second half reuse an id from the
+  // first. The retry below starts a fresh assigner for the same reason in
+  // reverse — reusing the failed attempt's would suffix every id with `-2`.
+  const renderHalf = (
+    nodes: unknown[],
+    keyPrefix: string,
+    assignId: (text: string) => string,
+  ): React.ReactNode[] => {
     const subDoc = { type: 'doc', content: nodes };
     const raw = generateHTML(
       subDoc as Parameters<typeof generateHTML>[0],
       extensions as Parameters<typeof generateHTML>[1],
     );
-    const html = wrapTablesForScroll(sanitizeHtml(raw, sanitizeOptions));
+    const html = injectHeadingIds(
+      wrapTablesForScroll(sanitizeHtml(raw, sanitizeOptions)),
+      assignId,
+    );
     return renderHtmlParts(html, articleId, savedImageUrls, vendorCredits, keyPrefix);
   };
 
@@ -1166,21 +1210,28 @@ function renderOriginal(
   if (!inlineBanner || nodes.length < 4) {
     let elements: React.ReactNode[];
     try {
-      elements = renderHalf(nodes, 'all');
+      elements = renderHalf(nodes, 'all', createHeadingIdAssigner());
     } catch {
       return <p className="text-muted-foreground">Unable to render content.</p>;
     }
-    return <div className={wrapperClassName}>{elements}</div>;
+    return (
+      <div className={wrapperClassName}>
+        {toc}
+        {elements}
+      </div>
+    );
   }
 
   // Banner path: split between top-level nodes so structured blocks
   // (`table`, `bulletList`, `orderedList`, `blockquote`, …) stay intact.
   const mid = Math.floor(nodes.length / 2);
   try {
-    const firstHalf = renderHalf(nodes.slice(0, mid), 'a');
-    const secondHalf = renderHalf(nodes.slice(mid), 'b');
+    const assignId = createHeadingIdAssigner();
+    const firstHalf = renderHalf(nodes.slice(0, mid), 'a', assignId);
+    const secondHalf = renderHalf(nodes.slice(mid), 'b', assignId);
     return (
       <div className={wrapperClassName}>
+        {toc}
         {firstHalf}
         <div key="inline-ad">{inlineBanner}</div>
         {secondHalf}
@@ -1190,8 +1241,13 @@ function renderOriginal(
     // If either half fails to render, fall back to a single-pass render of
     // the whole doc (no banner) before giving up entirely.
     try {
-      const all = renderHalf(nodes, 'all');
-      return <div className={wrapperClassName}>{all}</div>;
+      const all = renderHalf(nodes, 'all', createHeadingIdAssigner());
+      return (
+        <div className={wrapperClassName}>
+          {toc}
+          {all}
+        </div>
+      );
     } catch {
       return <p className="text-muted-foreground">Unable to render content.</p>;
     }
