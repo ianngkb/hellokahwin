@@ -382,8 +382,12 @@ under either extraction.
    resolves from its own location and prints the root it checked.
    **Edited, in commit `b1f1fcd`.**
 3. `skillcentral/agents/projects/hellokahwin/Editorial/writer-inspirasi-vendor-venue.md`
-   (buddy repo), owned by the editorial track — add the check-live-siblings-before-drafting
-   rule from the near-miss below. **Edited.**
+   (buddy repo), owned by the editorial track — the check-live-siblings-before-drafting
+   rule from the near-miss below, and, added after the parent-topic finding, the
+   two rules that would actually have prevented it: a claim only a tool can
+   verify must be written into the process as a tool call, and do not reason
+   from one confirmed fault to a set. **Edited** (buddy `abd3fb4` and the
+   follow-up).
 4. `full-stack-engineer` owns the `FAQPage` gap. It is named here rather than
    fixed, because the article route carries unmerged commits on another branch
    and is not this seat's to touch.
