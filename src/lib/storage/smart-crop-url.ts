@@ -32,8 +32,25 @@ export function getSmartCropUrl(crops: unknown, targetName: string): string | nu
  * then 16:9 (1.78), against a target of 1.5. The 4:5 crop stays last as a
  * fallback for older articles that have nothing else.
  *
- * There is no true 3:2 crop in the pipeline yet. When one is added, put it at
- * the head of this list and both callers pick it up together.
+ * IT IS ALSO A LARGE BANDWIDTH WIN, which is why the order matters more than a
+ * crop preference normally would. `next.config.ts` sets
+ * `images: { unoptimized: true }` — there is no request-time resizing, so the raw
+ * file IS what the phone downloads. Measured on a production cover asset:
+ *
+ *   crop-4x5-mobile-cover   1920x2400   1209 KB   <- what mobile used to fetch
+ *   crop-4x3-article-card   1600x1200    667 KB   <- what it fetches now
+ *   crop-16x9-og            1200x630     254 KB
+ *
+ * for a plate that occupies 780x520 device px at DPR2. Preferring the landscape
+ * crop takes 542 KB off the LCP image on the surface that receives essentially
+ * all of this site's search traffic, on phones. 16:9 is lighter still, but it
+ * costs a 21% horizontal crop (vs 11% vertical for 4:3) and drops to 948px of
+ * usable width, which upscales on a DPR3 phone.
+ *
+ * There is no true 3:2 crop in the pipeline yet, and every existing target is
+ * far larger than 780x520 — a 3:2 target at ~1170px wide would land near 150 KB
+ * and beat all of these. When one is added, put it at the head of this list and
+ * both callers pick it up together.
  */
 export function getMobileCoverUrl(crops: unknown, fallbackUrl: string): string {
   return (

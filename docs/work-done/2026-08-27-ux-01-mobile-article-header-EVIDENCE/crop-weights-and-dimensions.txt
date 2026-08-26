@@ -1,8 +1,41 @@
-Cover crop inventory for /artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri
-Fetched from images.hellokahwin.com; dimensions parsed from the WebP container header.
-Mobile plate renders 390x260 CSS px = 780x520 device px at DPR2.
+Cover crop inventory — /artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri
+Dimensions parsed from the WebP container header; bytes are Content-Length.
 
-crop-16x9-og              564x296    ratio=1.905     59848 bytes
-crop-4.3x1-desktop-hero   564x160    ratio=3.525     33336 bytes
-crop-4x3-article-card     564x423    ratio=1.333     90910 bytes
-crop-4x5-mobile-cover     338x423    ratio=0.799     60150 bytes
+next.config.ts sets `images: { unoptimized: true }`, so there is NO request-time
+resizing. The raw file below is exactly what the phone downloads.
+The mobile plate renders 390x260 CSS px = 780x520 device px at DPR2.
+
+=== A. PRODUCTION asset (authoritative) ===
+Cover dir: 1787655861515-images-s-pengantin-merah-jambu-pelamin-mohd-hasan
+This is the cover CONT-09 re-selected. These are the real numbers.
+
+  crop-16x9-og              1200x630    ratio=1.905      254 KB
+  crop-4.3x1-desktop-hero   2463x700    ratio=3.519      517 KB
+  crop-4x3-article-card     1600x1200   ratio=1.333      667 KB
+  crop-4x5-mobile-cover     1920x2400   ratio=0.800     1209 KB
+
+  Mobile cover TODAY  : crop-4x5-mobile-cover   1209 KB
+  Mobile cover AFTER  : crop-4x3-article-card    667 KB   -> 45% lighter, -542 KB
+
+=== B. STALE LOCAL asset (kept only to show why it misled) ===
+Cover dir: 1787396544686-cover
+The local dev database still points at the PRE-CONT-09 cover, whose crops were
+generated from a small source (<=564px). Measuring the trade-off here first gave
+the WRONG answer -- it looked like the change ADDED 31 KB, when against the real
+production asset it REMOVES 542 KB. Recorded deliberately.
+
+  crop-16x9-og              564x296     ratio=1.905       58 KB
+  crop-4.3x1-desktop-hero   564x160     ratio=3.525       33 KB
+  crop-4x3-article-card     564x423     ratio=1.333       89 KB
+  crop-4x5-mobile-cover     338x423     ratio=0.799       59 KB
+
+=== C. Declared crop targets (src/lib/storage/smart-crop.ts) ===
+  crop-4x5-mobile-cover     4:5      1920x2400
+  crop-4.3x1-desktop-hero   3.52:1   2464x700
+  crop-4x3-article-card     4:3      1600x1200
+  crop-16x9-og              1.9:1    1200x630
+
+None is anywhere near the 780x520 the mobile plate actually needs. With
+`unoptimized: true` that excess is paid in full by the reader, on every article
+view, on a phone. THE REAL FIX is a 3:2 target at ~1170px wide (~150 KB), which
+would beat every option above on both sharpness and bytes.

@@ -273,40 +273,67 @@ racing. **This is the open half of UX-01.**
 
 ---
 
-## The cover crop had to change with the plate, and it has a cost
+## The cover crop had to change with the plate, and it makes mobile 542KB lighter
 
 The plate went from 4:5 to 3:2, which makes `crop-4x5-mobile-cover` the wrong
 source: it is a PORTRAIT crop an editor framed to be 487px tall, and a 3:2 window
 keeps only the middle ~53% of that framing. The composition they chose is the
 part that gets thrown away.
 
-Measured inventory (`crop-weights-and-dimensions.txt`) — the plate renders
-390x260 CSS px = **780x520 device px at DPR2**:
-
-```
-crop-16x9-og              564x296    ratio=1.905     59848 bytes
-crop-4.3x1-desktop-hero   564x160    ratio=3.525     33336 bytes
-crop-4x3-article-card     564x423    ratio=1.333     90910 bytes
-crop-4x5-mobile-cover     338x423    ratio=0.799     60150 bytes
-```
-
 Preference is now `4x3 -> 16x9 -> 4x5 -> original`, via one shared helper
 (`getMobileCoverUrl`). The sweep shows it resolving to `crop-4x3-article-card` on
 29 of 30 articles and falling through to the original on the one with no smart
 crops.
 
-**The honest trade-off, stated rather than buried:**
+**This matters more than a crop usually would, because `next.config.ts` sets
+`images: { unoptimized: true }`.** There is no request-time resizing: the raw file
+is exactly what the phone downloads.
 
-- 4:3 loses 11% vertically in the 3:2 window; 16:9 would lose 21% horizontally.
-- 4:3 uses its full 564px of width against a 780px plate — a 1.38x upscale.
-  The old 4:5 crop was **338px wide**, a **2.31x upscale**. The hero was blurry
-  before, on the highest-traffic surface on the site.
-- **Cost: 90,910 bytes vs 60,150 — +31KB, +51%, on the LCP image**, for an
-  audience the brief describes as mostly low-end Android.
+Measured against the **production** cover asset — the one CONT-09 re-selected —
+for a plate that renders 390x260 CSS px = **780x520 device px at DPR2**:
 
-I judged sharpness worth 31KB given the previous image was a 2.3x upscale, but
-**the real fix is neither**: a purpose-built 3:2 crop at >=780px would be both
-sharper and lighter than 90KB. Flagged below.
+```
+crop-16x9-og              1200x630    ratio=1.905      254 KB
+crop-4.3x1-desktop-hero   2463x700    ratio=3.519      517 KB
+crop-4x3-article-card     1600x1200   ratio=1.333      667 KB
+crop-4x5-mobile-cover     1920x2400   ratio=0.800     1209 KB
+```
+
+**Mobile readers download a 1,209 KB LCP image today. After this change: 667 KB.
+A 45% reduction, 542 KB saved, on every article view on a phone.**
+
+Why 4:3 and not the even lighter 16:9 (254 KB):
+
+- 4:3 loses 11% vertically in the 3:2 window; 16:9 loses 21% horizontally.
+  Framing fidelity is what a crop is *for*, and CONT-09 re-selected these covers
+  for their framing days ago.
+- 4:3 keeps its full 1600px of width, so it still downscales on a DPR3 flagship.
+  16:9 after its 21% horizontal crop is 948px, which upscales on a 430px-wide
+  phone at DPR3.
+- Both downscale cleanly at DPR2, so sharpness does not separate them; framing and
+  headroom do.
+
+**The remaining excess is the real bug, and neither option fixes it.** 667 KB for
+a 780x520 slot is still absurd. A purpose-built 3:2 target at ~1170px wide would
+land near 150 KB and beat every option above on both axes. Flagged below.
+
+### CORRECTION — I got this backwards the first time
+
+An earlier draft of this note claimed the crop change **cost** +31 KB (+51%). That
+was wrong, and it was wrong in the direction that matters.
+
+The local dev database still points at the **pre-CONT-09 cover**
+(`1787396544686-cover`), whose crops were generated from a small source and top out
+at 564px / 89 KB. Measured there, 4:3 looked like a 31 KB tax. Measured against
+the asset production actually serves
+(`1787655861515-images-s-pengantin-merah-jambu-pelamin-mohd-hasan`), it is a
+542 KB saving. Both measurements are preserved in
+`crop-weights-and-dimensions.txt`, sections A and B, precisely so the trap is
+visible rather than tidied away.
+
+**The lesson, which is the transferable part: a local database is not a staging
+copy of production.** This one was days stale on exactly the column the decision
+turned on.
 
 **A drift trap I closed on the way.** The route emits an LCP `ReactDOM.preload`
 hint for the mobile cover. Changing the crop in the component alone would have
@@ -407,16 +434,23 @@ pre-existing and unrelated.
    body opens with a 239px inline image. Owner: whoever holds `pillar-body.tsx` /
    `article-renderer` (UX-03), or Content for an editorial rule. **UX-01 stays
    open on this.**
-2. **No true 3:2 cover crop exists.** Add one at >=780px wide to the crop
-   pipeline and put it at the head of `getMobileCoverUrl`; both callers pick it
-   up together. It would be sharper *and* lighter than today's 90KB 4:3.
-   Owner: whoever owns CONT-09's cover standard + the smart-crop generator.
+2. **No 3:2 cover crop exists, and every crop is far too heavy for a phone.**
+   `next.config.ts` sets `images: { unoptimized: true }`, so the raw file is what
+   the reader downloads. The mobile plate needs 780x520 device px; the declared
+   targets in `src/lib/storage/smart-crop.ts` are 1200x630 to 2464x700. This
+   change cuts the mobile cover from 1209 KB to 667 KB, but 667 KB for a 780x520
+   slot is still indefensible. Add a `crop-3x2-mobile-cover` target at ~1170x780
+   (~150 KB) and put it at the head of `getMobileCoverUrl` — both callers pick it
+   up together. Owner: whoever owns CONT-09's cover standard + the smart-crop
+   generator (`src/lib/storage/smart-crop.ts`, `CROP_TARGETS`).
 3. **Phones download the desktop hero they never see.** At 390px Chrome fetches
-   `crop-4.3x1-desktop-hero.webp` (33,336 bytes) because the desktop hero `<img>`
-   sits inside `hidden lg:block` with `priority`, and `display:none` does not stop
-   an eager fetch. Both `ReactDOM.preload` hints are correctly media-gated — this
-   is the Image component's own preload. **Pre-existing, untouched by UX-01.**
-   Owner: article route performance.
+   `crop-4.3x1-desktop-hero.webp` because the desktop hero `<img>` sits inside
+   `hidden lg:block` with `priority`, and `display:none` does not stop an eager
+   fetch. Both `ReactDOM.preload` hints are correctly media-gated — this is the
+   Image component's own preload. **On the production asset that file is 517 KB**,
+   so a phone pays it on every article view for an image it never displays.
+   Fixing this is worth roughly as much as the crop change. **Pre-existing,
+   untouched by UX-01.** Owner: article route performance.
 4. **The nav accordion overflows horizontally.** Now that tapping a category
    actually opens it, its pill row sits inside the rail's `overflow-x-auto`
    wrapper and extends past the viewport (reachable by the same swipe, but
@@ -471,6 +505,15 @@ DPR2 touch viewport produced *better* evidence than an interactive session would
 have — repeatable, scriptable, and it made the 30-article sweep possible, which is
 the only reason the two fold misses were found rather than assumed away.
 
+**The local database is not a small production. It is a different database.** It
+was days stale on the exact column my crop decision turned on, and measuring
+there gave me an answer that was not merely imprecise but *inverted* — a 31 KB
+cost where the truth was a 542 KB saving. Nothing about the local numbers looked
+suspicious; they were internally consistent and plausible. **Any claim about bytes,
+images, or content shape has to be measured against the asset production actually
+serves**, and the reason to go and check was simply that the numbers came from a
+box whose freshness I had never established.
+
 ### Which document must change, and who owns the edit
 
 **`src/app/globals.css`** — the `data-hide-mobile-nav` block. **Owner: me, Sally.
@@ -490,12 +533,21 @@ again, and it will be just as invisible as it was the first time.
 change.** `getMobileCoverUrl` exists to stop two callers drifting, and the docblock
 says so, names both callers, and states what breaks if you split them.
 
-**The cover standard (CONT-09).** **Owner: Content / whoever owns CONT-09.** Two
-edits it needs and I cannot make: (1) the mobile cover plate is 3:2 now, not 4:5,
-so the standard's guidance on framing mobile covers is out of date the moment this
-ships; (2) it should require a purpose-built 3:2 crop at >=780px, because every
-existing crop is <=564px wide against a 780px device-pixel plate — **every mobile
-cover on this site is upscaled, and was upscaled 2.3x before today.**
+**`src/lib/storage/smart-crop.ts` — the `CROP_TARGETS` list.** **Owner: whoever
+owns the smart-crop generator + CONT-09's cover standard.** It needs a
+`crop-3x2-mobile-cover` target at roughly 1170x780. Every target in that list is
+sized for a desktop-era plate (1200x630 up to 2464x700) while the mobile plate
+occupies 780x520 device px, and `next.config.ts` sets
+`images: { unoptimized: true }` — so **the reader pays the entire difference, on
+every article view, on a phone.** This change takes the mobile cover from 1209 KB
+to 667 KB; the right target would take it to roughly 150 KB. The docblock on
+`getMobileCoverUrl` records the measurements and says to put a 3:2 target at the
+head of the list when it exists, so both call sites pick it up together.
+
+**The cover standard (CONT-09) itself.** **Owner: Content.** The mobile cover
+plate is 3:2 now, not 4:5, so any guidance on framing mobile covers for a tall
+portrait plate is out of date the moment this ships. I cannot make that edit — I
+do not own the document and CONT-09 shipped hours ago.
 
 ### What did we do twice
 
@@ -529,17 +581,21 @@ tapping it**, in the one test the DoD did not ask for. A DoD that says "renders
 navigation" and a page that renders navigation which does nothing is exactly the
 gap between a measurement and a user.
 
-**A silently voided LCP preload plus a duplicate 90KB download** on the site's
+**A silently voided LCP preload plus a duplicate multi-hundred-KB download** on the site's
 highest-traffic surface, for phone users, with no visual symptom. Caught by asking
 "who else builds this URL?" before finishing the crop change — and then proved,
 not assumed, by reading `currentSrc` off the rendered page against the emitted
 preload href.
 
-**A blurrier-or-heavier hero, chosen without knowing which.** I nearly took the
-4:3 crop purely on aspect ratio. Measuring the files first showed the real
-trade-off — the old crop was 338px wide against a 780px plate (2.3x upscale), and
-the new one costs +31KB — which turned a silent regression into a stated,
-reviewable decision plus a named follow-up.
+**A crop decision argued from the wrong database — and very nearly published as
+a "known cost" that was actually a large win.** I had the trade-off written up,
+justified and committed: +31 KB for a sharper hero. It was internally coherent and
+completely wrong, because the local DB still points at the pre-CONT-09 cover. What
+caught it was noticing that `CROP_TARGETS` declares 1920x2400 for a file I had
+measured at 338x423, and going to the live site to ask why. The real numbers
+reverse the sign: 1209 KB -> 667 KB, a 542 KB saving per mobile article view.
+**The near-miss was not the wrong number — it was that I had stopped measuring
+once I had a number that told a coherent story.**
 
 **Rewriting the fourth DoD check to fit 28 of 30.** The temptation was real: the
 plate is 3:2 everywhere, the body clears the fold everywhere, and the two misses
