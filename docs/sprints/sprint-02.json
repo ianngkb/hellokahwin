@@ -1,0 +1,105 @@
+{
+  "id": 2,
+  "name": "Close the publishing hole, then earn a click",
+  "state": "planned",
+  "planned_at": "2026-08-26",
+  "points": 35,
+  "note": "This file records how Sprint 02 was ORIGINALLY SCOPED. It is not the live state — the tracker in buddy is (`pnpm --silent sprint list --sprint 2`, or buddy.ian.ng/sprints). Never rewritten after close.",
+
+  "governance": {
+    "body_of_work": "A sprint ends when every item is done and the owner has reviewed them, however long that takes. No calendar window, no rolling work to hit a date.",
+    "completeness_over_budget": "The owner would rather each task be done completely than have the sprint sized to a number. Scope is not cut for tidiness.",
+    "done_means_shipped": "An item is not done until the owner can look at the result. Owner directive 26 Aug 2026. Three Sprint 01 items passed a DoD without shipping.",
+    "review_gate": "Every item presented as CLAIM + EVIDENCE + LIVE LINK. Not a summary.",
+    "dod_never_narrowed": "A definition of done is never rewritten after the sprint starts. An item that outgrows its DoD stays open, is parked with a reason, or carries forward."
+  },
+
+  "owner_decisions_this_meeting": [
+    "Scope: all 29 proposed points, plus the cluster queue and the sidebar task. 35 total.",
+    "Content: run venue pages AND cluster articles, not one or the other. This modifies the 23 Aug cluster plan, which had cluster articles alone.",
+    "Sidebar: buddy's nav must carry the latest additions (added mid-meeting as PLAT-09)."
+  ],
+
+  "the_finding_that_shaped_this_sprint": {
+    "what": "Sprint 01 published five articles that Google has never heard of.",
+    "evidence": "sirih-junjung, dulang-hantaran, gubahan-hantaran and walimatul-urus all report coverage_state 'URL is unknown to Google', last_crawled 'Never'. All four are in the live sitemap (78 URLs). Google last fetched the sitemap at 73 URLs on 2026-08-25 15:58 — before they existed.",
+    "why_it_matters": "Nothing tells Google we published. The ingest CLI purges our own caches and stops there.",
+    "the_good_news": "Sprint 01's internal-linking work DID land. Six of six formerly-uncrawled articles sampled are now 'Submitted and indexed', crawled 23–26 Aug, against a baseline of 8 of 28. Six is a sample, not a census, but against that baseline it is not noise.",
+    "the_harder_news": "Indexing was never the business problem, it was the prerequisite. dewan komuniti setiawangsa is indexed, crawled, ranks 8.8, has 34 impressions and earns ZERO clicks. We have proven we can get indexed and have not yet proven we can earn a click."
+  },
+
+  "items": [
+    {
+      "id": "RISK-04", "track": "risk", "points": 3, "state": "todo", "owner": "BMAD",
+      "title": "Publishing tells Google — resubmit the sitemap on ingest",
+      "flags": ["gate", "blocks-all-content"],
+      "why": "Every content point in this sprint is worthless until this closes. NOTE: the Indexing API is restricted to JobPosting and BroadcastEvent — using it for articles is a policy violation. The CEO proposed it in the meeting and withdrew it. The sanctioned mechanism is sitemap resubmission with accurate lastmod.",
+      "dod": "Ingest an article; the same run resubmits the sitemap through the GSC API and prints the literal API response. Verified by: GSC sitemap last_downloaded moves past the ingest timestamp, AND a URL inspection of the new article leaves 'URL is unknown to Google' within 48h — show the before and after inspection verbatim. lastmod on the new entry equals the ingest date, not the build date. Re-run ingest on an unchanged article and show the sitemap is NOT needlessly resubmitted."
+    },
+    {
+      "id": "RISK-05", "track": "risk", "points": 2, "state": "todo", "owner": "BMAD",
+      "title": "The indexing monitor — a baseline you take once is a photograph",
+      "why": "Murat, this meeting: the CEO found five dark articles by hand because it happened to run a URL inspection. SEO-01 was a one-off baseline. Nothing would have caught this, and nothing will catch the next one.",
+      "dod": "A scheduled job inspects every URL in the live sitemap, records coverage_state per URL with the date, and files a loud alarm (the RISK-01 pattern — a GitHub issue within 10s) when any URL is unknown-to-Google or uncrawled more than 72h after appearing in the sitemap. Proved by deliberately feeding it a URL known to be unknown and showing the alarm fired. Runs from the DEFAULT branch — scheduled workflows do not run from feature branches, which cost a reopen in Sprint 01."
+    },
+    {
+      "id": "SEO-04", "track": "seo", "points": 5, "state": "todo", "owner": "BMAD",
+      "title": "The venue page type — we rank page one for named halls and earn nothing",
+      "why": "dewan komuniti setiawangsa: 34 impressions, position 8.8, zero clicks. dewan keramat: position 4.5, zero clicks. People search for a NAMED HALL and we answer with a generic listicle. Flagged 24 Aug as decision 50, assigned, and nothing happened — CEO failure to follow up, recorded as such.",
+      "dod": "A venue page type exists and is live for at least the four named halls, each reachable from the venue pillar and in the sitemap. Each answers what head-of-seo-content specs, with every fact carrying its source and the date checked — no invented capacities or prices. Proof: quote the capacity and booking line from live HTML for two halls, with a negative control. Baseline recorded per query on ship day."
+    },
+    {
+      "id": "SEO-05", "track": "seo", "points": 2, "state": "todo", "owner": "head-of-seo-content",
+      "title": "Zero-CTR audit — page one, no clicks",
+      "why": "The legacy /dewan-kahwin/ takes 11 of the site's 15 weekly clicks at position 9.9, while the new path for the same content sits at 7.6 and earns nothing. We rank and do not convert, which is a different problem from indexing.",
+      "dod": "Every live URL at average position under 10 with zero clicks over 28 days listed with impressions, position, and the queries it surfaces for. Each gets a NAMED diagnosis — wrong page type, weak title, SERP feature above it, or intent mismatch — not a generic recommendation. Titles and meta rewritten and SHIPPED for the five worst, before/after quoted from live HTML."
+    },
+    {
+      "id": "PLAT-05", "track": "platform", "points": 8, "state": "todo", "owner": "BMAD",
+      "title": "Document store — all 422 documents ingested, searchable and readable in buddy",
+      "why": "Owner direction 26 Aug: an Atlassian-like place for all our documents, and make sure retros are stored. 422 markdown documents across two repos and no way to find any of them. Retros named explicitly — Sprint 01's was written to a repo root because nothing said where it belonged, and the previous spec omitted them.",
+      "spec": "_bmad-output/implementation-artifacts/spec-plat-05-document-store.md",
+      "dod": "Both repos synced. Search any phrase at buddy.ian.ng/docs and get the document with its space, path and a highlighted snippet. Sprint 01's retro findable by searching a phrase from inside it. Re-running sync reports every document unchanged and moves no updated_at. A document containing a connection string is SKIPPED and named, and every other document still stores. Proof from the response body with a negative control."
+    },
+    {
+      "id": "PLAT-06", "track": "platform", "points": 5, "state": "todo", "owner": "BMAD",
+      "title": "Spaces and the page tree — browse the document store like Confluence",
+      "why": "PLAT-05 answers 'where did we decide X'. It does not answer 'show me everything about this project'. A flat list of 422 results is a grep with a nicer font.",
+      "spec": "_bmad-output/implementation-artifacts/spec-plat-06-document-spaces.md",
+      "dod": "Every space listed with counts and last sync. A space opens to a navigable tree derived from origin paths. A document shows breadcrumbs and a 'Referenced by' list. A relative link to a synced document navigates in-app; a link to something not in the store renders as marked plain text and produces NO 404."
+    },
+    {
+      "id": "PLAT-07", "track": "platform", "points": 1, "state": "todo", "owner": "BMAD",
+      "title": "sprint retro N is write-only — make it readable",
+      "why": "Found closing Sprint 01. The CLI stores a retro and has no command to read one back; velocity cross-checks the row, proving it is there, but nothing prints it. Also: --backlog is documented in --help as a bare flag but the parser demands a value.",
+      "dod": "`sprint retro 1` with no --file prints Sprint 01's stored retro. `sprint get PLAT-05 --backlog` works as documented, without a value. Both covered by a test."
+    },
+    {
+      "id": "PLAT-08", "track": "platform", "points": 3, "state": "todo", "owner": "BMAD",
+      "title": "A working preview environment — \"show me before you ship\" has nowhere to point",
+      "why": "Carried from Sprint 01, unassigned. All 39 Vercel env vars on buddy-web target production only; hellokahwin preview builds fail on unpopulated env vars. Two projects, same failure. The owner review path agreed 26 Aug depends on a URL that can be handed over before merge, and today there is none.",
+      "dod": "Open a PR on each project and get a working preview URL that renders the changed page. Proof: quote content from the preview response body that only the changed version contains, plus a negative control. Preview-scoped env vars named in the /tokens registry with which are safe to share and which are not. If a project genuinely cannot have one, say so with the specific blocker."
+    },
+    {
+      "id": "PLAT-09", "track": "platform", "points": 2, "state": "todo", "owner": "BMAD",
+      "title": "buddy sidebar carries the latest additions",
+      "why": "Owner request, 26 Aug. /sprints shipped in Sprint 01 and reaching it means typing the URL. /docs arrives with PLAT-05 and will have the same problem. A surface nobody can navigate to is close to a surface that does not exist — two of Sprint 01's three unshipped items hid behind exactly that.",
+      "dod": "Every app route a signed-in user is meant to reach appears in the sidebar, grouped sensibly, with the current route highlighted. /sprints and /docs both present. Verified by listing routes under apps/web/app/(app) and showing each has a nav entry or a written reason it does not. Proof from the rendered response body with a negative control."
+    },
+    {
+      "id": "CONT-05", "track": "content", "points": 4, "state": "todo", "owner": "writer-inspirasi-vendor-venue",
+      "title": "Cluster queue continues — 4 articles",
+      "why": "Owner decision this meeting: run venue pages AND cluster articles. Safe to write only because RISK-04 closes the publishing hole in the same sprint — Sprint 01's five newest articles are still unknown to Google.",
+      "dod": "Four articles ingested to production, each returning 200 on FIRST request, each appearing on its pillar page, each with a photograph cover and zero text cards, every image carrying credit, creditUrl, licensorName and licenseClass plus a register entry. No IMEJ markers — a leftover marker is a format error. Each URL checked against GSC after RISK-04 ships and shown to leave 'unknown to Google'."
+    }
+  ],
+
+  "out_of_scope": [
+    "RISK-02 password rotation — stays parked. The owner accepted the credential risk on 25 Aug with a stated revisit trigger: if the transcript is ever shared or exported.",
+    "The cold-render finding — 5–22s against a route declaring maxDuration=5, and one new article URL returned 502 FUNCTION_RESPONSE_STREAM_INCOMPLETE. Measured in Sprint 01, never root-caused. NOT scoped here because RISK-04 and RISK-05 change what Googlebot actually meets first, and the monitor will show whether this still bites. Revisit at Sprint 03 planning with the monitor's data rather than guessing now.",
+    "Re-parenting the 13 legacy articles — CONT-04 produced the plan in Sprint 01 and found it needs no redirects. Not executed here: the venue and zero-CTR work touches the same pillar pages, and two agents on the same files is how Sprint 01 nearly lost work.",
+    "A UI/UX overhaul of the homepage, category and article pages — under review as this sprint was scoped. Findings land after planning, so any work is added deliberately rather than absorbed silently."
+  ],
+
+  "retro": null
+}
