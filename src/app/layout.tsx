@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Toaster } from '@/components/ui/sonner';
+import { PreviewBanner } from '@/components/common/preview-banner';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -19,6 +20,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ms">
       <body className="bg-background text-foreground min-h-screen font-sans antialiased">
+        {/* PLAT-08: renders only on a Vercel preview deployment, so a reviewer
+            can never mistake a preview tab for hellokahwin.com. */}
+        <PreviewBanner />
         {children}
         <Toaster />
       </body>
