@@ -201,11 +201,24 @@ minute to relaunch; the prompts will otherwise recur indefinitely.
   not.**
 - The real cost of re-parenting is index churn, not redirect risk: it gives
   Google a third URL for an article still consolidating onto its second.
-- Two preconditions, not redirects: the save must go through the admin editor
-  (its `revalidateTag('articles', PURGE_IMMEDIATELY)` is what purges the page
-  cache — a direct SQL write leaves the new URL bouncing back to the old), and
-  the Vercel edge holds the old path for ~5 min (`s-maxage=300`), so the
-  "publish, wait five minutes, then invite the crawl" rule applies here too.
+- Two caches, not redirects (corrected 2026-08-26, SEO-06, after the first
+  live re-file). The origin data cache is dropped by `revalidateTag` from an
+  editor save or by `POST /api/cron/revalidate-content`. The Vercel edge is
+  dropped ONLY by `purgeVercelEdge`, whose one caller is the ingest CLI; **the
+  admin editor does not purge the edge**, so an editor re-parent leaves the CDN
+  copies in place for up to `s-maxage=300` plus stale window. A direct SQL
+  write is fine when followed by both drops in that order.
+- The purge set for a re-file must include the NEW URL, not just the old. A
+  new URL that was ever requested before the move (a verification probe, a
+  crawler) has a cached 308 back to the old URL at the edge; after the move
+  the old URL 308s forward, and the pair is a redirect loop until the new
+  path's entry is purged. Measured once at 14:48:33Z on 26 Aug, inside the
+  purge's propagation window; 24 of 24 samples clean afterwards. Sample the
+  chain more than once, spaced out, before calling a re-file verified.
+- Done this way on 26 Aug: `hantaran-kahwin` and `hantaran-tunang` moved from
+  `hiasan-dekorasi` into P2 (clusters C2.1 and C2.2). Scripts to copy for the
+  next one: site repo `docs/work-done/2026-08-26-seo-06-refile-hantaran-EVIDENCE/`
+  (`refile.mjs`, `purge.mts`).
 - **Lesson:** this belief ("a migration with thirteen redirects") entered this
   record as an inference from URL structure, was never re-tested, and scoped a
   sprint item around a redirect map that could not exist. One `curl` against an
