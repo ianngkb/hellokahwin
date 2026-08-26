@@ -183,9 +183,22 @@ Added 25 Aug 2026 after eight finished articles sat unpublishable for a day
 because nobody owned their images. **This stage is not optional and it is not
 the writer's job to improvise.**
 
-**The cover is a licensed photograph of people.** Malaysian Malay people in a
-Malay wedding context — baju melayu, songkok, tudung, songket, pelamin, akad
-nikah. Owner directive, 25 Aug: covers are human, not text.
+**The cover is a licensed photograph, and it has to be a GOOD one.** Owner
+directive, 26 Aug 2026, superseding the 25 Aug wording:
+
+> *"Lets not lock it to humans only. Instead I want to focus on high quality
+> images — high definition, ideally taken by a wedding photographer, high
+> contrast and stands out, looks premium."*
+
+**What changed and why it matters.** The 25 Aug rule read *"the cover is a
+licensed photograph of people"*, written against text cards — its stated
+contrast was *human, not text*. Read literally it required a human in every
+frame, **which is what put anonymous guests on articles about trays.** A writer
+told the cover must show people cannot use the photograph of the dulang sitting
+in our own library. The rule caused the defect it is now being replaced over.
+
+**People are no longer required. Quality is.** No text cards remains absolute
+and is unchanged.
 
 ### THE COVER DEPICTS THE ARTICLE'S SUBJECT (CONT-09, 26 Aug 2026)
 
@@ -261,26 +274,79 @@ select distinct filename, licensor_name, alt from media
 where filename like 'S-%' order by filename;
 ```
 
-#### The people rule and the subject rule, reconciled (26 Aug 2026)
+#### Who or what is in frame: the subject decides, not a people quota
 
-Stage 6b's "the cover is a licensed photograph of people" was written on 25 Aug
-**against text cards** — its stated contrast is *human, not text*. Read
-literally it also forbids a photograph of a dulang hantaran, a sirih junjung, a
-bunga telur or a length of songket, and that reading is exactly what produced
-covers of anonymous guests on articles about trays. CONT-09's approved
-definition of done supersedes it on this point: **the subject rules the frame.**
+The 25 Aug people rule is retired (see the top of this stage). **The subject
+rules the frame:**
 
-- Subject is a THING → photograph the thing, with hands or people handling it
-  wherever such a photograph exists. A pair of hands presenting a dulang beats
-  the same dulang alone.
-- Subject is a person, a moment or a ceremony → it stays a photograph of people.
-  Nothing has changed here.
-- Subject is unphotographable → Rule 3. A building, a counter or a signboard is
-  a **last resort under Rule 3**, never a shortcut, and never for a subject that
-  could have been photographed directly.
+- Subject is a THING → photograph the thing. Hands or people handling it are
+  **better where such a photograph exists** — a pair of hands presenting a dulang
+  beats the same dulang alone — but they are a preference, not a requirement.
+- Subject is a person, a moment or a ceremony → a photograph of people, as before.
+- Subject is unphotographable → Rule 3. A building, a counter or a signboard is a
+  **last resort**, never a shortcut, and never for a subject that could have been
+  photographed directly.
 
 Unchanged and absolute: no text cards, ever; nothing culturally wrong; every
 image fully credited.
+
+### RULE 7 — THE QUALITY BAR (owner directive, 26 Aug 2026)
+
+Relevance was the whole of CONT-09. It is now **half** the test. A cover that
+depicts its subject in a soft, cluttered, low-resolution snapshot still fails.
+
+**"Premium" is a feeling and cannot be enforced, so here is what it means in
+things you can check.** A cover must pass every line.
+
+**Q1 — Resolution: it must never be upscaled.** The source's natural dimensions
+must equal or exceed every crop it feeds, on the axis that crop uses. The
+binding one is the desktop hero at **2464×700**; the mobile cover at
+**1920×2400** binds on height. A source below either is upscaled, and upscaling
+is exactly what makes an image look cheap.
+- Measured failures on 26 Aug: `kursus-kahwin`'s hero asset is **1160×330
+  natural rendered into 1488×420 — a 28% upscale.** The homepage hero requested a
+  1600×1200 source into a 1905×560 box: **19% upscale and 61% of the frame
+  discarded.**
+- **Check it, do not eyeball it:** `naturalWidth`/`naturalHeight` on the rendered
+  element against the rendered box. If natural < rendered, reject the image.
+
+**Q2 — Provenance: prefer the best pool available, in this order.**
+1. `licenseClass: V` — **a wedding photographer's own work, under written grant.**
+   This is the target. The owner is opening this pool by direct outreach; see
+   `aug-26-2026-plan-photographer-outreach-list.md`.
+2. `licenseClass: S` — paid or professional-grade stock.
+3. `licenseClass: S` — CC-licensed work by a *photographer* (a portfolio, a
+   credited body of work), not a guest with a phone.
+4. Everything else. **If a cover can only be filled from tier 4, that is a Rule 6
+   escalation, not a pass.**
+
+**Q3 — Craft: the marks of a professional frame.** All four:
+- **Subject in sharp focus**, and separated from its background — the eye lands
+  on the subject without hunting.
+- **Deliberate light.** Directional or soft-even. Not on-camera flash, not
+  blown-out highlights, not muddy shadows with no detail.
+- **Contrast and colour that hold up small.** The subject must still read at
+  card size on a phone. A low-contrast image dissolves into grey at 320px.
+- **A composed frame, not a snapshot.** No cropped-off heads at the edges, no
+  cluttered banquet background competing with the subject, no visible JPEG
+  blocking, no date stamp, no watermark.
+
+**Q4 — It has to stand out in a row.** Open the pillar page and look at the new
+cover **beside its neighbours**. Covers are consumed in a grid, never alone. If
+it disappears into the row, it fails even when Q1–Q3 pass.
+
+**Q5 — When quality and relevance conflict, relevance still wins — but say so.**
+A sharp, beautiful photograph of the wrong subject is not a cover (Rule 2 is not
+negotiable). A correct-but-mediocre photograph ships **only with a written note
+in the article file naming what is weak about it**, so it appears on the upgrade
+list when the photographer pool opens. Silent mediocrity is how 25 of 61 covers
+drifted.
+
+**Expected consequence, stated honestly:** raising the bar **increases** the
+number of articles that cannot be filled from the current pool. CONT-09 escalated
+6 of 61 on relevance alone. Under Rule 7 that number will grow, and that is the
+rule working, not failing — it is the measured size of the case for licensed
+photographer work.
 
 #### The check, before the file leaves your hands
 
