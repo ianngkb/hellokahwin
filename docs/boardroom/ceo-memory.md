@@ -484,9 +484,28 @@ minute to relaunch; the prompts will otherwise recur indefinitely.
   default title, median 1555 ms, max 3148 ms. Those totals are network + edge +
   render, and the 1.5 s deadline governs only the DB read inside them — so they
   bound the request, not the thing the deadline measures. Two caveats worth
-  keeping: the 3148 ms outlier ran FIRST and the ordering confound could not be
-  resolved, and **the query string is not part of this route's CDN cache key**,
-  so that trick forces exactly one render per path and then only hits.
+  keeping below.
+- **⚠ COLD-RENDER LATENCY IS NOT A STABLE QUANTITY, and that is what makes a
+  FIXED 1.5 s deadline the wrong shape.** UX-01 decoupled position from page
+  weight by construction — eight expired paths, a median-weight page in slot 1
+  and the pool's largest in slot 2. Slot 1 came **second-fastest** of the eight,
+  so position is not penalised; and slots 7 and 8 (**142 KB at 2742 ms against
+  140 KB at 1185 ms**, adjacent in sequence) differ by more than the rest of the
+  sample's whole range, so size does not predict it either. Spread **2.31x**,
+  median 1605.5 ms — against SEO-05's 1555 ms on a disjoint set, a fair
+  replication. What is left is per-request variance: cold lambda, pool state.
+  **Both agents stopped short of the further claim** that headroom is thin even
+  uncontended; that needs origin timing neither can see, and it is OPEN.
+- **⚠ AND NEITHER AGENT'S "FORCED COLD RENDER" ACTUALLY FORCED ANYTHING** — a
+  method correction that matters before anyone repeats it. SEO-05 wrote that a
+  distinct query string is a distinct CDN cache key and UX-01 wrote about virgin
+  cache keys. **The query string is not part of this route's cache key.**
+  Verified 26 Aug: a novel query on a cached path returns STALE then HIT, while
+  a path carrying NO query returns MISS once its entry has aged out. Both agents
+  were sampling paths whose entry had expired under `s-maxage=600`. **You cannot
+  force a cold render on demand without evicting** — but there is also no budget
+  of one-shot paths: every path becomes samplable again about ten minutes after
+  its last render.
 - **`revalidate-content` remains a PLAUSIBLE trigger** by the same stampede
   argument, since it drops every article's data cache simultaneously, but no
   clean measurement isolates it. **A zero-code mitigation worth measuring
