@@ -4,8 +4,9 @@ The CEO's living knowledge of the product and company. Read this at the start
 of every meeting/session; update it whenever reality changes. Facts only —
 opinions and plans belong in meeting minutes and the decision log.
 
-_Last updated: 2026-08-26 (SEO-02 — every internal link on the site was
-`nofollow`; orphans 32 → 0; the five C2.3/P3 articles are LIVE, not staged)._
+_Last updated: 2026-08-27 (SEO-05 — 39 of 69 articles were serving the ROOT
+DEFAULT `<title>` in production, and our own revalidate-then-purge sequence is
+what causes it; the averaged-position rule is finally written down)._
 
 ## The product
 
@@ -246,7 +247,33 @@ minute to relaunch; the prompts will otherwise recur indefinitely.
   across three URLs at 365 + 15 + 8 impressions. Every single row reads as
   dismissible noise; **added, it is 388 impressions with zero clicks, expected
   ~5.8, P(zero) ≈ 0.3%** — the one statistically real zero we have. Same class of
-  error as the averaged position below: a number that describes no real thing.
+  error as the averaged position rule below: a number that describes no real thing.
+  **RE-MEASURED INDEPENDENTLY BY SEO-05, 26 Aug 2026 (28d to 26 Aug):** 338 on
+  the legacy root + 17 on the superseded category + 37 on the canonical =
+  **392 impressions, zero clicks**, at positions 12.3 / 12.5 / 9.9. The finding
+  holds on fresh data. Two details the first read did not have: the canonical's
+  share is RISING (8 → 37), so consolidation has started; and the canonical is
+  the address picking up the YEAR-BEARING queries — `mas kahwin ikut negeri 2026`
+  at 10, `mas kahwin kuala lumpur 2026` at 8, `mas kahwin kedah 2026` at 9 —
+  which is what made "the title carries no year" a diagnosis rather than a guess.
+  **The mechanical rule: resolve every GSC page row to its ARTICLE before you
+  rank anything.**
+- **⚠ NEVER TRUST AN AVERAGED POSITION WITHOUT THE PER-QUERY BREAKDOWN.** Written
+  down 27 Aug 2026 by SEO-05. This rule was referenced above as "the averaged
+  position below" and **had never actually been written** — the file promised it
+  and did not contain it, which is how it got applied twice and recorded zero
+  times. GSC's average position for a page is impression-weighted across every
+  query it appears for, and on a site this small those queries sit at wildly
+  different positions, so the mean lands where the page has never appeared.
+  `hantaran-tunang` reads **"average 11.5"**; its real distribution is position
+  **2** (`hantaran tunang lelaki`), **9.2** (`dulang hantaran tunang`), **13.5**
+  (`hantaran tunang`), **29** (`hantaran tunang 3 balas 5`), **56**
+  (`hantaran kahwin`). Nothing sits at 11.5, so a CTR estimate built on 11.5
+  describes no query on the page. **Pull `dimensions=query,page` before quoting
+  a position. If GSC has anonymised the queries, say so and make no claim about
+  the position** — an average you cannot decompose is not evidence. This is why
+  `majlis-kahwin` (17 impressions, "average 6.9", every query anonymised) was
+  left out of SEO-05 rather than rewritten on a number nobody can check.
 - **⚠ CHOOSE TARGETS ON SEARCH VOLUME AND SERP OWNERSHIP — NOT ON OUR OWN GSC
   IMPRESSIONS.** GSC shows you where you already appear, which is not where the
   demand is. The CEO picked four council halls off the impression list; combined
@@ -404,6 +431,44 @@ minute to relaunch; the prompts will otherwise recur indefinitely.
   purge-on-revalidate. Decision taken: purge the edge during ingest. **Blocked
   only on a Vercel API token from the owner.** Interim rule: publish, wait five
   minutes, then invite the crawl.
+- **🔴 OPEN AND UNFIXED — 39 OF 69 ARTICLES WERE SERVING THE WRONG `<title>` IN
+  PRODUCTION.** Found 26 Aug 2026 by SEO-05, which went looking for a stale
+  `meta_title` FIELD and found the field was almost never the problem. Those 39
+  pages served `HelloKahwin — Idea & Panduan Perkahwinan Malaysia` — the root
+  layout's default — as their `<title>` and its generic sentence as their meta
+  description, with correct rows in the database and a correct `<h1>` on the
+  same page. **The mechanism**, in
+  `src/app/(public)/artikel/[category]/[slug]/page.tsx:429`: `generateMetadata`
+  runs its DB read under `withDeadline(..., 1_500)` and **returns `{}` on a
+  miss**, so Next falls back to the root layout's title. That empty result is
+  then PRERENDERED and cached at the edge, where `s-maxage=600` plus
+  `stale-while-revalidate=3000` serves it for up to an hour. A cached failure.
+- **⚠ AND OUR OWN PUBLISH PROCEDURE IS WHAT CAUSES IT.** This is the part that
+  changes how we ship. `POST /api/cron/revalidate-content` drops the origin data
+  cache for EVERY article at once; the next render of each page therefore starts
+  cold and loses the 1.5s metadata deadline. Measured on 26 Aug: 39 of 69 bad
+  before SEO-05 touched anything, **51 of 69 immediately after SEO-05 ran the
+  documented revalidate-then-purge sequence.** SEO-02, SEO-06 and CONT-08 each
+  ran that sequence this sprint, which is where the original 39 came from.
+- **The operational workaround, proved on all 69 (26 Aug):** purge the edge
+  WITHOUT dropping the origin data cache first, so the re-render finds a warm
+  cache and wins the deadline. Sequence that works: revalidate origin → request
+  each page once (warms the data cache, and caches a bad title) → **purge the
+  edge again** → request each page (correct title, cached). One purge round
+  cleared all 69; final census **0 of 69** serving the default, evidence in the
+  site repo at
+  `docs/work-done/2026-08-27-seo-05-titles-EVIDENCE/sitewide-title-census.json`.
+  **Until this is fixed in code, no publish is finished until the `<title>` has
+  been read back from live HTML.** A 200 and a correct database row prove
+  nothing here.
+- **The fix belongs to engineering, not editorial, and is not yet scoped.**
+  Candidates: do not cache a `{}` metadata result; raise or drop the metadata
+  deadline; or have `generateMetadata` fall back to the article `title` it can
+  read from the same warm cache the page render uses. **Owner of the edit:
+  whoever holds `src/app/(public)/artikel/[category]/[slug]/page.tsx`. That
+  route carries unmerged commits on `ianng89/pillars-ingest-redirects`
+  (`c4c57a9`, `baae7fe`, `f75c42f`), so the fix should land on top of that
+  branch rather than beside it. That worktree's tree is clean as of 26 Aug.**
 - **✅ Production HAS a recovery point (25 Aug, RISK-01).** A `pg_dump` custom-
   format backup of `public` + `drizzle` sits in R2 at
   `hellokahwin-assets/db-backups/YYYY/MM/DD/hellokahwin-<UTC>.dump` (~497 KB),
