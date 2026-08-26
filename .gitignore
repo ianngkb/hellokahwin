@@ -38,3 +38,7 @@ next-env.d.ts
 
 # self-signed certs from `next dev --experimental-https`
 certificates/
+
+# Agent scratch — one-shot probes, sweeps, evidence captures.
+# Distinct from .tmp-ops/ above: these are per-run files, not an ops directory.
+.tmp-*
