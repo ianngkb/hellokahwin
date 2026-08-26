@@ -3,7 +3,8 @@
   "name": "Close the publishing hole, then earn a click",
   "state": "planned",
   "planned_at": "2026-08-26",
-  "points": 35,
+  "points": 48,
+  "points_note": "Opened at 35 across 10 items. The UI/UX review, commissioned during the meeting, reported before it adjourned and added UX-01..04 (13pt). The owner approved 29 of the original proposal; 48 is past that and was flagged back to them rather than absorbed.",
   "note": "This file records how Sprint 02 was ORIGINALLY SCOPED. It is not the live state — the tracker in buddy is (`pnpm --silent sprint list --sprint 2`, or buddy.ian.ng/sprints). Never rewritten after close.",
 
   "governance": {
@@ -91,8 +92,51 @@
       "title": "Cluster queue continues — 4 articles",
       "why": "Owner decision this meeting: run venue pages AND cluster articles. Safe to write only because RISK-04 closes the publishing hole in the same sprint — Sprint 01's five newest articles are still unknown to Google.",
       "dod": "Four articles ingested to production, each returning 200 on FIRST request, each appearing on its pillar page, each with a photograph cover and zero text cards, every image carrying credit, creditUrl, licensorName and licenseClass plus a register entry. No IMEJ markers — a leftover marker is a format error. Each URL checked against GSC after RISK-04 ships and shown to leave 'unknown to Google'."
+    },
+    {
+      "id": "UX-01", "track": "platform", "points": 3, "state": "todo", "owner": "BMAD",
+      "title": "Mobile article pages delete the site header — restore it",
+      "flags": ["worst-finding", "affects-79pct-of-clicks"],
+      "why": "`[slug]/page.tsx:796` sets `data-hide-mobile-nav`; `globals.css:934-939` then hides `header:first-child` below 767px. Someone arriving from Google onto an article on their phone — 34 of the site's 43 monthly clicks — gets no logo, no brand, no navigation, no search. The only escapes are a back arrow to the category page (which on venue-perancangan lands on 'akan datang tidak lama lagi') and a footer up to 10,638px below. On mobile this is a one-page site. Written for vendor-detail surfaces, applied to the pages that receive all the search traffic.",
+      "dod": "At 390px an article renders the site header with brand and navigation — screenshot it. `header nav a` computes min-height >= 44px (it measures 33px today; the design system already meets 44 elsewhere). The bottom bar offers something other than a photo gallery, with the choice justified. Mobile cover no taller than aspect-[3/2] with the first paragraph above the fold. Every claim proved from the RENDERED page at 390px, not from source."
+    },
+    {
+      "id": "UX-02", "track": "seo", "points": 5, "state": "todo", "owner": "BMAD",
+      "title": "Named halls are invisible to Google as entities — heading anchors, TOC, ItemList",
+      "why": "The highest-expected-value finding on the site. Our best page is a listicle with 11 h2s naming specific halls, and the rendered DOM has ZERO id attributes on any heading, zero in-page anchors, no TOC, no table, and JSON-LD carrying only Article + BreadcrumbList. `article-renderer.tsx` has no slugify logic at all, so this is true of every article. Someone searches one hall by name; Google has no entity to match and shows a generic listicle title. The cheap 60% of what SEO-04 completes.",
+      "dod": "Every h2/h3 carries a deterministic slugified id — quote three from live HTML. Articles with >=4 h2s render a TOC with working anchors. Listicle-shaped articles emit ItemList and Place JSON-LD, validated against a schema validator with the validator's output shown. Applied by the renderer, not per-article. Baseline recorded for dewan komuniti setiawangsa (104 impressions, position 9.0, zero clicks over 28 days)."
+    },
+    {
+      "id": "UX-03", "track": "platform", "points": 3, "state": "todo", "owner": "BMAD",
+      "title": "The cheap cluster — hero crop, duplicate nav, hidden pillars, empty clusters, search",
+      "why": "Six small fixes the review measured and located. The homepage hero requests crop-4x3-article-card into a 1905x560 box, discarding 61% of the frame and upscaling 19%, when crop-4.3x1-desktop-hero already exists at near-exact ratio and pads above detected faces. Two nav bars exist because two different queries feed them. THERE ARE NINE PILLARS, NOT SIX — 850px is clipped off-screen with the scrollbar hidden, so three pillars are invisible. Empty clusters render above real content, and on venue-perancangan the empty one is the exact cluster matching our only real search demand. Search EXISTS and works but nothing in the masthead links to it. hk-chip borders compute 1.36:1 against WCAG's 3:1.",
+      "dod": "Hero uses the desktop-hero preset — source and rendered dimensions before and after. Duplicate homepage rail deleted. Both scrollers show a right-edge affordance and all nine pillars reachable at 1400px — screenshot. Empty clusters sort below non-empty. Search reachable from the masthead on every page. hk-chip border contrast >= 3:1 with computed values shown."
+    },
+    {
+      "id": "UX-04", "track": "platform", "points": 2, "state": "todo", "owner": "BMAD",
+      "title": "Cards go grey because they lazy-load with no placeholder — LQIP and a JS audit",
+      "why": "The CEO reported a broken card-image variant. WRONG, disproved by measurement: every homepage image resolves at naturalWidth 1600. Cards 3-12 are loading=lazy over a bg-muted plate with no blur placeholder, so until the WebP decodes the card IS a grey box. Measured FCP 3,040ms with a warm cache on a fast connection: TTFB 22ms, HTML 147KB, CSS 135KB, and 542KB of JavaScript across 14 files for a page of static prose.",
+      "dod": "Cards and covers render a base64 LQIP via placeholder=blur — no flat grey plate at any point during load. FCP re-measured under the same conditions against the 3,040ms baseline. JS payload enumerated per file with keep/defer/drop decided for each; if it cannot be reduced, the blocking dependency is named."
     }
   ],
+
+  "ux_review_corrections": {
+    "note": "The review disproved five CEO findings by measurement. Recorded because the errors were confident and specific, which is what made them dangerous.",
+    "grey_card": "Not a broken image variant. A lazy-load with no blur placeholder. The CEO saw a slow decode and diagnosed a broken variant; the article page 'showed its cover fine' only because it was viewed after painting.",
+    "no_search": "Search is built, wired to a working API, and mounted on /artikel. The masthead simply does not link to it.",
+    "six_pillars": "There are NINE. Only six were visible because 850px of the nav is clipped with the scrollbar hidden.",
+    "hero_crop_priority": "Real, one line, and nearly irrelevant — the homepage got 10 impressions in 28 days and the defect is desktop-only; mobile already uses 4:3 correctly.",
+    "zero_ctr": "Mostly a phantom. At position 7-10 with 25-50 impressions, expected clicks are 0.3-1.5, so zero is inside normal variance. SEO-05 as originally scoped would have burned a sprint on noise. ONE case is real: dewan komuniti setiawangsa, 104 impressions at position 9.0, zero clicks. Its cause is an entity-match failure in the SERP snippet, not the page.",
+    "legacy_url": "/dewan-kahwin/ is not a different template — it redirects into the article template under review. The problem is Google indexing BOTH URLs (1,056 impressions old, 34 new), splitting the site's best asset."
+  },
+
+  "measurement_baseline_28d": {
+    "window": "2026-07-27 to 2026-08-25",
+    "clicks": 43, "impressions": 2599,
+    "concentration": "Two pages carry 86% of clicks and 75% of impressions. The homepage got 10 impressions.",
+    "device_split": "MOBILE 34 clicks / 1,440 impressions / average position 9.4. DESKTOP 9 clicks / 1,151 impressions / average position 32.3.",
+    "why_it_matters": "We rank on mobile and barely rank on desktop. Any desktop-only fix is worth a fraction of the same effort on mobile."
+  },
 
   "out_of_scope": [
     "RISK-02 password rotation — stays parked. The owner accepted the credential risk on 25 Aug with a stated revisit trigger: if the transcript is ever shared or exported.",
