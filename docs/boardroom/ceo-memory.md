@@ -4,10 +4,13 @@ The CEO's living knowledge of the product and company. Read this at the start
 of every meeting/session; update it whenever reality changes. Facts only —
 opinions and plans belong in meeting minutes and the decision log.
 
-_Last updated: 2026-08-27 (SEO-05 — a cached `generateMetadata` failure can put
-the ROOT DEFAULT `<title>` on an article page; SEO-05's first "39 of 69" was
-wrong and is corrected to 3, with UX-01's counter-evidence; the
-averaged-position rule is finally written down)._
+_Last updated: 2026-08-27 (SEO-04 — nikahsatu.com is the VENUE OPERATOR's own
+site, not a beatable DR 14 competitor; the SERP-ownership rule's worked example
+was wrong and is corrected; venue pages parked at the sourcing gate. Earlier
+same day, SEO-05 — a cached `generateMetadata` failure can put the ROOT DEFAULT
+`<title>` on an article page; SEO-05's first "39 of 69" was wrong and is
+corrected to 3, with UX-01's counter-evidence; the averaged-position rule is
+finally written down)._
 
 ## The product
 
@@ -281,8 +284,40 @@ minute to relaunch; the prompts will otherwise recur indefinitely.
   they are ~30 searches/month and positions 1–2 belong to the council's own
   booking portal at DR 64. **Before committing to a target, ask who holds
   position 1 and whether we can ever displace them.** An official operator portal
-  or the brand's own site usually means no. The commercial-venue equivalents run
-  500–2,400/month with no official portal above them.
+  or the brand's own site usually means no. ~~The commercial-venue equivalents run
+  500–2,400/month with no official portal above them.~~ **THAT LAST SENTENCE WAS
+  WRONG AND IT COST SEO-04.** Corrected 27 Aug 2026. The commercial venues have an
+  operator above them, and it is the site we had labelled the beatable DR 14
+  incumbent. The rule was applied to the option it killed (council halls) and NOT
+  to the option that replaced them.
+- **⚠ RESOLVE THE OPERATOR BEFORE YOU RANK A COMPETITOR. Learned 27 Aug 2026,
+  SEO-04, and it killed the item at the gate.** We scoped a whole sprint item on
+  "how does nikahsatu.com, DR 14 with thin pages, earn ~4,900 from
+  `/venue/[slug]` entity pages" and concluded their entity TEMPLATE was the
+  lever. **nikahsatu is not a publisher. It is the venue operator's own website.**
+  Zest Venture Sdn Bhd (842187-P) runs nikahsatu *and* Rumah Abang Jamil, Arjuna,
+  Jiwa and Villa Rimba Flora. Arjuna's own Instagram bio links its booking to
+  `tinyurl.com/Whatsapp-Nikahsatu`. They hold position 1 on brand terms because
+  they ARE the brand — **a brand's own pages outranking its own category pages is
+  not a transferable SEO finding, it is what owning a brand looks like in a
+  SERP.** The tell cost two minutes and we never pulled it: `curl … | grep -i
+  "Sdn Bhd"` on the footer, and a look at where the brand's own social bio sends
+  its bookings. **Before attributing a competitor's ranking to their SEO, check
+  whether they own the entity they rank for.**
+- **⚠ A CATEGORY CAN HAVE THE DEMAND AND NOT THE DATA. Venue pages are the worked
+  case (SEO-04, 27 Aug 2026).** Demand and sourceability are separate tests and
+  our venue targets each pass only one:
+  **commercial brands** — demand real (400–1,200/mo) but capacity and price are
+  published NOWHERE except the operator's own undated, promo-driven package
+  ladder (`villarimbaflora.com` returns **zero** `RM` strings and **zero** `pax`
+  strings; no venue page publishes a booking line at all);
+  **council halls** — data genuinely sourceable (councils publish official
+  year-stamped rate cards, e.g. `mbpj.gov.my/.../kadar_tempahan_kemudahan_mbpj_tahun_2024.pdf`)
+  but demand is ~30/mo behind an official portal.
+  **No target list passes both, which is why SEO-04 is parked.** Scrapeable is
+  not sourceable: the operator's prices ARE in their static HTML, and
+  republishing them undated would have put invented-looking figures on the one
+  site whose whole claim is that its numbers carry sources.
 - **⚠ ZERO CLICKS AT LOW IMPRESSIONS IS NOT A FINDING. Learned 26 Aug 2026, and
   it nearly cost a sprint item.** At position 7–10 with 25–50 impressions,
   *expected* clicks are roughly **0.3–1.5**. Zero is inside normal variance.
