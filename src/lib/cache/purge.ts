@@ -1,6 +1,14 @@
 /**
  * The cache-life argument that makes `revalidateTag` actually purge.
  *
+ * ⚠ THIS FILE IS HALF THE STORY. There are two caches in front of a reader and
+ * this one is the inner one. Nothing here reaches the Vercel CDN copy of a
+ * rendered page — that is `@/lib/cache/edge-purge` and `@/lib/cache/edge-tag`,
+ * and its traps are different from these ones. If you are here because a page
+ * served stale content, read the README's "Caching" section first: it lists the
+ * three failure modes that look like success, including a purge API that
+ * answers 200 for a tag nobody ever stamped.
+ *
  * WHY THIS EXISTS — the defect it replaces, verified against the installed
  * Next 16.1.6, not inferred from the docs.
  *

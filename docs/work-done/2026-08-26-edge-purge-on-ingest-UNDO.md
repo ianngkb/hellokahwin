@@ -12,16 +12,16 @@ session. Nothing else is written.
 
 ## The one thing written
 
-| Field | Value |
-|---|---|
-| slug | `probe-edge-purge-20260826` |
-| URL | `https://hellokahwin.com/artikel/pelamin-kad-cenderahati/probe-edge-purge-20260826` |
-| pillar | `P5` → `pelamin-kad-cenderahati` |
-| cluster | `C5.4` → `doorgift-bunga-telur-hadiah` |
-| status | `published` |
-| author | `ianng@theweddingnotebook.com` |
-| tags | none — deliberately empty, so no `inspire_tags` row is created |
-| body images | none — the cover is the only image |
+| Field       | Value                                                                               |
+| ----------- | ----------------------------------------------------------------------------------- |
+| slug        | `probe-edge-purge-20260826`                                                         |
+| URL         | `https://hellokahwin.com/artikel/pelamin-kad-cenderahati/probe-edge-purge-20260826` |
+| pillar      | `P5` → `pelamin-kad-cenderahati`                                                    |
+| cluster     | `C5.4` → `doorgift-bunga-telur-hadiah`                                              |
+| status      | `published`                                                                         |
+| author      | `ianng@theweddingnotebook.com`                                                      |
+| tags        | none — deliberately empty, so no `inspire_tags` row is created                      |
+| body images | none — the cover is the only image                                                  |
 
 ## Rows it creates
 
