@@ -348,7 +348,41 @@ and the Flickr REST API returns true original dimensions in bulk while the web
 search does not. That changes the cover-sourcing problem from "find one usable
 photograph" to "sort a known pool".
 
-**4. No article on this site emits `FAQPage` schema.** Checked across all seven
+**4. A persona edit is not live until `install.sh` runs, and nothing in git will
+tell you.** Found at the very end of the run, by applying CONT-07's own Stage 6
+lesson one layer out: a rule that lives in a repo is not a rule that lives where
+the work happens.
+
+`skillcentral/agents/projects/<project>/` is the source; each project repo's
+`.claude/agents/` is the deployment. On Windows symlinks need privilege, so
+install.sh falls back to **copies**, and the script says so in its own comments:
+*"re-run install.sh after editing a project agent."* Measured before running it:
+
+| Persona | source | deployed |
+|---|---|---|
+| `head-of-seo-content` | 429 lines | **264** |
+| `writer-inspirasi-vendor-venue` | 313 lines | **276** |
+
+So SEO-05's rules from tonight were dead for the next Head of SEO seat, and
+CONT-05's two were dead for the next writer seat. Mine happened to be live only
+because the scripts I used wrote to both paths, which was luck rather than
+process.
+
+**And `.claude/agents/` is git-ignored**, so there is no `git status`, no diff
+and no unpushed-commit count anywhere that would ever reveal the gap. The two
+Stage 9b git commands are structurally blind to it, in the same way they are
+blind to an un-ingested draft.
+
+`bash skillcentral/install.sh` run at 06:51Z; both personas now byte-identical
+to source, all six of tonight's rules verified live in the deployed writer
+persona, prior state moved aside as a timestamped backup. **The check is a
+`diff`, not an instruction to re-run something:**
+
+```
+diff <(tr -d '' < skillcentral/agents/projects/<proj>/<Cat>/<agent>.md)      <(tr -d '' < <repo>/.claude/agents/<agent>.md)
+```
+
+**5. No article on this site emits `FAQPage` schema.** Checked across all seven
 of this batch and `nisbah-hantaran` from CONT-08: zero. Every writer is
 instructed to shape a `Soalan lazim` block that "is marked up as FAQ schema by
 the engineer at ingest", and nothing does the marking up. SEO-05 then sized it on a sequential sweep of all 69 published articles:
