@@ -12,7 +12,15 @@ Checks, in the order they would bite at ingest:
 """
 import os, re, sys, glob
 
-D = r"C:/Users/Ian Ng/Documents/Code/hellokahwin/hellokahwin/docs/plans/aug-23-2026-session-01/drafts"
+# Resolve the drafts directory from THIS FILE's location, never from a
+# hardcoded checkout. CONT-07 ran this from a worktree on 27 Ogos 2026 and it
+# silently validated a DIFFERENT checkout's articles: "PASS, 35 articles" was
+# true, and true about files the run had never touched. A validator that can be
+# pointed at the wrong tree without saying so is worse than no validator.
+D = os.path.abspath(os.path.join(
+    os.path.dirname(os.path.abspath(__file__)),
+    '..', '..', 'plans', 'aug-23-2026-session-01', 'drafts'))
+print(f'drafts root: {D}')
 FILES = sorted(glob.glob(os.path.join(D, 'ingest', '*.md')))
 FILES = [f for f in FILES if not re.search(r'C2-3-A[123]', os.path.basename(f))]
 FILES += [os.path.join(D, n) for n in
