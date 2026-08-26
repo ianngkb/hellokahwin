@@ -187,6 +187,115 @@ the writer's job to improvise.**
 Malay wedding context — baju melayu, songkok, tudung, songket, pelamin, akad
 nikah. Owner directive, 25 Aug: covers are human, not text.
 
+### THE COVER DEPICTS THE ARTICLE'S SUBJECT (CONT-09, 26 Aug 2026)
+
+Added because nothing anywhere said it, so nobody was wrong to pick a pretty
+wedding photograph and move on. `dulang-hantaran` — an article about gift TRAYS
+— shipped with a tight crop of two guests' torsos and no tray in frame. The UX
+review found it independently and called it systemic. It was: the audit of
+26 Aug found **25 of 61 live covers failing this test**, and the correct
+photograph was already in our own library, ingested as a supporting image and
+never promoted. This is a SELECTION defect, not a sourcing one, and these six
+rules are what was missing.
+
+**Rule 1 — Name the subject in one noun phrase, before you open the pool.**
+Write down the thing the title promises, as a phrase a reader could point at.
+"Dulang hantaran" → the trays. "Harga sewa dewan kahwin" → the hall. "Bunga
+telur" → the bunga telur. If you cannot name it in one noun phrase, the
+article's scope is unclear; that is a brief problem, return it.
+
+**Rule 2 — The subject is IN the frame.** The cover contains that noun phrase's
+referent, identifiable by a reader who has NOT read the article, at the size the
+card renders. A wedding photograph that merely shares the article's topic area
+is not a cover for it. Two guests' torsos is not a cover for an article about
+trays; a kompang troupe is not a cover for a 12-month checklist.
+
+**Rule 3 — When the subject cannot be photographed, photograph where it
+happens.** Some subjects are numbers, rules, documents or words: mas kahwin
+rates, syarat sah nikah, borang nikah, lafaz taklik, a ucapan. For these — and
+only these — the cover depicts **the named, specific place or moment where that
+subject is used, issued or spoken.** The ijab qabul, for an article on what mas
+kahwin means. The state religious authority, for a state's minimum rate. The
+pejabat agama counter, for where a form is filed. Write which moment you chose,
+and why, in the article file. **"A Malay couple" is never the answer to Rule 3.**
+
+**Rule 4 — Malaysian Malay-Muslim context, or it fails whatever else is right.**
+A Western church ceremony, a white-studio stock couple, an obviously
+non-Malaysian scene: fails even when it technically contains the subject.
+Culturally wrong is worse than absent. And the photograph's own location must
+not contradict the article: on 26 Aug the cover of `mas-kahwin-perak` was a
+photograph taken in **Melor, Kelantan** — our own register said so in its
+caption. Read the caption of the file you are about to use.
+
+**Rule 5 — Crop survival: check all four crops, in this order.** The subject has
+to read in `crop-4x3-article-card` (1600×1200, the listing card),
+`crop-4x5-mobile-cover` (1920×2400, and mobile is 79% of our impressions),
+`crop-16x9-og` (1200×630, every social share) and `crop-4.3x1-desktop-hero`
+(2464×700 — a letterbox that keeps under a third of a portrait frame's height).
+**Open all four derivative URLs before committing.** A subject sitting low in
+the frame survives the card and is guillotined by the hero — that happened on
+seven of the nineteen covers re-selected on 26 Aug, because the automatic focal
+point is `method: saliency` and it lands high. If it does not survive all four,
+set the focal point and regenerate the crops
+(`generateSmartCrops(buffer, key, focalPoint, safeZone)`); do not ship the
+default and hope.
+
+**Rule 6 — No licensable image depicts the subject? Say so and escalate. Never
+substitute.** Write `cover: ESCALATE` in the article file with one line naming
+the subject and where you looked — Flickr with `&license=4,5,7,9,10`, the
+Wikimedia Commons categories tried, the Pexels/Unsplash terms in Malay and
+English. It comes to the Managing Editor and goes onto the photographer-outreach
+request list. **A generic wedding photograph in the cover slot is not a
+placeholder; it is a wrong answer that nobody ever comes back to.** Six live
+articles are on that list as of 26 Aug and that number is the case for outreach.
+
+**Rule 7 — Look in our own library FIRST.** Of the 19 covers re-selected on
+26 Aug, **19 came from images already in the register** — a sirih junjung, a row
+of dulang hantaran, a bunga telur close-up, an invitation card in a hand, all
+sitting as supporting images under `licenseClass: S` while the article they
+belonged on fronted a stranger's wedding. Query the register by subject before
+searching the web:
+
+```sql
+select distinct filename, licensor_name, alt from media
+where filename like 'S-%' order by filename;
+```
+
+#### The people rule and the subject rule, reconciled (26 Aug 2026)
+
+Stage 6b's "the cover is a licensed photograph of people" was written on 25 Aug
+**against text cards** — its stated contrast is *human, not text*. Read
+literally it also forbids a photograph of a dulang hantaran, a sirih junjung, a
+bunga telur or a length of songket, and that reading is exactly what produced
+covers of anonymous guests on articles about trays. CONT-09's approved
+definition of done supersedes it on this point: **the subject rules the frame.**
+
+- Subject is a THING → photograph the thing, with hands or people handling it
+  wherever such a photograph exists. A pair of hands presenting a dulang beats
+  the same dulang alone.
+- Subject is a person, a moment or a ceremony → it stays a photograph of people.
+  Nothing has changed here.
+- Subject is unphotographable → Rule 3. A building, a counter or a signboard is
+  a **last resort under Rule 3**, never a shortcut, and never for a subject that
+  could have been photographed directly.
+
+Unchanged and absolute: no text cards, ever; nothing culturally wrong; every
+image fully credited.
+
+#### The check, before the file leaves your hands
+
+1. Subject noun phrase written down.
+2. It is in the frame, identifiable by someone who has not read the article.
+3. All four crop URLs opened; the subject survives all four.
+4. Malaysian Malay-Muslim context, and the photograph's own caption does not
+   contradict the article's state or setting.
+5. `credit` + `creditUrl` + `licensorName` + `licenseClass` complete, and the
+   cover URL matches a `media.url` **exactly** — the article page joins the
+   credit line on `media.url = articles.cover_image_url`, so a near-miss renders
+   an uncredited photograph.
+6. Any answer above is "no" → `cover: ESCALATE`. Not a substitute.
+
+
 ### NO TEXT CARDS. ANYWHERE. (owner directive, 25 Aug 2026)
 
 *"No i do not want a text card, it looks ugly. Find alternatives, no text card

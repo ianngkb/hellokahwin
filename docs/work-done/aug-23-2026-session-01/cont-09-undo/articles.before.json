@@ -1,0 +1,1104 @@
+[
+ {
+  "id": "99d59b25-a0fa-4108-94b4-7ff774bb064e",
+  "slug": "mas-kahwin-pahang-negeri-sembilan",
+  "cover_image_url": "https://images.hellokahwin.com/inspire/mas-kahwin-pahang-negeri-sembilan/1787707358534-images-s-pasangan-pelamin-bunga-duduk-mohd-hasan.jpg",
+  "cover_image_variants": {
+   "low": {
+    "url": "https://images.hellokahwin.com/inspire/mas-kahwin-pahang-negeri-sembilan/1787707358534-images-s-pasangan-pelamin-bunga-duduk-mohd-hasan/low.webp",
+    "sizeBytes": 80072
+   },
+   "high": {
+    "url": "https://images.hellokahwin.com/inspire/mas-kahwin-pahang-negeri-sembilan/1787707358534-images-s-pasangan-pelamin-bunga-duduk-mohd-hasan/high.webp",
+    "sizeBytes": 568664
+   },
+   "original": {
+    "url": "https://images.hellokahwin.com/inspire/mas-kahwin-pahang-negeri-sembilan/1787707358534-images-s-pasangan-pelamin-bunga-duduk-mohd-hasan.jpg",
+    "sizeBytes": 3577989
+   }
+  },
+  "cover_image_smart_crops": {
+   "crop-16x9-og": {
+    "url": "https://images.hellokahwin.com/inspire/mas-kahwin-pahang-negeri-sembilan/1787707358534-images-s-pasangan-pelamin-bunga-duduk-mohd-hasan/crop-16x9-og.webp?v=0.9168_0.6839-g48c0b959",
+    "width": 1200,
+    "height": 630
+   },
+   "crop-4x3-article-card": {
+    "url": "https://images.hellokahwin.com/inspire/mas-kahwin-pahang-negeri-sembilan/1787707358534-images-s-pasangan-pelamin-bunga-duduk-mohd-hasan/crop-4x3-article-card.webp?v=0.9168_0.6839-g48c0b959",
+    "width": 1600,
+    "height": 1200
+   },
+   "crop-4x5-mobile-cover": {
+    "url": "https://images.hellokahwin.com/inspire/mas-kahwin-pahang-negeri-sembilan/1787707358534-images-s-pasangan-pelamin-bunga-duduk-mohd-hasan/crop-4x5-mobile-cover.webp?v=0.9168_0.6839-g48c0b959",
+    "width": 1920,
+    "height": 2400
+   },
+   "crop-4.3x1-desktop-hero": {
+    "url": "https://images.hellokahwin.com/inspire/mas-kahwin-pahang-negeri-sembilan/1787707358534-images-s-pasangan-pelamin-bunga-duduk-mohd-hasan/crop-4.3x1-desktop-hero.webp?v=0.9168_0.6839-g48c0b959",
+    "width": 2463,
+    "height": 700
+   }
+  },
+  "cover_image_focal_point": {
+   "x": 0.916778564453125,
+   "y": 0.6839165140974002,
+   "method": "saliency"
+  },
+  "cover_image_detection_data": {
+   "faces": {
+    "disabled": "rekognition"
+   },
+   "labels": {
+    "disabled": "rekognition"
+   }
+  },
+  "cover_image_focal_point_override": null,
+  "cover_image_quality": null,
+  "updated_at": "2026-08-26T01:23:07.927Z",
+  "cat": "hantaran-mas-kahwin"
+ },
+ {
+  "id": "d2df8447-d314-4699-88b8-685502e28389",
+  "slug": "mas-kahwin-sabah-sarawak",
+  "cover_image_url": "https://images.hellokahwin.com/inspire/mas-kahwin-sabah-sarawak/1787707412159-images-s-pasangan-baju-oren-azman-aziz.jpg",
+  "cover_image_variants": {
+   "low": {
+    "url": "https://images.hellokahwin.com/inspire/mas-kahwin-sabah-sarawak/1787707412159-images-s-pasangan-baju-oren-azman-aziz/low.webp",
+    "sizeBytes": 61244
+   },
+   "high": {
+    "url": "https://images.hellokahwin.com/inspire/mas-kahwin-sabah-sarawak/1787707412159-images-s-pasangan-baju-oren-azman-aziz/high.webp",
+    "sizeBytes": 386306
+   },
+   "original": {
+    "url": "https://images.hellokahwin.com/inspire/mas-kahwin-sabah-sarawak/1787707412159-images-s-pasangan-baju-oren-azman-aziz.jpg",
+    "sizeBytes": 2297572
+   }
+  },
+  "cover_image_smart_crops": {
+   "crop-16x9-og": {
+    "url": "https://images.hellokahwin.com/inspire/mas-kahwin-sabah-sarawak/1787707412159-images-s-pasangan-baju-oren-azman-aziz/crop-16x9-og.webp?v=0.0833_0.1560-g48c0b959",
+    "width": 1200,
+    "height": 630
+   },
+   "crop-4x3-article-card": {
+    "url": "https://images.hellokahwin.com/inspire/mas-kahwin-sabah-sarawak/1787707412159-images-s-pasangan-baju-oren-azman-aziz/crop-4x3-article-card.webp?v=0.0833_0.1560-g48c0b959",
+    "width": 1600,
+    "height": 1200
+   },
+   "crop-4x5-mobile-cover": {
+    "url": "https://images.hellokahwin.com/inspire/mas-kahwin-sabah-sarawak/1787707412159-images-s-pasangan-baju-oren-azman-aziz/crop-4x5-mobile-cover.webp?v=0.0833_0.1560-g48c0b959",
+    "width": 1920,
+    "height": 2400
+   },
+   "crop-4.3x1-desktop-hero": {
+    "url": "https://images.hellokahwin.com/inspire/mas-kahwin-sabah-sarawak/1787707412159-images-s-pasangan-baju-oren-azman-aziz/crop-4.3x1-desktop-hero.webp?v=0.0833_0.1560-g48c0b959",
+    "width": 2463,
+    "height": 700
+   }
+  },
+  "cover_image_focal_point": {
+   "x": 0.083343505859375,
+   "y": 0.15598095935554743,
+   "method": "saliency"
+  },
+  "cover_image_detection_data": {
+   "faces": {
+    "disabled": "rekognition"
+   },
+   "labels": {
+    "disabled": "rekognition"
+   }
+  },
+  "cover_image_focal_point_override": null,
+  "cover_image_quality": null,
+  "updated_at": "2026-08-26T01:23:55.199Z",
+  "cat": "hantaran-mas-kahwin"
+ },
+ {
+  "id": "b128d56b-1deb-4ef7-ab09-6f867e38137b",
+  "slug": "cincin-tunang",
+  "cover_image_url": "https://images.hellokahwin.com/inspire/cincin-tunang/1787707557892-images-s-kuku-berinai-pengantin-azman-aziz.jpg",
+  "cover_image_variants": {
+   "low": {
+    "url": "https://images.hellokahwin.com/inspire/cincin-tunang/1787707557892-images-s-kuku-berinai-pengantin-azman-aziz/low.webp",
+    "sizeBytes": 17286
+   },
+   "high": {
+    "url": "https://images.hellokahwin.com/inspire/cincin-tunang/1787707557892-images-s-kuku-berinai-pengantin-azman-aziz/high.webp",
+    "sizeBytes": 101316
+   },
+   "original": {
+    "url": "https://images.hellokahwin.com/inspire/cincin-tunang/1787707557892-images-s-kuku-berinai-pengantin-azman-aziz.jpg",
+    "sizeBytes": 925013
+   }
+  },
+  "cover_image_smart_crops": {
+   "crop-16x9-og": {
+    "url": "https://images.hellokahwin.com/inspire/cincin-tunang/1787707557892-images-s-kuku-berinai-pengantin-azman-aziz/crop-16x9-og.webp?v=0.5601_0.6239-g48c0b959",
+    "width": 1200,
+    "height": 630
+   },
+   "crop-4x3-article-card": {
+    "url": "https://images.hellokahwin.com/inspire/cincin-tunang/1787707557892-images-s-kuku-berinai-pengantin-azman-aziz/crop-4x3-article-card.webp?v=0.5601_0.6239-g48c0b959",
+    "width": 1600,
+    "height": 1200
+   },
+   "crop-4x5-mobile-cover": {
+    "url": "https://images.hellokahwin.com/inspire/cincin-tunang/1787707557892-images-s-kuku-berinai-pengantin-azman-aziz/crop-4x5-mobile-cover.webp?v=0.5601_0.6239-g48c0b959",
+    "width": 1920,
+    "height": 2400
+   },
+   "crop-4.3x1-desktop-hero": {
+    "url": "https://images.hellokahwin.com/inspire/cincin-tunang/1787707557892-images-s-kuku-berinai-pengantin-azman-aziz/crop-4.3x1-desktop-hero.webp?v=0.5601_0.6239-g48c0b959",
+    "width": 2463,
+    "height": 700
+   }
+  },
+  "cover_image_focal_point": {
+   "x": 0.560068359375,
+   "y": 0.6239238374221897,
+   "method": "saliency"
+  },
+  "cover_image_detection_data": {
+   "faces": {
+    "disabled": "rekognition"
+   },
+   "labels": {
+    "disabled": "rekognition"
+   }
+  },
+  "cover_image_focal_point_override": null,
+  "cover_image_quality": null,
+  "updated_at": "2026-08-26T01:26:27.254Z",
+  "cat": "sebelum-nikah"
+ },
+ {
+  "id": "a6dab084-8ab5-44a5-a28d-a2336f4c9879",
+  "slug": "harga-sewa-dewan-kahwin",
+  "cover_image_url": "https://images.hellokahwin.com/inspire/harga-sewa-dewan-kahwin/1787707807262-images-s-jamuan-kenduri-raja-abd-kadir.jpg",
+  "cover_image_variants": {
+   "low": {
+    "url": "https://images.hellokahwin.com/inspire/harga-sewa-dewan-kahwin/1787707807262-images-s-jamuan-kenduri-raja-abd-kadir/low.webp",
+    "sizeBytes": 57774
+   },
+   "high": {
+    "url": "https://images.hellokahwin.com/inspire/harga-sewa-dewan-kahwin/1787707807262-images-s-jamuan-kenduri-raja-abd-kadir/high.webp",
+    "sizeBytes": 387264
+   },
+   "original": {
+    "url": "https://images.hellokahwin.com/inspire/harga-sewa-dewan-kahwin/1787707807262-images-s-jamuan-kenduri-raja-abd-kadir.jpg",
+    "sizeBytes": 2166082
+   }
+  },
+  "cover_image_smart_crops": {
+   "crop-16x9-og": {
+    "url": "https://images.hellokahwin.com/inspire/harga-sewa-dewan-kahwin/1787707807262-images-s-jamuan-kenduri-raja-abd-kadir/crop-16x9-og.webp?v=0.5925_0.8107-g48c0b959",
+    "width": 1200,
+    "height": 630
+   },
+   "crop-4x3-article-card": {
+    "url": "https://images.hellokahwin.com/inspire/harga-sewa-dewan-kahwin/1787707807262-images-s-jamuan-kenduri-raja-abd-kadir/crop-4x3-article-card.webp?v=0.5925_0.8107-g48c0b959",
+    "width": 1600,
+    "height": 1200
+   },
+   "crop-4x5-mobile-cover": {
+    "url": "https://images.hellokahwin.com/inspire/harga-sewa-dewan-kahwin/1787707807262-images-s-jamuan-kenduri-raja-abd-kadir/crop-4x5-mobile-cover.webp?v=0.5925_0.8107-g48c0b959",
+    "width": 1920,
+    "height": 2400
+   },
+   "crop-4.3x1-desktop-hero": {
+    "url": "https://images.hellokahwin.com/inspire/harga-sewa-dewan-kahwin/1787707807262-images-s-jamuan-kenduri-raja-abd-kadir/crop-4.3x1-desktop-hero.webp?v=0.5925_0.8107-g48c0b959",
+    "width": 2464,
+    "height": 700
+   }
+  },
+  "cover_image_focal_point": {
+   "x": 0.5924999999999999,
+   "y": 0.8106666666666666,
+   "method": "saliency"
+  },
+  "cover_image_detection_data": {
+   "faces": {
+    "disabled": "rekognition"
+   },
+   "labels": {
+    "disabled": "rekognition"
+   }
+  },
+  "cover_image_focal_point_override": null,
+  "cover_image_quality": null,
+  "updated_at": "2026-08-26T01:30:32.808Z",
+  "cat": "venue-perancangan"
+ },
+ {
+  "id": "250da087-60ec-456f-bf98-f8250bddc275",
+  "slug": "pakej-dewan-kahwin",
+  "cover_image_url": "https://images.hellokahwin.com/inspire/pakej-dewan-kahwin/1787707835158-images-s-pasangan-dan-keluarga-pelamin-mohd-hasan.jpg",
+  "cover_image_variants": {
+   "low": {
+    "url": "https://images.hellokahwin.com/inspire/pakej-dewan-kahwin/1787707835158-images-s-pasangan-dan-keluarga-pelamin-mohd-hasan/low.webp",
+    "sizeBytes": 60734
+   },
+   "high": {
+    "url": "https://images.hellokahwin.com/inspire/pakej-dewan-kahwin/1787707835158-images-s-pasangan-dan-keluarga-pelamin-mohd-hasan/high.webp",
+    "sizeBytes": 455606
+   },
+   "original": {
+    "url": "https://images.hellokahwin.com/inspire/pakej-dewan-kahwin/1787707835158-images-s-pasangan-dan-keluarga-pelamin-mohd-hasan.jpg",
+    "sizeBytes": 2865817
+   }
+  },
+  "cover_image_smart_crops": {
+   "crop-16x9-og": {
+    "url": "https://images.hellokahwin.com/inspire/pakej-dewan-kahwin/1787707835158-images-s-pasangan-dan-keluarga-pelamin-mohd-hasan/crop-16x9-og.webp?v=0.2800_0.3120-g48c0b959",
+    "width": 1200,
+    "height": 630
+   },
+   "crop-4x3-article-card": {
+    "url": "https://images.hellokahwin.com/inspire/pakej-dewan-kahwin/1787707835158-images-s-pasangan-dan-keluarga-pelamin-mohd-hasan/crop-4x3-article-card.webp?v=0.2800_0.3120-g48c0b959",
+    "width": 1600,
+    "height": 1200
+   },
+   "crop-4x5-mobile-cover": {
+    "url": "https://images.hellokahwin.com/inspire/pakej-dewan-kahwin/1787707835158-images-s-pasangan-dan-keluarga-pelamin-mohd-hasan/crop-4x5-mobile-cover.webp?v=0.2800_0.3120-g48c0b959",
+    "width": 1920,
+    "height": 2400
+   },
+   "crop-4.3x1-desktop-hero": {
+    "url": "https://images.hellokahwin.com/inspire/pakej-dewan-kahwin/1787707835158-images-s-pasangan-dan-keluarga-pelamin-mohd-hasan/crop-4.3x1-desktop-hero.webp?v=0.2800_0.3120-g48c0b959",
+    "width": 2463,
+    "height": 700
+   }
+  },
+  "cover_image_focal_point": {
+   "x": 0.2800341796875,
+   "y": 0.31196191871109485,
+   "method": "saliency"
+  },
+  "cover_image_detection_data": {
+   "faces": {
+    "disabled": "rekognition"
+   },
+   "labels": {
+    "disabled": "rekognition"
+   }
+  },
+  "cover_image_focal_point_override": null,
+  "cover_image_quality": null,
+  "updated_at": "2026-08-26T01:31:04.025Z",
+  "cat": "venue-perancangan"
+ },
+ {
+  "id": "43d1b444-57ee-48e6-9208-293783a498e1",
+  "slug": "doa-majlis-pertunangan",
+  "cover_image_url": "https://images.hellokahwin.com/inspire/doa-majlis-pertunangan/1787707589508-images-s-lelaki-menadah-doa-ahmad-ali-karim.jpg",
+  "cover_image_variants": {
+   "low": {
+    "url": "https://images.hellokahwin.com/inspire/doa-majlis-pertunangan/1787707589508-images-s-lelaki-menadah-doa-ahmad-ali-karim/low.webp",
+    "sizeBytes": 22886
+   },
+   "high": {
+    "url": "https://images.hellokahwin.com/inspire/doa-majlis-pertunangan/1787707589508-images-s-lelaki-menadah-doa-ahmad-ali-karim/high.webp",
+    "sizeBytes": 127782
+   },
+   "original": {
+    "url": "https://images.hellokahwin.com/inspire/doa-majlis-pertunangan/1787707589508-images-s-lelaki-menadah-doa-ahmad-ali-karim.jpg",
+    "sizeBytes": 7335703
+   }
+  },
+  "cover_image_smart_crops": {
+   "crop-16x9-og": {
+    "url": "https://images.hellokahwin.com/inspire/doa-majlis-pertunangan/1787707589508-images-s-lelaki-menadah-doa-ahmad-ali-karim/crop-16x9-og.webp?v=0.7801_0.6539-g48c0b959",
+    "width": 1200,
+    "height": 630
+   },
+   "crop-4x3-article-card": {
+    "url": "https://images.hellokahwin.com/inspire/doa-majlis-pertunangan/1787707589508-images-s-lelaki-menadah-doa-ahmad-ali-karim/crop-4x3-article-card.webp?v=0.7801_0.6539-g48c0b959",
+    "width": 1600,
+    "height": 1200
+   },
+   "crop-4x5-mobile-cover": {
+    "url": "https://images.hellokahwin.com/inspire/doa-majlis-pertunangan/1787707589508-images-s-lelaki-menadah-doa-ahmad-ali-karim/crop-4x5-mobile-cover.webp?v=0.7801_0.6539-g48c0b959",
+    "width": 1920,
+    "height": 2400
+   },
+   "crop-4.3x1-desktop-hero": {
+    "url": "https://images.hellokahwin.com/inspire/doa-majlis-pertunangan/1787707589508-images-s-lelaki-menadah-doa-ahmad-ali-karim/crop-4.3x1-desktop-hero.webp?v=0.7801_0.6539-g48c0b959",
+    "width": 2464,
+    "height": 700
+   }
+  },
+  "cover_image_focal_point": {
+   "x": 0.78009521484375,
+   "y": 0.653920175759795,
+   "method": "saliency"
+  },
+  "cover_image_detection_data": {
+   "faces": {
+    "disabled": "rekognition"
+   },
+   "labels": {
+    "disabled": "rekognition"
+   }
+  },
+  "cover_image_focal_point_override": null,
+  "cover_image_quality": null,
+  "updated_at": "2026-08-26T01:27:01.588Z",
+  "cat": "sebelum-nikah"
+ },
+ {
+  "id": "3ac30468-9153-4225-ba5e-c94d6610fe2f",
+  "slug": "bunga-telur",
+  "cover_image_url": "https://images.hellokahwin.com/inspire/bunga-telur/1787657096267-images-s-tetamu-tiba-majlis-ahmad-ali-karim.jpg",
+  "cover_image_variants": {
+   "low": {
+    "url": "https://images.hellokahwin.com/inspire/bunga-telur/1787657096267-images-s-tetamu-tiba-majlis-ahmad-ali-karim/low.webp",
+    "sizeBytes": 31274
+   },
+   "high": {
+    "url": "https://images.hellokahwin.com/inspire/bunga-telur/1787657096267-images-s-tetamu-tiba-majlis-ahmad-ali-karim/high.webp",
+    "sizeBytes": 149176
+   },
+   "original": {
+    "url": "https://images.hellokahwin.com/inspire/bunga-telur/1787657096267-images-s-tetamu-tiba-majlis-ahmad-ali-karim.jpg",
+    "sizeBytes": 6379586
+   }
+  },
+  "cover_image_smart_crops": {
+   "crop-16x9-og": {
+    "url": "https://images.hellokahwin.com/inspire/bunga-telur/1787657096267-images-s-tetamu-tiba-majlis-ahmad-ali-karim/crop-16x9-og.webp?v=0.6234_0.1860-g48c0b959",
+    "width": 1200,
+    "height": 630
+   },
+   "crop-4x3-article-card": {
+    "url": "https://images.hellokahwin.com/inspire/bunga-telur/1787657096267-images-s-tetamu-tiba-majlis-ahmad-ali-karim/crop-4x3-article-card.webp?v=0.6234_0.1860-g48c0b959",
+    "width": 1600,
+    "height": 1200
+   },
+   "crop-4x5-mobile-cover": {
+    "url": "https://images.hellokahwin.com/inspire/bunga-telur/1787657096267-images-s-tetamu-tiba-majlis-ahmad-ali-karim/crop-4x5-mobile-cover.webp?v=0.6234_0.1860-g48c0b959",
+    "width": 1920,
+    "height": 2400
+   },
+   "crop-4.3x1-desktop-hero": {
+    "url": "https://images.hellokahwin.com/inspire/bunga-telur/1787657096267-images-s-tetamu-tiba-majlis-ahmad-ali-karim/crop-4.3x1-desktop-hero.webp?v=0.6234_0.1860-g48c0b959",
+    "width": 2464,
+    "height": 700
+   }
+  },
+  "cover_image_focal_point": {
+   "x": 0.623409423828125,
+   "y": 0.1859772976931527,
+   "method": "saliency"
+  },
+  "cover_image_detection_data": {
+   "faces": {
+    "disabled": "rekognition"
+   },
+   "labels": {
+    "disabled": "rekognition"
+   }
+  },
+  "cover_image_focal_point_override": null,
+  "cover_image_quality": null,
+  "updated_at": "2026-08-25T18:01:59.511Z",
+  "cat": "pelamin-kad-cenderahati"
+ },
+ {
+  "id": "ce836c00-fb6c-4875-b438-bd42216518d7",
+  "slug": "borang-nikah",
+  "cover_image_url": "https://images.hellokahwin.com/inspire/borang-nikah/1787707437117-images-s-selepas-akad-raja-abd-kadir.jpg",
+  "cover_image_variants": {
+   "low": {
+    "url": "https://images.hellokahwin.com/inspire/borang-nikah/1787707437117-images-s-selepas-akad-raja-abd-kadir/low.webp",
+    "sizeBytes": 37740
+   },
+   "high": {
+    "url": "https://images.hellokahwin.com/inspire/borang-nikah/1787707437117-images-s-selepas-akad-raja-abd-kadir/high.webp",
+    "sizeBytes": 253472
+   },
+   "original": {
+    "url": "https://images.hellokahwin.com/inspire/borang-nikah/1787707437117-images-s-selepas-akad-raja-abd-kadir.jpg",
+    "sizeBytes": 1845152
+   }
+  },
+  "cover_image_smart_crops": {
+   "crop-16x9-og": {
+    "url": "https://images.hellokahwin.com/inspire/borang-nikah/1787707437117-images-s-selepas-akad-raja-abd-kadir/crop-16x9-og.webp?v=0.4987_0.5600-g48c0b959",
+    "width": 1200,
+    "height": 630
+   },
+   "crop-4x3-article-card": {
+    "url": "https://images.hellokahwin.com/inspire/borang-nikah/1787707437117-images-s-selepas-akad-raja-abd-kadir/crop-4x3-article-card.webp?v=0.4987_0.5600-g48c0b959",
+    "width": 1600,
+    "height": 1200
+   },
+   "crop-4x5-mobile-cover": {
+    "url": "https://images.hellokahwin.com/inspire/borang-nikah/1787707437117-images-s-selepas-akad-raja-abd-kadir/crop-4x5-mobile-cover.webp?v=0.4987_0.5600-g48c0b959",
+    "width": 1920,
+    "height": 2400
+   },
+   "crop-4.3x1-desktop-hero": {
+    "url": "https://images.hellokahwin.com/inspire/borang-nikah/1787707437117-images-s-selepas-akad-raja-abd-kadir/crop-4.3x1-desktop-hero.webp?v=0.4987_0.5600-g48c0b959",
+    "width": 2464,
+    "height": 700
+   }
+  },
+  "cover_image_focal_point": {
+   "x": 0.49874999999999997,
+   "y": 0.56,
+   "method": "saliency"
+  },
+  "cover_image_detection_data": {
+   "faces": {
+    "disabled": "rekognition"
+   },
+   "labels": {
+    "disabled": "rekognition"
+   }
+  },
+  "cover_image_focal_point_override": null,
+  "cover_image_quality": null,
+  "updated_at": "2026-08-26T01:24:17.518Z",
+  "cat": "nikah-undang-undang"
+ },
+ {
+  "id": "abec9ae7-d323-4f11-9e69-17b610ae281c",
+  "slug": "mas-kahwin-perak",
+  "cover_image_url": "https://images.hellokahwin.com/inspire/mas-kahwin-perak/1787707389884-images-s-muzik-tradisional-kenduri-malexi.jpg",
+  "cover_image_variants": {
+   "low": {
+    "url": "https://images.hellokahwin.com/inspire/mas-kahwin-perak/1787707389884-images-s-muzik-tradisional-kenduri-malexi/low.webp",
+    "sizeBytes": 72044
+   },
+   "high": {
+    "url": "https://images.hellokahwin.com/inspire/mas-kahwin-perak/1787707389884-images-s-muzik-tradisional-kenduri-malexi/high.webp",
+    "sizeBytes": 486670
+   },
+   "original": {
+    "url": "https://images.hellokahwin.com/inspire/mas-kahwin-perak/1787707389884-images-s-muzik-tradisional-kenduri-malexi.jpg",
+    "sizeBytes": 2368366
+   }
+  },
+  "cover_image_smart_crops": {
+   "crop-16x9-og": {
+    "url": "https://images.hellokahwin.com/inspire/mas-kahwin-perak/1787707389884-images-s-muzik-tradisional-kenduri-malexi/crop-16x9-og.webp?v=0.5287_0.3093-g48c0b959",
+    "width": 1200,
+    "height": 630
+   },
+   "crop-4x3-article-card": {
+    "url": "https://images.hellokahwin.com/inspire/mas-kahwin-perak/1787707389884-images-s-muzik-tradisional-kenduri-malexi/crop-4x3-article-card.webp?v=0.5287_0.3093-g48c0b959",
+    "width": 1600,
+    "height": 1200
+   },
+   "crop-4x5-mobile-cover": {
+    "url": "https://images.hellokahwin.com/inspire/mas-kahwin-perak/1787707389884-images-s-muzik-tradisional-kenduri-malexi/crop-4x5-mobile-cover.webp?v=0.5287_0.3093-g48c0b959",
+    "width": 1536,
+    "height": 1920
+   },
+   "crop-4.3x1-desktop-hero": {
+    "url": "https://images.hellokahwin.com/inspire/mas-kahwin-perak/1787707389884-images-s-muzik-tradisional-kenduri-malexi/crop-4.3x1-desktop-hero.webp?v=0.5287_0.3093-g48c0b959",
+    "width": 2464,
+    "height": 700
+   }
+  },
+  "cover_image_focal_point": {
+   "x": 0.5287499999999999,
+   "y": 0.30933333333333335,
+   "method": "saliency"
+  },
+  "cover_image_detection_data": {
+   "faces": {
+    "disabled": "rekognition"
+   },
+   "labels": {
+    "disabled": "rekognition"
+   }
+  },
+  "cover_image_focal_point_override": null,
+  "cover_image_quality": null,
+  "updated_at": "2026-08-26T01:23:30.211Z",
+  "cat": "hantaran-mas-kahwin"
+ },
+ {
+  "id": "8d8e9498-a792-411d-89c5-baa4d68f1e9b",
+  "slug": "songket-tenunan-tangan-atau-cetak",
+  "cover_image_url": "https://images.hellokahwin.com/inspire/songket-tenunan-tangan-atau-cetak/1787707284090-images-s-pengantin-pelamin-bunga-mohd-hasan.jpg",
+  "cover_image_variants": {
+   "low": {
+    "url": "https://images.hellokahwin.com/inspire/songket-tenunan-tangan-atau-cetak/1787707284090-images-s-pengantin-pelamin-bunga-mohd-hasan/low.webp",
+    "sizeBytes": 87354
+   },
+   "high": {
+    "url": "https://images.hellokahwin.com/inspire/songket-tenunan-tangan-atau-cetak/1787707284090-images-s-pengantin-pelamin-bunga-mohd-hasan/high.webp",
+    "sizeBytes": 571178
+   },
+   "original": {
+    "url": "https://images.hellokahwin.com/inspire/songket-tenunan-tangan-atau-cetak/1787707284090-images-s-pengantin-pelamin-bunga-mohd-hasan.jpg",
+    "sizeBytes": 3336615
+   }
+  },
+  "cover_image_smart_crops": {
+   "crop-16x9-og": {
+    "url": "https://images.hellokahwin.com/inspire/songket-tenunan-tangan-atau-cetak/1787707284090-images-s-pengantin-pelamin-bunga-mohd-hasan/crop-16x9-og.webp?v=0.6234_0.5579-g48c0b959",
+    "width": 1200,
+    "height": 630
+   },
+   "crop-4x3-article-card": {
+    "url": "https://images.hellokahwin.com/inspire/songket-tenunan-tangan-atau-cetak/1787707284090-images-s-pengantin-pelamin-bunga-mohd-hasan/crop-4x3-article-card.webp?v=0.6234_0.5579-g48c0b959",
+    "width": 1600,
+    "height": 1200
+   },
+   "crop-4x5-mobile-cover": {
+    "url": "https://images.hellokahwin.com/inspire/songket-tenunan-tangan-atau-cetak/1787707284090-images-s-pengantin-pelamin-bunga-mohd-hasan/crop-4x5-mobile-cover.webp?v=0.6234_0.5579-g48c0b959",
+    "width": 1920,
+    "height": 2400
+   },
+   "crop-4.3x1-desktop-hero": {
+    "url": "https://images.hellokahwin.com/inspire/songket-tenunan-tangan-atau-cetak/1787707284090-images-s-pengantin-pelamin-bunga-mohd-hasan/crop-4.3x1-desktop-hero.webp?v=0.6234_0.5579-g48c0b959",
+    "width": 2464,
+    "height": 700
+   }
+  },
+  "cover_image_focal_point": {
+   "x": 0.623409423828125,
+   "y": 0.5579318930794581,
+   "method": "saliency"
+  },
+  "cover_image_detection_data": {
+   "faces": {
+    "disabled": "rekognition"
+   },
+   "labels": {
+    "disabled": "rekognition"
+   }
+  },
+  "cover_image_focal_point_override": null,
+  "cover_image_quality": null,
+  "updated_at": "2026-08-26T01:21:54.399Z",
+  "cat": "busana-pengantin"
+ },
+ {
+  "id": "9db25887-aa58-465d-8c4b-c2f57628e714",
+  "slug": "contoh-kad-jemputan-kahwin",
+  "cover_image_url": "https://images.hellokahwin.com/inspire/contoh-kad-jemputan-kahwin/1787707535571-images-s-keluarga-payung-kuning-mohd-hasan.jpg",
+  "cover_image_variants": {
+   "low": {
+    "url": "https://images.hellokahwin.com/inspire/contoh-kad-jemputan-kahwin/1787707535571-images-s-keluarga-payung-kuning-mohd-hasan/low.webp",
+    "sizeBytes": 109236
+   },
+   "high": {
+    "url": "https://images.hellokahwin.com/inspire/contoh-kad-jemputan-kahwin/1787707535571-images-s-keluarga-payung-kuning-mohd-hasan/high.webp",
+    "sizeBytes": 764774
+   },
+   "original": {
+    "url": "https://images.hellokahwin.com/inspire/contoh-kad-jemputan-kahwin/1787707535571-images-s-keluarga-payung-kuning-mohd-hasan.jpg",
+    "sizeBytes": 3811719
+   }
+  },
+  "cover_image_smart_crops": {
+   "crop-16x9-og": {
+    "url": "https://images.hellokahwin.com/inspire/contoh-kad-jemputan-kahwin/1787707535571-images-s-keluarga-payung-kuning-mohd-hasan/crop-16x9-og.webp?v=0.1534_0.1860-g48c0b959",
+    "width": 1200,
+    "height": 630
+   },
+   "crop-4x3-article-card": {
+    "url": "https://images.hellokahwin.com/inspire/contoh-kad-jemputan-kahwin/1787707535571-images-s-keluarga-payung-kuning-mohd-hasan/crop-4x3-article-card.webp?v=0.1534_0.1860-g48c0b959",
+    "width": 1600,
+    "height": 1200
+   },
+   "crop-4x5-mobile-cover": {
+    "url": "https://images.hellokahwin.com/inspire/contoh-kad-jemputan-kahwin/1787707535571-images-s-keluarga-payung-kuning-mohd-hasan/crop-4x5-mobile-cover.webp?v=0.1534_0.1860-g48c0b959",
+    "width": 1920,
+    "height": 2400
+   },
+   "crop-4.3x1-desktop-hero": {
+    "url": "https://images.hellokahwin.com/inspire/contoh-kad-jemputan-kahwin/1787707535571-images-s-keluarga-payung-kuning-mohd-hasan/crop-4.3x1-desktop-hero.webp?v=0.1534_0.1860-g48c0b959",
+    "width": 2463,
+    "height": 700
+   }
+  },
+  "cover_image_focal_point": {
+   "x": 0.15335205078125,
+   "y": 0.1859772976931527,
+   "method": "saliency"
+  },
+  "cover_image_detection_data": {
+   "faces": {
+    "disabled": "rekognition"
+   },
+   "labels": {
+    "disabled": "rekognition"
+   }
+  },
+  "cover_image_focal_point_override": null,
+  "cover_image_quality": null,
+  "updated_at": "2026-08-26T01:25:55.650Z",
+  "cat": "pelamin-kad-cenderahati"
+ },
+ {
+  "id": "c0d55907-02e9-4d1a-a628-ea26e7965346",
+  "slug": "doa-majlis-perkahwinan",
+  "cover_image_url": "https://images.hellokahwin.com/inspire/doa-majlis-perkahwinan/1787707650814-images-s-jemaah-doa-masjid-ahmad-ali-karim.jpg",
+  "cover_image_variants": {
+   "low": {
+    "url": "https://images.hellokahwin.com/inspire/doa-majlis-perkahwinan/1787707650814-images-s-jemaah-doa-masjid-ahmad-ali-karim/low.webp",
+    "sizeBytes": 52796
+   },
+   "high": {
+    "url": "https://images.hellokahwin.com/inspire/doa-majlis-perkahwinan/1787707650814-images-s-jemaah-doa-masjid-ahmad-ali-karim/high.webp",
+    "sizeBytes": 278662
+   },
+   "original": {
+    "url": "https://images.hellokahwin.com/inspire/doa-majlis-perkahwinan/1787707650814-images-s-jemaah-doa-masjid-ahmad-ali-karim.jpg",
+    "sizeBytes": 7165698
+   }
+  },
+  "cover_image_smart_crops": {
+   "crop-16x9-og": {
+    "url": "https://images.hellokahwin.com/inspire/doa-majlis-perkahwinan/1787707650814-images-s-jemaah-doa-masjid-ahmad-ali-karim/crop-16x9-og.webp?v=0.6868_0.1500-g48c0b959",
+    "width": 1200,
+    "height": 630
+   },
+   "crop-4x3-article-card": {
+    "url": "https://images.hellokahwin.com/inspire/doa-majlis-perkahwinan/1787707650814-images-s-jemaah-doa-masjid-ahmad-ali-karim/crop-4x3-article-card.webp?v=0.6868_0.1500-g48c0b959",
+    "width": 1600,
+    "height": 1200
+   },
+   "crop-4x5-mobile-cover": {
+    "url": "https://images.hellokahwin.com/inspire/doa-majlis-perkahwinan/1787707650814-images-s-jemaah-doa-masjid-ahmad-ali-karim/crop-4x5-mobile-cover.webp?v=0.6868_0.1500-g48c0b959",
+    "width": 1920,
+    "height": 2400
+   },
+   "crop-4.3x1-desktop-hero": {
+    "url": "https://images.hellokahwin.com/inspire/doa-majlis-perkahwinan/1787707650814-images-s-jemaah-doa-masjid-ahmad-ali-karim/crop-4.3x1-desktop-hero.webp?v=0.6868_0.1500-g48c0b959",
+    "width": 2464,
+    "height": 700
+   }
+  },
+  "cover_image_focal_point": {
+   "x": 0.6867504882812501,
+   "y": 0.14998169168802636,
+   "method": "saliency"
+  },
+  "cover_image_detection_data": {
+   "faces": {
+    "disabled": "rekognition"
+   },
+   "labels": {
+    "disabled": "rekognition"
+   }
+  },
+  "cover_image_focal_point_override": null,
+  "cover_image_quality": null,
+  "updated_at": "2026-08-26T01:28:01.481Z",
+  "cat": "ucapan-doa"
+ },
+ {
+  "id": "60d95438-2464-4d2a-adbe-b8a0c57ea9c4",
+  "slug": "pelamin-kahwin-dewan",
+  "cover_image_url": "https://images.hellokahwin.com/inspire/pelamin-kahwin-dewan/1787397125976-cover.png",
+  "cover_image_variants": {
+   "low": {
+    "url": "https://images.hellokahwin.com/inspire/pelamin-kahwin-dewan/1787397125976-cover/low.webp",
+    "sizeBytes": 38630
+   },
+   "high": {
+    "url": "https://images.hellokahwin.com/inspire/pelamin-kahwin-dewan/1787397125976-cover/high.webp",
+    "sizeBytes": 83536
+   },
+   "original": {
+    "url": "https://images.hellokahwin.com/inspire/pelamin-kahwin-dewan/1787397125976-cover.png",
+    "sizeBytes": 733688
+   }
+  },
+  "cover_image_smart_crops": {
+   "crop-16x9-og": {
+    "url": "https://images.hellokahwin.com/inspire/pelamin-kahwin-dewan/1787397125976-cover/crop-16x9-og.webp?v=0.3102_0.6836-g48c0b959",
+    "width": 922,
+    "height": 484
+   },
+   "crop-4x3-article-card": {
+    "url": "https://images.hellokahwin.com/inspire/pelamin-kahwin-dewan/1787397125976-cover/crop-4x3-article-card.webp?v=0.3102_0.6836-g48c0b959",
+    "width": 820,
+    "height": 615
+   },
+   "crop-4x5-mobile-cover": {
+    "url": "https://images.hellokahwin.com/inspire/pelamin-kahwin-dewan/1787397125976-cover/crop-4x5-mobile-cover.webp?v=0.3102_0.6836-g48c0b959",
+    "width": 492,
+    "height": 615
+   },
+   "crop-4.3x1-desktop-hero": {
+    "url": "https://images.hellokahwin.com/inspire/pelamin-kahwin-dewan/1787397125976-cover/crop-4.3x1-desktop-hero.webp?v=0.3102_0.6836-g48c0b959",
+    "width": 922,
+    "height": 262
+   }
+  },
+  "cover_image_focal_point": {
+   "x": 0.3101681127982647,
+   "y": 0.6836292682926829,
+   "method": "saliency"
+  },
+  "cover_image_detection_data": {
+   "faces": {
+    "disabled": "rekognition"
+   },
+   "labels": {
+    "disabled": "rekognition"
+   }
+  },
+  "cover_image_focal_point_override": null,
+  "cover_image_quality": "high",
+  "updated_at": "2026-08-25T18:01:59.511Z",
+  "cat": "idea-dan-nasihat"
+ },
+ {
+  "id": "dd3bf19c-f43d-4907-87ee-fd8c41fc6664",
+  "slug": "hantaran-tunang",
+  "cover_image_url": "https://images.hellokahwin.com/inspire/hantaran-tunang/1787395743620-cover.jpg",
+  "cover_image_variants": {
+   "low": {
+    "url": "https://images.hellokahwin.com/inspire/hantaran-tunang/1787395743620-cover/low.webp",
+    "sizeBytes": 51632
+   },
+   "high": {
+    "url": "https://images.hellokahwin.com/inspire/hantaran-tunang/1787395743620-cover/high.webp",
+    "sizeBytes": 107376
+   },
+   "original": {
+    "url": "https://images.hellokahwin.com/inspire/hantaran-tunang/1787395743620-cover.jpg",
+    "sizeBytes": 212355
+   }
+  },
+  "cover_image_smart_crops": {
+   "crop-16x9-og": {
+    "url": "https://images.hellokahwin.com/inspire/hantaran-tunang/1787395743620-cover/crop-16x9-og.webp?v=0.1868_0.8516-g48c0b959",
+    "width": 1000,
+    "height": 525
+   },
+   "crop-4x3-article-card": {
+    "url": "https://images.hellokahwin.com/inspire/hantaran-tunang/1787395743620-cover/crop-4x3-article-card.webp?v=0.1868_0.8516-g48c0b959",
+    "width": 889,
+    "height": 667
+   },
+   "crop-4x5-mobile-cover": {
+    "url": "https://images.hellokahwin.com/inspire/hantaran-tunang/1787395743620-cover/crop-4x5-mobile-cover.webp?v=0.1868_0.8516-g48c0b959",
+    "width": 534,
+    "height": 667
+   },
+   "crop-4.3x1-desktop-hero": {
+    "url": "https://images.hellokahwin.com/inspire/hantaran-tunang/1787395743620-cover/crop-4.3x1-desktop-hero.webp?v=0.1868_0.8516-g48c0b959",
+    "width": 1000,
+    "height": 284
+   }
+  },
+  "cover_image_focal_point": {
+   "x": 0.18675999999999998,
+   "y": 0.8515742128935532,
+   "method": "saliency"
+  },
+  "cover_image_detection_data": {
+   "faces": {
+    "disabled": "rekognition"
+   },
+   "labels": {
+    "disabled": "rekognition"
+   }
+  },
+  "cover_image_focal_point_override": null,
+  "cover_image_quality": "high",
+  "updated_at": "2026-08-25T18:01:59.511Z",
+  "cat": "hiasan-dekorasi"
+ },
+ {
+  "id": "b2191993-232b-4be5-b516-d20b6cc3a3ab",
+  "slug": "mas-kahwin-melebihi-kadar-minimum",
+  "cover_image_url": "https://images.hellokahwin.com/inspire/mas-kahwin-melebihi-kadar-minimum/1787655971879-images-s-pengantin-melayu-pelamin-fyruz-alqadiri.jpg",
+  "cover_image_variants": {
+   "low": {
+    "url": "https://images.hellokahwin.com/inspire/mas-kahwin-melebihi-kadar-minimum/1787655971879-images-s-pengantin-melayu-pelamin-fyruz-alqadiri/low.webp",
+    "sizeBytes": 77982
+   },
+   "high": {
+    "url": "https://images.hellokahwin.com/inspire/mas-kahwin-melebihi-kadar-minimum/1787655971879-images-s-pengantin-melayu-pelamin-fyruz-alqadiri/high.webp",
+    "sizeBytes": 774658
+   },
+   "original": {
+    "url": "https://images.hellokahwin.com/inspire/mas-kahwin-melebihi-kadar-minimum/1787655971879-images-s-pengantin-melayu-pelamin-fyruz-alqadiri.jpg",
+    "sizeBytes": 11846597
+   }
+  },
+  "cover_image_smart_crops": {
+   "crop-16x9-og": {
+    "url": "https://images.hellokahwin.com/inspire/mas-kahwin-melebihi-kadar-minimum/1787655971879-images-s-pengantin-melayu-pelamin-fyruz-alqadiri/crop-16x9-og.webp?v=0.3675_0.3734-g48c0b959",
+    "width": 1200,
+    "height": 630
+   },
+   "crop-4x3-article-card": {
+    "url": "https://images.hellokahwin.com/inspire/mas-kahwin-melebihi-kadar-minimum/1787655971879-images-s-pengantin-melayu-pelamin-fyruz-alqadiri/crop-4x3-article-card.webp?v=0.3675_0.3734-g48c0b959",
+    "width": 1600,
+    "height": 1200
+   },
+   "crop-4x5-mobile-cover": {
+    "url": "https://images.hellokahwin.com/inspire/mas-kahwin-melebihi-kadar-minimum/1787655971879-images-s-pengantin-melayu-pelamin-fyruz-alqadiri/crop-4x5-mobile-cover.webp?v=0.3675_0.3734-g48c0b959",
+    "width": 1920,
+    "height": 2400
+   },
+   "crop-4.3x1-desktop-hero": {
+    "url": "https://images.hellokahwin.com/inspire/mas-kahwin-melebihi-kadar-minimum/1787655971879-images-s-pengantin-melayu-pelamin-fyruz-alqadiri/crop-4.3x1-desktop-hero.webp?v=0.3675_0.3734-g48c0b959",
+    "width": 2464,
+    "height": 700
+   }
+  },
+  "cover_image_focal_point": {
+   "x": 0.3674551446356646,
+   "y": 0.37337890625000003,
+   "method": "saliency"
+  },
+  "cover_image_detection_data": {
+   "faces": {
+    "disabled": "rekognition"
+   },
+   "labels": {
+    "disabled": "rekognition"
+   }
+  },
+  "cover_image_focal_point_override": null,
+  "cover_image_quality": null,
+  "updated_at": "2026-08-25T18:01:59.511Z",
+  "cat": "hantaran-mas-kahwin"
+ },
+ {
+  "id": "fc26f9b1-f4ba-4982-8a26-558ba74d14b8",
+  "slug": "apa-itu-mas-kahwin",
+  "cover_image_url": "https://images.hellokahwin.com/inspire/apa-itu-mas-kahwin/1787655885049-images-s-pengantin-putih-jambangan-azman-aziz.jpg",
+  "cover_image_variants": {
+   "low": {
+    "url": "https://images.hellokahwin.com/inspire/apa-itu-mas-kahwin/1787655885049-images-s-pengantin-putih-jambangan-azman-aziz/low.webp",
+    "sizeBytes": 46106
+   },
+   "high": {
+    "url": "https://images.hellokahwin.com/inspire/apa-itu-mas-kahwin/1787655885049-images-s-pengantin-putih-jambangan-azman-aziz/high.webp",
+    "sizeBytes": 265426
+   },
+   "original": {
+    "url": "https://images.hellokahwin.com/inspire/apa-itu-mas-kahwin/1787655885049-images-s-pengantin-putih-jambangan-azman-aziz.jpg",
+    "sizeBytes": 1180825
+   }
+  },
+  "cover_image_smart_crops": {
+   "crop-16x9-og": {
+    "url": "https://images.hellokahwin.com/inspire/apa-itu-mas-kahwin/1787655885049-images-s-pengantin-putih-jambangan-azman-aziz/crop-16x9-og.webp?v=0.8099_0.9334-g48c0b959",
+    "width": 1200,
+    "height": 630
+   },
+   "crop-4x3-article-card": {
+    "url": "https://images.hellokahwin.com/inspire/apa-itu-mas-kahwin/1787655885049-images-s-pengantin-putih-jambangan-azman-aziz/crop-4x3-article-card.webp?v=0.8099_0.9334-g48c0b959",
+    "width": 1600,
+    "height": 1200
+   },
+   "crop-4x5-mobile-cover": {
+    "url": "https://images.hellokahwin.com/inspire/apa-itu-mas-kahwin/1787655885049-images-s-pengantin-putih-jambangan-azman-aziz/crop-4x5-mobile-cover.webp?v=0.8099_0.9334-g48c0b959",
+    "width": 1920,
+    "height": 2400
+   },
+   "crop-4.3x1-desktop-hero": {
+    "url": "https://images.hellokahwin.com/inspire/apa-itu-mas-kahwin/1787655885049-images-s-pengantin-putih-jambangan-azman-aziz/crop-4.3x1-desktop-hero.webp?v=0.8099_0.9334-g48c0b959",
+    "width": 2464,
+    "height": 700
+   }
+  },
+  "cover_image_focal_point": {
+   "x": 0.8099011351153423,
+   "y": 0.933447265625,
+   "method": "saliency"
+  },
+  "cover_image_detection_data": {
+   "faces": {
+    "disabled": "rekognition"
+   },
+   "labels": {
+    "disabled": "rekognition"
+   }
+  },
+  "cover_image_focal_point_override": null,
+  "cover_image_quality": null,
+  "updated_at": "2026-08-25T18:01:59.511Z",
+  "cat": "hantaran-mas-kahwin"
+ },
+ {
+  "id": "c7c2c850-809d-4ec9-8452-5ddc0d262bea",
+  "slug": "dulang-hantaran",
+  "cover_image_url": "https://images.hellokahwin.com/inspire/dulang-hantaran/1787680476366-images-s-pertunangan-zeeana-mohd-nasir.jpg",
+  "cover_image_variants": {
+   "low": {
+    "url": "https://images.hellokahwin.com/inspire/dulang-hantaran/1787680476366-images-s-pertunangan-zeeana-mohd-nasir/low.webp",
+    "sizeBytes": 57918
+   },
+   "high": {
+    "url": "https://images.hellokahwin.com/inspire/dulang-hantaran/1787680476366-images-s-pertunangan-zeeana-mohd-nasir/high.webp",
+    "sizeBytes": 337092
+   },
+   "original": {
+    "url": "https://images.hellokahwin.com/inspire/dulang-hantaran/1787680476366-images-s-pertunangan-zeeana-mohd-nasir.jpg",
+    "sizeBytes": 2819165
+   }
+  },
+  "cover_image_smart_crops": {
+   "crop-16x9-og": {
+    "url": "https://images.hellokahwin.com/inspire/dulang-hantaran/1787680476366-images-s-pertunangan-zeeana-mohd-nasir/crop-16x9-og.webp?v=0.5603_0.5301-g48c0b959",
+    "width": 1200,
+    "height": 630
+   },
+   "crop-4x3-article-card": {
+    "url": "https://images.hellokahwin.com/inspire/dulang-hantaran/1787680476366-images-s-pertunangan-zeeana-mohd-nasir/crop-4x3-article-card.webp?v=0.5603_0.5301-g48c0b959",
+    "width": 1600,
+    "height": 1200
+   },
+   "crop-4x5-mobile-cover": {
+    "url": "https://images.hellokahwin.com/inspire/dulang-hantaran/1787680476366-images-s-pertunangan-zeeana-mohd-nasir/crop-4x5-mobile-cover.webp?v=0.5603_0.5301-g48c0b959",
+    "width": 1920,
+    "height": 2400
+   },
+   "crop-4.3x1-desktop-hero": {
+    "url": "https://images.hellokahwin.com/inspire/dulang-hantaran/1787680476366-images-s-pertunangan-zeeana-mohd-nasir/crop-4.3x1-desktop-hero.webp?v=0.5603_0.5301-g48c0b959",
+    "width": 2464,
+    "height": 700
+   }
+  },
+  "cover_image_focal_point": {
+   "x": 0.560302734375,
+   "y": 0.5300705882352941,
+   "method": "saliency"
+  },
+  "cover_image_detection_data": {
+   "faces": {
+    "disabled": "rekognition"
+   },
+   "labels": {
+    "disabled": "rekognition"
+   }
+  },
+  "cover_image_focal_point_override": null,
+  "cover_image_quality": null,
+  "updated_at": "2026-08-25T18:01:59.511Z",
+  "cat": "hantaran-mas-kahwin"
+ },
+ {
+  "id": "e9beda6c-369e-40d8-922a-4f3c3281e2eb",
+  "slug": "sirih-junjung",
+  "cover_image_url": "https://images.hellokahwin.com/inspire/sirih-junjung/1787680524028-images-s-pertunangan-zeeana-shopedah-mohd-nasir.jpg",
+  "cover_image_variants": {
+   "low": {
+    "url": "https://images.hellokahwin.com/inspire/sirih-junjung/1787680524028-images-s-pertunangan-zeeana-shopedah-mohd-nasir/low.webp",
+    "sizeBytes": 39342
+   },
+   "high": {
+    "url": "https://images.hellokahwin.com/inspire/sirih-junjung/1787680524028-images-s-pertunangan-zeeana-shopedah-mohd-nasir/high.webp",
+    "sizeBytes": 237994
+   },
+   "original": {
+    "url": "https://images.hellokahwin.com/inspire/sirih-junjung/1787680524028-images-s-pertunangan-zeeana-shopedah-mohd-nasir.jpg",
+    "sizeBytes": 2888001
+   }
+  },
+  "cover_image_smart_crops": {
+   "crop-16x9-og": {
+    "url": "https://images.hellokahwin.com/inspire/sirih-junjung/1787680524028-images-s-pertunangan-zeeana-shopedah-mohd-nasir/crop-16x9-og.webp?v=0.7468_0.3720-g48c0b959",
+    "width": 1200,
+    "height": 630
+   },
+   "crop-4x3-article-card": {
+    "url": "https://images.hellokahwin.com/inspire/sirih-junjung/1787680524028-images-s-pertunangan-zeeana-shopedah-mohd-nasir/crop-4x3-article-card.webp?v=0.7468_0.3720-g48c0b959",
+    "width": 1600,
+    "height": 1200
+   },
+   "crop-4x5-mobile-cover": {
+    "url": "https://images.hellokahwin.com/inspire/sirih-junjung/1787680524028-images-s-pertunangan-zeeana-shopedah-mohd-nasir/crop-4x5-mobile-cover.webp?v=0.7468_0.3720-g48c0b959",
+    "width": 1920,
+    "height": 2400
+   },
+   "crop-4.3x1-desktop-hero": {
+    "url": "https://images.hellokahwin.com/inspire/sirih-junjung/1787680524028-images-s-pertunangan-zeeana-shopedah-mohd-nasir/crop-4.3x1-desktop-hero.webp?v=0.7468_0.3720-g48c0b959",
+    "width": 2464,
+    "height": 700
+   }
+  },
+  "cover_image_focal_point": {
+   "x": 0.7467578125000001,
+   "y": 0.3719545953863054,
+   "method": "saliency"
+  },
+  "cover_image_detection_data": {
+   "faces": {
+    "disabled": "rekognition"
+   },
+   "labels": {
+    "disabled": "rekognition"
+   }
+  },
+  "cover_image_focal_point_override": null,
+  "cover_image_quality": null,
+  "updated_at": "2026-08-25T18:01:59.511Z",
+  "cat": "hantaran-mas-kahwin"
+ },
+ {
+  "id": "5741b337-6eb9-4937-bd08-95c038c25a73",
+  "slug": "skrip-pengacara-majlis-perkahwinan",
+  "cover_image_url": "https://images.hellokahwin.com/inspire/skrip-pengacara-majlis-perkahwinan/1787680585534-images-s-pasangan-dan-keluarga-pelamin-mohd-hasan.jpg",
+  "cover_image_variants": {
+   "low": {
+    "url": "https://images.hellokahwin.com/inspire/skrip-pengacara-majlis-perkahwinan/1787680585534-images-s-pasangan-dan-keluarga-pelamin-mohd-hasan/low.webp",
+    "sizeBytes": 60734
+   },
+   "high": {
+    "url": "https://images.hellokahwin.com/inspire/skrip-pengacara-majlis-perkahwinan/1787680585534-images-s-pasangan-dan-keluarga-pelamin-mohd-hasan/high.webp",
+    "sizeBytes": 455606
+   },
+   "original": {
+    "url": "https://images.hellokahwin.com/inspire/skrip-pengacara-majlis-perkahwinan/1787680585534-images-s-pasangan-dan-keluarga-pelamin-mohd-hasan.jpg",
+    "sizeBytes": 2865817
+   }
+  },
+  "cover_image_smart_crops": {
+   "crop-16x9-og": {
+    "url": "https://images.hellokahwin.com/inspire/skrip-pengacara-majlis-perkahwinan/1787680585534-images-s-pasangan-dan-keluarga-pelamin-mohd-hasan/crop-16x9-og.webp?v=0.2800_0.3120-g48c0b959",
+    "width": 1200,
+    "height": 630
+   },
+   "crop-4x3-article-card": {
+    "url": "https://images.hellokahwin.com/inspire/skrip-pengacara-majlis-perkahwinan/1787680585534-images-s-pasangan-dan-keluarga-pelamin-mohd-hasan/crop-4x3-article-card.webp?v=0.2800_0.3120-g48c0b959",
+    "width": 1600,
+    "height": 1200
+   },
+   "crop-4x5-mobile-cover": {
+    "url": "https://images.hellokahwin.com/inspire/skrip-pengacara-majlis-perkahwinan/1787680585534-images-s-pasangan-dan-keluarga-pelamin-mohd-hasan/crop-4x5-mobile-cover.webp?v=0.2800_0.3120-g48c0b959",
+    "width": 1920,
+    "height": 2400
+   },
+   "crop-4.3x1-desktop-hero": {
+    "url": "https://images.hellokahwin.com/inspire/skrip-pengacara-majlis-perkahwinan/1787680585534-images-s-pasangan-dan-keluarga-pelamin-mohd-hasan/crop-4.3x1-desktop-hero.webp?v=0.2800_0.3120-g48c0b959",
+    "width": 2463,
+    "height": 700
+   }
+  },
+  "cover_image_focal_point": {
+   "x": 0.2800341796875,
+   "y": 0.31196191871109485,
+   "method": "saliency"
+  },
+  "cover_image_detection_data": {
+   "faces": {
+    "disabled": "rekognition"
+   },
+   "labels": {
+    "disabled": "rekognition"
+   }
+  },
+  "cover_image_focal_point_override": null,
+  "cover_image_quality": null,
+  "updated_at": "2026-08-25T18:01:59.511Z",
+  "cat": "ucapan-doa"
+ }
+]
