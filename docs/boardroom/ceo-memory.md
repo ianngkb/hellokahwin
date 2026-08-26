@@ -4,9 +4,10 @@ The CEO's living knowledge of the product and company. Read this at the start
 of every meeting/session; update it whenever reality changes. Facts only —
 opinions and plans belong in meeting minutes and the decision log.
 
-_Last updated: 2026-08-27 (SEO-05 — 39 of 69 articles were serving the ROOT
-DEFAULT `<title>` in production, and our own revalidate-then-purge sequence is
-what causes it; the averaged-position rule is finally written down)._
+_Last updated: 2026-08-27 (SEO-05 — a cached `generateMetadata` failure can put
+the ROOT DEFAULT `<title>` on an article page; SEO-05's first "39 of 69" was
+wrong and is corrected to 3, with UX-01's counter-evidence; the
+averaged-position rule is finally written down)._
 
 ## The product
 
@@ -431,25 +432,50 @@ minute to relaunch; the prompts will otherwise recur indefinitely.
   purge-on-revalidate. Decision taken: purge the edge during ingest. **Blocked
   only on a Vercel API token from the owner.** Interim rule: publish, wait five
   minutes, then invite the crawl.
-- **🔴 OPEN AND UNFIXED — 39 OF 69 ARTICLES WERE SERVING THE WRONG `<title>` IN
-  PRODUCTION.** Found 26 Aug 2026 by SEO-05, which went looking for a stale
-  `meta_title` FIELD and found the field was almost never the problem. Those 39
-  pages served `HelloKahwin — Idea & Panduan Perkahwinan Malaysia` — the root
-  layout's default — as their `<title>` and its generic sentence as their meta
-  description, with correct rows in the database and a correct `<h1>` on the
-  same page. **The mechanism**, in
-  `src/app/(public)/artikel/[category]/[slug]/page.tsx:429`: `generateMetadata`
-  runs its DB read under `withDeadline(..., 1_500)` and **returns `{}` on a
-  miss**, so Next falls back to the root layout's title. That empty result is
-  then PRERENDERED and cached at the edge, where `s-maxage=600` plus
+- **🔴 OPEN AND UNFIXED — a CACHED METADATA FAILURE puts the root layout's
+  default `<title>` on an article page.** Found 26 Aug 2026 by SEO-05, which
+  went looking for a stale `meta_title` FIELD and found the field was almost
+  never the problem. An affected page serves
+  `HelloKahwin — Idea & Panduan Perkahwinan Malaysia` as its `<title>` and the
+  root's generic sentence as its meta description, with a correct row in the
+  database and a correct `<h1>` on the same page. **The mechanism**, in
+  `src/app/(public)/artikel/[category]/[slug]/page.tsx` (line 433 on master):
+  `generateMetadata` runs its DB read under `withDeadline(..., 1_500)` and
+  **returns `{}` on a miss**, so Next falls back to the root layout's title.
+  That empty result is then cached, and `s-maxage=600` plus
   `stale-while-revalidate=3000` serves it for up to an hour. A cached failure.
-- **⚠ AND OUR OWN PUBLISH PROCEDURE IS WHAT CAUSES IT.** This is the part that
-  changes how we ship. `POST /api/cron/revalidate-content` drops the origin data
-  cache for EVERY article at once; the next render of each page therefore starts
-  cold and loses the 1.5s metadata deadline. Measured on 26 Aug: 39 of 69 bad
-  before SEO-05 touched anything, **51 of 69 immediately after SEO-05 ran the
-  documented revalidate-then-purge sequence.** SEO-02, SEO-06 and CONT-08 each
-  ran that sequence this sprint, which is where the original 39 came from.
+- **⚠ CORRECTED 26 Aug, SAME DAY: SEO-05 FIRST REPORTED "39 OF 69" AND THAT WAS
+  WRONG BY 12x.** The real pre-existing figure is **3 of 69**
+  (`goodies-kahwin`, `mas-kahwin-ikut-negeri`, `tempat-honeymoon-di-malaysia`).
+  SEO-05's first sweep was **six-wide concurrent**; splitting its own cache
+  headers, only 3 of the 39 came back `HIT` (the edge already held a bad entry),
+  while **36 came back `MISS` — rendered during the sweep itself.** Twenty other
+  cold renders in that same sweep produced correct titles. **The attribution to
+  SEO-02, SEO-06 and CONT-08 is withdrawn; nothing supported it**, and CONT-08
+  was told its five C2.5 pages were affected when the data does not show that.
+  The "51 of 69 immediately after the documented sequence" figure carries the
+  same confound and is **withdrawn as a measurement of what
+  `revalidate-content` does**. A clean SEQUENTIAL census, no purge and no
+  revalidate, 26 Aug 18:10:41Z: **0 of 69**.
+- **⚠ COLD IS NOT THE TRIGGER — CONTENTION IS. Evidence from UX-01, not SEO-05.**
+  A production deploy landed ~17:53Z — the most total cache drop available — and
+  UX-01 audited every live article 12 minutes later, strictly sequentially:
+  **74 of 74 correct, 0 default.** Most had not been requested since the deploy,
+  so her request WAS the cold render. So the reframing: it is not "the data
+  cache was empty", it is **N cold renders contending for the same DB pool at
+  once**, all missing 1.5s together. The same stampede shape as the synchronised
+  ISR expiry the article route's own comment describes.
+- **⚠ WHICH MEANS THE BULK-PURGE REPAIR IS ITSELF A TRIGGER.** SEO-05's repair
+  deletes 69 cache tags at once and then fetches sequentially, and round 1 still
+  left 55 of 69 wrong; round 2 (55 tags) left 1; round 3 (1 tag) left 0. Read as
+  BATCH SIZE rather than temperature, those numbers point the same way UX-01's
+  do. **Hypothesis, not a finding** — the origin's concurrency is not visible
+  from outside and this should be tested before anyone builds on it.
+- **`revalidate-content` remains a PLAUSIBLE trigger** by the same stampede
+  argument, since it drops every article's data cache simultaneously, but no
+  clean measurement isolates it. **A zero-code mitigation worth measuring
+  (UX-01's suggestion): stagger the invalidations instead of firing them
+  together, so the contention window never opens.**
 - **The operational workaround, proved on all 69 (26 Aug):** purge the edge
   WITHOUT dropping the origin data cache first, so the re-render finds a warm
   cache and wins the deadline. Sequence that works: revalidate origin → request
