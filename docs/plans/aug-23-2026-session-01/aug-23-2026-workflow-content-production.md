@@ -706,6 +706,71 @@ pnpm --silent ingest <file.md> --db "$DB" --commit --publish --revalidate-url ht
   and before taking the proof requests. A probe fired earlier both measures the
   stale copy and re-arms the edge for another 300s. Ingest-time edge purge is
   not built.
+#### A CORRECT ROW AND A CORRECT H1 DO NOT MEAN A CORRECT `<title>`
+
+Added 27 Ogos 2026 by CONT-07, refining a warning SEO-05 issued and then
+partly withdrew the same day. Keep the refinement, not the first version.
+
+`generateMetadata` in `src/app/(public)/artikel/[category]/[slug]/page.tsx`
+wraps its query in a **1.5 s deadline** and returns `{}` when it misses. Next
+then falls back to the ROOT LAYOUT, so the page ships
+`<title>HelloKahwin — Idea & Panduan Perkahwinan Malaysia</title>` and the
+root's generic description — **on a page whose database row is correct and
+whose `<h1>` is correct.** That empty result is prerendered and cached, so it
+is served until something purges it.
+
+**It is a COLD-RENDER defect, not only a concurrency defect.** SEO-05 first
+reported 39 of 69 articles affected and corrected that to 3, because its own
+six-wide sweep had manufactured most of the failures it counted. That
+correction is right and its advice — sweep sequentially, do not bulk-purge —
+stands. But CONT-07 then measured the following on a **strictly sequential
+sweep, 4 s apart**:
+
+- six of seven freshly published articles served the root-default title;
+- every one of those responses carried its own `cache=MISS, age=0`, so nothing
+  else had rendered them;
+- cold renders took **3.5 to 6.3 s** against **1.1 s warm**;
+- one URL returned **504 on its first cold render, twice**, and 200 on the
+  second.
+
+So concurrency makes it worse and is not the cause. The cause is that the first
+render of a cold page is slower than the deadline it is given.
+
+**The repair, and it is reliable in two rounds:** purge the path, request it
+once to warm the data cache (that render still caches a bad title), purge it
+again, request it again. Sequential, one path at a time, never a bulk purge.
+
+**THE PART THAT COSTS A RUN IF YOU MISS IT: a purge re-arms this.** Any later
+write, `--update`, or manual purge re-cools the page and the next cold render
+can cache the empty metadata again. CONT-07 healed all seven articles, then
+re-ingested two of them to fix an unrelated problem, and found four of the seven
+broken again — because that re-ingest purged the pillar and the sitemap too. So
+**the warm-then-purge cycle is the LAST thing a batch does**, after every write
+is finished, and the proof sweep comes after that.
+
+**Verify by reading `<title>` back from live HTML, sequentially, with a
+timestamp. A 200 proves nothing here, and neither does the row.**
+
+#### `--update` is safe for the row and expensive for the media library
+
+Added 27 Ogos 2026 by CONT-07. `media` is unique on `r2_key`, and ingest stamps
+every uploaded key with `Date.now()`. So the `on conflict (r2_key) do update`
+clause in the media insert **can never fire on a re-ingest**: every `--update`
+uploads fresh objects under fresh keys and inserts fresh rows, leaving the
+previous ones behind, still attached by `original_article_id` and no longer
+referenced by the article body.
+
+Two `--update` runs on 27 Ogos left **6 superseded media rows and 6 orphaned R2
+objects** on two articles, which now carry six media rows each for three live
+images. Nothing is broken and nothing is served twice; the library is simply
+larger than the site.
+
+Two consequences. **Budget for it** — a correction that only changes prose or a
+link still re-uploads every image in the file, so batch corrections rather than
+making them one at a time. And **an undo that deletes media by
+`original_article_id` still catches them**, which is the reason that clause is
+written that way; an undo keyed on the current body's image URLs would not.
+
 - **Never take a "before" request on a URL whose after-state is the proof.**
   This has now cost two runs. `--revalidate-url` clears the Next data cache
   inside the origin; the Vercel edge in front of it keeps its own copy and is
