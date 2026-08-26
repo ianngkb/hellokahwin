@@ -736,6 +736,34 @@ sweep, 4 s apart**:
 So concurrency makes it worse and is not the cause. The cause is that the first
 render of a cold page is slower than the deadline it is given.
 
+**And the reason the pages were cold is our own ingest.** Settled 27 Ogos 2026
+between CONT-07, CONT-05 and SEO-05, after SEO-05 withdrew this finding under a
+counter-example and then restored it. **CDN temperature is not origin
+temperature, and only origin temperature matters here.**
+
+`--revalidate-url` posts to `/api/cron/revalidate-content`, which calls
+
+```
+revalidateTag('articles', PURGE_IMMEDIATELY)
+revalidateTag('inspire-categories', PURGE_IMMEDIATELY)
+```
+
+Two tags. **Sitewide.** Not per-article. So every single ingest expires the
+origin data cache for **every article on the site**, and a batch of seven does
+it seven times. By the last write, every article is origin-cold, and the first
+render of any of them can miss the deadline and cache an empty metadata object.
+
+That resolves the counter-examples that made this look like a concurrency bug.
+The sweeps that passed (10 of 10, and a 74-of-74 pass 12 minutes after a deploy)
+were CDN-cold with a **warm origin**; the sweeps that failed were cold at both
+layers because an ingest had just run. Same code, two different measurements,
+one uncontrolled variable.
+
+**The check that tells a finding from an instrument error**, and it is one
+query: before reporting any title sweep, read `max(updated_at)` from `articles`.
+If anything was written in the last few minutes the origin is cold and the sweep
+is measuring the ingest, not the site.
+
 **The repair, and it is reliable in two rounds:** purge the path, request it
 once to warm the data cache (that render still caches a bad title), purge it
 again, request it again. Sequential, one path at a time, never a bulk purge.

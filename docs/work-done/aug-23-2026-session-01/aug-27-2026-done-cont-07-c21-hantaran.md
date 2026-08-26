@@ -265,8 +265,10 @@ photograph" to "sort a known pool".
 **4. No article on this site emits `FAQPage` schema.** Checked across all seven
 of this batch and `nisbah-hantaran` from CONT-08: zero. Every writer is
 instructed to shape a `Soalan lazim` block that "is marked up as FAQ schema by
-the engineer at ingest", and nothing does the marking up. Roughly forty articles
-now carry a compliant block earning nothing.
+the engineer at ingest", and nothing does the marking up. SEO-05 then sized it on a sequential sweep of all 69 published articles:
+**31 carry a `Soalan lazim` block, 0 emit `FAQPage`.** One of the 31 is
+`mas-kahwin-ikut-negeri`, item one of this very sprint item. Evidence: site repo
+`docs/work-done/2026-08-27-seo-05-titles-EVIDENCE/faq-schema-gap.json`.
 
 ### Which document must change, and who owns the edit?
 
