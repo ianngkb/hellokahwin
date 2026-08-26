@@ -1,0 +1,34 @@
+#### C2-3-A1-dulang-hantaran
+  fm  : hantaran-kahwin, hantaran-tunang, bunga-telur, bajet-kahwin
+  body: hantaran-kahwin, hantaran-tunang, bunga-telur, bajet-kahwin
+  raw hrefs: /artikel/hiasan-dekorasi/hantaran-kahwin  /artikel/hiasan-dekorasi/hantaran-tunang  /artikel/pelamin-kad-cenderahati/bunga-telur  /artikel/venue-perancangan/bajet-kahwin
+#### C2-3-A2-gubahan-hantaran
+  fm  : hantaran-kahwin, hantaran-tunang, bajet-kahwin
+  body: hantaran-kahwin, hantaran-tunang, bajet-kahwin
+  raw hrefs: /artikel/hiasan-dekorasi/hantaran-kahwin  /artikel/hiasan-dekorasi/hantaran-tunang  /artikel/venue-perancangan/bajet-kahwin
+#### C2-3-A3-sirih-junjung
+  fm  : hantaran-tunang, bunga-telur, doa-majlis-pertunangan
+  body: bunga-telur, hantaran-tunang, doa-majlis-pertunangan
+  raw hrefs: /artikel/pelamin-kad-cenderahati/bunga-telur  /artikel/hiasan-dekorasi/hantaran-tunang  /artikel/sebelum-nikah/doa-majlis-pertunangan
+#### P3-A4-walimatul-urus
+  fm  : rukun-nikah, doa-majlis-perkahwinan, contoh-kad-jemputan-kahwin, ucapan-pengantin-baru
+  body: rukun-nikah, contoh-kad-jemputan-kahwin, ucapan-pengantin-baru, doa-majlis-perkahwinan
+  raw hrefs: /artikel/nikah-undang-undang/rukun-nikah  /artikel/pelamin-kad-cenderahati/contoh-kad-jemputan-kahwin  /artikel/ucapan-doa/ucapan-pengantin-baru  /artikel/ucapan-doa/doa-majlis-perkahwinan
+#### P3-A5-skrip-pengacara
+  fm  : doa-majlis-perkahwinan, rukun-nikah, ucapan-pengantin-baru, checklist-kahwin
+  body: doa-majlis-perkahwinan, rukun-nikah, checklist-kahwin, ucapan-pengantin-baru
+  raw hrefs: /artikel/ucapan-doa/doa-majlis-perkahwinan  /artikel/nikah-undang-undang/rukun-nikah  /artikel/venue-perancangan/checklist-kahwin  /artikel/ucapan-doa/ucapan-pengantin-baru
+
+=== every referenced slug resolved against production ===
+  PUBLISHED bajet-kahwin
+  PUBLISHED bunga-telur
+  PUBLISHED checklist-kahwin
+  PUBLISHED contoh-kad-jemputan-kahwin
+  PUBLISHED doa-majlis-perkahwinan
+  PUBLISHED doa-majlis-pertunangan
+  PUBLISHED hantaran-kahwin
+  PUBLISHED hantaran-tunang
+  PUBLISHED rukun-nikah
+  PUBLISHED ucapan-pengantin-baru
+
+IN-BATCH cross-links: NONE

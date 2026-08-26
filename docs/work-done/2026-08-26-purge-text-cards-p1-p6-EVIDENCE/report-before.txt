@@ -1,0 +1,85 @@
+=== BEFORE — image slugs the LIVE page serves, quoted from live HTML ===
+
+https://hellokahwin.com/artikel/nikah-undang-undang/borang-nikah
+  HTTP 200  x-vercel-cache=STALE  fetched 2026-08-25T16:27:54.170Z
+    [CARD] cover-borang-nikah.png
+           S-selepas-akad-raja-abd-kadir.jpg
+           S-lelaki-menadah-doa-ahmad-ali-karim.jpg
+           S-akad-nikah-masjid-azlan-dupree.jpg
+           S-akad-tok-kadi-raja-abd-kadir.jpg
+  TEXT CARDS SERVED: cover-borang-nikah.png
+
+https://hellokahwin.com/artikel/nikah-undang-undang/lafaz-taklik
+  HTTP 200  x-vercel-cache=STALE  fetched 2026-08-25T16:27:54.500Z
+    [CARD] cover-lafaz-taklik.png
+           S-lelaki-menadah-doa-ahmad-ali-karim.jpg
+           S-akad-nikah-masjid-azlan-dupree.jpg
+           S-akad-tok-kadi-raja-abd-kadir.jpg
+  TEXT CARDS SERVED: cover-lafaz-taklik.png
+
+https://hellokahwin.com/artikel/nikah-undang-undang/rukun-nikah
+  HTTP 200  x-vercel-cache=STALE  fetched 2026-08-25T16:27:54.818Z
+           S-lelaki-menadah-doa-ahmad-ali-karim.jpg
+    [CARD] cover-rukun-nikah.png
+           S-akad-nikah-masjid-azlan-dupree.jpg
+           S-pengantin-selepas-akad-azlan-dupree.jpg
+           S-akad-tok-kadi-raja-abd-kadir.jpg
+  TEXT CARDS SERVED: cover-rukun-nikah.png
+
+https://hellokahwin.com/artikel/nikah-undang-undang/syarat-sah-nikah
+  HTTP 200  x-vercel-cache=STALE  fetched 2026-08-25T16:27:55.057Z
+           S-lelaki-menadah-doa-ahmad-ali-karim.jpg
+           S-akad-nikah-masjid-azlan-dupree.jpg
+    [CARD] cover-syarat-sah-nikah.png
+           S-akad-tok-kadi-raja-abd-kadir.jpg
+  TEXT CARDS SERVED: cover-syarat-sah-nikah.png
+
+https://hellokahwin.com/artikel/venue-perancangan/bajet-kahwin
+  HTTP 200  x-vercel-cache=HIT  fetched 2026-08-25T16:28:00.673Z
+    [CARD] C6-2-A4-bajet-kahwin-cover.png
+           S-keluarga-payung-kuning-mohd-hasan.jpg
+           S-kompang-gendang-johor-stress043.jpg
+           S-jamuan-kenduri-raja-abd-kadir.jpg
+           S-pasangan-dan-keluarga-pelamin-mohd-hasan.jpg
+  TEXT CARDS SERVED: C6-2-A4-bajet-kahwin-cover.png
+
+https://hellokahwin.com/artikel/venue-perancangan/checklist-kahwin
+  HTTP 200  x-vercel-cache=MISS  fetched 2026-08-25T16:28:00.988Z
+           S-keluarga-payung-kuning-mohd-hasan.jpg
+    [CARD] C6-2-A2-checklist-kahwin-cover.png
+           S-kompang-gendang-johor-stress043.jpg
+           S-jamuan-kenduri-raja-abd-kadir.jpg
+           S-pasangan-dan-keluarga-pelamin-mohd-hasan.jpg
+  TEXT CARDS SERVED: C6-2-A2-checklist-kahwin-cover.png
+
+https://hellokahwin.com/artikel/venue-perancangan/harga-sewa-dewan-kahwin
+  HTTP 200  x-vercel-cache=MISS  fetched 2026-08-25T16:28:01.343Z
+           S-keluarga-payung-kuning-mohd-hasan.jpg
+           S-kompang-gendang-johor-stress043.jpg
+    [CARD] C6-2-A1-harga-sewa-dewan-kahwin-cover.png
+           S-dewan-orang-ramai-perak-wiki-farazi.jpg
+           S-jamuan-kenduri-raja-abd-kadir.jpg
+           S-pasangan-dan-keluarga-pelamin-mohd-hasan.jpg
+  TEXT CARDS SERVED: C6-2-A1-harga-sewa-dewan-kahwin-cover.png
+
+https://hellokahwin.com/artikel/venue-perancangan/pakej-dewan-kahwin
+  HTTP 200  x-vercel-cache=MISS  fetched 2026-08-25T16:28:01.378Z
+           S-keluarga-payung-kuning-mohd-hasan.jpg
+           S-kompang-gendang-johor-stress043.jpg
+           S-jamuan-kenduri-raja-abd-kadir.jpg
+    [CARD] C6-2-A3-pakej-dewan-kahwin-cover.png
+           S-pasangan-dan-keluarga-pelamin-mohd-hasan.jpg
+  TEXT CARDS SERVED: C6-2-A3-pakej-dewan-kahwin-cover.png
+
+=== SWEEP, all 56 live articles ===
+HTTP 200: 56/56
+TEXT CARDS SERVED ANYWHERE: 8, across 8 articles
+   nikah-undang-undang/borang-nikah: cover-borang-nikah.png
+   nikah-undang-undang/lafaz-taklik: cover-lafaz-taklik.png
+   nikah-undang-undang/rukun-nikah: cover-rukun-nikah.png
+   nikah-undang-undang/syarat-sah-nikah: cover-syarat-sah-nikah.png
+   venue-perancangan/bajet-kahwin: C6-2-A4-bajet-kahwin-cover.png
+   venue-perancangan/checklist-kahwin: C6-2-A2-checklist-kahwin-cover.png
+   venue-perancangan/harga-sewa-dewan-kahwin: C6-2-A1-harga-sewa-dewan-kahwin-cover.png
+   venue-perancangan/pakej-dewan-kahwin: C6-2-A3-pakej-dewan-kahwin-cover.png
+unmatched served stems (no media row): 0

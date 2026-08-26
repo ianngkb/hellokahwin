@@ -1,0 +1,66 @@
+=== AFTER — image slugs the LIVE page serves, quoted from live HTML ===
+
+https://hellokahwin.com/artikel/nikah-undang-undang/borang-nikah
+  HTTP 200  x-vercel-cache=HIT  fetched 2026-08-25T16:35:00.755Z
+           S-selepas-akad-raja-abd-kadir.jpg
+           S-lelaki-menadah-doa-ahmad-ali-karim.jpg
+           S-akad-nikah-masjid-azlan-dupree.jpg
+           S-akad-tok-kadi-raja-abd-kadir.jpg
+  TEXT CARDS SERVED: none
+
+https://hellokahwin.com/artikel/nikah-undang-undang/lafaz-taklik
+  HTTP 200  x-vercel-cache=HIT  fetched 2026-08-25T16:35:00.827Z
+           S-lelaki-menadah-doa-ahmad-ali-karim.jpg
+           S-akad-nikah-masjid-azlan-dupree.jpg
+           S-akad-tok-kadi-raja-abd-kadir.jpg
+  TEXT CARDS SERVED: none
+
+https://hellokahwin.com/artikel/nikah-undang-undang/rukun-nikah
+  HTTP 200  x-vercel-cache=HIT  fetched 2026-08-25T16:35:00.884Z
+           S-lelaki-menadah-doa-ahmad-ali-karim.jpg
+           S-akad-nikah-masjid-azlan-dupree.jpg
+           S-pengantin-selepas-akad-azlan-dupree.jpg
+           S-akad-tok-kadi-raja-abd-kadir.jpg
+  TEXT CARDS SERVED: none
+
+https://hellokahwin.com/artikel/nikah-undang-undang/syarat-sah-nikah
+  HTTP 200  x-vercel-cache=HIT  fetched 2026-08-25T16:35:00.934Z
+           S-lelaki-menadah-doa-ahmad-ali-karim.jpg
+           S-akad-nikah-masjid-azlan-dupree.jpg
+           S-akad-tok-kadi-raja-abd-kadir.jpg
+  TEXT CARDS SERVED: none
+
+https://hellokahwin.com/artikel/venue-perancangan/bajet-kahwin
+  HTTP 200  x-vercel-cache=HIT  fetched 2026-08-25T16:35:10.205Z
+           S-keluarga-payung-kuning-mohd-hasan.jpg
+           S-kompang-gendang-johor-stress043.jpg
+           S-jamuan-kenduri-raja-abd-kadir.jpg
+           S-pasangan-dan-keluarga-pelamin-mohd-hasan.jpg
+  TEXT CARDS SERVED: none
+
+https://hellokahwin.com/artikel/venue-perancangan/checklist-kahwin
+  HTTP 200  x-vercel-cache=HIT  fetched 2026-08-25T16:35:10.253Z
+           S-kompang-gendang-johor-stress043.jpg
+  TEXT CARDS SERVED: none
+
+https://hellokahwin.com/artikel/venue-perancangan/harga-sewa-dewan-kahwin
+  HTTP 200  x-vercel-cache=HIT  fetched 2026-08-25T16:35:10.263Z
+           S-keluarga-payung-kuning-mohd-hasan.jpg
+           S-kompang-gendang-johor-stress043.jpg
+           S-dewan-orang-ramai-perak-wiki-farazi.jpg
+           S-jamuan-kenduri-raja-abd-kadir.jpg
+           S-pasangan-dan-keluarga-pelamin-mohd-hasan.jpg
+  TEXT CARDS SERVED: none
+
+https://hellokahwin.com/artikel/venue-perancangan/pakej-dewan-kahwin
+  HTTP 200  x-vercel-cache=HIT  fetched 2026-08-25T16:35:10.292Z
+           S-keluarga-payung-kuning-mohd-hasan.jpg
+           S-kompang-gendang-johor-stress043.jpg
+           S-jamuan-kenduri-raja-abd-kadir.jpg
+           S-pasangan-dan-keluarga-pelamin-mohd-hasan.jpg
+  TEXT CARDS SERVED: none
+
+=== SWEEP, all 56 live articles ===
+HTTP 200: 56/56
+TEXT CARDS SERVED ANYWHERE: 0, across 0 articles
+unmatched served stems (no media row): 0

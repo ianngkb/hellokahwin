@@ -1,0 +1,17 @@
+published articles      61
+with a draft to compare 1
+drafts read             1
+
+SLUG                                   LIVE  DRAFT  MISSING  EXTRA
+------------------------------------------------------------------------
+borang-nikah                           4     5      1        0
+
+THE DRAFT DECLARES AN IMAGE PRODUCTION DOES NOT SERVE:
+  /artikel/nikah-undang-undang/borang-nikah   (.tmp-cont02\failcase\borang-nikah.md)
+     + S-akad-ijab-qabul-mylifestory.jpg
+
+published articles with no draft here: 60 (baju-pengantin-sewa-atau-beli, inai-tangan-pengantin, songket-tenunan-tangan-atau-cetak, lokasi-pre-wedding-photoshoot-terbaik, amankila-bali, …)
+drafts with no published article:     0
+
+FAIL — 1 published article(s) are behind their draft, 1 image(s) in total. Written is not shipped: re-ingest with --commit --update --publish.
+exit=1

@@ -1,0 +1,12 @@
+URL:              https://hellokahwin.com/artikel/idea-dan-nasihat/kursus-kahwin
+LABEL:            kursus-kahwin — after the concurrent SEO-02 write
+AT (UTC):         2026-08-25T18:03:40.832Z
+STATUS:           200      HDR x-vercel-cache: REVALIDATED   HDR age: 0
+BODY BYTES:       145804
+ROBOTS META:      (none)
+NOINDEX ANYWHERE IN BODY: false
+PROBE "Bayaran Yuran": 2 occurrence(s)
+PROBE "RM180": 6 occurrence(s)
+PROBE "1 September 2026": 2 occurrence(s)
+PROBE "Tiada kadar tersiar": 6 occurrence(s)
+

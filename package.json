@@ -19,6 +19,7 @@
     "format": "prettier --write .",
     "ingest": "tsx scripts/ingest-article.mts",
     "audit:images": "tsx scripts/audit-live-images.mts",
+    "audit:drafts": "tsx scripts/audit-draft-vs-live.mts",
     "seed:pillars": "tsx scripts/seed-pillars.ts",
     "covers": "tsx scripts/generate-cover-graphics.mts",
     "links:audit": "tsx scripts/audit-internal-links.mts"

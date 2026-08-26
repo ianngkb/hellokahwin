@@ -48,7 +48,20 @@ export const LICENSE_CLASS_LABELS: Record<LicenseClass, string> = {
  * position the 682-item library is in today, and the audit's whole finding.
  */
 const imageSchema = z.object({
-  /** Path to the image file, relative to the article file. */
+  /**
+   * Path to the image file, relative to the article file.
+   *
+   * ONE SPELLING: no `./` prefix. A photograph in a sibling folder is
+   * `images/S-name.jpg`; a graphic beside the article file is `name.png`.
+   *
+   * `./name.png` resolves to the same bytes — `resolve(fileDir, file)` does not
+   * care — so this is a convention, not a validation, and the parser will not
+   * refuse the other spelling. It is written down because it stopped being
+   * free: the P1 and P6 batches were reviewed as if they disagreed about it,
+   * and settling a difference that has no effect still costs a review round
+   * every batch. Stage 7 of the content production workflow states the same
+   * rule for writers.
+   */
   file: z.string().min(1, 'file is required'),
   alt: z
     .string()
@@ -114,6 +127,24 @@ const bodyImageSchema = imageSchema.extend({
 
 export type ArticleBodyImage = z.infer<typeof bodyImageSchema>;
 
+/**
+ * A declared internal link.
+ *
+ * `slug` is an **article** slug, and only an article slug. Pillar and cluster
+ * hubs live in `inspire_categories`, so `hantaran-mas-kahwin` — a real, live
+ * page at `/artikel/hantaran-mas-kahwin` — cannot resolve here and refuses the
+ * whole file. That is not a bug to route around: a hub needs no resolving,
+ * because it exists as long as its category does. Link a hub from the body
+ * prose instead, which is why `bodyInternalLinks()` deliberately skips
+ * `/artikel/<hub>` and only resolves the three-segment article form.
+ *
+ * Worth knowing when one entry is blocking a batch: this list is **validated,
+ * never rendered**. `scripts/ingest-article.mts` reads it exactly twice — once
+ * to check each slug resolves to a published article, once to print a count —
+ * and never writes it to the database. Nothing a reader sees depends on it.
+ * `P7-A3-doa-majlis-pertunangan` carried a hub slug here, was flagged in
+ * verification as "worth a dry run", and blocked ingest on publish day.
+ */
 const internalLinkSchema = z.object({
   slug: z.string().min(1),
   anchor: z.string().min(1, 'anchor is required — use the target’s Malay entity phrase'),

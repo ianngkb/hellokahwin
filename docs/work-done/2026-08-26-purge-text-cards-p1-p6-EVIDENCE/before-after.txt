@@ -1,0 +1,102 @@
+### /artikel/nikah-undang-undang/borang-nikah
+BEFORE 2026-08-25T16:27:54.170Z  HTTP 200  cache=STALE
+   CARD  cover-borang-nikah.png
+         S-selepas-akad-raja-abd-kadir.jpg
+         S-lelaki-menadah-doa-ahmad-ali-karim.jpg
+         S-akad-nikah-masjid-azlan-dupree.jpg
+         S-akad-tok-kadi-raja-abd-kadir.jpg
+AFTER  2026-08-25T16:42:48.491Z  HTTP 200  cache=MISS
+         S-selepas-akad-raja-abd-kadir.jpg
+         S-lelaki-menadah-doa-ahmad-ali-karim.jpg
+         S-akad-nikah-masjid-azlan-dupree.jpg
+         S-akad-tok-kadi-raja-abd-kadir.jpg
+
+### /artikel/nikah-undang-undang/rukun-nikah
+BEFORE 2026-08-25T16:27:54.818Z  HTTP 200  cache=STALE
+         S-lelaki-menadah-doa-ahmad-ali-karim.jpg
+   CARD  cover-rukun-nikah.png
+         S-akad-nikah-masjid-azlan-dupree.jpg
+         S-pengantin-selepas-akad-azlan-dupree.jpg
+         S-akad-tok-kadi-raja-abd-kadir.jpg
+AFTER  2026-08-25T16:42:50.138Z  HTTP 200  cache=MISS
+         S-lelaki-menadah-doa-ahmad-ali-karim.jpg
+         S-akad-nikah-masjid-azlan-dupree.jpg
+         S-pengantin-selepas-akad-azlan-dupree.jpg
+         S-akad-tok-kadi-raja-abd-kadir.jpg
+
+### /artikel/nikah-undang-undang/syarat-sah-nikah
+BEFORE 2026-08-25T16:27:55.057Z  HTTP 200  cache=STALE
+         S-lelaki-menadah-doa-ahmad-ali-karim.jpg
+         S-akad-nikah-masjid-azlan-dupree.jpg
+   CARD  cover-syarat-sah-nikah.png
+         S-akad-tok-kadi-raja-abd-kadir.jpg
+AFTER  2026-08-25T16:42:51.130Z  HTTP 200  cache=MISS
+         S-lelaki-menadah-doa-ahmad-ali-karim.jpg
+         S-akad-nikah-masjid-azlan-dupree.jpg
+         S-akad-tok-kadi-raja-abd-kadir.jpg
+
+### /artikel/nikah-undang-undang/lafaz-taklik
+BEFORE 2026-08-25T16:27:54.500Z  HTTP 200  cache=STALE
+   CARD  cover-lafaz-taklik.png
+         S-lelaki-menadah-doa-ahmad-ali-karim.jpg
+         S-akad-nikah-masjid-azlan-dupree.jpg
+         S-akad-tok-kadi-raja-abd-kadir.jpg
+AFTER  2026-08-25T16:42:49.326Z  HTTP 200  cache=MISS
+         S-lelaki-menadah-doa-ahmad-ali-karim.jpg
+         S-akad-nikah-masjid-azlan-dupree.jpg
+         S-akad-tok-kadi-raja-abd-kadir.jpg
+
+### /artikel/venue-perancangan/harga-sewa-dewan-kahwin
+BEFORE 2026-08-25T16:28:01.343Z  HTTP 200  cache=MISS
+         S-keluarga-payung-kuning-mohd-hasan.jpg
+         S-kompang-gendang-johor-stress043.jpg
+   CARD  C6-2-A1-harga-sewa-dewan-kahwin-cover.png
+         S-dewan-orang-ramai-perak-wiki-farazi.jpg
+         S-jamuan-kenduri-raja-abd-kadir.jpg
+         S-pasangan-dan-keluarga-pelamin-mohd-hasan.jpg
+AFTER  2026-08-25T16:43:10.664Z  HTTP 200  cache=MISS
+         S-keluarga-payung-kuning-mohd-hasan.jpg
+         S-kompang-gendang-johor-stress043.jpg
+         S-dewan-orang-ramai-perak-wiki-farazi.jpg
+         S-jamuan-kenduri-raja-abd-kadir.jpg
+         S-pasangan-dan-keluarga-pelamin-mohd-hasan.jpg
+
+### /artikel/venue-perancangan/checklist-kahwin
+BEFORE 2026-08-25T16:28:00.988Z  HTTP 200  cache=MISS
+         S-keluarga-payung-kuning-mohd-hasan.jpg
+   CARD  C6-2-A2-checklist-kahwin-cover.png
+         S-kompang-gendang-johor-stress043.jpg
+         S-jamuan-kenduri-raja-abd-kadir.jpg
+         S-pasangan-dan-keluarga-pelamin-mohd-hasan.jpg
+AFTER  2026-08-25T16:43:09.630Z  HTTP 200  cache=MISS
+         S-keluarga-payung-kuning-mohd-hasan.jpg
+         S-kompang-gendang-johor-stress043.jpg
+         S-jamuan-kenduri-raja-abd-kadir.jpg
+         S-pasangan-dan-keluarga-pelamin-mohd-hasan.jpg
+
+### /artikel/venue-perancangan/pakej-dewan-kahwin
+BEFORE 2026-08-25T16:28:01.378Z  HTTP 200  cache=MISS
+         S-keluarga-payung-kuning-mohd-hasan.jpg
+         S-kompang-gendang-johor-stress043.jpg
+         S-jamuan-kenduri-raja-abd-kadir.jpg
+   CARD  C6-2-A3-pakej-dewan-kahwin-cover.png
+         S-pasangan-dan-keluarga-pelamin-mohd-hasan.jpg
+AFTER  2026-08-25T16:43:11.244Z  HTTP 200  cache=HIT
+         S-keluarga-payung-kuning-mohd-hasan.jpg
+         S-kompang-gendang-johor-stress043.jpg
+         S-jamuan-kenduri-raja-abd-kadir.jpg
+         S-pasangan-dan-keluarga-pelamin-mohd-hasan.jpg
+
+### /artikel/venue-perancangan/bajet-kahwin
+BEFORE 2026-08-25T16:28:00.673Z  HTTP 200  cache=HIT
+   CARD  C6-2-A4-bajet-kahwin-cover.png
+         S-keluarga-payung-kuning-mohd-hasan.jpg
+         S-kompang-gendang-johor-stress043.jpg
+         S-jamuan-kenduri-raja-abd-kadir.jpg
+         S-pasangan-dan-keluarga-pelamin-mohd-hasan.jpg
+AFTER  2026-08-25T16:43:08.857Z  HTTP 200  cache=MISS
+         S-keluarga-payung-kuning-mohd-hasan.jpg
+         S-kompang-gendang-johor-stress043.jpg
+         S-jamuan-kenduri-raja-abd-kadir.jpg
+         S-pasangan-dan-keluarga-pelamin-mohd-hasan.jpg
+
