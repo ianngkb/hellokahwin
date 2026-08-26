@@ -458,6 +458,17 @@ minute to relaunch; the prompts will otherwise recur indefinitely.
   cleared all 69; final census **0 of 69** serving the default, evidence in the
   site repo at
   `docs/work-done/2026-08-27-seo-05-titles-EVIDENCE/sitewide-title-census.json`.
+- **⚠ AND THE REPAIR DOES NOT HOLD. Measured, not assumed.** Fourteen minutes
+  after the first repair of all 69, the five SEO-05 pages were serving the
+  default title again from a FRESH entry (`x-vercel-cache: HIT`, `age: 44`) —
+  another session's revalidate, on a sprint with four live hellokahwin sessions.
+  The second repair reproduced the mechanism precisely: purge round 1 against a
+  cold origin left **55 of 69** wrong, round 2 against a warm origin left **1**,
+  round 3 left **0**. **So no content-side action can make a title reliably
+  served.** Treat any "the title is live" claim as true only at the timestamp it
+  carries. The three active sessions were told directly rather than left to find
+  out: `hkdocs-cont08-c4` (its five C2.5 state pages were among the 39),
+  `hkdocs-cont05-40`, and `pillars-ingest-redirects-35`, which owns the route.
   **Until this is fixed in code, no publish is finished until the `<title>` has
   been read back from live HTML.** A 200 and a correct database row prove
   nothing here.
