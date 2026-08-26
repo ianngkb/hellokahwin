@@ -21,7 +21,7 @@ cover:
   # 6000x4000. Subjek memenuhi bingkai, cahaya lembut sekata, kontras bunga
   # koral atas kotak putih kekal terbaca pada saiz kad.
   file: ../images/S-kotak-hantaran-putih-tema-merah-jambu-qodak-stx.jpg
-  alt: "Tujuh kotak hantaran putih bertepi renda disusun dua baris di atas meja beralas kain putih, setiap satu berisi bunga tiruan merah jambu dan koral bersama satu barang seperti tuala gulung dan kasut, dengan latar hiasan daun hijau dan bunga putih serta dua batang lilin."
+  alt: "Tujuh kotak hantaran putih bertepi renda disusun dua baris di atas pedestal putih, setiap satu berisi bunga tiruan merah jambu dan koral bersama satu barang seperti tuala gulung, kasut dan beg, dengan latar hiasan daun hijau, bunga putih dan beberapa batang lilin."
   caption: "Satu tema: kotak putih, bunga koral, latar hijau. Tujuh isi yang berbeza kelihatan seperti satu set kerana warna kotak dan bunganya tidak berubah dari satu ke satu."
   credit: 'Kredit: Qodak. stx / Pexels'
   creditUrl: https://www.pexels.com/photo/35629391/
@@ -45,8 +45,8 @@ images:
   # dalam daftar aset. Selepas bahagian tentang warna keluarga dan warna
   # hantaran yang berbeza, iaitu tepat apa yang ditunjukkan.
   - file: ../images/S-keluarga-hantaran-pelamin-merah-jambu-mohd-hasan.jpg
-    alt: "Pasangan bertunang berbaju magenta duduk di sofa putih di hadapan hiasan bunga merah jambu dan hijau, diapit dua lelaki berdiri berbaju hijau dan merah jambu muda. Di lantai kiri dan kanan ada kotak akrilik lut sinar berisi bunga merah jambu, bakul buah dan gubahan kain hijau kebiruan."
-    caption: "Warna hantaran mengikut warna pengantin, bukan warna tetamu. Keluarga berbaju hijau dan merah jambu muda; hantaran di lantai kekal dalam palet magenta pasangan."
+    alt: "Pasangan bertunang berbaju magenta duduk di atas permaidani putih bersama ahli keluarga perempuan berbaju dan bertudung pelbagai warna merah jambu, di hadapan langsir putih berhias gubahan bunga merah jambu. Di lantai kiri dan kanan ada kotak hantaran berisi bunga merah jambu, bakul buah dan gubahan kain hijau kebiruan."
+    caption: "Warna hantaran mengikut pengantin: pasangan berbaju magenta, kotak bunga di lantai dalam palet merah jambu yang sama. Bakul buah dan gubahan kain membawa warna sendiri."
     credit: 'Kredit: mohd hasan / Pexels'
     creditUrl: https://www.pexels.com/photo/37097250/
     licenseClass: S
@@ -75,13 +75,13 @@ internalLinks:
     anchor: "hantaran: tempah atau buat sendiri"
 ---
 
-Tema warna hantaran dibawa oleh dua bahan sahaja: alas dulang dan reben. Kedua-duanya paling murah dalam keseluruhan gubahan, RM1.95 hingga RM7.50 sehelai alas dan RM0.60 hingga RM13.90 segulung reben di dua kedai yang disemak pada 26 Ogos 2026.
+Tema warna hantaran dibawa oleh dua bahan sahaja: alas dulang dan reben. Kedua-duanya antara bahan paling murah dalam gubahan, RM1.95 hingga RM7.50 sehelai alas dan RM0.60 hingga RM13.90 segulung reben di dua kedai yang disemak pada 26 Ogos 2026.
 
 Semua yang lain, iaitu dulang, gabus, kotak dan bunga, dibeli dalam warna neutral supaya ia boleh diguna semula apabila tema bertukar.
 
-Itulah keseluruhan kaedahnya. Pasangan yang membeli semuanya mengikut warna untuk majlis tunang akan membeli semuanya sekali lagi untuk majlis nikah.
+Pasangan yang membeli semuanya mengikut warna untuk majlis tunang akan membeli semuanya sekali lagi untuk majlis nikah.
 
-## Dari mana tema warna datang
+## Dari mana tema warna datang?
 
 Warna hantaran biasanya mengikut warna baju pengantin pada majlis itu, bukan warna pelamin dan bukan warna baju keluarga. Kalau baju tunang berwarna hijau pudina, hantaran hijau pudina; kalau baju nikah putih, hantaran putih atau krim.
 
@@ -91,7 +91,7 @@ Dua keluarga kerap memilih dua warna, kerana hantaran pihak lelaki mengikut baju
 
 Bilangan dulang dan nisbahnya diputuskan berasingan daripada warna, dan untuk majlis pertunangan, senarai isi yang biasa dibawa ada dalam panduan [hantaran tunang](/artikel/hiasan-dekorasi/hantaran-tunang).
 
-## Apa yang dibeli ikut warna
+## Apa yang dibeli ikut warna?
 
 Hanya bahan yang menutup permukaan dan tepi dulang. Ia murah, ia nipis, dan ia yang dilihat mata dahulu.
 
@@ -99,7 +99,7 @@ Hanya bahan yang menutup permukaan dan tepi dulang. Ia murah, ia nipis, dan ia y
 |---|---|---|---|
 | Alas satin atau organza | Warna asas setiap dulang | RM1.95 – RM7.50 sehelai, Sarang Hae Yo, 10 produk | Ya |
 | Reben satin | Ikatan dan tepi kotak | RM0.60 – RM5.70 segulung, JV Craft & Gifts; RM3.15 (13 ela) – RM13.90 (25 ela, 2 inci), Sarang Hae Yo | Ya |
-| Reben tarik | Riben siap pada kotak | RM1.15 – RM1.85 sehelai, JV Craft & Gifts | Ya |
+| Reben tarik | Reben siap pada kotak | RM1.15 – RM1.85 sehelai, JV Craft & Gifts | Ya |
 | Renda kedut berwarna | Tepi dulang | RM1.50 – RM3.30 semeter, JV Craft & Gifts | Ya, kalau berwarna |
 
 *(Koleksi Alas Dulang dan Accessories, saranghaeyo.com, milik Trendymax (M) Sdn Bhd; carian "satin", "reben" dan "renda" di jvcraftandgifts.com memulangkan 9, 18 dan 80 hasil. Semua disemak 26 Ogos 2026; kedua-dua laman memaparkan tahun hak cipta 2026 dan status stok langsung.)*
@@ -108,13 +108,13 @@ Alas ialah bahan pertama dan paling penting. Halaman produk Sarang Hae Yo menyat
 
 Tujuh helai alas berjumlah RM13.65 hingga RM52.50. Menukar tema warna dari tunang ke nikah bermakna membeli semula tujuh helai alas dan segulung reben, iaitu kira-kira RM17 hingga RM66 kalau semuanya diganti. Itu keseluruhan kos menukar tema, asalkan yang lain dibeli neutral.
 
-## Apa yang kekal neutral
+## Apa yang kekal neutral?
 
 Semua yang mahal, dan semua yang tebal. Bahan-bahan ini mengambil bahagian terbesar bajet gubahan dan ia yang paling sayang dibeli dua kali.
 
-| Bahan | Warna neutral yang berjalan dengan apa-apa tema | Harga tersiar |
+| Bahan | Warna neutral yang sepadan dengan apa-apa tema | Harga tersiar |
 |---|---|---|
-| Dulang | Kayu asli, emas, perak, cermin | RM2.30 – RM380.00, tiga kedai |
+| Dulang | Kayu asli, emas, perak, cermin | RM2.30 – RM380, tiga kedai |
 | Kotak PVC atau akrilik | Lut sinar | RM6.90 – RM12.53, Sarang Hae Yo |
 | Gabus siap balut | Putih atau krim | RM10.90, JV Craft & Gifts |
 | Bunga tiruan | Putih, krim, hijau daun | RM3.10 – RM26.50 sejambak, JV Craft & Gifts |
@@ -123,7 +123,7 @@ Semua yang mahal, dan semua yang tebal. Bahan-bahan ini mengambil bahagian terbe
 
 *(Julat dulang daripada panduan dulang hantaran, disemak 26 Ogos 2026 di jvcraftandgifts.com, kyksayang.com dan saranghaeyo.com. Kotak, gabus, bunga dan bakul disemak pada tarikh yang sama di laman kedai sendiri.)*
 
-Dulang ialah keputusan paling penting dalam jadual ini. Dulang emas berjalan dengan tema hijau, merah jambu, biru dan putih; dulang merah jambu berjalan dengan satu tema sahaja. Jenis, saiz dan harga setiap satu ada dalam panduan [jenis dulang hantaran](/artikel/hantaran-mas-kahwin/dulang-hantaran).
+Dulang ialah keputusan paling penting dalam jadual ini. Dulang emas sepadan dengan tema hijau, merah jambu, biru dan putih; dulang merah jambu sepadan dengan satu tema sahaja. Jenis, saiz dan harga setiap satu ada dalam panduan [jenis dulang hantaran](/artikel/hantaran-mas-kahwin/dulang-hantaran).
 
 Bunga putih ialah keputusan kedua. Bunga tiruan putih atau krim kelihatan betul di atas alas apa pun warnanya, dan sejambak yang sama boleh berpindah dari dulang tunang ke dulang nikah tanpa sesiapa perasan.
 
@@ -159,9 +159,9 @@ Lima langkah, mengikut urutan. Urutan itu yang menghalang pembelian kedua.
 
 Langkah ketiga ialah yang paling kerap dilangkau, dan ia sebab paling biasa deretan dulang kelihatan seperti tujuh warna krim yang berbeza.
 
-## Tema yang berjalan dengan dulang neutral
+## Tema yang sepadan dengan dulang neutral
 
-Bukan senarai trend, kerana trend bertukar setiap musim. Ini pasangan warna alas dan bunga yang berjalan dengan dulang emas, kayu atau cermin, dan boleh diguna semula.
+Bukan senarai trend, kerana trend bertukar setiap musim. Ini pasangan warna alas dan bunga yang sepadan dengan dulang emas, kayu atau cermin, dan boleh diguna semula.
 
 | Tema | Alas | Bunga | Dulang yang paling sesuai |
 |---|---|---|---|
@@ -188,11 +188,11 @@ Kalau dulang, gabus, kotak dan bunga dibeli neutral, yang diganti hanya alas dan
 
 ### Warna alas mana yang paling selamat?
 
-Putih atau krim, kerana ia berjalan dengan isi hantaran apa pun warnanya. Kain, telekung dan kasut membawa warna sendiri, dan alas putih menjadikannya satu warna di atas dulang. Alas berwarna paling sesuai untuk dulang yang isinya tidak berwarna, seperti cincin, jam dan kotak.
+Putih atau krim, kerana ia sepadan dengan isi hantaran apa pun warnanya. Kain, telekung dan kasut membawa warna sendiri, dan alas putih menjadikannya satu warna di atas dulang. Alas berwarna paling sesuai untuk dulang yang isinya tidak berwarna, seperti cincin, jam dan kotak.
 
 ### Patutkah hantaran ikut warna pelamin?
 
-Tidak. Pelamin sewaan ditempah lewat dan warnanya boleh berubah pada saat akhir, sedangkan hantaran disiapkan lebih awal. Hantaran duduk di sisi pengantin dalam gambar, jadi baju pengantin yang menjadi rujukan warnanya, bukan latar belakang.
+Tidak. Pelamin sewaan ditempah lewat dan warnanya boleh berubah pada saat akhir, sedangkan hantaran disiapkan lebih awal. Hantaran duduk di sisi pengantin dalam gambar, jadi baju pengantin yang menjadi rujukan warnanya, bukan latar belakang. Kalau warnanya sudah pasti dari awal, ia boleh diambil kira, tetapi baju tetap rujukan pertama.
 
 ## Langkah seterusnya
 

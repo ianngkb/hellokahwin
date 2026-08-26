@@ -3,7 +3,7 @@ title: "Hantaran: tempah atau buat sendiri? Kos sebenar 7 dulang"
 slug: hantaran-tempah-atau-buat-sendiri
 pillar: P2
 cluster: C2.3
-metaDescription: "Kos tujuh dulang hantaran ikut empat cara: beli siap gubah, buat sendiri, sewa atau upah, dengan harga tersiar empat pembekal. Disemak Ogos 2026."
+metaDescription: "Tempah atau buat sendiri hantaran? Kos sebenar tujuh dulang ikut lima cara, dengan harga tersiar empat pembekal. Disemak Ogos 2026."
 excerpt: "Tujuh dulang buat sendiri berharga kira-kira RM238 dalam bahan dan dulang. Set siap gubah RM29.90 sedulang, tetapi dijual dalam lima; gubahan berisi bermula RM525 untuk tujuh. Perbezaan sebenar bukan wang, tetapi satu malam. Ini kiraan penuh, dan senarai barang mana patut ditempah dan mana patut dibuat sendiri."
 author: ianng@theweddingnotebook.com
 status: published
@@ -71,6 +71,8 @@ internalLinks:
     anchor: hidden hantaran
   - slug: bajet-kahwin
     anchor: bajet kahwin
+  - slug: hantaran-tema-warna
+    anchor: tema warna hantaran
 ---
 
 Tujuh dulang hantaran yang dibuat sendiri berharga kira-kira RM238 dalam bahan dan dulang, mengikut harga tersiar di tiga kedai barang kahwin pada 26 Ogos 2026. Set lima dulang siap gubah di JV Craft & Gifts berharga RM149.50, iaitu RM29.90 sedulang, tetapi hanya dalam set lima.
@@ -79,23 +81,23 @@ Gubahan berisi di Rimbun Serai bermula RM75 sedulang, dan sewa dulang tanpa guba
 
 Perbezaan yang lebih besar daripada wang ialah masa: buat sendiri mengambil satu malam penuh untuk tujuh dulang. Jadi soalannya bukan mana yang lebih murah, tetapi barang mana yang berbaloi ditempah dan barang mana yang tidak.
 
-## Empat cara mendapatkan tujuh dulang
+## Lima cara mendapatkan tujuh dulang
 
 Setiap cara ada harga yang tersiar, kecuali satu, dan yang satu itu penting.
 
 | Cara | Apa yang dibayar | Kos untuk 7 dulang | Yang tidak termasuk |
 |---|---|---|---|
-| Beli siap gubah | Dulang, alas dan bunga siap dipasang | RM149.50 untuk lima, atau RM299.00 untuk dua set berjumlah 10 dulang (JV Craft & Gifts) | Isi hantaran; saiz dan warna mengikut set; tiada set tujuh |
+| Beli siap gubah | Dulang, alas dan bunga siap dipasang | RM149.50 untuk lima, atau RM299 untuk dua set berjumlah 10 dulang (JV Craft & Gifts) | Isi hantaran; saiz dan warna mengikut set; tiada set tujuh |
 | Beli gubahan berisi | Gubahan siap dengan isinya | RM525 hingga RM2,450 (tujuh gubahan pinggan RM75 hingga RM350 setiap satu, Rimbun Serai) | Barang selain buah kering dan coklat |
 | Buat sendiri | Dulang, bahan dan alat | Kira-kira RM238 (bahan RM24.30 sedulang, dulang RM8.28, alat sekali beli RM10.13) | Satu malam penuh; isi hantaran |
 | Sewa dulang, gubah sendiri | Sewa dulang siap hias tanpa gubahan | RM315 dan cagaran RM280 dipulangkan (Rimbun Serai) | Isi; kerja menggubah; perjalanan ambil dan pulang |
 | Upah menggubah dengan bahan sendiri | Kerja sahaja | Tiada kadar tersiar di mana-mana pembekal yang disemak | Semuanya |
 
-*(Set 5 Dulang Hantaran Kahwin Siap Gubah RM149.50, senarai RM170.00, dalam carian "ready made" di jvcraftandgifts.com, 15 hasil; kategori Gubahan Pinggan dan Sewa Dulang, rimbunserai.com; kos bahan sedulang daripada panduan gubahan hantaran, disemak di jvcraftandgifts.com dan kyksayang.com. Semua disemak 26 Ogos 2026; ketiga-tiga laman memaparkan tahun hak cipta 2026.)*
+*(Set 5 Dulang Hantaran Kahwin Siap Gubah RM149.50, senarai RM170, dalam carian "ready made" di jvcraftandgifts.com, 15 hasil; kategori Gubahan Pinggan ("Showing all 10 results", 3 daripadanya habis stok pada 27 Ogos 2026) dan Sewa Dulang, rimbunserai.com; kos bahan sedulang daripada panduan gubahan hantaran, disemak di jvcraftandgifts.com dan kyksayang.com. Semua disemak 26 Ogos 2026; ketiga-tiga laman memaparkan tahun hak cipta 2026.)*
 
 Baris pertama ialah yang paling kerap disalah baca. Set siap gubah JV Craft ialah lima dulang kosong yang sudah dihias dengan alas dan bunga, dan isi hantaran masih dibeli dan disusun sendiri. Angka RM29.90 sedulang ialah harga set dibahagi lima, bukan harga tersiar untuk satu dulang, dan tujuh dulang bermakna dua set.
 
-Baris kedua ialah barang yang berlainan sama sekali. Gubahan pinggan Rimbun Serai ialah gubahan buah kering yang siap dengan isinya, dan harganya termasuk kurma, aprikot dan kiwi kering di dalamnya. Ia hanya boleh dibandingkan dengan dulang makanan, bukan dengan dulang kain.
+Baris kedua ialah barang yang berlainan sama sekali. Gubahan pinggan Rimbun Serai ialah gubahan buah kering yang siap dengan isinya; Rimbun Serai menyatakan gubahannya menggunakan buah kering seperti kurma, aprikot dan kiwi. Ia hanya boleh dibandingkan dengan dulang makanan, bukan dengan dulang kain.
 
 Baris terakhir ialah kekosongan yang paling penting. Tiada satu pun daripada empat pembekal yang disemak menyiarkan upah menggubah sedulang dengan bahan pelanggan sendiri, dan itu cara yang paling ramai orang mahu.
 
@@ -112,7 +114,7 @@ Angka RM238 di atas datang daripada tiga baris, dan setiap satu boleh dikurangka
 | Alat sekali beli | Batang gam RM3.50, gam kraf RM3.90, lidi RM2.73, Sarang Hae Yo | RM10.13 |
 | **Jumlah** | | **RM238.19** |
 
-*(Bahan sedulang: alas, gabus siap balut, dua meter renda kedut dan sejambak bunga tiruan, harga tersiar JV Craft & Gifts dan KYK Sayang; dulang PVC KYK Sayang; alat daripada koleksi DIY Sireh Junjung, saranghaeyo.com. Disemak 26 Ogos 2026.)*
+*(Bahan sedulang: alas, gabus siap balut, dua meter renda kedut dan sejambak bunga tiruan, harga tersiar JV Craft & Gifts dan KYK Sayang; dulang PVC KYK Sayang; alat daripada koleksi DIY Sireh Junjung, saranghaeyo.com. Disemak 26 Ogos 2026. Tiga daripadanya harga promosi: batang gam RM3.50 daripada RM4.90, lidi RM2.73 daripada RM3.90, dulang PVC RM8.28 daripada RM9.25; pada harga senarai penuh, jumlahnya kira-kira RM248.)*
 
 Baris dulang ialah yang paling mudah berubah. Dulang kerawang plastik RM2.30 menurunkan jumlah ke bawah RM200; dulang cermin RM35 menaikkannya melepasi RM420. Julat penuh, dan bila sewa lebih berbaloi daripada beli, ada dalam panduan [sewa atau beli dulang](/artikel/hantaran-mas-kahwin/dulang-hantaran).
 
@@ -120,24 +122,24 @@ Pistol gam panas tiada dalam jadual kerana harganya tidak tersiar di ketiga-tiga
 
 Yang tiada dalam jadual, dan tidak boleh diletakkan harga, ialah masa. Ini anggaran, bukan angka mana-mana pembekal: tujuh dulang bergaya simple mengambil satu malam, dan tujuh dulang dengan kain berlipat kelopak atau renda penuh mengambil dua. Kalau malam itu tiada, buat sendiri bukan pilihan yang lebih murah; ia pilihan yang tidak siap.
 
-## Barang mana patut ditempah, barang mana patut dibuat sendiri
+## Barang mana patut ditempah, barang mana patut dibuat sendiri?
 
 Jawapannya berbeza mengikut isi dulang, bukan mengikut bajet keseluruhan. Ada barang yang menempah lebih murah daripada membuat, dan ada yang sebaliknya.
 
 | Isi dulang | Tempah atau buat | Sebab |
 |---|---|---|
-| Sirih junjung daun segar, iaitu gubahan daun sirih bertingkat yang mengepalai hantaran | Tempah | 100 helai daun disemat sehelai demi sehelai pada malam sebelum, oleh orang yang tahu; versi tiruan siap dijual RM23.50 hingga RM50.00 |
+| Sirih junjung daun segar, iaitu gubahan daun sirih bertingkat yang mengepalai hantaran | Tempah | 100 helai daun disemat sehelai demi sehelai pada malam sebelum, oleh orang yang tahu; versi tiruan siap dijual RM23.50 hingga RM50 |
 | Kek | Tempah | Makanan mudah rosak, dan kek yang dibuat sendiri jarang tahan perjalanan |
 | Buah | Beli bakul siap hias | Gubahan bakul siap RM42.90 di JV Craft & Gifts; buah dibeli sehari sebelum |
 | Coklat | Buat sendiri | Coklat kekal dalam bungkusannya dan dicucuk pada gabus; tiada kemahiran khusus |
 | Kain dan telekung | Buat sendiri, kalau ada masa | Bahannya kain yang memang dibeli; yang dibayar apabila ditempah ialah masa melipat |
-| Cincin dan jam | Beli kotak siap | Kotak cincin kaca RM41.00 hingga RM45.50 di JV Craft & Gifts lebih kemas daripada apa-apa gubahan |
+| Cincin dan jam | Beli kotak siap | Kotak cincin kaca RM41 hingga RM45.50 di JV Craft & Gifts lebih kemas daripada apa-apa gubahan |
 | Kasut dan beg | Buat sendiri | Kotak lut sinar atau kotak bertutup, reben, siap |
 | Al-Quran dan sejadah | Buat sendiri | Alas satu warna, tanpa hiasan berlebihan |
 
 *(Harga sirih junjung tiruan daripada panduan sirih junjung, KYK Sayang dan Sarang Hae Yo; Gubahan Bakul Hantaran JV 03211/3 dan Premium Glass Ring Box dalam carian di jvcraftandgifts.com. Disemak 26 Ogos 2026.)*
 
-Dua baris pertama ialah barang yang kemahirannya tidak boleh dibeli dalam masa seminggu. Perpustakaan Negara Malaysia mencatatkan 100 helai daun sirih Melayu atau lebih bagi satu sirih junjung, dan itu kerja satu malam untuk orang yang biasa membuatnya.
+Dua baris pertama ialah barang yang kemahirannya tidak boleh dibeli dalam masa seminggu.
 
 Baris coklat dan kain ialah barang yang paling kerap ditempah tanpa perlu. Coklat dalam bungkusan kilang dicucuk pada gabus dalam sepuluh minit; cara menjaganya supaya tidak cair ada dalam panduan [hantaran coklat](/artikel/hantaran-mas-kahwin/hantaran-coklat). Kain berlipat kelopak pula mengambil masa, bukan kemahiran, dan hasilnya kelihatan ditempah kalau lipatannya tegang.
 
@@ -159,15 +161,15 @@ Setiap cara ada baris yang tidak tersiar pada harga produk.
 
 ## Cara campur: tempah sebahagian, buat sebahagian
 
-Kebanyakan keluarga tidak memilih satu cara untuk semua dulang, dan itu betul. Yang berjalan ialah membahagi mengikut kemahiran, bukan mengikut bajet.
+Kebanyakan keluarga tidak memilih satu cara untuk semua dulang, dan itu betul. Yang berkesan ialah membahagi mengikut kemahiran, bukan mengikut bajet.
 
 1. **Senaraikan isi setiap dulang dahulu.** Isi menentukan cara, dan senarai itu diperlukan untuk mana-mana sebut harga.
 2. **Tempah yang memerlukan kemahiran atau makanan segar:** sirih junjung segar dan kek. Tempah awal, kerana kedua-duanya terikat pada tarikh.
 3. **Beli siap yang sudah lebih murah dibeli siap:** kotak cincin, bakul buah siap hias, sirih junjung tiruan.
 4. **Buat sendiri yang hanya memerlukan masa:** kain, telekung, coklat, kasut, beg, Al-Quran.
-5. **Beli semua alas dan bunga dalam satu warna, dalam satu pesanan,** supaya dulang yang ditempah dan dulang yang dibuat sendiri kelihatan seperti satu set.
+5. **Beli semua alas dan bunga dalam satu warna, dalam satu pesanan,** supaya dulang yang ditempah dan dulang yang dibuat sendiri kelihatan seperti satu set. Cara memilih warna itu tanpa membeli dua kali ada dalam panduan [tema warna hantaran](/artikel/hantaran-mas-kahwin/hantaran-tema-warna).
 
-Langkah kelima ialah yang menjadikan cara campur berjalan. Dulang tempahan dan dulang sendiri yang berlainan alas kelihatan seperti dua deretan; yang sama alas kelihatan seperti satu.
+Langkah kelima ialah yang menjadikan cara campur berhasil. Dulang tempahan dan dulang sendiri yang berlainan alas kelihatan seperti dua deretan; yang sama alas kelihatan seperti satu.
 
 Gaya yang paling memaafkan tangan yang tidak biasa ialah kotak lut sinar dan satu warna di atas alas satin, kerana kerja utamanya meletakkan isi dan mengikat reben.
 
@@ -175,22 +177,22 @@ Gaya yang paling memaafkan tangan yang tidak biasa ialah kotak lut sinar dan sat
 
 ### Lebih murah tempah atau buat sendiri hantaran?
 
-Sedulang, set siap gubah JV Craft & Gifts lebih murah: RM29.90 termasuk dulang, berbanding kira-kira RM32.58 buat sendiri dengan dulang PVC. Untuk tujuh dulang pula, buat sendiri kira-kira RM238 dan dua set siap gubah RM299, kerana set dijual dalam lima. Kedua-duanya disemak 26 Ogos 2026; perbezaan sebenar ialah satu atau dua malam kerja.
+Sedulang, set siap gubah JV Craft & Gifts lebih murah: RM29.90 termasuk dulang, berbanding kira-kira RM32.58 buat sendiri. Untuk tujuh dulang, buat sendiri kira-kira RM238 dan dua set siap gubah RM299, kerana set dijual dalam lima. Harga disemak 26 Ogos 2026; perbezaan sebenar ialah satu atau dua malam kerja.
 
-### Berapa upah gubah hantaran kalau bahan sendiri?
+### Adakah set siap gubah termasuk isi hantaran?
 
-Tiada angka yang boleh disemak. Tiada satu pun daripada empat pembekal yang disemak pada 26 Ogos 2026 menyiarkan kadar upah menggubah dengan bahan pelanggan di lamannya. Sebut harga yang diterima melalui pesanan peribadi perlu memisahkan upah daripada bahan, dan menyatakan kadar untuk satu dulang.
+Tidak. Set siap gubah ialah dulang, alas dan bunga yang sudah dipasang; isi hantaran masih dibeli dan disusun sendiri. Yang termasuk isinya ialah gubahan berisi seperti gubahan pinggan buah kering Rimbun Serai, dan sebab itulah dua harga itu tidak boleh dibandingkan secara terus.
 
-### Bolehkah sebahagian dulang ditempah dan sebahagian dibuat sendiri?
+### Bila patut menempah gubahan hantaran?
 
-Boleh, dan itu cara yang paling biasa. Tempah yang memerlukan kemahiran seperti sirih junjung segar, beli siap yang lebih murah dibeli siap seperti kotak cincin, dan buat sendiri yang hanya memerlukan masa seperti kain dan coklat. Samakan alas dan bunga supaya semuanya kelihatan seperti satu set.
+Sebaik sahaja senarai isi dulang dipersetujui dua keluarga, kerana penggubah menerima tempahan mengikut tarikh majlis. Sirih junjung segar dan kek ditempah paling awal kerana kedua-duanya terikat pada tarikh, dan Rimbun Serai memungut deposit minimum RM50 bagi sebarang tempahan gubahan atau servis.
 
 ### Berapa lama masa buat sendiri tujuh dulang?
 
-Tiada kadar rasmi. Sebagai anggaran, bukan kadar pembekal: satu malam penuh untuk tujuh dulang bergaya simple, dan dua malam kalau ada kain berlipat kelopak atau renda penuh. Bunga tiruan boleh disiapkan berminggu lebih awal; yang mesti dibuat pada malam sebelum hanya bunga segar dan makanan.
+Tiada tempoh tetap. Sebagai anggaran, bukan angka pembekal: satu malam penuh untuk tujuh dulang bergaya simple, dan dua malam kalau ada kain berlipat kelopak atau renda penuh. Bunga tiruan boleh disiapkan berminggu lebih awal; yang mesti dibuat pada malam sebelum hanya bunga segar dan makanan.
 
 ## Langkah seterusnya
 
-Tulis senarai isi tujuh dulang dahulu, kemudian tanda setiap satu: tempah, beli siap, atau buat. Senarai itu ialah sebut harga yang diminta daripada pembekal, dan senarai belanja untuk kedai barang kahwin.
+Tulis senarai isi tujuh dulang dahulu, kemudian tandakan setiap satu: tempah, beli siap, atau buat. Senarai itu ialah sebut harga yang diminta daripada pembekal, dan senarai belanja untuk kedai barang kahwin.
 
 Lepas itu, letakkan tiga angka itu dalam [bajet kahwin](/artikel/venue-perancangan/bajet-kahwin) sebagai tiga baris berasingan, bukan satu baris "hantaran". Baris yang dipisahkan ialah baris yang boleh dikurangkan.

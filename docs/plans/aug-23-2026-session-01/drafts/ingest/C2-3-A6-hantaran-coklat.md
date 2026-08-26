@@ -10,7 +10,6 @@ status: published
 authorship: ai_assisted
 tags:
   - hantaran coklat
-  - gubahan hantaran coklat
   - hantaran makanan
   - gubahan hantaran
 cover:
@@ -21,15 +20,16 @@ cover:
   # subjek tajam, cahaya matahari terus, bayang keras yang menunjukkan
   # keadaan tepat yang artikel ini bincangkan.
   # Kelemahan yang diakui: coklat itu sendiri tiada dalam bingkai; yang ada
-  # ialah kek dalam kotak, iaitu makanan hantaran yang sama sensitif haba.
+  # ialah kotak hantaran lut sinar di bawah matahari terik, keadaan yang
+  # artikel ini bincangkan. Isi kotak tidak dapat dipastikan dari bingkai.
   # Gambar gubahan coklat Malaysia berlesen tidak ditemui: Flickr
   # (license=4,5,7,9,10) "hantaran coklat" sifar, "coklat" hanya rokok
   # Djarum; Pexels "coklat" semuanya kepingan coklat studio tanpa konteks;
   # satu gambar dulang Ferrero di Pexels (30727999) ditolak kerana
   # jurugambarnya di Bursa, Turki. Masuk senarai permintaan jurugambar.
   file: ../images/S-rombongan-bawa-hantaran-terengganu-mohd-hasan.jpg
-  alt: "Rombongan perempuan berbaju kurung merah jambu, hijau muda dan batik biru berjalan beriringan di jalan berturap pada waktu tengah hari terik, masing-masing memegang dulang hantaran. Yang di hadapan membawa kek dalam kotak lut sinar; yang lain membawa bakul buah dan gubahan bunga. Kereta dan rumah kampung di belakang."
-  caption: "Inilah petang yang dimaksudkan: matahari terus, jalan berturap, dan makanan dalam kotak lut sinar di tangan. Perjalanan dari kereta ke rumah ialah bahagian yang paling panas."
+  alt: "Empat perempuan berbaju kurung hijau muda, krim dan batik biru berjalan beriringan di jalan berturap pada waktu tengah hari terik, masing-masing memegang dulang hantaran; yang di hadapan membawa kotak lut sinar, yang lain gubahan bunga dan hadiah berhias. Rombongan lain, kereta dan rumah kampung di belakang."
+  caption: "Inilah keadaan yang dimaksudkan: matahari terus, jalan berturap, dan hantaran dalam kotak lut sinar di tangan. Perjalanan dari kereta ke rumah ialah bahagian paling panas yang tidak dapat dielakkan."
   credit: 'Kredit: mohd hasan / Pexels'
   creditUrl: https://www.pexels.com/photo/37097195/
   licenseClass: S
@@ -38,7 +38,7 @@ images:
   # Baharu. Lesen Pexels dibaca di pexels.com/license pada 26 Ogos 2026.
   # Majlis yang sama dengan gambar kulit. Selepas bahagian suhu petang majlis.
   - file: ../images/S-rombongan-dulang-hantaran-depan-rumah-mohd-hasan.jpg
-    alt: "Rombongan lelaki dan perempuan berbaju melayu dan baju kurung pelbagai warna berdiri berbaris di hadapan sebuah rumah beratap merah pada waktu siang, setiap seorang memegang sebuah dulang hantaran: kek dalam kotak lut sinar, bakul buah, dan gubahan bunga merah jambu."
+    alt: "Rombongan lelaki dan perempuan berbaju melayu dan baju kurung pelbagai warna berdiri di hadapan sebuah rumah pada waktu tengah hari; enam daripadanya memegang dulang hantaran, antaranya jambangan berbalut, kotak lut sinar, bakul buah dan gubahan bunga merah jambu."
     caption: "Gambar rombongan diambil di luar, di bawah matahari, sebelum masuk. Hantaran yang sensitif haba patut masuk dahulu dan menunggu di dalam, bukan menunggu gambar."
     credit: 'Kredit: mohd hasan / Pexels'
     creditUrl: https://www.pexels.com/photo/37097190/
@@ -70,23 +70,23 @@ internalLinks:
 
 Hantaran coklat cair kerana mentega koko, lemak dalam coklat, mempunyai takat lebur 34 darjah Celsius, dan suhu maksimum harian di Malaysia lazimnya 32 hingga 34 darjah Celsius. Di dalam kereta yang diparkir, suhu melepasi 45 darjah dalam sepuluh minit. Coklat itu tidak salah pilih; ia salah bawa.
 
-Cara supaya ia sampai dalam keadaan asal ada empat. Pilih coklat yang berbalut sendiri dan kekalkan bungkusan kilangnya, bawa dalam kabin berhawa dingin dan bukan dalam but, dan letakkan ia paling akhir di atas dulang serta paling awal masuk ke rumah.
+Cara supaya ia sampai dalam keadaan asal ada empat: pilih coklat yang berbalut sendiri; kekalkan bungkusan kilangnya; bawa ia dalam kabin berhawa dingin, bukan dalam but; dan letakkan ia paling akhir di atas dulang, paling awal masuk ke rumah.
 
-## Kenapa coklat cair di petang majlis
+## Kenapa coklat cair di petang majlis?
 
 Angka-angkanya rapat, dan itu keseluruhan masalahnya.
 
-Majlis Minyak Sawit Malaysia (MPOC) mencatatkan bahawa mentega koko mempunyai profil lebur yang tajam pada 34 darjah Celsius, sedikit di bawah suhu badan. Peraturan-Peraturan Makanan 1985, peraturan 277, menetapkan mentega koko mesti mempunyai takat lebur tidak kurang daripada 29 darjah Celsius.
+Majlis Minyak Sawit Malaysia (MPOC) mencatatkan bahawa mentega koko mempunyai profil lebur yang tajam pada 34 darjah Celsius. Itu sedikit sahaja di bawah suhu badan manusia.
 
-Jabatan Meteorologi Malaysia (MetMalaysia) menyatakan suhu maksimum harian di Malaysia lazimnya dalam julat 32 hingga 34 darjah Celsius. Kenyataan itu daripada Ketua Pengarahnya, Dr Mohd Hisham Mohd Anip, seperti dipetik Agensi Pengurusan Bencana Negara (NADMA) pada 8 Januari 2025.
+Jabatan Meteorologi Malaysia (MetMalaysia) menyatakan suhu maksimum harian di Malaysia lazimnya dalam julat 32 hingga 34 darjah Celsius.
 
 Jadi udara petang sahaja sudah hampir sama dengan takat lebur, dan kereta yang menjadikannya pasti.
 
-Dr Norhaliza Abu Bakar dari Universiti Tun Hussein Onn Malaysia menulis dalam artikel yang disiarkan Universiti Putra Malaysia pada 13 April 2026. Walaupun suhu luar hanya 30 darjah Celsius, katanya, suhu dalam kenderaan tertutup boleh melebihi 45 darjah Celsius dalam masa sepuluh minit.
+Di dalam kereta lebih teruk lagi: walaupun suhu luar hanya 30 darjah Celsius, tulis Dr Norhaliza Abu Bakar dari Universiti Tun Hussein Onn Malaysia, suhu dalam kenderaan tertutup boleh melebihi 45 darjah Celsius dalam masa sepuluh minit.
 
 Pengeluar coklat Callebaut menetapkan suhu simpanan ideal coklat tulen antara 12 hingga 18 darjah Celsius, dengan kelembapan tidak melebihi 70 peratus. Pada suhu lebih tinggi, katanya, coklat menjadi lembut dan hilang kilatnya. Coklat tidak perlu cair sepenuhnya untuk rosak rupanya; ia hanya perlu lembut sekali dan keras semula.
 
-*(Sumber: "Palm Oil And Chocolates – What's The Connection?", mpoc.org.my; Peraturan-Peraturan Makanan 1985, kemas kini Januari 2021, Kementerian Kesihatan Malaysia; Portal NADMA, 8 Januari 2025; APSeC, Universiti Putra Malaysia, 13 April 2026; "Confectionery Shelf Life: Good Storage Practices", callebaut.com. Semua disemak 26 Ogos 2026.)*
+*(Sumber: "Palm Oil And Chocolates – What's The Connection?", mpoc.org.my; Portal NADMA, 8 Januari 2025; APSeC, Universiti Putra Malaysia, 13 April 2026; "Confectionery Shelf Life: Good Storage Practices", callebaut.com. Semua disemak 26 Ogos 2026.)*
 
 ## Suhu sebenar pada hari majlis
 
@@ -104,17 +104,17 @@ Bukan suhu udara yang menentukan, tetapi di mana hantaran itu berada dalam setia
 
 *(Suhu kereta daripada artikel APSeC UPM, 13 April 2026; suhu udara daripada MetMalaysia melalui NADMA, 8 Januari 2025. Tempoh "selamat" ialah anggaran daripada angka-angka itu, bukan ukuran pada majlis tertentu.)*
 
-Dua baris yang paling merbahaya ialah but kereta dan kereta yang diparkir. Kedua-duanya berlaku sebelum majlis bermula, ketika tiada siapa memerhatikan hantaran.
+Dua baris yang paling berbahaya ialah but kereta dan kereta yang diparkir. Kedua-duanya berlaku sebelum majlis bermula, ketika tiada siapa memerhatikan hantaran.
 
 Barisan ketiga yang sering dilupakan ialah gambar rombongan di luar rumah. Ia diambil di bawah matahari, ia mengambil masa, dan setiap dulang berada di tangan sepanjang masa itu.
 
-## Coklat mana yang tahan
-
-Tiada pengeluar coklat runcit yang disemak menyiarkan takat lebur produknya, jadi tiada jenama disebut di sini sebagai "tahan panas". Yang boleh dikatakan ialah tiga perkara tentang jenis coklat, dan satu tentang bungkusannya.
+## Coklat mana yang tahan?
 
 **Coklat berbalut sendiri** ialah pilihan yang paling praktikal. Ferrero Rocher dan KitKat, yang setiap kepingnya berbalut foil atau plastik, kekal berbentuk walaupun lembut di dalam, dan tidak melekat pada dulang atau bunga. Kedua-dua jenama itu digunakan oleh Rimbun Serai, kedai gubahan di Shah Alam, dalam gubahan coklat yang disiarkan di lamannya.
 
-**Coklat kompaun** menggunakan lemak sayuran, selalunya daripada minyak isirong sawit, menggantikan sebahagian atau semua mentega koko. MPOC mencatatkan minyak isirong sawit digunakan meluas sebagai pengganti mentega koko, dan banyak pengganti itu tidak memerlukan tempering, iaitu proses pembajaan. Sama ada ia lebih tahan panas bergantung pada lemaknya, dan itu tidak tertera pada label.
+Tiada pengeluar coklat runcit yang disemak menyiarkan takat lebur produknya, jadi tiada jenama disebut di sini sebagai "tahan panas". Selain bungkusan, dua perkara lagi patut dibaca pada label.
+
+**Coklat kompaun** menggunakan lemak sayuran, selalunya daripada minyak isirong sawit, menggantikan sebahagian atau semua mentega koko. MPOC mencatatkan minyak isirong sawit digunakan meluas sebagai pengganti mentega koko, dan banyak pengganti itu tidak memerlukan tempering, iaitu proses memanas dan menyejukkan coklat supaya ia keras dan berkilat. Sama ada ia lebih tahan panas bergantung pada lemaknya, dan itu tidak tertera pada label.
 
 **Perkataan "coklat" pada label ada maknanya.** Peraturan 279 Peraturan-Peraturan Makanan 1985 menetapkan coklat boleh mengandungi tidak lebih daripada 5 peratus lemak susu atau lemak makan sayuran selain daripada mentega koko. Produk yang melebihi had itu dijual dengan nama lain. Membaca senarai ramuan ialah satu-satunya cara tahu apa yang dibeli.
 
@@ -167,27 +167,29 @@ Panduan MyHEALTH KKM menasihatkan supaya makanan yang dimasak tidak dibiarkan le
 | Jeli dan puding | Tidak | Cair dan berair di luar peti sejuk |
 | Pulut kuning dan lauk | Tidak | Makanan masak, had 2 hingga 4 jam KKM |
 
-*(Sumber: Panduan Makanan Selamat, MyHEALTH KKM, 30 Julai 2024; Soalan Lazim, Bahagian Keselamatan dan Kualiti Makanan KKM; halaman produk Pek Buah Kering 200g, rimbunserai.com. Disemak 26 Ogos 2026.)*
+*(Sumber: Panduan Makanan Selamat, MyHEALTH, Kementerian Kesihatan Malaysia; Soalan Lazim, Bahagian Keselamatan dan Kualiti Makanan KKM; halaman produk Pek Buah Kering 200g, rimbunserai.com. Disemak 26 Ogos 2026.)*
 
 Buah dan buah kering ialah dua pilihan yang tidak memerlukan apa-apa langkah di atas. Bagi majlis pertunangan kecil yang selalunya diadakan di rumah pada waktu petang, senarai [hantaran tunang](/artikel/hiasan-dekorasi/hantaran-tunang) menunjukkan di mana makanan biasanya duduk dalam deretan.
 
-## Berapa harga gubahan hantaran coklat
+## Berapa harga gubahan hantaran coklat?
 
 Dua jenis harga tersiar: gubahan siap daripada kedai gubahan, dan bahan untuk membuatnya sendiri.
 
 | Pembekal | Produk | Harga tersiar |
 |---|---|---|
-| Rimbun Serai, Shah Alam | KitKat: 25 keping KitKat dan 250g coklat syiling | RM75.00 |
-| Rimbun Serai, Shah Alam | Ferrero Basket: Ferrero Rocher dengan alas bunga | RM150.00 |
-| Rimbun Serai, Shah Alam | Choco Setaman Mewah: coklat campuran, buah kering, alas bunga | RM200.00 |
+| Rimbun Serai, Shah Alam | KitKat: 25 keping KitKat dan 250g coklat syiling | RM75 |
+| Rimbun Serai, Shah Alam | Ferrero Basket: Ferrero Rocher dengan alas bunga | RM150 |
+| Rimbun Serai, Shah Alam | Choco Setaman Mewah: coklat campuran, buah kering, alas bunga | RM200 |
 | JV Craft & Gifts | Kotak gula-gula dan coklat kecil, sekeping | RM0.60 – RM0.80 |
 | JV Craft & Gifts | Bekas kerawang bunga rampai untuk coklat | RM1.60 – RM2.35 |
-| JV Craft & Gifts | Bekas kaca bertutup untuk coklat | RM10.00 |
+| JV Craft & Gifts | Bekas kaca bertutup untuk coklat | RM10 |
 | Sarang Hae Yo | Kotak Hantaran PVC, empat saiz | RM12.53, senarai RM17.90 |
 
 *(Kategori Gubahan Coklat di rimbunserai.com memaparkan "Showing all 3 results" dan tahun hak cipta 2026; carian "coklat" di jvcraftandgifts.com memulangkan 25 hasil; halaman produk Kotak Hantaran PVC, saranghaeyo.com. Semua disemak 26 Ogos 2026.)*
 
 Harga Rimbun Serai termasuk coklatnya. Harga JV Craft dan Sarang Hae Yo ialah bekas sahaja, dan coklatnya dibeli berasingan di pasar raya, di mana harganya berubah mengikut promosi minggu itu.
+
+Angka Rimbun Serai juga menjawab soalan bilangan: 25 keping KitKat dan 250 gram coklat syiling memenuhi satu gubahan pinggan.
 
 Tiga produk Rimbun Serai ialah satu-satunya harga gubahan coklat siap yang dijumpai tersiar di laman pembekal sendiri. Kedai gubahan lain menyebut harga melalui pesanan peribadi, dan angka dari situ tidak dimuatkan di sini.
 
@@ -201,15 +203,15 @@ Coklat yang setiap kepingnya berbalut sendiri, seperti Ferrero Rocher atau KitKa
 
 ### Bolehkah hantaran coklat disimpan dalam peti sejuk?
 
-Boleh, tetapi ia menimbulkan masalah lain. Callebaut menyatakan bahawa suhu simpanan rendah kurang berisiko, tetapi pemeluwapan apabila coklat dikeluarkan ke suhu bilik boleh menyebabkan sugar bloom, iaitu lapisan putih pada permukaan. Bilik berhawa dingin lebih selamat daripada peti sejuk untuk malam sebelum majlis.
+Boleh, tetapi ia menimbulkan masalah lain. Callebaut menyatakan bahawa suhu simpanan rendah kurang berisiko, tetapi wap air yang terkumpul apabila coklat dikeluarkan ke suhu bilik boleh menyebabkan sugar bloom, iaitu lapisan putih pada permukaan. Bilik berhawa dingin lebih selamat daripada peti sejuk untuk malam sebelum majlis.
 
 ### Berapa lama coklat tahan di bawah khemah?
 
-Tiada angka yang boleh disemak, kerana ia bergantung pada jenis coklat dan suhu petang itu. Yang boleh disemak ialah takat lebur mentega koko pada 34 darjah Celsius mengikut MPOC, dan suhu maksimum harian 32 hingga 34 darjah mengikut MetMalaysia. Di bawah khemah pada waktu tengah hari, anggap ia akan lembut dalam sejam.
+Tiada angka yang boleh disemak, kerana ia bergantung pada jenis coklat dan suhu petang itu. Yang boleh disemak ialah takat lebur mentega koko pada 34 darjah Celsius mengikut MPOC, dan suhu maksimum harian 32 hingga 34 darjah mengikut MetMalaysia. Di bawah khemah tengah hari, anggap ia lembut dalam sejam.
 
 ### Adakah kek hantaran lebih selamat daripada coklat?
 
-Bergantung pada keknya: kek kering seperti kek lapis dan kek buah tahan sepanjang petang. Kek berkrim dan kek keju ialah makanan mudah rosak, yang KKM nasihatkan tidak dibiarkan lebih daripada 2 jam pada suhu bilik. Kek berkrim dalam kotak lut sinar di bawah matahari lebih cepat rosak daripada coklat berbalut.
+Bergantung pada keknya: kek kering seperti kek lapis dan kek buah tahan sepanjang petang. Kek berkrim dan kek keju ialah makanan mudah rosak, yang KKM nasihatkan tidak dibiarkan melebihi 2 jam pada suhu bilik. Kek berkrim dalam kotak lut sinar di bawah matahari lebih cepat rosak daripada coklat berbalut.
 
 ## Langkah seterusnya
 

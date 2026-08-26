@@ -3,7 +3,7 @@ title: "Gubahan hantaran simple tapi cantik: 6 gaya dan harganya"
 slug: gubahan-hantaran-simple
 pillar: P2
 cluster: C2.3
-metaDescription: "Enam gaya gubahan hantaran simple, mana yang nampak mahal dan mana yang nampak buatan sendiri, dengan harga bahan dari dua kedai. Disemak Ogos 2026."
+metaDescription: "Enam gaya gubahan hantaran simple, mana yang nampak mahal dan mana yang nampak buatan rumah, dengan harga bahan dari dua kedai. Disemak Ogos 2026."
 excerpt: "Gaya yang nampak mahal jarang bergantung pada harga bahan. Ini enam gaya gubahan simple yang benar-benar dijual bahannya hari ini, apa yang membuat setiap satu kelihatan ditempah, dan silap kecil yang membuatnya kelihatan buatan rumah."
 author: ianng@theweddingnotebook.com
 status: published
@@ -21,8 +21,11 @@ cover:
   # Kelemahan yang diakui: cahaya tengah hari keras, wajah rombongan sama
   # menonjol dengan dulang; pada kad 320px dulang kelihatan tetapi kecil.
   # Titik fokus patut diletakkan pada barisan dulang (y kira-kira 0.6).
+  # Nota grid (27 Ogos 2026): kulit hantaran-coklat datang daripada majlis
+  # yang sama; dua kad ini mungkin bersebelahan pada grid pilar. Diterima
+  # kerana tiada bingkai pelbagai gaya lain yang berlesen; senarai naik taraf.
   file: ../images/S-rombongan-dulang-hantaran-depan-rumah-mohd-hasan.jpg
-  alt: "Rombongan lelaki dan perempuan berbaju melayu dan baju kurung pelbagai warna berdiri berbaris di hadapan sebuah rumah beratap merah pada waktu siang, setiap seorang memegang sebuah dulang hantaran: kek dalam kotak lut sinar, bakul buah, dan gubahan bunga merah jambu."
+  alt: "Rombongan lelaki dan perempuan berbaju melayu dan baju kurung pelbagai warna berdiri di hadapan sebuah rumah pada waktu tengah hari; enam daripadanya memegang dulang hantaran, antaranya jambangan berbalut, kotak lut sinar, bakul buah dan gubahan bunga merah jambu."
   caption: "Dalam satu rombongan ada beberapa gaya sekali gus: kotak lut sinar, bakul buah dan gubahan bunga. Yang menyatukannya ialah saiz dulang yang hampir sama."
   credit: 'Kredit: mohd hasan / Pexels'
   creditUrl: https://www.pexels.com/photo/37097190/
@@ -34,7 +37,7 @@ images:
   # yang ditunjukkan: tujuh dulang, satu alas, satu palet.
   - file: ../images/S-hantaran-masjid-tetamu-mylifestory.jpg
     alt: "Deretan dulang hantaran bertutup kain putih berlabuci disusun memanjang di atas permaidani hijau sebuah masjid, membawa cincin, kotak baldu biru, jambangan bunga ros putih, jam tangan dan kek. Tiga perempuan berbaju kurung dan bertudung duduk di hujung deretan itu."
-    caption: "Gaya satu warna: tujuh dulang, satu jenis alas putih. Isi setiap dulang berbeza, tetapi deretan ini kelihatan seperti satu set kerana alasnya sama."
+    caption: "Gaya satu warna: satu deretan, satu jenis alas putih. Isi setiap dulang berbeza, tetapi deretan ini kelihatan seperti satu set kerana alasnya sama."
     credit: 'Kredit: MyLifeStory (CC BY 2.0)'
     creditUrl: https://www.flickr.com/photos/mylifestory/411401416
     licenseClass: S
@@ -71,29 +74,31 @@ internalLinks:
     anchor: idea hantaran kahwin
   - slug: hantaran-tempah-atau-buat-sendiri
     anchor: "hantaran: tempah atau buat sendiri"
+  - slug: hantaran-tema-warna
+    anchor: tema warna hantaran
 ---
 
 Gubahan hantaran simple ialah gubahan yang menggunakan sedikit bahan, satu palet warna dan satu cara susun untuk semua dulang. Yang membezakan gubahan simple yang nampak mahal daripada yang nampak buatan rumah bukan harga bahannya. Ia terletak pada tiga perkara: alas yang sama untuk setiap dulang, isi yang dinaikkan, dan tepi yang ditutup.
 
 Enam gaya di bawah dipilih kerana bahannya benar-benar dijual hari ini. Setiap harga diambil daripada laman kedai barang kahwin sendiri pada 26 Ogos 2026, dan setiap gaya disertakan silap kecil yang paling kerap merosakkannya.
 
-## Apa maksud gubahan simple
+## Apa maksud gubahan simple?
 
 Simple bermaksud sedikit bahan, bukan sedikit usaha. Satu dulang bergaya simple biasanya ada empat lapisan sahaja: dulang, alas, tapak yang menaikkan isi, dan isi itu sendiri, dengan sedikit bunga di satu sisi.
 
-Gubahan yang penuh sesak dengan bunga, reben dan manik memerlukan lebih banyak bahan, tetapi bukan itu yang membuatnya kelihatan mahal. Empat prinsip yang menentukan rupa, iaitu tinggi, warna alas, tepi dan mekanisme yang tersembunyi, diterangkan dalam panduan [cara susun gubahan hantaran](/artikel/hantaran-mas-kahwin/gubahan-hantaran). Artikel ini bermula selepas itu: gaya mana yang patut dipilih.
+Empat prinsip yang menentukan rupa, iaitu tinggi, warna alas, tepi dan mekanisme yang tersembunyi, diterangkan dalam panduan [cara susun gubahan hantaran](/artikel/hantaran-mas-kahwin/gubahan-hantaran). Artikel ini bermula selepas itu: gaya mana yang patut dipilih.
 
 ## Gaya 1: satu warna di atas alas satin
 
 Ini gaya paling murah yang paling kerap kelihatan ditempah. Tujuh dulang, satu warna alas, bunga sewarna atau putih, dan tiada hiasan lain.
 
-Alas satin dan organza dijual mengikut helai. Sarang Hae Yo menyenaraikan 10 produk dalam koleksi *Alas Dulang* pada harga RM1.95 hingga RM7.50 sehelai, dengan alas satin 35cm x 35cm pada RM3.42, turun daripada RM5.20. Tujuh helai alas yang sama berjumlah kira-kira RM24 hingga RM53.
+Alas satin dan organza dijual mengikut helai. Sarang Hae Yo menyenaraikan 10 produk dalam koleksi *Alas Dulang* pada harga RM1.95 hingga RM7.50 sehelai, dengan alas satin 35cm x 35cm pada RM3.42, turun daripada RM5.20. Tujuh helai alas yang sama berjumlah kira-kira RM13.65 hingga RM52.50.
 
 *(Koleksi Alas Dulang, saranghaeyo.com, milik Trendymax (M) Sdn Bhd, disemak 26 Ogos 2026. Laman memaparkan tahun hak cipta 2026 dan status stok langsung. Harga jualan ditulis di atas harga senarai yang dipangkah bagi kebanyakan produk.)*
 
 Rupa ditempah datang daripada keseragaman. Alas yang sama pada setiap dulang menjadikan tujuh isi yang berbeza kelihatan seperti satu keputusan.
 
-Silap yang merosakkannya ialah membeli alas dari dua kedai. Warna "krim" di satu kedai jarang sama dengan "krim" di kedai lain, dan perbezaan itu kelihatan dalam gambar walaupun tidak kelihatan di dalam bilik.
+Silap yang merosakkannya ialah membeli alas dari dua kedai. Warna "krim" di satu kedai jarang sama dengan "krim" di kedai lain, dan perbezaan itu kelihatan dalam gambar walaupun tidak kelihatan di dalam bilik. Apa yang patut ikut warna dan apa yang patut kekal neutral ada dalam panduan [tema warna hantaran](/artikel/hantaran-mas-kahwin/hantaran-tema-warna).
 
 ## Gaya 2: kotak lut sinar
 
@@ -101,7 +106,7 @@ Isi hantaran diletakkan di dalam kotak PVC atau akrilik bertutup, dengan bunga d
 
 Kotak Hantaran PVC di Sarang Hae Yo berharga RM12.53, turun daripada RM17.90, dalam empat saiz dari 26cm x 26cm x 24cm hingga 29.5cm x 29.5cm x 32cm. Kotak itu dihantar rata dan perlu dilipat sendiri, dan reben sewarna disertakan.
 
-Di JV Craft & Gifts, kotak kek lut sinar dengan reben berharga RM6.00 hingga RM12.50, dan dulang akrilik RM65.00, turun daripada RM90.00.
+Di JV Craft & Gifts, kotak kek lut sinar dengan reben berharga RM6 hingga RM12.50, dan dulang akrilik RM65, turun daripada RM90.
 
 *(Halaman produk Kotak Hantaran PVC dan koleksi Dulang & Kotak Hantaran, saranghaeyo.com; carian "kotak hantaran" di jvcraftandgifts.com memulangkan 21 hasil. Kedua-duanya disemak 26 Ogos 2026 dan memaparkan tahun hak cipta 2026.)*
 
@@ -113,9 +118,9 @@ Silap yang paling kerap ialah cap jari dan calar. Kotak PVC dilipat dan dipegang
 
 Bakul rotan atau mengkuang menggantikan dulang, dengan bunga kering seperti pampas atau caspia sebagai hiasan. Gaya ini paling sesuai untuk buah, makanan dan barang yang berat.
 
-Bakul rotan di Sarang Hae Yo berharga RM9.45 hingga RM29.90 dalam enam produk koleksi *Basket*. Bunga kering di kedai yang sama: pampas RM12.90, turun daripada RM19.90, dan caspia RM15.00, turun daripada RM35.90.
+Bakul rotan di Sarang Hae Yo berharga RM9.45 hingga RM29.90 dalam enam produk koleksi *Basket*. Bunga kering di kedai yang sama: pampas RM12.90, turun daripada RM19.90, dan caspia RM15, turun daripada RM35.90.
 
-JV Craft & Gifts menjual bakul rotan hantaran RM17.00 hingga RM50.00 dan bunga kering RM16.00 hingga RM38.50 sejambak.
+JV Craft & Gifts menjual bakul rotan hantaran RM17 hingga RM50 dan bunga kering RM16 hingga RM38.50 sejambak.
 
 *(Koleksi Basket dan Artificial Flower, saranghaeyo.com; carian "bakul" di jvcraftandgifts.com memulangkan 36 hasil, dan carian "dulang hantaran" 99 hasil. Disemak 26 Ogos 2026.)*
 
@@ -129,7 +134,7 @@ Ini gaya yang paling lama ada dan paling mudah dikenali: dulang cermin atau berk
 
 Renda kedut dijual mengikut meter. JV Craft & Gifts menyenaraikan renda kedut pada RM1.50 hingga RM3.30 semeter dalam carian "renda" yang memulangkan 80 hasil, dan gabus siap balut berlabuci RM10.90 sekeping.
 
-Sarang Hae Yo menjual renda manik pada RM3.00 semeter, turun daripada RM4.90. Dulang cermin yang ada stok di kedai yang sama berharga RM25.90 hingga RM70.22.
+Sarang Hae Yo menjual renda manik pada RM3 semeter, turun daripada RM4.90. Dulang cermin yang ada stok di kedai yang sama berharga RM25.90 hingga RM70.22.
 
 *(Carian "renda" dan "gabus" di jvcraftandgifts.com; koleksi Accessories dan Dulang & Kotak Hantaran, saranghaeyo.com. Disemak 26 Ogos 2026.)*
 
@@ -165,18 +170,15 @@ Tanda-tanda ini tidak bergantung pada gaya. Ia muncul dalam gambar, dan ia muncu
 
 | Tanda | Sebab ia kelihatan | Pembetulan termurah |
 |---|---|---|
-| Alas berlainan warna | Dibeli dari dua kedai atau dua kali | Beli semua alas dalam satu pesanan |
-| Isi rata dengan dulang | Tiada gabus di bawah | Gabus RM10.90, atau kotak kecil yang dibalut |
 | Bunga sama banyak di semua tepi | Bunga dicucuk mengelilingi dulang | Bunga di satu sisi sahaja, tinggi di belakang |
-| Gam atau pin kelihatan | Dilekat dari atas | Cucuk dan lekat dari bawah |
 | Reben berkeriting | Reben plastik ditarik dengan gunting | Reben satin atau reben tarik, diikat sekali |
 | Dulang berlainan saiz | Dibeli mengikut stok yang ada | Satu saiz, atau tangga saiz yang disengajakan |
 
-Tanda pertama dan terakhir ialah yang paling kerap, dan kedua-duanya berlaku semasa membeli, bukan semasa menggubah. Jenis dan saiz dulang, serta harga setiap satu, ada dalam panduan [jenis dulang hantaran](/artikel/hantaran-mas-kahwin/dulang-hantaran).
+Tanda terakhir ialah yang paling kerap, dan ia berlaku semasa membeli, bukan semasa menggubah. Tiga tanda lain, iaitu alas berlainan warna, isi yang rata dengan dulang dan gam yang kelihatan, berpunca daripada empat prinsip susun dalam panduan cara susun yang dipautkan di atas. Jenis dan saiz dulang, serta harga setiap satu, ada dalam panduan [jenis dulang hantaran](/artikel/hantaran-mas-kahwin/dulang-hantaran).
 
-## Gaya mana untuk isi mana
+## Gaya mana untuk isi mana?
 
-Isi hantaran menentukan gaya lebih daripada citarasa. Barang berat perlukan bakul; barang kecil perlukan kotak atau dulang berkaki supaya ia tidak hilang.
+Isi hantaran menentukan gaya lebih daripada cita rasa. Barang berat perlukan bakul; barang kecil perlukan kotak atau dulang berkaki supaya ia tidak hilang.
 
 | Isi | Gaya yang sesuai | Gaya yang menyusahkan |
 |---|---|---|
@@ -193,7 +195,7 @@ Senarai isi yang biasa dibawa oleh setiap pihak, dan nisbahnya, ada dalam senara
 
 ### Gaya gubahan hantaran mana yang paling murah?
 
-Gaya kain berlipat kelopak, kerana kain ialah isi hantaran yang memang dibeli dan bahan tambahannya hanya gabus, pin dan reben. Gaya satu warna di atas alas satin ialah yang kedua, dengan tujuh helai alas berharga kira-kira RM24 hingga RM53 di Sarang Hae Yo, disemak 26 Ogos 2026.
+Gaya kain berlipat kelopak, kerana kain ialah isi hantaran yang memang dibeli dan bahan tambahannya hanya gabus, pin dan reben. Gaya satu warna di atas alas satin ialah yang kedua, dengan tujuh helai alas berharga kira-kira RM13.65 hingga RM52.50 di Sarang Hae Yo, disemak 26 Ogos 2026.
 
 ### Adakah gubahan simple sesuai untuk majlis nikah, bukan tunang sahaja?
 
@@ -201,11 +203,11 @@ Ya, kerana gaya ditentukan oleh isi dulang dan bilangannya, bukan oleh jenis maj
 
 ### Bolehkah bunga tiruan dan bunga segar dicampur?
 
-Boleh, tetapi bukan di atas dulang yang sama. Cara yang berjalan ialah dulang tertentu segar sepenuhnya, misalnya sirih junjung dan dulang bunga, dan dulang lain tiruan sepenuhnya. Di sebelah bunga segar, bunga plastik kelihatan seperti plastik, dan itu menjatuhkan kedua-duanya.
+Boleh, tetapi bukan di atas dulang yang sama. Cara yang biasa dibuat ialah dulang tertentu segar sepenuhnya, misalnya sirih junjung dan dulang bunga, dan dulang lain tiruan sepenuhnya. Di sebelah bunga segar, bunga plastik kelihatan seperti plastik, dan itu menjatuhkan kedua-duanya.
 
 ### Berapa lama masa menggubah tujuh dulang bergaya simple?
 
-Tiada kadar rasmi, dan ia bergantung pada gaya: kotak lut sinar dan satu warna paling cepat, kerana kerja utamanya meletakkan isi dan mengikat reben. Gaya kelopak dan renda paling lama kerana setiap lipatan dan setiap sentimeter renda dibuat dengan tangan. Kosongkan satu malam penuh untuk tujuh dulang, apa pun gayanya.
+Tiada tempoh tetap, dan ia bergantung pada gaya: kotak lut sinar dan satu warna paling cepat, kerana kerja utamanya meletakkan isi dan mengikat reben. Gaya kelopak dan renda paling lama kerana setiap lipatan dan sentimeter renda dibuat dengan tangan. Kosongkan satu malam penuh untuk tujuh dulang, apa pun gayanya.
 
 ## Langkah seterusnya
 
@@ -213,4 +215,4 @@ Pilih satu gaya untuk semua dulang dahulu, kemudian baru senaraikan bahan. Tujuh
 
 Lepas itu, tetapkan jenis dan saiz dulang sebelum membeli apa-apa alas, kerana alas dijual mengikut saiz dulang. Panduan [jenis dulang hantaran](/artikel/hantaran-mas-kahwin/dulang-hantaran) menyenaraikan saiz yang benar-benar dijual dan harga setiap satu.
 
-Kalau masa lebih sukar dicari daripada wang, kiraan penuh untuk tujuh dulang mengikut empat cara ada dalam panduan [hantaran: tempah atau buat sendiri](/artikel/hantaran-mas-kahwin/hantaran-tempah-atau-buat-sendiri).
+Kalau masa lebih sukar dicari daripada wang, kiraan penuh untuk tujuh dulang mengikut lima cara ada dalam panduan [hantaran: tempah atau buat sendiri](/artikel/hantaran-mas-kahwin/hantaran-tempah-atau-buat-sendiri).
