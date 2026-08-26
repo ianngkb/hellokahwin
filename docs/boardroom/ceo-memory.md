@@ -517,6 +517,34 @@ minute to relaunch; the prompts will otherwise recur indefinitely.
     production via the deployments API. If they match, the merge deploys nothing
     new. They matched here (`d53fb82` both sides), which is why the merge was
     safe to take without a fresh owner decision.
+  - **⚠ AND WHAT TO DO WHEN THEY DO NOT MATCH — added 27 Aug 2026 by RISK-05,
+    which hit exactly this.** The rule above only said what to do when the two
+    agree, and the naive reading of that silence is "push anyway". On 27 Aug
+    that would have reverted two fixes the CEO had verified live four hours
+    earlier. **"Committed is not shipped" has a mirror image on this repo:
+    DEPLOYED IS NOT ON `master`.** Production was three app commits AHEAD of
+    the default branch — RISK-04's `src/lib/seo/gsc-sitemap.ts` did not exist
+    on `origin/master` at all, and a build of the master tip printed
+    `/sitemap.xml 1h 1y` while production was serving
+    `stale-while-revalidate=3000` (RISK-06's cap). The live Production
+    deployment was `a9464a6`, a commit that had never been on master.
+    - **Two checks, and neither is conclusive alone.** `git cat-file -e
+      origin/master:<a file the work added>` says whether the source is there;
+      a live header fetch says what production is actually serving. Run both.
+    - **When master is BEHIND production, do not push onto the master tip.**
+      Base the commit on the commit production is already running, verify the
+      diff against it is only your own files, then push that. Master catches up
+      to what is live instead of dragging it backwards. RISK-05 landed as
+      `32e99e6` this way; production still served `stale-while-revalidate=3000`
+      afterwards.
+    - **`[skip ci]` / `[vercel skip]` DOES NOT WORK on this project.** Tried
+      first as the least invasive route. Deployment `6108555253` built and
+      succeeded with both markers in the commit message. Do not plan around it.
+    - **A scheduled workflow cannot be dodged around this.** GitHub refuses
+      even a manual dispatch: `HTTP 404: workflow <name>.yml not found on the
+      default branch`. There is no way to prove a cron job works without
+      landing it on `master` first, so this check is on the critical path for
+      every future scheduled job, not an optional courtesy.
   - **Cost:** $0.00/month — 42 retained objects use 0.21% of R2's free tier.
 - **PITR is $125/month, not a few dollars — so R2 is the primary defence, not a
   second copy.** The add-on is $100/month per 7 days retention, and the org is on
