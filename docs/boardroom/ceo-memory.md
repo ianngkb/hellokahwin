@@ -435,6 +435,38 @@ minute to relaunch; the prompts will otherwise recur indefinitely.
   **Owner: full-stack-engineer** (CONT-07's assignment; neither agent touched the
   article route). Fix the emitter, then correct the writer instruction so it
   describes what actually happens.
+- **🟠 SEVEN LIVE ARTICLES SIT ON TWO PARENT TOPICS.** Measured 26 Aug by
+  head-of-seo-content (Ahrefs Keywords Explorer, MY) after CONT-05 flagged a
+  near-identical slug pair. **The flagged pair is CLEAR** — `hantaran untuk
+  lelaki` (947/mo) and `hantaran tunang untuk lelaki` (421/mo) have DIFFERENT
+  parent topics; they only look alike as strings. What the test found instead:
+
+      parent "hantaran tunang"          hantaran-tunang 4,818 + untuk-lelaki 421
+                                        + untuk-perempuan 209 + barang- 123
+                                        + berapa-dulang- 15      = FIVE articles
+      parent "barang hantaran lelaki"   hantaran-kahwin 1,725 + hantaran-untuk-lelaki 947
+
+  The second pair is the sharper one: a legacy WordPress article and a brand-new
+  C2.1 article, 2,672/mo of combined demand, aimed at one topic. Also
+  `hantaran-kahwin-bajet` targets a **1/mo** keyword with no parent topic at all.
+  **Not acted on** — merging live articles carries index cost and belongs to
+  whoever owns C2.1/C2.2. Evidence:
+  `docs/work-done/2026-08-27-seo-05-titles-EVIDENCE/parent-topic-scan.json`.
+- **⚠ AND IT PUTS TWO OF THE SEO PLAYBOOK'S RULES IN DIRECT CONFLICT.** Rule 4:
+  two articles sharing a parent topic are one article split by accident, merge
+  them — the primary cannibalisation control. Rule 2: a cluster is covered when
+  every question with ≥100 monthly searches has a page. Here 421, 209 and 123 all
+  clear rule 2 while all three violate rule 4. **Both rules were followed and
+  they cannot both be satisfied.** head-of-seo-content owns resolving this; it is
+  flagged in the persona as open rather than silently decided. Until it is,
+  cluster plans should be checked against `parent_topic` BEFORE the briefs are
+  written, not after publication.
+- **⚠ A NAMING CONSEQUENCE WORTH ONE LINE.** `hantaran-untuk-lelaki` vs
+  `hantaran-tunang-untuk-lelaki`, and `barang-hantaran-berguna` vs
+  `barang-hantaran-tunang`, are one word apart and were published hours apart by
+  two different items. Inside four hours the pairs caused a real misattribution
+  in a cross-session report. Even where the topics are genuinely distinct,
+  near-identical slugs cost human accuracy — CONT-05's point, and it held.
 - **🔴 The cached-metadata / wrong-`<title>` defect** — see "OPEN AND UNFIXED"
   above under Site state. Route is on master and unblocked; needs an owner.
 
