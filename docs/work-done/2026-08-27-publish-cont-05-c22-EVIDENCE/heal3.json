@@ -1,0 +1,65 @@
+{
+ "sweepShape": "serial per URL: purge, absorb, verify",
+ "rows": [
+  {
+   "slug": "hantaran-tunang-untuk-lelaki",
+   "attempt": 1,
+   "status": 200,
+   "cache": "HIT",
+   "age": "6",
+   "ms": 495,
+   "bytes": 136271,
+   "title": "Hantaran tunang untuk lelaki: apa yang dibalas dan harganya | HelloKahwin",
+   "desc": "Isi dulang hantaran tunang untuk pihak lelaki, dengan harga setiap barang dibaca terus daripada kedai yang dinamakan pada 27 Ogos 2026.",
+   "ok": true
+  },
+  {
+   "slug": "hantaran-tunang-untuk-perempuan",
+   "attempt": 1,
+   "status": 200,
+   "cache": "HIT",
+   "age": "6",
+   "ms": 361,
+   "bytes": 138551,
+   "title": "Hantaran tunang untuk perempuan: apa yang dibawa masuk | HelloKahwin",
+   "desc": "Isi dulang hantaran tunang untuk pihak perempuan, dengan harga setiap barang dibaca terus daripada kedai yang dinamakan pada 27 Ogos 2026.",
+   "ok": true
+  },
+  {
+   "slug": "berapa-dulang-hantaran-tunang",
+   "attempt": 1,
+   "status": 200,
+   "cache": "HIT",
+   "age": "5",
+   "ms": 340,
+   "bytes": 135443,
+   "title": "Berapa dulang hantaran tunang, dan siapa yang tentukan | HelloKahwin",
+   "desc": "Bilangan dulang hantaran tunang yang lazim, siapa yang mula menyebut angka itu, bila ia dibincangkan, dan apa yang berlaku kalau dua keluarga tak sama.",
+   "ok": true
+  },
+  {
+   "slug": "hantaran-tunang-simple",
+   "attempt": 1,
+   "status": 200,
+   "cache": "HIT",
+   "age": "6",
+   "ms": 352,
+   "bytes": 132318,
+   "title": "Hantaran tunang simple: contoh lapan dulang dan kosnya | HelloKahwin",
+   "desc": "Contoh hantaran tunang ringkas: lapan dulang pada RM637.22, setiap baris daripada harga tersiar kedai yang dinamakan dan disemak 27 Ogos 2026.",
+   "ok": true
+  },
+  {
+   "slug": "barang-hantaran-tunang",
+   "attempt": 1,
+   "status": 200,
+   "cache": "HIT",
+   "age": "6",
+   "ms": 353,
+   "bytes": 131723,
+   "title": "Barang hantaran tunang: disimpan, dipulang atau dibawa ke nikah | HelloKahwin",
+   "desc": "Apa yang berlaku kepada barang hantaran tunang selepas majlis: mana yang disimpan penerima, mana yang dipulangkan, dan mana yang dibawa ke majlis nikah.",
+   "ok": true
+  }
+ ]
+}

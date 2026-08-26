@@ -1,0 +1,289 @@
+PASS 1 START  2026-08-26T21:38:34.6224632Z
+
+############ C2-2-A2-hantaran-tunang-untuk-lelaki.md  2026-08-26T21:38:34.6338286Z
+⚠ VERCEL_TOKEN is not set, so the Vercel EDGE cache will NOT be purged after the
+  write. The article will be correct at the origin but the pillar page can serve a
+  pre-publish copy for up to 5 minutes and the sitemap for up to an hour.
+  To purge it, re-run under the vault:
+    vault.ps1 run vercel.twn -EnvVar VERCEL_TOKEN -Cmd pwsh,"-NoProfile","-Command",'<ingest command>'
+
+⚠ No GSC credential (GSC_SERVICE_ACCOUNT_JSON or GSC_CREDENTIALS_PATH), so Google
+  will NOT be asked to re-read the sitemap. The article will be live and in the
+  sitemap, but Google finds it on its own schedule — days, on this property.
+  To supply it:
+    $env:GSC_CREDENTIALS_PATH = "$HOME/.claude/secrets/gsc-service-account.json"
+  or inject GSC_SERVICE_ACCOUNT_JSON from Doppler (project hellokahwin, config prd).
+
+File:   C2-2-A2-hantaran-tunang-untuk-lelaki.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Hantaran & Mas Kahwin (P2)
+Cluster: Hantaran tunang (C2.2)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  3, every one credited
+  ../images/S-hantaran-quran-sejadah-phalinn-ooi.jpg  →  "Kredit: Mohd Fazlin Mohd Effendy Ooi (Phalinn Ooi) (CC BY 2.0)" [S] Mohd Fazlin Mohd Effendy Ooi
+  ../images/S-serah-dulang-tunang-rombongan-phalinn-ooi.jpg  →  "Kredit: Mohd Fazlin Mohd Effendy Ooi (Phalinn Ooi) (CC BY 2.0)" [S] Mohd Fazlin Mohd Effendy Ooi
+  ../images/S-gubahan-kain-hantaran-mohd-hasan.jpg  →  "Kredit: mohd hasan / Pexels" [S] mohd hasan
+Tags:    hantaran tunang untuk lelaki, hantaran tunang, barang hantaran tunang, bertunang
+Links:   5 internal, all resolved
+URL:     /artikel/hantaran-mas-kahwin/hantaran-tunang-untuk-lelaki
+  uploaded ../images/S-hantaran-quran-sejadah-phalinn-ooi.jpg (+4 crops)
+  uploaded ../images/S-serah-dulang-tunang-rombongan-phalinn-ooi.jpg (+4 crops)
+  uploaded ../images/S-gubahan-kain-hantaran-mohd-hasan.jpg (+4 crops)
+
+Done. /artikel/hantaran-mas-kahwin/hantaran-tunang-untuk-lelaki (published)
+It will appear on the pillar page under its cluster with no further action.
+
+  ════════════════════════════════════════════════════════════════════
+  ⚠  THE VERCEL EDGE WAS NOT PURGED. The article is published and the
+     origin is correct, but readers — Googlebot included — can be
+     served the PRE-PUBLISH page for up to 5 minutes:
+       https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang-untuk-lelaki
+       https://hellokahwin.com/artikel/hantaran-mas-kahwin
+     and the sitemap for up to an hour:
+       https://hellokahwin.com/sitemap.xml
+
+     Reason: VERCEL_TOKEN is not set, so no purge was attempted
+
+     Re-run the ingest under the vault to purge, or wait out the TTL
+     before inviting a crawl.
+  ════════════════════════════════════════════════════════════════════
+
+  Google was also NOT asked to re-read the sitemap, on purpose: until the
+  edge is purged, the sitemap it would fetch is the pre-publish copy. Purge
+  first, then resubmit — by hand in Search Console, or by re-running this.
+
+exit=0
+
+############ C2-2-A3-hantaran-tunang-untuk-perempuan.md  2026-08-26T21:39:12.2204945Z
+⚠ VERCEL_TOKEN is not set, so the Vercel EDGE cache will NOT be purged after the
+  write. The article will be correct at the origin but the pillar page can serve a
+  pre-publish copy for up to 5 minutes and the sitemap for up to an hour.
+  To purge it, re-run under the vault:
+    vault.ps1 run vercel.twn -EnvVar VERCEL_TOKEN -Cmd pwsh,"-NoProfile","-Command",'<ingest command>'
+
+⚠ No GSC credential (GSC_SERVICE_ACCOUNT_JSON or GSC_CREDENTIALS_PATH), so Google
+  will NOT be asked to re-read the sitemap. The article will be live and in the
+  sitemap, but Google finds it on its own schedule — days, on this property.
+  To supply it:
+    $env:GSC_CREDENTIALS_PATH = "$HOME/.claude/secrets/gsc-service-account.json"
+  or inject GSC_SERVICE_ACCOUNT_JSON from Doppler (project hellokahwin, config prd).
+
+File:   C2-2-A3-hantaran-tunang-untuk-perempuan.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Hantaran & Mas Kahwin (P2)
+Cluster: Hantaran tunang (C2.2)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  4, every one credited
+  ../images/S-tepak-sirih-emas-dulang-phalinn-ooi.jpg  →  "Kredit: Mohd Fazlin Mohd Effendy Ooi (Phalinn Ooi) (CC BY 2.0)" [S] Mohd Fazlin Mohd Effendy Ooi
+  ../images/S-cincin-tunang-kotak-mohd-nasir.jpg  →  "Kredit: Mohd Nasir Mat Noor (CC BY 2.0)" [S] Mohd Nasir Mat Noor
+  ../images/S-dulang-buah-gubahan-merah-phalinn-ooi.jpg  →  "Kredit: Mohd Fazlin Mohd Effendy Ooi (Phalinn Ooi) (CC BY 2.0)" [S] Mohd Fazlin Mohd Effendy Ooi
+  ../images/S-sirih-junjung-mohd-nasir.jpg  →  "Kredit: Mohd Nasir Mat Noor (CC BY 2.0)" [S] Mohd Nasir Mat Noor
+Tags:    hantaran tunang untuk perempuan, hantaran tunang, barang hantaran tunang, bertunang
+Links:   5 internal, all resolved
+URL:     /artikel/hantaran-mas-kahwin/hantaran-tunang-untuk-perempuan
+  uploaded ../images/S-tepak-sirih-emas-dulang-phalinn-ooi.jpg (+4 crops)
+  uploaded ../images/S-cincin-tunang-kotak-mohd-nasir.jpg (+4 crops)
+  uploaded ../images/S-dulang-buah-gubahan-merah-phalinn-ooi.jpg (+4 crops)
+  uploaded ../images/S-sirih-junjung-mohd-nasir.jpg (+4 crops)
+
+Done. /artikel/hantaran-mas-kahwin/hantaran-tunang-untuk-perempuan (published)
+It will appear on the pillar page under its cluster with no further action.
+
+  ════════════════════════════════════════════════════════════════════
+  ⚠  THE VERCEL EDGE WAS NOT PURGED. The article is published and the
+     origin is correct, but readers — Googlebot included — can be
+     served the PRE-PUBLISH page for up to 5 minutes:
+       https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang-untuk-perempuan
+       https://hellokahwin.com/artikel/hantaran-mas-kahwin
+     and the sitemap for up to an hour:
+       https://hellokahwin.com/sitemap.xml
+
+     Reason: VERCEL_TOKEN is not set, so no purge was attempted
+
+     Re-run the ingest under the vault to purge, or wait out the TTL
+     before inviting a crawl.
+  ════════════════════════════════════════════════════════════════════
+
+  Google was also NOT asked to re-read the sitemap, on purpose: until the
+  edge is purged, the sitemap it would fetch is the pre-publish copy. Purge
+  first, then resubmit — by hand in Search Console, or by re-running this.
+
+exit=0
+
+############ C2-2-A4-berapa-dulang-hantaran-tunang.md  2026-08-26T21:39:47.5671645Z
+⚠ VERCEL_TOKEN is not set, so the Vercel EDGE cache will NOT be purged after the
+  write. The article will be correct at the origin but the pillar page can serve a
+  pre-publish copy for up to 5 minutes and the sitemap for up to an hour.
+  To purge it, re-run under the vault:
+    vault.ps1 run vercel.twn -EnvVar VERCEL_TOKEN -Cmd pwsh,"-NoProfile","-Command",'<ingest command>'
+
+⚠ No GSC credential (GSC_SERVICE_ACCOUNT_JSON or GSC_CREDENTIALS_PATH), so Google
+  will NOT be asked to re-read the sitemap. The article will be live and in the
+  sitemap, but Google finds it on its own schedule — days, on this property.
+  To supply it:
+    $env:GSC_CREDENTIALS_PATH = "$HOME/.claude/secrets/gsc-service-account.json"
+  or inject GSC_SERVICE_ACCOUNT_JSON from Doppler (project hellokahwin, config prd).
+
+File:   C2-2-A4-berapa-dulang-hantaran-tunang.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Hantaran & Mas Kahwin (P2)
+Cluster: Hantaran tunang (C2.2)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  3, every one credited
+  ../images/S-dulang-hantaran-bersusun-phalinn-ooi.jpg  →  "Kredit: Mohd Fazlin Mohd Effendy Ooi (Phalinn Ooi) (CC BY 2.0)" [S] Mohd Fazlin Mohd Effendy Ooi
+  ../images/S-susunan-dulang-tunang-majlis-phalinn-ooi.jpg  →  "Kredit: Mohd Fazlin Mohd Effendy Ooi (Phalinn Ooi) (CC BY 2.0)" [S] Mohd Fazlin Mohd Effendy Ooi
+  ../images/S-dulang-buah-hantaran-mohd-hasan.jpg  →  "Kredit: mohd hasan / Pexels" [S] mohd hasan
+Tags:    dulang hantaran tunang, berapa dulang hantaran tunang, hantaran tunang, bertunang
+Links:   6 internal, all resolved
+URL:     /artikel/hantaran-mas-kahwin/berapa-dulang-hantaran-tunang
+  uploaded ../images/S-dulang-hantaran-bersusun-phalinn-ooi.jpg (+4 crops)
+  uploaded ../images/S-susunan-dulang-tunang-majlis-phalinn-ooi.jpg (+4 crops)
+  uploaded ../images/S-dulang-buah-hantaran-mohd-hasan.jpg (+4 crops)
+
+Done. /artikel/hantaran-mas-kahwin/berapa-dulang-hantaran-tunang (published)
+It will appear on the pillar page under its cluster with no further action.
+
+  ════════════════════════════════════════════════════════════════════
+  ⚠  THE VERCEL EDGE WAS NOT PURGED. The article is published and the
+     origin is correct, but readers — Googlebot included — can be
+     served the PRE-PUBLISH page for up to 5 minutes:
+       https://hellokahwin.com/artikel/hantaran-mas-kahwin/berapa-dulang-hantaran-tunang
+       https://hellokahwin.com/artikel/hantaran-mas-kahwin
+     and the sitemap for up to an hour:
+       https://hellokahwin.com/sitemap.xml
+
+     Reason: VERCEL_TOKEN is not set, so no purge was attempted
+
+     Re-run the ingest under the vault to purge, or wait out the TTL
+     before inviting a crawl.
+  ════════════════════════════════════════════════════════════════════
+
+  Google was also NOT asked to re-read the sitemap, on purpose: until the
+  edge is purged, the sitemap it would fetch is the pre-publish copy. Purge
+  first, then resubmit — by hand in Search Console, or by re-running this.
+
+exit=0
+
+############ C2-2-A5-hantaran-tunang-simple.md  2026-08-26T21:40:09.8638569Z
+⚠ VERCEL_TOKEN is not set, so the Vercel EDGE cache will NOT be purged after the
+  write. The article will be correct at the origin but the pillar page can serve a
+  pre-publish copy for up to 5 minutes and the sitemap for up to an hour.
+  To purge it, re-run under the vault:
+    vault.ps1 run vercel.twn -EnvVar VERCEL_TOKEN -Cmd pwsh,"-NoProfile","-Command",'<ingest command>'
+
+⚠ No GSC credential (GSC_SERVICE_ACCOUNT_JSON or GSC_CREDENTIALS_PATH), so Google
+  will NOT be asked to re-read the sitemap. The article will be live and in the
+  sitemap, but Google finds it on its own schedule — days, on this property.
+  To supply it:
+    $env:GSC_CREDENTIALS_PATH = "$HOME/.claude/secrets/gsc-service-account.json"
+  or inject GSC_SERVICE_ACCOUNT_JSON from Doppler (project hellokahwin, config prd).
+
+File:   C2-2-A5-hantaran-tunang-simple.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Hantaran & Mas Kahwin (P2)
+Cluster: Hantaran tunang (C2.2)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  3, every one credited
+  ../images/S-hantaran-sangkar-buah-ringkas-phalinn-ooi.jpg  →  "Kredit: Mohd Fazlin Mohd Effendy Ooi (Phalinn Ooi) (CC BY 2.0)" [S] Mohd Fazlin Mohd Effendy Ooi
+  ../images/S-dulang-terbuka-gubahan-merah-phalinn-ooi.jpg  →  "Kredit: Mohd Fazlin Mohd Effendy Ooi (Phalinn Ooi) (CC BY 2.0)" [S] Mohd Fazlin Mohd Effendy Ooi
+  ../images/S-sirih-junjung-mohd-nasir.jpg  →  "Kredit: Mohd Nasir Mat Noor (CC BY 2.0)" [S] Mohd Nasir Mat Noor
+Tags:    hantaran tunang simple, contoh hantaran tunang, hantaran tunang, bajet kahwin
+Links:   6 internal, all resolved
+URL:     /artikel/hantaran-mas-kahwin/hantaran-tunang-simple
+  uploaded ../images/S-hantaran-sangkar-buah-ringkas-phalinn-ooi.jpg (+4 crops)
+  uploaded ../images/S-dulang-terbuka-gubahan-merah-phalinn-ooi.jpg (+4 crops)
+  uploaded ../images/S-sirih-junjung-mohd-nasir.jpg (+4 crops)
+
+Done. /artikel/hantaran-mas-kahwin/hantaran-tunang-simple (published)
+It will appear on the pillar page under its cluster with no further action.
+
+  ════════════════════════════════════════════════════════════════════
+  ⚠  THE VERCEL EDGE WAS NOT PURGED. The article is published and the
+     origin is correct, but readers — Googlebot included — can be
+     served the PRE-PUBLISH page for up to 5 minutes:
+       https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang-simple
+       https://hellokahwin.com/artikel/hantaran-mas-kahwin
+     and the sitemap for up to an hour:
+       https://hellokahwin.com/sitemap.xml
+
+     Reason: VERCEL_TOKEN is not set, so no purge was attempted
+
+     Re-run the ingest under the vault to purge, or wait out the TTL
+     before inviting a crawl.
+  ════════════════════════════════════════════════════════════════════
+
+  Google was also NOT asked to re-read the sitemap, on purpose: until the
+  edge is purged, the sitemap it would fetch is the pre-publish copy. Purge
+  first, then resubmit — by hand in Search Console, or by re-running this.
+
+exit=0
+
+############ C2-2-A6-barang-hantaran-tunang.md  2026-08-26T21:40:34.7269543Z
+⚠ VERCEL_TOKEN is not set, so the Vercel EDGE cache will NOT be purged after the
+  write. The article will be correct at the origin but the pillar page can serve a
+  pre-publish copy for up to 5 minutes and the sitemap for up to an hour.
+  To purge it, re-run under the vault:
+    vault.ps1 run vercel.twn -EnvVar VERCEL_TOKEN -Cmd pwsh,"-NoProfile","-Command",'<ingest command>'
+
+⚠ No GSC credential (GSC_SERVICE_ACCOUNT_JSON or GSC_CREDENTIALS_PATH), so Google
+  will NOT be asked to re-read the sitemap. The article will be live and in the
+  sitemap, but Google finds it on its own schedule — days, on this property.
+  To supply it:
+    $env:GSC_CREDENTIALS_PATH = "$HOME/.claude/secrets/gsc-service-account.json"
+  or inject GSC_SERVICE_ACCOUNT_JSON from Doppler (project hellokahwin, config prd).
+
+File:   C2-2-A6-barang-hantaran-tunang.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Hantaran & Mas Kahwin (P2)
+Cluster: Hantaran tunang (C2.2)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  3, every one credited
+  ../images/S-dulang-terbuka-gubahan-merah-phalinn-ooi.jpg  →  "Kredit: Mohd Fazlin Mohd Effendy Ooi (Phalinn Ooi) (CC BY 2.0)" [S] Mohd Fazlin Mohd Effendy Ooi
+  ../images/S-tepak-sirih-muzium-negara-marcin-konsek.jpg  →  "Kredit: Marcin Konsek (CC BY-SA 4.0)" [S] Marcin Konsek
+  ../images/S-susunan-dulang-tunang-majlis-phalinn-ooi.jpg  →  "Kredit: Mohd Fazlin Mohd Effendy Ooi (Phalinn Ooi) (CC BY 2.0)" [S] Mohd Fazlin Mohd Effendy Ooi
+Tags:    barang hantaran tunang, hantaran tunang, adat pertunangan, bertunang
+Links:   5 internal, all resolved
+URL:     /artikel/hantaran-mas-kahwin/barang-hantaran-tunang
+  uploaded ../images/S-dulang-terbuka-gubahan-merah-phalinn-ooi.jpg (+4 crops)
+  uploaded ../images/S-tepak-sirih-muzium-negara-marcin-konsek.jpg (+4 crops)
+  uploaded ../images/S-susunan-dulang-tunang-majlis-phalinn-ooi.jpg (+4 crops)
+
+Done. /artikel/hantaran-mas-kahwin/barang-hantaran-tunang (published)
+It will appear on the pillar page under its cluster with no further action.
+
+  ════════════════════════════════════════════════════════════════════
+  ⚠  THE VERCEL EDGE WAS NOT PURGED. The article is published and the
+     origin is correct, but readers — Googlebot included — can be
+     served the PRE-PUBLISH page for up to 5 minutes:
+       https://hellokahwin.com/artikel/hantaran-mas-kahwin/barang-hantaran-tunang
+       https://hellokahwin.com/artikel/hantaran-mas-kahwin
+     and the sitemap for up to an hour:
+       https://hellokahwin.com/sitemap.xml
+
+     Reason: VERCEL_TOKEN is not set, so no purge was attempted
+
+     Re-run the ingest under the vault to purge, or wait out the TTL
+     before inviting a crawl.
+  ════════════════════════════════════════════════════════════════════
+
+  Google was also NOT asked to re-read the sitemap, on purpose: until the
+  edge is purged, the sitemap it would fetch is the pre-publish copy. Purge
+  first, then resubmit — by hand in Search Console, or by re-running this.
+
+exit=0
+PASS 1 END    2026-08-26T21:41:02.8917171Z

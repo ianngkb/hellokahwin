@@ -1,0 +1,75 @@
+{
+ "sweepShape": "serial, 2 requests per URL 5s apart, 7s between URLs",
+ "rows": [
+  {
+   "at": "2026-08-26T22:09:25.936Z",
+   "req": 2,
+   "slug": "hantaran-tunang-untuk-lelaki",
+   "status": 200,
+   "cache": "HIT",
+   "age": "235",
+   "ms": 149,
+   "bytes": 131009,
+   "title": "HelloKahwin — Idea &amp; Panduan Perkahwinan Malaysia",
+   "titleLen": 53,
+   "descLen": 102,
+   "ok": false
+  },
+  {
+   "at": "2026-08-26T22:09:38.481Z",
+   "req": 2,
+   "slug": "hantaran-tunang-untuk-perempuan",
+   "status": 200,
+   "cache": "HIT",
+   "age": "235",
+   "ms": 88,
+   "bytes": 110747,
+   "title": "HelloKahwin — Idea &amp; Panduan Perkahwinan Malaysia",
+   "titleLen": 53,
+   "descLen": 102,
+   "ok": false
+  },
+  {
+   "at": "2026-08-26T22:09:50.714Z",
+   "req": 2,
+   "slug": "berapa-dulang-hantaran-tunang",
+   "status": 200,
+   "cache": "HIT",
+   "age": "234",
+   "ms": 124,
+   "bytes": 107607,
+   "title": "HelloKahwin — Idea &amp; Panduan Perkahwinan Malaysia",
+   "titleLen": 53,
+   "descLen": 102,
+   "ok": false
+  },
+  {
+   "at": "2026-08-26T22:10:02.917Z",
+   "req": 2,
+   "slug": "hantaran-tunang-simple",
+   "status": 200,
+   "cache": "HIT",
+   "age": "236",
+   "ms": 99,
+   "bytes": 127037,
+   "title": "HelloKahwin — Idea &amp; Panduan Perkahwinan Malaysia",
+   "titleLen": 53,
+   "descLen": 102,
+   "ok": false
+  },
+  {
+   "at": "2026-08-26T22:10:15.092Z",
+   "req": 2,
+   "slug": "barang-hantaran-tunang",
+   "status": 200,
+   "cache": "HIT",
+   "age": "239",
+   "ms": 75,
+   "bytes": 126332,
+   "title": "HelloKahwin — Idea &amp; Panduan Perkahwinan Malaysia",
+   "titleLen": 53,
+   "descLen": 102,
+   "ok": false
+  }
+ ]
+}

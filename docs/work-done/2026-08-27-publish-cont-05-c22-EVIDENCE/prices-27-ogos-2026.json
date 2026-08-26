@@ -1,0 +1,114 @@
+{
+ "checkedAt": "2026-08-26T17:38:09.379Z",
+ "rows": [
+  {
+   "cat": "Telekung",
+   "shop": "Siti Khadijah",
+   "url": "https://www.sitikhadijah.com/collections/telekung/products.json",
+   "n": 73,
+   "min": 88,
+   "p25": 188,
+   "median": 250,
+   "p75": 288,
+   "max": 888
+  },
+  {
+   "cat": "Sejadah",
+   "shop": "Siti Khadijah",
+   "url": "https://www.sitikhadijah.com/collections/adult-sejadah/products.json",
+   "n": 24,
+   "min": 20,
+   "p25": 58,
+   "median": 80,
+   "p75": 98,
+   "max": 188
+  },
+  {
+   "cat": "Hadiah untuk lelaki",
+   "shop": "Siti Khadijah",
+   "url": "https://www.sitikhadijah.com/collections/hadiah-untuk-lelaki/products.json",
+   "n": 3,
+   "min": 58,
+   "p25": 58,
+   "median": 88,
+   "p75": 88,
+   "max": 148
+  },
+  {
+   "cat": "Kopiah lelaki",
+   "shop": "Siti Khadijah",
+   "url": "https://www.sitikhadijah.com/collections/mens-kopiah/products.json",
+   "n": 1,
+   "min": 48,
+   "p25": 48,
+   "median": 48,
+   "p75": 48,
+   "max": 48
+  },
+  {
+   "cat": "Gift for her",
+   "shop": "Siti Khadijah",
+   "url": "https://www.sitikhadijah.com/collections/gift-for-her/products.json",
+   "n": 120,
+   "min": 18,
+   "p25": 98,
+   "median": 188,
+   "p75": 258,
+   "max": 1000
+  },
+  {
+   "cat": "Tudung dan shawl",
+   "shop": "Tudung People",
+   "url": "https://www.tudungpeople.com/products.json",
+   "n": 250,
+   "min": 15,
+   "p25": 69,
+   "median": 89,
+   "p75": 119,
+   "max": 219
+  },
+  {
+   "cat": "Al-Quran",
+   "shop": "Telaga Biru",
+   "url": "https://telagabiru.com.my/collections/al-quran/products.json",
+   "n": 57,
+   "min": 3.9,
+   "p25": 19,
+   "median": 80,
+   "p75": 135,
+   "max": 399
+  },
+  {
+   "cat": "Barang kemas",
+   "shop": "Habib Jewels",
+   "url": "https://www.habibjewels.com/products.json",
+   "n": 250,
+   "min": 147,
+   "p25": 618,
+   "median": 1240,
+   "p75": 2343,
+   "max": 13666
+  },
+  {
+   "cat": "Barang kemas",
+   "shop": "Poh Kong",
+   "url": "https://pohkong.com.my/products.json",
+   "n": 247,
+   "min": 138,
+   "p25": 879,
+   "median": 1889,
+   "p75": 3269,
+   "max": 33390
+  },
+  {
+   "cat": "Sejadah",
+   "shop": "Naelofar",
+   "url": "https://my.naelofar.com/prayerwear/sejadah",
+   "n": 14,
+   "min": 10,
+   "median": 33.3,
+   "max": 200,
+   "note": "harga unik dibaca daripada HTML halaman, bukan feed produk"
+  }
+ ]
+}

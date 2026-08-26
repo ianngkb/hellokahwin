@@ -1,0 +1,91 @@
+{
+ "capturedAt": "2026-08-26T21:35:06.639Z",
+ "articles": 74,
+ "published": 74,
+ "media": 938,
+ "tags": 96,
+ "contentTypes": [
+  {
+   "t": "object",
+   "n": 74
+  }
+ ],
+ "targetSlugsPresent": [],
+ "p2Published": 26,
+ "byCategory": [
+  {
+   "slug": "busana-pengantin",
+   "n": 3
+  },
+  {
+   "slug": "fotografi-videografi",
+   "n": 1
+  },
+  {
+   "slug": "glamor-eksklusif",
+   "n": 2
+  },
+  {
+   "slug": "hantaran-mas-kahwin",
+   "n": 26
+  },
+  {
+   "slug": "hiasan-dekorasi",
+   "n": 1
+  },
+  {
+   "slug": "idea-dan-nasihat",
+   "n": 10
+  },
+  {
+   "slug": "minimalis-mewah",
+   "n": 1
+  },
+  {
+   "slug": "moden-kontemporari",
+   "n": 4
+  },
+  {
+   "slug": "nikah-undang-undang",
+   "n": 4
+  },
+  {
+   "slug": "pantai-santai",
+   "n": 1
+  },
+  {
+   "slug": "pelamin-kad-cenderahati",
+   "n": 3
+  },
+  {
+   "slug": "real-wedding",
+   "n": 6
+  },
+  {
+   "slug": "sebelum-nikah",
+   "n": 3
+  },
+  {
+   "slug": "ucapan-doa",
+   "n": 5
+  },
+  {
+   "slug": "venue-perancangan",
+   "n": 4
+  }
+ ],
+ "existingTagSlugs": [
+  {
+   "slug": "adat-pertunangan"
+  },
+  {
+   "slug": "bajet-kahwin"
+  },
+  {
+   "slug": "bertunang"
+  },
+  {
+   "slug": "hantaran-tunang"
+  }
+ ]
+}
