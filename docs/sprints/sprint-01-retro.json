@@ -1,0 +1,54 @@
+{
+  "held_at": "2026-08-26",
+  "velocity": { "planned": 42, "completed": 40, "parked": 2 },
+  "sizing_accuracy": "Sizing held. Nothing was narrowed to fit and nothing ran over. The two items that grew did so because scope genuinely changed mid-sprint at the owner's direction, not because they were mis-estimated: PLAT-01 went 5 to 8 when the dashboard became a real tracker on buddy.ian.ng, and PLAT-04 was added at 5 for Phase 2. PLAT-03 was correctly routed as a one-shot rather than given a spec, and resolved to a measurement with no code change. The only reopened items were reopened for shipping, not for scope.",
+  "learnings": [
+    {
+      "finding": "A gate you have to remember is a suggestion. Stage 9b, the ship check, was written on 25 Aug, caught a real gap on its first run, and was then not run again - after which three items were marked done without shipping.",
+      "file_changed": "skillcentral/skills/startsprint/SKILL.md",
+      "why": "Moved from a reminder to a refusal: `set-state done` is now defined as an assertion that the three checks have just been run for that item, and the evidence block's verified_by_ceo field must name what was checked. Murat: 'not that we lacked a check - we HAD one, and running it was left to memory.'"
+    },
+    {
+      "finding": "Stage 6b, the visual build, ended at a draft. CONT-02 sourced, credited and wrote alt text for 69 images, marked the item done, and not one reached a reader. The Head of SEO diagnosed why it bites this stage and no other: ingesting is a writer's last step so a writer cannot forget it; this stage ends in a file, so its author can.",
+      "file_changed": "docs/plans/aug-23-2026-session-01/aug-23-2026-workflow-content-production.md",
+      "why": "Stage 6b's gate is now production, not the file - ingest as part of the stage, or hand to Stage 7 by name. A dry run exiting 0 proves a file is ingestABLE, which is not ingested."
+    },
+    {
+      "finding": "A rule repeated in briefs belongs in the artefact. The instruction 'never leave IMEJ markers' was written into two separate briefs for the same writer.",
+      "file_changed": "skillcentral/agents/projects/hellokahwin/Editorial/writer-adat-agama-prosedur.md and writer-inspirasi-vendor-venue.md",
+      "why": "The writer's own diagnosis. A placeholder marker is now defined as a FORMAT ERROR, malformed the same way a missing pillar: field is malformed - not a style preference a brief has to keep asking for."
+    },
+    {
+      "finding": "On an auth-gated app a status code cannot prove a deployment. /sprints, /tasks and /definitely-not-a-real-route-xyz all return 307, because the redirect fires before routing.",
+      "file_changed": "skillcentral/skills/hellokahwin/SKILL.md",
+      "why": "Two of the three unshipped items passed review because a 307 was read as a healthy response. The DoD standard now requires proof from the response body plus a negative control, and requires the CEO to say plainly when it cannot verify from outside rather than dressing a redirect up as evidence."
+    },
+    {
+      "finding": "Done means shipped, and the standard did not say so until the owner supplied it on day two. Every DoD said what would be true; none said where.",
+      "file_changed": "skillcentral/skills/hellokahwin/SKILL.md",
+      "why": "New DONE MEANS SHIPPED section with a per-kind table - site code merged AND deployed AND visible; content ingested; images and metadata in the production database not a draft; documents committed AND pushed. Plus the review path: when confidence is low or there is no preview environment, stand up dev and hand the owner a URL before merging."
+    },
+    {
+      "finding": "Capturing the dispatch handle by reading the status board in order is wrong in both directions at once. PLAT-01 and CONT-04 each received two agents on the same brief; RISK-01 and SEO-01 never started, and RISK-01 was the gate item five others were queued behind.",
+      "file_changed": "skillcentral/skills/startsprint/SKILL.md",
+      "why": "dispatch-agent.ps1 prints the handle. Capture it there, keep an item-to-handle map, and audit every handle's brief before reporting progress - a dispatch that silently did not happen produces no error anywhere."
+    },
+    {
+      "finding": "79 internal links were emitting rel=nofollow. The site was telling Google not to follow its own internal links while we investigated why 20 of 28 articles were never crawled. And a link to a root slug does nothing: one article had three inbound links from indexed pages and was still never crawled, because all three pointed at a URL Google calls unknown.",
+      "file_changed": "docs/plans/aug-23-2026-session-01/aug-23-2026-workflow-content-production.md",
+      "why": "New Stage 7 section, 'A link you wrote is not a link Google follows'. Found by measuring properly rather than eyeballing - it was not in the brief and nobody was looking for it."
+    },
+    {
+      "finding": "Two rules the CEO wrote were disproved by its own team within two days, and both times the team was right: re-parenting needs no redirects (the route self-heals; the redirects table holds zero rows), and the union rule is three-way not two-way (the old note compared one old URL to a different old URL).",
+      "file_changed": "docs/boardroom/ceo-memory.md",
+      "why": "Both corrected at source rather than annotated in a log. Recorded in the CEO persona as a standing expectation: when a hire's evidence contradicts something the CEO wrote, the evidence wins and the file gets corrected."
+    }
+  ],
+  "process_findings": "THE SPRINT PROCESS FAILED THREE TIMES IN ONE CLASS AND THE OWNER CAUGHT ALL THREE. PLAT-01 and PLAT-04 were built, committed, tested and marked done but never merged - origin/main was unchanged and the web board did not exist. CONT-02's 69 images sat in draft front matter. The paper trail sat at 161 uncommitted files and 14 unpushed commits. Every one was found by the owner asking 'is it shipped?', not by any check. The root cause is not carelessness: the DoD standard had no notion of shipped until the owner supplied it, and the ship check that did exist was a reminder rather than a gate. Ordering was the other failure - handles assigned by position on the status board rather than captured at dispatch, which gave two items two agents and left two never started, including the item everything else was queued behind. What went RIGHT and must not be mistaken for luck: both duplicate pairs froze rather than raced and escalated for an ownership ruling. Ingest is whole-file, so a race would have published the loser's work silently. Winston: do not congratulate the fleet for surviving a dispatch error; fix the dispatch.",
+  "carried_forward": [
+    "PLAT-05 (backlog, 5pt) - sprint documents readable and searchable inside /sprints. Specced, round-tabled, approved ready-for-dev. The room found the secret-shape guard would have rejected the /tokens registry, the document most worth finding.",
+    "OPEN FINDING, unassigned: cold renders take 5-22 seconds against a route declaring maxDuration=5, and the first request to a brand-new article URL returned 502 FUNCTION_RESPONSE_STREAM_INCOMPLETE. Googlebot's first request to any of the 20 uncrawled articles IS a cold render. Same shared-4s-budget shape as the cover-credit race. Measured, not root-caused.",
+    "OPEN FINDING, unassigned: no working preview environment on either project. All 39 Vercel env vars on buddy-web target production only; hellokahwin's preview builds fail on unpopulated env vars. Two instances is a pattern, not a coincidence.",
+    "RISK-02 stays parked, not carried: the owner accepted the credential risk with a stated revisit trigger (if the transcript is ever shared or exported)."
+  ]
+}
