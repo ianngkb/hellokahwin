@@ -1,0 +1,12 @@
+### AFTER-prod-article-flat-plate :: https://hellokahwin.com/artikel/hantaran-mas-kahwin/duit-hantaran-kahwin :: Slow 3G (400kbps, 400ms RTT)
+  ms   imgs  painted  blurred  flatPlates
+  3850   (document not yet parsed)
+  4585    11        0        8           3
+  5304    11        0        8           3
+  6019    11        0        8           3
+  6732    11        0        8           3
+  7435    11        0        8           3
+  8137    11        0        8           3
+  8851    11        0        8           3
+  9552    11        0        8           3
+ 10267    11        0        8           3

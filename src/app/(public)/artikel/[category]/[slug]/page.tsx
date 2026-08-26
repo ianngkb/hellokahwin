@@ -651,6 +651,7 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
         thumbnailUrl:
           (nextUp.coverImageVariants as Record<string, { url: string }> | null)?.low?.url ??
           nextUp.coverImageUrl,
+        lqip: nextUp.coverImageLqip,
       }
     : null;
 

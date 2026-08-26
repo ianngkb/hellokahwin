@@ -11,6 +11,9 @@ export interface NextArticleLink {
   title: string;
   href: string;
   thumbnailUrl: string | null;
+  /** Base64 LQIP for the thumbnail (UX-04). Small, but it sits over the same
+   *  flat `bg-muted` plate every other cover did. */
+  lqip?: string | null;
 }
 
 interface MobileArticleBarProps {
@@ -125,6 +128,9 @@ export function MobileArticleBar({ nextArticle, galleryImages }: MobileArticleBa
                   fill
                   sizes="44px"
                   className="object-cover"
+                  {...(nextArticle.lqip
+                    ? { placeholder: 'blur' as const, blurDataURL: nextArticle.lqip }
+                    : {})}
                 />
               </span>
             )}
