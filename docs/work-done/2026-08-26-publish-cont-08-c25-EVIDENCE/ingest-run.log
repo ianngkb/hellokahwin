@@ -1,0 +1,417 @@
+RUN START  2026-08-26T15:33:34.0431248Z
+VERCEL_TOKEN present: True
+
+############ C2-5-A1-nisbah-hantaran.md  2026-08-26T15:33:34.0579302Z
+⚠ No GSC credential (GSC_SERVICE_ACCOUNT_JSON or GSC_CREDENTIALS_PATH), so Google
+  will NOT be asked to re-read the sitemap. The article will be live and in the
+  sitemap, but Google finds it on its own schedule — days, on this property.
+  To supply it:
+    $env:GSC_CREDENTIALS_PATH = "$HOME/.claude/secrets/gsc-service-account.json"
+  or inject GSC_SERVICE_ACCOUNT_JSON from Doppler (project hellokahwin, config prd).
+
+File:   C2-5-A1-nisbah-hantaran.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Hantaran & Mas Kahwin (P2)
+Cluster: Nisbah dulang, duit hantaran & etika (C2.5)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  3, every one credited
+  ../images/S-gubahan-kain-hantaran-mohd-hasan.jpg  →  "Kredit: mohd hasan / Pexels" [S] mohd hasan
+  ../images/S-dulang-hantaran-tunang-lantai-azlan-dupree.jpg  →  "Kredit: Azlan DuPree (CC BY 2.0)" [S] Azlan DuPree
+  ../images/S-dulang-hantaran-masjid-mylifestory.jpg  →  "Kredit: MyLifeStory (CC BY 2.0)" [S] MyLifeStory
+Tags:    nisbah hantaran, hantaran, dulang hantaran, adat perkahwinan
+Links:   4 internal, all resolved
+URL:     /artikel/hantaran-mas-kahwin/nisbah-hantaran
+  uploaded ../images/S-gubahan-kain-hantaran-mohd-hasan.jpg (+4 crops)
+  uploaded ../images/S-dulang-hantaran-tunang-lantai-azlan-dupree.jpg (+4 crops)
+  uploaded ../images/S-dulang-hantaran-masjid-mylifestory.jpg (+4 crops)
+
+Done. /artikel/hantaran-mas-kahwin/nisbah-hantaran (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/hantaran-mas-kahwin/nisbah-hantaran
+  /artikel/hantaran-mas-kahwin
+  /sitemap.xml
+
+  ════════════════════════════════════════════════════════════════════
+  ⚠  GOOGLE WAS NOT TOLD. The article is published, the caches are
+     clear and the sitemap is correct — but Search Console was not
+     asked to re-read it, so Google will find the article on its own
+     schedule, which has run to days on this property.
+
+     Property: https://hellokahwin.com/
+     Sitemap : https://hellokahwin.com/sitemap.xml
+     Reason  : neither GSC_SERVICE_ACCOUNT_JSON nor a readable GSC_CREDENTIALS_PATH is set, so Google was not told
+
+     Re-run the ingest with the GSC credential in the environment, or
+     resubmit the sitemap by hand in Search Console.
+  ════════════════════════════════════════════════════════════════════
+
+exit=0
+
+############ C2-5-A2-hantaran-kahwin-5-balas-7.md  2026-08-26T15:34:04.3834074Z
+⚠ No GSC credential (GSC_SERVICE_ACCOUNT_JSON or GSC_CREDENTIALS_PATH), so Google
+  will NOT be asked to re-read the sitemap. The article will be live and in the
+  sitemap, but Google finds it on its own schedule — days, on this property.
+  To supply it:
+    $env:GSC_CREDENTIALS_PATH = "$HOME/.claude/secrets/gsc-service-account.json"
+  or inject GSC_SERVICE_ACCOUNT_JSON from Doppler (project hellokahwin, config prd).
+
+File:   C2-5-A2-hantaran-kahwin-5-balas-7.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Hantaran & Mas Kahwin (P2)
+Cluster: Nisbah dulang, duit hantaran & etika (C2.5)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  4, every one credited
+  ../images/S-dulang-hantaran-tunang-lantai-azlan-dupree.jpg  →  "Kredit: Azlan DuPree (CC BY 2.0)" [S] Azlan DuPree
+  ../images/S-dulang-hantaran-masjid-mylifestory.jpg  →  "Kredit: MyLifeStory (CC BY 2.0)" [S] MyLifeStory
+  ../images/S-dulang-buah-hantaran-mohd-hasan.jpg  →  "Kredit: mohd hasan / Pexels" [S] mohd hasan
+  ../images/S-serah-hantaran-akad-mylifestory.jpg  →  "Kredit: MyLifeStory (CC BY 2.0)" [S] MyLifeStory
+Tags:    hantaran kahwin 5 balas 7, hantaran, nisbah hantaran, dulang hantaran
+Links:   4 internal, all resolved
+URL:     /artikel/hantaran-mas-kahwin/hantaran-kahwin-5-balas-7
+  uploaded ../images/S-dulang-hantaran-tunang-lantai-azlan-dupree.jpg (+4 crops)
+  uploaded ../images/S-dulang-hantaran-masjid-mylifestory.jpg (+4 crops)
+  uploaded ../images/S-dulang-buah-hantaran-mohd-hasan.jpg (+4 crops)
+  uploaded ../images/S-serah-hantaran-akad-mylifestory.jpg (+4 crops)
+
+Done. /artikel/hantaran-mas-kahwin/hantaran-kahwin-5-balas-7 (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/hantaran-mas-kahwin/hantaran-kahwin-5-balas-7
+  /artikel/hantaran-mas-kahwin
+  /sitemap.xml
+
+  ════════════════════════════════════════════════════════════════════
+  ⚠  GOOGLE WAS NOT TOLD. The article is published, the caches are
+     clear and the sitemap is correct — but Search Console was not
+     asked to re-read it, so Google will find the article on its own
+     schedule, which has run to days on this property.
+
+     Property: https://hellokahwin.com/
+     Sitemap : https://hellokahwin.com/sitemap.xml
+     Reason  : neither GSC_SERVICE_ACCOUNT_JSON nor a readable GSC_CREDENTIALS_PATH is set, so Google was not told
+
+     Re-run the ingest with the GSC credential in the environment, or
+     resubmit the sitemap by hand in Search Console.
+  ════════════════════════════════════════════════════════════════════
+
+exit=0
+
+############ C2-5-A3-hantaran-tunang-3-balas-5.md  2026-08-26T15:34:32.4781356Z
+⚠ No GSC credential (GSC_SERVICE_ACCOUNT_JSON or GSC_CREDENTIALS_PATH), so Google
+  will NOT be asked to re-read the sitemap. The article will be live and in the
+  sitemap, but Google finds it on its own schedule — days, on this property.
+  To supply it:
+    $env:GSC_CREDENTIALS_PATH = "$HOME/.claude/secrets/gsc-service-account.json"
+  or inject GSC_SERVICE_ACCOUNT_JSON from Doppler (project hellokahwin, config prd).
+
+File:   C2-5-A3-hantaran-tunang-3-balas-5.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Hantaran & Mas Kahwin (P2)
+Cluster: Nisbah dulang, duit hantaran & etika (C2.5)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  4, every one credited
+  ../images/S-cincin-tunang-dulang-mohd-nasir.jpg  →  "Kredit: Mohd Nasir Mat Noor (CC BY 2.0)" [S] Mohd Nasir Mat Noor
+  ../images/S-serah-kotak-cincin-hantaran-azlan-dupree.jpg  →  "Kredit: Azlan DuPree (CC BY 2.0)" [S] Azlan DuPree
+  ../images/S-ibu-sarung-cincin-tunang-azlan-dupree.jpg  →  "Kredit: Azlan DuPree (CC BY 2.0)" [S] Azlan DuPree
+  ../images/S-sirih-junjung-mohd-nasir.jpg  →  "Kredit: Mohd Nasir Mat Noor (CC BY 2.0)" [S] Mohd Nasir Mat Noor
+Tags:    hantaran tunang 3 balas 5, hantaran tunang, nisbah hantaran, bertunang
+Links:   5 internal, all resolved
+URL:     /artikel/hantaran-mas-kahwin/hantaran-tunang-3-balas-5
+  uploaded ../images/S-cincin-tunang-dulang-mohd-nasir.jpg (+4 crops)
+  uploaded ../images/S-serah-kotak-cincin-hantaran-azlan-dupree.jpg (+4 crops)
+  uploaded ../images/S-ibu-sarung-cincin-tunang-azlan-dupree.jpg (+4 crops)
+  uploaded ../images/S-sirih-junjung-mohd-nasir.jpg (+4 crops)
+
+Done. /artikel/hantaran-mas-kahwin/hantaran-tunang-3-balas-5 (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/hantaran-mas-kahwin/hantaran-tunang-3-balas-5
+  /artikel/hantaran-mas-kahwin
+  /sitemap.xml
+
+  ════════════════════════════════════════════════════════════════════
+  ⚠  GOOGLE WAS NOT TOLD. The article is published, the caches are
+     clear and the sitemap is correct — but Search Console was not
+     asked to re-read it, so Google will find the article on its own
+     schedule, which has run to days on this property.
+
+     Property: https://hellokahwin.com/
+     Sitemap : https://hellokahwin.com/sitemap.xml
+     Reason  : neither GSC_SERVICE_ACCOUNT_JSON nor a readable GSC_CREDENTIALS_PATH is set, so Google was not told
+
+     Re-run the ingest with the GSC credential in the environment, or
+     resubmit the sitemap by hand in Search Console.
+  ════════════════════════════════════════════════════════════════════
+
+exit=0
+
+############ C2-5-A4-bilangan-dulang-hantaran-ganjil.md  2026-08-26T15:35:14.7712032Z
+⚠ No GSC credential (GSC_SERVICE_ACCOUNT_JSON or GSC_CREDENTIALS_PATH), so Google
+  will NOT be asked to re-read the sitemap. The article will be live and in the
+  sitemap, but Google finds it on its own schedule — days, on this property.
+  To supply it:
+    $env:GSC_CREDENTIALS_PATH = "$HOME/.claude/secrets/gsc-service-account.json"
+  or inject GSC_SERVICE_ACCOUNT_JSON from Doppler (project hellokahwin, config prd).
+
+File:   C2-5-A4-bilangan-dulang-hantaran-ganjil.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Hantaran & Mas Kahwin (P2)
+Cluster: Nisbah dulang, duit hantaran & etika (C2.5)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  3, every one credited
+  ../images/S-bincang-hantaran-dua-keluarga-mohd-nasir.jpg  →  "Kredit: Mohd Nasir Mat Noor (CC BY 2.0)" [S] Mohd Nasir Mat Noor
+  ../images/S-dulang-hantaran-masjid-mylifestory.jpg  →  "Kredit: MyLifeStory (CC BY 2.0)" [S] MyLifeStory
+  ../images/S-wakil-keluarga-pegang-kotak-cincin-azlan-dupree.jpg  →  "Kredit: Azlan DuPree (CC BY 2.0)" [S] Azlan DuPree
+Tags:    bilangan dulang hantaran, nisbah hantaran, dulang hantaran, adat perkahwinan
+Links:   4 internal, all resolved
+URL:     /artikel/hantaran-mas-kahwin/bilangan-dulang-hantaran-ganjil
+  uploaded ../images/S-bincang-hantaran-dua-keluarga-mohd-nasir.jpg (+4 crops)
+  uploaded ../images/S-dulang-hantaran-masjid-mylifestory.jpg (+4 crops)
+  uploaded ../images/S-wakil-keluarga-pegang-kotak-cincin-azlan-dupree.jpg (+4 crops)
+
+Done. /artikel/hantaran-mas-kahwin/bilangan-dulang-hantaran-ganjil (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/hantaran-mas-kahwin/bilangan-dulang-hantaran-ganjil
+  /artikel/hantaran-mas-kahwin
+  /sitemap.xml
+
+  ════════════════════════════════════════════════════════════════════
+  ⚠  GOOGLE WAS NOT TOLD. The article is published, the caches are
+     clear and the sitemap is correct — but Search Console was not
+     asked to re-read it, so Google will find the article on its own
+     schedule, which has run to days on this property.
+
+     Property: https://hellokahwin.com/
+     Sitemap : https://hellokahwin.com/sitemap.xml
+     Reason  : neither GSC_SERVICE_ACCOUNT_JSON nor a readable GSC_CREDENTIALS_PATH is set, so Google was not told
+
+     Re-run the ingest with the GSC credential in the environment, or
+     resubmit the sitemap by hand in Search Console.
+  ════════════════════════════════════════════════════════════════════
+
+exit=0
+
+############ C2-5-A5-duit-hantaran-kahwin.md  2026-08-26T15:36:04.3675658Z
+⚠ No GSC credential (GSC_SERVICE_ACCOUNT_JSON or GSC_CREDENTIALS_PATH), so Google
+  will NOT be asked to re-read the sitemap. The article will be live and in the
+  sitemap, but Google finds it on its own schedule — days, on this property.
+  To supply it:
+    $env:GSC_CREDENTIALS_PATH = "$HOME/.claude/secrets/gsc-service-account.json"
+  or inject GSC_SERVICE_ACCOUNT_JSON from Doppler (project hellokahwin, config prd).
+
+File:   C2-5-A5-duit-hantaran-kahwin.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Hantaran & Mas Kahwin (P2)
+Cluster: Nisbah dulang, duit hantaran & etika (C2.5)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  3, every one credited
+  ../images/S-akad-tok-kadi-raja-abd-kadir.jpg  →  "Kredit: raja abd kadir (CC BY 3.0)" [S] raja abd kadir
+  ../images/S-serah-hantaran-akad-mylifestory.jpg  →  "Kredit: MyLifeStory (CC BY 2.0)" [S] MyLifeStory
+  ../images/S-wali-saksi-tok-kadi-mylifestory.jpg  →  "Kredit: MyLifeStory (CC BY 2.0)" [S] MyLifeStory
+Tags:    duit hantaran kahwin, duit hantaran, mas kahwin, wang hantaran
+Links:   5 internal, all resolved
+URL:     /artikel/hantaran-mas-kahwin/duit-hantaran-kahwin
+  uploaded ../images/S-akad-tok-kadi-raja-abd-kadir.jpg (+4 crops)
+  uploaded ../images/S-serah-hantaran-akad-mylifestory.jpg (+4 crops)
+  uploaded ../images/S-wali-saksi-tok-kadi-mylifestory.jpg (+4 crops)
+
+Done. /artikel/hantaran-mas-kahwin/duit-hantaran-kahwin (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/hantaran-mas-kahwin/duit-hantaran-kahwin
+  /artikel/hantaran-mas-kahwin
+  /sitemap.xml
+
+  ════════════════════════════════════════════════════════════════════
+  ⚠  GOOGLE WAS NOT TOLD. The article is published, the caches are
+     clear and the sitemap is correct — but Search Console was not
+     asked to re-read it, so Google will find the article on its own
+     schedule, which has run to days on this property.
+
+     Property: https://hellokahwin.com/
+     Sitemap : https://hellokahwin.com/sitemap.xml
+     Reason  : neither GSC_SERVICE_ACCOUNT_JSON nor a readable GSC_CREDENTIALS_PATH is set, so Google was not told
+
+     Re-run the ingest with the GSC credential in the environment, or
+     resubmit the sitemap by hand in Search Console.
+  ════════════════════════════════════════════════════════════════════
+
+exit=0
+
+############ C2-5-A6-cara-tetapkan-duit-hantaran.md  2026-08-26T15:36:24.6749284Z
+⚠ No GSC credential (GSC_SERVICE_ACCOUNT_JSON or GSC_CREDENTIALS_PATH), so Google
+  will NOT be asked to re-read the sitemap. The article will be live and in the
+  sitemap, but Google finds it on its own schedule — days, on this property.
+  To supply it:
+    $env:GSC_CREDENTIALS_PATH = "$HOME/.claude/secrets/gsc-service-account.json"
+  or inject GSC_SERVICE_ACCOUNT_JSON from Doppler (project hellokahwin, config prd).
+
+File:   C2-5-A6-cara-tetapkan-duit-hantaran.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Hantaran & Mas Kahwin (P2)
+Cluster: Nisbah dulang, duit hantaran & etika (C2.5)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  3, every one credited
+  ../images/S-rombongan-lelaki-bincang-hantaran-azlan-dupree.jpg  →  "Kredit: Azlan DuPree (CC BY 2.0)" [S] Azlan DuPree
+  ../images/S-bincang-hantaran-dua-keluarga-mohd-nasir.jpg  →  "Kredit: Mohd Nasir Mat Noor (CC BY 2.0)" [S] Mohd Nasir Mat Noor
+  ../images/S-wakil-keluarga-pegang-kotak-cincin-azlan-dupree.jpg  →  "Kredit: Azlan DuPree (CC BY 2.0)" [S] Azlan DuPree
+Tags:    duit hantaran, jumlah duit hantaran, merisik, adat perkahwinan
+Links:   5 internal, all resolved
+URL:     /artikel/hantaran-mas-kahwin/cara-tetapkan-duit-hantaran
+  uploaded ../images/S-rombongan-lelaki-bincang-hantaran-azlan-dupree.jpg (+4 crops)
+  uploaded ../images/S-bincang-hantaran-dua-keluarga-mohd-nasir.jpg (+4 crops)
+  uploaded ../images/S-wakil-keluarga-pegang-kotak-cincin-azlan-dupree.jpg (+4 crops)
+
+Done. /artikel/hantaran-mas-kahwin/cara-tetapkan-duit-hantaran (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/hantaran-mas-kahwin/cara-tetapkan-duit-hantaran
+  /artikel/hantaran-mas-kahwin
+  /sitemap.xml
+
+  ════════════════════════════════════════════════════════════════════
+  ⚠  GOOGLE WAS NOT TOLD. The article is published, the caches are
+     clear and the sitemap is correct — but Search Console was not
+     asked to re-read it, so Google will find the article on its own
+     schedule, which has run to days on this property.
+
+     Property: https://hellokahwin.com/
+     Sitemap : https://hellokahwin.com/sitemap.xml
+     Reason  : neither GSC_SERVICE_ACCOUNT_JSON nor a readable GSC_CREDENTIALS_PATH is set, so Google was not told
+
+     Re-run the ingest with the GSC credential in the environment, or
+     resubmit the sitemap by hand in Search Console.
+  ════════════════════════════════════════════════════════════════════
+
+exit=0
+
+############ C2-5-A7-adat-hantaran-berbeza-negeri.md  2026-08-26T15:36:54.2329822Z
+⚠ No GSC credential (GSC_SERVICE_ACCOUNT_JSON or GSC_CREDENTIALS_PATH), so Google
+  will NOT be asked to re-read the sitemap. The article will be live and in the
+  sitemap, but Google finds it on its own schedule — days, on this property.
+  To supply it:
+    $env:GSC_CREDENTIALS_PATH = "$HOME/.claude/secrets/gsc-service-account.json"
+  or inject GSC_SERVICE_ACCOUNT_JSON from Doppler (project hellokahwin, config prd).
+
+File:   C2-5-A7-adat-hantaran-berbeza-negeri.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Hantaran & Mas Kahwin (P2)
+Cluster: Nisbah dulang, duit hantaran & etika (C2.5)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  3, every one credited
+  ../images/S-arak-pengantin-lelaki-payung-kuning-sham-hardy.jpg  →  "Kredit: Sham Hardy (CC BY-SA 2.0)" [S] Sham Hardy
+  ../images/S-bunga-manggar-jalan-kuala-krai-nuraishah-affandi.jpg  →  "Kredit: Nuraishah Bazilah Affandi (CC BY 2.0)" [S] Nuraishah Bazilah Affandi
+  ../images/S-rombongan-lelaki-bincang-hantaran-azlan-dupree.jpg  →  "Kredit: Azlan DuPree (CC BY 2.0)" [S] Azlan DuPree
+Tags:    adat hantaran, adat perkahwinan, hantaran, duit hantaran
+Links:   5 internal, all resolved
+URL:     /artikel/hantaran-mas-kahwin/adat-hantaran-berbeza-negeri
+  uploaded ../images/S-arak-pengantin-lelaki-payung-kuning-sham-hardy.jpg (+4 crops)
+  uploaded ../images/S-bunga-manggar-jalan-kuala-krai-nuraishah-affandi.jpg (+4 crops)
+  uploaded ../images/S-rombongan-lelaki-bincang-hantaran-azlan-dupree.jpg (+4 crops)
+
+Done. /artikel/hantaran-mas-kahwin/adat-hantaran-berbeza-negeri (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/hantaran-mas-kahwin/adat-hantaran-berbeza-negeri
+  /artikel/hantaran-mas-kahwin
+  /sitemap.xml
+
+  ════════════════════════════════════════════════════════════════════
+  ⚠  GOOGLE WAS NOT TOLD. The article is published, the caches are
+     clear and the sitemap is correct — but Search Console was not
+     asked to re-read it, so Google will find the article on its own
+     schedule, which has run to days on this property.
+
+     Property: https://hellokahwin.com/
+     Sitemap : https://hellokahwin.com/sitemap.xml
+     Reason  : neither GSC_SERVICE_ACCOUNT_JSON nor a readable GSC_CREDENTIALS_PATH is set, so Google was not told
+
+     Re-run the ingest with the GSC credential in the environment, or
+     resubmit the sitemap by hand in Search Console.
+  ════════════════════════════════════════════════════════════════════
+
+exit=0
+
+############ C2-5-A8-hantaran-wajib-atau-adat.md  2026-08-26T15:37:20.2142734Z
+⚠ No GSC credential (GSC_SERVICE_ACCOUNT_JSON or GSC_CREDENTIALS_PATH), so Google
+  will NOT be asked to re-read the sitemap. The article will be live and in the
+  sitemap, but Google finds it on its own schedule — days, on this property.
+  To supply it:
+    $env:GSC_CREDENTIALS_PATH = "$HOME/.claude/secrets/gsc-service-account.json"
+  or inject GSC_SERVICE_ACCOUNT_JSON from Doppler (project hellokahwin, config prd).
+
+File:   C2-5-A8-hantaran-wajib-atau-adat.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Hantaran & Mas Kahwin (P2)
+Cluster: Nisbah dulang, duit hantaran & etika (C2.5)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  4, every one credited
+  ../images/S-tepak-sirih-muzium-negara-marcin-konsek.jpg  →  "Kredit: Marcin Konsek (CC BY-SA 4.0)" [S] Marcin Konsek
+  ../images/S-akad-ijab-qabul-mylifestory.jpg  →  "Kredit: MyLifeStory (CC BY 2.0)" [S] MyLifeStory
+  ../images/S-sirih-junjung-mohd-nasir.jpg  →  "Kredit: Mohd Nasir Mat Noor (CC BY 2.0)" [S] Mohd Nasir Mat Noor
+  ../images/S-dulang-buah-hantaran-mohd-hasan.jpg  →  "Kredit: mohd hasan / Pexels" [S] mohd hasan
+Tags:    hantaran wajib atau adat, hukum hantaran, mas kahwin, adat perkahwinan
+Links:   6 internal, all resolved
+URL:     /artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat
+  uploaded ../images/S-tepak-sirih-muzium-negara-marcin-konsek.jpg (+4 crops)
+  uploaded ../images/S-akad-ijab-qabul-mylifestory.jpg (+4 crops)
+  uploaded ../images/S-sirih-junjung-mohd-nasir.jpg (+4 crops)
+  uploaded ../images/S-dulang-buah-hantaran-mohd-hasan.jpg (+4 crops)
+
+Done. /artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat
+  /artikel/hantaran-mas-kahwin
+  /sitemap.xml
+
+  ════════════════════════════════════════════════════════════════════
+  ⚠  GOOGLE WAS NOT TOLD. The article is published, the caches are
+     clear and the sitemap is correct — but Search Console was not
+     asked to re-read it, so Google will find the article on its own
+     schedule, which has run to days on this property.
+
+     Property: https://hellokahwin.com/
+     Sitemap : https://hellokahwin.com/sitemap.xml
+     Reason  : neither GSC_SERVICE_ACCOUNT_JSON nor a readable GSC_CREDENTIALS_PATH is set, so Google was not told
+
+     Re-run the ingest with the GSC credential in the environment, or
+     resubmit the sitemap by hand in Search Console.
+  ════════════════════════════════════════════════════════════════════
+
+exit=0
+RUN END    2026-08-26T15:37:53.4788896Z
