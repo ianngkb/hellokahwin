@@ -7,6 +7,11 @@ metaDescription: "Jenis dulang hantaran, saiz 18cm hingga 30cm, dan harga daripa
 excerpt: "Dulang ialah bekas, gubahan ialah isinya, dan kedua-duanya dibeli berasingan. Ini jenis dulang yang benar-benar dijual hari ini, saiznya, harganya daripada tiga kedai bernama, dan bila menyewa lebih murah daripada membeli."
 author: ianng@theweddingnotebook.com
 status: published
+# The instant this article FIRST went live. Carried in the file so a re-ingest
+# writes the same value back instead of stamping the row with the date of the
+# edit — which would move the sitemap lastmod and the JSON-LD datePublished of
+# a page Google has already indexed.
+publishedAt: "2026-08-25T17:54:58.021Z"
 authorship: ai_assisted
 tags:
   - dulang hantaran

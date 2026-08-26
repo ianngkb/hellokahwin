@@ -7,6 +7,11 @@ metaDescription: "Bahan gubahan hantaran dan kosnya, cara susun supaya kekal ben
 excerpt: "Kos bahan boleh disemak sen demi sen. Upah menggubah tidak, kerana tiada pembekal menyiarkannya. Ini apa yang benar-benar tersiar, dan cara membaca sebut harga yang datang melalui pesanan peribadi."
 author: ianng@theweddingnotebook.com
 status: published
+# The instant this article FIRST went live. Carried in the file so a re-ingest
+# writes the same value back instead of stamping the row with the date of the
+# edit — which would move the sitemap lastmod and the JSON-LD datePublished of
+# a page Google has already indexed.
+publishedAt: "2026-08-25T17:55:20.340Z"
 authorship: ai_assisted
 tags:
   - gubahan hantaran

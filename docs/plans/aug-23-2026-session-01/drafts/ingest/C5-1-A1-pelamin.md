@@ -7,6 +7,11 @@ metaDescription: "Jenis pelamin rumah, mini dan dewan, saiz dalam kaki, empat pe
 excerpt: "Tiada pihak berkuasa menerbitkan kadar sewa pelamin, dan hampir tiada vendor menyiarkan harga sendiri. Ini apa yang benar-benar tersiar, apa yang tidak, dan cara membandingkan dua sebut harga."
 author: ianng@theweddingnotebook.com
 status: published
+# The instant this article FIRST went live. Carried in the file so a re-ingest
+# writes the same value back instead of stamping the row with the date of the
+# edit — which would move the sitemap lastmod and the JSON-LD datePublished of
+# a page Google has already indexed.
+publishedAt: "2026-08-25T11:31:46.735Z"
 authorship: ai_assisted
 tags:
   - pelamin

@@ -11,6 +11,11 @@ excerpt: >-
 author: hellokahwin-editorial
 authorship: ai_assisted
 status: published
+# The instant this article FIRST went live. Carried in the file so a re-ingest
+# writes the same value back instead of stamping the row with the date of the
+# edit — which would move the sitemap lastmod and the JSON-LD datePublished of
+# a page Google has already indexed.
+publishedAt: "2026-08-25T10:45:38.842Z"
 tags:
   - taaruf
   - maksud taaruf

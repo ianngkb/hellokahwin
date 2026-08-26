@@ -7,6 +7,11 @@ metaDescription: "Checklist kahwin lengkap ikut urutan masa, dari 12 bulan sebel
 excerpt: "Senarai persediaan kahwin disusun mengikut bulan, bukan mengikut kategori, kerana urutan yang salah menyusahkan lebih daripada senarai yang panjang."
 author: ianng@theweddingnotebook.com
 status: published
+# The instant this article FIRST went live. Carried in the file so a re-ingest
+# writes the same value back instead of stamping the row with the date of the
+# edit — which would move the sitemap lastmod and the JSON-LD datePublished of
+# a page Google has already indexed.
+publishedAt: "2026-08-25T10:12:52.452Z"
 authorship: ai_assisted
 tags:
   - checklist kahwin

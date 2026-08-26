@@ -1,0 +1,269 @@
+<title>Sprint 01 Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{--bg:#F7F5F0;--panel:#fff;--panel2:#F0EDE5;--rule:#DFD9CC;--ink:#1B1720;--ink2:#4C4553;--muted:#7A7268;
+ --brass:#8F6620;--risk:#8E3B36;--plat:#1E5F8C;--seo:#8A6A16;--cont:#2F6F4E;--ok:#2F6F4E;--chip:#EDE8DC}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#131117;--panel:#1C1922;--panel2:#241F2C;--rule:#332D3D;
+ --ink:#F0EBE2;--ink2:#C4BBAD;--muted:#8F8679;--brass:#D6A24B;--risk:#D2726B;--plat:#6FB3DC;--seo:#D9B24C;--cont:#7FB795;--ok:#7FB795;--chip:#2B2634}}
+:root[data-theme="dark"]{--bg:#131117;--panel:#1C1922;--panel2:#241F2C;--rule:#332D3D;--ink:#F0EBE2;--ink2:#C4BBAD;
+ --muted:#8F8679;--brass:#D6A24B;--risk:#D2726B;--plat:#6FB3DC;--seo:#D9B24C;--cont:#7FB795;--ok:#7FB795;--chip:#2B2634}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,-apple-system,"Segoe UI",sans-serif;font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px 80px}
+code{font-family:"JetBrains Mono",monospace;font-size:.87em}
+header{padding:48px 0 22px;border-bottom:2px solid var(--rule)}
+.kick{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--brass);font-weight:700;margin:0 0 12px}
+h1{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:clamp(2rem,5vw,3rem);line-height:1.05;letter-spacing:-.02em;margin:0 0 12px;text-wrap:balance}
+.sub{font-size:1.03rem;color:var(--ink2);max-width:68ch;margin:0}
+.figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:26px 0 0}
+.fig{background:var(--panel);padding:16px 18px}
+.fig .n{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:2.2rem;line-height:1;font-variant-numeric:tabular-nums;display:block;margin-bottom:5px}
+.fig .l{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.fig.g .n{color:var(--ok)}
+.shas{margin-top:18px;display:flex;flex-wrap:wrap;gap:6px 22px;font-size:12.5px;color:var(--muted)}
+.shas b{color:var(--ink2);font-weight:600}
+section{margin-top:52px}
+h2{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:1.6rem;margin:0 0 6px;letter-spacing:-.01em}
+.lede{color:var(--ink2);max-width:72ch;margin:0 0 22px}
+.band{border-left:4px solid var(--risk);background:var(--panel2);padding:18px 20px;margin-bottom:22px}
+.band h3{font-family:Fraunces,Georgia,serif;font-size:1.1rem;margin:0 0 7px;font-weight:600;color:var(--risk)}
+.band p{margin:0 0 8px;color:var(--ink2);max-width:74ch}.band p:last-child{margin:0}
+.band code{background:var(--panel);padding:1px 5px}
+.card{background:var(--panel);border:1px solid var(--rule);padding:17px 19px;margin-bottom:11px}
+.chd{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:9px}
+.cid{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:600;letter-spacing:.05em;padding:2px 7px;background:var(--chip);border:1px solid var(--rule)}
+.cid.risk{color:var(--risk)}.cid.plat{color:var(--plat)}.cid.seo{color:var(--seo)}.cid.cont{color:var(--cont)}
+.ct{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:1.06rem;margin:0}
+.cpt{margin-left:auto;font-size:11.5px;font-weight:700;color:var(--muted);letter-spacing:.04em}
+.what{margin:0 0 11px;color:var(--ink2)}
+.chk{margin:0;padding:11px 13px;background:var(--panel2);border-left:2px solid var(--brass);font-size:13.5px;color:var(--ink2)}
+.chk b{color:var(--ink);font-weight:600;display:block;margin-bottom:3px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--brass)}
+.chk a{color:var(--plat)}
+.tw{overflow-x:auto;border:1px solid var(--rule)}
+table{border-collapse:collapse;width:100%;background:var(--panel);font-size:13.4px;min-width:560px}
+th{text-align:left;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:700;padding:10px 12px;border-bottom:1px solid var(--rule);background:var(--panel2)}
+td{padding:9px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
+tbody tr:last-child td{border-bottom:none}
+table.stats th,table.stats td{padding:.4rem .6rem}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.fine{font-size:12.5px;color:var(--muted)}
+.learn{background:var(--panel);border:1px solid var(--rule);padding:16px 18px;margin-bottom:10px}
+.learn .f{font-weight:600;margin:0 0 7px}
+.learn .file{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--brass);display:block;margin-bottom:7px;word-break:break-all}
+.learn .w{margin:0;font-size:13.6px;color:var(--ink2)}
+footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--rule);font-size:12.5px;color:var(--muted)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+
+<header>
+  <p class="kick">HelloKahwin · Sprint 01 · closed 26 August 2026</p>
+  <h1>Protect what we shipped, then measure it</h1>
+  <p class="sub">Twenty-eight articles had gone live in two days onto a database with no way back, and no measurement in place. This sprint closed both, built the tracker you are reading this beside, and added a cluster of depth.</p>
+  <div class="figs">
+    <div class="fig g"><span class="n">40</span><span class="l">Points completed</span></div>
+    <div class="fig"><span class="n">42</span><span class="l">Planned</span></div>
+    <div class="fig"><span class="n">2</span><span class="l">Parked · a decision</span></div>
+    <div class="fig g"><span class="n">0</span><span class="l">Unfinished</span></div>
+  </div>
+  <div class="shas">
+    <span>Planned <b>25 Aug</b> · closed <b>26 Aug</b></span>
+    <span>hellokahwin site <b>97b0837</b></span>
+    <span>buddy <b>7ae5b1d</b></span>
+    <span>docs <b>d4c4237</b></span>
+  </div>
+</header>
+
+<section>
+  <h2>Database migrations — test these first</h2>
+  <div class="band">
+    <h3>Three migrations went to production</h3>
+    <p><b>Sprint tracker tables</b> — <code>20260825120000_sprint_tracker.sql</code> and <code>20260826090000_sprint_backlog.sql</code> on buddy: two new tables plus a nullable column. Additive only; no existing buddy table was altered.</p>
+    <p><b>The hellokahwin content database</b> took writes all sprint — 5 new articles, 69 images, 68 internal links, one fee-table swap. <strong>Every one of those writes happened after a verified restore path existed</strong>, which was the whole point of running RISK-01 first.</p>
+    <p>These are listed first because they are the ones that can break production in the gap between a deploy and a migration. Nothing waived a gate this sprint — there is no waived-check band below because there was nothing to put in it.</p>
+  </div>
+</section>
+
+<section>
+  <h2>What shipped, item by item</h2>
+  <p class="lede">Thirteen items. Each one says what changed in plain terms, and how to check it yourself.</p>
+
+  <div class="card">
+    <div class="chd"><span class="cid risk">RISK-01</span><h3 class="ct">The site can now be restored if the database is lost</h3><span class="cpt">5 pts</span></div>
+    <p class="what">Until this sprint, if the content database had been deleted or corrupted there was no way to get it back — no backups of any kind. There is now a nightly copy stored separately, it has been proven by actually restoring it, and if a night ever fails, a ticket is filed automatically within ten seconds.</p>
+    <p class="chk"><b>How to check it</b>Open the repository's Issues tab on GitHub. Two closed tickets titled <em>"ALARM: hellokahwin production DB backup…"</em> are there from the test — one of them was a real failure the alarm caught before anyone knew to look for it.</p>
+  </div>
+
+  <div class="card">
+    <div class="chd"><span class="cid plat">PLAT-01</span><h3 class="ct">A sprint board you can open and use</h3><span class="cpt">8 pts</span></div>
+    <p class="what">Sprint work used to live in a text file only one person could read. It is now a board with every task, who owns it, what "done" means for it, and the evidence that it was done — the same information whether you look at the website or run it from the command line.</p>
+    <p class="chk"><b>How to check it</b>Go to <a href="https://buddy.ian.ng/sprints">buddy.ian.ng/sprints</a> (sign-in required). You will see all fourteen tasks grouped by type. Drag one to a different column and it stays moved.</p>
+  </div>
+
+  <div class="card">
+    <div class="chd"><span class="cid plat">PLAT-04</span><h3 class="ct">Planning the next sprint, and seeing how the last one went</h3><span class="cpt">5 pts</span></div>
+    <p class="what">The board now holds a backlog of things not yet started, a history of past sprints with how much each actually finished, filters to see only your own work, and the retrospective shown next to the sprint that produced it.</p>
+    <p class="chk"><b>How to check it</b>On the same page, look for the backlog panel — it currently holds one item, the document-reading feature. The history row shows Sprint 01 as 42 planned, 40 completed, 2 parked.</p>
+  </div>
+
+  <div class="card">
+    <div class="chd"><span class="cid plat">PLAT-02</span><h3 class="ct">New articles appear immediately instead of after a five-minute wait</h3><span class="cpt">2 pts</span></div>
+    <p class="what">When an article was published, the section page listing it could keep showing the old version for up to five minutes — long enough for Google to arrive and see nothing there. Publishing now clears that instantly.</p>
+    <p class="chk"><b>How to check it</b>The three newest articles under <a href="https://hellokahwin.com/artikel/hantaran-mas-kahwin">hantaran-mas-kahwin</a> appeared on that page the moment they went live. Previously they would have taken five minutes.</p>
+  </div>
+
+  <div class="card">
+    <div class="chd"><span class="cid seo">SEO-02</span><h3 class="ct">The site stopped telling Google to ignore its own links</h3><span class="cpt">3 pts</span></div>
+    <p class="what">Seventy-nine links between our own articles carried a hidden instruction telling Google not to follow them — while we were investigating why twenty articles had never been visited. Thirty-two articles also had nothing linking to them at all. Both fixed: sixty-eight new links added, every one pointing at an address Google recognises.</p>
+    <p class="chk"><b>How to check it</b>Open any article and scroll to the related-reading section at the bottom. Every article now has one, and every article is linked to from somewhere else.</p>
+  </div>
+
+  <div class="card">
+    <div class="chd"><span class="cid seo">SEO-01</span><h3 class="ct">We now know exactly what Google has and has not seen</h3><span class="cpt">2 pts</span></div>
+    <p class="what">Eight of twenty-eight articles are indexed; nineteen have been found but never visited; one is unknown entirely. Nothing is blocked — the only thing missing is Google having a route in. That number is the scoreboard the next sprint is measured against.</p>
+    <p class="chk"><b>How to check it</b>The baseline is at <code>docs/plans/aug-23-2026-session-01/aug-25-2026-baseline-seo-01-gsc-indexing.md</code>, one row per article with its index status and the date checked.</p>
+  </div>
+
+  <div class="card">
+    <div class="chd"><span class="cid seo">SEO-03</span><h3 class="ct">Marriage-course fees for all fourteen states, with dates</h3><span class="cpt">2 pts</span></div>
+    <p class="what">The page previously claimed fees were "RM120–RM150" with no state, no source and no date — and was wrong. It now carries every jurisdiction, each sourced from the religious authority itself, with four states honestly recorded as publishing no fee at all. Penang's rise from RM100 to RM120 on 1 September is stated with both figures, so someone booking that week knows which applies to them.</p>
+    <p class="chk"><b>How to check it</b>Open <a href="https://hellokahwin.com/artikel/idea-dan-nasihat/kursus-kahwin">the kursus kahwin article</a> and find the fee section.</p>
+  </div>
+
+  <div class="card">
+    <div class="chd"><span class="cid cont">CONT-01</span><h3 class="ct">Three new articles on hantaran trays and arrangements</h3><span class="cpt">3 pts</span></div>
+    <p class="what">Dulang hantaran, gubahan hantaran and sirih junjung — the cluster that needed real photography. They were placed under the one section Google already visits, so they have the best chance of being found quickly.</p>
+    <p class="chk"><b>How to check it</b><a href="https://hellokahwin.com/artikel/hantaran-mas-kahwin/sirih-junjung">sirih-junjung</a>, plus dulang-hantaran and gubahan-hantaran on the same section page.</p>
+  </div>
+
+  <div class="card">
+    <div class="chd"><span class="cid cont">CONT-02</span><h3 class="ct">Nearly twice as many photographs across the whole site</h3><span class="cpt">3 pts</span></div>
+    <p class="what">Articles went from 76 images to 145. Every one is a licensed photograph with the photographer named and a link back to where it came from — and there are no text-cards left anywhere, on any article.</p>
+    <p class="chk"><b>How to check it</b>Open <a href="https://hellokahwin.com/artikel/venue-perancangan/bajet-kahwin">bajet-kahwin</a> — it had four images and now has seven, each with a credit line under it.</p>
+  </div>
+
+  <div class="card">
+    <div class="chd"><span class="cid cont">CONT-03</span><h3 class="ct">Two articles on wedding feasts and hosting a majlis</h3><span class="cpt">2 pts</span></div>
+    <p class="what">Walimatul urus and a script for the person announcing the ceremony — filling out the thinnest section on the site, six images each.</p>
+    <p class="chk"><b>How to check it</b><a href="https://hellokahwin.com/artikel/ucapan-doa/walimatul-urus">walimatul-urus</a> and skrip-pengacara-majlis-perkahwinan.</p>
+  </div>
+
+  <div class="card">
+    <div class="chd"><span class="cid cont">CONT-04</span><h3 class="ct">A plan for moving thirteen old articles — and why it costs less than feared</h3><span class="cpt">2 pts</span></div>
+    <p class="what">We believed moving old articles into their proper sections would need thirteen redirects and risk their search rankings. It needs none — the site already sends readers to the right address on its own. The real cost is different and smaller, and now written down before anyone acts on it.</p>
+    <p class="chk"><b>How to check it</b><code>docs/plans/aug-23-2026-session-01/aug-25-2026-plan-cont-04-legacy-reparenting.md</code>. Nothing was executed, as the task required.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Behind the scenes</h2>
+  <div class="card">
+    <p class="what"><b>RISK-03 (2 pts)</b> — added a check that catches work which is finished but never actually put live. It found something on its first run, and its absence later in the sprint is the main lesson below.<br>
+    <b>PLAT-03 (1 pt)</b> — investigated image files that looked suspiciously large. They were not: the comparison was between a small preview and a full-size crop. No code changed, which is the right outcome for a question that turns out to have an answer.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Parked</h2>
+  <div class="card">
+    <div class="chd"><span class="cid risk">RISK-02</span><h3 class="ct">Database password rotation — risk accepted, not done</h3><span class="cpt">2 pts</span></div>
+    <p class="what">A production password appeared in an internal transcript. The owner reviewed the exposure — transcript only, nothing in any repository or file on disk — and chose to accept it rather than rotate. Recorded as a decision, not a miss, with a revisit trigger: if that transcript is ever shared or exported.</p>
+    <p class="chk"><b>Where it goes next</b>It stays parked. RISK-01 shipping reduces what it could cost, because the database can now be restored.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Time, models &amp; tokens</h2>
+  <div class="card">
+    <h3 class="ct" style="margin-bottom:8px">Not measurable for this sprint, and that is a finding</h3>
+    <p class="what">The generator that produces this card reads <code>/buildit</code>'s ship-log to find a batch. <strong>A sprint does not write one</strong>, so it returns an empty card rather than a number. Its own output: <em>"no ship-log entry found; emitting empty card."</em></p>
+    <p class="chk"><b>Rather than fake it</b>The honest position is that effort per stage was not captured for Sprint 01. Making <code>run-stats.py</code> understand a sprint — or having <code>/startsprint</code> write the ship-log entry the tool expects — is carried forward as a candidate. A partial number presented as a total would be worse than this paragraph.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Cleanup &amp; housekeeping</h2>
+  <div class="card">
+    <p class="what"><b>Orca terminals: 54 → 8.</b> Thirty-nine closed, one refused (stuck in a menu that cannot be answered programmatically). Two stray shells idle for 46 hours were left — they cost a few megabytes and forcing them was not worth the risk.</p>
+    <p class="what"><b>Worktrees: nothing removed, deliberately.</b> There is no <code>ship-log.jsonl</code> in the site checkout because this project deploys by pushing to master rather than through <code>/buildit</code>. The cleanup rule is <em>positive evidence only</em> — no log means nothing is provably shipped, so nothing gets deleted. <code>ianng89/pillars-ingest-redirects</code> remains the live working branch.</p>
+    <p class="what"><b>Two buddy branches merged and left in place:</b> <code>feat/plat-01-sprint-tracker</code> and <code>feat/plat-04-sprint-tracker-phase-2</code>.</p>
+  </div>
+</section>
+
+<section>
+  <h2>The retrospective</h2>
+  <p class="lede">Held with Winston, Murat, the Managing Editor, the Head of SEO and the writer. Every finding below names the file it changed — a lesson with no target file evaporates.</p>
+
+  <div class="band">
+    <h3>Three items were marked done without being shipped, and the owner found all three by asking</h3>
+    <p>PLAT-01 and PLAT-04 were built, committed and tested — and <strong>never merged</strong>. <code>origin/main</code> was unchanged; the board did not exist. CONT-02's sixty-nine images sat in draft files. The paper trail sat at 161 uncommitted files and 14 unpushed commits.</p>
+    <p>Not one was caught by a check. <strong>The ship check existed</strong> — it was written the day before and caught a real gap on its first run. Then it was not run again.</p>
+    <p>Murat's verdict, which is the sentence worth keeping: <em>"Not that we lacked a check — we HAD one, and running it was left to memory. <strong>A gate you have to remember is a suggestion.</strong>"</em></p>
+  </div>
+
+  <div class="learn">
+    <p class="f">The ship check is now a refusal, not a reminder</p>
+    <span class="file">skillcentral/skills/startsprint/SKILL.md</span>
+    <p class="w">Marking an item done is now defined as an assertion that the three checks have just been run for that item — working tree, unpushed commits, and the user-visible surface. If you cannot name what you checked, you do not mark it done.</p>
+  </div>
+
+  <div class="learn">
+    <p class="f">The visual-build stage ended at a draft, so its author could forget the last step</p>
+    <span class="file">docs/plans/…/aug-23-2026-workflow-content-production.md</span>
+    <p class="w">The Managing Editor named it exactly: <em>"in my head 'the draft is finished' and 'the work is finished' are the same sentence."</em> The Head of SEO named why it bit this stage and no other: ingesting is a writer's last step, so a writer cannot forget it — this stage ends in a file, so its author can. The gate is now production, not the file.</p>
+  </div>
+
+  <div class="learn">
+    <p class="f">A rule repeated in briefs belongs in the artefact</p>
+    <span class="file">agents/projects/hellokahwin/Editorial/writer-*.md</span>
+    <p class="w">The same instruction — never leave placeholder image markers — was written into two separate briefs for the same writer. It is now a format error, malformed the same way a missing required field is malformed, rather than something a brief has to keep asking for.</p>
+  </div>
+
+  <div class="learn">
+    <p class="f">On a sign-in-protected site, a status code cannot prove a page exists</p>
+    <span class="file">skillcentral/skills/hellokahwin/SKILL.md</span>
+    <p class="w">Every path returns the same redirect, real or invented, because sign-in happens before routing. Two of the three unshipped items passed review on exactly that. Proof must come from the page's content, with a control that lacks it — and when it genuinely cannot be verified from outside, say so and hand over a URL.</p>
+  </div>
+
+  <div class="learn">
+    <p class="f">Handles assigned by reading a list in order — wrong in both directions at once</p>
+    <span class="file">skillcentral/skills/startsprint/SKILL.md</span>
+    <p class="w">Two tasks were given two workers each on the same instructions; two others never started, including the one everything else was waiting behind. Capture the identifier at dispatch and audit it before reporting progress — a task that silently never started produces no error anywhere.</p>
+  </div>
+
+  <div class="learn">
+    <p class="f">Two rules the CEO wrote were disproved by the team, and both times the team was right</p>
+    <span class="file">docs/boardroom/ceo-memory.md</span>
+    <p class="w">Moving old articles needs no redirects; and the rule for comparing old and new addresses was comparing one old address to a different old address. Both corrected at source rather than noted in a log.</p>
+  </div>
+
+  <div class="band" style="border-left-color:var(--ok)">
+    <h3>What went right, and must not be mistaken for luck</h3>
+    <p>When two workers were mistakenly given the same task, <strong>both stopped rather than racing</strong> and asked who owned it. Publishing overwrites whole files, so a race would have silently published the loser's version. The one that stood down reviewed the other's work on its way out and found a real defect — a comment claiming a credential had been verified when it had not.</p>
+    <p>Winston's warning stands: <em>do not congratulate the fleet for surviving a dispatch error — fix the dispatch.</em></p>
+  </div>
+</section>
+
+<section>
+  <h2>Carried forward</h2>
+  <div class="tw"><table>
+    <thead><tr><th>Item</th><th>Why it moves</th></tr></thead>
+    <tbody>
+      <tr><td><b>PLAT-05</b> — documents readable inside the board</td><td>In the backlog, specced and approved. Review found the credential-guard would have rejected the token registry — the document most worth finding.</td></tr>
+      <tr><td><b>Cold pages can take 5–22 seconds</b>, and one returned an error on its very first request</td><td>Measured, not diagnosed. Google's first visit to any of the twenty unvisited articles <em>is</em> a cold page load.</td></tr>
+      <tr><td><b>Neither project has a working preview environment</b></td><td>Two instances is a pattern. It means nothing can be reviewed before it is live.</td></tr>
+      <tr><td><b>Effort per stage was not measured</b></td><td>The measuring tool does not understand sprints. Either teach it, or write what it expects.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<footer>
+  Sprint 01 · planned 25 Aug 2026 · closed 26 Aug 2026 · 42 planned / 40 completed / 2 parked / 0 unfinished, computed from item data.
+  Live state at close: 61 articles, 7 sections, sitemap 78 URLs, every image credited, zero text cards.
+  Item evidence and the full retrospective live on the board at buddy.ian.ng/sprints; briefs in <code>docs/plans/</code>, completion logs in <code>docs/work-done/</code>.
+</footer>
+
+</div>

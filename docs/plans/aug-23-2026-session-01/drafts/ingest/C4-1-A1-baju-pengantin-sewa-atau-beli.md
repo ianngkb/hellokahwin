@@ -7,6 +7,11 @@ metaDescription: "Sewa satu set baju nikah berdua RM600 hingga RM799 ikut harga 
 excerpt: "Harga sewa dan harga beli baju pengantin diambil terus daripada senarai harga yang disiarkan butik dan kedai yang dinamakan, berserta tarikh disemak, kerana tiada kadar rasmi wujud untuk baris bajet ini."
 author: ianng@theweddingnotebook.com
 status: published
+# The instant this article FIRST went live. Carried in the file so a re-ingest
+# writes the same value back instead of stamping the row with the date of the
+# edit — which would move the sitemap lastmod and the JSON-LD datePublished of
+# a page Google has already indexed.
+publishedAt: "2026-08-25T10:44:44.490Z"
 authorship: ai_assisted
 tags:
   - baju pengantin

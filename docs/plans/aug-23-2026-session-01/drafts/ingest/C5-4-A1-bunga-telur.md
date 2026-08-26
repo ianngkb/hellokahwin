@@ -7,6 +7,11 @@ metaDescription: "Apa itu bunga telur, apa maksud telurnya, dan bezanya dengan b
 excerpt: "Telur itu melambangkan kesuburan, dan pahar itu bukan benda yang sama dengan bunga telur. Ini yang benar-benar tercatat tentang adat ini, dan berapa kosnya sekuntum pada tiga senarai pembekal hari ini."
 author: ianng@theweddingnotebook.com
 status: published
+# The instant this article FIRST went live. Carried in the file so a re-ingest
+# writes the same value back instead of stamping the row with the date of the
+# edit — which would move the sitemap lastmod and the JSON-LD datePublished of
+# a page Google has already indexed.
+publishedAt: "2026-08-25T11:30:22.745Z"
 authorship: ai_assisted
 tags:
   - bunga telur

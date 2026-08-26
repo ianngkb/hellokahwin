@@ -7,6 +7,11 @@ metaDescription: "Sampin songket tenunan tangan disiarkan RM2,800 hingga RM11,50
 excerpt: "Perkataan songket pada satu label boleh bermaksud kain yang ditenun berbulan-bulan, atau corak yang dicetak pada kain biasa. Beza harganya berkali ganda, dan label jarang menyatakan yang mana satu."
 author: ianng@theweddingnotebook.com
 status: published
+# The instant this article FIRST went live. Carried in the file so a re-ingest
+# writes the same value back instead of stamping the row with the date of the
+# edit — which would move the sitemap lastmod and the JSON-LD datePublished of
+# a page Google has already indexed.
+publishedAt: "2026-08-25T10:45:05.468Z"
 authorship: ai_assisted
 tags:
   - kain songket

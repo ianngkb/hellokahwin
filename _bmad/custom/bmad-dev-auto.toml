@@ -1,0 +1,10 @@
+# Team override for bmad-dev-auto — set by Ian, 2026-08-23.
+# Why: the external codex review (GPT-5.6 Sol) is the single reviewing
+# authority for every run; internal review cycling and deferred work are
+# retired. See skillcentral/skills/autopilot/SKILL.md ("One review, total").
+
+[workflow]
+
+activation_steps_append = [
+  "Review policy override (Ian, 2026-08-23): step-04 runs AT MOST ONE review pass per invocation — after its findings are triaged and patched, the pass ends; never re-review the patched code within this workflow (the external codex review that follows is the single reviewing authority). The bad_spec loopback for spec repair remains as designed. Triage findings as patch or reject only — the defer category is retired: a finding on this change that is real enough to defer is real enough to patch now, all severities included. For genuinely pre-existing issues outside this change's diff: patch them too when small and safe; otherwise record them in the pass result summary for the orchestrator to surface to the user — do not append to deferred-work.md.",
+]

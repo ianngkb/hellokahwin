@@ -7,6 +7,11 @@ metaDescription: "Sepuluh perkara yang mesti ada pada kad jemputan kahwin, cara 
 excerpt: "Kad jemputan bukan reka bentuk sahaja. Susunan namanya, ayatnya dan apa yang dicetak di muka depan semuanya ada peraturan yang jarang ditulis di mana-mana."
 author: ianng@theweddingnotebook.com
 status: published
+# The instant this article FIRST went live. Carried in the file so a re-ingest
+# writes the same value back instead of stamping the row with the date of the
+# edit — which would move the sitemap lastmod and the JSON-LD datePublished of
+# a page Google has already indexed.
+publishedAt: "2026-08-25T11:24:53.596Z"
 authorship: ai_assisted
 tags:
   - kad jemputan kahwin

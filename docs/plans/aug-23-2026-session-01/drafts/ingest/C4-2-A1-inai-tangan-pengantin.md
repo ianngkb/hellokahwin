@@ -7,6 +7,11 @@ metaDescription: "Inai asli pudar dalam kira-kira tiga minggu. Inai hitam mengan
 excerpt: "Beza antara inai asli, inai kon komersial dan inai hitam, berapa lama setiap satu bertahan, dan kenapa ujian kulit dua hari sebelum majlis tidak menjamin apa-apa."
 author: ianng@theweddingnotebook.com
 status: published
+# The instant this article FIRST went live. Carried in the file so a re-ingest
+# writes the same value back instead of stamping the row with the date of the
+# edit — which would move the sitemap lastmod and the JSON-LD datePublished of
+# a page Google has already indexed.
+publishedAt: "2026-08-25T10:45:14.308Z"
 authorship: ai_assisted
 tags:
   - inai

@@ -14,5 +14,12 @@
     ],
     "deny": [],
     "ask": []
-  }
+  },
+  "enabledMcpjsonServers": [
+    "supabase-twn-new",
+    "supabase-picklebase",
+    "supabase-staff",
+    "illustrator",
+    "radarr_sonarr"
+  ]
 }

@@ -7,6 +7,11 @@ metaDescription: "Maksud sirih junjung dan asal namanya, 100 helai daun sirih Me
 excerpt: "Perpustakaan Negara Malaysia mencatatkan berapa helai daun sirih yang masuk ke dalam satu sirih junjung, dan apa yang setiap ramuan tepak sirih lambangkan. Ini catatan itu, dan harga yang benar-benar tersiar hari ini."
 author: ianng@theweddingnotebook.com
 status: published
+# The instant this article FIRST went live. Carried in the file so a re-ingest
+# writes the same value back instead of stamping the row with the date of the
+# edit — which would move the sitemap lastmod and the JSON-LD datePublished of
+# a page Google has already indexed.
+publishedAt: "2026-08-25T17:55:49.122Z"
 authorship: ai_assisted
 tags:
   - sirih junjung

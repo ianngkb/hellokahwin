@@ -7,6 +7,11 @@ metaDescription: "Apa sebenarnya dalam pakej dewan kahwin: meja, kerusi, PA, pen
 excerpt: "Perkataan pakej boleh bermakna 500 kerusi dan juruteknik, atau boleh bermakna kunci dan bilik kosong. Ini cara membaca perbezaannya sebelum membayar deposit."
 author: ianng@theweddingnotebook.com
 status: published
+# The instant this article FIRST went live. Carried in the file so a re-ingest
+# writes the same value back instead of stamping the row with the date of the
+# edit — which would move the sitemap lastmod and the JSON-LD datePublished of
+# a page Google has already indexed.
+publishedAt: "2026-08-25T10:13:05.226Z"
 authorship: ai_assisted
 tags:
   - pakej dewan kahwin

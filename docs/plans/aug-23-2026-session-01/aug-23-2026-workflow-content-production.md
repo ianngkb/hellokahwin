@@ -378,8 +378,26 @@ where Google reliably truncates. A description written to fit is an editorial
 decision; one silently cut in half is not."* A humanizer pass is an edit like any
 other, and it re-arms the gate.
 
+### Stage 6b DOES NOT END AT A DRAFT
+
+Added 26 Aug 2026, from the Sprint 01 retrospective. CONT-02 sourced, credited
+and wrote Malay alt text for **69 images, marked the item done, and not one
+reached a reader** — complete and correct in draft front matter, one step short
+of production.
+
+The Managing Editor named the cause exactly: *"in my head 'the draft is finished'
+and 'the work is finished' are the same sentence."* The Head of SEO named why it
+bites this stage and not the others: **ingesting is a writer's last step, so a
+writer cannot forget it. This stage ends in a file, so its author can.**
+
+**So the gate is production, not the file.** Either ingest as part of this stage,
+or hand off to Stage 7 with the explicit article list — but never mark this stage
+done from a draft. A dry run that exits 0 proves the file is *ingestable*, which
+is not the same as ingested.
+
 **Gate:** cover is a credited human photograph; every image has its full credit
-chain; **every declared image file resolves on disk and `pnpm --silent ingest
+chain; **the images are IN PRODUCTION, or handed to Stage 7 by name**; **every
+declared image file resolves on disk and `pnpm --silent ingest
 <file> --db "$DB"` exits 0 as a dry run — re-run after EVERY later edit to the
 file, `/humanizer` included, not once at handover**; every inherited block has
 been re-derived rather than cited; the register is updated. **Do not
@@ -462,6 +480,14 @@ pnpm --silent ingest <file.md> --db "$DB" --commit --publish --revalidate-url ht
   its `published_at` out of the database and put it in the file.** This run did
   exactly that and verified all eight dates unchanged afterwards; nothing in the
   script or the file format will do it for you.
+  **Closed at the files, 26 Aug 2026, during the CONT-02 ship.** All thirty-three
+  canonical drafts now carry `publishedAt:` — the value read out of production,
+  written in with the comment `A3-mas-kahwin-johor.md` already used — so the trap
+  is disarmed for the articles that exist today. It is **still armed for every
+  new draft**: the file format defaults it to absent and the script will happily
+  stamp today. The rule stands, and the check after any re-ingest is one query —
+  `select slug, published_at from articles where slug in (…)` against the values
+  captured before the write. Twenty-three verified unchanged on 26 Aug.
 - **`--revalidate-url` is mandatory against any non-local database** — the
   script refuses without it. It drops the Next data cache. It does **not** purge
   the Vercel edge, which holds pillar pages up to 300s.
@@ -1085,9 +1111,59 @@ production.
 | Code is correct | Not committed | `git status --short` is non-empty |
 | Committed | Not deployed | `git rev-list --count origin/master..HEAD` is non-zero |
 | Deployed | Not visibly working | The URL, row or render still says otherwise |
+| **The draft is correct** | **Not ingested** | `pnpm --silent audit:drafts` says the article is behind its draft |
 
-**Gate:** both commands run and accounted for, and the user-visible surface
-checked, before any item is marked done.
+#### The two git commands cannot see content. Added 26 Aug 2026, after CONT-02.
+
+For code the chain above ends at a reader: correct → committed → deployed →
+working. **For content it forks, and git can only see the branch that does not
+matter.** Committing a draft ships the *source*. Only an ingest writes the *row*,
+and the row is what a reader gets. No git command in any repository can see it.
+
+Worse, **both git states report "done"**, so there is no state of the repo that
+would have caught this:
+
+| Draft is… | `git status --short` says | An operator reads it as |
+|---|---|---|
+| untracked — CONT-02's state at 00:31, 26 Aug | `?? …/drafts/borang-nikah.md` | noise; this stage itself says *"uncommitted files unrelated to the item are fine"* |
+| committed — the same files at 09:03, after `d4c4237` swept them into git | *(clean)* | shipped |
+
+Neither is true. In both states `borang-nikah` served one photograph and its
+draft declared four.
+
+That is what happened. CONT-02 sourced fifteen photographs, wrote Malay alt text
+and captions for forty-four, verified every licence at origin, wrote both
+directions of the register, built four checked-in tools and a validator that
+passed 121 references across 28 files — and **none of it was ingested**. The
+report was accurate. The work was correct. `borang-nikah` served one photograph
+while its draft declared four. The gap ran to **69 images across 23 published
+articles**, and it survived the brief that reopened it: that brief's own sample
+table read *"borang-nikah 4 live / 4 draft ✓"*, because it counted the images on
+the **page**, and every article page carries sibling thumbnails from the
+related-articles block. Three of borang-nikah's four belonged to other articles.
+
+**So the content ship check is a fourth command, and it is not optional:**
+
+```
+pnpm --silent audit:drafts --db "$DB" \
+  --drafts <docs>/drafts/ingest --drafts <docs>/drafts
+```
+
+It compares, per published article, the images the **draft declares** against
+the images **production serves**, matched on the declared filename — the only
+spelling the two sides share, because ingest stamps every upload with
+`Date.now()` and stores the WebP derivative. It **exits 1** when any published
+article is behind its draft, so it is a gate and not a report. It also names the
+opposite case: images production serves that the draft does not declare, which
+an `--update` would silently delete.
+
+**Do not count images on the rendered page.** Sibling thumbnails inflate every
+count, and a hand-count of image tags is how a 69-image gap read as "✓".
+
+**Gate:** all three commands run and accounted for — `git status --short`,
+`git rev-list --count origin/master..HEAD`, and `pnpm audit:drafts` — and the
+user-visible surface checked, before any item is marked done. For a content
+item the third is the one that matters and the first two will lie to you.
 
 ---
 

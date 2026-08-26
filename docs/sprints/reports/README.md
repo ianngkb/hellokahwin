@@ -35,4 +35,4 @@ sources; the report is the readable view.
 
 | Sprint | Name | Planned | Ended | Points (planned / done / parked) | Outcome |
 |---|---|---|---|---|---|
-| 01 | Protect what we shipped, then measure it | 25 Aug 2026 | *in progress* | 42 / — / 2 | — |
+| 01 | Protect what we shipped, then measure it | 25 Aug 2026 | 26 Aug 2026 | 42 / 40 / 2 | Recovery point + verified restore, the sprint board on buddy.ian.ng, 79 `nofollow` links removed, 5 articles and 145 images live. Three items were marked done unshipped and caught by the owner, not by a check — the retro turned the ship check into a refusal. |
