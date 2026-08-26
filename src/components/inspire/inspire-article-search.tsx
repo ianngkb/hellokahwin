@@ -23,6 +23,7 @@ export function InspireArticleSearch() {
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const abortRef = useRef<AbortController | null>(null); // F2: abort stale requests
   const containerRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   // F3: Clean up debounce and abort on unmount
   useEffect(() => {
@@ -93,6 +94,22 @@ export function InspireArticleSearch() {
     }
   }, []);
 
+  // Arriving from the masthead's search link (/artikel#cari) puts the caret in
+  // the field. Without this the link lands the reader next to a search box they
+  // then have to tap a second time, which on a phone means the keyboard is two
+  // taps away from a control they already told us they wanted. The hash is
+  // checked rather than always focusing, because /artikel is also a browse
+  // destination in its own right and stealing focus there would yank the page
+  // down to the search box for readers who only wanted the index.
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (window.location.hash !== '#cari') return;
+    // After paint, so the browser's own hash-scroll has already happened and
+    // preventScroll leaves us where the anchor put us.
+    const id = requestAnimationFrame(() => inputRef.current?.focus({ preventScroll: true }));
+    return () => cancelAnimationFrame(id);
+  }, []);
+
   // Close on outside click
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -116,6 +133,7 @@ export function InspireArticleSearch() {
         <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
         {/* F9: ARIA attributes for autocomplete pattern */}
         <input
+          ref={inputRef}
           type="text"
           value={query}
           onChange={handleChange}

@@ -2124,14 +2124,81 @@
   color: var(--background);
 }
 
+/* Scroll-edge affordance for a scrollbar-less horizontal rail.
+   Paired with <EdgeScroller>, which sets the data attributes by measuring
+   scrollLeft against scrollWidth - clientWidth. Both edges are painted, not
+   just the right one: once a reader has scrolled, the left edge is hiding
+   content too, and a rail that only ever hints one way reads as a rail with a
+   fixed beginning.
+
+   The cue is a fade to paper plus a chevron, not a scrollbar: the masthead is a
+   hairline and a scrollbar would double its visual weight. The chevron is what
+   makes it unambiguous — a bare gradient is easy to read as a vignette,
+   especially on the cheap, low-contrast screens this audience mostly uses.
+   Both pseudo-elements are pointer-events:none so they never eat a tap that
+   was meant for the chip underneath. */
+.hk-edge::before,
+.hk-edge::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  width: 3rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease;
+  background-repeat: no-repeat;
+}
+.hk-edge::before {
+  left: 0;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23595855' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m15 18-6-6 6-6'/%3E%3C/svg%3E"),
+    linear-gradient(to right, var(--background) 40%, transparent);
+  background-position:
+    left 0.125rem center,
+    left center;
+}
+.hk-edge::after {
+  right: 0;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23595855' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E"),
+    linear-gradient(to left, var(--background) 40%, transparent);
+  background-position:
+    right 0.125rem center,
+    right center;
+}
+.hk-edge[data-overflow-start]::before,
+.hk-edge[data-overflow-end]::after {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hk-edge::before,
+  .hk-edge::after {
+    transition: none;
+  }
+}
+
 /* Flat chip — the only filter affordance. No pill, no shadow: a hairline
-   rectangle that inverts to ink when active. 44px tall for thumbs. */
+   rectangle that inverts to ink when active. 44px tall for thumbs.
+
+   The boundary is drawn in `--border-strong`, NOT `--border`. WCAG 1.4.11
+   (Non-text Contrast) asks 3:1 of the visual information needed to identify a
+   user-interface component, and the chip's rectangle IS that information —
+   there is no fill, no shadow and no icon to fall back on. Measured against
+   the `.hk-public` paper (oklch(0.988 0.002 85)):
+     --border         oklch(0.885 0.003 85) = rgb(218,217,215) -> 1.365:1  FAIL
+     --border-strong  oklch(0.66  0.004 85) = rgb(147,146,143) -> 3.006:1  PASS
+   `--border-strong` already exists for exactly this ("form-control
+   boundaries"), so this is a token swap, not a new colour. Hover and active
+   still darken to `--foreground` (17.8:1), so the interaction ladder is
+   unchanged — only the resting state stops being invisible. */
 .hk-chip {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
   padding-inline: 1rem;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-strong);
   background-color: transparent;
   color: var(--muted-foreground);
   font-family: var(--font-geist);

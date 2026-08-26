@@ -13,12 +13,27 @@ import type { PillarView } from '@/lib/inspire/pillar-queries';
  * page is the map, and a cluster with nothing under it yet is information for a
  * reader and a commitment for the editorial team. Hiding it would make the
  * pillar look complete when it is not.
- */
+ *
+ * It does NOT, however, get to go first. Clusters arrive in `display_order`,
+ * which is an editorial ordering of the topic — not of what exists yet — so an
+ * empty cluster could and did land above real articles. Measured on production
+ * 2026-08-26: three of the nine pillars opened on a promise instead of a link
+ * (`venue-perancangan` led with an empty "Dewan & venue majlis" while four
+ * live articles sat below it; also `sebelum-nikah` and
+ * `pelamin-kad-cenderahati`). Non-empty clusters therefore sort first and
+ * empty ones sink, each group keeping its editorial order — `Array#sort` is
+ * stable per spec (ES2019), so this reorders nothing else. */
 export function PillarBody({ view, intro }: { view: PillarView; intro: string | null }) {
   const paragraphs = (intro ?? '')
     .split(/\n{2,}/)
     .map((p) => p.trim())
     .filter(Boolean);
+
+  // Clusters that have articles first; empty ones keep their editorial order at
+  // the bottom. Stable sort, so within each group nothing moves.
+  const orderedClusters = [...view.clusters].sort(
+    (a, b) => Number(b.articles.length > 0) - Number(a.articles.length > 0),
+  );
 
   return (
     <div className="mx-auto max-w-3xl">
@@ -33,7 +48,7 @@ export function PillarBody({ view, intro }: { view: PillarView; intro: string | 
       )}
 
       <div className="mt-12 space-y-14">
-        {view.clusters.map((cluster) => (
+        {orderedClusters.map((cluster) => (
           <section key={cluster.id} aria-labelledby={`cluster-${cluster.id}`}>
             <h2 id={`cluster-${cluster.id}`} className="hk-display text-[1.5rem] lg:text-[1.75rem]">
               {cluster.name}
