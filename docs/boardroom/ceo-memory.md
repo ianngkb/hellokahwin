@@ -471,6 +471,22 @@ minute to relaunch; the prompts will otherwise recur indefinitely.
   BATCH SIZE rather than temperature, those numbers point the same way UX-01's
   do. **Hypothesis, not a finding** — the origin's concurrency is not visible
   from outside and this should be tested before anyone builds on it.
+- **⚠ THE AFFECTED SET IS NOT STABLE AND IS NOT A LIST TO FIX.** UX-01 tested
+  the obvious explanation — that the three affected articles are the heaviest
+  rows, so only they cross 1.5s — and it fails both ways. Over all 74 live
+  articles by page size: `tempat-honeymoon-di-malaysia` rank 1 (190 KB),
+  `mas-kahwin-ikut-negeri` rank 19 (136 KB), `goodies-kahwin` **rank 72 of 74**
+  (91 KB), median 124 KB. Control: `garden-wedding` is also 190 KB and was fine.
+  **Whoever loses the race loses**; do not maintain a list of "bad pages".
+- **An UNCONTENDED origin render makes the deadline comfortably.** SEO-05 forced
+  ten, sequentially, without purging anything (a distinct query string is a
+  distinct CDN cache key): all ten genuine `MISS`, **0 of 10** served the
+  default title, median 1555 ms, max 3148 ms. Those totals are network + edge +
+  render, and the 1.5 s deadline governs only the DB read inside them — so they
+  bound the request, not the thing the deadline measures. Two caveats worth
+  keeping: the 3148 ms outlier ran FIRST and the ordering confound could not be
+  resolved, and **the query string is not part of this route's CDN cache key**,
+  so that trick forces exactly one render per path and then only hits.
 - **`revalidate-content` remains a PLAUSIBLE trigger** by the same stampede
   argument, since it drops every article's data cache simultaneously, but no
   clean measurement isolates it. **A zero-code mitigation worth measuring
