@@ -1,0 +1,13 @@
+UNDO DRY RUN — 2026-08-26T21:38:44.223Z
+Target: aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+
+BEFORE {"articles":74,"media":938,"inspire_tags":96,"targets":0}
+SPARED TAGS (must survive): [{"slug":"adat-hantaran","used_by":1},{"slug":"dulang-hantaran","used_by":9}]
+  step 1  delete media                 -> 0 rows
+  step 2  delete articles              -> 0 rows []
+  step 3  delete inspire_tags          -> 0 rows []
+  IN-TRANSACTION AFTER {"articles":74,"media":938,"inspire_tags":96,"targets":0}
+  SPARED TAGS STILL PRESENT: ["adat-hantaran","dulang-hantaran"]
+  rolled back: ROLLBACK — dry run, nothing written
+AFTER ROLLBACK {"articles":74,"media":938,"inspire_tags":96}
+STATE UNCHANGED — dry run proved the undo executes cleanly.

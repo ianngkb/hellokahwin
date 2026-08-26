@@ -1,0 +1,94 @@
+----- C2-1-A2-hantaran-untuk-lelaki
+File:   C2-1-A2-hantaran-untuk-lelaki.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+Mode:   DRY RUN (no writes)
+
+Pillar:  Hantaran & Mas Kahwin (P2)
+Cluster: Hantaran kahwin (C2.1)
+Status:  draft  (file asks for published; pass --publish to honour it)
+Author:  ai_assisted · review_status pending_review
+Images:  3, every one credited
+  ../images/S-serah-dulang-hantaran-lelaki-azlan-dupree.jpg  →  "Kredit: Azlan DuPree (CC BY 2.0)" [S] Azlan DuPree
+  ../images/S-dulang-hantaran-masjid-mylifestory.jpg  →  "Kredit: MyLifeStory (CC BY 2.0)" [S] MyLifeStory
+  ../images/S-dulang-buah-hantaran-mohd-hasan.jpg  →  "Kredit: mohd hasan / Pexels" [S] mohd hasan
+Tags:    hantaran untuk lelaki, barang hantaran lelaki, hantaran kahwin, dulang hantaran
+Links:   4 internal, all resolved
+URL:     /artikel/hantaran-mas-kahwin/hantaran-untuk-lelaki
+
+Dry run — nothing written. Re-run with --commit to apply.
+----- C2-1-A3-barang-hantaran-perempuan
+File:   C2-1-A3-barang-hantaran-perempuan.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+Mode:   DRY RUN (no writes)
+
+
+Refusing to ingest. 2 problems:
+  - internalLinks: no published article with slug "hantaran-untuk-lelaki" — fix the link or publish the target first
+  - body link: no published article with slug "hantaran-untuk-lelaki" — fix the link in the article text, or publish the target first
+
+Nothing was written.
+----- C2-1-A4-hantaran-kahwin-bajet
+File:   C2-1-A4-hantaran-kahwin-bajet.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+Mode:   DRY RUN (no writes)
+
+
+Refusing to ingest. 4 problems:
+  - internalLinks: no published article with slug "hantaran-untuk-lelaki" — fix the link or publish the target first
+  - internalLinks: no published article with slug "barang-hantaran-perempuan" — fix the link or publish the target first
+  - body link: no published article with slug "hantaran-untuk-lelaki" — fix the link in the article text, or publish the target first
+  - body link: no published article with slug "barang-hantaran-perempuan" — fix the link in the article text, or publish the target first
+
+Nothing was written.
+----- C2-1-A5-barang-hantaran-berguna
+File:   C2-1-A5-barang-hantaran-berguna.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+Mode:   DRY RUN (no writes)
+
+
+Refusing to ingest. 4 problems:
+  - internalLinks: no published article with slug "hantaran-untuk-lelaki" — fix the link or publish the target first
+  - internalLinks: no published article with slug "barang-hantaran-perempuan" — fix the link or publish the target first
+  - body link: no published article with slug "hantaran-untuk-lelaki" — fix the link in the article text, or publish the target first
+  - body link: no published article with slug "barang-hantaran-perempuan" — fix the link in the article text, or publish the target first
+
+Nothing was written.
+----- C2-1-A6-adat-hantaran-ikut-keluarga
+File:   C2-1-A6-adat-hantaran-ikut-keluarga.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+Mode:   DRY RUN (no writes)
+
+
+Refusing to ingest. 4 problems:
+  - internalLinks: no published article with slug "hantaran-untuk-lelaki" — fix the link or publish the target first
+  - internalLinks: no published article with slug "barang-hantaran-perempuan" — fix the link or publish the target first
+  - body link: no published article with slug "hantaran-untuk-lelaki" — fix the link in the article text, or publish the target first
+  - body link: no published article with slug "barang-hantaran-perempuan" — fix the link in the article text, or publish the target first
+
+Nothing was written.
+----- C2-1-A7-persiapan-hantaran-kahwin
+File:   C2-1-A7-persiapan-hantaran-kahwin.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+Mode:   DRY RUN (no writes)
+
+
+Refusing to ingest. 2 problems:
+  - internalLinks: no published article with slug "hantaran-kahwin-bajet" — fix the link or publish the target first
+  - body link: no published article with slug "hantaran-kahwin-bajet" — fix the link in the article text, or publish the target first
+
+Nothing was written.
+----- C2-1-A8-tempat-beli-hantaran
+File:   C2-1-A8-tempat-beli-hantaran.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+Mode:   DRY RUN (no writes)
+
+
+Refusing to ingest. 6 problems:
+  - internalLinks: no published article with slug "hantaran-kahwin-bajet" — fix the link or publish the target first
+  - internalLinks: no published article with slug "persiapan-hantaran-kahwin" — fix the link or publish the target first
+  - internalLinks: no published article with slug "barang-hantaran-perempuan" — fix the link or publish the target first
+  - body link: no published article with slug "hantaran-kahwin-bajet" — fix the link in the article text, or publish the target first
+  - body link: no published article with slug "persiapan-hantaran-kahwin" — fix the link in the article text, or publish the target first
+  - body link: no published article with slug "barang-hantaran-perempuan" — fix the link in the article text, or publish the target first
+
+Nothing was written.
