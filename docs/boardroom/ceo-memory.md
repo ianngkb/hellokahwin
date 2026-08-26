@@ -416,8 +416,17 @@ minute to relaunch; the prompts will otherwise recur indefinitely.
 - **🔴 NO ARTICLE ON THE SITE EMITS `FAQPage` SCHEMA, and 31 are carrying the
   block that was written for it.** Found by CONT-07, measured sitewide by SEO-05
   on 26 Aug — sequential sweep of the 69 articles published at the time:
-  **31 carry a "Soalan lazim" block, 0 emit FAQPage.** The only structured data
-  we emit anywhere is `Article`, `BreadcrumbList` and `ItemList`.
+  **31 carry a "Soalan lazim" block, 0 emit FAQPage.** What we DO emit is
+  `Article`, `BreadcrumbList`, `ImageObject`, `ItemList`, `ListItem`,
+  `Organization`, `WebPage` — corrected from SEO-05's first list, which read
+  only top-level `@type` values and missed the nested ones; CONT-05 measured the
+  fuller set and it is identical on new and legacy articles. **FAQPage is absent
+  under either extraction**, confirmed by CONT-07, CONT-05 and SEO-05 on
+  overlapping samples.
+  **It is a RENDERER fix, not a content fix, and therefore one fix rather than
+  31** (CONT-05's point): every question is already a `###` under a
+  `## Soalan lazim`, which is the shape the schema would be generated from.
+  Nothing editorial has to change.
   **Every writer has been told the block "is marked up as FAQ schema by the
   engineer at ingest" and nothing does it.** So thirty-one compliant
   question-and-answer blocks are earning no rich result, on a site whose whole
