@@ -435,39 +435,60 @@ minute to relaunch; the prompts will otherwise recur indefinitely.
   **Owner: full-stack-engineer** (CONT-07's assignment; neither agent touched the
   article route). Fix the emitter, then correct the writer instruction so it
   describes what actually happens.
-- **🟠 SEVEN LIVE ARTICLES SIT ON TWO PARENT TOPICS.** Measured 26 Aug by
-  head-of-seo-content (Ahrefs Keywords Explorer, MY) after CONT-05 flagged a
-  near-identical slug pair. **The flagged pair is CLEAR** — `hantaran untuk
-  lelaki` (947/mo) and `hantaran tunang untuk lelaki` (421/mo) have DIFFERENT
-  parent topics; they only look alike as strings. What the test found instead:
-
-      parent "hantaran tunang"          hantaran-tunang 4,818 + untuk-lelaki 421
-                                        + untuk-perempuan 209 + barang- 123
-                                        + berapa-dulang- 15      = FIVE articles
-      parent "barang hantaran lelaki"   hantaran-kahwin 1,725 + hantaran-untuk-lelaki 947
-
-  The second pair is the sharper one: a legacy WordPress article and a brand-new
-  C2.1 article, 2,672/mo of combined demand, aimed at one topic. Also
-  `hantaran-kahwin-bajet` targets a **1/mo** keyword with no parent topic at all.
-  **Not acted on** — merging live articles carries index cost and belongs to
-  whoever owns C2.1/C2.2. Evidence:
-  `docs/work-done/2026-08-27-seo-05-titles-EVIDENCE/parent-topic-scan.json`.
-- **⚠ AND IT PUTS TWO OF THE SEO PLAYBOOK'S RULES IN DIRECT CONFLICT.** Rule 4:
-  two articles sharing a parent topic are one article split by accident, merge
-  them — the primary cannibalisation control. Rule 2: a cluster is covered when
-  every question with ≥100 monthly searches has a page. Here 421, 209 and 123 all
-  clear rule 2 while all three violate rule 4. **Both rules were followed and
-  they cannot both be satisfied.** head-of-seo-content owns resolving this; it is
-  flagged in the persona as open rather than silently decided. Until it is,
-  cluster plans should be checked against `parent_topic` BEFORE the briefs are
-  written, not after publication.
-- **⚠ A NAMING CONSEQUENCE WORTH ONE LINE.** `hantaran-untuk-lelaki` vs
-  `hantaran-tunang-untuk-lelaki`, and `barang-hantaran-berguna` vs
-  `barang-hantaran-tunang`, are one word apart and were published hours apart by
-  two different items. Inside four hours the pairs caused a real misattribution
-  in a cross-session report. Even where the topics are genuinely distinct,
-  near-identical slugs cost human accuracy — CONT-05's point, and it held.
-- **🔴 The cached-metadata / wrong-`<title>` defect** — see "OPEN AND UNFIXED"
+- **🟠 CLUSTER OVERLAP: C2.2 DECIDED, C2.1 OPEN.** head-of-seo-content ran the
+  Ahrefs `parent_topic` control on 26 Aug after CONT-05 flagged a near-identical
+  slug pair. Both cluster owners then re-ran it against their PLANS and corrected
+  the first pass; the numbers below are the corrected ones, quoted as Ahrefs
+  `volume` (12-month average).
+  - **The flagged slug pair was CLEAR** — different parent topics. String
+    similarity flags the wrong pairs; a pairwise scan over 86 articles returned
+    20 "near-duplicates" the test almost all cleared.
+  - **C2.2 (`hantaran tunang`): DECIDED — DO NOT MERGE.** Seven target terms
+    share the parent, but CONT-05 supplied SERP evidence and it is decisive:
+    **Google's own People-also-ask box on `dulang hantaran tunang` carries two
+    C2.2 titles near verbatim.** Google splits the topic the way the plan split
+    it; sub-angle pages rank independently; the absorbing incumbent is DR 14.
+  - **C2.1 (`barang hantaran lelaki`): OPEN.** Bigger than first reported —
+    CONT-07 re-ran every term and found **three C2.1 articles plus the legacy
+    seed** on one parent (`hantaran kahwin` 2,000, `hantaran untuk lelaki` 700,
+    `barang hantaran lelaki` 500, `barang hantaran` 350, `barang hantaran
+    perempuan` 300, `contoh hantaran kahwin` 200, `idea hantaran` 80).
+    **Deliberately NOT decided**: no SERP check has been run on this cluster, and
+    deciding on `parent_topic` alone would repeat the error this whole thread
+    corrected. **What settles it:** does the MY SERP split the groom/bride
+    angles, and do sub-angle pages rank? head-of-seo-content owns the call.
+  - **Separately and regardless of any merge: four C2.1 head terms carry ZERO
+    volume and no parent topic** — `hantaran kahwin bajet`, `kos hantaran
+    kahwin`, `adat hantaran`, `persiapan hantaran`. Surrounding parents carry
+    2,400–2,700 traffic potential, so the subject is real and the chosen head
+    terms are not. That is a target-selection fix.
+  - **⚠ THE `parent_topic` SIGNAL IS NOISY IN MALAY LONG-TAIL — treat it as
+    opening an investigation, not closing one.** Ahrefs gives the head
+    `hantaran tunang` a traffic potential of **400** while four of its children
+    score **1,100–1,300**. A parent cannot have less traffic potential than its
+    children. **The resolver is the SERP, not the field** (CONT-05).
+- **⚠ ALWAYS NAME THE AHREFS VOLUME FIELD — three sessions argued over a phantom
+  for several rounds.** `volume` is the Keywords Explorer headline (12-month
+  average); `volume_monthly` is the latest month. `hantaran untuk lelaki` is
+  **700** by one and **947** by the other; `hantaran kahwin` **2,000** and
+  **1,725**. Neither is wrong. **Standard: quote `volume` for planning and say
+  which field.**
+- **⚠ NEVER DERIVE AN ARTICLE'S TARGET KEYWORD FROM ITS SLUG.** That is how
+  head-of-seo-content scored `berapa-dulang-hantaran-tunang` at 15/mo and called
+  it thin, when it targets `dulang hantaran tunang` at **742/mo, TP 1,200** — the
+  second-biggest keyword in C2.2. For a planned cluster the target is in the
+  brief. Retracted.
+- **⚠ AND THE PLAYBOOK'S OWN RULES CONFLICT.** SEO rule 4 says a shared parent
+  topic means merge; rule 2 says every question over 100/mo gets a page. In C2.2
+  several sub-questions satisfy rule 2 while violating rule 4, and **both rules
+  were followed**. On this cluster's SERP evidence rule 2 was right — one cluster,
+  one language, not a resolution. head-of-seo-content owns it; flagged in the
+  persona as open. **Interim guard, adopted by all three sessions: run the
+  `parent_topic` check at PLANNING time, before briefs are written.** CONT-07's
+  addition: it is the only item on the 21-point quality bar that cannot be
+  satisfied by reading, so a lone reviewer will approximate it unless it is
+  written as a tool call.
+- **🔴 The cached-metadata / wrong-`<title>` defect**- **🔴 The cached-metadata / wrong-`<title>` defect** — see "OPEN AND UNFIXED"
   above under Site state. Route is on master and unblocked; needs an owner.
 
 ## Site state (verified 2026-08-24)
