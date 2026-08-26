@@ -1,5 +1,4 @@
-import { createSign } from 'node:crypto';
-import { readFileSync } from 'node:fs';
+import { mintGscAccessToken, readGscServiceAccount } from './gsc-auth';
 
 /**
  * Tell Google the sitemap changed — the third and last cache in a publish.
@@ -51,29 +50,16 @@ import { readFileSync } from 'node:fs';
  * ── AUTH, WITHOUT A NEW DEPENDENCY ────────────────────────────────────────
  *
  * A service-account flow is one signed JWT and one token exchange, so it is
- * done here with `node:crypto` rather than by pulling `googleapis` (≈50 MB of
+ * done with `node:crypto` rather than by pulling `googleapis` (≈50 MB of
  * transitive dependency) into a Next.js app's tree for two HTTP calls.
  *
- * The credential is the `hellokahwin-gsc@twn-new.iam.gserviceaccount.com`
- * service account, which holds `siteFullUser` on the `https://hellokahwin.com/`
- * property. Supply it as EITHER:
- *
- *   GSC_SERVICE_ACCOUNT_JSON  the JSON itself (Doppler: project `hellokahwin`,
- *                             config `prd`), or
- *   GSC_CREDENTIALS_PATH      a path to the JSON file (the local MCP server
- *                             already sets this to
- *                             ~/.claude/secrets/gsc-service-account.json).
- *
- * The private key is never logged, never returned in `detail`, and never placed
- * on a command line.
- *
- * Both are read at CALL time, not at module load — the ingest CLI settles its
- * environment inside `main()` (`bootstrapEnv`), so anything captured at import
- * time would predate the `.env` files. Same trap as `@/lib/cache/edge-purge`.
+ * That flow used to live in this file. It now lives in `@/lib/seo/gsc-auth`,
+ * because the indexing monitor (`@/lib/seo/gsc-url-inspection`) became a second
+ * caller and a service-account flow duplicated is a scope that can drift.
+ * Nothing about the credential, the env vars or the call-time reads changed —
+ * read `gsc-auth` for all of it.
  */
 
-const TOKEN_ENDPOINT = 'https://oauth2.googleapis.com/token';
-const SCOPE = 'https://www.googleapis.com/auth/webmasters';
 const API = 'https://www.googleapis.com/webmasters/v3/sites';
 
 export interface GscSitemapResult {
@@ -89,102 +75,6 @@ export interface GscSitemapResult {
   skipped: boolean;
 }
 
-interface ServiceAccount {
-  client_email: string;
-  private_key: string;
-}
-
-/**
- * The service account, from whichever of the two env vars is set.
- *
- * Returns null rather than throwing: a missing credential is a degradation
- * (Google finds the article on its own schedule instead of ours), not a
- * corruption, and it must not take down a publish that has already written
- * correctly.
- */
-function readServiceAccount(): ServiceAccount | null {
-  const inline = process.env.GSC_SERVICE_ACCOUNT_JSON;
-  const path = process.env.GSC_CREDENTIALS_PATH;
-  let raw: string | undefined;
-  if (inline && inline.trim()) raw = inline;
-  else if (path && path.trim()) {
-    try {
-      raw = readFileSync(path, 'utf8');
-    } catch {
-      return null;
-    }
-  }
-  if (!raw) return null;
-  try {
-    const parsed = JSON.parse(raw) as Partial<ServiceAccount>;
-    if (!parsed.client_email || !parsed.private_key) return null;
-    return { client_email: parsed.client_email, private_key: parsed.private_key };
-  } catch {
-    return null;
-  }
-}
-
-const b64url = (input: string | Buffer) =>
-  Buffer.from(input).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-
-/**
- * Mint an access token from the service account.
- *
- * The JWT is `RS256(header.claims)` with a one-hour life. `iat` is backdated by
- * sixty seconds: Google rejects a token whose `iat` is in the future, and a
- * workstation clock that is a few seconds fast is a completely invisible reason
- * for a publish to stop telling Google anything.
- */
-async function accessToken(sa: ServiceAccount): Promise<{ token?: string; detail: string }> {
-  const now = Math.floor(Date.now() / 1000);
-  const header = b64url(JSON.stringify({ alg: 'RS256', typ: 'JWT' }));
-  const claims = b64url(
-    JSON.stringify({
-      iss: sa.client_email,
-      scope: SCOPE,
-      aud: TOKEN_ENDPOINT,
-      iat: now - 60,
-      exp: now + 3600,
-    }),
-  );
-  let assertion: string;
-  try {
-    const signer = createSign('RSA-SHA256');
-    signer.update(`${header}.${claims}`);
-    assertion = `${header}.${claims}.${b64url(signer.sign(sa.private_key))}`;
-  } catch (err) {
-    // A malformed private key lands here. The message is about the key's SHAPE
-    // (bad PEM, wrong type) and never contains the key, which is why it is safe
-    // to surface — an operator cannot fix this one without being told.
-    return { detail: `could not sign the assertion: ${err instanceof Error ? err.message : String(err)}` };
-  }
-
-  try {
-    const res = await fetch(TOKEN_ENDPOINT, {
-      method: 'POST',
-      headers: { 'content-type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({
-        grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-        assertion,
-      }),
-      signal: AbortSignal.timeout(15_000),
-    });
-    const text = await res.text();
-    if (!res.ok) {
-      // Google's own reason, verbatim: `invalid_grant` (clock skew or a revoked
-      // key) and `unauthorized_client` (the SA was never granted the scope)
-      // need completely different responses, and only the literal body
-      // separates them. The body of a FAILED exchange carries no token.
-      return { detail: `token exchange HTTP ${res.status} ${text.slice(0, 300)}` };
-    }
-    const token = (JSON.parse(text) as { access_token?: string }).access_token;
-    if (!token) return { detail: 'token exchange returned no access_token' };
-    return { token, detail: 'ok' };
-  } catch (err) {
-    return { detail: err instanceof Error ? err.message : String(err) };
-  }
-}
-
 /**
  * Resubmit `sitemapUrl` to Google for the `siteUrl` property.
  *
@@ -198,7 +88,7 @@ export async function submitSitemapToGsc(
   sitemapUrl: string,
 ): Promise<GscSitemapResult> {
   const base = { siteUrl, sitemapUrl };
-  const sa = readServiceAccount();
+  const sa = readGscServiceAccount();
   if (!sa) {
     return {
       ...base,
@@ -209,7 +99,7 @@ export async function submitSitemapToGsc(
     };
   }
 
-  const { token, detail: tokenDetail } = await accessToken(sa);
+  const { token, detail: tokenDetail } = await mintGscAccessToken(sa);
   if (!token) return { ...base, ok: false, skipped: false, detail: tokenDetail };
 
   const url = `${API}/${encodeURIComponent(siteUrl)}/sitemaps/${encodeURIComponent(sitemapUrl)}`;
