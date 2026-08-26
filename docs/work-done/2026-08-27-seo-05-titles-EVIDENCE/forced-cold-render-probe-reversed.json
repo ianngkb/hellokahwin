@@ -1,0 +1,88 @@
+{
+ "measuredAt": "2026-08-26T21:16:04.325Z",
+ "method": "ordering control - same ten pages, reversed order, verified-unique query keys; rows with cache!=MISS are NOT forced renders and are discarded",
+ "rows": [
+  {
+   "pos": 1,
+   "slug": "rukun-nikah",
+   "ms": 149,
+   "cache": "HIT",
+   "isDefault": false,
+   "kb": 122
+  },
+  {
+   "pos": 2,
+   "slug": "pelamin",
+   "ms": 60,
+   "cache": "HIT",
+   "isDefault": false,
+   "kb": 128
+  },
+  {
+   "pos": 3,
+   "slug": "mas-kahwin-perak",
+   "ms": 55,
+   "cache": "HIT",
+   "isDefault": false,
+   "kb": 112
+  },
+  {
+   "pos": 4,
+   "slug": "checklist-kahwin",
+   "ms": 50,
+   "cache": "HIT",
+   "isDefault": false,
+   "kb": 122
+  },
+  {
+   "pos": 5,
+   "slug": "kursus-kahwin",
+   "ms": 58,
+   "cache": "HIT",
+   "isDefault": false,
+   "kb": 148
+  },
+  {
+   "pos": 6,
+   "slug": "dewan-kahwin",
+   "ms": 118,
+   "cache": "HIT",
+   "isDefault": false,
+   "kb": 112
+  },
+  {
+   "pos": 7,
+   "slug": "garden-wedding",
+   "ms": 53,
+   "cache": "HIT",
+   "isDefault": false,
+   "kb": 190
+  },
+  {
+   "pos": 8,
+   "slug": "goodies-kahwin",
+   "ms": 42,
+   "cache": "HIT",
+   "isDefault": false,
+   "kb": 91
+  },
+  {
+   "pos": 9,
+   "slug": "mas-kahwin-ikut-negeri",
+   "ms": 51,
+   "cache": "HIT",
+   "isDefault": false,
+   "kb": 136
+  },
+  {
+   "pos": 10,
+   "slug": "tempat-honeymoon-di-malaysia",
+   "ms": 50,
+   "cache": "HIT",
+   "isDefault": false,
+   "kb": 190
+  }
+ ],
+ "result": "INVALID AS AN ORDERING CONTROL, kept as a negative result about the technique.",
+ "why": "Every row returned x-vercel-cache: HIT, so none was a forced origin render. Repeated with verified-unique query keys and got the same. The query string does not appear to be part of this route CDN cache key, so the first probe run created the entries and every later probe hits them. A second forced render is therefore not available without EVICTING the entry, and eviction is the stampede this work is trying not to cause. Consequence: the 3148ms outlier in the first probe run cannot be separated from first-request warm-up, and that confound is left UNRESOLVED rather than resolved in either direction."
+}

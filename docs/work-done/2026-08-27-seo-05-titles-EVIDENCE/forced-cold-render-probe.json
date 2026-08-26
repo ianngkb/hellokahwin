@@ -1,0 +1,88 @@
+{
+ "measuredAt": "2026-08-26T21:14:11.264Z",
+ "method": "distinct query string = distinct CDN cache key, so each request forces an origin render without purging anything; strictly sequential, 1.5s apart",
+ "total": 10,
+ "servedDefaultTitle": 0,
+ "rows": [
+  {
+   "slug": "tempat-honeymoon-di-malaysia",
+   "ms": 3148,
+   "cache": "MISS",
+   "status": 200,
+   "isDefault": false,
+   "kb": 190
+  },
+  {
+   "slug": "mas-kahwin-ikut-negeri",
+   "ms": 1143,
+   "cache": "MISS",
+   "status": 200,
+   "isDefault": false,
+   "kb": 136
+  },
+  {
+   "slug": "goodies-kahwin",
+   "ms": 1555,
+   "cache": "MISS",
+   "status": 200,
+   "isDefault": false,
+   "kb": 91
+  },
+  {
+   "slug": "garden-wedding",
+   "ms": 1657,
+   "cache": "MISS",
+   "status": 200,
+   "isDefault": false,
+   "kb": 190
+  },
+  {
+   "slug": "dewan-kahwin",
+   "ms": 1478,
+   "cache": "MISS",
+   "status": 200,
+   "isDefault": false,
+   "kb": 112
+  },
+  {
+   "slug": "kursus-kahwin",
+   "ms": 1868,
+   "cache": "MISS",
+   "status": 200,
+   "isDefault": false,
+   "kb": 148
+  },
+  {
+   "slug": "checklist-kahwin",
+   "ms": 1248,
+   "cache": "MISS",
+   "status": 200,
+   "isDefault": false,
+   "kb": 122
+  },
+  {
+   "slug": "mas-kahwin-perak",
+   "ms": 1095,
+   "cache": "MISS",
+   "status": 200,
+   "isDefault": false,
+   "kb": 112
+  },
+  {
+   "slug": "pelamin",
+   "ms": 1643,
+   "cache": "MISS",
+   "status": 200,
+   "isDefault": false,
+   "kb": 128
+  },
+  {
+   "slug": "rukun-nikah",
+   "ms": 1398,
+   "cache": "MISS",
+   "status": 200,
+   "isDefault": false,
+   "kb": 122
+  }
+ ]
+}
