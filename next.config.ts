@@ -95,6 +95,53 @@ const nextConfig: NextConfig = {
   // robots.txt, sitemap.xml) are no longer normalised at all; they are
   // non-indexable asset paths, which is why that is acceptable.
   skipTrailingSlashRedirect: true,
+  // ── THE STALE WINDOW EVERY PAGE ON THE SITE INHERITS ──────────────────────
+  //
+  // Next builds its own `Cache-Control` for every cacheable route as
+  // `s-maxage=<revalidate>, stale-while-revalidate=<expireTime - revalidate>`
+  // (server/lib/cache-control.js). `expireTime` DEFAULTS TO 31536000 — one year
+  // — so every article page on this site shipped:
+  //
+  //     Cache-Control: s-maxage=600, stale-while-revalidate=31535400
+  //
+  // 31535400 seconds is 365 days of licence to serve a stale copy. Nothing in
+  // the app chose that number; it is a framework default nobody had a reason to
+  // look at, and it is the widest blast radius on the site — every page, every
+  // shared cache downstream of us.
+  //
+  // What it costs, measured on production 26 Aug 2026 rather than argued:
+  // expiring the `articles` tag and putting 12 renders in flight against the
+  // 5-wide postgres pool produced 50 SHELLS out of 61 requests — pages carrying
+  // the site-default homepage title, no canonical and no og tags, while their
+  // H1 and JSON-LD were correct. (The asymmetry is generateMetadata's
+  // `withDeadline(..., 1_500)` losing the race and returning `{}`; the page
+  // component has the larger budget and renders fine.) Re-requesting the same
+  // 50 URLs 6.5 minutes later returned `x-vercel-cache: STALE` on all 50, still
+  // serving the shell. Under the default that entry stays servable for a year.
+  //
+  // ── WHY 3600 ──────────────────────────────────────────────────────────────
+  //
+  // The window has to be shorter than the interval at which content actually
+  // changes, or a reader can be served a copy from before the previous
+  // editorial pass. Measured on the production database the same day: of 61
+  // published articles, 47 were edited within the last 24 hours and 23 within
+  // the last 12 — 24 edits on 25 Aug, 23 on 26 Aug. Content on this site moves
+  // in DAILY bursts, several times a day inside a sprint. An hour is already an
+  // order of magnitude tighter than that.
+  //
+  // It also costs nothing real. The Vercel edge is governed separately by the
+  // `Vercel-CDN-Cache-Control` rules below (`s-maxage=300,
+  // stale-while-revalidate=600` — a 15-minute worst case), so `expireTime` only
+  // governs caches BEYOND Vercel. And 3600 still leaves an article page
+  // ~3000 seconds of stale-serve, against a cold render measured at p90 6.4s in
+  // the storm above: the entire performance point of stale-while-revalidate is
+  // intact. What is gone is the year.
+  //
+  // This is a CEILING, not the mechanism that keeps pages fresh. That is the
+  // purge chain an ingest runs — `@/lib/cache/purge`, `@/lib/cache/edge-purge`,
+  // `@/lib/seo/gsc-sitemap` — which drops the affected paths in seconds. This
+  // number only bounds how wrong things can get when that chain has not run.
+  expireTime: 3600,
   async headers() {
     return [
       {
@@ -122,8 +169,24 @@ const nextConfig: NextConfig = {
         source: '/sitemap.xml',
         headers: [
           {
+            // This rule sets `Cache-Control` explicitly, so `expireTime` above
+            // does not reach it — the stale window here is whatever this line
+            // says. It said 86400: a full day during which the edge may hand
+            // Googlebot the sitemap it had yesterday.
+            //
+            // That is the one page on the site where a stale copy is not a
+            // cosmetic problem. The sitemap IS the publishing signal (see
+            // `@/lib/seo/gsc-sitemap`): an ingest purges this path and then asks
+            // Google to come and read it. If the purge is what fails, a day-wide
+            // stale window means Google arrives on our invitation and collects a
+            // sitemap without the article we invited it for — and records a
+            // `last_downloaded` that moved, so it reads as success everywhere.
+            //
+            // Capped to an hour, matching `s-maxage` above it: two hours of
+            // total life, worst case, with no purge. The purge is still what
+            // makes a publish visible in seconds; this bounds the failure.
             key: 'Cache-Control',
-            value: 'public, max-age=300, s-maxage=3600, stale-while-revalidate=86400',
+            value: 'public, max-age=300, s-maxage=3600, stale-while-revalidate=3600',
           },
         ],
       },

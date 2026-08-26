@@ -52,6 +52,14 @@ import {
   edgePurgeSuccessNotice,
   edgePurgeFailureNotice,
 } from '../src/lib/cache/edge-purge';
+import {
+  submitSitemapToGsc,
+  gscPropertyFor,
+  gscSitemapUrlFor,
+  gscSubmitSuccessNotice,
+  gscSubmitFailureNotice,
+  gscSubmitSkippedNotice,
+} from '../src/lib/seo/gsc-sitemap';
 
 // R2 and the variant pipeline are imported DYNAMICALLY, inside main(), after
 // the environment has been settled by `bootstrapEnv()`. See the long comment
@@ -419,6 +427,27 @@ async function main() {
     );
   }
 
+  // And the same again for the Google credential, WARN not refuse, for the same
+  // reason: the article is correct and live either way, and only the
+  // announcement is lost. Said BEFORE the write so the operator can stop and
+  // supply it, rather than discover it once the row is in and the caches are
+  // already dropped.
+  //
+  // Not a hard failure, but not a small one either — this is the difference
+  // between publishing and publishing into a drawer. Four articles were live
+  // for a day on 26 Aug 2026 while Search Console reported `URL is unknown to
+  // Google` for every one of them.
+  if (args.revalidateUrl && !process.env.GSC_SERVICE_ACCOUNT_JSON && !process.env.GSC_CREDENTIALS_PATH) {
+    console.warn(
+      '⚠ No GSC credential (GSC_SERVICE_ACCOUNT_JSON or GSC_CREDENTIALS_PATH), so Google\n' +
+        '  will NOT be asked to re-read the sitemap. The article will be live and in the\n' +
+        '  sitemap, but Google finds it on its own schedule — days, on this property.\n' +
+        '  To supply it:\n' +
+        '    $env:GSC_CREDENTIALS_PATH = "$HOME/.claude/secrets/gsc-service-account.json"\n' +
+        '  or inject GSC_SERVICE_ACCOUNT_JSON from Doppler (project hellokahwin, config prd).\n',
+    );
+  }
+
   const filePath = resolve(args.file);
   const fileDir = dirname(filePath);
 
@@ -768,8 +797,14 @@ async function main() {
   //
   // The `as never` casts are only there because these values are typed
   // `unknown` upstream; they carry no runtime meaning.
+  // Hoisted out of the transaction closure: what the write actually DID is the
+  // input to the publishing steps below (which caches to drop, and whether
+  // Google has anything to be told about). Read after `sql.begin` resolves, so
+  // it is only ever consulted for a transaction that committed.
+  let wrote: { inserted: boolean; contentChanged: boolean } | null = null;
+
   await sql.begin(async (tx) => {
-    const [row] = await tx<{ id: string }[]>`
+    const [row] = await tx<{ id: string; inserted: boolean; content_changed: boolean }[]>`
       insert into articles
         (title, slug, excerpt, content, cover_image_url, cover_image_variants,
          cover_image_smart_crops, cover_image_focal_point, cover_image_detection_data,
@@ -820,8 +855,70 @@ async function main() {
         -- Compat mirror for rollback safety — removed in the follow-up migration that drops these columns.
         is_ai_generated = excluded.is_ai_generated,
         human_reviewed_at = null,
-        updated_at = now()
-      returning id`;
+        -- ── updated_at IS THE SITEMAP'S lastmod, SO IT ONLY MOVES ON A REAL EDIT ──
+        --
+        -- (No backticks anywhere in this comment, and none in the RETURNING
+        -- comment below either: both live inside a tagged template literal,
+        -- where a backtick terminates the SQL string. The warning fifteen lines
+        -- up says exactly this and it still cost a run — esbuild reports it as
+        -- 'Expected ";" but found now', which names neither the comment nor the
+        -- backtick. pnpm typecheck does not cover scripts/, so nothing catches
+        -- it before the CLI is actually invoked.)
+        --
+        -- This used to be an unconditional now(). That made every re-ingest of
+        -- an unchanged article tell Google, through src/app/sitemap.ts, that the
+        -- article had just been modified. Two costs, and the second is the one
+        -- that bites: a lastmod that moves without content moving is a lie
+        -- Google learns to discount, and it left the run with NO honest signal
+        -- for whether the sitemap needed resubmitting at all — every ingest
+        -- looked like a change.
+        --
+        -- Inside DO UPDATE, the unqualified articles. columns are the row as it
+        -- was BEFORE this statement and excluded. is what we are writing, so
+        -- this compares old against new. IS DISTINCT FROM (not <>) because
+        -- half these columns are nullable and null <> null is null, which would
+        -- read as "unchanged" for every article without an excerpt.
+        --
+        -- WHAT IS DELIBERATELY NOT IN THIS LIST: review_status, reviewed_at,
+        -- reviewed_by, human_reviewed_at. Every re-ingest resets those by design
+        -- (see the comment above), so including them would make the predicate
+        -- permanently true and this whole clause a no-op with extra steps. They
+        -- are bookkeeping about who has read the article, not the article.
+        --
+        -- THE ONE BLIND SPOT, stated so the next reader does not have to find
+        -- it: tag and cluster membership are reconciled BELOW, outside this
+        -- statement, by a delete-then-reinsert that cannot report whether the
+        -- set actually changed. So an ingest that changes ONLY tags or ONLY the
+        -- cluster does not move lastmod. That is the correct trade today —
+        -- neither changes the article's URL, its text, or anything a search
+        -- engine renders — but if tags ever become part of the indexed page,
+        -- this predicate has to grow a companion rather than be trusted as-is.
+        updated_at = case
+          when (articles.title, articles.excerpt, articles.content, articles.cover_image_url,
+                articles.cover_image_variants, articles.cover_image_smart_crops,
+                articles.cover_image_focal_point, articles.cover_image_detection_data,
+                articles.meta_description, articles.status, articles.primary_category_id,
+                articles.author_id, articles.published_at, articles.authorship)
+               is distinct from
+               (excluded.title, excluded.excerpt, excluded.content, excluded.cover_image_url,
+                excluded.cover_image_variants, excluded.cover_image_smart_crops,
+                excluded.cover_image_focal_point, excluded.cover_image_detection_data,
+                excluded.meta_description, excluded.status, excluded.primary_category_id,
+                excluded.author_id, excluded.published_at, excluded.authorship)
+          then now() else articles.updated_at end
+      -- xmax = 0 is the standard way to tell an INSERT from a DO UPDATE in a
+      -- single RETURNING: an inserted row has no deleting transaction stamped on
+      -- it. A new article always changes the sitemap — it adds a URL.
+      --
+      -- updated_at = now() reads the value the CASE above just settled.
+      -- now() is TRANSACTION time, fixed for the whole statement, so this is
+      -- exact rather than a race: it is true when the CASE took the now()
+      -- branch and false when it carried the old timestamp forward, which is
+      -- strictly earlier. This is the signal the sitemap resubmission is gated
+      -- on — see the GSC call at the end of main().
+      returning id, (xmax = 0) as inserted, (updated_at = now()) as content_changed`;
+
+    wrote = { inserted: row.inserted, contentChanged: row.content_changed };
 
     // Both the pillar AND the cluster. The pillar link is what puts the article
     // at /artikel/<pillar>/<slug>; the cluster link is what makes it appear in
@@ -973,6 +1070,57 @@ async function main() {
       const purge = await purgeVercelEdge(purgePaths);
       if (purge.ok) {
         console.log(edgePurgeSuccessNotice(purge));
+
+        // ── The THIRD step: tell Google ─────────────────────────────────────
+        //
+        // Everything above clears OUR caches. None of it reaches Google, which
+        // holds its own copy of the sitemap and re-reads it on a schedule that
+        // has run to days on this property. Publishing that nobody is told about
+        // is publishing into a drawer: on 26 Aug 2026, four articles that had
+        // been live for a day still inspected as `URL is unknown to Google`.
+        //
+        // This is INSIDE the `purge.ok` branch on purpose, and it is the one
+        // ordering constraint in the whole chain. `/sitemap.xml` is the
+        // longest-lived edge entry on the site (`s-maxage=3600`), so asking
+        // Google to fetch it while the CDN still holds the pre-publish copy
+        // hands Google an hour-old sitemap WITHOUT the new article — and
+        // records a `last_downloaded` that moved, so every dashboard reports
+        // success. A failed purge means the sitemap Google would fetch is the
+        // wrong one, and the right response is to not send Google after it.
+        //
+        // The Indexing API is NOT the alternative here: Google restricts it to
+        // JobPosting and BroadcastEvent and using it for articles is a policy
+        // violation. See the header of `@/lib/seo/gsc-sitemap`.
+        // Both derived from the PROPERTY, never from --revalidate-url. They are
+        // the same thing on a normal production publish, and deliberately
+        // separable when they are not: a run can revalidate a local server or a
+        // preview deployment while the sitemap that matters is production's.
+        // Deriving the sitemap from --revalidate-url instead produced, on the
+        // first end-to-end run of this code, a literal
+        //   HTTP 400 Could not process sitemap 'http://127.0.0.1:3199/sitemap.xml'
+        // from Google — the property was right and the file was not under it.
+        const gscProperty = gscPropertyFor(args.revalidateUrl);
+        const gscSitemap = gscSitemapUrlFor(gscProperty);
+        if (!wrote?.contentChanged) {
+          // Nothing the sitemap carries moved — no URL added or removed, no
+          // lastmod bumped (see the `updated_at` CASE on the upsert). Google is
+          // deliberately left alone. This is the branch a repeat ingest of an
+          // unchanged article takes, and it is the difference between a
+          // publishing signal and background noise.
+          console.log('\n' + gscSubmitSkippedNotice(gscSitemap));
+        } else {
+          const gsc = await submitSitemapToGsc(gscProperty, gscSitemap);
+          if (gsc.ok) {
+            console.log('\n' + gscSubmitSuccessNotice(gsc));
+          } else {
+            // Same shape as the edge-purge failure and for the same reason: the
+            // article IS published and correct, and only the announcement
+            // failed. A degradation is not a corruption, so the publish stands
+            // and the exit code does not change — but it is never reported as
+            // if Google had been told.
+            console.error(gscSubmitFailureNotice(gsc));
+          }
+        }
       } else {
         // NOT a non-zero exit, unlike the origin failure above, and the
         // difference is the point: that one leaves the article invisible, this
@@ -980,6 +1128,17 @@ async function main() {
         // not a corruption, so the publish stands — but the operator is told,
         // in the terms they act on, and is never told the caches are clear.
         console.error(edgePurgeFailureNotice(purge));
+        // And the consequence one step further down the chain, said out loud
+        // rather than left as a silent absence in the log. Google is NOT told
+        // when the purge fails, deliberately: the sitemap Google would come and
+        // fetch is the pre-publish copy the CDN is still holding, and an
+        // invitation to read the wrong sitemap is worse than no invitation —
+        // it moves `last_downloaded` and makes the failure look like success.
+        console.error(
+          '\n  Google was also NOT asked to re-read the sitemap, on purpose: until the\n' +
+            '  edge is purged, the sitemap it would fetch is the pre-publish copy. Purge\n' +
+            '  first, then resubmit — by hand in Search Console, or by re-running this.',
+        );
       }
     }
   } else if (!args.skipMedia) {
