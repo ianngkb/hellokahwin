@@ -3,7 +3,7 @@
   "name": "Close the publishing hole, then earn a click",
   "state": "planned",
   "planned_at": "2026-08-26",
-  "points": 74,
+  "points": 77,
   "points_note": "Opened at 35 across 10 items. The UI/UX review added UX-01..04 (13pt) and the SEO review added RISK-06 and SEO-06 (5pt), both commissioned during the meeting and reporting before it adjourned. The owner then directed that Tier 1 be FINISHED, replacing a 4-article CONT-05 with the full 25-article completion across CONT-05..08 (+21pt). Final: 74 points across 19 items. The owner approved 29 of the original proposal; 74 is far past that and every increment was flagged back to them rather than absorbed. Reconciled against the tracker item-by-item at close: 19 items both sides, no drift.",
   "note": "This file records how Sprint 02 was ORIGINALLY SCOPED. It is not the live state — the tracker in buddy is (`pnpm --silent sprint list --sprint 2`, or buddy.ian.ng/sprints). Never rewritten after close.",
   "governance": {
@@ -232,6 +232,16 @@
       "title": "C2.5 Nisbah, duit hantaran & etika — open and complete the cluster (8 articles)",
       "why": "~2,900/mo and 0 of 8 done — the only Tier 1 cluster with nothing published. Lowest volume of the five, but the plan calls it impossible to copy from outside the culture and the best organic result on page one earns 152 visits. Assigned to the adat seat because the cluster is ratio, entitlement and etiquette rather than products and prices.",
       "dod": "The dulang ratio and where the custom came from; what 5 balas 7 means across the twelve trays; what 3 balas 5 means at an engagement; whether the ratio must be odd and what happens when a family insists otherwise; what duit hantaran is, how it differs from mas kahwin and who is entitled to it; plus the remaining three mapped topics READ FROM THE CLUSTER PLAN rather than invented. EVERY claim about entitlement or religious ruling carries its authority and the date checked — this is the highest factual risk in Tier 1 and the review board blocked a fabricated quotation on similar material in August. Cluster verified at 8/8."
+    },
+    {
+      "id": "CONT-09",
+      "track": "content",
+      "points": 3,
+      "state": "todo",
+      "owner": "managing-editor",
+      "title": "Cover images must depict their subject — write the standard, then re-select",
+      "why": "Owner directive 26 Aug. The UX review found the same thing independently and called it systemic: dulang-hantaran is about gift TRAYS and its cover is a tight crop of two guests' torsos with no tray in frame. TWO SEPARABLE CAUSES. (1) No selection standard exists — nothing anywhere says a cover must depict the article's subject, so nobody was wrong to pick a generic wedding image. (2) The pool is wrong — the register holds 152 stock, ZERO class-V photographer licences, and 658 of 794 rows with licensor 'TIDAK DIKETAHUI'. CC-licensed Malay wedding imagery is amateur snapshots, so no selection rule can produce a premium cover from it. This item fixes (1) and re-selects within what we can lawfully use. (2) is the owner's manual photographer outreach, arriving separately as class-V grants — see docs/plans/aug-23-2026-session-01/aug-26-2026-plan-photographer-outreach-list.md.",
+      "dod": "A written cover-selection standard in the content production workflow AND both writer personas — the file the next person reads, not a brief. It must state: the cover DEPICTS THE ARTICLE'S SUBJECT; what to do when no such image is licensable (say so and escalate, never substitute a generic wedding photo); and that crop is chosen so the subject survives both the 4x3 card and the desktop hero. Then re-select covers for every live article failing the standard — AUDIT ALL 61 AND REPORT THE COUNT BEFORE CHANGING ANYTHING, because the CEO has twice reported an image finding that measurement disproved. Every replacement keeps a full credit chain and register entry. Zero text cards. Report honestly how many articles CANNOT be fixed from the current licensable pool — that number is the size of the case for photographer outreach, and is more useful than a partial fix presented as done."
     }
   ],
   "seo_review_corrections": {
@@ -281,5 +291,13 @@
     },
     "dependencies": "SEO-06 must land before or with CONT-05 and CONT-07 — both seed articles are stranded in hiasan-dekorasi. RISK-04 gates every content item: Sprint 01's five newest articles are still unknown to Google.",
     "capacity_flag": "17 of the 25 articles sit on writer-inspirasi-vendor-venue and 8 on writer-adat-agama-prosedur. Sprint 01 delivered FIVE articles across both seats. The 23 Aug plan already budgets two writer hires for Phase 2. Decide at dispatch whether to hire, split or sequence — do not silently overload a seat, and watch editorial-verification-lead as the second constraint: Sprint 01's review board raised 27 blocks across 8 articles, and 25 articles at that rate is a review bottleneck before it is a writing one."
+  },
+  "cover_photography": {
+    "owner_directive": "26 Aug 2026: covers must be relevant to the article and look premium, in the manner of The Wedding Notebook. Source from Malay wedding photographers, with credit.",
+    "the_constraint_the_ceo_raised": "Credit is not a licence. A photographer's images are copyrighted from capture; attribution changes the courtesy, not the legality. The register already encodes this — class V requires a written grant naming the images, the scope and the credit wording. We hold ZERO class-V assets and 658 rows with an unknown licensor, so sourcing on credit alone would add to an existing rights debt rather than replace it. The owner is doing outreach manually, which resolves it.",
+    "why_this_is_two_problems": "RELEVANCE is a selection failure and is fixable now with no new rights — no standard ever said a cover must depict its subject. PREMIUM is a pool failure and cannot be fixed by choosing better from CC-licensed amateur imagery.",
+    "the_insight_for_outreach": "Ask for DETAIL shots, not hero portraits. Our articles are about things — trays, sirih junjung, bunga telur, the pelamin, the akad table. Photographers shoot these constantly as establishing frames and almost never publish them, because clients want the portraits. We are asking for the frames they are not otherwise using, which makes the ask easier and the images far more valuable to us.",
+    "twn_caveat": "TWN carries photographers as vendors and has published its own best-of list, so those are warm relationships. But a vendor relationship with TWN grants TWN nothing transferable — any image on HelloKahwin still needs a grant naming HelloKahwin.",
+    "pipeline_status": "Nothing needs building. Class V exists in the register and has never been used; the visible credit line shipped in Sprint 01 and is verified across 145 live images. A grant arrives, it gets registered, it ingests."
   }
 }
