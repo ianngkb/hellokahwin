@@ -131,7 +131,7 @@ specificity is the opening rather than a refinement.
 
 ### 1.3 The check before QC passes
 
-QC does not read the article and form an impression. It runs four checks in
+QC does not read the article and form an impression. It runs five checks in
 order and stops at the first failure.
 
 | # | Check | How it is verified | Fails when |
@@ -140,10 +140,19 @@ order and stops at the first failure.
 | 2 | **Ledger freshness** | The SERP pull date on the ledger is within 30 days of the QC date | Older than 30 days, in which case re-pull before passing |
 | 3 | **The specific fact** | QC names it out loud and states which of the four classes it belongs to, and where it came from | It cannot be named, or it is not sourced, or it is class "longer list" |
 | 4 | **Parent-topic clearance** | The target keyword's Ahrefs `parent_topic` is checked against the published set and the brief queue | Another live or queued page holds the same parent topic (R4) |
+| 5 | **Price currency** | For every ringgit figure, QC names the source's own **last sign of life** (`datePublished`, last-updated stamp, newest archive entry, live stock count), not merely the date checked | The source shows no sign of life within 24 months; or a catalogue range carries no result count; or a promotional price is published without its struck-through original; or a market range rests on a single vendor |
 
-Only after those four does the draft go to /humanizer, and only after
+**Check 5 was added on 25 Ogos 2026**, after the verification board blocked
+`C5-1-A1-pelamin` for building a 2026 price article on a blog dormant since
+May 2014, and `C5-4-A1-bunga-telur` for deriving a per-unit range from one
+vendor and a filtered page. Both drafts satisfied every rule in force at the
+time. The rule set recorded when we looked and never asked when the source
+last moved. The full standard now lives in style guide §7.1a and reviewer
+check S17; this row is the gate that enforces it before /humanizer.
+
+Only after those five does the draft go to /humanizer, and only after
 /humanizer does it go to the remaining seventeen lines of the quality bar.
-**A draft that fails check 1 or check 3 goes back to the writer with the
+**A draft that fails check 1, check 3 or check 5 goes back to the writer with the
 ledger attached, not with an opinion attached.** That is the point of building
 the instrument: disagreements about whether an article is good enough become
 disagreements about a table, which are resolvable in minutes.

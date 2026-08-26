@@ -1,0 +1,353 @@
+{
+  "id": 1,
+  "name": "Protect what we shipped, then measure it",
+  "state": "in_progress",
+  "planned_at": "2026-08-25",
+  "started_at": "2026-08-25",
+  "ended_at": null,
+  "governance": {
+    "length": "body-of-work",
+    "length_note": "A sprint is a body of work, not a duration. It ends when every item is done and the owner has reviewed them. Owner decision, 25 Aug 2026.",
+    "scope_note": "Owner prefers completeness of each task over fitting a point budget. The CEO's proposed cut of two items was withdrawn: the reason to cut was time pressure, and a body-of-work sprint has none.",
+    "review_gate": "Every item is presented to the owner as CLAIM + EVIDENCE + LIVE LINK where one exists. Not a summary. Owner decision, 25 Aug 2026."
+  },
+  "points": {
+    "total": 42,
+    "done": 27
+  },
+  "items": [
+    {
+      "id": "RISK-01",
+      "track": "risk",
+      "points": 5,
+      "state": "done",
+      "owner": "BMAD",
+      "title": "Production recovery point",
+      "flags": [
+        "closed-25-aug",
+        "reopened-and-closed"
+      ],
+      "why": "Supabase nyidzlupgmyyazhyykuk has pitr_enabled=false, zero platform backups, and pg_dump 16.15 refuses PostgreSQL 17.6. Every write in the last two days was unrecoverable.",
+      "dod": "A dump exists in R2 (hellokahwin-assets), has been RESTORED into a throwaway database and verified by row count, runs on a schedule, and fails loudly. Plus the actual price of Supabase PITR as a number.",
+      "brief": "docs/plans/aug-23-2026-session-01/aug-24-2026-brief-r2-database-backup.md",
+      "evidence": {
+        "claim": "Production has a verified restore path, a daily backup on a schedule registered on the default branch, and an alarm proven to fire and reach a person.",
+        "proof": "R2 object CONFIRMED BY CEO: HEAD db-backups/2026/08/25/hellokahwin-20260825T161107Z.dump -> 200, 497489 bytes. Restore: 18 tables vs 18, every row count matching (articles 56/56, media 747/747, legacy_image_redirects 1639/1639). Workflows on master, both active: db-backup.yml, db-backup-verify.yml. Alarm proven by induced break - run 32873378190 failure 16:40:36Z, run 32873495210 success 16:41:48Z after revert. Failure surfaces as a FILED GITHUB ISSUE, ten seconds from failure: #3 'backup is stale or missing', #1 'backup failed'. PITR priced at $125/month minimum and settled against.",
+        "link": "https://github.com/ianngkb/hellokahwin/issues/1",
+        "verified_by_ceo": "Checked the R2 object, gh workflow list, gh run list and gh issue list myself. THIS ITEM WAS REOPENED once after the agent marked it done with the schedule still on a feature branch; it finished the merge and proved both halves. Issue #1 was NOT a test - it was a genuine CI failure catching the brief's own pg_dump 16 vs server 17 bug, so the alarm caught a real defect before it was ever tested deliberately. RECORDED GAP, in the agent's own words: 'no unattended cron fire has been observed yet... I would rather hand you that gap than round it up.' Next natural fire 18:17 UTC. Accepted as done: registered and dispatching on the default branch is as verifiable as it gets before the clock arrives."
+      },
+      "handle": "term_08095dc5",
+      "result": "LIVE. Dump in R2 (4 objects, newest db-backups/2026/08/25/hellokahwin-20260825T163938Z.dump, 502,159 bytes), RESTORED into a throwaway PostgreSQL 17.6 cluster and verified: 18/18 tables, every row count matching (articles 56, inspire_categories 57, media 747, media_article_usage 718 at dump time), and MD5 digests over every article body (27708377d4dd2a9f67730bcfa347ad0c) and every media key (6569f77b1049684c449d20aa8c0296e5) identical on both sides. Restored a second time from the object downloaded back out of R2. Tooling: EDB PostgreSQL 17.6 binaries zip (exact match to production); Docker engine returning 500 so the Supabase CLI route was unavailable; scoop only offers 18.3. SCHEDULE IS LIVE: PR #2 merged 2026-08-25T16:38:58Z as eebca16; both workflows registered active on master (342250539 db-backup.yml, 342253077 db-backup-verify.yml); real dispatched runs on master 32873254079 and 32873257728 both succeeded; next scheduled fire 18:17 UTC daily. ALARM PROVEN BY DELIBERATE BREAK: commit 4d7fbcd set MAX_AGE_HOURS=-1, run 32873378190 failed on \"age: 0h (threshold -1h)\" and auto-filed issue #3 at 16:40:46Z; reverted in 18a23d1 and run 32873495210 passed at \"age: 0h (threshold 26h)\". No production data touched, no R2 object altered. Retention: daily 30d + monthly 12mo = 42 objects, $0.00/month (0.21% of R2 free tier). PITR: $100/month per 7 days, org is on Free so Pro ($25/month) is required first = $125/month minimum.",
+      "blocked_on_owner": null,
+      "open_for_owner": "Decide whether to add Supabase Pro at $25/month for daily platform backups with 7-day retention (the Free plan has none). Not required for RISK-01; it is a second line of defence alongside the R2 job."
+    },
+    {
+      "id": "RISK-02",
+      "track": "risk",
+      "points": 2,
+      "state": "parked",
+      "owner": "OWNER+BMAD",
+      "title": "Rotate the exposed database password — RISK ACCEPTED, not rotated",
+      "flags": [
+        "owner-action",
+        "risk-accepted"
+      ],
+      "why": "The production connection string reached an agent transcript via pnpm's command-line banner on 24 Aug. Contained (no repository, no file) but real.",
+      "dod": "The OLD connection string is rejected by the database (show the literal auth failure), the NEW one succeeds (show a row count), DATABASE_URL updated in Vercel, and a production page returns 200 after the redeploy.",
+      "brief": null,
+      "evidence": {
+        "claim": "The credential has NOT been rotated. The owner has accepted the risk.",
+        "proof": "Owner decision, 25 Aug 2026. An earlier entry recorded this item as done on the basis that the owner had rotated it; the owner corrected that. That entry was wrong and is superseded.",
+        "link": null,
+        "verified_by_ceo": "Residual exposure stated for the record: the production connection string was printed by pnpm’s command-line banner into an agent transcript on 24 Aug. It is not in any repository, committed file, or file on disk — the scan for sbp_, sk_live, pk_live, postgres://, service_role and JWT-shaped strings returned zero matches in committed and uncommitted files. The exposure is a transcript only. Production has pitr_enabled=false and zero backups, so the blast radius if it were ever used is total and unrecoverable."
+      }
+    },
+    {
+      "id": "RISK-03",
+      "track": "risk",
+      "points": 2,
+      "state": "done",
+      "owner": "CEO",
+      "title": "Close the fixed-but-not-shipped gap",
+      "flags": [],
+      "why": "A verified fix for a live rule-breaking defect sat uncommitted while four agents worked. The CEO found it with git status, not from a report.",
+      "dod": "docs/plans/.../aug-23-2026-workflow-content-production.md contains a named pre-close check for uncommitted working-tree changes AND unpushed commits, with the owning seat named. Quote the added text, and demonstrate it by running `git status --short` and `git rev-list --count origin/master..HEAD` on the site worktree and reporting both.",
+      "brief": null,
+      "evidence": {
+        "claim": "Stage 9b, the ship check, is in the content production workflow with the CEO named as its owning seat.",
+        "proof": "docs/plans/aug-23-2026-session-01/aug-23-2026-workflow-content-production.md now contains Stage 9b: two commands (git status --short, git rev-list --count origin/master..HEAD), both to be accounted for rather than merely run, plus a user-visible-surface check and a three-row table separating 'code is correct' / 'committed' / 'deployed' from 'done'. Demonstrated on the site worktree: git status --short -> 28 files; git rev-list --count origin/master..HEAD -> 0.",
+        "link": null,
+        "verified_by_ceo": "Ran both commands myself. The check found a real gap on its first use: four source files uncommitted in the site worktree - src/lib/inspire/article-file.ts (+32, the path-convention fix the review board flagged), src/lib/cache/purge.ts (+37), scripts/ingest-article.mts (+24/-3), package.json (+2/-1). Flagged to the RISK-01 agent rather than committing another session's in-flight work."
+      }
+    },
+    {
+      "id": "PLAT-01",
+      "track": "platform",
+      "points": 8,
+      "state": "done",
+      "owner": "BMAD",
+      "title": "Sprint tracker on buddy.ian.ng - Phase 1, the board",
+      "flags": [
+        "owner-directive"
+      ],
+      "why": "Owner directive 25 Aug: the sprint planning dashboard sits on buddy.ian.ng, JIRA-like. buddy is live (307/auth), Next.js + Chakra v3 + Supabase, and already has a working Kanban at apps/web/app/(app)/tasks/kanban-board.tsx to reuse rather than reinvent.",
+      "dod": "Open buddy.ian.ng/sprints and see all 13 Sprint 01 items grouped by track. Move one item's state in the UI and show `sprint get` returning the new state from the CLI. Move one via the CLI and show the UI reflecting it. Both directions quoted literally. Schema additive only; no existing buddy route disturbed.",
+      "brief": "docs/plans/aug-23-2026-session-01/aug-25-2026-plan-sprint-tracker-on-buddy.md",
+      "evidence": {
+        "claim": "The sprint tracker board is built on buddy: /sprints route, two additive tables, a guarded repository, and a `sprint` CLI sharing the same repository functions. Both directions of the DoD proven.",
+        "proof": "Commits a38b74d and cfa8ea9 on feat/plat-01-sprint-tracker - 3,343 insertions across 25 files: supabase/migrations/20260825120000_sprint_tracker.sql (189), packages/db/src/repositories/sprints.ts (551), sprints.test.ts (531), scripts/sprint.ts (365), apps/web/app/(app)/sprints/. Log at logs/2026-08-25-plat-01-sprint-tracker-board.md sections 'Direction 1 - move an item in the UI, read it from the CLI' and 'Direction 2 - move an item via the CLI, see the UI reflect it'.",
+        "link": "buddy.ian.ng/sprints (auth-gated)",
+        "verified_by_ceo": "Confirmed the commits and the file inventory myself via git show --stat, and read the DoD section for both directions rather than trusting the summary. THE PRE-DoD GATE I SET WAS ANSWERED AND SHARPENED: SUPABASE_SECRET_KEY is present and targets production, checked twice independently - but the agent narrowed its own migration comment to say what was NOT confirmed, namely that the plaintext behind it is a valid current key (the API returns ciphertext and it was deliberately never decrypted). 'The key exists' and 'the key works' are different claims and it said so. FINDING: all 39 Vercel env vars on buddy-web target production only - no preview target - so every preview deployment has no Supabase credentials and /sprints will fail there, as will every route touching Supabase. Pre-existing, correctly not blocking a production-scoped DoD."
+      },
+      "spec": "buddy/_bmad-output/implementation-artifacts/spec-plat-01-sprint-tracker-board.md",
+      "spec_status": "ready-for-dev (CEO approved 25 Aug after round-table review)",
+      "handle": "term_ed507170"
+    },
+    {
+      "id": "PLAT-04",
+      "track": "platform",
+      "points": 5,
+      "state": "in_progress",
+      "owner": "BMAD",
+      "title": "Sprint tracker Phase 2 - backlog, history, velocity, filters",
+      "flags": [
+        "owner-directive"
+      ],
+      "why": "What makes the board a tracker rather than a viewer: planning happens in the UI, and velocity comes from the data rather than being hand-recorded.",
+      "dod": "A second sprint can be planned entirely in the UI with items dragged from the backlog, and /startsprint executes it without touching a file. Sprint history shows planned vs completed vs parked per sprint. Owner and track filters work. The retro is attached to its sprint and readable in place.",
+      "brief": "docs/plans/aug-23-2026-session-01/aug-25-2026-plan-sprint-tracker-on-buddy.md",
+      "evidence": null,
+      "spec": "buddy/_bmad-output/implementation-artifacts/spec-plat-04-sprint-tracker-phase-2.md",
+      "spec_status": "ready-for-dev (CEO approved 25 Aug)",
+      "handle": "term_4b288a7f"
+    },
+    {
+      "id": "PLAT-02",
+      "track": "platform",
+      "points": 2,
+      "state": "todo",
+      "owner": "BMAD",
+      "title": "Ingest-time edge purge",
+      "flags": [
+        "carried"
+      ],
+      "why": "Decision 45, approved 24 Aug, never built - reported blocked on a Vercel token that was already in the vault. Pillar pages can serve a copy up to five minutes stale; the interim rule is a human remembering a stopwatch.",
+      "dod": "Ingest purges the article, its pillar and the sitemap. A one-request proof. A failed purge logs loudly without failing the publish.",
+      "brief": "docs/plans/aug-23-2026-session-01/aug-24-2026-brief-edge-purge-on-ingest.md",
+      "evidence": null,
+      "spec": "buddy/_bmad-output/implementation-artifacts/spec-plat-02-ingest-edge-purge.md",
+      "spec_status": "ready-for-dev (CEO approved 25 Aug)"
+    },
+    {
+      "id": "PLAT-03",
+      "track": "platform",
+      "points": 1,
+      "state": "done",
+      "owner": "BMAD",
+      "title": "Crop-size anomaly",
+      "flags": [],
+      "why": "Named crops return 276 KB and 357 KB against high.webp at 66 KB. Backwards, and every image now goes through that pipeline.",
+      "dod": "The byte size of every derivative for one image reported as literal numbers - high.webp, low.webp and all four named crops - with the cause of any crop exceeding high.webp stated. If it is real, the same table again after the fix.",
+      "brief": null,
+      "evidence": {
+        "claim": "The crop-size anomaly is not a defect. high.webp is the SMALL variant, not the crops being oversized.",
+        "proof": "Literal bytes: high 68,564 | low 19,404 | crop-16x9-og 180,934 | crop-4.3x1-desktop-hero 148,686 | crop-4x5-mobile-cover 282,954 | crop-4x3-article-card 365,746. Cause, from image-variants.ts:18-19 and smart-crop.ts:59-82: high is capped at maxWidth 1200 / quality 80 = 1200x800 = 0.96 MP, while named crops are authored at display size - 4x3 card 1600x1200 (1.92 MP), 4x5 mobile 1920x2400 (4.61 MP). A 4.6 MP crop exceeding a 0.96 MP variant is arithmetic.",
+        "link": null,
+        "verified_by_ceo": "I measured every derivative myself by curl and read both config files. No code changed - correct outcome for a one-shot that resolves to a measurement. Carried forward as a Sprint 02 candidate, not fixed here: crop-4x5-mobile-cover is 4.6 MP / 283 KB and is what a phone receives."
+      },
+      "spec": null,
+      "spec_status": "one-shot - no spec; a measurement and possibly a one-line fix"
+    },
+    {
+      "id": "SEO-01",
+      "track": "seo",
+      "points": 2,
+      "state": "done",
+      "owner": "head-of-seo-content",
+      "title": "Indexing push and baseline on the 28",
+      "flags": [],
+      "why": "Sitemap is 73 URLs; Google has seen almost none of the new ones. Post-migration consolidation is still in flight, so old URLs still carry the impressions.",
+      "dod": "Sitemap resubmitted, indexing requested where it helps, and a GSC baseline captured for all 28 articles so Sprint 02 has something to score against. The report must union old and new URLs.",
+      "brief": null,
+      "evidence": {
+        "claim": "GSC baseline captured for all 28 articles. 8 indexed, 19 discovered-but-never-crawled, 1 unknown to Google. Impressions zero on every canonical URL.",
+        "proof": "docs/plans/aug-23-2026-session-01/aug-25-2026-baseline-seo-01-gsc-indexing.md. All 28 return 200, none carries a robots meta tag - nothing is blocked, the constraint is crawl scheduling alone. Sitemap independently confirmed by CEO: Valid, 73 URLs, last downloaded 2026-08-25 15:58, after the articles published.",
+        "link": null,
+        "verified_by_ceo": "Read the log and confirmed the sitemap state via the gsc MCP myself. Manual indexing requests were NOT performed - my decision, not an oversight: the agent hit a two-browser picker and the browser path buys little when Google discovers via sitemap. Stated openly in the report rather than left as a silent gap. TWO CORRECTIONS TO THE RECORD came out of this and I have applied both to ceo-memory.md: (1) the union rule I wrote was WRONG - it compared one old URL to a different old URL; a re-parented article has THREE addresses and the canonical one had 0 impressions then and 0 now. (2) 'Consolidation still in flight' understated it - the legacy root was last crawled 24 July, four days BEFORE the migration, so Google does not yet know the 308 exists."
+      },
+      "handle": "term_d35503f6"
+    },
+    {
+      "id": "SEO-02",
+      "track": "seo",
+      "points": 3,
+      "state": "todo",
+      "owner": "head-of-seo-content",
+      "title": "Internal linking pass across 28 articles",
+      "flags": [],
+      "why": "Articles were written in separate runs. Cross-pillar links were specified per-brief but never audited as a whole - and the cluster architecture only works if the links do.",
+      "dod": "A before/after table: articles with zero inbound internal links (orphans) - target 0; dead internal links - target 0; total links added. Every count produced by a command over the live pages or the database, not by reading drafts.",
+      "brief": null,
+      "evidence": null
+    },
+    {
+      "id": "SEO-03",
+      "track": "seo",
+      "points": 2,
+      "state": "done",
+      "owner": "writer-adat-agama-prosedur",
+      "title": "kursus-kahwin per-state fee table (phase 2)",
+      "flags": [
+        "carried",
+        "time-sensitive"
+      ],
+      "why": "The wrong RM120-RM150 claim was pulled 25 Aug and replaced with an honest varies-by-state. The real table was never built. Penang moves RM100 to RM120 on 1 September.",
+      "dod": "Fourteen rows, each sourced primarily and dated, does-not-publish recorded where true, Penang's change stated with both figures and the changeover date. Government PDFs read by word coordinate, never pdftotext -layout.",
+      "brief": null,
+      "evidence": {
+        "claim": "The kursus kahwin fee table is researched and drafted for all fourteen jurisdictions, ready to swap into the live article.",
+        "proof": "docs/plans/aug-23-2026-session-01/drafts/kursus-kahwin-yuran-section.html (8146 bytes, TipTap HTML - the shape the site actually stores), plus -section.md, -SWAP-INSTRUCTIONS.md and -SOURCES.md. Fourteen rows: thirteen states plus Wilayah Persekutuan. One state authority notice, nine from SPPIM (JAKIM's own live system), FOUR DATED NEGATIVES from the authority's own portal. No aggregator contributed a figure. Penang stated as RM100 now and RM120 from 1 September 2026, in both the opening paragraph and the table cell.",
+        "link": null,
+        "verified_by_ceo": "Read the log and confirmed the file inventory. The four dated negatives are the part that matters - authorities publishing nothing, recorded as such with the date, rather than filled with a plausible number. It also delivered in TipTap HTML rather than markdown, having noticed the ingest path for this legacy article takes HTML. NOT INGESTED - production write gated on RISK-01. Six days to the Penang change."
+      },
+      "handle": "term_2e11d38e"
+    },
+    {
+      "id": "CONT-01",
+      "track": "content",
+      "points": 3,
+      "state": "done",
+      "owner": "writer-inspirasi-vendor-venue",
+      "title": "C2.3 gubahan and dulang hantaran - 3 articles",
+      "flags": [],
+      "why": "Third launch cluster from the approved plan, and the one that genuinely needs real photography. P2 already has eight articles and the most traction, so depth compounds fastest here.",
+      "dod": "Three URLs under /artikel/hantaran-mas-kahwin/ each return 200 on FIRST request; each renders a credit line quoted from live HTML; each og:image contains no kad-tajuk path; sitemap count rises by 3. Plus the Stage 9 retrospective in the work-done log.",
+      "brief": null,
+      "evidence": {
+        "claim": "Three C2.3 articles written to the full standard, ingest-ready, held at the production gate.",
+        "proof": "docs/plans/aug-23-2026-session-01/drafts/ingest/ - C2-3-A1-dulang-hantaran.md (2113w), C2-3-A2-gubahan-hantaran.md (1956w), C2-3-A3-sirih-junjung.md (1862w). Each: pillar P2, cluster C2.3, 4 images, 0 IMEJ markers, 0 text-card PNGs.",
+        "link": null,
+        "verified_by_ceo": "Counted images, markers and png references myself with grep over the three files. Strategically well placed: P2 is the ONLY cluster Google has crawled (SEO-01 finding), so these land on the one pillar with an existing crawl path rather than joining the 20 articles waiting to be discovered. NOT PUBLISHED - gate holds."
+      },
+      "handle": "term_2520086f"
+    },
+    {
+      "id": "CONT-02",
+      "track": "content",
+      "points": 3,
+      "state": "in_progress",
+      "owner": "managing-editor",
+      "title": "Supporting-image enrichment to target",
+      "flags": [],
+      "why": "P4 and P5 average 3.7 images per article; P1, P3, P6 and P7 sit at 1.2-2.0. The target is roughly one per major H2.",
+      "dod": "A per-article table of image count before and after, produced by a command over the drafts or database. Every live article at roughly one image per major H2 or carrying a written reason it is thin. Zero images missing credit, licensorName or licenseClass. Zero kad-tajuk paths anywhere.",
+      "brief": null,
+      "evidence": null,
+      "handle": "term_250c124c"
+    },
+    {
+      "id": "CONT-03",
+      "track": "content",
+      "points": 2,
+      "state": "done",
+      "owner": "writer-adat-agama-prosedur",
+      "title": "P3 depth - 2 more articles",
+      "flags": [],
+      "why": "P3 is our thinnest pillar at three articles and 1.3 images each.",
+      "dod": "Two URLs under /artikel/ucapan-doa/ each return 200 on FIRST request; each renders a credit line quoted from live HTML; the pillar's article count rises from 3 to 5 in the sitemap. Plus the Stage 9 retrospective.",
+      "brief": null,
+      "evidence": {
+        "claim": "Two P3 articles written to the full standard, ingest-ready, held at the production gate.",
+        "proof": "P3-A4-walimatul-urus.md (P3 C3.3, 2239 words) and P3-A5-skrip-pengacara-majlis-perkahwinan.md (P3 C3.4, 2585 words). Each: 0 IMEJ markers, 6 images including cover, cover licenseClass S with a photograph.",
+        "link": null,
+        "verified_by_ceo": "I counted markers, images and cover licence class myself with grep over the drafts. Six images each against a P3 pillar averaging 1.3 - the enrichment target hit at authoring time rather than retrofitted. NOT YET PUBLISHED: correctly held, RISK-01 is open."
+      },
+      "handle": "term_2ec4bc5d"
+    },
+    {
+      "id": "CONT-04",
+      "track": "content",
+      "points": 2,
+      "state": "done",
+      "owner": "head-of-seo-content",
+      "title": "Legacy 29 re-parenting PLAN (not execution)",
+      "flags": [
+        "plan-only"
+      ],
+      "why": "Thirteen legacy articles belong in existing clusters, but re-parenting changes their URLs (/artikel/{categorySlug}/{slug}) - a migration with thirteen redirects while Google is still consolidating the 21 Aug one.",
+      "dod": "A written migration plan with the redirect map and a recommended date. NOTHING EXECUTED.",
+      "brief": null,
+      "evidence": {
+        "claim": "The re-parenting plan is written, and it disproved the brief's premise on both counts.",
+        "proof": "docs/plans/aug-23-2026-session-01/aug-25-2026-plan-cont-04-legacy-reparenting.md. (1) ZERO redirects needed - the article route resolves by slug alone and self-heals to the canonical category (artikel/[category]/[slug]/page.tsx:545); the redirects table holds 0 rows. Proved live: /artikel/real-wedding/mas-kahwin-ikut-negeri, a category that never held it, 308s to canonical. (2) The real cost is INDEX CHURN, not redirect risk - re-parenting mid-consolidation gives an article a third URL, and GSC shows mas-kahwin-ikut-negeri accumulating impressions across all three addresses.",
+        "link": null,
+        "verified_by_ceo": "Read the plan and the work-done log. It also split the batch rather than accepting it whole and dropped garden-wedding outright (English page, English queries, position 36.5 - an editorial decision, not a re-parent). NOTHING EXECUTED, as the DoD required."
+      },
+      "handle": "term_5fb2d22f"
+    }
+  ],
+  "out_of_scope": [
+    "Enforcing image credit on every path - four to five days of engineering; the credit race is fixed and verified",
+    "The 682 legacy images rights audit - owner is handling manually; the ranked risk list is ready",
+    "Outbound licence requests to photographers - owner decision; list and bilingual template are ready",
+    "Preview environment - every preview build fails; real gap, no user impact, non-CLI route not costed",
+    "Social accounts - deferred since founding; revisit when content velocity justifies it",
+    "New pillars or clusters beyond C2.3 - depth beats breadth until the first ranking data lands"
+  ],
+  "retro": null,
+  "open_decisions": [],
+  "decisions_taken": [
+    {
+      "id": "ARCH-01",
+      "decided": "A - Supabase is the source of truth",
+      "by": "CEO",
+      "date": "2026-08-25",
+      "basis": "Round table: operational state changes hourly, specs do not. JSON-authoritative makes the UI a viewer; two-way sync invites the drift it replaces."
+    }
+  ],
+  "process": {
+    "dev_items": "All development items are planned through /bmad-quick-dev to the Approve stage during /hellokahwin. The CEO approves, after a round-table review with the relevant agents AND the tool’s actual user. Implementation begins at /startsprint, never before."
+  },
+  "accepted_risks": [
+    {
+      "id": "RISK-02",
+      "date": "2026-08-25",
+      "decided_by": "owner",
+      "risk": "Production database password exposed in an agent transcript, not rotated.",
+      "rationale": "Owner accepts. Exposure is transcript-only; no repository or on-disk copy.",
+      "revisit": "Reconsider if the transcript is ever shared, exported, or if the database gains a recovery point that changes the calculus."
+    }
+  ],
+  "carried_candidates": [
+    {
+      "from": "PLAT-03",
+      "note": "crop-4x5-mobile-cover is 4.6 MP / 283 KB and is the crop a phone receives. Heavy for the surface this audience reads on. Sprint 02 candidate."
+    }
+  ],
+  "incidents": [
+    {
+      "date": "2026-08-26",
+      "id": "INC-01",
+      "severity": "caught before damage",
+      "what": "CEO assigned terminal handles by reading the status board in dispatch order instead of capturing the printed handle: line. The map was wrong in both directions: PLAT-01 and CONT-04 each received TWO agents on the same brief and files; RISK-01 and SEO-01 never started at all.",
+      "why_it_mattered": "RISK-01 is the sprint gate - five items were held behind an item that was not running. And ingest is whole-file, so two agents on one brief would have published the loser's version.",
+      "what_saved_it": "Both duplicate pairs froze rather than raced and escalated for an ownership ruling.",
+      "dividend": "The stood-down PLAT-01 agent reviewed the survivor's migration on its way out and found that a comment at line ~183 claims SUPABASE_SECRET_KEY is verified present in Vercel production. A comment claiming verification is not verification; if absent, /sprints works in dev and returns nothing in prod. Promoted to a blocking pre-DoD check.",
+      "fix": "skills/startsprint/SKILL.md - capture the printed handle at dispatch, keep an item_id -> handle map, and audit every handle's brief before reporting progress."
+    }
+  ],
+  "defects_fixed": [
+    {
+      "id": "DEF-01",
+      "found": "2026-08-26",
+      "found_by": "CEO audit",
+      "severity": "owner-directive violation, live",
+      "what": "Text cards were live IN-ARTICLE on all eight P1 and P6 articles, violating the owner's 25 Aug directive of no text card at all.",
+      "cause": "The CEO first instructed 'keep the kad-tajuk card, move it in-article'. The owner withdrew that. The withdrawal reached the C2.4 backfill but never swept P1 and P6, which had already been built the old way - their covers were correctly swapped to photographs and the displaced cards were left in the body.",
+      "why_missed": "The CEO audited og:image only, saw photographs, and reported '25 of 25 photograph covers, zero text cards'. Covers were the only thing checked; the second half of that claim was an inference presented as a measurement.",
+      "fix": "docs/plans/aug-23-2026-session-01/aug-26-2026-brief-purge-text-cards-p1-p6.md - removed from the eight live articles and from the drafts, plus C4-1-A2-songket which carried one and was not yet published.",
+      "verified_by_ceo": "Swept ALL 28 live articles myself, not just the eight: zero non-photograph images remain. Every image on every live article is an images-s-* licensed photograph.",
+      "open_question_for_retro": "A standard changed after a batch was already built, and nothing caught it. What in the process should detect 'this was built before the rule existed'?"
+    }
+  ]
+}

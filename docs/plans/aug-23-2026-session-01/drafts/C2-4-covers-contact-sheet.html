@@ -1,0 +1,1574 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>C2.4 cover graphics — contact sheet</title>
+<style>
+  :root { color-scheme: light; }
+  body { margin:0; padding:48px 32px 96px; font:16px/1.6 -apple-system,'Segoe UI',Roboto,sans-serif;
+         background:#fcfaf7; color:#13110f; }
+  .wrap { max-width:1400px; margin:0 auto; }
+  h1 { font-family:Georgia,serif; font-weight:400; font-size:2.25rem; margin:0 0 8px; letter-spacing:-.02em; }
+  .lede { color:#585550; max-width:80ch; margin:0 0 32px; }
+  .panel { background:#f7f5f1; border:1px solid #e4e1dc;
+           border-radius:8px; padding:20px 24px; margin:0 0 32px; }
+  .panel.decision { border-left:6px solid #22122d; }
+  .panel h2 { font-size:.8rem; letter-spacing:.12em; text-transform:uppercase; margin:0 0 12px;
+              color:#585550; }
+  .panel ul.palette { margin:0; padding:0; list-style:none; display:grid;
+              grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:6px; font-size:.85rem; }
+  .swatch { display:inline-block; width:16px; height:16px; border-radius:3px; vertical-align:-3px;
+            margin-right:8px; border:1px solid #e4e1dc; }
+  .findings { margin:0; padding-left:20px; font-size:.9rem; color:#585550; }
+  .findings li { margin-bottom:10px; }
+  .findings strong { color:#13110f; }
+  table.geo { border-collapse:collapse; font-size:.82rem; width:100%; }
+  table.geo th, table.geo td { border:1px solid #e4e1dc; padding:6px 10px; text-align:left; }
+  table.geo th { color:#585550; font-weight:600; }
+  .setheading { font-family:Georgia,serif; font-weight:400; font-size:1.9rem; margin:56px 0 6px;
+                padding-bottom:10px; border-bottom:3px solid #22122d; }
+  section.cover { border-top:1px solid #e4e1dc; padding-top:20px; margin:0 0 48px; }
+  section.cover h2 { font-family:Georgia,serif; font-weight:400; font-size:1.4rem; margin:0 0 4px; }
+  .meta { color:#585550; font-size:.85rem; margin:0 0 16px; }
+  .body { display:grid; grid-template-columns:minmax(240px,340px) 1fr; gap:32px; align-items:start; }
+  .plate img { width:100%; height:auto; display:block; border:1px solid #e4e1dc; }
+  .detail h3 { font-size:.75rem; letter-spacing:.12em; text-transform:uppercase;
+               color:#585550; margin:0 0 6px; }
+  .detail h3 + * { margin-top:0; }
+  .detail > * + h3 { margin-top:24px; }
+  .alt { background:#f7f5f1; border-left:3px solid #cbb588;
+         padding:10px 14px; margin:0; }
+  pre { background:#f7f5f1; border:1px solid #e4e1dc; border-radius:6px;
+        padding:12px 14px; overflow-x:auto; font-size:.8rem; margin:0; white-space:pre-wrap; }
+  .crops { display:flex; flex-wrap:wrap; gap:20px; }
+  .crop { margin:0; }
+  .crop-window { overflow:hidden; border:1px solid #e4e1dc; background:#fff; }
+  .crop-window img { display:block; }
+  figcaption { font-size:.72rem; color:#585550; margin-top:6px; line-height:1.4; }
+  .ok { color:#836f44; }
+  .warn { color:#b3261e; font-weight:700; }
+  @media (max-width:900px) { .body { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>C2.4 cover graphics — eight articles, two candidate sets</h1>
+  <p class="lede">
+    Nothing here has been ingested or published. Each plate is shown whole, then as the four crops
+    the pipeline would actually cut from it, at the focal point it would actually detect.
+  </p>
+
+  <div class="panel decision">
+    <h2>The decision this sheet is asking for</h2>
+    <p style="margin:0 0 12px">
+      Two approved documents specify this cover and they do not agree, so both are rendered below.
+    </p>
+    <ol class="findings">
+      <li><strong>Set A — <code>kad-tajuk</code>, data-free.</strong> Graphic kit spec §7 plus the
+        Editorial Review Board of 24 Ogos 2026. Skop lines, title lines and alt text are rendered
+        exactly as approved. The board's words: <em>"No cover in this batch carries a ringgit figure.
+        That is a board ruling on accuracy, not a design preference, and it is not the engineer's to
+        reopen."</em> Its reasoning is that on these eight articles the qualification IS the fact —
+        the true answer is usually <em>belum disahkan</em> or <em>tiada ketetapan</em>, and a cover is
+        the one surface that strips qualification on its way into WhatsApp.</li>
+      <li><strong>Set B — the state-figure cover.</strong> The generator brief of 24 Aug 2026. Every
+        figure taken from the article it covers, nothing carried across drafts, "tiada kadar minimum
+        ditetapkan" rendered as a figure rather than a blank.</li>
+      <li><strong>Which is later.</strong> The board sat with the brief in front of it, quoted the
+        brief's own tie-break — <em>"If a draft and this table disagree, the draft wins and you tell
+        me"</em> — and found four of the brief's eight rows disagree with their drafts. On that
+        reading the ruling supersedes the brief. That is the CEO's call, not the engineer's.</li>
+    </ol>
+  </div>
+
+  <div class="panel">
+    <h2>The spec's cover geometry does not hold — 2464 &times; 700 breaks the mobile cover</h2>
+    <p class="meta" style="margin:0 0 12px">
+      Spec §6.2 and §7.2 say to author the cover at 2464&times;700, reasoning that a 3.52:1 source is
+      "width-constrained for every other target" and that the 4:5 crop "takes the whole image".
+      It is the other way round: <code>computeCropWindow</code> makes a source wider than the target
+      <em>height</em>-constrained. Below is the pipeline's own function run on a 2464&times;700 source
+      with the focal point §7.2 asks for (0.5, 0.5).
+    </p>
+    <table class="geo">
+      <tr><th>crop</th><th>window taken</th><th>output</th><th>target</th><th></th></tr>
+      <tr><td><code>crop-4x5-mobile-cover</code></td><td>560×700 at 952,0</td><td>560×700</td><td>1920×2400</td><td class="warn">undersized</td></tr><tr><td><code>crop-4.3x1-desktop-hero</code></td><td>2464×700 at 0,0</td><td>2464×700</td><td>2464×700</td><td class="ok">ok</td></tr><tr><td><code>crop-4x3-article-card</code></td><td>933×700 at 766,0</td><td>933×700</td><td>1600×1200</td><td class="warn">undersized</td></tr><tr><td><code>crop-16x9-og</code></td><td>1333×700 at 566,0</td><td>1200×630</td><td>1200×630</td><td class="ok">ok</td></tr>
+    </table>
+    <p class="meta" style="margin:12px 0 0">
+      The mobile cover — the surface this audience reads on — comes out a 560&times;700 portrait slice
+      through the middle of the title, under a third of its target. Both sets below are authored at
+      2464&times;3080 (4:5) instead, where that crop is the whole image and the other three come out
+      at full target size.
+    </p>
+  </div>
+
+  <div class="panel">
+    <h2>Read this before deciding</h2>
+    <ol class="findings">
+      <li><strong>The framing is not ours to choose yet.</strong> The pipeline centres every crop on a
+        detected focal point, and <code>ingest-article.mts</code> passes no
+        <code>focalPointOverride</code> — so a flat graphic falls through to sharp's saliency, which
+        lands where it likes. The crops shown are the real ones.
+        <code>processSmartCrops</code> already accepts the override and spec §7.2 asks for
+        <code>{x: 0.5, y: 0.5}</code>; wiring the article file to it is a separate, one-file change,
+        and it is what makes either set frame predictably.</li>
+      <li><strong>The desktop hero crops twice.</strong> <code>page.tsx</code> drops the 3.52:1 strip
+        into an <code>aspect-[2.4/1]</code> box with <code>object-cover</code>, showing only the
+        centre 68% of its width — x 392&hellip;2072.
+        The mobile cover, article card and OG image all show the full width.</li>
+      <li><strong>Two crop names lie about their ratio.</strong>
+        <code>crop-4.3x1-desktop-hero</code> is 3.52:1 and <code>crop-16x9-og</code> is 1.905:1. Both
+        are load-bearing R2 object keys, so neither was touched.</li>
+      <li><strong>Nothing warns about an undersized cover.</strong> The crop targets are ceilings, not
+        floors: an undersized source is silently left small and the smaller number is written into
+        <code>coverImageSmartCrops</code>. There is no minimum-dimension check anywhere in the
+        pipeline. The exact minimum that fills all four targets is 2464&times;2400.</li>
+      <li><strong>The credit string differs between the two documents.</strong> The brief fixes
+        <code>credit: HelloKahwin</code>; board ruling 4 and style guide §13.1 fix
+        <code>credit: "Grafik: HelloKahwin"</code>. Each set below carries its own document's value.</li>
+      <li><strong>A5 Perak has no figure, and that is the finding.</strong> The brief's table asks for
+        "Perak's figure"; the draft says no minimum is set at all and the gazette carries a blank
+        field, not a number. The only Perak number in the article is RM101, which the article exists
+        to debunk.</li>
+      <li><strong>A3 Johor's RM22.50 is not a current minimum.</strong> The draft flags it "belum
+        disahkan sebagai kadar semasa" and records a UiTM reading of it as a <em>maximum</em>.</li>
+      <li><strong>A1 and A7 disagree about Sabah and Sarawak.</strong> A1's table lists RM100 and
+        RM120 flagged "belum disahkan"; A7 states plainly that neither state sets a minimum. Each
+        cover follows its own article, as instructed. Someone should reconcile the two before
+        publication.</li>
+      <li><strong>Fonts.</strong> Spec §3.2 asks for Geist and Geist Mono embedded in the rasteriser.
+        sharp rasterises SVG through librsvg, which resolves families from the host and cannot embed
+        a face; the only Geist files in the repo are inside Next's devtools bundle. Both sets render
+        in the system sans stack <code>globals.css</code> itself declares. Embedding would mean adding
+        satori + resvg-js.</li>
+    </ol>
+  </div>
+
+  <div class="panel">
+    <h2>Brand tokens, read from src/app/globals.css at render time</h2>
+    <ul class="palette"><li><span class="swatch" style="background:#22122d"></span><code>--primary</code> #22122d</li><li><span class="swatch" style="background:#cbb588"></span><code>--brand-secondary</code> #cbb588</li><li><span class="swatch" style="background:#836f44"></span><code>--brass-deep</code> #836f44</li><li><span class="swatch" style="background:#fcfaf7"></span><code>--background</code> #fcfaf7</li><li><span class="swatch" style="background:#f7f5f1"></span><code>--surface-subtle</code> #f7f5f1</li><li><span class="swatch" style="background:#13110f"></span><code>--foreground</code> #13110f</li><li><span class="swatch" style="background:#585550"></span><code>--muted-foreground</code> #585550</li><li><span class="swatch" style="background:#e4e1dc"></span><code>--hairline</code> #e4e1dc</li><li><span class="swatch" style="background:#e8e2ec"></span><code>--plum-deep-foreground</code> #e8e2ec</li><li><span class="swatch" style="background:#d1cbd5"></span><code>--plum-deep-muted</code> #d1cbd5</li></ul>
+  </div>
+
+  <div class="setblock">
+    <h2 class="setheading">Set A &mdash; kad-tajuk, the board-approved data-free card</h2>
+    <p class="lede">Skop line, title line and alt text rendered exactly as approved at the board of 24 Ogos 2026.</p>
+    
+    <section class="cover">
+      <header>
+        <h2>HK-C-0001 &middot; 14 bidang kuasa · Kadar minimum mas kahwin mengikut negeri</h2>
+        <p class="meta">
+          <code>mas-kahwin-ikut-negeri-kad-tajuk.png</code> &middot;
+          2464&times;3080 PNG &middot;
+          NaN KB &middot;
+          covers <code>A1-mas-kahwin-ikut-negeri-REVIEWED.md</code>
+        </p>
+      </header>
+      <div class="body">
+        <a class="plate" href="./mas-kahwin-ikut-negeri-kad-tajuk.png">
+          <img src="./mas-kahwin-ikut-negeri-kad-tajuk.png" alt="Kad tajuk bertulis kadar minimum mas kahwin mengikut negeri, bagi 14 bidang kuasa, disemak Ogos 2026." />
+        </a>
+        <div class="detail">
+          <h3>Alt text (Malay)</h3>
+          <p class="alt">Kad tajuk bertulis kadar minimum mas kahwin mengikut negeri, bagi 14 bidang kuasa, disemak Ogos 2026.</p>
+
+          <h3>Front matter for ingest</h3>
+          <pre>cover:
+  file: ./mas-kahwin-ikut-negeri-kad-tajuk.png
+  alt: Kad tajuk bertulis kadar minimum mas kahwin mengikut negeri, bagi 14 bidang kuasa, disemak Ogos 2026.
+  credit: Grafik: HelloKahwin
+  licenseClass: G
+  licensorName: HelloKahwin</pre>
+
+          <h3>What the crop pipeline would produce</h3>
+          <p class="meta">
+            focal point
+            0.594, 0.499 (saliency)
+            &middot; title 148px on 2 line(s)
+          </p>
+          <div class="crops">
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:375px">
+              <img src="./mas-kahwin-ikut-negeri-kad-tajuk.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:0px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x5-mobile-cover</strong><br />
+              1920&times;2400
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:85px">
+              <img src="./mas-kahwin-ikut-negeri-kad-tajuk.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-145px" />
+            </div>
+            <figcaption>
+              <strong>crop-4.3x1-desktop-hero</strong><br />
+              2464&times;700
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:225px">
+              <img src="./mas-kahwin-ikut-negeri-kad-tajuk.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-75px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x3-article-card</strong><br />
+              1600&times;1200
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:158px">
+              <img src="./mas-kahwin-ikut-negeri-kad-tajuk.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-108px" />
+            </div>
+            <figcaption>
+              <strong>crop-16x9-og</strong><br />
+              1200&times;630
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure></div>
+        </div>
+      </div>
+    </section>
+    <section class="cover">
+      <header>
+        <h2>HK-C-0002 &middot; Asas · Apa itu mas kahwin</h2>
+        <p class="meta">
+          <code>apa-itu-mas-kahwin-kad-tajuk.png</code> &middot;
+          2464&times;3080 PNG &middot;
+          NaN KB &middot;
+          covers <code>A2-apa-itu-mas-kahwin-REVIEWED.md</code>
+        </p>
+      </header>
+      <div class="body">
+        <a class="plate" href="./apa-itu-mas-kahwin-kad-tajuk.png">
+          <img src="./apa-itu-mas-kahwin-kad-tajuk.png" alt="Kad tajuk artikel asas, bertulis apa itu mas kahwin, disemak Ogos 2026." />
+        </a>
+        <div class="detail">
+          <h3>Alt text (Malay)</h3>
+          <p class="alt">Kad tajuk artikel asas, bertulis apa itu mas kahwin, disemak Ogos 2026.</p>
+
+          <h3>Front matter for ingest</h3>
+          <pre>cover:
+  file: ./apa-itu-mas-kahwin-kad-tajuk.png
+  alt: Kad tajuk artikel asas, bertulis apa itu mas kahwin, disemak Ogos 2026.
+  credit: Grafik: HelloKahwin
+  licenseClass: G
+  licensorName: HelloKahwin</pre>
+
+          <h3>What the crop pipeline would produce</h3>
+          <p class="meta">
+            focal point
+            0.469, 0.467 (saliency)
+            &middot; title 216px on 2 line(s)
+          </p>
+          <div class="crops">
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:375px">
+              <img src="./apa-itu-mas-kahwin-kad-tajuk.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:0px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x5-mobile-cover</strong><br />
+              1920&times;2400
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:85px">
+              <img src="./apa-itu-mas-kahwin-kad-tajuk.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-133px" />
+            </div>
+            <figcaption>
+              <strong>crop-4.3x1-desktop-hero</strong><br />
+              2464&times;700
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:225px">
+              <img src="./apa-itu-mas-kahwin-kad-tajuk.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-63px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x3-article-card</strong><br />
+              1600&times;1200
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:158px">
+              <img src="./apa-itu-mas-kahwin-kad-tajuk.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-96px" />
+            </div>
+            <figcaption>
+              <strong>crop-16x9-og</strong><br />
+              1200&times;630
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure></div>
+        </div>
+      </div>
+    </section>
+    <section class="cover">
+      <header>
+        <h2>HK-C-0003 &middot; Johor · Kadar yang beredar, belum disahkan</h2>
+        <p class="meta">
+          <code>mas-kahwin-johor-kad-tajuk.png</code> &middot;
+          2464&times;3080 PNG &middot;
+          NaN KB &middot;
+          covers <code>A3-mas-kahwin-johor-REVIEWED.md</code>
+        </p>
+      </header>
+      <div class="body">
+        <a class="plate" href="./mas-kahwin-johor-kad-tajuk.png">
+          <img src="./mas-kahwin-johor-kad-tajuk.png" alt="Kad tajuk bagi Johor, bertulis kadar yang beredar belum disahkan, disemak Ogos 2026." />
+        </a>
+        <div class="detail">
+          <h3>Alt text (Malay)</h3>
+          <p class="alt">Kad tajuk bagi Johor, bertulis kadar yang beredar belum disahkan, disemak Ogos 2026.</p>
+
+          <h3>Front matter for ingest</h3>
+          <pre>cover:
+  file: ./mas-kahwin-johor-kad-tajuk.png
+  alt: Kad tajuk bagi Johor, bertulis kadar yang beredar belum disahkan, disemak Ogos 2026.
+  credit: Grafik: HelloKahwin
+  licenseClass: G
+  licensorName: HelloKahwin</pre>
+
+          <h3>What the crop pipeline would produce</h3>
+          <p class="meta">
+            focal point
+            0.563, 0.499 (saliency)
+            &middot; title 168px on 2 line(s)
+          </p>
+          <div class="crops">
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:375px">
+              <img src="./mas-kahwin-johor-kad-tajuk.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:0px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x5-mobile-cover</strong><br />
+              1920&times;2400
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:85px">
+              <img src="./mas-kahwin-johor-kad-tajuk.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-145px" />
+            </div>
+            <figcaption>
+              <strong>crop-4.3x1-desktop-hero</strong><br />
+              2464&times;700
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:225px">
+              <img src="./mas-kahwin-johor-kad-tajuk.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-75px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x3-article-card</strong><br />
+              1600&times;1200
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:158px">
+              <img src="./mas-kahwin-johor-kad-tajuk.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-108px" />
+            </div>
+            <figcaption>
+              <strong>crop-16x9-og</strong><br />
+              1200&times;630
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure></div>
+        </div>
+      </div>
+    </section>
+    <section class="cover">
+      <header>
+        <h2>HK-C-0004 &middot; Kelantan dan Terengganu · Tiada kadar tetap di dua negeri</h2>
+        <p class="meta">
+          <code>mas-kahwin-kelantan-terengganu-kad-tajuk.png</code> &middot;
+          2464&times;3080 PNG &middot;
+          NaN KB &middot;
+          covers <code>A4-mas-kahwin-kelantan-terengganu-REVIEWED.md</code>
+        </p>
+      </header>
+      <div class="body">
+        <a class="plate" href="./mas-kahwin-kelantan-terengganu-kad-tajuk.png">
+          <img src="./mas-kahwin-kelantan-terengganu-kad-tajuk.png" alt="Kad tajuk bagi Kelantan dan Terengganu, bertulis tiada kadar tetap di dua negeri, disemak Ogos 2026." />
+        </a>
+        <div class="detail">
+          <h3>Alt text (Malay)</h3>
+          <p class="alt">Kad tajuk bagi Kelantan dan Terengganu, bertulis tiada kadar tetap di dua negeri, disemak Ogos 2026.</p>
+
+          <h3>Front matter for ingest</h3>
+          <pre>cover:
+  file: ./mas-kahwin-kelantan-terengganu-kad-tajuk.png
+  alt: Kad tajuk bagi Kelantan dan Terengganu, bertulis tiada kadar tetap di dua negeri, disemak Ogos 2026.
+  credit: Grafik: HelloKahwin
+  licenseClass: G
+  licensorName: HelloKahwin</pre>
+
+          <h3>What the crop pipeline would produce</h3>
+          <p class="meta">
+            focal point
+            0.531, 0.467 (saliency)
+            &middot; title 192px on 2 line(s)
+          </p>
+          <div class="crops">
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:375px">
+              <img src="./mas-kahwin-kelantan-terengganu-kad-tajuk.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:0px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x5-mobile-cover</strong><br />
+              1920&times;2400
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:85px">
+              <img src="./mas-kahwin-kelantan-terengganu-kad-tajuk.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-133px" />
+            </div>
+            <figcaption>
+              <strong>crop-4.3x1-desktop-hero</strong><br />
+              2464&times;700
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:225px">
+              <img src="./mas-kahwin-kelantan-terengganu-kad-tajuk.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-63px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x3-article-card</strong><br />
+              1600&times;1200
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:158px">
+              <img src="./mas-kahwin-kelantan-terengganu-kad-tajuk.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-96px" />
+            </div>
+            <figcaption>
+              <strong>crop-16x9-og</strong><br />
+              1200&times;630
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure></div>
+        </div>
+      </div>
+    </section>
+    <section class="cover">
+      <header>
+        <h2>HK-C-0005 &middot; Perak · Tiada kadar minimum, tetapi ada fi rasmi</h2>
+        <p class="meta">
+          <code>mas-kahwin-perak-kad-tajuk.png</code> &middot;
+          2464&times;3080 PNG &middot;
+          NaN KB &middot;
+          covers <code>A5-mas-kahwin-perak-REVIEWED.md</code>
+        </p>
+      </header>
+      <div class="body">
+        <a class="plate" href="./mas-kahwin-perak-kad-tajuk.png">
+          <img src="./mas-kahwin-perak-kad-tajuk.png" alt="Kad tajuk bagi Perak, bertulis tiada kadar minimum tetapi ada fi rasmi, disemak Ogos 2026." />
+        </a>
+        <div class="detail">
+          <h3>Alt text (Malay)</h3>
+          <p class="alt">Kad tajuk bagi Perak, bertulis tiada kadar minimum tetapi ada fi rasmi, disemak Ogos 2026.</p>
+
+          <h3>Front matter for ingest</h3>
+          <pre>cover:
+  file: ./mas-kahwin-perak-kad-tajuk.png
+  alt: Kad tajuk bagi Perak, bertulis tiada kadar minimum tetapi ada fi rasmi, disemak Ogos 2026.
+  credit: Grafik: HelloKahwin
+  licenseClass: G
+  licensorName: HelloKahwin</pre>
+
+          <h3>What the crop pipeline would produce</h3>
+          <p class="meta">
+            focal point
+            0.344, 0.499 (saliency)
+            &middot; title 168px on 2 line(s)
+          </p>
+          <div class="crops">
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:375px">
+              <img src="./mas-kahwin-perak-kad-tajuk.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:0px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x5-mobile-cover</strong><br />
+              1920&times;2400
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:85px">
+              <img src="./mas-kahwin-perak-kad-tajuk.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-145px" />
+            </div>
+            <figcaption>
+              <strong>crop-4.3x1-desktop-hero</strong><br />
+              2464&times;700
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:225px">
+              <img src="./mas-kahwin-perak-kad-tajuk.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-75px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x3-article-card</strong><br />
+              1600&times;1200
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:158px">
+              <img src="./mas-kahwin-perak-kad-tajuk.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-108px" />
+            </div>
+            <figcaption>
+              <strong>crop-16x9-og</strong><br />
+              1200&times;630
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure></div>
+        </div>
+      </div>
+    </section>
+    <section class="cover">
+      <header>
+        <h2>HK-C-0006 &middot; Pahang dan Negeri Sembilan · Kedua-dua negeri menetapkan kadar minimum</h2>
+        <p class="meta">
+          <code>mas-kahwin-pahang-negeri-sembilan-kad-tajuk.png</code> &middot;
+          2464&times;3080 PNG &middot;
+          NaN KB &middot;
+          covers <code>A6-mas-kahwin-pahang-negeri-sembilan-REVIEWED.md</code>
+        </p>
+      </header>
+      <div class="body">
+        <a class="plate" href="./mas-kahwin-pahang-negeri-sembilan-kad-tajuk.png">
+          <img src="./mas-kahwin-pahang-negeri-sembilan-kad-tajuk.png" alt="Kad tajuk bagi Pahang dan Negeri Sembilan, bertulis kedua-dua negeri menetapkan kadar minimum, disemak Ogos 2026." />
+        </a>
+        <div class="detail">
+          <h3>Alt text (Malay)</h3>
+          <p class="alt">Kad tajuk bagi Pahang dan Negeri Sembilan, bertulis kedua-dua negeri menetapkan kadar minimum, disemak Ogos 2026.</p>
+
+          <h3>Front matter for ingest</h3>
+          <pre>cover:
+  file: ./mas-kahwin-pahang-negeri-sembilan-kad-tajuk.png
+  alt: Kad tajuk bagi Pahang dan Negeri Sembilan, bertulis kedua-dua negeri menetapkan kadar minimum, disemak Ogos 2026.
+  credit: Grafik: HelloKahwin
+  licenseClass: G
+  licensorName: HelloKahwin</pre>
+
+          <h3>What the crop pipeline would produce</h3>
+          <p class="meta">
+            focal point
+            0.594, 0.467 (saliency)
+            &middot; title 116px on 2 line(s)
+          </p>
+          <div class="crops">
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:375px">
+              <img src="./mas-kahwin-pahang-negeri-sembilan-kad-tajuk.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:0px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x5-mobile-cover</strong><br />
+              1920&times;2400
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:85px">
+              <img src="./mas-kahwin-pahang-negeri-sembilan-kad-tajuk.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-133px" />
+            </div>
+            <figcaption>
+              <strong>crop-4.3x1-desktop-hero</strong><br />
+              2464&times;700
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:225px">
+              <img src="./mas-kahwin-pahang-negeri-sembilan-kad-tajuk.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-63px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x3-article-card</strong><br />
+              1600&times;1200
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:158px">
+              <img src="./mas-kahwin-pahang-negeri-sembilan-kad-tajuk.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-96px" />
+            </div>
+            <figcaption>
+              <strong>crop-16x9-og</strong><br />
+              1200&times;630
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure></div>
+        </div>
+      </div>
+    </section>
+    <section class="cover">
+      <header>
+        <h2>HK-C-0007 &middot; Sabah dan Sarawak · Mas kahwin di bawah dua undang-undang berasingan</h2>
+        <p class="meta">
+          <code>mas-kahwin-sabah-sarawak-kad-tajuk.png</code> &middot;
+          2464&times;3080 PNG &middot;
+          NaN KB &middot;
+          covers <code>A7-mas-kahwin-sabah-sarawak-REVIEWED.md</code>
+        </p>
+      </header>
+      <div class="body">
+        <a class="plate" href="./mas-kahwin-sabah-sarawak-kad-tajuk.png">
+          <img src="./mas-kahwin-sabah-sarawak-kad-tajuk.png" alt="Kad tajuk bagi Sabah dan Sarawak, bertulis mas kahwin di bawah dua undang-undang berasingan, disemak Ogos 2026." />
+        </a>
+        <div class="detail">
+          <h3>Alt text (Malay)</h3>
+          <p class="alt">Kad tajuk bagi Sabah dan Sarawak, bertulis mas kahwin di bawah dua undang-undang berasingan, disemak Ogos 2026.</p>
+
+          <h3>Front matter for ingest</h3>
+          <pre>cover:
+  file: ./mas-kahwin-sabah-sarawak-kad-tajuk.png
+  alt: Kad tajuk bagi Sabah dan Sarawak, bertulis mas kahwin di bawah dua undang-undang berasingan, disemak Ogos 2026.
+  credit: Grafik: HelloKahwin
+  licenseClass: G
+  licensorName: HelloKahwin</pre>
+
+          <h3>What the crop pipeline would produce</h3>
+          <p class="meta">
+            focal point
+            0.344, 0.499 (saliency)
+            &middot; title 132px on 2 line(s)
+          </p>
+          <div class="crops">
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:375px">
+              <img src="./mas-kahwin-sabah-sarawak-kad-tajuk.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:0px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x5-mobile-cover</strong><br />
+              1920&times;2400
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:85px">
+              <img src="./mas-kahwin-sabah-sarawak-kad-tajuk.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-145px" />
+            </div>
+            <figcaption>
+              <strong>crop-4.3x1-desktop-hero</strong><br />
+              2464&times;700
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:225px">
+              <img src="./mas-kahwin-sabah-sarawak-kad-tajuk.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-75px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x3-article-card</strong><br />
+              1600&times;1200
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:158px">
+              <img src="./mas-kahwin-sabah-sarawak-kad-tajuk.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-108px" />
+            </div>
+            <figcaption>
+              <strong>crop-16x9-og</strong><br />
+              1200&times;630
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure></div>
+        </div>
+      </div>
+    </section>
+    <section class="cover">
+      <header>
+        <h2>HK-C-0008 &middot; Soal jawab · Bolehkah mas kahwin melebihi kadar minimum?</h2>
+        <p class="meta">
+          <code>mas-kahwin-melebihi-kadar-minimum-kad-tajuk.png</code> &middot;
+          2464&times;3080 PNG &middot;
+          NaN KB &middot;
+          covers <code>A8-mas-kahwin-melebihi-kadar-minimum-REVIEWED.md</code>
+        </p>
+      </header>
+      <div class="body">
+        <a class="plate" href="./mas-kahwin-melebihi-kadar-minimum-kad-tajuk.png">
+          <img src="./mas-kahwin-melebihi-kadar-minimum-kad-tajuk.png" alt="Kad tajuk soal jawab, bertulis bolehkah mas kahwin melebihi kadar minimum, disemak Ogos 2026." />
+        </a>
+        <div class="detail">
+          <h3>Alt text (Malay)</h3>
+          <p class="alt">Kad tajuk soal jawab, bertulis bolehkah mas kahwin melebihi kadar minimum, disemak Ogos 2026.</p>
+
+          <h3>Front matter for ingest</h3>
+          <pre>cover:
+  file: ./mas-kahwin-melebihi-kadar-minimum-kad-tajuk.png
+  alt: Kad tajuk soal jawab, bertulis bolehkah mas kahwin melebihi kadar minimum, disemak Ogos 2026.
+  credit: Grafik: HelloKahwin
+  licenseClass: G
+  licensorName: HelloKahwin</pre>
+
+          <h3>What the crop pipeline would produce</h3>
+          <p class="meta">
+            focal point
+            0.594, 0.467 (saliency)
+            &middot; title 132px on 2 line(s)
+          </p>
+          <div class="crops">
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:375px">
+              <img src="./mas-kahwin-melebihi-kadar-minimum-kad-tajuk.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:0px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x5-mobile-cover</strong><br />
+              1920&times;2400
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:85px">
+              <img src="./mas-kahwin-melebihi-kadar-minimum-kad-tajuk.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-133px" />
+            </div>
+            <figcaption>
+              <strong>crop-4.3x1-desktop-hero</strong><br />
+              2464&times;700
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:225px">
+              <img src="./mas-kahwin-melebihi-kadar-minimum-kad-tajuk.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-63px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x3-article-card</strong><br />
+              1600&times;1200
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:158px">
+              <img src="./mas-kahwin-melebihi-kadar-minimum-kad-tajuk.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-96px" />
+            </div>
+            <figcaption>
+              <strong>crop-16x9-og</strong><br />
+              1200&times;630
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="setblock">
+    <h2 class="setheading">Set B &mdash; the state-figure cover the brief asked for</h2>
+    <p class="lede">Every figure taken from the article it covers. "Tiada kadar minimum ditetapkan" is rendered as a figure, not a blank.</p>
+    
+    <section class="cover">
+      <header>
+        <h2>A1 &middot; Kadar minimum mas kahwin, 14 bidang kuasa</h2>
+        <p class="meta">
+          <code>A1-mas-kahwin-ikut-negeri-cover.png</code> &middot;
+          2464&times;3080 PNG &middot;
+          NaN KB &middot;
+          covers <code>A1-mas-kahwin-ikut-negeri-REVIEWED.md</code>
+        </p>
+      </header>
+      <div class="body">
+        <a class="plate" href="./A1-mas-kahwin-ikut-negeri-cover.png">
+          <img src="./A1-mas-kahwin-ikut-negeri-cover.png" alt="Grafik ringkasan kadar minimum mas kahwin bagi 14 bidang kuasa: julat RM22.50 hingga RM300, RM300 di Selangor dan Wilayah Persekutuan, RM200 anak dara dan RM100 janda di Negeri Sembilan, RM120 Sarawak, RM100 di Melaka, Pahang dan Sabah, RM22.50 Johor, dan tiada kadar minimum ditetapkan di enam bidang kuasa." />
+        </a>
+        <div class="detail">
+          <h3>Alt text (Malay)</h3>
+          <p class="alt">Grafik ringkasan kadar minimum mas kahwin bagi 14 bidang kuasa: julat RM22.50 hingga RM300, RM300 di Selangor dan Wilayah Persekutuan, RM200 anak dara dan RM100 janda di Negeri Sembilan, RM120 Sarawak, RM100 di Melaka, Pahang dan Sabah, RM22.50 Johor, dan tiada kadar minimum ditetapkan di enam bidang kuasa.</p>
+
+          <h3>Front matter for ingest</h3>
+          <pre>cover:
+  file: ./A1-mas-kahwin-ikut-negeri-cover.png
+  alt: Grafik ringkasan kadar minimum mas kahwin bagi 14 bidang kuasa: julat RM22.50 hingga RM300, RM300 di Selangor dan Wilayah Persekutuan, RM200 anak dara dan RM100 janda di Negeri Sembilan, RM120 Sarawak, RM100 di Melaka, Pahang dan Sabah, RM22.50 Johor, dan tiada kadar minimum ditetapkan di enam bidang kuasa.
+  credit: HelloKahwin
+  licenseClass: G
+  licensorName: HelloKahwin</pre>
+
+          <h3>What the crop pipeline would produce</h3>
+          <p class="meta">
+            focal point
+            0.156, 0.922 (saliency)
+            &middot; body 88px (≈14px on a 390px phone), figures 96/96px
+          </p>
+          <div class="crops">
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:375px">
+              <img src="./A1-mas-kahwin-ikut-negeri-cover.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:0px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x5-mobile-cover</strong><br />
+              1920&times;2400
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:85px">
+              <img src="./A1-mas-kahwin-ikut-negeri-cover.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-290px" />
+            </div>
+            <figcaption>
+              <strong>crop-4.3x1-desktop-hero</strong><br />
+              2464&times;700
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:225px">
+              <img src="./A1-mas-kahwin-ikut-negeri-cover.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-150px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x3-article-card</strong><br />
+              1600&times;1200
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:158px">
+              <img src="./A1-mas-kahwin-ikut-negeri-cover.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-217px" />
+            </div>
+            <figcaption>
+              <strong>crop-16x9-og</strong><br />
+              1200&times;630
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure></div>
+        </div>
+      </div>
+    </section>
+    <section class="cover">
+      <header>
+        <h2>A2 &middot; Maksud mas kahwin: hak isteri dan beza dengan hantaran</h2>
+        <p class="meta">
+          <code>A2-apa-itu-mas-kahwin-cover.png</code> &middot;
+          2464&times;3080 PNG &middot;
+          NaN KB &middot;
+          covers <code>A2-apa-itu-mas-kahwin-REVIEWED.md</code>
+        </p>
+      </header>
+      <div class="body">
+        <a class="plate" href="./A2-apa-itu-mas-kahwin-cover.png">
+          <img src="./A2-apa-itu-mas-kahwin-cover.png" alt="Grafik yang menerangkan maksud mas kahwin sebagai bayaran wajib suami kepada isteri dan hak isteri sepenuhnya, berbanding hantaran dan duit hantaran yang merupakan adat antara dua keluarga." />
+        </a>
+        <div class="detail">
+          <h3>Alt text (Malay)</h3>
+          <p class="alt">Grafik yang menerangkan maksud mas kahwin sebagai bayaran wajib suami kepada isteri dan hak isteri sepenuhnya, berbanding hantaran dan duit hantaran yang merupakan adat antara dua keluarga.</p>
+
+          <h3>Front matter for ingest</h3>
+          <pre>cover:
+  file: ./A2-apa-itu-mas-kahwin-cover.png
+  alt: Grafik yang menerangkan maksud mas kahwin sebagai bayaran wajib suami kepada isteri dan hak isteri sepenuhnya, berbanding hantaran dan duit hantaran yang merupakan adat antara dua keluarga.
+  credit: HelloKahwin
+  licenseClass: G
+  licensorName: HelloKahwin</pre>
+
+          <h3>What the crop pipeline would produce</h3>
+          <p class="meta">
+            focal point
+            0.531, 0.282 (saliency)
+            &middot; body 104px (≈16px on a 390px phone), figures 168/168px
+          </p>
+          <div class="crops">
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:375px">
+              <img src="./A2-apa-itu-mas-kahwin-cover.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:0px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x5-mobile-cover</strong><br />
+              1920&times;2400
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:85px">
+              <img src="./A2-apa-itu-mas-kahwin-cover.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-63px" />
+            </div>
+            <figcaption>
+              <strong>crop-4.3x1-desktop-hero</strong><br />
+              2464&times;700
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:225px">
+              <img src="./A2-apa-itu-mas-kahwin-cover.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:0px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x3-article-card</strong><br />
+              1600&times;1200
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:158px">
+              <img src="./A2-apa-itu-mas-kahwin-cover.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-27px" />
+            </div>
+            <figcaption>
+              <strong>crop-16x9-og</strong><br />
+              1200&times;630
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure></div>
+        </div>
+      </div>
+    </section>
+    <section class="cover">
+      <header>
+        <h2>A3 &middot; RM22.50 dan asal usul angkanya</h2>
+        <p class="meta">
+          <code>A3-mas-kahwin-johor-cover.png</code> &middot;
+          2464&times;3080 PNG &middot;
+          NaN KB &middot;
+          covers <code>A3-mas-kahwin-johor-REVIEWED.md</code>
+        </p>
+      </header>
+      <div class="body">
+        <a class="plate" href="./A3-mas-kahwin-johor-cover.png">
+          <img src="./A3-mas-kahwin-johor-cover.png" alt="Grafik kadar mas kahwin Johor menunjukkan angka RM22.50 yang beredar dan belum disahkan sebagai kadar semasa, berserta asal usulnya daripada Ahkam Syar'iyyah Johor 1935 dan pembacaan kajian UiTM sebagai had maksimum." />
+        </a>
+        <div class="detail">
+          <h3>Alt text (Malay)</h3>
+          <p class="alt">Grafik kadar mas kahwin Johor menunjukkan angka RM22.50 yang beredar dan belum disahkan sebagai kadar semasa, berserta asal usulnya daripada Ahkam Syar'iyyah Johor 1935 dan pembacaan kajian UiTM sebagai had maksimum.</p>
+
+          <h3>Front matter for ingest</h3>
+          <pre>cover:
+  file: ./A3-mas-kahwin-johor-cover.png
+  alt: Grafik kadar mas kahwin Johor menunjukkan angka RM22.50 yang beredar dan belum disahkan sebagai kadar semasa, berserta asal usulnya daripada Ahkam Syar'iyyah Johor 1935 dan pembacaan kajian UiTM sebagai had maksimum.
+  credit: HelloKahwin
+  licenseClass: G
+  licensorName: HelloKahwin</pre>
+
+          <h3>What the crop pipeline would produce</h3>
+          <p class="meta">
+            focal point
+            0.531, 0.922 (saliency)
+            &middot; body 88px (≈14px on a 390px phone), figures 224px
+          </p>
+          <div class="crops">
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:375px">
+              <img src="./A3-mas-kahwin-johor-cover.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:0px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x5-mobile-cover</strong><br />
+              1920&times;2400
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:85px">
+              <img src="./A3-mas-kahwin-johor-cover.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-290px" />
+            </div>
+            <figcaption>
+              <strong>crop-4.3x1-desktop-hero</strong><br />
+              2464&times;700
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:225px">
+              <img src="./A3-mas-kahwin-johor-cover.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-150px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x3-article-card</strong><br />
+              1600&times;1200
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:158px">
+              <img src="./A3-mas-kahwin-johor-cover.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-217px" />
+            </div>
+            <figcaption>
+              <strong>crop-16x9-og</strong><br />
+              1200&times;630
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure></div>
+        </div>
+      </div>
+    </section>
+    <section class="cover">
+      <header>
+        <h2>A4 &middot; Tiada kadar minimum ditetapkan</h2>
+        <p class="meta">
+          <code>A4-mas-kahwin-kelantan-terengganu-cover.png</code> &middot;
+          2464&times;3080 PNG &middot;
+          NaN KB &middot;
+          covers <code>A4-mas-kahwin-kelantan-terengganu-REVIEWED.md</code>
+        </p>
+      </header>
+      <div class="body">
+        <a class="plate" href="./A4-mas-kahwin-kelantan-terengganu-cover.png">
+          <img src="./A4-mas-kahwin-kelantan-terengganu-cover.png" alt="Grafik perbandingan Kelantan dan Terengganu menunjukkan kedua-dua negeri tidak menetapkan kadar minimum mas kahwin, berserta sumber setiap negeri dan fi nikah RM126 di Kelantan serta upah nikah RM100 di Terengganu." />
+        </a>
+        <div class="detail">
+          <h3>Alt text (Malay)</h3>
+          <p class="alt">Grafik perbandingan Kelantan dan Terengganu menunjukkan kedua-dua negeri tidak menetapkan kadar minimum mas kahwin, berserta sumber setiap negeri dan fi nikah RM126 di Kelantan serta upah nikah RM100 di Terengganu.</p>
+
+          <h3>Front matter for ingest</h3>
+          <pre>cover:
+  file: ./A4-mas-kahwin-kelantan-terengganu-cover.png
+  alt: Grafik perbandingan Kelantan dan Terengganu menunjukkan kedua-dua negeri tidak menetapkan kadar minimum mas kahwin, berserta sumber setiap negeri dan fi nikah RM126 di Kelantan serta upah nikah RM100 di Terengganu.
+  credit: HelloKahwin
+  licenseClass: G
+  licensorName: HelloKahwin</pre>
+
+          <h3>What the crop pipeline would produce</h3>
+          <p class="meta">
+            focal point
+            0.531, 0.922 (saliency)
+            &middot; body 104px (≈16px on a 390px phone), figures 96/96px
+          </p>
+          <div class="crops">
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:375px">
+              <img src="./A4-mas-kahwin-kelantan-terengganu-cover.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:0px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x5-mobile-cover</strong><br />
+              1920&times;2400
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:85px">
+              <img src="./A4-mas-kahwin-kelantan-terengganu-cover.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-290px" />
+            </div>
+            <figcaption>
+              <strong>crop-4.3x1-desktop-hero</strong><br />
+              2464&times;700
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:225px">
+              <img src="./A4-mas-kahwin-kelantan-terengganu-cover.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-150px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x3-article-card</strong><br />
+              1600&times;1200
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:158px">
+              <img src="./A4-mas-kahwin-kelantan-terengganu-cover.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-217px" />
+            </div>
+            <figcaption>
+              <strong>crop-16x9-og</strong><br />
+              1200&times;630
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure></div>
+        </div>
+      </div>
+    </section>
+    <section class="cover">
+      <header>
+        <h2>A5 &middot; Tiada kadar minimum ditetapkan</h2>
+        <p class="meta">
+          <code>A5-mas-kahwin-perak-cover.png</code> &middot;
+          2464&times;3080 PNG &middot;
+          NaN KB &middot;
+          covers <code>A5-mas-kahwin-perak-REVIEWED.md</code>
+        </p>
+      </header>
+      <div class="body">
+        <a class="plate" href="./A5-mas-kahwin-perak-cover.png">
+          <img src="./A5-mas-kahwin-perak-cover.png" alt="Grafik kadar mas kahwin Perak menyatakan tiada kadar minimum ditetapkan, dengan warta Pk. P.U. 30 bertarikh 1 Jun 2013 hanya membawa ruang kosong pada borang, dan fi rasmi urusan perkahwinan antara RM1 hingga RM30." />
+        </a>
+        <div class="detail">
+          <h3>Alt text (Malay)</h3>
+          <p class="alt">Grafik kadar mas kahwin Perak menyatakan tiada kadar minimum ditetapkan, dengan warta Pk. P.U. 30 bertarikh 1 Jun 2013 hanya membawa ruang kosong pada borang, dan fi rasmi urusan perkahwinan antara RM1 hingga RM30.</p>
+
+          <h3>Front matter for ingest</h3>
+          <pre>cover:
+  file: ./A5-mas-kahwin-perak-cover.png
+  alt: Grafik kadar mas kahwin Perak menyatakan tiada kadar minimum ditetapkan, dengan warta Pk. P.U. 30 bertarikh 1 Jun 2013 hanya membawa ruang kosong pada borang, dan fi rasmi urusan perkahwinan antara RM1 hingga RM30.
+  credit: HelloKahwin
+  licenseClass: G
+  licensorName: HelloKahwin</pre>
+
+          <h3>What the crop pipeline would produce</h3>
+          <p class="meta">
+            focal point
+            0.531, 0.922 (saliency)
+            &middot; body 104px (≈16px on a 390px phone), figures 120px
+          </p>
+          <div class="crops">
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:375px">
+              <img src="./A5-mas-kahwin-perak-cover.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:0px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x5-mobile-cover</strong><br />
+              1920&times;2400
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:85px">
+              <img src="./A5-mas-kahwin-perak-cover.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-290px" />
+            </div>
+            <figcaption>
+              <strong>crop-4.3x1-desktop-hero</strong><br />
+              2464&times;700
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:225px">
+              <img src="./A5-mas-kahwin-perak-cover.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-150px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x3-article-card</strong><br />
+              1600&times;1200
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:158px">
+              <img src="./A5-mas-kahwin-perak-cover.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-217px" />
+            </div>
+            <figcaption>
+              <strong>crop-16x9-og</strong><br />
+              1200&times;630
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure></div>
+        </div>
+      </div>
+    </section>
+    <section class="cover">
+      <header>
+        <h2>A6 &middot; Kadar rasmi dua negeri</h2>
+        <p class="meta">
+          <code>A6-mas-kahwin-pahang-negeri-sembilan-cover.png</code> &middot;
+          2464&times;3080 PNG &middot;
+          NaN KB &middot;
+          covers <code>A6-mas-kahwin-pahang-negeri-sembilan-REVIEWED.md</code>
+        </p>
+      </header>
+      <div class="body">
+        <a class="plate" href="./A6-mas-kahwin-pahang-negeri-sembilan-cover.png">
+          <img src="./A6-mas-kahwin-pahang-negeri-sembilan-cover.png" alt="Grafik kadar mas kahwin Pahang RM100 selepas titah Sultan Pahang pada 28 Mac 2024, dan Negeri Sembilan RM200 bagi anak dara atau bujang dan RM100 bagi janda atau ibu tunggal mengikut dokumen JHEAINS." />
+        </a>
+        <div class="detail">
+          <h3>Alt text (Malay)</h3>
+          <p class="alt">Grafik kadar mas kahwin Pahang RM100 selepas titah Sultan Pahang pada 28 Mac 2024, dan Negeri Sembilan RM200 bagi anak dara atau bujang dan RM100 bagi janda atau ibu tunggal mengikut dokumen JHEAINS.</p>
+
+          <h3>Front matter for ingest</h3>
+          <pre>cover:
+  file: ./A6-mas-kahwin-pahang-negeri-sembilan-cover.png
+  alt: Grafik kadar mas kahwin Pahang RM100 selepas titah Sultan Pahang pada 28 Mac 2024, dan Negeri Sembilan RM200 bagi anak dara atau bujang dan RM100 bagi janda atau ibu tunggal mengikut dokumen JHEAINS.
+  credit: HelloKahwin
+  licenseClass: G
+  licensorName: HelloKahwin</pre>
+
+          <h3>What the crop pipeline would produce</h3>
+          <p class="meta">
+            focal point
+            0.531, 0.922 (saliency)
+            &middot; body 88px (≈14px on a 390px phone), figures 116/116px
+          </p>
+          <div class="crops">
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:375px">
+              <img src="./A6-mas-kahwin-pahang-negeri-sembilan-cover.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:0px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x5-mobile-cover</strong><br />
+              1920&times;2400
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:85px">
+              <img src="./A6-mas-kahwin-pahang-negeri-sembilan-cover.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-290px" />
+            </div>
+            <figcaption>
+              <strong>crop-4.3x1-desktop-hero</strong><br />
+              2464&times;700
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:225px">
+              <img src="./A6-mas-kahwin-pahang-negeri-sembilan-cover.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-150px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x3-article-card</strong><br />
+              1600&times;1200
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:158px">
+              <img src="./A6-mas-kahwin-pahang-negeri-sembilan-cover.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-217px" />
+            </div>
+            <figcaption>
+              <strong>crop-16x9-og</strong><br />
+              1200&times;630
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure></div>
+        </div>
+      </div>
+    </section>
+    <section class="cover">
+      <header>
+        <h2>A7 &middot; Tiada kadar minimum ditetapkan</h2>
+        <p class="meta">
+          <code>A7-mas-kahwin-sabah-sarawak-cover.png</code> &middot;
+          2464&times;3080 PNG &middot;
+          NaN KB &middot;
+          covers <code>A7-mas-kahwin-sabah-sarawak-REVIEWED.md</code>
+        </p>
+      </header>
+      <div class="body">
+        <a class="plate" href="./A7-mas-kahwin-sabah-sarawak-cover.png">
+          <img src="./A7-mas-kahwin-sabah-sarawak-cover.png" alt="Grafik perbandingan Sabah dan Sarawak menunjukkan kedua-dua negeri tidak menetapkan kadar minimum mas kahwin, dengan enakmen Sabah 2004 seksyen 21 dan ordinan Sarawak 2001 seksyen 19 hanya mewajibkan nilai mas kahwin direkodkan." />
+        </a>
+        <div class="detail">
+          <h3>Alt text (Malay)</h3>
+          <p class="alt">Grafik perbandingan Sabah dan Sarawak menunjukkan kedua-dua negeri tidak menetapkan kadar minimum mas kahwin, dengan enakmen Sabah 2004 seksyen 21 dan ordinan Sarawak 2001 seksyen 19 hanya mewajibkan nilai mas kahwin direkodkan.</p>
+
+          <h3>Front matter for ingest</h3>
+          <pre>cover:
+  file: ./A7-mas-kahwin-sabah-sarawak-cover.png
+  alt: Grafik perbandingan Sabah dan Sarawak menunjukkan kedua-dua negeri tidak menetapkan kadar minimum mas kahwin, dengan enakmen Sabah 2004 seksyen 21 dan ordinan Sarawak 2001 seksyen 19 hanya mewajibkan nilai mas kahwin direkodkan.
+  credit: HelloKahwin
+  licenseClass: G
+  licensorName: HelloKahwin</pre>
+
+          <h3>What the crop pipeline would produce</h3>
+          <p class="meta">
+            focal point
+            0.531, 0.922 (saliency)
+            &middot; body 96px (≈15px on a 390px phone), figures 96/96px
+          </p>
+          <div class="crops">
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:375px">
+              <img src="./A7-mas-kahwin-sabah-sarawak-cover.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:0px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x5-mobile-cover</strong><br />
+              1920&times;2400
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:85px">
+              <img src="./A7-mas-kahwin-sabah-sarawak-cover.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-290px" />
+            </div>
+            <figcaption>
+              <strong>crop-4.3x1-desktop-hero</strong><br />
+              2464&times;700
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:225px">
+              <img src="./A7-mas-kahwin-sabah-sarawak-cover.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-150px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x3-article-card</strong><br />
+              1600&times;1200
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:158px">
+              <img src="./A7-mas-kahwin-sabah-sarawak-cover.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-217px" />
+            </div>
+            <figcaption>
+              <strong>crop-16x9-og</strong><br />
+              1200&times;630
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure></div>
+        </div>
+      </div>
+    </section>
+    <section class="cover">
+      <header>
+        <h2>A8 &middot; Bolehkah mas kahwin melebihi kadar minimum negeri?</h2>
+        <p class="meta">
+          <code>A8-mas-kahwin-melebihi-kadar-minimum-cover.png</code> &middot;
+          2464&times;3080 PNG &middot;
+          NaN KB &middot;
+          covers <code>A8-mas-kahwin-melebihi-kadar-minimum-REVIEWED.md</code>
+        </p>
+      </header>
+      <div class="body">
+        <a class="plate" href="./A8-mas-kahwin-melebihi-kadar-minimum-cover.png">
+          <img src="./A8-mas-kahwin-melebihi-kadar-minimum-cover.png" alt="Grafik menjawab sama ada mas kahwin boleh melebihi kadar minimum negeri: boleh di negeri yang menyatakannya, tiada had maksimum dalam fatwa Selangor 2010, dan jumlah sebenar ditentukan melalui persetujuan." />
+        </a>
+        <div class="detail">
+          <h3>Alt text (Malay)</h3>
+          <p class="alt">Grafik menjawab sama ada mas kahwin boleh melebihi kadar minimum negeri: boleh di negeri yang menyatakannya, tiada had maksimum dalam fatwa Selangor 2010, dan jumlah sebenar ditentukan melalui persetujuan.</p>
+
+          <h3>Front matter for ingest</h3>
+          <pre>cover:
+  file: ./A8-mas-kahwin-melebihi-kadar-minimum-cover.png
+  alt: Grafik menjawab sama ada mas kahwin boleh melebihi kadar minimum negeri: boleh di negeri yang menyatakannya, tiada had maksimum dalam fatwa Selangor 2010, dan jumlah sebenar ditentukan melalui persetujuan.
+  credit: HelloKahwin
+  licenseClass: G
+  licensorName: HelloKahwin</pre>
+
+          <h3>What the crop pipeline would produce</h3>
+          <p class="meta">
+            focal point
+            0.531, 0.250 (saliency)
+            &middot; body 96px (≈15px on a 390px phone), figures 168/168px
+          </p>
+          <div class="crops">
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:375px">
+              <img src="./A8-mas-kahwin-melebihi-kadar-minimum-cover.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:0px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x5-mobile-cover</strong><br />
+              1920&times;2400
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:85px">
+              <img src="./A8-mas-kahwin-melebihi-kadar-minimum-cover.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-51px" />
+            </div>
+            <figcaption>
+              <strong>crop-4.3x1-desktop-hero</strong><br />
+              2464&times;700
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:225px">
+              <img src="./A8-mas-kahwin-melebihi-kadar-minimum-cover.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:0px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x3-article-card</strong><br />
+              1600&times;1200
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:158px">
+              <img src="./A8-mas-kahwin-melebihi-kadar-minimum-cover.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-15px" />
+            </div>
+            <figcaption>
+              <strong>crop-16x9-og</strong><br />
+              1200&times;630
+              <span class="ok">full size</span>
+            </figcaption>
+          </figure></div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+</body>
+</html>

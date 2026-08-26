@@ -1,0 +1,1038 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cover graphics — contact sheet (p1-body, p6-body)</title>
+<style>
+  :root { color-scheme: light; }
+  body { margin:0; padding:48px 32px 96px; font:16px/1.6 -apple-system,'Segoe UI',Roboto,sans-serif;
+         background:#fcfaf7; color:#13110f; }
+  .wrap { max-width:1400px; margin:0 auto; }
+  h1 { font-family:Georgia,serif; font-weight:400; font-size:2.25rem; margin:0 0 8px; letter-spacing:-.02em; }
+  .lede { color:#585550; max-width:80ch; margin:0 0 32px; }
+  .panel { background:#f7f5f1; border:1px solid #e4e1dc;
+           border-radius:8px; padding:20px 24px; margin:0 0 32px; }
+  .panel.decision { border-left:6px solid #22122d; }
+  .panel h2 { font-size:.8rem; letter-spacing:.12em; text-transform:uppercase; margin:0 0 12px;
+              color:#585550; }
+  .panel ul.palette { margin:0; padding:0; list-style:none; display:grid;
+              grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:6px; font-size:.85rem; }
+  .swatch { display:inline-block; width:16px; height:16px; border-radius:3px; vertical-align:-3px;
+            margin-right:8px; border:1px solid #e4e1dc; }
+  .findings { margin:0; padding-left:20px; font-size:.9rem; color:#585550; }
+  .findings li { margin-bottom:10px; }
+  .findings strong { color:#13110f; }
+  table.geo { border-collapse:collapse; font-size:.82rem; width:100%; }
+  table.geo th, table.geo td { border:1px solid #e4e1dc; padding:6px 10px; text-align:left; }
+  table.geo th { color:#585550; font-weight:600; }
+  .setheading { font-family:Georgia,serif; font-weight:400; font-size:1.9rem; margin:56px 0 6px;
+                padding-bottom:10px; border-bottom:3px solid #22122d; }
+  section.cover { border-top:1px solid #e4e1dc; padding-top:20px; margin:0 0 48px; }
+  section.cover h2 { font-family:Georgia,serif; font-weight:400; font-size:1.4rem; margin:0 0 4px; }
+  .meta { color:#585550; font-size:.85rem; margin:0 0 16px; }
+  .body { display:grid; grid-template-columns:minmax(240px,340px) 1fr; gap:32px; align-items:start; }
+  .plate img { width:100%; height:auto; display:block; border:1px solid #e4e1dc; }
+  .detail h3 { font-size:.75rem; letter-spacing:.12em; text-transform:uppercase;
+               color:#585550; margin:0 0 6px; }
+  .detail h3 + * { margin-top:0; }
+  .detail > * + h3 { margin-top:24px; }
+  .alt { background:#f7f5f1; border-left:3px solid #cbb588;
+         padding:10px 14px; margin:0; }
+  pre { background:#f7f5f1; border:1px solid #e4e1dc; border-radius:6px;
+        padding:12px 14px; overflow-x:auto; font-size:.8rem; margin:0; white-space:pre-wrap; }
+  .crops { display:flex; flex-wrap:wrap; gap:20px; }
+  .crop { margin:0; }
+  .crop-window { overflow:hidden; border:1px solid #e4e1dc; background:#fff; }
+  .crop-window img { display:block; }
+  figcaption { font-size:.72rem; color:#585550; margin-top:6px; line-height:1.4;
+               max-width:300px; }
+  .ok { color:#836f44; }
+  .part { color:#8a5a00; }
+  .warn { color:#b3261e; font-weight:700; }
+  @media (max-width:900px) { .body { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Cover graphics — contact sheet (p1-body, p6-body)</h1>
+  <p class="lede">
+    Nothing here has been ingested or published. Each plate is shown whole, then as the four crops
+    the pipeline would actually cut from it, at the focal point it would actually detect.
+    Sets in this run: <code>p1-body, p6-body</code>.
+  </p>
+
+
+  <div class="panel">
+    <h2>What each crop breaks</h2>
+    <p class="meta" style="margin:0 0 12px">
+      Every target except <code>crop-4x5-mobile-cover</code> is wider than 4:5, so
+      <code>computeCropWindow</code> makes this canvas width-constrained and each crop takes the FULL
+      width and a shorter slice of the height. What a crop destroys is therefore always a horizontal
+      band, and the table names it. <strong>cut</strong> = the band is sliced through;
+      <strong>lost</strong> = the band is outside the window entirely. Rows are only listed where
+      something broke; a cover absent from this table survives all four crops whole.
+    </p>
+    <table class="geo"><tr><th>cover</th><th>crop</th><th>what broke</th></tr><tr><td><code>P1B-2</code></td><td><code>crop-4.3x1-desktop-hero</code></td><td>lost <strong>wordmark</strong>; lost <strong>kicker</strong>; lost <strong>title</strong>; lost <strong>figure 1: 21 kedudukan</strong>; lost <strong>figure 2: Dua marhalah</strong>; cut <strong>rows</strong></td></tr><tr><td><code>P1B-2</code></td><td><code>crop-4x3-article-card</code></td><td>lost <strong>wordmark</strong>; lost <strong>kicker</strong>; lost <strong>title</strong></td></tr><tr><td><code>P1B-2</code></td><td><code>crop-16x9-og</code></td><td>lost <strong>wordmark</strong>; lost <strong>kicker</strong>; lost <strong>title</strong>; lost <strong>figure 1: 21 kedudukan</strong>; lost <strong>figure 2: Dua marhalah</strong></td></tr><tr><td><code>P1B-3</code></td><td><code>crop-4.3x1-desktop-hero</code></td><td>lost <strong>wordmark</strong>; lost <strong>kicker</strong>; lost <strong>title</strong>; lost <strong>figure 1: Tujuh syarat</strong>; lost <strong>figure 2: Enam syarat</strong>; cut <strong>rows</strong></td></tr><tr><td><code>P1B-3</code></td><td><code>crop-4x3-article-card</code></td><td>lost <strong>wordmark</strong>; lost <strong>kicker</strong>; lost <strong>title</strong></td></tr><tr><td><code>P1B-3</code></td><td><code>crop-16x9-og</code></td><td>lost <strong>wordmark</strong>; lost <strong>kicker</strong>; lost <strong>title</strong>; lost <strong>figure 1: Tujuh syarat</strong>; lost <strong>figure 2: Enam syarat</strong></td></tr><tr><td><code>P1B-6</code></td><td><code>crop-4.3x1-desktop-hero</code></td><td>lost <strong>wordmark</strong>; lost <strong>kicker</strong>; lost <strong>title</strong>; lost <strong>figure 1: 7 hari</strong>; lost <strong>figure 2: 12 dan 19 item</strong>; cut <strong>rows</strong></td></tr><tr><td><code>P1B-6</code></td><td><code>crop-4x3-article-card</code></td><td>lost <strong>wordmark</strong>; lost <strong>kicker</strong>; lost <strong>title</strong></td></tr><tr><td><code>P1B-6</code></td><td><code>crop-16x9-og</code></td><td>lost <strong>wordmark</strong>; lost <strong>kicker</strong>; lost <strong>title</strong>; lost <strong>figure 1: 7 hari</strong>; lost <strong>figure 2: 12 dan 19 item</strong></td></tr><tr><td><code>P1B-8</code></td><td><code>crop-4.3x1-desktop-hero</code></td><td>lost <strong>wordmark</strong>; lost <strong>kicker</strong>; lost <strong>title</strong>; lost <strong>figure 1: 13 Sept 2025</strong>; lost <strong>figure 2: Lima negeri</strong>; cut <strong>rows</strong></td></tr><tr><td><code>P1B-8</code></td><td><code>crop-4x3-article-card</code></td><td>lost <strong>wordmark</strong>; lost <strong>kicker</strong>; lost <strong>title</strong></td></tr><tr><td><code>P1B-8</code></td><td><code>crop-16x9-og</code></td><td>lost <strong>wordmark</strong>; lost <strong>kicker</strong>; lost <strong>title</strong>; lost <strong>figure 1: 13 Sept 2025</strong>; lost <strong>figure 2: Lima negeri</strong></td></tr><tr><td><code>P1B-9</code></td><td><code>crop-4.3x1-desktop-hero</code></td><td>lost <strong>wordmark</strong>; lost <strong>kicker</strong>; lost <strong>title</strong>; lost <strong>figure 1: Borang 4 dan 5</strong>; lost <strong>figure 2: RM15.00</strong>; cut <strong>rows</strong></td></tr><tr><td><code>P1B-9</code></td><td><code>crop-4x3-article-card</code></td><td>lost <strong>wordmark</strong>; lost <strong>kicker</strong>; lost <strong>title</strong></td></tr><tr><td><code>P1B-9</code></td><td><code>crop-16x9-og</code></td><td>lost <strong>wordmark</strong>; lost <strong>kicker</strong>; lost <strong>title</strong>; lost <strong>figure 1: Borang 4 dan 5</strong>; lost <strong>figure 2: RM15.00</strong></td></tr><tr><td><code>P6B-1</code></td><td><code>crop-4.3x1-desktop-hero</code></td><td>lost <strong>wordmark</strong>; lost <strong>kicker</strong>; lost <strong>title</strong>; lost <strong>figure 1: RM160</strong>; lost <strong>figure 2: RM860</strong>; cut <strong>rows</strong></td></tr><tr><td><code>P6B-1</code></td><td><code>crop-4x3-article-card</code></td><td>lost <strong>wordmark</strong>; lost <strong>kicker</strong>; lost <strong>title</strong></td></tr><tr><td><code>P6B-1</code></td><td><code>crop-16x9-og</code></td><td>lost <strong>wordmark</strong>; lost <strong>kicker</strong>; lost <strong>title</strong>; cut <strong>figure 1: RM160</strong>; cut <strong>figure 2: RM860</strong></td></tr><tr><td><code>P6B-2</code></td><td><code>crop-4.3x1-desktop-hero</code></td><td>lost <strong>wordmark</strong>; lost <strong>kicker</strong>; lost <strong>title</strong>; lost <strong>figure 1: Blok masa</strong>; lost <strong>figure 2: Kadar sejam</strong>; cut <strong>rows</strong></td></tr><tr><td><code>P6B-2</code></td><td><code>crop-4x3-article-card</code></td><td>lost <strong>wordmark</strong>; lost <strong>kicker</strong>; lost <strong>title</strong></td></tr><tr><td><code>P6B-2</code></td><td><code>crop-16x9-og</code></td><td>lost <strong>wordmark</strong>; lost <strong>kicker</strong>; lost <strong>title</strong>; cut <strong>figure 1: Blok masa</strong>; cut <strong>figure 2: Kadar sejam</strong></td></tr><tr><td><code>P6B-3</code></td><td><code>crop-4.3x1-desktop-hero</code></td><td>lost <strong>wordmark</strong>; lost <strong>kicker</strong>; lost <strong>title</strong>; lost <strong>figure 1: 12 bulan</strong>; lost <strong>figure 2: 3 bulan</strong>; cut <strong>rows</strong></td></tr><tr><td><code>P6B-3</code></td><td><code>crop-4x3-article-card</code></td><td>lost <strong>wordmark</strong>; lost <strong>kicker</strong>; lost <strong>title</strong></td></tr><tr><td><code>P6B-3</code></td><td><code>crop-16x9-og</code></td><td>lost <strong>wordmark</strong>; lost <strong>kicker</strong>; lost <strong>title</strong>; cut <strong>figure 1: 12 bulan</strong>; cut <strong>figure 2: 3 bulan</strong></td></tr><tr><td><code>P6B-5</code></td><td><code>crop-4.3x1-desktop-hero</code></td><td>lost <strong>wordmark</strong>; lost <strong>kicker</strong>; lost <strong>title</strong>; lost <strong>figure 1: Tidak boleh masak</strong>; lost <strong>figure 2: Makanan siap</strong>; cut <strong>rows</strong></td></tr><tr><td><code>P6B-5</code></td><td><code>crop-4x3-article-card</code></td><td>lost <strong>wordmark</strong>; lost <strong>kicker</strong>; lost <strong>title</strong></td></tr><tr><td><code>P6B-5</code></td><td><code>crop-16x9-og</code></td><td>lost <strong>wordmark</strong>; lost <strong>kicker</strong>; lost <strong>title</strong>; lost <strong>figure 1: Tidak boleh masak</strong>; lost <strong>figure 2: Makanan siap</strong></td></tr></table>
+  </div>
+  <div class="panel">
+    <h2>The spec's cover geometry does not hold — 2464 &times; 700 breaks the mobile cover</h2>
+    <p class="meta" style="margin:0 0 12px">
+      Spec §6.2 and §7.2 say to author the cover at 2464&times;700, reasoning that a 3.52:1 source is
+      "width-constrained for every other target" and that the 4:5 crop "takes the whole image".
+      It is the other way round: <code>computeCropWindow</code> makes a source wider than the target
+      <em>height</em>-constrained. Below is the pipeline's own function run on a 2464&times;700 source
+      with the focal point §7.2 asks for (0.5, 0.5).
+    </p>
+    <table class="geo">
+      <tr><th>crop</th><th>window taken</th><th>output</th><th>target</th><th></th></tr>
+      <tr><td><code>crop-4x5-mobile-cover</code></td><td>560×700 at 952,0</td><td>560×700</td><td>1920×2400</td><td class="warn">undersized</td></tr><tr><td><code>crop-4.3x1-desktop-hero</code></td><td>2464×700 at 0,0</td><td>2464×700</td><td>2464×700</td><td class="ok">ok</td></tr><tr><td><code>crop-4x3-article-card</code></td><td>933×700 at 766,0</td><td>933×700</td><td>1600×1200</td><td class="warn">undersized</td></tr><tr><td><code>crop-16x9-og</code></td><td>1333×700 at 566,0</td><td>1200×630</td><td>1200×630</td><td class="ok">ok</td></tr>
+    </table>
+    <p class="meta" style="margin:12px 0 0">
+      The mobile cover — the surface this audience reads on — comes out a 560&times;700 portrait slice
+      through the middle of the title, under a third of its target. Everything below is authored at
+      2464&times;3080 (4:5) instead, where that crop is the whole image and the other three come out
+      at full target size.
+    </p>
+  </div>
+
+  <div class="panel">
+    <h2>Brand tokens, read from src/app/globals.css at render time</h2>
+    <ul class="palette"><li><span class="swatch" style="background:#22122d"></span><code>--primary</code> #22122d</li><li><span class="swatch" style="background:#cbb588"></span><code>--brand-secondary</code> #cbb588</li><li><span class="swatch" style="background:#836f44"></span><code>--brass-deep</code> #836f44</li><li><span class="swatch" style="background:#fcfaf7"></span><code>--background</code> #fcfaf7</li><li><span class="swatch" style="background:#f7f5f1"></span><code>--surface-subtle</code> #f7f5f1</li><li><span class="swatch" style="background:#13110f"></span><code>--foreground</code> #13110f</li><li><span class="swatch" style="background:#585550"></span><code>--muted-foreground</code> #585550</li><li><span class="swatch" style="background:#e4e1dc"></span><code>--hairline</code> #e4e1dc</li><li><span class="swatch" style="background:#e8e2ec"></span><code>--plum-deep-foreground</code> #e8e2ec</li><li><span class="swatch" style="background:#d1cbd5"></span><code>--plum-deep-muted</code> #d1cbd5</li></ul>
+  </div>
+
+  <div class="setblock">
+    <h2 class="setheading">P1 &mdash; in-article graphics, clusters C1.1 and C1.2</h2>
+    <p class="lede">Body graphics, never smart-cropped. The subject of these four articles is a form number, a fee, a sequence and a list of conditions &mdash; none of which a photograph depicts.</p>
+    
+    <section class="cover">
+      <header>
+        <h2>P1B-2 &middot; Bila wali hakim boleh ambil tempat wali nasab</h2>
+        <p class="meta">
+          <code>rukun-nikah-wali-hakim.png</code> &middot;
+          2464&times;3080 PNG &middot;
+          154 KB &middot;
+          covers <code>rukun-nikah.md</code>
+        </p>
+      </header>
+      <div class="body">
+        <a class="plate" href="./rukun-nikah-wali-hakim.png">
+          <img src="./rukun-nikah-wali-hakim.png" alt="Kad maklumat bertajuk &quot;Bila wali hakim boleh ambil tempat wali nasab&quot;. Pada jalur ungu di tengah, dua fakta bersebelahan: susunan wali mengandungi 21 kedudukan, bermula dengan bapa kandung di atas dan wali hakim yang terakhir; dan jarak wali aqrab diukur pada dua marhalah, kerana kurang daripada itu hakim perlu izin wali. Di bawah jalur itu, empat baris keadaan yang mengharuskan wali hakim mengambil tempat: pertama, wali enggan tanpa sebab; kedua, tiada wali nasab; ketiga, wali aqrab tidak cukup syarat; keempat, wali aqrab berada jauh atau sedang berihram. Nota kecil di bawahnya menyatakan wali hakim sindiket tidak sah menurut Mufti Pulau Pinang. Baris kaki kad menyatakan sumbernya Irsyad Hukum Siri ke-408 tahun 2020, disemak 24 Ogos 2026." />
+        </a>
+        <div class="detail">
+          <h3>Alt text (Malay)</h3>
+          <p class="alt">Kad maklumat bertajuk &quot;Bila wali hakim boleh ambil tempat wali nasab&quot;. Pada jalur ungu di tengah, dua fakta bersebelahan: susunan wali mengandungi 21 kedudukan, bermula dengan bapa kandung di atas dan wali hakim yang terakhir; dan jarak wali aqrab diukur pada dua marhalah, kerana kurang daripada itu hakim perlu izin wali. Di bawah jalur itu, empat baris keadaan yang mengharuskan wali hakim mengambil tempat: pertama, wali enggan tanpa sebab; kedua, tiada wali nasab; ketiga, wali aqrab tidak cukup syarat; keempat, wali aqrab berada jauh atau sedang berihram. Nota kecil di bawahnya menyatakan wali hakim sindiket tidak sah menurut Mufti Pulau Pinang. Baris kaki kad menyatakan sumbernya Irsyad Hukum Siri ke-408 tahun 2020, disemak 24 Ogos 2026.</p>
+
+          <h3>Front matter for ingest</h3>
+          <pre>cover:
+  file: ./rukun-nikah-wali-hakim.png
+  alt: &gt;-
+    Kad maklumat bertajuk &quot;Bila wali hakim boleh ambil tempat wali nasab&quot;. Pada
+    jalur ungu di tengah, dua fakta bersebelahan: susunan wali mengandungi 21
+    kedudukan, bermula dengan bapa kandung di atas dan wali hakim yang terakhir;
+    dan jarak wali aqrab diukur pada dua marhalah, kerana kurang daripada itu
+    hakim perlu izin wali. Di bawah jalur itu, empat baris keadaan yang
+    mengharuskan wali hakim mengambil tempat: pertama, wali enggan tanpa sebab;
+    kedua, tiada wali nasab; ketiga, wali aqrab tidak cukup syarat; keempat,
+    wali aqrab berada jauh atau sedang berihram. Nota kecil di bawahnya
+    menyatakan wali hakim sindiket tidak sah menurut Mufti Pulau Pinang. Baris
+    kaki kad menyatakan sumbernya Irsyad Hukum Siri ke-408 tahun 2020, disemak
+    24 Ogos 2026.
+  credit: Grafik: HelloKahwin
+  licenseClass: G
+  licensorName: HelloKahwin</pre>
+
+          <h3>What the crop pipeline would produce</h3>
+          <p class="meta">
+            focal point
+            0.844, 0.922 (saliency)
+            &middot; body 92px (≈15px on a 390px phone), figures 140/140px
+          </p>
+          <div class="crops">
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:375px">
+              <img src="./rukun-nikah-wali-hakim.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:0px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x5-mobile-cover</strong><br />
+              1920&times;2400
+              <span class="ok">full size</span><br />
+              <span class="ok">nothing cut</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:85px">
+              <img src="./rukun-nikah-wali-hakim.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-290px" />
+            </div>
+            <figcaption>
+              <strong>crop-4.3x1-desktop-hero</strong><br />
+              2464&times;700
+              <span class="ok">full size</span><br />
+              <span class="warn">lost: wordmark</span><br /><span class="warn">lost: kicker</span><br /><span class="warn">lost: title</span><br /><span class="warn">lost: figure 1: 21 kedudukan</span><br /><span class="warn">lost: figure 2: Dua marhalah</span><br /><span class="part">cut: rows</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:225px">
+              <img src="./rukun-nikah-wali-hakim.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-150px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x3-article-card</strong><br />
+              1600&times;1200
+              <span class="ok">full size</span><br />
+              <span class="warn">lost: wordmark</span><br /><span class="warn">lost: kicker</span><br /><span class="warn">lost: title</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:158px">
+              <img src="./rukun-nikah-wali-hakim.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-217px" />
+            </div>
+            <figcaption>
+              <strong>crop-16x9-og</strong><br />
+              1200&times;630
+              <span class="ok">full size</span><br />
+              <span class="warn">lost: wordmark</span><br /><span class="warn">lost: kicker</span><br /><span class="warn">lost: title</span><br /><span class="warn">lost: figure 1: 21 kedudukan</span><br /><span class="warn">lost: figure 2: Dua marhalah</span>
+            </figcaption>
+          </figure></div>
+        </div>
+      </div>
+    </section>
+    <section class="cover">
+      <header>
+        <h2>P1B-3 &middot; Syarat bagi pihak lelaki dan pihak perempuan</h2>
+        <p class="meta">
+          <code>syarat-sah-nikah-lelaki-perempuan.png</code> &middot;
+          2464&times;3080 PNG &middot;
+          135 KB &middot;
+          covers <code>syarat-sah-nikah.md</code>
+        </p>
+      </header>
+      <div class="body">
+        <a class="plate" href="./syarat-sah-nikah-lelaki-perempuan.png">
+          <img src="./syarat-sah-nikah-lelaki-perempuan.png" alt="Kad maklumat bertajuk &quot;Syarat bagi pihak lelaki dan pihak perempuan&quot;. Pada jalur ungu di tengah, dua fakta bersebelahan: pihak lelaki mempunyai tujuh syarat mengikut Masjid Wilayah Persekutuan, dan pihak perempuan enam syarat daripada senarai laman yang sama. Di bawah jalur itu, empat baris syarat yang sama pada kedua-dua pihak: agama Islam; pertalian, iaitu bukan mahram; bukan dalam ihram; dan orangnya tertentu, bukan sesiapa. Nota kecil di bawahnya menyatakan pihak lelaki menambah tiga syarat lagi manakala pihak perempuan menambah dua. Baris kaki kad menyatakan sumbernya Masjid Wilayah Persekutuan, disemak 24 Ogos 2026." />
+        </a>
+        <div class="detail">
+          <h3>Alt text (Malay)</h3>
+          <p class="alt">Kad maklumat bertajuk &quot;Syarat bagi pihak lelaki dan pihak perempuan&quot;. Pada jalur ungu di tengah, dua fakta bersebelahan: pihak lelaki mempunyai tujuh syarat mengikut Masjid Wilayah Persekutuan, dan pihak perempuan enam syarat daripada senarai laman yang sama. Di bawah jalur itu, empat baris syarat yang sama pada kedua-dua pihak: agama Islam; pertalian, iaitu bukan mahram; bukan dalam ihram; dan orangnya tertentu, bukan sesiapa. Nota kecil di bawahnya menyatakan pihak lelaki menambah tiga syarat lagi manakala pihak perempuan menambah dua. Baris kaki kad menyatakan sumbernya Masjid Wilayah Persekutuan, disemak 24 Ogos 2026.</p>
+
+          <h3>Front matter for ingest</h3>
+          <pre>cover:
+  file: ./syarat-sah-nikah-lelaki-perempuan.png
+  alt: &gt;-
+    Kad maklumat bertajuk &quot;Syarat bagi pihak lelaki dan pihak perempuan&quot;. Pada
+    jalur ungu di tengah, dua fakta bersebelahan: pihak lelaki mempunyai tujuh
+    syarat mengikut Masjid Wilayah Persekutuan, dan pihak perempuan enam syarat
+    daripada senarai laman yang sama. Di bawah jalur itu, empat baris syarat
+    yang sama pada kedua-dua pihak: agama Islam; pertalian, iaitu bukan mahram;
+    bukan dalam ihram; dan orangnya tertentu, bukan sesiapa. Nota kecil di
+    bawahnya menyatakan pihak lelaki menambah tiga syarat lagi manakala pihak
+    perempuan menambah dua. Baris kaki kad menyatakan sumbernya Masjid Wilayah
+    Persekutuan, disemak 24 Ogos 2026.
+  credit: Grafik: HelloKahwin
+  licenseClass: G
+  licensorName: HelloKahwin</pre>
+
+          <h3>What the crop pipeline would produce</h3>
+          <p class="meta">
+            focal point
+            0.844, 0.922 (saliency)
+            &middot; body 104px (≈16px on a 390px phone), figures 140/140px
+          </p>
+          <div class="crops">
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:375px">
+              <img src="./syarat-sah-nikah-lelaki-perempuan.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:0px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x5-mobile-cover</strong><br />
+              1920&times;2400
+              <span class="ok">full size</span><br />
+              <span class="ok">nothing cut</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:85px">
+              <img src="./syarat-sah-nikah-lelaki-perempuan.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-290px" />
+            </div>
+            <figcaption>
+              <strong>crop-4.3x1-desktop-hero</strong><br />
+              2464&times;700
+              <span class="ok">full size</span><br />
+              <span class="warn">lost: wordmark</span><br /><span class="warn">lost: kicker</span><br /><span class="warn">lost: title</span><br /><span class="warn">lost: figure 1: Tujuh syarat</span><br /><span class="warn">lost: figure 2: Enam syarat</span><br /><span class="part">cut: rows</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:225px">
+              <img src="./syarat-sah-nikah-lelaki-perempuan.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-150px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x3-article-card</strong><br />
+              1600&times;1200
+              <span class="ok">full size</span><br />
+              <span class="warn">lost: wordmark</span><br /><span class="warn">lost: kicker</span><br /><span class="warn">lost: title</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:158px">
+              <img src="./syarat-sah-nikah-lelaki-perempuan.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-217px" />
+            </div>
+            <figcaption>
+              <strong>crop-16x9-og</strong><br />
+              1200&times;630
+              <span class="ok">full size</span><br />
+              <span class="warn">lost: wordmark</span><br /><span class="warn">lost: kicker</span><br /><span class="warn">lost: title</span><br /><span class="warn">lost: figure 1: Tujuh syarat</span><br /><span class="warn">lost: figure 2: Enam syarat</span>
+            </figcaption>
+          </figure></div>
+        </div>
+      </div>
+    </section>
+    <section class="cover">
+      <header>
+        <h2>P1B-6 &middot; Apa yang perlu dibawa, dan bila ia perlu sampai</h2>
+        <p class="meta">
+          <code>borang-nikah-dokumen.png</code> &middot;
+          2464&times;3080 PNG &middot;
+          151 KB &middot;
+          covers <code>borang-nikah.md</code>
+        </p>
+      </header>
+      <div class="body">
+        <a class="plate" href="./borang-nikah-dokumen.png">
+          <img src="./borang-nikah-dokumen.png" alt="Kad maklumat bertajuk &quot;Apa yang perlu dibawa, dan bila ia perlu sampai&quot;. Pada jalur ungu di tengah, dua fakta bersebelahan: permohonan hendaklah dihantar sekurang-kurangnya tujuh hari sebelum tarikh akad di Perak dan Selangor; dan senarai semak Pulau Pinang mengandungi 12 item bagi pemohon lelaki dan 19 item bagi pemohon perempuan. Di bawah jalur itu, empat baris dokumen yang biasa bagi kedua-dua pihak: kad pengenalan pemohon, asal dan salinan; salinan kad pengenalan pasangan; sijil Kursus Praperkahwinan Islam; dan keputusan saringan HIV yang sah enam bulan. Nota kecil di bawahnya menyatakan pemohon perempuan menambah dokumen wali. Baris kaki kad menyatakan sumbernya e-Munakahat Pulau Pinang, disemak 24 Ogos 2026." />
+        </a>
+        <div class="detail">
+          <h3>Alt text (Malay)</h3>
+          <p class="alt">Kad maklumat bertajuk &quot;Apa yang perlu dibawa, dan bila ia perlu sampai&quot;. Pada jalur ungu di tengah, dua fakta bersebelahan: permohonan hendaklah dihantar sekurang-kurangnya tujuh hari sebelum tarikh akad di Perak dan Selangor; dan senarai semak Pulau Pinang mengandungi 12 item bagi pemohon lelaki dan 19 item bagi pemohon perempuan. Di bawah jalur itu, empat baris dokumen yang biasa bagi kedua-dua pihak: kad pengenalan pemohon, asal dan salinan; salinan kad pengenalan pasangan; sijil Kursus Praperkahwinan Islam; dan keputusan saringan HIV yang sah enam bulan. Nota kecil di bawahnya menyatakan pemohon perempuan menambah dokumen wali. Baris kaki kad menyatakan sumbernya e-Munakahat Pulau Pinang, disemak 24 Ogos 2026.</p>
+
+          <h3>Front matter for ingest</h3>
+          <pre>cover:
+  file: ./borang-nikah-dokumen.png
+  alt: &gt;-
+    Kad maklumat bertajuk &quot;Apa yang perlu dibawa, dan bila ia perlu sampai&quot;.
+    Pada jalur ungu di tengah, dua fakta bersebelahan: permohonan hendaklah
+    dihantar sekurang-kurangnya tujuh hari sebelum tarikh akad di Perak dan
+    Selangor; dan senarai semak Pulau Pinang mengandungi 12 item bagi pemohon
+    lelaki dan 19 item bagi pemohon perempuan. Di bawah jalur itu, empat baris
+    dokumen yang biasa bagi kedua-dua pihak: kad pengenalan pemohon, asal dan
+    salinan; salinan kad pengenalan pasangan; sijil Kursus Praperkahwinan Islam;
+    dan keputusan saringan HIV yang sah enam bulan. Nota kecil di bawahnya
+    menyatakan pemohon perempuan menambah dokumen wali. Baris kaki kad
+    menyatakan sumbernya e-Munakahat Pulau Pinang, disemak 24 Ogos 2026.
+  credit: Grafik: HelloKahwin
+  licenseClass: G
+  licensorName: HelloKahwin</pre>
+
+          <h3>What the crop pipeline would produce</h3>
+          <p class="meta">
+            focal point
+            0.844, 0.922 (saliency)
+            &middot; body 96px (≈15px on a 390px phone), figures 140/140px
+          </p>
+          <div class="crops">
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:375px">
+              <img src="./borang-nikah-dokumen.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:0px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x5-mobile-cover</strong><br />
+              1920&times;2400
+              <span class="ok">full size</span><br />
+              <span class="ok">nothing cut</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:85px">
+              <img src="./borang-nikah-dokumen.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-290px" />
+            </div>
+            <figcaption>
+              <strong>crop-4.3x1-desktop-hero</strong><br />
+              2464&times;700
+              <span class="ok">full size</span><br />
+              <span class="warn">lost: wordmark</span><br /><span class="warn">lost: kicker</span><br /><span class="warn">lost: title</span><br /><span class="warn">lost: figure 1: 7 hari</span><br /><span class="warn">lost: figure 2: 12 dan 19 item</span><br /><span class="part">cut: rows</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:225px">
+              <img src="./borang-nikah-dokumen.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-150px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x3-article-card</strong><br />
+              1600&times;1200
+              <span class="ok">full size</span><br />
+              <span class="warn">lost: wordmark</span><br /><span class="warn">lost: kicker</span><br /><span class="warn">lost: title</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:158px">
+              <img src="./borang-nikah-dokumen.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-217px" />
+            </div>
+            <figcaption>
+              <strong>crop-16x9-og</strong><br />
+              1200&times;630
+              <span class="ok">full size</span><br />
+              <span class="warn">lost: wordmark</span><br /><span class="warn">lost: kicker</span><br /><span class="warn">lost: title</span><br /><span class="warn">lost: figure 1: 7 hari</span><br /><span class="warn">lost: figure 2: 12 dan 19 item</span>
+            </figcaption>
+          </figure></div>
+        </div>
+      </div>
+    </section>
+    <section class="cover">
+      <header>
+        <h2>P1B-8 &middot; SPPIM bukan satu sistem untuk seluruh negara</h2>
+        <p class="meta">
+          <code>borang-nikah-sistem-negeri.png</code> &middot;
+          2464&times;3080 PNG &middot;
+          143 KB &middot;
+          covers <code>borang-nikah.md</code>
+        </p>
+      </header>
+      <div class="body">
+        <a class="plate" href="./borang-nikah-sistem-negeri.png">
+          <img src="./borang-nikah-sistem-negeri.png" alt="Kad maklumat bertajuk &quot;SPPIM bukan satu sistem untuk seluruh negara&quot;. Pada jalur ungu di tengah, dua fakta bersebelahan: SPPIM versi 2.0 dilancarkan pada 13 September 2025 di Johor Bahru; dan lima negeri masih menggunakan sistem sendiri setakat berita JAKIM bertarikh 24 April 2026. Di bawah jalur itu, lima baris negeri dan sistemnya: Pulau Pinang menggunakan e-Munakahat; Sabah menggunakan Portal ePerkahwinan; Johor menggunakan SPPIM; Kelantan dan Pahang menggunakan sistem sendiri; dan Sarawak juga menggunakan sistem sendiri. Nota kecil di bawahnya menyatakan alamat yang berfungsi ialah www.sppim.gov.my, kerana tanpa www ia tidak menyelesai. Baris kaki kad menyatakan sumbernya berita JAKIM bertarikh 24 April 2026, disemak 24 Ogos 2026." />
+        </a>
+        <div class="detail">
+          <h3>Alt text (Malay)</h3>
+          <p class="alt">Kad maklumat bertajuk &quot;SPPIM bukan satu sistem untuk seluruh negara&quot;. Pada jalur ungu di tengah, dua fakta bersebelahan: SPPIM versi 2.0 dilancarkan pada 13 September 2025 di Johor Bahru; dan lima negeri masih menggunakan sistem sendiri setakat berita JAKIM bertarikh 24 April 2026. Di bawah jalur itu, lima baris negeri dan sistemnya: Pulau Pinang menggunakan e-Munakahat; Sabah menggunakan Portal ePerkahwinan; Johor menggunakan SPPIM; Kelantan dan Pahang menggunakan sistem sendiri; dan Sarawak juga menggunakan sistem sendiri. Nota kecil di bawahnya menyatakan alamat yang berfungsi ialah www.sppim.gov.my, kerana tanpa www ia tidak menyelesai. Baris kaki kad menyatakan sumbernya berita JAKIM bertarikh 24 April 2026, disemak 24 Ogos 2026.</p>
+
+          <h3>Front matter for ingest</h3>
+          <pre>cover:
+  file: ./borang-nikah-sistem-negeri.png
+  alt: &gt;-
+    Kad maklumat bertajuk &quot;SPPIM bukan satu sistem untuk seluruh negara&quot;. Pada
+    jalur ungu di tengah, dua fakta bersebelahan: SPPIM versi 2.0 dilancarkan
+    pada 13 September 2025 di Johor Bahru; dan lima negeri masih menggunakan
+    sistem sendiri setakat berita JAKIM bertarikh 24 April 2026. Di bawah jalur
+    itu, lima baris negeri dan sistemnya: Pulau Pinang menggunakan e-Munakahat;
+    Sabah menggunakan Portal ePerkahwinan; Johor menggunakan SPPIM; Kelantan dan
+    Pahang menggunakan sistem sendiri; dan Sarawak juga menggunakan sistem
+    sendiri. Nota kecil di bawahnya menyatakan alamat yang berfungsi ialah
+    www.sppim.gov.my, kerana tanpa www ia tidak menyelesai. Baris kaki kad
+    menyatakan sumbernya berita JAKIM bertarikh 24 April 2026, disemak 24 Ogos
+    2026.
+  credit: Grafik: HelloKahwin
+  licenseClass: G
+  licensorName: HelloKahwin</pre>
+
+          <h3>What the crop pipeline would produce</h3>
+          <p class="meta">
+            focal point
+            0.844, 0.922 (saliency)
+            &middot; body 88px (≈14px on a 390px phone), figures 140/140px
+          </p>
+          <div class="crops">
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:375px">
+              <img src="./borang-nikah-sistem-negeri.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:0px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x5-mobile-cover</strong><br />
+              1920&times;2400
+              <span class="ok">full size</span><br />
+              <span class="ok">nothing cut</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:85px">
+              <img src="./borang-nikah-sistem-negeri.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-290px" />
+            </div>
+            <figcaption>
+              <strong>crop-4.3x1-desktop-hero</strong><br />
+              2464&times;700
+              <span class="ok">full size</span><br />
+              <span class="warn">lost: wordmark</span><br /><span class="warn">lost: kicker</span><br /><span class="warn">lost: title</span><br /><span class="warn">lost: figure 1: 13 Sept 2025</span><br /><span class="warn">lost: figure 2: Lima negeri</span><br /><span class="part">cut: rows</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:225px">
+              <img src="./borang-nikah-sistem-negeri.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-150px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x3-article-card</strong><br />
+              1600&times;1200
+              <span class="ok">full size</span><br />
+              <span class="warn">lost: wordmark</span><br /><span class="warn">lost: kicker</span><br /><span class="warn">lost: title</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:158px">
+              <img src="./borang-nikah-sistem-negeri.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-217px" />
+            </div>
+            <figcaption>
+              <strong>crop-16x9-og</strong><br />
+              1200&times;630
+              <span class="ok">full size</span><br />
+              <span class="warn">lost: wordmark</span><br /><span class="warn">lost: kicker</span><br /><span class="warn">lost: title</span><br /><span class="warn">lost: figure 1: 13 Sept 2025</span><br /><span class="warn">lost: figure 2: Lima negeri</span>
+            </figcaption>
+          </figure></div>
+        </div>
+      </div>
+    </section>
+    <section class="cover">
+      <header>
+        <h2>P1B-9 &middot; Ke mana lafaz taklik itu pergi selepas dibaca</h2>
+        <p class="meta">
+          <code>lafaz-taklik-ke-mana-perginya.png</code> &middot;
+          2464&times;3080 PNG &middot;
+          145 KB &middot;
+          covers <code>lafaz-taklik.md</code>
+        </p>
+      </header>
+      <div class="body">
+        <a class="plate" href="./lafaz-taklik-ke-mana-perginya.png">
+          <img src="./lafaz-taklik-ke-mana-perginya.png" alt="Kad maklumat bertajuk &quot;Ke mana lafaz taklik itu pergi selepas dibaca&quot;. Pada jalur ungu di tengah, dua fakta bersebelahan: lafaz taklik dicetak dalam Borang 4 dan Borang 5, iaitu Butir Daftar dan Perakuan Nikah; dan fi Borang 5, Perakuan Nikah, ialah RM15.00 mengikut teks Perak. Di bawah jalur itu, empat baris: lafaz itu dicatat dalam Daftar Perkahwinan; surat perakuan taklik dikeluarkan; ia diberi kepada setiap satu pihak; dan kalau syaratnya berlaku, permohonan dibuat melalui Borang 11 di Perak. Nota kecil di bawahnya bertanya sama ada pembaca pernah menerima surat itu, dan menyuruh bertanya di Pejabat Agama Daerah. Baris kaki kad menyatakan sumbernya Enakmen Selangor 2003 seksyen 22 dan 26, disemak 24 Ogos 2026." />
+        </a>
+        <div class="detail">
+          <h3>Alt text (Malay)</h3>
+          <p class="alt">Kad maklumat bertajuk &quot;Ke mana lafaz taklik itu pergi selepas dibaca&quot;. Pada jalur ungu di tengah, dua fakta bersebelahan: lafaz taklik dicetak dalam Borang 4 dan Borang 5, iaitu Butir Daftar dan Perakuan Nikah; dan fi Borang 5, Perakuan Nikah, ialah RM15.00 mengikut teks Perak. Di bawah jalur itu, empat baris: lafaz itu dicatat dalam Daftar Perkahwinan; surat perakuan taklik dikeluarkan; ia diberi kepada setiap satu pihak; dan kalau syaratnya berlaku, permohonan dibuat melalui Borang 11 di Perak. Nota kecil di bawahnya bertanya sama ada pembaca pernah menerima surat itu, dan menyuruh bertanya di Pejabat Agama Daerah. Baris kaki kad menyatakan sumbernya Enakmen Selangor 2003 seksyen 22 dan 26, disemak 24 Ogos 2026.</p>
+
+          <h3>Front matter for ingest</h3>
+          <pre>cover:
+  file: ./lafaz-taklik-ke-mana-perginya.png
+  alt: &gt;-
+    Kad maklumat bertajuk &quot;Ke mana lafaz taklik itu pergi selepas dibaca&quot;. Pada
+    jalur ungu di tengah, dua fakta bersebelahan: lafaz taklik dicetak dalam
+    Borang 4 dan Borang 5, iaitu Butir Daftar dan Perakuan Nikah; dan fi Borang
+    5, Perakuan Nikah, ialah RM15.00 mengikut teks Perak. Di bawah jalur itu,
+    empat baris: lafaz itu dicatat dalam Daftar Perkahwinan; surat perakuan
+    taklik dikeluarkan; ia diberi kepada setiap satu pihak; dan kalau syaratnya
+    berlaku, permohonan dibuat melalui Borang 11 di Perak. Nota kecil di
+    bawahnya bertanya sama ada pembaca pernah menerima surat itu, dan menyuruh
+    bertanya di Pejabat Agama Daerah. Baris kaki kad menyatakan sumbernya
+    Enakmen Selangor 2003 seksyen 22 dan 26, disemak 24 Ogos 2026.
+  credit: Grafik: HelloKahwin
+  licenseClass: G
+  licensorName: HelloKahwin</pre>
+
+          <h3>What the crop pipeline would produce</h3>
+          <p class="meta">
+            focal point
+            0.156, 0.922 (saliency)
+            &middot; body 96px (≈15px on a 390px phone), figures 140/140px
+          </p>
+          <div class="crops">
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:375px">
+              <img src="./lafaz-taklik-ke-mana-perginya.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:0px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x5-mobile-cover</strong><br />
+              1920&times;2400
+              <span class="ok">full size</span><br />
+              <span class="ok">nothing cut</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:85px">
+              <img src="./lafaz-taklik-ke-mana-perginya.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-290px" />
+            </div>
+            <figcaption>
+              <strong>crop-4.3x1-desktop-hero</strong><br />
+              2464&times;700
+              <span class="ok">full size</span><br />
+              <span class="warn">lost: wordmark</span><br /><span class="warn">lost: kicker</span><br /><span class="warn">lost: title</span><br /><span class="warn">lost: figure 1: Borang 4 dan 5</span><br /><span class="warn">lost: figure 2: RM15.00</span><br /><span class="part">cut: rows</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:225px">
+              <img src="./lafaz-taklik-ke-mana-perginya.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-150px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x3-article-card</strong><br />
+              1600&times;1200
+              <span class="ok">full size</span><br />
+              <span class="warn">lost: wordmark</span><br /><span class="warn">lost: kicker</span><br /><span class="warn">lost: title</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:158px">
+              <img src="./lafaz-taklik-ke-mana-perginya.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-217px" />
+            </div>
+            <figcaption>
+              <strong>crop-16x9-og</strong><br />
+              1200&times;630
+              <span class="ok">full size</span><br />
+              <span class="warn">lost: wordmark</span><br /><span class="warn">lost: kicker</span><br /><span class="warn">lost: title</span><br /><span class="warn">lost: figure 1: Borang 4 dan 5</span><br /><span class="warn">lost: figure 2: RM15.00</span>
+            </figcaption>
+          </figure></div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="setblock">
+    <h2 class="setheading">P6 &mdash; in-article graphics, cluster C6.2</h2>
+    <p class="lede">Body graphics for the cost pages. Each one shows arithmetic a photograph cannot: what a published rate leaves out, which line is refundable, and which line has no official rate at all.</p>
+    
+    <section class="cover">
+      <header>
+        <h2>P6B-1 &middot; Kenapa RM160 itu sebenarnya RM860</h2>
+        <p class="meta">
+          <code>C6-2-A1-harga-sewa-dewan-kahwin-rm160.png</code> &middot;
+          2464&times;3080 PNG &middot;
+          151 KB &middot;
+          covers <code>C6-2-A1-harga-sewa-dewan-kahwin.md</code>
+        </p>
+      </header>
+      <div class="body">
+        <a class="plate" href="./C6-2-A1-harga-sewa-dewan-kahwin-rm160.png">
+          <img src="./C6-2-A1-harga-sewa-dewan-kahwin-rm160.png" alt="Kad kos bertajuk &quot;Kenapa RM160 itu sebenarnya RM860&quot;. Pada jalur ungu di tengah, dua angka bersebelahan: kadar yang tersiar ialah RM160 bagi Dewan PJS 4/19 untuk satu sesi enam jam; jumlah sebenar ialah RM860, sebelum cagaran RM200 dikeluarkan. Di bawah jalur itu, lima baris daripada senarai kadar Majlis Bandaraya Petaling Jaya: sewa RM160 bagi sesi enam jam; kebersihan dan elektrik RM100 tetap; penghawa dingin RM100 sejam didarab enam jam menjadi RM600; jumlah RM860; dan cagaran RM200 yang dipulangkan. Nota kecil di bawahnya menyatakan kadar sewa itu satu baris sahaja dan bukan jumlahnya. Baris kaki kad menyatakan sumbernya senarai kadar MBPJ tahun 2024, disemak 25 Ogos 2026." />
+        </a>
+        <div class="detail">
+          <h3>Alt text (Malay)</h3>
+          <p class="alt">Kad kos bertajuk &quot;Kenapa RM160 itu sebenarnya RM860&quot;. Pada jalur ungu di tengah, dua angka bersebelahan: kadar yang tersiar ialah RM160 bagi Dewan PJS 4/19 untuk satu sesi enam jam; jumlah sebenar ialah RM860, sebelum cagaran RM200 dikeluarkan. Di bawah jalur itu, lima baris daripada senarai kadar Majlis Bandaraya Petaling Jaya: sewa RM160 bagi sesi enam jam; kebersihan dan elektrik RM100 tetap; penghawa dingin RM100 sejam didarab enam jam menjadi RM600; jumlah RM860; dan cagaran RM200 yang dipulangkan. Nota kecil di bawahnya menyatakan kadar sewa itu satu baris sahaja dan bukan jumlahnya. Baris kaki kad menyatakan sumbernya senarai kadar MBPJ tahun 2024, disemak 25 Ogos 2026.</p>
+
+          <h3>Front matter for ingest</h3>
+          <pre>cover:
+  file: ./C6-2-A1-harga-sewa-dewan-kahwin-rm160.png
+  alt: &gt;-
+    Kad kos bertajuk &quot;Kenapa RM160 itu sebenarnya RM860&quot;. Pada jalur ungu di
+    tengah, dua angka bersebelahan: kadar yang tersiar ialah RM160 bagi Dewan
+    PJS 4/19 untuk satu sesi enam jam; jumlah sebenar ialah RM860, sebelum
+    cagaran RM200 dikeluarkan. Di bawah jalur itu, lima baris daripada senarai
+    kadar Majlis Bandaraya Petaling Jaya: sewa RM160 bagi sesi enam jam;
+    kebersihan dan elektrik RM100 tetap; penghawa dingin RM100 sejam didarab
+    enam jam menjadi RM600; jumlah RM860; dan cagaran RM200 yang dipulangkan.
+    Nota kecil di bawahnya menyatakan kadar sewa itu satu baris sahaja dan bukan
+    jumlahnya. Baris kaki kad menyatakan sumbernya senarai kadar MBPJ tahun
+    2024, disemak 25 Ogos 2026.
+  credit: Grafik: HelloKahwin
+  licenseClass: G
+  licensorName: HelloKahwin</pre>
+
+          <h3>What the crop pipeline would produce</h3>
+          <p class="meta">
+            focal point
+            0.844, 0.922 (saliency)
+            &middot; body 96px (≈15px on a 390px phone), figures 168/168px
+          </p>
+          <div class="crops">
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:375px">
+              <img src="./C6-2-A1-harga-sewa-dewan-kahwin-rm160.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:0px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x5-mobile-cover</strong><br />
+              1920&times;2400
+              <span class="ok">full size</span><br />
+              <span class="ok">nothing cut</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:85px">
+              <img src="./C6-2-A1-harga-sewa-dewan-kahwin-rm160.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-290px" />
+            </div>
+            <figcaption>
+              <strong>crop-4.3x1-desktop-hero</strong><br />
+              2464&times;700
+              <span class="ok">full size</span><br />
+              <span class="warn">lost: wordmark</span><br /><span class="warn">lost: kicker</span><br /><span class="warn">lost: title</span><br /><span class="warn">lost: figure 1: RM160</span><br /><span class="warn">lost: figure 2: RM860</span><br /><span class="part">cut: rows</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:225px">
+              <img src="./C6-2-A1-harga-sewa-dewan-kahwin-rm160.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-150px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x3-article-card</strong><br />
+              1600&times;1200
+              <span class="ok">full size</span><br />
+              <span class="warn">lost: wordmark</span><br /><span class="warn">lost: kicker</span><br /><span class="warn">lost: title</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:158px">
+              <img src="./C6-2-A1-harga-sewa-dewan-kahwin-rm160.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-217px" />
+            </div>
+            <figcaption>
+              <strong>crop-16x9-og</strong><br />
+              1200&times;630
+              <span class="ok">full size</span><br />
+              <span class="warn">lost: wordmark</span><br /><span class="warn">lost: kicker</span><br /><span class="warn">lost: title</span><br /><span class="part">cut: figure 1: RM160</span><br /><span class="part">cut: figure 2: RM860</span>
+            </figcaption>
+          </figure></div>
+        </div>
+      </div>
+    </section>
+    <section class="cover">
+      <header>
+        <h2>P6B-2 &middot; Dua angka yang serupa, dua bil yang berbeza</h2>
+        <p class="meta">
+          <code>C6-2-A1-harga-sewa-dewan-kahwin-jam-atau-sesi.png</code> &middot;
+          2464&times;3080 PNG &middot;
+          163 KB &middot;
+          covers <code>C6-2-A1-harga-sewa-dewan-kahwin.md</code>
+        </p>
+      </header>
+      <div class="body">
+        <a class="plate" href="./C6-2-A1-harga-sewa-dewan-kahwin-jam-atau-sesi.png">
+          <img src="./C6-2-A1-harga-sewa-dewan-kahwin-jam-atau-sesi.png" alt="Kad maklumat bertajuk &quot;Dua angka yang serupa, dua bil yang berbeza&quot;. Pada jalur ungu di tengah, dua fakta bersebelahan: Majlis Bandaraya Petaling Jaya dan Majlis Bandaraya Subang Jaya menjual blok masa, iaitu satu harga untuk enam atau lapan jam; Majlis Bandaraya Diraja Klang mengenakan kadar sejam, jadi RM120 sejam menjadi RM960 untuk lapan jam. Di bawah jalur itu, lima baris yang perlu disemak sebelum membanding: unitnya sejam atau sesesi; sesi persiapan yang dikira sebagai tempahan kedua di MBSJ; cuti am yang dikenakan bayaran dua kali ganda di MBPJ; DBKL yang menyenaraikan 22 dewan tanpa satu pun kadar tersiar; dan MBSA yang menyiarkan prosedur tetapi bukan kadar. Nota kecil di bawahnya menyatakan RM160 di Petaling Jaya itu enam jam manakala RM170 di Klang itu satu jam. Baris kaki kad menyatakan sumbernya senarai kadar MBPJ, MBSJ dan Klang tahun 2024, disemak 25 Ogos 2026." />
+        </a>
+        <div class="detail">
+          <h3>Alt text (Malay)</h3>
+          <p class="alt">Kad maklumat bertajuk &quot;Dua angka yang serupa, dua bil yang berbeza&quot;. Pada jalur ungu di tengah, dua fakta bersebelahan: Majlis Bandaraya Petaling Jaya dan Majlis Bandaraya Subang Jaya menjual blok masa, iaitu satu harga untuk enam atau lapan jam; Majlis Bandaraya Diraja Klang mengenakan kadar sejam, jadi RM120 sejam menjadi RM960 untuk lapan jam. Di bawah jalur itu, lima baris yang perlu disemak sebelum membanding: unitnya sejam atau sesesi; sesi persiapan yang dikira sebagai tempahan kedua di MBSJ; cuti am yang dikenakan bayaran dua kali ganda di MBPJ; DBKL yang menyenaraikan 22 dewan tanpa satu pun kadar tersiar; dan MBSA yang menyiarkan prosedur tetapi bukan kadar. Nota kecil di bawahnya menyatakan RM160 di Petaling Jaya itu enam jam manakala RM170 di Klang itu satu jam. Baris kaki kad menyatakan sumbernya senarai kadar MBPJ, MBSJ dan Klang tahun 2024, disemak 25 Ogos 2026.</p>
+
+          <h3>Front matter for ingest</h3>
+          <pre>cover:
+  file: ./C6-2-A1-harga-sewa-dewan-kahwin-jam-atau-sesi.png
+  alt: &gt;-
+    Kad maklumat bertajuk &quot;Dua angka yang serupa, dua bil yang berbeza&quot;. Pada
+    jalur ungu di tengah, dua fakta bersebelahan: Majlis Bandaraya Petaling Jaya
+    dan Majlis Bandaraya Subang Jaya menjual blok masa, iaitu satu harga untuk
+    enam atau lapan jam; Majlis Bandaraya Diraja Klang mengenakan kadar sejam,
+    jadi RM120 sejam menjadi RM960 untuk lapan jam. Di bawah jalur itu, lima
+    baris yang perlu disemak sebelum membanding: unitnya sejam atau sesesi; sesi
+    persiapan yang dikira sebagai tempahan kedua di MBSJ; cuti am yang dikenakan
+    bayaran dua kali ganda di MBPJ; DBKL yang menyenaraikan 22 dewan tanpa satu
+    pun kadar tersiar; dan MBSA yang menyiarkan prosedur tetapi bukan kadar.
+    Nota kecil di bawahnya menyatakan RM160 di Petaling Jaya itu enam jam
+    manakala RM170 di Klang itu satu jam. Baris kaki kad menyatakan sumbernya
+    senarai kadar MBPJ, MBSJ dan Klang tahun 2024, disemak 25 Ogos 2026.
+  credit: Grafik: HelloKahwin
+  licenseClass: G
+  licensorName: HelloKahwin</pre>
+
+          <h3>What the crop pipeline would produce</h3>
+          <p class="meta">
+            focal point
+            0.156, 0.922 (saliency)
+            &middot; body 92px (≈15px on a 390px phone), figures 168/168px
+          </p>
+          <div class="crops">
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:375px">
+              <img src="./C6-2-A1-harga-sewa-dewan-kahwin-jam-atau-sesi.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:0px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x5-mobile-cover</strong><br />
+              1920&times;2400
+              <span class="ok">full size</span><br />
+              <span class="ok">nothing cut</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:85px">
+              <img src="./C6-2-A1-harga-sewa-dewan-kahwin-jam-atau-sesi.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-290px" />
+            </div>
+            <figcaption>
+              <strong>crop-4.3x1-desktop-hero</strong><br />
+              2464&times;700
+              <span class="ok">full size</span><br />
+              <span class="warn">lost: wordmark</span><br /><span class="warn">lost: kicker</span><br /><span class="warn">lost: title</span><br /><span class="warn">lost: figure 1: Blok masa</span><br /><span class="warn">lost: figure 2: Kadar sejam</span><br /><span class="part">cut: rows</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:225px">
+              <img src="./C6-2-A1-harga-sewa-dewan-kahwin-jam-atau-sesi.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-150px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x3-article-card</strong><br />
+              1600&times;1200
+              <span class="ok">full size</span><br />
+              <span class="warn">lost: wordmark</span><br /><span class="warn">lost: kicker</span><br /><span class="warn">lost: title</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:158px">
+              <img src="./C6-2-A1-harga-sewa-dewan-kahwin-jam-atau-sesi.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-217px" />
+            </div>
+            <figcaption>
+              <strong>crop-16x9-og</strong><br />
+              1200&times;630
+              <span class="ok">full size</span><br />
+              <span class="warn">lost: wordmark</span><br /><span class="warn">lost: kicker</span><br /><span class="warn">lost: title</span><br /><span class="part">cut: figure 1: Blok masa</span><br /><span class="part">cut: figure 2: Kadar sejam</span>
+            </figcaption>
+          </figure></div>
+        </div>
+      </div>
+    </section>
+    <section class="cover">
+      <header>
+        <h2>P6B-3 &middot; Urutan 12 bulan, dan apa yang dibuat bila</h2>
+        <p class="meta">
+          <code>C6-2-A2-checklist-kahwin-garis-masa.png</code> &middot;
+          2464&times;3080 PNG &middot;
+          132 KB &middot;
+          covers <code>C6-2-A2-checklist-kahwin.md</code>
+        </p>
+      </header>
+      <div class="body">
+        <a class="plate" href="./C6-2-A2-checklist-kahwin-garis-masa.png">
+          <img src="./C6-2-A2-checklist-kahwin-garis-masa.png" alt="Kad garis masa bertajuk &quot;Urutan 12 bulan, dan apa yang dibuat bila&quot;. Pada jalur ungu di tengah, dua fakta masa bersebelahan: mula merancang 12 bulan sebelum majlis, dengan bajet, bilangan tetamu dan tarikh didahulukan; dan titik potong terakhir pada tiga bulan, kerana selepas itu deposit mula hilang. Di bawah jalur itu, lima baris, satu perkara utama bagi setiap peringkat: pada 12 bulan, bajet dan bilangan tetamu; pada 9 bulan, tempah dewan; pada 6 bulan, kunci katerer; pada 3 bulan, borang nikah; dan pada 1 bulan, edar kad. Nota kecil di bawahnya menyatakan tiga tarikh mati yang berdenda ialah dewan, kursus dan borang. Baris kaki kad menyatakan kadar dewan dan kursus rasmi ini disemak 25 Ogos 2026." />
+        </a>
+        <div class="detail">
+          <h3>Alt text (Malay)</h3>
+          <p class="alt">Kad garis masa bertajuk &quot;Urutan 12 bulan, dan apa yang dibuat bila&quot;. Pada jalur ungu di tengah, dua fakta masa bersebelahan: mula merancang 12 bulan sebelum majlis, dengan bajet, bilangan tetamu dan tarikh didahulukan; dan titik potong terakhir pada tiga bulan, kerana selepas itu deposit mula hilang. Di bawah jalur itu, lima baris, satu perkara utama bagi setiap peringkat: pada 12 bulan, bajet dan bilangan tetamu; pada 9 bulan, tempah dewan; pada 6 bulan, kunci katerer; pada 3 bulan, borang nikah; dan pada 1 bulan, edar kad. Nota kecil di bawahnya menyatakan tiga tarikh mati yang berdenda ialah dewan, kursus dan borang. Baris kaki kad menyatakan kadar dewan dan kursus rasmi ini disemak 25 Ogos 2026.</p>
+
+          <h3>Front matter for ingest</h3>
+          <pre>cover:
+  file: ./C6-2-A2-checklist-kahwin-garis-masa.png
+  alt: &gt;-
+    Kad garis masa bertajuk &quot;Urutan 12 bulan, dan apa yang dibuat bila&quot;. Pada
+    jalur ungu di tengah, dua fakta masa bersebelahan: mula merancang 12 bulan
+    sebelum majlis, dengan bajet, bilangan tetamu dan tarikh didahulukan; dan
+    titik potong terakhir pada tiga bulan, kerana selepas itu deposit mula
+    hilang. Di bawah jalur itu, lima baris, satu perkara utama bagi setiap
+    peringkat: pada 12 bulan, bajet dan bilangan tetamu; pada 9 bulan, tempah
+    dewan; pada 6 bulan, kunci katerer; pada 3 bulan, borang nikah; dan pada 1
+    bulan, edar kad. Nota kecil di bawahnya menyatakan tiga tarikh mati yang
+    berdenda ialah dewan, kursus dan borang. Baris kaki kad menyatakan kadar
+    dewan dan kursus rasmi ini disemak 25 Ogos 2026.
+  credit: Grafik: HelloKahwin
+  licenseClass: G
+  licensorName: HelloKahwin</pre>
+
+          <h3>What the crop pipeline would produce</h3>
+          <p class="meta">
+            focal point
+            0.844, 0.922 (saliency)
+            &middot; body 96px (≈15px on a 390px phone), figures 168/168px
+          </p>
+          <div class="crops">
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:375px">
+              <img src="./C6-2-A2-checklist-kahwin-garis-masa.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:0px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x5-mobile-cover</strong><br />
+              1920&times;2400
+              <span class="ok">full size</span><br />
+              <span class="ok">nothing cut</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:85px">
+              <img src="./C6-2-A2-checklist-kahwin-garis-masa.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-290px" />
+            </div>
+            <figcaption>
+              <strong>crop-4.3x1-desktop-hero</strong><br />
+              2464&times;700
+              <span class="ok">full size</span><br />
+              <span class="warn">lost: wordmark</span><br /><span class="warn">lost: kicker</span><br /><span class="warn">lost: title</span><br /><span class="warn">lost: figure 1: 12 bulan</span><br /><span class="warn">lost: figure 2: 3 bulan</span><br /><span class="part">cut: rows</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:225px">
+              <img src="./C6-2-A2-checklist-kahwin-garis-masa.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-150px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x3-article-card</strong><br />
+              1600&times;1200
+              <span class="ok">full size</span><br />
+              <span class="warn">lost: wordmark</span><br /><span class="warn">lost: kicker</span><br /><span class="warn">lost: title</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:158px">
+              <img src="./C6-2-A2-checklist-kahwin-garis-masa.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-217px" />
+            </div>
+            <figcaption>
+              <strong>crop-16x9-og</strong><br />
+              1200&times;630
+              <span class="ok">full size</span><br />
+              <span class="warn">lost: wordmark</span><br /><span class="warn">lost: kicker</span><br /><span class="warn">lost: title</span><br /><span class="part">cut: figure 1: 12 bulan</span><br /><span class="part">cut: figure 2: 3 bulan</span>
+            </figcaption>
+          </figure></div>
+        </div>
+      </div>
+    </section>
+    <section class="cover">
+      <header>
+        <h2>P6B-5 &middot; Baris yang paling mahal dalam syarat dewan</h2>
+        <p class="meta">
+          <code>C6-2-A3-pakej-dewan-kahwin-syarat-katerer.png</code> &middot;
+          2464&times;3080 PNG &middot;
+          154 KB &middot;
+          covers <code>C6-2-A3-pakej-dewan-kahwin.md</code>
+        </p>
+      </header>
+      <div class="body">
+        <a class="plate" href="./C6-2-A3-pakej-dewan-kahwin-syarat-katerer.png">
+          <img src="./C6-2-A3-pakej-dewan-kahwin-syarat-katerer.png" alt="Kad maklumat bertajuk &quot;Baris yang paling mahal dalam syarat dewan&quot;. Pada jalur ungu di tengah, dua fakta bersebelahan: syarat yang paling mahal ialah tidak dibenarkan memasak, di dalam mahupun di luar dewan; dan maknanya makanan mesti sampai sudah siap, jadi masakan kampung di belakang dewan tertutup. Di bawah jalur itu, lima baris daripada syarat am Dewan Banquet Majlis Bandaraya Petaling Jaya: hidangan secara dome dan buffet dibenarkan; katerer mesti yang mahir dan diiktiraf sahaja; pelayan mesti berseragam dan terlatih; makanan mesti halal sahaja; dan makanan dari luar memerlukan surat kebenaran. Nota kecil di bawahnya menyatakan syarat berbeza antara dewan, jadi ia perlu ditanya lebih awal. Baris kaki kad menyatakan sumbernya syarat am Dewan Banquet MBPJ, disemak 25 Ogos 2026." />
+        </a>
+        <div class="detail">
+          <h3>Alt text (Malay)</h3>
+          <p class="alt">Kad maklumat bertajuk &quot;Baris yang paling mahal dalam syarat dewan&quot;. Pada jalur ungu di tengah, dua fakta bersebelahan: syarat yang paling mahal ialah tidak dibenarkan memasak, di dalam mahupun di luar dewan; dan maknanya makanan mesti sampai sudah siap, jadi masakan kampung di belakang dewan tertutup. Di bawah jalur itu, lima baris daripada syarat am Dewan Banquet Majlis Bandaraya Petaling Jaya: hidangan secara dome dan buffet dibenarkan; katerer mesti yang mahir dan diiktiraf sahaja; pelayan mesti berseragam dan terlatih; makanan mesti halal sahaja; dan makanan dari luar memerlukan surat kebenaran. Nota kecil di bawahnya menyatakan syarat berbeza antara dewan, jadi ia perlu ditanya lebih awal. Baris kaki kad menyatakan sumbernya syarat am Dewan Banquet MBPJ, disemak 25 Ogos 2026.</p>
+
+          <h3>Front matter for ingest</h3>
+          <pre>cover:
+  file: ./C6-2-A3-pakej-dewan-kahwin-syarat-katerer.png
+  alt: &gt;-
+    Kad maklumat bertajuk &quot;Baris yang paling mahal dalam syarat dewan&quot;. Pada
+    jalur ungu di tengah, dua fakta bersebelahan: syarat yang paling mahal ialah
+    tidak dibenarkan memasak, di dalam mahupun di luar dewan; dan maknanya
+    makanan mesti sampai sudah siap, jadi masakan kampung di belakang dewan
+    tertutup. Di bawah jalur itu, lima baris daripada syarat am Dewan Banquet
+    Majlis Bandaraya Petaling Jaya: hidangan secara dome dan buffet dibenarkan;
+    katerer mesti yang mahir dan diiktiraf sahaja; pelayan mesti berseragam dan
+    terlatih; makanan mesti halal sahaja; dan makanan dari luar memerlukan surat
+    kebenaran. Nota kecil di bawahnya menyatakan syarat berbeza antara dewan,
+    jadi ia perlu ditanya lebih awal. Baris kaki kad menyatakan sumbernya syarat
+    am Dewan Banquet MBPJ, disemak 25 Ogos 2026.
+  credit: Grafik: HelloKahwin
+  licenseClass: G
+  licensorName: HelloKahwin</pre>
+
+          <h3>What the crop pipeline would produce</h3>
+          <p class="meta">
+            focal point
+            0.844, 0.922 (saliency)
+            &middot; body 96px (≈15px on a 390px phone), figures 96/96px
+          </p>
+          <div class="crops">
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:375px">
+              <img src="./C6-2-A3-pakej-dewan-kahwin-syarat-katerer.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:0px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x5-mobile-cover</strong><br />
+              1920&times;2400
+              <span class="ok">full size</span><br />
+              <span class="ok">nothing cut</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:85px">
+              <img src="./C6-2-A3-pakej-dewan-kahwin-syarat-katerer.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-290px" />
+            </div>
+            <figcaption>
+              <strong>crop-4.3x1-desktop-hero</strong><br />
+              2464&times;700
+              <span class="ok">full size</span><br />
+              <span class="warn">lost: wordmark</span><br /><span class="warn">lost: kicker</span><br /><span class="warn">lost: title</span><br /><span class="warn">lost: figure 1: Tidak boleh masak</span><br /><span class="warn">lost: figure 2: Makanan siap</span><br /><span class="part">cut: rows</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:225px">
+              <img src="./C6-2-A3-pakej-dewan-kahwin-syarat-katerer.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-150px" />
+            </div>
+            <figcaption>
+              <strong>crop-4x3-article-card</strong><br />
+              1600&times;1200
+              <span class="ok">full size</span><br />
+              <span class="warn">lost: wordmark</span><br /><span class="warn">lost: kicker</span><br /><span class="warn">lost: title</span>
+            </figcaption>
+          </figure>
+          <figure class="crop">
+            <div class="crop-window" style="width:300px;height:158px">
+              <img src="./C6-2-A3-pakej-dewan-kahwin-syarat-katerer.png" alt=""
+                   style="width:300px;
+                          margin-left:0px;
+                          margin-top:-217px" />
+            </div>
+            <figcaption>
+              <strong>crop-16x9-og</strong><br />
+              1200&times;630
+              <span class="ok">full size</span><br />
+              <span class="warn">lost: wordmark</span><br /><span class="warn">lost: kicker</span><br /><span class="warn">lost: title</span><br /><span class="warn">lost: figure 1: Tidak boleh masak</span><br /><span class="warn">lost: figure 2: Makanan siap</span>
+            </figcaption>
+          </figure></div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+</body>
+</html>

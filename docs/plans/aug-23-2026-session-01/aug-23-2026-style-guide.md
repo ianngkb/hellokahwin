@@ -141,6 +141,41 @@ Two permitted patterns. No third.
 - Deferring the gloss to a glossary section at the bottom. The reader does not scroll down to find out what the paragraph meant.
 - Explaining a Tier A word as if the reader has never heard it. Explaining *kenduri* to a Malaysian Malay reader is condescension, and the reviewer should flag it as such.
 
+### 4.4 Hukum, adat, and the third category nobody had named
+
+**Added 26 Ogos 2026, by `writer-adat-agama-prosedur`, for `managing-editor` to
+confirm. Raised from CONT-03 (`walimatul-urus`, `skrip-pengacara-majlis-perkahwinan`).**
+
+P3 keeps producing a rule that is neither religious obligation nor Malay custom.
+JAKIM's two-to-three-minute doa, the Susunan Keutamaan Persekutuan, the
+panggilan hormat in Surat Pekeliling Am Bil. 4 Tahun 2014: these are
+**government administrative protocol**. They bind a majlis rasmi kerajaan. They
+do not bind a kenduri, and they are not adat either.
+
+Three articles have now each invented their own phrasing for this. `P3-A3` wrote
+"Yang mana tuntutan agama, yang mana urusan majlis". The two CONT-03 articles
+wrote it two more ways. That is three inventions of the same distinction, which
+means it belongs in the guide rather than in a writer's head.
+
+**The rule.** Where an article carries a rule from a government document, it
+names which of three the rule is, in the article's own words:
+
+| Category | What it is | How the page must treat it |
+|---|---|---|
+| Hukum | A religious ruling | Reported and attributed to the office that issued it, never issued by us |
+| Adat | Malay custom or uruf | Named as custom, with any state or family variance stated |
+| Protokol pentadbiran | A government administrative rule | Named as binding on the majlis it was written for, and explicitly **not** on the reader's kenduri |
+
+**The sentence that must appear** whenever an administrative rule is used as
+guidance for a private majlis: say plainly who the document binds, then say it
+does not bind the reader, then say why it is still worth following. One
+sentence, not a section. Without it the page reads as though JAKIM regulates
+your kenduri, which is a factual error dressed as helpfulness.
+
+`sunat`, `harus`, `makruh` and `fardu ain` stay Tier B and stay glossed. A
+protocol rule needs no gloss, because it is not a fiqh term. It needs an owner
+and a date.
+
 ---
 
 ## 5. Bahasa Melayu Malaysia, and the words that give away a machine
@@ -249,6 +284,24 @@ Even where the English word exists in Malaysian speech, prefer Malay where the M
 - **Ranges in prose use `hingga`: `RM300 hingga RM500`.** In a table cell, `RM300 – RM500` is permitted.
 - **Never `harga` for mas kahwin or hantaran.** See the P2 voice notes. Use `kadar` for a figure set by an authority, `jumlah` for an agreed amount, `nilai` for the worth of goods, `kos` for what something costs to buy.
 - **Every ringgit figure that can change carries its source and the month it was checked**, either in the sentence or in a `Disemak` line under the table. Quality bar point 6, made concrete.
+
+### 7.1a Sourcing a price — the currency rule
+
+**Added 25 Ogos 2026, after the P5 block.** `C5-1-A1-pelamin` complied with the rule above and still shipped a price list that had not moved since **May 2014** into an article titled *Pelamin 2026*. The rule above records **when we looked**. It does not record **when the source last moved**, and that is the gap that let a twelve-year-old figure through with a caveat attached.
+
+The five rules below are the fix. They apply to every ringgit figure in every pillar.
+
+1. **Date the source, not just the check.** A price carries two dates: when we read it, and the source's own last sign of life. Find the second one before quoting the figure — a `datePublished`, a last-updated stamp, a blog archive's most recent entry, a copyright year, a live stock count. **If a price source shows no sign of life within the last 24 months, it does not publish.** Not with a caveat. It does not publish.
+2. **Never a blog.** §14.2 already says this; it is repeated here because it was read as being about competitor content blogs. It covers a vendor's own blogspot price list too. A vendor is authoritative on its own current price and on nothing else, and only while the page is current.
+3. **Record the result count.** Any range derived from a vendor's catalogue records the count that was on screen — *"Showing 1 to 49 of 49"*. A filtered category page is not a catalogue. `C5-4-A1` published a range off 12 visible items when the catalogue held 49, and the ceiling was wrong by a factor of two.
+4. **Record the struck-through price.** Where a listing shows a promotional price over a list price, both go in the article. A promotion is not the price.
+5. **Check every page of a vendor's site, not one.** The Dulang publishes no price on its pelamin rumah, khemah and dewan pages, all dated 20 November 2022, and publishes **RM350** on its pelamin mini page dated 1 January 2025. Reading one page and concluding the vendor publishes no price is a false negative, and on an article whose thesis is an honest negative it is load-bearing.
+
+**One vendor is not a figure.** A per-unit range quoted as a market range needs at least two named suppliers, each with its own date checked. One supplier's list is reported as that supplier's list, in that supplier's name.
+
+**Absence is publishable, and is often the better article.** *"Tiada kadar rasmi diterbitkan; harga bergantung pada vendor, saiz dan lokasi"* is a finding, not a failure — but only when it carries the reasoning a reader can act on: what moves the price, what to demand as a separate line in a quotation, how to make two quotations comparable. State plainly why a figure was withheld, whether the page could not be read or the date could not be confirmed. That sentence is the competitive advantage.
+
+**Never split the difference between two sources to manufacture a plausible range.**
 
 ### 7.2 Other numbers
 
@@ -372,6 +425,43 @@ The format is fixed. Eight articles must not each invent one.
 > **BAIK:** Senarai kadar minimum mas kahwin bagi setiap negeri di Malaysia, disemak Ogos 2026, berserta beza mas kahwin dengan duit hantaran. *(133 chars)*
 > **BURUK:** Nak tahu berapa mas kahwin negeri anda? Jangan sampai tersalah! Klik untuk baca panduan lengkap yang wajib anda tahu sebelum nikah!
 
+#### "Counted, not estimated" means a command, not an intention
+
+Added 25 Aug 2026, after `C5-1-A1-pelamin` reached a production publish window at
+**169 characters** and the ingest refused it outright.
+
+The rule above is not new. It said 155, it said *counted, not estimated*, and it
+is Quality bar point 9. The draft was **14 characters over the guide's own
+ceiling and 9 over the schema's hard limit**, had passed the board, and had been
+through `/humanizer`. Three separate controls — this guide, the 21-point QC bar,
+and `articleFileSchema`'s `.max(160)` — and the first two are things a person is
+supposed to *do*. Only the third *runs*, and it runs at the very last moment, in
+front of production.
+
+**So count it, with something that counts.** Not by eye, and not by trusting that
+it was counted when the sentence was first written — a later edit is what breaks
+it. From the site worktree:
+
+```
+node -e "const m=require('fs').readFileSync(process.argv[1],'utf8').match(/^metaDescription: \"(.*)\"$/m); console.log(m[1].length, m[1])" <file.md>
+```
+
+Or take the whole check, which counts this and validates everything else:
+
+```
+pnpm --silent ingest <file.md> --db "$DB"      # dry run, writes nothing
+```
+
+**Two ceilings, and they are not the same number.** 155 is the editorial target
+in this guide; 160 is the schema's hard refusal. Write to 155 — the gap is the
+margin that keeps a small later edit from becoming an unpublishable file.
+
+**The counting is not finished until the last edit is.** `metaDescription` lives
+in the same file as the prose, so a humanizer pass, a re-sourced price or any
+revision can push it over without touching a single sentence of the body. Recount
+after every edit. See *"A block expires when the file changes"* in Stage 6b of
+the content-production workflow.
+
 ### 10.3 What clickbait does, and why we do not
 
 Clickbait converts a scroll into a click on social, once. It does not build a page a couple returns to, it does not survive a refresh cycle, and it makes an accuracy claim look like a sales claim. Named bans in titles and metas:
@@ -453,7 +543,7 @@ Credit line sits immediately under the image, in the caption slot, as the last e
 - **Where a public handle or site exists, the name links to it.** One link, on the name.
 - **Multiple owners in one image:** credit the photographer first, then the vendor whose work is the subject. `Kredit: Foto oleh Studio Aisyah Photography, gubahan oleh Sri Mawar`
 - **Our own commissioned or owned image:** `Kredit: HelloKahwin`
-- **Our own original graphic, chart, table or diagram** *(added 23 Ogos 2026, at the A2 review board)*: **`Grafik: HelloKahwin`.** This is a permitted specialisation of `Kredit:`, not an exception to it — it names the owner exactly as `Kredit:` does, and it is more accurate, because it tells the reader the asset is a drawn graphic rather than a photograph. Use `Kredit:` for photography and `Grafik:` for original graphics. Brief §3.5 and board-passed A1 both already use `Grafik:`; the writer raised the mismatch rather than diverging silently, and this settles it pillar-wide instead of per article.
+- **Our own original graphic — a diagram, a map, an illustration** *(added 23 Ogos 2026, at the A2 review board; scope narrowed 26 Ogos 2026, see §13.4)*: **`Grafik: HelloKahwin`.** This is a permitted specialisation of `Kredit:`, not an exception to it — it names the owner exactly as `Kredit:` does, and it is more accurate, because it tells the reader the asset is a drawn graphic rather than a photograph. Use `Kredit:` for photography and `Grafik:` for original graphics. **This bullet used to read "graphic, chart, table or diagram". "Chart" and "table" are struck out: a table rendered as an image is a text card, and §13.4 forbids those.**
 - **Never** `Kredit: Internet`, `Kredit: Google`, `Kredit: Pinterest`, `Sumber: media sosial`, or an unattributed image. A platform is not an owner.
 
 ### 13.2 The record, with the asset
@@ -466,17 +556,35 @@ Every asset carries, in the media record, before it can be attached to a draft:
 
 Descriptive Malay, describing what is in the image, for a reader who cannot see it. **The credit never goes in the alt text.** Quality bar point 14. No stock photograph of a non-Malay wedding on a page about adat, and for this pillar specifically, no Indonesian *seserahan* photograph presented as Malaysian hantaran.
 
+**Write the alt text from the pixels, not from the file name.** Open the frame and look at it first. A file called `UTC Keramat counter` turned out to be a directory signboard with no counter in it; a file called `JAKIM office` turned out to be two kampung houses across a field. Alt text written from a title is a guess, and a confident one.
+
+### 13.4 No text cards (owner directive, 25 Ogos 2026)
+
+> *"No i do not want a text card, it looks ugly. Find alternatives, no text card at all."*
+
+**A text card is an image whose content is words.** A titled card with figures on it, a summary panel, a rendered table, a "key facts" graphic. Not as a cover, not in the article body, not as a fallback when a photograph is hard to find.
+
+**Data belongs in a markdown table in the body.** A table is readable by a screen reader, selectable, translatable, indexable as text, and free to change. The same table as a PNG is none of those things, and it has to be regenerated by a build script every time a figure moves.
+
+This forbids *pictures of text*. It does not forbid graphics. A diagram, a map, a flow, an illustration — anything that shows a **shape or a relationship** words would struggle with — is still `licenseClass: G`, still `Grafik: HelloKahwin`, still welcome.
+
+The test: **if you could paste the content as a markdown table and lose nothing, it is a text card and it does not publish.**
+
+When a photograph is hard to find, widen the search — Wikimedia Commons categories, Openverse, Pexels, Unsplash, in Malay and in adjacent subjects — and reuse across related articles, which is expected rather than a compromise. If nothing correct exists after a real search, **leave the section without an image and say so**. Two rules beat the count: an image that illustrates nothing is padding, and a culturally wrong image is worse than no image.
+
 ---
 
 ## 14. What HelloKahwin never does
 
 1. Never issues a religious ruling. We report procedure and attribute it. See the P2 voice notes §1 for the exact line.
-2. Never publishes a rate, fee or figure sourced from another blog. The authority or nothing.
+2. Never publishes a rate, fee or figure sourced from another blog. The authority or nothing. **This includes a vendor's own blog.** A price source with no sign of life in the last 24 months does not publish, with or without a caveat. See §7.1a.
 3. Never leaves a Tier B term unexplained on the page it appears on.
 4. Never writes *seserahan*, *pernikahan*, *bisa*, *ianya*, or capitalised *Anda*.
 5. Never uses *korang*, *kami* or editorial *kita* in body copy.
 6. Never pads a listicle to the number in its title.
 7. Never publishes an image without a named original source.
+7a. **Never publishes a text card** — an image whose content is words. Data goes in a markdown table. See §13.4.
+7b. Never publishes an image nobody has looked at. Alt text is written from the pixels, never from the file name. See §13.3.
 8. Never uses an exclamation mark, an emoji, or ALL CAPS for emphasis.
 9. Never closes with an inspirational line instead of a next step.
 10. Never sells. No vendor is recommended unless the brief commissioned the comparison and the comparison is sourced.
@@ -505,7 +613,10 @@ The chair runs this in the Editorial Review Board, alongside the verification an
 | S12 | Warmth test | At least one genuinely awkward reader situation named and answered; zero brochure phrases; zero `!` |
 | S13 | Banned list | Zero hits on §12 |
 | S14 | Images | Every image carries a named original source, on the page and in the asset record |
+| S14a | No text cards | Zero images whose content is words. Paste-test: if the image could be a markdown table and lose nothing, it fails. See §13.4 |
+| S14b | Looked at | Every image opened and viewed; alt text matches the pixels, not the file name. Any image left out of a section has a written reason |
 | S15 | Simplification | **At least one thing named to cut or make plainer.** A review that names nothing has not been done |
 | S16 | Humanizer | Run after revision, and re-checked |
+| S17 | Price currency | Every ringgit figure carries the source's own last sign of life, not only the date checked. Any catalogue range carries its result count. Any promotional price carries the struck-through original. No market range rests on one vendor. See §7.1a |
 
-**S15 and S16 are the two that cannot be waived.** S15 because a review that found nothing did not happen. S16 because it is an owner-level rule.
+**S15, S16 and S17 are the three that cannot be waived.** S15 because a review that found nothing did not happen. S16 because it is an owner-level rule. **S17 because a price is the one thing on this site a reader will act on with their own money, and a stale figure is indistinguishable from an invented one.**
