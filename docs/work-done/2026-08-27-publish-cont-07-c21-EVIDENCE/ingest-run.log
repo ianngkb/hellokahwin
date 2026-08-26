@@ -1,0 +1,351 @@
+RUN START 2026-08-26T21:40:52Z
+⚠ VERCEL_TOKEN is not set, so the Vercel EDGE cache will NOT be purged after the
+  write. The article will be correct at the origin but the pillar page can serve a
+  pre-publish copy for up to 5 minutes and the sitemap for up to an hour.
+  To purge it, re-run under the vault:
+    vault.ps1 run vercel.twn -EnvVar VERCEL_TOKEN -Cmd pwsh,"-NoProfile","-Command",'<ingest command>'
+
+⚠ No GSC credential (GSC_SERVICE_ACCOUNT_JSON or GSC_CREDENTIALS_PATH), so Google
+  will NOT be asked to re-read the sitemap. The article will be live and in the
+  sitemap, but Google finds it on its own schedule — days, on this property.
+  To supply it:
+    $env:GSC_CREDENTIALS_PATH = "$HOME/.claude/secrets/gsc-service-account.json"
+  or inject GSC_SERVICE_ACCOUNT_JSON from Doppler (project hellokahwin, config prd).
+
+File:   C2-1-A2-hantaran-untuk-lelaki.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Hantaran & Mas Kahwin (P2)
+Cluster: Hantaran kahwin (C2.1)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  3, every one credited
+  ../images/S-serah-dulang-hantaran-lelaki-azlan-dupree.jpg  →  "Kredit: Azlan DuPree (CC BY 2.0)" [S] Azlan DuPree
+  ../images/S-dulang-hantaran-masjid-mylifestory.jpg  →  "Kredit: MyLifeStory (CC BY 2.0)" [S] MyLifeStory
+  ../images/S-dulang-buah-hantaran-mohd-hasan.jpg  →  "Kredit: mohd hasan / Pexels" [S] mohd hasan
+Tags:    hantaran untuk lelaki, barang hantaran lelaki, hantaran kahwin, dulang hantaran
+Links:   4 internal, all resolved
+URL:     /artikel/hantaran-mas-kahwin/hantaran-untuk-lelaki
+  uploaded ../images/S-serah-dulang-hantaran-lelaki-azlan-dupree.jpg (+4 crops)
+  uploaded ../images/S-dulang-hantaran-masjid-mylifestory.jpg (+4 crops)
+  uploaded ../images/S-dulang-buah-hantaran-mohd-hasan.jpg (+4 crops)
+
+Done. /artikel/hantaran-mas-kahwin/hantaran-untuk-lelaki (published)
+It will appear on the pillar page under its cluster with no further action.
+
+  ════════════════════════════════════════════════════════════════════
+  ⚠  THE VERCEL EDGE WAS NOT PURGED. The article is published and the
+     origin is correct, but readers — Googlebot included — can be
+     served the PRE-PUBLISH page for up to 5 minutes:
+       https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-untuk-lelaki
+       https://hellokahwin.com/artikel/hantaran-mas-kahwin
+     and the sitemap for up to an hour:
+       https://hellokahwin.com/sitemap.xml
+
+     Reason: VERCEL_TOKEN is not set, so no purge was attempted
+
+     Re-run the ingest under the vault to purge, or wait out the TTL
+     before inviting a crawl.
+  ════════════════════════════════════════════════════════════════════
+
+  Google was also NOT asked to re-read the sitemap, on purpose: until the
+  edge is purged, the sitemap it would fetch is the pre-publish copy. Purge
+  first, then resubmit — by hand in Search Console, or by re-running this.
+
+===== C2-1-A3-barang-hantaran-perempuan  START 2026-08-26T21:42:42Z
+File:   C2-1-A3-barang-hantaran-perempuan.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Hantaran & Mas Kahwin (P2)
+Cluster: Hantaran kahwin (C2.1)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  3, every one credited
+  ../images/S-bawa-dulang-hantaran-naik-rumah-azlan-dupree.jpg  →  "Kredit: Azlan DuPree (CC BY 2.0)" [S] Azlan DuPree
+  ../images/S-dulang-berkaki-hiasan-farritz.jpg  →  "Kredit: Farritz Kamari (CC BY 2.0)" [S] Farritz Kamari
+  ../images/S-serah-hantaran-akad-mylifestory.jpg  →  "Kredit: MyLifeStory (CC BY 2.0)" [S] MyLifeStory
+Tags:    barang hantaran perempuan, hantaran kahwin perempuan, hantaran kahwin, dulang hantaran
+Links:   4 internal, all resolved
+URL:     /artikel/hantaran-mas-kahwin/barang-hantaran-perempuan
+  uploaded ../images/S-bawa-dulang-hantaran-naik-rumah-azlan-dupree.jpg (+4 crops)
+  uploaded ../images/S-dulang-berkaki-hiasan-farritz.jpg (+4 crops)
+  uploaded ../images/S-serah-hantaran-akad-mylifestory.jpg (+4 crops)
+
+Done. /artikel/hantaran-mas-kahwin/barang-hantaran-perempuan (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/hantaran-mas-kahwin/barang-hantaran-perempuan
+  /artikel/hantaran-mas-kahwin
+  /sitemap.xml
+
+Google was asked to re-read the sitemap (HTTP 204 (empty body — this is Google's success response)):
+  property: https://hellokahwin.com/
+  sitemap : https://hellokahwin.com/sitemap.xml
+  This is an ACCEPTANCE, not a fetch and not an indexing. Confirm with the
+  sitemap's `last_downloaded` in Search Console, and with a URL inspection
+  of the new article within 48h.
+
+exit=0
+
+===== C2-1-A4-hantaran-kahwin-bajet  START 2026-08-26T21:43:07Z
+File:   C2-1-A4-hantaran-kahwin-bajet.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Hantaran & Mas Kahwin (P2)
+Cluster: Hantaran kahwin (C2.1)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  3, every one credited
+  ../images/S-tujuh-dulang-hantaran-rombongan-azlan-dupree.jpg  →  "Kredit: Azlan DuPree (CC BY 2.0)" [S] Azlan DuPree
+  ../images/S-dulang-buah-hantaran-mohd-hasan.jpg  →  "Kredit: mohd hasan / Pexels" [S] mohd hasan
+  ../images/S-dulang-hantaran-masjid-mylifestory.jpg  →  "Kredit: MyLifeStory (CC BY 2.0)" [S] MyLifeStory
+Tags:    hantaran kahwin bajet, kos hantaran kahwin, hantaran kahwin, dulang hantaran
+Links:   4 internal, all resolved
+URL:     /artikel/hantaran-mas-kahwin/hantaran-kahwin-bajet
+  uploaded ../images/S-tujuh-dulang-hantaran-rombongan-azlan-dupree.jpg (+4 crops)
+  uploaded ../images/S-dulang-buah-hantaran-mohd-hasan.jpg (+4 crops)
+  uploaded ../images/S-dulang-hantaran-masjid-mylifestory.jpg (+4 crops)
+
+Done. /artikel/hantaran-mas-kahwin/hantaran-kahwin-bajet (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/hantaran-mas-kahwin/hantaran-kahwin-bajet
+  /artikel/hantaran-mas-kahwin
+  /sitemap.xml
+
+Google was asked to re-read the sitemap (HTTP 204 (empty body — this is Google's success response)):
+  property: https://hellokahwin.com/
+  sitemap : https://hellokahwin.com/sitemap.xml
+  This is an ACCEPTANCE, not a fetch and not an indexing. Confirm with the
+  sitemap's `last_downloaded` in Search Console, and with a URL inspection
+  of the new article within 48h.
+
+exit=0
+
+===== C2-1-A5-barang-hantaran-berguna  START 2026-08-26T21:43:31Z
+File:   C2-1-A5-barang-hantaran-berguna.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Hantaran & Mas Kahwin (P2)
+Cluster: Hantaran kahwin (C2.1)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  3, every one credited
+  ../images/S-dulang-kek-coklat-buah-hantaran-azlan-dupree.jpg  →  "Kredit: Azlan DuPree (CC BY 2.0)" [S] Azlan DuPree
+  ../images/S-dulang-buah-hantaran-mohd-hasan.jpg  →  "Kredit: mohd hasan / Pexels" [S] mohd hasan
+  ../images/S-tepak-sirih-muzium-negara-marcin-konsek.jpg  →  "Kredit: Marcin Konsek (CC BY-SA 4.0)" [S] Marcin Konsek
+Tags:    barang hantaran, hantaran kahwin, idea hantaran, dulang hantaran
+Links:   4 internal, all resolved
+URL:     /artikel/hantaran-mas-kahwin/barang-hantaran-berguna
+  uploaded ../images/S-dulang-kek-coklat-buah-hantaran-azlan-dupree.jpg (+4 crops)
+  uploaded ../images/S-dulang-buah-hantaran-mohd-hasan.jpg (+4 crops)
+  uploaded ../images/S-tepak-sirih-muzium-negara-marcin-konsek.jpg (+4 crops)
+
+Done. /artikel/hantaran-mas-kahwin/barang-hantaran-berguna (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/hantaran-mas-kahwin/barang-hantaran-berguna
+  /artikel/hantaran-mas-kahwin
+  /sitemap.xml
+
+Google was asked to re-read the sitemap (HTTP 204 (empty body — this is Google's success response)):
+  property: https://hellokahwin.com/
+  sitemap : https://hellokahwin.com/sitemap.xml
+  This is an ACCEPTANCE, not a fetch and not an indexing. Confirm with the
+  sitemap's `last_downloaded` in Search Console, and with a URL inspection
+  of the new article within 48h.
+
+exit=0
+
+===== C2-1-A6-adat-hantaran-ikut-keluarga  START 2026-08-26T21:44:10Z
+File:   C2-1-A6-adat-hantaran-ikut-keluarga.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Hantaran & Mas Kahwin (P2)
+Cluster: Hantaran kahwin (C2.1)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  3, every one credited
+  ../images/S-rombongan-lelaki-bincang-hantaran-azlan-dupree.jpg  →  "Kredit: Azlan DuPree (CC BY 2.0)" [S] Azlan DuPree
+  ../images/S-rombongan-hantaran-jalan-azlan-dupree.jpg  →  "Kredit: Azlan DuPree (CC BY 2.0)" [S] Azlan DuPree
+  ../images/S-tepak-sirih-muzium-negara-marcin-konsek.jpg  →  "Kredit: Marcin Konsek (CC BY-SA 4.0)" [S] Marcin Konsek
+Tags:    adat hantaran, hantaran kahwin, adat perkahwinan melayu, dulang hantaran
+Links:   4 internal, all resolved
+URL:     /artikel/hantaran-mas-kahwin/adat-hantaran-ikut-keluarga
+  uploaded ../images/S-rombongan-lelaki-bincang-hantaran-azlan-dupree.jpg (+4 crops)
+  uploaded ../images/S-rombongan-hantaran-jalan-azlan-dupree.jpg (+4 crops)
+  uploaded ../images/S-tepak-sirih-muzium-negara-marcin-konsek.jpg (+4 crops)
+
+Done. /artikel/hantaran-mas-kahwin/adat-hantaran-ikut-keluarga (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/hantaran-mas-kahwin/adat-hantaran-ikut-keluarga
+  /artikel/hantaran-mas-kahwin
+  /sitemap.xml
+
+Google was asked to re-read the sitemap (HTTP 204 (empty body — this is Google's success response)):
+  property: https://hellokahwin.com/
+  sitemap : https://hellokahwin.com/sitemap.xml
+  This is an ACCEPTANCE, not a fetch and not an indexing. Confirm with the
+  sitemap's `last_downloaded` in Search Console, and with a URL inspection
+  of the new article within 48h.
+
+exit=0
+
+===== C2-1-A7-persiapan-hantaran-kahwin  START 2026-08-26T21:44:42Z
+File:   C2-1-A7-persiapan-hantaran-kahwin.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Hantaran & Mas Kahwin (P2)
+Cluster: Hantaran kahwin (C2.1)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  3, every one credited
+  ../images/S-rombongan-hantaran-jalan-azlan-dupree.jpg  →  "Kredit: Azlan DuPree (CC BY 2.0)" [S] Azlan DuPree
+  ../images/S-dulang-berkaki-hiasan-farritz.jpg  →  "Kredit: Farritz Kamari (CC BY 2.0)" [S] Farritz Kamari
+  ../images/S-dulang-buah-hantaran-mohd-hasan.jpg  →  "Kredit: mohd hasan / Pexels" [S] mohd hasan
+Tags:    persiapan hantaran, hantaran kahwin, checklist hantaran, dulang hantaran
+Links:   4 internal, all resolved
+URL:     /artikel/hantaran-mas-kahwin/persiapan-hantaran-kahwin
+  uploaded ../images/S-rombongan-hantaran-jalan-azlan-dupree.jpg (+4 crops)
+  uploaded ../images/S-dulang-berkaki-hiasan-farritz.jpg (+4 crops)
+  uploaded ../images/S-dulang-buah-hantaran-mohd-hasan.jpg (+4 crops)
+
+Done. /artikel/hantaran-mas-kahwin/persiapan-hantaran-kahwin (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/hantaran-mas-kahwin/persiapan-hantaran-kahwin
+  /artikel/hantaran-mas-kahwin
+  /sitemap.xml
+
+Google was asked to re-read the sitemap (HTTP 204 (empty body — this is Google's success response)):
+  property: https://hellokahwin.com/
+  sitemap : https://hellokahwin.com/sitemap.xml
+  This is an ACCEPTANCE, not a fetch and not an indexing. Confirm with the
+  sitemap's `last_downloaded` in Search Console, and with a URL inspection
+  of the new article within 48h.
+
+exit=0
+
+===== C2-1-A8-tempat-beli-hantaran  START 2026-08-26T21:45:07Z
+File:   C2-1-A8-tempat-beli-hantaran.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Hantaran & Mas Kahwin (P2)
+Cluster: Hantaran kahwin (C2.1)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  3, every one credited
+  ../images/S-dulang-buah-hantaran-mohd-hasan.jpg  →  "Kredit: mohd hasan / Pexels" [S] mohd hasan
+  ../images/S-tujuh-dulang-hantaran-rombongan-azlan-dupree.jpg  →  "Kredit: Azlan DuPree (CC BY 2.0)" [S] Azlan DuPree
+  ../images/S-dulang-berkaki-hiasan-farritz.jpg  →  "Kredit: Farritz Kamari (CC BY 2.0)" [S] Farritz Kamari
+Tags:    tempat beli hantaran, kedai hantaran, sewa dulang hantaran, hantaran kahwin
+Links:   4 internal, all resolved
+URL:     /artikel/hantaran-mas-kahwin/tempat-beli-hantaran
+  uploaded ../images/S-dulang-buah-hantaran-mohd-hasan.jpg (+4 crops)
+  uploaded ../images/S-tujuh-dulang-hantaran-rombongan-azlan-dupree.jpg (+4 crops)
+  uploaded ../images/S-dulang-berkaki-hiasan-farritz.jpg (+4 crops)
+
+Done. /artikel/hantaran-mas-kahwin/tempat-beli-hantaran (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/hantaran-mas-kahwin/tempat-beli-hantaran
+  /artikel/hantaran-mas-kahwin
+  /sitemap.xml
+
+Google was asked to re-read the sitemap (HTTP 204 (empty body — this is Google's success response)):
+  property: https://hellokahwin.com/
+  sitemap : https://hellokahwin.com/sitemap.xml
+  This is an ACCEPTANCE, not a fetch and not an indexing. Confirm with the
+  sitemap's `last_downloaded` in Search Console, and with a URL inspection
+  of the new article within 48h.
+
+exit=0
+RUN END 2026-08-26T21:45:30Z
+
+===== UPDATE C2-1-A2-hantaran-untuk-lelaki  START 2026-08-26T22:02:30Z  (adds the sibling links that close three editorial orphans)
+File:   C2-1-A2-hantaran-untuk-lelaki.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Hantaran & Mas Kahwin (P2)
+Cluster: Hantaran kahwin (C2.1)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  3, every one credited
+  ../images/S-serah-dulang-hantaran-lelaki-azlan-dupree.jpg  →  "Kredit: Azlan DuPree (CC BY 2.0)" [S] Azlan DuPree
+  ../images/S-dulang-hantaran-masjid-mylifestory.jpg  →  "Kredit: MyLifeStory (CC BY 2.0)" [S] MyLifeStory
+  ../images/S-dulang-buah-hantaran-mohd-hasan.jpg  →  "Kredit: mohd hasan / Pexels" [S] mohd hasan
+Tags:    hantaran untuk lelaki, barang hantaran lelaki, hantaran kahwin, dulang hantaran
+Links:   5 internal, all resolved
+URL:     /artikel/hantaran-mas-kahwin/hantaran-untuk-lelaki
+  uploaded ../images/S-serah-dulang-hantaran-lelaki-azlan-dupree.jpg (+4 crops)
+  uploaded ../images/S-dulang-hantaran-masjid-mylifestory.jpg (+4 crops)
+  uploaded ../images/S-dulang-buah-hantaran-mohd-hasan.jpg (+4 crops)
+
+Done. /artikel/hantaran-mas-kahwin/hantaran-untuk-lelaki (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/hantaran-mas-kahwin/hantaran-untuk-lelaki
+  /artikel/hantaran-mas-kahwin
+  /sitemap.xml
+
+Google was asked to re-read the sitemap (HTTP 204 (empty body — this is Google's success response)):
+  property: https://hellokahwin.com/
+  sitemap : https://hellokahwin.com/sitemap.xml
+  This is an ACCEPTANCE, not a fetch and not an indexing. Confirm with the
+  sitemap's `last_downloaded` in Search Console, and with a URL inspection
+  of the new article within 48h.
+
+exit=0
+
+===== UPDATE C2-1-A5-barang-hantaran-berguna  START 2026-08-26T22:02:56Z  (adds the sibling links that close three editorial orphans)
+File:   C2-1-A5-barang-hantaran-berguna.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Hantaran & Mas Kahwin (P2)
+Cluster: Hantaran kahwin (C2.1)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  3, every one credited
+  ../images/S-dulang-kek-coklat-buah-hantaran-azlan-dupree.jpg  →  "Kredit: Azlan DuPree (CC BY 2.0)" [S] Azlan DuPree
+  ../images/S-dulang-buah-hantaran-mohd-hasan.jpg  →  "Kredit: mohd hasan / Pexels" [S] mohd hasan
+  ../images/S-tepak-sirih-muzium-negara-marcin-konsek.jpg  →  "Kredit: Marcin Konsek (CC BY-SA 4.0)" [S] Marcin Konsek
+Tags:    barang hantaran, hantaran kahwin, idea hantaran, dulang hantaran
+Links:   5 internal, all resolved
+URL:     /artikel/hantaran-mas-kahwin/barang-hantaran-berguna
+  uploaded ../images/S-dulang-kek-coklat-buah-hantaran-azlan-dupree.jpg (+4 crops)
+  uploaded ../images/S-dulang-buah-hantaran-mohd-hasan.jpg (+4 crops)
+  uploaded ../images/S-tepak-sirih-muzium-negara-marcin-konsek.jpg (+4 crops)
+
+Done. /artikel/hantaran-mas-kahwin/barang-hantaran-berguna (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/hantaran-mas-kahwin/barang-hantaran-berguna
+  /artikel/hantaran-mas-kahwin
+  /sitemap.xml
+
+Google was asked to re-read the sitemap (HTTP 204 (empty body — this is Google's success response)):
+  property: https://hellokahwin.com/
+  sitemap : https://hellokahwin.com/sitemap.xml
+  This is an ACCEPTANCE, not a fetch and not an indexing. Confirm with the
+  sitemap's `last_downloaded` in Search Console, and with a URL inspection
+  of the new article within 48h.
+
+exit=0

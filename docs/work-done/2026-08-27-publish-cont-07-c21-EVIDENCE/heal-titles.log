@@ -1,0 +1,19 @@
+
+===== ROUND 1 — 7 pending — 2026-08-26T22:06:24.978Z
+  hantaran-untuk-lelaki        purge=ok 200 MISS      age=0     144747B  title BAD  HelloKahwin — Idea &amp; Panduan Perkahwinan Malaysia
+  barang-hantaran-perempuan    purge=ok 200 MISS      age=0     140691B  title BAD  HelloKahwin — Idea &amp; Panduan Perkahwinan Malaysia
+  hantaran-kahwin-bajet        purge=ok 200 MISS      age=0     136306B  title BAD  HelloKahwin — Idea &amp; Panduan Perkahwinan Malaysia
+  barang-hantaran-berguna      purge=ok 200 MISS      age=0     132691B  title BAD  HelloKahwin — Idea &amp; Panduan Perkahwinan Malaysia
+  adat-hantaran-ikut-keluarga  purge=ok 200 MISS      age=0     132919B  title BAD  HelloKahwin — Idea &amp; Panduan Perkahwinan Malaysia
+  persiapan-hantaran-kahwin    purge=ok 200 MISS      age=0     135389B  title BAD  HelloKahwin — Idea &amp; Panduan Perkahwinan Malaysia
+  tempat-beli-hantaran         purge=ok 200 MISS      age=0     145984B  TITLE OK  Tempat beli barang hantaran: lima jenis kedai | HelloKahwin
+
+===== ROUND 2 — 6 pending — 2026-08-26T22:07:53.960Z
+  hantaran-untuk-lelaki        purge=ok 200 REVALIDATED age=0     150034B  TITLE OK  Hantaran untuk lelaki: senarai barang dan kos 2026 | HelloKahw
+  barang-hantaran-perempuan    purge=ok 200 REVALIDATED age=0     146011B  TITLE OK  Barang hantaran perempuan: senarai ikut kategori dan kos | Hel
+  hantaran-kahwin-bajet        purge=ok 200 REVALIDATED age=0     141611B  TITLE OK  Hantaran kahwin bajet: kos sebenar 12 dulang, 2026 | HelloKahw
+  barang-hantaran-berguna      purge=ok 200 REVALIDATED age=0     137952B  TITLE OK  Barang hantaran yang digunakan, dan yang tersimpan | HelloKahw
+  adat-hantaran-ikut-keluarga  purge=ok 200 REVALIDATED age=0     138278B  TITLE OK  Adat hantaran ikut keluarga: bila dua senarai berbeza | HelloK
+  persiapan-hantaran-kahwin    purge=ok 200 REVALIDATED age=0     140640B  TITLE OK  Persiapan hantaran kahwin: jadual lapan minggu | HelloKahwin
+
+FINAL: 7/7 correct

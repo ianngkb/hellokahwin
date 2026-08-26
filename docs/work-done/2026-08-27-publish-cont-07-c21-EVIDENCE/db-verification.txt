@@ -1,0 +1,91 @@
+=== C2.1 cluster count, from the database ===
+[
+  {
+    "c21_published": "8"
+  }
+]
+=== the eight C2.1 slugs ===
+[
+  {
+    "slug": "adat-hantaran-ikut-keluarga",
+    "published_at": "2026-08-27T00:00:00.000Z"
+  },
+  {
+    "slug": "barang-hantaran-berguna",
+    "published_at": "2026-08-27T00:00:00.000Z"
+  },
+  {
+    "slug": "barang-hantaran-perempuan",
+    "published_at": "2026-08-27T00:00:00.000Z"
+  },
+  {
+    "slug": "hantaran-kahwin",
+    "published_at": "2025-11-23T22:26:36.000Z"
+  },
+  {
+    "slug": "hantaran-kahwin-bajet",
+    "published_at": "2026-08-27T00:00:00.000Z"
+  },
+  {
+    "slug": "hantaran-untuk-lelaki",
+    "published_at": "2026-08-27T00:00:00.000Z"
+  },
+  {
+    "slug": "persiapan-hantaran-kahwin",
+    "published_at": "2026-08-27T00:00:00.000Z"
+  },
+  {
+    "slug": "tempat-beli-hantaran",
+    "published_at": "2026-08-27T00:00:00.000Z"
+  }
+]
+=== cover credit joins exactly on media.url = articles.cover_image_url ===
+[
+  {
+    "slug": "adat-hantaran-ikut-keluarga",
+    "credit_joins": true,
+    "credit": "Kredit: Azlan DuPree (CC BY 2.0)"
+  },
+  {
+    "slug": "barang-hantaran-berguna",
+    "credit_joins": true,
+    "credit": "Kredit: Azlan DuPree (CC BY 2.0)"
+  },
+  {
+    "slug": "barang-hantaran-perempuan",
+    "credit_joins": true,
+    "credit": "Kredit: Azlan DuPree (CC BY 2.0)"
+  },
+  {
+    "slug": "hantaran-kahwin-bajet",
+    "credit_joins": true,
+    "credit": "Kredit: Azlan DuPree (CC BY 2.0)"
+  },
+  {
+    "slug": "hantaran-untuk-lelaki",
+    "credit_joins": true,
+    "credit": "Kredit: Azlan DuPree (CC BY 2.0)"
+  },
+  {
+    "slug": "persiapan-hantaran-kahwin",
+    "credit_joins": true,
+    "credit": "Kredit: Azlan DuPree (CC BY 2.0)"
+  },
+  {
+    "slug": "tempat-beli-hantaran",
+    "credit_joins": true,
+    "credit": "Kredit: mohd hasan / Pexels"
+  }
+]
+=== any pre-existing article updated by this run? (updated_at after 21:39Z, excluding our seven) ===
+[
+  {
+    "touched": "5"
+  }
+]
+=== text-card media on the seven? ===
+[
+  {
+    "text_cards": "0"
+  }
+]

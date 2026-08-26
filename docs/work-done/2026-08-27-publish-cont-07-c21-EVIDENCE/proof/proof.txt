@@ -1,0 +1,72 @@
+CONT-07 PROOF SWEEP — serial, 4s apart — started 2026-08-26T22:04:59.965Z
+
+hantaran-untuk-lelaki
+  2026-08-26T22:05:00.122Z  200  cache=HIT  age=20  144300 bytes  150ms
+  title:  Hantaran untuk lelaki: senarai barang dan kos 2026 | HelloKahwin
+  robots: index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1   metaDescription chars: 149
+  h1:     Hantaran untuk lelaki: senarai barang dan kos 2026
+  cover credit rendered: true   <figure> count: 2
+
+barang-hantaran-perempuan
+  2026-08-26T22:05:07.707Z  200  cache=MISS  age=0  135126 bytes  3580ms
+  title:  HelloKahwin — Idea &amp; Panduan Perkahwinan Malaysia
+  robots: none   metaDescription chars: 102
+  h1:     Barang hantaran perempuan: senarai ikut kategori dan kos
+  cover credit rendered: true   <figure> count: 2
+
+hantaran-kahwin-bajet
+  2026-08-26T22:05:15.510Z  200  cache=MISS  age=0  131461 bytes  3730ms
+  title:  HelloKahwin — Idea &amp; Panduan Perkahwinan Malaysia
+  robots: none   metaDescription chars: 102
+  h1:     Hantaran kahwin bajet: kos sebenar 12 dulang, 2026
+  cover credit rendered: true   <figure> count: 2
+
+barang-hantaran-berguna
+  2026-08-26T22:05:19.745Z  200  cache=HIT  age=30  132331 bytes  130ms
+  title:  Barang hantaran yang digunakan, dan yang tersimpan | HelloKahwin
+  robots: index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1   metaDescription chars: 145
+  h1:     Barang hantaran yang digunakan, dan yang tersimpan
+  cover credit rendered: true   <figure> count: 2
+
+adat-hantaran-ikut-keluarga
+  2026-08-26T22:05:27.258Z  200  cache=MISS  age=0  128201 bytes  3493ms
+  title:  HelloKahwin — Idea &amp; Panduan Perkahwinan Malaysia
+  robots: none   metaDescription chars: 102
+  h1:     Adat hantaran ikut keluarga: bila dua senarai berbeza
+  cover credit rendered: true   <figure> count: 2
+
+persiapan-hantaran-kahwin
+  2026-08-26T22:05:35.347Z  200  cache=MISS  age=0  129867 bytes  4076ms
+  title:  HelloKahwin — Idea &amp; Panduan Perkahwinan Malaysia
+  robots: none   metaDescription chars: 102
+  h1:     Persiapan hantaran kahwin: jadual lapan minggu
+  cover credit rendered: true   <figure> count: 2
+
+tempat-beli-hantaran
+  2026-08-26T22:05:45.703Z  504  cache=MISS  age=null  108 bytes  6343ms
+  title:  
+  robots: none   metaDescription chars: 0
+  h1:     
+  cover credit rendered: false   <figure> count: 0
+
+PILLAR /artikel/hantaran-mas-kahwin
+  2026-08-26T22:05:55.102Z  200  cache=MISS  age=0  57286 bytes  4776ms
+  title: Hantaran &amp; Mas Kahwin | Inspire | HelloKahwin
+  robots: none
+  links to the seven: 7/7  ["hantaran-untuk-lelaki","barang-hantaran-perempuan","hantaran-kahwin-bajet","barang-hantaran-berguna","adat-hantaran-ikut-keluarga","persiapan-hantaran-kahwin","tempat-beli-hantaran"]
+  distinct article links on the pillar: 38
+
+SITEMAP
+  2026-08-26T22:05:59.692Z  200  cache=PRERENDER  age=0  20098 bytes
+  <loc> entries: 103
+  the seven present: 7/7  ["hantaran-untuk-lelaki","barang-hantaran-perempuan","hantaran-kahwin-bajet","barang-hantaran-berguna","adat-hantaran-ikut-keluarga","persiapan-hantaran-kahwin","tempat-beli-hantaran"]
+
+VERDICT
+  200 on first request: 6/7
+  noindex present:      0/7
+  thin bodies (<60KB):  1/7   (the degraded-hub signature is ~29KB)
+  root-default titles:  4/7
+  cover credit rendered:6/7
+  pillar links:         7/7
+  sitemap:              7/7
+  SOMETHING FAILED — read the rows above

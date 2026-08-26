@@ -1,0 +1,13 @@
+UNDO DRY RUN — 2026-08-26T21:58:46.551Z
+Target: aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+
+BEFORE {"articles":86,"media":991,"inspire_tags":118,"targets":7}
+SPARED TAGS (must survive): [{"slug":"adat-hantaran","used_by":2},{"slug":"dulang-hantaran","used_by":15}]
+  step 1  delete media                 -> 21 rows
+  step 2  delete articles              -> 7 rows ["barang-hantaran-perempuan","hantaran-untuk-lelaki","hantaran-kahwin-bajet","barang-hantaran-berguna","adat-hantaran-ikut-keluarga","tempat-beli-hantaran","persiapan-hantaran-kahwin"]
+  step 3  delete inspire_tags          -> 15 rows ["kedai-hantaran","sewa-dulang-hantaran","hantaran-kahwin","hantaran-untuk-lelaki","barang-hantaran-lelaki","barang-hantaran-perempuan","hantaran-kahwin-perempuan","hantaran-kahwin-bajet","kos-hantaran-kahwin","barang-hantaran","idea-hantaran","adat-perkahwinan-melayu","persiapan-hantaran","checklist-hantaran","tempat-beli-hantaran"]
+  IN-TRANSACTION AFTER {"articles":79,"media":970,"inspire_tags":103,"targets":0}
+  SPARED TAGS STILL PRESENT: ["adat-hantaran","dulang-hantaran"]
+  rolled back: ROLLBACK — dry run, nothing written
+AFTER ROLLBACK {"articles":86,"media":991,"inspire_tags":118}
+STATE UNCHANGED — dry run proved the undo executes cleanly.

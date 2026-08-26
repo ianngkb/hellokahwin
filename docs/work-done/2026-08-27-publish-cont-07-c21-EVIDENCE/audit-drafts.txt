@@ -1,0 +1,108 @@
+published articles      86
+with a draft to compare 48
+drafts read             48  (20 file(s) skipped: not article files)
+
+SLUG                                   LIVE  DRAFT  MISSING  EXTRA
+------------------------------------------------------------------------
+baju-pengantin-sewa-atau-beli          3     3      0        0
+inai-tangan-pengantin                  4     4      0        0
+songket-tenunan-tangan-atau-cetak      5     5      1        0
+adat-hantaran-berbeza-negeri           3     3      0        0
+adat-hantaran-ikut-keluarga            3     3      0        0
+apa-itu-mas-kahwin                     4     4      1        1
+barang-hantaran-berguna                3     3      0        0
+barang-hantaran-perempuan              3     3      0        0
+bilangan-dulang-hantaran-ganjil        3     3      0        0
+cara-tetapkan-duit-hantaran            3     3      0        0
+duit-hantaran-kahwin                   3     3      0        0
+dulang-hantaran                        4     4      1        1
+gubahan-hantaran                       4     4      0        0
+hantaran-kahwin-5-balas-7              4     4      0        0
+hantaran-kahwin-bajet                  3     3      0        0
+hantaran-tunang-3-balas-5              4     4      0        0
+hantaran-untuk-lelaki                  3     3      0        0
+hantaran-wajib-atau-adat               4     4      0        0
+mas-kahwin-ikut-negeri                 4     4      0        0
+mas-kahwin-johor                       4     4      0        0
+mas-kahwin-kelantan-terengganu         4     4      0        0
+mas-kahwin-melebihi-kadar-minimum      4     4      1        1
+mas-kahwin-pahang-negeri-sembilan      5     5      1        0
+mas-kahwin-perak                       4     4      1        0
+mas-kahwin-sabah-sarawak               4     4      1        0
+nisbah-hantaran                        3     3      0        0
+persiapan-hantaran-kahwin              3     3      0        0
+sirih-junjung                          4     4      1        0
+tempat-beli-hantaran                   3     3      0        0
+borang-nikah                           4     4      1        0
+lafaz-taklik                           4     4      0        0
+rukun-nikah                            5     5      0        0
+syarat-sah-nikah                       5     5      0        0
+bunga-telur                            3     3      1        0
+contoh-kad-jemputan-kahwin             4     4      1        0
+pelamin                                3     3      0        0
+cincin-tunang                          5     5      1        0
+doa-majlis-pertunangan                 5     5      1        1
+taaruf-maksud                          4     4      0        0
+doa-majlis-perkahwinan                 5     5      1        0
+doa-pengantin-baru                     4     4      0        0
+skrip-pengacara-majlis-perkahwinan     6     6      1        1
+ucapan-pengantin-baru                  5     5      0        0
+walimatul-urus                         6     6      0        0
+bajet-kahwin                           5     5      0        0
+checklist-kahwin                       5     5      0        0
+harga-sewa-dewan-kahwin                5     5      1        0
+pakej-dewan-kahwin                     5     5      1        0
+
+THE DRAFT DECLARES AN IMAGE PRODUCTION DOES NOT SERVE:
+  /artikel/busana-pengantin/songket-tenunan-tangan-atau-cetak   (C:\Users\Ian Ng\orca\workspaces\hkdocs-cont08\docs\plans\aug-23-2026-session-01\drafts\ingest\C4-1-A2-songket-tenunan-tangan-atau-cetak.md)
+     + S-pengantin-pelamin-bunga-mohd-hasan.jpg
+  /artikel/hantaran-mas-kahwin/apa-itu-mas-kahwin   (C:\Users\Ian Ng\orca\workspaces\hkdocs-cont08\docs\plans\aug-23-2026-session-01\drafts\ingest\A2-apa-itu-mas-kahwin.md)
+     + S-pengantin-putih-jambangan-azman-aziz.jpg
+  /artikel/hantaran-mas-kahwin/dulang-hantaran   (C:\Users\Ian Ng\orca\workspaces\hkdocs-cont08\docs\plans\aug-23-2026-session-01\drafts\ingest\C2-3-A1-dulang-hantaran.md)
+     + S-pertunangan-zeeana-mohd-nasir.jpg
+  /artikel/hantaran-mas-kahwin/mas-kahwin-melebihi-kadar-minimum   (C:\Users\Ian Ng\orca\workspaces\hkdocs-cont08\docs\plans\aug-23-2026-session-01\drafts\ingest\A8-mas-kahwin-melebihi-kadar-minimum.md)
+     + S-pengantin-melayu-pelamin-fyruz-alqadiri.jpg
+  /artikel/hantaran-mas-kahwin/mas-kahwin-pahang-negeri-sembilan   (C:\Users\Ian Ng\orca\workspaces\hkdocs-cont08\docs\plans\aug-23-2026-session-01\drafts\ingest\A6-mas-kahwin-pahang-negeri-sembilan.md)
+     + S-pasangan-pelamin-bunga-duduk-mohd-hasan.jpg
+  /artikel/hantaran-mas-kahwin/mas-kahwin-perak   (C:\Users\Ian Ng\orca\workspaces\hkdocs-cont08\docs\plans\aug-23-2026-session-01\drafts\ingest\A5-mas-kahwin-perak.md)
+     + S-muzik-tradisional-kenduri-malexi.jpg
+  /artikel/hantaran-mas-kahwin/mas-kahwin-sabah-sarawak   (C:\Users\Ian Ng\orca\workspaces\hkdocs-cont08\docs\plans\aug-23-2026-session-01\drafts\ingest\A7-mas-kahwin-sabah-sarawak.md)
+     + S-pasangan-baju-oren-azman-aziz.jpg
+  /artikel/hantaran-mas-kahwin/sirih-junjung   (C:\Users\Ian Ng\orca\workspaces\hkdocs-cont08\docs\plans\aug-23-2026-session-01\drafts\ingest\C2-3-A3-sirih-junjung.md)
+     + S-pertunangan-zeeana-shopedah-mohd-nasir.jpg
+  /artikel/nikah-undang-undang/borang-nikah   (C:\Users\Ian Ng\orca\workspaces\hkdocs-cont08\docs\plans\aug-23-2026-session-01\drafts\borang-nikah.md)
+     + S-selepas-akad-raja-abd-kadir.jpg
+  /artikel/pelamin-kad-cenderahati/bunga-telur   (C:\Users\Ian Ng\orca\workspaces\hkdocs-cont08\docs\plans\aug-23-2026-session-01\drafts\ingest\C5-4-A1-bunga-telur.md)
+     + S-tetamu-tiba-majlis-ahmad-ali-karim.jpg
+  /artikel/pelamin-kad-cenderahati/contoh-kad-jemputan-kahwin   (C:\Users\Ian Ng\orca\workspaces\hkdocs-cont08\docs\plans\aug-23-2026-session-01\drafts\ingest\C5-2-A1-contoh-kad-jemputan-kahwin.md)
+     + S-keluarga-payung-kuning-mohd-hasan.jpg
+  /artikel/sebelum-nikah/cincin-tunang   (C:\Users\Ian Ng\orca\workspaces\hkdocs-cont08\docs\plans\aug-23-2026-session-01\drafts\ingest\P7-A1-cincin-tunang.md)
+     + S-kuku-berinai-pengantin-azman-aziz.jpg
+  /artikel/sebelum-nikah/doa-majlis-pertunangan   (C:\Users\Ian Ng\orca\workspaces\hkdocs-cont08\docs\plans\aug-23-2026-session-01\drafts\ingest\P7-A3-doa-majlis-pertunangan.md)
+     + S-lelaki-menadah-doa-ahmad-ali-karim.jpg
+  /artikel/ucapan-doa/doa-majlis-perkahwinan   (C:\Users\Ian Ng\orca\workspaces\hkdocs-cont08\docs\plans\aug-23-2026-session-01\drafts\ingest\P3-A3-doa-majlis-perkahwinan.md)
+     + S-jemaah-doa-masjid-ahmad-ali-karim.jpg
+  /artikel/ucapan-doa/skrip-pengacara-majlis-perkahwinan   (C:\Users\Ian Ng\orca\workspaces\hkdocs-cont08\docs\plans\aug-23-2026-session-01\drafts\ingest\P3-A5-skrip-pengacara-majlis-perkahwinan.md)
+     + S-pasangan-dan-keluarga-pelamin-mohd-hasan.jpg
+  /artikel/venue-perancangan/harga-sewa-dewan-kahwin   (C:\Users\Ian Ng\orca\workspaces\hkdocs-cont08\docs\plans\aug-23-2026-session-01\drafts\C6-2-A1-harga-sewa-dewan-kahwin.md)
+     + S-jamuan-kenduri-raja-abd-kadir.jpg
+  /artikel/venue-perancangan/pakej-dewan-kahwin   (C:\Users\Ian Ng\orca\workspaces\hkdocs-cont08\docs\plans\aug-23-2026-session-01\drafts\C6-2-A3-pakej-dewan-kahwin.md)
+     + S-pasangan-dan-keluarga-pelamin-mohd-hasan.jpg
+
+PRODUCTION SERVES AN IMAGE THE DRAFT DOES NOT DECLARE:
+  (an --update from this draft would REMOVE these from the page)
+  /artikel/hantaran-mas-kahwin/apa-itu-mas-kahwin
+     - S-akad-ijab-qabul-mylifestory.jpg
+  /artikel/hantaran-mas-kahwin/dulang-hantaran
+     - S-dulang-hantaran-masjid-mylifestory.jpg
+  /artikel/hantaran-mas-kahwin/mas-kahwin-melebihi-kadar-minimum
+     - S-kedai-emas-johor-bahru-chongkian.jpg
+  /artikel/sebelum-nikah/doa-majlis-pertunangan
+     - S-pertunangan-zeeana-mohd-nasir.jpg
+  /artikel/ucapan-doa/skrip-pengacara-majlis-perkahwinan
+     - S-tok-kadi-baca-khutbah-mylifestory.jpg
+
+published articles with no draft here: 38 (lokasi-pre-wedding-photoshoot-terbaik, amankila-bali, grand-hyatt-kuala-lumpur, barang-hantaran-tunang, berapa-dulang-hantaran-tunang, …)
+drafts with no published article:     0
+
+FAIL — 17 published article(s) are behind their draft, 17 image(s) in total. Written is not shipped: re-ingest with --commit --update --publish.

@@ -1,0 +1,74 @@
+CONT-07 VERIFICATION — read-only, sequential, 5s apart — 2026-08-26T22:10:11.418Z
+
+hantaran-untuk-lelaki
+  2026-08-26T22:10:11.890Z  200  cache=HIT  age=133  150034 bytes
+  title:     Hantaran untuk lelaki: senarai barang dan kos 2026 | HelloKahwin
+  canonical: https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-untuk-lelaki
+  robots:    index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1
+  meta desc: 149 chars
+  h1:        Hantaran untuk lelaki: senarai barang dan kos 2026
+  figures 2 · "Kredit:" occurrences 8 · FAQ schema false
+
+barang-hantaran-perempuan
+  2026-08-26T22:10:17.270Z  200  cache=HIT  age=68  146011 bytes
+  title:     Barang hantaran perempuan: senarai ikut kategori dan kos | HelloKahwin
+  canonical: https://hellokahwin.com/artikel/hantaran-mas-kahwin/barang-hantaran-perempuan
+  robots:    index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1
+  meta desc: 144 chars
+  h1:        Barang hantaran perempuan: senarai ikut kategori dan kos
+  figures 2 · "Kredit:" occurrences 8 · FAQ schema false
+
+hantaran-kahwin-bajet
+  2026-08-26T22:10:22.857Z  200  cache=HIT  age=65  141611 bytes
+  title:     Hantaran kahwin bajet: kos sebenar 12 dulang, 2026 | HelloKahwin
+  canonical: https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-kahwin-bajet
+  robots:    index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1
+  meta desc: 151 chars
+  h1:        Hantaran kahwin bajet: kos sebenar 12 dulang, 2026
+  figures 2 · "Kredit:" occurrences 8 · FAQ schema false
+
+barang-hantaran-berguna
+  2026-08-26T22:10:28.304Z  200  cache=HIT  age=63  137952 bytes
+  title:     Barang hantaran yang digunakan, dan yang tersimpan | HelloKahwin
+  canonical: https://hellokahwin.com/artikel/hantaran-mas-kahwin/barang-hantaran-berguna
+  robots:    index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1
+  meta desc: 145 chars
+  h1:        Barang hantaran yang digunakan, dan yang tersimpan
+  figures 2 · "Kredit:" occurrences 8 · FAQ schema false
+
+adat-hantaran-ikut-keluarga
+  2026-08-26T22:10:33.668Z  200  cache=HIT  age=61  138278 bytes
+  title:     Adat hantaran ikut keluarga: bila dua senarai berbeza | HelloKahwin
+  canonical: https://hellokahwin.com/artikel/hantaran-mas-kahwin/adat-hantaran-ikut-keluarga
+  robots:    index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1
+  meta desc: 148 chars
+  h1:        Adat hantaran ikut keluarga: bila dua senarai berbeza
+  figures 2 · "Kredit:" occurrences 8 · FAQ schema false
+
+persiapan-hantaran-kahwin
+  2026-08-26T22:10:39.042Z  200  cache=HIT  age=58  140640 bytes
+  title:     Persiapan hantaran kahwin: jadual lapan minggu | HelloKahwin
+  canonical: https://hellokahwin.com/artikel/hantaran-mas-kahwin/persiapan-hantaran-kahwin
+  robots:    index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1
+  meta desc: 148 chars
+  h1:        Persiapan hantaran kahwin: jadual lapan minggu
+  figures 2 · "Kredit:" occurrences 8 · FAQ schema false
+
+tempat-beli-hantaran
+  2026-08-26T22:10:44.381Z  200  cache=HIT  age=178  145984 bytes
+  title:     Tempat beli barang hantaran: lima jenis kedai | HelloKahwin
+  canonical: https://hellokahwin.com/artikel/hantaran-mas-kahwin/tempat-beli-hantaran
+  robots:    index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1
+  meta desc: 147 chars
+  h1:        Tempat beli barang hantaran: lima jenis kedai
+  figures 2 · "Kredit:" occurrences 8 · FAQ schema false
+
+VERDICT
+  200                        7/7
+  correct <title>            7/7
+  indexable (index, follow)  7/7
+  canonical on the article   7/7
+  meta description 130-160   7/7
+  body >= 100KB              7/7
+  3 figures rendered         0/7
+  FAQ schema present         0/7
