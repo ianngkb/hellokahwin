@@ -1,0 +1,17 @@
+The default-branch rule, proved by GitHub refusing the dispatch
+===============================================================
+Taken BEFORE the workflow reached master. This is the Sprint 01 trap the brief
+named: a scheduled workflow on a feature branch never fires, and nothing tells
+you. GitHub is blunter than that -- it will not even accept a manual dispatch.
+
+$ gh workflow list --repo ianngkb/hellokahwin
+    DB backup freshness alarm   active  342253077
+    DB backup to R2             active  342250539
+    (no Indexing monitor)
+
+$ gh workflow run indexing-monitor.yml --repo ianngkb/hellokahwin --ref risk-05-to-master
+    HTTP 404: workflow indexing-monitor.yml not found on the default branch
+    (https://api.github.com/repos/ianngkb/hellokahwin/actions/workflows/indexing-monitor.yml)
+
+AFTER the push to master (see 01-workflow-list-on-default-branch.txt):
+    Indexing monitor            active  343129988

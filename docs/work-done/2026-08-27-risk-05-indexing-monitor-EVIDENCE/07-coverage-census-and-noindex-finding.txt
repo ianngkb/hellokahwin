@@ -1,0 +1,32 @@
+WHAT GOOGLE SAYS ABOUT THE PROPERTY, 26 Aug 2026 17:52Z
+=======================================================
+From run 32996238991 (no probe), 92 sitemap URLs, 0 not answered.
+
+  coverage_state                        count
+  ------------------------------------  -----
+  Submitted and indexed                    70
+  Discovered - currently not indexed        8
+  Excluded by 'noindex' tag                 6
+  URL is unknown to Google                  8
+
+  alarming (dark >72h)                      0
+  watching (dark, inside 72h)              15
+  not answered by Google                    0
+
+THE SIX 'Excluded by noindex tag' URLS ARE A SEPARATE, UNREPORTED DEFECT.
+The sitemap advertises six child-category hubs that the route serves with a
+noindex tag. Google has crawled all six (23 Aug) and excluded all six. This is
+NOT one of the DoD's two alarm conditions, so the monitor records it and does
+not alarm on it -- but a sitemap that advertises noindex URLs is a permanent
+Search Console error, and src/app/sitemap.ts's own comment says this rule was
+supposed to have been fixed.
+
+  https://hellokahwin.com/artikel/hiasan-dekorasi        crawled 2026-08-23T04:48:04
+  https://hellokahwin.com/artikel/moden-kontemporari     crawled 2026-08-23T05:21:53
+  https://hellokahwin.com/artikel/pantai-santai          crawled 2026-08-23T05:47:20
+  https://hellokahwin.com/artikel/glamor-eksklusif       crawled 2026-08-23T07:01:10
+  https://hellokahwin.com/artikel/fotografi-videografi   crawled 2026-08-23T04:56:36
+  https://hellokahwin.com/artikel/minimalis-mewah        crawled 2026-08-23T04:39:38
+
+Handed to the owner as a finding. Not fixed here -- src/app/sitemap.ts and
+src/lib/inspire/category-indexability.ts belong to another item.

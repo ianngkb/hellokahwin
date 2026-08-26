@@ -1,0 +1,680 @@
+sweep	Set up job	﻿2026-08-26T17:49:34.0380390Z Current runner version: '2.336.0'
+sweep	Set up job	2026-08-26T17:49:34.0419751Z ##[group]Runner Image Provisioner
+sweep	Set up job	2026-08-26T17:49:34.0421503Z Hosted Compute Agent
+sweep	Set up job	2026-08-26T17:49:34.0423259Z Version: 20260729.566
+sweep	Set up job	2026-08-26T17:49:34.0424623Z Commit: cf7153fe6e25b664e8693c24944bf2b00355d109
+sweep	Set up job	2026-08-26T17:49:34.0426197Z Build Date: 2026-07-29T19:17:02Z
+sweep	Set up job	2026-08-26T17:49:34.0427914Z Worker ID: ***fdd15bd4-a54b-41f8-a31f-902f652445a5***
+sweep	Set up job	2026-08-26T17:49:34.0429627Z Azure Region: northcentralus
+sweep	Set up job	2026-08-26T17:49:34.0431167Z ##[endgroup]
+sweep	Set up job	2026-08-26T17:49:34.0433937Z ##[group]Operating System
+sweep	Set up job	2026-08-26T17:49:34.0435393Z Ubuntu
+sweep	Set up job	2026-08-26T17:49:34.0436768Z 24.04.4
+sweep	Set up job	2026-08-26T17:49:34.0437877Z LTS
+sweep	Set up job	2026-08-26T17:49:34.0439028Z ##[endgroup]
+sweep	Set up job	2026-08-26T17:49:34.0440245Z ##[group]Runner Image
+sweep	Set up job	2026-08-26T17:49:34.0441817Z Image: ubuntu-24.04
+sweep	Set up job	2026-08-26T17:49:34.0443139Z Version: 20260816.277.1
+sweep	Set up job	2026-08-26T17:49:34.0445052Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260816.277/images/ubuntu/Ubuntu2404-Readme.md
+sweep	Set up job	2026-08-26T17:49:34.0448827Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260816.277
+sweep	Set up job	2026-08-26T17:49:34.0450877Z ##[endgroup]
+sweep	Set up job	2026-08-26T17:49:34.0453805Z ##[group]GITHUB_TOKEN Permissions
+sweep	Set up job	2026-08-26T17:49:34.0457280Z Contents: read
+sweep	Set up job	2026-08-26T17:49:34.0458566Z Issues: write
+sweep	Set up job	2026-08-26T17:49:34.0459964Z Metadata: read
+sweep	Set up job	2026-08-26T17:49:34.0461194Z ##[endgroup]
+sweep	Set up job	2026-08-26T17:49:34.0464974Z Secret source: Actions
+sweep	Set up job	2026-08-26T17:49:34.0467708Z Prepare workflow directory
+sweep	Set up job	2026-08-26T17:49:34.0934861Z Prepare all required actions
+sweep	Set up job	2026-08-26T17:49:34.1004930Z Getting action download info
+sweep	Set up job	2026-08-26T17:49:34.3525762Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+sweep	Set up job	2026-08-26T17:49:34.4457823Z Download action repository 'pnpm/action-setup@v4' (SHA:b906affcce14559ad1aafd4ab0e942779e9f58b1)
+sweep	Set up job	2026-08-26T17:49:34.9605192Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+sweep	Set up job	2026-08-26T17:49:35.0518052Z Download action repository 'actions/github-script@v7' (SHA:f28e40c7f34bde8b3046d885e986cb6290c5673b)
+sweep	Set up job	2026-08-26T17:49:35.4356910Z Complete job name: sweep
+sweep	Run actions/checkout@v4	﻿2026-08-26T17:49:35.5277504Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.5286644Z ##[group]Run actions/checkout@v4
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.5287568Z with:
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.5288200Z   repository: ianngkb/hellokahwin
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.5293012Z   token: ***
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.5293644Z   ssh-strict: true
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.5294272Z   ssh-user: git
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.5294886Z   persist-credentials: true
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.5295555Z   clean: true
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.5296171Z   sparse-checkout-cone-mode: true
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.5296864Z   fetch-depth: 1
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.5297525Z   fetch-tags: false
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.5298158Z   show-progress: true
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.5298776Z   lfs: false
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.5299344Z   submodules: false
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.5300020Z   set-safe-directory: true
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.5300696Z   allow-unsafe-pr-checkout: false
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.5301795Z env:
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.5302392Z   R2_BUCKET: hellokahwin-assets
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.5303103Z   STATE_KEY: indexing-monitor/state.json
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.5303840Z   OUT_DIR: .tmp-indexing-monitor
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.5304498Z ##[endgroup]
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.6345027Z Syncing repository: ianngkb/hellokahwin
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.6347354Z ##[group]Getting Git version info
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.6348284Z Working directory is '/home/runner/work/hellokahwin/hellokahwin'
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.6349699Z [command]/usr/bin/git version
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.6384383Z git version 2.55.0
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.6436567Z ##[endgroup]
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.6451767Z Temporarily overriding HOME='/home/runner/work/_temp/c049e27c-0a73-409a-b91b-1f399788de9e' before making global git config changes
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.6454177Z Adding repository directory to the temporary git global config as a safe directory
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.6457619Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/hellokahwin/hellokahwin
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.6506741Z Deleting the contents of '/home/runner/work/hellokahwin/hellokahwin'
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.6511204Z ##[group]Initializing the repository
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.6516383Z [command]/usr/bin/git init /home/runner/work/hellokahwin/hellokahwin
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.6589110Z hint: Using 'master' as the name for the initial branch. This default branch name
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.6590904Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.6592926Z hint: to use in all of your new repositories, which will suppress this warning,
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.6594029Z hint: call:
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.6594631Z hint:
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.6595361Z hint: 	git config --global init.defaultBranch <name>
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.6596234Z hint:
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.6596997Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.6598323Z hint: 'development'. The just-created branch can be renamed via this command:
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.6599386Z hint:
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.6600028Z hint: 	git branch -m <name>
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.6600688Z hint:
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.6601496Z hint: Disable this message with "git config set advice.defaultBranchName false"
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.6603578Z Initialized empty Git repository in /home/runner/work/hellokahwin/hellokahwin/.git/
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.6606066Z [command]/usr/bin/git remote add origin https://github.com/ianngkb/hellokahwin
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.6645851Z ##[endgroup]
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.6646970Z ##[group]Disabling automatic garbage collection
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.6650059Z [command]/usr/bin/git config --local gc.auto 0
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.6683704Z ##[endgroup]
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.6685066Z ##[group]Setting up auth
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.6690380Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.6726039Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.7038814Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.7073820Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.7315933Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.7350122Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.7588077Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.7627080Z ##[endgroup]
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.7628698Z ##[group]Fetching the repository
+sweep	Run actions/checkout@v4	2026-08-26T17:49:35.7636396Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +32e99e6e84f541076d173e159649ae39d2cc4c5c:refs/remotes/origin/master
+sweep	Run actions/checkout@v4	2026-08-26T17:50:01.1049857Z From https://github.com/ianngkb/hellokahwin
+sweep	Run actions/checkout@v4	2026-08-26T17:50:01.1050722Z  * [new ref]         32e99e6e84f541076d173e159649ae39d2cc4c5c -> origin/master
+sweep	Run actions/checkout@v4	2026-08-26T17:50:01.1053577Z ##[endgroup]
+sweep	Run actions/checkout@v4	2026-08-26T17:50:01.1054253Z ##[group]Determining the checkout info
+sweep	Run actions/checkout@v4	2026-08-26T17:50:01.1056336Z ##[endgroup]
+sweep	Run actions/checkout@v4	2026-08-26T17:50:01.1061838Z [command]/usr/bin/git sparse-checkout disable
+sweep	Run actions/checkout@v4	2026-08-26T17:50:01.1106891Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+sweep	Run actions/checkout@v4	2026-08-26T17:50:01.1135144Z ##[group]Checking out the ref
+sweep	Run actions/checkout@v4	2026-08-26T17:50:01.1139012Z [command]/usr/bin/git checkout --progress --force -B master refs/remotes/origin/master
+sweep	Run actions/checkout@v4	2026-08-26T17:50:01.2985425Z Reset branch 'master'
+sweep	Run actions/checkout@v4	2026-08-26T17:50:01.2987092Z branch 'master' set up to track 'origin/master'.
+sweep	Run actions/checkout@v4	2026-08-26T17:50:01.3019119Z ##[endgroup]
+sweep	Run actions/checkout@v4	2026-08-26T17:50:01.3083055Z [command]/usr/bin/git log -1 --format=%H
+sweep	Run actions/checkout@v4	2026-08-26T17:50:01.3094224Z 32e99e6e84f541076d173e159649ae39d2cc4c5c
+sweep	Run pnpm/action-setup@v4	﻿2026-08-26T17:50:01.3346160Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+sweep	Run pnpm/action-setup@v4	2026-08-26T17:50:01.3348411Z ##[group]Run pnpm/action-setup@v4
+sweep	Run pnpm/action-setup@v4	2026-08-26T17:50:01.3348855Z with:
+sweep	Run pnpm/action-setup@v4	2026-08-26T17:50:01.3349216Z   version: 10
+sweep	Run pnpm/action-setup@v4	2026-08-26T17:50:01.3349602Z   dest: ~/setup-pnpm
+sweep	Run pnpm/action-setup@v4	2026-08-26T17:50:01.3350001Z   run_install: null
+sweep	Run pnpm/action-setup@v4	2026-08-26T17:50:01.3350374Z   cache: false
+sweep	Run pnpm/action-setup@v4	2026-08-26T17:50:01.3350787Z   cache_dependency_path: pnpm-lock.yaml
+sweep	Run pnpm/action-setup@v4	2026-08-26T17:50:01.3351254Z   package_json_file: package.json
+sweep	Run pnpm/action-setup@v4	2026-08-26T17:50:01.3351950Z   standalone: false
+sweep	Run pnpm/action-setup@v4	2026-08-26T17:50:01.3352335Z env:
+sweep	Run pnpm/action-setup@v4	2026-08-26T17:50:01.3352710Z   R2_BUCKET: hellokahwin-assets
+sweep	Run pnpm/action-setup@v4	2026-08-26T17:50:01.3353142Z   STATE_KEY: indexing-monitor/state.json
+sweep	Run pnpm/action-setup@v4	2026-08-26T17:50:01.3353597Z   OUT_DIR: .tmp-indexing-monitor
+sweep	Run pnpm/action-setup@v4	2026-08-26T17:50:01.3354063Z ##[endgroup]
+sweep	Run pnpm/action-setup@v4	2026-08-26T17:50:01.4828950Z ##[group]Running self-installer...
+sweep	Run pnpm/action-setup@v4	2026-08-26T17:50:01.8706827Z (node:2339) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+sweep	Run pnpm/action-setup@v4	2026-08-26T17:50:01.8708334Z (Use `node --trace-deprecation ...` to show where the warning was created)
+sweep	Run pnpm/action-setup@v4	2026-08-26T17:50:02.1234021Z Progress: resolved 1, reused 0, downloaded 0, added 0
+sweep	Run pnpm/action-setup@v4	2026-08-26T17:50:02.1317953Z Packages: +1
+sweep	Run pnpm/action-setup@v4	2026-08-26T17:50:02.1318752Z +
+sweep	Run pnpm/action-setup@v4	2026-08-26T17:50:02.5426573Z Progress: resolved 1, reused 0, downloaded 1, added 1, done
+sweep	Run pnpm/action-setup@v4	2026-08-26T17:50:02.5673373Z 
+sweep	Run pnpm/action-setup@v4	2026-08-26T17:50:02.5674507Z dependencies:
+sweep	Run pnpm/action-setup@v4	2026-08-26T17:50:02.5675643Z + pnpm 10.34.5 (11.24.0 is available)
+sweep	Run pnpm/action-setup@v4	2026-08-26T17:50:02.5678295Z 
+sweep	Run pnpm/action-setup@v4	2026-08-26T17:50:02.5705219Z Done in 910ms
+sweep	Run pnpm/action-setup@v4	2026-08-26T17:50:02.5893836Z ##[endgroup]
+sweep	Run pnpm/action-setup@v4	2026-08-26T17:50:02.5894382Z Installation Completed!
+sweep	Run actions/setup-node@v4	﻿2026-08-26T17:50:02.6111437Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+sweep	Run actions/setup-node@v4	2026-08-26T17:50:02.6113104Z ##[group]Run actions/setup-node@v4
+sweep	Run actions/setup-node@v4	2026-08-26T17:50:02.6113453Z with:
+sweep	Run actions/setup-node@v4	2026-08-26T17:50:02.6113741Z   node-version: 22
+sweep	Run actions/setup-node@v4	2026-08-26T17:50:02.6114049Z   cache: pnpm
+sweep	Run actions/setup-node@v4	2026-08-26T17:50:02.6114341Z   always-auth: false
+sweep	Run actions/setup-node@v4	2026-08-26T17:50:02.6114654Z   check-latest: false
+sweep	Run actions/setup-node@v4	2026-08-26T17:50:02.6117542Z   token: ***
+sweep	Run actions/setup-node@v4	2026-08-26T17:50:02.6117844Z env:
+sweep	Run actions/setup-node@v4	2026-08-26T17:50:02.6118137Z   R2_BUCKET: hellokahwin-assets
+sweep	Run actions/setup-node@v4	2026-08-26T17:50:02.6118519Z   STATE_KEY: indexing-monitor/state.json
+sweep	Run actions/setup-node@v4	2026-08-26T17:50:02.6118909Z   OUT_DIR: .tmp-indexing-monitor
+sweep	Run actions/setup-node@v4	2026-08-26T17:50:02.6119332Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+sweep	Run actions/setup-node@v4	2026-08-26T17:50:02.6119744Z ##[endgroup]
+sweep	Run actions/setup-node@v4	2026-08-26T17:50:02.7590386Z Found in cache @ /opt/hostedtoolcache/node/22.23.2/x64
+sweep	Run actions/setup-node@v4	2026-08-26T17:50:02.7595358Z (node:2353) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+sweep	Run actions/setup-node@v4	2026-08-26T17:50:02.7596321Z (Use `node --trace-deprecation ...` to show where the warning was created)
+sweep	Run actions/setup-node@v4	2026-08-26T17:50:02.7597899Z ##[group]Environment details
+sweep	Run actions/setup-node@v4	2026-08-26T17:50:05.5254033Z node: v22.23.2
+sweep	Run actions/setup-node@v4	2026-08-26T17:50:05.5255017Z npm: 10.9.8
+sweep	Run actions/setup-node@v4	2026-08-26T17:50:05.5255493Z yarn: 1.22.22
+sweep	Run actions/setup-node@v4	2026-08-26T17:50:05.5256998Z ##[endgroup]
+sweep	Run actions/setup-node@v4	2026-08-26T17:50:05.5296341Z [command]/home/runner/setup-pnpm/node_modules/.bin/pnpm store path --silent
+sweep	Run actions/setup-node@v4	2026-08-26T17:50:06.1583541Z /home/runner/setup-pnpm/node_modules/.bin/store/v10
+sweep	Run actions/setup-node@v4	2026-08-26T17:50:06.3078494Z Cache hit for: node-cache-Linux-x64-pnpm-9367a9280658c0171106e91a788339168f7c879bb6b33b71ffcee2e7c9cd2962
+sweep	Run actions/setup-node@v4	2026-08-26T17:50:06.3186747Z (node:2353) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+sweep	Run actions/setup-node@v4	2026-08-26T17:50:07.4328721Z Received 130023424 of 229539926 (56.6%), 123.9 MBs/sec
+sweep	Run actions/setup-node@v4	2026-08-26T17:50:08.0375491Z Received 229539926 of 229539926 (100.0%), 136.3 MBs/sec
+sweep	Run actions/setup-node@v4	2026-08-26T17:50:08.0376333Z Cache Size: ~219 MB (229539926 B)
+sweep	Run actions/setup-node@v4	2026-08-26T17:50:08.0410982Z [command]/usr/bin/tar -xf /home/runner/work/_temp/a4b46855-e69b-44cb-8022-bb67af9b06d0/cache.tzst -P -C /home/runner/work/hellokahwin/hellokahwin --use-compress-program unzstd
+sweep	Run actions/setup-node@v4	2026-08-26T17:50:10.6023419Z Cache restored successfully
+sweep	Run actions/setup-node@v4	2026-08-26T17:50:10.6140423Z Cache restored from key: node-cache-Linux-x64-pnpm-9367a9280658c0171106e91a788339168f7c879bb6b33b71ffcee2e7c9cd2962
+sweep	Install	﻿2026-08-26T17:50:10.6371818Z ##[group]Run pnpm install --frozen-lockfile --ignore-scripts
+sweep	Install	2026-08-26T17:50:10.6372491Z ^[[36;1mpnpm install --frozen-lockfile --ignore-scripts^[[0m
+sweep	Install	2026-08-26T17:50:10.6421183Z shell: /usr/bin/bash -e ***0***
+sweep	Install	2026-08-26T17:50:10.6421821Z env:
+sweep	Install	2026-08-26T17:50:10.6422206Z   R2_BUCKET: hellokahwin-assets
+sweep	Install	2026-08-26T17:50:10.6422596Z   STATE_KEY: indexing-monitor/state.json
+sweep	Install	2026-08-26T17:50:10.6422983Z   OUT_DIR: .tmp-indexing-monitor
+sweep	Install	2026-08-26T17:50:10.6423398Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+sweep	Install	2026-08-26T17:50:10.6423808Z ##[endgroup]
+sweep	Install	2026-08-26T17:50:11.0232164Z Lockfile is up to date, resolution step is skipped
+sweep	Install	2026-08-26T17:50:11.0973117Z Progress: resolved 1, reused 0, downloaded 0, added 0
+sweep	Install	2026-08-26T17:50:11.2763127Z Packages: +1087
+sweep	Install	2026-08-26T17:50:11.2764223Z ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+sweep	Install	2026-08-26T17:50:12.0980509Z Progress: resolved 1087, reused 1087, downloaded 0, added 59
+sweep	Install	2026-08-26T17:50:13.0553456Z Progress: resolved 1087, reused 1087, downloaded 0, added 1087, done
+sweep	Install	2026-08-26T17:50:13.5921337Z 
+sweep	Install	2026-08-26T17:50:13.5922339Z dependencies:
+sweep	Install	2026-08-26T17:50:13.5922875Z + @aws-sdk/client-rekognition 3.1115.0
+sweep	Install	2026-08-26T17:50:13.5923501Z + @aws-sdk/client-s3 3.1115.0
+sweep	Install	2026-08-26T17:50:13.5924059Z + @aws-sdk/s3-request-presigner 3.1115.0
+sweep	Install	2026-08-26T17:50:13.5924485Z + @clerk/backend 3.2.7
+sweep	Install	2026-08-26T17:50:13.5924820Z + @clerk/nextjs 7.8.0
+sweep	Install	2026-08-26T17:50:13.5925179Z + @dnd-kit/core 6.3.1
+sweep	Install	2026-08-26T17:50:13.5925512Z + @dnd-kit/sortable 10.0.0
+sweep	Install	2026-08-26T17:50:13.5925867Z + @dnd-kit/utilities 3.2.2
+sweep	Install	2026-08-26T17:50:13.5926252Z + @jspawn/ghostscript-wasm 0.0.2
+sweep	Install	2026-08-26T17:50:13.5926635Z + @tiptap/core 2.27.2
+sweep	Install	2026-08-26T17:50:13.5927197Z + @tiptap/extension-image 2.27.2
+sweep	Install	2026-08-26T17:50:13.5927703Z + @tiptap/extension-link 2.27.2
+sweep	Install	2026-08-26T17:50:13.5928123Z + @tiptap/extension-mention 2.27.2
+sweep	Install	2026-08-26T17:50:13.5928579Z + @tiptap/extension-table 2.27.2
+sweep	Install	2026-08-26T17:50:13.5929014Z + @tiptap/extension-table-cell 2.27.2
+sweep	Install	2026-08-26T17:50:13.5929612Z + @tiptap/extension-table-header 2.27.2
+sweep	Install	2026-08-26T17:50:13.5930268Z + @tiptap/extension-table-row 2.27.2
+sweep	Install	2026-08-26T17:50:13.5930703Z + @tiptap/extension-underline 2.27.2
+sweep	Install	2026-08-26T17:50:13.5931079Z + @tiptap/html 2.27.2
+sweep	Install	2026-08-26T17:50:13.5931472Z + @tiptap/pm 2.27.2
+sweep	Install	2026-08-26T17:50:13.5932067Z + @tiptap/react 2.27.2
+sweep	Install	2026-08-26T17:50:13.5932415Z + @tiptap/starter-kit 2.27.2
+sweep	Install	2026-08-26T17:50:13.5932784Z + @tiptap/suggestion 2.27.2
+sweep	Install	2026-08-26T17:50:13.5933196Z + @vercel/functions 3.9.5
+sweep	Install	2026-08-26T17:50:13.5933778Z + browser-image-compression 2.0.2
+sweep	Install	2026-08-26T17:50:13.5934321Z + class-variance-authority 0.7.1
+sweep	Install	2026-08-26T17:50:13.5934686Z + clsx 2.1.1
+sweep	Install	2026-08-26T17:50:13.5934997Z + date-fns 4.4.0
+sweep	Install	2026-08-26T17:50:13.5935329Z + drizzle-orm 0.45.2
+sweep	Install	2026-08-26T17:50:13.5935769Z + he 1.2.0
+sweep	Install	2026-08-26T17:50:13.5936205Z + lucide-react 0.563.0
+sweep	Install	2026-08-26T17:50:13.5937051Z + next 16.1.6
+sweep	Install	2026-08-26T17:50:13.5937492Z + next-themes 0.4.6
+sweep	Install	2026-08-26T17:50:13.5937944Z + novel 1.0.2
+sweep	Install	2026-08-26T17:50:13.5938368Z + pdfjs-dist 5.4.296
+sweep	Install	2026-08-26T17:50:13.5938799Z + postgres 3.4.9
+sweep	Install	2026-08-26T17:50:13.5939194Z + radix-ui 1.6.7
+sweep	Install	2026-08-26T17:50:13.5939596Z + react 19.2.3
+sweep	Install	2026-08-26T17:50:13.5940025Z + react-dom 19.2.3
+sweep	Install	2026-08-26T17:50:13.5948673Z + react-easy-crop 5.5.7
+sweep	Install	2026-08-26T17:50:13.5949505Z + react-pdf 10.5.0
+sweep	Install	2026-08-26T17:50:13.5950342Z + sanitize-html 2.17.7
+sweep	Install	2026-08-26T17:50:13.5951289Z + server-only 0.0.1
+sweep	Install	2026-08-26T17:50:13.5952005Z + sharp 0.34.5
+sweep	Install	2026-08-26T17:50:13.5952517Z + sonner 2.0.8
+sweep	Install	2026-08-26T17:50:13.5953030Z + tailwind-merge 3.6.0
+sweep	Install	2026-08-26T17:50:13.5953540Z + zod 4.4.3
+sweep	Install	2026-08-26T17:50:13.5953813Z 
+sweep	Install	2026-08-26T17:50:13.5954045Z devDependencies:
+sweep	Install	2026-08-26T17:50:13.5954586Z + @tailwindcss/postcss 4.3.3
+sweep	Install	2026-08-26T17:50:13.5955252Z + @testing-library/jest-dom 6.10.0
+sweep	Install	2026-08-26T17:50:13.5955918Z + @testing-library/react 16.3.2
+sweep	Install	2026-08-26T17:50:13.5956508Z + @types/he 1.2.3
+sweep	Install	2026-08-26T17:50:13.5957046Z + @types/node 20.19.43
+sweep	Install	2026-08-26T17:50:13.5957566Z + @types/react 19.2.18
+sweep	Install	2026-08-26T17:50:13.5958459Z + @types/react-dom 19.2.4
+sweep	Install	2026-08-26T17:50:13.5959074Z + @types/sanitize-html 2.16.1
+sweep	Install	2026-08-26T17:50:13.5959676Z + @vitejs/plugin-react 5.2.0
+sweep	Install	2026-08-26T17:50:13.5960257Z + dotenv 16.6.1
+sweep	Install	2026-08-26T17:50:13.5960776Z + drizzle-kit 0.31.10
+sweep	Install	2026-08-26T17:50:13.5961282Z + eslint 9.39.5
+sweep	Install	2026-08-26T17:50:13.5961989Z + eslint-config-next 16.1.6
+sweep	Install	2026-08-26T17:50:13.5962518Z + jsdom 28.1.0
+sweep	Install	2026-08-26T17:50:13.5962996Z + marked 18.0.10
+sweep	Install	2026-08-26T17:50:13.5963496Z + prettier 3.9.6
+sweep	Install	2026-08-26T17:50:13.5964102Z + shadcn 3.8.5
+sweep	Install	2026-08-26T17:50:13.5964643Z + tailwindcss 4.3.3
+sweep	Install	2026-08-26T17:50:13.5965130Z + tsx 4.23.12
+sweep	Install	2026-08-26T17:50:13.5965632Z + tw-animate-css 1.4.0
+sweep	Install	2026-08-26T17:50:13.5966162Z + typescript 5.9.3
+sweep	Install	2026-08-26T17:50:13.5966660Z + vitest 4.1.11
+sweep	Install	2026-08-26T17:50:13.5967126Z + yaml 2.9.0
+sweep	Install	2026-08-26T17:50:13.5967395Z 
+sweep	Install	2026-08-26T17:50:13.6144801Z Done in 2.9s using pnpm v10.34.5
+sweep	Fetch the ledger from R2	﻿2026-08-26T17:50:13.6395554Z ##[group]Run set -euo pipefail
+sweep	Fetch the ledger from R2	2026-08-26T17:50:13.6396031Z ^[[36;1mset -euo pipefail^[[0m
+sweep	Fetch the ledger from R2	2026-08-26T17:50:13.6396518Z ^[[36;1mEP="https://$***R2_ACCOUNT_ID***.r2.cloudflarestorage.com"^[[0m
+sweep	Fetch the ledger from R2	2026-08-26T17:50:13.6397060Z ^[[36;1mecho "R2_ENDPOINT=$EP" >> "$GITHUB_ENV"^[[0m
+sweep	Fetch the ledger from R2	2026-08-26T17:50:13.6397473Z ^[[36;1mmkdir -p "$OUT_DIR"^[[0m
+sweep	Fetch the ledger from R2	2026-08-26T17:50:13.6397878Z ^[[36;1m^[[0m
+sweep	Fetch the ledger from R2	2026-08-26T17:50:13.6398312Z ^[[36;1m# Existence is checked SEPARATELY from the download so that "there is^[[0m
+sweep	Fetch the ledger from R2	2026-08-26T17:50:13.6398915Z ^[[36;1m# no ledger yet" and "the ledger is there but we could not read it"^[[0m
+sweep	Fetch the ledger from R2	2026-08-26T17:50:13.6399490Z ^[[36;1m# cannot produce the same outcome. The second silently resets every^[[0m
+sweep	Fetch the ledger from R2	2026-08-26T17:50:13.6400036Z ^[[36;1m# grace window, which would stop the alarm ever firing.^[[0m
+sweep	Fetch the ledger from R2	2026-08-26T17:50:13.6400592Z ^[[36;1mif aws s3api head-object --bucket "$R2_BUCKET" --key "$STATE_KEY" \^[[0m
+sweep	Fetch the ledger from R2	2026-08-26T17:50:13.6401118Z ^[[36;1m     --endpoint-url "$EP" > /dev/null 2>&1; then^[[0m
+sweep	Fetch the ledger from R2	2026-08-26T17:50:13.6401940Z ^[[36;1m  echo "ledger exists in R2 — downloading (a failure here FAILS the run)"^[[0m
+sweep	Fetch the ledger from R2	2026-08-26T17:50:13.6402648Z ^[[36;1m  aws s3 cp "s3://$***R2_BUCKET***/$***STATE_KEY***" "$***OUT_DIR***/state.json" \^[[0m
+sweep	Fetch the ledger from R2	2026-08-26T17:50:13.6403192Z ^[[36;1m    --endpoint-url "$EP"^[[0m
+sweep	Fetch the ledger from R2	2026-08-26T17:50:13.6403650Z ^[[36;1m  echo "bytes: $(stat -c %s "$***OUT_DIR***/state.json")"^[[0m
+sweep	Fetch the ledger from R2	2026-08-26T17:50:13.6404107Z ^[[36;1melse^[[0m
+sweep	Fetch the ledger from R2	2026-08-26T17:50:13.6404586Z ^[[36;1m  echo "::notice::no ledger at s3://$***R2_BUCKET***/$***STATE_KEY*** — this run is a FIRST RUN."^[[0m
+sweep	Fetch the ledger from R2	2026-08-26T17:50:13.6405275Z ^[[36;1m  echo "Every grace window will be measured from the sitemap's own lastmod."^[[0m
+sweep	Fetch the ledger from R2	2026-08-26T17:50:13.6405940Z ^[[36;1m  echo "If this notice appears on a day that is not the first, the ledger was lost."^[[0m
+sweep	Fetch the ledger from R2	2026-08-26T17:50:13.6406442Z ^[[36;1mfi^[[0m
+sweep	Fetch the ledger from R2	2026-08-26T17:50:13.6446601Z shell: /usr/bin/bash -e ***0***
+sweep	Fetch the ledger from R2	2026-08-26T17:50:13.6446967Z env:
+sweep	Fetch the ledger from R2	2026-08-26T17:50:13.6447288Z   R2_BUCKET: hellokahwin-assets
+sweep	Fetch the ledger from R2	2026-08-26T17:50:13.6447885Z   STATE_KEY: indexing-monitor/state.json
+sweep	Fetch the ledger from R2	2026-08-26T17:50:13.6448297Z   OUT_DIR: .tmp-indexing-monitor
+sweep	Fetch the ledger from R2	2026-08-26T17:50:13.6448718Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+sweep	Fetch the ledger from R2	2026-08-26T17:50:13.6449217Z   AWS_ACCESS_KEY_ID: ***
+sweep	Fetch the ledger from R2	2026-08-26T17:50:13.6449720Z   AWS_SECRET_ACCESS_KEY: ***
+sweep	Fetch the ledger from R2	2026-08-26T17:50:13.6450074Z   AWS_DEFAULT_REGION: auto
+sweep	Fetch the ledger from R2	2026-08-26T17:50:13.6450461Z   R2_ACCOUNT_ID: ***
+sweep	Fetch the ledger from R2	2026-08-26T17:50:13.6450771Z ##[endgroup]
+sweep	Fetch the ledger from R2	2026-08-26T17:50:17.5364890Z ledger exists in R2 — downloading (a failure here FAILS the run)
+sweep	Fetch the ledger from R2	2026-08-26T17:50:19.3166976Z Completed 30.2 KiB/30.2 KiB (37.9 KiB/s) with 1 file(s) remaining
+sweep	Fetch the ledger from R2	2026-08-26T17:50:19.3168259Z download: s3://hellokahwin-assets/indexing-monitor/state.json to .tmp-indexing-monitor/state.json
+sweep	Fetch the ledger from R2	2026-08-26T17:50:19.4364570Z bytes: 30889
+sweep	Sweep every sitemap URL through Google	﻿2026-08-26T17:50:19.4425073Z ##[group]Run set -euo pipefail
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:19.4425513Z ^[[36;1mset -euo pipefail^[[0m
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:19.4425881Z ^[[36;1margs=(--out "$OUT_DIR")^[[0m
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:19.4426332Z ^[[36;1mif [ -n "$***PROBE_URL:-***" ]; then^[[0m
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:19.4426879Z ^[[36;1m  echo "::warning::probe URL injected on purpose: $***PROBE_URL***"^[[0m
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:19.4427401Z ^[[36;1m  args+=(--probe-url "$PROBE_URL")^[[0m
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:19.4427781Z ^[[36;1mfi^[[0m
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:19.4428144Z ^[[36;1mpnpm --silent monitor:indexing "$***args[@]***"^[[0m
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:19.4467940Z shell: /usr/bin/bash -e ***0***
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:19.4468321Z env:
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:19.4468630Z   R2_BUCKET: hellokahwin-assets
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:19.4469016Z   STATE_KEY: indexing-monitor/state.json
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:19.4469418Z   OUT_DIR: .tmp-indexing-monitor
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:19.4469835Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:19.4470477Z   R2_ENDPOINT: https://***.r2.cloudflarestorage.com
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:19.4480070Z   GSC_SERVICE_ACCOUNT_JSON: ***
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:19.4480599Z   MONITOR_RUN_URL: https://github.com/ianngkb/hellokahwin/actions/runs/32996238991
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:19.4481127Z   PROBE_URL: 
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:19.4481435Z ##[endgroup]
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:20.0239471Z Indexing monitor
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:20.0240959Z   property   : https://hellokahwin.com/
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:20.0242237Z   sitemap    : https://hellokahwin.com/sitemap.xml
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:20.0243272Z   state      : .tmp-indexing-monitor/state.json
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:20.0244304Z   out        : .tmp-indexing-monitor
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:20.0244972Z   grace      : 72h
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:20.0246578Z   ledger     : loaded 91 URLs from .tmp-indexing-monitor/state.json
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:20.4604684Z 
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:20.4605487Z 91 URLs in the live sitemap.
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:20.5832601Z 
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:20.5834303Z Inspecting…
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:27.1038629Z   [  1/91] https://hellokahwin.com/artikel/hiasan-dekorasi
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:27.1039628Z         Excluded by ‘noindex’ tag
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:27.1340547Z   [  2/91] https://hellokahwin.com/artikel/idea-dan-nasihat
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:27.1341807Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:27.4153882Z   [  3/91] https://hellokahwin.com/artikel
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:27.4154455Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:27.4183578Z   [  4/91] https://hellokahwin.com
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:27.4184160Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:33.4934091Z   [  5/91] https://hellokahwin.com/artikel/moden-kontemporari
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:33.4935305Z         Excluded by ‘noindex’ tag
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:33.7053923Z   [  6/91] https://hellokahwin.com/artikel/real-wedding
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:33.7054527Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:33.8494699Z   [  7/91] https://hellokahwin.com/artikel/glamor-eksklusif
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:33.8495752Z         Excluded by ‘noindex’ tag
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:33.8596071Z   [  8/91] https://hellokahwin.com/artikel/pantai-santai
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:33.8597016Z         Excluded by ‘noindex’ tag
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:39.8244880Z   [  9/91] https://hellokahwin.com/artikel/fotografi-videografi
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:39.8245819Z         Excluded by ‘noindex’ tag
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:40.1700648Z   [ 10/91] https://hellokahwin.com/artikel/minimalis-mewah
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:40.1701688Z         Excluded by ‘noindex’ tag
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:40.4403501Z   [ 11/91] https://hellokahwin.com/artikel/nikah-undang-undang
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:40.4404137Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:40.5170893Z   [ 12/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:40.5171506Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:46.2265891Z   [ 13/91] https://hellokahwin.com/artikel/ucapan-doa
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:46.2267059Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:46.5882127Z   [ 14/91] https://hellokahwin.com/artikel/busana-pengantin
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:46.5882728Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:47.1445962Z   [ 15/91] https://hellokahwin.com/artikel/pelamin-kad-cenderahati
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:47.1446834Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:47.2383580Z   [ 16/91] https://hellokahwin.com/artikel/venue-perancangan
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:47.2384409Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:52.4367179Z   [ 17/91] https://hellokahwin.com/artikel/sebelum-nikah
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:52.4367757Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:53.4007957Z   [ 18/91] https://hellokahwin.com/artikel/busana-pengantin/baju-pengantin-sewa-atau-beli
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:53.4008645Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:53.5934651Z   [ 19/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-kelantan-terengganu
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:53.5935361Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:53.6865591Z   [ 20/91] https://hellokahwin.com/artikel/glamor-eksklusif/amankila-bali
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:53.6866231Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:59.4806807Z   [ 21/91] https://hellokahwin.com/artikel/nikah-undang-undang/rukun-nikah
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:59.4807707Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:59.8911865Z   [ 22/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-sabah-sarawak
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:50:59.8912918Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:00.0918727Z   [ 23/91] https://hellokahwin.com/artikel/sebelum-nikah/cincin-tunang
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:00.0919611Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:00.3657089Z   [ 24/91] https://hellokahwin.com/artikel/venue-perancangan/checklist-kahwin
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:00.3657951Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:05.9448904Z   [ 25/91] https://hellokahwin.com/artikel/glamor-eksklusif/grand-hyatt-kuala-lumpur
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:05.9449827Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:06.3855026Z   [ 26/91] https://hellokahwin.com/artikel/venue-perancangan/bajet-kahwin
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:06.3855902Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:06.5620740Z   [ 27/91] https://hellokahwin.com/artikel/ucapan-doa/ucapan-pengantin-baru
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:06.5621856Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:06.6036709Z   [ 28/91] https://hellokahwin.com/artikel/venue-perancangan/pakej-dewan-kahwin
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:06.6037669Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:12.4093504Z   [ 29/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/sirih-junjung
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:12.4094159Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:12.9031493Z   [ 30/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-pahang-negeri-sembilan
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:12.9032761Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:13.0650775Z   [ 31/91] https://hellokahwin.com/artikel/ucapan-doa/doa-pengantin-baru
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:13.0651396Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:13.1072374Z   [ 32/91] https://hellokahwin.com/artikel/real-wedding/villa-warisan
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:13.1072977Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:19.1365658Z   [ 33/91] https://hellokahwin.com/artikel/moden-kontemporari/marriott-putrajaya
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:19.1366593Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:19.2895470Z   [ 34/91] https://hellokahwin.com/artikel/idea-dan-nasihat/cara-buat-kad-kahwin-digital
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:19.2896191Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:19.3982099Z   [ 35/91] https://hellokahwin.com/artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:19.3983903Z         Discovered - currently not indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:19.6689680Z   [ 36/91] https://hellokahwin.com/artikel/pelamin-kad-cenderahati/contoh-kad-jemputan-kahwin
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:19.6690379Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:25.4467230Z   [ 37/91] https://hellokahwin.com/artikel/ucapan-doa/doa-majlis-perkahwinan
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:25.4468147Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:25.5356108Z   [ 38/91] https://hellokahwin.com/artikel/venue-perancangan/harga-sewa-dewan-kahwin
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:25.5356842Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:25.7091998Z   [ 39/91] https://hellokahwin.com/artikel/moden-kontemporari/sime-darby-convention-centre
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:25.7092994Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:26.0960379Z   [ 40/91] https://hellokahwin.com/artikel/real-wedding/cheong-fatt-tze-mansion
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:26.0961055Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:31.7354584Z   [ 41/91] https://hellokahwin.com/artikel/idea-dan-nasihat/pelamin-kahwin-dewan
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:31.7355507Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:31.9209939Z   [ 42/91] https://hellokahwin.com/artikel/real-wedding/sentosa-janda-baik
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:31.9210851Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:32.0197970Z   [ 43/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:32.0198668Z         Discovered - currently not indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:32.4901703Z   [ 44/91] https://hellokahwin.com/artikel/busana-pengantin/inai-tangan-pengantin
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:32.4902641Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:38.1759448Z   [ 45/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/nisbah-hantaran
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:38.1760138Z         Discovered - currently not indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:38.1796492Z   [ 46/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-kahwin-5-balas-7
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:38.1797287Z         Discovered - currently not indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:38.3132396Z   [ 47/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:38.3133120Z         Discovered - currently not indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:38.8928118Z   [ 48/91] https://hellokahwin.com/artikel/minimalis-mewah/the-danna-langkawi
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:38.8928752Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:44.5961067Z   [ 49/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/bilangan-dulang-hantaran-ganjil
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:44.5962074Z         URL is unknown to Google
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:44.6683552Z   [ 50/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang-3-balas-5
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:44.6684242Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:44.8786903Z   [ 51/91] https://hellokahwin.com/artikel/real-wedding/perkahwinan-taman-kebun-yang-minimalis-di-hulu-langat
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:44.8787704Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:45.4944224Z   [ 52/91] https://hellokahwin.com/artikel/sebelum-nikah/doa-majlis-pertunangan
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:45.4945198Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:50.7899139Z   [ 53/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/duit-hantaran-kahwin
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:50.7900156Z         Discovered - currently not indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:50.8453171Z   [ 54/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/cara-tetapkan-duit-hantaran
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:50.8454243Z         Discovered - currently not indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:51.2718657Z   [ 55/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/adat-hantaran-berbeza-negeri
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:51.2719718Z         Discovered - currently not indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:51.7636821Z   [ 56/91] https://hellokahwin.com/artikel/real-wedding/perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:51.7637702Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:57.1490876Z   [ 57/91] https://hellokahwin.com/artikel/pantai-santai/perkahwinan-indah-di-laman-fajar-menyinsing-port-dickson
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:57.1492408Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:57.2603298Z   [ 58/91] https://hellokahwin.com/artikel/idea-dan-nasihat/dewan-kahwin
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:57.2603917Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:57.8373911Z   [ 59/91] https://hellokahwin.com/artikel/hiasan-dekorasi/goodies-kahwin
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:57.8374784Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:58.3469175Z   [ 60/91] https://hellokahwin.com/artikel/moden-kontemporari/jw-marriott-kuala-lumpur
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:51:58.3470131Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:03.6195834Z   [ 61/91] https://hellokahwin.com/artikel/pelamin-kad-cenderahati/bunga-telur
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:03.6196539Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:03.8385528Z   [ 62/91] https://hellokahwin.com/artikel/idea-dan-nasihat/tempat-honeymoon-di-malaysia
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:03.8386222Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:04.5837705Z   [ 63/91] https://hellokahwin.com/artikel/nikah-undang-undang/borang-nikah
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:04.5838444Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:04.5865573Z   [ 64/91] https://hellokahwin.com/artikel/moden-kontemporari/perkahwinan-romantis-di-jen-shangri-la-puteri-harbour
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:04.5866363Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:10.1621848Z   [ 65/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-coklat
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:10.1622790Z         URL is unknown to Google
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:10.4385552Z   [ 66/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/gubahan-hantaran-simple
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:10.4386543Z         URL is unknown to Google
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:11.3353269Z   [ 67/91] https://hellokahwin.com/artikel/nikah-undang-undang/lafaz-taklik
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:11.3356493Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:11.5224333Z   [ 68/91] https://hellokahwin.com/artikel/real-wedding/yasaka-shrine
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:11.5224954Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:16.7050053Z   [ 69/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tema-warna
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:16.7050764Z         URL is unknown to Google
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:16.9546454Z   [ 70/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tempah-atau-buat-sendiri
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:16.9547194Z         URL is unknown to Google
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:17.7748901Z   [ 71/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hidden-hantaran
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:17.7749567Z         URL is unknown to Google
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:18.3796043Z   [ 72/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/gubahan-hantaran
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:18.3796698Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:23.3696340Z   [ 73/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:23.3697490Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:23.4539788Z   [ 74/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-kahwin
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:23.4540481Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:24.2572883Z   [ 75/91] https://hellokahwin.com/artikel/idea-dan-nasihat/majlis-kahwin
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:24.2573539Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:24.8686242Z   [ 76/91] https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:24.8686884Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:29.7268019Z   [ 77/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-perak
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:29.7268930Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:29.9940364Z   [ 78/91] https://hellokahwin.com/artikel/idea-dan-nasihat/sewa-dewan-kahwin
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:29.9940993Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:30.7852471Z   [ 79/91] https://hellokahwin.com/artikel/busana-pengantin/songket-tenunan-tangan-atau-cetak
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:30.7853486Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:31.7031014Z   [ 80/91] https://hellokahwin.com/artikel/pelamin-kad-cenderahati/pelamin
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:31.7032126Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:36.1393508Z   [ 81/91] https://hellokahwin.com/artikel/idea-dan-nasihat/hadiah-untuk-pengantin
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:36.1395085Z         Discovered - currently not indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:36.5825748Z   [ 82/91] https://hellokahwin.com/artikel/idea-dan-nasihat/wedding-planner-terbaik-di-malaysia
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:36.5826955Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:37.0751729Z   [ 83/91] https://hellokahwin.com/artikel/sebelum-nikah/taaruf-maksud
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:37.0752965Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:38.1615894Z   [ 84/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-johor
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:38.1616819Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:42.7233098Z   [ 85/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/apa-itu-mas-kahwin
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:42.7234440Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:43.1614564Z   [ 86/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-melebihi-kadar-minimum
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:43.1615781Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:43.6123188Z   [ 87/91] https://hellokahwin.com/artikel/nikah-undang-undang/syarat-sah-nikah
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:43.6124149Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:44.5912585Z   [ 88/91] https://hellokahwin.com/artikel/idea-dan-nasihat/kursus-kahwin
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:44.5913326Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:49.2182914Z   [ 89/91] https://hellokahwin.com/artikel/ucapan-doa/walimatul-urus
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:49.2183529Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:49.8326893Z   [ 90/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/dulang-hantaran
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:49.8327549Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1601217Z   [ 91/91] https://hellokahwin.com/artikel/ucapan-doa/skrip-pengacara-majlis-perkahwinan
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1602525Z         Submitted and indexed
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1625960Z 
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1626725Z ### Indexing monitor — 91 sitemap URLs swept
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1627132Z 
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1627325Z | bucket | count |
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1627651Z | --- | --- |
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1627990Z | alarming (dark >72h) | 0 |
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1628413Z | watching (dark, inside 72h) | 15 |
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1628819Z | not answered by Google | 0 |
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1629041Z 
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1629197Z | coverage_state | count |
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1629520Z | --- | --- |
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1629862Z | Submitted and indexed | 70 |
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1630274Z | Discovered - currently not indexed | 9 |
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1630770Z | Excluded by ‘noindex’ tag | 6 |
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1631175Z | URL is unknown to Google | 6 |
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1631386Z 
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1631722Z #### Watching
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1632754Z - `https://hellokahwin.com/artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik` — Discovered - currently not indexed (23h)
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1634262Z - `https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang` — Discovered - currently not indexed (3h)
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1635361Z - `https://hellokahwin.com/artikel/hantaran-mas-kahwin/nisbah-hantaran` — Discovered - currently not indexed (2h)
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1636579Z - `https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-kahwin-5-balas-7` — Discovered - currently not indexed (2h)
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1637892Z - `https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat` — Discovered - currently not indexed (2h)
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1639143Z - `https://hellokahwin.com/artikel/hantaran-mas-kahwin/bilangan-dulang-hantaran-ganjil` — URL is unknown to Google (2h)
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1640346Z - `https://hellokahwin.com/artikel/hantaran-mas-kahwin/duit-hantaran-kahwin` — Discovered - currently not indexed (2h)
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1641891Z - `https://hellokahwin.com/artikel/hantaran-mas-kahwin/cara-tetapkan-duit-hantaran` — Discovered - currently not indexed (2h)
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1644177Z - `https://hellokahwin.com/artikel/hantaran-mas-kahwin/adat-hantaran-berbeza-negeri` — Discovered - currently not indexed (2h)
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1646185Z - `https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-coklat` — URL is unknown to Google (0h)
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1648351Z - `https://hellokahwin.com/artikel/hantaran-mas-kahwin/gubahan-hantaran-simple` — URL is unknown to Google (0h)
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1650117Z - `https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tema-warna` — URL is unknown to Google (0h)
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1651882Z - `https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tempah-atau-buat-sendiri` — URL is unknown to Google (0h)
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1652965Z - `https://hellokahwin.com/artikel/hantaran-mas-kahwin/hidden-hantaran` — URL is unknown to Google (0h)
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1654036Z - `https://hellokahwin.com/artikel/idea-dan-nasihat/hadiah-untuk-pengantin` — Discovered - currently not indexed (23h)
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1654546Z 
+sweep	Sweep every sitemap URL through Google	2026-08-26T17:52:50.1654909Z alarm=false alarms=0 watching=15 blind=0 detectedAt=2026-08-26T17:52:50.161Z
+sweep	Raise the indexing alarm	﻿2026-08-26T17:52:50.1950608Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+sweep	Raise the indexing alarm	2026-08-26T17:52:50.1952100Z ##[group]Run actions/github-script@v7
+sweep	Raise the indexing alarm	2026-08-26T17:52:50.1952460Z with:
+sweep	Raise the indexing alarm	2026-08-26T17:52:50.1957465Z   script: const fs = require('fs');
+sweep	Raise the indexing alarm	const path = `$***process.env.OUT_DIR***/alarm.json`;
+sweep	Raise the indexing alarm	if (!fs.existsSync(path)) ***
+sweep	Raise the indexing alarm	  core.info('no alarm.json — the sweep did not get far enough to decide.');
+sweep	Raise the indexing alarm	  return;
+sweep	Raise the indexing alarm	***
+sweep	Raise the indexing alarm	const alarm = JSON.parse(fs.readFileSync(path, 'utf8'));
+sweep	Raise the indexing alarm	core.setOutput('detected_at', alarm.detectedAt);
+sweep	Raise the indexing alarm	if (!alarm.alarm) ***
+sweep	Raise the indexing alarm	  core.info(`clean: 0 alarming, $***alarm.watchingCount*** watching, $***alarm.blindCount*** blind.`);
+sweep	Raise the indexing alarm	  return;
+sweep	Raise the indexing alarm	***
+sweep	Raise the indexing alarm	
+sweep	Raise the indexing alarm	// One open issue, reused. A repeating failure should nag in one
+sweep	Raise the indexing alarm	// place rather than bury the repo — same rule as db-backup.yml.
+sweep	Raise the indexing alarm	// Dedupe is by LABEL, never by title: the title carries the count,
+sweep	Raise the indexing alarm	// so it changes between runs.
+sweep	Raise the indexing alarm	const *** data: open *** = await github.rest.issues.listForRepo(***
+sweep	Raise the indexing alarm	  ...context.repo, state: 'open', labels: 'indexing-alarm',
+sweep	Raise the indexing alarm	***);
+sweep	Raise the indexing alarm	let issue;
+sweep	Raise the indexing alarm	if (open.length > 0) ***
+sweep	Raise the indexing alarm	  const *** data: comment *** = await github.rest.issues.createComment(***
+sweep	Raise the indexing alarm	    ...context.repo, issue_number: open[0].number, body: alarm.body,
+sweep	Raise the indexing alarm	  ***);
+sweep	Raise the indexing alarm	  issue = *** number: open[0].number, created_at: comment.created_at, html_url: comment.html_url ***;
+sweep	Raise the indexing alarm	*** else ***
+sweep	Raise the indexing alarm	  const *** data: created *** = await github.rest.issues.create(***
+sweep	Raise the indexing alarm	    ...context.repo, title: alarm.title, body: alarm.body, labels: ['indexing-alarm'],
+sweep	Raise the indexing alarm	  ***);
+sweep	Raise the indexing alarm	  issue = *** number: created.number, created_at: created.created_at, html_url: created.html_url ***;
+sweep	Raise the indexing alarm	***
+sweep	Raise the indexing alarm	core.setOutput('issue_number', String(issue.number));
+sweep	Raise the indexing alarm	core.setOutput('issue_url', issue.html_url);
+sweep	Raise the indexing alarm	core.setOutput('issue_created_at', issue.created_at);
+sweep	Raise the indexing alarm	core.notice(`indexing alarm filed: $***issue.html_url***`);
+sweep	Raise the indexing alarm	
+sweep	Raise the indexing alarm	2026-08-26T17:52:50.1965485Z   github-token: ***
+sweep	Raise the indexing alarm	2026-08-26T17:52:50.1965811Z   debug: false
+sweep	Raise the indexing alarm	2026-08-26T17:52:50.1966145Z   user-agent: actions/github-script
+sweep	Raise the indexing alarm	2026-08-26T17:52:50.1966513Z   result-encoding: json
+sweep	Raise the indexing alarm	2026-08-26T17:52:50.1966823Z   retries: 0
+sweep	Raise the indexing alarm	2026-08-26T17:52:50.1967151Z   retry-exempt-status-codes: 400,401,403,404,422
+sweep	Raise the indexing alarm	2026-08-26T17:52:50.1967536Z env:
+sweep	Raise the indexing alarm	2026-08-26T17:52:50.1967821Z   R2_BUCKET: hellokahwin-assets
+sweep	Raise the indexing alarm	2026-08-26T17:52:50.1968182Z   STATE_KEY: indexing-monitor/state.json
+sweep	Raise the indexing alarm	2026-08-26T17:52:50.1968570Z   OUT_DIR: .tmp-indexing-monitor
+sweep	Raise the indexing alarm	2026-08-26T17:52:50.1968977Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+sweep	Raise the indexing alarm	2026-08-26T17:52:50.1969557Z   R2_ENDPOINT: https://***.r2.cloudflarestorage.com
+sweep	Raise the indexing alarm	2026-08-26T17:52:50.1969963Z ##[endgroup]
+sweep	Raise the indexing alarm	2026-08-26T17:52:50.2752980Z clean: 0 alarming, 15 watching, 0 blind.
+sweep	Archive the sweep and the ledger to R2	﻿2026-08-26T17:52:50.2898986Z ##[group]Run set -euo pipefail
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:50.2899428Z ^[[36;1mset -euo pipefail^[[0m
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:50.2899848Z ^[[36;1mif [ ! -f "$***OUT_DIR***/snapshot.json" ]; then^[[0m
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:50.2900378Z ^[[36;1m  echo "no snapshot to archive — the sweep did not complete."^[[0m
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:50.2901030Z ^[[36;1m  exit 0^[[0m
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:50.2901330Z ^[[36;1mfi^[[0m
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:50.2902009Z ^[[36;1m# Both the filename and the key path come from the SAME `date -u`^[[0m
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:50.2902588Z ^[[36;1m# call, so the directory date can never drift from the timestamp in^[[0m
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:50.2903081Z ^[[36;1m# the name. Same rule as db-backup.yml.^[[0m
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:50.2903492Z ^[[36;1mTS="$(date -u +%Y%m%dT%H%M%SZ)"^[[0m
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:50.2903862Z ^[[36;1mDATEPATH="$(date -u +%Y/%m/%d)"^[[0m
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:50.2904325Z ^[[36;1mKEY="indexing-monitor/$***DATEPATH***/sweep-$***TS***.json"^[[0m
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:50.2904900Z ^[[36;1maws s3 cp "$***OUT_DIR***/snapshot.json" "s3://$***R2_BUCKET***/$***KEY***" \^[[0m
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:50.2905539Z ^[[36;1m  --endpoint-url "$R2_ENDPOINT" --content-type application/json^[[0m
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:50.2906023Z ^[[36;1mecho "archived: $***KEY***"^[[0m
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:50.2906369Z ^[[36;1m^[[0m
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:50.2906780Z ^[[36;1m# The mutable ledger goes up LAST, so a run that dies mid-sweep leaves^[[0m
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:50.2907361Z ^[[36;1m# yesterday's ledger intact rather than a half-written one.^[[0m
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:50.2907853Z ^[[36;1mif [ -f "$***OUT_DIR***/state.json" ]; then^[[0m
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:50.2908382Z ^[[36;1m  aws s3 cp "$***OUT_DIR***/state.json" "s3://$***R2_BUCKET***/$***STATE_KEY***" \^[[0m
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:50.2908974Z ^[[36;1m    --endpoint-url "$R2_ENDPOINT" --content-type application/json^[[0m
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:50.2909467Z ^[[36;1m  echo "ledger updated: $***STATE_KEY***"^[[0m
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:50.2909836Z ^[[36;1mfi^[[0m
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:50.2949485Z shell: /usr/bin/bash -e ***0***
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:50.2949876Z env:
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:50.2950181Z   R2_BUCKET: hellokahwin-assets
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:50.2950557Z   STATE_KEY: indexing-monitor/state.json
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:50.2950942Z   OUT_DIR: .tmp-indexing-monitor
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:50.2951346Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:50.2952143Z   R2_ENDPOINT: https://***.r2.cloudflarestorage.com
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:50.2952618Z   AWS_ACCESS_KEY_ID: ***
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:50.2953123Z   AWS_SECRET_ACCESS_KEY: ***
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:50.2953469Z   AWS_DEFAULT_REGION: auto
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:50.2953790Z ##[endgroup]
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:52.2260718Z Completed 54.3 KiB/54.3 KiB (40.5 KiB/s) with 1 file(s) remaining
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:52.2262656Z upload: .tmp-indexing-monitor/snapshot.json to s3://hellokahwin-assets/indexing-monitor/2026/08/26/sweep-20260826T175250Z.json
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:52.3283541Z archived: indexing-monitor/2026/08/26/sweep-20260826T175250Z.json
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:53.8631026Z Completed 30.2 KiB/30.2 KiB (31.2 KiB/s) with 1 file(s) remaining
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:53.8632630Z upload: .tmp-indexing-monitor/state.json to s3://hellokahwin-assets/indexing-monitor/state.json
+sweep	Archive the sweep and the ledger to R2	2026-08-26T17:52:53.9626376Z ledger updated: indexing-monitor/state.json
+sweep	Summary	﻿2026-08-26T17:52:53.9660287Z ##[group]Run set -euo pipefail
+sweep	Summary	2026-08-26T17:52:53.9660709Z ^[[36;1mset -euo pipefail^[[0m
+sweep	Summary	2026-08-26T17:52:53.9661162Z ^[[36;1mif [ -f "$***OUT_DIR***/summary.md" ]; then^[[0m
+sweep	Summary	2026-08-26T17:52:53.9661893Z ^[[36;1m  cat "$***OUT_DIR***/summary.md" >> "$GITHUB_STEP_SUMMARY"^[[0m
+sweep	Summary	2026-08-26T17:52:53.9662341Z ^[[36;1melse^[[0m
+sweep	Summary	2026-08-26T17:52:53.9662874Z ^[[36;1m  echo "### Indexing monitor did not produce a summary — the sweep failed." >> "$GITHUB_STEP_SUMMARY"^[[0m
+sweep	Summary	2026-08-26T17:52:53.9663452Z ^[[36;1mfi^[[0m
+sweep	Summary	2026-08-26T17:52:53.9703777Z shell: /usr/bin/bash -e ***0***
+sweep	Summary	2026-08-26T17:52:53.9704140Z env:
+sweep	Summary	2026-08-26T17:52:53.9704447Z   R2_BUCKET: hellokahwin-assets
+sweep	Summary	2026-08-26T17:52:53.9704817Z   STATE_KEY: indexing-monitor/state.json
+sweep	Summary	2026-08-26T17:52:53.9705208Z   OUT_DIR: .tmp-indexing-monitor
+sweep	Summary	2026-08-26T17:52:53.9705618Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+sweep	Summary	2026-08-26T17:52:53.9706209Z   R2_ENDPOINT: https://***.r2.cloudflarestorage.com
+sweep	Summary	2026-08-26T17:52:53.9706630Z ##[endgroup]
+sweep	Post Run actions/setup-node@v4	﻿2026-08-26T17:52:53.9908187Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+sweep	Post Run actions/setup-node@v4	2026-08-26T17:52:53.9909781Z Post job cleanup.
+sweep	Post Run actions/setup-node@v4	2026-08-26T17:52:54.1140054Z (node:2623) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+sweep	Post Run actions/setup-node@v4	2026-08-26T17:52:54.1141040Z (Use `node --trace-deprecation ...` to show where the warning was created)
+sweep	Post Run actions/setup-node@v4	2026-08-26T17:52:54.1144281Z Cache hit occurred on the primary key node-cache-Linux-x64-pnpm-9367a9280658c0171106e91a788339168f7c879bb6b33b71ffcee2e7c9cd2962, not saving cache.
+sweep	Post Run pnpm/action-setup@v4	﻿2026-08-26T17:52:54.1255304Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+sweep	Post Run pnpm/action-setup@v4	2026-08-26T17:52:54.1256624Z Post job cleanup.
+sweep	Post Run pnpm/action-setup@v4	2026-08-26T17:52:54.2788272Z Pruning is unnecessary.
+sweep	Post Run actions/checkout@v4	﻿2026-08-26T17:52:54.2984507Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+sweep	Post Run actions/checkout@v4	2026-08-26T17:52:54.2986782Z Post job cleanup.
+sweep	Post Run actions/checkout@v4	2026-08-26T17:52:54.3890225Z [command]/usr/bin/git version
+sweep	Post Run actions/checkout@v4	2026-08-26T17:52:54.3929535Z git version 2.55.0
+sweep	Post Run actions/checkout@v4	2026-08-26T17:52:54.3964882Z Temporarily overriding HOME='/home/runner/work/_temp/900fc582-07e8-4c33-8fc4-32aebd6f2e8a' before making global git config changes
+sweep	Post Run actions/checkout@v4	2026-08-26T17:52:54.3965889Z Adding repository directory to the temporary git global config as a safe directory
+sweep	Post Run actions/checkout@v4	2026-08-26T17:52:54.3971213Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/hellokahwin/hellokahwin
+sweep	Post Run actions/checkout@v4	2026-08-26T17:52:54.4009596Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+sweep	Post Run actions/checkout@v4	2026-08-26T17:52:54.4068186Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+sweep	Post Run actions/checkout@v4	2026-08-26T17:52:54.4312024Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+sweep	Post Run actions/checkout@v4	2026-08-26T17:52:54.4339145Z http.https://github.com/.extraheader
+sweep	Post Run actions/checkout@v4	2026-08-26T17:52:54.4349432Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+sweep	Post Run actions/checkout@v4	2026-08-26T17:52:54.4382022Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+sweep	Post Run actions/checkout@v4	2026-08-26T17:52:54.4622352Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+sweep	Post Run actions/checkout@v4	2026-08-26T17:52:54.4655462Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+sweep	Complete job	﻿2026-08-26T17:52:54.5034783Z Cleaning up orphan processes
+sweep	Complete job	2026-08-26T17:52:54.5359794Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/github-script@v7, actions/setup-node@v4, pnpm/action-setup@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

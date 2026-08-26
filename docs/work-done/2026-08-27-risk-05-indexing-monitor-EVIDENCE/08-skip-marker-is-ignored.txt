@@ -1,0 +1,19 @@
+[skip ci] / [vercel skip] DOES NOT WORK ON THIS PROJECT
+============================================================
+Tried first, as the least invasive way to land a workflow file on master
+without triggering a production deploy. It was ignored: the commit carried BOTH
+markers in its message and Vercel built and deployed it anyway.
+
+commit 686935b78a04f3200d27ef264433259075e43d28
+  message line 3: [skip ci] [vercel skip]
+  pushed to branch risk-05-to-master at ~2026-08-26T17:29Z
+
+$ gh api repos/ianngkb/hellokahwin/deployments?sha=686935b7...
+    id 6108555253, environment Preview, created 2026-08-26T17:31:51Z
+
+$ gh api repos/ianngkb/hellokahwin/deployments/6108555253/statuses
+    2026-08-26T17:31:52Z state=success desc=Deployment has completed
+    url=https://hellokahwin-ha38je6td-thewednotebook.vercel.app
+
+So the skip route was abandoned. Recorded so the next person does not spend a
+build discovering it.

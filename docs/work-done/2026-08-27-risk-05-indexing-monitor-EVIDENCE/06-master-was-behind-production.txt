@@ -1,0 +1,52 @@
+master WAS THREE APP COMMITS BEHIND PRODUCTION
+==============================================
+Found while preparing to land the workflow on the default branch. This is the
+reason the monitor commit is based on a9464a6 and not on the old master tip.
+
+1. master did not carry RISK-04's code at all:
+
+   $ git cat-file -e origin/master:src/lib/seo/gsc-sitemap.ts
+     fatal: path 'src/lib/seo/gsc-sitemap.ts' exists on disk, but not in 'origin/master'
+
+   $ git ls-tree -r --name-only origin/master -- src/lib/seo/
+     src/lib/seo/__tests__/meta.test.ts
+     src/lib/seo/indexnow.ts
+     src/lib/seo/meta.ts
+
+2. A production BUILD of the old master tip printed the year-long stale window
+   RISK-06 had already removed in production:
+
+   old master (97b0837):        /sitemap.xml    1h      1y
+   production's commit a9464a6: /sitemap.xml    1h      1h
+
+3. Production itself was serving the CAPPED value the whole time:
+
+   $ curl -sI https://hellokahwin.com/artikel/ucapan-doa/walimatul-urus
+     Cache-Control: s-maxage=600, stale-while-revalidate=3000
+
+4. The latest Production deployment was a9464a6 -- a commit on a FEATURE
+   branch, never on master:
+
+   $ gh api repos/ianngkb/hellokahwin/deployments?environment=Production
+     a9464a61  2026-08-26T13:56:05Z   <- live production, NOT on master
+     92e2b510  2026-08-26T13:50:38Z   <- RISK-06 + RISK-04, NOT on master
+     97b08377  2026-08-26T00:59:04Z   <- old master tip
+     f01a13a7  2026-08-26T00:55:56Z
+
+5. The five commits between a9464a6 and this branch's tip are docs only, so
+   a9464a6's tree IS production's app code:
+
+   $ git diff --stat a9464a6..815170c -- src/ scripts/ next.config.ts package.json
+     (empty)
+   $ git diff --name-only a9464a6..815170c | cut -d/ -f1 | sort | uniq -c
+     1 .gitignore
+    38 docs
+
+AFTER the push, production was re-checked and had not moved:
+
+   $ curl -sI https://hellokahwin.com/artikel/ucapan-doa/walimatul-urus
+     Cache-Control: s-maxage=600, stale-while-revalidate=3000
+     X-Vercel-Cache: MISS
+
+   $ git merge-base --is-ancestor 32e99e6 origin/master && echo YES
+     YES
