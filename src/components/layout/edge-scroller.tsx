@@ -23,7 +23,7 @@ import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
  * changes when a nav item's accordion opens below it, not only when the window
  * resizes.
  */
-export function EdgeScroller({ children, ariaLabel }: { children: ReactNode; ariaLabel?: string }) {
+export function EdgeScroller({ children }: { children: ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
   const [edges, setEdges] = useState({ start: false, end: false });
 
@@ -61,9 +61,12 @@ export function EdgeScroller({ children, ariaLabel }: { children: ReactNode; ari
       data-overflow-start={edges.start || undefined}
       data-overflow-end={edges.end || undefined}
     >
+      {/* No aria-label here. This is a plain <div>; an aria-label on an element
+          with no role is dropped on the floor by assistive tech, and a decorative
+          one is worse than none because it reads as solved. The accessible name
+          belongs on the <nav> InspireNavMenu renders, which is what it labels. */}
       <div
         ref={ref}
-        aria-label={ariaLabel}
         className="overflow-x-auto px-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {children}
