@@ -1117,6 +1117,67 @@
   margin-top: 2rem;
   margin-bottom: 0.75rem;
 }
+/* Heading anchors (lib/inspire/heading-anchors.ts). Without this, following an
+   in-page link parks the heading BEHIND the sticky header in
+   `components/layout/navbar.tsx` — measured 102px at 390px wide and 118px at
+   1280px on 2026-08-27, so 5rem was not enough and the heading was clipped.
+   The values below are that height plus air. If the navbar's height changes,
+   this is the one number to change with it. */
+.inspire-prose :is(h2, h3)[id] {
+  scroll-margin-top: 7.5rem;
+}
+@media (min-width: 1024px) {
+  .inspire-prose :is(h2, h3)[id] {
+    scroll-margin-top: 8.5rem;
+  }
+}
+
+/* Table of contents (components/inspire/article-toc.tsx).
+   It renders INSIDE `.inspire-prose`, so the `ol` and `a` rules above reach it
+   and dressed navigation up as body copy: Georgia 17px, bold, underlined, with
+   the browser's own decimal markers doubling the numbering already in each
+   heading. Tailwind utilities lost on specificity — `list-none` cannot beat
+   `.inspire-prose ol` — so the reset lives here.
+
+   The `nav` in every selector below is not tidiness, it is the specificity that
+   makes these win: `.hk-public .inspire-prose a` further down sets the serif
+   face, 17px and the underline, and a specificity TIE is broken by source
+   order, which that rule wins. `nav.article-toc` outranks it outright. */
+.inspire-prose nav.article-toc :is(ol, ul) {
+  list-style: none;
+  margin: 0;
+  padding-left: 0;
+}
+.inspire-prose nav.article-toc li {
+  margin: 0;
+}
+.inspire-prose nav.article-toc li + li {
+  margin-top: 0.5rem;
+}
+.inspire-prose nav.article-toc ul {
+  margin-top: 0.375rem;
+  padding-left: 1rem;
+}
+.inspire-prose nav.article-toc ul li + li {
+  margin-top: 0.375rem;
+}
+.inspire-prose nav.article-toc a {
+  font-family: var(--font-geist);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--foreground);
+  text-decoration: none;
+}
+.inspire-prose nav.article-toc ul a {
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+.inspire-prose nav.article-toc a:hover {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
 .inspire-prose h4 {
   font-family: var(--font-prose);
   font-size: 1.125rem;
