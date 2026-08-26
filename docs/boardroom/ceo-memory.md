@@ -215,6 +215,27 @@ minute to relaunch; the prompts will otherwise recur indefinitely.
 
 ## Measurement rules
 
+- **⚠ ZERO CLICKS AT LOW IMPRESSIONS IS NOT A FINDING. Learned 26 Aug 2026, and
+  it nearly cost a sprint item.** At position 7–10 with 25–50 impressions,
+  *expected* clicks are roughly **0.3–1.5**. Zero is inside normal variance.
+  The CEO built a whole sprint item ("audit every page at position <10 earning
+  nothing") on four such pages and the UX review disproved it by doing the
+  arithmetic the CEO never did. **Before calling a zero a defect, compute what
+  the position and impression count predict.** The one real case in the same
+  data was `dewan komuniti setiawangsa` — **104 impressions at position 9.0,
+  zero clicks**, where 2–3 were expected. One page, not five.
+- **⚠ SEGMENT BY DEVICE BEFORE PRIORITISING ANYTHING.** 28 days to 25 Aug 2026:
+  **mobile 34 clicks / 1,440 impressions / average position 9.4**; **desktop 9
+  clicks / 1,151 impressions / average position 32.3.** We rank on mobile and
+  barely rank on desktop. A desktop-only fix is worth a fraction of the same
+  effort spent on mobile — the CEO led a review with a desktop hero-crop defect
+  on a page that had received **10 impressions in 28 days**.
+- **Traffic is extremely concentrated. Check that before reading a total.** Two
+  pages carry **86% of clicks and 75% of impressions**. A site-wide average is
+  almost meaningless here; it describes `/dewan-kahwin/` and nothing else.
+- **A 7-day window on a ~40-clicks-a-month site is noise.** The CEO read 7 days
+  (15 clicks) and drew conclusions the 28-day window (43 clicks) partly
+  contradicted. **Default to 28 days** and say the window explicitly.
 - **GSC final data runs TWO DAYS behind.** On 2026-08-25 the last day of
   `dataState=final` data was 2026-08-23. Any window ending "today" or yesterday
   silently contains no data for those days. State the true data end date when
