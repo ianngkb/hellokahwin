@@ -1,0 +1,4 @@
+initial: {"url":"/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri","anchors":3,"expanded":["false","false","false"],"activeItem":0,"accordionMenus":0}
+tapping "Real Wedding" at 79,79
+after touch tap: {"url":"/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri","anchors":21,"expanded":["true",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"false","false"],"activeItem":1,"accordionMenus":2}
+after 1s settle:  {"url":"/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri","anchors":21,"expanded":["true",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"false","false"],"activeItem":1,"accordionMenus":2}

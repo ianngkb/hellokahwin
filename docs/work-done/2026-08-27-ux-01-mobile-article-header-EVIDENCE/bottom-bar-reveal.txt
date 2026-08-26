@@ -1,0 +1,39 @@
+--- AT TOP (landing screen) ---
+{
+  "scrollY": 0,
+  "barTop": 844,
+  "barBottom": 914.14,
+  "viewportH": 844,
+  "intersectsViewport": false,
+  "ariaHidden": "true"
+}
+--- AFTER SCROLL TO 2500 ---
+{
+  "scrollY": 2500,
+  "viewportH": 844,
+  "bar": {
+    "top": 773.86,
+    "bottom": 844,
+    "height": 70.14,
+    "visibleInViewport": true,
+    "ariaHidden": "false"
+  },
+  "nextLink": {
+    "href": "/artikel/hantaran-mas-kahwin/gubahan-dulang-hantaran-2026",
+    "text": "Baca seterusnyaGubahan Dulang Hantaran 2026 — Susunan, Kos dan Kesilapan Biasa",
+    "height": 53.14,
+    "insideViewport": true
+  },
+  "galleryButton": {
+    "label": "Lihat semua foto (4)",
+    "w": 44,
+    "h": 44
+  },
+  "progressTransform": "matrix(0.203998, 0, 0, 1, 0, 0)",
+  "headerStillPinned": {
+    "top": 0,
+    "height": 102,
+    "position": "sticky"
+  }
+}
+SCREENSHOT: C:/Users/IANNG~1/AppData/Local/Temp/claude/C--Users-Ian-Ng-orca-workspaces-hellokahwin-site-pillars-ingest-redirects/f3c51738-04f4-4a3f-805b-85a3fac44e76/scratchpad/shots/tmp.png
