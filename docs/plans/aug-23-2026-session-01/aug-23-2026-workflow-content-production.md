@@ -178,6 +178,45 @@ it back; failing the humanizer point means it was never finished.
 
 **Gate:** all 21 points true.
 
+#### Point 10 is the only one you cannot check by reading. Run the query.
+
+Added 27 Ogos 2026 by CONT-07, which shipped seven articles and then had a peer
+discover that three of them share one Ahrefs `parent_topic` with each other and
+with the article they were built around.
+
+Twenty of the twenty-one points are verifiable from the file, the database or
+the rendered page. **Point 10, "no other page on the site targets the same
+Ahrefs `parent_topic`", is verifiable only against a third-party index.** So a
+seat working the bar alone satisfies twenty by inspection and approximates the
+twenty-first, usually by comparing headings and body copy and concluding the
+articles "feel different". They can feel different and share a parent topic;
+that is precisely what the field is for.
+
+**Run this, and paste the output into the handover:**
+
+```
+mcp__ahrefs__keywords-explorer-overview
+  country: my
+  keywords: <every target term in the batch, comma-separated>
+  select: keyword,volume,parent_topic,difficulty,traffic_potential
+```
+
+Two things to read in the result, not one:
+
+1. **Group by `parent_topic`.** Any group holding more than one article in the
+   batch, or holding an article already live, is a collision. It does not matter
+   how different the drafts read.
+2. **Read `volume` per target term.** CONT-07 shipped four articles whose head
+   terms return **0**. A zero-volume term is not on its own a reason to cut an
+   article, because these clusters earn on long tail and the parent topic may be
+   worth thousands. It is a reason to stop calling that term a head term, and to
+   re-check the article is aimed where the demand actually is.
+
+**Run it at Stage 1, when the brief is written, and again here at Stage 6.** At
+Stage 1 a collision costs one line in a plan. At Stage 6 it costs a rewrite. At
+Stage 7 it costs a migration with redirects, and by then the DoD usually says
+the cluster is complete, so nobody can fix it without reopening a closed item.
+
 ### Stage 6b — Visual build (`managing-editor`)
 Added 25 Aug 2026 after eight finished articles sat unpublishable for a day
 because nobody owned their images. **This stage is not optional and it is not

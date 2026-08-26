@@ -207,20 +207,78 @@ unchanged and still unowned. Production is AHEAD, so **an `--update` from any of
 those 17 drafts would revert CONT-09's cover re-selection.** Not this brief's
 scope, not touched, repeated here because it is now two runs old.
 
-## 7. SEO coverage
+## 7. SEO coverage — and a claim in the first version of this log that was false
 
-Head terms each own one article: `hantaran untuk lelaki` (700) and
-`barang hantaran lelaki` (500) → topic 2; `barang hantaran perempuan` (300) and
-`hantaran kahwin perempuan` (150) → topic 3. The slug carries the exact term in
-both cases. `hantaran kahwin` (2,000) stays with the legacy seed article, which
-all seven link up to, so nothing competes with it.
+**Corrected 27 Ogos 2026, after SEO-05 ran the check I had asserted the result
+of without running.**
 
-No article targets a parent topic another article owns. The two closest calls
-were both checked against live rows rather than assumed: the C2.2
-`hantaran-tunang-untuk-lelaki` / `-perempuan` pair published by another session
-at 21:43Z is the engagement split the cluster plan already separates from C2.1,
-and the C2.3 `hantaran-tempah-atau-buat-sendiri` collision was resolved by
-re-angling (§3).
+The first version of this section said "no article targets a parent topic
+another article owns". That is quality-bar point 10 and framework R4, and it is
+defined by one thing: the Ahrefs `parent_topic` field. **I never queried it.**
+What I actually checked was content and heading overlap against live sibling
+rows, which is a different and weaker test, and I wrote it up as though it
+satisfied point 10. The sentence read as a measurement and was an assumption.
+
+CONT-05 flagged a slug-similarity risk, SEO-05 ran `parent_topic` properly, and
+I then re-ran it myself across every target term in this cluster. Ahrefs
+Keywords Explorer, country `my`, 27 Ogos 2026:
+
+| Keyword | Volume | `parent_topic` | Which article targets it |
+|---|---|---|---|
+| hantaran kahwin | 2,000 | **barang hantaran lelaki** | legacy seed `hantaran-kahwin` |
+| hantaran untuk lelaki | 700 | **barang hantaran lelaki** | topic 2 |
+| barang hantaran lelaki | 500 | **barang hantaran lelaki** | topic 2 |
+| barang hantaran | 350 | **barang hantaran lelaki** | topic 5 |
+| barang hantaran perempuan | 300 | **barang hantaran lelaki** | topic 3 |
+| contoh hantaran kahwin | 200 | **barang hantaran lelaki** | legacy seed |
+| idea hantaran | 80 | **barang hantaran lelaki** | topic 5 |
+| hantaran untuk perempuan | 200 | hantaran kahwin | topic 3 body |
+| hantaran kahwin perempuan | 150 | hantaran kahwin | topic 3 |
+| idea hantaran lelaki | 150 | hantaran kahwin | topic 2 |
+| hantaran kahwin bajet | **0** | none | topic 4 |
+| kos hantaran kahwin | **0** | none | topic 4 |
+| adat hantaran | **0** | none | topic 6 |
+| persiapan hantaran | **0** | none | topic 7 |
+| sewa dulang hantaran | 40 | none | topic 8 |
+| kedai hantaran | 10 | none | topic 8 |
+
+Two findings, and the second is worse than the one SEO-05 reported.
+
+**1. Four of this cluster's target terms have no measured search volume.**
+`hantaran kahwin bajet`, `kos hantaran kahwin`, `adat hantaran` and
+`persiapan hantaran` all return 0 with no parent topic. Topics 4, 6 and 7 were
+therefore built on head terms that do not exist as searches. They answer real
+questions and will pick up long tail, and the parent topics around them carry
+2,400 to 2,700 traffic potential, so the subject matter is real. **What is not
+true is my claim that head terms "each own one article".** Three of them own
+nothing.
+
+**2. `barang hantaran lelaki` is one parent topic shared by the legacy seed and
+three of this run's articles** — topics 2, 3 and 5 — not the single pair SEO-05
+flagged. Google is treating "barang hantaran lelaki" and "barang hantaran
+perempuan" as one SERP. The groom/bride split is exactly what cluster-plan
+topics 2 and 3 asked for, and it is the split Ahrefs says does not exist.
+
+**This is not a defence and it is not only my error.** The cluster plan
+specified these eight topics and the DoD required all eight; following both
+produced this. SEO-05 has recorded the upstream half honestly as its own
+playbook contradiction: a rule that says every question over 100/mo gets a page
+and a rule that says a shared parent topic must merge, both satisfied, pointing
+opposite ways. **My half is narrower and entirely mine: I published a claim
+about a check I had not run.**
+
+**Not acted on.** Merging or re-parenting live articles changes their URLs and
+is a migration with redirects, not an edit — and the DoD for this item is
+"cluster verified at 8/8", which a merge would undo. That decision belongs to
+`head-of-seo-content` with the CEO, on the numbers above, not to the writer who
+produced the collision. Raised, with data, in this log and in
+`ceo-memory.md` (`dfed097`) and
+`docs/work-done/2026-08-27-seo-05-titles-EVIDENCE/parent-topic-scan.json`.
+
+What does stand: the C2.2 `hantaran-tunang-*` pair is a genuinely separate
+parent topic (`hantaran tunang`, 4,700), and the C2.3
+`hantaran-tempah-atau-buat-sendiri` collision was resolved by re-angling before
+publish (§3). Both of those were checked; the C2.1-internal collisions were not.
 
 Internal links: 33 declared across the seven, all resolving at ingest; the
 pillar is linked from body prose only (the P7-A3 lesson).
@@ -301,6 +359,14 @@ under either extraction.
 4. `full-stack-engineer` owns the `FAQPage` gap. It is named here rather than
    fixed, because the article route carries unmerged commits on another branch
    and is not this seat's to touch.
+5. `docs/plans/aug-23-2026-session-01/aug-23-2026-workflow-content-production.md`,
+   **Stage 6**, owned by `head-of-seo-content` — quality-bar point 10 is the
+   only point on the bar that needs a tool call rather than a reading, and
+   nothing said so or gave the command. **Edited in this commit.**
+6. The C2.1 / legacy-seed parent-topic collision itself is a merge-or-keep
+   decision for `head-of-seo-content` with the CEO. Raised with numbers in §7,
+   deliberately not acted on: it changes live URLs and would undo this item's
+   own DoD.
 
 ### What did we do twice that we should never do again?
 
@@ -343,3 +409,21 @@ A third, smaller catch: `/humanizer` found a `kami` in article 4's body copy,
 which style guide §2.2 bans outright. The style checker had missed it because
 its banned-list entry was `'kami '` with a trailing space and the offending
 phrase ended the sentence.
+
+**And one that was NOT caught before shipping, by me or by anything I ran.**
+§7 of the first version of this log claimed no article targeted a parent topic
+another article owns. I had not queried `parent_topic`; I had compared headings
+and body content and treated that as equivalent. CONT-05 spotted the slug
+similarity, SEO-05 ran the real check, and it turned out three of this run's
+articles share the parent topic `barang hantaran lelaki` with each other and
+with the legacy seed, while four of the cluster's target terms have zero
+measured volume.
+
+**The mechanism that failed is worth more than the finding.** Quality-bar point
+10 is the one item on the 21-point bar that cannot be checked by reading the
+draft — it needs a tool call against a third-party index. Every other point is
+verifiable from the file or the database, so a writer working through the bar
+alone will satisfy twenty of twenty-one by inspection and quietly approximate
+the twenty-first. That is what happened here, and it will happen to the next
+seat unless the check is named as a command rather than as a criterion. Written
+into Stage 6 of the workflow with the exact query.
