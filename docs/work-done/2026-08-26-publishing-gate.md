@@ -404,14 +404,45 @@ One is before the build and one is after it. `lastmod` tracks `articles.updated_
 (`src/app/sitemap.ts:102`), which is the ingest time. If it tracked the build,
 all 78 entries would carry one timestamp. They do not.
 
-### What is NOT verified, and what would verify it
+### The URL inspection, before and after — it moved inside 35 minutes
 
-**The 48-hour indexing check cannot be done inside this session.** The DoD asks
-that a URL inspection of the new article leaves `URL is unknown to Google` within
-48h. The before-state is captured above.
+The DoD asks that a URL inspection leaves `URL is unknown to Google` within 48h.
+It did not take 48h.
 
-The check to run on or before **28 Aug 2026**, on `sirih-junjung` — the one of
-the four still at `URL is unknown to Google`:
+**BEFORE** — 26 Aug 2026 13:20 UTC, before any resubmission:
+
+```
+/artikel/hantaran-mas-kahwin/sirih-junjung     URL is unknown to Google           Never
+/artikel/hantaran-mas-kahwin/dulang-hantaran   Discovered - currently not indexed Never
+/artikel/hantaran-mas-kahwin/gubahan-hantaran  Discovered - currently not indexed Never
+/artikel/ucapan-doa/walimatul-urus             Submitted and indexed              2026-08-26
+```
+
+**AFTER** — 26 Aug 2026 13:55 UTC, after the resubmissions at 13:25 and 13:33:
+
+```
+/artikel/hantaran-mas-kahwin/sirih-junjung     Discovered - currently not indexed Never
+/artikel/hantaran-mas-kahwin/dulang-hantaran   Discovered - currently not indexed Never
+/artikel/hantaran-mas-kahwin/gubahan-hantaran  Submitted and indexed              2026-08-26
+/artikel/ucapan-doa/walimatul-urus             Submitted and indexed              2026-08-26
+```
+
+Two moved:
+
+- **`sirih-junjung` left `URL is unknown to Google`** — the exact state change
+  the DoD names — and is now Discovered. That is the verification, met.
+- **`gubahan-hantaran` went from Discovered to `Submitted and indexed`**, crawled
+  the same day, and picked up Breadcrumbs rich results.
+
+Honest caveat on attribution: this is a 35-minute correlation with two
+resubmissions, not a controlled experiment, and Google crawls on its own schedule
+too. What is not in doubt is the causal link one step earlier —
+`last_downloaded` moved to the same minute as each submission, twice.
+`dulang-hantaran` did not move, which is the reminder that a resubmission asks
+rather than instructs.
+
+Worth carrying to the tracker: `sirih-junjung` should be re-inspected on **28 Aug
+2026** to see whether Discovered becomes indexed.
 
 ```
 mcp__gsc__inspect_url_enhanced
@@ -419,12 +450,9 @@ mcp__gsc__inspect_url_enhanced
   page_url: https://hellokahwin.com/artikel/hantaran-mas-kahwin/sirih-junjung
 ```
 
-It has left the state if `coverage_state` becomes anything other than `URL is
-unknown to Google` — `Discovered - currently not indexed` counts, since it means
-Google has the URL. Do not read a `last_crawled` of `Never` as a failure before
-48h have passed; discovery and crawl are separate steps.
+### What is NOT verified
 
-**Also not verified:** that any of the 50 stale shells was ever served to
+**Not verified:** that any of the 50 stale shells was ever served to
 Googlebot. Nobody has proven that and this work does not claim it. The mechanism
 is proven, its rate under a publish is proven at 82%, and the window it could
 persist for is now an hour instead of a year.
