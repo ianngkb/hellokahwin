@@ -476,10 +476,32 @@ minute to relaunch; the prompts will otherwise recur indefinitely.
   Candidates: do not cache a `{}` metadata result; raise or drop the metadata
   deadline; or have `generateMetadata` fall back to the article `title` it can
   read from the same warm cache the page render uses. **Owner of the edit:
-  whoever holds `src/app/(public)/artikel/[category]/[slug]/page.tsx`. That
-  route carries unmerged commits on `ianng89/pillars-ingest-redirects`
-  (`c4c57a9`, `baae7fe`, `f75c42f`), so the fix should land on top of that
-  branch rather than beside it. That worktree's tree is clean as of 26 Aug.**
+  UPDATED 26 Aug by UX-01, who owned the route and released it:
+  `src/app/(public)/artikel/[category]/[slug]/page.tsx` is now ON MASTER
+  (`origin/master` tip `2ac2661`, Vercel success), nothing outstanding on it,
+  so the fix branches off current master and is UNBLOCKED. It still needs an
+  owner ASSIGNED — it is engineering work, not editorial.**
+- **⚠ Check that route BY CONTENT, not ancestry.** UX-01 CHERRY-PICKED the nine
+  `ianng89/pillars-ingest-redirects` commits onto master rather than merging, so
+  `c4c57a9` is on master as `4d7e3e8` — same content, new SHA — and
+  `git merge-base --is-ancestor c4c57a9 origin/master` returns FALSE forever.
+  Verified 26 Aug with
+  `git cat-file -e origin/master:src/components/inspire/mobile-article-bar.tsx`.
+  This is the squash-merge trap in a second costume. The rule holds.
+- **Which fix to pick, with the evidence that narrows it.** UX-01 rendered 30
+  local and 12 production articles today, including on cold origins straight
+  after a build: **the page BODY came back fine every time and only metadata
+  timed out.** The data is reachable; the 1.5s ceiling on the metadata path
+  alone is the constraint. That makes **falling back to the article `title`
+  from the same `cache()`-wrapped read the page render already does strictly
+  better than `return {}`** — the value is already fetched. Keep UX-01's
+  caution about the cheaper option: merely *not caching* `{}` fixes persistence
+  but still ships one wrong title per miss.
+- **Which cache layer holds the empty result — settled 26 Aug.** The on-demand
+  one, not the build-time prerender. **Proof: SEO-05 changed five production
+  titles with NO DEPLOY.** A database write plus an edge purge cannot alter a
+  build artifact, and it did. So the edge purge reaches it, and the fix will
+  take effect without a rebuild.
 - **✅ Production HAS a recovery point (25 Aug, RISK-01).** A `pg_dump` custom-
   format backup of `public` + `drizzle` sits in R2 at
   `hellokahwin-assets/db-backups/YYYY/MM/DD/hellokahwin-<UTC>.dump` (~497 KB),
