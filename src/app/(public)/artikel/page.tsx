@@ -239,8 +239,14 @@ export default async function InspireHomePage() {
                 </div>
               )}
 
-              {/* Search — sticky-adjacent, always visible (Mobbin: search + chips) */}
-              <div className="mx-auto max-w-xl py-4">
+              {/* Search — sticky-adjacent, always visible (Mobbin: search + chips).
+                  `id="cari"` is the masthead's search link target and is load-bearing:
+                  the masthead on every page links to /artikel#cari. scroll-mt has to
+                  clear the WHOLE sticky header — wordmark row plus category rail —
+                  not just the wordmark row. Measured: 102px at 390px and 118px at
+                  1400px, so 112px/128px leaves about 10px of air. Do not trim these
+                  to the wordmark height; the anchor then lands under the rail. */}
+              <div id="cari" className="mx-auto max-w-xl scroll-mt-28 py-4 lg:scroll-mt-32">
                 <InspireArticleSearch />
               </div>
 

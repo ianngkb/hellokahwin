@@ -24,8 +24,34 @@ Cloudflare R2 · Clerk · Vercel (cron: scheduled publishing).
 pnpm install
 cp .env.example .env        # fill in real values
 pnpm db:migrate             # apply migrations to DATABASE_URL
-pnpm dev                    # http://localhost:4100
+pnpm dev                    # http://localhost:3200  (see package.json "dev")
 ```
+
+### Which database is your dev server actually on?
+
+**Next loads `.env.local` AFTER `.env`, so `.env.local` WINS.** In the working
+copies on this machine `.env` holds the Supabase production pooler and
+`.env.local` holds a local scratch database (`127.0.0.1:5433/hklocal`) whose
+content is nothing like production. If you are measuring anything against real
+content, check which one you are on before you trust a number:
+
+```bash
+grep -h '^DATABASE_URL=' .env.local .env    # last one listed is NOT the winner
+```
+
+To run against production data, move `.env.local` aside — and then **clear the
+cache, or you will keep reading the old database**:
+
+```bash
+mv .env.local .env.local.off
+rm -rf .next        # REQUIRED: unstable_cache persists query results in .next/cache
+pnpm dev
+```
+
+Skipping the `rm -rf .next` is a silent failure, not a loud one: the server
+starts, the pages render, and every cached query keeps serving rows from the
+database you just stopped pointing at. UX-03 (2026-08-27) lost an hour to
+exactly this and to the `.env.local` precedence above it.
 
 ## Content import (from the legacy WordPress site)
 

@@ -1,13 +1,11 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import Image from 'next/image';
-import { eq, desc, count, sql } from 'drizzle-orm';
+import { eq, desc } from 'drizzle-orm';
 import { unstable_cache } from 'next/cache';
 import { db } from '@/lib/db/drizzle';
-import { articles, inspireCategories, articleCategories } from '@/lib/db/schema/articles';
+import { articles, inspireCategories } from '@/lib/db/schema/articles';
 import { ArticleCard } from '@/components/inspire/article-card';
 import { getSmartCropUrl } from '@/lib/storage/smart-crop-url';
-import { flattenCategoriesByArticleCount } from '@/lib/inspire/category-tree';
 
 // ISR — same cadence as the artikel hub.
 export const revalidate = 1800;
@@ -36,60 +34,27 @@ export const metadata: Metadata = {
  */
 const getHomeData = unstable_cache(
   async () => {
-    const articleCountSub = db
+    const latestArticles = await db
       .select({
-        categoryId: articleCategories.categoryId,
-        count: count().as('article_count'),
+        id: articles.id,
+        title: articles.title,
+        slug: articles.slug,
+        excerpt: articles.excerpt,
+        coverImageUrl: articles.coverImageUrl,
+        coverImageVariants: articles.coverImageVariants,
+        coverImageSmartCrops: articles.coverImageSmartCrops,
+        coverImageLqip: articles.coverImageLqip,
+        publishedAt: articles.publishedAt,
+        categoryName: inspireCategories.name,
+        categorySlug: inspireCategories.slug,
       })
-      .from(articleCategories)
-      .innerJoin(articles, eq(articleCategories.articleId, articles.id))
+      .from(articles)
+      .innerJoin(inspireCategories, eq(articles.primaryCategoryId, inspireCategories.id))
       .where(eq(articles.status, 'published'))
-      .groupBy(articleCategories.categoryId)
-      .as('article_count_sub');
+      .orderBy(desc(articles.publishedAt))
+      .limit(13);
 
-    const [latestArticles, categories] = await Promise.all([
-      db
-        .select({
-          id: articles.id,
-          title: articles.title,
-          slug: articles.slug,
-          excerpt: articles.excerpt,
-          coverImageUrl: articles.coverImageUrl,
-          coverImageVariants: articles.coverImageVariants,
-          coverImageSmartCrops: articles.coverImageSmartCrops,
-          coverImageLqip: articles.coverImageLqip,
-          publishedAt: articles.publishedAt,
-          categoryName: inspireCategories.name,
-          categorySlug: inspireCategories.slug,
-        })
-        .from(articles)
-        .innerJoin(inspireCategories, eq(articles.primaryCategoryId, inspireCategories.id))
-        .where(eq(articles.status, 'published'))
-        .orderBy(desc(articles.publishedAt))
-        .limit(13),
-      db
-        .select({
-          id: inspireCategories.id,
-          name: inspireCategories.name,
-          slug: inspireCategories.slug,
-          parentId: inspireCategories.parentId,
-          articleCount: sql<number>`COALESCE(${articleCountSub.count}, 0)`,
-        })
-        .from(inspireCategories)
-        .leftJoin(articleCountSub, eq(inspireCategories.id, articleCountSub.categoryId))
-        .orderBy(inspireCategories.displayOrder),
-    ]);
-
-    // The rail is a browse affordance, not a taxonomy view: every category
-    // that actually has something to read, counted with its full subtree,
-    // busiest first — capped at ten so it stays a swipe rather than a scroll.
-    // Listing only top-level categories left a two-chip rail on the imported
-    // WordPress taxonomy, where almost all the depth lives one level down.
-    // `/artikel`'s bottom index shares the helper and differs only in having
-    // no cap, because that section is a full browse index.
-    const topCategories = flattenCategoriesByArticleCount(categories).slice(0, 10);
-
-    return { latestArticles, topCategories };
+    return { latestArticles };
   },
   ['hk-home'],
   // Tagged, not just time-boxed: every admin write path and the scheduled-
@@ -101,8 +66,41 @@ const getHomeData = unstable_cache(
 );
 
 export default async function HomePage() {
-  const { latestArticles, topCategories } = await getHomeData();
+  const { latestArticles } = await getHomeData();
   const [hero, ...rest] = latestArticles;
+
+  // --- Hero sources, art-directed ------------------------------------------
+  // ONE crop per viewport, and only one is ever fetched (see the <picture>
+  // below). Measured against this page's own hero box:
+  //
+  //   desktop box 1905x560 (w-full, lg:aspect-[21/9] capped by lg:max-h-[560px])
+  //     crop-4x3-article-card   1600x1200 -> cover scales x1.191 (a 19% UPSCALE)
+  //                                          and discards 60.8% of the frame
+  //     crop-4.3x1-desktop-hero 2464x700  -> cover scales x0.800 (no upscale)
+  //                                          and discards 3.4% of the frame
+  //   mobile box 390x293 (aspect-[4/3])
+  //     crop-4x3-article-card   1600x1200 -> exact ratio match, 0% discarded
+  //     crop-4.3x1-desktop-hero 2464x700  -> discards 62.1% of the frame
+  //
+  // So the two presets are not ranked, they are per-breakpoint: the wide crop
+  // is right for the wide box and wrong for the tall one, and the reverse. A
+  // straight swap would have moved a 61% waste off the desktop and onto the
+  // phone, which is where this site's traffic actually is. The desktop crop is
+  // also the smaller file on the measured hero asset (623 KB vs 793 KB), which
+  // matters because next.config.ts sets `images: { unoptimized: true }` — the
+  // raw file IS what the browser downloads.
+  const heroFallback = hero
+    ? ((hero.coverImageVariants as Record<string, { url: string }> | null)?.high?.url ??
+      hero.coverImageUrl)
+    : null;
+  const heroDesktopSrc =
+    hero && heroFallback
+      ? (getSmartCropUrl(hero.coverImageSmartCrops, 'crop-4.3x1-desktop-hero') ?? heroFallback)
+      : null;
+  const heroMobileSrc =
+    hero && heroFallback
+      ? (getSmartCropUrl(hero.coverImageSmartCrops, 'crop-4x3-article-card') ?? heroFallback)
+      : null;
 
   return (
     <div>
@@ -116,24 +114,41 @@ export default async function HomePage() {
         {hero ? (
           <article>
             <Link href={`/artikel/${hero.categorySlug}/${hero.slug}`} className="group block">
-              <div className="bg-muted relative aspect-[4/3] w-full overflow-hidden sm:aspect-[16/9] lg:aspect-[21/9] lg:max-h-[560px]">
-                {hero.coverImageUrl ? (
-                  <Image
-                    src={
-                      getSmartCropUrl(hero.coverImageSmartCrops, 'crop-4x3-article-card') ??
-                      (hero.coverImageVariants as Record<string, { url: string }> | null)?.high
-                        ?.url ??
-                      hero.coverImageUrl
-                    }
-                    alt={hero.title}
-                    fill
-                    sizes="100vw"
-                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
-                    priority
-                    {...(hero.coverImageLqip
-                      ? { placeholder: 'blur' as const, blurDataURL: hero.coverImageLqip }
-                      : {})}
-                  />
+              <div
+                className="bg-muted relative aspect-[4/3] w-full overflow-hidden bg-cover bg-center sm:aspect-[16/9] lg:aspect-[21/9] lg:max-h-[560px]"
+                style={
+                  // UX-04's blur placeholder, carried onto the container because
+                  // next/image's placeholder="blur" cannot ride on a <picture>.
+                  // Same effect and no JS: the stored LQIP is a ~190-byte WebP a
+                  // few pixels wide, so cover-scaling it to 1905px IS the blur. It
+                  // sits behind the <img>, so it is gone the moment the hero paints.
+                  hero.coverImageLqip
+                    ? { backgroundImage: `url(${hero.coverImageLqip})` }
+                    : undefined
+                }
+              >
+                {heroDesktopSrc && heroMobileSrc ? (
+                  /* A plain <picture>, deliberately, not next/image.
+                     next/image renders exactly one <img> and cannot carry a
+                     <source media>, so art-directing with it takes two elements
+                     — and the hidden one still downloads. That is not
+                     theoretical: measured on production at 390x844, the article
+                     route's two-block hero fetches BOTH crops and spends 748 KB
+                     on a desktop plate the phone never displays. <picture> lets
+                     the browser choose one and fetch one. Nothing is given up by
+                     dropping next/image here: `images: { unoptimized: true }`
+                     means it was never resizing these, and `fill` was only
+                     supplying the absolute inset, which is one class. */
+                  <picture>
+                    <source media="(min-width: 1024px)" srcSet={heroDesktopSrc} />
+                    <img
+                      src={heroMobileSrc}
+                      alt={hero.title}
+                      fetchPriority="high"
+                      decoding="async"
+                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                    />
+                  </picture>
                 ) : (
                   <div className="flex h-full items-center justify-center">
                     <span className="hk-meta">Tiada gambar</span>
@@ -161,24 +176,19 @@ export default async function HomePage() {
         )}
       </section>
 
-      {/* --- Category rail — flat chips, 44px targets, horizontal scroll --- */}
-      {topCategories.length > 0 && (
-        <nav aria-label="Kategori" className="border-border mt-10 border-y lg:mt-14">
-          <div className="mx-auto max-w-6xl">
-            <div className="flex gap-0 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              {topCategories.map((cat) => (
-                <Link
-                  key={cat.id}
-                  href={`/artikel/${cat.slug}`}
-                  className="hk-chip shrink-0 border-y-0 border-l-0 last:border-r-0"
-                >
-                  {cat.name}
-                </Link>
-              ))}
-            </div>
-          </div>
-        </nav>
-      )}
+      {/* The homepage used to carry its own category rail here. It is gone on
+          purpose. It was a SECOND navigation, built from a different query than
+          the masthead's — article counts vs. the admin-managed
+          `inspire_nav_items` — and the two disagreed. Measured on production
+          2026-08-26 they shared only 6 of their links: the rail promoted 4
+          child categories that were never pillars (`perancangan`,
+          `gubahan-dulang-hantaran`, `mas-kahwin-ikut-negeri-panduan`,
+          `nisbah-dulang-duit-hantaran`) and silently omitted 3 real ones
+          (`busana-pengantin`, `pelamin-kad-cenderahati`,
+          `sebelum-nikah`). Two rails within ~200px of each other, telling a
+          reader two different stories about what this site contains. The
+          masthead is the one navigation. Deleting this also takes a whole
+          category query and its article-count subquery off the homepage. */}
 
       {/* --- Latest grid --------------------------------------------------- */}
       {rest.length > 0 && (

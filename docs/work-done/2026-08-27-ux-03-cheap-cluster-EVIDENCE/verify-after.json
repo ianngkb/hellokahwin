@@ -1,0 +1,600 @@
+{
+  "desktop": {
+    "viewport": {
+      "w": 1905,
+      "h": 1000
+    },
+    "hero": {
+      "src": "https://images.hellokahwin.com/inspire/tempat-beli-hantaran/1787780709236-images-s-dulang-buah-hantaran-mohd-hasan/crop-4.3x1-desktop-hero.webp?v=0.2475_0.6561-g48c0b959",
+      "crop": "crop-4.3x1-desktop-hero.webp",
+      "intrinsic": {
+        "w": 2464,
+        "h": 700
+      },
+      "rendered": {
+        "w": 1905,
+        "h": 560
+      },
+      "insidePicture": true,
+      "sourceCount": 1,
+      "coverScale": 0.8,
+      "upscaledPct": -20,
+      "frameDiscardedPct": 3.4
+    },
+    "homepageRail": "gone",
+    "navsOutsideHeader": 0,
+    "scroller": {
+      "scrollWidth": 1986,
+      "clientWidth": 1264,
+      "hiddenPx": 722,
+      "wrapperClass": "hk-edge relative -mx-2",
+      "dataOverflowEnd": "true",
+      "dataOverflowStart": null,
+      "afterOpacity": "1",
+      "afterWidth": "48px",
+      "afterHasChevron": "yes",
+      "beforeOpacity": "0"
+    },
+    "pillars": [
+      {
+        "href": "/artikel/idea-dan-nasihat",
+        "name": "Idea dan nasihat",
+        "left": 329
+      },
+      {
+        "href": "/artikel/real-wedding",
+        "name": "Real Wedding",
+        "left": 482
+      },
+      {
+        "href": "/artikel/nikah-undang-undang",
+        "name": "Nikah & Undang-undang",
+        "left": 611
+      },
+      {
+        "href": "/artikel/hantaran-mas-kahwin",
+        "name": "Hantaran & Mas Kahwin",
+        "left": 817
+      },
+      {
+        "href": "/artikel/ucapan-doa",
+        "name": "Ucapan, Doa & Adab Majlis",
+        "left": 1020
+      },
+      {
+        "href": "/artikel/busana-pengantin",
+        "name": "Busana & Penampilan Pengantin",
+        "left": 1239
+      },
+      {
+        "href": "/artikel/pelamin-kad-cenderahati",
+        "name": "Pelamin, Kad & Cenderahati Maj",
+        "left": 1499
+      },
+      {
+        "href": "/artikel/venue-perancangan",
+        "name": "Venue, Kos & Perancangan",
+        "left": 1772
+      },
+      {
+        "href": "/artikel/sebelum-nikah",
+        "name": "Sebelum Nikah: Jodoh, Merisik ",
+        "left": 1990
+      }
+    ],
+    "maxScrollLeft": 722,
+    "search": {
+      "href": "/artikel#cari",
+      "ariaLabel": "Cari artikel",
+      "rect": {
+        "w": 55,
+        "h": 44
+      }
+    },
+    "chip": {
+      "borderColor": "lab(60.5763 0.109702 1.52209)",
+      "borderWidth": "1px",
+      "pageBg": "lab(98.6163 0.0525415 0.759542)",
+      "contrast": 1.276
+    },
+    "cropsFetched": [
+      {
+        "crop": "crop-4.3x1-desktop-hero.webp",
+        "bytes": 434868
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 798092
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 998350
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 581112
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 968966
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 803446
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 894716
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 753278
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 775880
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 727190
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 723226
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 733326
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 812394
+      }
+    ]
+  },
+  "at1400": {
+    "viewport": {
+      "w": 1400,
+      "h": 900
+    },
+    "hero": {
+      "src": "https://images.hellokahwin.com/inspire/tempat-beli-hantaran/1787780709236-images-s-dulang-buah-hantaran-mohd-hasan/crop-4.3x1-desktop-hero.webp?v=0.2475_0.6561-g48c0b959",
+      "crop": "crop-4.3x1-desktop-hero.webp",
+      "intrinsic": {
+        "w": 2464,
+        "h": 700
+      },
+      "rendered": {
+        "w": 1400,
+        "h": 560
+      },
+      "insidePicture": true,
+      "sourceCount": 1,
+      "coverScale": 0.8,
+      "upscaledPct": -20,
+      "frameDiscardedPct": 29
+    },
+    "homepageRail": "gone",
+    "navsOutsideHeader": 0,
+    "scroller": {
+      "scrollWidth": 1986,
+      "clientWidth": 1264,
+      "hiddenPx": 722,
+      "wrapperClass": "hk-edge relative -mx-2",
+      "dataOverflowEnd": "true",
+      "dataOverflowStart": null,
+      "afterOpacity": "1",
+      "afterWidth": "48px",
+      "afterHasChevron": "yes",
+      "beforeOpacity": "0"
+    },
+    "pillars": [
+      {
+        "href": "/artikel/idea-dan-nasihat",
+        "name": "Idea dan nasihat",
+        "left": 76
+      },
+      {
+        "href": "/artikel/real-wedding",
+        "name": "Real Wedding",
+        "left": 229
+      },
+      {
+        "href": "/artikel/nikah-undang-undang",
+        "name": "Nikah & Undang-undang",
+        "left": 358
+      },
+      {
+        "href": "/artikel/hantaran-mas-kahwin",
+        "name": "Hantaran & Mas Kahwin",
+        "left": 564
+      },
+      {
+        "href": "/artikel/ucapan-doa",
+        "name": "Ucapan, Doa & Adab Majlis",
+        "left": 768
+      },
+      {
+        "href": "/artikel/busana-pengantin",
+        "name": "Busana & Penampilan Pengantin",
+        "left": 987
+      },
+      {
+        "href": "/artikel/pelamin-kad-cenderahati",
+        "name": "Pelamin, Kad & Cenderahati Maj",
+        "left": 1246
+      },
+      {
+        "href": "/artikel/venue-perancangan",
+        "name": "Venue, Kos & Perancangan",
+        "left": 1520
+      },
+      {
+        "href": "/artikel/sebelum-nikah",
+        "name": "Sebelum Nikah: Jodoh, Merisik ",
+        "left": 1738
+      }
+    ],
+    "maxScrollLeft": 722,
+    "search": {
+      "href": "/artikel#cari",
+      "ariaLabel": "Cari artikel",
+      "rect": {
+        "w": 55,
+        "h": 44
+      }
+    },
+    "chip": {
+      "borderColor": "lab(60.5763 0.109702 1.52209)",
+      "borderWidth": "1px",
+      "pageBg": "lab(98.6163 0.0525415 0.759542)",
+      "contrast": 1.276
+    },
+    "cropsFetched": [
+      {
+        "crop": "crop-4.3x1-desktop-hero.webp",
+        "bytes": 434868
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 998350
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 798092
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 968966
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 581112
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 803446
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 894716
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 753278
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 775880
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 727190
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 723226
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 733326
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 812394
+      }
+    ]
+  },
+  "at1400_scrolledRight": {
+    "scrollLeft": 722,
+    "dataOverflowStart": "true",
+    "dataOverflowEnd": null,
+    "lastVisible": [
+      "Busana & Penampilan Pengantin",
+      "Pelamin, Kad & Cenderahati Maj",
+      "Venue, Kos & Perancangan",
+      "Sebelum Nikah: Jodoh, Merisik "
+    ]
+  },
+  "mobile": {
+    "viewport": {
+      "w": 390,
+      "h": 844
+    },
+    "hero": {
+      "src": "https://images.hellokahwin.com/inspire/tempat-beli-hantaran/1787780709236-images-s-dulang-buah-hantaran-mohd-hasan/crop-4x3-article-card.webp?v=0.2475_0.6561-g48c0b959",
+      "crop": "crop-4x3-article-card.webp",
+      "intrinsic": {
+        "w": 1600,
+        "h": 1200
+      },
+      "rendered": {
+        "w": 390,
+        "h": 293
+      },
+      "insidePicture": true,
+      "sourceCount": 1,
+      "coverScale": 0.2442,
+      "upscaledPct": -75.6,
+      "frameDiscardedPct": 0.2
+    },
+    "homepageRail": "gone",
+    "navsOutsideHeader": 0,
+    "scroller": {
+      "scrollWidth": 2130,
+      "clientWidth": 390,
+      "hiddenPx": 1740,
+      "wrapperClass": "hk-edge relative -mx-2",
+      "dataOverflowEnd": "true",
+      "dataOverflowStart": null,
+      "afterOpacity": "1",
+      "afterWidth": "48px",
+      "afterHasChevron": "yes",
+      "beforeOpacity": "0"
+    },
+    "pillars": [
+      {
+        "href": "/artikel/idea-dan-nasihat",
+        "name": "Idea dan nasihat",
+        "left": 8
+      },
+      {
+        "href": "/artikel/real-wedding",
+        "name": "Real Wedding",
+        "left": 177
+      },
+      {
+        "href": "/artikel/nikah-undang-undang",
+        "name": "Nikah & Undang-undang",
+        "left": 322
+      },
+      {
+        "href": "/artikel/hantaran-mas-kahwin",
+        "name": "Hantaran & Mas Kahwin",
+        "left": 544
+      },
+      {
+        "href": "/artikel/ucapan-doa",
+        "name": "Ucapan, Doa & Adab Majlis",
+        "left": 764
+      },
+      {
+        "href": "/artikel/busana-pengantin",
+        "name": "Busana & Penampilan Pengantin",
+        "left": 999
+      },
+      {
+        "href": "/artikel/pelamin-kad-cenderahati",
+        "name": "Pelamin, Kad & Cenderahati Maj",
+        "left": 1274
+      },
+      {
+        "href": "/artikel/venue-perancangan",
+        "name": "Venue, Kos & Perancangan",
+        "left": 1564
+      },
+      {
+        "href": "/artikel/sebelum-nikah",
+        "name": "Sebelum Nikah: Jodoh, Merisik ",
+        "left": 1798
+      }
+    ],
+    "maxScrollLeft": 1740,
+    "search": {
+      "href": "/artikel#cari",
+      "ariaLabel": "Cari artikel",
+      "rect": {
+        "w": 44,
+        "h": 44
+      }
+    },
+    "chip": {
+      "borderColor": "lab(60.5763 0.109702 1.52209)",
+      "borderWidth": "1px",
+      "pageBg": "lab(98.6163 0.0525415 0.759542)",
+      "contrast": 1.276
+    },
+    "cropsFetched": [
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 798092
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 499856
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 998350
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 581112
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 803446
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 968966
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 894716
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 753278
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 775880
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 727190
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 723226
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 733326
+      },
+      {
+        "crop": "crop-4x3-article-card.webp",
+        "bytes": 812394
+      }
+    ]
+  },
+  "searchLanding": {
+    "anchorExists": true,
+    "inputFocused": true,
+    "activeTag": "INPUT",
+    "placeholder": "Cari artikel...",
+    "anchorTopAfterScroll": 112,
+    "headerHeight": 102
+  },
+  "chipsLive": {
+    "count": 42,
+    "borderColor": "lab(60.5763 0.109702 1.52209)",
+    "borderWidth": "1px",
+    "behind": "lab(98.6163 0.0525415 0.759542)",
+    "contrast": 1.276,
+    "minHeight": "44px"
+  },
+  "pillars": {
+    "venue-perancangan": [
+      {
+        "name": "Kos, bajet & checklist perkahwinan",
+        "articles": 4,
+        "empty": false
+      },
+      {
+        "name": "Dewan & venue majlis",
+        "articles": 0,
+        "empty": true
+      }
+    ],
+    "sebelum-nikah": [
+      {
+        "name": "Jodoh, taaruf & istikharah jodoh",
+        "articles": 1,
+        "empty": false
+      },
+      {
+        "name": "Cincin tunang, nikah & merisik",
+        "articles": 1,
+        "empty": false
+      },
+      {
+        "name": "Majlis pertunangan & doa",
+        "articles": 1,
+        "empty": false
+      },
+      {
+        "name": "Merisik & meminang",
+        "articles": 0,
+        "empty": true
+      },
+      {
+        "name": "Adat perkahwinan Melayu & mandi bunga",
+        "articles": 0,
+        "empty": true
+      }
+    ],
+    "pelamin-kad-cenderahati": [
+      {
+        "name": "Pelamin",
+        "articles": 1,
+        "empty": false
+      },
+      {
+        "name": "Kad kahwin & jemputan",
+        "articles": 1,
+        "empty": false
+      },
+      {
+        "name": "Doorgift, bunga telur & hadiah kahwin",
+        "articles": 1,
+        "empty": false
+      },
+      {
+        "name": "Dekorasi, khemah & tema majlis",
+        "articles": 0,
+        "empty": true
+      }
+    ],
+    "nikah-undang-undang": [
+      {
+        "name": "Borang & pendaftaran nikah",
+        "articles": 1,
+        "empty": false
+      },
+      {
+        "name": "Rukun, syarat & sah nikah",
+        "articles": 3,
+        "empty": false
+      },
+      {
+        "name": "Kursus kahwin & saringan pra-nikah",
+        "articles": 0,
+        "empty": true
+      },
+      {
+        "name": "Soal-jawab hukum nikah",
+        "articles": 0,
+        "empty": true
+      }
+    ],
+    "hantaran-mas-kahwin": [
+      {
+        "name": "Hantaran kahwin",
+        "articles": 8,
+        "empty": false
+      },
+      {
+        "name": "Hantaran tunang",
+        "articles": 6,
+        "empty": false
+      },
+      {
+        "name": "Gubahan & dulang hantaran",
+        "articles": 8,
+        "empty": false
+      },
+      {
+        "name": "Mas kahwin ikut negeri",
+        "articles": 8,
+        "empty": false
+      },
+      {
+        "name": "Nisbah dulang, duit hantaran & etika",
+        "articles": 8,
+        "empty": false
+      }
+    ]
+  }
+}
