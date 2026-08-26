@@ -7,6 +7,7 @@ metaDescription: "Hidden hantaran ialah hantaran yang isinya ditutup dalam kotak
 excerpt: "Hidden hantaran menutup isi dulang daripada mata tetamu, bukan daripada keluarga yang menerimanya. Ini dari mana konsep itu datang, kenapa ia melonjak semasa pandemik, tiga cara membuatnya, dan berapa harga kotak yang benar-benar dijual hari ini."
 author: ianng@theweddingnotebook.com
 status: published
+publishedAt: "2026-08-26T17:27:24.884Z"
 authorship: ai_assisted
 tags:
   - hidden hantaran

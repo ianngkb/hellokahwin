@@ -7,6 +7,7 @@ metaDescription: "Enam gaya gubahan hantaran simple, mana yang nampak mahal dan 
 excerpt: "Gaya yang nampak mahal jarang bergantung pada harga bahan. Ini enam gaya gubahan simple yang benar-benar dijual bahannya hari ini, apa yang membuat setiap satu kelihatan ditempah, dan silap kecil yang membuatnya kelihatan buatan rumah."
 author: ianng@theweddingnotebook.com
 status: published
+publishedAt: "2026-08-26T17:25:29.285Z"
 authorship: ai_assisted
 tags:
   - gubahan hantaran

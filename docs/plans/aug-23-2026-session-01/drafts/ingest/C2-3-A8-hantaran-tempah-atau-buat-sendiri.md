@@ -7,6 +7,7 @@ metaDescription: "Tempah atau buat sendiri hantaran? Kos sebenar tujuh dulang ik
 excerpt: "Tujuh dulang buat sendiri berharga kira-kira RM238 dalam bahan dan dulang. Set siap gubah RM29.90 sedulang, tetapi dijual dalam lima; gubahan berisi bermula RM525 untuk tujuh. Perbezaan sebenar bukan wang, tetapi satu malam. Ini kiraan penuh, dan senarai barang mana patut ditempah dan mana patut dibuat sendiri."
 author: ianng@theweddingnotebook.com
 status: published
+publishedAt: "2026-08-26T17:24:59.361Z"
 authorship: ai_assisted
 tags:
   - gubahan hantaran

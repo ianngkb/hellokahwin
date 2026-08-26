@@ -7,6 +7,7 @@ metaDescription: "Cara pilih tema warna hantaran: apa yang dibeli ikut warna, ap
 excerpt: "Warna tema hantaran datang daripada dua bahan sahaja, alas dan reben. Yang lain dibeli neutral supaya ia boleh diguna semula dari majlis tunang ke majlis nikah. Ini senarai apa yang ikut warna, apa yang tidak, dan berapa kosnya."
 author: ianng@theweddingnotebook.com
 status: published
+publishedAt: "2026-08-26T17:26:05.658Z"
 authorship: ai_assisted
 tags:
   - tema hantaran

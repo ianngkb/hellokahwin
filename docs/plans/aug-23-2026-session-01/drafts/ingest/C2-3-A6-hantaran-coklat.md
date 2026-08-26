@@ -7,6 +7,7 @@ metaDescription: "Coklat cair pada 34°C, petang Malaysia 32 hingga 34°C. Cokla
 excerpt: "Mentega koko cair pada 34 darjah Celsius, dan suhu maksimum harian di Malaysia lazimnya 32 hingga 34 darjah. Perbezaannya nipis, dan di dalam kereta ia hilang dalam sepuluh minit. Ini cara memilih, menyusun dan membawa hantaran coklat supaya ia sampai dalam keadaan asal."
 author: ianng@theweddingnotebook.com
 status: published
+publishedAt: "2026-08-26T17:26:49.696Z"
 authorship: ai_assisted
 tags:
   - hantaran coklat
