@@ -63,8 +63,23 @@ Against the founding target (decision 7: 1,500 clicks/28d by 21 Nov 2026, with 1
 
 ## Owner requests
 
-**One.**
+**AMENDED 2026-08-27 17:50 — see decisions 98 and 99. The original request below was wrong, and is kept rather than rewritten so the correction is visible.**
 
-**The login token is expiring and it is taking down the agent fleet.** Six sessions failed inside forty minutes on 27 Aug; the window between launch and death shrank from ~25 minutes to ~5. Credentials are carve-out (1) — the CEO cannot fix this, and `/startsprint` cannot dispatch a sprint into a fleet that dies on launch. **Sprint 03 should not start until this is resolved.**
+**Nothing is requested of the owner right now.**
 
-Nothing else is requested. No spend, no outward-facing commitment, no irreversible destruction arises from this plan.
+A probe at 17:48 separated two failures this meeting had conflated. A trivial two-command agent went idle returning nothing, twice, would not answer a direct message, and **reported no authentication error at all** — a task that short cannot reach a token refresh. So the blocker in evidence is NOT the login expiry, and running `/login` may change nothing.
+
+What is actually true:
+- **Problem A** (`Login expired`) was seen only between 07:02 and 07:54 and has not recurred. It may have cleared on its own. Unproven either way.
+- **Problem B** (agent goes idle, returns no output, unreachable by message) reproduced at 17:48 and is the live blocker on delegation.
+- **Whether B blocks the SPRINT is unknown.** Every observed failure was an in-process subagent. `/startsprint` dispatches through `dispatch-agent.ps1` into an Orca terminal running a separate `claude` process with its own credentials. That path has not been tested and must not be assumed broken OR healthy.
+
+**Next action, and it is the CEO's, not the owner's:** dispatch one throwaway agent through `dispatch-agent.ps1` and watch it. That settles whether Sprint 03 can start.
+
+---
+
+### Original request as written, now superseded
+
+> **The login token is expiring and it is taking down the agent fleet.** Six sessions failed inside forty minutes on 27 Aug; the window between launch and death shrank from ~25 minutes to ~5. Credentials are carve-out (1) — the CEO cannot fix this, and `/startsprint` cannot dispatch a sprint into a fleet that dies on launch. **Sprint 03 should not start until this is resolved.**
+
+**Why it was wrong:** four of six failures carried an auth banner, so the two silent ones were assumed to share its cause. They did not. That is the company's own named failure shape — unknown collapsing into the value that means 'fine' — committed inside the meeting that recorded it as the shape.
