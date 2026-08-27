@@ -15,6 +15,52 @@ session documents are marked as carried forward rather than re-pulled.
 
 ---
 
+## OUR FAILURE MODE HAS ONE SHAPE (Sprint 02 retrospective, 27 Aug 2026)
+
+Mary put five of this sprint's failures side by side and they are the same
+failure:
+
+| Where | `unknown` silently became… |
+|---|---|
+| A dead agent's terminal | `IDLE/DONE` — the string a FINISHED agent shows |
+| A squash-merged branch | "not an ancestor" → shipped work called unshipped |
+| An item moved out of a sprint | 72/72 = **100%**, describing no real thing |
+| `generateMetadata` timing out | `{}` → the site-default title, **and cached** |
+| A failed URL inspection | "absent" → clean, over a silently shrinking denominator |
+
+**In every case an ERROR or an UNKNOWN coerced into the value that means
+"fine."** Not one of them announced itself. Four were caught by a person
+happening to look; one was caught mid-build by its own author.
+
+### The rule
+
+> **Every collector that can fail must distinguish `absent` from `unknown`, and
+> `unknown` must never coerce to a success value.**
+
+If a check cannot run, it reports that it could not run. It does not report
+"clean". A monitor that cannot see a page has not seen a healthy page.
+
+This is not a platform rule wearing a doctrine hat — the writer seat already
+works to the identical rule in Malay wedding law: *if you cannot source a claim,
+flag it; never fill the gap with something plausible.* **Unverified must never
+render as false.** The same sentence governs a monitoring pipeline and a fee
+table.
+
+### Its corollary, which has now cost two sprints
+
+> **Check the artefact the consumer receives, not the input you control.**
+
+SEO-05 audited 69 `seo_title` fields and found exactly one drifted — a correct
+answer to the wrong question, because **39 pages were serving no article title
+at all** and a row-level audit cannot see a render-level failure. SEO-02 hit the
+identical shape a sprint earlier, when a page-level check could not see a
+link-level `nofollow`.
+
+**And a cached failure is worse than a failure.** A fallback returning `{}` under
+load is reasonable; freezing that `{}` into a prerender and serving it for an
+hour is not.
+
+
 ## The short version
 
 The board asked why this system beats the incumbents over time. Most of the
