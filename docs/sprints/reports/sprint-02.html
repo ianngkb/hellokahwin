@@ -215,7 +215,8 @@ footer a{color:var(--plat)}
 <section>
   <h2>Cleanup &amp; housekeeping</h2>
   <div class="card">
-    <p class="what"><b>Worktrees: 7 of 10 removed.</b> Every one was checked first — all clean, nothing uncommitted, every branch pushed, so no work was at risk. Three could not be removed because live Windows processes still hold files inside them: <code>buddy-plat05</code>, <code>seo05-titles</code>, <code>ux04-images</code>. Their commits are all on their remotes; the directories are debt, not risk, and are carried forward.</p>
+    <p class="what"><b>Worktrees: 8 of 10 removed, and the last two are empty folders.</b> Every one was checked first — all clean, nothing uncommitted, every branch pushed, so no work was at risk. <code>buddy-plat05</code> and <code>seo05-titles</code> have had their contents deleted but the empty folder itself cannot be unlinked — a process still has it as its working directory. Nothing is in them and every commit is on its remote.</p>
+    <p class="what"><b>Two orphaned dev servers stopped.</b> A <code>next dev</code> process had been running inside a worktree since <strong>24 August — 86 hours</strong>, and a second was left behind by this sprint's image work. Both were started by agent sessions that had already been closed; neither held any data, and restarting either is one documented command. Stopping the second is what finally released its directory.</p>
     <p class="what"><b>Orca terminals: 35 close commands succeeded</b> ("PTY killed" confirmed). Orca's own listing does not fully decrement after a close, so the count it reports is not a reliable measure of what is actually running — noted rather than papered over.</p>
     <p class="what"><b>Deliberately left:</b> the main site checkout, the docs repo, and buddy's main checkout — all three are live working trees, all clean and pushed. A Sprint 01 leftover (<code>risk01-db-backup</code>, detached HEAD) was also removed.</p>
   </div>
