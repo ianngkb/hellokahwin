@@ -1,6 +1,6 @@
 {
   "id": 3,
-  "name": "Convert the impressions we now have",
+  "name": "Convert the impressions we now have - and stop looking generic",
   "state": "planned",
   "planned_at": "2026-08-27",
   "governance": {
@@ -9,10 +9,11 @@
     "done_means_shipped": "An item is not done until the owner can look at the result. Site code: merged to default branch AND deployed AND visible on a live URL. Content: ingested to production AND 200 AND reachable where a reader would find it. Documents: committed and pushed.",
     "review_gate": "Every item is presented as CLAIM + EVIDENCE + LIVE LINK. Not a summary.",
     "dod_never_narrowed": "A definition of done is never narrowed after the sprint starts. An item that turns out bigger stays open, gets parked with a reason, or carries forward. Rewriting a DoD to fit what was achieved is what makes velocity a lie.",
-    "ceo_verifies_independently": "Never mark an item done on an agent's report alone. curl the URL, run the query, list the files, check the content is on the default branch."
+    "ceo_verifies_independently": "Never mark an item done on an agent's report alone. curl the URL, run the query, list the files, check the content is on the default branch.",
+    "design_gates": "The design track has THREE gates that stop work rather than slow it. DES-01: the owner approves the art-direction REASONING before anything is drawn. DES-02: the owner picks the direction; everything downstream is the Creative Director's without further approval. DES-04: the engineer's stack recommendation stops before any system is built. A gate that is allowed to kill or redirect an item is itself a deliverable - Sprint 02's SEO-04 proved it."
   },
-  "points": 52,
-  "thesis": "Sprint 02 closed the publishing hole and Google responded: impressions tripled in three days (148 -> 252 -> 412) and average position on 26 Aug hit 10.0. Clicks did not follow. Five pages sit at position 6.5-12.2 earning ZERO clicks between them. This sprint does not add reach; it converts the reach we already have. SEO-07 leads because until the title half-life defect is fixed we cannot even prove which titles Google is being served.",
+  "points": 97,
+  "thesis": "Sprint 02 closed the publishing hole and Google responded: impressions tripled in three days (148 -> 252 -> 412) and average position on 26 Aug hit 10.0. Clicks did not follow. Five pages sit at position 6.5-12.2 earning ZERO clicks between them. This sprint does not add reach; it converts the reach we already have. SEO-07 leads because until the title half-life defect is fixed we cannot even prove which titles Google is being served. ADDED 27 Aug BY OWNER DIRECTIVE: a premium redesign of the homepage, catalogue and article pages plus a real design system, referenced to caratsandcake.com and partyslate.com. Positioned as EDITORIAL PREMIUM, not a vendor marketplace - the owner considered and declined the marketplace direction for now. Three seats were hired to do it (creative-director, design-systems-engineer, product-designer), because the org chart had no design function at all. Note the tension recorded honestly: decision 86 measured every category URL at ~16 impressions and ZERO clicks, so this work is NOT justified on SEO grounds and must not be scored on them. It is a brand and positioning bet.",
   "items": [
     {
       "id": "RISK-07",
@@ -21,7 +22,10 @@
       "state": "todo",
       "owner": "BMAD",
       "title": "Six sitemap URLs are served noindex and Google excluded all six",
-      "flags": ["carried-forward", "unowned-until-now"],
+      "flags": [
+        "carried-forward",
+        "unowned-until-now"
+      ],
       "why": "Found by RISK-05 in Sprint 02, which correctly recorded it and did NOT half-fix it because it met neither of the monitor's own alarm conditions. Six URLs we are actively advertising in the sitemap tell Google not to index them. Google crawled and excluded all six. This is the cheapest available correction of a self-inflicted wound.",
       "dod": {
         "observable": "All six URLs named explicitly. Each returns a robots meta WITHOUT noindex on a fresh request. The sitemap URL count is unchanged (103) - this is a robots fix, not a sitemap edit. At least one of the six shows its exclusion cleared in GSC URL Inspection.",
@@ -38,7 +42,10 @@
       "state": "todo",
       "owner": "BMAD",
       "title": "Cold renders take 5-22s against a route declaring maxDuration=5",
-      "flags": ["carried-from-sprint-01", "now-has-monitor-data"],
+      "flags": [
+        "carried-from-sprint-01",
+        "now-has-monitor-data"
+      ],
       "why": "Measured in Sprint 01, never root-caused, deferred from Sprint 02 deliberately because RISK-04 and RISK-05 changed what Googlebot meets first. RISK-05's monitor has now been running, so Sprint 03 revisits this with data rather than by guessing - which is exactly the condition the deferral was written against. One new article URL also returned 502 FUNCTION_RESPONSE_STREAM_INCOMPLETE.",
       "dod": {
         "observable": "The monitor's actual series quoted for the affected routes. Either a stated root cause with the fix deployed and a cold-path measurement showing the new figure, OR a stated finding that the monitor shows this no longer bites, with the series that proves it.",
@@ -55,7 +62,10 @@
       "state": "todo",
       "owner": "BMAD",
       "title": "A shipped title has a half-life - generateMetadata caches its own fallback",
-      "flags": ["sprint-leader", "blocks-measurement"],
+      "flags": [
+        "sprint-leader",
+        "blocks-measurement"
+      ],
       "why": "THE MOST IMPORTANT ITEM IN THIS SPRINT. SEO-05 shipped repaired titles for the mas-kahwin family in Sprint 02. That family now draws ~300 impressions at positions 6.5-12.2 and earns 3 clicks. We CANNOT TELL whether the repaired titles are what Google is being served, because a correct row can render as the site-default title 14 minutes after a verified repair. Every title decision downstream of this is unmeasurable until it is fixed.",
       "dod": {
         "observable": "The mechanism stated from source. The defect reproduced deliberately. The true count of affected pages stated WITH its method - the count is currently unknown. After the fix: a repaired title still correct on a cold fetch 30+ minutes later, quoted literally.",
@@ -72,7 +82,10 @@
       "state": "todo",
       "owner": "head-of-seo-content",
       "title": "Decide garden-wedding: 814 impressions, 4 clicks, position 36.6",
-      "flags": ["deferred-to-this-meeting-with-data", "decision-item"],
+      "flags": [
+        "deferred-to-this-meeting-with-data",
+        "decision-item"
+      ],
       "why": "Decision 88 deferred this to Sprint 03 planning with the data attached. The data: /garden-wedding/ draws 814 impressions - 28% of ALL site impressions - and earns 4 clicks at 0.49% CTR from position 36.6. It is an English-intent page on a Malay-first site sitting on page four. It is the largest single distortion in every report we produce.",
       "dod": {
         "observable": "A written decision - rewrite Malay-first, keep and stop reporting it, or drop it - with SERP evidence on who owns positions 1-3 for the head terms. If kept: the target and the date it is judged on. If dropped: what happens to the URL.",
@@ -89,7 +102,10 @@
       "state": "todo",
       "owner": "BMAD",
       "title": "Re-parent the 13 legacy articles",
-      "flags": ["carried-forward", "plan-already-exists"],
+      "flags": [
+        "carried-forward",
+        "plan-already-exists"
+      ],
       "why": "CONT-04 produced the plan in Sprint 01 and established it needs NO redirects. Deferred from Sprint 02 only because the venue and zero-CTR work touched the same pillar pages, and two agents on one file is how Sprint 01 nearly lost work. That collision risk does not exist this sprint if it is sequenced away from SEO-10.",
       "dod": {
         "observable": "All 13 articles live at their new paths, each returning 200 on FIRST request. No redirect added. Sitemap count unchanged at 103. Each appears under its correct pillar.",
@@ -106,7 +122,10 @@
       "state": "todo",
       "owner": "BMAD",
       "title": "31 articles emit no FAQ schema on a site whose long tail is question-shaped",
-      "flags": ["open-unowned", "owner-role-retired"],
+      "flags": [
+        "open-unowned",
+        "owner-role-retired"
+      ],
       "why": "Found during SEO-05. Question-and-answer blocks are earning no rich result on a site whose entire Malay long tail is question-shaped - which is the cheapest rich-result opportunity we have. Recorded as ONE emitter fix, not 31 article fixes. The original owner (full-stack-engineer) was retired to BMAD, which is why this has sat unowned.",
       "dod": {
         "observable": "The emitter fixed. FAQPage JSON-LD present in the live HTML of at least five named articles that carry Q&A blocks. Validated against Google's Rich Results Test or the schema spec, with the result quoted.",
@@ -123,7 +142,10 @@
       "state": "todo",
       "owner": "head-of-seo-content",
       "title": "Venue entity pages - revived via phone verification, gate retained",
-      "flags": ["revived-from-park", "gate-first"],
+      "flags": [
+        "revived-from-park",
+        "gate-first"
+      ],
       "why": "Parked in Sprint 02 at its own sourcing gate: real prices and capacities could not be sourced at scale. The gate firing was the correct outcome and the item built nothing rather than inventing capacities. Its own park recommendation is the way back in: PHONE-VERIFY eight venues and publish with 'disemak Ogos 2026' - the method that built mas-kahwin-ikut-negeri and the method our whole competitive claim rests on.",
       "dod": {
         "gate": "GATE FIRST, BEFORE ANYTHING IS BUILT: phone-verify eight venues. If eight cannot be verified, STOP and bring it back. Do NOT invent a capacity or a price, and do NOT quietly downgrade to the council-hall target that decision 83 already killed. A parked item with a clear reason is a good outcome here. A directory of plausible invented capacities is the worst possible outcome on a site whose entire claim is that its numbers carry sources - and the hardest to detect months later.",
@@ -141,7 +163,10 @@
       "state": "todo",
       "owner": "head-of-seo-content",
       "title": "C2.1 merge decision - settle it on SERP evidence, not parent_topic",
-      "flags": ["blocks-CONT-12", "decision-item"],
+      "flags": [
+        "blocks-CONT-12",
+        "decision-item"
+      ],
       "why": "C2.1 (barang hantaran lelaki) is DELIBERATELY undecided. CONT-07 found three C2.1 articles plus the legacy seed on one parent. C2.2 was decided DO-NOT-MERGE on decisive SERP evidence - Google's own People-also-ask box carries two C2.2 titles near verbatim. C2.1 has had NO SERP check, and deciding on parent_topic alone would repeat the exact error this whole thread corrected. The parent_topic signal is demonstrably noisy in Malay long-tail: Ahrefs gives the head hantaran tunang a traffic potential of 400 while four of its children score 1,100-1,300, which is impossible.",
       "dod": {
         "observable": "A written decision - merge or do not merge - resting on a SERP check, not on parent_topic. Specifically: does the MY SERP split the groom/bride angles, and do sub-angle pages rank independently?",
@@ -158,7 +183,9 @@
       "state": "todo",
       "owner": "head-of-seo-content",
       "title": "Four C2.1 head terms carry ZERO volume - re-select the targets",
-      "flags": ["target-selection-fix"],
+      "flags": [
+        "target-selection-fix"
+      ],
       "why": "hantaran kahwin bajet, kos hantaran kahwin, adat hantaran and persiapan hantaran all carry zero volume and no parent topic, while SURROUNDING parents carry 2,400-2,700 traffic potential. The subject is real; the chosen head terms are not. This is independent of the merge decision and true regardless of how CONT-10 lands.",
       "dod": {
         "observable": "Each of the four either replaced with a head term carrying stated volume and traffic potential, or explicitly dropped with a reason. Every figure quoted with its Ahrefs field name.",
@@ -175,7 +202,10 @@
       "state": "todo",
       "owner": "writer-inspirasi-vendor-venue",
       "title": "Complete C2.1 - article count set by CONT-10's decision",
-      "flags": ["blocked-by-CONT-10", "count-not-yet-fixed"],
+      "flags": [
+        "blocked-by-CONT-10",
+        "count-not-yet-fixed"
+      ],
       "why": "C2.1 is the last open Tier 1 cluster. Its article count CANNOT be fixed until CONT-10 decides whether the cluster merges - which is why this item is sized on the larger shape and explicitly declared blocked rather than given a count it might not keep.",
       "dod": {
         "observable": "Every article ingested to production, 200 on FIRST request, appearing under its correct pillar, with the pillar no longer advertising it as 'akan datang'. Sitemap count rises by exactly the number published.",
@@ -192,7 +222,10 @@
       "state": "todo",
       "owner": "BMAD",
       "title": "computeVelocity rewards shrinking its own denominator",
-      "flags": ["cut-candidate", "round-table-finding"],
+      "flags": [
+        "cut-candidate",
+        "round-table-finding"
+      ],
       "why": "Moving an item out of a sprint silently shrinks `planned`. Sprint 02 planned 77 points across 20 items; SEO-04 parked and moved to the backlog, and that move turned 72-of-77 into a flattering 100%. The tracker's whole design principle is that velocity cannot be TYPED into. It must also be impossible to FLATTER by moving an item.",
       "dod": {
         "observable": "Moving an item out of a sprint after it starts no longer reduces `planned`. Demonstrated by reproducing the exact Sprint 02 case: a 77-point sprint with a 5-point item moved out must not compute 100%.",
@@ -208,7 +241,10 @@
       "state": "todo",
       "owner": "BMAD",
       "title": "The ship check was WRONG on PLAT-05 and SILENT on PLAT-06",
-      "flags": ["round-table-finding", "safety-critical"],
+      "flags": [
+        "round-table-finding",
+        "safety-critical"
+      ],
       "why": "git merge-base --is-ancestor returns false FOREVER for a squash-merged branch, because squashing creates a new commit and the branch tip never becomes an ancestor. The CEO used it on PLAT-05 and reported SHIPPED work as UNSHIPPED. A false negative is worse than no check, because the correct response to 'unshipped' is to ship it again. On PLAT-06 the check was silent on genuinely unshipped work with a clean git status.",
       "dod": {
         "observable": "Ancestry replaced with POSITIVE EVIDENCE: git cat-file -e origin/main:<a file the work added>. `git rev-list @{u}..HEAD` mandatory per item. Both the squash-merge false negative and the clean-status false silence reproduced against the fixed check and shown to be caught.",
@@ -225,7 +261,10 @@
       "state": "todo",
       "owner": "BMAD",
       "title": "run-stats.py has produced an empty card for two consecutive sprints",
-      "flags": ["cut-candidate", "carried-forward-twice"],
+      "flags": [
+        "cut-candidate",
+        "carried-forward-twice"
+      ],
       "why": "It keys off /buildit's ship-log, and a sprint never writes one, so effort per stage is unmeasured for Sprint 01 AND Sprint 02. Carried forward once already and not acted on. By the retro's own rule, twice is the signal that the template is wrong rather than the run. 'Report it honestly as empty' is not acceptable a third time.",
       "dod": {
         "observable": "Either /startsprint writes the ship-log entry the tool expects, OR run-stats.py keys off a sprint. Demonstrated by running it against Sprint 02's real data and producing a NON-EMPTY card.",
@@ -233,6 +272,169 @@
         "evidence_lands": "docs/work-done/ entry with the rendered card."
       },
       "brief": "CUT CANDIDATE, flagged not hidden - same reasoning as PLAT-10. Owner kept it in scope."
+    },
+    {
+      "id": "DES-01",
+      "track": "design",
+      "points": 5,
+      "state": "todo",
+      "owner": "creative-director",
+      "title": "Art-direction rationale with visual evidence - the reasoning gate",
+      "flags": [
+        "gate-first",
+        "owner-approves-reasoning",
+        "blocks-DES-02"
+      ],
+      "why": "The owner named caratsandcake.com and partyslate.com as touchstones and named what premium must NOT be (Western bridal pastiche on Malay words). Nobody has defined what it positively IS for a Malaysian Muslim audience. Taste arguments are unwinnable in the abstract and cheap to settle against evidence, so the reasoning is approved before anything is drawn.",
+      "dod": {
+        "observable": "A written rationale containing: what premium looks like in the Malaysian wedding market today (NAMED brands with URLs or screenshots); what our actual SERP competitors look like and where they are weak; the proposed register with its reasoning; and an explicit list of what we will NOT do, with reasons.",
+        "how_checked": "Every market claim carries a real URL or screenshot with the date fetched. The owner approves the REASONING before DES-02 begins.",
+        "evidence_lands": "docs/work-done/ entry, opened for the owner with its full path.",
+        "false_pass_warning": "A rationale asserting what Malaysian couples find premium without showing a single real brand is an opinion, not evidence. Fetch them."
+      },
+      "brief": "GATE: DES-02 does not start until the owner approves this. A parked or redirected direction here is far cheaper than three rejected comps."
+    },
+    {
+      "id": "DES-02",
+      "track": "design",
+      "points": 8,
+      "state": "todo",
+      "owner": "creative-director",
+      "title": "Design canvas - three genuinely different art directions, owner picks one",
+      "flags": [
+        "blocked-by-DES-01",
+        "owner-decision-gate"
+      ],
+      "why": "The owner chooses the art direction; everything downstream of that choice is the Creative Director's without further approval. One gate, early. Three directions on one canvas make the choice comparable rather than sequential.",
+      "dod": {
+        "observable": "A published multi-artboard canvas (/design) carrying THREE directions applied to the SAME page so they are comparable, using REAL Malay headlines and REAL article titles from the live site. The owner names the winner.",
+        "how_checked": "Live artifact URL handed to the owner. Different means different - three saturations of one idea fails this DoD.",
+        "evidence_lands": "The canvas URL recorded in docs/work-done/ and in the decision log with the owner's choice.",
+        "false_pass_warning": "Lorem ipsum or English placeholder text hides the exact problem this redesign exists to fix: Malay compounds run long and wrap where English does not."
+      },
+      "brief": "Human photography only, and covers must depict their subject - company rule, applies to comps too."
+    },
+    {
+      "id": "DES-03",
+      "track": "design",
+      "points": 5,
+      "state": "todo",
+      "owner": "creative-director",
+      "title": "Harden the chosen direction into the HTML specification artifact",
+      "flags": [
+        "blocked-by-DES-02",
+        "this-is-the-spec"
+      ],
+      "why": "A canvas decides a look; it does not specify a build. The HTML artifact IS the specification the Design Systems Engineer builds against - real type, real breakpoints, real light and dark, and the states a static mock always omits.",
+      "dod": {
+        "observable": "A self-contained responsive HTML artifact covering homepage, catalogue and article, carrying: real fonts, real breakpoints, light AND dark, and the awkward cases - a three-line Malay headline beside a one-line one, a missing cover image, an empty category. Type scale, spacing scale and colour stated as NUMBERS with contrast ratios.",
+        "how_checked": "Open it at 360px and at desktop, in both themes. Every text-on-background pairing quotes its measured contrast ratio, WCAG AA floor.",
+        "evidence_lands": "Artifact URL + docs/work-done/ entry.",
+        "false_pass_warning": "If it is not in the artifact it is not specified. Do not leave a state out and expect it built."
+      },
+      "brief": "Name every typeface with its licence AND its Malay diacritic coverage. Display faces routinely ship broken diacritics and it is found in production."
+    },
+    {
+      "id": "DES-04",
+      "track": "design",
+      "points": 3,
+      "state": "todo",
+      "owner": "design-systems-engineer",
+      "title": "Front-end stack recommendation - does Tailwind stay, do shadcn primitives stay",
+      "flags": [
+        "gate-first",
+        "blocks-DES-05",
+        "owner-opened-this-question"
+      ],
+      "why": "The owner deliberately did NOT pre-decide the stack; it is the engineer's call, argued against the art direction once it exists rather than against a hypothetical one. The site runs Tailwind + shadcn defaults on Geist - the generic look being replaced. The visual defaults are the problem; the accessibility primitives are valuable.",
+      "dod": {
+        "observable": "A written recommendation answering, separately and explicitly: does Tailwind stay and what exactly changes; do shadcn/Radix primitives stay; the cost of each option in work and risk; and what would make the recommendation wrong.",
+        "how_checked": "Read against the DES-01 rationale and the DES-03 artifact. STOPS and reports before any system work begins.",
+        "evidence_lands": "docs/work-done/ entry and a decision-log entry.",
+        "false_pass_warning": "Conflating 'shadcn looks generic' with 'Radix accessibility must go' is how teams throw away accessibility to fix a look. Answer the two questions separately."
+      },
+      "brief": "GATE: DES-05 does not start until this is decided and recorded."
+    },
+    {
+      "id": "DES-05",
+      "track": "design",
+      "points": 8,
+      "state": "todo",
+      "owner": "design-systems-engineer",
+      "title": "Build the design system - tokens, components, and the reference page",
+      "flags": [
+        "blocked-by-DES-03",
+        "blocked-by-DES-04"
+      ],
+      "why": "Owner decision: the system lives INSIDE the hellokahwin site repo (src/design-system/) with a private /design-system reference page, matching what buddy already does. One repo, one consumer, no versioning ceremony until a second surface exists.",
+      "dod": {
+        "observable": "Tokens (colour, type scale, spacing, radii, shadows, motion) as primitive AND semantic layers, light and dark defined together. Components consume SEMANTIC tokens only. A live /design-system reference page that reads tokens from the system itself. Zero hex literals outside the token modules.",
+        "how_checked": "grep the component tree for hex literals - the count must be zero. Load /design-system in both themes. Every text-on-background pairing quotes its contrast ratio.",
+        "evidence_lands": "docs/work-done/ entry with the live reference-page URL.",
+        "false_pass_warning": "Reading your own source proves what you intended. Fetch the BUILT page and read the rendered CSS."
+      },
+      "brief": "The reference page is the regression test for taste, not documentation. It updates in the SAME change as any token or component. DONE MEANS SHIPPED - merged, deployed, visible."
+    },
+    {
+      "id": "DES-06",
+      "track": "design",
+      "points": 5,
+      "state": "todo",
+      "owner": "product-designer",
+      "title": "Design search and catalogue browse - the site has no search at all",
+      "flags": [
+        "design-only",
+        "build-is-separate",
+        "owner-put-this-in-scope"
+      ],
+      "why": "Decision 76 found no search anywhere on a site whose demand is overwhelmingly named-entity lookups - readers arrive hunting a specific hall, a specific state's rate, a specific hantaran question. The owner put this in scope: the catalogue redesign is close to meaningless without it.",
+      "dod": {
+        "observable": "Specified flows for: search entry point, query experience, results, NO-RESULTS, and how search relates to browsing. Catalogue filters, sort, and the pagination-vs-infinite-scroll decision WITH its reasoning (SEO crawlability, back button, return-to-position). Mobile-first, proved at 360px.",
+        "how_checked": "Walked against the REAL site - real category counts, real article titles, including the thin categories.",
+        "evidence_lands": "docs/work-done/ entry, full path stated to the owner.",
+        "false_pass_warning": "A flow designed against an imagined content set fails on contact. Fetch the actual categories and use their real counts."
+      },
+      "brief": "DESIGN ONLY. Building search is a separate item, sized after this exists - do not assume designing it means it ships this sprint."
+    },
+    {
+      "id": "DES-07",
+      "track": "design",
+      "points": 3,
+      "state": "todo",
+      "owner": "product-designer",
+      "title": "The state set - empty, loading, error, and long Malay headlines",
+      "flags": [
+        "design-only",
+        "the-states-nobody-designs"
+      ],
+      "why": "This is what separates a design that survives production from one that does not. Sprint 02 shipped a homepage with a grey placeholder card, a category page with two 'coming soon' empty states above its real content, and nav text truncated mid-word. Every one is an unspecified state, not a bug.",
+      "dod": {
+        "observable": "For every surface in the redesign: default, loading, empty, error, too-few-items, too-many-items, slow/no-JS, and the LONGEST plausible Malay content. Each specified visually, not described.",
+        "how_checked": "Cross-check against the three page types in DES-03. Any state present in neither document is a gap.",
+        "evidence_lands": "docs/work-done/ entry.",
+        "false_pass_warning": "A specification showing only the happy path is not finished - the missing states get invented by whoever builds it."
+      },
+      "brief": "Real Malay headlines at real length. English placeholders hide the wrap problems entirely."
+    },
+    {
+      "id": "DES-08",
+      "track": "design",
+      "points": 8,
+      "state": "todo",
+      "owner": "BMAD",
+      "title": "Implement the redesigned homepage, catalogue and article pages",
+      "flags": [
+        "blocked-by-DES-05",
+        "ships-to-production"
+      ],
+      "why": "The design system is the vocabulary; this is the three pages actually built in it and shipped. Without this item the whole design track produces artifacts nobody outside the company ever sees.",
+      "dod": {
+        "observable": "All three page types live in production on the new system, matching the DES-03 artifact. Each returns 200 on first request. The old generic styling is gone - verified by fetching the live page and confirming the new tokens are present and Geist-as-body is not.",
+        "how_checked": "curl each live URL first-request; quote rendered CSS from the built page, not the source. Check at 360px and desktop, light and dark.",
+        "evidence_lands": "docs/work-done/ entry with live URLs and quoted CSS.",
+        "false_pass_warning": "A status code proves nothing about whether a page renders correctly. Quote content only the real redesigned page contains."
+      },
+      "brief": "Build against the DES-03 artifact and the DES-05 system. If the spec is wrong, raise it as a finding - never narrow it to match what got built."
     }
   ],
   "out_of_scope": [
@@ -240,7 +442,9 @@
     "A UI/UX overhaul of the homepage, category and article pages. Decision 86 measured every category URL at ~16 impressions and ZERO clicks across 30 days - 0.6% of site impressions. They are internal-link plumbing. Design effort there returns nothing, and the taxonomy bug that was actually worth fixing (SEO-06) shipped in Sprint 02.",
     "Ungating Vercel preview deployments so the CEO can see them. Previews are Vercel-SSO-gated, so they work for the OWNER and not for the CEO. Turning deployment protection off would make every preview publicly readable - a secret-exposure decision nobody has asked for. The honest position is that 'show me before you ship' works for the owner only, and the CEO states that limit rather than dressing up a 307.",
     "hellokahwin PR #4, carrying the preview banner, stays OPEN and owner-only. Merging it deploys the live public site. PLAT-08's agent stopped and asked rather than shipping it unasked at 2am; the CEO agreed then and agrees now.",
-    "Chasing dewan komuniti setiawangsa as a traffic target. CLOSED, not deferred. 100 impressions over 28 days at position 9.0 with zero clicks, in a category decision 83 proved structurally dead (~30 searches/month, DBKL's own DR 64 portal at positions 1-2). It appears in this sprint ONLY as SEO-04's declared control."
+    "Chasing dewan komuniti setiawangsa as a traffic target. CLOSED, not deferred. 100 impressions over 28 days at position 9.0 with zero clicks, in a category decision 83 proved structurally dead (~30 searches/month, DBKL's own DR 64 portal at positions 1-2). It appears in this sprint ONLY as SEO-04's declared control.",
+    "The MARKETPLACE direction - vendor profiles, inquiry flows, paid listings. Both of the owner's reference sites (PartySlate, Carats & Cake) are vendor marketplaces rather than publications, and the owner considered that model explicitly on 27 Aug and chose EDITORIAL PREMIUM for now, with monetization a separate later decision. Recorded because the references will otherwise pull the design toward a business model we have not chosen.",
+    "BUILDING search. DES-06 designs it; the implementation is deliberately a separate item to be sized once the design exists. Owner chose design-it-then-size-the-build rather than growing this sprint further."
   ],
   "retro": null
 }
