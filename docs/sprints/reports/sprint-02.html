@@ -1,0 +1,313 @@
+<title>Sprint 02 Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{--bg:#F7F5F0;--panel:#fff;--panel2:#F0EDE5;--rule:#DFD9CC;--ink:#1B1720;--ink2:#4C4553;--muted:#7A7268;
+ --brass:#8F6620;--risk:#8E3B36;--plat:#1E5F8C;--seo:#8A6A16;--cont:#2F6F4E;--ok:#2F6F4E;--chip:#EDE8DC}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#131117;--panel:#1C1922;--panel2:#241F2C;--rule:#332D3D;
+ --ink:#F0EBE2;--ink2:#C4BBAD;--muted:#8F8679;--brass:#D6A24B;--risk:#D2726B;--plat:#6FB3DC;--seo:#D9B24C;--cont:#7FB795;--ok:#7FB795;--chip:#2B2634}}
+:root[data-theme="dark"]{--bg:#131117;--panel:#1C1922;--panel2:#241F2C;--rule:#332D3D;--ink:#F0EBE2;--ink2:#C4BBAD;
+ --muted:#8F8679;--brass:#D6A24B;--risk:#D2726B;--plat:#6FB3DC;--seo:#D9B24C;--cont:#7FB795;--ok:#7FB795;--chip:#2B2634}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,-apple-system,"Segoe UI",sans-serif;font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px 80px}
+code,.mono{font-family:"JetBrains Mono",monospace;font-size:.87em}
+header{padding:48px 0 22px;border-bottom:2px solid var(--rule)}
+.kick{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--brass);font-weight:700;margin:0 0 12px}
+h1{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:clamp(2rem,5vw,3rem);line-height:1.05;letter-spacing:-.02em;margin:0 0 12px;text-wrap:balance}
+.sub{font-size:1.03rem;color:var(--ink2);max-width:68ch;margin:0}
+.figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:26px 0 0}
+.fig{background:var(--panel);padding:16px 18px}
+.fig .n{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:2.1rem;line-height:1;font-variant-numeric:tabular-nums;display:block;margin-bottom:5px}
+.fig .l{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.fig.g .n{color:var(--ok)}.fig.w .n{color:var(--brass)}
+.shas{margin-top:18px;display:flex;flex-wrap:wrap;gap:6px 22px;font-size:12.5px;color:var(--muted)}
+.shas b{color:var(--ink2);font-weight:600}
+section{margin-top:52px}
+h2{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:1.6rem;margin:0 0 6px;letter-spacing:-.01em}
+h3{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:1.12rem;margin:0 0 8px}
+.lede{color:var(--ink2);max-width:72ch;margin:0 0 22px}
+p{margin:0 0 13px}
+.band{border-left:4px solid var(--risk);background:var(--panel2);padding:18px 20px;margin-bottom:22px;border-radius:0 6px 6px 0}
+.band h3{color:var(--risk)}
+.band p{color:var(--ink2);max-width:74ch}.band p:last-child{margin:0}
+.band.ok{border-left-color:var(--ok)}.band.ok h3{color:var(--ok)}
+.band.w{border-left-color:var(--brass)}.band.w h3{color:var(--brass)}
+.band code{background:var(--panel);padding:1px 5px;border-radius:3px}
+.card{background:var(--panel);border:1px solid var(--rule);padding:17px 19px;margin-bottom:11px;border-radius:6px}
+.chd{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:9px}
+.cid{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:600;letter-spacing:.05em;padding:2px 7px;background:var(--chip);border:1px solid var(--rule);border-radius:3px}
+.cid.risk{color:var(--risk)}.cid.plat{color:var(--plat)}.cid.seo{color:var(--seo)}.cid.cont{color:var(--cont)}
+.ct{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:1.06rem;margin:0}
+.cpt{margin-left:auto;font-size:11.5px;font-weight:700;color:var(--muted);letter-spacing:.04em}
+.what{margin:0 0 11px;color:var(--ink2)}
+.chk{margin:0;padding:11px 13px;background:var(--panel2);border-left:2px solid var(--brass);font-size:13.5px;color:var(--ink2);border-radius:0 4px 4px 0}
+.chk b{display:block;margin-bottom:3px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--brass)}
+.chk a{color:var(--plat)}
+.tw{overflow-x:auto;border:1px solid var(--rule);border-radius:6px}
+table{border-collapse:collapse;width:100%;background:var(--panel);font-size:13.4px;min-width:560px}
+th{text-align:left;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:700;padding:10px 12px;border-bottom:1px solid var(--rule);background:var(--panel2)}
+td{padding:9px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
+tbody tr:last-child td{border-bottom:none}
+table.stats th,table.stats td{padding:.4rem .6rem}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.fine{font-size:12.5px;color:var(--muted)}
+.learn{background:var(--panel);border:1px solid var(--rule);padding:16px 18px;margin-bottom:10px;border-radius:6px}
+.learn .f{font-weight:600;margin:0 0 7px}
+.learn .file{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--brass);display:block;margin-bottom:7px;word-break:break-all}
+.learn .w{margin:0;font-size:13.6px;color:var(--ink2)}
+footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--rule);font-size:12.5px;color:var(--muted)}
+footer a{color:var(--plat)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+
+<header>
+  <p class="kick">HelloKahwin · Sprint 02 · planned 26 Aug · closed 27 August 2026</p>
+  <h1>Close the publishing hole, then earn a click</h1>
+  <p class="sub">Sprint 01 published articles Google never heard of. This one fixed the pipe, then filled it — 25 articles, Tier 1 complete, and a monitor that will tell us if it ever breaks again.</p>
+  <div class="figs">
+    <div class="fig g"><span class="n">19</span><span class="l">Items shipped</span></div>
+    <div class="fig"><span class="n">20</span><span class="l">Items planned</span></div>
+    <div class="fig g"><span class="n">72</span><span class="l">Points delivered</span></div>
+    <div class="fig w"><span class="n">77</span><span class="l">Points planned</span></div>
+    <div class="fig"><span class="n">25</span><span class="l">Articles live</span></div>
+  </div>
+  <div class="shas">
+    <span>site <b>59a4077</b> (master)</span>
+    <span>buddy <b>fb785ab</b> (main)</span>
+    <span>docs <b>a568441</b></span>
+    <span>sitemap <b>78 → 103</b></span>
+    <span>hantaran pillar <b>13 → 38</b></span>
+  </div>
+</header>
+
+<section>
+  <h2>Read the velocity carefully</h2>
+  <div class="band w">
+    <h3>The tracker says 72 / 72 / 0. That is a flattering 100% and it is not the story.</h3>
+    <p>The sprint was <strong>planned at 77 points across 20 items</strong>. <strong>SEO-04</strong> (5pt) parked at its own sourcing gate and was moved to the backlog before close — and moving it out is exactly what turned <em>72 of 77</em> into <em>72 of 72</em>.</p>
+    <p>Both numbers belong in the record: <strong>19 of 20 items shipped, 72 of 77 planned points delivered</strong>, and the twentieth produced a decision <em>not</em> to build rather than a deliverable. Velocity is computed from item data and cannot be typed into — but it <em>can</em> still be flattered by moving an item, and that is worth knowing about the mechanism.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Database migrations — test these first</h2>
+  <div class="band">
+    <h3>Three migrations reached production</h3>
+    <p><code>20260826090000_sprint_backlog.sql</code> · <code>20260826150000_documents.sql</code> · <code>20260827020000_document_links.sql</code> — all on buddy, all additive. The document store's two tables and their backlink graph, plus a nullable column on the sprint tracker.</p>
+    <p>No existing table was altered and no column was dropped. These are listed first because they are the ones that can break production in the gap between a deploy and a migration.</p>
+    <p><strong>There is no waived-gate band below, because nothing shipped with a failing check.</strong> Where a check could not pass — the auth-gated pages — it is said plainly in the card rather than waived.</p>
+  </div>
+</section>
+
+<section>
+  <h2>What shipped, item by item</h2>
+  <p class="lede">Nineteen items. Each says what changed in plain terms and how to check it yourself.</p>
+
+  <div class="card">
+    <div class="chd"><span class="cid risk">RISK-04</span><h3 class="ct">Publishing an article now tells Google about it</h3><span class="cpt">3 pts</span></div>
+    <p class="what">Until this sprint, publishing an article did nothing to inform Google. Five articles from the last sprint were sitting live and completely unknown to Google — not "waiting to be indexed", but never seen. Publishing now notifies Google as part of the same action.</p>
+    <p class="chk"><b>How to check it</b>Open <a href="https://hellokahwin.com/sitemap.xml">hellokahwin.com/sitemap.xml</a> — it now lists 103 pages, up from 78. All four articles that were invisible left that state within <strong>eight hours</strong>, against a 48-hour target; two are already fully indexed.</p>
+  </div>
+
+  <div class="card">
+    <div class="chd"><span class="cid risk">RISK-06</span><h3 class="ct">Pages could be served from a year-old copy. Now the limit is 50 minutes.</h3><span class="cpt">3 pts</span></div>
+    <p class="what">The site was allowed to serve a saved copy of any page for up to <strong>365 days</strong> while it fetched a fresh one. Some visitors — possibly including Google — were being handed a page with the wrong title and no proper links. That window is now under an hour.</p>
+    <p class="chk"><b>How to check it</b>Nothing to look at; it is a setting. The engineer proved the fault was real on <strong>50 of 61 pages</strong> before fixing it — something the CEO had tried and failed to reproduce, because its own repeated visits kept refreshing the page it was trying to catch stale.</p>
+  </div>
+
+  <div class="card">
+    <div class="chd"><span class="cid risk">RISK-05</span><h3 class="ct">Something now watches for articles going invisible, and raises the alarm</h3><span class="cpt">2 pts</span></div>
+    <p class="what">Last sprint we discovered articles were invisible to Google by chance. A daily check now inspects every page on the site and files a ticket automatically if any of them goes dark for more than three days.</p>
+    <p class="chk"><b>How to check it</b>It has already fired for real — see <a href="https://github.com/ianngkb/hellokahwin/issues/5">issue #5, "1 sitemap URL(s) are dark to Google"</a>, filed and closed. It runs from the main branch, which is what a scheduled job needs to actually run — the thing that silently failed last sprint.</p>
+  </div>
+
+  <div class="card">
+    <div class="chd"><span class="cid plat">UX-01</span><h3 class="ct">On a phone, articles had no menu at all. Now they do.</h3><span class="cpt">3 pts</span></div>
+    <p class="what">Someone arriving from Google onto an article on their phone got no logo, no menu, and no way to reach the rest of the site — just the article, and a footer thousands of pixels below. Since virtually all our search traffic is mobile and lands on articles, the site was effectively one page deep for almost every visitor.</p>
+    <p class="chk"><b>How to check it</b>Open <a href="https://hellokahwin.com/artikel/hantaran-mas-kahwin/sirih-junjung">any article</a> on your phone — the header with the section menu is there. Menu buttons also went from 32px to 44px, the size a thumb actually hits.</p>
+  </div>
+
+  <div class="card">
+    <div class="chd"><span class="cid seo">UX-02</span><h3 class="ct">Google can now see the individual halls inside our listicle</h3><span class="cpt">5 pts</span></div>
+    <p class="what">Our best-performing page lists ten wedding halls by name, but to Google it was one undifferentiated page — there was no way to link to a single hall or for Google to recognise them as separate places. Each hall now has its own anchor and is described in the structured data search engines read.</p>
+    <p class="chk"><b>How to check it</b>Open <a href="https://hellokahwin.com/artikel/idea-dan-nasihat/dewan-kahwin">the dewan kahwin article</a>. Twelve headings now carry their own link and eleven appear in a jump list; the underlying page names each hall as a place, where before it named none.</p>
+  </div>
+
+  <div class="card">
+    <div class="chd"><span class="cid seo">SEO-05</span><h3 class="ct">Five page titles rewritten, including one where Google was cutting off the price</h3><span class="cpt">2 pts</span></div>
+    <p class="what">Titles were too long and Google was truncating them. On our most-visited page the words being cut were <em>"RM5,000"</em> — the single most compelling thing in the title. Five are rewritten, all now short enough to display in full and all carrying the year.</p>
+    <p class="chk"><b>How to check it</b>Look at the browser tab title on <a href="https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri">mas kahwin ikut negeri</a> — it now reads the rate range rather than asking a question. <strong>The writer rejected two of the five pages the CEO nominated</strong> and picked better ones, on stronger evidence.</p>
+  </div>
+
+  <div class="card">
+    <div class="chd"><span class="cid seo">SEO-06</span><h3 class="ct">A section was advertising its own articles as "coming soon"</h3><span class="cpt">2 pts</span></div>
+    <p class="what">The Hantaran section told readers two of its topics were still being written — while those articles existed, were published, and were ranking. They had simply been filed under the wrong section, so the page they belonged to never linked to them.</p>
+    <p class="chk"><b>How to check it</b>Open <a href="https://hellokahwin.com/artikel/hantaran-mas-kahwin">the Hantaran section</a>. It now has <strong>zero</strong> "akan datang tidak lama lagi" placeholders, down from three.</p>
+  </div>
+
+  <div class="card">
+    <div class="chd"><span class="cid cont">CONT-05 · 06 · 07 · 08</span><h3 class="ct">Twenty-five new articles — the Hantaran topic is now complete</h3><span class="cpt">25 pts</span></div>
+    <p class="what">Four topic clusters finished in one sprint: engagement hantaran, tray arrangement, wedding hantaran, and the ratio-and-etiquette cluster that had nothing written at all. The Hantaran section went from 13 articles to <strong>38</strong>.</p>
+    <p class="chk"><b>How to check it</b>Open the <a href="https://hellokahwin.com/artikel/hantaran-mas-kahwin">Hantaran section</a> and scroll. Every new article was checked live: all returned a page on first request, every photograph is credited, and none carry a text-card or a leftover placeholder. Each batch recorded a way to undo itself <em>before</em> writing anything.</p>
+  </div>
+
+  <div class="card">
+    <div class="chd"><span class="cid cont">CONT-09</span><h3 class="ct">Cover photos now have to show what the article is about</h3><span class="cpt">3 pts</span></div>
+    <p class="what">An article about gift trays was fronted by a photo of two guests' torsos with no tray in it. Nothing anywhere said a cover had to depict its subject, so nobody was wrong. Nineteen covers were re-chosen and the rule is now written where writers read it.</p>
+    <p class="chk"><b>How to check it</b>Compare a few covers on the <a href="https://hellokahwin.com/artikel/hantaran-mas-kahwin">Hantaran section</a> against their titles. <strong>The correct photo was usually already in our own library</strong>, sitting unused — a sirih junjung photo existed while the sirih junjung article showed strangers.</p>
+  </div>
+
+  <div class="card">
+    <div class="chd"><span class="cid plat">PLAT-05 · PLAT-06</span><h3 class="ct">Every document we own is now searchable in one place</h3><span class="cpt">13 pts</span></div>
+    <p class="what">Four hundred-odd documents — briefs, specs, plans, logs, retrospectives — lived as files across two repositories and several folders, findable only if you already knew where they were. They are now searchable, readable and browsable in one place, organised the way the folders are.</p>
+    <p class="chk"><b>How to check it</b>Go to <a href="https://buddy.ian.ng/docs">buddy.ian.ng/docs</a> and search for a phrase you half-remember. It currently holds <strong>464 documents across 3 spaces</strong>. Sign-in required.</p>
+  </div>
+
+  <div class="card">
+    <div class="chd"><span class="cid plat">PLAT-09</span><h3 class="ct">Everything in buddy is reachable from the sidebar, and a test keeps it that way</h3><span class="cpt">2 pts</span></div>
+    <p class="what">The sprint board shipped last sprint and the only way to reach it was typing the address; the new document store would have inherited the same problem. All 23 pages now appear in the sidebar.</p>
+    <p class="chk"><b>How to check it</b>Open <a href="https://buddy.ian.ng/sprints">buddy.ian.ng</a> and look at the sidebar. <strong>The durable part is a test that reads the folder of pages and fails if any page lacks a menu entry</strong> — so a page added next month cannot quietly become unreachable.</p>
+  </div>
+
+  <div class="card">
+    <div class="chd"><span class="cid plat">PLAT-08</span><h3 class="ct">Changes can now be viewed on a private preview link before they go live</h3><span class="cpt">3 pts</span></div>
+    <p class="what">There was no way to look at a change before it reached the public site — every preview build had been failing. Both projects now produce a working preview link for each proposed change.</p>
+    <p class="chk"><b>How to check it</b><strong>The preview links work for you and not for the CEO</strong>, because they sit behind your Vercel sign-in. That is deliberate — making them public would expose every unreleased change to anyone with the address. The honest position: <em>"show me before you ship"</em> now works for the owner only.</p>
+  </div>
+
+  <div class="card">
+    <div class="chd"><span class="cid plat">UX-03 · UX-04</span><h3 class="ct">The homepage stopped cropping people's heads off and flashing grey boxes</h3><span class="cpt">5 pts</span></div>
+    <p class="what">The main homepage image was being cut from the wrong shape — throwing away most of the picture and stretching what was left. Article cards showed grey rectangles until their photos loaded. Two menus disagreed with each other, three sections were invisible off the edge of the screen, and the site's own search existed but nothing linked to it.</p>
+    <p class="chk"><b>How to check it</b>Open <a href="https://hellokahwin.com/">the homepage</a>. One menu, not two; images fade in from a blur rather than appearing from grey; and the search page is now reachable from the menu.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Behind the scenes</h2>
+  <div class="card">
+    <p class="what"><b>PLAT-07 (1 pt)</b> — fixed five defects in the sprint tooling, every one hit by the CEO on the sprint's first day: the retrospective could be saved but never read back, an item's reasoning was stored and undisplayable, a documented flag didn't work as documented, the agent monitor mixed every project together and paired each agent with the wrong status line, and the watcher woke on any occurrence of the word "error" — including inside scripts being written.</p>
+    <p class="what"><b>Tooling fixed mid-sprint, not scheduled:</b> the dispatch script's launcher collision (below), the ship check's false negative (below), and a new <code>resume-fleet.sh</code> for restarting agents frozen by a sign-in expiry.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Parked</h2>
+  <div class="card">
+    <div class="chd"><span class="cid seo">SEO-04</span><h3 class="ct">Venue pages — stopped at its own gate, and that was the right outcome</h3><span class="cpt">5 pts</span></div>
+    <p class="what">The plan was a page per wedding venue. Its definition of done opened with a one-hour check — <em>can we actually source real prices and capacities at scale?</em> — that was explicitly allowed to stop the item. It fired. We cannot.</p>
+    <p class="chk"><b>What that means</b><strong>Nothing was built.</strong> No pages, no entries, no invented capacities, and no quiet retreat to the weaker target the plan had already rejected — both named as forbidden in the brief, which is why neither happened. On a site whose whole claim is that its numbers carry sources, a directory of plausible fabrications would have been the worst possible outcome. <strong>Where it goes next:</strong> phone-verify eight venues and publish with the date checked — the method that built our best page. That is field research, not an engineering task. Now in the backlog for Sprint 03.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Time, models &amp; tokens</h2>
+  <div class="card">
+    <h3 class="ct" style="margin-bottom:8px">Empty for the second sprint running, and that is now a finding</h3>
+    <p class="what">The generator reads <code>/buildit</code>'s ship-log to find a batch. <strong>A sprint does not write one</strong>, so it returns an empty card. Its literal output: <em>"run-stats: no ship-log entry found; emitting empty card."</em></p>
+    <p class="chk"><b>Why this is different from last time</b>Sprint 01 reported this honestly and carried it forward. It was not acted on, and here it is again. <strong>By the retrospective's own rule — what did we do twice that we should never repeat — twice means the template is wrong, not the run.</strong> Either <code>/startsprint</code> writes the entry the tool expects, or the tool learns to key off a sprint. Reporting an empty card a third time is no longer acceptable, and that is now written into <code>/endsprint</code> rather than left as a note.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Cleanup &amp; housekeeping</h2>
+  <div class="card">
+    <p class="what"><b>Worktrees: 7 of 10 removed.</b> Every one was checked first — all clean, nothing uncommitted, every branch pushed, so no work was at risk. Three could not be removed because live Windows processes still hold files inside them: <code>buddy-plat05</code>, <code>seo05-titles</code>, <code>ux04-images</code>. Their commits are all on their remotes; the directories are debt, not risk, and are carried forward.</p>
+    <p class="what"><b>Orca terminals: 35 close commands succeeded</b> ("PTY killed" confirmed). Orca's own listing does not fully decrement after a close, so the count it reports is not a reliable measure of what is actually running — noted rather than papered over.</p>
+    <p class="what"><b>Deliberately left:</b> the main site checkout, the docs repo, and buddy's main checkout — all three are live working trees, all clean and pushed. A Sprint 01 leftover (<code>risk01-db-backup</code>, detached HEAD) was also removed.</p>
+  </div>
+</section>
+
+<section>
+  <h2>The retrospective</h2>
+  <p class="lede">Every finding names the file it changed. A lesson with no target file evaporates.</p>
+
+  <div class="band ok">
+    <h3>Sprint 01's defining failure did not recur</h3>
+    <p>Last sprint, three items were marked done without shipping and <strong>the owner found all three by asking</strong>. This sprint, every one of the 19 completed items was verified against production or against content on the default branch before being marked.</p>
+    <p><strong>The ship check earned its place four separate times</strong> — PLAT-06 finished but six commits unpushed and seven ahead of main; SEO-05 finished with eleven site commits unpushed; four unpushed commits across two trees after the first wave; six unpushed docs commits on the final sweep. In each case the work was pushed and merged rather than marked done. <strong>PLAT-08 was reopened</strong> after marking itself done on a preview URL that returned a redirect rather than the page it claimed.</p>
+  </div>
+
+  <div class="band">
+    <h3>What broke instead was orchestration, and it broke four times in one night</h3>
+    <p><strong>A global sign-in event freezes the entire fleet and reports as success.</strong> Once on a usage limit that set a private 4:30am countdown, three times on login expiry. A <code>/login</code> in the orchestrator's session does not reach dispatched agents — each is a separate process holding its own credentials.</p>
+    <p>The dangerous part is not the freeze. It is that <strong>a stalled agent shows as <code>IDLE/DONE</code> — the exact string a finished agent shows.</strong> Two agents sat dead for two hours before anyone noticed, and at one point eight items read as complete when not one had finished. Marking those done would have been Sprint 01's failure with better paperwork.</p>
+    <p><strong>The tell is clustering.</strong> Several agents going quiet inside one short window is not simultaneous completion.</p>
+  </div>
+
+  <div class="learn">
+    <p class="f">Three agents were sent the same brief, and nothing errored</p>
+    <span class="file">skillcentral/skills/hellokahwin/scripts/dispatch-agent.ps1</span>
+    <p class="w">The dispatch script named its launcher after the <em>agent</em>, so three concurrent dispatches to the same agent all wrote one file — last write won, and two items came up running a third item's brief. Distinct handles, clean output, no error anywhere; only the post-dispatch brief audit caught it. <strong>This is very likely the true cause of Sprint 01's duplicate dispatch</strong>, which was diagnosed then as CEO error. That diagnosis produced a useful fix while the real mechanism sat in the launcher — <em>a correct-looking fix for the wrong cause hides the real one.</em></p>
+  </div>
+
+  <div class="learn">
+    <p class="f">The ship check called shipped work unshipped</p>
+    <span class="file">skillcentral/skills/startsprint/SKILL.md</span>
+    <p class="w"><code>git merge-base --is-ancestor</code> returns false <em>forever</em> for a squash-merged branch, because squashing makes a new commit and the branch tip never becomes an ancestor. A false negative is worse than no check — the response to "unshipped" is to ship it again. Verify by content on the default branch instead.</p>
+  </div>
+
+  <div class="learn">
+    <p class="f">A rule written this sprint was used to kill one option and never applied to its replacement</p>
+    <span class="file">docs/boardroom/ceo-memory.md</span>
+    <p class="w">The SERP-ownership rule killed council halls because the council's own booking portal owns the results — then was <em>not</em> applied to the commercial venues that replaced them, which have their own brand sites above them for exactly the same reason. SEO-04's retrospective found this in the CEO's own rule. <strong>A rule that eliminates an option must be run against the replacement before the replacement is adopted</strong>, or it has only been used to justify a decision already made.</p>
+  </div>
+
+  <div class="learn">
+    <p class="f">"Could not reproduce" is a statement about conditions, not about a page</p>
+    <span class="file">docs/plans/…/aug-23-2026-workflow-content-production.md</span>
+    <p class="w">The CEO could not reproduce the stale-page fault because its own repeated requests kept refreshing the very page it was trying to catch stale. The engineer, reading the source for a mechanism first, reproduced it on 50 of 61 pages on the first attempt. The same class of error nearly shipped in the new monitor, which initially treated a <em>failed</em> check as "absent" and would have reported clean over a shrinking denominator. <strong>Ask what the measurement cannot see, not only what it reports.</strong></p>
+  </div>
+
+  <div class="learn">
+    <p class="f">A gate that is allowed to kill the item is itself a deliverable</p>
+    <span class="file">skillcentral/skills/hellokahwin/SKILL.md</span>
+    <p class="w">SEO-04's sourcing gate fired and the item built nothing — no invented figures, no quiet downgrade to the rejected option, because the brief named both as forbidden. That shape is now the pattern for any item whose value depends on data we do not yet hold. <strong>A parked item costs 5 points; a fabricated one costs the thing the whole product is selling.</strong></p>
+  </div>
+
+  <div class="learn">
+    <p class="f">The team corrected the CEO four times, and every correction was buried in a deliverable</p>
+    <span class="file">skillcentral/agents/projects/hellokahwin/Executive/ceo-hellokahwin.md</span>
+    <p class="w">UX-01 could not reproduce the CEO's traffic figure and <em>confirmed the shape instead of restating a number it had not measured</em>. SEO-05 rejected two of five nominated pages on better evidence. CONT-07 retracted a false claim in its own log, unprompted. PLAT-06's agent refused to commit into a checkout another agent was using. <strong>None arrived as an escalation</strong> — they were inside work-done logs, target lists and commit messages, which means <em>a skimmed report costs more than a slow one</em>.</p>
+  </div>
+
+  <div class="learn">
+    <p class="f">The CEO's own verification failed three times in the same shape</p>
+    <span class="file">docs/boardroom/ceo-memory.md</span>
+    <p class="w">Grepped for <code>backlink</code> when the file was <code>document_links.sql</code>. Guessed article slugs and got 404s when the agent's log had the real ones. Counted with <code>grep -o</code> and reported 2 where there was 1. Each first reading was confidently wrong. <strong>When a check returns a surprising absence, verify the check before believing the absence</strong> — enumerate what exists rather than asserting what does not.</p>
+  </div>
+
+  <div class="band w">
+    <h3>What the sprint process got right, and should not be mistaken for luck</h3>
+    <p><strong>Ordering held.</strong> Risk ran first, and the publishing gate shipped <em>before a single one of the 25 articles was written</em> — so nothing published into the void Sprint 01 published into. Every declared dependency was respected: the re-filing landed before writers wrote into that cluster, the mobile fix released the site files before three UX items touched them, and the document store merged before the sidebar item added it to the menu.</p>
+    <p><strong>Scope growth was flagged, never absorbed.</strong> 29 approved points became 77 in four documented steps, each from evidence produced <em>after</em> approval, each surfaced as it happened.</p>
+    <p><strong>The owner was never the critical path except where they should have been</strong> — a pull request that would deploy the live public site at 2am was deliberately left open for them.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Carried forward</h2>
+  <div class="tw"><table>
+    <thead><tr><th>Item</th><th>Why it moves</th></tr></thead>
+    <tbody>
+      <tr><td><b>SEO-04</b> — venue pages (backlog, 5pt)</td><td>Parked at its sourcing gate. Its own route in: phone-verify eight venues, publish with the date checked. Needs a <em>content</em> owner, not an engineering dispatch.</td></tr>
+      <tr><td><b>Six pages carry a "do not index" instruction</b></td><td>Found by the new monitor, which correctly recorded it and did not half-fix it because it met neither alarm condition. Unowned.</td></tr>
+      <tr><td><b>A pull request is waiting on you</b></td><td>Merging it deploys the live public site. Left open deliberately.</td></tr>
+      <tr><td><b>Previews are sign-in gated</b></td><td>They work for the owner, not the CEO. Opening them up would expose every unreleased change.</td></tr>
+      <tr><td><b>Effort measurement, twice failed</b></td><td>Fix the tool or fix the sprint runner. Not to be reported empty a third time.</td></tr>
+      <tr><td><b>Cold pages take 5–22 seconds</b></td><td>Carried from Sprint 01. The monitor now watches this, so Sprint 03 can revisit it with data instead of guesses.</td></tr>
+      <tr><td><b>Three worktree directories still on disk</b></td><td>Locked by live processes. Everything is pushed; debt, not risk.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<footer>
+  <p><strong>Sprint 02</strong> · planned 26 Aug 2026 · closed 27 Aug 2026 · <strong>19 of 20 items shipped, 72 of 77 planned points delivered, 1 parked and carried forward.</strong> The tracker's computed figure reads 72/72 only because the parked item was moved to the backlog before close.</p>
+  <p style="margin-top:12px">Live at close: <strong>103 sitemap URLs</strong> (from 78) · <strong>38 articles</strong> in the Hantaran section (from 13) · 25 new articles · every image credited · zero text cards.</p>
+  <p style="margin-top:12px">Deployed: site <code>59a4077</code> · buddy <code>fb785ab</code> · docs <code>a568441</code>. Per-item evidence and the full retrospective are on the board at <a href="https://buddy.ian.ng/sprints">buddy.ian.ng/sprints</a>; every document this sprint produced is searchable at <a href="https://buddy.ian.ng/docs">buddy.ian.ng/docs</a>. Briefs in <code>docs/plans/</code>, completion logs in <code>docs/work-done/</code>.</p>
+</footer>
+
+</div>

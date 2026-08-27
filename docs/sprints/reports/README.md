@@ -35,4 +35,5 @@ sources; the report is the readable view.
 
 | Sprint | Name | Planned | Ended | Points (planned / done / parked) | Outcome |
 |---|---|---|---|---|---|
+| 02 | Close the publishing hole, then earn a click | 26 Aug 2026 | 27 Aug 2026 | 77 / 72 / 5 | Publishing now tells Google — four articles that were invisible left that state in 8 hours. 25 articles shipped, Tier 1 complete, sitemap 78 → 103, Hantaran pillar 13 → 38. Sprint 01's unshipped-items failure did NOT recur; what broke instead was orchestration — four auth stalls that read as success, and a dispatch launcher that put three agents on one item. SEO-04 parked at its own sourcing gate rather than fabricating venue data. |
 | 01 | Protect what we shipped, then measure it | 25 Aug 2026 | 26 Aug 2026 | 42 / 40 / 2 | Recovery point + verified restore, the sprint board on buddy.ian.ng, 79 `nofollow` links removed, 5 articles and 145 images live. Three items were marked done unshipped and caught by the owner, not by a check — the retro turned the ship check into a refusal. |

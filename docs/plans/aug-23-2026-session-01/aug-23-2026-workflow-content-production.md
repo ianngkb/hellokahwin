@@ -569,6 +569,27 @@ where Google reliably truncates. A description written to fit is an editorial
 decision; one silently cut in half is not."* A humanizer pass is an edit like any
 other, and it re-arms the gate.
 
+### "COULD NOT REPRODUCE" IS A STATEMENT ABOUT CONDITIONS, NOT ABOUT A PAGE
+
+Sprint 02, RISK-06. The CEO tried to reproduce a stale-shell symptom and could
+not — six consecutive fetches all returned the correct page. It concluded the
+symptom might not be real. **Its own earlier requests had warmed the cache.** The
+agent, reading the source for a mechanism first, reproduced it on **50 of 61
+pages on the first try**.
+
+> *"A reproduction is a statement about conditions, not a page. 'Could not
+> reproduce' was true and told us nothing."*
+
+**So: before reporting that something cannot be reproduced, state the conditions
+you reproduced under, and ask what your own attempts changed.** An observer that
+warms a cache, populates a session, or creates the row it is looking for has
+measured its own footprint.
+
+The same class of error nearly shipped in RISK-05, whose monitor first treated a
+**failed** inspection as *absent* — it would have reported "clean" over a
+silently shrinking denominator, which is SEO-01's failure re-implemented one
+layer up. **Ask what the measurement cannot see, not only what it reports.**
+
 ### Stage 6b DOES NOT END AT A DRAFT
 
 Added 26 Aug 2026, from the Sprint 01 retrospective. CONT-02 sourced, credited

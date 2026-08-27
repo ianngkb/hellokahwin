@@ -231,6 +231,36 @@ minute to relaunch; the prompts will otherwise recur indefinitely.
   SITE behaves are checkable against the live site — check them before they
   become the basis for scoping.
 
+## Verification rules (Sprint 02, 27 Aug 2026)
+
+- **⚠ WHEN A CHECK RETURNS A SURPRISING *ABSENCE*, VERIFY THE CHECK BEFORE YOU
+  BELIEVE THE ABSENCE.** This failed three times in one sprint, always the same
+  shape — checking the wrong thing and reading the result as an answer:
+  - Reported "no backlinks migration on main" having grepped for `backlink`.
+    The file is `document_links.sql`. **Checking for the wrong name is not the
+    same as the thing being absent.**
+  - Guessed five article slugs, got 404s, and briefly read that as "not shipped".
+    The agent's own work-done log had the real slugs. **Guessing a slug is not
+    checking a slug.**
+  - Counted pillar empty states with `grep -o` and reported 2 where there was 1,
+    because the phrase matched twice inside one rendered block.
+  **Enumerate what EXISTS rather than asserting what does not.** Every one of
+  these was recoverable only because it was checked twice.
+- **⚠ `git merge-base --is-ancestor` LIES ON A SQUASH-MERGED REPO.** It returns
+  false forever, because squashing makes a new commit and the branch tip never
+  becomes an ancestor. It called PLAT-05's shipped work unshipped. **Verify by
+  CONTENT on the default branch:** `git cat-file -e origin/main:<a file the work
+  added>`. A false negative is worse than no check — the response to "unshipped"
+  is to ship it again.
+- **⚠ RESOLVE THE OPERATOR BEFORE YOU RANK A COMPETITOR.** Corrected by SEO-04's
+  retrospective, which found this CEO's own rule at fault. The SERP-ownership
+  rule was used to kill council halls (blocked by DBKL's own DR 64 portal) and
+  then **not applied to the commercial venues that replaced them**, which have
+  their own brand sites above them for exactly the same reason. **A rule that
+  eliminates an option must be run against the replacement before the
+  replacement is adopted** — otherwise the rule has only been used to justify a
+  decision already made.
+
 ## Measurement rules
 
 - **⚠ GSC ATTRIBUTES AN IMPRESSION TO THE URL STRING GOOGLE PRINTED, NOT TO THE
@@ -436,7 +466,9 @@ personas and reported them as landed.
   asserted-and-unverified shape that cost this sprint repeatedly. The `tr` is
   required or CRLF makes every line read as changed:
 
-      diff <(tr -d '' < skillcentral/agents/projects/<proj>/<Cat>/<agent>.md)            <(tr -d '' < <repo>/.claude/agents/<agent>.md)
+      diff <(tr -d '
+' < skillcentral/agents/projects/<proj>/<Cat>/<agent>.md)            <(tr -d '
+' < <repo>/.claude/agents/<agent>.md)
 
 - **Status 26 Aug: both personas deployed and verified**, source and deployed
   identical, and the individual rules confirmed present in the deployed files by
