@@ -1,0 +1,246 @@
+{
+  "id": 3,
+  "name": "Convert the impressions we now have",
+  "state": "planned",
+  "planned_at": "2026-08-27",
+  "governance": {
+    "body_of_work_not_duration": "A sprint ends when every item is done AND the owner has reviewed it, however long that takes. No calendar window. No rolling work forward to hit a date.",
+    "completeness_over_budget": "Items are sized to be done completely, not to fit a point total. Scope was not cut for tidiness.",
+    "done_means_shipped": "An item is not done until the owner can look at the result. Site code: merged to default branch AND deployed AND visible on a live URL. Content: ingested to production AND 200 AND reachable where a reader would find it. Documents: committed and pushed.",
+    "review_gate": "Every item is presented as CLAIM + EVIDENCE + LIVE LINK. Not a summary.",
+    "dod_never_narrowed": "A definition of done is never narrowed after the sprint starts. An item that turns out bigger stays open, gets parked with a reason, or carries forward. Rewriting a DoD to fit what was achieved is what makes velocity a lie.",
+    "ceo_verifies_independently": "Never mark an item done on an agent's report alone. curl the URL, run the query, list the files, check the content is on the default branch."
+  },
+  "points": 52,
+  "thesis": "Sprint 02 closed the publishing hole and Google responded: impressions tripled in three days (148 -> 252 -> 412) and average position on 26 Aug hit 10.0. Clicks did not follow. Five pages sit at position 6.5-12.2 earning ZERO clicks between them. This sprint does not add reach; it converts the reach we already have. SEO-07 leads because until the title half-life defect is fixed we cannot even prove which titles Google is being served.",
+  "items": [
+    {
+      "id": "RISK-07",
+      "track": "risk",
+      "points": 3,
+      "state": "todo",
+      "owner": "BMAD",
+      "title": "Six sitemap URLs are served noindex and Google excluded all six",
+      "flags": ["carried-forward", "unowned-until-now"],
+      "why": "Found by RISK-05 in Sprint 02, which correctly recorded it and did NOT half-fix it because it met neither of the monitor's own alarm conditions. Six URLs we are actively advertising in the sitemap tell Google not to index them. Google crawled and excluded all six. This is the cheapest available correction of a self-inflicted wound.",
+      "dod": {
+        "observable": "All six URLs named explicitly. Each returns a robots meta WITHOUT noindex on a fresh request. The sitemap URL count is unchanged (103) - this is a robots fix, not a sitemap edit. At least one of the six shows its exclusion cleared in GSC URL Inspection.",
+        "how_checked": "curl each of the six and grep the robots meta, before and after, quoted literally. GSC URL Inspection on at least one. Count the live sitemap with curl | grep -c '<loc>'.",
+        "evidence_lands": "docs/work-done/ entry naming all six URLs with before/after robots meta quoted from live HTML.",
+        "false_pass_warning": "Do not check the route source and call it fixed. Check the artefact the consumer receives - the live response. This is the failure shape the production doctrine names."
+      },
+      "brief": "src/app/sitemap.ts. Enumerate which six and why they were excluded before changing anything - the RISK-05 finding names them."
+    },
+    {
+      "id": "RISK-08",
+      "track": "risk",
+      "points": 5,
+      "state": "todo",
+      "owner": "BMAD",
+      "title": "Cold renders take 5-22s against a route declaring maxDuration=5",
+      "flags": ["carried-from-sprint-01", "now-has-monitor-data"],
+      "why": "Measured in Sprint 01, never root-caused, deferred from Sprint 02 deliberately because RISK-04 and RISK-05 changed what Googlebot meets first. RISK-05's monitor has now been running, so Sprint 03 revisits this with data rather than by guessing - which is exactly the condition the deferral was written against. One new article URL also returned 502 FUNCTION_RESPONSE_STREAM_INCOMPLETE.",
+      "dod": {
+        "observable": "The monitor's actual series quoted for the affected routes. Either a stated root cause with the fix deployed and a cold-path measurement showing the new figure, OR a stated finding that the monitor shows this no longer bites, with the series that proves it.",
+        "how_checked": "Reproduce deliberately on a COLD path. A warmed cache proves nothing - RISK-06 in Sprint 02 established that the CEO's own earlier requests hid a defect present on 50 of 61 pages.",
+        "evidence_lands": "docs/work-done/ entry with the monitor series and the literal timings.",
+        "false_pass_warning": "'Could not reproduce' is a statement about conditions, not about the site. If it cannot be reproduced, say what conditions were tested and why they were cold."
+      },
+      "brief": "Read the mechanism in source before measuring. Reading the source first is what made RISK-06's 50/61 appear on the first try."
+    },
+    {
+      "id": "SEO-07",
+      "track": "technical-seo",
+      "points": 3,
+      "state": "todo",
+      "owner": "BMAD",
+      "title": "A shipped title has a half-life - generateMetadata caches its own fallback",
+      "flags": ["sprint-leader", "blocks-measurement"],
+      "why": "THE MOST IMPORTANT ITEM IN THIS SPRINT. SEO-05 shipped repaired titles for the mas-kahwin family in Sprint 02. That family now draws ~300 impressions at positions 6.5-12.2 and earns 3 clicks. We CANNOT TELL whether the repaired titles are what Google is being served, because a correct row can render as the site-default title 14 minutes after a verified repair. Every title decision downstream of this is unmeasurable until it is fixed.",
+      "dod": {
+        "observable": "The mechanism stated from source. The defect reproduced deliberately. The true count of affected pages stated WITH its method - the count is currently unknown. After the fix: a repaired title still correct on a cold fetch 30+ minutes later, quoted literally.",
+        "how_checked": "Re-measure the render-level defect SEQUENTIALLY, not concurrently - the Sprint 02 note says the true count is unknown precisely because the measurement method was wrong. Then wait out the cache window and re-fetch cold.",
+        "evidence_lands": "docs/work-done/ entry with the mechanism, the count and its method, and the 30-minute cold re-fetch.",
+        "false_pass_warning": "Verifying a title immediately after deploy is the false pass. The defect IS the delay. A check that does not wait cannot catch it."
+      },
+      "brief": "Read Next's generateMetadata caching behaviour in source. This is the same class as decision 44 - a caching mechanism whose argument reads like an intensity."
+    },
+    {
+      "id": "SEO-08",
+      "track": "technical-seo",
+      "points": 3,
+      "state": "todo",
+      "owner": "head-of-seo-content",
+      "title": "Decide garden-wedding: 814 impressions, 4 clicks, position 36.6",
+      "flags": ["deferred-to-this-meeting-with-data", "decision-item"],
+      "why": "Decision 88 deferred this to Sprint 03 planning with the data attached. The data: /garden-wedding/ draws 814 impressions - 28% of ALL site impressions - and earns 4 clicks at 0.49% CTR from position 36.6. It is an English-intent page on a Malay-first site sitting on page four. It is the largest single distortion in every report we produce.",
+      "dod": {
+        "observable": "A written decision - rewrite Malay-first, keep and stop reporting it, or drop it - with SERP evidence on who owns positions 1-3 for the head terms. If kept: the target and the date it is judged on. If dropped: what happens to the URL.",
+        "how_checked": "Ahrefs SERP overview on the head terms, quoting the volume field used (per the standing rule: quote `volume`, the 12-month average, and say which field). Apply the SERP-ownership rule - volume AND who owns position 1.",
+        "evidence_lands": "docs/work-done/ entry and a decision-log entry.",
+        "false_pass_warning": "The Sprint 02 retro found the SERP-ownership rule was used to KILL an option and then not applied to its replacement. Run the rule against whatever replaces this page too."
+      },
+      "brief": "This is a decision item, not a build item. It may correctly produce no code."
+    },
+    {
+      "id": "SEO-09",
+      "track": "technical-seo",
+      "points": 3,
+      "state": "todo",
+      "owner": "BMAD",
+      "title": "Re-parent the 13 legacy articles",
+      "flags": ["carried-forward", "plan-already-exists"],
+      "why": "CONT-04 produced the plan in Sprint 01 and established it needs NO redirects. Deferred from Sprint 02 only because the venue and zero-CTR work touched the same pillar pages, and two agents on one file is how Sprint 01 nearly lost work. That collision risk does not exist this sprint if it is sequenced away from SEO-10.",
+      "dod": {
+        "observable": "All 13 articles live at their new paths, each returning 200 on FIRST request. No redirect added. Sitemap count unchanged at 103. Each appears under its correct pillar.",
+        "how_checked": "curl all 13 with -w '%{http_code}' on a first request each. Count the live sitemap. Load each parent pillar and confirm the article is linked from it.",
+        "evidence_lands": "docs/work-done/ entry listing all 13 old->new paths with status codes.",
+        "false_pass_warning": "Check the PILLAR shows them, not just that the URL resolves. Sprint 02's failure mode 3 was a layer reading done from above while the layer below was 404."
+      },
+      "brief": "CONT-04's Sprint 01 plan is the input. Do not re-derive it."
+    },
+    {
+      "id": "SEO-10",
+      "track": "technical-seo",
+      "points": 3,
+      "state": "todo",
+      "owner": "BMAD",
+      "title": "31 articles emit no FAQ schema on a site whose long tail is question-shaped",
+      "flags": ["open-unowned", "owner-role-retired"],
+      "why": "Found during SEO-05. Question-and-answer blocks are earning no rich result on a site whose entire Malay long tail is question-shaped - which is the cheapest rich-result opportunity we have. Recorded as ONE emitter fix, not 31 article fixes. The original owner (full-stack-engineer) was retired to BMAD, which is why this has sat unowned.",
+      "dod": {
+        "observable": "The emitter fixed. FAQPage JSON-LD present in the live HTML of at least five named articles that carry Q&A blocks. Validated against Google's Rich Results Test or the schema spec, with the result quoted.",
+        "how_checked": "curl each of the five and extract the JSON-LD block literally. Do not infer from the route source.",
+        "evidence_lands": "docs/work-done/ entry with the JSON-LD quoted from live HTML for five articles.",
+        "false_pass_warning": "Evidence file from Sprint 02 exists: docs/work-done/2026-08-27-seo-05-titles-EVIDENCE/faq-schema-gap.json. Read it rather than re-deriving the gap."
+      },
+      "brief": "Fix the emitter, THEN correct the writer instruction so it describes what actually happens - the instruction currently describes behaviour the code does not have."
+    },
+    {
+      "id": "SEO-04",
+      "track": "content",
+      "points": 8,
+      "state": "todo",
+      "owner": "head-of-seo-content",
+      "title": "Venue entity pages - revived via phone verification, gate retained",
+      "flags": ["revived-from-park", "gate-first"],
+      "why": "Parked in Sprint 02 at its own sourcing gate: real prices and capacities could not be sourced at scale. The gate firing was the correct outcome and the item built nothing rather than inventing capacities. Its own park recommendation is the way back in: PHONE-VERIFY eight venues and publish with 'disemak Ogos 2026' - the method that built mas-kahwin-ikut-negeri and the method our whole competitive claim rests on.",
+      "dod": {
+        "gate": "GATE FIRST, BEFORE ANYTHING IS BUILT: phone-verify eight venues. If eight cannot be verified, STOP and bring it back. Do NOT invent a capacity or a price, and do NOT quietly downgrade to the council-hall target that decision 83 already killed. A parked item with a clear reason is a good outcome here. A directory of plausible invented capacities is the worst possible outcome on a site whose entire claim is that its numbers carry sources - and the hardest to detect months later.",
+        "observable": "Eight entity pages live, each returning 200 on first request, each carrying its source authority and the date checked. Sitemap count rises by exactly the number published. Setiawangsa published as the declared CONTROL.",
+        "how_checked": "curl each page first-request. Quote the sourcing line from live HTML. Count the sitemap before and after.",
+        "evidence_lands": "docs/work-done/ entry with the phone-verification record per venue - who was called, when, what was confirmed.",
+        "control_condition": "Setiawangsa runs as a deliberate control so the council-hall category is PROVED dead rather than quietly dropped. Decision 83 declared this control and SEO-04's park meant it never ran. It runs this time."
+      },
+      "brief": "Expected outcome is position 3-5, not 1 (decision 83). Commercial venue brands, not council halls. Resolve the operator before ranking a competitor - nikahsatu is the venue OPERATOR, not a competitor, which is the correction Sprint 02's retro made."
+    },
+    {
+      "id": "CONT-10",
+      "track": "content",
+      "points": 3,
+      "state": "todo",
+      "owner": "head-of-seo-content",
+      "title": "C2.1 merge decision - settle it on SERP evidence, not parent_topic",
+      "flags": ["blocks-CONT-12", "decision-item"],
+      "why": "C2.1 (barang hantaran lelaki) is DELIBERATELY undecided. CONT-07 found three C2.1 articles plus the legacy seed on one parent. C2.2 was decided DO-NOT-MERGE on decisive SERP evidence - Google's own People-also-ask box carries two C2.2 titles near verbatim. C2.1 has had NO SERP check, and deciding on parent_topic alone would repeat the exact error this whole thread corrected. The parent_topic signal is demonstrably noisy in Malay long-tail: Ahrefs gives the head hantaran tunang a traffic potential of 400 while four of its children score 1,100-1,300, which is impossible.",
+      "dod": {
+        "observable": "A written decision - merge or do not merge - resting on a SERP check, not on parent_topic. Specifically: does the MY SERP split the groom/bride angles, and do sub-angle pages rank independently?",
+        "how_checked": "Ahrefs SERP overview on the C2.1 head terms. Name the volume field used. The resolver is the SERP, not the field.",
+        "evidence_lands": "docs/work-done/ entry and a decision-log entry. CONT-12's article count comes from this decision.",
+        "false_pass_warning": "The playbook's own rules conflict here - SEO rule 4 says a shared parent means merge, rule 2 says every question over 100/mo gets a page, and in C2.2 both were followed. This item does not resolve that conflict globally; it decides THIS cluster on evidence."
+      },
+      "brief": "Run the parent_topic check at PLANNING time - that is the interim guard all three sessions adopted."
+    },
+    {
+      "id": "CONT-11",
+      "track": "content",
+      "points": 3,
+      "state": "todo",
+      "owner": "head-of-seo-content",
+      "title": "Four C2.1 head terms carry ZERO volume - re-select the targets",
+      "flags": ["target-selection-fix"],
+      "why": "hantaran kahwin bajet, kos hantaran kahwin, adat hantaran and persiapan hantaran all carry zero volume and no parent topic, while SURROUNDING parents carry 2,400-2,700 traffic potential. The subject is real; the chosen head terms are not. This is independent of the merge decision and true regardless of how CONT-10 lands.",
+      "dod": {
+        "observable": "Each of the four either replaced with a head term carrying stated volume and traffic potential, or explicitly dropped with a reason. Every figure quoted with its Ahrefs field name.",
+        "how_checked": "Ahrefs Keywords Explorer, quoting `volume` (12-month average) and saying so - the standing rule after three sessions argued over a phantom.",
+        "evidence_lands": "docs/work-done/ entry with old term, new term, and both volumes.",
+        "false_pass_warning": "NEVER derive an article's target keyword from its slug. That error scored berapa-dulang-hantaran-tunang at 15/mo when it targets a 742/mo term. For a planned cluster the target is in the brief."
+      },
+      "brief": "Apply the SERP-ownership rule to the replacements too - volume AND who owns position 1."
+    },
+    {
+      "id": "CONT-12",
+      "track": "content",
+      "points": 12,
+      "state": "todo",
+      "owner": "writer-inspirasi-vendor-venue",
+      "title": "Complete C2.1 - article count set by CONT-10's decision",
+      "flags": ["blocked-by-CONT-10", "count-not-yet-fixed"],
+      "why": "C2.1 is the last open Tier 1 cluster. Its article count CANNOT be fixed until CONT-10 decides whether the cluster merges - which is why this item is sized on the larger shape and explicitly declared blocked rather than given a count it might not keep.",
+      "dod": {
+        "observable": "Every article ingested to production, 200 on FIRST request, appearing under its correct pillar, with the pillar no longer advertising it as 'akan datang'. Sitemap count rises by exactly the number published.",
+        "how_checked": "curl each first-request. Load the parent pillar and confirm each is linked. Count the sitemap before and after.",
+        "evidence_lands": "docs/work-done/ entry with every URL and its first-request status code.",
+        "false_pass_warning": "Sprint 02 failure mode 5: when work transforms a document, check what the transformation CARRIED THROUGH. An English SOURCE NOTES block with struck-through internal claims went live on a Malay reader page and sat there a day."
+      },
+      "brief": "BLOCKED until CONT-10 decides. Do not start writing against a count that may change. All content runs through /humanizer - company-wide rule, decision 3."
+    },
+    {
+      "id": "PLAT-10",
+      "track": "platform",
+      "points": 2,
+      "state": "todo",
+      "owner": "BMAD",
+      "title": "computeVelocity rewards shrinking its own denominator",
+      "flags": ["cut-candidate", "round-table-finding"],
+      "why": "Moving an item out of a sprint silently shrinks `planned`. Sprint 02 planned 77 points across 20 items; SEO-04 parked and moved to the backlog, and that move turned 72-of-77 into a flattering 100%. The tracker's whole design principle is that velocity cannot be TYPED into. It must also be impossible to FLATTER by moving an item.",
+      "dod": {
+        "observable": "Moving an item out of a sprint after it starts no longer reduces `planned`. Demonstrated by reproducing the exact Sprint 02 case: a 77-point sprint with a 5-point item moved out must not compute 100%.",
+        "how_checked": "Run the reproduction against the tracker and quote the computed figure before and after the fix.",
+        "evidence_lands": "docs/work-done/ entry with the reproduction output."
+      },
+      "brief": "CUT CANDIDATE, flagged not hidden. The CEO's argument for cutting: this is reporting accuracy on a tracker only we read, and every point here is a point not spent on the zero-click problem. The argument against, which the owner should weigh: Sprint 02's retro rule says a lesson carried forward twice means the template is wrong rather than the run. The owner kept it in scope."
+    },
+    {
+      "id": "PLAT-11",
+      "track": "platform",
+      "points": 2,
+      "state": "todo",
+      "owner": "BMAD",
+      "title": "The ship check was WRONG on PLAT-05 and SILENT on PLAT-06",
+      "flags": ["round-table-finding", "safety-critical"],
+      "why": "git merge-base --is-ancestor returns false FOREVER for a squash-merged branch, because squashing creates a new commit and the branch tip never becomes an ancestor. The CEO used it on PLAT-05 and reported SHIPPED work as UNSHIPPED. A false negative is worse than no check, because the correct response to 'unshipped' is to ship it again. On PLAT-06 the check was silent on genuinely unshipped work with a clean git status.",
+      "dod": {
+        "observable": "Ancestry replaced with POSITIVE EVIDENCE: git cat-file -e origin/main:<a file the work added>. `git rev-list @{u}..HEAD` mandatory per item. Both the squash-merge false negative and the clean-status false silence reproduced against the fixed check and shown to be caught.",
+        "how_checked": "Reproduce both real Sprint 02 cases - PLAT-05 squash-merged, PLAT-06 unshipped-with-clean-status - and show the new check returns the right answer on each.",
+        "evidence_lands": "docs/work-done/ entry with both reproductions.",
+        "false_pass_warning": "Check which merge style the repo actually uses before trusting either test."
+      },
+      "brief": "This one is not a cut candidate. It is the check that decides whether anything else in this sprint is really done."
+    },
+    {
+      "id": "PLAT-12",
+      "track": "platform",
+      "points": 2,
+      "state": "todo",
+      "owner": "BMAD",
+      "title": "run-stats.py has produced an empty card for two consecutive sprints",
+      "flags": ["cut-candidate", "carried-forward-twice"],
+      "why": "It keys off /buildit's ship-log, and a sprint never writes one, so effort per stage is unmeasured for Sprint 01 AND Sprint 02. Carried forward once already and not acted on. By the retro's own rule, twice is the signal that the template is wrong rather than the run. 'Report it honestly as empty' is not acceptable a third time.",
+      "dod": {
+        "observable": "Either /startsprint writes the ship-log entry the tool expects, OR run-stats.py keys off a sprint. Demonstrated by running it against Sprint 02's real data and producing a NON-EMPTY card.",
+        "how_checked": "Run it against Sprint 02 and quote the output. An empty card is a failed DoD.",
+        "evidence_lands": "docs/work-done/ entry with the rendered card."
+      },
+      "brief": "CUT CANDIDATE, flagged not hidden - same reasoning as PLAT-10. Owner kept it in scope."
+    }
+  ],
+  "out_of_scope": [
+    "RISK-02 password rotation - stays parked. The owner accepted the credential risk on 25 Aug with a stated revisit trigger, unchanged: IF THE TRANSCRIPT IS EVER SHARED OR EXPORTED.",
+    "A UI/UX overhaul of the homepage, category and article pages. Decision 86 measured every category URL at ~16 impressions and ZERO clicks across 30 days - 0.6% of site impressions. They are internal-link plumbing. Design effort there returns nothing, and the taxonomy bug that was actually worth fixing (SEO-06) shipped in Sprint 02.",
+    "Ungating Vercel preview deployments so the CEO can see them. Previews are Vercel-SSO-gated, so they work for the OWNER and not for the CEO. Turning deployment protection off would make every preview publicly readable - a secret-exposure decision nobody has asked for. The honest position is that 'show me before you ship' works for the owner only, and the CEO states that limit rather than dressing up a 307.",
+    "hellokahwin PR #4, carrying the preview banner, stays OPEN and owner-only. Merging it deploys the live public site. PLAT-08's agent stopped and asked rather than shipping it unasked at 2am; the CEO agreed then and agrees now.",
+    "Chasing dewan komuniti setiawangsa as a traffic target. CLOSED, not deferred. 100 impressions over 28 days at position 9.0 with zero clicks, in a category decision 83 proved structurally dead (~30 searches/month, DBKL's own DR 64 portal at positions 1-2). It appears in this sprint ONLY as SEO-04's declared control."
+  ],
+  "retro": null
+}
