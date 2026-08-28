@@ -15,6 +15,21 @@
  * PROPORTION
  * The primary lockup is 10.0:1, matching the register this direction was
  * chosen from. Regenerate rather than rescale if the tracking changes.
+ *
+ * OPTICAL SIZE — cut at `opsz 6`, NOT the font's default 11 (DES-13).
+ * Bodoni Moda's opsz axis barely touches the stems (the H stem moves 181 ->
+ * 179 units across the whole 6..96 range, 1.1%) but it nearly erases the
+ * HAIRLINE. Every mark here is used SMALL — an 18px header, a 16px favicon —
+ * and at opsz 11 the hairline thins out at that size. At opsz 6 the 18px mark
+ * composites to #33302C, 10.91:1, which is what makes the stated minimum
+ * heights below true rather than aspirational.
+ *
+ * The article <h1> webfont is a different surface at 30-44px and stays pinned
+ * at opsz 11. Do not unify them.
+ *
+ * Tracking was RE-SOLVED for the cut, not carried over: opsz 6 widens the set
+ * width of HELLOKAHWIN, so the primary needed 0.092em rather than 0.126em to
+ * hold 10.0:1.
  */
 
 export interface BrandLogo {
@@ -50,9 +65,9 @@ export const MASTER_LOGOS: BrandLogo[] = [
     description:
       'Looser tracking for footers, print and anywhere the mark can run long. Never in a header.',
     src: '/brand/logos/hellokahwin-horizontal-wide.svg',
-    width: 22283,
+    width: 22951,
     height: 1800,
-    ratio: '12.4 : 1',
+    ratio: '12.8 : 1',
     minHeight: 22,
   },
   {
@@ -61,7 +76,7 @@ export const MASTER_LOGOS: BrandLogo[] = [
     description:
       'HELLO set above KAHWIN. For narrow columns, portrait social and anywhere the horizontal will not fit.',
     src: '/brand/logos/hellokahwin-vertical.svg',
-    width: 10835,
+    width: 11139,
     height: 3930,
     ratio: '2.8 : 1',
     minHeight: 34,
@@ -75,9 +90,9 @@ export const SHORT_LOGOS: BrandLogo[] = [
     description:
       'KAHWIN alone. Only where HelloKahwin is already established on the same surface — never as a first introduction.',
     src: '/brand/logos/hellokahwin-shortmark.svg',
-    width: 12208,
+    width: 12572,
     height: 1800,
-    ratio: '6.8 : 1',
+    ratio: '7.0 : 1',
     minHeight: 16,
   },
   {
@@ -86,7 +101,7 @@ export const SHORT_LOGOS: BrandLogo[] = [
     description:
       'HK. The only mark that survives a favicon, an app icon or a social avatar.',
     src: '/brand/logos/hellokahwin-monogram.svg',
-    width: 3334,
+    width: 3434,
     height: 1800,
     ratio: '1.9 : 1',
     minHeight: 14,
