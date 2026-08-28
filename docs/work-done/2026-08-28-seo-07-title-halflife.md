@@ -208,7 +208,54 @@ worst, and it is visible — in the audit as `slug-title`, and in the logs as
 mode at the same moment would have been eight-plus pages carrying the homepage
 title, silently.
 
-<!-- COLD-REFETCH -->
+### The 30-minute cold re-fetch — the measurement this item turns on
+
+Verifying a title immediately after a deploy is the false pass SEO-07 is named
+after. So: **04:43:15Z, 39 minutes after the sweep and 2h47m after the deploy**,
+the same eight URLs the old code was serving the site-default title on. Edge
+entries live at most 15 minutes, nothing had touched these URLs for 39, so
+`x-vercel-cache: MISS, age=0` is a genuine cold fetch through to the origin —
+the exact condition that produced 7 site-default titles on the old code.
+
+Quoted literally (`EVIDENCE/06-cold-refetch-30min.md`):
+
+```
+/artikel/hantaran-mas-kahwin/berapa-dulang-hantaran-tunang
+  http=200  x-vercel-cache=MISS  age=0
+  <title> Berapa dulang hantaran tunang, dan siapa yang tentukan | HelloKahwin
+
+/artikel/hantaran-mas-kahwin/barang-hantaran-perempuan
+  http=200  x-vercel-cache=MISS  age=0
+  <title> Barang hantaran perempuan: senarai ikut kategori dan kos | HelloKahwin
+
+/artikel/hantaran-mas-kahwin/hantaran-tunang-untuk-perempuan
+  http=200  x-vercel-cache=MISS  age=0
+  <title> Hantaran tunang untuk perempuan: apa yang dibawa masuk | HelloKahwin
+
+/artikel/ucapan-doa/ucapan-pengantin-baru
+  http=200  x-vercel-cache=MISS  age=0
+  <title> Ucapan pengantin baru: apa yang ditulis ikut siapa dia | HelloKahwin
+
+/artikel/busana-pengantin/songket-tenunan-tangan-atau-cetak
+  http=200  x-vercel-cache=MISS  age=0
+  <title> Kain songket tenunan tangan atau cetak: beza dan harga | HelloKahwin
+```
+
+**Eight of eight carry their article's own title. Zero carry the site default.**
+
+And the five that were serving a tier-3 SLUG title at 04:04Z all now serve the
+full row title — `Barang hantaran perempuan` has become `Barang hantaran
+perempuan: senarai ikut kategori dan kos`. The degraded tier is transient by
+construction: the next revalidation that wins replaces it, which is the exact
+opposite of the old fallback, whose whole problem was that it did not decay.
+
+Two method errors in that run are recorded in the evidence file rather than
+tidied away — a `?_t=` "cache-buster" that Vercel ignores on this route, and a
+failed request that reported the previous URL's title because the script reused
+a stale file. Both are the same shape as the Sprint 02 sweep error, both are
+fixed in `cold-refetch.sh`, and the claim above rests on the plain pass and the
+elapsed clock, neither of which depends on either bug.
+
 
 ## What did NOT change, and why
 
@@ -308,8 +355,17 @@ change. Every one of those was reverted, and `.prettierignore` now protects
 **And verified a title immediately after a change.** I did it once myself:
 checking the eight pages ninety seconds after the deploy landed, on caches so
 cold that one of them was serving a tier-3 slug title. An immediate check is the
-false pass this item is named after. The measurement that counts is the delayed
-cold one below.
+false pass this item is named after. The measurement that counts is the 04:43Z
+cold one, 39 minutes later.
+
+**And built a knob that did not do what its name said.** The `?_t=` pass in
+`cold-refetch.sh` was supposed to bypass the Vercel edge; Vercel ignores the
+query string in this route's cache key, so it measured the entry the previous
+pass had just created and reported `HIT` on every row. Sprint 02's six-wide
+sweep was the same error in a different costume: a parameter that looks like it
+changes the measurement, does not, and yields a confident number either way.
+Both are now written into the scripts that carry them, because the only defence
+is that the next person reads what the knob actually does before trusting it.
 
 ### 4. What did we nearly ship, and what caught it?
 
