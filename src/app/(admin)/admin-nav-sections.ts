@@ -2,6 +2,7 @@ import {
   BookOpenIcon,
   ImageIcon,
   LayoutTemplateIcon,
+  PaletteIcon,
   TagsIcon,
   UsersIcon,
   type LucideIcon,
@@ -153,6 +154,18 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
             keywords: 'add create module widget',
           },
         ],
+      },
+    ],
+  },
+  {
+    id: 'design',
+    label: 'Design',
+    icon: PaletteIcon,
+    tabs: [
+      {
+        label: 'Design system',
+        href: '/admin/design-system',
+        keywords: 'tokens palette colour color typography type scale spacing components contrast accessibility wcag reference brand',
       },
     ],
   },

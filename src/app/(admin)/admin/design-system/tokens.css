@@ -1,0 +1,338 @@
+/* ── HelloKahwin design tokens ──────────────────────────────────────
+ * The proposed premium register (DES-01 → DES-05). Scoped to
+ * `.hk-ds` on purpose: until DES-04 decides the front-end stack and
+ * DES-05 adopts the system site-wide, these must not leak onto the
+ * public site or the rest of the console.
+ *
+ * Every contrast pairing below was computed, not eyeballed. Four
+ * failures in the first palette were found and corrected here:
+ *   gold on light      3.93 → 4.56   (#8F6E2E → #725825)
+ *   muted on raised    3.78 → 4.55   (#6E6858 → #615C4E)
+ *   oxblood on dark    3.31 → 4.54   (#A8465A → #C26E7F)
+ *   sage on raised     3.91 → 4.52   (#5E6A54 → #55604C)
+ * If you change a colour, re-run the check before shipping it.
+ * ------------------------------------------------------------------ */
+
+.hk-ds {
+  /* primitive — the materials. Components never consume these directly. */
+  --hk-ink-900: #16130f;
+  --hk-ink-700: #4a443a;
+  --hk-ink-500: #615c4e;
+  --hk-sand-050: #edeae1;
+  --hk-sand-100: #e4e0d4;
+  --hk-sand-200: #dad5c6;
+  --hk-sand-300: #c6bfac;
+  --hk-night-900: #0e0c09;
+  --hk-night-800: #14110d;
+  --hk-night-700: #1c1813;
+  --hk-night-600: #241f18;
+  --hk-night-500: #3a3328;
+  --hk-bone-050: #ede8dc;
+  --hk-bone-200: #c3bcab;
+  --hk-bone-400: #8e8676;
+  --hk-gold-700: #725825;
+  --hk-gold-600: #8f6e2e;
+  --hk-gold-500: #a8823c;
+  --hk-gold-300: #c9a45c;
+  --hk-gold-200: #dcbb74;
+  --hk-blood-700: #6b2130;
+  --hk-blood-400: #c26e7f;
+  --hk-tenun-700: #55604c;
+  --hk-tenun-400: #8d9880;
+
+  /* semantic — the decisions. Components consume ONLY these. */
+  --page: var(--hk-sand-050);
+  --surface: var(--hk-sand-100);
+  --surface-raised: var(--hk-sand-200);
+  --rule: var(--hk-sand-300);
+  --rule-accent: var(--hk-gold-500);
+  --fg: var(--hk-ink-900);
+  --fg-soft: var(--hk-ink-700);
+  --fg-mute: var(--hk-ink-500);
+  --accent: var(--hk-gold-700);
+  --accent-strong: var(--hk-gold-600);
+  --critical: var(--hk-blood-700);
+  --quiet: var(--hk-tenun-700);
+  --focus: var(--hk-gold-600);
+
+  /* type — all three faces are STAND-INS until licence and Malay
+   * diacritic coverage are confirmed. Display faces routinely ship
+   * broken diacritics and it is found in production. */
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-body: 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-data: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+
+  /* space — 4px base. Density comes from using the low end
+   * deliberately, not from crowding. */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 64px;
+  --s-9: 96px;
+
+  /* the anti-decisions — real tokens holding real values, so that
+   * "sharp corners, flat surfaces" is a decision to argue with rather
+   * than a gap someone fills in with rounded-lg. */
+  --radius: 0;
+  --elevation: none;
+  --motion-fast: 120ms;
+  --motion: 200ms;
+  --ease: cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+/* Dark: redefine ONLY the semantic layer, never a component colour.
+ * Both the un-stamped (system) state and an explicit stamp are
+ * covered, so the page holds whichever the console is in. */
+@media (prefers-color-scheme: dark) {
+  .hk-ds:not([data-hk-theme='light']) {
+    --page: var(--hk-night-800);
+    --surface: var(--hk-night-700);
+    --surface-raised: var(--hk-night-600);
+    --rule: var(--hk-night-500);
+    --fg: var(--hk-bone-050);
+    --fg-soft: var(--hk-bone-200);
+    --fg-mute: var(--hk-bone-400);
+    --accent: var(--hk-gold-300);
+    --accent-strong: var(--hk-gold-200);
+    --critical: var(--hk-blood-400);
+    --quiet: var(--hk-tenun-400);
+    --focus: var(--hk-gold-200);
+  }
+}
+
+.hk-ds[data-hk-theme='dark'] {
+  --page: var(--hk-night-800);
+  --surface: var(--hk-night-700);
+  --surface-raised: var(--hk-night-600);
+  --rule: var(--hk-night-500);
+  --fg: var(--hk-bone-050);
+  --fg-soft: var(--hk-bone-200);
+  --fg-mute: var(--hk-bone-400);
+  --accent: var(--hk-gold-300);
+  --accent-strong: var(--hk-gold-200);
+  --critical: var(--hk-blood-400);
+  --quiet: var(--hk-tenun-400);
+  --focus: var(--hk-gold-200);
+}
+
+/* ── surface ─────────────────────────────────────────────────────── */
+.hk-ds {
+  background: var(--page);
+  color: var(--fg);
+  font-family: var(--font-body);
+  padding: var(--s-6);
+  border: 1px solid var(--rule);
+}
+.hk-ds * {
+  box-sizing: border-box;
+}
+
+.hk-ds .ds-h {
+  font-family: var(--font-display);
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.1;
+}
+.hk-ds .ds-eyebrow {
+  font-family: var(--font-data);
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.hk-ds .ds-meta {
+  font-family: var(--font-data);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  color: var(--fg-mute);
+}
+.hk-ds .ds-sec {
+  margin-bottom: var(--s-8);
+}
+.hk-ds .ds-sec-head {
+  display: flex;
+  gap: var(--s-4);
+  align-items: baseline;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--rule-accent);
+  padding-top: var(--s-3);
+  margin-bottom: var(--s-5);
+}
+
+/* swatches */
+.hk-ds .ds-sw-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  border-left: 1px solid var(--rule);
+  border-top: 1px solid var(--rule);
+}
+.hk-ds .ds-sw {
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.hk-ds .ds-sw i {
+  height: 66px;
+  display: block;
+}
+.hk-ds .ds-sw span {
+  display: block;
+  padding: var(--s-3);
+}
+.hk-ds .ds-sw b {
+  font-family: var(--font-data);
+  font-size: 0.64rem;
+  font-weight: 400;
+  display: block;
+  word-break: break-all;
+}
+.hk-ds .ds-sw em {
+  font-family: var(--font-data);
+  font-size: 0.6rem;
+  font-style: normal;
+  color: var(--fg-mute);
+  text-transform: uppercase;
+  display: block;
+  margin-top: 2px;
+}
+
+/* components */
+.hk-ds .ds-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 240px;
+  gap: var(--s-5);
+  padding: var(--s-5) 0;
+  border-bottom: 1px solid var(--rule);
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .hk-ds .ds-row {
+    grid-template-columns: 1fr;
+  }
+}
+.hk-ds .ds-note {
+  font-size: 0.8rem;
+  color: var(--fg-soft);
+  line-height: 1.5;
+}
+.hk-ds .ds-note b {
+  display: block;
+  font-family: var(--font-data);
+  font-size: 0.6rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: var(--s-2);
+  font-weight: 500;
+}
+.hk-ds .ds-demo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  align-items: center;
+}
+
+.hk-ds .ds-btn {
+  font-family: var(--font-data);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 10px 18px;
+  border: 1px solid var(--fg);
+  background: var(--fg);
+  color: var(--page);
+  cursor: pointer;
+  border-radius: var(--radius);
+  line-height: 1;
+  transition:
+    background var(--motion-fast) var(--ease),
+    color var(--motion-fast) var(--ease);
+}
+.hk-ds .ds-btn:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.hk-ds .ds-btn.is-secondary {
+  background: transparent;
+  color: var(--fg);
+}
+.hk-ds .ds-btn.is-secondary:hover {
+  background: var(--fg);
+  color: var(--page);
+}
+.hk-ds .ds-btn.is-ghost {
+  background: transparent;
+  color: var(--accent);
+  border-color: var(--rule);
+}
+.hk-ds .ds-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background: transparent;
+  color: var(--fg-mute);
+  border-color: var(--rule);
+}
+
+.hk-ds .ds-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+.hk-ds .ds-table th,
+.hk-ds .ds-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+}
+.hk-ds .ds-table thead th {
+  font-family: var(--font-data);
+  font-size: 0.62rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  font-weight: 500;
+  background: var(--surface);
+  border-bottom: 1px solid var(--rule-accent);
+}
+.hk-ds .ds-table td.num {
+  font-family: var(--font-data);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+.hk-ds .ds-table .none {
+  color: var(--fg-mute);
+  font-style: italic;
+}
+
+.hk-ds .ds-prov {
+  border-left: 2px solid var(--rule-accent);
+  padding: var(--s-2) 0 var(--s-2) var(--s-3);
+  font-family: var(--font-data);
+  font-size: 0.68rem;
+  line-height: 1.6;
+  color: var(--fg-mute);
+}
+.hk-ds .ds-prov b {
+  color: var(--accent);
+  display: block;
+  font-size: 0.6rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+.hk-ds .ds-prov.is-missing {
+  border-left-color: var(--critical);
+}
+.hk-ds .ds-prov.is-missing b {
+  color: var(--critical);
+}
+
+.hk-ds :focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
