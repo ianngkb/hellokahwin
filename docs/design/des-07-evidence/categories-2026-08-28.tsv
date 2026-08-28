@@ -1,0 +1,16 @@
+slug	template	h1	h1_chars	n_cards	n_clusters	n_cluster_items	empty_clusters	n_filter_chips
+busana-pengantin	cluster	Busana & Penampilan Pengantin	29	0	2	3	0	0
+fotografi-videografi	grid	Fotografi & Videografi	22	1	0	0	0	0
+glamor-eksklusif	grid	Glamor Eksklusif	16	2	0	0	0	0
+hantaran-mas-kahwin	cluster	Hantaran & Mas Kahwin	21	0	5	38	0	0
+hiasan-dekorasi	grid	Hiasan & Dekorasi	17	1	0	0	0	0
+idea-dan-nasihat	grid	Idea dan nasihat	16	15	0	0	0	10
+minimalis-mewah	grid	Minimalis Mewah	15	1	0	0	0	0
+moden-kontemporari	grid	Moden Kontemporari	18	4	0	0	0	0
+nikah-undang-undang	cluster	Nikah & Undang-undang	21	0	4	4	2	0
+pantai-santai	grid	Pantai Santai	13	1	0	0	0	0
+pelamin-kad-cenderahati	cluster	Pelamin, Kad & Cenderahati Majlis	33	0	4	3	1	0
+real-wedding	grid	Real Wedding	12	14	0	0	0	13
+sebelum-nikah	cluster	Sebelum Nikah: Jodoh, Merisik & Tunang	38	0	5	3	2	0
+ucapan-doa	cluster	Ucapan, Doa & Adab Majlis	25	0	4	5	0	0
+venue-perancangan	cluster	Venue, Kos & Perancangan	24	0	2	4	1	0

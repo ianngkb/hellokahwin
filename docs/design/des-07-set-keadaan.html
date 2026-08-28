@@ -1,0 +1,2405 @@
+<title>Set Keadaan HelloKahwin</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<style>
+/* ============================================================
+   DOCUMENT ZONE — drafting-paper register, identical to DES-06
+   so the two documents read as one set. Deliberately NOT the
+   site's palette: annotation must never be mistaken for spec.
+   ============================================================ */
+:root{
+  --paper:#e9ecef; --sheet:#f7f8fa; --ink:#15181c; --ink-soft:#525d68;
+  --ink-faint:#5c6670; --rule:#c4cbd2; --rule-soft:#d8dde2;
+  --blue:#1b5a84; --blue-wash:#dde8f0; --flag:#9d2f28; --flag-wash:#f2e2e0;
+  --ok:#2a6349; --ok-wash:#dfeae4;
+  --shadow:0 1px 2px rgba(21,24,28,.06),0 8px 24px rgba(21,24,28,.06);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121519; --sheet:#1a1e23; --ink:#e7eaed; --ink-soft:#9aa4ae;
+    --ink-faint:#78828c; --rule:#2c333a; --rule-soft:#242a30;
+    --blue:#78b6dd; --blue-wash:#17262f; --flag:#e2938c; --flag-wash:#2b1c1b;
+    --ok:#82c5a3; --ok-wash:#17251e;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121519; --sheet:#1a1e23; --ink:#e7eaed; --ink-soft:#9aa4ae;
+  --ink-faint:#78828c; --rule:#2c333a; --rule-soft:#242a30;
+  --blue:#78b6dd; --blue-wash:#17262f; --flag:#e2938c; --flag-wash:#2b1c1b;
+  --ok:#82c5a3; --ok-wash:#17251e;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:15px; line-height:1.6; -webkit-font-smoothing:antialiased;
+}
+a{color:var(--blue)}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px 96px}
+
+.mast{padding:56px 0 32px;border-bottom:2px solid var(--ink)}
+.kicker{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--blue);margin:0 0 14px}
+h1{font-family:"IBM Plex Sans Condensed",system-ui,sans-serif;font-weight:700;
+  font-size:clamp(2.1rem,6vw,3.4rem);line-height:1.03;letter-spacing:-.02em;
+  margin:0 0 18px;text-wrap:balance;max-width:18ch}
+.standfirst{font-size:1.0625rem;color:var(--ink-soft);max-width:62ch;margin:0}
+.meta{display:flex;flex-wrap:wrap;gap:6px 22px;margin-top:26px;
+  font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-faint)}
+.meta b{color:var(--ink-soft);font-weight:500}
+
+section{padding-top:56px}
+h2{font-family:"IBM Plex Sans Condensed",system-ui,sans-serif;font-weight:700;
+  font-size:1.7rem;letter-spacing:-.012em;margin:0 0 6px;padding-bottom:10px;
+  border-bottom:1px solid var(--rule);text-wrap:balance}
+h2 .num{font-family:"IBM Plex Mono",monospace;font-size:.72em;color:var(--blue);
+  font-weight:400;margin-right:.7em;letter-spacing:0}
+h3{font-family:"IBM Plex Sans Condensed",system-ui,sans-serif;font-weight:600;
+  font-size:1.18rem;margin:34px 0 8px;letter-spacing:-.008em}
+h4{font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:11px;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);margin:26px 0 8px}
+p{margin:0 0 14px;max-width:70ch}
+ul,ol{margin:0 0 14px;padding-left:1.15rem;max-width:70ch}
+li{margin-bottom:6px}
+code{font-family:"IBM Plex Mono",monospace;font-size:.88em;background:var(--sheet);
+  border:1px solid var(--rule-soft);border-radius:3px;padding:.1em .34em}
+strong{font-weight:600}
+
+.note{border-left:3px solid var(--blue);background:var(--blue-wash);padding:14px 16px;
+  margin:18px 0;border-radius:0 4px 4px 0;max-width:74ch}
+.note.flag{border-left-color:var(--flag);background:var(--flag-wash)}
+.note.ok{border-left-color:var(--ok);background:var(--ok-wash)}
+.note p:last-child{margin-bottom:0}
+.note .lbl{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.16em;
+  text-transform:uppercase;display:block;margin-bottom:6px;color:var(--blue);font-weight:500}
+.note.flag .lbl{color:var(--flag)}
+.note.ok .lbl{color:var(--ok)}
+
+.scroll{overflow-x:auto;margin:18px 0;border:1px solid var(--rule);border-radius:5px;background:var(--sheet)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:520px}
+th,td{text-align:left;padding:9px 13px;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+th{font-family:"IBM Plex Sans Condensed",sans-serif;font-weight:600;font-size:12px;
+  letter-spacing:.03em;text-transform:uppercase;color:var(--ink-soft);
+  border-bottom:1px solid var(--rule);white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.hi td{background:var(--flag-wash)}
+tr.good td{background:var(--ok-wash)}
+td.c{text-align:center;font-family:"IBM Plex Mono",monospace;font-size:12px}
+
+.state{display:grid;gap:26px;padding:30px 0;border-bottom:1px solid var(--rule-soft);
+  grid-template-columns:1fr;align-items:start}
+.state>*{min-width:0}
+@media (min-width:900px){
+  .state{grid-template-columns:392px 1fr;gap:38px}
+  .state .ann{position:sticky;top:20px}
+}
+.state:last-of-type{border-bottom:0}
+.sid{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;
+  color:#e9ecef;background:var(--blue);padding:2px 7px;border-radius:3px;
+  display:inline-block;margin-bottom:8px;font-weight:500}
+.sid.flag{background:var(--flag)}
+.sid.ok{background:var(--ok)}
+kbd{font-family:"IBM Plex Mono",monospace;font-size:.86em;background:var(--sheet);
+  border:1px solid var(--rule);border-bottom-width:2px;border-radius:4px;
+  padding:.08em .38em;white-space:nowrap}
+.ann h3{margin-top:0}
+.ann dl{margin:0;font-size:14px}
+.ann dt{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-faint);margin-top:14px}
+.ann dd{margin:2px 0 0}
+.ann dd:first-of-type{margin-top:2px}
+
+.rig{width:100%;max-width:392px}
+.rigcap{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink-faint);
+  letter-spacing:.1em;text-transform:uppercase;margin:0 0 7px;display:flex;
+  justify-content:space-between;gap:10px}
+.frame{width:360px;max-width:100%;border:1px solid var(--rule);border-radius:6px;
+  overflow:hidden;box-shadow:var(--shadow);background:#fcfbfa}
+.rail{width:360px;max-width:100%;margin:0 0 8px;position:relative;height:22px}
+.rail .bar{position:absolute;left:0;right:0;top:9px;height:1px;background:var(--blue)}
+.rail .tick{position:absolute;top:4px;width:1px;height:11px;background:var(--blue)}
+.rail .lab{position:absolute;top:-3px;font-family:"IBM Plex Mono",monospace;font-size:10px;
+  color:var(--blue);background:var(--paper);padding:0 5px}
+
+/* ============================================================
+   SCREEN ZONE — production tokens, read out of the served
+   stylesheet chunks/655cb3c3fa9beb33.css on 28 Ogos 2026,
+   deploy dpl_CV6piQmHcTjeP1p5nSmH3tffd4MS. The public surface
+   ships light only and ships NO webfont: every serif below is
+   Georgia, which is what production actually renders.
+   ============================================================ */
+.hk{
+  --bg:#fcfbfa; --fg:#151412; --mut:#595855; --bd:#dad9d7; --bds:#93928f;
+  --sub:#f1f0ee; --raised:#eeedeb;
+  background:var(--bg);color:var(--fg);
+  font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  font-size:14px;line-height:1.5
+}
+.hk *{box-sizing:border-box}
+.hk .serif{font-family:Georgia,"Times New Roman",Times,serif;font-weight:400;letter-spacing:-.018em;line-height:1.08}
+.hk .eyebrow{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--mut);line-height:1.4}
+.hk .hd{height:56px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 16px;border-bottom:1px solid var(--bd)}
+.hk .wordmark{font-family:Georgia,serif;font-size:19px;letter-spacing:.22em;
+  text-transform:uppercase;line-height:1}
+.hk .icon{width:44px;height:44px;display:flex;align-items:center;justify-content:center;
+  margin-right:-10px;color:var(--mut)}
+.hk .icon svg{width:17px;height:17px}
+.hk .rail2{display:flex;gap:16px;padding:0 16px;border-bottom:1px solid var(--bd);
+  overflow:hidden;white-space:nowrap;color:var(--mut);font-size:11px;
+  letter-spacing:.13em;text-transform:uppercase;font-weight:600;position:relative}
+.hk .rail2 span{display:flex;align-items:center;min-height:44px}
+.hk .rail2 span.on{color:var(--fg);box-shadow:inset 0 -2px 0 var(--fg)}
+.hk .fade{position:absolute;right:0;top:0;bottom:0;width:38px;
+  background:linear-gradient(to left,#fcfbfa 40%,rgba(252,251,250,0))}
+.hk .body{padding:16px}
+.hk .crumb{font-size:12px;color:var(--mut);padding:12px 16px 0;line-height:1.5}
+.hk .crumb b{color:var(--fg);font-weight:500}
+.hk .cut{display:inline-block;max-width:200px;overflow:hidden;text-overflow:ellipsis;
+  white-space:nowrap;vertical-align:bottom}
+.hk h5{font-family:Georgia,serif;font-weight:400;font-size:26px;line-height:1.08;
+  letter-spacing:-.022em;margin:0}
+.hk .deck{font-family:Georgia,serif;color:var(--mut);font-size:17px;line-height:1.55;margin:8px 0 0}
+.hk .img{aspect-ratio:4/3;background:var(--sub);width:100%;display:block}
+.hk .img.wide{aspect-ratio:16/9}
+.hk .thumb{width:80px;height:80px;flex:0 0 80px;background:var(--sub);display:block}
+.hk .card .t{font-family:Georgia,serif;font-size:19px;line-height:1.26;letter-spacing:-.012em;
+  display:block;margin-top:8px}
+.hk .row{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--bd);
+  min-height:44px;align-items:flex-start}
+.hk .row .t{font-family:Georgia,serif;font-size:15px;line-height:1.26;letter-spacing:-.012em;display:block}
+.hk .row .c{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);
+  margin-top:5px;display:block;font-weight:600}
+.hk .list{border-top:1px solid var(--bd)}
+.hk .list a{display:block;padding:14px 0;border-bottom:1px solid var(--bd);
+  text-decoration:none;color:inherit;font-family:Georgia,serif;font-size:15px;
+  line-height:1.3;min-height:44px}
+.hk .btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;
+  padding:0 24px;border:1px solid var(--fg);background:var(--fg);color:var(--bg);
+  font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  text-decoration:none;border-radius:0}
+.hk .btn.ghost{background:transparent;color:var(--fg);border-color:var(--bds)}
+.hk .chip{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;
+  border:1px solid var(--bds);font-size:11px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--mut);white-space:nowrap}
+.hk .chip.on{color:var(--fg);border-color:var(--fg)}
+.hk .chips{display:flex;flex-wrap:wrap;gap:8px}
+.hk .quiet{color:var(--mut);font-size:13px;line-height:1.5}
+.hk .rule{display:flex;align-items:center;gap:12px;padding:16px 0 8px}
+.hk .rule::before,.hk .rule::after{content:"";flex:1;height:1px;background:var(--bd)}
+.hk .hr{height:1px;background:var(--bd);margin:16px 0}
+.hk .skel{background:var(--sub);border-radius:0;display:block}
+.hk .prog{height:2px;background:var(--sub);position:relative;overflow:hidden}
+.hk .prog i{position:absolute;left:0;top:0;bottom:0;width:38%;background:var(--fg)}
+.hk .pend{opacity:.45}
+.hk .fld{display:flex;align-items:center;height:44px;padding:0 14px;border:1px solid var(--bd);
+  color:var(--mut);font-size:14px;background:var(--bg);gap:9px}
+.hk .empty{border:1px dashed var(--bds);padding:14px;background:var(--bg)}
+.hk .empty .h{font-family:Georgia,serif;font-size:17px;line-height:1.3;margin:0 0 6px;display:block;color:var(--fg)}
+.hk .toc{border:1px solid var(--bd);background:var(--sub);padding:4px 14px}
+.hk .toc a{display:flex;align-items:center;min-height:44px;font-size:13px;color:var(--fg);
+  text-decoration:none;border-bottom:1px solid var(--bd)}
+.hk .toc a:last-child{border-bottom:0}
+.hk .prose{font-family:Georgia,serif;font-size:17px;line-height:1.7}
+.hk .prose p{margin:0 0 14px}
+.hk .sticky{border-top:1px solid var(--bd);display:flex;gap:12px;padding:8px 16px;
+  align-items:center;background:var(--bg)}
+.hk .ph{background:var(--sub);display:flex;align-items:center;justify-content:center;
+  color:var(--bds);font-family:Georgia,serif;font-size:12px;letter-spacing:.22em;
+  text-transform:uppercase}
+.hk .foot{border-top:1px solid var(--bd);padding:24px 16px;text-align:center}
+.hk .blank{height:200px;background:#fff;display:flex;align-items:center;justify-content:center;
+  color:#cfcecc;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em}
+
+.fn{font-size:13.5px;color:var(--ink-soft)}
+.fn li{margin-bottom:10px}
+.toc-nav{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--rule)}
+.toc-nav ul{display:flex;gap:0;list-style:none;margin:0 auto;padding:0 20px;overflow-x:auto;
+  max-width:1180px;scrollbar-width:none}
+.toc-nav ul::-webkit-scrollbar{display:none}
+.toc-nav a{display:block;padding:11px 14px 10px;font-family:"IBM Plex Mono",monospace;
+  font-size:11px;letter-spacing:.09em;text-transform:uppercase;text-decoration:none;
+  color:var(--ink-soft);white-space:nowrap;border-bottom:2px solid transparent}
+.toc-nav a:hover{color:var(--ink);border-bottom-color:var(--blue)}
+
+/* Below 420px a 360px artboard cannot sit inside the 20px page gutters.
+   It is NOT scaled and NOT allowed to shrink: a drawing narrower than
+   360px would be a different measurement from the one it claims to be.
+   The artboard keeps its exact width and scrolls inside its own rail. */
+@media (max-width:419px){
+  .rig{margin-left:-20px;margin-right:-20px;max-width:none;width:auto;overflow-x:auto;
+       scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .rig::-webkit-scrollbar{display:none}
+  .rigcap{padding:0 20px}
+  .rail{margin-left:20px}
+  .frame{width:360px;max-width:none;min-width:360px;border-radius:0;margin:0}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<nav class="toc-nav" aria-label="Bahagian">
+  <ul>
+    <li><a href="#permukaan">Permukaan</a></li>
+    <li><a href="#diukur">Apa yang ada</a></li>
+    <li><a href="#peraturan">Peraturan</a></li>
+    <li><a href="#kerangka">Kerangka</a></li>
+    <li><a href="#utama">Laman utama</a></li>
+    <li><a href="#katalog">Katalog</a></li>
+    <li><a href="#artikel">Artikel</a></li>
+    <li><a href="#ralat">Ralat</a></li>
+    <li><a href="#panjang">Teks panjang</a></li>
+    <li><a href="#a11y">Papan kekunci</a></li>
+    <li><a href="#skop">Luar skop</a></li>
+  </ul>
+</nav>
+
+<div class="wrap">
+
+<header class="mast">
+  <p class="kicker">DES-07 · Sprint 03 · product-designer</p>
+  <h1>Set Keadaan</h1>
+  <p class="standfirst">
+    Every state, on every surface of the redesign, drawn at 360&nbsp;px against the
+    real corpus: default, loading, empty, error, too&nbsp;few, too&nbsp;many, slow
+    and no-JavaScript, and the longest Malay content the site actually holds.
+    Two numbers measured on production the same day set the shape of the whole
+    document: <strong>57 of the site's 86 headlines — 66% — are silently cut short
+    in the card the site puts them in on a phone</strong>, and <strong>the 404 page
+    renders zero characters of anything</strong> until JavaScript has run.
+  </p>
+  <div class="meta">
+    <span><b>Ditulis</b> 28 Ogos 2026</span>
+    <span><b>Skop</b> reka bentuk sahaja, binaan berasingan</span>
+    <span><b>Diukur pada</b> hellokahwin.com, deploy <code>dpl_CV6piQmHcTjeP…</code></span>
+    <span><b>Menunggu</b> DES-03, belum ditulis</span>
+  </div>
+</header>
+
+<!-- ============================================================ -->
+<section id="permukaan">
+<h2><span class="num">1</span>The surfaces, and what &ldquo;every surface&rdquo; means</h2>
+
+<p>
+  The DoD says <em>every surface in the redesign</em>. DES-03 names three page
+  types — homepage, catalogue, article. Those three do not sit on the page alone:
+  each one is wrapped in a shared header, category rail and footer, and each one
+  can hand the reader to a fourth screen that is nobody's page type and is
+  reached from all three. So this document specifies <strong>five</strong>
+  surfaces, and says so rather than letting the fifth fall between owners.
+</p>
+
+<div class="scroll">
+<table>
+<thead><tr><th>Surface</th><th>Screens</th><th>Who else owns part of it</th></tr></thead>
+<tbody>
+<tr><td><b>Chrome</b> — header, category rail, footer</td><td>C1–C6</td><td>Wraps all three DES-03 page types. Search entry point is DES-06 §4 E1.</td></tr>
+<tr><td><b>Homepage</b></td><td>H1–H8</td><td>DES-03 page type 1.</td></tr>
+<tr><td><b>Catalogue</b> — <code>/artikel</code>, category, sub-filter</td><td>K1–K11</td><td>DES-03 page type 2. Pagination and filter <em>mechanism</em> are DES-06 §3.4–3.6; the <em>states</em> are here.</td></tr>
+<tr><td><b>Article</b></td><td>A1–A9</td><td>DES-03 page type 3.</td></tr>
+<tr><td><b>Not-found and error</b></td><td>E1–E5</td><td>Nobody's page type. Reached from all three. Specified here.</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>The DoD's eight states, against the five surfaces</h3>
+
+<p>
+  Forty cells. Every one is drawn. A cell that is genuinely the same drawing as
+  another says which, rather than being repeated.
+</p>
+
+<div class="scroll">
+<table>
+<thead><tr><th>State</th><th>Chrome</th><th>Homepage</th><th>Catalogue</th><th>Article</th><th>Not-found</th></tr></thead>
+<tbody>
+<tr><td>Default</td><td class="c">C1</td><td class="c">H1</td><td class="c">K1</td><td class="c">A1</td><td class="c">E2</td></tr>
+<tr><td>Loading</td><td class="c">C3</td><td class="c">H2</td><td class="c">K2</td><td class="c">A2</td><td class="c">C3</td></tr>
+<tr><td>Empty</td><td class="c">C2</td><td class="c">H3</td><td class="c">K3 K4 K5</td><td class="c">A3</td><td class="c">E2</td></tr>
+<tr><td>Error</td><td class="c">C3</td><td class="c">H4</td><td class="c">K6</td><td class="c">A4</td><td class="c">E4 E5</td></tr>
+<tr><td>Too few items</td><td class="c">C2</td><td class="c">H5</td><td class="c">K7</td><td class="c">A5</td><td class="c">—</td></tr>
+<tr><td>Too many items</td><td class="c">C2</td><td class="c">H6</td><td class="c">K8 K9</td><td class="c">A6</td><td class="c">—</td></tr>
+<tr><td>Slow / no JavaScript</td><td class="c">C6</td><td class="c">H7</td><td class="c">K10</td><td class="c">A7</td><td class="c">E1</td></tr>
+<tr><td>Longest Malay content</td><td class="c">C5</td><td class="c">H8</td><td class="c">K11</td><td class="c">A8 A9</td><td class="c">§9</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="note flag">
+<span class="lbl">The cross-check the DoD names cannot be completed yet, and I am not narrowing the DoD to hide that</span>
+<p>
+  The DoD says: <em>cross-check against the three page types in DES-03. Any state
+  present in neither document is a gap.</em> <strong>DES-03 has not been
+  written.</strong> It is <code>todo</code> in <code>docs/sprints/sprint-03.json</code>
+  and blocked behind DES-02, which is blocked behind DES-01's owner approval gate,
+  checked 28 Ogos 2026. Its artifact does not exist, so there is nothing to
+  cross-check against today.
+</p>
+<p>
+  What I have done instead, and what still has to happen: the matrix above is
+  checked against the three page types <em>as DES-03's own DoD defines them</em>
+  and against what production ships for each one today, measured. §11 then lists,
+  as a binding requirement on DES-03, every state this document specifies that
+  DES-03's artifact must also carry. <strong>The two-way cross-check is owed and
+  must be re-run when DES-03 lands.</strong> It is a dependency, not a reduction
+  in scope, and it is recorded as such in the work-done entry and handed to
+  <code>creative-director</code>.
+</p>
+</div>
+
+<div class="note">
+<span class="lbl">Why this is drawn in today's tokens</span>
+<p>
+  DES-02 has not chosen a direction, so there is no new palette to draw in. Every
+  screen below uses the tokens production serves right now, read out of
+  <code>chunks/655cb3c3fa9beb33.css</code> on 28 Ogos 2026, so each drawing can be
+  compared against the live page beside it. Nothing in the state logic depends on
+  the palette. The screens should be re-rendered once DES-02 and DES-03 pick a
+  direction; the rules in §3 survive that unchanged.
+</p>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<section id="diukur">
+<h2><span class="num">2</span>What production does today, measured</h2>
+
+<p>
+  Fifteen findings. Every number was taken on 28 Ogos 2026 from the served page or
+  the served stylesheet, not from source. The script that reproduces all of them is
+  <code>docs/design/des-07-evidence/reproduce.py</code>; the browser measurements
+  run through <code>probe.mjs</code> in the same folder against a headless Chrome
+  pinned to a 360&times;1200 viewport.
+</p>
+
+<h3>2.1 Two-thirds of the site's headlines do not fit the card the site puts them in</h3>
+
+<p>
+  Every one of the 86 real titles was measured inside the live card box on
+  <code>/artikel/real-wedding</code> at a 360&nbsp;px viewport. The box is
+  <strong>156&nbsp;px wide</strong>, the title is Georgia 17&nbsp;px on a
+  21.42&nbsp;px line, and it carries <code>line-clamp: 3</code>.
+</p>
+
+<div class="scroll">
+<table>
+<thead><tr><th>Lines the title needs</th><th class="n">Titles</th><th>What the reader sees</th></tr></thead>
+<tbody>
+<tr class="good"><td>3 or fewer</td><td class="n">29</td><td>The whole headline.</td></tr>
+<tr class="hi"><td>4</td><td class="n">38</td><td>Cut, with an ellipsis.</td></tr>
+<tr class="hi"><td>5</td><td class="n">13</td><td>Cut.</td></tr>
+<tr class="hi"><td>6</td><td class="n">6</td><td>Cut.</td></tr>
+<tr><td><b>Truncated</b></td><td class="n"><b>57 of 86 — 66%</b></td><td></td></tr>
+</tbody>
+</table>
+</div>
+
+<p>
+  The worst case is the site's longest title, 95 characters:
+  <em>&ldquo;20 Lokasi Terbaik Pre Wedding Photoshoot di Malaysia &ndash; Dari Alam
+  Semula Jadi Hingga Urban City!&rdquo;</em> &mdash; <strong>49 characters
+  survive, 46 are thrown away.</strong> The reader is shown
+  <em>&ldquo;20 Lokasi Terbaik Pre Wedding Photoshoot di Mala…&rdquo;</em> and never
+  learns the article is about Malaysia rather than anywhere else. A title is not
+  decoration on a site whose demand is named-entity lookups: DES-06 measured that
+  84.3% of arrival queries name a specific thing.
+</p>
+
+<h3>2.2 How much gets cut depends on which phone the reader is holding</h3>
+
+<p>
+  The site ships <strong>no webfont at all</strong>. There are zero
+  <code>@font-face</code> rules in the served stylesheet, zero <code>woff2</code>
+  references, and <code>document.fonts</code> is empty after load.
+  <code>--font-cormorant</code> computes to
+  <code>Georgia, "Times New Roman", Times, serif</code>. So the serif a reader
+  actually sees is whatever their device has, and the metrics differ.
+</p>
+
+<div class="scroll">
+<table>
+<thead><tr><th>Serif the device resolves</th><th class="n">Titles cut</th><th class="n">Worst case</th></tr></thead>
+<tbody>
+<tr class="hi"><td>Georgia — installed on Windows and macOS</td><td class="n">57 of 86 (66%)</td><td class="n">6 lines</td></tr>
+<tr><td>Generic <code>serif</code> — Android, most Linux</td><td class="n">31 of 86 (36%)</td><td class="n">5 lines</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="note">
+<span class="lbl">Stated limit</span>
+<p>
+  The generic-<code>serif</code> row was measured in headless Chrome on Windows,
+  where <code>serif</code> resolves to Times New Roman. It is a proxy for an
+  Android device resolving Noto Serif, not a measurement of one. What it does establish, and all this document claims
+  from it, is that <strong>the same corpus in the same box truncates at two very
+  different rates depending on which serif the device supplies</strong>. A
+  layout tuned to one of them is untuned for the other. I have no Android device
+  in this environment; a real-device check is a cheap follow-up and is named in
+  the handover.
+</p>
+</div>
+
+<h3>2.3 The rest, in one table</h3>
+
+<div class="scroll">
+<table>
+<thead><tr><th>#</th><th>What production does</th><th>Measured</th><th>Screen that fixes it</th></tr></thead>
+<tbody>
+<tr><td class="n">3</td><td>The whole front page is one subject. Hero plus every card in <em>Terkini</em> comes from <b>Hantaran &amp; Mas Kahwin</b>, and the same 21-character eyebrow is printed 12 times down the page.</td><td class="n">13 of 13 items,<br>1 of 15 categories</td><td class="n">H6</td></tr>
+<tr><td class="n">4</td><td>The category rail is 2,130&nbsp;px wide inside a 360&nbsp;px window. 1,770&nbsp;px — <b>83% of the navigation</b> — sits off-screen behind a horizontal scroll whose only affordance is a 16&nbsp;px chevron.</td><td class="n">83% hidden</td><td class="n">C2</td></tr>
+<tr><td class="n">5</td><td>The rail lists 9 categories. The site has 15, all live, all in <code>sitemap.xml</code>. Six are reachable only from a search result or a link inside an article.</td><td class="n">6 of 15 absent</td><td class="n">C2</td></tr>
+<tr><td class="n">6</td><td>The breadcrumb cuts the longest category name. <em>Sebelum Nikah: Jodoh, Merisik &amp; Tunang</em> needs 260&nbsp;px and is given a hard <code>max-width:200px</code> with <code>truncate</code>.</td><td class="n">200 of 260&nbsp;px</td><td class="n">C5</td></tr>
+<tr><td class="n">7</td><td><b>There is no loading state anywhere on the site.</b> No skeleton appears in any of the 102 server-rendered pages. Tapping a category link and sampling every 220&nbsp;ms: at 2,790&nbsp;ms the URL, the content, the opacity and the absence of any spinner, progress bar or <code>aria-busy</code> are all exactly as before the tap.</td><td class="n">0 changes<br>in 2.79&nbsp;s</td><td class="n">C3, H2,<br>K2, A2</td></tr>
+<tr><td class="n">8</td><td>That silence is not brief. First-request renders on 28 Ogos: 98 of 102 URLs returned in 0.10–3.83&nbsp;s, and four took <b>21.5, 21.7, 22.9 and 23.0 seconds</b>. A second pass an hour later found a different four slow routes and a worse worst case, <b>25.9&nbsp;s</b>, so the ceiling is not fixed and 23 s is not the limit. RISK-08 owns the cause. The consequence here is that the unacknowledged tap lasts as long as the render does.</td><td class="n">25.9&nbsp;s worst<br>observed</td><td class="n">C3</td></tr>
+<tr class="hi"><td class="n">9</td><td><b>The 404 page has no server-rendered content at all.</b> Its <code>&lt;body&gt;</code> contains one empty hidden <code>div</code>. There is no <code>&lt;main&gt;</code>, no header, no footer, no message and no link. With scripting disabled the rendered page is 360&times;900&nbsp;px of white.</td><td class="n">0 characters</td><td class="n">E1 → E2</td></tr>
+<tr><td class="n">10</td><td>After hydration the 404 does appear — <em>Halaman tidak dijumpai</em> with two buttons. It offers no search box, on a site where DES-06 measured that <b>84.3% of arrivals are hunting a named thing</b>, which is exactly the reader who lands on a dead link.</td><td class="n">2 links,<br>0 search</td><td class="n">E2</td></tr>
+<tr><td class="n">11</td><td>A runtime error boundary exists, and it is drawn in a visual language used nowhere else: a 24&nbsp;px heading where the site sets 32, a sans-serif deck where the site sets a 17&nbsp;px serif, and a <b>fully-rounded pill button on a site where every other control has <code>border-radius: 0</code></b>. That button measures <b>40&nbsp;px tall</b> against the 44&nbsp;px the site's own <code>.hk-btn</code> holds everywhere else.</td><td class="n">40&nbsp;px vs 44</td><td class="n">E3 → E4</td></tr>
+<tr class="hi"><td class="n">12</td><td>One sentence is used for two different situations, and in the second one it is untrue. An empty cluster says <em>&ldquo;Artikel untuk merisik akan datang tidak lama lagi.&rdquo;</em> A filter that matched nothing says <em>&ldquo;Artikel real wedding akan datang tidak lama lagi.&rdquo;</em> — on a category holding <b>14 published articles</b>. Nothing is coming; the reader picked a filter.</td><td class="n">14 articles,<br>0 shown</td><td class="n">K4, K5</td></tr>
+<tr><td class="n">13</td><td>Four articles end with nothing at all: no <em>Lagi dalam…</em> block and no read-next bar. The reader reaches the last line and the page stops.</td><td class="n">4 of 86</td><td class="n">A3</td></tr>
+<tr><td class="n">14</td><td>The table of contents fires on heading count, not on length: it appears when an article has 3 or more <code>h2</code>. <b>Twelve articles longer than 4,000 characters ship without one</b>, including the site's longest at 25,955 characters and every <code>mas-kahwin-*</code> page — which is where the clicks are. DES-06 measured <em>mas kahwin terengganu</em> at 27% of every click the site earned in 28 days.</td><td class="n">12 articles,<br>25,955 chars</td><td class="n">A6</td></tr>
+<tr><td class="n">15</td><td>An article can be 9% article. <code>marriott-putrajaya</code> is a 6,610&nbsp;px page at 360&nbsp;px carrying <b>578&nbsp;px of body text</b>. The first word of every article on the site sits 648–690&nbsp;px down.</td><td class="n">9% body</td><td class="n">A5</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>2.4 One structural fact that shapes every catalogue screen below</h3>
+
+<p>
+  The catalogue is not one page type in production. It is two, and they do not
+  share a single behaviour:
+</p>
+
+<div class="scroll">
+<table>
+<thead><tr><th>Template</th><th>Eyebrow</th><th class="n">Categories</th><th>Shows</th><th>Sub-filters</th><th>Empty states</th></tr></thead>
+<tbody>
+<tr><td>Grid</td><td>Kategori</td><td class="n">8</td><td>4:3 cards, two columns</td><td>0, 10 or 13 chips</td><td>&ldquo;Tiada artikel dijumpai&rdquo;</td></tr>
+<tr><td>Cluster</td><td>Panduan</td><td class="n">7</td><td>Text rows under section headings, no images</td><td>none</td><td>&ldquo;…akan datang tidak lama lagi&rdquo;</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>
+  Six of the seven cluster pages carry sections with either one article or none.
+  <code>/artikel/sebelum-nikah</code> is five sections: three holding a single
+  article each, two holding nothing. The reader scrolls 676&nbsp;px past the
+  masthead, rail, breadcrumb, title and two decks before reaching the first
+  headline — on a 360&nbsp;px phone that is below the fold on every cluster
+  category the site has.
+</p>
+
+<p>
+  The states below are specified for <strong>both</strong> templates, because
+  whichever one DES-03 chooses, the other still exists in production until DES-08
+  replaces it.
+</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="peraturan">
+<h2><span class="num">3</span>Nine rules, and what each one rejects</h2>
+
+<p>
+  Forty screens are too many to hold in the head. These nine rules generate them.
+  If a state is missing from this document, apply the rules and you will get the
+  same answer I would have drawn. Each one names the option it rejected, so the
+  engineer knows an omission was a decision.
+</p>
+
+<h3>3.1 Below 420&nbsp;px the catalogue is one column, not two</h3>
+
+<p>
+  Measured, in the live card box, across all 86 real titles:
+</p>
+
+<div class="scroll">
+<table>
+<thead><tr><th>Container at 360&nbsp;px</th><th class="n">Width</th><th class="n">Size</th><th class="n">Fit in 3 lines</th><th class="n">Cut</th></tr></thead>
+<tbody>
+<tr class="hi"><td>Two-column grid — what ships</td><td class="n">156&nbsp;px</td><td class="n">17&nbsp;px</td><td class="n">29 of 86</td><td class="n">66%</td></tr>
+<tr><td>Two-column grid</td><td class="n">156&nbsp;px</td><td class="n">15&nbsp;px</td><td class="n">55 of 86</td><td class="n">36%</td></tr>
+<tr><td>List row beside an 80&nbsp;px thumbnail</td><td class="n">236&nbsp;px</td><td class="n">17&nbsp;px</td><td class="n">81 of 86</td><td class="n">6%</td></tr>
+<tr class="good"><td>List row beside an 80&nbsp;px thumbnail</td><td class="n">236&nbsp;px</td><td class="n">15&nbsp;px</td><td class="n">86 of 86</td><td class="n">0%</td></tr>
+<tr class="good"><td>One column, full width</td><td class="n">328&nbsp;px</td><td class="n">17&nbsp;px</td><td class="n">86 of 86</td><td class="n">0%</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>
+  <strong>The titles are not too long. The column is too narrow.</strong> At
+  328&nbsp;px every title the site owns fits in three lines with nothing clamped,
+  and 77 of the 86 fit in two.
+</p>
+
+<p>
+  <b>Rejected — keep two columns and ask editorial for shorter headlines.</b> That
+  moves a layout failure onto someone else's desk, and it would have to be
+  re-litigated on every article ever written. It also cannot work: the headlines
+  are load-bearing SEO on a site whose demand is named-entity lookups, and the
+  four longest are the Real Wedding titles that name the venue.
+</p>
+<p>
+  <b>Rejected — keep two columns and drop to 15&nbsp;px.</b> Still cuts 36%, and
+  15&nbsp;px Georgia at 156&nbsp;px is a worse read than 17&nbsp;px at 328.
+</p>
+
+<h3>3.2 A dense list is a list row with a thumbnail, never a smaller card</h3>
+
+<p>
+  One column of 4:3 cards is honest but enormous: twelve of them is roughly
+  4,000&nbsp;px before the footer. The list row — an 80&nbsp;px square thumbnail,
+  the title at 15&nbsp;px beside it, the category beneath — is about 96&nbsp;px
+  tall, so the same twelve occupy about 1,150&nbsp;px and still truncate nothing.
+  So: <strong>the first item of a set is a card, the rest are rows.</strong>
+</p>
+<p>
+  <b>Rejected — twelve full-width cards.</b> It buries the footer and the
+  category rail four screens down for no gain in comprehension.
+</p>
+
+<h3>3.3 A title is never clamped below the measured maximum for its container</h3>
+
+<p>
+  Clamping is a last resort, not a layout tool. Where a clamp must exist it is set
+  at the measured worst case for that box, and the full title stays the
+  element's accessible name. In the containers specified here that means
+  <strong>no clamp is needed anywhere</strong>; the only clamp in this document is
+  on the hero deck, at four lines, where the longest real deck is 145 characters.
+</p>
+<p>
+  <b>Rejected — <code>line-clamp: 3</code> everywhere, as shipped.</b> It throws
+  away 46 of 95 characters on the worst case and cuts two-thirds of the corpus.
+</p>
+
+<h3>3.4 Three different kinds of nothing get three different sentences</h3>
+
+<p>
+  Production has one sentence for all of them, and using it in the second case
+  makes it false. The three are not the same event and the way out of each is
+  different:
+</p>
+
+<div class="scroll">
+<table>
+<thead><tr><th>What happened</th><th>What the reader needs</th><th>Screen</th></tr></thead>
+<tbody>
+<tr><td><b>We have not written it.</b> A planned section with no articles in it.</td><td>To know the section is real but bare, and to be handed the articles that <em>are</em> here.</td><td class="c">K4</td></tr>
+<tr><td><b>You narrowed it to nothing.</b> A filter matched zero of a category that has articles.</td><td>To be told the filter did it, with the real count of what is behind it, and one tap to undo.</td><td class="c">K5</td></tr>
+<tr><td><b>It is not here.</b> The URL does not exist.</td><td>Search, and the way back in.</td><td class="c">E2</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>
+  <b>Rejected — &ldquo;akan datang tidak lama lagi&rdquo; as the universal empty
+  copy.</b> It is a promise the company cannot date. It has been on
+  <code>/artikel/nikah-undang-undang</code> since Sprint 02 and the articles have
+  not arrived. DES-06's retrospective caught exactly this shape once already —
+  an offline message promising cached reading the build could not do. A page
+  should say what is true now and offer what exists now.
+</p>
+
+<h3>3.5 A request that failed is never drawn as a result that was empty</h3>
+
+<p>
+  DES-06 read this defect out of the deployed search bundle: the <code>catch</code>
+  branch sets results to <code>[]</code>, so a dropped connection renders the same
+  screen as &ldquo;we have nothing on your topic&rdquo;. The rule generalises to
+  every surface here. An empty state says <em>there is nothing</em>. An error state
+  says <em>we could not fetch it</em> and offers the same action again. They never
+  share a drawing.
+</p>
+<p>
+  <b>Consequence for the build, and it is a hard dependency:</b> the API must
+  return a status distinguishable from an empty array. Without it, K6, A4 and
+  DES-06's F1 cannot be built and the defect that costs the most stays shipped.
+</p>
+
+<h3>3.6 Nothing a reader must see is client-only</h3>
+
+<p>
+  Measured with scripting disabled: the homepage, the catalogue and the article all
+  render in full — 1,343, 1,584 and 10,318 characters of <code>&lt;main&gt;</code>
+  respectively. <strong>The 404 renders nothing: no <code>&lt;main&gt;</code>, zero
+  characters, a blank page.</strong> The runtime error boundary is client-only by
+  construction, so a failure during server render produces no boundary at all.
+</p>
+<p>
+  The rule: <strong>not-found, empty and error screens are server-rendered like
+  every other page.</strong> They are the screens a reader hits when things are
+  already going wrong, which is exactly when the JavaScript is least likely to
+  have arrived.
+</p>
+<p>
+  <b>Rejected — treat the blank 404 as acceptable because most readers have
+  JavaScript.</b> The reader who lands on a dead link on a cold route is the
+  reader on the worst connection in the sample. On the routes measured at
+  21.5–25.9&nbsp;s, that reader is looking at a blank white page for that long.
+  Measured directly: <code>/cari?q=mas+kahwin</code> returned its empty 404 body
+  after <strong>23.79&nbsp;seconds</strong>. Every crawler that does not execute
+  scripts sees an empty page too.
+</p>
+
+<h3>3.7 A tap is acknowledged in under 100&nbsp;ms, on the thing that was tapped</h3>
+
+<p>
+  Not with a full-page skeleton. The reader is standing on a page they can still
+  read; replacing it with grey boxes takes that away and lies about the layout of
+  a page that has not arrived. Instead, three layers that escalate with time:
+</p>
+<ol>
+  <li><b>Immediately.</b> The tapped link takes its pressed state and keeps it.</li>
+  <li><b>At 300&nbsp;ms.</b> A 2&nbsp;px indeterminate bar appears under the header. The page beneath stays live and readable.</li>
+  <li><b>At 3&nbsp;s.</b> The bar is joined by one line of text under the header: <em>Sedang dimuatkan…</em> and, on a route this slow, that line is the only honest thing on screen. It is in an <code>aria-live="polite"</code> region so a screen reader hears it once.</li>
+</ol>
+<p>
+  Skeletons are used in exactly one place — <strong>the first paint of a route
+  that has no previous page to stand on</strong>, i.e. a cold entry from search.
+  There the skeleton mirrors the real block sizes, which are known because the
+  layout is fixed.
+</p>
+<p>
+  <b>Rejected — a skeleton on every navigation.</b> It discards a readable page
+  and, on a 23-second route, shows a fake page for 23 seconds.
+</p>
+
+<h3>3.8 Furniture never outweighs the article</h3>
+
+<p>
+  Measured: <code>marriott-putrajaya</code> gives a 6,610&nbsp;px page to
+  578&nbsp;px of writing. The rule: <strong>below 1,500 characters of body, the
+  article drops its table of contents, its share bar and its gallery button</strong>,
+  and the related block moves up to take their place. A short entry should read
+  as a short entry, not as a long page that failed to load.
+</p>
+<p>
+  <b>Rejected — hide short articles, or pad them.</b> Both are dishonest, and
+  eight of the ten shortest are venue entries that SEO-04 is actively expanding.
+</p>
+
+<h3>3.9 The table of contents fires on length, not on heading count</h3>
+
+<p>
+  Measured rule in production: 3 or more <code>h2</code>. Measured consequence:
+  twelve articles over 4,000 characters have no contents list, including the
+  longest article on the site at 25,955 characters and every
+  <code>mas-kahwin-*</code> page, because those are written entirely in
+  <code>h3</code>. Those are the pages the site's clicks arrive on.
+</p>
+<p>
+  New rule: <strong>the contents list appears at 3,000 body characters or more,
+  and it lists every <code>h2</code> and <code>h3</code> in document order.</strong>
+  Above 15 entries it collapses to the current section plus a control that opens
+  the rest — a 25-item list is 845&nbsp;px, 70% of a 360&nbsp;px viewport, and
+  each row in it is 17&nbsp;px tall against a 44&nbsp;px floor.
+</p>
+<p>
+  <b>Rejected — leave the heading-count rule and ask writers to add
+  <code>h2</code>s.</b> It re-writes 12 published articles to fix a display rule,
+  and the next writer who uses <code>h3</code> correctly breaks it again.
+</p>
+</section>
+
+<h3>3.10 The copy, after a <code>/humanizer</code> pass</h3>
+
+<p>
+  Every reader-facing string in this document went through <code>/humanizer</code>.
+  Four things came back and were fixed: a body line that only restated its own
+  heading (three times), a body line that restated its own button, an instruction
+  written as a mechanism (&ldquo;tanggalkan tapisan&rdquo;) where the reader wants
+  the outcome, and one promise about the future that nobody can date.
+</p>
+
+<div class="scroll">
+<table>
+<thead><tr><th>Where</th><th>Final Malay</th><th>What changed, and why</th></tr></thead>
+<tbody>
+<tr><td>Empty section<br>(K4)</td><td><b>Belum ada artikel di sini.</b><br>Nikah &amp; Undang-undang ada 4 artikel lain.<br><i>Lihat 4 artikel Nikah &amp; Undang-undang</i></td><td>Production says <em>akan datang tidak lama lagi</em>. Cut: it is a promise with no date, and it has been on the page since Sprint 02. The replacement says what is true and hands over what exists.</td></tr>
+<tr><td>Filter matched zero<br>(K5)</td><td><b>Tiada artikel dengan tapisan Bertema.</b><br>Real Wedding ada 14 artikel di sebalik tapisan ini.<br><i>Lihat semua 14 artikel</i></td><td>Production says the same <em>akan datang</em> line here, which is false. The button was &ldquo;Tanggalkan tapisan&rdquo;; changed to name the result rather than the mechanism.</td></tr>
+<tr><td>Empty category<br>(K3)</td><td><b>Kategori ini masih kosong.</b><br>Cari apa yang anda perlukan, atau pilih kategori lain di bawah.</td><td>Dropped &ldquo;Kami belum menerbitkan apa-apa di sini&rdquo;, which only restated the heading.</td></tr>
+<tr><td>Not found<br>(E2)</td><td><b>Halaman tidak dijumpai.</b><br>Pautan ini sudah tiada. Cari apa yang anda perlukan, atau pilih kategori di bawah.<br><i>placeholder:</i> Cari mas kahwin, hantaran, dewan…</td><td>Production's line is <em>&ldquo;Maaf, halaman yang anda cari tiada. Mungkin ia telah dipindahkan atau dipadam.&rdquo;</em> The apology and the guess about what happened help nobody. The placeholder uses three real arrival queries from the GSC export.</td></tr>
+<tr><td>Section failed<br>(K6, A4)</td><td><b>Bahagian ini tidak dapat dimuatkan.</b><br>Sambungan terputus.<br><i>Cuba semula</i></td><td>The body used to end &ldquo;Cuba semula&rdquo;, repeating its own button.</td></tr>
+<tr><td>Page failed<br>(E4)</td><td><b>Ada masalah teknikal.</b><br>Kami tidak dapat memaparkan halaman ini.<br><i>Cuba semula</i> · <i>Laman utama</i></td><td>Heading kept from production. Dropped the sentence that listed the two buttons underneath it. Added the way home, which the shipped boundary does not offer.</td></tr>
+<tr><td>Offline<br>(E5)</td><td><b>Anda di luar talian.</b><br>Sambung semula internet untuk teruskan membaca.</td><td>Says nothing about articles already opened. The site ships no service worker, so any such line would be false. DES-06 caught the same sentence once already.</td></tr>
+<tr><td>Loading<br>(C3)</td><td>Sedang dimuatkan…</td><td>Appears at 3&nbsp;s, in an <code>aria-live="polite"</code> region.</td></tr>
+<tr><td>Article foot<br>(A3)</td><td><b>Lagi daripada HelloKahwin</b></td><td>Falls back from &ldquo;Lagi dalam <i>kategori</i>&rdquo; when the category holds no other article.</td></tr>
+<tr><td>Image failed<br>(A9)</td><td>the wordmark, and nothing else</td><td>No apology text. Production drops a 72-character alt string into a 156&times;117&nbsp;px box and clips it.</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<section id="kerangka">
+<h2><span class="num">4</span>Chrome: header, category rail, footer</h2>
+
+<p>
+  Present on all three DES-03 page types, so its states are specified once.
+  Everything below is drawn at exactly 360&nbsp;px.
+</p>
+
+<div class="rail">
+  <div class="bar"></div><div class="tick" style="left:0"></div>
+  <div class="tick" style="right:0"></div>
+  <div class="lab" style="left:50%;transform:translateX(-50%)">360 px</div>
+</div>
+
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>C1 · default</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="hd">
+          <span style="width:44px"></span>
+          <span class="wordmark">HelloKahwin</span>
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
+        </div>
+        <div class="rail2">
+          <span class="on">Hantaran<span style="opacity:.6;margin-left:5px">38</span></span>
+          <span>Idea<span style="opacity:.6;margin-left:5px">15</span></span>
+          <span>Real Wedding<span style="opacity:.6;margin-left:5px">14</span></span>
+          <div class="fade"></div>
+        </div>
+        <div class="crumb">Utama &rsaquo; Artikel &rsaquo; <b>Hantaran &amp; Mas Kahwin</b></div>
+        <div class="body" style="padding-top:10px"><div class="quiet">…</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid">C1</span>
+    <h3>Default</h3>
+    <p>
+      Three things change from what ships. The rail carries <strong>a count beside
+      every category</strong>, because a reader deciding where to tap is choosing
+      between 38 articles and 1. The counts are already known at render time and
+      cost nothing. Second, the rail is sorted by count, so the categories with
+      something in them are the ones reachable without scrolling. Third, the last
+      chip is always an explicit exit, drawn in C2.
+    </p>
+    <dl>
+      <dt>Header</dt><dd>56 px, sticky. Wordmark centred, search at 44&times;44 px, right.</dd>
+      <dt>Rail</dt><dd>44 px rows, 11 px / .13em uppercase, current category in <code>--foreground</code> with a 2 px underline.</dd>
+      <dt>Breadcrumb</dt><dd>12 px, <code>--muted-foreground</code>, wraps. Never truncated: see C5.</dd>
+    </dl>
+  </div>
+</div>
+
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>C2 · too many, and too few</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="hd">
+          <span style="width:44px"></span>
+          <span class="wordmark">HelloKahwin</span>
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
+        </div>
+        <div class="rail2">
+          <span class="on">Hantaran<span style="opacity:.6;margin-left:5px">38</span></span>
+          <span>Idea<span style="opacity:.6;margin-left:5px">15</span></span>
+          <span style="border-left:1px solid #dad9d7;padding-left:16px;color:#151412">Semua 15</span>
+          <div class="fade"></div>
+        </div>
+        <div class="body">
+          <div class="rule"></div>
+          <p class="quiet" style="margin:0 0 10px">Bila &ldquo;Semua 15&rdquo; dibuka:</p>
+          <div class="chips">
+            <span class="chip on">Hantaran 38</span><span class="chip">Idea 15</span>
+            <span class="chip">Real Wedding 14</span><span class="chip">Ucapan 5</span>
+            <span class="chip">Nikah 4</span><span class="chip">Venue 4</span>
+            <span class="chip">Moden 4</span><span class="chip">Busana 3</span>
+            <span class="chip">Pelamin 3</span><span class="chip">Sebelum Nikah 3</span>
+            <span class="chip">Glamor 2</span><span class="chip">Fotografi 1</span>
+            <span class="chip">Hiasan 1</span><span class="chip">Minimalis 1</span>
+            <span class="chip">Pantai 1</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid flag">C2</span>
+    <h3>Too many items, and the six that are missing</h3>
+    <p>
+      Measured: the rail is <strong>2,130&nbsp;px wide inside a 360&nbsp;px
+      window</strong>. 1,770&nbsp;px of it, 83%, is off-screen, and the only sign
+      that it continues is a 16&nbsp;px chevron drawn into a background gradient.
+      Nine categories are listed. <strong>Fifteen exist</strong>, all live and all
+      in <code>sitemap.xml</code>; the other six are reachable only from a search
+      result or a link inside an article.
+    </p>
+    <p>
+      The fix is not a longer scroll. It is an <strong>explicit end-cap</strong>:
+      the rail keeps the categories a reader will want most, sorted by what is in
+      them, and ends with <em>Semua 15</em>, which opens the full set in place as a
+      chip block. Nothing is hidden behind a gesture.
+    </p>
+    <p>
+      <b>Rejected — a hamburger menu.</b> It puts the site's only navigation
+      behind an extra tap and an icon, on a site whose readers arrive on one
+      article from search and need one obvious way sideways.
+    </p>
+    <dl>
+      <dt>Empty case</dt><dd>A category with 0 articles is not printed in the rail and not printed in the chip block. It stays reachable at its URL; K3 is what it renders.</dd>
+      <dt>Announcement</dt><dd>Opening the block moves focus to the first chip and announces &ldquo;15 kategori&rdquo;.</dd>
+    </dl>
+  </div>
+</div>
+
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>C3 · loading, at 300 ms and at 3 s</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="hd">
+          <span style="width:44px"></span>
+          <span class="wordmark">HelloKahwin</span>
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
+        </div>
+        <div class="rail2">
+          <span>Hantaran<span style="opacity:.6;margin-left:5px">38</span></span>
+          <span class="on" style="background:#f1f0ee;padding:0 8px;margin:0 -8px">Venue<span style="opacity:.6;margin-left:5px">4</span></span>
+          <div class="fade"></div>
+        </div>
+        <div class="prog"><i></i></div>
+        <div class="body" style="padding:10px 16px 0">
+          <p class="quiet" style="margin:0">Sedang dimuatkan…</p>
+        </div>
+        <div class="body" style="padding-top:12px">
+          <div class="hr" style="margin-top:0"></div>
+          <p class="quiet" style="margin:0 0 8px">Halaman sebelumnya kekal boleh dibaca:</p>
+          <div class="row" style="border-bottom:0;padding-bottom:0">
+            <span class="thumb"></span>
+            <span><span class="t">Persiapan hantaran kahwin: jadual lapan minggu</span><span class="c">Hantaran &amp; Mas Kahwin</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid flag">C3</span>
+    <h3>Loading &mdash; the state that does not exist today</h3>
+    <p>
+      Measured: tap a category link, sample every 220&nbsp;ms.
+      <strong>At 2,790&nbsp;ms the URL, the content, the opacity and the absence of
+      any spinner, progress bar or <code>aria-busy</code> are exactly as they were
+      before the tap.</strong> The reader has no evidence the tap registered. On
+      the routes measured at 21.5–25.9&nbsp;s that silence lasts most of half
+      a minute, and the reasonable thing for a reader to do is tap again.
+    </p>
+    <p>The three layers, and what each one is for:</p>
+    <dl>
+      <dt>0 ms</dt><dd>The tapped chip takes and holds a pressed fill. This is the only element that changes, and it is the one the finger is on.</dd>
+      <dt>300 ms</dt><dd>A 2 px indeterminate bar under the rail. Below it the previous page stays live and scrollable. Nothing is greyed out.</dd>
+      <dt>3 s</dt><dd><em>Sedang dimuatkan…</em> in an <code>aria-live="polite"</code> region, announced once. Past 15 s it is joined by a <em>Cuba semula</em> control, because at that point a stall is more likely than a slow render.</dd>
+    </dl>
+    <p>
+      <b>Rejected — replace the page with a skeleton.</b> The reader is standing
+      on a page they can still read. Taking it away to show grey boxes for
+      23 seconds is worse than the silence it replaces.
+    </p>
+    <p>
+      Skeletons appear in one place only: the first paint of a cold entry from
+      search, where there is no previous page. That is H2, K2 and A2.
+    </p>
+  </div>
+</div>
+
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>C5 · the longest category name</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="crumb" style="padding-top:14px">
+          <span style="opacity:.55">As shipped:</span><br>
+          Utama &rsaquo; Artikel &rsaquo; <b class="cut">Sebelum Nikah: Jodoh, Merisik &amp; Tunang</b>
+        </div>
+        <div class="body" style="padding:12px 16px">
+          <div class="hr" style="margin-top:4px"></div>
+          <div class="crumb" style="padding:0">
+            <span style="opacity:.55">Specified:</span><br>
+            Utama &rsaquo; Artikel &rsaquo; <b>Sebelum Nikah: Jodoh, Merisik &amp; Tunang</b>
+          </div>
+          <div class="hr"></div>
+          <span class="eyebrow">Panduan</span>
+          <h5 class="serif" style="margin-top:8px">Sebelum Nikah: Jodoh, Merisik &amp; Tunang</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid">C5</span>
+    <h3>The longest Malay content the chrome has to carry</h3>
+    <p>
+      <em>Sebelum Nikah: Jodoh, Merisik &amp; Tunang</em> is 38 characters, the
+      longest category name the site owns. In the shipped breadcrumb it needs
+      <strong>260&nbsp;px and is given a hard <code>max-width:200px</code> with
+      <code>truncate</code></strong>, so the reader is told they are in
+      <em>Sebelum Nikah: Jodoh, Merisi…</em>
+    </p>
+    <p>
+      The breadcrumb wraps instead. It is 12&nbsp;px text on a page whose
+      headline is 32; one extra line costs 18&nbsp;px and buys the name of the
+      place the reader is standing in. The <code>h1</code> takes two lines at
+      32&nbsp;px/34.56 and is not clamped.
+    </p>
+    <dl>
+      <dt>Also measured</dt><dd>Longest cluster heading 45 chars (<em>Ulang tahun perkahwinan, pantun &amp; adab tetamu</em>); longest filter chip 26 (<em>Ahli Pengantin &amp; Pengiring</em>); longest tag 34 (<em>skrip pengacara majlis perkahwinan</em>).</dd>
+      <dt>Rule</dt><dd>Chips and tags stay on one line and are sized by their content. Headings and breadcrumbs wrap. Nothing in the chrome is clamped.</dd>
+    </dl>
+  </div>
+</div>
+
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>C4 · footer · C6 · no JavaScript</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="foot">
+          <span class="wordmark">HelloKahwin</span>
+          <p class="deck" style="font-size:15px;margin-top:10px">Idea, tips dan panduan perkahwinan untuk pasangan Malaysia.</p>
+          <div class="hr" style="margin:18px 0"></div>
+          <div class="chips" style="justify-content:center">
+            <span class="chip" style="border:0;padding:0 10px">Laman utama</span>
+            <span class="chip" style="border:0;padding:0 10px">Semua artikel</span>
+            <span class="chip" style="border:0;padding:0 10px">Cari</span>
+          </div>
+          <p class="quiet" style="margin-top:16px">&copy; 2026 HelloKahwin</p>
+        </div>
+        <div class="body" style="background:#f1f0ee;border-top:1px solid #dad9d7">
+          <span class="eyebrow">Tanpa JavaScript</span>
+          <p class="quiet" style="margin:8px 0 0">
+            Header, rail, breadcrumb and footer render from the server and work as
+            links. Measured: 1,343 / 1,584 / 10,318 characters of
+            <code>&lt;main&gt;</code> on home, catalogue and article with scripting
+            disabled.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid ok">C4</span> <span class="sid ok">C6</span>
+    <h3>Footer, and the chrome without JavaScript</h3>
+    <p>
+      The footer gains one link the shipped one lacks: <em>Cari</em>. On a
+      40,310&nbsp;px article the footer is the only navigation within reach when
+      the reader gets to the bottom, and DES-06 measured that most arrivals are
+      hunting a named thing.
+    </p>
+    <p>
+      <strong>C6 is a pass, and it is recorded as one so that E1 stands out as the
+      exception.</strong> With scripting disabled, all three page types render
+      completely from the server. The chrome is plain links and needs nothing.
+    </p>
+    <dl>
+      <dt>What does not survive without JS</dt>
+      <dd>The search panel (DES-06 §4 F3), the article gallery, the read-next bar, and the whole 404 (E1).</dd>
+      <dt>Rule</dt>
+      <dd>Anything that is only reachable with JavaScript has a server-rendered equivalent at a real URL. The search field posts to <code>/cari?q=</code> as a plain <code>form</code>; the gallery button is an anchor to the article's own image section.</dd>
+    </dl>
+  </div>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<section id="utama">
+<h2><span class="num">5</span>Homepage</h2>
+
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>H1 · default</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="hd"><span style="width:44px"></span><span class="wordmark">HelloKahwin</span>
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span></div>
+        <div class="rail2"><span class="on">Hantaran<span style="opacity:.6;margin-left:5px">38</span></span><span>Idea<span style="opacity:.6;margin-left:5px">15</span></span><div class="fade"></div></div>
+        <span class="img wide"></span>
+        <div class="body">
+          <span class="eyebrow">Hantaran &amp; Mas Kahwin</span>
+          <h5 class="serif" style="margin-top:8px">Persiapan hantaran kahwin: jadual lapan minggu</h5>
+          <p class="deck">Persiapan hantaran mempunyai satu susunan yang betul, dan susunan itu ditentukan oleh tempoh tempahan pembekal.</p>
+          <div class="rule"><span class="eyebrow">Terkini</span></div>
+          <div class="list" style="border-top:0">
+            <div class="row"><span class="thumb"></span><span><span class="t">Rukun Nikah: 5 Rukun dan Apa Yang Membatalkannya</span><span class="c">Nikah &amp; Undang-undang</span></span></div>
+            <div class="row"><span class="thumb"></span><span><span class="t">Bajet Kahwin 2026: Apa yang Boleh Diharga Tepat, dan Apa yang Tidak</span><span class="c">Venue, Kos &amp; Perancangan</span></span></div>
+            <div class="row"><span class="thumb"></span><span><span class="t">Inai tangan pengantin: mana selamat, berapa lama tahan</span><span class="c">Busana &amp; Penampilan Pengantin</span></span></div>
+            <div class="row" style="border-bottom:0"><span class="thumb"></span><span><span class="t">Tempat beli barang hantaran: lima jenis kedai</span><span class="c">Hantaran &amp; Mas Kahwin</span></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid">H1</span>
+    <h3>Default</h3>
+    <p>
+      One hero card, then rows. Rule 3.1: below 420&nbsp;px the two-column grid is
+      gone, because it is the direct cause of two-thirds of the site's headlines
+      being cut. Rule 3.2: the rest of the strip is an 80&nbsp;px thumbnail beside
+      a 15&nbsp;px title, which fits <strong>all 86 real titles in three lines or
+      fewer</strong> and keeps twelve items to roughly 1,150&nbsp;px instead of
+      4,000.
+    </p>
+    <dl>
+      <dt>Hero</dt><dd>16:9 image, eyebrow 11 px, title Georgia 26 px/1.08, deck 17 px/1.55 clamped at 4 lines (longest real deck is 145 characters).</dd>
+      <dt>Row</dt><dd>80&times;80 px thumbnail, title 15 px/1.26, category 10 px/.14em beneath. Whole row is the target, 96 px tall.</dd>
+      <dt>Count</dt><dd>Hero plus 11 rows, then one <em>Semua artikel</em> control. Above that the page repeats itself.</dd>
+      <dt>Not in scope here</dt><dd>What appears above the hero on desktop, and any editorial slot beyond <em>Terkini</em>. Those are DES-03's composition calls.</dd>
+    </dl>
+  </div>
+</div>
+
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>H2 · loading, cold entry</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="hd"><span style="width:44px"></span><span class="wordmark">HelloKahwin</span><span class="icon"></span></div>
+        <div class="rail2"><span class="skel" style="width:70px;height:11px"></span><span class="skel" style="width:52px;height:11px"></span><span class="skel" style="width:88px;height:11px"></span></div>
+        <span class="img wide"></span>
+        <div class="body">
+          <span class="skel" style="width:120px;height:11px"></span>
+          <span class="skel" style="width:100%;height:26px;margin-top:12px"></span>
+          <span class="skel" style="width:72%;height:26px;margin-top:7px"></span>
+          <span class="skel" style="width:100%;height:15px;margin-top:14px"></span>
+          <span class="skel" style="width:88%;height:15px;margin-top:7px"></span>
+          <div class="rule"></div>
+          <div class="row"><span class="thumb"></span><span style="flex:1"><span class="skel" style="width:100%;height:14px"></span><span class="skel" style="width:64%;height:14px;margin-top:6px"></span></span></div>
+          <div class="row"><span class="thumb"></span><span style="flex:1"><span class="skel" style="width:92%;height:14px"></span><span class="skel" style="width:48%;height:14px;margin-top:6px"></span></span></div>
+          <div class="row" style="border-bottom:0"><span class="thumb"></span><span style="flex:1"><span class="skel" style="width:100%;height:14px"></span><span class="skel" style="width:70%;height:14px;margin-top:6px"></span></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid">H2</span>
+    <h3>Loading, and only on a cold entry</h3>
+    <p>
+      This is the one place a skeleton is allowed: the reader arrived from search
+      or typed the address, so there is no previous page to leave on screen. Every
+      block is drawn at its real size, which is knowable because the hero is 16:9
+      and the row is 96&nbsp;px.
+    </p>
+    <dl>
+      <dt>Reveal</dt><dd>Per block, as each resolves. No page-wide swap, so nothing jumps.</dd>
+      <dt>Motion</dt><dd>A 1.6 s shimmer, suppressed entirely under <code>prefers-reduced-motion</code>, where the blocks are static fills.</dd>
+      <dt>Announcement</dt><dd>The skeleton is <code>aria-hidden</code>. A single polite live region carries <em>Sedang dimuatkan…</em>, then the count when the list resolves.</dd>
+      <dt>Never</dt><dd>A skeleton on a navigation away from a page that already has content. That is C3.</dd>
+    </dl>
+  </div>
+</div>
+
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>H3 empty · H4 error · H5 too few</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="body">
+          <span class="eyebrow">H3 · tiada artikel langsung</span>
+          <div class="empty" style="margin-top:8px">
+            <span class="h">Belum ada artikel di sini.</span>
+            <p class="quiet" style="margin:0 0 12px">Cari apa yang anda perlukan, atau pilih kategori di bawah.</p>
+            <div class="fld"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>Cari mas kahwin, hantaran, dewan…</div>
+          </div>
+          <div class="hr"></div>
+          <span class="eyebrow">H4 · senarai gagal dimuatkan</span>
+          <div class="empty" style="margin-top:8px;border-style:solid;border-color:#151412">
+            <span class="h">Bahagian ini tidak dapat dimuatkan.</span>
+            <p class="quiet" style="margin:0 0 12px">Sambungan terputus.</p>
+            <span class="btn ghost">Cuba semula</span>
+          </div>
+          <div class="hr"></div>
+          <span class="eyebrow">H5 · tiga artikel sahaja</span>
+          <span class="img wide" style="margin-top:8px"></span>
+          <span class="eyebrow" style="display:block;margin-top:12px">Nikah &amp; Undang-undang</span>
+          <h5 class="serif" style="margin-top:6px;font-size:22px">Rukun Nikah: 5 Rukun dan Apa Yang Membatalkannya</h5>
+          <div class="list" style="margin-top:14px">
+            <div class="row"><span class="thumb"></span><span><span class="t">Borang Nikah: Borang Mana, Isi Apa, Hantar Ke Mana</span><span class="c">Nikah &amp; Undang-undang</span></span></div>
+            <div class="row" style="border-bottom:0"><span class="thumb"></span><span><span class="t">Lafaz Taklik: Apa Suami Baca Selepas Akad, dan Apa Ertinya</span><span class="c">Nikah &amp; Undang-undang</span></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid">H3</span> <span class="sid flag">H4</span> <span class="sid">H5</span>
+    <h3>Nothing, broken, and nearly nothing &mdash; three different drawings</h3>
+    <p>
+      <b>H3, empty.</b> A homepage with no articles happens on the day a site
+      launches and on the day a feed breaks silently. It offers the two things
+      that still work: search, and the category list. It does not apologise and it
+      does not promise a date.
+    </p>
+    <p>
+      <b>H4, error.</b> Rule 3.5. This is drawn with a solid border and an action;
+      H3 is drawn with a dashed border and no action. A reader must be able to
+      tell &ldquo;there is nothing&rdquo; from &ldquo;we could not fetch it&rdquo;
+      without reading carefully, because the second one is worth retrying and the
+      first is not. DES-06 found the shipped search collapses these two into one
+      screen; this rule stops that repeating on the homepage.
+    </p>
+    <p>
+      <b>H5, too few.</b> Three articles. The hero stays a hero and the other two
+      become rows; the layout does not change shape to hide the number.
+      <strong>Rejected: padding the strip to a full grid with repeats or with
+      category tiles.</strong> A thin site that pretends to be a full one is
+      the failure this whole item exists to prevent.
+    </p>
+    <dl>
+      <dt>Threshold</dt><dd>Under 4 published articles the <em>Terkini</em> rule is dropped and every article is listed, because a &ldquo;latest&rdquo; strip needs something to be latest against.</dd>
+    </dl>
+  </div>
+</div>
+
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>H6 · too many from one place</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="body" style="padding-bottom:8px">
+          <span class="eyebrow" style="color:#9d2f28">Seperti yang dihantar hari ini</span>
+          <div class="list" style="margin-top:8px">
+            <div class="row" style="padding:7px 0"><span style="flex:1"><span class="c" style="margin:0">Hantaran &amp; Mas Kahwin</span></span></div>
+            <div class="row" style="padding:7px 0"><span style="flex:1"><span class="c" style="margin:0">Hantaran &amp; Mas Kahwin</span></span></div>
+            <div class="row" style="padding:7px 0"><span style="flex:1"><span class="c" style="margin:0">Hantaran &amp; Mas Kahwin</span></span></div>
+            <div class="row" style="padding:7px 0"><span style="flex:1"><span class="c" style="margin:0">Hantaran &amp; Mas Kahwin</span></span></div>
+            <div class="row" style="padding:7px 0;border-bottom:0"><span style="flex:1"><span class="c" style="margin:0">…13 kali</span></span></div>
+          </div>
+        </div>
+        <div class="body" style="border-top:1px solid #dad9d7">
+          <span class="eyebrow" style="color:#2a6349">Yang ditentukan</span>
+          <div class="list" style="margin-top:8px">
+            <div class="row"><span class="thumb"></span><span><span class="t">Persiapan hantaran kahwin: jadual lapan minggu</span><span class="c">Hantaran &amp; Mas Kahwin</span></span></div>
+            <div class="row"><span class="thumb"></span><span><span class="t">Tempat beli barang hantaran: lima jenis kedai</span><span class="c">Hantaran &amp; Mas Kahwin</span></span></div>
+            <div class="row"><span class="thumb"></span><span><span class="t">Rukun Nikah: 5 Rukun dan Apa Yang Membatalkannya</span><span class="c">Nikah &amp; Undang-undang</span></span></div>
+            <div class="row"><span class="thumb"></span><span><span class="t">Bajet Kahwin 2026: Apa yang Boleh Diharga Tepat, dan Apa yang Tidak</span><span class="c">Venue, Kos &amp; Perancangan</span></span></div>
+            <div class="row" style="border-bottom:0"><span class="thumb"></span><span><span class="t">Inai tangan pengantin: mana selamat, berapa lama tahan</span><span class="c">Busana &amp; Penampilan Pengantin</span></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid flag">H6</span>
+    <h3>Too many items, from one place</h3>
+    <p>
+      Measured on 28 Ogos 2026: the hero and all twelve cards in <em>Terkini</em>
+      come from <strong>one category out of fifteen</strong>. The same 21-character
+      eyebrow, <em>Hantaran &amp; Mas Kahwin</em>, is printed thirteen times down
+      the front page. <code>/artikel</code> does the same thing with eleven.
+    </p>
+    <p>
+      This is not a content problem, it is an unstated sort. &ldquo;Latest&rdquo;
+      with no second rule means the front page shows whatever was published last
+      week, and last week was one subject. A reader who arrives from a nikah query
+      is shown a page about trays.
+    </p>
+    <p><b>The rule:</b></p>
+    <ol>
+      <li>The hero is chosen editorially, not by date.</li>
+      <li>In the eleven rows below it, <strong>no category appears more than three times</strong>, and no two adjacent rows share a category.</li>
+      <li>When the constraint cannot be met because too few categories have anything, the strip shortens rather than repeating. Eight honest rows beat eleven from one place.</li>
+    </ol>
+    <p>
+      <b>Rejected — a per-category carousel.</b> Fifteen rails on a 360&nbsp;px
+      screen, eight of which hold one item, is a worse version of the same problem
+      and adds a gesture the site uses nowhere else.
+    </p>
+  </div>
+</div>
+
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>H8 · the longest real headline</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="body">
+          <span class="eyebrow" style="color:#9d2f28">As shipped, in a 156 px card</span>
+          <div style="width:156px;margin-top:8px">
+            <span class="img"></span>
+            <span class="eyebrow" style="display:block;margin-top:8px">Fotografi &amp; Videografi</span>
+            <span class="serif" style="display:block;font-size:17px;line-height:1.26;margin-top:5px">20 Lokasi Terbaik Pre Wedding Photoshoot di Mala…</span>
+            <span class="quiet" style="color:#9d2f28;font-size:11px;display:block;margin-top:6px">46 of 95 characters gone</span>
+          </div>
+          <div class="hr"></div>
+          <span class="eyebrow" style="color:#2a6349">Specified, hero at 328 px</span>
+          <span class="img wide" style="margin-top:8px"></span>
+          <span class="eyebrow" style="display:block;margin-top:12px">Fotografi &amp; Videografi</span>
+          <h5 class="serif" style="margin-top:6px">20 Lokasi Terbaik Pre Wedding Photoshoot di Malaysia &ndash; Dari Alam Semula Jadi Hingga Urban City!</h5>
+          <p class="deck">Setiap artikel di bawah menyatakan enakmen negeri mana yang dirujuk dan sumber rasminya. Kami melaporkan prosedur; kami tidak mengeluarkan fatwa.</p>
+          <div class="hr"></div>
+          <span class="eyebrow" style="color:#2a6349">Specified, same title in a row</span>
+          <div class="row" style="border-bottom:0;margin-top:8px">
+            <span class="thumb"></span>
+            <span><span class="t">20 Lokasi Terbaik Pre Wedding Photoshoot di Malaysia &ndash; Dari Alam Semula Jadi Hingga Urban City!</span><span class="c">Fotografi &amp; Videografi</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid">H8</span>
+    <h3>The longest plausible Malay content, which is not plausible but actual</h3>
+    <p>
+      Both strings below are real and both are on the site today. The headline is
+      95 characters; the deck is 145, the longest the site owns.
+    </p>
+    <dl>
+      <dt>Hero at 328 px</dt><dd>Georgia 26 px / 1.08. Five lines, 141 px, nothing cut.</dd>
+      <dt>Row at 236 px</dt><dd>Georgia 15 px / 1.26. Four lines, 76 px, nothing cut. This is the single worst title of 86; the next longest takes three.</dd>
+      <dt>Deck</dt><dd>Clamped at 4 lines. The longest real deck reaches exactly 4 at 328 px, so the clamp never fires on today's corpus and exists only as a ceiling.</dd>
+      <dt>Longest word in the corpus</dt><dd><em>dipertanggungjawabkan</em>, 21 characters. It sets no break at any width specified here; the narrowest text column in this document is 236 px.</dd>
+    </dl>
+    <p>
+      <b>H7, no JavaScript:</b> the homepage renders in full from the server —
+      1,343 characters of <code>&lt;main&gt;</code> measured with scripting
+      disabled, hero and all twelve items present. It is a pass and needs no
+      separate drawing; the only casualty is the search panel, which DES-06 §4 F3
+      already specifies as a plain form.
+    </p>
+  </div>
+</div>
+
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>H7 · no JavaScript</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="hd"><span style="width:44px"></span><span class="wordmark">HelloKahwin</span>
+          <a class="icon" style="text-decoration:none;color:#595855"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></a></div>
+        <div class="rail2"><span class="on">Hantaran<span style="opacity:.6;margin-left:5px">38</span></span><span>Idea<span style="opacity:.6;margin-left:5px">15</span></span><div class="fade"></div></div>
+        <div class="body" style="padding-bottom:8px">
+          <form class="fld" style="pointer-events:none"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>Cari mas kahwin, hantaran, dewan…</form>
+          <p class="quiet" style="margin-top:6px">Borang biasa ke <code>/cari?q=</code>. Tiada panel, tiada cadangan.</p>
+        </div>
+        <span class="img wide"></span>
+        <div class="body">
+          <span class="eyebrow">Hantaran &amp; Mas Kahwin</span>
+          <h5 class="serif" style="margin-top:8px">Persiapan hantaran kahwin: jadual lapan minggu</h5>
+          <div class="rule"><span class="eyebrow">Terkini</span></div>
+          <div class="list" style="border-top:0">
+            <div class="row"><span class="thumb"></span><span><span class="t">Rukun Nikah: 5 Rukun dan Apa Yang Membatalkannya</span><span class="c">Nikah &amp; Undang-undang</span></span></div>
+            <div class="row" style="border-bottom:0"><span class="thumb"></span><span><span class="t">Tempat beli barang hantaran: lima jenis kedai</span><span class="c">Hantaran &amp; Mas Kahwin</span></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid ok">H7</span>
+    <h3>Slow, or no JavaScript</h3>
+    <p>
+      Measured with scripting disabled in Chrome at 360&nbsp;px: the homepage
+      renders <strong>1,343 characters of <code>&lt;main&gt;</code></strong> and a
+      2,710&nbsp;px document. The hero, all twelve items, the rail and the footer
+      are present. This is a pass and it is drawn rather than asserted, because it
+      is the same measurement that shows the 404 rendering nothing.
+    </p>
+    <p>
+      One thing changes from H1. <strong>The search entry point becomes a real
+      form</strong> rather than a magnifier that opens a JavaScript panel. It
+      submits to <code>/cari?q=</code>, which is DES-06 §3.2's results URL and
+      which returns 404 today because it has not been built. Until it exists, this
+      screen cannot ship.
+    </p>
+    <dl>
+      <dt>Same state, slow connection</dt>
+      <dd>Identical. The server HTML is the whole page, so a reader on a slow link reads it before the scripts land rather than waiting for them.</dd>
+      <dt>What is missing until hydration</dt>
+      <dd>The search suggestions panel and the rail's horizontal-scroll affordance. Neither blocks anything: both have link equivalents.</dd>
+    </dl>
+  </div>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<section id="katalog">
+<h2><span class="num">6</span>Catalogue</h2>
+
+<p>
+  Production runs two catalogue templates (§2.4). The states below are specified
+  for both, and the drawings say which. The mechanism decisions &mdash; pagination
+  over infinite scroll at a 60-item threshold, one filter rather than a panel, no
+  sort &mdash; were settled in DES-06 §3.4–3.6 and are not reopened here. What
+  follows is what those mechanisms look like in every state they can be in.
+</p>
+
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>K1 · default, both templates</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="crumb">Utama &rsaquo; Artikel &rsaquo; <b>Nikah &amp; Undang-undang</b></div>
+        <div class="body">
+          <span class="eyebrow">Panduan · 4 artikel</span>
+          <h5 class="serif" style="margin-top:8px;font-size:30px">Nikah &amp; Undang-undang</h5>
+          <p class="deck">Segala prosedur dan syarat sah nikah di Malaysia, dijelaskan dalam bahasa yang mudah.</p>
+          <div class="hr"></div>
+          <span class="eyebrow">Rukun, syarat &amp; sah nikah · 3</span>
+          <div class="list" style="margin-top:10px">
+            <div class="row"><span class="thumb"></span><span><span class="t">Rukun Nikah: 5 Rukun dan Apa Yang Membatalkannya</span></span></div>
+            <div class="row"><span class="thumb"></span><span><span class="t">Syarat Sah Nikah: Senarai Penuh Ikut Setiap Pihak</span></span></div>
+            <div class="row" style="border-bottom:0"><span class="thumb"></span><span><span class="t">Lafaz Taklik: Apa Suami Baca Selepas Akad, dan Apa Ertinya</span></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid">K1</span>
+    <h3>Default</h3>
+    <p>
+      Two changes from what ships. <strong>The count is printed</strong>, in the
+      eyebrow and beside every section heading, because on this site the count is
+      the most useful thing on the page: the categories run from 38 articles to 1,
+      and a reader deciding whether to scroll deserves to know which one they are
+      in. <strong>The rows carry a thumbnail</strong>, which the cluster template
+      currently has none of: measured, the cluster pages are pure text, and
+      <code>/artikel/sebelum-nikah</code> is five headings above three links.
+    </p>
+    <p>
+      The first headline moves up. Measured on the shipped cluster pages, the
+      first article title sits <strong>676–703&nbsp;px down</strong>, below the
+      fold on every phone. Cutting one deck and tightening the header brings it
+      to roughly 400.
+    </p>
+    <dl>
+      <dt>Grid template</dt><dd>Same page, one column, rows instead of 156 px cards. Rule 3.1.</dd>
+      <dt>Deck</dt><dd>One paragraph, not two. The second is a standards note and belongs at the foot of the page, not above the articles.</dd>
+    </dl>
+  </div>
+</div>
+
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>K3 empty · K4 empty section · K5 filtered to nothing</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="body">
+          <span class="eyebrow" style="color:#9d2f28">K4 · as shipped</span>
+          <h5 class="serif" style="font-size:22px;margin-top:8px">Kursus kahwin &amp; saringan pra-nikah</h5>
+          <p class="quiet" style="margin-top:8px">Artikel untuk kursus kahwin akan datang tidak lama lagi.</p>
+          <div class="hr"></div>
+          <span class="eyebrow" style="color:#2a6349">K4 · specified</span>
+          <h5 class="serif" style="font-size:22px;margin-top:8px">Kursus kahwin &amp; saringan pra-nikah</h5>
+          <div class="empty" style="margin-top:10px">
+            <span class="h">Belum ada artikel di sini.</span>
+            <p class="quiet" style="margin:0 0 12px">Nikah &amp; Undang-undang ada 4 artikel lain.</p>
+            <span class="btn ghost">Lihat 4 artikel</span>
+          </div>
+          <div class="hr"></div>
+          <span class="eyebrow" style="color:#2a6349">K5 · tapisan tanpa hasil</span>
+          <div class="chips" style="margin-top:10px">
+            <span class="chip">Semua 14</span><span class="chip on">Bertema 0</span><span class="chip">Klasik 2</span>
+          </div>
+          <div class="empty" style="margin-top:12px">
+            <span class="h">Tiada artikel dengan tapisan Bertema.</span>
+            <p class="quiet" style="margin:0 0 12px">Real Wedding ada 14 artikel di sebalik tapisan ini.</p>
+            <span class="btn">Lihat semua 14 artikel</span>
+          </div>
+          <div class="hr"></div>
+          <span class="eyebrow" style="color:#2a6349">K3 · kategori kosong sepenuhnya</span>
+          <div class="empty" style="margin-top:10px">
+            <span class="h">Kategori ini masih kosong.</span>
+            <p class="quiet" style="margin:0 0 12px">Cari apa yang anda perlukan, atau pilih kategori lain di bawah.</p>
+            <div class="fld"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>Cari mas kahwin, hantaran, dewan…</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid flag">K4</span> <span class="sid flag">K5</span> <span class="sid">K3</span>
+    <h3>Three kinds of nothing, and the sentence that gets one of them wrong</h3>
+    <p>
+      <b>K4.</b> Six of the seven cluster categories carry at least one section
+      with nothing in it. <code>/artikel/nikah-undang-undang</code> has two of four;
+      <code>/artikel/sebelum-nikah</code> has two of five. Each says
+      <em>&ldquo;akan datang tidak lama lagi&rdquo;</em>, a promise nobody can
+      date, and each is drawn in the same grey as body text so it reads as
+      content until you have read it. The specified state is marked as a hole in
+      the page, and hands the reader the four articles that do exist.
+    </p>
+    <p>
+      <b>K5, and this is a defect not a preference.</b> Requesting
+      <code>/artikel/real-wedding?sub=bertema</code> on 28 Ogos 2026 returns
+      <em>&ldquo;Tiada artikel dijumpai&rdquo;</em> followed by
+      <em>&ldquo;Artikel real wedding akan datang tidak lama lagi.&rdquo;</em>
+      <strong>Real Wedding holds 14 published articles.</strong> Nothing is coming;
+      the reader ticked a filter. The specified copy names the filter, gives the
+      real count behind it, and offers one control that undoes it. The chip carries
+      its own count, so a filter that would empty the page announces itself before
+      it is tapped.
+    </p>
+    <p>
+      <b>K3.</b> No category is in this state today, but five hold a single article
+      and SEO-04 is opening new ones. It offers search and the category list. It
+      does not say anything about the future.
+    </p>
+    <dl>
+      <dt>Drawn differently on purpose</dt>
+      <dd>Dashed border for empty, solid for error (K6). Rule 3.5.</dd>
+      <dt>Where the empty section sits</dt>
+      <dd>Measured today, every empty section renders last within its page. The rule holds it there: sections sort by count, descending, so a hole is never the first thing under the title.</dd>
+    </dl>
+  </div>
+</div>
+
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>K2 loading · K6 error · K7 one article</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="body">
+          <span class="eyebrow">K2 · muat pertama</span>
+          <span class="skel" style="width:60%;height:11px;margin-top:10px"></span>
+          <span class="skel" style="width:80%;height:30px;margin-top:12px"></span>
+          <div class="list" style="margin-top:16px">
+            <div class="row"><span class="thumb"></span><span style="flex:1"><span class="skel" style="width:100%;height:14px"></span><span class="skel" style="width:56%;height:14px;margin-top:6px"></span></span></div>
+            <div class="row" style="border-bottom:0"><span class="thumb"></span><span style="flex:1"><span class="skel" style="width:88%;height:14px"></span><span class="skel" style="width:44%;height:14px;margin-top:6px"></span></span></div>
+          </div>
+          <div class="hr"></div>
+          <span class="eyebrow" style="color:#9d2f28">K6 · gagal dimuatkan</span>
+          <div class="empty" style="margin-top:10px;border-style:solid;border-color:#151412">
+            <span class="h">Bahagian ini tidak dapat dimuatkan.</span>
+            <p class="quiet" style="margin:0 0 12px">Sambungan terputus.</p>
+            <span class="btn ghost">Cuba semula</span>
+          </div>
+          <div class="hr"></div>
+          <span class="eyebrow">K7 · satu artikel sahaja</span>
+          <h5 class="serif" style="font-size:22px;margin-top:8px">Fotografi &amp; Videografi</h5>
+          <p class="deck" style="font-size:15px">1 artikel.</p>
+          <span class="img wide" style="margin-top:12px"></span>
+          <span class="serif" style="display:block;font-size:19px;line-height:1.26;margin-top:10px">20 Lokasi Terbaik Pre Wedding Photoshoot di Malaysia &ndash; Dari Alam Semula Jadi Hingga Urban City!</span>
+          <div class="hr"></div>
+          <span class="eyebrow">Kategori berkaitan</span>
+          <div class="chips" style="margin-top:10px">
+            <span class="chip">Real Wedding 14</span><span class="chip">Idea 15</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid">K2</span> <span class="sid flag">K6</span> <span class="sid">K7</span>
+    <h3>Loading, broken, and a category holding one thing</h3>
+    <p>
+      <b>K2.</b> Skeleton on cold entry only, at the real block sizes. On a
+      navigation from inside the site this is C3 instead.
+    </p>
+    <p>
+      <b>K6.</b> The section that failed is replaced; the sections that loaded stay
+      on screen and stay readable. Retry re-fetches that section alone. A whole
+      page that fails is E4.
+    </p>
+    <p>
+      <b>K7, and it is five of the fifteen categories.</b>
+      <code>fotografi-videografi</code>, <code>hiasan-dekorasi</code>,
+      <code>minimalis-mewah</code> and <code>pantai-santai</code> each hold exactly
+      one article; <code>glamor-eksklusif</code> holds two. Measured on the shipped
+      grid, the single card sits in a two-column layout with an empty column beside
+      it, and its title is truncated: <strong>the one card on
+      <code>/artikel/fotografi-videografi</code> is cut.</strong>
+    </p>
+    <p>
+      With one article, the grid is the wrong shape. The article is promoted to a
+      full-width card with its whole title, the count is stated plainly, and the
+      page ends by handing the reader the two nearest categories with their counts.
+      A thin category should read as a small, complete thing.
+    </p>
+    <p>
+      <b>Rejected — hide categories under a threshold.</b> All fifteen are indexed
+      and six already receive traffic; hiding them breaks live URLs, and RISK-07
+      is separately dealing with what happens when the site tells Google one thing
+      and readers another.
+    </p>
+  </div>
+</div>
+
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>K8 · 38 items · K9 · 13 filters</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="body" style="padding-bottom:8px">
+          <span class="eyebrow">K8 · Hantaran &amp; Mas Kahwin · 38 artikel</span>
+          <div class="chips" style="margin-top:10px">
+            <span class="chip on">Semua 38</span><span class="chip">Dulang 12</span><span class="chip">Duit 9</span>
+          </div>
+          <div class="list" style="margin-top:14px">
+            <div class="row"><span class="thumb"></span><span><span class="t">Hantaran kahwin bajet: kos sebenar 12 dulang, 2026</span></span></div>
+            <div class="row"><span class="thumb"></span><span><span class="t">Barang hantaran tunang: disimpan, dipulang atau dibawa ke nikah</span></span></div>
+            <div class="row" style="border-bottom:0"><span class="thumb"></span><span><span class="t">Berapa dulang hantaran tunang, dan siapa yang tentukan</span></span></div>
+          </div>
+          <p class="quiet" style="margin-top:12px">Menunjukkan 1&ndash;38 daripada 38. Tiada halaman kedua.</p>
+        </div>
+        <div class="body" style="border-top:1px solid #dad9d7">
+          <span class="eyebrow" style="color:#9d2f28">K9 · as shipped, 13 chips</span>
+          <div class="chips" style="margin-top:10px">
+            <span class="chip">Semua</span><span class="chip">Warisan Tradisi</span><span class="chip">Moden Kontemporari</span>
+            <span class="chip">Rustik</span><span class="chip">Pantai Santai</span><span class="chip">Glamor Eksklusif</span>
+            <span class="chip">Tropikal</span><span class="chip">Vintage Romantik</span><span class="chip">Minimalis Mewah</span>
+            <span class="chip">Bertema</span><span class="chip">Bohemia Romantis</span><span class="chip">Klasik</span>
+            <span class="chip">Perindustrian Moden</span>
+          </div>
+          <p class="quiet" style="color:#9d2f28;margin-top:10px">7 rows, 356 px, before one article appears.</p>
+          <div class="hr"></div>
+          <span class="eyebrow" style="color:#2a6349">K9 · specified</span>
+          <div class="chips" style="margin-top:10px">
+            <span class="chip on">Semua 14</span><span class="chip">Warisan 3</span><span class="chip">Klasik 2</span><span class="chip">+10</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid">K8</span> <span class="sid flag">K9</span>
+    <h3>Too many items, and too many filters</h3>
+    <p>
+      <b>K8.</b> The largest category holds 38 articles &mdash; 44% of the whole
+      corpus. DES-06 §3.4 set the pagination threshold at 60 and argued it on
+      crawlability, the back button and return-to-position. 38 is under it, so this
+      page does not paginate, and it says so, because a list that simply stops is
+      indistinguishable from a list that failed to load its second half.
+    </p>
+    <p>
+      <b>K9.</b> Measured on <code>/artikel/real-wedding</code> at 360&nbsp;px:
+      thirteen filter chips wrap to <strong>seven rows and 356&nbsp;px</strong>
+      before a single article. Ten of the thirteen match three articles or fewer
+      and one matches none, which is the K5 trap sitting in plain sight.
+    </p>
+    <p>
+      The specified row shows the filters worth tapping &mdash; those with a count
+      &mdash; sorted by count, with the rest behind an explicit
+      <em>+10</em>. Every chip carries its count, so the reader can see before
+      tapping that <em>Bertema</em> holds nothing. A filter matching zero is not
+      offered at all.
+    </p>
+    <dl>
+      <dt>Filter mechanism</dt><dd>DES-06 §3.5. A filter is a real URL, <code>?sub=</code>, so the back button works and the state is shareable. Unchanged here.</dd>
+      <dt>Bogus filter value</dt><dd>Measured: <code>?sub=tidak-wujud</code> returns 404, which is right. It renders E2, not K5.</dd>
+      <dt>Announcement</dt><dd>Applying a filter moves focus to the results heading and announces the new count.</dd>
+    </dl>
+  </div>
+</div>
+
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>K11 · longest content · K10 · no JavaScript</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="crumb" style="padding-top:14px">Utama &rsaquo; Artikel &rsaquo; <b>Sebelum Nikah: Jodoh, Merisik &amp; Tunang</b></div>
+        <div class="body">
+          <span class="eyebrow">Panduan · 3 artikel</span>
+          <h5 class="serif" style="margin-top:8px;font-size:30px">Sebelum Nikah: Jodoh, Merisik &amp; Tunang</h5>
+          <div class="hr"></div>
+          <span class="eyebrow">Ulang tahun perkahwinan, pantun &amp; adab tetamu · 1</span>
+          <div class="list" style="margin-top:10px">
+            <div class="row" style="border-bottom:0"><span class="thumb"></span><span><span class="t">Harga Sewa Dewan Kahwin 2026: Kadar Rasmi Majlis Perbandaran, Bukan Anggaran</span></span></div>
+          </div>
+          <div class="hr"></div>
+          <div class="chips"><span class="chip">Ahli Pengantin &amp; Pengiring 4</span></div>
+          <div class="hr"></div>
+          <span class="eyebrow">Tanpa JavaScript</span>
+          <p class="quiet" style="margin-top:8px">1,584 aksara dalam <code>&lt;main&gt;</code>. Semua artikel dan semua tapisan hadir sebagai pautan biasa.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid">K11</span> <span class="sid ok">K10</span>
+    <h3>The longest catalogue content, and the page without JavaScript</h3>
+    <dl>
+      <dt>Category name, 38 chars</dt><dd>Wraps in the breadcrumb, two lines in the <code>h1</code> at 30 px. Not truncated. C5.</dd>
+      <dt>Section heading, 45 chars</dt><dd><em>Ulang tahun perkahwinan, pantun &amp; adab tetamu</em>. Two lines at 11 px/.16em with its count appended.</dd>
+      <dt>Row title, 76 chars</dt><dd>The longest cluster row on the site. Three lines at 15 px in a 236 px column. Nothing cut.</dd>
+      <dt>Filter chip, 26 chars</dt><dd><em>Ahli Pengantin &amp; Pengiring</em>. One line, never wrapped, never ellipsised; the chip is sized by its content and the row wraps around it.</dd>
+      <dt>Deck, 145 chars</dt><dd>Full, unclamped, on the catalogue. The clamp exists only on the homepage hero.</dd>
+    </dl>
+    <p>
+      <b>K10 is a pass.</b> Measured with scripting disabled:
+      <code>/artikel/idea-dan-nasihat</code> renders 1,584 characters of
+      <code>&lt;main&gt;</code> with every card and every filter chip present as an
+      ordinary link. Filters are URLs, so they work with no script at all. This is
+      recorded rather than assumed, because E1 shows the site does not always
+      manage it.
+    </p>
+  </div>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<section id="artikel">
+<h2><span class="num">7</span>Article</h2>
+
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>A1 · default</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <span class="img wide"></span>
+        <div class="body">
+          <span class="eyebrow">Nikah &amp; Undang-undang</span>
+          <h5 class="serif" style="margin-top:8px;font-size:28px">Rukun Nikah: 5 Rukun dan Apa Yang Membatalkannya</h5>
+          <p class="quiet" style="margin-top:10px">HelloKahwin · Dikemas kini 26 Ogos 2026 · 6 min bacaan</p>
+          <div class="toc" style="margin-top:16px">
+            <a>1. Lima rukun nikah</a>
+            <a>2. Wali</a>
+            <a>3. Dua orang saksi lelaki</a>
+            <a style="color:#595855">Sumber</a>
+          </div>
+          <div class="prose" style="margin-top:18px">
+            <p>Rukun nikah ada lima: lelaki bakal suami, perempuan bakal isteri, wali, dua orang saksi lelaki, dan sighah iaitu ijab dan qabul.</p>
+            <p>Rukun bermaksud tiang. Ia bahagian yang membentuk akad itu sendiri.</p>
+          </div>
+        </div>
+        <div class="sticky">
+          <span class="thumb" style="width:44px;height:44px;flex:0 0 44px"></span>
+          <span style="flex:1;min-width:0"><span class="eyebrow">Baca seterusnya</span><span style="display:block;font-size:13px;line-height:1.3;margin-top:2px">Lafaz Taklik: Apa Suami Baca Selepas Akad, dan Apa Ertinya</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid">A1</span>
+    <h3>Default</h3>
+    <p>
+      Two changes. <strong>The furniture between the title and the first word
+      shrinks.</strong> Measured, the first body word on every article on the site
+      sits 648–690&nbsp;px down, because a 240&nbsp;px cover, a title block, a
+      meta line, a share bar and a contents list all queue ahead of it. The share
+      bar moves to the foot, where a reader who has finished is more likely to
+      share than one who has not started.
+    </p>
+    <p>
+      <strong>The measure is stated as a number.</strong> The prose column is
+      328&nbsp;px at 17&nbsp;px Georgia on a 28.9&nbsp;px line, which is about 38
+      characters. That is narrow, and it is what the page gives; DES-03 owns
+      whether the type scale changes, and this document only records what the
+      states were drawn against.
+    </p>
+    <dl>
+      <dt>Contents list</dt><dd>Appears at 3,000 body characters or more (rule 3.9), lists <code>h2</code> and <code>h3</code>, rows at 44 px.</dd>
+      <dt>Read-next bar</dt><dd>Slides in after the reader passes the first heading. 61 px, one target, dismissible. Absent when there is nothing to read next: A3.</dd>
+      <dt>Not in scope</dt><dd>The image gallery beyond its entry point, comments (there are none), and any newsletter or subscribe module. None exists and none is proposed here.</dd>
+    </dl>
+  </div>
+</div>
+
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>A5 · nine per cent article</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="body" style="padding-bottom:8px">
+          <span class="eyebrow" style="color:#9d2f28">As shipped · 6,610 px page, 578 px of writing</span>
+          <div style="margin-top:10px;display:flex;gap:6px;align-items:flex-end;height:120px">
+            <span style="flex:1;background:#f1f0ee;height:100%;display:block"></span>
+            <span style="flex:1;background:#151412;height:9%;display:block"></span>
+            <span style="flex:1;background:#f1f0ee;height:82%;display:block"></span>
+          </div>
+          <p class="quiet" style="margin-top:8px">perabot &nbsp;·&nbsp; teks &nbsp;·&nbsp; selebihnya</p>
+        </div>
+        <div class="body" style="border-top:1px solid #dad9d7">
+          <span class="eyebrow" style="color:#2a6349">Specified</span>
+          <span class="img wide" style="margin-top:10px"></span>
+          <span class="eyebrow" style="display:block;margin-top:12px">Moden Kontemporari</span>
+          <h5 class="serif" style="margin-top:6px;font-size:24px">Marriott Putrajaya</h5>
+          <p class="quiet" style="margin-top:8px">Dikemas kini 10 November 2025 · 1 min bacaan</p>
+          <div class="prose" style="margin-top:14px;font-size:17px">
+            <p>Dewan utama menampung 800 tetamu. Pakej bermula RM18,000 termasuk hidangan bufet.</p>
+          </div>
+          <div class="rule"><span class="eyebrow">Lagi dalam Moden Kontemporari</span></div>
+          <div class="list">
+            <div class="row"><span class="thumb"></span><span><span class="t">Sime Darby Convention Centre</span></span></div>
+            <div class="row" style="border-bottom:0"><span class="thumb"></span><span><span class="t">Grand Hyatt Kuala Lumpur</span></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid flag">A5</span>
+    <h3>Too few &mdash; an article that is 9% article</h3>
+    <p>
+      Measured at 360&nbsp;px: <code>marriott-putrajaya</code> is a
+      <strong>6,610&nbsp;px page carrying 578&nbsp;px of body text</strong> in
+      eight paragraphs with no headings. The reader passes 667&nbsp;px of cover,
+      title, meta and share bar to reach one screen of writing, then 5,400&nbsp;px
+      of everything else. Nine of the ten shortest articles on the site are venue
+      entries in the same shape.
+    </p>
+    <p>
+      Rule 3.8: <strong>below 1,500 body characters the article drops its contents
+      list, its share bar and its gallery button</strong>, and the related block
+      moves up. A short entry then reads as a short entry.
+    </p>
+    <dl>
+      <dt>What stays</dt><dd>The cover, the title, the date, the body, and the related block. Nothing that implies length the page does not have.</dd>
+      <dt>Threshold</dt><dd>1,500 characters. Ten of the 86 articles fall under it; the eleventh is at 2,283.</dd>
+      <dt>Not a content judgement</dt><dd>SEO-04 is actively expanding these entries. When one crosses the threshold it gets its furniture back automatically.</dd>
+    </dl>
+  </div>
+</div>
+
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>A6 · 40,310 px, no contents list</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="body">
+          <span class="eyebrow" style="color:#9d2f28">As shipped</span>
+          <p class="quiet" style="margin-top:8px">400 perenggan · 15 gambar · 25,955 aksara · 40,310 px · <b style="color:#9d2f28">tiada isi kandungan</b></p>
+          <div class="hr"></div>
+          <span class="eyebrow" style="color:#2a6349">Specified · isi kandungan lipat</span>
+          <div class="toc" style="margin-top:10px">
+            <a><b>Bahagian semasa:</b>&nbsp;Pulau Langkawi</a>
+            <a style="color:#595855">Cameron Highlands</a>
+            <a style="color:#595855">Pulau Redang</a>
+            <a style="color:#151412">Buka semua 21 bahagian</a>
+          </div>
+          <div class="prose" style="margin-top:16px">
+            <p>Langkawi menawarkan pantai yang tenang dan penginapan pada julat harga yang luas.</p>
+          </div>
+          <div class="hr"></div>
+          <p class="quiet">Bar kemajuan bacaan 2 px kekal di bawah masthead sepanjang 40,310 px.</p>
+        </div>
+        <div class="sticky">
+          <span style="flex:1"><span class="eyebrow">Bahagian 3 daripada 21</span><span style="display:block;font-size:13px;margin-top:2px">Pulau Redang</span></span>
+          <span class="chip" style="min-height:44px">Isi</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid flag">A6</span>
+    <h3>Too many &mdash; a 40,310&nbsp;px article with no way to navigate it</h3>
+    <p>
+      Measured: <code>tempat-honeymoon-di-malaysia</code> is 25,955 characters,
+      400 paragraphs and 15 figures, and at 360&nbsp;px it is
+      <strong>40,310&nbsp;px tall &mdash; about 50 phone screens</strong>. It ships
+      with no contents list at all, because the shipped rule fires on
+      <code>h2</code> count and this article has two.
+    </p>
+    <p>
+      Twelve articles over 4,000 characters are in the same position, and they are
+      not a random twelve: every <code>mas-kahwin-*</code> page is among them,
+      written entirely in <code>h3</code>. DES-06 measured <em>mas kahwin
+      terengganu</em> at 27% of every click the site earned in 28 days. The pages
+      the readers actually arrive on are the pages with no way to move around
+      inside them.
+    </p>
+    <dl>
+      <dt>Rule</dt><dd>Contents list at 3,000 body characters, listing <code>h2</code> and <code>h3</code> in document order.</dd>
+      <dt>Above 15 entries</dt><dd>It collapses to the current section plus two, and a control that opens the rest. A 25-entry list measures 845 px, 70% of a 360 px viewport, with 17 px rows against a 44 px floor.</dd>
+      <dt>Progress</dt><dd>A 2 px bar under the masthead, and the read-next bar carries <em>Bahagian n daripada m</em> so position is legible without opening anything.</dd>
+      <dt>Announcement</dt><dd>Section changes are not announced. A live region firing 21 times during a scroll is worse than silence.</dd>
+    </dl>
+  </div>
+</div>
+
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>A3 nothing related · A4 error · A9 no cover</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="body">
+          <span class="eyebrow" style="color:#9d2f28">A3 · as shipped, 4 articles</span>
+          <div class="prose" style="margin-top:8px"><p>…dan itu menutup senarai ini.</p></div>
+          <div style="height:1px;background:#dad9d7"></div>
+          <p class="quiet" style="color:#9d2f28;margin-top:8px">Halaman tamat di sini. Tiada blok berkaitan, tiada bar baca seterusnya.</p>
+          <div class="hr"></div>
+          <span class="eyebrow" style="color:#2a6349">A3 · specified</span>
+          <div class="rule"><span class="eyebrow">Lagi daripada HelloKahwin</span></div>
+          <div class="list">
+            <div class="row"><span class="thumb"></span><span><span class="t">Rukun Nikah: 5 Rukun dan Apa Yang Membatalkannya</span><span class="c">Nikah &amp; Undang-undang</span></span></div>
+            <div class="row" style="border-bottom:0"><span class="thumb"></span><span><span class="t">Bajet Kahwin 2026: Apa yang Boleh Diharga Tepat, dan Apa yang Tidak</span><span class="c">Venue, Kos &amp; Perancangan</span></span></div>
+          </div>
+          <div class="hr"></div>
+          <span class="eyebrow" style="color:#9d2f28">A4 · gambar gagal dimuatkan</span>
+          <div style="margin-top:10px;display:flex;gap:10px">
+            <span class="img ph" style="width:150px;height:112px;aspect-ratio:auto;font-size:9px;overflow:hidden;padding:4px">Pengantin lelaki berbaju melayu putih dan bersongkok hita</span>
+            <span class="ph" style="width:150px;height:112px">HelloKahwin</span>
+          </div>
+          <p class="quiet" style="margin-top:6px">Kiri: seperti yang dihantar. Kanan: A9.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid flag">A3</span> <span class="sid flag">A4</span> <span class="sid">A9</span>
+    <h3>The end of the article, and the picture that never arrived</h3>
+    <p>
+      <b>A3.</b> Four of the 86 articles have no <em>Lagi dalam…</em> block and no
+      read-next bar: <code>the-danna-langkawi</code>, <code>goodies-kahwin</code>,
+      <code>lokasi-pre-wedding-photoshoot-terbaik</code> and
+      <code>perkahwinan-indah-di-laman-fajar-menyinsing-port-dickson</code>. The
+      reader reaches the last line and the page stops. On a site where almost
+      every visit is one page from search, the foot of the article is the only
+      place a second page can start.
+    </p>
+    <p>
+      The related block falls back rather than vanishing: category first, then the
+      site's most-read, under a heading that says which it is. Six other articles
+      show a single related item in a slot built for three, so the fallback tops
+      the block up to three rather than leaving gaps.
+    </p>
+    <p>
+      <b>A4 and A9.</b> Measured: when an image 404s the box keeps its 4:3 slot and
+      its <code>#f1f0ee</code> fill, and the alt text renders in
+      <code>--foreground</code> inside it. On a 156&times;117&nbsp;px card that
+      means a 72-character Malay sentence set at 17&nbsp;px and clipped mid-word,
+      which reads as a bug. The specified placeholder is the wordmark at
+      <code>--border-strong</code>, and the alt text stays on the element for
+      assistive technology, where it belongs.
+    </p>
+    <p>
+      The layout does not move: the slot holds its ratio, so nothing below it
+      jumps. That part production already does correctly and it is recorded so the
+      rebuild does not lose it.
+    </p>
+    <dl>
+      <dt>Article body failed</dt><dd>Never partially rendered. If the body cannot be fetched the page is E4, not an article with a hole in it.</dd>
+      <dt>Gallery failed</dt><dd>The entry control is removed, not shown broken. The article reads without it.</dd>
+    </dl>
+  </div>
+</div>
+
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>A8 · the longest article content</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="body">
+          <span class="eyebrow">Fotografi &amp; Videografi</span>
+          <h5 class="serif" style="margin-top:8px;font-size:28px">20 Lokasi Terbaik Pre Wedding Photoshoot di Malaysia &ndash; Dari Alam Semula Jadi Hingga Urban City!</h5>
+          <p class="quiet" style="margin-top:10px">HelloKahwin · Dikemas kini 26 November 2025 · 6 min bacaan</p>
+          <div class="hr"></div>
+          <span class="serif" style="display:block;font-size:20px;line-height:1.2">Kalau nikah di Selangor tetapi keluarga dari negeri lain, adakah fatwa Selangor terpakai?</span>
+          <div class="prose" style="margin-top:12px">
+            <p>Perkara ini <b>dipertanggungjawabkan</b> kepada pihak berkuasa agama negeri tempat akad dijalankan.</p>
+          </div>
+          <div class="hr"></div>
+          <div class="chips">
+            <span class="chip">skrip pengacara majlis perkahwinan</span>
+            <span class="chip">undang-undang keluarga islam</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid">A8</span>
+    <h3>The longest Malay content on an article page</h3>
+    <p>
+      Every string on this screen is real and is on the site today. None is a
+      placeholder and none is English.
+    </p>
+    <dl>
+      <dt>Headline, 95 chars</dt><dd>Georgia 28 px / 32.2. <strong>Five lines, 161 px, and it must not be clamped:</strong> the shipped 2-column card cuts it to 49 characters and the reader never learns the article is about Malaysia.</dd>
+      <dt>Sub-heading, 89 chars</dt><dd><em>&ldquo;Kalau nikah di Selangor tetapi keluarga dari negeri lain, adakah fatwa Selangor terpakai?&rdquo;</em> &mdash; the longest <code>h3</code> in the corpus. Four lines at 20 px. Malay question headings run long and this is the shape they take.</dd>
+      <dt>Longest word, 21 chars</dt><dd><em>dipertanggungjawabkan</em>. At 17 px Georgia it is about 172 px, comfortably inside the 328 px column and inside the 236 px row. No hyphenation is needed and none is specified; <code>overflow-wrap: anywhere</code> is set as a floor only.</dd>
+      <dt>Tag, 34 chars</dt><dd><em>skrip pengacara majlis perkahwinan</em>. One line, chip sized by content, row wraps.</dd>
+      <dt>Meta line, 58 chars</dt><dd>One line at 12 px on 360 px. It is the ceiling: a longer author name would wrap, and the line is specified to wrap rather than truncate.</dd>
+    </dl>
+    <p>
+      None of these strings is clamped anywhere in this document. The clamp that
+      cuts them today is on the 156&nbsp;px card, which rule 3.1 removes.
+    </p>
+  </div>
+</div>
+
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>A2 · loading, cold entry</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <span class="img wide"></span>
+        <div class="body">
+          <span class="skel" style="width:130px;height:11px"></span>
+          <span class="skel" style="width:100%;height:28px;margin-top:12px"></span>
+          <span class="skel" style="width:82%;height:28px;margin-top:8px"></span>
+          <span class="skel" style="width:56%;height:12px;margin-top:14px"></span>
+          <span class="skel" style="width:100%;height:120px;margin-top:18px"></span>
+          <span class="skel" style="width:100%;height:17px;margin-top:18px"></span>
+          <span class="skel" style="width:96%;height:17px;margin-top:9px"></span>
+          <span class="skel" style="width:74%;height:17px;margin-top:9px"></span>
+        </div>
+      </div>
+    </div>
+    <p class="rigcap" style="margin-top:8px"><span>A7 · no JavaScript</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="body">
+          <span class="eyebrow">Nikah &amp; Undang-undang</span>
+          <h5 class="serif" style="margin-top:8px;font-size:28px">Rukun Nikah: 5 Rukun dan Apa Yang Membatalkannya</h5>
+          <div class="toc" style="margin-top:14px"><a>1. Lima rukun nikah</a><a>2. Wali</a><a style="border-bottom:0">3. Sighah: ijab dan qabul</a></div>
+          <div class="prose" style="margin-top:16px"><p>Rukun nikah ada lima: lelaki bakal suami, perempuan bakal isteri, wali, dua orang saksi lelaki, dan sighah.</p></div>
+          <div class="hr"></div>
+          <div class="chips"><span class="chip">Lihat semua 5 foto</span></div>
+          <p class="quiet" style="margin-top:8px">Pautan ke <code>#foto</code> dalam artikel, bukan butang overlay.</p>
+          <div class="rule"><span class="eyebrow">Lagi dalam Nikah &amp; Undang-undang</span></div>
+          <div class="list"><div class="row" style="border-bottom:0"><span class="thumb"></span><span><span class="t">Lafaz Taklik: Apa Suami Baca Selepas Akad, dan Apa Ertinya</span></span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid">A2</span> <span class="sid ok">A7</span>
+    <h3>Loading, and the article without JavaScript</h3>
+    <p>
+      <b>A2.</b> The same rule as H2 and K2: a skeleton only on a cold entry from
+      search, at the real block sizes. The article's blocks are known — a 16:9
+      cover, an eyebrow, a title of one to five lines, a meta line, the contents
+      list, then prose — so the skeleton does not guess. On a navigation from
+      inside the site this is C3 instead and the previous page stays readable.
+    </p>
+    <p>
+      <b>A7 is a pass, measured.</b> With scripting disabled,
+      <code>rukun-nikah</code> renders <strong>10,318 characters of
+      <code>&lt;main&gt;</code></strong> in an 11,831&nbsp;px document: the whole
+      body, the contents list, every figure with its credit, the tags and the
+      related block.
+    </p>
+    <p>
+      Two controls change shape rather than disappearing, under rule 3.6. The
+      gallery button becomes an anchor to the article's own image section, and the
+      read-next bar is replaced by the related block that is already in the
+      document. Nothing a reader needs is behind a script.
+    </p>
+    <dl>
+      <dt>Slow connection</dt><dd>Identical to A7 until the scripts land, then A1. The article is readable throughout.</dd>
+      <dt>Not the same as the 404</dt><dd>E1 renders zero characters in this test. That is why it is drawn as a defect and this is drawn as a pass.</dd>
+    </dl>
+  </div>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<section id="ralat">
+<h2><span class="num">8</span>Not-found and error</h2>
+
+<p>
+  The fourth surface, reached from all three page types and owned by none of them.
+  It carries the single worst measurement in this document.
+</p>
+
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>E1 · the 404 as shipped, no JavaScript</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="blank">RENDERED PAGE, 0 CHARACTERS</div>
+      </div>
+    </div>
+    <p class="rigcap" style="margin-top:8px"><span>E1b · the same URL after hydration</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="body" style="text-align:center;padding:44px 16px">
+          <span class="eyebrow">404</span>
+          <h5 class="serif" style="margin-top:10px;font-size:30px">Halaman tidak dijumpai</h5>
+          <p class="deck" style="margin-top:12px">Maaf, halaman yang anda cari tiada. Mungkin ia telah dipindahkan atau dipadam.</p>
+          <div class="chips" style="justify-content:center;margin-top:22px">
+            <span class="btn">Laman Utama</span><span class="btn ghost">Semua Artikel</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid flag">E1</span>
+    <h3>As shipped: nothing, then something</h3>
+    <p>
+      The top frame is not a simplification. Requesting any URL that does not
+      exist returns a document whose <code>&lt;body&gt;</code> contains one empty
+      hidden <code>div</code>. There is <strong>no <code>&lt;main&gt;</code>, no
+      header, no footer, no message and no link &mdash; zero characters</strong>.
+      Rendered in Chrome with scripting disabled, the result is a 360&times;900&nbsp;px
+      white rectangle, captured in
+      <code>des-07-evidence/404-nojs-360.png</code> at 2,689 bytes.
+    </p>
+    <p>
+      The design does exist. It is in the client payload and paints once
+      JavaScript runs, which the lower frame shows. So on a fast connection this
+      is a flicker, and on the routes measured at 21.5–25.9&nbsp;s it is a blank
+      white page for that long. Measured directly: requesting
+      <code>/cari?q=mas+kahwin</code> &mdash; the results URL DES-06 specifies, which
+      does not exist yet &mdash; returned its empty 404 after
+      <strong>23.79&nbsp;seconds</strong>. That is 23.79 seconds of blank white
+      screen for a reader who tapped search. Every crawler that does not execute
+      scripts sees the empty version too.
+    </p>
+    <p>
+      What arrives, when it arrives, offers <strong>two links and no search
+      field</strong> &mdash; on a site where DES-06 measured that 84.3% of arrival
+      queries name a specific hall, state or ritual. The reader on a dead link is
+      exactly that reader.
+    </p>
+    <dl>
+      <dt>Verified</dt>
+      <dd>Article, category, tag, sub-filter and root paths all return 404 with the same empty body. Reproduced by <code>reproduce.py</code>.</dd>
+      <dt>Also 404 today</dt>
+      <dd><code>/cari?q=…</code>, the results URL DES-06 §3.2 specifies. It is not built yet, so every link to it lands on this screen &mdash; and on the run above it took 23.79&nbsp;s to do so.</dd>
+    </dl>
+  </div>
+</div>
+
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>E2 · specified</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="hd"><span style="width:44px"></span><span class="wordmark">HelloKahwin</span><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span></div>
+        <div class="body" style="padding-top:28px">
+          <span class="eyebrow">404</span>
+          <h5 class="serif" style="margin-top:10px;font-size:30px">Halaman tidak dijumpai</h5>
+          <p class="deck">Pautan ini sudah tiada. Cari apa yang anda perlukan, atau pilih kategori di bawah.</p>
+          <div class="fld" style="margin-top:18px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>Cari mas kahwin, hantaran, dewan…</div>
+          <div class="rule"><span class="eyebrow">Kategori</span></div>
+          <div class="chips">
+            <span class="chip">Hantaran 38</span><span class="chip">Idea 15</span>
+            <span class="chip">Real Wedding 14</span><span class="chip">Ucapan 5</span>
+            <span class="chip">Nikah 4</span><span class="chip">Semua 15</span>
+          </div>
+          <div class="hr"></div>
+          <span class="btn ghost">Laman utama</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid ok">E2</span>
+    <h3>Specified: a not-found page that is a way in</h3>
+    <p>
+      Three requirements, in order of how much they matter:
+    </p>
+    <ol>
+      <li><strong>It is rendered by the server</strong>, like every other page.
+        Rule 3.6. A reader who has already hit a broken link should not also have
+        to wait for JavaScript to be told so.</li>
+      <li><strong>It carries the search field</strong>, with a placeholder built
+        from three real arrival queries. This is the highest-value screen on the
+        site for search, because the reader arrived hunting a named thing and the
+        URL for it was wrong.</li>
+      <li><strong>It carries the categories with their counts</strong>, which is
+        the C2 chip block, so the reader has somewhere concrete to go rather than
+        two generic buttons.</li>
+    </ol>
+    <dl>
+      <dt>Status</dt><dd>404, unchanged. RISK-07 owns what the sitemap says about pages that should not 404 at all.</dd>
+      <dt>Copy</dt><dd>The apology and the guess about what happened are gone. See §3.10.</dd>
+      <dt>Announcement</dt><dd><code>h1</code> receives focus on load so a screen reader hears &ldquo;Halaman tidak dijumpai&rdquo; before the chrome.</dd>
+      <dt>Not in scope</dt><dd>Redirect rules for retired URLs. That is SEO-09's item, and this screen is what a reader gets when no redirect applies.</dd>
+    </dl>
+  </div>
+</div>
+
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>E3 as shipped · E4 specified · E5 offline</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="body" style="text-align:center">
+          <span class="eyebrow" style="color:#9d2f28">E3 · as shipped</span>
+          <div style="margin-top:12px">
+            <span class="serif" style="font-size:24px;display:block">Ada masalah teknikal</span>
+            <p style="font-size:16px;color:#595855;margin-top:12px;font-family:ui-sans-serif,system-ui,sans-serif">Maaf, sesuatu tidak kena. Sila cuba semula sebentar lagi.</p>
+            <span style="display:inline-flex;align-items:center;height:40px;padding:0 24px;background:#151412;color:#fcfbfa;border-radius:999px;font-size:14px;font-weight:600;margin-top:12px">Cuba Semula</span>
+            <p class="quiet" style="color:#9d2f28;margin-top:10px">40 px tall, pill radius, sans-serif deck. Nothing else on the site looks like this.</p>
+          </div>
+        </div>
+        <div class="body" style="border-top:1px solid #dad9d7;text-align:center">
+          <span class="eyebrow" style="color:#2a6349">E4 · specified</span>
+          <h5 class="serif" style="margin-top:12px;font-size:30px">Ada masalah teknikal</h5>
+          <p class="deck">Kami tidak dapat memaparkan halaman ini.</p>
+          <div class="chips" style="justify-content:center;margin-top:18px">
+            <span class="btn">Cuba semula</span><span class="btn ghost">Laman utama</span>
+          </div>
+        </div>
+        <div class="body" style="border-top:1px solid #dad9d7;text-align:center">
+          <span class="eyebrow">E5 · luar talian</span>
+          <h5 class="serif" style="margin-top:12px;font-size:30px">Anda di luar talian</h5>
+          <p class="deck">Sambung semula internet untuk teruskan membaca.</p>
+          <div class="chips" style="justify-content:center;margin-top:18px"><span class="btn ghost">Cuba semula</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid flag">E3</span> <span class="sid ok">E4</span> <span class="sid">E5</span>
+    <h3>The error screen, and the one place the site forgets its own design</h3>
+    <p>
+      <b>E3 is real.</b> The runtime error boundary is in the deployed bundle
+      <code>chunks/dde61626dcb67a6c.js</code>, and rendered in the page's own
+      context it measures: heading 24&nbsp;px where every other page sets 32; deck
+      in the system sans where every other deck is a 17&nbsp;px serif; and a
+      <strong>fully rounded pill button, 40&nbsp;px tall</strong>, on a site whose
+      <code>.hk-btn</code> is square-cornered and 44. Its <code>font-bold</code> is
+      dead code: <code>.hk-public h1</code> forces weight 400, so the boundary does
+      not even render as its author wrote it.
+    </p>
+    <p>
+      A reader who reaches this screen is already having a bad time. Being handed a
+      screen that looks like a different website is the wrong moment to lose their
+      trust, and the 40&nbsp;px control is the one control on the page.
+    </p>
+    <p>
+      <b>E4</b> is the same message in the publication's own voice, at the site's
+      own sizes, with a second way out. The shipped boundary offers
+      <em>Cuba Semula</em> and nothing else: if the retry fails again, the reader is
+      stuck on a screen with one button that does not work.
+    </p>
+    <p>
+      <b>E5</b> promises nothing about articles already opened. The site ships no
+      service worker, so a line offering cached reading would be false. DES-06
+      caught that exact sentence in its own draft and cut it; it is recorded here
+      so the next person does not write it back in.
+    </p>
+    <dl>
+      <dt>Server-side failure</dt><dd>A client-only boundary cannot catch it. E4 must have a server-rendered twin, same as E2. Rule 3.6.</dd>
+      <dt>Never</dt><dd>An error screen that looks like an empty screen. Rule 3.5.</dd>
+    </dl>
+  </div>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<section id="panjang">
+<h2><span class="num">9</span>The longest Malay content, counted</h2>
+
+<p>
+  Every figure below is the measured maximum across the 86 published articles and
+  15 categories as they stood on 28 Ogos 2026. These are the numbers the layouts
+  above were sized against. None is invented and none is a placeholder.
+</p>
+
+<div class="scroll">
+<table>
+<thead><tr><th>String</th><th class="n">Chars</th><th>The actual longest one</th><th>Where it has to fit</th></tr></thead>
+<tbody>
+<tr class="hi"><td>Article title</td><td class="n">95</td><td>20 Lokasi Terbaik Pre Wedding Photoshoot di Malaysia &ndash; Dari Alam Semula Jadi Hingga Urban City!</td><td>Hero 5 lines · row 4 lines · <b>shipped card: cut to 49</b></td></tr>
+<tr><td>Article <code>h3</code></td><td class="n">89</td><td>Kalau nikah di Selangor tetapi keluarga dari negeri lain, adakah fatwa Selangor terpakai?</td><td>4 lines at 20 px</td></tr>
+<tr><td>Article <code>h2</code></td><td class="n">84</td><td>Adab berdoa, dan satu contoh yang Mufti Wilayah Persekutuan nasihatkan supaya dielak</td><td>4 lines at 24 px</td></tr>
+<tr><td>Cluster row title</td><td class="n">76</td><td>Harga Sewa Dewan Kahwin 2026: Kadar Rasmi Majlis Perbandaran, Bukan Anggaran</td><td>3 lines at 15 px</td></tr>
+<tr><td>Category deck</td><td class="n">145</td><td>Setiap artikel di bawah menyatakan enakmen negeri mana yang dirujuk dan sumber rasminya…</td><td>Full on catalogue · 4-line clamp on hero</td></tr>
+<tr><td>Meta line</td><td class="n">58</td><td>HelloKahwin · Dikemas kini 26 November 2025 · 6 min bacaan</td><td>1 line at 12 px, wraps if longer</td></tr>
+<tr class="hi"><td>Category name</td><td class="n">38</td><td>Sebelum Nikah: Jodoh, Merisik &amp; Tunang</td><td>2 lines at 30 px · <b>shipped breadcrumb: cut at 200 of 260 px</b></td></tr>
+<tr><td>Section heading</td><td class="n">45</td><td>Ulang tahun perkahwinan, pantun &amp; adab tetamu</td><td>2 lines at 11 px with its count</td></tr>
+<tr><td>Tag</td><td class="n">34</td><td>skrip pengacara majlis perkahwinan</td><td>1 line, chip sized by content</td></tr>
+<tr><td>Filter chip</td><td class="n">26</td><td>Ahli Pengantin &amp; Pengiring</td><td>1 line, never ellipsised</td></tr>
+<tr><td>Word</td><td class="n">21</td><td>dipertanggungjawabkan</td><td>~172 px at 17 px Georgia · fits every column here</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>Two counts that decide the layout</h3>
+
+<div class="scroll">
+<table>
+<thead><tr><th>Extreme</th><th class="n">Value</th><th>Article</th><th>Screen</th></tr></thead>
+<tbody>
+<tr><td>Longest article</td><td class="n">25,955 chars<br>40,310 px</td><td>tempat-honeymoon-di-malaysia · 400 paragraphs, 15 figures, no contents list</td><td class="c">A6</td></tr>
+<tr><td>Shortest article</td><td class="n">616 chars<br>578 px of body</td><td>marriott-putrajaya · 8 paragraphs, 0 headings, in a 6,610 px page</td><td class="c">A5</td></tr>
+<tr><td>Largest contents list</td><td class="n">25 entries<br>845 px</td><td>pelamin · 70% of a 360 px viewport, 17 px rows</td><td class="c">A6</td></tr>
+<tr><td>Largest category</td><td class="n">38 articles</td><td>hantaran-mas-kahwin · 44% of the corpus</td><td class="c">K8</td></tr>
+<tr><td>Smallest categories</td><td class="n">1 article &times;4</td><td>fotografi-videografi, hiasan-dekorasi, minimalis-mewah, pantai-santai</td><td class="c">K7</td></tr>
+<tr><td>Most filters on a page</td><td class="n">13 chips<br>7 rows, 356 px</td><td>real-wedding · 10 of 13 match 3 or fewer, 1 matches none</td><td class="c">K9</td></tr>
+<tr><td>Photos in a gallery</td><td class="n">3 to 49</td><td>every article has at least 3</td><td class="c">A9</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<section id="a11y">
+<h2><span class="num">10</span>Keyboard, focus, and what gets announced</h2>
+
+<p>
+  Specified alongside the states, not audited after them. DES-06 §8 covers the
+  search panel; this covers the states in this document.
+</p>
+
+<h3>10.1 What a state change announces, and what it deliberately does not</h3>
+
+<div class="scroll">
+<table>
+<thead><tr><th>Event</th><th>Region</th><th>Announced</th></tr></thead>
+<tbody>
+<tr><td>Navigation starts</td><td><code>aria-live="polite"</code></td><td>Nothing before 3 s. Then <em>Sedang dimuatkan…</em>, once.</td></tr>
+<tr><td>Route arrives</td><td>focus</td><td>Focus moves to the new <code>h1</code>. The title is the announcement; no extra live message.</td></tr>
+<tr><td>Filter applied</td><td>polite</td><td><em>14 artikel</em> — the new count, not the filter name, which the reader just tapped.</td></tr>
+<tr><td>Filter matched zero</td><td>polite</td><td><em>Tiada artikel dengan tapisan Bertema. Real Wedding ada 14 artikel.</em></td></tr>
+<tr><td>Section failed</td><td><code>role="status"</code></td><td><em>Bahagian ini tidak dapat dimuatkan.</em> Focus moves to the retry control.</td></tr>
+<tr><td>Retry succeeds</td><td>polite</td><td>The count. Focus goes to the section heading.</td></tr>
+<tr><td>404 loads</td><td>focus</td><td>Focus on <code>h1</code>. The status code is in the heading, so it is spoken.</td></tr>
+<tr><td>Offline / online</td><td>polite</td><td>Announced once on each transition, never repeated on a flapping connection.</td></tr>
+<tr><td>Reading progress</td><td>&mdash;</td><td><b>Nothing.</b> A live region firing on every section of a 21-section article is noise. The progress bar is <code>aria-hidden</code>.</td></tr>
+<tr><td>Skeleton visible</td><td>&mdash;</td><td><b>Nothing.</b> The skeleton is <code>aria-hidden</code>; the live region carries the message.</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>10.2 Focus order, and the two places it is moved deliberately</h3>
+
+<p>
+  Focus follows document order everywhere except two: a retry control after an
+  error, and the results heading after a filter. Both are cases where the reader
+  acted and the consequence is somewhere they are not looking. Focus is never
+  moved on a page load that succeeded, and never trapped.
+</p>
+
+<ul>
+  <li>A skip link to <code>#kandungan</code> is the first focusable element on every page. The category rail is 9 to 15 links; a keyboard reader must be able to pass it.</li>
+  <li>The rail is one tab stop, then arrow keys within it, so the rail costs one stop rather than fifteen.</li>
+  <li>The chip block opened from <em>Semua 15</em> takes focus on its first chip and returns focus to the control when closed.</li>
+  <li>The read-next bar is in the tab order at the foot of the article, where it appears in the document, not floated to the front.</li>
+</ul>
+
+<h3>10.3 Target sizes, and the two failures measured today</h3>
+
+<p>
+  WCAG 2.2 SC 2.5.8 sets a 24&times;24&nbsp;px floor; this site holds 44 on its own
+  <code>.hk-btn</code>, so 44 is the standard the states below are drawn to.
+  Two shipped controls miss it:
+</p>
+
+<div class="scroll">
+<table>
+<thead><tr><th>Control</th><th class="n">Measured</th><th>Where</th></tr></thead>
+<tbody>
+<tr class="hi"><td>Error boundary retry button</td><td class="n">40 px</td><td>E3. The only control on the screen.</td></tr>
+<tr class="hi"><td>Contents-list row</td><td class="n">17 px</td><td>A6. 21 of them stacked, 845 px total.</td></tr>
+<tr><td>Category eyebrow link on a card</td><td class="n">15 px</td><td>Homepage, 12 of them. Removed by the row layout in H1, where the whole 96 px row is the target.</td></tr>
+<tr><td>Breadcrumb links</td><td class="n">20 px</td><td>Every catalogue and article page.</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>
+  In this document every interactive element is at least 44&nbsp;px in its
+  smaller dimension. That claim is checked by probing the rendered artifact rather
+  than by reading it, and the count is reported in the work-done entry &mdash;
+  DES-06 shipped a draft whose own drawings broke this rule and the probe is what
+  caught it.
+</p>
+
+<h3>10.4 Contrast</h3>
+
+<p>
+  Every pairing used in the drawings above, computed from the served tokens:
+  <code>--foreground #151412</code> on <code>--background #fcfbfa</code> is
+  <strong>17.81:1</strong>; <code>--muted-foreground #595855</code> on the same
+  ground is <strong>6.88:1</strong>; <code>--border-strong #93928f</code> is
+  <strong>3.01:1</strong>, which clears the 3:1 non-text floor with nothing to
+  spare and is used only for borders and the image placeholder mark, never for
+  text. These agree with decision 121 and with DES-06's independent recomputation.
+</p>
+
+<div class="note flag">
+<span class="lbl">Still open, and it is DES-06's finding not a new one</span>
+<p>
+  The shipped focus ring is <code>focus:ring-ring/30</code>, which composites to
+  <strong>1.96:1</strong> against the background &mdash; under the 3:1 floor in
+  WCAG 2.2 SC 1.4.11. Every focus outline in this document is drawn at full
+  opacity, 17.81:1. The fix belongs to DES-05.
+</p>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<section id="skop">
+<h2><span class="num">11</span>What this does not cover, and what DES-03 must carry</h2>
+
+<h3>11.1 Deliberately out of scope</h3>
+
+<ul>
+  <li><b>Desktop.</b> Everything here is drawn at 360&nbsp;px because that is where the failures are. The rules hold at every width; the drawings do not claim to be desktop compositions, which are DES-03's.</li>
+  <li><b>The search panel and results page.</b> DES-06 §4 and §5. Its states are complete and are cross-referenced, not repeated.</li>
+  <li><b>The pagination, filter and sort mechanisms.</b> DES-06 §3.4–3.6, co-owned with head-of-seo-content. This document draws their states and does not reopen the decisions.</li>
+  <li><b>Type scale, palette and composition.</b> DES-01 to DES-03. The drawings use today's tokens so they can be compared with the live page, and nothing in the state logic depends on them.</li>
+  <li><b>Redirects for retired URLs.</b> SEO-09. E2 is what a reader gets when no redirect applies.</li>
+  <li><b>Why cold renders take 12 to 23 seconds.</b> RISK-08. C3 is what the reader sees while it happens.</li>
+  <li><b>Whether an empty section should exist at all</b> rather than be designed. That is an editorial call and is handed to managing-editor, not decided here.</li>
+  <li><b>The build.</b> DES-07 is design only, and the build has not been sized.</li>
+</ul>
+
+<h3>11.2 The cross-check that is owed</h3>
+
+<div class="note flag">
+<span class="lbl">A dependency, recorded rather than worked around</span>
+<p>
+  DES-07's DoD requires a cross-check against the three page types in DES-03.
+  <strong>DES-03 does not exist</strong>: it is <code>todo</code>, blocked by
+  DES-02, which is blocked by DES-01's owner-approval gate. So the check has been
+  run one way &mdash; this document against DES-03's stated page types and against
+  production &mdash; and the other direction is owed.
+</p>
+<p>
+  When DES-03 lands, the check is: <em>open its artifact and confirm every state
+  in the table below is present. Any that is missing is the gap the DoD names.</em>
+  That is a fifteen-minute job and it belongs to whoever writes DES-03, with this
+  document as the checklist.
+</p>
+</div>
+
+<div class="scroll">
+<table>
+<thead><tr><th>DES-03 page type</th><th>States its artifact must carry</th><th class="n">Count</th></tr></thead>
+<tbody>
+<tr><td>Homepage</td><td>Default, cold-entry skeleton, empty, feed error, three-article layout, the one-category rule, the 95-character hero headline and the 145-character deck</td><td class="n">8</td></tr>
+<tr><td>Catalogue</td><td>Default in both templates, cold-entry skeleton, empty category, empty section, filter matched zero, section error, single-article category, 38-item list, 13-filter row, no-JS, the 38-character category name and 45-character section heading</td><td class="n">11</td></tr>
+<tr><td>Article</td><td>Default, cold-entry skeleton, nothing-related foot, failed image and failed gallery, the 9%-body article, the 40,310&nbsp;px article and its collapsed contents list, no-JS, the 95-character headline, the 89-character sub-heading</td><td class="n">9</td></tr>
+<tr><td>Shared chrome</td><td>Default rail with counts, the full 15-category block, the three loading layers, footer, the truncating breadcrumb, no-JS</td><td class="n">6</td></tr>
+<tr><td><b>Not-found and error</b></td><td>Server-rendered 404 with search, runtime error, offline. <b>DES-03's DoD does not mention this surface at all</b>, which is how it came to ship blank. It must be added.</td><td class="n">5</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>11.3 Handover</h3>
+
+<div class="scroll">
+<table>
+<thead><tr><th>Who</th><th>What is owed</th></tr></thead>
+<tbody>
+<tr><td><b>creative-director</b></td><td>DES-03 must add the not-found and error surface to its scope; its DoD names three page types and this is a fourth that all three link to. And the two-way cross-check in §11.2 when the artifact exists.</td></tr>
+<tr><td><b>design-systems-engineer</b></td><td>Six components carry every state here: row, empty block, error block, chip-with-count, loading bar, image placeholder. The empty and error blocks must be visually distinguishable at a glance (rule 3.5), and the error boundary needs rebuilding in the site's own vocabulary (E3 to E4).</td></tr>
+<tr><td><b>Whoever builds this</b></td><td>Three hard dependencies. The API must return an error status distinguishable from an empty array, or K6, A4 and DES-06 F1 cannot exist. Category counts must be available at render time, or the counts throughout C1, C2, K1, K5, K7, K9 and E2 cannot be printed. And the 404 must be server-rendered.</td></tr>
+<tr><td><b>managing-editor</b></td><td>Two copy decisions are yours, not mine. Whether an empty section should render its heading at all rather than be hidden until it has an article; and whether the shipped &ldquo;akan datang tidak lama lagi&rdquo; lines should be corrected now rather than waiting for DES-08, since one of them is currently untrue on a category with 14 published articles.</td></tr>
+<tr><td><b>head-of-seo-content</b></td><td>H6's diversity rule changes which articles are linked from the homepage, which changes internal linking. It should be read against the SEO-02 model before DES-08 builds it. Separately: 12 articles over 4,000 characters ship with no contents list, all the <code>mas-kahwin-*</code> pages among them, which is where the clicks are.</td></tr>
+<tr><td><b>ceo-hellokahwin</b></td><td>The site ships no webfont: <code>--font-cormorant</code> resolves to Georgia and <code>document.fonts</code> is empty. DES-01 recommends one display webfont. Until that ships, the serif a reader sees is whatever their device supplies, and the truncation rate moves from 66% to 36% depending on which one it is.</td></tr>
+<tr><td><b>Not done and not claimed</b></td><td>The build. A real-device check of the Android serif. And the DES-03 cross-check, which cannot run until DES-03 does.</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>11.4 How to reproduce every number in this document</h3>
+
+<p>
+  <code>docs/design/des-07-evidence/</code>
+</p>
+<ul class="fn">
+  <li><code>reproduce.py</code> — fetches the sitemap, all 15 categories, all 86 articles, the error surfaces and the served stylesheet, and prints the findings table in §2. No credentials.</li>
+  <li><code>probe.mjs</code> and <code>measure.js</code> — drive a headless Chrome at a true 360&times;1200 viewport and produce the truncation counts, the nav width, the breadcrumb cut, the navigation-feedback samples and the target sizes.</li>
+  <li><code>corpus-2026-08-28.tsv</code> — every article with its category, title length, heading counts, body size and related count.</li>
+  <li><code>404-nojs-360.png</code> — the blank 404, captured with scripting disabled. 2,689 bytes.</li>
+</ul>
+
+<div class="note ok">
+<span class="lbl">One line, if you read nothing else</span>
+<p>
+  The layouts are not failing because the Malay is long. They are failing because
+  a 156&nbsp;px column, a 200&nbsp;px breadcrumb and a three-line clamp were chosen
+  against English-length text and never measured against the corpus. Widen the
+  column and the truncation goes from 66% to nothing, on the same 86 titles.
+</p>
+</div>
+</section>
+
+</div>
