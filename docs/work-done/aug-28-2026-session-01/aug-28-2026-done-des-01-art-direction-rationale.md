@@ -72,6 +72,21 @@ Where a reading comes from looking at an image rather than from computed styles,
 it says so at the point it is used. That happens in exactly one place — the four
 composition notes on PartySlate at the end of section (c).
 
+**⚠ One measurement from those two pages is NOT trustworthy, and no number in
+this document depends on it.** Both computed absurd body sizes — Mimpikita 9px,
+Alia Bastamam 9.75px. No production site sets a 9px body, so something is
+scaling the cascade: a non-default root size, or a transform on an ancestor. The
+cause was not chased because nothing here needs it. **Type SIZES from those two
+pages are withheld throughout.** What survives the same doubt untouched is the
+family census and the colour counts: a `font-family` name and a `color` value do
+not change under a scale transform, and 265 and 782 styled text elements were
+present to count either way. That is why sections (a) and (c) quote families and
+counts from these two brands and never a pixel value.
+
+The same caution does not apply to PartySlate, whose sizes are internally
+consistent — 24px and 16px headings against a 16px body with 24px leading — and
+which rendered fully.
+
 ---
 
 ## (a) What premium looks like in the Malaysian wedding market today
@@ -120,7 +135,7 @@ picture.
 | Brand | URL | Families (text elements) | Text colours | Backgrounds | Body |
 |---|---|---|---|---|---|
 | **Alia Bastamam** — atelier and bridal, Grazia MY's lead example | `https://aliabastamam.com/` | **Montserrat 265**, Times 40 | **5** | **4** | Montserrat, `#262626` on `#F9FAF8` |
-| **Mimpikita** — modest bridalwear | `https://www.mimpikita.com.my/` | **Inter 782**, Times 55, Poppins 4 | **5** | **5** | Inter, `#3D2F16` on `#FFFFFF`; h1 Inter 36.94px w400 |
+| **Mimpikita** — modest bridalwear | `https://www.mimpikita.com.my/` | **Inter 782**, Times 55, Poppins 4 | **5** | **5** | Inter, `#3D2F16` on `#FFFFFF` |
 
 The `Times` counts in both are an **unstyled browser fallback, not a design
 choice** — 40 elements out of 305 and 55 out of 841. Neither brand specifies a
@@ -891,12 +906,15 @@ aliabastamam  (Chrome, computed styles off the delivered page, 28 Ogos 2026)
 mimpikita     (Chrome, computed styles off the delivered page, 28 Ogos 2026)
   resolves   : mimpikita.com.my -> www.mimpikita.com.my
   title      : "Mimpi Kita Sdn Bhd | Chasing dreams together, celebrating one another. – Mimpikita"
-  h1 count   : 1        h1: Inter 36.94px w400
+  h1 count   : 1        h1 weight 400   (SIZE WITHHELD — see the caveat below)
   families   : Inter 782 text els · Times 55 (UNSTYLED FALLBACK) · Poppins 4
   text cols  : FIVE — rgb(61,47,22) x376 · rgb(73,74,70) x364 · rgb(255,255,255) x99 ·
                rgb(44,44,44) x1 · 1 alpha variant
   backgrounds: FIVE — white x33 · black x19 · rgb(37,37,37) · rgb(31,30,30) · 1 alpha
-  body       : Inter 9px / lh 14.4px, ink rgb(61,47,22) #3D2F16 on #FFFFFF
+  body       : Inter, ink rgb(61,47,22) #3D2F16 on #FFFFFF
+               SIZES WITHHELD — this page computed a 9px body and aliabastamam 9.75px.
+               Root-size or transform scaling is in play; the absolute numbers are not
+               trustworthy. Families and colour COUNTS are unaffected. See the caveat below.
   screenshot : aug-28-2026-des-01-EVIDENCE/mimpikita-homepage-2026-08-28.jpg (75,008 bytes)
                PARTIAL (sign-up modal over the centre, nothing below the fold) — provenance only
 ```
@@ -976,7 +994,20 @@ tells us what not to copy; **the count finding tells us what to do, and it is
 free.** A register built on that spine survives the owner changing their mind
 about the typeface, which the serif finding alone does not.
 
-**Fourth, and it is a caution about my own method: "warm" nearly became a
+**Fourth, and it is the cheapest lesson here: a census can be sound in one
+dimension and junk in another, and the honest move is to split it rather than
+grade the whole thing.** Alia Bastamam's page never loaded its lazy images and
+both it and Mimpikita computed impossible body sizes (9.75px and 9px). My first
+instinct was to treat both sources as weak and rest nothing on them. That was
+wrong in one direction and not wrong enough in the other. **The family and
+colour census is exactly as sound as the ones I ran myself** — a `font-family`
+name and a `color` value survive a scale transform, and 265 and 782 styled text
+elements were there to count regardless of whether a photograph arrived. **The
+sizes are junk and are withheld.** Same page, same fetch, two different
+confidence levels. Grading a source as a whole is faster and loses real
+evidence; grading it per measurement is what the sixth and seventh brands cost.
+
+**Fifth, and it is a caution about my own method: "warm" nearly became a
 pattern that the arithmetic does not support.** Three brands were handed to me
 as converging on warm-black ink. Two do — Songket Dunia at red-minus-blue +43,
 Mimpikita +39. The third, Alia Bastamam's `#262626`, is **R=G=B, dead neutral**,
