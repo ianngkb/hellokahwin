@@ -1,0 +1,49 @@
+SITE 2026-07-31..2026-08-27: {"clicks":54,"impressions":3055,"ctr":0.0176759410801964,"position":16.845826513911618}
+GARDEN-WEDDING REDIRECT FAMILY — every URL string GSC printed:
+  https://hellokahwin.com/garden-wedding/  imp=778 clk=3 pos=36.7
+  FAMILY TOTAL impressions=778 clicks=3 pos=36.73 ctr=0.39%
+  share of site impressions = 25.5%  (site 3055)
+
+PER-QUERY BREAKDOWN (dimensions=query,page) — 40 rows
+  7 amazing places to have a garden wedding in malaysia imp=   2 clk=0 pos=33.5
+  beautiful wedding venue                            imp=   1 clk=0 pos=53.0
+  beautiful wedding venues                           imp=   4 clk=0 pos=49.3
+  best nature wedding venues                         imp=   1 clk=0 pos=47.0
+  garden theme wedding venue                         imp=   1 clk=0 pos=41.0
+  garden venue for wedding                           imp=  15 clk=0 pos=44.6
+  garden wedding                                     imp= 140 clk=0 pos=30.1
+  garden wedding hall                                imp=   1 clk=0 pos=11.0
+  garden wedding in kl                               imp=  24 clk=0 pos=45.6
+  garden wedding kl                                  imp= 111 clk=0 pos=49.5
+  garden wedding kuala lumpur                        imp= 100 clk=0 pos=46.5
+  garden wedding malaysia                            imp= 110 clk=0 pos=41.4
+  garden wedding venue                               imp=   3 clk=0 pos=20.0
+  garden wedding venue kl                            imp=  17 clk=0 pos=47.4
+  garden wedding venue malaysia                      imp=   2 clk=0 pos=23.5
+  garden wedding venues                              imp=  10 clk=0 pos=34.9
+  garden weddings reviews                            imp=   1 clk=0 pos=33.0
+  gardens wedding venue                              imp=   1 clk=0 pos=52.0
+  lakeside wedding venue                             imp=   1 clk=0 pos=55.0
+  outdoor venue for wedding                          imp=   1 clk=0 pos=40.0
+  outdoor venue wedding                              imp=   1 clk=0 pos=39.0
+  outdoor wedding                                    imp=  12 clk=0 pos=31.0
+  outdoor wedding locations                          imp=  16 clk=0 pos=48.0
+  outdoor wedding malaysia                           imp=   3 clk=0 pos=41.0
+  outdoor wedding places                             imp=  16 clk=0 pos=49.2
+  outdoor wedding sites                              imp=   1 clk=0 pos=51.0
+  outdoor wedding venue                              imp=  18 clk=0 pos=37.8
+  outdoor wedding venues                             imp=   5 clk=0 pos=48.2
+  outdoor wedding venus                              imp=   1 clk=0 pos=43.0
+  outdoor weddings venues                            imp=   1 clk=0 pos=50.0
+  the garden wedding                                 imp=   1 clk=0 pos=36.0
+  wedding at botanical gardens                       imp=   1 clk=0 pos=68.0
+  wedding garden                                     imp=  27 clk=0 pos=30.0
+  wedding garden venue                               imp=   1 clk=0 pos=43.0
+  wedding lawns                                      imp=   1 clk=0 pos=52.0
+  wedding outdoor venues                             imp=   1 clk=0 pos=51.0
+  wedding venue garden                               imp=   2 clk=0 pos=48.5
+  wedding venues beautiful                           imp=   1 clk=0 pos=55.0
+  wedding venues with an orangery                    imp=   1 clk=0 pos=52.0
+  花园婚礼 马来西亚 地点                                       imp=   8 clk=0 pos=29.4
+  named-query impressions=664 of 778 family (85.3%; remainder anonymised)
+  impressions at position <= 13: 1

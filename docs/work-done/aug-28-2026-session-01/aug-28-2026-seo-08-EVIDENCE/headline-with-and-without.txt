@@ -1,0 +1,27 @@
+# node scripts/seo/gsc-headline.mjs 2026-07-31 2026-08-27
+HelloKahwin — Search Console headline, 2026-07-31 to 2026-08-27
+pulled 2026-08-28T08:04:51.681Z · property https://hellokahwin.com/
+
+row                                clicks  impressions       CTR   position
+---------------------------------------------------------------------------
+site total (all pages)                 54         3088     1.75%      16.72
+QUARANTINED (see below)                 3          778     0.39%      36.73
+SITE EX-QUARANTINE  <-- quote          51         2310     2.21%       9.98
+
+Quarantined pages — every impression Search Console attributed to each URL string:
+  https://hellokahwin.com/garden-wedding/  impressions=778 clicks=3 position=36.7
+  ^ decision 148, reviewed 2026-11-27 — on that date the page either earns investment or leaves the review rota.
+
+# node scripts/seo/gsc-headline.mjs 2026-07-27 2026-08-23   (the window decision 97 quoted)
+HelloKahwin — Search Console headline, 2026-07-27 to 2026-08-23
+pulled 2026-08-28T08:04:52.365Z · property https://hellokahwin.com/
+
+row                                clicks  impressions       CTR   position
+---------------------------------------------------------------------------
+site total (all pages)                 37         2298     1.61%      20.09
+QUARANTINED (see below)                 4          856     0.47%      36.41
+SITE EX-QUARANTINE  <-- quote          33         1442     2.29%      10.41
+
+Quarantined pages — every impression Search Console attributed to each URL string:
+  https://hellokahwin.com/garden-wedding/  impressions=856 clicks=4 position=36.4
+  ^ decision 148, reviewed 2026-11-27 — on that date the page either earns investment or leaves the review rota.

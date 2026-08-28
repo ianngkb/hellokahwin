@@ -4,7 +4,11 @@ The CEO's living knowledge of the product and company. Read this at the start
 of every meeting/session; update it whenever reality changes. Facts only —
 opinions and plans belong in meeting minutes and the decision log.
 
-_Last updated: 2026-08-27 (SEO-04 — nikahsatu.com is the VENUE OPERATOR's own
+_Last updated: 2026-08-28 (SEO-08 — `/garden-wedding/` is a MALAY page drawing
+English-loanword queries, not an English page; the rewrite option is dead on
+zero Malay volume; the headline is now quoted ex-quarantine and the site's real
+CTR/position is 2.21% at 9.98, not 1.75% at 16.72. Earlier:
+2026-08-27, SEO-04 — nikahsatu.com is the VENUE OPERATOR's own
 site, not a beatable DR 14 competitor; the SERP-ownership rule's worked example
 was wrong and is corrected; venue pages parked at the sourcing gate. Earlier
 same day, SEO-05 — a cached `generateMetadata` failure can put the ROOT DEFAULT
@@ -100,8 +104,19 @@ finally written down)._
   2,163 impressions, CTR 1.48%, avg position 20.6. Impressions are largely
   ENGLISH queries ("garden wedding malaysia", "beautiful wedding venues")
   ranking poorly — Malay-keyword coverage is nearly absent (e.g. "berapa mas
-  kahwin" imp=1). Confirms the Malay-first topical-authority strategy: the
-  site currently isn't competing where its audience searches.
+  kahwin" imp=1).
+  **⚠ The conclusion originally drawn from this — "the site currently isn't
+  competing where its audience searches" — is CORRECTED by SEO-08 on 28 Aug
+  2026 (decision 148).** Nearly all of those English impressions come from ONE
+  page, `/garden-wedding/`, which is a **Malay** article about twenty Malaysian
+  venues. It draws English queries because `garden wedding` is the loanword
+  Malaysians use for the thing: Ahrefs `volume` (12-month average, country `my`)
+  reads **500/mo** for `garden wedding` and **0** for every Malay phrasing, with
+  eight of them absent from the Malaysian index entirely. **A Malay page ranking
+  on an English loanword is not a language failure**, and the baseline does not
+  show what it was read as showing. The genuine finding underneath it stands
+  unchanged: Malay-keyword coverage is thin, which is what the topical-authority
+  plan exists to fix.
 - **Secrets map**: Doppler project `hellokahwin` (default workplace, dev+prd:
   AHREFS_API_KEY, AHREFS_MCP_KEY, GSC_SERVICE_ACCOUNT_JSON) + the DPAPI
   vault; full pointers in the /tokens registry.
@@ -283,6 +298,21 @@ minute to relaunch; the prompts will otherwise recur indefinitely.
 
 ## Measurement rules
 
+- **⚠ QUOTE THE HEADLINE EX-QUARANTINE. `/garden-wedding/` HAS BEEN HIDING THE
+  DIFFERENCE BETWEEN A SITE ON PAGE TWO AND A SITE ON PAGE ONE.** Established by
+  SEO-08, 28 Aug 2026, decision 148. One page draws about a quarter of all
+  impressions at position 36.7 and converts none of them, and averaging it into
+  the site total drags position down by roughly seven places and CTR down by
+  about a quarter. GSC 28d to 27 Aug: site **54 clicks / 3,088 impressions /
+  1.75% / position 16.72**, against **51 / 2,310 / 2.21% / position 9.98**
+  ex-quarantine. Over decision 97's own window, 1.61% at 20.09 against **2.29%
+  at 10.41**. So **decision 96's "CTR 1.78%, average position 17.7" understates
+  the editorial estate**, and every board report from here quotes the
+  ex-quarantine line with the site line printed beside it so nothing is hidden.
+  The command is `node scripts/seo/gsc-headline.mjs [start] [end]`; its
+  `QUARANTINE` list names the decision and review date behind every entry, and
+  nothing goes in it without one. **A page is quarantined, never deleted, and
+  never quietly dropped from a report.**
 - **⚠ GSC ATTRIBUTES AN IMPRESSION TO THE URL STRING GOOGLE PRINTED, NOT TO THE
   CANONICAL. Never read two rows as two pages.** Learned 26 Aug 2026, and it
   cost a whole board finding. The CEO reported that a legacy URL "out-converts"

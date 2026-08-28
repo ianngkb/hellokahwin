@@ -1,0 +1,35 @@
+### measured 2026-08-28T07:54:29Z UTC
+
+## 1. Legacy URL — status and redirect target
+status=308 redirect=https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding
+Cache-Control: private, no-cache, no-store, max-age=0, must-revalidate
+Location: /artikel/idea-dan-nasihat/garden-wedding
+X-Vercel-Cache: MISS
+
+## 2. Canonical URL — what the reader ends up on
+Cache-Control: s-maxage=600, stale-while-revalidate=3000
+X-Vercel-Cache: HIT
+
+## 3. The rendered <title>, <h1>, canonical and description
+<title>20 Venue Garden Wedding Paling Cantik di Malaysia | HelloKahwin</title>
+<link rel="canonical" href="https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding"/>
+<meta name="description" content="Jika anda mengimpikan majlis perkahwinan yang dikelilingi kehijauan, alunan bunyi burung, dan panorama semula jadi yang 
+h1 count: 2
+  h1: 20 Venue Garden Wedding Paling Cantik di Malaysia
+  h1: 20 Venue Garden Wedding Paling Cantik di Malaysia
+
+## 4. NEGATIVE CONTROL — a page this item did not touch
+<title>Mas kahwin ikut negeri 2026: RM22.50 ke RM300 | HelloKahwin</title>
+
+## 5. Image credit audit (the owner-level rule: every image credited)
+images in article body : 48
+images carrying a credit: 21
+images with NO credit   : 27
+images with empty alt   : 48 of 48
+images carrying srcset  : 0
+credit label casings    : {'SOURCE': 3, 'sOURCE': 3, 'source': 3, 'Source': 11, 'image': 1}
+  sample credit: SOURCE: The Waterway Villa
+  sample credit: sOURCE: Aman Rimba Private Estate
+  sample credit: SOURCE: Puncak Rimba
+  sample credit: source: 12 Affordable Wedding Venues in KL & Selangor
+  sample credit: Source:�A Refreshing Forest Wedding at Cameron Highlands

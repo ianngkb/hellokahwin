@@ -1,0 +1,110 @@
+seed	keyword	volume(12mo avg)	volume_monthly	difficulty	parent_topic
+# seed 'kahwin taman' returned 17 ideas
+kahwin taman	majlis kenduri kahwin di taman botani shah alam	0	1	None	None
+kahwin taman	majlis kahwin di taman warisan putrajaya	0	1	None	None
+kahwin taman	peta kad kahwin taman melati	0	1	None	None
+kahwin taman	kedai kahwin taman perling	0	1	None	None
+kahwin taman	kursus kahwin taman tasik senawang	0	1	None	None
+kahwin taman	kad kahwin taman universiti skudai	0	1	None	None
+kahwin taman	kahwin taman perling	0	1	None	None
+kahwin taman	kursus kahwin masjid taman universiti	0	1	None	None
+kahwin taman	kursus kahwin taman tasik jaya seremban	0	1	None	None
+kahwin taman	kursus kahwin taman tasik jaya	0	1	None	None
+kahwin taman	kursus kahwin taman tun dr ismail	0	1	None	None
+kahwin taman	dewan kahwin taman melawati	0	1	None	None
+kahwin taman	kahwin kahwin taman perling	0	1	None	None
+kahwin taman	kad kahwin taman cempaka ipoh	0	1	None	None
+kahwin taman	kahwin wedding taman perling	0	1	None	None
+kahwin taman	sewa kahwin taman botani putrajaya	0	1	None	None
+kahwin taman	kursus kahwin taman tun	0	1	None	None
+# seed 'majlis taman' returned 23 ideas
+majlis taman	majlis ilmu taman syurga	50	5	None	None
+majlis taman	hadis majlis ilmu taman syurga	40	12	None	None
+majlis taman	majlis ilmu taman syurga hadis	30	7	None	None
+majlis taman	taman majlis jaya kajang	10	2	None	None
+majlis taman	taman syurga majlis ilmu	10	1	None	None
+majlis taman	majlis kenduri kahwin di taman botani shah alam	0	1	None	None
+majlis taman	majlis ilmu taman surga	0	1	None	None
+majlis taman	majlis kahwin di taman warisan putrajaya	0	1	None	None
+majlis taman	majlis perkahwinan di taman tasik titiwangsa	0	1	None	None
+majlis taman	majlis ilmu adalah taman surga	0	1	None	None
+majlis taman	majlis ilmu taman surga hadits	0	1	None	None
+majlis taman	majlis perkahwinan di taman	0	1	None	None
+majlis taman	majlis perbandaran taman melawati	0	1	None	None
+majlis taman	majlis pengurusan taman negeri terengganu	0	2	None	None
+majlis taman	majlis ilmu adalah taman syurga	0	1	None	None
+majlis taman	hong leong islamic bank @ taman majlis jaya	0	1	None	None
+majlis taman	taman belia majlis perbandaran pulau pinang	0	1	None	None
+majlis taman	hadits majlis ilmu taman surga	0	1	None	None
+majlis taman	majlis perkahwinan dalam taman	0	1	None	None
+majlis taman	majlis ilmu sebagai taman syurga	0	1	None	None
+majlis taman	taman majlis jaya	0	12	None	None
+majlis taman	majlis perkahwinan di taman botani putrajaya	0	1	None	None
+majlis taman	dewan majlis perbandaran selayang taman gombak	0	1	None	None
+# seed 'kahwin luar' returned 50 ideas
+kahwin luar	denda kahwin luar negara	20	2	None	None
+kahwin luar	hukum kahwin semasa mengandung anak luar nikah	10	2	0	nikah ketika hamil 2 bulan
+kahwin luar	borang kahwin luar daerah	0	1	None	None
+kahwin luar	prosedur kahwin luar daerah	0	1	None	None
+kahwin luar	surat kebenaran kahwin luar daerah selangor	0	1	None	None
+kahwin luar	kahwin luar daerah	0	1	None	None
+kahwin luar	kahwin orang luar negara	0	1	None	None
+kahwin luar	surat kebenaran kahwin luar negeri	0	2	None	None
+kahwin luar	prosedur kahwin dengan orang luar negara	0	1	None	None
+kahwin luar	hukum kahwin anak luar nikah	0	1	None	None
+kahwin luar	anak luar nikah kahwin	0	1	None	None
+kahwin luar	kahwin orang luar	0	1	None	None
+kahwin luar	kebenaran kahwin luar negeri melaka	0	1	None	None
+kahwin luar	kahwin anak luar nikah	0	1	None	None
+kahwin luar	hukum kahwin perempuan mengandung anak luar nikah	0	1	None	None
+kahwin luar	siapa anak menteri kahwin luar negara	0	1	None	None
+kahwin luar	surat kebenaran kahwin luar daerah	0	1	None	None
+kahwin luar	cara kahwin dengan orang luar negara	0	1	None	None
+kahwin luar	cerpen kahwin rahsia di luar negara	0	1	None	None
+kahwin luar	cerpen kahwin di luar negara	0	1	None	None
+kahwin luar	anak luar nikah boleh kahwin dengan adik beradik	0	1	None	None
+kahwin luar	kahwin luar negeri	0	1	None	None
+kahwin luar	anak luar nikah boleh kahwin dengan bapa	0	1	None	None
+kahwin luar	hukum kahwin dengan anak luar nikah	0	1	None	None
+kahwin luar	surat kebenaran kahwin luar kariah	0	1	None	None
+kahwin luar	jheat terengganu kahwin luar negeri	0	1	None	None
+kahwin luar	mengandung luar nikah boleh kahwin	0	1	None	None
+kahwin luar	kahwin dengan anak luar nikah	0	1	None	None
+kahwin luar	anak luar nikah boleh kahwin dengan ayah	0	1	None	None
+kahwin luar	cara kahwin orang luar negara	0	1	None	None
+kahwin luar	anak luar nikah kahwin dengan ayah	0	1	None	None
+kahwin luar	prosedur kahwin di luar negara	0	1	None	None
+kahwin luar	borang kebenaran kahwin luar negara	0	1	None	None
+kahwin luar	permohonan kahwin luar kawasan	0	1	None	None
+kahwin luar	kebenaran kahwin luar daerah	0	1	None	None
+kahwin luar	kahwin dengan orang luar negara	0	1	None	None
+kahwin luar	kebenaran kahwin luar negara	0	1	None	None
+kahwin luar	anak menteri kahwin luar negara	0	1	None	None
+kahwin luar	daftar kahwin luar negara	0	1	None	None
+kahwin luar	hukum anak luar nikah kahwin dengan bapaknya	0	1	None	None
+kahwin luar	borang permohonan kahwin di luar negeri	0	1	None	None
+kahwin luar	borang kebenaran kahwin luar negeri	0	2	None	None
+kahwin luar	permohonan kahwin luar negara	0	1	None	None
+kahwin luar	hukum anak luar nikah kahwin	0	1	None	None
+kahwin luar	kahwin luar negara	0	1	None	None
+kahwin luar	anak luar nikah kahwin dengan adik beradik	0	1	None	None
+kahwin luar	artis kahwin anak luar nikah	0	1	None	None
+kahwin luar	prosedur kahwin luar negara	0	1	None	None
+kahwin luar	surat kebenaran kahwin luar negara	0	1	None	None
+kahwin luar	kahwin di luar negara	0	1	None	None
+# seed 'perkahwinan taman' returned 15 ideas
+perkahwinan taman	perkahwinan ala taman	0	1	None	None
+perkahwinan taman	majlis perkahwinan di taman tasik titiwangsa	0	1	None	None
+perkahwinan taman	konsep perkahwinan dalam taman	0	1	None	None
+perkahwinan taman	pelamin perkahwinan ala taman	0	1	None	None
+perkahwinan taman	dewan perkahwinan dmc taman melati kuala lumpur	0	1	None	None
+perkahwinan taman	majlis perkahwinan di taman	0	1	None	None
+perkahwinan taman	tema taman dalam perkahwinan	0	1	None	None
+perkahwinan taman	perkahwinan di taman	0	1	None	None
+perkahwinan taman	dewan perkahwinan taman melawati	0	1	None	None
+perkahwinan taman	sewa taman botani putrajaya untuk perkahwinan	0	1	None	None
+perkahwinan taman	perkahwinan dalam taman	0	1	None	None
+perkahwinan taman	majlis perkahwinan dalam taman	0	1	None	None
+perkahwinan taman	perkahwinan taman	0	1	None	None
+perkahwinan taman	tema perkahwinan dalam taman	0	1	None	None
+perkahwinan taman	majlis perkahwinan di taman botani putrajaya	0	1	None	None
