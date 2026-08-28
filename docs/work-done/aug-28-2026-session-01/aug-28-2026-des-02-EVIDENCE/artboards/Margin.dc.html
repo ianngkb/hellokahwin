@@ -1,0 +1,158 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400&display=swap">
+  <style>
+    :root{
+      --ground:#EDEAE1; --ink:#16130F; --muted:#4A443C; --gold:#725825;
+      --rule:rgba(22,19,15,.22); --hair:rgba(22,19,15,.12); --tint:rgba(22,19,15,.05);
+      --sys:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    }
+    *{box-sizing:border-box;}
+    body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sys);
+      -webkit-font-smoothing:antialiased;}
+    a{color:var(--gold);text-decoration:none;} a:hover{color:var(--ink);}
+    .wm{font-family:"Bodoni Moda",Didot,"Bodoni MT",Georgia,serif;font-variation-settings:"opsz" 6;
+      font-weight:400;letter-spacing:.092em;text-transform:uppercase;line-height:1;}
+    .display{font-family:"Bodoni Moda",Didot,"Bodoni MT",Georgia,serif;font-variation-settings:"opsz" 11;
+      font-weight:400;letter-spacing:-.022em;line-height:1.08;text-wrap:balance;}
+    .label{font-size:13px;line-height:1.2;letter-spacing:.08em;text-transform:uppercase;}
+    .nav .label{white-space:nowrap;}
+    .meta{font-size:14px;line-height:1.45;color:var(--muted);}
+    .body p{font-size:18px;line-height:1.7;margin:0 0 1.15em;max-width:68ch;}
+    .h2{font-size:26px;line-height:1.25;font-weight:600;letter-spacing:-.01em;max-width:34ch;margin:0;}
+    table{border-collapse:collapse;width:100%;font-size:16px;line-height:1.45;
+      font-variant-numeric:tabular-nums;}
+    th{text-align:left;font-weight:600;font-size:13px;letter-spacing:.08em;text-transform:uppercase;
+      color:var(--muted);padding:0 16px 8px 0;border-bottom:1px solid var(--rule);}
+    td{padding:11px 16px 11px 0;border-bottom:1px solid var(--hair);vertical-align:top;}
+    .railitem{border-top:1px solid var(--hair);padding:12px 0 0;margin:0 0 16px;}
+  </style>
+</helmet>
+
+<div style="width:1440px;padding:0 0 72px;">
+
+  <!-- masthead: the rail begins at the masthead and never stops -->
+  <div style="border-bottom:1px solid var(--rule);">
+    <div style="max-width:1240px;margin:0 auto;padding:26px 40px 22px;display:grid;grid-template-columns:minmax(0,1fr) 268px;gap:56px;align-items:baseline;">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:40px;">
+        <div class="wm" style="font-size:24px;">HelloKahwin</div>
+        <div class="nav" style="display:flex;gap:22px;align-items:baseline;">
+          <span class="label" style="color:var(--muted);">Nikah &amp; Undang-undang</span>
+          <span class="label" style="color:var(--muted);">Hantaran &amp; Mas Kahwin</span>
+          <span class="label" style="color:var(--muted);">Lagi</span>
+        </div>
+      </div>
+      <div class="label" style="color:var(--gold);">Cari</div>
+    </div>
+  </div>
+
+  <div style="max-width:1240px;margin:0 auto;padding:0 40px;">
+
+    <!-- headline spans the spread -->
+    <div style="padding:52px 0 0;">
+      <div class="label" style="color:var(--gold);margin:0 0 18px;">Hantaran &amp; Mas Kahwin</div>
+      <h1 class="display" style="font-size:44px;margin:0;max-width:26ch;">Mas kahwin ikut negeri 2026: kadar minimum setiap negeri</h1>
+    </div>
+
+    <!-- the spread: text column + permanent margin rail -->
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) 268px;gap:56px;padding:26px 0 0;">
+
+      <div class="body">
+        <p style="font-size:20px;line-height:1.5;color:var(--muted);margin:0 0 30px;max-width:58ch;">Kadar minimum mas kahwin ditetapkan oleh pihak berkuasa agama negeri masing-masing, bukan oleh satu kadar kebangsaan. Enam daripada 14 bidang kuasa tidak menetapkan sebarang kadar.</p>
+        <p>Mas kahwin ialah bayaran yang wajib dibayar oleh suami kepada isteri, dan enakmen undang-undang keluarga Islam negeri mentakrifkannya begitu. Ia berbeza daripada hantaran dan daripada duit hantaran. Yang disenaraikan di bawah ialah kadar minimum pentadbiran, iaitu angka yang ditetapkan oleh pihak berkuasa agama negeri.</p>
+
+        <h2 class="h2" style="margin:32px 0 14px;">Kadar minimum mas kahwin mengikut negeri</h2>
+        <p>Jadual ini menyenaraikan kesemua 14 bidang kuasa. Setiap angka membawa pihak berkuasa yang menetapkannya dan tarikh ia ditetapkan.</p>
+        <p>Tiga baris membawa label belum disahkan sebagai kadar semasa, iaitu Johor, Sabah dan Sarawak. Angka itu wujud, tetapi tiada laman kerajaan negeri berkenaan yang menerbitkannya pada hari ini, dan sumber terbaik yang ditemui sudah berusia beberapa tahun.</p>
+        <p>Angka yang beredar luas bagi Perak, Pulau Pinang dan Kedah tidak dapat dikesan kepada mana-mana sumber kerajaan negeri. Kerana itu ia tidak dicetak di sini.</p>
+      </div>
+
+      <!-- the rail: meta, index, and the photograph at margin scale -->
+      <div>
+        <div class="railitem" style="border-top:2px solid var(--ink);">
+          <div class="label" style="color:var(--muted);margin-bottom:8px;">Disemak</div>
+          <div style="font-size:15px;font-weight:600;color:var(--gold);">28 Ogos 2026</div>
+        </div>
+        <div class="railitem">
+          <div class="label" style="color:var(--muted);margin-bottom:8px;">Bidang kuasa</div>
+          <div style="font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;">14, enam tanpa kadar</div>
+        </div>
+        <div class="railitem">
+          <div class="label" style="color:var(--muted);margin-bottom:8px;">Julat</div>
+          <div style="font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;">RM22.50 – RM300</div>
+        </div>
+
+        <figure style="margin:22px 0 0;">
+          <img src="akad.webp" alt="Akad nikah di masjid, saat mas kahwin diserahkan" style="display:block;width:100%;height:300px;object-fit:cover;object-position:50% 30%;">
+          <figcaption class="meta" style="padding:9px 0 0;">Mas kahwin diserahkan pada masa akad.<br><span class="label" style="color:var(--gold);">Kredit: MyLifeStory (CC BY 2.0)</span></figcaption>
+        </figure>
+
+        <div class="railitem" style="margin-top:26px;">
+          <div class="label" style="color:var(--muted);margin-bottom:10px;">Dalam artikel ini</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <span class="meta" style="color:var(--ink);">Kadar minimum mengikut negeri</span>
+            <span class="meta">Siapa yang menetapkan kadar</span>
+            <span class="meta">Enam bidang kuasa tanpa kadar</span>
+            <span class="meta">Kadar minimum ialah lantai</span>
+            <span class="meta">Soalan lazim</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- the one moment the spread opens: the table crosses the rail -->
+    <div style="padding:22px 0 0;">
+      <table>
+        <thead>
+          <tr><th style="width:180px;">Negeri</th><th style="width:200px;">Kadar minimum</th><th>Pihak berkuasa</th><th style="width:240px;">Tarikh ditetapkan</th></tr>
+        </thead>
+        <tbody>
+          <tr><td style="font-weight:600;">Selangor</td><td style="font-weight:600;">RM300</td><td>Fatwa diwartakan, Jawatankuasa Fatwa Negeri Selangor</td><td>Fatwa 31 Disember 2009, kuat kuasa 1 Januari 2010</td></tr>
+          <tr><td style="font-weight:600;">Wilayah Persekutuan</td><td style="font-weight:600;">RM300</td><td>Majlis Agama Islam Wilayah Persekutuan (MAIWP)</td><td>Mesyuarat 22 Februari 2023, kuat kuasa 1 Oktober 2023</td></tr>
+          <tr><td style="font-weight:600;">Negeri Sembilan</td><td style="font-weight:600;">RM200 / RM100</td><td>Jabatan Hal Ehwal Agama Islam Negeri Sembilan (JHEAINS)</td><td>Tarikh penetapan tidak dinyatakan</td></tr>
+          <tr><td style="font-weight:600;">Melaka</td><td style="font-weight:600;">RM100</td><td>Majlis Agama Islam Melaka (MAIM)</td><td>Mesyuarat 28 Disember 2015, kuat kuasa 1 Jun 2016</td></tr>
+          <tr><td style="font-weight:600;">Pahang</td><td style="font-weight:600;">RM100</td><td>Titah KDYMM Sultan Pahang, dilaporkan RTM</td><td>28 Mac 2024; tarikh kuat kuasa tidak dinyatakan</td></tr>
+          <tr><td style="font-weight:600;">Johor</td><td style="font-weight:600;color:var(--gold);">RM22.50 <span style="font-weight:400;">belum disahkan</span></td><td>Modul kursus praperkahwinan, bukan penerbitan kerajaan negeri</td><td>Sumber terbaik 2019/2020 dan 2022</td></tr>
+          <tr><td style="font-weight:600;">Perlis</td><td>Tiada kadar minimum</td><td>Jabatan Hal Ehwal Agama Islam Perlis (JAIPS)</td><td>Dokumen tatacara perkahwinan, 23 April 2019</td></tr>
+          <tr><td style="font-weight:600;">Kedah</td><td>Tiada kadar minimum</td><td>Enakmen Undang-Undang Keluarga Islam (Kedah) 2008, seksyen 21</td><td>Enakmen 2008 tidak menetapkan sebarang jumlah</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) 268px;gap:56px;padding:36px 0 0;">
+      <div class="body">
+        <h2 class="h2" style="margin:0 0 14px;">Siapa yang menetapkan kadar mas kahwin?</h2>
+        <p>Kadar ditetapkan oleh pihak berkuasa agama di negeri masing-masing, dan caranya berbeza dari satu negeri ke satu negeri. Setiap negeri mempunyai enakmen undang-undang keluarga Islamnya sendiri, iaitu undang-undang yang diluluskan oleh dewan undangan negeri, serta jabatan agamanya sendiri.</p>
+      </div>
+      <div>
+        <div class="railitem">
+          <div class="label" style="color:var(--muted);margin-bottom:8px;">Sumber</div>
+          <div class="meta" style="color:var(--ink);">Warta Kerajaan Negeri Selangor, 4 Februari 2010</div>
+        </div>
+        <div class="railitem">
+          <div class="label" style="color:var(--muted);margin-bottom:8px;">Sumber</div>
+          <div class="meta" style="color:var(--ink);">Kenyataan JAWI, 14 Ogos 2023</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="max-width:1240px;margin:56px auto 0;padding:0 40px;">
+    <div style="border-top:2px solid var(--ink);padding:16px 0 0;display:flex;justify-content:space-between;align-items:baseline;">
+      <span class="wm" style="font-size:15px;">HelloKahwin</span>
+      <span class="label" style="color:var(--muted);">Idea, tips dan panduan perkahwinan untuk pasangan Malaysia</span>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

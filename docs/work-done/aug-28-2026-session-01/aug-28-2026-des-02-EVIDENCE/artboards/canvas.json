@@ -1,0 +1,32 @@
+{
+  "pages": [
+    { "id": "page-1", "name": "Nota & tiga arah" },
+    { "id": "page-2", "name": "Telefon, terang & gelap" },
+    { "id": "page-3", "name": "Katalog" },
+    { "id": "page-4", "name": "Ujian" }
+  ],
+  "artboards": [
+    { "file": "Nota.dc.html",          "page": "page-1", "title": "Nota — baca dulu",                 "x": 0,    "y": 0, "w": 1000, "h": 4820 },
+    { "file": "Main.dc.html",          "page": "page-1", "title": "A · Warkah — artikel, 1440",       "x": 1120, "y": 0, "w": 1440, "h": 2600 },
+    { "file": "Dulang.dc.html",        "page": "page-1", "title": "B · Dulang — artikel, 1440",       "x": 2680, "y": 0, "w": 1440, "h": 2820 },
+    { "file": "Margin.dc.html",        "page": "page-1", "title": "C · Margin — artikel, 1440",       "x": 4240, "y": 0, "w": 1440, "h": 2200 },
+
+    { "file": "WarkahTelefon.dc.html", "page": "page-2", "title": "A · Warkah — 390px",               "x": 0,    "y": 0, "w": 900,  "h": 1000 },
+    { "file": "DulangTelefon.dc.html", "page": "page-2", "title": "B · Dulang — 390px",               "x": 1020, "y": 0, "w": 900,  "h": 1000 },
+    { "file": "MarginTelefon.dc.html", "page": "page-2", "title": "C · Margin — 390px",               "x": 2040, "y": 0, "w": 900,  "h": 1000 },
+
+    { "file": "WarkahKatalog.dc.html", "page": "page-3", "title": "A · Warkah — katalog, 1440",       "x": 0,    "y": 0, "w": 1440, "h": 1900 },
+    { "file": "DulangKatalog.dc.html", "page": "page-3", "title": "B · Dulang — katalog, 1440",       "x": 1560, "y": 0, "w": 1440, "h": 1560 },
+    { "file": "MarginKatalog.dc.html", "page": "page-3", "title": "C · Margin — katalog, 1440",       "x": 3120, "y": 0, "w": 1440, "h": 1420 },
+
+    { "file": "Ujian.dc.html",         "page": "page-4", "title": "Ujian — empat kes, tiga arah",     "x": 0,    "y": 0, "w": 1440, "h": 2160 }
+  ],
+  "annotations": [
+    { "id": "note-1", "page": "page-1", "x": 1120, "y": -150, "w": 460, "text": "A · WARKAH — the record.\nThe answer sits above the fold; the photograph works inside the grid at column width.\nStrength: our one real advantage (six of fourteen jurisdictions set no minimum) is visible in the first screen.\nCost: the least emotional of the three." },
+    { "id": "note-2", "page": "page-1", "x": 2680, "y": -150, "w": 460, "text": "B · DULANG — the object.\nThe photograph is the page. Full bleed, headline on its own parchment ground, never over the picture.\nStrength: every measured competitor is photographically empty; this is the direction that spends the restraint.\nCost: the LCP budget, and it breaks when a cover is missing (see Ujian 2)." },
+    { "id": "note-3", "page": "page-1", "x": 4240, "y": -150, "w": 460, "text": "C · MARGIN — the annotated reference.\nA 68ch column with a permanent 268px rail carrying the record's meta; the table is the one moment the spread opens.\nStrength: handles a long Malay title best, and gives the meta a permanent home.\nCost: the rail is a desktop idea and 64% of impressions are mobile." },
+    { "id": "note-4", "page": "page-2", "x": 0, "y": -130, "w": 620, "text": "Dark is drawn beside light, not translated from it. The 2026-07-14 decision stands: dark stays unreachable to a reader. Four palette values on each screen, plus photography." },
+    { "id": "note-5", "page": "page-4", "x": 0, "y": -130, "w": 620, "text": "The four cases a static mock always omits, drawn in all three directions: a 95-character Malay title, a missing cover, an empty category, and a three-line title beside a one-line title." }
+  ],
+  "launch": { "view": "canvas", "page": "page-1" }
+}

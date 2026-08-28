@@ -1,0 +1,144 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400&display=swap">
+  <style>
+    :root{--ground:#EDEAE1;--ink:#16130F;--muted:#4A443C;--gold:#725825;
+      --rule:rgba(22,19,15,.22);--hair:rgba(22,19,15,.12);}
+    *{box-sizing:border-box;}
+    body{margin:0;background:var(--ground);color:var(--ink);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+      -webkit-font-smoothing:antialiased;}
+    a{color:var(--gold);text-decoration:none;} a:hover{color:var(--ink);}
+    .wm{font-family:"Bodoni Moda",Didot,"Bodoni MT",Georgia,serif;font-variation-settings:"opsz" 6;
+      font-weight:400;letter-spacing:.092em;text-transform:uppercase;line-height:1;}
+    .display{font-family:"Bodoni Moda",Didot,"Bodoni MT",Georgia,serif;font-variation-settings:"opsz" 11;
+      font-weight:400;letter-spacing:-.022em;line-height:1.08;}
+    .label{font-size:13px;line-height:1.2;letter-spacing:.08em;text-transform:uppercase;}
+    .nav .label{white-space:nowrap;}
+    .meta{font-size:14px;line-height:1.45;color:var(--muted);}
+    .h3{font-size:21px;line-height:1.3;font-weight:600;margin:0;max-width:46ch;}
+    .entry{display:grid;grid-template-columns:150px minmax(0,1fr);gap:26px;align-items:start;
+      padding:22px 0;border-bottom:1px solid var(--hair);}
+    .thumb{width:150px;height:113px;object-fit:cover;display:block;}
+    .railitem{border-top:1px solid var(--hair);padding:12px 0 0;margin:0 0 18px;}
+  </style>
+</helmet>
+
+<div style="width:1440px;padding:0 0 60px;">
+
+  <div style="border-bottom:1px solid var(--rule);">
+    <div style="max-width:1240px;margin:0 auto;padding:26px 40px 22px;display:grid;grid-template-columns:minmax(0,1fr) 268px;gap:56px;align-items:baseline;">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:40px;">
+        <div class="wm" style="font-size:24px;">HelloKahwin</div>
+        <div class="nav" style="display:flex;gap:22px;align-items:baseline;">
+          <span class="label" style="color:var(--muted);">Nikah &amp; Undang-undang</span>
+          <span class="label" style="color:var(--ink);">Hantaran &amp; Mas Kahwin</span>
+          <span class="label" style="color:var(--muted);">Lagi</span>
+        </div>
+      </div>
+      <div class="label" style="color:var(--gold);">Cari</div>
+    </div>
+  </div>
+
+  <div style="max-width:1240px;margin:0 auto;padding:0 40px;">
+
+    <div style="padding:48px 0 22px;border-bottom:2px solid var(--ink);">
+      <div class="label" style="color:var(--gold);margin:0 0 14px;">Kategori</div>
+      <h1 class="display" style="font-size:44px;margin:0;">Hantaran &amp; Mas Kahwin</h1>
+    </div>
+
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) 268px;gap:56px;padding:0;">
+
+      <div>
+        <div class="entry">
+          <img class="thumb" src="c-rombongan.webp" alt="Rombongan hantaran berdiri di jalan sambil memegang dulang">
+          <div>
+            <h3 class="h3">Persiapan hantaran kahwin: jadual lapan minggu</h3>
+            <p class="meta" style="margin:8px 0 0;max-width:64ch;">Apa yang perlu disiapkan pada setiap minggu, dan apa yang rosak apabila susunannya terbalik.</p>
+          </div>
+        </div>
+        <div class="entry">
+          <img class="thumb" src="c-tujuh.webp" alt="Rombongan berdiri di hadapan rumah dengan dulang hantaran di tangan">
+          <div>
+            <h3 class="h3">Hantaran kahwin bajet: kos sebenar 12 dulang, 2026</h3>
+            <p class="meta" style="margin:8px 0 0;max-width:64ch;">Kos setiap dulang dikira berasingan, dengan harga yang disemak, bukan anggaran.</p>
+          </div>
+        </div>
+        <div class="entry">
+          <img class="thumb" src="c-sirih.webp" alt="Tepak sirih tembaga di atas dulang dengan bunga ros merah">
+          <div>
+            <h3 class="h3">Hantaran tunang untuk perempuan: apa yang dibawa masuk</h3>
+            <p class="meta" style="margin:8px 0 0;max-width:64ch;">Senarai barang mengikut kategori, dan sebab tepak sirih masih dikira dulang pembuka.</p>
+          </div>
+        </div>
+        <div class="entry">
+          <img class="thumb" src="c-quran.webp" alt="Al-Quran dan sejadah dalam sangkar hantaran putih">
+          <div>
+            <h3 class="h3">Hantaran tunang untuk lelaki: apa yang dibalas dan harganya</h3>
+            <p class="meta" style="margin:8px 0 0;max-width:64ch;">Balasan dulang pihak lelaki, dengan julat harga bagi setiap barang.</p>
+          </div>
+        </div>
+        <div class="entry">
+          <img class="thumb" src="c-bersusun.webp" alt="Dulang hantaran bersusun berbalut kain merah dan renda">
+          <div>
+            <h3 class="h3">Berapa dulang hantaran tunang, dan siapa yang tentukan</h3>
+            <p class="meta" style="margin:8px 0 0;max-width:64ch;">Bilangan ganjil, bilangan genap, dan pihak mana yang sebenarnya memutuskan.</p>
+          </div>
+        </div>
+        <div class="entry">
+          <img class="thumb" src="c-naikrumah.webp" alt="Rombongan membawa dulang hantaran masuk ke halaman rumah">
+          <div>
+            <h3 class="h3">Barang hantaran perempuan: senarai ikut kategori dan kos</h3>
+            <p class="meta" style="margin:8px 0 0;max-width:64ch;">Sembilan kategori barang, dan berapa yang biasanya dibelanjakan untuk setiap satu.</p>
+          </div>
+        </div>
+        <div class="entry" style="border-bottom:0;">
+          <img class="thumb" src="c-organza.webp" alt="Wakil dua keluarga duduk berbincang dengan gubahan hantaran di antara mereka">
+          <div>
+            <h3 class="h3">Hidden hantaran: maksud, sebab ia popular dan cara buat</h3>
+            <p class="meta" style="margin:8px 0 0;max-width:64ch;">Gubahan tertutup yang dibuka hanya di hadapan keluarga, dan kenapa ia menjadi pilihan.</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding-top:22px;">
+        <div class="railitem" style="border-top:2px solid var(--ink);">
+          <div class="label" style="color:var(--muted);margin-bottom:8px;">Dalam kategori ini</div>
+          <div style="font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;">38 artikel</div>
+        </div>
+        <div class="railitem">
+          <div class="label" style="color:var(--muted);margin-bottom:10px;">Susun ikut</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <span class="meta" style="color:var(--ink);">Terkini</span>
+            <span class="meta">Disemak terbaru</span>
+            <span class="meta">Mengikut abjad</span>
+          </div>
+        </div>
+        <div class="railitem">
+          <div class="label" style="color:var(--muted);margin-bottom:10px;">Kategori berkait</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <span class="meta">Nikah &amp; Undang-undang</span>
+            <span class="meta">Sebelum Nikah: Jodoh, Merisik &amp; Tunang</span>
+            <span class="meta">Venue, Kos &amp; Perancangan</span>
+          </div>
+        </div>
+        <div class="railitem">
+          <div class="label" style="color:var(--muted);margin-bottom:8px;">Disemak</div>
+          <div style="font-size:15px;font-weight:600;color:var(--gold);">Ogos 2026</div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

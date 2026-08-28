@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400&display=swap">
+  <style>
+    *{box-sizing:border-box;}
+    body{margin:0;background:#D8D3C7;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+      -webkit-font-smoothing:antialiased;}
+    a{color:#725825;text-decoration:none;} a:hover{color:#16130F;}
+    .phone{width:390px;height:880px;overflow:hidden;}
+    .light{--ground:#EDEAE1;--ink:#16130F;--muted:#4A443C;--gold:#725825;
+      --rule:rgba(22,19,15,.22);--hair:rgba(22,19,15,.12);}
+    .dark{--ground:#14110D;--ink:#EDEAE1;--muted:#C9C3B6;--gold:#C9A253;
+      --rule:rgba(237,234,225,.20);--hair:rgba(237,234,225,.11);}
+    .screen{background:var(--ground);color:var(--ink);height:100%;}
+    .wm{font-family:"Bodoni Moda",Didot,"Bodoni MT",Georgia,serif;font-variation-settings:"opsz" 6;
+      font-weight:400;letter-spacing:.092em;text-transform:uppercase;line-height:1;}
+    .display{font-family:"Bodoni Moda",Didot,"Bodoni MT",Georgia,serif;font-variation-settings:"opsz" 11;
+      font-weight:400;letter-spacing:-.022em;line-height:1.08;text-wrap:balance;}
+    .label{font-size:13px;line-height:1.2;letter-spacing:.08em;text-transform:uppercase;}
+    .meta{font-size:14px;line-height:1.45;color:var(--muted);}
+    .cap{font-size:12px;line-height:1.2;letter-spacing:.1em;text-transform:uppercase;color:#4A443C;}
+    .fact{flex:1 1 0;}
+    .fact .label{color:var(--muted);margin-bottom:6px;}
+    .fact .v{font-size:16px;font-weight:600;font-variant-numeric:tabular-nums;}
+  </style>
+</helmet>
+
+<div style="width:900px;height:1000px;padding:24px 30px;">
+  <div style="display:flex;gap:60px;">
+
+    <div>
+      <div class="cap" style="margin:0 0 12px;">B · Dulang — terang, 390px</div>
+      <div class="phone light">
+        <div class="screen">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;padding:20px 20px 14px;">
+            <span class="wm" style="font-size:18px;">HelloKahwin</span>
+            <span class="label" style="color:var(--gold);">Cari</span>
+          </div>
+          <!-- 4:5 cover, full bleed, 390 x 487 -->
+          <img src="akad.webp" alt="Akad nikah di masjid, saat mas kahwin diserahkan" style="display:block;width:390px;height:487px;object-fit:cover;object-position:50% 26%;">
+          <div style="display:flex;justify-content:flex-end;padding:8px 20px 0;">
+            <span class="label" style="color:var(--gold);">Kredit: MyLifeStory (CC BY 2.0)</span>
+          </div>
+          <div style="padding:18px 20px 0;">
+            <div class="label" style="color:var(--gold);margin:0 0 12px;">Hantaran &amp; Mas Kahwin</div>
+            <h1 class="display" style="font-size:30px;margin:0;">Mas kahwin ikut negeri 2026: kadar minimum setiap negeri</h1>
+            <p style="font-size:18px;line-height:1.5;color:var(--muted);margin:16px 0 0;">Kadar ditetapkan oleh pihak berkuasa agama negeri, bukan oleh satu kadar kebangsaan.</p>
+            <div style="display:flex;gap:16px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:14px 0;margin:18px 0 0;">
+              <div class="fact"><div class="label">Terendah</div><div class="v">RM22.50</div></div>
+              <div class="fact"><div class="label">Tertinggi</div><div class="v">RM300</div></div>
+              <div class="fact"><div class="label">Tanpa kadar</div><div class="v">6 / 14</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="cap" style="margin:0 0 12px;">B · Dulang — gelap, 390px</div>
+      <div class="phone dark">
+        <div class="screen">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;padding:20px 20px 14px;">
+            <span class="wm" style="font-size:18px;">HelloKahwin</span>
+            <span class="label" style="color:var(--gold);">Cari</span>
+          </div>
+          <img src="akad.webp" alt="Akad nikah di masjid, saat mas kahwin diserahkan" style="display:block;width:390px;height:487px;object-fit:cover;object-position:50% 26%;">
+          <div style="display:flex;justify-content:flex-end;padding:8px 20px 0;">
+            <span class="label" style="color:var(--gold);">Kredit: MyLifeStory (CC BY 2.0)</span>
+          </div>
+          <div style="padding:18px 20px 0;">
+            <div class="label" style="color:var(--gold);margin:0 0 12px;">Hantaran &amp; Mas Kahwin</div>
+            <h1 class="display" style="font-size:30px;margin:0;">Mas kahwin ikut negeri 2026: kadar minimum setiap negeri</h1>
+            <p style="font-size:18px;line-height:1.5;color:var(--muted);margin:16px 0 0;">Kadar ditetapkan oleh pihak berkuasa agama negeri, bukan oleh satu kadar kebangsaan.</p>
+            <div style="display:flex;gap:16px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:14px 0;margin:18px 0 0;">
+              <div class="fact"><div class="label">Terendah</div><div class="v">RM22.50</div></div>
+              <div class="fact"><div class="label">Tertinggi</div><div class="v">RM300</div></div>
+              <div class="fact"><div class="label">Tanpa kadar</div><div class="v">6 / 14</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

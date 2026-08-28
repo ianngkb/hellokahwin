@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400&display=swap">
+  <style>
+    :root{--ground:#EDEAE1;--ink:#16130F;--muted:#4A443C;--gold:#725825;
+      --rule:rgba(22,19,15,.22);--hair:rgba(22,19,15,.12);}
+    *{box-sizing:border-box;}
+    body{margin:0;background:var(--ground);color:var(--ink);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+      -webkit-font-smoothing:antialiased;}
+    a{color:var(--gold);text-decoration:none;} a:hover{color:var(--ink);}
+    .wm{font-family:"Bodoni Moda",Didot,"Bodoni MT",Georgia,serif;font-variation-settings:"opsz" 6;
+      font-weight:400;letter-spacing:.092em;text-transform:uppercase;line-height:1;}
+    .display{font-family:"Bodoni Moda",Didot,"Bodoni MT",Georgia,serif;font-variation-settings:"opsz" 11;
+      font-weight:400;letter-spacing:-.022em;line-height:1.08;}
+    .label{font-size:13px;line-height:1.2;letter-spacing:.08em;text-transform:uppercase;}
+    .meta{font-size:14px;line-height:1.45;color:var(--muted);}
+    .h3{font-size:21px;line-height:1.3;font-weight:600;margin:14px 0 0;max-width:26ch;}
+    .cover{width:100%;height:330px;object-fit:cover;display:block;}
+  </style>
+</helmet>
+
+<div style="width:1440px;padding:0 0 60px;">
+
+  <div>
+    <div style="max-width:1240px;margin:0 auto;padding:26px 40px 22px;display:flex;align-items:baseline;justify-content:space-between;gap:40px;">
+      <div class="wm" style="font-size:24px;">HelloKahwin</div>
+      <div style="display:flex;gap:28px;align-items:baseline;">
+        <span class="label" style="color:var(--muted);">Nikah &amp; Undang-undang</span>
+        <span class="label" style="color:var(--ink);">Hantaran &amp; Mas Kahwin</span>
+        <span class="label" style="color:var(--muted);">Venue, Kos &amp; Perancangan</span>
+        <span class="label" style="color:var(--gold);">Cari</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="max-width:1240px;margin:0 auto;padding:0 40px;">
+
+    <div style="padding:60px 0 46px;">
+      <div class="label" style="color:var(--gold);margin:0 0 16px;">Kategori · 38 artikel</div>
+      <h1 class="display" style="font-size:44px;margin:0;">Hantaran &amp; Mas Kahwin</h1>
+      <p style="font-size:20px;line-height:1.5;color:var(--muted);max-width:56ch;margin:20px 0 0;">Senarai barang, kos sebenar, dan kadar mas kahwin setiap negeri. Setiap angka membawa sumbernya.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:44px 40px;">
+
+      <div>
+        <img class="cover" src="c-rombongan.webp" alt="Rombongan hantaran berdiri di jalan sambil memegang dulang">
+        <h3 class="h3">Persiapan hantaran kahwin: jadual lapan minggu</h3>
+        <p class="meta" style="margin:9px 0 0;">Apa yang perlu disiapkan pada setiap minggu.</p>
+      </div>
+
+      <div>
+        <img class="cover" src="c-sirih.webp" alt="Tepak sirih tembaga di atas dulang dengan bunga ros merah">
+        <h3 class="h3">Hantaran tunang untuk perempuan: apa yang dibawa masuk</h3>
+        <p class="meta" style="margin:9px 0 0;">Senarai barang mengikut kategori.</p>
+      </div>
+
+      <div>
+        <img class="cover" src="c-quran.webp" alt="Al-Quran dan sejadah dalam sangkar hantaran putih">
+        <h3 class="h3">Hantaran tunang untuk lelaki: apa yang dibalas dan harganya</h3>
+        <p class="meta" style="margin:9px 0 0;">Balasan dulang pihak lelaki, dengan julat harga.</p>
+      </div>
+
+      <div>
+        <img class="cover" src="c-tujuh.webp" alt="Rombongan berdiri di hadapan rumah dengan dulang hantaran di tangan">
+        <h3 class="h3">Hantaran kahwin bajet: kos sebenar 12 dulang, 2026</h3>
+        <p class="meta" style="margin:9px 0 0;">Kos setiap dulang dikira berasingan.</p>
+      </div>
+
+      <div>
+        <img class="cover" src="c-bersusun.webp" alt="Dulang hantaran bersusun berbalut kain merah dan renda">
+        <h3 class="h3">Berapa dulang hantaran tunang, dan siapa yang tentukan</h3>
+        <p class="meta" style="margin:9px 0 0;">Bilangan ganjil, genap, dan siapa yang memutuskan.</p>
+      </div>
+
+      <div>
+        <img class="cover" src="c-kek.webp" alt="Pengantin perempuan bersama keluarga, dulang kek dan gubahan di hadapan mereka">
+        <h3 class="h3">Barang hantaran yang digunakan, dan yang tersimpan</h3>
+        <p class="meta" style="margin:9px 0 0;">Apa yang dipakai selepas majlis, dan apa yang tidak.</p>
+      </div>
+
+    </div>
+
+    <div style="display:flex;justify-content:center;padding:52px 0 0;">
+      <span class="label" style="color:var(--gold);border-bottom:1px solid var(--gold);padding-bottom:5px;">Muat 32 lagi</span>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

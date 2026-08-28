@@ -1,0 +1,198 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400&display=swap">
+  <style>
+    :root{--ground:#EDEAE1;--ink:#16130F;--muted:#4A443C;--gold:#725825;
+      --rule:rgba(22,19,15,.22);--hair:rgba(22,19,15,.12);--tint:rgba(22,19,15,.05);}
+    *{box-sizing:border-box;}
+    body{margin:0;background:#D8D3C7;color:var(--ink);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+      -webkit-font-smoothing:antialiased;}
+    a{color:var(--gold);text-decoration:none;} a:hover{color:var(--ink);}
+    .display{font-family:"Bodoni Moda",Didot,"Bodoni MT",Georgia,serif;font-variation-settings:"opsz" 11;
+      font-weight:400;letter-spacing:-.022em;line-height:1.08;}
+    .label{font-size:13px;line-height:1.2;letter-spacing:.08em;text-transform:uppercase;}
+    .meta{font-size:14px;line-height:1.45;color:var(--muted);}
+    .h3{font-size:21px;line-height:1.3;font-weight:600;margin:0;}
+    .cell{background:var(--ground);padding:22px;}
+    .caseno{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#4A443C;}
+    .note{font-size:13px;line-height:1.45;color:var(--muted);border-top:1px solid var(--hair);
+      margin-top:14px;padding-top:9px;}
+    .miss{background:var(--tint);border:1px solid var(--rule);display:flex;align-items:center;
+      justify-content:center;text-align:center;}
+  </style>
+</helmet>
+
+<div style="width:1440px;padding:34px 40px 46px;">
+
+  <div style="display:flex;align-items:baseline;gap:20px;padding:0 0 22px;">
+    <h1 class="display" style="font-size:32px;margin:0;">Empat ujian yang mematahkan mock statik</h1>
+    <span class="meta" style="max-width:56ch;">Tajuk Malay sebenar dari laman langsung. Setiap kes dilukis dalam ketiga-tiga arah. Gambar di sini ialah pengganti dari pustaka kami sendiri: ujian ini menguji pembalutan tajuk dan kekosongan, bukan pemilihan kover.</span>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;">
+    <div class="caseno" style="padding:0 0 4px;">A · Warkah</div>
+    <div class="caseno" style="padding:0 0 4px;">B · Dulang</div>
+    <div class="caseno" style="padding:0 0 4px;">C · Margin</div>
+  </div>
+
+  <!-- CASE 1: the 95-character title -->
+  <div class="caseno" style="padding:20px 0 8px;">Ujian 1 · tajuk 95 aksara — “20 Lokasi Terbaik Pre Wedding Photoshoot di Malaysia – Dari Alam Semula Jadi Hingga Urban City!”</div>
+  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;">
+    <div class="cell">
+      <div style="display:grid;grid-template-columns:36px minmax(0,1fr) 120px;gap:16px;align-items:start;border-bottom:1px solid var(--hair);padding-bottom:16px;">
+        <div class="meta" style="font-variant-numeric:tabular-nums;padding-top:4px;">01</div>
+        <div>
+          <h3 class="h3" style="max-width:44ch;">20 Lokasi Terbaik Pre Wedding Photoshoot di Malaysia – Dari Alam Semula Jadi Hingga Urban City!</h3>
+          <div class="label" style="color:var(--gold);margin-top:10px;">Fotografi &amp; Videografi</div>
+        </div>
+        <img src="c-kek.webp" alt="Pengantin perempuan bersama keluarga, dulang kek dan gubahan di hadapan mereka" style="width:120px;height:90px;object-fit:cover;display:block;">
+      </div>
+      <div class="note">Empat baris pada 21px. Baris tidak mengubah tinggi baris lain kerana setiap entri adalah barisnya sendiri. Kes terburuk dalam arah ini ialah baris menjadi lebih tinggi, bukan grid menjadi senget.</div>
+    </div>
+
+    <div class="cell">
+      <img src="c-kek.webp" alt="Pengantin perempuan bersama keluarga, dulang kek dan gubahan di hadapan mereka" style="width:100%;height:180px;object-fit:cover;display:block;">
+      <h3 class="h3" style="margin-top:14px;max-width:26ch;">20 Lokasi Terbaik Pre Wedding Photoshoot di Malaysia – Dari Alam Semula Jadi Hingga Urban City!</h3>
+      <div class="note">Enam baris di bawah kover. Dalam grid tiga lajur, kad ini menolak jirannya turun melainkan setiap kad dikunci pada tinggi yang sama dan tajuk dipotong. <strong style="color:var(--ink);">Keputusan: jangan potong.</strong> Kunci kover, biarkan tajuk penuh, dan selaraskan kad pada bahagian atas.</div>
+    </div>
+
+    <div class="cell">
+      <div style="display:grid;grid-template-columns:110px minmax(0,1fr);gap:18px;align-items:start;">
+        <img src="c-kek.webp" alt="Pengantin perempuan bersama keluarga, dulang kek dan gubahan di hadapan mereka" style="width:110px;height:83px;object-fit:cover;display:block;">
+        <h3 class="h3" style="max-width:46ch;">20 Lokasi Terbaik Pre Wedding Photoshoot di Malaysia – Dari Alam Semula Jadi Hingga Urban City!</h3>
+      </div>
+      <div class="note">Tiga baris pada ukuran 46ch. Lajur teks yang lebar menyerap tajuk panjang paling baik daripada ketiga-tiganya, dan itu memang sebabnya rel wujud.</div>
+    </div>
+  </div>
+
+  <!-- CASE 2: missing cover -->
+  <div class="caseno" style="padding:26px 0 8px;">Ujian 2 · tiada kover — artikel diterbitkan tanpa gambar berlesen</div>
+  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;">
+    <div class="cell">
+      <div style="display:grid;grid-template-columns:36px minmax(0,1fr);gap:16px;align-items:start;border-bottom:1px solid var(--hair);padding-bottom:16px;">
+        <div class="meta" style="font-variant-numeric:tabular-nums;padding-top:4px;">09</div>
+        <div>
+          <h3 class="h3" style="max-width:44ch;">Adat hantaran ikut keluarga: bila dua senarai berbeza</h3>
+          <p class="meta" style="margin:8px 0 0;">Bila senarai dua belah keluarga tidak sama, dan cara ia biasanya diselesaikan.</p>
+        </div>
+      </div>
+      <div class="note">Lajur gambar hilang, baris tetap berfungsi. Indeks ini dibina daripada teks, jadi gambar adalah tambahan, bukan struktur.</div>
+    </div>
+
+    <div class="cell">
+      <div class="miss" style="width:100%;height:180px;">
+        <div style="padding:16px;">
+          <div class="label" style="color:var(--gold);margin-bottom:8px;">Tiada kover</div>
+          <div class="meta" style="max-width:32ch;">Kad ini tidak boleh dilukis. Tiada kad teks.</div>
+        </div>
+      </div>
+      <h3 class="h3" style="margin-top:14px;max-width:26ch;">Adat hantaran ikut keluarga: bila dua senarai berbeza</h3>
+      <div class="note"><strong style="color:var(--ink);">Ini kelemahan sebenar arah B.</strong> Gambar ialah halaman, jadi ketiadaannya bukan kekurangan hiasan, ia lubang. Peraturan yang perlu: artikel tanpa kover berlesen jatuh ke baris bergaris gaya A dalam grid yang sama. Kad teks tidak pernah dibenarkan.</div>
+    </div>
+
+    <div class="cell">
+      <div style="display:grid;grid-template-columns:110px minmax(0,1fr);gap:18px;align-items:start;">
+        <div class="miss" style="width:110px;height:83px;"><span class="label" style="color:var(--gold);">—</span></div>
+        <div>
+          <h3 class="h3" style="max-width:46ch;">Adat hantaran ikut keluarga: bila dua senarai berbeza</h3>
+          <p class="meta" style="margin:8px 0 0;">Bila senarai dua belah keluarga tidak sama.</p>
+        </div>
+      </div>
+      <div class="note">Slot rel mengecut, teks beralih ke kiri, garis kekal. Rel yang membawa meta, bukan gambar, ialah sebab arah ini bertahan.</div>
+    </div>
+  </div>
+
+  <!-- CASE 3: empty category -->
+  <div class="caseno" style="padding:26px 0 8px;">Ujian 3 · kategori kosong — “Pantai Santai”, satu artikel dalam korpus, sifar selepas ditapis</div>
+  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;">
+    <div class="cell">
+      <h1 class="display" style="font-size:30px;margin:0 0 16px;">Pantai Santai</h1>
+      <div style="border-top:2px solid var(--ink);border-bottom:1px solid var(--rule);padding:14px 0;">
+        <div class="meta">Belum ada artikel dalam kategori ini.</div>
+      </div>
+      <div class="label" style="color:var(--muted);margin:16px 0 10px;">Cuba kategori ini</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <span class="meta" style="color:var(--ink);">Venue, Kos &amp; Perancangan</span>
+        <span class="meta" style="color:var(--ink);">Real Wedding</span>
+        <span class="meta" style="color:var(--ink);">Minimalis Mewah</span>
+      </div>
+      <div class="note">Kosong pun masih rekod. Garis dan medan kekal, jadi halaman kelihatan diselenggara, bukan pecah.</div>
+    </div>
+
+    <div class="cell">
+      <h1 class="display" style="font-size:30px;margin:0 0 16px;">Pantai Santai</h1>
+      <div class="miss" style="width:100%;height:150px;">
+        <div class="meta" style="max-width:34ch;padding:16px;">Belum ada artikel dalam kategori ini.</div>
+      </div>
+      <div class="note">Arah B tiada suara apabila kosong: buangkan gambar dan tiada apa-apa tinggal. Peraturan yang perlu: halaman kategori kosong menggunakan susunan A, bukan versi B yang kosong.</div>
+    </div>
+
+    <div class="cell">
+      <div style="display:grid;grid-template-columns:minmax(0,1fr) 130px;gap:18px;">
+        <div>
+          <h1 class="display" style="font-size:30px;margin:0 0 16px;">Pantai Santai</h1>
+          <div class="meta">Belum ada artikel dalam kategori ini.</div>
+        </div>
+        <div style="border-top:2px solid var(--ink);padding-top:10px;">
+          <div class="label" style="color:var(--muted);margin-bottom:6px;">Artikel</div>
+          <div style="font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;">0</div>
+          <div class="label" style="color:var(--muted);margin:14px 0 6px;">Disemak</div>
+          <div style="font-size:15px;font-weight:600;color:var(--gold);">Ogos 2026</div>
+        </div>
+      </div>
+      <div class="note">Rel masih membawa meta, jadi halaman kosong masih membawa maklumat. Arah ini paling baik menangani kekosongan.</div>
+    </div>
+  </div>
+
+  <!-- CASE 4: three-line title beside a one-line title -->
+  <div class="caseno" style="padding:26px 0 8px;">Ujian 4 · tajuk tiga baris di sebelah tajuk satu baris</div>
+  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;">
+    <div class="cell">
+      <div style="border-bottom:1px solid var(--hair);padding-bottom:14px;">
+        <h3 class="h3" style="max-width:44ch;">Villa Warisan: Majlis Perkahwinan Tradisional di Lokasi Bernuansa Kayu dan Penuh Nilai Warisan</h3>
+      </div>
+      <div style="padding-top:14px;">
+        <h3 class="h3" style="max-width:44ch;">Inai tangan pengantin</h3>
+      </div>
+      <div class="note">Satu lajur, jadi soalan itu tidak timbul. Ketidakseimbangan antara entri diserap oleh garis.</div>
+    </div>
+
+    <div class="cell">
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:start;">
+        <div>
+          <img src="c-merah.webp" alt="Dulang hantaran berbalut kain merah dan renda, dilihat dekat" style="width:100%;height:110px;object-fit:cover;display:block;">
+          <h3 class="h3" style="margin-top:12px;font-size:19px;">Villa Warisan: Majlis Perkahwinan Tradisional di Lokasi Bernuansa Kayu dan Penuh Nilai Warisan</h3>
+        </div>
+        <div>
+          <img src="c-bersusun.webp" alt="Dulang hantaran bersusun berbalut kain merah dan renda" style="width:100%;height:110px;object-fit:cover;display:block;">
+          <h3 class="h3" style="margin-top:12px;font-size:19px;">Inai tangan pengantin</h3>
+        </div>
+      </div>
+      <div class="note">Kover berbaris kerana ia dikunci; tajuk tidak. Bahagian bawah kad menjadi senget, dan itu diterima. Alternatifnya ialah memotong tajuk, yang lebih teruk.</div>
+    </div>
+
+    <div class="cell">
+      <div style="display:grid;grid-template-columns:80px minmax(0,1fr);gap:14px;padding-bottom:14px;border-bottom:1px solid var(--hair);">
+        <img src="c-merah.webp" alt="Dulang hantaran berbalut kain merah dan renda, dilihat dekat" style="width:80px;height:60px;object-fit:cover;display:block;">
+        <h3 class="h3" style="font-size:19px;max-width:48ch;">Villa Warisan: Majlis Perkahwinan Tradisional di Lokasi Bernuansa Kayu dan Penuh Nilai Warisan</h3>
+      </div>
+      <div style="display:grid;grid-template-columns:80px minmax(0,1fr);gap:14px;padding-top:14px;">
+        <img src="c-bersusun.webp" alt="Dulang hantaran bersusun berbalut kain merah dan renda" style="width:80px;height:60px;object-fit:cover;display:block;">
+        <h3 class="h3" style="font-size:19px;max-width:48ch;">Inai tangan pengantin</h3>
+      </div>
+      <div class="note">Gambar kecil dan ukuran lebar bermakna beza dua baris hampir tidak kelihatan. Ini kekuatan senyap arah C.</div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>
