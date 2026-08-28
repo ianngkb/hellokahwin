@@ -386,7 +386,12 @@ The format is fixed. Eight articles must not each invent one.
 - **Each answer is 40 to 60 words.** The **first sentence answers directly**, and where the answer is yes or no it starts with `Ya.` or `Tidak.` This is exactly what ecentral.my does on the page that outranks us today.
 - **Every answer that contains a religious, legal or price claim names its source in the answer.** No exceptions for brevity.
 - **No question invented to pad.** Questions come from the brief's Tier-3 question list or from the SERP's People Also Ask. If the brief has no question list, that is a brief problem and goes back to `head-of-seo-content`.
-- **Marked up as FAQ schema** by the engineer at ingest. The writer's job is the shape; the markup is not.
+- **The block emits its own `FAQPage` schema, from the shape you write.** Nobody marks anything up at ingest, and nobody ever did — that instruction described a step that did not exist until SEO-10 built the emitter on 28 Aug 2026. The article route now reads the block on every render (`src/lib/inspire/faq-schema.ts` in the site repo), which makes the rules above the input to code rather than house style. Three of them decide whether any schema appears at all:
+  - **The H2 must read `Soalan lazim` and nothing else.** Case and a trailing colon are tolerated; a different wording is not. `Soalan sebelum bayar` is a prose section, not a Q&A block, and the emitter ignores it — correctly, because three articles carry one of those AND a real `Soalan lazim` block further down.
+  - **Each question is a heading exactly one level below the block heading, and ends in `?`.** An H2 block asks in H3. The mas kahwin articles run their whole body in H3, so their block is an H3 and asks in H4; both are live today and both work. A sub-heading with no `?` is not a question and is dropped.
+  - **Each question needs prose under it.** A question followed straight by the next question is dropped.
+  Below two surviving questions nothing is emitted at all, so a block of one is a block of none.
+- **Do not write the block for the rich result, because there is no longer one to win.** Google restricted FAQ rich results to well-known government and health sites on 8 Aug 2023, and retired the feature outright: it stopped appearing in Google Search on 7 May 2026. The markup is still correct, costs nothing, and is still read by consumers other than Google Search. It will not draw an accordion under our result. Write the block because readers ask those questions, and price the schema at zero when planning work.
 
 > **BAIK**
 > ### Adakah mas kahwin sama dengan duit hantaran?

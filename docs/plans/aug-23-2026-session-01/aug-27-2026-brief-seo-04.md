@@ -9,6 +9,20 @@
 
 The premise was right — entity pages beat listicles — and the target list was wrong. nikahsatu.com (DR 14) earns ~4,900 traffic from /venue/[slug] ENTITY pages against ~293 from its geographic hubs. Roughly 17x. Their winners are COMMERCIAL VENUE BRANDS with real brand demand: arjuna-melaka 882 traffic at volume 2,400; arjuna-johor-bahru 691 at 1,800; villa-rimba-flora-gombak 670 at 1,800; jiwa-damansara 431 at 1,200. THE FOUR HALLS THIS ITEM ORIGINALLY NAMED ARE COUNCIL HALLS TOTALLING ~30 SEARCHES A MONTH: setiawangsa 10, perdana keramat mall 20, keramat 0, mpaj tasik tambahan 0. Two structural problems, neither fixable with a better template — almost no brand search demand, and what exists is held at position 1–2 by the council's own booking portal (tempahkl.dbkl.gov.my, DR 64). We could build those four perfectly and earn near zero. Commercial venues have the inverse profile: high volume, no competing official portal, and the incumbent is a DR 14 site with thin pages carrying no capacity data. Multi-location brands multiply one template into N pages — Rumah Abang Jamil alone gives nikahsatu seven pages worth ~1,070 combined.
 
+## Correction added 28 Aug 2026 by SEO-10 — the FAQPage part of the DoD
+
+The DoD below asks venue pages for `EventVenue + LocalBusiness + FAQPage` schema.
+**Build all three; the DoD is not narrowed.** But do not cost `FAQPage` as a rich
+result, and do not report it as one. Google restricted FAQ rich results to
+well-known government and health sites on 8 Aug 2023 and retired the feature
+outright on 7 May 2026 — it no longer appears in Google Search for anybody. The
+markup is still valid, still free, and still read by consumers other than Google
+Search, which is why it stays in the spec. `EventVenue` and `LocalBusiness` are
+unaffected.
+
+Measured and evidenced by SEO-10: site repo
+`docs/work-done/2026-08-28-seo-10-faq-schema.md`.
+
 ## Definition of done (verbatim - the bar, NOT narrowed)
 
 GATE FIRST, BEFORE ANY PAGE IS BUILT: one hour confirming we can SOURCE real prices and capacities at scale for commercial venues, and whether nikahsatu's venue pages are paid listings or partnerships giving them data access we lack. Report the answer. If sourcing fails, STOP and bring it back — do not build pages with invented or boilerplate figures, and do not quietly downgrade to council halls. Then: at least EIGHT entity pages across two or more multi-location venue brands at 400+ monthly brand volume each — eight is the cluster floor, below which it does not read as coverage. PLUS Dewan Komuniti Setiawangsa as a DELIBERATE CONTROL, the only council hall with measured demand (~150 GSC impressions across its name variants): if a properly built Setiawangsa page still earns nothing while the commercial pages rank, that confirms the council-hall category is structurally dead for us and no later sprint rediscovers it. Every page carries alt_names — GSC proves one building is searched three ways. Every fact carries its source and the date checked. Route /dewan/[negeri]/[slug], separate from /artikel/. EventVenue + LocalBusiness + FAQPage schema. Venue name in the first two words of a sub-60-character title. Proof: quote capacity and booking line from live HTML for two venues, with a negative control. EXPECT POSITION 3–5, NOT 1 — the venue's own site holds 1 and nikahsatu is entrenched at 2. Say so in the report rather than promising position 1.

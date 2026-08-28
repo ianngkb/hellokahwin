@@ -496,28 +496,51 @@ personas and reported them as landed.
 
 ## SEO defects open on the live site (26 Aug 2026)
 
-- **🔴 NO ARTICLE ON THE SITE EMITS `FAQPage` SCHEMA, and 31 are carrying the
-  block that was written for it.** Found by CONT-07, measured sitewide by SEO-05
-  on 26 Aug — sequential sweep of the 69 articles published at the time:
-  **31 carry a "Soalan lazim" block, 0 emit FAQPage.** What we DO emit is
-  `Article`, `BreadcrumbList`, `ImageObject`, `ItemList`, `ListItem`,
-  `Organization`, `WebPage` — corrected from SEO-05's first list, which read
-  only top-level `@type` values and missed the nested ones; CONT-05 measured the
-  fuller set and it is identical on new and legacy articles. **FAQPage is absent
-  under either extraction**, confirmed by CONT-07, CONT-05 and SEO-05 on
-  overlapping samples.
-  **It is a RENDERER fix, not a content fix, and therefore one fix rather than
-  31** (CONT-05's point): every question is already a `###` under a
-  `## Soalan lazim`, which is the shape the schema would be generated from.
-  Nothing editorial has to change.
-  **Every writer has been told the block "is marked up as FAQ schema by the
-  engineer at ingest" and nothing does it.** So thirty-one compliant
-  question-and-answer blocks are earning no rich result, on a site whose whole
-  Malay long tail is question-shaped. Evidence:
-  site repo `docs/work-done/2026-08-27-seo-05-titles-EVIDENCE/faq-schema-gap.json`.
-  **Owner: full-stack-engineer** (CONT-07's assignment; neither agent touched the
-  article route). Fix the emitter, then correct the writer instruction so it
-  describes what actually happens.
+- **🟢 CLOSED 28 Aug by SEO-10 — every article carrying a Soalan lazim block now
+  emits `FAQPage`, and the count was 29, not 31.** The emitter is
+  `src/lib/inspire/faq-schema.ts`, shipped to production in `ae4a654` at
+  06:30:10 UTC. 29 live articles, 122 questions, validated against
+  validator.schema.org at 0 errors and 0 warnings, and every question and answer
+  string checked present in the visible body text of the page it describes.
+  Evidence: site repo `docs/work-done/2026-08-28-seo-10-faq-schema.md`.
+  **Two corrections this closure is obliged to record.**
+  *The census counted 31 and the real number is 29* — `bajet-kahwin` and
+  `checklist-kahwin` carry no block at all, and the detector behind the count was
+  looser than the block it named. Seven more carry the block at `<h3>`/`<h4>`
+  rather than `<h2>`/`<h3>`, which an emitter written from the style guide would
+  have missed in silence.
+  *And there is no rich result left to win.* Google restricted FAQ rich results
+  to well-known government and health sites on 8 Aug 2023 and retired the feature
+  outright on 7 May 2026. The markup is correct, free per article and still read
+  by other consumers, but **it must not be counted as a rich-result win here or
+  in the tracker**, and further schema work should price FAQ at zero for Google
+  Search. The writer instruction is corrected in
+  `docs/plans/aug-23-2026-session-01/aug-23-2026-style-guide.md` §9.
+
+  The original entry, kept so the correction is visible:
+
+  > **🔴 NO ARTICLE ON THE SITE EMITS `FAQPage` SCHEMA, and 31 are carrying the
+  > block that was written for it.** Found by CONT-07, measured sitewide by SEO-05
+  > on 26 Aug — sequential sweep of the 69 articles published at the time:
+  > **31 carry a "Soalan lazim" block, 0 emit FAQPage.** What we DO emit is
+  > `Article`, `BreadcrumbList`, `ImageObject`, `ItemList`, `ListItem`,
+  > `Organization`, `WebPage` — corrected from SEO-05's first list, which read
+  > only top-level `@type` values and missed the nested ones; CONT-05 measured the
+  > fuller set and it is identical on new and legacy articles. **FAQPage is absent
+  > under either extraction**, confirmed by CONT-07, CONT-05 and SEO-05 on
+  > overlapping samples.
+  > **It is a RENDERER fix, not a content fix, and therefore one fix rather than
+  > 31** (CONT-05's point): every question is already a `###` under a
+  > `## Soalan lazim`, which is the shape the schema would be generated from.
+  > Nothing editorial has to change.
+  > **Every writer has been told the block "is marked up as FAQ schema by the
+  > engineer at ingest" and nothing does it.** So thirty-one compliant
+  > question-and-answer blocks are earning no rich result, on a site whose whole
+  > Malay long tail is question-shaped. Evidence:
+  > site repo `docs/work-done/2026-08-27-seo-05-titles-EVIDENCE/faq-schema-gap.json`.
+  > **Owner: full-stack-engineer** (CONT-07's assignment; neither agent touched the
+  > article route). Fix the emitter, then correct the writer instruction so it
+  > describes what actually happens.
 - **🟢 CLUSTER OVERLAP: BOTH DECIDED — C2.2 and C2.1 are DO-NOT-MERGE.** head-of-seo-content ran the
   Ahrefs `parent_topic` control on 26 Aug after CONT-05 flagged a near-identical
   slug pair. Both cluster owners then re-ran it against their PLANS and corrected
