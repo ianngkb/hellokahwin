@@ -396,9 +396,20 @@ Each one is a threshold, the command that tests it, and where it stands today.
 
 ### 4.0 The guardrail index
 
-**43 guardrails: `G00`–`G40`, plus `G17b` and `G25b`.** IDs are assigned once
-and never reused or renumbered, because section 8.2 and
+**43 guardrails: `G00`–`G40` with no gaps, plus `G17b` and `G25b`.** IDs are
+assigned once and never reused or renumbered, because section 8.2 and
 `check-guardrails.py` both reference them by literal string.
+
+The sequence is now checked by a tool rather than by a reader noticing, which is
+how the gap below was actually found:
+
+```
+python check-guardrails.py --selftest
+```
+
+It reads this document, requires `G00`–`G40` contiguous plus the two suffixed
+IDs, and exits non-zero on a gap, a duplicate, or a count that disagrees with
+the number stated in this paragraph. It makes no network requests.
 
 **On the `G29` gap, corrected 28 Ogos 2026.** The first version of this document
 ran `G01`–`G28` then `G30`–`G40`, and a note was added recording `G29` as
@@ -1075,6 +1086,43 @@ and by my own rule, a claim like that has to *be* a tool call.
 And the third fault carries the smaller lesson that a partial run must be
 **cheap**, or nobody uses it and everybody runs the twenty-five-minute sweep or
 nothing.
+
+### Added after review: the fourth fault, and the one I like least
+
+I reported this item as **"40 guardrails."** There were **39**. `G29` did not
+exist, the sequence ran `G28` then `G30`, and I had counted neither.
+
+The team lead found it by running `grep -oE '\bG[0-9]{2}\b'` over the file. That
+is a five-second check on the single most mechanical claim in a document whose
+entire argument is that mechanical claims should be checked mechanically. I ran
+that document against production 103 URLs at a time and did not run it against
+itself.
+
+**A tool that checks the world and not its own output is half a tool.** So
+`--selftest` now reads the spec, requires `G00`–`G40` contiguous plus the two
+suffixed IDs, cross-checks the stated total against the actual one, and fails if
+the checker reports an ID the spec does not document. I proved it works by
+deleting `G29` from the spec and confirming it reproduces exactly what the
+reviewer found:
+
+```
+FAIL: gap in the sequence G00..G40: ['G29']
+FAIL: spec states 43 guardrails, found 42
+SELFTEST FAIL (2)
+```
+
+then restoring the file and confirming `SELFTEST PASS`. A check that has only
+ever passed is not evidence that it can fail.
+
+Two smaller things came out of the same fix. The gap was **never a cut
+guardrail** — `G29` was never assigned, because in section E the pagination
+ruling took `G28` inline and the two rulings after it were left with no ID; the
+`/cari` ruling now carries `G29`, where it always belonged. And auditing the IDs
+turned up a second divergence nobody had flagged: **`G00` was implemented in the
+checker and documented nowhere**, while four spec guardrails that are
+mechanically checkable (`G25b`, `G27`, `G30`, `G34`) were never written into it.
+Section 4.0 now states which guardrails the tool implements and which it does
+not, so the two artefacts at least agree about their disagreement.
 
 ---
 

@@ -29,6 +29,7 @@ USAGE
     python check-guardrails.py --only G06,G13       # named guardrails
     python check-guardrails.py --base https://hellokahwin-preview.vercel.app
     python check-guardrails.py --json out.json      # machine-readable result
+    python check-guardrails.py --selftest           # spec ID sequence; no network
 
 REQUIREMENTS: python 3.9+, curl on PATH. No third-party packages.
 """
@@ -655,17 +656,77 @@ def check_sitemap(base):
 # ── Main ───────────────────────────────────────────────────────────────────
 
 
+SPEC = os.path.join(HERE, "..", "aug-28-2026-done-des-09-seo-guardrails.md")
+
+
+def selftest():
+    """Check the spec's guardrail IDs are contiguous. No network.
+
+    This exists because the G29 gap was found by a READER, not by me and not by
+    this tool. The document is a gate someone else runs as a checklist, and an
+    ID sequence with a hole in it makes them stop and work out whether a
+    guardrail was dropped, lost, or never existed. A claim about a set of IDs
+    is exactly the kind of claim only a tool call can check, so it is one.
+    """
+    path = os.path.abspath(SPEC)
+    if not os.path.exists(path):
+        print(f"SELFTEST FAIL: spec not found at {path}")
+        return 1
+    text = open(path, encoding="utf-8").read()
+    ids = set(re.findall(r"\bG[0-9]{2}b?\b", text))
+    numbered = sorted(i for i in ids if not i.endswith("b"))
+    suffixed = sorted(i for i in ids if i.endswith("b"))
+    problems = []
+
+    lo, hi = int(numbered[0][1:]), int(numbered[-1][1:])
+    gaps = [f"G{n:02d}" for n in range(lo, hi + 1) if f"G{n:02d}" not in ids]
+    if gaps:
+        problems.append(f"gap in the sequence {numbered[0]}..{numbered[-1]}: {gaps}")
+
+    # Every suffixed id must have its base id present (G17b implies G17).
+    for s in suffixed:
+        if s[:-1] not in ids:
+            problems.append(f"{s} has no base id {s[:-1]}")
+
+    # The stated total must match the actual total.
+    m = re.search(r"\*\*(\d+) guardrails:", text)
+    if not m:
+        problems.append("the spec does not state a guardrail total")
+    elif int(m.group(1)) != len(ids):
+        problems.append(f"spec states {m.group(1)} guardrails, found {len(ids)}")
+
+    # Every id the checker reports must be documented in the spec.
+    src = open(os.path.abspath(__file__), encoding="utf-8").read()
+    emitted = set(re.findall(r'add\(\s*"(G[0-9]{2}b?)"', src)) | \
+        set(re.findall(r'Result\(\s*\n?\s*"(G[0-9]{2}b?)"', src))
+    undocumented = sorted(emitted - ids)
+    if undocumented:
+        problems.append(f"checker reports ids absent from the spec: {undocumented}")
+
+    print(f"spec: {path}")
+    print(f"  numbered {numbered[0]}..{numbered[-1]}, suffixed {suffixed}, "
+          f"total {len(ids)}")
+    for p in problems:
+        print(f"  FAIL: {p}")
+    print("SELFTEST PASS" if not problems else f"SELFTEST FAIL ({len(problems)})")
+    return len(problems)
+
+
 def main():
     global DELAY
     ap = argparse.ArgumentParser()
     ap.add_argument("--base", default="https://hellokahwin.com")
     ap.add_argument("--quick", action="store_true")
+    ap.add_argument("--selftest", action="store_true",
+                    help="check the spec's guardrail ID sequence; no network")
     ap.add_argument("--only", default="")
     ap.add_argument("--json", default="")
     ap.add_argument("--delay", type=float, default=DELAY)
     ap.add_argument("--posts", default=os.path.join(
         HERE, "..", "..", "..", "..", "data", "hellokahwin-export", "content", "posts.json"))
     a = ap.parse_args()
+    if a.selftest:
+        return selftest()
     DELAY = a.delay
     base = a.base.rstrip("/")
     host = urlparse(base).netloc.lower()
