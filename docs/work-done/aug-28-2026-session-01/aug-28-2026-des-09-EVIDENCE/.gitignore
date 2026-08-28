@@ -1,0 +1,3 @@
+# check-guardrails.py dumps response headers here on every curl.
+# Scratch, not evidence.
+.guardrail.hdr
