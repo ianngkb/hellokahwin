@@ -121,6 +121,43 @@ TTL headers are a deliberate performance decision.
 Credential: `VERCEL_TOKEN`, from the vault key `vercel.twn`, never hardcoded and
 never on a command line.
 
+## Where the functions run, and why it is not the default
+
+`vercel.json` pins `"regions": ["sin1"]` (Singapore). Do not remove it without
+re-reading this section, because the default is silently expensive.
+
+The project shipped on Vercel's default function region, `iad1` (Washington,
+D.C.), while the database is `aws-0-ap-southeast-1.pooler.supabase.com` —
+Singapore. Every query an article render issues therefore crossed the Pacific
+and came back. Measured 28 Ogos 2026 against the same production pooler from
+two places:
+
+| from                      | open a connection + first query | per query, connection already open |
+| ------------------------- | ------------------------------- | ---------------------------------- |
+| a US runner (Phoenix, AZ) | 1,287 / 1,320 / 1,371 ms        | 174.6 – 175.1 ms                   |
+| Kuala Lumpur              | 152 ms                          | 12 – 15 ms                         |
+
+`iad1` is further from Singapore than Phoenix is, so the US column is a floor on
+what our own renders were paying, not an estimate of it. A cold article render
+issues a payload read, a pillar-uplink read and a related-articles read in
+sequence, on top of opening the connection — which is how a page whose SQL is
+trivial came to take 3.5 seconds against a route that declares
+`maxDuration = 5`.
+
+Two consequences worth keeping in mind before changing anything here:
+
+1. **The 5-wide pool in `src/lib/db/drizzle.ts` is sized in round trips, not in
+   queries.** At 175 ms a query, five lanes clear ~28 queries a second; at 15 ms
+   they clear ~330. The pool starvation behind Sentry TWN-NEW-47 was never
+   really about `max`.
+2. **Moving the region moves the ISR store with it.** That is a second win for a
+   Malaysian audience, and it means the first sweep after a region change is
+   measuring a completely cold cache. Say so when quoting numbers from it.
+
+Measure with `pnpm measure:cold` (`scripts/measure-cold-render.mts`). Quote the
+`server` column, never `ttfb` — the difference between them is the entire
+subject of `docs/work-done/2026-08-28-risk-08-cold-render.md`.
+
 ## Legacy URL handling
 
 - `/category/x`, `/tag/x`, `/feed`, date archives, `/page/N` → pattern 301s in middleware

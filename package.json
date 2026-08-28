@@ -26,7 +26,8 @@
     "links:audit": "tsx scripts/audit-internal-links.mts",
     "monitor:indexing": "tsx scripts/indexing-monitor.mts",
     "backfill:lqip": "tsx scripts/backfill-cover-lqip.mts",
-    "perf:measure": "node scripts/measure-page.mjs"
+    "perf:measure": "node scripts/measure-page.mjs",
+    "measure:cold": "tsx scripts/measure-cold-render.mts"
   },
   "dependencies": {
     "@aws-sdk/client-rekognition": "^3.996.0",

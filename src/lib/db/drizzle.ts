@@ -44,6 +44,16 @@ const globalForDb = globalThis as unknown as { pgClient: ReturnType<typeof postg
 // Supavisor client cap, and every extra lane multiplies against `max_connections
 // = 90` on the other side of the pooler.
 //
+// ⚠️ A LANE IS SIZED IN ROUND TRIPS, NOT IN QUERIES — and the round trip is not
+// a constant. Until 28 Ogos 2026 this project's functions ran in `iad1`
+// (Washington) against a database in `ap-southeast-1` (Singapore), so a query
+// held its lane for ~175ms of pure Pacific and opening a connection cost ~1.3s.
+// Five lanes at 175ms clear about 28 queries a second; the same five at the
+// ~15ms an in-region query costs clear about 330. `vercel.json` now pins
+// `regions: ["sin1"]` and the README section "Where the functions run" carries
+// the measurements. Anyone who removes that pin has cut this pool's throughput
+// by an order of magnitude without touching `max`.
+//
 // Background: pool=1 was set in 17d1941 to fix a regression where ~50
 // instances × 10 conns each blew past 200 (1,102 EMAXCONN errors / 24h
 // in the 2026-04-28→29 slice). That math was correct for the old "1 request
