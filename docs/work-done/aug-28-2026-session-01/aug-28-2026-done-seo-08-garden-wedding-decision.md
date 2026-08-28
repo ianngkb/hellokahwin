@@ -63,7 +63,10 @@ in Search Console — the legacy string. The canonical earns nothing:
 | **family total** | **778** | **3** | **36.73** · CTR **0.39%** |
 
 That is **25.2% of the site's page-attributed impressions** (3,088 in the same
-window).
+window). The evidence file prints 25.5% against a site total of 3,055 because
+it takes the total from an undimensioned query while the headline script sums
+the page rows; Search Console's two aggregations differ by about 1% and neither
+is wrong. Quote whichever, and say which.
 
 Decision 97 quoted 814 impressions, 4 clicks, position 36.6. Re-running its own
 window, 27 Jul – 23 Aug, returns **856 / 4 / 36.41**. Search Console backfills
