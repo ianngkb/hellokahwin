@@ -282,6 +282,7 @@ the before and after are comparable, and no measurement stampedes the origin.
 | `01-before-live-sweep.json` | all 31 live, before the deploy |
 | `02-after-live-sweep.json` | all 31 live, after the deploy, with the full FAQPage object per article |
 | `03-validation-spec-and-page-parity.json` | per-article spec + visible-text result |
+| `05-final-live-sweep-after-last-deploy.json` | the same 31 re-swept at 06:51:40 UTC, after the two later docs-only deploys: 29 blocks, 29 emitters, 122 questions, unchanged |
 | `04-schemaorg-validator-summary.json` | validator.schema.org verdicts, six URLs |
 | `jsonld/*.faqpage.txt` | the five `<script>` elements, byte for byte, with response headers |
 | `probe.py`, `validate.py`, `extract-jsonld.py` | the three measurements, re-runnable |
