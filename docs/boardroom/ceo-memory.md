@@ -411,6 +411,23 @@ minute to relaunch; the prompts will otherwise recur indefinitely.
   not sourceable: the operator's prices ARE in their static HTML, and
   republishing them undated would have put invented-looking figures on the one
   site whose whole claim is that its numbers carry sources.
+- **⚠ A METHOD FIX DOES NOT UNDO A DIFFERENT BLOCKER. SEO-04 was re-dispatched
+  29 Aug 2026 on the theory that switching from phone-verification to
+  published-record sourcing would unblock it.** That theory was correct about
+  phone-verification (an agent genuinely cannot make calls) and wrong to imply
+  the two paragraphs above no longer applied — they were never about the
+  verification METHOD, they were about who owns the venues. head-of-seo-content
+  re-ran the ownership check live on 29 Aug (fetched each of the four brands'
+  own domain/social bio directly, not just nikahsatu's listing) and got the
+  same answer: all four route booking to `tinyurl.com/Whatsapp-Nikahsatu` or
+  equivalent, nikahsatu's own footer reads "© 2019 NikahSatu by Zest Venture
+  Sdn Bhd," and `villarimbaflora.com` still carries zero RM and zero pax
+  strings two days later. SEO-04 is parked a second time, for the same cause.
+  Evidence: `docs/work-done/aug-28-2026-session-01/aug-28-2026-done-seo-04-parked-second-time-same-cause.md`.
+  **Before writing a brief that changes ONE stated blocker on a parked item,
+  check whether this file records OTHER blockers on the same item — fixing one
+  does not reopen the rest, and say explicitly whether the brief means to
+  revisit them.**
 - **⚠ ZERO CLICKS AT LOW IMPRESSIONS IS NOT A FINDING. Learned 26 Aug 2026, and
   it nearly cost a sprint item.** At position 7–10 with 25–50 impressions,
   *expected* clicks are roughly **0.3–1.5**. Zero is inside normal variance.

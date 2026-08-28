@@ -1,0 +1,25 @@
+{
+  "tool": "mcp__gsc__get_advanced_search_analytics",
+  "site_url": "https://hellokahwin.com/",
+  "dimensions": "query,page",
+  "start_date": "2026-06-01",
+  "end_date": "2026-08-29",
+  "filter": {"dimension": "query", "operator": "contains", "expression": "setiawangsa"},
+  "pulled": "2026-08-29",
+  "rows": [
+    {"query": "dewan kahwin setiawangsa", "page": "https://hellokahwin.com/dewan-kahwin/", "clicks": 0, "impressions": 3, "position": 10},
+    {"query": "dewan komuniti setiawangsa", "page": "https://hellokahwin.com/dewan-kahwin/", "clicks": 0, "impressions": 400, "position": 8.7},
+    {"query": "dewan pusat komuniti setiawangsa", "page": "https://hellokahwin.com/dewan-kahwin/", "clicks": 0, "impressions": 46, "position": 8.8},
+    {"query": "dewan serbaguna setiawangsa", "page": "https://hellokahwin.com/dewan-kahwin/", "clicks": 0, "impressions": 5, "position": 10.4},
+    {"query": "dewan setiawangsa", "page": "https://hellokahwin.com/dewan-kahwin/", "clicks": 0, "impressions": 19, "position": 9.4},
+    {"query": "dewan setiawangsa au2", "page": "https://hellokahwin.com/dewan-kahwin/", "clicks": 0, "impressions": 34, "position": 6.9},
+    {"query": "pusat komuniti setiawangsa", "page": "https://hellokahwin.com/dewan-kahwin/", "clicks": 0, "impressions": 848, "position": 9.3},
+    {"query": "pusat komuniti setiawangsa kuala lumpur", "page": "https://hellokahwin.com/dewan-kahwin/", "clicks": 0, "impressions": 6, "position": 10.8},
+    {"query": "pusat komuniti setiawangsa photos", "page": "https://hellokahwin.com/dewan-kahwin/", "clicks": 0, "impressions": 6, "position": 3},
+    {"query": "pusat komuniti setiawangsa reviews", "page": "https://hellokahwin.com/dewan-kahwin/", "clicks": 0, "impressions": 8, "position": 7},
+    {"query_other_pages_note": "seven more rows (1 impression each) attributed to in-page anchors on /artikel/idea-dan-nasihat/dewan-kahwin, omitted here as noise — see full pull for completeness"}
+  ],
+  "total_impressions_all_setiawangsa_variants_90d": 1382,
+  "total_clicks": 0,
+  "note": "The brief's carried-forward DoD states 'about 150 GSC impressions across name variants' for Setiawangsa. The actual 90-day figure on hellokahwin's own existing hub page (/dewan-kahwin/) is ~1,382 impressions, concentrated on 'pusat komuniti setiawangsa' (848) and 'dewan komuniti setiawangsa' (400), all at position ~7-10, all zero clicks. This is a real, larger-than-stated demand signal for the control candidate itself — recorded here since it updates a number in the brief, but it does not change the gate outcome for the commercial-brand list (see FINDINGS.md)."
+}

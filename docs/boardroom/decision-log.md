@@ -3,6 +3,32 @@
 One entry per decision: date, decision, basis, prediction. Reviewed at later
 meetings against what actually happened. Newest first.
 
+## 2026-08-29 — SEO-04: parked a second time, same cause as the first
+
+155. **⚠ SEO-04 re-dispatched 29 Aug on a method fix (phone-verify → published
+records) that did not address decision 83's actual blocker, and was parked
+again for it.** The 27 Aug ownership finding (ceo-memory.md: nikahsatu.com is
+Zest Venture Sdn Bhd's own site, not independent coverage of Arjuna, Villa
+Rimba Flora, JIWA Damansara or Rumah Abang Jamil) was never about HOW we
+verify a price — it was about WHO publishes it. Fixing "an agent cannot make
+phone calls" does not fix "the only publisher is the venue's own owner."
+`head-of-seo-content` re-ran the check live on 29 Aug — fetched each brand's
+own domain/social bio directly, not just nikahsatu's listing — and got the
+same answer: all four route booking to nikahsatu's own WhatsApp/rebate funnel,
+`villarimbaflora.com` still carries zero RM and zero pax strings, and
+nikahsatu's own footer reads "© 2019 NikahSatu by Zest Venture Sdn Bhd." No
+pages built, per the brief's own gate; Setiawangsa was correctly NOT built
+solo, since running the control without the commercial set it's meant to be
+compared against would have been the forbidden quiet downgrade to council
+halls. New, and worth keeping separately from decision 83: the real
+Setiawangsa control number is **~1,382 impressions over 90 days**, not the
+~150 the brief carried forward — GSC `mcp__gsc__get_advanced_search_analytics`,
+pulled 29 Aug 2026. Evidence:
+`docs/work-done/aug-28-2026-session-01/aug-28-2026-done-seo-04-parked-second-time-same-cause.md`.
+Standing rule added to `head-of-seo-content` and `ceo-memory.md`: **a brief
+that changes one stated blocker on a parked item must say whether it also
+revisits the item's OTHER blockers** — fixing one does not reopen the rest.
+
 ## 2026-08-29 — DES-05: the design system, and where the reference page could and could not go
 
 154. **The `/design-system` reference page stays under `/admin/`, not at the

@@ -1,0 +1,25 @@
+2026-08-29 — Ahrefs MCP tool access check for SEO-04
+
+The system prompt for this session includes MCP server usage instructions for
+a server named "ahrefs" (the standard "call `doc` before first use" boilerplate).
+However, ToolSearch could not locate any ahrefs_* tool under that name or under
+common alternates tried:
+  - query: "ahrefs" -> no matching deferred tools
+  - query: "select:mcp__ahrefs__doc" -> no matching deferred tools
+  - query: "keywords explorer volume difficulty organic" -> no ahrefs tools returned
+  - query: "site explorer organic keywords backlinks" -> no ahrefs tools returned
+  - query: "select:ahrefs_keywords_explorer,ahrefs_site_explorer,ahrefs_batch_analysis,ahrefs_serp_overview" -> no matching deferred tools
+
+This is a connection/availability gap for this session, not a confirmed absence
+of the capability (per the standing instruction: treat unreachable MCP tools as
+a connection failure, not as "doesn't exist"). Practical effect on this item:
+I could not independently re-pull the volume figures for `arjuna melaka`,
+`villa rimba flora gombak`, `jiwa damansara`, or `rumah abang jamil klang`
+this session. Every volume figure in my report for this item is therefore
+carried from the brief / decision 83 (dated 26-27 Aug 2026), named as such,
+and NOT re-verified by me on 29 Aug 2026.
+
+This did not change the gate outcome: the disqualifying finding (common
+ownership between nikahsatu.com and all four candidate venue brands) was
+established independently via WebFetch on the venues' own pages and social
+channels, not via Ahrefs.
