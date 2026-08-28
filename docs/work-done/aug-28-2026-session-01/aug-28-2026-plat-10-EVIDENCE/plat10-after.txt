@@ -1,0 +1,20 @@
+=== AFTER (PLAT-10 applied) 2026-08-28T07:52:38Z ===
+3 sprints, newest first
+  Sprint 03  in_progress  planned 115pt  completed 47pt   parked 0pt    moved-out 0pt    unfinished 68pt   26 items  Convert the impressions we now have - and stop looking generic
+  Sprint 02  done         planned 77pt   completed 72pt   parked 0pt    moved-out 5pt    unfinished 5pt    19 items  Close the publishing hole, then earn a click
+  Sprint 01  done         planned 42pt   completed 40pt   parked 2pt    moved-out 0pt    unfinished 0pt    14 items  Protect what we shipped, then measure it
+
+  backlog: 4 items · 12pt (in no sprint)
+
+Sprint 02 — Close the publishing hole, then earn a click [done]
+  planned     77pt   (as scoped: 72pt across 19 items still here, +5pt moved out)
+  completed   72pt   (19 done)
+  parked      0pt   (0 parked — a decision, not a miss)
+  moved out   5pt   (1 item left after the sprint started — still counted in planned)
+  unfinished  5pt   (planned − completed − parked)
+
+  Computed from the item data. There is no velocity column to type into.
+  Items that left after it started (their points stay in the denominator):
+    SEO-04     5pt   on 2026-08-26  by SYSTEM
+  retro recorded planned 72 / completed 72 / parked 0  ← DISAGREES with the item data
+  The gap is exactly the 5pt that left this sprint. The recorded figure was taken before PLAT-10; 77 is the as-scoped denominator and 72 was the shrunken one.
