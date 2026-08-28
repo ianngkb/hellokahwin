@@ -10,9 +10,10 @@
     "review_gate": "Every item is presented as CLAIM + EVIDENCE + LIVE LINK. Not a summary.",
     "dod_never_narrowed": "A definition of done is never narrowed after the sprint starts. An item that turns out bigger stays open, gets parked with a reason, or carries forward. Rewriting a DoD to fit what was achieved is what makes velocity a lie.",
     "ceo_verifies_independently": "Never mark an item done on an agent's report alone. curl the URL, run the query, list the files, check the content is on the default branch.",
-    "design_gates": "The design track has THREE gates that stop work rather than slow it. DES-01: the owner approves the art-direction REASONING before anything is drawn. DES-02: the owner picks the direction; everything downstream is the Creative Director's without further approval. DES-04: the engineer's stack recommendation stops before any system is built. A gate that is allowed to kill or redirect an item is itself a deliverable - Sprint 02's SEO-04 proved it."
+    "design_gates": "The design track has THREE gates that stop work rather than slow it. DES-01: the owner approves the art-direction REASONING before anything is drawn. DES-02: the owner picks the direction; everything downstream is the Creative Director's without further approval. DES-04: the engineer's stack recommendation stops before any system is built. A gate that is allowed to kill or redirect an item is itself a deliverable - Sprint 02's SEO-04 proved it.",
+    "who_drives_development": "CEO DECISION, 27 Aug, asked for by the owner. The DESIGN SYSTEMS ENGINEER drives the BMAD workflow for the design track's implementation (DES-05 and DES-08) - it briefs BMAD, reviews what comes back against the spec, and owns whether the result matches the design. Reasoning: design intent dies in handoff, and the DSE is the only seat that both holds the specification and writes production code. BMAD remains the implementation muscle and, critically, Murat's adversarial review stays INDEPENDENT - the DSE does not review its own work, because a driver who also grades is how a spec quietly narrows to match what got built. For every NON-design item in this sprint (RISK, SEO, PLAT tracks) BMAD is dispatched by the CEO as before; this decision changes the design track only."
   },
-  "points": 97,
+  "points": 115,
   "thesis": "Sprint 02 closed the publishing hole and Google responded: impressions tripled in three days (148 -> 252 -> 412) and average position on 26 Aug hit 10.0. Clicks did not follow. Five pages sit at position 6.5-12.2 earning ZERO clicks between them. This sprint does not add reach; it converts the reach we already have. SEO-07 leads because until the title half-life defect is fixed we cannot even prove which titles Google is being served. ADDED 27 Aug BY OWNER DIRECTIVE: a premium redesign of the homepage, catalogue and article pages plus a real design system, referenced to caratsandcake.com and partyslate.com. Positioned as EDITORIAL PREMIUM, not a vendor marketplace - the owner considered and declined the marketplace direction for now. Three seats were hired to do it (creative-director, design-systems-engineer, product-designer), because the org chart had no design function at all. Note the tension recorded honestly: decision 86 measured every category URL at ~16 impressions and ZERO clicks, so this work is NOT justified on SEO grounds and must not be scored on them. It is a brand and positioning bet.",
   "items": [
     {
@@ -323,7 +324,8 @@
       "title": "Harden the chosen direction into the HTML specification artifact",
       "flags": [
         "blocked-by-DES-02",
-        "this-is-the-spec"
+        "this-is-the-spec",
+        "seo-review-required"
       ],
       "why": "A canvas decides a look; it does not specify a build. The HTML artifact IS the specification the Design Systems Engineer builds against - real type, real breakpoints, real light and dark, and the states a static mock always omits.",
       "dod": {
@@ -332,7 +334,7 @@
         "evidence_lands": "Artifact URL + docs/work-done/ entry.",
         "false_pass_warning": "If it is not in the artifact it is not specified. Do not leave a state out and expect it built."
       },
-      "brief": "Name every typeface with its licence AND its Malay diacritic coverage. Display faces routinely ship broken diacritics and it is found in production."
+      "brief": "Name every typeface with its licence AND its Malay diacritic coverage. Display faces routinely ship broken diacritics and it is found in production. head-of-seo-content REVIEWS this artifact before it is treated as the spec - heading hierarchy and schema slots are design decisions, not implementation details."
     },
     {
       "id": "DES-04",
@@ -364,7 +366,8 @@
       "title": "Build the design system - tokens, components, and the reference page",
       "flags": [
         "blocked-by-DES-03",
-        "blocked-by-DES-04"
+        "blocked-by-DES-04",
+        "seo-review-required"
       ],
       "why": "Owner decision: the system lives INSIDE the hellokahwin site repo (src/design-system/) with a private /design-system reference page, matching what buddy already does. One repo, one consumer, no versioning ceremony until a second surface exists.",
       "dod": {
@@ -373,7 +376,7 @@
         "evidence_lands": "docs/work-done/ entry with the live reference-page URL.",
         "false_pass_warning": "Reading your own source proves what you intended. Fetch the BUILT page and read the rendered CSS."
       },
-      "brief": "The reference page is the regression test for taste, not documentation. It updates in the SAME change as any token or component. DONE MEANS SHIPPED - merged, deployed, visible."
+      "brief": "The reference page is the regression test for taste, not documentation. It updates in the SAME change as any token or component. DONE MEANS SHIPPED - merged, deployed, visible. head-of-seo-content REVIEWS the component set for heading semantics and internal-link affordances."
     },
     {
       "id": "DES-06",
@@ -385,7 +388,8 @@
       "flags": [
         "design-only",
         "build-is-separate",
-        "owner-put-this-in-scope"
+        "owner-put-this-in-scope",
+        "seo-review-required"
       ],
       "why": "Decision 76 found no search anywhere on a site whose demand is overwhelmingly named-entity lookups - readers arrive hunting a specific hall, a specific state's rate, a specific hantaran question. The owner put this in scope: the catalogue redesign is close to meaningless without it.",
       "dod": {
@@ -394,7 +398,7 @@
         "evidence_lands": "docs/work-done/ entry, full path stated to the owner.",
         "false_pass_warning": "A flow designed against an imagined content set fails on contact. Fetch the actual categories and use their real counts."
       },
-      "brief": "DESIGN ONLY. Building search is a separate item, sized after this exists - do not assume designing it means it ships this sprint."
+      "brief": "DESIGN ONLY. Building search is a separate item, sized after this exists - do not assume designing it means it ships this sprint. head-of-seo-content CO-OWNS the pagination-vs-infinite-scroll decision. It is an SEO call (crawl depth, link equity, back-button) as much as a UX one, and DES-09's guardrails bind it."
     },
     {
       "id": "DES-07",
@@ -425,7 +429,8 @@
       "title": "Implement the redesigned homepage, catalogue and article pages",
       "flags": [
         "blocked-by-DES-05",
-        "ships-to-production"
+        "ships-to-production",
+        "seo-review-required"
       ],
       "why": "The design system is the vocabulary; this is the three pages actually built in it and shipped. Without this item the whole design track produces artifacts nobody outside the company ever sees.",
       "dod": {
@@ -434,7 +439,109 @@
         "evidence_lands": "docs/work-done/ entry with live URLs and quoted CSS.",
         "false_pass_warning": "A status code proves nothing about whether a page renders correctly. Quote content only the real redesigned page contains."
       },
-      "brief": "Build against the DES-03 artifact and the DES-05 system. If the spec is wrong, raise it as a finding - never narrow it to match what got built."
+      "brief": "Build against the DES-03 artifact and the DES-05 system. If the spec is wrong, raise it as a finding - never narrow it to match what got built. head-of-seo-content SIGNS OFF post-deploy against DES-09's guardrails, with live numbers."
+    },
+    {
+      "id": "DES-09",
+      "track": "design",
+      "points": 5,
+      "state": "todo",
+      "owner": "head-of-seo-content",
+      "title": "SEO guardrails for the redesign - the things a redesign can destroy",
+      "flags": [
+        "gates-DES-08",
+        "owner-flagged-this-gap",
+        "seo-is-the-business"
+      ],
+      "why": "THE OWNER CAUGHT THIS: the design track was planned with head-of-seo-content on ZERO items, on a site where organic search IS the business. A redesign is one of the few changes that can undo Sprint 01 and Sprint 02 in a single deploy. Sprint 02 spent 77 points getting 103 URLs indexed, positions from 20 to 17.7 and impressions from 88/day to 412/day. A redesign that drops heading hierarchy, breaks internal links, strips schema, or triples LCP with hero photography gives all of that back - and the loss shows up weeks later, attributed to nothing.",
+      "dod": {
+        "observable": "A written guardrail spec that DES-03 and DES-05 must satisfy, covering at minimum: heading hierarchy per page type (one h1, ordered h2/h3); the internal-linking model (SEO-02 removed 79 rel=nofollow links and added 68 real ones - the redesign must not regress it); which schema types each page emits today and must still emit (Article, BreadcrumbList, ItemList, FAQPage per SEO-10); Core Web Vitals budgets with numbers, especially LCP against big editorial photography; catalogue crawlability (the pagination-vs-infinite-scroll call in DES-06 is an SEO decision as much as a UX one); image weight and format budget; and what must NOT change - URLs, canonicals, the redirect layer verified 29/29.",
+        "how_checked": "Read against the DES-03 artifact and signed off BEFORE DES-08 builds. After DES-08 ships: re-run the checks against live production and quote the numbers.",
+        "evidence_lands": "docs/work-done/ entry with the guardrails, plus a post-ship verification with before/after numbers.",
+        "false_pass_warning": "'The design looks fine for SEO' is not a check. Every guardrail must be a number or a literal string that can be tested against the live page."
+      },
+      "brief": "GATE: DES-08 does not ship until these guardrails are signed off, and head-of-seo-content re-verifies AFTER the deploy. This seat has veto over anything that measurably harms rankings - that veto is the point of the item."
+    },
+    {
+      "id": "DES-10",
+      "track": "design",
+      "points": 3,
+      "state": "review",
+      "owner": "creative-director",
+      "title": "Wordmark set in the locked register - five outlined lockups",
+      "flags": [
+        "owner-locked-the-direction",
+        "built-awaiting-merge"
+      ],
+      "why": "Owner locked the Carats & Cake register on 28 Aug, after it was tested against five alternatives and against the mobile constraint. Their production marks measure 10.0:1 and their sister brand Bliss & Bone 11.2:1 - both fetched from live SVGs rather than described. Our primary is generated at exactly 10.0:1.",
+      "dod": {
+        "observable": "Five outlined SVGs in public/brand/logos: horizontal (10.0:1), horizontal-wide (12.4:1), vertical, shortmark, monogram. Letterforms are PATHS not <text>, every file is fill=currentColor, largest under 3KB. Each parses as valid XML and carries an aria-label.",
+        "how_checked": "Parse each file, count paths, assert currentColor and aria-label present. Ratios computed from the viewBox, not asserted.",
+        "evidence_lands": "Branch feat/des-10-brand-page. docs/work-done/ entry on merge.",
+        "false_pass_warning": "A mark set in live <text> looks identical here and breaks on any machine lacking the font. Check for <path>, not for appearance."
+      },
+      "brief": "BUILT AND PUSHED, NOT MERGED. Branch feat/des-10-brand-page. Done when merged and the marks resolve on production."
+    },
+    {
+      "id": "DES-11",
+      "track": "design",
+      "points": 5,
+      "state": "review",
+      "owner": "design-systems-engineer",
+      "title": "/brand - the public brand page",
+      "flags": [
+        "public-facing",
+        "owner-requested",
+        "built-awaiting-merge"
+      ],
+      "why": "Owner asked for a page in the shape of thepicklebase.com/brand, whose real structure was read from that repo rather than guessed: a typed asset registry driving section components, with per-asset downloads. Ours adds measured contrast to the colour section and six named DON'Ts.",
+      "dod": {
+        "observable": "/brand returns 200 on production and renders all five marks, the palette with measured ratios, an on-dark demonstration, and the DON'T list. Every Download SVG link resolves to a real file. Page is force-static and reads no database.",
+        "how_checked": "curl /brand first-request for the status code, then quote content only the real page contains - the marks are inline SVG references, so check one resolves 200 too. A status code alone proves nothing.",
+        "evidence_lands": "docs/work-done/ entry with the live URL and one quoted asset URL.",
+        "false_pass_warning": "This is PUBLIC. Verify against production, not against dev - and check it in both colour schemes, since the page carries its own dark palette."
+      },
+      "brief": "BUILT AND PUSHED, NOT MERGED. Branch feat/des-10-brand-page. Scoped to .bp so it does not inherit current site styling - it is the first public surface in the new register. head-of-seo-content should confirm /brand is deliberately excluded from or included in the sitemap before merge."
+    },
+    {
+      "id": "DES-12",
+      "track": "design",
+      "points": 3,
+      "state": "todo",
+      "owner": "design-systems-engineer",
+      "title": "Adopt the wordmark in the site header, and retire the current one",
+      "flags": [
+        "blocked-by-DES-11",
+        "mobile-is-the-constraint"
+      ],
+      "why": "A brand page nobody applies is a document, not a rebrand. The header is where the mark actually earns its keep - and where the locked register is most at risk, because Bliss & Bone ships at 250x22, which is 69% of a 360px viewport and leaves 78px for search and menu.",
+      "dod": {
+        "observable": "The wordmark live in the production header at both breakpoints. At 360px the header holds the mark AND a reachable search affordance simultaneously - screenshot or measured widths proving both fit. Monogram used below 18px, per the brand page's own minimum.",
+        "how_checked": "Load production at 360px and at desktop. Measure the rendered mark width against the viewport. If the horizontal does not fit beside search, the vertical or the monogram is the answer - not shrinking the mark past its stated minimum.",
+        "evidence_lands": "docs/work-done/ entry with both measurements.",
+        "false_pass_warning": "Checking only desktop is how this ships broken - 64% of impressions arrive on mobile, at position 8.7 against desktop's 28.9."
+      },
+      "brief": "If the horizontal cannot fit beside search at 360px, that is a finding to bring back, not a reason to violate the minimum height."
+    },
+    {
+      "id": "DES-13",
+      "track": "design",
+      "points": 2,
+      "state": "todo",
+      "owner": "creative-director",
+      "title": "Confirm the display typeface, or the wordmark is provisional",
+      "flags": [
+        "blocks-final-signoff",
+        "stand-in-in-production"
+      ],
+      "why": "The marks are set in Bodoni Moda as a STAND-IN for ivyora-display, the Adobe face Carats & Cake actually use. In a text logo the typeface IS the logo, so this is not a detail - it decides whether the shipped mark is final or provisional.",
+      "dod": {
+        "observable": "A decision naming the face, its licence, its cost, and whether it covers the Latin set the site needs. If a face other than Bodoni Moda is chosen, all five SVGs are regenerated from it and the ratios re-measured.",
+        "how_checked": "State the licence terms and where they were read. Regenerate rather than rescale.",
+        "evidence_lands": "docs/work-done/ entry and a decision-log entry.",
+        "false_pass_warning": "Correction to an earlier CEO claim: Malay in Rumi script is essentially plain Latin, so 'Malay diacritic coverage' is a much weaker gate than three personas were written to believe. Do not block a face on it - check licence and cost, which are the real constraints."
+      },
+      "brief": "Until this closes, the wordmark on /brand is provisional and should be described as such to anyone outside the company."
     }
   ],
   "out_of_scope": [
@@ -444,7 +551,8 @@
     "hellokahwin PR #4, carrying the preview banner, stays OPEN and owner-only. Merging it deploys the live public site. PLAT-08's agent stopped and asked rather than shipping it unasked at 2am; the CEO agreed then and agrees now.",
     "Chasing dewan komuniti setiawangsa as a traffic target. CLOSED, not deferred. 100 impressions over 28 days at position 9.0 with zero clicks, in a category decision 83 proved structurally dead (~30 searches/month, DBKL's own DR 64 portal at positions 1-2). It appears in this sprint ONLY as SEO-04's declared control.",
     "The MARKETPLACE direction - vendor profiles, inquiry flows, paid listings. Both of the owner's reference sites (PartySlate, Carats & Cake) are vendor marketplaces rather than publications, and the owner considered that model explicitly on 27 Aug and chose EDITORIAL PREMIUM for now, with monetization a separate later decision. Recorded because the references will otherwise pull the design toward a business model we have not chosen.",
-    "BUILDING search. DES-06 designs it; the implementation is deliberately a separate item to be sized once the design exists. Owner chose design-it-then-size-the-build rather than growing this sprint further."
+    "BUILDING search. DES-06 designs it; the implementation is deliberately a separate item to be sized once the design exists. Owner chose design-it-then-size-the-build rather than growing this sprint further.",
+    "Sub-brand lockups (a Coach/Court/Events equivalent). ThePickleBase's brand page carries four brand families; HelloKahwin has one and inventing sub-brands to fill a page template would be designing an org chart we do not have."
   ],
   "retro": null
 }
