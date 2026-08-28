@@ -299,14 +299,14 @@
       "points": 5,
       "state": "todo",
       "owner": "product-designer",
-      "title": "Design search and catalogue browse - the site has no search at all",
+      "title": "Design search and catalogue browse - the search that ships answers 29% of real demand",
       "flags": [
         "design-only",
         "build-is-separate",
         "owner-put-this-in-scope",
         "seo-review-required"
       ],
-      "why": "Decision 76 found no search anywhere on a site whose demand is overwhelmingly named-entity lookups - readers arrive hunting a specific hall, a specific state's rate, a specific hantaran question. The owner put this in scope: the catalogue redesign is close to meaningless without it.",
+      "why": "Decision 76 found no search anywhere on a site whose demand is overwhelmingly named-entity lookups - readers arrive hunting a specific hall, a specific state's rate, a specific hantaran question. The owner put this in scope: the catalogue redesign is close to meaningless without it. CORRECTED 28 Ogos 2026 by the item owner, see decision 132: the site DOES have search. An InspireArticleSearch combobox on /artikel is backed by GET /api/v1/search and reached from a header magnifier on every page. The fault is the matching rule - it needs the query as a contiguous substring of a title or excerpt. All 248 GSC queries from 31 Jul-27 Aug were run through the live API on 28 Ogos: 209 return ZERO, 84.3% of queries and 70.9% of impressions, including 'mas kahwin terengganu' which is 27% of every click the site earned in that window. The DoD below is UNCHANGED and was met in full; only the premise it was written on was wrong.",
       "dod": "OBSERVABLE: Specified flows for: search entry point, query experience, results, NO-RESULTS, and how search relates to browsing. Catalogue filters, sort, and the pagination-vs-infinite-scroll decision WITH its reasoning (SEO crawlability, back button, return-to-position). Mobile-first, proved at 360px. CHECKED BY: Walked against the REAL site - real category counts, real article titles, including the thin categories. BEWARE THE FALSE PASS: A flow designed against an imagined content set fails on contact. Fetch the actual categories and use their real counts. EVIDENCE LANDS: docs/work-done/ entry, full path stated to the owner.",
       "brief": "DESIGN ONLY. Building search is a separate item, sized after this exists - do not assume designing it means it ships this sprint. head-of-seo-content CO-OWNS the pagination-vs-infinite-scroll decision. It is an SEO call (crawl depth, link equity, back-button) as much as a UX one, and DES-09's guardrails bind it."
     },

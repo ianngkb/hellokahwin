@@ -664,6 +664,51 @@ checkpoint, and escalate only if followed spam links start growing at pace.
 
 ---
 
+### 5.5 The demand-coverage audit: score a shipped feature against GSC
+
+*Added 28 Ogos 2026 by `product-designer` from DES-06. **This section is written
+into head-of-seo-content's document and needs that seat's review** — it is placed
+here rather than filed as a suggestion because a method nobody can find is a
+method nobody runs, which is this company's named failure shape.*
+
+Search Console records what readers wanted **before** they arrived. Most site
+features are queryable. Joining the two scores a shipped feature against real
+demand rather than against opinion, and it takes about an hour.
+
+**The method, in four steps:**
+
+1. Export every query for a fixed window (`get_advanced_search_analytics`,
+   dimension `query`, `row_limit` high enough that `has_more` is false).
+2. Put **every** query through the feature's own endpoint. Not a sample, and not
+   the queries you expect to work.
+3. Weight the outcome by impressions, never by query count. The long tail will
+   flatter a count and hide that the head is broken.
+4. Separate what the feature failed to find from what the site does not have.
+   Those are two different briefs and they go to two different people.
+
+**What it produced on its first run, 28 Ogos 2026.** The site's search returned
+zero for **209 of 248 queries — 84.3% of queries and 70.9% of impressions**.
+The head query `mas kahwin terengganu`, worth 27% of every click the site earned
+that month, returned nothing while its article sat at position 6.1. Splitting
+step 4 sent 424 impressions to the content plan (`pusat komuniti setiawangsa`,
+185) and the rest to the matching rule. See decision 132 and
+`docs/design/des-06-evidence/reproduce.py`, which re-runs it against production
+with no credentials.
+
+**Why it belongs in the doctrine rather than in one design document.** It
+generalises past search to anything that selects content from a query or a
+context: related-article blocks, internal-link targets, category naming, the
+FAQ blocks in SEO-10. And it is the cheapest available guard against this
+document's own opening rule, because it converts *"I think this works"* into a
+number the next person can re-run.
+
+**The rule it produces:** *"there is no X"* and *"X is there and does not work"*
+are different findings that need different items. Before either is written into
+a decision or a sprint, query the thing. DES-06 was planned as the first and was
+the second, and a correction to the same claim had already been written two days
+earlier and never reached the record. Both errors were an assertion nobody
+executed.
+
 ## 6. What this doctrine asks for
 
 Nothing new. It asks for the same four decisions already open, and it explains

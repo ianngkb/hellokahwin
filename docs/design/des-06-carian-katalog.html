@@ -1,0 +1,1805 @@
+<title>Carian &amp; Katalog HelloKahwin</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Cormorant+Garamond:wght@400;500&display=swap">
+
+<style>
+/* ============================================================
+   DOCUMENT ZONE — drafting-paper register.
+   Deliberately NOT the site's palette, so annotation is never
+   mistaken for specification.
+   ============================================================ */
+:root{
+  --paper:#e9ecef;
+  --sheet:#f7f8fa;
+  --ink:#15181c;
+  --ink-soft:#525d68;
+  --ink-faint:#5c6670;
+  --rule:#c4cbd2;
+  --rule-soft:#d8dde2;
+  --blue:#1b5a84;
+  --blue-wash:#dde8f0;
+  --flag:#9d2f28;
+  --flag-wash:#f2e2e0;
+  --ok:#2a6349;
+  --ok-wash:#dfeae4;
+  --shadow:0 1px 2px rgba(21,24,28,.06),0 8px 24px rgba(21,24,28,.06);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121519;
+    --sheet:#1a1e23;
+    --ink:#e7eaed;
+    --ink-soft:#9aa4ae;
+    --ink-faint:#78828c;
+    --rule:#2c333a;
+    --rule-soft:#242a30;
+    --blue:#78b6dd;
+    --blue-wash:#17262f;
+    --flag:#e2938c;
+    --flag-wash:#2b1c1b;
+    --ok:#82c5a3;
+    --ok-wash:#17251e;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121519;
+  --sheet:#1a1e23;
+  --ink:#e7eaed;
+  --ink-soft:#9aa4ae;
+  --ink-faint:#78828c;
+  --rule:#2c333a;
+  --rule-soft:#242a30;
+  --blue:#78b6dd;
+  --blue-wash:#17262f;
+  --flag:#e2938c;
+  --flag-wash:#2b1c1b;
+  --ok:#82c5a3;
+  --ok-wash:#17251e;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:15px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--blue)}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px 96px}
+
+/* ---------- masthead ---------- */
+.mast{padding:56px 0 32px;border-bottom:2px solid var(--ink)}
+.kicker{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--blue);margin:0 0 14px
+}
+h1{
+  font-family:"IBM Plex Sans Condensed",system-ui,sans-serif;
+  font-weight:700;font-size:clamp(2.1rem,6vw,3.4rem);line-height:1.03;
+  letter-spacing:-.02em;margin:0 0 18px;text-wrap:balance;max-width:18ch;
+}
+.standfirst{font-size:1.0625rem;color:var(--ink-soft);max-width:62ch;margin:0}
+.meta{
+  display:flex;flex-wrap:wrap;gap:6px 22px;margin-top:26px;
+  font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-faint)
+}
+.meta b{color:var(--ink-soft);font-weight:500}
+
+/* ---------- section furniture ---------- */
+section{padding-top:56px}
+h2{
+  font-family:"IBM Plex Sans Condensed",system-ui,sans-serif;
+  font-weight:700;font-size:1.7rem;letter-spacing:-.012em;margin:0 0 6px;
+  padding-bottom:10px;border-bottom:1px solid var(--rule);text-wrap:balance
+}
+h2 .num{
+  font-family:"IBM Plex Mono",monospace;font-size:.72em;color:var(--blue);
+  font-weight:400;margin-right:.7em;letter-spacing:0
+}
+h3{
+  font-family:"IBM Plex Sans Condensed",system-ui,sans-serif;
+  font-weight:600;font-size:1.18rem;margin:34px 0 8px;letter-spacing:-.008em
+}
+h4{
+  font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:11px;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);
+  margin:26px 0 8px
+}
+p{margin:0 0 14px;max-width:70ch}
+ul,ol{margin:0 0 14px;padding-left:1.15rem;max-width:70ch}
+li{margin-bottom:6px}
+code{
+  font-family:"IBM Plex Mono",monospace;font-size:.88em;
+  background:var(--sheet);border:1px solid var(--rule-soft);
+  border-radius:3px;padding:.1em .34em
+}
+strong{font-weight:600}
+
+/* ---------- callouts ---------- */
+.note{
+  border-left:3px solid var(--blue);background:var(--blue-wash);
+  padding:14px 16px;margin:18px 0;border-radius:0 4px 4px 0;max-width:74ch
+}
+.note.flag{border-left-color:var(--flag);background:var(--flag-wash)}
+.note.ok{border-left-color:var(--ok);background:var(--ok-wash)}
+.note p:last-child{margin-bottom:0}
+.note .lbl{
+  font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.16em;
+  text-transform:uppercase;display:block;margin-bottom:6px;color:var(--blue);font-weight:500
+}
+.note.flag .lbl{color:var(--flag)}
+.note.ok .lbl{color:var(--ok)}
+
+/* ---------- tables ---------- */
+.scroll{overflow-x:auto;margin:18px 0;border:1px solid var(--rule);border-radius:5px;background:var(--sheet)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:520px}
+th,td{text-align:left;padding:9px 13px;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+th{
+  font-family:"IBM Plex Sans Condensed",sans-serif;font-weight:600;font-size:12px;
+  letter-spacing:.03em;text-transform:uppercase;color:var(--ink-soft);
+  border-bottom:1px solid var(--rule);white-space:nowrap
+}
+tbody tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.hi td{background:var(--flag-wash)}
+tr.good td{background:var(--ok-wash)}
+
+/* ---------- state entry: frame + annotation ---------- */
+.state{
+  display:grid;gap:26px;padding:30px 0;border-bottom:1px solid var(--rule-soft);
+  grid-template-columns:1fr;align-items:start
+}
+.state>*{min-width:0}
+@media (min-width:900px){
+  .state{grid-template-columns:392px 1fr;gap:38px}
+  .state .ann{position:sticky;top:20px}
+}
+.state:last-of-type{border-bottom:0}
+.sid{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;
+  color:var(--paper);background:var(--blue);padding:2px 7px;border-radius:3px;
+  display:inline-block;margin-bottom:8px;font-weight:500
+}
+kbd{
+  font-family:"IBM Plex Mono",monospace;font-size:.86em;background:var(--sheet);
+  border:1px solid var(--rule);border-bottom-width:2px;border-radius:4px;
+  padding:.08em .38em;white-space:nowrap
+}
+.sid.flag{background:var(--flag)}
+.sid.ok{background:var(--ok)}
+.ann h3{margin-top:0}
+.ann dl{margin:0;font-size:14px}
+.ann dt{
+  font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-faint);margin-top:14px
+}
+.ann dd{margin:2px 0 0}
+.ann dd:first-of-type{margin-top:2px}
+
+/* ---------- the 360px device frame ---------- */
+.rig{width:100%;max-width:392px}
+.rigcap{
+  font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink-faint);
+  letter-spacing:.1em;text-transform:uppercase;margin:0 0 7px;
+  display:flex;justify-content:space-between;gap:10px
+}
+.frame{
+  width:360px;max-width:100%;border:1px solid var(--rule);border-radius:6px;
+  overflow:hidden;box-shadow:var(--shadow);background:#fcfbfa
+}
+.frame.tall{max-height:none}
+
+/* measure rail */
+.rail{width:360px;max-width:100%;margin:0 0 8px;position:relative;height:22px}
+.rail .bar{position:absolute;left:0;right:0;top:9px;height:1px;background:var(--blue)}
+.rail .tick{position:absolute;top:4px;width:1px;height:11px;background:var(--blue)}
+.rail .lab{
+  position:absolute;top:-3px;font-family:"IBM Plex Mono",monospace;font-size:10px;
+  color:var(--blue);background:var(--paper);padding:0 5px
+}
+
+/* ============================================================
+   SCREEN ZONE — production tokens, quoted verbatim from
+   hellokahwin.com stylesheet .hk-public, fetched 28 Ogos 2026.
+   These do not follow the document theme: they are a photograph
+   of the product, and the public surface ships light only.
+   ============================================================ */
+.hk{
+  --bg:#fcfbfa; --fg:#151412; --mut:#595855; --bd:#dad9d7;
+  --bds:#93928f; --sub:#f5f4f1; --ring:#151412;
+  background:var(--bg);color:var(--fg);
+  font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  font-size:14px;line-height:1.5
+}
+.hk *{box-sizing:border-box}
+.hk .serif{font-family:"Cormorant Garamond","Cormorant",Georgia,serif;font-weight:400;letter-spacing:-.012em;line-height:1.26}
+.hk a.eyebrow{display:inline-flex;align-items:center;min-height:44px}
+.hk .eyebrow{
+  font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--mut);line-height:1.4
+}
+.hk .hd{
+  height:56px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 16px;border-bottom:1px solid var(--bd)
+}
+.hk .wordmark{
+  font-family:"Cormorant Garamond",Georgia,serif;font-size:19px;
+  letter-spacing:.22em;text-transform:uppercase;line-height:1
+}
+.hk .icon{
+  width:44px;height:44px;display:flex;align-items:center;justify-content:center;
+  margin-right:-10px;color:var(--mut)
+}
+.hk .icon svg{width:17px;height:17px}
+.hk .rail2{
+  display:flex;gap:16px;padding:10px 16px;border-bottom:1px solid var(--bd);
+  overflow:hidden;white-space:nowrap;color:var(--mut);font-size:11px;
+  letter-spacing:.13em;text-transform:uppercase;font-weight:600
+}
+.hk .body{padding:16px}
+.hk .in{
+  display:flex;align-items:center;gap:9px;height:44px;padding:0 14px;
+  border:1px solid var(--bd);border-radius:999px;background:var(--bg);color:var(--mut)
+}
+.hk .in.focus{border-color:var(--fg);box-shadow:0 0 0 2px var(--fg)}
+.hk .in .ph{flex:1;font-size:14px}
+.hk .in .val{flex:1;font-size:14px;color:var(--fg)}
+.hk .res{border-top:1px solid var(--bd);margin-top:14px}
+.hk .row{
+  display:block;padding:12px 0;border-bottom:1px solid var(--bd);
+  text-decoration:none;color:inherit;min-height:44px
+}
+.hk .row:last-child{border-bottom:0}
+.hk .row .t{font-family:"Cormorant Garamond",Georgia,serif;font-size:16px;line-height:1.24;display:block}
+.hk .row .c{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin-top:4px;display:block;font-weight:600}
+.hk .row mark{background:none;color:inherit;text-decoration:underline;text-decoration-color:var(--bds);text-underline-offset:.18em}
+.hk .quiet{color:var(--mut);font-size:13px}
+.hk .count{
+  font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);
+  font-weight:600;padding:10px 0;border-bottom:1px solid var(--bd)
+}
+.hk .btn{
+  display:inline-flex;align-items:center;justify-content:center;min-height:44px;
+  padding:0 18px;border:1px solid var(--fg);background:var(--fg);color:var(--bg);
+  border-radius:999px;font-size:13px;font-weight:500;text-decoration:none
+}
+.hk .btn.ghost{background:transparent;color:var(--fg)}
+.hk .chip{
+  display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:3px 13px;
+  border:1px solid var(--bd);border-radius:999px;font-size:12.5px;
+  text-decoration:none;color:var(--fg);max-width:100%
+}
+.hk .chip .n{color:var(--mut);font-variant-numeric:tabular-nums;font-size:11px}
+.hk .chip .lbl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hk .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.hk .rule{display:flex;align-items:center;gap:12px;padding:18px 0 10px}
+.hk .rule::before,.hk .rule::after{content:"";flex:1;height:1px;background:var(--bd)}
+.hk .crumb{font-size:11px;color:var(--mut);padding:12px 16px 0}
+.hk .skel{background:var(--sub);border-radius:2px}
+.hk .sheet{border-bottom:1px solid var(--bd);padding:12px 16px 16px;background:var(--bg)}
+.hk .dim{background:rgba(21,20,18,.28);height:64px}
+.hk .sect{padding-top:20px}
+.hk .sect h5{
+  font-family:"Cormorant Garamond",Georgia,serif;font-weight:400;font-size:19px;
+  margin:0 0 10px;letter-spacing:-.012em
+}
+.hk .list{border-top:1px solid var(--bd)}
+.hk .list a{display:block;padding:12px 0;border-bottom:1px solid var(--bd);text-decoration:none;color:inherit;font-size:14px;line-height:1.35;min-height:44px}
+.hk .jump{display:flex;gap:14px;overflow:hidden;padding:2px 0;white-space:nowrap}
+.hk .jump a{display:flex;align-items:center;min-height:44px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;color:var(--mut);text-decoration:none;box-shadow:inset 0 -1px 0 var(--bd)}
+.hk .jump a.on{color:var(--fg);box-shadow:inset 0 -1px 0 var(--fg)}
+.hk .card{margin-bottom:18px}
+.hk .card .img{aspect-ratio:4/3;background:var(--sub);border:1px solid var(--bd);border-bottom:0}
+.hk .pag{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:18px 0 4px;border-top:1px solid var(--bd);margin-top:16px}
+.hk .pag .p{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);font-weight:600}
+.hk .fld{
+  display:flex;align-items:center;height:44px;padding:0 14px;border:1px solid var(--bd);
+  border-radius:999px;color:var(--mut);font-size:13px;background:var(--bg)
+}
+
+/* footnote list */
+.fn{font-size:13.5px;color:var(--ink-soft)}
+.fn li{margin-bottom:10px}
+
+/* nav */
+.toc{
+  position:sticky;top:0;z-index:5;background:var(--paper);
+  border-bottom:1px solid var(--rule);margin-bottom:0
+}
+.toc ul{
+  display:flex;gap:0;list-style:none;margin:0;padding:0;overflow-x:auto;
+  max-width:1180px;margin:0 auto;padding:0 20px;scrollbar-width:none
+}
+.toc ul::-webkit-scrollbar{display:none}
+.toc a{
+  display:block;padding:11px 14px 10px;font-family:"IBM Plex Mono",monospace;
+  font-size:11px;letter-spacing:.09em;text-transform:uppercase;text-decoration:none;
+  color:var(--ink-soft);white-space:nowrap;border-bottom:2px solid transparent
+}
+.toc a:hover{color:var(--ink);border-bottom-color:var(--blue)}
+
+/* Below 420px the 360px artboard cannot sit inside 20px page gutters.
+   It runs to the edges instead of being scaled or clipped. */
+@media (max-width:419px){
+  .rig{margin-left:-20px;margin-right:-20px;max-width:none;width:auto}
+  .rigcap{padding:0 20px}
+  .rail{margin-left:auto;margin-right:auto}
+  .frame{border-left:0;border-right:0;border-radius:0;margin:0 auto}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<nav class="toc" aria-label="Bahagian">
+  <ul>
+    <li><a href="#apa">Apa yang ada</a></li>
+    <li><a href="#bukti">Bukti</a></li>
+    <li><a href="#keputusan">Keputusan</a></li>
+    <li><a href="#carian">Aliran carian</a></li>
+    <li><a href="#hasil">Halaman hasil</a></li>
+    <li><a href="#katalog">Katalog</a></li>
+    <li><a href="#panjang">Teks panjang</a></li>
+    <li><a href="#a11y">Papan kekunci</a></li>
+    <li><a href="#skop">Luar skop</a></li>
+  </ul>
+</nav>
+
+<div class="wrap">
+
+<header class="mast">
+  <p class="kicker">DES-06 · Sprint 03 · product-designer</p>
+  <h1>Carian &amp; Katalog</h1>
+  <p class="standfirst">
+    The site has a search box. Measured against production on 28 Ogos 2026, it
+    returns <strong>zero results for 84.3% of the queries readers actually arrive
+    on</strong>, covering 70.9% of a month's impressions, including the single
+    highest-clicking query the site has. This is the flow specification that fixes
+    that, and the catalogue decisions that go with it. Every screen is drawn at
+    360&nbsp;px against real Malay content taken from the live site.
+  </p>
+  <div class="meta">
+    <span><b>Ditulis</b> 28 Ogos 2026</span>
+    <span><b>Skop</b> reka bentuk sahaja, binaan berasingan</span>
+    <span><b>Perlu semakan</b> head-of-seo-content (§3.4, §5.3)</span>
+    <span><b>Diukur pada</b> hellokahwin.com, deploy <code>dpl_F5167dU7Cpz…</code></span>
+  </div>
+</header>
+
+<!-- ============================================================ -->
+<section id="apa">
+<h2><span class="num">1</span>What is actually there</h2>
+
+<p>
+  The sprint item says the site has no search. That was true when Decision 76 was
+  written; it is not true today, and the difference matters, because what shipped
+  is worse than nothing in one specific way: it promises an answer and returns a
+  dead end.
+</p>
+
+<h3>The shipped search, read out of the deployed bundle</h3>
+
+<p>
+  Component <code>InspireArticleSearch</code>, chunk
+  <code>/_next/static/chunks/8ba930556a144518.js</code>. Behaviour below is read
+  from the built bundle the browser receives, not from source.
+</p>
+
+<div class="scroll">
+<table>
+<thead><tr><th>Property</th><th>As shipped</th><th class="n">Consequence</th></tr></thead>
+<tbody>
+<tr><td>Entry point</td><td><code>&lt;a href="/artikel#cari"&gt;</code> in the header</td><td>Navigates away from whatever you were reading</td></tr>
+<tr><td>Where it exists</td><td><code>/artikel</code> only</td><td>1 page of 103</td></tr>
+<tr class="hi"><td>Match rule</td><td>Contiguous substring of title or excerpt</td><td>Word order decides whether you get an answer</td></tr>
+<tr><td>Minimum query</td><td>2 characters, 300&nbsp;ms debounce</td><td>Reasonable, keep</td></tr>
+<tr><td>Client result cap</td><td>5, hard-coded</td><td>No way to see the rest</td></tr>
+<tr><td>Server result cap</td><td>20, regardless of <code>&amp;limit=</code></td><td>Verified: <code>limit=100</code> still returns 20</td></tr>
+<tr><td>Total count in response</td><td>None</td><td>"12 hasil" is not currently expressible</td></tr>
+<tr class="hi"><td>Error handling</td><td><code>catch</code> sets results to <code>[]</code></td><td>A failed request is shown as "no results"</td></tr>
+<tr><td>Results URL</td><td>None</td><td>Cannot be shared, bookmarked, returned to, or counted</td></tr>
+<tr><td>Enter key</td><td>Not handled; no <code>&lt;form&gt;</code></td><td>Pressing Enter does nothing</td></tr>
+<tr><td>Arrow keys</td><td>Not handled; no <code>aria-activedescendant</code></td><td>Keyboard users cannot reach the results</td></tr>
+<tr class="hi"><td>Field label</td><td>Placeholder only</td><td>No accessible name once text is typed</td></tr>
+<tr class="hi"><td>Focus ring</td><td><code>ring-ring/30</code> = <code>#b7b6b4</code></td><td>1.96:1 on <code>#fcfbfa</code>. WCAG 2.2 SC 1.4.11 wants 3:1</td></tr>
+<tr><td>Without JavaScript</td><td>Nothing renders</td><td>See the cold-render measurements below</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="note flag">
+  <span class="lbl">The defect that costs the most</span>
+  <p>
+    A network failure and a genuine zero-result both render
+    <em>"Tiada hasil dijumpai"</em>. A reader on a dropping connection is told the
+    publication has nothing on mas kahwin. Two different states, two different
+    recoveries, one string.
+  </p>
+</div>
+
+<h3>The corpus, counted rather than assumed</h3>
+
+<p>
+  Every number below was taken from <code>sitemap.xml</code> and from the fifteen
+  rendered category pages on 28 Ogos 2026, and the two agree exactly: 86 articles,
+  15 category pages, plus <code>/artikel</code> and the homepage make the 103 URLs
+  in the sitemap.
+</p>
+
+<div class="scroll">
+<table>
+<thead><tr><th>Category</th><th class="n">Articles</th><th>In the nav</th><th>Empty sections on the live page</th></tr></thead>
+<tbody>
+<tr class="hi"><td>Hantaran &amp; Mas Kahwin</td><td class="n">38</td><td>yes</td><td>none</td></tr>
+<tr><td>Idea dan nasihat</td><td class="n">10</td><td>yes</td><td>none</td></tr>
+<tr><td>Real Wedding</td><td class="n">6</td><td>yes</td><td>none</td></tr>
+<tr><td>Ucapan, Doa &amp; Adab Majlis</td><td class="n">5</td><td>yes</td><td>none</td></tr>
+<tr><td>Moden Kontemporari</td><td class="n">4</td><td><strong>no</strong></td><td>none</td></tr>
+<tr class="hi"><td>Nikah &amp; Undang-undang</td><td class="n">4</td><td>yes</td><td>2 of 4</td></tr>
+<tr class="hi"><td>Venue, Kos &amp; Perancangan</td><td class="n">4</td><td>yes</td><td>1 of 2</td></tr>
+<tr><td>Busana &amp; Penampilan Pengantin</td><td class="n">3</td><td>yes</td><td>none</td></tr>
+<tr class="hi"><td>Pelamin, Kad &amp; Cenderahati Majlis</td><td class="n">3</td><td>yes</td><td>1 of 4</td></tr>
+<tr class="hi"><td>Sebelum Nikah: Jodoh, Merisik &amp; Tunang</td><td class="n">3</td><td>yes</td><td>2 of 5</td></tr>
+<tr><td>Glamor Eksklusif</td><td class="n">2</td><td><strong>no</strong></td><td>none</td></tr>
+<tr><td>Fotografi &amp; Videografi</td><td class="n">1</td><td><strong>no</strong></td><td>none</td></tr>
+<tr><td>Hiasan &amp; Dekorasi</td><td class="n">1</td><td><strong>no</strong></td><td>none</td></tr>
+<tr><td>Minimalis Mewah</td><td class="n">1</td><td><strong>no</strong></td><td>none</td></tr>
+<tr><td>Pantai Santai</td><td class="n">1</td><td><strong>no</strong></td><td>none</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>
+  Four facts here shape everything downstream. One category holds 44% of the
+  corpus. Eleven of fifteen hold four articles or fewer, and four hold exactly one.
+  Six categories are live and indexed but absent from the navigation. And six
+  sections across five categories currently tell the reader an article is
+  <em>"akan datang tidak lama lagi"</em>.
+</p>
+
+<div class="note flag">
+  <span class="lbl">One of those six is false</span>
+  <p>
+    <code>/artikel/venue-perancangan</code> has a section headed
+    <em>Dewan &amp; venue majlis</em> that says an article is coming. The site has
+    six live articles about dewan, two of them on that same page under a different
+    heading. A reader who searches "dewan" is served; a reader who browses to the
+    section named for it is told to come back later. This is the clearest single
+    argument for why search and browse have to be designed together.
+  </p>
+</div>
+
+<h3>/artikel is not a catalogue</h3>
+<p>
+  The page links to 12 of the 86 articles: one lead, two secondary, a "Terkini"
+  grid of nine, and a category list. All twelve are from Hantaran &amp; Mas Kahwin,
+  because they are the most recent. The other 74 articles are reachable only
+  through category pages, six of which are not in the navigation.
+</p>
+
+<h3>Speed is a design constraint here, not a footnote</h3>
+<p>
+  First-request timings for the fifteen category pages, curl, 28 Ogos 2026:
+  twelve returned in 0.37–1.83&nbsp;s; <code>/artikel/moden-kontemporari</code>
+  took <strong>12.5&nbsp;s</strong>, <code>/artikel/fotografi-videografi</code>
+  <strong>22.5&nbsp;s</strong>, <code>/artikel/minimalis-mewah</code>
+  <strong>23.5&nbsp;s</strong>. RISK-08 owns the cause. The consequence for this
+  specification is that a search which only works after JavaScript has loaded and
+  hydrated is a search that sometimes does not exist.
+</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="bukti">
+<h2><span class="num">2</span>What readers ask for, and what they get</h2>
+
+<p>
+  Search Console, hellokahwin.com, 31 Julai to 27 Ogos 2026: 248 distinct queries,
+  1,823 impressions, 11 clicks, CTR 0.60%. Then every one of those 248 queries was
+  put through the site's own live search API on 28 Ogos and the result count
+  recorded.
+</p>
+
+<div class="scroll">
+<table>
+<thead><tr><th>Pattern in real demand</th><th class="n">Share of impressions</th><th>What it means for the design</th></tr></thead>
+<tbody>
+<tr><td>Queries of three words or more</td><td class="n">84.6%</td><td>Multi-token matching is the whole job</td></tr>
+<tr><td>Mas kahwin / mas kawin / mahar family</td><td class="n">27.3%</td><td>One cluster carries a quarter of demand</td></tr>
+<tr><td>…spelled something other than "mas kahwin"</td><td class="n">12.9% of that family</td><td>Normalisation is not optional</td></tr>
+<tr><td>English-only queries</td><td class="n">38.3%</td><td>English input must reach Malay articles</td></tr>
+<tr><td>Named venues (setiawangsa cluster)</td><td class="n">16.8%</td><td>No page exists. Search cannot invent one</td></tr>
+<tr><td>Carrying a year</td><td class="n">6.7%</td><td>Titles already carry 2026. Do not strip digits</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>The measurement</h3>
+
+<div class="scroll">
+<table>
+<thead><tr><th>Matching rule</th><th class="n">Queries returning zero</th><th class="n">Share of real demand answered</th></tr></thead>
+<tbody>
+<tr class="hi"><td>Shipped today, measured live</td><td class="n">209 of 248 (84.3%)</td><td class="n">29.1%</td></tr>
+<tr><td>Stage 1 only: all tokens in title + slug</td><td class="n">140 (56.5%)</td><td class="n">51.6%</td></tr>
+<tr><td>+ stage 2: category name as fallback field</td><td class="n">132 (53.2%)</td><td class="n">52.5%</td></tr>
+<tr class="good"><td>+ stage 3: ranked partial match, labelled as approximate</td><td class="n">58 (23.4%)</td><td class="n"><strong>76.7%</strong></td></tr>
+</tbody>
+</table>
+</div>
+
+<p class="fn">
+  Rows 2–4 are simulated over article titles, slugs and category names only; the
+  live index also carries excerpts, so they understate the real gain. Row 1 is
+  measured against production, not simulated.
+</p>
+
+<h3>Why the shipped rule fails, in one line</h3>
+<p>
+  It requires the query to appear as a contiguous string. Malay headline word order
+  almost never matches query word order, and combined-state articles break it
+  outright:
+</p>
+
+<div class="scroll">
+<table>
+<thead><tr><th>Real query</th><th class="n">GSC imp.</th><th class="n">Live result</th><th>The article that exists</th></tr></thead>
+<tbody>
+<tr class="hi"><td><code>mas kahwin terengganu</code></td><td class="n">35</td><td class="n">0</td><td>Mas kahwin Kelantan dan Terengganu 2026: tiada kadar tetap</td></tr>
+<tr class="hi"><td><code>mas kahwin pahang 2026</code></td><td class="n">19</td><td class="n">0</td><td>Mas kahwin Pahang dan Negeri Sembilan 2026: kadar rasmi</td></tr>
+<tr class="hi"><td><code>maksud walimatul urus</code></td><td class="n">10</td><td class="n">0</td><td>Walimatul urus: maksud, hukum dan adab jemputan</td></tr>
+<tr class="hi"><td><code>doa pengantin baru rumi</code></td><td class="n">6</td><td class="n">0</td><td>Doa pengantin baru: lafaz penuh, rumi dan maksudnya</td></tr>
+<tr><td><code>terengganu</code> alone</td><td class="n">—</td><td class="n">1</td><td>The same Kelantan article. The word is indexed; the phrase is not</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="note flag">
+  <span class="lbl">Read that first row again</span>
+  <p>
+    <code>mas kahwin terengganu</code> is the single highest-clicking query on the
+    site: 35 impressions, 3 clicks, average position 6.1. It is 27% of all clicks
+    the site earned in those 28 days. Its own search cannot find its own article.
+  </p>
+</div>
+
+<h3>What no matching rule can fix</h3>
+<p>
+  424 impressions, 23.3% of demand, stay at zero under the best rule, and they are
+  dominated by two clusters: <code>pusat komuniti setiawangsa</code> (185) and
+  <code>dewan komuniti setiawangsa</code> (103), plus the outdoor-wedding English
+  long tail. Those are content that does not exist. Which produces the most valuable
+  by-product of shipping search here:
+</p>
+
+<div class="note ok">
+  <span class="lbl">Recommendation, ranked first for cost against value</span>
+  <p>
+    <strong>Log every internal query and its result count, server side, with no
+    personal data.</strong> Today the company has zero visibility into what readers
+    ask once they are on the site. 293 impressions a month for a Setiawangsa hall
+    were visible in Search Console and it still took until SEO-04 to act. A
+    zero-result log is a content brief that writes itself, and it is a smaller
+    build than any screen in this document.
+  </p>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<section id="keputusan">
+<h2><span class="num">3</span>The decisions, and what was rejected</h2>
+
+<h3>3.1 Search opens in place. It never navigates.</h3>
+<p>
+  A panel over the current page, opened from the header on every page type,
+  dismissed with Escape, returning focus to the trigger. The URL does not change
+  until the reader commits.
+</p>
+<p>
+  <strong>Rejected — the current jump to <code>/artikel#cari</code>.</strong> It
+  throws away the article the reader was in, and on a cold category render measured
+  at 12–23&nbsp;s today, that is an expensive thing to throw away. It also does not
+  do what it appears to: the autofocus effect runs once on mount, so a reader
+  already on <code>/artikel</code> who taps the header search icon changes the hash
+  and gets no focus at all.
+</p>
+<p>
+  <strong>Rejected — a permanently visible field in the header.</strong> The mobile
+  header is 56&nbsp;px and already carries a wordmark plus a horizontally scrolling
+  category rail below it. A 44&nbsp;px field would take a third of the viewport's
+  vertical furniture to serve an action most readers take once.
+</p>
+
+<h3>3.2 There is a results page at a real URL: <code>/cari?q=…</code></h3>
+<p>Four reasons, in order of weight:</p>
+<ol>
+  <li>
+    <strong>The dropdown cannot hold the state that matters.</strong> Under the
+    proposed rule, 76.7% of answered demand resolves to one or two articles, and
+    23.3% resolves to nothing. A five-row dropdown is adequate for the first and
+    useless for the second. The zero-result case needs a page.
+  </li>
+  <li>
+    <strong>The back button.</strong> The site's core reading task is comparative:
+    a reader checking mas kahwin across states moves list → article → back, repeatedly.
+    A URL makes that the browser's job.
+  </li>
+  <li>
+    <strong>It works without JavaScript.</strong> A plain
+    <code>&lt;form action="/cari" method="get"&gt;</code> submits and renders on the
+    server. Given the cold-render measurements, the no-JS path is a real path.
+  </li>
+  <li>
+    <strong>It is countable.</strong> A query string is loggable; a client-side
+    dropdown is not.
+  </li>
+</ol>
+<div class="note">
+  <span class="lbl">SEO, needs head-of-seo-content sign-off</span>
+  <p>
+    <code>/cari</code> emits <code>&lt;meta name="robots" content="noindex,follow"&gt;</code>
+    and is disallowed in <code>robots.txt</code>. Internal search results are the
+    textbook thin-page generator; <code>follow</code> keeps link equity flowing to
+    the articles they point at. <code>/cari</code> is not added to the sitemap. No
+    <code>ItemList</code> schema is emitted on it. Written here as a proposal for
+    DES-09 to ratify, not a decision taken on that seat's behalf.
+  </p>
+</div>
+
+<h3>3.3 The matching rule, stated so it can be tested</h3>
+<ol>
+  <li>
+    <strong>Normalise</strong> both query and index: lowercase, strip punctuation,
+    fold <code>kawin → kahwin</code>, <code>maskahwin → mas kahwin</code>,
+    <code>maskawin → mas kahwin</code>. Keep digits: 6.7% of queries carry a year
+    and the titles carry it too.
+  </li>
+  <li>
+    <strong>Stage 1.</strong> All query tokens present in title or slug. This is
+    the primary index and it is the reason "mas kahwin" returns nine articles
+    rather than the whole hantaran category.
+  </li>
+  <li>
+    <strong>Stage 2, only if stage 1 is empty.</strong> Widen to excerpt, category
+    name and section heading.
+  </li>
+  <li>
+    <strong>Stage 3, only if stage 2 is empty.</strong> Rank by proportion of
+    tokens matched, keep anything at 60% or above, and <em>label the block as
+    approximate</em>. An approximate match presented as an answer is worse than
+    nothing on a site people use to decide what to pay a family.
+  </li>
+  <li>
+    <strong>Rank</strong> exact phrase in title, then token count matched, then
+    shorter title. Stop-words drop from the AND set but still count toward ranking.
+  </li>
+</ol>
+<p>
+  The response gains a <code>total</code> alongside the array, and honours
+  <code>limit</code> and <code>offset</code>. Without a total, "12 hasil" cannot be
+  written truthfully, and every count in the screens below depends on it.
+</p>
+
+<h3 id="pagination">3.4 Pagination or infinite scroll: neither, then pagination</h3>
+
+<div class="note ok">
+  <span class="lbl">Decision</span>
+  <p>
+    <strong>No paging mechanism below 60 items in a set.</strong> Above 60, real
+    paginated <code>?page=n</code> URLs with anchor links. Infinite scroll is
+    rejected outright and should not be revisited without new evidence.
+  </p>
+</div>
+
+<p>
+  The largest set on the site is 38, and it already renders in full on one page
+  grouped into five named sections. Pagination today would add a click and a crawl
+  hop to solve a problem that does not exist. The decision worth making now is the
+  threshold and the mechanism, so the question is settled before Hantaran &amp; Mas
+  Kahwin crosses it.
+</p>
+
+<div class="scroll">
+<table>
+<thead><tr><th>Axis</th><th>Infinite scroll</th><th>Paginated <code>?page=n</code></th></tr></thead>
+<tbody>
+<tr>
+  <td><strong>Crawlability</strong></td>
+  <td>Scroll-triggered fetch leaves items 25+ with no crawlable link. Googlebot does not scroll. Making it crawlable means building paginated URLs underneath it anyway.</td>
+  <td>Every item sits behind an <code>&lt;a href&gt;</code>. Crawl depth is arithmetic and predictable.</td>
+</tr>
+<tr>
+  <td><strong>Back button</strong></td>
+  <td>Back returns to a remounted list at scroll 0 unless the implementation restores both loaded pages and offset. That restoration breaks on soft navigation and on bfcache misses, silently.</td>
+  <td>The browser's own history entry. Nothing to implement, nothing to break.</td>
+</tr>
+<tr>
+  <td><strong>Return to position</strong></td>
+  <td>Not addressable. There is no URL for "where I was".</td>
+  <td><code>?page=2</code> is a position that can be bookmarked or sent to somebody.</td>
+</tr>
+<tr>
+  <td><strong>Fit to this site</strong></td>
+  <td>Solves a problem at 500 items. The site has 86.</td>
+  <td>Costs nothing until the threshold trips.</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<p>
+  <strong>On the link-equity argument.</strong> SEO-02 removed 79
+  <code>rel=nofollow</code> links and added 68 real ones. Introducing a pattern
+  whose default failure mode is hiding links from crawlers moves directly against
+  that work. That is the reasoning; the ruling belongs to head-of-seo-content, and
+  this section is written to be signed or overruled.
+</p>
+<p>
+  <strong>"Load more" as a middle path.</strong> Acceptable only as progressive
+  enhancement layered on top of a real <code>&lt;a href="?page=2"&gt;</code>: the
+  anchor ships in the HTML, script upgrades the click to an in-place append and
+  pushes the new URL. Crawlers and no-JS readers follow the anchor. If the button
+  is a <code>&lt;button&gt;</code> with no href, it is infinite scroll with a tap
+  instead of a scroll and is rejected on the same three grounds.
+</p>
+
+<h3>3.5 Filters: one, and it is content rather than chrome</h3>
+<p>
+  <strong>No filter panel.</strong> Eleven of fifteen categories hold four articles
+  or fewer. A facet control over a three-item set is furniture pretending to be a
+  feature.
+</p>
+<p>Two mechanisms instead:</p>
+<ul>
+  <li>
+    <strong>Section jump links</strong> on any category with three or more sections
+    — today Hantaran (5), Sebelum Nikah (5), Pelamin (4), Nikah (4), Ucapan (4).
+    The editorial sub-sections already exist as <code>h2</code>s; this makes them
+    navigable. Filtering by the taxonomy the editors actually built.
+  </li>
+  <li>
+    <strong>A negeri table on the mas kahwin cluster</strong>, as an article
+    component rather than a control: all sixteen states, each linking to the
+    article that covers it, and the states with no article saying so plainly. This
+    is the structural fix for the <code>mas kahwin terengganu</code> failure and it
+    turns a quarter of site demand into one navigable object.
+  </li>
+</ul>
+
+<h3>3.6 Sort: none, and here is the trigger that changes that</h3>
+<p>
+  Pillar categories are ordered editorially, not chronologically. A "Terbaru"
+  control would let a reader destroy the only curation on the page, in exchange for
+  reordering eight items. The Real Wedding Edit categories are chronological but
+  hold one to six items each, where sorting is meaningless.
+</p>
+<p>
+  <strong>Sort ships when a single set exceeds 20 items and carries no editorial
+  order.</strong> Today nothing meets both conditions. Stated so the omission reads
+  as a decision rather than an oversight.
+</p>
+
+<h3>3.7 How search relates to browsing</h3>
+<ol>
+  <li><strong>Search never replaces browse.</strong> The results page always ends with the full category index, counts included.</li>
+  <li><strong>Every result carries its category as a link.</strong> A search is a doorway onto a shelf, not a vending machine.</li>
+  <li><strong>An empty section offers what does exist</strong> instead of promising a date. The <em>Dewan &amp; venue majlis</em> case above is the test: six relevant articles exist, so the section links to them.</li>
+  <li><strong>The zero-result page hands the reader back to browse</strong> with the four largest categories and their real counts.</li>
+</ol>
+</section>
+
+<!-- ============================================================ -->
+<section id="carian">
+<h2><span class="num">4</span>The search flow, every state</h2>
+
+<p>
+  All frames are 360&nbsp;px wide, the narrowest viewport in real use. Page padding
+  is 16&nbsp;px each side, leaving 328&nbsp;px of content. Every tap target is at
+  least 44&nbsp;px. Copy is real Bahasa Melayu; article titles are live titles from
+  hellokahwin.com.
+</p>
+
+<div class="rail" aria-hidden="true">
+  <div class="bar"></div>
+  <div class="tick" style="left:0"></div>
+  <div class="tick" style="left:16px"></div>
+  <div class="tick" style="right:16px"></div>
+  <div class="tick" style="right:0"></div>
+  <div class="lab" style="left:0">0</div>
+  <div class="lab" style="left:calc(50% - 26px)">328 px</div>
+  <div class="lab" style="right:0">360</div>
+</div>
+
+<!-- E1 -->
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>E1 · pemicu</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="hd">
+          <span aria-hidden="true"></span>
+          <span class="wordmark">HelloKahwin</span>
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.34-4.34"/></svg></span>
+        </div>
+        <div class="rail2">Idea dan nasihat &nbsp; Real Wedding &nbsp; Nikah</div>
+        <div class="crumb">Utama › Artikel › Hantaran &amp; Mas Kahwin</div>
+        <div class="body">
+          <p class="eyebrow" style="margin:0 0 6px">Hantaran &amp; Mas Kahwin</p>
+          <p class="serif" style="font-size:25px;line-height:1.1;margin:0 0 10px">Mas kahwin Johor 2026: RM22.50 dan asal usul angkanya</p>
+          <p class="quiet" style="margin:0">Kadar RM22.50 ditetapkan Majlis Agama Islam Negeri Johor…</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid">E1</span>
+    <h3>The trigger, on every page</h3>
+    <p>
+      Magnifier plus the word <em>Cari</em> from 640&nbsp;px up; icon only below
+      that, which is what ships today and is correct — the 44&nbsp;px target is
+      already there.
+    </p>
+    <dl>
+      <dt>Change from today</dt>
+      <dd>It becomes a <code>&lt;button aria-expanded&gt;</code> that opens the panel, not a link that navigates. Inside a <code>&lt;noscript&gt;</code> it stays an anchor to <code>/cari</code>.</dd>
+      <dt>Keyboard</dt>
+      <dd><kbd>/</kbd> or <kbd>Ctrl/⌘ K</kbd> anywhere except inside a field.</dd>
+      <dt>Announced as</dt>
+      <dd>"Cari artikel, butang, tutup" / "…kembang" on state change.</dd>
+    </dl>
+  </div>
+</div>
+
+<!-- E2 -->
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>E2 · panel terbuka, kosong</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="sheet">
+          <div style="display:flex;align-items:center;gap:10px">
+            <div class="in focus" style="flex:1">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.34-4.34"/></svg>
+              <span class="ph">mas kahwin, hantaran, dewan…</span>
+            </div>
+            <span style="font-size:13px;color:var(--mut);padding:0 2px">Tutup</span>
+          </div>
+          <p class="quiet" style="margin:10px 0 0;font-size:12px">Taip dua huruf untuk mula.</p>
+          <p class="eyebrow" style="margin:18px 0 8px">Selalu dicari</p>
+          <div class="list">
+            <a href="#">Mas kahwin ikut negeri</a>
+            <a href="#">Hantaran tunang</a>
+            <a href="#">Checklist kahwin</a>
+            <a href="#">Doa majlis perkahwinan</a>
+          </div>
+        </div>
+        <div class="dim"></div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid">E2</span>
+    <h3>Idle: teach the corpus</h3>
+    <p>
+      The four suggestions are not decoration. 84.6% of real queries are three
+      words or more, and the placeholder plus these four teach a reader what this
+      publication is about before they have typed anything.
+    </p>
+    <dl>
+      <dt>Where the four come from</dt>
+      <dd>Editorially fixed at launch, replaced by the top four logged internal queries once §2's logging has a month of data. Never auto-generated from an empty log.</dd>
+      <dt>Focus</dt>
+      <dd>Moves to the field on open. Focus is trapped in the panel while it is open.</dd>
+      <dt>Dismiss</dt>
+      <dd>Escape, the Tutup control, a tap on the dimmed area, or the browser back button.</dd>
+      <dt>Not in scope here</dt>
+      <dd>Recently-viewed history. It needs storage and a clear-it control, and it is worth less than the logging in §2.</dd>
+    </dl>
+  </div>
+</div>
+
+<!-- Q1 -->
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>Q1 · satu huruf</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="sheet">
+          <div class="in focus">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.34-4.34"/></svg>
+            <span class="val">m</span>
+          </div>
+          <p class="quiet" style="margin:10px 0 0;font-size:12px">Satu huruf lagi.</p>
+        </div>
+        <div class="dim"></div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid">Q1</span>
+    <h3>Below the minimum</h3>
+    <p>
+      Two characters, as shipped. The hint replaces the suggestion list rather than
+      appearing beneath it, so nothing shifts under the reader's thumb.
+    </p>
+    <dl>
+      <dt>Announced as</dt>
+      <dd>Nothing. A live region firing on every keystroke is noise. Announcements begin at the result.</dd>
+    </dl>
+  </div>
+</div>
+
+<!-- Q2 -->
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>Q2 · sedang mencari</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="sheet">
+          <div class="in focus">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.34-4.34"/></svg>
+            <span class="val">mas kahwin</span>
+          </div>
+          <div class="res">
+            <div class="row"><span class="skel" style="display:block;height:14px;width:88%"></span><span class="skel" style="display:block;height:9px;width:38%;margin-top:7px"></span></div>
+            <div class="row"><span class="skel" style="display:block;height:14px;width:72%"></span><span class="skel" style="display:block;height:9px;width:38%;margin-top:7px"></span></div>
+            <div class="row"><span class="skel" style="display:block;height:14px;width:80%"></span><span class="skel" style="display:block;height:9px;width:38%;margin-top:7px"></span></div>
+          </div>
+        </div>
+        <div class="dim"></div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid">Q2</span>
+    <h3>Loading</h3>
+    <p>
+      Three skeleton rows at the height a result row will occupy, so the panel does
+      not jump when data lands. No spinner and no "Mencari…" string: the debounce
+      is 300&nbsp;ms and a typical response is well inside a second, where a word
+      would flash and be gone.
+    </p>
+    <dl>
+      <dt>If the response exceeds 3 s</dt>
+      <dd>Replace the skeletons with the text <em>Mencari…</em>. At that duration a reader needs telling that something is still happening.</dd>
+      <dt>Stale responses</dt>
+      <dd>Keep the existing <code>AbortController</code>; it is correct as shipped.</dd>
+      <dt>Reduced motion</dt>
+      <dd>Skeletons are flat fills. No shimmer at any setting.</dd>
+    </dl>
+  </div>
+</div>
+
+<!-- Q3 -->
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>Q3 · hasil</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="sheet">
+          <div class="in focus">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.34-4.34"/></svg>
+            <span class="val">mas kahwin</span>
+          </div>
+          <div class="count">9 hasil</div>
+          <div class="res" style="border-top:0;margin-top:0">
+            <a class="row" href="#"><span class="t">Mas kahwin ikut negeri 2026: kadar minimum setiap negeri</span><span class="c">Hantaran &amp; Mas Kahwin</span></a>
+            <a class="row" href="#"><span class="t">Mas kahwin Johor 2026: RM22.50 dan asal usul angkanya</span><span class="c">Hantaran &amp; Mas Kahwin</span></a>
+            <a class="row" href="#"><span class="t">Mas kahwin Kelantan dan Terengganu 2026: tiada kadar tetap</span><span class="c">Hantaran &amp; Mas Kahwin</span></a>
+            <a class="row" href="#"><span class="t">Mas kahwin Pahang dan Negeri Sembilan 2026: kadar rasmi</span><span class="c">Hantaran &amp; Mas Kahwin</span></a>
+            <a class="row" href="#"><span class="t">Mas kahwin Perak 2026: tiada kadar minimum ditetapkan</span><span class="c">Hantaran &amp; Mas Kahwin</span></a>
+          </div>
+          <a class="row" href="#" style="border-bottom:0;padding-top:13px"><span class="eyebrow">Lihat semua 9 hasil →</span></a>
+        </div>
+        <div class="dim" style="height:20px"></div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid">Q3</span>
+    <h3>Results in the panel</h3>
+    <p>
+      Five rows, then a link to the page. Five is the shipped cap and it is the
+      right one — but today it is a cap with nothing behind it. The count line and
+      the "Lihat semua" link are what make it honest, and both need the API to
+      return a total.
+    </p>
+    <dl>
+      <dt>Row anatomy</dt>
+      <dd>Title in the serif at 16&nbsp;px over two lines maximum, then the category as an eyebrow. The category is the row's second job: it tells the reader which shelf this came from.</dd>
+      <dt>Matched terms</dt>
+      <dd>Underlined, not highlighted with a background. A yellow block would be the only saturated colour on a monochrome publication.</dd>
+      <dt>Row height</dt>
+      <dd>Minimum 56&nbsp;px including padding. Comfortably past the 44&nbsp;px floor.</dd>
+      <dt>Announced as</dt>
+      <dd>"9 hasil." once, on settle, from a live region that is already in the DOM before the query runs.</dd>
+      <dt>Ordering</dt>
+      <dd>Per §3.3. Note that the reader wanting Terengganu has to read to row three; that is why the negeri table in §3.5 exists.</dd>
+    </dl>
+  </div>
+</div>
+
+<!-- Q4 -->
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>Q4 · satu hasil</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="sheet">
+          <div class="in focus">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.34-4.34"/></svg>
+            <span class="val">mas kahwin terengganu</span>
+          </div>
+          <div class="count">1 hasil</div>
+          <div class="res" style="border-top:0;margin-top:0">
+            <a class="row" href="#" style="border-bottom:0"><span class="t">Mas kahwin Kelantan dan <mark>Terengganu</mark> 2026: tiada kadar tetap</span><span class="c">Hantaran &amp; Mas Kahwin</span></a>
+          </div>
+        </div>
+        <div class="dim"></div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid">Q4</span>
+    <h3>Exactly one — the commonest useful outcome</h3>
+    <p>
+      Under the proposed rule this is where a large share of answered demand lands,
+      and it is the state a five-row dropdown design usually forgets. No "Lihat
+      semua" link, because there is nothing more to see. No count padding, no empty
+      rows.
+    </p>
+    <div class="note flag" style="margin:14px 0 0">
+      <span class="lbl">This exact query returns 0 today</span>
+      <p style="font-size:13.5px">
+        35 impressions, 3 clicks, position 6.1, and the article it wants is the one
+        drawn above.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Q5 -->
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>Q5 · tiada hasil, dalam panel</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="sheet">
+          <div class="in focus">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.34-4.34"/></svg>
+            <span class="val">dewan komuniti setiawangsa</span>
+          </div>
+          <div style="padding:16px 0 4px">
+            <p class="serif" style="font-size:18px;margin:0 0 6px;line-height:1.25">Tiada hasil untuk “dewan komuniti setiawangsa”.</p>
+            <p class="quiet" style="margin:0 0 12px">Kami ada 86 artikel. Yang paling hampir:</p>
+            <div class="list">
+              <a href="#">Harga Sewa Dewan Kahwin 2026: Kadar Rasmi Majlis Perbandaran, Bukan Anggaran</a>
+              <a href="#">Checklist Sewa Dewan Kahwin: Apa yang Perlu Ditanya Sebelum Bayar Deposit</a>
+            </div>
+            <p style="margin:14px 0 0"><a href="#" class="eyebrow" style="text-decoration:none">Lihat semua pilihan →</a></p>
+          </div>
+        </div>
+        <div class="dim" style="height:24px"></div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid flag">Q5</span>
+    <h3>Nothing found, in the panel</h3>
+    <p>
+      The panel version stays short: name the failure, offer the two nearest
+      articles, and hand off to the page, which is where the real recovery lives.
+      A dropdown is the wrong container for four escape routes.
+    </p>
+    <dl>
+      <dt>Why this query</dt>
+      <dd>103 impressions in 28 days, position 9.0, zero clicks, and no page exists. It is the most-demanded thing the site cannot answer, so it is the honest thing to draw.</dd>
+      <dt>Announced as</dt>
+      <dd>"Tiada hasil." Then the nearest matches are reachable by arrow key like any other result.</dd>
+      <dt>Never</dt>
+      <dd>An illustration, a sad face, or an apology. The reader has a hall to book.</dd>
+    </dl>
+  </div>
+</div>
+
+<!-- F1 -->
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>F1 · carian gagal</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="sheet">
+          <div class="in focus">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.34-4.34"/></svg>
+            <span class="val">hantaran tunang</span>
+          </div>
+          <div style="padding:16px 0 4px">
+            <p class="serif" style="font-size:18px;margin:0 0 6px;line-height:1.25">Carian gagal.</p>
+            <p class="quiet" style="margin:0 0 14px">Sambungan terputus semasa mencari.</p>
+            <div style="display:flex;gap:9px;align-items:center;flex-wrap:wrap">
+              <a class="btn" href="#">Cuba lagi</a>
+              <a class="btn ghost" href="#">Semua artikel</a>
+            </div>
+          </div>
+        </div>
+        <div class="dim" style="height:30px"></div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid flag">F1</span>
+    <h3>The request failed. This is not "no results".</h3>
+    <p>
+      The single most important correction in this document. Today both render the
+      same string, so a reader on a bad connection is told the publication has
+      nothing on hantaran tunang. There are seven articles.
+    </p>
+    <dl>
+      <dt>Trigger</dt>
+      <dd>Any non-2xx, any parse failure, any timeout past 8 s. Explicitly not an empty array, which is Q5.</dd>
+      <dt>Recovery</dt>
+      <dd>Retry re-runs the same query; the query text is never cleared. The second control is a route out that does not need the API.</dd>
+      <dt>Announced as</dt>
+      <dd>"Carian gagal." through the same live region, at <code>role="status"</code>. Not <code>alert</code>: a failed search is not urgent, and interrupting a screen reader mid-sentence is worse than waiting.</dd>
+    </dl>
+  </div>
+</div>
+
+<!-- F2 -->
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>F2 · tiada sambungan</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="sheet">
+          <div class="in" style="opacity:.55">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.34-4.34"/></svg>
+            <span class="ph">mas kahwin, hantaran, dewan…</span>
+          </div>
+          <div style="padding:16px 0 4px">
+            <p class="serif" style="font-size:18px;margin:0 0 6px;line-height:1.25">Tiada sambungan internet.</p>
+            <p class="quiet" style="margin:0">Carian perlukan sambungan.</p>
+          </div>
+        </div>
+        <div class="dim" style="height:40px"></div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid flag">F2</span>
+    <h3>Offline</h3>
+    <p>
+      Detected from <code>navigator.onLine</code> before a request is attempted, so
+      the reader is not made to wait for a timeout. The field is disabled rather
+      than hidden, so the panel does not change shape.
+    </p>
+    <dl>
+      <dt>Recovery</dt>
+      <dd>The <code>online</code> event re-enables the field and re-runs the last query automatically. No button: there is nothing for a tap to achieve while the radio is off.</dd>
+      <dt>Deliberately not said</dt>
+      <dd>Anything about cached articles still being readable. The site ships no service worker, and a promise the build cannot keep is worse than silence.</dd>
+    </dl>
+  </div>
+</div>
+
+<!-- F3 -->
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>F3 · tanpa JavaScript</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="hd">
+          <span aria-hidden="true"></span>
+          <span class="wordmark">HelloKahwin</span>
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.34-4.34"/></svg></span>
+        </div>
+        <div class="body">
+          <p class="eyebrow" style="margin:0 0 10px">Cari</p>
+          <div style="display:flex;gap:8px">
+            <div class="fld" style="flex:1">mas kahwin, hantaran, dewan…</div>
+            <a class="btn" href="#" style="padding:0 15px">Cari</a>
+          </div>
+          <p class="quiet" style="font-size:12px;margin:10px 0 0">Menghantar ke /cari</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid">F3</span>
+    <h3>No JavaScript, or not yet hydrated</h3>
+    <p>
+      A real <code>&lt;form action="/cari" method="get"&gt;</code> rendered on the
+      server at the top of <code>/artikel</code> and on <code>/cari</code> itself.
+      Submitting navigates and the server renders results. The overlay in E2 is an
+      enhancement on top of this, never a replacement for it.
+    </p>
+    <dl>
+      <dt>Why it earns its cost</dt>
+      <dd>Three category pages were measured at 12.5&nbsp;s, 22.5&nbsp;s and 23.5&nbsp;s on first request on 28 Ogos. During that window a JS-only search does not exist.</dd>
+      <dt>Header trigger</dt>
+      <dd>The <code>&lt;noscript&gt;</code> variant is an anchor to <code>/cari</code>, which renders this same form with focus on the field.</dd>
+    </dl>
+  </div>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<section id="hasil">
+<h2><span class="num">5</span>The results page, <code>/cari?q=…</code></h2>
+
+<!-- R1 -->
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>R1 · banyak hasil</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="hd">
+          <span aria-hidden="true"></span>
+          <span class="wordmark">HelloKahwin</span>
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.34-4.34"/></svg></span>
+        </div>
+        <div class="body">
+          <div class="in" style="margin-bottom:16px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.34-4.34"/></svg><span class="val">hantaran tunang</span></div>
+          <p class="serif" style="font-size:22px;margin:0 0 2px;line-height:1.15">7 hasil untuk “hantaran tunang”</p>
+          <div class="list" style="margin-top:16px">
+            <a href="#">Barang <mark>hantaran tunang</mark>: disimpan, dipulang atau dibawa ke nikah<span class="c" style="display:block;margin-top:4px">Hantaran &amp; Mas Kahwin</span></a>
+            <a href="#"><mark>Hantaran tunang</mark> simple: contoh lapan dulang dan kosnya<span class="c" style="display:block;margin-top:4px">Hantaran &amp; Mas Kahwin</span></a>
+            <a href="#">Berapa dulang <mark>hantaran tunang</mark>, dan siapa yang tentukan<span class="c" style="display:block;margin-top:4px">Hantaran &amp; Mas Kahwin</span></a>
+            <a href="#"><mark>Hantaran tunang</mark> untuk perempuan: apa yang dibawa masuk<span class="c" style="display:block;margin-top:4px">Hantaran &amp; Mas Kahwin</span></a>
+          </div>
+          <div class="rule"><span class="eyebrow">Semak juga</span></div>
+          <div class="chips">
+            <a class="chip" href="#"><span class="lbl">Hantaran &amp; Mas Kahwin</span><span class="n">38</span></a>
+            <a class="chip" href="#"><span class="lbl">Semua artikel</span><span class="n">86</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid">R1</span>
+    <h3>Many results</h3>
+    <dl>
+      <dt>Heading</dt>
+      <dd>The <code>h1</code> is the count plus the query. It states the outcome before the reader scrolls, and it is the string a screen reader lands on.</dd>
+      <dt>Rows, not cards</dt>
+      <dd>No thumbnails. A search result is scanned for a word match, and 86 covers of dulang and pelamin look alike at 88&nbsp;px. Rows also drop the image payload on the page most likely to be reached on a poor connection.</dd>
+      <dt>Excerpts</dt>
+      <dd>Omitted. The API returned <code>excerpt: null</code> for 7 of 20 articles in a live sample on 28 Ogos, so an excerpt line would produce a list with holes in it. Title and category are present for every article.</dd>
+      <dt>Foot of page</dt>
+      <dd>Always the browse handoff: the matched categories with real counts, then all 86.</dd>
+      <dt>Robots</dt>
+      <dd><code>noindex,follow</code>. See §3.2.</dd>
+    </dl>
+  </div>
+</div>
+
+<!-- R3 -->
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>R3 · tiada hasil, penuh</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="hd">
+          <span aria-hidden="true"></span>
+          <span class="wordmark">HelloKahwin</span>
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.34-4.34"/></svg></span>
+        </div>
+        <div class="body">
+          <div class="in" style="margin-bottom:16px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.34-4.34"/></svg><span class="val">pusat komuniti setiawangsa</span></div>
+          <p class="serif" style="font-size:22px;margin:0 0 8px;line-height:1.15">Tiada hasil untuk “pusat komuniti setiawangsa”</p>
+          <p class="quiet" style="margin:0 0 4px">Kami ada 86 artikel. Yang paling hampir:</p>
+          <div class="list" style="margin-top:12px">
+            <a href="#">Harga Sewa Dewan Kahwin 2026: Kadar Rasmi Majlis Perbandaran, Bukan Anggaran<span class="c" style="display:block;margin-top:4px">Venue, Kos &amp; Perancangan</span></a>
+            <a href="#">10 Dewan Kahwin Murah di Selangor &amp; KL – Sesuai untuk Bajet Bawah RM5,000<span class="c" style="display:block;margin-top:4px">Idea dan nasihat</span></a>
+          </div>
+          <div class="rule"><span class="eyebrow">Atau mula dari sini</span></div>
+          <div class="chips">
+            <a class="chip" href="#"><span class="lbl">Hantaran &amp; Mas Kahwin</span><span class="n">38</span></a>
+            <a class="chip" href="#"><span class="lbl">Idea dan nasihat</span><span class="n">10</span></a>
+            <a class="chip" href="#"><span class="lbl">Real Wedding</span><span class="n">6</span></a>
+            <a class="chip" href="#"><span class="lbl">Ucapan, Doa &amp; Adab</span><span class="n">5</span></a>
+          </div>
+          <div class="rule" style="padding-top:22px"><span class="eyebrow">Tak jumpa?</span></div>
+          <p class="quiet" style="margin:0 0 10px">Beritahu kami apa yang anda cari.</p>
+          <div style="display:flex;gap:8px">
+            <div class="fld" style="flex:1">Contoh: kadar mas kahwin Melaka</div>
+            <a class="btn" href="#" style="padding:0 15px">Hantar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid flag">R3</span>
+    <h3>Zero results — the most-visited screen in this document</h3>
+    <p>
+      70.9% of a month's real demand lands here today, and 23.3% still will under
+      the best matching rule. It gets four things in descending order of value.
+    </p>
+    <ol style="font-size:14px">
+      <li><strong>The query, quoted.</strong> A reader who mistyped can see it.</li>
+      <li><strong>Nearest matches, labelled as nearest.</strong> Never presented as answers.</li>
+      <li><strong>The four largest categories with real counts.</strong> 38, 10, 6, 5. Not "browse our collection" — the actual numbers, so the reader can judge whether it is worth their time.</li>
+      <li><strong>One optional field.</strong> Nothing is gated behind it, no email is asked for, no account. It confirms with "Dah dihantar." and does nothing else.</li>
+    </ol>
+    <div class="note ok" style="margin-top:14px">
+      <span class="lbl">Build in two tiers</span>
+      <p style="font-size:13.5px">
+        Items 1–3 are tier one and cost almost nothing. Item 4 is tier two and can
+        be dropped: the server-side query log from §2 delivers most of its value
+        without a moderation queue. Ship the log first either way.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- R4 -->
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>R4 · padanan hampir</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="body">
+          <div class="in" style="margin-bottom:16px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.34-4.34"/></svg><span class="val">mas kahwin negeri perak</span></div>
+          <p class="serif" style="font-size:22px;margin:0 0 8px;line-height:1.15">Padanan hampir</p>
+          <p class="quiet" style="margin:0 0 4px">Tiada artikel yang padan dengan semua perkataan itu. Ini yang paling hampir.</p>
+          <div class="list" style="margin-top:12px">
+            <a href="#"><mark>Mas kahwin</mark> <mark>Perak</mark> 2026: tiada kadar minimum ditetapkan<span class="c" style="display:block;margin-top:4px">Hantaran &amp; Mas Kahwin</span></a>
+            <a href="#"><mark>Mas kahwin</mark> ikut <mark>negeri</mark> 2026: kadar minimum setiap <mark>negeri</mark><span class="c" style="display:block;margin-top:4px">Hantaran &amp; Mas Kahwin</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid">R4</span>
+    <h3>Approximate, and saying so</h3>
+    <p>
+      Stage 3 of §3.3. The heading is <em>Padanan hampir</em>, not a count, and the
+      sentence beneath says plainly that nothing matched every word. The
+      underlining shows which words did.
+    </p>
+    <dl>
+      <dt>Why this query</dt>
+      <dd>10 impressions, position 17.3, and it returns zero today. The token <em>negeri</em> appears in neither the Perak title nor its category name, so strict matching cannot reach it and only stage 3 can.</dd>
+      <dt>The rule that must not bend</dt>
+      <dd>An approximate block is never rendered above or merged into exact results. If stage 1 returned anything, stage 3 does not run.</dd>
+    </dl>
+  </div>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<section id="katalog">
+<h2><span class="num">6</span>The catalogue</h2>
+
+<!-- C1 -->
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>C1 · /artikel</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="body">
+          <div class="rule" style="padding-top:0"><span class="eyebrow">Semua artikel</span></div>
+          <div class="sect" style="padding-top:6px">
+            <h5>Hantaran &amp; Mas Kahwin <span class="quiet" style="font-size:13px">38</span></h5>
+            <div class="list">
+              <a href="#">Persiapan hantaran kahwin: jadual lapan minggu</a>
+              <a href="#">Tempat beli barang hantaran: lima jenis kedai</a>
+              <a href="#">Mas kahwin ikut negeri 2026: kadar minimum setiap negeri</a>
+            </div>
+            <p style="margin:10px 0 0"><a href="#" class="eyebrow" style="text-decoration:none">Semua 38 →</a></p>
+          </div>
+          <div class="sect">
+            <h5>Nikah &amp; Undang-undang <span class="quiet" style="font-size:13px">4</span></h5>
+            <div class="list">
+              <a href="#">Rukun Nikah: 5 Rukun dan Apa Yang Membatalkannya</a>
+              <a href="#">Syarat Sah Nikah: Senarai Penuh Ikut Setiap Pihak</a>
+              <a href="#">Lafaz Taklik: Apa Suami Baca Selepas Akad, dan Apa Ertinya</a>
+              <a href="#">Borang Nikah: Borang Mana, Isi Apa, Hantar Ke Mana</a>
+            </div>
+          </div>
+          <div class="sect">
+            <h5>Pantai Santai <span class="quiet" style="font-size:13px">1</span></h5>
+            <div class="list">
+              <a href="#">Perkahwinan Indah di Laman Fajar Menyinsing, Port Dickson</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid">C1</span>
+    <h3>/artikel becomes a real index</h3>
+    <p>
+      Below the existing editorial lead, all fifteen categories with their real
+      counts, each listing every article up to four and linking on beyond that. All
+      86 articles become reachable in one hop from one page, including the six
+      categories that are not in the navigation.
+    </p>
+    <dl>
+      <dt>Order</dt>
+      <dd>By count, descending. The categories with the most to offer sit where a reader looks first, and a one-article category is not dressed up to look like a section.</dd>
+      <dt>Counts are shown, always</dt>
+      <dd>Including the ones. A reader who taps into Pantai Santai and finds one article has not been misled if the page said 1.</dd>
+      <dt>Crawl effect</dt>
+      <dd>Every article moves to two clicks from the homepage and gains one internal inbound link. Flagged for head-of-seo-content against the SEO-02 linking model.</dd>
+      <dt>Not in scope</dt>
+      <dd>Reordering or renaming categories, and merging the six off-nav ones. That is an information-architecture decision above this item.</dd>
+    </dl>
+  </div>
+</div>
+
+<!-- C2 -->
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>C2 · kategori besar (38)</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="crumb">Utama › Artikel › Hantaran &amp; Mas Kahwin</div>
+        <div class="body">
+          <p class="eyebrow" style="margin:0 0 6px">Panduan</p>
+          <p class="serif" style="font-size:27px;line-height:1.08;margin:0 0 10px">Hantaran &amp; Mas Kahwin</p>
+          <p class="quiet" style="margin:0 0 4px">Kadar mengikut negeri, nisbah dulang, susunan gubahan dan etika yang jarang ditulis di mana-mana.</p>
+          <div class="jump" style="border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);margin-top:14px">
+            <a href="#" class="on">Hantaran kahwin 8</a><a href="#">Tunang 6</a><a href="#">Gubahan 8</a>
+          </div>
+          <div class="sect">
+            <h5>Hantaran kahwin</h5>
+            <div class="list">
+              <a href="#">Persiapan hantaran kahwin: jadual lapan minggu</a>
+              <a href="#">Tempat beli barang hantaran: lima jenis kedai</a>
+              <a href="#">Hantaran untuk lelaki: senarai barang dan kos 2026</a>
+              <a href="#">Barang hantaran perempuan: senarai ikut kategori dan kos</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid">C2</span>
+    <h3>The largest category: 38 items, no paging</h3>
+    <p>
+      The existing template already groups into five named editorial sections and
+      renders every article. It works. The one addition is the jump rail, which is
+      the filter §3.5 argues for: navigation by the taxonomy the editors built,
+      with counts, horizontally scrollable and keyboard reachable.
+    </p>
+    <dl>
+      <dt>Jump rail behaviour</dt>
+      <dd>Anchor links to <code>#</code> section ids, so they work with no script and appear in the URL. The active state follows an intersection observer where script is available and is simply absent where it is not.</dd>
+      <dt>Threshold</dt>
+      <dd>Paging appears at 60 items in one section, per §3.4. At today's 38 the reader gets everything.</dd>
+      <dt>Scroll rail overflow</dt>
+      <dd>Reuses the header's existing <code>hk-edge</code> gradient affordance, which is already shipped and already handles the cut-off case.</dd>
+    </dl>
+  </div>
+</div>
+
+<!-- C3 -->
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>C3 · seksyen kosong</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="body">
+          <div class="sect" style="padding-top:0">
+            <h5>Kos, bajet &amp; checklist perkahwinan</h5>
+            <div class="list">
+              <a href="#">Bajet Kahwin 2026: Apa yang Boleh Diharga Tepat, dan Apa yang Tidak</a>
+              <a href="#">Checklist Kahwin: Senarai Persediaan 12 Bulan Sebelum Majlis, Ikut Urutan</a>
+            </div>
+          </div>
+          <div class="sect">
+            <h5>Dewan &amp; venue majlis</h5>
+            <p class="quiet" style="margin:0 0 10px">Belum ada artikel khusus untuk dewan majlis. Yang berkaitan:</p>
+            <div class="list">
+              <a href="#">Harga Sewa Dewan Kahwin 2026: Kadar Rasmi Majlis Perbandaran, Bukan Anggaran</a>
+              <a href="#">Pakej Dewan Kahwin: Apa yang Termasuk, dan Apa yang Selalu Tak Termasuk</a>
+              <a href="#">10 Dewan Kahwin Murah di Selangor &amp; KL – Sesuai untuk Bajet Bawah RM5,000</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid flag">C3</span>
+    <h3>A section with nothing in it</h3>
+    <p>
+      What ships today on this exact page:
+      <em>"Artikel untuk dewan majlis perkahwinan akan datang tidak lama lagi."</em>
+      It is a promise with no date behind it, and on this section it is also
+      untrue — six articles about dewan are live, two of them further up the same
+      page.
+    </p>
+    <dl>
+      <dt>When related articles exist</dt>
+      <dd><em>Belum ada artikel khusus untuk dewan majlis. Yang berkaitan:</em> then up to three, selected by the same matcher the search uses against the section heading.</dd>
+      <dt>When nothing related exists</dt>
+      <dd><em>Belum ada artikel untuk merisik &amp; meminang.</em> One line. No date, no "coming soon", no placeholder card.</dd>
+      <dt>When a section would be empty and nothing relates</dt>
+      <dd>Consider not rendering the heading at all. An empty heading is a promise the editorial plan has to keep; the six currently on the site have been standing since Sprint 02.</dd>
+      <dt>Owner of that call</dt>
+      <dd>managing-editor, not this item. Flagged, not decided.</dd>
+    </dl>
+  </div>
+</div>
+
+<!-- C4 -->
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>C4 · kategori satu artikel</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="crumb">Utama › Artikel › Pantai Santai</div>
+        <div class="body">
+          <p class="eyebrow" style="margin:0 0 6px">Real Wedding Edit</p>
+          <p class="serif" style="font-size:27px;line-height:1.08;margin:0 0 16px">Pantai Santai</p>
+          <div class="card">
+            <div class="img"></div>
+            <p class="serif" style="font-size:19px;line-height:1.2;margin:11px 0 0">Perkahwinan Indah di Laman Fajar Menyinsing, Port Dickson</p>
+          </div>
+          <div class="rule"><span class="eyebrow">Lagi dalam Real Wedding Edit</span></div>
+          <div class="list">
+            <a href="#">Perkahwinan Taman Kebun yang Minimalis di Hulu Langat<span class="c" style="display:block;margin-top:4px">Real Wedding</span></a>
+            <a href="#">Majlis Perkahwinan Intim Bertemakan Warna Pastel Tropika di The Danna Langkawi<span class="c" style="display:block;margin-top:4px">Minimalis Mewah</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid">C4</span>
+    <h3>A category holding exactly one article</h3>
+    <p>
+      Four categories are in this state today. The article runs at feature size and
+      nothing apologises for the count. Below it, siblings from the rest of the
+      Real Wedding Edit, which is how these six categories already behave: they are
+      tags over one editorial series, not separate shelves.
+    </p>
+    <dl>
+      <dt>No count line</dt>
+      <dd>"1 artikel" beside a single visible article is noise. The count belongs on C1, where it helps a reader decide whether to tap.</dd>
+      <dt>No empty grid slots</dt>
+      <dd>A single card in a two-column grid leaves a hole. It runs full width instead.</dd>
+      <dt>Zero-article category</dt>
+      <dd>Does not exist today and should 404 rather than render. A category page with no articles is a soft 404 and a crawl liability.</dd>
+    </dl>
+  </div>
+</div>
+
+<!-- C5 -->
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>C5 · di atas ambang</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="body">
+          <div class="list">
+            <a href="#">Sirih junjung: maksud, cara dibuat dan harganya 2026</a>
+            <a href="#">Dulang hantaran: jenis, saiz dan kos beli atau sewa</a>
+            <a href="#">Hidden hantaran: maksud, sebab ia popular dan cara buat</a>
+          </div>
+          <div class="pag">
+            <a class="btn ghost" href="#" style="padding:0 15px">Sebelumnya</a>
+            <span class="p">2 / 3</span>
+            <a class="btn" href="#" style="padding:0 15px">Seterusnya</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid">C5</span>
+    <h3>Pagination, when the threshold trips</h3>
+    <p>
+      Drawn so the build has it, not because anything needs it today. Both controls
+      are <code>&lt;a href="?page=n"&gt;</code>. The count sits between them as
+      <em>Halaman 2 daripada 3</em>, abbreviated visually and read in full by
+      assistive technology.
+    </p>
+    <dl>
+      <dt>First and last page</dt>
+      <dd>The unavailable control is removed, not disabled. A disabled control that never becomes enabled is a target that punishes a tap.</dd>
+      <dt>Head</dt>
+      <dd><code>rel="next"</code> / <code>rel="prev"</code>, and the canonical of page 2 is page 2. Never canonicalise pages to page 1: it drops items 21+ out of the index entirely.</dd>
+      <dt>Scroll on navigation</dt>
+      <dd>Land at the top of the list, not the top of the document. The reader has already read the category header.</dd>
+    </dl>
+  </div>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<section id="panjang">
+<h2><span class="num">7</span>The longest real content</h2>
+
+<p>
+  Article titles on the live site run 45 to 95 characters, median 56. Category
+  labels run 12 to 38. English placeholder text would hide every wrap problem
+  below, which is the reason the item asks for real Malay.
+</p>
+
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>X1 · tajuk terpanjang, 95 aksara</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="body">
+          <p class="eyebrow" style="margin:0 0 10px">Dalam hasil carian</p>
+          <div class="list">
+            <a href="#">20 Lokasi Terbaik Pre Wedding Photoshoot di Malaysia – Dari Alam Semula Jadi Hingga Urban City!<span class="c" style="display:block;margin-top:4px">Fotografi &amp; Videografi</span></a>
+          </div>
+          <p class="eyebrow" style="margin:20px 0 8px">Dalam panel carian, dipotong pada 2 baris</p>
+          <div class="res" style="border-top:1px solid var(--bd)">
+            <a class="row" href="#" style="border-bottom:0">
+              <span class="t" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">20 Lokasi Terbaik Pre Wedding Photoshoot di Malaysia – Dari Alam Semula Jadi Hingga Urban City!</span>
+              <span class="c">Fotografi &amp; Videografi</span>
+            </a>
+          </div>
+          <p class="eyebrow" style="margin:20px 0 8px">Sebagai tajuk halaman</p>
+          <p class="serif" style="font-size:25px;line-height:1.1;margin:0;text-wrap:balance">20 Lokasi Terbaik Pre Wedding Photoshoot di Malaysia – Dari Alam Semula Jadi Hingga Urban City!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid">X1</span>
+    <h3>95 characters, in three containers</h3>
+    <dl>
+      <dt>In a results list</dt>
+      <dd>Wraps in full to four lines. No clamp: a reader scanning results needs the whole title, and truncating the end hides exactly the qualifier that decides relevance.</dd>
+      <dt>In the panel</dt>
+      <dd>Clamped to two lines, so five results stay visible above the keyboard on a 360×640 device. This is the one place a clamp is right, because the page below shows it in full.</dd>
+      <dt>As a page title</dt>
+      <dd><code>text-wrap: balance</code>, already in the shipped <code>hk-display</code> rules. The longest single word across all 86 titles is <em>Membatalkannya</em> at 14 characters, which sets well inside the 328&nbsp;px content width, so there is no unbreakable-word overflow case to design for.</dd>
+      <dt>The en dash</dt>
+      <dd>Six legacy titles carry a spaced <code>–</code>. It is a wrap opportunity, so it breaks cleanly. No change requested; noted so nobody "fixes" it into a non-breaking hyphen.</dd>
+    </dl>
+  </div>
+</div>
+
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>X2 · label kategori terpanjang, 38 aksara</span><span>360 px</span></p>
+    <div class="frame">
+      <div class="hk">
+        <div class="body">
+          <p class="eyebrow" style="margin:0 0 8px">Sebagai chip, dipotong</p>
+          <div class="chips">
+            <a class="chip" href="#" style="max-width:200px"><span class="lbl">Sebelum Nikah: Jodoh, Merisik &amp; Tunang</span><span class="n">3</span></a>
+            <a class="chip" href="#"><span class="lbl">Real Wedding</span><span class="n">6</span></a>
+          </div>
+          <p class="eyebrow" style="margin:20px 0 8px">Sebagai chip, penuh — disyorkan</p>
+          <div class="chips">
+            <a class="chip" href="#" style="height:auto;min-height:44px;padding-top:7px;padding-bottom:7px"><span class="lbl" style="white-space:normal;line-height:1.25">Sebelum Nikah: Jodoh, Merisik &amp; Tunang</span><span class="n">3</span></a>
+          </div>
+          <p class="eyebrow" style="margin:20px 0 8px">Dalam breadcrumb, seperti hari ini</p>
+          <div class="crumb" style="padding:0">Utama › Artikel › <span style="display:inline-block;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:bottom;color:var(--fg)">Sebelum Nikah: Jodoh, Merisik &amp; Tunang</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann">
+    <span class="sid">X2</span>
+    <h3>38 characters in a 328&nbsp;px row</h3>
+    <p>
+      The longest category name does not fit a single-line chip at 360&nbsp;px. Two
+      of the three treatments above are wrong and are drawn so the build does not
+      pick one by accident.
+    </p>
+    <dl>
+      <dt>Rejected: ellipsis</dt>
+      <dd>"Sebelum Nikah: Jodoh, Merisik &amp;…" cuts the word a reader is most likely scanning for. Truncation on the zero-result screen would remove the exact escape route the screen exists to provide.</dd>
+      <dt>Specified: wrap to two lines</dt>
+      <dd>The chip grows in height, keeps its pill radius, and its target grows with it. Chips are already in a wrapping flex row, so nothing else moves.</dd>
+      <dt>Breadcrumb</dt>
+      <dd>Keeps the shipped <code>max-w-[200px] truncate</code>. Different context: the current page's own name is already the <code>h1</code> directly below, so the truncation costs nothing.</dd>
+      <dt>Shortened labels</dt>
+      <dd>Not proposed. Category names are editorial and belong to managing-editor.</dd>
+    </dl>
+  </div>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<section id="a11y">
+<h2><span class="num">8</span>Keyboard, focus and what gets announced</h2>
+
+<p>
+  Specified with the flow, not audited after it. Every item below is testable
+  against the built page.
+</p>
+
+<div class="scroll">
+<table>
+<thead><tr><th>Key</th><th>Where</th><th>Behaviour</th></tr></thead>
+<tbody>
+<tr><td><kbd>/</kbd> or <kbd>Ctrl/⌘ K</kbd></td><td>Anywhere outside a field</td><td>Opens the panel, focus to the field</td></tr>
+<tr><td><kbd>Esc</kbd></td><td>Panel open</td><td>Closes, focus returns to the header trigger</td></tr>
+<tr><td><kbd>↓</kbd> <kbd>↑</kbd></td><td>Field or list</td><td>Moves through results. Focus stays in the field; the active row is named by <code>aria-activedescendant</code></td></tr>
+<tr><td><kbd>Enter</kbd></td><td>With a row active</td><td>Opens that article</td></tr>
+<tr class="hi"><td><kbd>Enter</kbd></td><td>With no row active</td><td>Submits to <code>/cari?q=…</code>. Today it does nothing at all</td></tr>
+<tr><td><kbd>Tab</kbd></td><td>Panel open</td><td>Cycles inside the panel only. Background is <code>inert</code></td></tr>
+<tr><td><kbd>Home</kbd> <kbd>End</kbd></td><td>List active</td><td>First and last result</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4>Structure</h4>
+<ul>
+  <li>One <code>role="combobox"</code> on the input. The listbox is a single <code>ul role="listbox"</code>. The shipped markup nests a <code>listbox</code> inside a <code>listbox</code>; that is invalid and gets flattened.</li>
+  <li>A visible <code>&lt;label&gt;</code> reading <em>Cari</em>, not a placeholder standing in for one. A placeholder disappears the moment a reader types, taking the field's accessible name with it.</li>
+  <li>The <code>aria-live="polite"</code> region is present in the DOM from first render and starts empty. The shipped one is created at the same moment its content arrives, which is the classic reason an announcement is never made.</li>
+  <li>Announcements, once per settled query: <em>9 hasil.</em> · <em>1 hasil.</em> · <em>Tiada hasil.</em> · <em>Carian gagal.</em> Nothing fires during typing or loading.</li>
+</ul>
+
+<h4>Focus visibility</h4>
+<div class="note flag">
+  <span class="lbl">Measured against the live stylesheet, 28 Ogos 2026</span>
+  <p>
+    The field's focus ring ships as <code>focus:ring-ring/30</code>, which composites
+    to <code>#b7b6b4</code> on <code>--background #fcfbfa</code>:
+    <strong>1.96:1</strong>. WCAG 2.2 SC 1.4.11 requires 3:1 for a focus indicator.
+    At 50% it reaches 3.44:1 and at 60% it reaches 4.78:1. Specified: a 2&nbsp;px
+    ring in <code>--ring</code> at full opacity with a 2&nbsp;px offset, which
+    measures 17.81:1 and matches the ink the rest of the page is set in.
+  </p>
+</div>
+
+<h4>Text contrast on the public tokens, computed from the live values</h4>
+<div class="scroll">
+<table>
+<thead><tr><th>Token</th><th>Value</th><th class="n">On <code>#fcfbfa</code></th><th>Used for</th></tr></thead>
+<tbody>
+<tr class="good"><td><code>--foreground</code></td><td><code>#151412</code></td><td class="n">17.81:1</td><td>Titles, result rows</td></tr>
+<tr class="good"><td><code>--muted-foreground</code></td><td><code>#595855</code></td><td class="n">6.88:1</td><td>Counts, hints, category eyebrows</td></tr>
+<tr><td><code>--border-strong</code></td><td><code>#93928f</code></td><td class="n">3.01:1</td><td>Match underline. Non-text, 3:1 floor, passes</td></tr>
+<tr class="hi"><td><code>--disabled</code></td><td><code>#acaba9</code></td><td class="n">2.22:1</td><td>Not used for text in this specification</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4>Targets and motion</h4>
+<ul>
+  <li>Every interactive element is at least 44×44&nbsp;px. Result rows land at 56&nbsp;px including padding, chips at 38&nbsp;px height inside a 44&nbsp;px hit area.</li>
+  <li>Panel entry is a 120&nbsp;ms fade, no slide. Under <code>prefers-reduced-motion: reduce</code> it appears with no transition. Skeletons never shimmer.</li>
+  <li>The panel does not move the page behind it. Background scroll is locked while it is open, and the scroll position is restored on close.</li>
+</ul>
+</section>
+
+<!-- ============================================================ -->
+<section id="skop">
+<h2><span class="num">9</span>What this does not cover</h2>
+
+<p>Stated so the build does not have to guess whether an omission was deliberate.</p>
+
+<ul>
+  <li><strong>Any implementation.</strong> DES-06 is design only. The build is a separate item and has not been sized.</li>
+  <li><strong>The visual language.</strong> Screens are drawn in the tokens production ships today so the layout can be judged against something real. Typeface, palette and scale belong to DES-01/02/03, and every screen here should be re-rendered once that direction is chosen. Nothing in this document depends on the palette staying as it is.</li>
+  <li><strong>Dark mode.</strong> The public surface ships light only; <code>.hk-public</code> defines one palette. Whether it gains a dark one is DES-03's call, not this item's.</li>
+  <li><strong>Venue search.</strong> The <code>type=venues</code> parameter is accepted and ignored by the live API. Venue entity pages are SEO-04. Search cannot return what does not exist, and the placeholder copy here deliberately does not promise it.</li>
+  <li><strong>Category names, groupings, and whether the six off-nav categories should merge.</strong> Editorial, and above this item.</li>
+  <li><strong>Whether an empty section should render at all.</strong> Raised in C3; owned by managing-editor.</li>
+  <li><strong>The article reading experience</strong> — measure, scroll depth, in-article navigation. Adjacent and not in this item's definition of done.</li>
+  <li><strong>Search on the admin console.</strong> Different surface, different reader, different problem.</li>
+  <li><strong>Autocomplete of the query itself</strong>, as opposed to results. It needs a term dictionary the site does not have, and the four fixed suggestions in E2 cover the same ground until the query log exists.</li>
+</ul>
+
+<h3>Handover</h3>
+<ul class="fn">
+  <li><strong>design-systems-engineer</strong> — components needed: the search panel (Radix Dialog, focus trap and <code>inert</code> come free), the combobox listbox, the result row, the count chip, the section jump rail, the skeleton row, the pagination pair. All consume semantic tokens only.</li>
+  <li><strong>head-of-seo-content</strong> — three things need your signature, all in this document: <code>/cari</code> as <code>noindex,follow</code> and robots-disallowed (§3.2); pagination over infinite scroll and the 60-item threshold (§3.4); and the internal-link change from C1, which adds one inbound link to all 86 articles and should be checked against the SEO-02 model before it is built.</li>
+  <li><strong>Whoever builds this</strong> — the API needs three changes before any screen above is buildable: a <code>total</code> in the response, an honoured <code>limit</code> and <code>offset</code>, and an error status that is distinguishable from an empty array. Without the third, F1 cannot exist and the defect that costs the most stays shipped.</li>
+</ul>
+</section>
+
+</div>
