@@ -1,0 +1,188 @@
+/* ══════════════════════════════════════════════════════════════════════
+ * HelloKahwin design tokens — Warkah
+ *
+ * DES-05. The canonical token module. Every value a component may consume
+ * lives here, once, as PRIMITIVE (the material) or SEMANTIC (the decision).
+ * A component consumes semantics only — see components.css. This file has
+ * exactly one job: make "argue with the token" possible and "invent a hex"
+ * impossible.
+ *
+ * Lifted from docs/design/des-03-spesifikasi.html §2–§4 and §7.3/§10.1,
+ * NOT reworked — the spec is the source of truth (brief: "if a state is not
+ * in that spec it is not specified"). Where the spec is silent (radius,
+ * shadow, hover motion) the anti-decision is recorded and the evidence for
+ * it is named in the comment, not invented.
+ *
+ * Every colour pairing below is measured, not eyeballed:
+ * docs/design/des-03-evidence/contrast-2026-08-28.txt, reproduced by
+ * contrast.py. src/design-system/token-values.ts recomputes the same
+ * numbers at runtime from these same hex values, so the reference page's
+ * contrast table cannot drift from this file by hand-transcription error.
+ * ══════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── colour: primitives — every hex the system owns, light AND dark,
+     defined once, unscoped. Nothing below this block introduces a colour;
+     nothing outside this file may introduce one either (grep, see the
+     work-done entry's evidence section). ── */
+  --hk-parchment-100: #edeae1;
+  --hk-parchment-200: #e3dfd4;
+  --hk-parchment-300: #c9c3b6;
+  --hk-parchment-400: #a89c88;
+  --hk-ink-900: #16130f;
+  --hk-ink-600: #4a443c;
+  --hk-ink-500: #5a5348;
+  --hk-gold-700: #725825;
+  --hk-gold-400: #c9a253;
+  --hk-oxblood-700: #6b2130;
+  --hk-oxblood-300: #d98c7a;
+  --hk-night-900: #14110d;
+  --hk-night-800: #1e1a15;
+  --hk-thread-500: #a8823c; /* decorative hairline ONLY — 2.95:1, fails
+    the 3:1 non-text floor. Never a boundary, never text, at any size. */
+
+  /* the alpha ladder — rules, stripes and boundaries are TINTS of the ink,
+     not new colours, which is how a page still renders in four hex values
+     with furniture (spec §3.4). Light and dark tune to the same 3:1 target
+     for --a-boundary and land a hair apart (3.06 / 3.05) because a light
+     tint on dark reads stronger than a dark tint on light at equal alpha. */
+  --a-tint: 5%;
+  --a-hair: 12%;
+  --a-rule: 22%;
+  --a-boundary: 47%;
+  --a-skel: 9%;
+
+  /* ── colour: semantic — LIGHT, complete. Components read ONLY these. ── */
+  --bg: var(--hk-parchment-100);
+  --bg-raised: var(--hk-parchment-200);
+  --fg: var(--hk-ink-900);
+  --fg-muted: var(--hk-ink-600);
+  --fg-dim: var(--hk-ink-500);
+  --accent: var(--hk-gold-700);
+  --alert: var(--hk-oxblood-700);
+
+  /* derived — expressed in terms of --fg/--bg, so a theme override below
+     only ever needs to touch the alphas that actually change, and these
+     four invert for free. */
+  --tint: color-mix(in srgb, var(--fg) var(--a-tint), transparent);
+  --hair: color-mix(in srgb, var(--fg) var(--a-hair), transparent);
+  --rule: color-mix(in srgb, var(--fg) var(--a-rule), transparent);
+  --boundary: color-mix(in srgb, var(--fg) var(--a-boundary), transparent);
+  --skel: color-mix(in srgb, var(--fg) var(--a-skel), transparent);
+  --focus: var(--fg);
+
+  /* ── type: primitives — the fluid scale, emitted by
+     des-03-evidence/typescale.py and re-verified against this file (spec
+     §2.2). Interpolated linearly between 360px and 1024px of viewport,
+     clamped at both ends. Body line-height is a STEP at 1024px (1.65 →
+     1.70), not part of the clamp. ── */
+  --t-wordmark: clamp(1.125rem, 0.9217rem + 0.9036vw, 1.5rem); /* 18 → 24 */
+  --t-h1: clamp(1.875rem, 1.4006rem + 2.1084vw, 2.75rem); /* 30 → 44 */
+  --t-h2: clamp(1.375rem, 1.2395rem + 0.6024vw, 1.625rem); /* 22 → 26 */
+  --t-h3: clamp(1.1875rem, 1.1197rem + 0.3012vw, 1.3125rem); /* 19 → 21 */
+  --t-deck: clamp(1.125rem, 1.0572rem + 0.3012vw, 1.25rem); /* 18 → 20 */
+  --t-body: clamp(1.0625rem, 1.0286rem + 0.1506vw, 1.125rem); /* 17 → 18 */
+  --t-table: 1rem; /* 16 — fixed */
+  --t-caption: 0.875rem; /* 14 — fixed */
+  --t-label: 0.8125rem; /* 13 — fixed */
+
+  /* ── type: semantic — role names a component actually reaches for.
+     One indirection so "what sets the wordmark" is a token to argue with,
+     not a clamp() formula to hunt down and re-derive. ── */
+  --fs-wordmark: var(--t-wordmark);
+  --fs-h1: var(--t-h1);
+  --fs-h2: var(--t-h2);
+  --fs-h3: var(--t-h3);
+  --fs-deck: var(--t-deck);
+  --fs-body: var(--t-body);
+  --fs-table: var(--t-table);
+  --fs-caption: var(--t-caption);
+  --fs-label: var(--t-label);
+  --lh-body: 1.65; /* 1.7 at and above 1024px — see components.css .dk */
+
+  /* the two faces the spec licenses, and where each may appear (§2.1, 2.4).
+     Bodoni Moda is a DIFFERENT cut at each surface — opsz 6 for the
+     wordmark, opsz 11 PINNED for the h1 — see the DES-13 finding quoted in
+     the work-done entry. They are never the same font-variation-settings
+     value and must not be unified into one alias. */
+  --font-serif: 'Bodoni Moda', Didot, 'Bodoni MT', Georgia, serif;
+  --font-sys:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+  /* ── space: primitives — the raw 4px-base scale. Nothing below this line
+     consumes one of these by number; every component reaches for the named
+     role beneath it. ── */
+  --hk-space-1: 4px;
+  --hk-space-2: 8px;
+  --hk-space-3: 12px;
+  --hk-space-4: 16px;
+  --hk-space-5: 20px;
+  --hk-space-6: 24px;
+  --hk-space-7: 28px;
+  --hk-space-8: 32px;
+  --hk-space-9: 40px;
+  --hk-space-10: 56px;
+  --hk-space-11: 72px;
+
+  /* ── space: semantic — one step, one job, per spec §4.1. A block that
+     wants a value not named here is asking to be a section. ── */
+  --sp-1: var(--hk-space-1); /* a credit from its caption. nothing larger */
+  --sp-2: var(--hk-space-2); /* chip to chip. index number to its row */
+  --sp-3: var(--hk-space-3); /* Rekod field rows. table cell padding */
+  --sp-4: var(--hk-space-4); /* page gutter below 390px. deck to Rekod */
+  --sp-5: var(--hk-space-5); /* page gutter 390–767px. list row padding */
+  --sp-6: var(--hk-space-6); /* paragraph to paragraph. eyebrow to headline */
+  --sp-7: var(--hk-space-8); /* page gutter 768–1023px. headline to figure */
+  --sp-8: var(--hk-space-9); /* page gutter ≥1024px. section-to-section, phone */
+  --sp-9: var(--hk-space-10); /* section-to-section, desktop. masthead to content */
+  --sp-10: var(--hk-space-11); /* last block to the footer rule. nothing else */
+
+  /* ── breakpoints — named per spec §4.2. CSS custom properties cannot
+     drive an @media condition, so these are the documented constants
+     components.css's media queries must match by hand; drift between the
+     two is what the reference page's own breakpoint table exists to catch. */
+  --bp-sm: 390px;
+  --bp-md: 768px;
+  --bp-lg: 1024px;
+  --bp-xl: 1200px;
+
+  /* ── the anti-decisions — real tokens holding real values, so "flat,
+     square, no drop shadow" is a decision to argue with rather than a gap
+     a later component fills with rounded-lg. Not asserted: the spec's own
+     CSS (its chrome AND all thirteen .s-* component rules) contains zero
+     occurrences of border-radius or box-shadow — grepped, not assumed. ── */
+  --radius: 0;
+  --elevation: none;
+
+  /* ── motion — the ONLY timing the spec names (§7.3, the three loading
+     layers). No hover/transition duration is specified anywhere in
+     des-03-spesifikasi.html; none is invented here. A component that wants
+     one is asking for a state DES-03 does not draw — raise it, per the
+     brief, rather than picking a number. ── */
+  --loading-flash-max: 300ms; /* below this: render nothing. a flash reads as flicker */
+  --loading-skeleton-max: 3000ms; /* above this: the --accent bar + live region */
+}
+
+/* ── SEMANTIC — DARK. Redefines the semantic layer and the three alphas
+ * that change, and NOTHING ELSE — no new primitive, no colour that light
+ * has never seen. `.hk-dark` is the class; applying it to `<html>` is the
+ * whole toggle, the day one is built (spec §3.1). Not user-reachable today
+ * by standing CEO ruling (28 Ogos 2026, upholding 2026-07-14): nothing in
+ * this file, nowhere in the app, applies this class to a public route.
+ * Verify: grep for a hex or rgb() literal inside this rule. The correct
+ * count is zero — checked in the work-done entry's evidence section. ── */
+.hk-dark {
+  --a-hair: 11%;
+  --a-rule: 20%;
+  --a-boundary: 37%;
+  --bg: var(--hk-night-900);
+  --bg-raised: var(--hk-night-800);
+  --fg: var(--hk-parchment-100);
+  --fg-muted: var(--hk-parchment-300);
+  --fg-dim: var(--hk-parchment-400);
+  --accent: var(--hk-gold-400);
+  --alert: var(--hk-oxblood-300);
+  /* --tint/--hair/--rule/--boundary/--skel/--focus need no redefinition:
+     they are already expressed in terms of --fg/--bg above, so they invert
+     with the theme for free. */
+}

@@ -1,0 +1,904 @@
+import type { CSSProperties } from 'react';
+import Link from 'next/link';
+import { Bodoni_Moda } from 'next/font/google';
+import { requireAdminSection } from '@/lib/auth/admin';
+import { ConsoleBreadcrumb } from '@/components/console/console-breadcrumb';
+import { PageHeader } from '@/components/layout/page-header';
+import '@/design-system/tokens.css';
+import '@/design-system/components.css';
+import {
+  Breadcrumb,
+  Button,
+  Card,
+  Chip,
+  DataTable,
+  EmptyCategoryState,
+  FooterReadNext,
+  H1,
+  Heading,
+  Label,
+  ListRow,
+  Masthead,
+  NotFoundState,
+  OfflineState,
+  PageErrorState,
+  RekodPanel,
+  Wordmark,
+} from '@/design-system/components';
+import {
+  BOUNDARY_TINTS,
+  CONTRAST_DARK,
+  CONTRAST_LIGHT,
+  DISQUALIFIED,
+  FOCUS_RING,
+  PRIMITIVES,
+  PRIMITIVE_SWATCHES,
+} from '@/design-system/token-values';
+
+export const metadata = { title: 'Design system | HelloKahwin' };
+
+// ── DES-05 — the design system reference page ───────────────────────────
+//
+// This page reads its values from `src/design-system/tokens.css` and
+// renders through `src/design-system/components/*` — the SAME modules any
+// adopting page imports — so it cannot show a token or a component shape
+// the system does not actually have. That is the whole point of it: it is
+// the regression test for taste, not documentation.
+//
+// STATUS: adopted, not a proposal. DES-04 decided the stack (Tailwind +
+// Radix stay; the theme layer is what gets replaced) and this page is the
+// reference surface DES-04 §"what already exists" recommended lifting —
+// rebuilt against docs/design/des-03-spesifikasi.html, the ratified spec,
+// rather than against DES-01/DES-13's earlier stand-in palette. See the
+// work-done entry for the full reconciliation and what changed.
+//
+// SCOPE: tokens are global (`:root` in tokens.css) per DES-04's point 5 —
+// harmless until a component consumes them, which nothing outside this
+// design-system module does yet. Real components (`.s-*`) stay scoped
+// inside `.hk`, applied only within this page, so nothing here reaches a
+// public route. DES-08 is the item that wires this into the three real
+// pages.
+//
+// MAINTENANCE CONTRACT: any token or shared component that changes updates
+// this page in the SAME change. A reference that has drifted from the real
+// system is worse than none, because people trust it.
+
+// Bodoni Moda, variable, opsz axis only — the ONE face this system licenses
+// as a display face (spec §2.1). Loaded here, scoped to this admin page,
+// which is not on the public LCP budget DES-09 sets for the article h1;
+// self-hosting and subsetting THAT instance (21,388B woff2, opsz 11 pinned)
+// is DES-08's build task against the real article page, tracked in the
+// work-done entry's follow-ups.
+const bodoniModa = Bodoni_Moda({
+  subsets: ['latin'],
+  axes: ['opsz'],
+  weight: 'variable',
+  display: 'swap',
+  variable: '--font-bodoni-demo',
+});
+
+function Swatch({ hex, label, sub }: { hex: string; label: string; sub: string }) {
+  return (
+    <div className="flex flex-col gap-2">
+      <div className="h-16 border" style={{ background: hex, borderColor: 'var(--rule)' }} />
+      <div className="font-mono text-[11px] leading-tight break-all">{label}</div>
+      <div className="text-muted-foreground font-mono text-[10px] leading-snug">
+        {hex} — {sub}
+      </div>
+    </div>
+  );
+}
+
+function SectionHead({ n, title, note }: { n: string; title: string; note?: string }) {
+  return (
+    <div className="border-foreground/70 flex flex-wrap items-baseline gap-4 border-t-2 pt-3">
+      <h2 className="text-xl font-semibold">
+        <span className="text-muted-foreground mr-2 font-mono text-sm">{n}</span>
+        {title}
+      </h2>
+      {note && <span className="text-muted-foreground text-xs">{note}</span>}
+    </div>
+  );
+}
+
+/** Scoped locally to this admin page only — resolves --font-serif to the
+ * next/font/google instance loaded above. tokens.css's own --font-serif
+ * fallback stack (used by every OTHER `.hk` consumer) is untouched. */
+const FONT_DEMO_STYLE = {
+  '--font-serif': `var(--font-bodoni-demo), 'Bodoni Moda', Didot, 'Bodoni MT', Georgia, serif`,
+} as CSSProperties;
+
+function gradeColor(g: string) {
+  return g === 'FAIL' ? 'var(--alert)' : undefined;
+}
+
+const PLACEHOLDER_FILL = PRIMITIVES['parchment-300'];
+function placeholderImg(label: string) {
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300'><rect width='100%' height='100%' fill='${PLACEHOLDER_FILL}'/><text x='20' y='280' font-family='monospace' font-size='13' fill='black' fill-opacity='0.35'>${label}</text></svg>`;
+  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+}
+
+const NAV_ITEMS = [
+  { label: 'Nikah & Undang-undang', href: '#' },
+  { label: 'Hantaran & Mas Kahwin', href: '#', current: true },
+  { label: 'Venue, Kos & Perancangan', href: '#' },
+];
+
+export default async function DesignSystemPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ theme?: string }>;
+}) {
+  await requireAdminSection('inspire');
+  // Internal QA affordance ONLY — not a public toggle, not a ThemeProvider.
+  // `.hk-dark` is a plain class this page applies to itself behind the
+  // admin auth gate; nothing in the app ever applies it to a public route.
+  // This is what makes "Load /design-system in both themes" reproducible
+  // without inventing the toggle DES-03 §12 explicitly rules out.
+  const { theme } = await searchParams;
+  const dark = theme === 'dark';
+  const rootClass = `hk s-pad ${bodoniModa.variable} ${dark ? 'hk-dark' : ''}`;
+
+  return (
+    <>
+      <ConsoleBreadcrumb items={[{ label: 'Design system' }]} />
+      <PageHeader
+        title="Design system"
+        description="Tokens, components and the reference surface — Warkah, per docs/design/des-03-spesifikasi.html. Adopted, not a proposal."
+        actions={
+          <div className="flex gap-2">
+            <Link
+              href="/admin/design-system"
+              className={`rounded border px-3 py-1.5 text-xs ${!dark ? 'bg-foreground text-background' : ''}`}
+            >
+              Light
+            </Link>
+            <Link
+              href="/admin/design-system?theme=dark"
+              className={`rounded border px-3 py-1.5 text-xs ${dark ? 'bg-foreground text-background' : ''}`}
+            >
+              Dark (?theme=dark)
+            </Link>
+          </div>
+        }
+      />
+
+      <div className="flex flex-col gap-16 pb-24">
+        {/* ── 01 COLOUR ──────────────────────────────────────────────── */}
+        <section className="flex flex-col gap-6">
+          <SectionHead n="01" title="Colour — two palettes, one exposed" note="spec §3" />
+          <p className="text-muted-foreground max-w-[74ch] text-sm">
+            Dark is specified and rendered on this page (toggle above); it is not exposed to a
+            reader anywhere in the app — standing CEO ruling, 28 Ogos 2026 upholding 2026-07-14.
+            Light is complete on <code>:root</code>; dark redefines only the semantic layer and
+            three alphas — nothing else. Zero hex or <code>rgb()</code> literal exists inside the{' '}
+            <code>.hk-dark</code> rule in tokens.css; verified in the work-done entry.
+          </p>
+
+          <h3 className="text-sm font-semibold">Primitives</h3>
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-7">
+            {PRIMITIVE_SWATCHES.map((p) => (
+              <Swatch key={p.token} hex={p.hex} label={p.token} sub={p.job} />
+            ))}
+          </div>
+
+          <h3 className="mt-2 text-sm font-semibold">
+            Semantic — {dark ? 'dark (currently shown)' : 'light (currently shown)'}
+          </h3>
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-7">
+            <Swatch hex="var(--bg)" label="--bg" sub="page ground" />
+            <Swatch hex="var(--bg-raised)" label="--bg-raised" sub="raised surface" />
+            <Swatch hex="var(--fg)" label="--fg" sub="body, headings" />
+            <Swatch hex="var(--fg-muted)" label="--fg-muted" sub="deck, caption" />
+            <Swatch hex="var(--fg-dim)" label="--fg-dim" sub="meta, timestamp" />
+            <Swatch hex="var(--accent)" label="--accent" sub="label, eyebrow, link" />
+            <Swatch hex="var(--alert)" label="--alert" sub="error blocks only" />
+          </div>
+
+          <h3 className="mt-2 text-sm font-semibold">Every text-on-background pairing, measured</h3>
+          <p className="text-muted-foreground max-w-[74ch] text-xs">
+            Computed live by <code>src/design-system/token-values.ts</code> using the same WCAG 2.x
+            relative-luminance formula as <code>docs/design/des-03-evidence/contrast.py</code> — not
+            transcribed from its output, so a primitive change here cannot silently stop matching
+            the committed evidence. Floors: 4.5:1 normal text (SC 1.4.3), 3:1 non-text boundary (SC
+            1.4.11).
+          </p>
+          <div className="overflow-x-auto border">
+            <table className="w-full text-sm">
+              <thead className="bg-muted/40">
+                <tr>
+                  <th className="p-2 text-left font-mono text-[11px] uppercase">Pairing</th>
+                  <th className="p-2 text-left font-mono text-[11px] uppercase">Fg / Bg</th>
+                  <th className="p-2 text-right font-mono text-[11px] uppercase">Ratio</th>
+                  <th className="p-2 text-left font-mono text-[11px] uppercase">Grade</th>
+                  <th className="p-2 text-left font-mono text-[11px] uppercase">Used by</th>
+                </tr>
+              </thead>
+              <tbody>
+                {(dark ? CONTRAST_DARK : CONTRAST_LIGHT).map((r) => (
+                  <tr key={r.pairing} className="border-t">
+                    <td className="p-2">{r.pairing}</td>
+                    <td className="p-2 font-mono text-[11px]">
+                      {r.fgHex} / {r.bgHex}
+                    </td>
+                    <td className="p-2 text-right font-mono tabular-nums">
+                      {r.ratio.toFixed(2)}:1
+                    </td>
+                    <td
+                      className="p-2 font-mono text-[11px]"
+                      style={{ color: gradeColor(r.grade) }}
+                    >
+                      {r.grade}
+                    </td>
+                    <td className="text-muted-foreground p-2 text-xs">{r.where}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h3 className="mt-2 text-sm font-semibold">
+            Rules, stripes and boundaries — alphas of the ink, composited then measured
+          </h3>
+          <p className="text-muted-foreground max-w-[74ch] text-xs">
+            Every hairline and boundary is a <code>color-mix()</code> tint of <code>--fg</code>,
+            never a fifth colour — spec §3.4: a page renders in exactly four hex values plus
+            photography. Only the control boundary is required to clear 3:1; the rest are decorative
+            and exempt.
+          </p>
+          <div className="overflow-x-auto border">
+            <table className="w-full text-sm">
+              <thead className="bg-muted/40">
+                <tr>
+                  <th className="p-2 text-left font-mono text-[11px] uppercase">Boundary</th>
+                  <th className="p-2 text-left font-mono text-[11px] uppercase">Composited</th>
+                  <th className="p-2 text-right font-mono text-[11px] uppercase">Ratio</th>
+                  <th className="p-2 text-left font-mono text-[11px] uppercase">Verdict</th>
+                </tr>
+              </thead>
+              <tbody>
+                {BOUNDARY_TINTS.map((b) => (
+                  <tr key={b.label} className="border-t">
+                    <td className="p-2">{b.label}</td>
+                    <td className="p-2 font-mono text-[11px]">{b.compositedHex}</td>
+                    <td className="p-2 text-right font-mono tabular-nums">
+                      {b.ratio.toFixed(2)}:1
+                    </td>
+                    <td className="p-2 font-mono text-[11px]">
+                      {b.ratio >= 3 ? 'n/a — decorative' : b.pass ? 'PASS' : 'n/a'}
+                    </td>
+                  </tr>
+                ))}
+                {DISQUALIFIED.map((b) => (
+                  <tr key={b.label} className="border-t">
+                    <td className="p-2">{b.label}</td>
+                    <td className="p-2 font-mono text-[11px]">{b.compositedHex}</td>
+                    <td className="p-2 text-right font-mono tabular-nums">
+                      {b.ratio.toFixed(2)}:1
+                    </td>
+                    <td className="p-2 font-mono text-[11px]" style={{ color: 'var(--alert)' }}>
+                      FAIL — {b.note}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h3 className="mt-2 text-sm font-semibold">
+            Focus ring — the fix for the shipped defect
+          </h3>
+          <p className="text-muted-foreground max-w-[74ch] text-xs">
+            DES-07 flagged the shipped ring (<code>ring-ring/30</code>) at 1.95:1, under the 3:1
+            floor. This system&rsquo;s ring is <code>var(--focus)</code> at full opacity — Tab to a
+            chip or button below to see it. Light {FOCUS_RING.light.ratio.toFixed(2)}:1, dark{' '}
+            {FOCUS_RING.dark.ratio.toFixed(2)}:1.
+          </p>
+        </section>
+
+        {/* ── 02 TYPE ───────────────────────────────────────────────── */}
+        <section className="flex flex-col gap-6">
+          <SectionHead n="02" title="Type — the faces, the scale" note="spec §2" />
+          <div className="overflow-x-auto border">
+            <table className="w-full text-sm">
+              <thead className="bg-muted/40">
+                <tr>
+                  <th className="p-2 text-left font-mono text-[11px] uppercase">Role</th>
+                  <th className="p-2 text-left font-mono text-[11px] uppercase">Instance</th>
+                  <th className="p-2 text-left font-mono text-[11px] uppercase">Licence</th>
+                  <th className="p-2 text-right font-mono text-[11px] uppercase">Bytes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-t">
+                  <td className="p-2 font-semibold">Wordmark</td>
+                  <td className="p-2 font-mono text-[11px]">
+                    Bodoni Moda, wght 400, opsz 6 — outlined SVG in production
+                  </td>
+                  <td className="p-2 text-xs">SIL OFL 1.1</td>
+                  <td className="p-2 text-right font-mono tabular-nums">0</td>
+                </tr>
+                <tr className="border-t">
+                  <td className="p-2 font-semibold">Article / category / 404 h1</td>
+                  <td className="p-2 font-mono text-[11px]">
+                    Bodoni Moda, wght 400, opsz 11 PINNED, self-hosted subset
+                  </td>
+                  <td className="p-2 text-xs">SIL OFL 1.1</td>
+                  <td className="p-2 text-right font-mono tabular-nums">21,388 woff2</td>
+                </tr>
+                <tr className="border-t">
+                  <td className="p-2 font-semibold">Everything else</td>
+                  <td className="p-2 font-mono text-[11px]">the system stack — var(--font-sys)</td>
+                  <td className="p-2 text-xs">supplied by the OS</td>
+                  <td className="p-2 text-right font-mono tabular-nums">0</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p className="text-muted-foreground max-w-[74ch] text-xs">
+            The wordmark (opsz 6) and the h1 (opsz 11) are different instances of the same variable
+            font and must never share a font-variation-settings value — DES-13 measured opsz moving
+            the hairline 94% across its range. Demonstrated live below, loaded here via
+            next/font/google scoped to this admin page only; the public article&rsquo;s self-hosted,
+            preloaded, subsetted woff2 is DES-08&rsquo;s build task.
+          </p>
+          <div className={`hk s-pad ${bodoniModa.variable} border py-6`} style={FONT_DEMO_STYLE}>
+            <Wordmark />
+            <div className="mt-4">
+              <H1>Mas kahwin ikut negeri 2026: kadar minimum setiap negeri</H1>
+            </div>
+          </div>
+
+          <h3 className="mt-2 text-sm font-semibold">
+            The scale — fluid, clamp() between 360px and 1024px
+          </h3>
+          <div className="overflow-x-auto border">
+            <table className="w-full text-sm">
+              <thead className="bg-muted/40">
+                <tr>
+                  <th className="p-2 text-left font-mono text-[11px] uppercase">Role</th>
+                  <th className="p-2 text-right font-mono text-[11px] uppercase">360px</th>
+                  <th className="p-2 text-right font-mono text-[11px] uppercase">1024px+</th>
+                  <th className="p-2 text-right font-mono text-[11px] uppercase">Line-height</th>
+                  <th className="p-2 text-left font-mono text-[11px] uppercase">Measure</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ['Wordmark', '18.00', '24.00', '1.00', '—'],
+                  ['h1 · display', '30.00', '44.00', '1.08', '22–30ch'],
+                  ['h2', '22.00', '26.00', '1.25', '34ch'],
+                  ['h3', '19.00', '21.00', '1.30', '40ch'],
+                  ['Deck', '18.00', '20.00', '1.50', '60ch'],
+                  ['Body', '17.00', '18.00', '1.65 → 1.70', 'cap 68ch'],
+                  ['Table, figure', '16.00', '16.00', '1.45', 'full column'],
+                  ['Caption, credit', '14.00', '14.00', '1.45', '60ch'],
+                  ['Label, eyebrow', '13.00', '13.00', '1.20', '—'],
+                ].map((row) => (
+                  <tr key={row[0]} className="border-t">
+                    {row.map((cell, i) => (
+                      <td
+                        key={i}
+                        className={`p-2 ${i > 0 && i < 4 ? 'text-right font-mono tabular-nums' : ''}`}
+                      >
+                        {cell}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        {/* ── 03 SPACE ──────────────────────────────────────────────── */}
+        <section className="flex flex-col gap-6">
+          <SectionHead n="03" title="Space, grid and breakpoints" note="spec §4" />
+          <div className="overflow-x-auto border">
+            <table className="w-full text-sm">
+              <thead className="bg-muted/40">
+                <tr>
+                  <th className="p-2 text-left font-mono text-[11px] uppercase">Token</th>
+                  <th className="p-2 text-right font-mono text-[11px] uppercase">px</th>
+                  <th className="p-2 text-left font-mono text-[11px] uppercase">Separates</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ['--sp-1', 4, 'A credit from its caption. Nothing larger.'],
+                  ['--sp-2', 8, 'Chip to chip. Index number to its row.'],
+                  ['--sp-3', 12, 'Rekod field rows. Table cell padding.'],
+                  ['--sp-4', 16, 'Page gutter below 390px. Deck to Rekod rule.'],
+                  ['--sp-5', 20, 'Page gutter 390–767px. List row padding.'],
+                  ['--sp-6', 24, 'Paragraph to paragraph. Eyebrow to headline.'],
+                  ['--sp-7', 32, 'Page gutter 768–1023px. Headline block to figure.'],
+                  ['--sp-8', 40, 'Page gutter ≥1024px. Section to section, phone.'],
+                  ['--sp-9', 56, 'Section to section, desktop. Masthead to content.'],
+                  ['--sp-10', 72, 'Last content block to the footer rule. Nothing else.'],
+                ].map(([tok, px, job]) => (
+                  <tr key={tok as string} className="border-t">
+                    <td className="p-2 font-mono text-[11px]">{tok}</td>
+                    <td className="p-2 text-right font-mono tabular-nums">{px}</td>
+                    <td className="p-2 text-sm">{job}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="overflow-x-auto border">
+            <table className="w-full text-sm">
+              <thead className="bg-muted/40">
+                <tr>
+                  <th className="p-2 text-right font-mono text-[11px] uppercase">px</th>
+                  <th className="p-2 text-left font-mono text-[11px] uppercase">Token</th>
+                  <th className="p-2 text-left font-mono text-[11px] uppercase">What changes</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ['360', 'floor', 'Narrowest supported viewport. Gutters 16, column 328.'],
+                  ['390', '--bp-sm', 'Gutters 16 → 20.'],
+                  ['768', '--bp-md', 'Gutters 32. Catalogue rows gain desktop layout.'],
+                  [
+                    '1024',
+                    '--bp-lg',
+                    'The record rail appears — 300px, gap 48. Nav shows 3 categories + Cari.',
+                  ],
+                  ['1200', '--bp-xl', 'Container caps at 1200. Rail gap 48 → 64.'],
+                ].map(([px, tok, what]) => (
+                  <tr key={tok} className="border-t">
+                    <td className="p-2 text-right font-mono tabular-nums">{px}</td>
+                    <td className="p-2 font-mono text-[11px]">{tok}</td>
+                    <td className="p-2 text-sm">{what}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        {/* ── 04 COMPONENTS ─────────────────────────────────────────── */}
+        <section className="flex flex-col gap-8">
+          <SectionHead
+            n="04"
+            title="Components"
+            note="spec §8 — every one drawn at least twice in §5/§7"
+          />
+
+          <div
+            className={rootClass}
+            style={{ border: '1px solid var(--rule)', ...FONT_DEMO_STYLE }}
+          >
+            {/* Masthead */}
+            <div className="pt-5">
+              <Label muted>Masthead — .s-mast</Label>
+            </div>
+            <Masthead categories={NAV_ITEMS} />
+
+            {/* Breadcrumb */}
+            <div className="pt-4">
+              <Label muted className="mb-2 block">
+                Breadcrumb — .s-crumb
+              </Label>
+              <Breadcrumb
+                items={[{ label: 'Artikel', href: '#' }, { label: 'Hantaran & Mas Kahwin' }]}
+              />
+            </div>
+
+            {/* Rekod panel */}
+            <div className="pt-6" style={{ maxWidth: 420 }}>
+              <RekodPanel
+                fields={[
+                  { label: 'Kadar terendah', value: 'RM22.50 · Johor' },
+                  { label: 'Kadar tertinggi', value: 'RM300 · Selangor, WP' },
+                  { label: 'Tanpa kadar minimum', value: '6 daripada 14' },
+                  { label: 'Bidang kuasa', value: '14' },
+                  { label: 'Disemak', value: '28 Ogos 2026', accent: true },
+                ]}
+              />
+            </div>
+
+            {/* Data table */}
+            <div className="pt-8">
+              <Label muted className="mb-2 block">
+                Data table — .s-tab — the money format
+              </Label>
+              <DataTable
+                rowKey={(r) => r.negeri}
+                columns={[
+                  { header: 'Negeri', render: (r) => r.negeri },
+                  { header: 'Kadar minimum', numeric: true, render: (r) => r.kadar },
+                  { header: 'Pihak berkuasa', render: (r) => r.pihak },
+                  { header: 'Tarikh ditetapkan', render: (r) => r.tarikh },
+                ]}
+                rows={[
+                  {
+                    negeri: 'Selangor',
+                    kadar: 'RM300',
+                    pihak: 'Fatwa diwartakan, Jawatankuasa Fatwa Negeri Selangor',
+                    tarikh: 'Fatwa 31 Disember 2009, kuat kuasa 1 Januari 2010',
+                  },
+                  {
+                    negeri: 'Wilayah Persekutuan',
+                    kadar: 'RM300',
+                    pihak: 'Majlis Agama Islam Wilayah Persekutuan (MAIWP)',
+                    tarikh: 'Mesyuarat 22 Februari 2023, kuat kuasa 1 Oktober 2023',
+                  },
+                  {
+                    negeri: 'Negeri Sembilan',
+                    kadar: 'RM200 / RM100',
+                    pihak: 'Jabatan Hal Ehwal Agama Islam Negeri Sembilan',
+                    tarikh: 'Tarikh penetapan tidak dinyatakan',
+                  },
+                  {
+                    negeri: 'Melaka',
+                    kadar: 'RM100',
+                    pihak: 'Majlis Agama Islam Melaka (MAIM)',
+                    tarikh: 'Mesyuarat 28 Disember 2015, kuat kuasa 1 Jun 2016',
+                  },
+                  {
+                    negeri: 'Johor',
+                    kadar: 'RM22.50 (belum disahkan)',
+                    pihak: 'Modul kursus praperkahwinan, bukan penerbitan kerajaan negeri',
+                    tarikh: 'Sumber terbaik 2019/2020 dan 2022',
+                  },
+                  {
+                    negeri: 'Perak',
+                    kadar: 'Tiada kadar minimum',
+                    pihak: 'Warta Kerajaan Negeri Perak, Pk. P.U. 30',
+                    tarikh: 'Warta 1 Jun 2013 tidak menetapkan sebarang jumlah',
+                  },
+                ]}
+              />
+            </div>
+
+            {/* Card + list rows — the "awkward pair" DoD, real title extremes */}
+            <div className="pt-8">
+              <Label muted className="mb-2 block">
+                Card (.s-card) leading list rows (.s-row) — real 95-char / 47-char title extremes
+              </Label>
+              <Card
+                href="#"
+                headingLevel="h2"
+                title="Hantaran tunang untuk perempuan: apa yang dibawa masuk"
+                deck="Senarai barang mengikut kategori, dan sebab tepak sirih masih dikira dulang pembuka."
+                credit="Kredit: Mohd Fazlin Mohd Effendy Ooi (CC BY 2.0)"
+                imageSrc={placeholderImg('328×246')}
+                imageAlt="Tepak sirih tembaga berkilat di atas dulang, dikelilingi bunga ros merah"
+              />
+              <div className="mt-2">
+                <ListRow
+                  href="#"
+                  headingLevel="h2"
+                  title="20 Lokasi Terbaik Pre Wedding Photoshoot di Malaysia – Dari Alam Semula Jadi Hingga Urban City!"
+                  meta="Fotografi & Videografi"
+                  imageSrc={placeholderImg('80×80')}
+                  imageAlt="Rombongan hantaran berjalan di tepi jalan sambil memegang dulang"
+                />
+                <ListRow
+                  href="#"
+                  headingLevel="h2"
+                  title="Tempat beli barang hantaran: lima jenis kedai"
+                  meta="Hantaran & Mas Kahwin"
+                  imageSrc={placeholderImg('80×80')}
+                  imageAlt="Dulang terbuka dengan gubahan bunga merah dan renda putih"
+                />
+                <ListRow
+                  href="#"
+                  headingLevel="h2"
+                  title="Rukun Nikah: 5 Rukun dan Apa Yang Membatalkannya"
+                  meta="Nikah & Undang-undang"
+                  index={4}
+                />
+              </div>
+              <p className="text-muted-foreground mt-2 max-w-[74ch] text-xs">
+                The fourth row has no cover — <code>.s-imgless</code>, spec §6.3/§8: the figure is
+                removed entirely rather than rendered broken or as a grey promise. Titles are the
+                real 95-character longest and ~47-character shortest of the 86-title corpus, per
+                DES-07&rsquo;s definition of done.
+              </p>
+            </div>
+
+            {/* Chips */}
+            <div className="pt-8">
+              <Label muted className="mb-2 block">
+                Chip — .s-chip — aria-pressed drives state AND fill
+              </Label>
+              <div className="s-chiprow">
+                <Chip>Hantaran & Mas Kahwin</Chip>
+                <Chip pressed count={38}>
+                  Nikah & Undang-undang
+                </Chip>
+                <Chip count={12}>Venue, Kos & Perancangan</Chip>
+              </div>
+            </div>
+
+            {/* Buttons */}
+            <div className="pt-8">
+              <Label muted className="mb-2 block">
+                Button — .s-btn — 44px minimum, spec §10.2
+              </Label>
+              <div className="flex flex-wrap gap-3">
+                <Button>Muat lagi</Button>
+                <Button variant="solid">Cuba semula</Button>
+                <Button disabled>Tiada</Button>
+              </div>
+            </div>
+
+            {/* Empty / error / offline */}
+            <div className="grid gap-6 pt-8 sm:grid-cols-2">
+              <div>
+                <Label muted className="mb-2 block">
+                  Empty — .s-empty — nothing is wrong
+                </Label>
+                <EmptyCategoryState />
+              </div>
+              <div>
+                <Label muted className="mb-2 block">
+                  Not found — .s-empty, E2
+                </Label>
+                <NotFoundState />
+              </div>
+              <div>
+                <Label muted className="mb-2 block">
+                  Error — .s-err — something broke
+                </Label>
+                <PageErrorState />
+              </div>
+              <div>
+                <Label muted className="mb-2 block">
+                  Offline — .s-err, E5
+                </Label>
+                <OfflineState />
+              </div>
+            </div>
+
+            {/* Footer / read-next */}
+            <div className="pt-8 pb-8">
+              <FooterReadNext
+                label="Lagi dalam Hantaran & Mas Kahwin"
+                links={[
+                  { label: 'Mas kahwin Johor 2026: RM22.50 dan asal usul angkanya', href: '#' },
+                  { label: 'Maksud mas kahwin: hak isteri dan beza dengan hantaran', href: '#' },
+                  { label: 'Bolehkah mas kahwin melebihi kadar minimum negeri?', href: '#' },
+                ]}
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* ── 05 HEADING HIERARCHY ──────────────────────────────────── */}
+        <section className="flex flex-col gap-6">
+          <SectionHead
+            n="05"
+            title="Heading hierarchy and schema slots"
+            note="spec §9 — reviewed by head-of-seo-content"
+          />
+          <p className="text-muted-foreground max-w-[74ch] text-sm">
+            Heading LEVEL is a page decision, not a component default. The visual style{' '}
+            <code>.t</code> (list-row title) is identical whether the element is{' '}
+            <code>&lt;h2&gt;</code> or <code>&lt;h3&gt;</code> — only the semantic level changes,
+            per the page it sits inside. <code>Heading</code> in
+            <code> src/design-system/components/typography.tsx</code> takes an explicit{' '}
+            <code>as</code> prop for exactly this reason.
+          </p>
+          <div className="overflow-x-auto border">
+            <table className="w-full text-sm">
+              <thead className="bg-muted/40">
+                <tr>
+                  <th className="p-2 text-left font-mono text-[11px] uppercase">Page</th>
+                  <th className="p-2 text-left font-mono text-[11px] uppercase">Level</th>
+                  <th className="p-2 text-left font-mono text-[11px] uppercase">Used for</th>
+                  <th className="p-2 text-left font-mono text-[11px] uppercase">Style</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ['Article', 'h1', 'The article title. Exactly one per page.', '.s-h1'],
+                  ['Article', 'h2', 'Named sections — one per contents-list entry.', '.s-h2'],
+                  [
+                    'Article',
+                    'h3–h4',
+                    'Sub-points. Not a styling shortcut for a bold lead.',
+                    '.s-h3',
+                  ],
+                  [
+                    'Article',
+                    'n/a',
+                    'Rekod labels, table headers, credits — metadata, never a heading.',
+                    '.s-label',
+                  ],
+                  ['Catalogue', 'h1', 'The category name. Exactly one.', '.s-h1'],
+                  ['Catalogue', 'h2', 'Each row/card title WITHIN the list.', '.t'],
+                  ['Homepage', 'h1', 'Not the wordmark — the hero article headline.', '.s-h1'],
+                  ['Homepage', 'h2', '"Terkini" and each section label.', '.s-label'],
+                  [
+                    'Homepage',
+                    'h3',
+                    'Each row/card title within a section (corrected — see below).',
+                    '.t',
+                  ],
+                ].map((row, i) => (
+                  <tr key={i} className="border-t">
+                    {row.map((c, j) => (
+                      <td key={j} className="p-2 text-sm">
+                        {c}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="border-l-2 p-4 text-sm" style={{ borderColor: 'var(--alert)' }}>
+            <strong>Markup correction the DSE applies during the build (spec §9.1):</strong> a
+            homepage row sits inside a page whose own h1 is the hero, so its rows build as{' '}
+            <code>&lt;h3&gt;</code>, not <code>&lt;h2&gt;</code>, or the homepage carries two h2
+            levels with no h1 between the second and the page title. The visual style{' '}
+            <code>.t</code> is unaffected — only the element changes.
+          </div>
+
+          <h3 className="mt-2 text-sm font-semibold">Live: a catalogue outline (h1 → h2 → h2)</h3>
+          <div
+            className={rootClass}
+            style={{ border: '1px solid var(--rule)', padding: 20, ...FONT_DEMO_STYLE }}
+          >
+            <Label accent className="mb-2 block">
+              Kategori
+            </Label>
+            <H1>Hantaran &amp; Mas Kahwin</H1>
+            <div className="mt-4 flex flex-col gap-2">
+              <Heading as="h2" variant="row">
+                Tempat beli barang hantaran: lima jenis kedai
+              </Heading>
+              <Heading as="h2" variant="row">
+                Berapa dulang hantaran tunang, dan siapa yang tentukan
+              </Heading>
+            </div>
+          </div>
+
+          <h3 className="mt-2 text-sm font-semibold">Schema slots — spec §9.2</h3>
+          <div className="overflow-x-auto border">
+            <table className="w-full text-sm">
+              <thead className="bg-muted/40">
+                <tr>
+                  <th className="p-2 text-left font-mono text-[11px] uppercase">Page</th>
+                  <th className="p-2 text-left font-mono text-[11px] uppercase">Field</th>
+                  <th className="p-2 text-left font-mono text-[11px] uppercase">Source</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ['Article', 'headline', 'h1 text'],
+                  [
+                    'Article',
+                    'dateModified',
+                    'Rekod "Disemak" field — the visible date and the schema date cannot disagree',
+                  ],
+                  [
+                    'Article',
+                    'image',
+                    'The cover per §6, or omitted on the missing-cover state — never a placeholder in the schema',
+                  ],
+                  [
+                    'Article (rate pages)',
+                    'Table rows',
+                    'The mas-kahwin rate table, marked up as data',
+                  ],
+                  ['Catalogue', 'CollectionPage/ItemList', 'Each row/card in reading order'],
+                  [
+                    'Not-found',
+                    'noindex, HTTP 404',
+                    'Server-rendered — status code and content ship together',
+                  ],
+                ].map((row, i) => (
+                  <tr key={i} className="border-t">
+                    {row.map((c, j) => (
+                      <td key={j} className="p-2 text-sm">
+                        {c}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="text-muted-foreground max-w-[74ch] text-xs">
+            FAQPage structured data is deliberately absent — whether the <em>Soalan lazim</em>{' '}
+            section qualifies is head-of-seo-content&rsquo;s structured-data policy call, not a
+            layout one (spec §9.2, §12). Byline/author ownership is managing-editor&rsquo;s (§12),
+            not decided here.
+          </p>
+        </section>
+
+        {/* ── 06 FOCUS & TARGETS ────────────────────────────────────── */}
+        <section className="flex flex-col gap-6">
+          <SectionHead n="06" title="Focus, targets and announcements" note="spec §10" />
+          <div className="overflow-x-auto border">
+            <table className="w-full text-sm">
+              <thead className="bg-muted/40">
+                <tr>
+                  <th className="p-2 text-left font-mono text-[11px] uppercase">Control</th>
+                  <th className="p-2 text-right font-mono text-[11px] uppercase">Height</th>
+                  <th className="p-2 text-left font-mono text-[11px] uppercase">Where</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ['.s-btn', '44px', 'Muat lagi, Cuba semula, Laman utama, search entry'],
+                  ['.s-chip', '44px', 'Category chips'],
+                  [
+                    '.s-row',
+                    '80px phone / 132px desktop',
+                    'The entire row is the tap target, not just the title',
+                  ],
+                  [
+                    'Breadcrumb link',
+                    '20px text, 44px hit slop',
+                    'Text stays 14px; the hit area is padded, not the type grown',
+                  ],
+                ].map((row, i) => (
+                  <tr key={i} className="border-t">
+                    {row.map((c, j) => (
+                      <td
+                        key={j}
+                        className={`p-2 text-sm ${j === 1 ? 'text-right font-mono tabular-nums' : ''}`}
+                      >
+                        {c}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="text-muted-foreground max-w-[74ch] text-xs">
+            Tab through the buttons and chips in §04 above — the ring is <code>var(--focus)</code>{' '}
+            at full opacity (15.39:1 light / 15.65:1 dark), replacing the shipped{' '}
+            <code>ring-ring/30</code> at 1.95:1 that DES-07 flagged. Exactly one{' '}
+            <code>aria-live=&quot;polite&quot;</code> region per page, reused by the loading bar at
+            ≥3s, a <em>Muat lagi</em> result count, and a retry outcome — not built three times.
+          </p>
+        </section>
+
+        {/* ── 07 SCOPE ───────────────────────────────────────────────── */}
+        <section className="flex flex-col gap-4">
+          <SectionHead n="07" title="Not yet here, and why" />
+          <ul className="text-muted-foreground max-w-[74ch] list-disc space-y-2 pl-5 text-sm">
+            <li>
+              <strong>Search panel, results, pagination and filter mechanisms</strong> — DES-06
+              specifies these in full; repeating them here would let the two drift (spec §12).
+            </li>
+            <li>
+              <strong>Byline / author identity</strong> — editorial policy, owned by
+              managing-editor, not a layout decision (spec §12).
+            </li>
+            <li>
+              <strong>FAQPage structured data</strong> — a structured-data policy call for
+              head-of-seo-content (spec §9.2, §12).
+            </li>
+            <li>
+              <strong>A &ldquo;Provenance&rdquo; component</strong> — present in the pre-DES-03
+              draft of this page, absent from the spec&rsquo;s §8 component table. Dropped here
+              rather than carried forward silently: DES-03 supersedes the earlier stand-in, and per
+              the brief, a state not in the spec is not specified. If provenance-per-figure is still
+              wanted, it is a finding for creative-director, not a decision to make alone in this
+              item.
+            </li>
+            <li>
+              <strong>A toggle exposing dark mode to a reader</strong> — deliberately out of scope,
+              standing CEO ruling. Both palettes are specified so the system is ready if that ruling
+              changes; no <code>ThemeProvider</code> exists anywhere in this module.
+            </li>
+            <li>
+              <strong>Self-hosted, subsetted, preloaded article-h1 webfont</strong> — this page
+              demonstrates the correct token (opsz 11 pinned) via Google Fonts, scoped to this admin
+              route only. Producing the 21,388-byte self-hosted subset against DES-09&rsquo;s LCP
+              budget is DES-08&rsquo;s build task on the real article page.
+            </li>
+          </ul>
+        </section>
+      </div>
+    </>
+  );
+}

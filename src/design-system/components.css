@@ -1,0 +1,421 @@
+/* ══════════════════════════════════════════════════════════════════════
+ * HelloKahwin design system — components
+ *
+ * DES-05. Every class below is named once in docs/design/des-03-spesifikasi.html
+ * §8 (Components) and drawn at least twice in §5/§7. Nothing here is
+ * invented — the class names, the properties and the absence of radius or
+ * shadow are lifted from the spec's own `<style>` block (verified: zero
+ * `border-radius`, zero `box-shadow` anywhere in that 2,159-line document).
+ *
+ * Every rule reads a token from tokens.css and NOTHING else. Zero hex, zero
+ * rgb(), zero literal px colour — grep confirms this in the work-done
+ * entry's evidence section.
+ *
+ * `.hk` is the live, RESPONSIVE surface: it uses the fluid clamp() values
+ * from tokens.css directly, so a component dropped anywhere in the app
+ * needs no per-breakpoint override. `.ph`/`.dk` below are a SEPARATE pair
+ * of fixed-width frames (360px / 1200px) used only to reproduce the spec's
+ * own frozen drawings for a side-by-side crosscheck — production code never
+ * needs them.
+ * ══════════════════════════════════════════════════════════════════════ */
+
+.hk {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sys);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  --gutter: 16px;
+}
+@media (min-width: 390px) {
+  .hk {
+    --gutter: 20px;
+  }
+}
+@media (min-width: 768px) {
+  .hk {
+    --gutter: 32px;
+  }
+}
+@media (min-width: 1024px) {
+  .hk {
+    --gutter: 40px;
+    line-height: 1.7; /* the body line-height STEP, spec §2.2 — not a ramp */
+  }
+}
+.hk * {
+  box-sizing: border-box;
+}
+.hk p {
+  margin: 0;
+}
+.hk h1,
+.hk h2,
+.hk h3 {
+  margin: 0;
+}
+
+/* ── page padding ─────────────────────────────────────────────────── */
+.s-pad {
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+
+/* ── masthead + nav (§8 .s-mast) ─────────────────────────────────── */
+.s-mast {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 24px;
+  padding-top: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--rule);
+}
+.s-wm {
+  font-family: var(--font-serif);
+  font-variation-settings: 'opsz' 6; /* wordmark cut — DES-13. Never opsz 11. */
+  font-weight: 400;
+  letter-spacing: 0.092em;
+  text-transform: uppercase;
+  line-height: 1;
+  font-size: var(--fs-wordmark);
+}
+.s-nav {
+  display: flex;
+  gap: 26px;
+  align-items: baseline;
+}
+
+/* ── typography primitives ───────────────────────────────────────── */
+.s-label {
+  font-size: var(--fs-label);
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.s-h1 {
+  font-family: var(--font-serif);
+  font-variation-settings: 'opsz' 11; /* article/category/404 h1 — pinned, DES-13 */
+  font-weight: 400;
+  letter-spacing: -0.022em;
+  line-height: 1.08;
+  text-wrap: balance;
+  font-size: var(--fs-h1);
+  max-width: 24ch;
+}
+.s-deck {
+  font-size: var(--fs-deck);
+  line-height: 1.5;
+  color: var(--fg-muted);
+  max-width: 58ch;
+}
+.s-h2 {
+  font-size: var(--fs-h2);
+  line-height: 1.25;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  max-width: 34ch;
+}
+.s-h3 {
+  font-size: var(--fs-h3);
+  line-height: 1.3;
+  font-weight: 600;
+  max-width: 40ch;
+}
+.s-meta {
+  font-size: var(--fs-caption);
+  line-height: 1.45;
+  color: var(--fg-muted);
+}
+.s-dim {
+  font-size: var(--fs-caption);
+  line-height: 1.45;
+  color: var(--fg-dim);
+}
+.s-body {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  max-width: 68ch;
+}
+.s-cred {
+  font-size: var(--fs-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  line-height: 1.2;
+}
+
+/* ── Rekod panel (§8 .s-rekod) ───────────────────────────────────── */
+.s-rekod {
+  border-top: 2px solid var(--fg);
+  padding-top: 12px;
+}
+.s-rekod .s-label {
+  color: var(--fg-muted);
+}
+.s-frow {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--hair);
+}
+.s-frow:last-child {
+  border-bottom: 0;
+}
+.s-val {
+  font-size: 15px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* ── data table (§8 .s-tab) ──────────────────────────────────────── */
+.s-tab {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: var(--fs-table);
+  line-height: 1.45;
+  font-variant-numeric: tabular-nums;
+}
+.s-tab th {
+  text-align: left;
+  font-weight: 600;
+  font-size: var(--fs-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  padding: 0 14px 8px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.s-tab td {
+  padding: 10px 14px 10px 0;
+  border-bottom: 1px solid var(--hair);
+  vertical-align: top;
+}
+.s-tab tbody tr:nth-child(even) {
+  background: var(--tint);
+}
+
+/* ── list row (§8 .s-row) ────────────────────────────────────────── */
+.s-row {
+  display: grid;
+  grid-template-columns: 80px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--hair);
+}
+.s-row img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  display: block;
+}
+.s-row .t {
+  font-size: 15px;
+  line-height: 1.3;
+  font-weight: 600;
+}
+@media (min-width: 1024px) {
+  .s-row {
+    grid-template-columns: 44px minmax(0, 1fr) 176px;
+    gap: 28px;
+    padding: 20px 0;
+  }
+  .s-row img {
+    width: 176px;
+    height: 132px;
+    order: 3;
+  }
+  .s-row .t {
+    font-size: var(--fs-h3);
+    line-height: 1.3;
+  }
+}
+.s-idx {
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  color: var(--fg-muted);
+  letter-spacing: 0.04em;
+  padding-top: 4px;
+}
+
+/* ── no-image list row (§8 .s-imgless) ───────────────────────────── */
+.s-imgless {
+  border: 1px solid var(--boundary);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* ── card (§8 .s-card) ────────────────────────────────────────────── */
+.s-card figure {
+  margin: 0;
+}
+.s-card img {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* ── chip (§8 .s-chip) ────────────────────────────────────────────── */
+.s-chiprow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.s-chip {
+  font-size: var(--fs-label);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1px solid var(--boundary);
+  padding: 11px 12px;
+  line-height: 1;
+  white-space: nowrap;
+  min-height: 44px; /* target size, spec §10.2 */
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--fg);
+  background: transparent;
+  font-family: inherit;
+  cursor: pointer;
+}
+.s-chip .c {
+  color: var(--fg-dim);
+  font-variant-numeric: tabular-nums;
+}
+.s-chip[aria-pressed='true'] {
+  background: var(--fg);
+  color: var(--bg);
+  border-color: var(--fg);
+}
+.s-chip[aria-pressed='true'] .c {
+  color: var(--bg);
+}
+
+/* ── button (§8 .s-btn) ───────────────────────────────────────────── */
+.s-btn {
+  min-height: 44px; /* target size, spec §10.2 */
+  display: inline-flex;
+  align-items: center;
+  padding: 0 18px;
+  border: 1px solid var(--boundary);
+  background: transparent;
+  color: var(--fg);
+  font-size: var(--fs-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: inherit;
+  cursor: pointer;
+}
+.s-btn.solid {
+  background: var(--fg);
+  color: var(--bg);
+  border-color: var(--fg);
+}
+.s-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* ── focus ring (§10.1 — the fix for the shipped ring/30 defect) ──── */
+.s-focus,
+.hk :focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* ── empty / error blocks (§8 .s-empty / .s-err) ─────────────────── */
+.s-empty {
+  border-top: 1px solid var(--rule);
+  padding-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.s-err {
+  border-left: 3px solid var(--alert);
+  padding: 2px 0 2px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.s-err .s-h3 {
+  color: var(--alert);
+}
+
+/* ── loading layers (§7.3) ───────────────────────────────────────── */
+.s-skel {
+  background: var(--skel);
+}
+.s-bar {
+  height: 2px;
+  background: var(--accent);
+}
+
+/* ── breadcrumb (§8 .s-crumb) ────────────────────────────────────── */
+.s-crumb {
+  font-size: var(--fs-caption);
+  color: var(--fg-muted);
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+.s-crumb a {
+  color: inherit;
+  text-decoration: none;
+}
+.s-crumb a:hover {
+  color: var(--fg);
+}
+
+/* ── footer / read-next (§8 .s-foot) ─────────────────────────────── */
+.s-foot {
+  border-top: 2px solid var(--fg);
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.s-foot a {
+  color: var(--fg);
+  text-decoration: none;
+}
+.s-foot a:hover {
+  color: var(--accent);
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+ * Fixed-width frames — reference-page-only, used solely to reproduce
+ * the spec's own 360px / 1200px drawings for a literal side-by-side
+ * crosscheck. Never used by a real page; DES-08 consumes `.hk` responsively.
+ * ══════════════════════════════════════════════════════════════════════ */
+.dsref-ph {
+  width: 360px;
+  flex: 0 0 360px;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+}
+.dsref-ph .hk {
+  --gutter: 16px;
+}
+.dsref-dk {
+  width: 1200px;
+  flex: 0 0 1200px;
+  border: 1px solid var(--rule);
+}
+.dsref-dk .hk {
+  --gutter: 40px;
+  line-height: 1.7;
+}
+.dsref-rail {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  padding: 4px 0 14px;
+  align-items: flex-start;
+}
