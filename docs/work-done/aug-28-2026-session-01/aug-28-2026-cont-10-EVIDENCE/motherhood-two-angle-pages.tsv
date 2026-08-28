@@ -1,0 +1,36 @@
+# Ahrefs site-explorer-organic-keywords, mode=exact, country=my, date=2026-08-28.
+# One publisher (story.motherhood.com.my, DR 48) running TWO angle pages whose
+# target keywords all carry parent_topic "barang hantaran lelaki".
+# NOTE THE FIELD: `volume` here is the SITE EXPLORER volume column. It does not
+# match Keywords Explorer `volume` for the same term - e.g. "hantaran untuk lelaki"
+# is 900 here and 700 in Keywords Explorer. Different snapshots, both quoted as read.
+# page	keyword	best_position	volume(site-explorer)
+/my/barang-hantaran-lelaki/	hantaran untuk lelaki	1	900
+/my/barang-hantaran-lelaki/	barang hantaran lelaki	1	600
+/my/barang-hantaran-lelaki/	hantaran kahwin lelaki	1	250
+/my/barang-hantaran-lelaki/	hantaran lelaki	1	250
+/my/barang-hantaran-lelaki/	barang hantaran untuk lelaki	4	100
+/my/barang-hantaran-lelaki/	gubahan hantaran untuk lelaki	2	100
+/my/barang-hantaran-lelaki/	contoh barang hantaran lelaki	1	80
+/my/barang-hantaran-lelaki/	idea hantaran lelaki	1	80
+/my/barang-hantaran-lelaki/	dulang hantaran lelaki	1	70
+/my/barang-hantaran-lelaki/	contoh barang hantaran	10	60
+/my/barang-hantaran-lelaki/	contoh hantaran lelaki	1	60
+/my/barang-hantaran-lelaki/	set hantaran lelaki	1	50
+/my/barang-hantaran-lelaki/	hantaran kahwin untuk lelaki	3	50
+/my/barang-hantaran-lelaki/	gubahan hantaran lelaki	2	40
+/my/barang-hantaran-lelaki/	idea hantaran untuk lelaki	1	30
+/my/barang-hantaran-perempuan/	barang hantaran perempuan	1	300
+/my/barang-hantaran-perempuan/	idea hantaran	7	90
+/my/barang-hantaran-perempuan/	contoh barang hantaran perempuan	9	40
+/my/barang-hantaran-perempuan/	idea hantaran perempuan	9	40
+/my/barang-hantaran-perempuan/	barang hantaran untuk perempuan	8	30
+/my/barang-hantaran-perempuan/	idea barang hantaran	7	20
+/my/barang-hantaran-perempuan/	senarai barang hantaran perempuan	2	0
+/my/barang-hantaran-perempuan/	hantaran kahwin mewah perempuan	7	0
+/my/barang-hantaran-perempuan/	hantaran perempuan mewah	3	0
+/my/barang-hantaran-perempuan/	barang hantaran kahwin untuk perempuan	8	0
+/my/barang-hantaran-perempuan/	dulang hantaran untuk perempuan	8	0
+# Top 15 requested per page; the lelaki page returned 15 (list truncated by the
+# limit), the perempuan page returned 11 (all it has). ZERO keywords appear on
+# both lists - the two pages share no term at all.

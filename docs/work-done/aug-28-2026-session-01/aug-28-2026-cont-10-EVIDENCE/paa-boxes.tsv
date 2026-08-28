@@ -1,0 +1,21 @@
+# Ahrefs serp-overview, type=question (Google "People also ask"), country=my, run 2026-08-28.
+# query	snapshot_date	paa_question
+barang hantaran lelaki	2026-08-11	Apakah contoh barang hantaran yang sesuai untuk lelaki?
+barang hantaran lelaki	2026-08-11	Berapa dulang hantaran lelaki dan perempuan?
+barang hantaran lelaki	2026-08-11	Apakah idea barang hantaran yang menarik untuk perempuan?
+hantaran untuk lelaki	2026-08-18	Apakah senarai barang hantaran yang sesuai untuk lelaki?
+hantaran untuk lelaki	2026-08-18	Berapa dulang hantaran lelaki dan perempuan?
+hantaran untuk lelaki	2026-08-18	Apakah idea barang hantaran yang menarik untuk perempuan?
+hantaran kahwin	2026-08-21	Apakah maksud hantaran kahwin?
+hantaran kahwin	2026-08-21	Apakah contoh dulang hantaran kahwin yang menarik?
+hantaran kahwin	2026-08-21	Apakah mas kahwin dan hantaran di Kelantan?
+hantaran kahwin	2026-08-21	Apakah maksud mas kahwin?
+barang hantaran	2026-08-25	Apakah barang yang sesuai untuk hantaran?
+barang hantaran	2026-08-25	Apakah contoh barang hantaran tunang yang sesuai untuk lelaki?
+barang hantaran	2026-08-25	Apakah barang hantaran nikah yang wajib?
+barang hantaran	2026-08-25	Apakah idea barang hantaran yang menarik untuk perempuan?
+# NEGATIVE RESULT, recorded rather than omitted:
+# barang hantaran perempuan (snapshot 2026-08-05) returned NO question-type rows.
+# hantaran untuk perempuan (snapshot 2026-07-15) returned NO question-type rows.
+# So the PAA evidence in this cluster comes from the groom side and the two broad
+# terms only. It is one-sided, and the decision does not rest on it alone.

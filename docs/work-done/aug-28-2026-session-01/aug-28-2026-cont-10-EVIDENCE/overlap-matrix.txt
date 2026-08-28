@@ -1,0 +1,28 @@
+QUERIES:
+  ('barang hantaran lelaki', 7)
+  ('hantaran untuk lelaki', 7)
+  ('barang hantaran perempuan', 6)
+  ('hantaran untuk perempuan', 5)
+  ('hantaran kahwin', 8)
+  ('barang hantaran', 7)
+
+URLs present on ALL SIX SERPs (the family constant):
+   https://nikahsatu.com/17-idea-hantaran-kahwin-yang-menarik/
+   https://songketdunia.my/blogs/news/hantaran-kahwin-lelaki-hantaran-kahwin-perempuan
+
+pair                                                shared  Jaccard%  shared*  Jaccard*%   (* = after removing the two family-constant URLs)
+barang hantaran lelaki       vs hantaran untuk lelaki          4       40        2        25
+barang hantaran lelaki       vs barang hantaran perempuan      2       18        0         0
+barang hantaran lelaki       vs hantaran untuk perempuan       2       20        0         0
+barang hantaran lelaki       vs hantaran kahwin                2       15        0         0
+barang hantaran lelaki       vs barang hantaran                2       17        0         0
+hantaran untuk lelaki        vs barang hantaran perempuan      2       18        0         0
+hantaran untuk lelaki        vs hantaran untuk perempuan       2       20        0         0
+hantaran untuk lelaki        vs hantaran kahwin                2       15        0         0
+hantaran untuk lelaki        vs barang hantaran                2       17        0         0
+barang hantaran perempuan    vs hantaran untuk perempuan       5       83        3        75
+barang hantaran perempuan    vs hantaran kahwin                4       40        2        25
+barang hantaran perempuan    vs barang hantaran                3       30        1        12
+hantaran untuk perempuan     vs hantaran kahwin                3       30        1        12
+hantaran untuk perempuan     vs barang hantaran                3       33        1        14
+hantaran kahwin              vs barang hantaran                2       15        0         0

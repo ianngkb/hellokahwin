@@ -498,7 +498,7 @@ personas and reported them as landed.
   **Owner: full-stack-engineer** (CONT-07's assignment; neither agent touched the
   article route). Fix the emitter, then correct the writer instruction so it
   describes what actually happens.
-- **🟠 CLUSTER OVERLAP: C2.2 DECIDED, C2.1 OPEN.** head-of-seo-content ran the
+- **🟢 CLUSTER OVERLAP: BOTH DECIDED — C2.2 and C2.1 are DO-NOT-MERGE.** head-of-seo-content ran the
   Ahrefs `parent_topic` control on 26 Aug after CONT-05 flagged a near-identical
   slug pair. Both cluster owners then re-ran it against their PLANS and corrected
   the first pass; the numbers below are the corrected ones, quoted as Ahrefs
@@ -511,15 +511,36 @@ personas and reported them as landed.
     **Google's own People-also-ask box on `dulang hantaran tunang` carries two
     C2.2 titles near verbatim.** Google splits the topic the way the plan split
     it; sub-angle pages rank independently; the absorbing incumbent is DR 14.
-  - **C2.1 (`barang hantaran lelaki`): OPEN.** Bigger than first reported —
-    CONT-07 re-ran every term and found **three C2.1 articles plus the legacy
-    seed** on one parent (`hantaran kahwin` 2,000, `hantaran untuk lelaki` 700,
-    `barang hantaran lelaki` 500, `barang hantaran` 350, `barang hantaran
-    perempuan` 300, `contoh hantaran kahwin` 200, `idea hantaran` 80).
-    **Deliberately NOT decided**: no SERP check has been run on this cluster, and
-    deciding on `parent_topic` alone would repeat the error this whole thread
-    corrected. **What settles it:** does the MY SERP split the groom/bride
-    angles, and do sub-angle pages rank? head-of-seo-content owns the call.
+  - **C2.1 (`barang hantaran lelaki`): DECIDED 28 Aug 2026 — DO NOT MERGE.
+    Eight articles stand; no URL changes, no redirects. CONT-12 plans against 8.**
+    CONT-07 found **three C2.1 articles plus the legacy seed** on one parent
+    (`hantaran kahwin` 2,000, `hantaran untuk lelaki` 700, `barang hantaran
+    lelaki` 500, `barang hantaran` 350 — reads 500 on 28 Aug, same `volume`
+    field, the 12-month average rolls — `barang hantaran perempuan` 300,
+    `contoh hantaran kahwin` 200, `idea hantaran` 80). **CONT-10 then ran the
+    SERP check that had never been run**, and it is decisive: **every
+    groom-query against bride-query pair shares exactly 2 organic URLs
+    (Jaccard 18–20%), and those 2 are the only pages appearing on ALL SIX
+    SERPs** — nikahsatu's and songketdunia's combined "lelaki dan perempuan"
+    articles. Remove that family constant and **groom and bride share ZERO
+    results**. Corroborated live: `story.motherhood.com.my` (DR 48) runs BOTH
+    angle pages on this one parent topic, each at `best_position` **1** on its
+    own angle, **with no keyword in common**. Google's PAA on the groom query
+    prints the groom question and the bride question side by side.
+    Evidence: `docs/work-done/aug-28-2026-session-01/aug-28-2026-done-cont-10-c21-serp-decision.md`
+    and its `…-EVIDENCE/` directory. Decisions 118–120.
+  - **⚠ ONE C2.1 BOUNDARY IS OPEN AND IS AN EDITORIAL JOB, NOT A MERGE.** The
+    legacy seed `hantaran-kahwin` against `barang-hantaran-perempuan` reads
+    **Jaccard 40%** (25% with the constants removed) — level with the
+    within-article baseline. It is not a duplicate: the seed's SERP is half
+    money (Shopee, *duit hantaran hak siapa*, *wang hantaran*, Loanstreet) and
+    its PAA asks *Apakah maksud hantaran kahwin?* and *Apakah mas kahwin dan
+    hantaran di Kelantan?*, while the live page centres on "20 Idea Hantaran
+    Kahwin Lelaki & Perempuan" — the job topics 2 and 3 now do. **CONT-12
+    action: re-angle the seed toward definition and money.** One body, not the
+    count. **And the bride angle is the least contested asset in the cluster** —
+    four dedicated groom pages sit in the groom top 10; the bride SERP has one,
+    in AI Overview citations rather than the organic top eight.
   - **Separately and regardless of any merge: four C2.1 head terms carry ZERO
     volume and no parent topic** — `hantaran kahwin bajet`, `kos hantaran
     kahwin`, `adat hantaran`, `persiapan hantaran`. Surrounding parents carry
@@ -546,7 +567,15 @@ personas and reported them as landed.
   several sub-questions satisfy rule 2 while violating rule 4, and **both rules
   were followed**. On this cluster's SERP evidence rule 2 was right — one cluster,
   one language, not a resolution. head-of-seo-content owns it; flagged in the
-  persona as open. **Interim guard, adopted by all three sessions: run the
+  persona as open. **CONT-10 (28 Aug) added the TIE-BREAKER, which is a
+  procedure rather than a resolution: when the two rules disagree, pull the
+  organic top 10 for each head term and measure the overlap — and take the
+  threshold FROM THE CLUSTER, not from the industry.** Two queries a single
+  article already targets give the "same page" reading for that data (40% and
+  83% in C2.1); pairs far below it are separate pages. **Strip any URL appearing
+  on every SERP in the family before measuring** — in C2.1 two ubiquitous pages
+  made every pair look 15–20% alike and hid a groom/bride overlap of zero. Now in
+  the persona. **Interim guard, adopted by all three sessions: run the
   `parent_topic` check at PLANNING time, before briefs are written.** CONT-07's
   addition: it is the only item on the 21-point quality bar that cannot be
   satisfied by reading, so a lone reviewer will approximate it unless it is

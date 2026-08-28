@@ -1,0 +1,20 @@
+# Ahrefs keywords-explorer-overview, country=my, pulled 2026-08-28.
+# THE FIELD USED FOR PLANNING IS `volume` - the 12-month average. `volume_monthly`
+# (latest month) is printed beside it so the two are never mistaken for a conflict.
+# keyword	volume	volume_monthly	difficulty	parent_topic	traffic_potential
+hantaran kahwin	2000	1725	0	barang hantaran lelaki	2400
+hantaran untuk lelaki	700	939	0	barang hantaran lelaki	2500
+barang hantaran lelaki	500	551	0	barang hantaran lelaki	2500
+barang hantaran	500	422	0	barang hantaran lelaki	2400
+barang hantaran perempuan	300	308	0	barang hantaran lelaki	2500
+contoh hantaran kahwin	200	192	0	barang hantaran lelaki	2500
+idea hantaran	80	89	0	barang hantaran lelaki	2400
+hantaran untuk perempuan	200	111	0	hantaran kahwin	2700
+hantaran kahwin perempuan	150	104	0	hantaran kahwin	2700
+idea hantaran lelaki	150	104	0	hantaran kahwin	2700
+# CHANGE SINCE CONT-07 (27 Aug 2026): "barang hantaran" read 350 then and 500 now,
+# one day apart, same field. The 12-month average moves as months roll off. The
+# parent_topic assignments are unchanged - all seven still sit on one parent.
+# traffic_potential is IDENTICAL (2,400-2,500) across every member of the parent,
+# and 2,700 across every member of the other. It is a parent-level figure, so it
+# carries no information about whether the children should be split.
