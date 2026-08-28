@@ -291,7 +291,7 @@ scoped, assigned, and explicitly not made.
    appended to the brief. **It is not marked `done`,** because the DoD says the
    owner names the winner and the owner has not yet. Narrowing that to match
    what I got would be exactly the thing the standing rules forbid.
-2. **`docs/boardroom/decision-log.md`** — decisions 148 to 151 added.
+2. **`docs/boardroom/decision-log.md`** — decisions 149 to 152 added.
 3. **`docs/work-done/README.md`** — this entry added to the index.
 4. **`.claude/agents/creative-director.md`** — NOT edited. Named, assigned to
    `ceo-hellokahwin`, with the reason above.
