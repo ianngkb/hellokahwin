@@ -1,0 +1,34 @@
+# The 29 legacy WordPress URLs from data/hellokahwin-export/content/posts.json (export of 2026-08-21).
+# Verified against production 2026-08-28, sequentially, 1.2s apart.
+# curl -sSIL -A HelloKahwin-DES09-audit/1.0 -w 'FINAL %{http_code} %{url_effective} %{num_redirects}' <source>
+# RESULT: 29 one-hop-to-200, 0 multi-hop, 0 broken, of 29.
+verdict	hops	chain	source	final
+OK-1HOP	1	308->200	https://hellokahwin.com/hadiah-untuk-pengantin/	https://hellokahwin.com/artikel/idea-dan-nasihat/hadiah-untuk-pengantin
+OK-1HOP	1	308->200	https://hellokahwin.com/tempat-honeymoon-di-malaysia/	https://hellokahwin.com/artikel/idea-dan-nasihat/tempat-honeymoon-di-malaysia
+OK-1HOP	1	308->200	https://hellokahwin.com/wedding-planner-terbaik-di-malaysia/	https://hellokahwin.com/artikel/idea-dan-nasihat/wedding-planner-terbaik-di-malaysia
+OK-1HOP	1	308->200	https://hellokahwin.com/goodies-kahwin/	https://hellokahwin.com/artikel/hiasan-dekorasi/goodies-kahwin
+OK-1HOP	1	308->200	https://hellokahwin.com/hantaran-tunang/	https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang
+OK-1HOP	1	308->200	https://hellokahwin.com/perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan/	https://hellokahwin.com/artikel/real-wedding/perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan
+OK-1HOP	1	308->200	https://hellokahwin.com/jw-marriott-kuala-lumpur/	https://hellokahwin.com/artikel/moden-kontemporari/jw-marriott-kuala-lumpur
+OK-1HOP	1	308->200	https://hellokahwin.com/perkahwinan-taman-kebun-yang-minimalis-di-hulu-langat/	https://hellokahwin.com/artikel/real-wedding/perkahwinan-taman-kebun-yang-minimalis-di-hulu-langat
+OK-1HOP	1	308->200	https://hellokahwin.com/perkahwinan-indah-di-laman-fajar-menyinsing-port-dickson/	https://hellokahwin.com/artikel/pantai-santai/perkahwinan-indah-di-laman-fajar-menyinsing-port-dickson
+OK-1HOP	1	308->200	https://hellokahwin.com/perkahwinan-romantis-di-jen-shangri-la-puteri-harbour/	https://hellokahwin.com/artikel/moden-kontemporari/perkahwinan-romantis-di-jen-shangri-la-puteri-harbour
+OK-1HOP	1	308->200	https://hellokahwin.com/yasaka-shrine/	https://hellokahwin.com/artikel/real-wedding/yasaka-shrine
+OK-1HOP	1	308->200	https://hellokahwin.com/amankila-bali/	https://hellokahwin.com/artikel/glamor-eksklusif/amankila-bali
+OK-1HOP	1	308->200	https://hellokahwin.com/kursus-kahwin/	https://hellokahwin.com/artikel/idea-dan-nasihat/kursus-kahwin
+OK-1HOP	1	308->200	https://hellokahwin.com/lokasi-pre-wedding-photoshoot-terbaik/	https://hellokahwin.com/artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik
+OK-1HOP	1	308->200	https://hellokahwin.com/hantaran-kahwin/	https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-kahwin
+OK-1HOP	1	308->200	https://hellokahwin.com/cara-buat-kad-kahwin-digital/	https://hellokahwin.com/artikel/idea-dan-nasihat/cara-buat-kad-kahwin-digital
+OK-1HOP	1	308->200	https://hellokahwin.com/mas-kahwin-ikut-negeri/	https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri
+OK-1HOP	1	308->200	https://hellokahwin.com/dewan-kahwin/	https://hellokahwin.com/artikel/idea-dan-nasihat/dewan-kahwin
+OK-1HOP	1	308->200	https://hellokahwin.com/grand-hyatt-kuala-lumpur/	https://hellokahwin.com/artikel/glamor-eksklusif/grand-hyatt-kuala-lumpur
+OK-1HOP	1	308->200	https://hellokahwin.com/sewa-dewan-kahwin/	https://hellokahwin.com/artikel/idea-dan-nasihat/sewa-dewan-kahwin
+OK-1HOP	1	308->200	https://hellokahwin.com/sime-darby-convention-centre/	https://hellokahwin.com/artikel/moden-kontemporari/sime-darby-convention-centre
+OK-1HOP	1	308->200	https://hellokahwin.com/cheong-fatt-tze-mansion/	https://hellokahwin.com/artikel/real-wedding/cheong-fatt-tze-mansion
+OK-1HOP	1	308->200	https://hellokahwin.com/sentosa-janda-baik/	https://hellokahwin.com/artikel/real-wedding/sentosa-janda-baik
+OK-1HOP	1	308->200	https://hellokahwin.com/majlis-kahwin/	https://hellokahwin.com/artikel/idea-dan-nasihat/majlis-kahwin
+OK-1HOP	1	308->200	https://hellokahwin.com/garden-wedding/	https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding
+OK-1HOP	1	308->200	https://hellokahwin.com/pelamin-kahwin-dewan/	https://hellokahwin.com/artikel/idea-dan-nasihat/pelamin-kahwin-dewan
+OK-1HOP	1	308->200	https://hellokahwin.com/the-danna-langkawi/	https://hellokahwin.com/artikel/minimalis-mewah/the-danna-langkawi
+OK-1HOP	1	308->200	https://hellokahwin.com/villa-warisan/	https://hellokahwin.com/artikel/real-wedding/villa-warisan
+OK-1HOP	1	308->200	https://hellokahwin.com/marriott-putrajaya/	https://hellokahwin.com/artikel/moden-kontemporari/marriott-putrajaya

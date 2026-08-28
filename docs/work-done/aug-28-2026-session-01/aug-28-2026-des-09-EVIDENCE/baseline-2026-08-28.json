@@ -1,0 +1,255 @@
+{
+ "_comment": "DES-09 SEO guardrail baseline. Every number here was MEASURED against https://hellokahwin.com on 2026-08-28 between 06:09Z and 06:35Z, sequentially, one request at a time, by docs/work-done/aug-28-2026-session-01/aug-28-2026-des-09-EVIDENCE/check-guardrails.py's measurement layer. Do not edit a number here without re-measuring and saying so in the work-done entry.",
+ "measured_at": "2026-08-28T06:35:00Z",
+ "measured_by": "head-of-seo-content (DES-09)",
+ "base": "https://hellokahwin.com",
+ "method": "curl 8.15.0, sequential, 2.0s apart, UA HelloKahwin-DES09-audit/1.0. 103 sitemap URLs; 102 returned a body, 1 (/artikel/ucapan-doa/doa-majlis-perkahwinan) exceeded the 20s budget on a cold render and returned 200 in 395 ms on a warm re-request.",
+ "sitemap": {
+  "url_count": 103,
+  "composition": {
+   "homepage": 1,
+   "catalogue_index": 1,
+   "category": 15,
+   "article": 86
+  },
+  "sample": [
+   "/",
+   "/artikel",
+   "/artikel/hantaran-mas-kahwin",
+   "/artikel/nikah-undang-undang",
+   "/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri",
+   "/artikel/idea-dan-nasihat/dewan-kahwin"
+  ]
+ },
+ "headings": {
+  "articles_with_two_h1": 85,
+  "articles_measured": 85,
+  "articles_with_one_h1": 0,
+  "category_pages_skipping_h2": 8,
+  "category_pages_measured": 15,
+  "articles_whose_only_h2_is_the_related_module": 21,
+  "article_outline_example": "h1 h1 h3 h3 h3 h3 h3 h3 h3 h4 h4 h4 h4 h4 h2 h3 h3 h3 h3 h3 h3",
+  "article_outline_example_url": "/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri"
+ },
+ "links": {
+  "internal_anchors_total": 4144,
+  "external_anchors_total": 1330,
+  "internal_nofollow": 0,
+  "internal_target_blank": 0,
+  "external_nofollow": 11,
+  "external_target_blank": 517,
+  "chrome_paths": 11,
+  "orphan_articles": 0,
+  "inbound_per_article_min": 1,
+  "inbound_per_article_median": 8,
+  "inbound_per_article_max": 17,
+  "inbound_per_article_median_excluding_related_module": 4,
+  "unique_internal_targets_min": {
+   "article": 12,
+   "category": 13,
+   "homepage": 24,
+   "catalogue_index": 56
+  },
+  "unique_internal_targets_median": {
+   "article": 22,
+   "category": 14,
+   "homepage": 24,
+   "catalogue_index": 56
+  },
+  "redirect_hop_instances": 58,
+  "redirect_hop_targets": 15,
+  "credit_link_pages": 59,
+  "credit_links_by_host": {
+   "www.flickr.com": 131,
+   "commons.wikimedia.org": 98,
+   "theweddingnotebook.com": 69,
+   "www.instagram.com": 62,
+   "www.pexels.com": 55
+  },
+  "max_crawl_depth_from_root": 2,
+  "crawl_depth_distribution": {
+   "0": 1,
+   "1": 23,
+   "2": 79
+  },
+  "unreachable_from_root": 0,
+  "sole_article_categories": [
+   "/artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik",
+   "/artikel/hiasan-dekorasi/goodies-kahwin",
+   "/artikel/minimalis-mewah/the-danna-langkawi",
+   "/artikel/pantai-santai/perkahwinan-indah-di-laman-fajar-menyinsing-port-dickson"
+  ],
+  "_sole_article_categories_note": "Articles that are the ONLY article in their category on 2026-08-28. The related-articles module is legitimately absent on these; G05 allows exactly these four and fails on any other absence.",
+  "articles_with_related_module": 81
+ },
+ "schema": {
+  "article_types": [
+   "Article",
+   "BreadcrumbList",
+   "ImageObject",
+   "ListItem",
+   "Organization",
+   "WebPage"
+  ],
+  "article_optional_types": [
+   "Person",
+   "ItemList",
+   "Place",
+   "PostalAddress"
+  ],
+  "category_types": [
+   "BreadcrumbList",
+   "CollectionPage",
+   "ListItem",
+   "Organization"
+  ],
+  "homepage_types": [],
+  "catalogue_index_types": [],
+  "articles_emitting_article_schema": 85,
+  "itemlist_articles": 8,
+  "faqpage_pages": 0,
+  "soalan_lazim_articles": 45,
+  "soalan_lazim_as_h2": 39,
+  "soalan_lazim_as_h3": 6,
+  "soalan_lazim_questions": 291,
+  "invalid_jsonld_blocks": 0
+ },
+ "budgets": {
+  "_comment": "These are the TARGETS the redesign must hit, not the current state. Where the current state is worse, the guardrail fails today and DES-08 is the fix.",
+  "lcp_image_bytes": 204800,
+  "max_image_bytes": 409600,
+  "non_image_transfer_bytes": 266240,
+  "webfont_bytes": 30720,
+  "warm_ttfb_ms": 1500,
+  "cold_render_ms": 5000
+ },
+ "measured_today": {
+  "_comment": "What production actually served on 2026-08-28. Compare against budgets above.",
+  "images": {
+   "srcset_present": 0,
+   "images_measured": 1448,
+   "loading_lazy": 1272,
+   "fetchpriority_on_img": 0,
+   "width_height_present": 757,
+   "empty_alt": 648,
+   "missing_alt_attribute": 0,
+   "formats": {
+    "image/webp": "100%"
+   }
+  },
+  "image_payload_bytes": {
+   "homepage": 10069832,
+   "catalogue_index": 9257438,
+   "article_mas_kahwin_ikut_negeri": 5986226
+  },
+  "derivative_weights_n10_distinct_covers": {
+   "crop-4x5-mobile-cover_1920x2400": {
+    "min": 855020,
+    "median": 1405400,
+    "max": 2102558
+   },
+   "crop-4x3-article-card_1600x1200": {
+    "min": 543488,
+    "median": 823997,
+    "max": 1153770
+   },
+   "crop-4.3x1-desktop-hero_2464x700": {
+    "min": 192636,
+    "median": 658689,
+    "max": 938700
+   },
+   "crop-16x9-og_1200x630": {
+    "min": 238698,
+    "median": 365742,
+    "max": 440520
+   }
+  },
+  "lcp_element_today": {
+   "mobile_max_width_1023": "crop-4x3-article-card.webp, 683018 B on /artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri",
+   "desktop_min_width_1024": "crop-4.3x1-desktop-hero.webp, 529810 B on the same page"
+  },
+  "non_image_transfer_bytes": {
+   "homepage": 224037,
+   "catalogue_index": 227562,
+   "category_hantaran_mas_kahwin": 223190,
+   "article_mas_kahwin_ikut_negeri": 251692
+  },
+  "css": {
+   "files": 1,
+   "transfer_br": 26465,
+   "raw": 141795
+  },
+  "js": {
+   "files_homepage": 12,
+   "transfer_homepage": 186829,
+   "files_article": 14,
+   "transfer_article": 202523
+  },
+  "webfonts": {
+   "woff2_refs_in_html": 0,
+   "font_face_rules_in_html": 0
+  },
+  "warm_response_ms": {
+   "homepage": 131,
+   "catalogue_index": 130,
+   "category_p50": 162,
+   "category_p90": 339,
+   "category_max": 540,
+   "article_p50": 208,
+   "article_p90": 618,
+   "article_max": 1005
+  },
+  "cold_render_outlier_ms": {
+   "/artikel/ucapan-doa/doa-majlis-perkahwinan": 21733
+  },
+  "cache_control": {
+   "homepage": "public, max-age=0, must-revalidate",
+   "catalogue_index": "public, max-age=0, must-revalidate",
+   "category": "private, no-cache, no-store, max-age=0, must-revalidate",
+   "article": "s-maxage=600, stale-while-revalidate=3000"
+  },
+  "x_vercel_cache_on_articles": {
+   "HIT": 47,
+   "STALE": 38
+  }
+ },
+ "frozen": {
+  "_comment": "Things DES-08 must not change. Any diff here is a veto, not a discussion.",
+  "canonical_present": 102,
+  "canonical_self_referential": 102,
+  "html_lang": "ms",
+  "title_suffix": " | HelloKahwin",
+  "titles_with_suffix": 102,
+  "titles_over_60_chars": 80,
+  "title_length_median": 68,
+  "meta_description_present": 102,
+  "meta_description_over_155": 1,
+  "robots_meta": {
+   "article": "index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1",
+   "category": "index, follow",
+   "homepage": null,
+   "catalogue_index": null,
+   "child_category_hub": "noindex, follow"
+  },
+  "robots_txt_bytes": 297,
+  "robots_txt_disallow": [
+   "/admin/",
+   "/login",
+   "/no-access",
+   "/sso-callback",
+   "/draft/"
+  ],
+  "legacy_redirects": {
+   "total": 29,
+   "one_hop_to_200": 29,
+   "multi_hop": 0,
+   "broken": 0,
+   "status": 308
+  },
+  "routes_that_must_stay_404_or_noindex": {
+   "/cari": 404,
+   "/brand": 404,
+   "/design-system": 404
+  }
+ }
+}

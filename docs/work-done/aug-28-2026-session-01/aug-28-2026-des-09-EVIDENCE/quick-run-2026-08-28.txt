@@ -1,0 +1,72 @@
+        threshold: 100% of pages, h1 count == 1
+        detail   : /artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri; /artikel/idea-dan-nasihat/dewan-kahwin; /artikel/hantaran-mas-kahwin/hantaran-tunang; /artikel/nikah-undang-undang/borang-nikah; /artikel/glamor-eksklusif/amankila-bali
+FAIL  G02  First heading after the h1 is an h2 (no level skip)
+        measured : 7/9 pages ordered
+        threshold: 100% of pages, first non-h1 heading == h2
+        detail   : /artikel/real-wedding (h1 h3 h3 h3 h3 h3); /artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri (h1 h1 h3 h3 h3 h3)
+PASS  G05  Related-articles module is an <h2> starting "Lagi dalam "
+        measured : 5/5 articles carry it
+        threshold: present on every article whose category holds >1 article (4 known exceptions)
+PASS  G06  Zero rel=nofollow on INTERNAL links
+        measured : 0 internal nofollow
+        threshold: == 0
+        detail   : SEO-02 removed 79 of these; re-introducing one regresses it
+PASS  G08  All 11 navigation spine paths linked from every page
+        measured : 11/11 present on every page
+        threshold: 11/11 on 100% of pages
+        detail   : {}
+????  G09  Zero orphan articles (>=1 inbound in-page link)
+        measured : 1 orphans of 5 articles
+        threshold: == 0 orphans
+        detail   : corpus-scoped: needs the full sitemap sweep, not --quick. Measured value above is a partial count.
+PASS  G10  Per-page unique internal link-target floor
+        measured : 9/9 at or above floor
+        threshold: article>=12, category>=13, homepage>=24, /artikel>=56
+PASS  G11  Zero generic anchor text ("klik di sini", "baca lagi", …)
+        measured : 0 banned anchors
+        threshold: == 0
+PASS  G13  article pages emit ['Article', 'BreadcrumbList', 'ImageObject', 'ListItem', 'Organization', 'WebPage']
+        measured : 5/5 pages
+        threshold: superset of the 2026-08-28 emitted set
+PASS  G14  category pages emit ['BreadcrumbList', 'CollectionPage', 'ListItem', 'Organization']
+        measured : 2/2 pages
+        threshold: superset of the 2026-08-28 emitted set
+????  G15  Listicle articles keep their ItemList schema
+        measured : 1 articles emit ItemList
+        threshold: >= 8 (2026-08-28 baseline)
+        detail   : corpus-scoped: needs the full sitemap sweep, not --quick. Measured value above is a partial count.
+PASS  G16  Every JSON-LD block parses as JSON
+        measured : 0 unparseable blocks
+        threshold: == 0
+????  G17  Articles carrying a "Soalan lazim" block keep it (SEO-10 input)
+        measured : 1 carry the block, 1 emit FAQPage
+        threshold: "Soalan lazim" block count >= 45
+        detail   : corpus-scoped: needs the full sitemap sweep, not --quick. Measured value above is a partial count.
+PASS  G32  Every page emits a self-referential canonical
+        measured : 9/9 correct
+        threshold: 100% present AND self-referential
+PASS  G35  Root element carries lang="ms"
+        measured : 9/9
+        threshold: literal lang="ms"
+PASS  G36  Every <title> ends with the literal " | HelloKahwin"
+        measured : 9/9
+        threshold: literal suffix " | HelloKahwin" (14 chars)
+PASS  G37  No article serves the ROOT DEFAULT title (cached metadata miss)
+        measured : 0 articles on the root default title
+        threshold: == 0
+        detail   :   [re-run after any POST /api/cron/revalidate-content]
+PASS  G40  Repeated renders of one article are stable
+        measured : 5/5 renders carry the related module; byte spread 0 B
+        threshold: 5/5 renders carry the module, byte spread <= 2048
+        detail   : probe: /artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri; sizes [156814, 156814, 156814, 156814, 156814]
+????  G38  Articles keep their outbound image-credit links
+        measured : 4 articles carry >=1 credit link
+        threshold: >= 59 (2026-08-28 baseline)
+        detail   : corpus-scoped: needs the full sitemap sweep, not --quick. Measured value above is a partial count.
+PASS  G31  The sitemap URL set does not shrink
+        measured : 103 URLs
+        threshold: >= 103 (2026-08-28)
+
+14 pass, 2 fail, 0 warn, 4 unknown
+
+[exited with code 0]

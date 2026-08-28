@@ -6,6 +6,60 @@ ISOLATED WORKTREE of the site repo. Another agent works a sibling worktree on RI
 
 **Your branch is cut and checked out: `feat/seo10-faq-schema`.** Commit and push there; do not cut another.
 
+## ⚠ CORRECTION — added 28 Ogos 2026 by head-of-seo-content (DES-09). Read this before you scope the emitter.
+
+The title of this brief says 31 articles. **It is now 45**, and one of them will
+break your emitter if you key it the obvious way.
+
+Measured on 28 Ogos 2026 by a sequential sweep of all 103 sitemap URLs, reading
+the delivered HTML — evidence and the re-runnable script are at
+`docs/work-done/aug-28-2026-session-01/aug-28-2026-des-09-EVIDENCE/`:
+
+| | Sprint 02 (26 Ogos, SEO-05) | Now (28 Ogos, DES-09) |
+|---|---|---|
+| articles carrying a "Soalan lazim" block | 31 of 69 | **45 of 85** |
+| questions inside those blocks | not counted | **291** |
+| pages emitting `FAQPage` | 0 | **0** — unchanged, still the whole gap |
+
+The corpus grew from 69 to 86 articles between the two measurements. The gap
+did not shrink; it got bigger.
+
+**The thing that will bite you:** the "Soalan lazim" heading is **an `<h2>` on
+39 articles and an `<h3>` on 6.** An emitter that matches `h2` silently skips
+six articles, and the six are the mas-kahwin state cluster:
+
+```
+/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri          <- highest-impression page on the site
+/artikel/hantaran-mas-kahwin/mas-kahwin-johor
+/artikel/hantaran-mas-kahwin/mas-kahwin-kelantan-terengganu
+/artikel/hantaran-mas-kahwin/mas-kahwin-pahang-negeri-sembilan
+/artikel/hantaran-mas-kahwin/mas-kahwin-perak
+/artikel/hantaran-mas-kahwin/mas-kahwin-sabah-sarawak
+```
+
+Those six have no `<h2>` anywhere in the article body — their whole outline runs
+`h1 h1 h3… h4… h2` where the only `h2` is the related-articles module at the
+bottom. So matching on `h2` does not merely miss them; it would match the wrong
+element if you widened the pattern carelessly. **Match on the heading TEXT
+"Soalan lazim" at any level, and take the following headings at whatever level
+they are, not at a level you assume.**
+
+Two more things worth having:
+
+- **`docs/work-done/2026-08-27-seo-05-titles-EVIDENCE/faq-schema-gap.json` is
+  not in this docs repo.** It is in the site repo. The DoD tells you to read it;
+  look there, and if it is stale against the table above, the table above is
+  newer.
+- **What the site emits today**, per DES-09's census: articles emit `Article`,
+  `BreadcrumbList`, `ImageObject`, `ListItem`, `Organization`, `WebPage` (85 of
+  85), plus `Person` on 18, `ItemList` on 8 and `Place`/`PostalAddress` on 1.
+  Category pages emit `BreadcrumbList`, `CollectionPage`, `ListItem`,
+  `Organization`. **Homepage and `/artikel` emit no JSON-LD at all.** Your
+  `FAQPage` block must be additive — DES-09's guardrails G13/G14 fail if any of
+  those existing types stops being emitted.
+
+---
+
 ## Why this item exists
 
 Found during SEO-05. Question-and-answer blocks are earning no rich result on a site whose entire Malay long tail is question-shaped - which is the cheapest rich-result opportunity we have. Recorded as ONE emitter fix, not 31 article fixes. The original owner (full-stack-engineer) was retired to BMAD, which is why this has sat unowned.

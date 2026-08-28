@@ -227,7 +227,7 @@ specificity is the opening rather than a refinement.
 
 ### 1.3 The check before QC passes
 
-QC does not read the article and form an impression. It runs five checks in
+QC does not read the article and form an impression. It runs six checks in
 order and stops at the first failure.
 
 | # | Check | How it is verified | Fails when |
@@ -237,6 +237,31 @@ order and stops at the first failure.
 | 3 | **The specific fact** | QC names it out loud and states which of the four classes it belongs to, and where it came from | It cannot be named, or it is not sourced, or it is class "longer list" |
 | 4 | **Parent-topic clearance** | The target keyword's Ahrefs `parent_topic` is checked against the published set and the brief queue | Another live or queued page holds the same parent topic (R4) |
 | 5 | **Price currency** | For every ringgit figure, QC names the source's own **last sign of life** (`datePublished`, last-updated stamp, newest archive entry, live stock count), not merely the date checked | The source shows no sign of life within 24 months; or a catalogue range carries no result count; or a promotional price is published without its struck-through original; or a market range rests on a single vendor |
+| 6 | **Payload** | QC sums `Content-Length` over every image the published page requests, and names the largest one | The largest image exceeds **200 KB**, or the page's total image bytes exceed **1 MB**, or any `<img>` ships without `srcset` |
+
+**Check 6 was added on 28 Ogos 2026 by DES-09**, and it exists because five
+checks that all read database rows and documents cannot see what a page weighs.
+
+The measurement that produced it: the homepage serves **10,069,832 bytes of
+images against 224,037 bytes of everything else** — 97.8% of the page. Every
+card thumbnail is the 1600×1200 `crop-4x3-article-card` derivative, 543 KB to
+1,154 KB each, rendered into a card a few hundred pixels wide. `srcset` appears
+on **0 of 1,448 images sitewide**. A `low.webp` derivative already exists at
+roughly a tenth the weight and is used in one place.
+
+None of that was hidden. It had simply never been added up, because adding it
+up means issuing a HEAD request per asset and reading `Content-Length`, and
+every performance discussion on this site for two sprints had been conducted by
+reading source. Three separate documents in the last week budgeted JavaScript
+and webfonts carefully. JavaScript and fonts are about 2% of the problem.
+
+This is the same shape as the rule at the top of this document — *check the
+artefact the consumer receives, not the input you control* — applied to bytes
+rather than to markup. **A page's weight is a property of what the reader
+downloads, and nothing in the repository will tell you what that is.**
+
+Run it with `docs/work-done/aug-28-2026-session-01/aug-28-2026-des-09-EVIDENCE/check-guardrails.py`,
+guardrails G19–G23.
 
 **Check 5 was added on 25 Ogos 2026**, after the verification board blocked
 `C5-1-A1-pelamin` for building a 2026 price article on a blog dormant since
@@ -246,10 +271,12 @@ time. The rule set recorded when we looked and never asked when the source
 last moved. The full standard now lives in style guide §7.1a and reviewer
 check S17; this row is the gate that enforces it before /humanizer.
 
-Only after those five does the draft go to /humanizer, and only after
+Only after those six does the draft go to /humanizer, and only after
 /humanizer does it go to the remaining seventeen lines of the quality bar.
 **A draft that fails check 1, check 3 or check 5 goes back to the writer with the
-ledger attached, not with an opinion attached.** That is the point of building
+ledger attached, not with an opinion attached.** Check 6 goes to whoever owns
+the derivative pipeline, not to the writer — the writer chose a photograph, not
+a file size. That is the point of building
 the instrument: disagreements about whether an article is good enough become
 disagreements about a table, which are resolvable in minutes.
 
@@ -758,6 +785,58 @@ a decision or a sprint, query the thing. DES-06 was planned as the first and was
 the second, and a correction to the same claim had already been written two days
 earlier and never reached the record. Both errors were an assertion nobody
 executed.
+
+### 5.6 The corpus-fit audit: measure the content against the box it ships in
+
+*Added 28 Ogos 2026 by `product-designer` from DES-07. **Also written into
+head-of-seo-content's document and needing that seat's review**, for the same
+reason 5.5 gives. It is 5.5's sibling: that one puts real queries through the
+real feature, this one puts the real corpus through the real layout. Both convert
+an opinion into a number the next person can re-run.*
+
+A layout is a claim about content length. The claim is testable in about four
+minutes, and until it is tested it is a guess made against whatever text the
+designer happened to paste in — which on this site has been English.
+
+**The method, in four steps:**
+
+1. Pull **every** title, heading, label and category name from the live site.
+   Not a sample, and not the ones that look long.
+2. Measure them **inside the live container**, in a real browser at the real
+   breakpoint. Clone the shipped element, swap the text, count the lines. Reading
+   the CSS does not tell you this and neither does a static comp.
+3. Count how many overflow, clip or truncate. Then repeat at two or three other
+   container widths, so the result is a curve rather than a verdict.
+4. Repeat under each font the reader might actually get. Where a site ships no
+   webfont, the fallback the device supplies changes the answer.
+
+**What it produced on its first run, 28 Ogos 2026.** In the shipped 156 px card
+at 360 px, **57 of the site's 86 headlines — 66% — are silently truncated**, the
+longest losing 46 of its 95 characters. At 236 px the count is 5; **at 328 px it
+is zero, on the same 86 titles.** The titles were never the problem. Step 4 then
+showed the rate is not even a property of the site: 66% under Georgia, 36% under
+the generic serif, because the site ships **zero** `@font-face` rules and every
+serif is whatever the device supplies. See
+`docs/design/des-07-evidence/probe.mjs`, which re-runs it with no credentials.
+
+**Why it belongs in the doctrine.** It applies to every container that holds
+text the writers control: cards, rails, breadcrumbs, chips, tags, meta lines,
+schema fields, and the `<title>` and meta description that SEO-07 owns. Malay
+compounds run long, and a container sized against English fails silently — it
+does not error, it just quietly stops showing the second half of the headline.
+
+**The rule it produces:** *before shipping a container that holds editorial
+text, put the whole corpus through it and count the failures.* If you cannot
+state that number, the container is unspecified. And when the count is bad, fix
+the container before asking the desk for shorter headlines — moving a layout
+failure onto the writers costs a decision on every article ever written.
+
+**One trap, learned the hard way in the same item.** Assert the viewport inside
+the probe and print it. Three runs of this measurement reported 360 px results
+from a browser that was actually 980 px wide, because the emulation override
+silently did not apply. Every number looked plausible. A measurement script that
+does not state the conditions it measured under is a script that will lie to you
+politely.
 
 ## 6. What this doctrine asks for
 
