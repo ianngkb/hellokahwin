@@ -32,6 +32,26 @@ finally written down)._
   Supporting infra: Clerk production instance on hellokahwin.com, R2 media
   buckets in the TWN Cloudflare account, Vercel project `hellokahwin` (team
   `thewednotebook`).
+- **⚠ "Tailwind/shadcn" is too coarse a description of the front end, and the
+  coarseness cost us — decision 100 built a whole design track on it.** What is
+  actually there, measured 2026-08-28 against `origin/master` `59a4077` and the
+  CSS the browser downloads (decisions 121–122):
+  - **Tailwind v4, CSS-first.** No `tailwind.config` file exists or ever has.
+    The theme lives in `@theme` inside `src/app/globals.css`, so "the Tailwind
+    config" and "the token layer" are one edit in one file.
+  - **The palette is TWN's, not shadcn's.** `globals.css` is 2,320 lines of
+    The Wedding Notebook's ratified "Plum Forward" v2 system (`DESIGN.md`,
+    2026-07-04), ported wholesale. The generic look is INHERITED, not default.
+  - **The public site was already re-skinned on 27 Aug** by UX-03 (`78cd345`):
+    `.hk-public`, an ink-on-paper monotone with measured contrast.
+  - **Readers download ZERO webfont bytes.** `--font-geist` resolves to a
+    system stack; Geist loads via `next/font` in `(admin)/layout.tsx` only. Any
+    proposal that names a webfont is spending a budget the site does not spend.
+  - **`shadcn` the package ships no appearance** — 1,669 bytes of Radix
+    data-attribute variants. The look lives in `cva` strings in files we own.
+  - **13 of 28 `src/components/ui` files wrap a real Radix primitive**, but the
+    public site reaches only 3 of the 28 and imports `Slot` alone. Radix earns
+    its keep on what DES-06 builds, not on what is live today.
 - **⚠ The live-site repo is NOT cloned on this machine.** The local folder
   `~/Documents/Code/hellokahwin/hellokahwin` (where the boardroom lives) is
   the OLDER Electron migration tool — a different codebase. Clone
@@ -539,8 +559,14 @@ personas and reported them as landed.
     Kahwin Lelaki & Perempuan" — the job topics 2 and 3 now do. **CONT-12
     action: re-angle the seed toward definition and money.** One body, not the
     count. **And the bride angle is the least contested asset in the cluster** —
-    four dedicated groom pages sit in the groom top 10; the bride SERP has one,
-    in AI Overview citations rather than the organic top eight.
+    `hantaran untuk lelaki` (18 Aug) carries FOUR dedicated groom-only pages in
+    its top 10 (motherhood 3, Zalora 6, ecentral 8, thekenduri 10);
+    `barang hantaran perempuan` (5 Aug) returned six organic results and NOT ONE
+    bride-only page, with the single dedicated bride page appearing only in that
+    SERP's AI Overview citations. ⚠ Two Ahrefs measurements disagree here and it
+    is recorded rather than smoothed: Site Explorer gives that bride page
+    `best_position` **1** on the term while the 5 Aug crawl does not show it in
+    organic at all. The decision does not turn on which is currently true.
   - **Separately and regardless of any merge: four C2.1 head terms carry ZERO
     volume and no parent topic** — `hantaran kahwin bajet`, `kos hantaran
     kahwin`, `adat hantaran`, `persiapan hantaran`. Surrounding parents carry

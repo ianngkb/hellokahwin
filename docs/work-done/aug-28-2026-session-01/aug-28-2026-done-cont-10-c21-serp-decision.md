@@ -155,10 +155,23 @@ the lists. That changes one article's body. It does not change the count.
 ### The other half of the same finding
 
 Publishers have differentiated the groom angle and have left the bride angle
-alone. The groom SERP carries dedicated groom pages from motherhood, ecentral,
-thekenduri and Zalora inside the top 10, with therichscents and atokpencen
-deeper. The bride SERP carries one dedicated bride page, and it sits in the AI
-Overview citations rather than the organic top eight.
+alone. On `hantaran untuk lelaki` (snapshot 2026-08-18), **four** dedicated
+groom-only pages sit inside the top 10: motherhood at 3, Zalora at 6, ecentral
+at 8, thekenduri at 10. On `barang hantaran lelaki` (2026-08-11), therichscents
+and atokpencen appear as well, at 23 and 28.
+
+Against that, `barang hantaran perempuan` (2026-08-05) returned **six** organic
+results and not one of them is a bride-only page. The single dedicated bride page
+in this market, motherhood's, appears in that SERP's AI Overview citations
+instead.
+
+**A disagreement between two Ahrefs measurements, named rather than resolved in
+our favour.** Site Explorer gives that same bride page `best_position` **1** on
+`barang hantaran perempuan`, while the 5 Ogos SERP snapshot does not show it in
+the organic results at all. `best_position` is the best position Ahrefs has
+observed; the snapshot is one crawl on one date. Both readings are quoted as
+read, and the decision does not depend on which is currently true: either way one
+page holds the bride angle and six others are fighting over the groom's.
 
 The least contested angle in this cluster is the bride's. Merging it away would
 have handed back the one position with no incumbent in it.
