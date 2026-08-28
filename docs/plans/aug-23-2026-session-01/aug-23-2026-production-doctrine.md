@@ -60,6 +60,56 @@ link-level `nofollow`.
 load is reasonable; freezing that `{}` into a prerender and serving it for an
 hour is not.
 
+### The second corollary, which is the producer's half (RISK-07, 28 Aug 2026)
+
+> **When a page's state matters, the page must state it. A default is not a
+> measurement, because a default is indistinguishable from a failure that fell
+> back to the same place.**
+
+Both rules above govern the *reader* of a signal. This one governs the thing
+being read, and RISK-07 is what happens when only the first two are in force.
+
+Six category hubs were reported as serving `noindex` while the sitemap
+advertised them. I checked them the way the corollary demands — `curl` against
+production, six times, not the route source — and every one came back with **no
+robots meta at all**. That is the correct result for an indexable page. It is
+also exactly what `generateMetadata` emits when the category lookup blows its
+3s deadline and returns `{}`. One wire signature, two opposite meanings:
+
+```
+indexable, as designed   →  (no robots meta)
+metadata render failed   →  (no robots meta)
+```
+
+So the check passed and proved nothing. The fix was not to check harder; it was
+to make the page say `index, follow` out loud, which changes nothing for Google
+and makes `curl | grep robots` able to tell the two apart.
+
+The same trap sits anywhere a healthy state is expressed by silence: an empty
+`errors` array is also the shape of a handler that never ran, and a missing
+`X-Robots-Tag` is also what a stripped header looks like. **Where the absent
+case and the failed case look identical on the wire, emit the affirmative.**
+
+### And its enforcement clause: recording is not watching
+
+RISK-05's indexing monitor **detected all six**, on its first real sweep, and
+printed them:
+
+```
+Excluded by 'noindex' tag                 6
+```
+
+It did not alarm, correctly — neither of its two DoD conditions covered this.
+The six were written up as a finding, went to the backlog unowned, and stayed
+excluded for a full sprint while the monitor counted them again every night.
+
+**A number in a census table has no owner.** A monitor that records a defect
+without escalating it launders that defect into a statistic, and the statistic
+is then evidence that someone is watching. If a collector can name a condition
+as wrong, it must be able to alarm on it or hand it to something that will —
+otherwise the honest report is that nothing is watching for it.
+`src/lib/seo/indexing-alarm.ts` gained the third condition on 28 Aug 2026.
+
 
 ## The short version
 
