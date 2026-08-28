@@ -727,10 +727,10 @@ Restraint everywhere else is what makes one picture land.
 2. **Dark mode.** The 2026-07-14 decision made it deliberately unreachable.
    DES-03 and DES-05 require it. Reverse the decision, or amend the two DoDs.
 Both touchstones are now measured, so there is no outstanding evidence gap on
-the ones you named. The two sites still unfetched — aliabastamam.com and
-mimpikita.com.my — are supporting examples in section (a), not load-bearing
-ones; four other Malay-audience premium brands were measured directly and they
-all point the same way.
+the ones you named. The two weak captures — mimpikita.com.my, partial behind a
+modal, and aliabastamam.com, which did not render — are supporting material in
+section (a) and nothing rests on them. Four Malay-audience premium brands were
+measured directly from their delivered HTML and all four point the same way.
 
 ---
 
