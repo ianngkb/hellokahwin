@@ -28,6 +28,7 @@ import {
 import { ArticleCard } from '@/components/inspire/article-card';
 import { extractHeadings } from '@/lib/inspire/heading-anchors';
 import { buildItemListJsonLd } from '@/lib/inspire/listicle-schema';
+import { buildFaqPageJsonLd } from '@/lib/inspire/faq-schema';
 import type { GalleryImage } from '@/components/inspire/article-renderer';
 import { ArticleSidebar } from '@/components/inspire/article-sidebar';
 import {
@@ -892,6 +893,13 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
     headings: extractHeadings(article.content),
   });
 
+  // FAQPage for articles that end in a `Soalan lazim` block. Derived from the
+  // article's own body, so every question and answer it asserts is text the
+  // reader can see -- the condition Google puts on FAQ markup. `null` for
+  // anything without a block. See `lib/inspire/faq-schema.ts` for why the block
+  // is found by heading text rather than by heading level.
+  const faqJsonLd = buildFaqPageJsonLd({ content: article.content });
+
   return (
     <>
       {/* NO `data-hide-mobile-nav` HERE. It was on this div until UX-01
@@ -914,6 +922,14 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
             type="application/ld+json"
             dangerouslySetInnerHTML={{
               __html: JSON.stringify(itemListJsonLd).replace(/</g, '\\u003c'),
+            }}
+          />
+        )}
+        {faqJsonLd && (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(faqJsonLd).replace(/</g, '\\u003c'),
             }}
           />
         )}

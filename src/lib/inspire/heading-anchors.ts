@@ -95,8 +95,14 @@ export function createHeadingIdAssigner(): (text: string) => string {
   };
 }
 
-/** Concatenate the text of a Tiptap node's descendants. */
-function nodeText(node: unknown): string {
+/**
+ * Concatenate the text of a Tiptap node's descendants.
+ *
+ * Exported so `faq-schema.ts` reads a node's text exactly the way the
+ * heading ids do, rather than growing a second definition of what the text
+ * of a Tiptap node is.
+ */
+export function nodeText(node: unknown): string {
   if (!node || typeof node !== 'object') return '';
   const n = node as { type?: string; text?: string; content?: unknown[] };
   if (n.type === 'text' && typeof n.text === 'string') return n.text;
