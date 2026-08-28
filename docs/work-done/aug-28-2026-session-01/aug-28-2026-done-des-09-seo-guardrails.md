@@ -394,6 +394,12 @@ curl -sSIL -w "\nFINAL %{http_code} %{url_effective} %{num_redirects}\n" \
 Each one is a threshold, the command that tests it, and where it stands today.
 `FAILS TODAY` means the redesign has to fix it, not that it may skip it.
 
+There are **39** guardrails, numbered `G01`–`G40`. **`G29` is intentionally
+unused — no guardrail was cut.** IDs are assigned once and never reused,
+because section 8.2 and `check-guardrails.py` both reference them by literal
+string; renumbering would desynchronise the document from the tool that tests
+it. A reader who sees `G28` followed by `G30` has not lost a guardrail.
+
 ### A. Heading hierarchy
 
 | id | guardrail | threshold | today |
@@ -641,6 +647,15 @@ cycle.
 Also, `/cari` returns **404 today**, which I verified. Whatever ships must not
 put a soft-404 into the index: a query with no results returns **200 with
 `noindex, follow`**, not a 404 and not a 200 with a 404-shaped body.
+
+**`G29`** is that ruling as a testable guardrail, for whoever builds `/cari`:
+
+| id | guardrail | threshold |
+|---|---|---|
+| **G29** | `/cari` and `/cari?q=…` emit the literal `<meta name="robots" content="noindex, follow">`; `robots.txt` contains no `Disallow: /cari`; `/cari` appears 0 times in `sitemap.xml`; a zero-result query returns HTTP **200**, not 404 | all four, exactly |
+
+Like G28, G29 is not implemented in `check-guardrails.py`, because the route it
+tests returns 404 today. Both become live checks on the day `/cari` ships.
 
 **E3 — `/artikel` becomes a real index, adding one inbound link to all 86
 articles. SIGNED, with one condition.**
