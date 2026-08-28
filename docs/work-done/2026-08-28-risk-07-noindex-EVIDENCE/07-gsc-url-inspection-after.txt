@@ -1,0 +1,43 @@
+GSC URL INSPECTION — all six, AFTER shipping, polled for 65 minutes
+Property: https://hellokahwin.com/
+Tool: Search Console URL Inspection API via the `gsc` MCP server
+
+Sitemap resubmitted 2026-08-28T03:37Z. Google's own record confirms it re-read it:
+
+  path: https://hellokahwin.com/sitemap.xml
+  last_downloaded: 2026-08-28 03:37    status: Valid    indexed_urls: 103    errors: 0
+
+Polled at 03:52Z, 04:07Z, 04:20Z, 04:31Z and 04:42Z. Identical every time:
+
+  url                                                  verdict   coverage_state              last_crawled
+  ---------------------------------------------------  --------  --------------------------  ------------
+  https://hellokahwin.com/artikel/hiasan-dekorasi       NEUTRAL   Excluded by 'noindex' tag   2026-08-23
+  https://hellokahwin.com/artikel/moden-kontemporari    NEUTRAL   Excluded by 'noindex' tag   2026-08-23
+  https://hellokahwin.com/artikel/pantai-santai         NEUTRAL   Excluded by 'noindex' tag   2026-08-23
+  https://hellokahwin.com/artikel/glamor-eksklusif      NEUTRAL   Excluded by 'noindex' tag   2026-08-23
+  https://hellokahwin.com/artikel/fotografi-videografi  NEUTRAL   Excluded by 'noindex' tag   2026-08-23
+  https://hellokahwin.com/artikel/minimalis-mewah       NEUTRAL   Excluded by 'noindex' tag   2026-08-23
+
+NOT CLEARED. Google has read the sitemap and has not re-crawled any of the six.
+`last_crawled` has not moved off 2026-08-23 for any of them.
+
+This is the DoD clause that is not met, and it is stated as not met rather than
+worked around. What is and is not in reach:
+
+  DONE   sitemap resubmitted, and Google re-downloaded it within the minute
+  DONE   live HTML verified correct on a fresh request, six times, with a
+         negative control (files 02 and 06)
+  DONE   an alarm that will keep asking this question every night until the
+         answer changes (issue #10, condition shipped in 3bdaeec)
+
+  CANNOT the URL Inspection API is read-only. There is no Request-indexing call
+         on it. That button exists only in the Search Console web UI.
+  CANNOT no browser is connected to this session — `list_connected_browsers`
+         returns `[]` — so the button could not be pressed from here.
+  WON'T  the Google Indexing API is documented for JobPosting and
+         BroadcastEvent only. Using it for ordinary pages is outside what
+         Google supports and is not worth the risk on a property this young.
+
+THE ONE HUMAN ACTION THAT CLOSES THIS CLAUSE: open any one of the six in Search
+Console and press Request indexing. One is enough — the DoD asks for at least
+one. Everything else it asks for is already measured above and in file 02.

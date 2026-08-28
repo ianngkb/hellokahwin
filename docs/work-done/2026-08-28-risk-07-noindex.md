@@ -222,14 +222,20 @@ new alarm on the day I shipped it.
 
 > "At least one of the six shows its exclusion cleared in GSC URL Inspection."
 
-**Not met at the time of writing.** All six: `Excluded by 'noindex' tag`,
-`last_crawled: 2026-08-23`, `indexing_state: BLOCKED_BY_META_TAG`.
+**Not met.** All six: `Excluded by 'noindex' tag`, `last_crawled: 2026-08-23`,
+`indexing_state: BLOCKED_BY_META_TAG`. Polled at 03:52Z, 04:07Z, 04:20Z, 04:31Z
+and 04:42Z, 65 minutes after the resubmission — identical every time, and
+`last_crawled` has not moved for any of the six. Full record in
+`07-gsc-url-inspection-after.txt`.
 
 What has been done to move it, and what cannot be:
 
 - **Sitemap resubmitted** to `https://hellokahwin.com/` at 2026-08-28T03:37Z —
   the RISK-04 mechanism, which on 27 Aug took four URLs out of
-  "unknown to Google" within eight hours. Accepted, "Pending processing".
+  "unknown to Google" within eight hours. **Google re-downloaded it the same
+  minute**: `last_downloaded: 2026-08-28 03:37`, `status: Valid`,
+  `indexed_urls: 103`, `errors: 0`. So Google has the current sitemap and has
+  simply not scheduled a re-crawl of these six yet.
 - **The URL Inspection API has no "Request indexing".** It is read-only. The
   button exists only in the Search Console UI, and there is no connected browser
   in this session (`list_connected_browsers` → `[]`), so I could not press it. A
@@ -239,8 +245,18 @@ What has been done to move it, and what cannot be:
   `JobPosting` and `BroadcastEvent` only, and using it for ordinary pages is
   outside what Google supports. Not worth the risk on a property this young.
 
+**The one human action that closes this clause:** open any one of the six in
+Search Console and press **Request indexing**. One is enough; the DoD asks for at
+least one. Everything else it asks for is measured and quoted above.
+
 Nothing about the site is now wrong. The remaining wait is Google's, the alarm
-that watches it is live, and it self-clears.
+that watches it is live, and it self-clears. Issue #10 carries the same summary
+as a comment, so the open item explains itself to whoever opens it next.
+
+**The item therefore reports a non-zero exit.** Not because anything failed, but
+because a DoD is not rewritten to match what was reachable. Three of the four
+observable clauses are met and quoted; the fourth is pending on Google and is
+named as pending.
 
 ---
 
