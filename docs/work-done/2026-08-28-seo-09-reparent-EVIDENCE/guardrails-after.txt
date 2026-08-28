@@ -1,0 +1,224 @@
+DES-09 guardrails · base=https://hellokahwin.com · 103 URLs · SEQUENTIAL, 2.0s apart · started 2026-08-28T08:52:59Z
+
+[1/103] 200   508ms  /
+[2/103] 200   449ms  /artikel
+[3/103] 200   234ms  /artikel/idea-dan-nasihat
+[4/103] 200   330ms  /artikel/hiasan-dekorasi
+[5/103] 200   494ms  /artikel/real-wedding
+[6/103] 200   183ms  /artikel/moden-kontemporari
+[7/103] 200   292ms  /artikel/pantai-santai
+[8/103] 200   791ms  /artikel/glamor-eksklusif
+[9/103] 200   861ms  /artikel/fotografi-videografi
+[10/103] 200  1611ms  /artikel/minimalis-mewah
+[11/103] 200   810ms  /artikel/nikah-undang-undang
+[12/103] 200  1189ms  /artikel/hantaran-mas-kahwin
+[13/103] 200   187ms  /artikel/ucapan-doa
+[14/103] 200   707ms  /artikel/busana-pengantin
+[15/103] 200   394ms  /artikel/pelamin-kad-cenderahati
+[16/103] 200   125ms  /artikel/venue-perancangan
+[17/103] 200   218ms  /artikel/sebelum-nikah
+[18/103] 200  8241ms  /artikel/hantaran-mas-kahwin/hantaran-tunang
+[19/103] 200   398ms  /artikel/busana-pengantin/baju-pengantin-sewa-atau-beli
+[20/103] 200   441ms  /artikel/glamor-eksklusif/amankila-bali
+[21/103] 200   386ms  /artikel/hantaran-mas-kahwin/hantaran-kahwin
+[22/103] 200   330ms  /artikel/hantaran-mas-kahwin/mas-kahwin-sabah-sarawak
+[23/103] 200   601ms  /artikel/venue-perancangan/checklist-kahwin
+[24/103] 200   247ms  /artikel/glamor-eksklusif/grand-hyatt-kuala-lumpur
+[25/103] 200   344ms  /artikel/venue-perancangan/pakej-dewan-kahwin
+[26/103] 200   560ms  /artikel/ucapan-doa/ucapan-pengantin-baru
+[27/103] 200  1058ms  /artikel/hantaran-mas-kahwin/mas-kahwin-pahang-negeri-sembilan
+[28/103] 200   823ms  /artikel/real-wedding/villa-warisan
+[29/103] 200 20420ms  /artikel/moden-kontemporari/marriott-putrajaya
+[30/103] 200   123ms  /artikel/idea-dan-nasihat/cara-buat-kad-kahwin-digital
+[31/103] 200   622ms  /artikel/ucapan-doa/doa-majlis-perkahwinan
+[32/103] 200   384ms  /artikel/venue-perancangan/harga-sewa-dewan-kahwin
+[33/103] 200   894ms  /artikel/real-wedding/cheong-fatt-tze-mansion
+[34/103] 200   658ms  /artikel/real-wedding/sentosa-janda-baik
+[35/103] 200   194ms  /artikel/idea-dan-nasihat/pelamin-kahwin-dewan
+[36/103] 200   553ms  /artikel/hantaran-mas-kahwin/hantaran-kahwin-5-balas-7
+[37/103] 200   519ms  /artikel/hantaran-mas-kahwin/nisbah-hantaran
+[38/103] 200   557ms  /artikel/busana-pengantin/inai-tangan-pengantin
+[39/103] 200   438ms  /artikel/hantaran-mas-kahwin/hantaran-tunang-3-balas-5
+[40/103] 200   542ms  /artikel/minimalis-mewah/the-danna-langkawi
+[41/103] 200   515ms  /artikel/hantaran-mas-kahwin/barang-hantaran-perempuan
+[42/103] 200   288ms  /artikel/hantaran-mas-kahwin/hantaran-tunang-untuk-lelaki
+[43/103] 200   592ms  /artikel/hantaran-mas-kahwin/bilangan-dulang-hantaran-ganjil
+[44/103] 200  2527ms  /artikel/hantaran-mas-kahwin/cara-tetapkan-duit-hantaran
+[45/103] 200   604ms  /artikel/hantaran-mas-kahwin/duit-hantaran-kahwin
+[46/103] 200  3350ms  /artikel/sebelum-nikah/doa-majlis-pertunangan
+[47/103] 200   612ms  /artikel/idea-dan-nasihat/dewan-kahwin
+[48/103] 200   802ms  /artikel/real-wedding/perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan
+[49/103] 200  1536ms  /artikel/idea-dan-nasihat/tempat-honeymoon-di-malaysia
+[50/103] 200  1200ms  /artikel/moden-kontemporari/jw-marriott-kuala-lumpur
+[51/103] 200   832ms  /artikel/moden-kontemporari/perkahwinan-romantis-di-jen-shangri-la-puteri-harbour
+[52/103] 200   789ms  /artikel/hantaran-mas-kahwin/hantaran-coklat
+[53/103] 200  1854ms  /artikel/hantaran-mas-kahwin/gubahan-hantaran-simple
+[54/103] 200   882ms  /artikel/hantaran-mas-kahwin/hantaran-tunang-simple
+[55/103] 200  1683ms  /artikel/hantaran-mas-kahwin/hantaran-tema-warna
+[56/103] 200   691ms  /artikel/nikah-undang-undang/lafaz-taklik
+[57/103] 200   364ms  /artikel/hantaran-mas-kahwin/hantaran-tempah-atau-buat-sendiri
+[58/103] 200  1454ms  /artikel/hantaran-mas-kahwin/hidden-hantaran
+[59/103] 200  1570ms  /artikel/hantaran-mas-kahwin/gubahan-hantaran
+[60/103] 200 11043ms  /artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri
+[61/103] 200   874ms  /artikel/hantaran-mas-kahwin/mas-kahwin-perak
+[62/103] 200  1006ms  /artikel/idea-dan-nasihat/majlis-kahwin
+[63/103] 200  1369ms  /artikel/busana-pengantin/songket-tenunan-tangan-atau-cetak
+[64/103] 200   781ms  /artikel/pelamin-kad-cenderahati/pelamin
+[65/103] 200  3314ms  /artikel/idea-dan-nasihat/hadiah-untuk-pengantin
+[66/103] 200  2939ms  /artikel/sebelum-nikah/taaruf-maksud
+[67/103] 200   330ms  /artikel/hantaran-mas-kahwin/mas-kahwin-melebihi-kadar-minimum
+[68/103] 200   333ms  /artikel/hantaran-mas-kahwin/mas-kahwin-johor
+[69/103] 200  1572ms  /artikel/nikah-undang-undang/syarat-sah-nikah
+[70/103] 200  1501ms  /artikel/ucapan-doa/walimatul-urus
+[71/103] 200   574ms  /artikel/hantaran-mas-kahwin/dulang-hantaran
+[72/103] 200   297ms  /artikel/hantaran-mas-kahwin/hantaran-untuk-lelaki
+[73/103] 200  1170ms  /artikel/hantaran-mas-kahwin/hantaran-kahwin-bajet
+[74/103] 200   400ms  /artikel/ucapan-doa/skrip-pengacara-majlis-perkahwinan
+[75/103] 200  6742ms  /artikel/hantaran-mas-kahwin/barang-hantaran-berguna
+[76/103] 200   322ms  /artikel/hantaran-mas-kahwin/adat-hantaran-ikut-keluarga
+[77/103] 200   387ms  /artikel/hantaran-mas-kahwin/berapa-dulang-hantaran-tunang
+[78/103] 200   547ms  /artikel/hantaran-mas-kahwin/hantaran-tunang-untuk-perempuan
+[79/103] 200   380ms  /artikel/hantaran-mas-kahwin/tempat-beli-hantaran
+[80/103] 200   498ms  /artikel/hantaran-mas-kahwin/persiapan-hantaran-kahwin
+[81/103] 200   327ms  /artikel/hantaran-mas-kahwin/barang-hantaran-tunang
+[82/103] 200  1367ms  /artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat
+[83/103] 200 14139ms  /artikel/hantaran-mas-kahwin/adat-hantaran-berbeza-negeri
+[84/103] 200   614ms  /artikel/hantaran-mas-kahwin/sirih-junjung
+[85/103] 200  1174ms  /artikel/pelamin-kad-cenderahati/bunga-telur
+[86/103] 200   813ms  /artikel/pelamin-kad-cenderahati/contoh-kad-jemputan-kahwin
+[87/103] 200   525ms  /artikel/sebelum-nikah/cincin-tunang
+[88/103] 200   846ms  /artikel/ucapan-doa/doa-pengantin-baru
+[89/103] 200   362ms  /artikel/venue-perancangan/bajet-kahwin
+[90/103] 200   670ms  /artikel/nikah-undang-undang/rukun-nikah
+[91/103] 200   514ms  /artikel/nikah-undang-undang/borang-nikah
+[92/103] 200   792ms  /artikel/hantaran-mas-kahwin/apa-itu-mas-kahwin
+[93/103] 200   294ms  /artikel/hantaran-mas-kahwin/mas-kahwin-kelantan-terengganu
+[94/103] 200  1991ms  /artikel/idea-dan-nasihat/wedding-planner-terbaik-di-malaysia
+[95/103] 200   441ms  /artikel/hiasan-dekorasi/goodies-kahwin
+[96/103] 200   283ms  /artikel/real-wedding/perkahwinan-taman-kebun-yang-minimalis-di-hulu-langat
+[97/103] 200   659ms  /artikel/pantai-santai/perkahwinan-indah-di-laman-fajar-menyinsing-port-dickson
+[98/103] 200  1399ms  /artikel/real-wedding/yasaka-shrine
+[99/103] 200 14487ms  /artikel/idea-dan-nasihat/kursus-kahwin
+[100/103] 200   290ms  /artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik
+[101/103] 200   153ms  /artikel/idea-dan-nasihat/sewa-dewan-kahwin
+[102/103] 200   484ms  /artikel/moden-kontemporari/sime-darby-convention-centre
+[103/103] 200   123ms  /artikel/idea-dan-nasihat/garden-wedding
+
+FAIL  G01   Exactly one <h1> per page
+        measured : 17/103 pages have exactly one h1
+        threshold: 100% of pages, h1 count == 1
+        detail   : /artikel/hantaran-mas-kahwin/hantaran-tunang; /artikel/busana-pengantin/baju-pengantin-sewa-atau-beli; /artikel/glamor-eksklusif/amankila-bali; /artikel/hantaran-mas-kahwin/hantaran-kahwin; /artikel/hantaran-mas-kahwin/mas-kahwin-sabah-sarawak; /artikel/venue-perancangan/checklist-kahwin
+FAIL  G02   First heading after the h1 is an h2 (no level skip)
+        measured : 88/103 pages ordered
+        threshold: 100% of pages, first non-h1 heading == h2
+        detail   : /artikel/idea-dan-nasihat (h1 h3 h3 h3 h3 h3); /artikel/hiasan-dekorasi (h1 h3); /artikel/real-wedding (h1 h3 h3 h3 h3 h3); /artikel/moden-kontemporari (h1 h3 h3 h3 h3); /artikel/pantai-santai (h1 h3); /artikel/glamor-eksklusif (h1 h3 h3)
+PASS  G03   Every article <h1> carries the article title (non-empty)
+        measured : 86/86 articles
+        threshold: non-empty h1 text on 100%
+PASS  G05   Related-articles module is an <h2> starting "Lagi dalam "
+        measured : 83/86 articles carry it
+        threshold: present on every article whose category holds >1 article (4 known exceptions)
+PASS  G06   Zero rel=nofollow on INTERNAL links
+        measured : 0 internal nofollow
+        threshold: == 0
+        detail   : SEO-02 removed 79 of these; re-introducing one regresses it
+PASS  G07   Zero target=_blank on INTERNAL links
+        measured : 0 internal target=_blank
+        threshold: == 0
+PASS  G08   All 11 navigation spine paths linked from every page
+        measured : 11/11 present on every page
+        threshold: 11/11 on 100% of pages
+        detail   : {}
+PASS  G09   Zero orphan articles (>=1 inbound in-page link)
+        measured : 0 orphans of 86 articles
+        threshold: == 0 orphans
+PASS  G10   Per-page unique internal link-target floor
+        measured : 103/103 at or above floor
+        threshold: article>=12, category>=13, homepage>=24, /artikel>=56
+PASS  G11   Zero generic anchor text ("klik di sini", "baca lagi", …)
+        measured : 0 banned anchors
+        threshold: == 0
+PASS  G12   Internal links spending a 308 hop must not increase
+        measured : 13 distinct root-slug targets
+        threshold: <= 15 (2026-08-28 baseline)
+        detail   : /cara-buat-kad-kahwin-digital; /dewan-kahwin; /garden-wedding; /grand-hyatt-kuala-lumpur; /hantaran-kahwin; /kursus-kahwin; /lokasi-pre-wedding-photoshoot-terbaik; /majlis-kahwin
+PASS  G13   article pages emit ['Article', 'BreadcrumbList', 'ImageObject', 'ListItem', 'Organization', 'WebPage']
+        measured : 86/86 pages
+        threshold: superset of the 2026-08-28 emitted set
+PASS  G14   category pages emit ['BreadcrumbList', 'CollectionPage', 'ListItem', 'Organization']
+        measured : 15/15 pages
+        threshold: superset of the 2026-08-28 emitted set
+PASS  G15   Listicle articles keep their ItemList schema
+        measured : 8 articles emit ItemList
+        threshold: >= 8 (2026-08-28 baseline)
+        detail   : /artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik; /artikel/idea-dan-nasihat/dewan-kahwin; /artikel/idea-dan-nasihat/garden-wedding; /artikel/idea-dan-nasihat/hadiah-untuk-pengantin; /artikel/idea-dan-nasihat/majlis-kahwin; /artikel/idea-dan-nasihat/pelamin-kahwin-dewan; /artikel/i
+PASS  G16   Every JSON-LD block parses as JSON
+        measured : 0 unparseable blocks
+        threshold: == 0
+PASS  G17   Articles carrying a "Soalan lazim" block keep it (SEO-10 input)
+        measured : 47 carry the block, 47 emit FAQPage
+        threshold: "Soalan lazim" block count >= 45
+WARN  G17b  "Soalan lazim" is an <h2> on every article that has one
+        measured : 6 articles use h3
+        threshold: == 0 (SEO-10 keys on the level)
+        detail   : /artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri; /artikel/hantaran-mas-kahwin/mas-kahwin-johor; /artikel/hantaran-mas-kahwin/mas-kahwin-kelantan-terengganu; /artikel/hantaran-mas-kahwin/mas-kahwin-pahang-negeri-sembilan; /artikel/hantaran-mas-kahwin/mas-kahwin-perak; /artikel/hantaran-mas-kahwin
+WARN  G18   Homepage and /artikel emit Organization + WebSite JSON-LD
+        measured : 0 @type values across the two pages
+        threshold: >= 2 (currently 0 — this is a gap the redesign should close)
+FAIL  G19   Preloaded (LCP-path) image <= 200 KB transferred
+        measured : largest preloaded image 1430152 B
+        threshold: <= 204800 B (200 KB)
+        detail   : /: 499856B crop-4x3-article-card.webp?v=0.2475_0.65; /: 998350B crop-4x3-article-card.webp?v=0.6533_0.85; /artikel: 798092B crop-4x3-article-card.webp?v=0.6867_0.49; /artikel: 499856B crop-4x3-article-card.webp?v=0.2475_0.65; /artikel: 998350B crop-4x3-article-card.webp?v=0.6533_0.85
+FAIL  G21   No single public image asset exceeds 400 KB
+        measured : 306 assets over budget, largest 2221708 B
+        threshold: <= 409600 B (400 KB)
+        detail   : 798092B 1787780683875-images-s-rombongan-h; 499856B 1787780709236-images-s-dulang-buah; 998350B 1787780652248-images-s-rombongan-l; 968966B 1787781777697-images-s-dulang-kek-; 581112B 1787780589299-images-s-tujuh-dulan; 803446B 1787781752165-images-s-serah-dulan
+FAIL  G22   Every <img> carries srcset + sizes
+        measured : 1410 images without srcset
+        threshold: == 0
+        detail   : / (13/13); /artikel (12/12); /artikel/idea-dan-nasihat (15/15); /artikel/hiasan-dekorasi (1/1); /artikel/real-wedding (14/14)
+PASS  G23   HTML + CSS + JS transfer <= 260 KB per page
+        measured : max 259652 B
+        threshold: <= 266240 B (260 KB)
+PASS  G24   Webfont payload: at most one face, <= 30 KB, preloaded, swap
+        measured : 0 .woff2 references in HTML
+        threshold: <= 1 face and <= 30720 B; today 0 bytes are shipped
+        detail   : informational until DES-13 picks the face
+FAIL  G25   Warm response <= 1500 ms
+        measured : 18 pages over budget
+        threshold: <= 1500 ms
+        detail   : /artikel/minimalis-mewah: 1611ms; /artikel/hantaran-mas-kahwin/hantaran-tunang: 8241ms; /artikel/moden-kontemporari/marriott-putrajaya: 20420ms; /artikel/hantaran-mas-kahwin/cara-tetapkan-duit-hantaran: 2527ms; /artikel/sebelum-nikah/doa-majlis-pertunangan: 3350ms; /artikel/idea-dan-nasihat/tempat-h
+WARN  G26   Every <img> reserves its box (width+height or aspect-ratio)
+        measured : 672 images without width
+        threshold: == 0 (CLS)
+        detail   : / (13/13); /artikel (12/12); /artikel/idea-dan-nasihat (15/15); /artikel/hiasan-dekorasi (1/1); /artikel/real-wedding (14/14)
+PASS  G32   Every page emits a self-referential canonical
+        measured : 103/103 correct
+        threshold: 100% present AND self-referential
+PASS  G35   Root element carries lang="ms"
+        measured : 103/103
+        threshold: literal lang="ms"
+PASS  G36   Every <title> ends with the literal " | HelloKahwin"
+        measured : 103/103
+        threshold: literal suffix " | HelloKahwin" (14 chars)
+PASS  G37   No article serves the ROOT DEFAULT title (cached metadata miss)
+        measured : 0 articles on the root default title
+        threshold: == 0
+        detail   :   [re-run after any POST /api/cron/revalidate-content]
+PASS  G40   Repeated renders of one article are stable
+        measured : 5/5 renders carry the related module; byte spread 43 B
+        threshold: 5/5 renders carry the module, byte spread <= 2048
+        detail   : probe: /artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri; sizes [156945, 156988, 156988, 156988, 156988]
+PASS  G38   Articles keep their outbound image-credit links
+        measured : 83 articles carry >=1 credit link
+        threshold: >= 59 (2026-08-28 baseline)
+        detail   : owner-level rule: every image credited to its original source
+PASS  G33   The 29 legacy WordPress redirects: one hop to 200
+        measured : 29/29 one-hop-to-200
+        threshold: 29/29, zero multi-hop, zero broken
+PASS  G31   The sitemap URL set does not shrink
+        measured : 103 URLs
+        threshold: >= 103 (2026-08-28)
+
+24 pass, 6 fail, 3 warn, 0 unknown
+wrote C:/Users/IANNG~1/AppData/Local/Temp/claude/C--Users-Ian-Ng-orca-workspaces-hellokahwin-site-seo09-reparent/ab8181ce-6296-42e3-99a4-d13a2354b122/scratchpad/guardrails-after.json
