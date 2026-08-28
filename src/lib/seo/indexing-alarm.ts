@@ -85,8 +85,8 @@ export interface LedgerEntry {
 
 export type Ledger = Record<string, LedgerEntry>;
 
-/** Why a URL is being alarmed on. Both can apply at once. */
-export type AlarmReason = 'unknown-to-google' | 'never-crawled';
+/** Why a URL is being alarmed on. More than one can apply at once. */
+export type AlarmReason = 'unknown-to-google' | 'never-crawled' | 'sitemap-url-noindexed';
 
 export interface UrlAssessment {
   url: string;
@@ -200,6 +200,44 @@ export function isUncrawled(r: Pick<UrlInspectionResult, 'lastCrawlTime'>): bool
   return !r.lastCrawlTime;
 }
 
+/**
+ * A URL WE ADVERTISE that Google has crawled and then refused, because the page
+ * told it to. The third alarm condition, and it was added after the fact.
+ *
+ * WHY IT IS HERE AND WAS NOT BEFORE. RISK-05 built this monitor against a DoD
+ * naming two conditions, and on its first real sweep — 26 Aug 2026 — it counted
+ * six URLs in state `Excluded by 'noindex' tag`. It recorded them and did not
+ * alarm, correctly, because neither condition covered them. They were handed to
+ * the owner as a finding, went into the backlog unowned, and sat there for a
+ * sprint while every one of the six stayed excluded:
+ *
+ *   /artikel/hiasan-dekorasi        /artikel/glamor-eksklusif
+ *   /artikel/moden-kontemporari     /artikel/fotografi-videografi
+ *   /artikel/pantai-santai          /artikel/minimalis-mewah
+ *
+ * That is the RISK-07 defect, and the reason it survived is not that nobody
+ * looked — the monitor looked every day and printed the number. It is that
+ * looking without escalating produces a fact nobody is accountable for. A
+ * sitemap that advertises a `noindex` URL is a permanent Search Console error,
+ * so it belongs in the issue, not in the census table.
+ *
+ * NOT the same as `noindex` in general. A `noindex` page that is NOT in the
+ * sitemap is a deliberate design choice this site makes on purpose — an empty
+ * pillar, an orphaned child hub, a `?sub=` view. Nothing here sees those,
+ * because the monitor's whole input is the live sitemap. The contradiction
+ * being alarmed on is between two things WE control and which disagree.
+ *
+ * Structural signal AND prose, for the reason the file header gives: Google's
+ * `coverageState` is localised human text, and `indexingState` is an enum that
+ * could gain a value. Either alone is one Google change away from silence.
+ */
+export function isNoindexedInSitemap(
+  r: Pick<UrlInspectionResult, 'coverageState' | 'indexingState'>,
+): boolean {
+  if (r.indexingState === 'BLOCKED_BY_META_TAG') return true;
+  return Boolean(r.coverageState && /noindex/i.test(r.coverageState));
+}
+
 /** Assess one URL against the DoD's two conditions and its grace window. */
 export function assessUrl(
   entry: SitemapEntry,
@@ -238,6 +276,11 @@ export function assessUrl(
   const reasons: AlarmReason[] = [];
   if (isUnknownToGoogle(inspection)) reasons.push('unknown-to-google');
   if (isUncrawled(inspection)) reasons.push('never-crawled');
+  // The grace window applies to this one too. A hub can be legitimately
+  // `noindex` for a few hours between entering the sitemap and its first
+  // article going live, and an alarm that fires on that is an alarm nobody
+  // reads. Past 72h the two are simply contradicting each other.
+  if (isNoindexedInSitemap(inspection)) reasons.push('sitemap-url-noindexed');
 
   const pastGrace = hoursInSitemap > GRACE_HOURS;
   return {
@@ -341,6 +384,42 @@ export function nextLedger(previous: Ledger, assessment: SweepAssessment, now: D
 }
 
 /**
+ * Split the alarms by shape. Two genuinely different defects share one alarm:
+ *
+ *   DARK       Google does not have the page. Something stopped it arriving.
+ *   NOINDEXED  Google has the page and we told it to throw it away. Both sides
+ *              of that contradiction are ours.
+ *
+ * They need different words because they need different actions, and because a
+ * new alarm wearing a familiar headline gets read as the familiar one and
+ * closed. That is not hypothetical here: RISK-07's six URLs sat in the
+ * monitor's census table for a sprint under a heading about dark URLs.
+ */
+function splitAlarms(assessment: SweepAssessment) {
+  const noindexed = assessment.alarms.filter((a) => a.reasons.includes('sitemap-url-noindexed'));
+  const dark = assessment.alarms.filter((a) => !a.reasons.includes('sitemap-url-noindexed'));
+  return { dark, noindexed };
+}
+
+/**
+ * The issue title. Exported and tested for the same reason the body is: it is
+ * the only line most people read, and it must describe what was actually found.
+ */
+export function alarmIssueTitle(assessment: SweepAssessment): string {
+  const { dark, noindexed } = splitAlarms(assessment);
+  if (dark.length > 0 && noindexed.length > 0) {
+    return (
+      `ALARM: ${dark.length} sitemap URL(s) dark to Google and ` +
+      `${noindexed.length} serving noindex (>${GRACE_HOURS}h)`
+    );
+  }
+  if (noindexed.length > 0) {
+    return `ALARM: ${noindexed.length} sitemap URL(s) are advertised while serving noindex (>${GRACE_HOURS}h)`;
+  }
+  return `ALARM: ${dark.length} sitemap URL(s) are dark to Google (>${GRACE_HOURS}h, unknown or uncrawled)`;
+}
+
+/**
  * The issue body, built once so the workflow's `github-script` step contains no
  * prose of its own.
  *
@@ -359,9 +438,20 @@ export function alarmIssueBody(input: {
   const { assessment, property, sitemapUrl, runUrl, detectedAt, probeUrls } = input;
   const lines: string[] = [];
 
+  // The headline must describe what was actually found. "Dark" is wrong for a
+  // URL Google crawled and then refused, and a headline that misdescribes its
+  // own table is how a real alarm gets read as a familiar one and closed.
+  const { dark, noindexed } = splitAlarms(assessment);
+  const headline =
+    dark.length > 0 && noindexed.length > 0
+      ? `**${dark.length} URL(s) in the live sitemap are dark to Google, and ${noindexed.length} ` +
+        `are advertised while telling Google not to index them**`
+      : noindexed.length > 0
+        ? `**${noindexed.length} URL(s) are advertised in the live sitemap while telling Google ` +
+          `not to index them** — a permanent Search Console error`
+        : `**${dark.length} URL(s) in the live sitemap are dark to Google**`;
   lines.push(
-    `**${assessment.alarms.length} URL(s) in the live sitemap are dark to Google** more than ` +
-      `${GRACE_HOURS}h after appearing in it.`,
+    `${headline} more than ` + `${GRACE_HOURS}h after appearing in it.`,
     '',
     `| URL | coverage_state | reason | hours in sitemap | last crawled |`,
     `| --- | --- | --- | --- | --- |`,
@@ -410,6 +500,12 @@ export function alarmIssueBody(input: {
     'page returns 200 and is not `noindex`, then use **Request indexing**. If several',
     'rows appeared at once, suspect the sitemap or a cache rather than the pages —',
     '`src/app/sitemap.ts` and `src/lib/cache/edge-purge.ts` are where that goes wrong.',
+    '',
+    'A `sitemap-url-noindexed` row is different: it means the sitemap and the page are',
+    'contradicting each other, and BOTH are ours. `curl` the URL and grep the robots meta',
+    'before touching Search Console — if the live HTML is already clean, the row is a stale',
+    'Google verdict and needs a re-crawl, not a code change. `src/lib/seo/category-robots.ts`',
+    'is where the decision for `/artikel/[category]` lives.',
   );
 
   return lines.join('\n');

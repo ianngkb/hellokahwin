@@ -1,11 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import {
   alarmIssueBody,
+  alarmIssueTitle,
   assessSweep,
   assessUrl,
   effectiveFirstSeen,
   isUncrawled,
   isUnknownToGoogle,
+  isNoindexedInSitemap,
   nextLedger,
   GRACE_HOURS,
   type Ledger,
@@ -69,6 +71,24 @@ const DISCOVERED: UrlInspectionResult = {
   coverageState: 'Discovered - currently not indexed',
   verdict: 'NEUTRAL',
   lastCrawlTime: null,
+};
+
+/**
+ * Literal capture, 28 Aug 2026: `/artikel/minimalis-mewah`, one of the six hubs
+ * RISK-07 is named after. The sitemap advertises this URL and Google has
+ * excluded it. Note `indexingState` — a structural signal that carries no
+ * prose, which is why the predicate below does not depend on `coverageState`
+ * alone.
+ */
+const NOINDEXED: UrlInspectionResult = {
+  ...INDEXED,
+  url: 'https://hellokahwin.com/artikel/minimalis-mewah',
+  coverageState: 'Excluded by ‘noindex’ tag',
+  verdict: 'NEUTRAL',
+  indexingState: 'BLOCKED_BY_META_TAG',
+  robotsTxtState: 'ALLOWED',
+  pageFetchState: 'SUCCESSFUL',
+  lastCrawlTime: '2026-08-23T04:39:38Z',
 };
 
 describe('isUnknownToGoogle', () => {
@@ -197,6 +217,62 @@ describe('assessUrl — the DoD, condition by condition', () => {
   });
 });
 
+describe('isNoindexedInSitemap — the condition RISK-05 recorded and could not alarm on', () => {
+  it('is true for a sitemap URL Google excluded by a noindex tag', () => {
+    expect(isNoindexedInSitemap(NOINDEXED)).toBe(true);
+  });
+
+  it('reads the STRUCTURAL signal, so a Google copy-edit cannot silence it', () => {
+    // Same reasoning as `isUnknownToGoogle`: `coverageState` is localised prose.
+    expect(isNoindexedInSitemap({ ...NOINDEXED, coverageState: 'Ausgeschlossen' })).toBe(true);
+  });
+
+  it('reads the PROSE too, so a new structural enum value cannot silence it either', () => {
+    expect(
+      isNoindexedInSitemap({ ...NOINDEXED, indexingState: 'INDEXING_STATE_UNSPECIFIED' }),
+    ).toBe(true);
+  });
+
+  it('is false for a healthy indexed URL', () => {
+    expect(isNoindexedInSitemap(INDEXED)).toBe(false);
+  });
+
+  it('is false for a URL Google has simply never heard of', () => {
+    expect(isNoindexedInSitemap(UNKNOWN)).toBe(false);
+  });
+});
+
+describe('assessUrl — the third condition, added by RISK-07', () => {
+  it('alarms on a noindexed sitemap URL past the window', () => {
+    const a = assessUrl(
+      { url: NOINDEXED.url, lastmod: hoursAgo(GRACE_HOURS + 1) },
+      NOINDEXED,
+      undefined,
+      NOW,
+    );
+    expect(a.alarming).toBe(true);
+    expect(a.reasons).toEqual(['sitemap-url-noindexed']);
+  });
+
+  it('watches, rather than alarms, inside the window', () => {
+    // A hub can be legitimately noindex for a few hours between being added to
+    // the sitemap and its first article going live.
+    const a = assessUrl({ url: NOINDEXED.url, lastmod: hoursAgo(1) }, NOINDEXED, undefined, NOW);
+    expect(a.alarming).toBe(false);
+    expect(a.watching).toBe(true);
+  });
+
+  it('does not disturb the two original conditions', () => {
+    const a = assessUrl(
+      { url: UNKNOWN.url, lastmod: hoursAgo(GRACE_HOURS + 1) },
+      UNKNOWN,
+      undefined,
+      NOW,
+    );
+    expect(a.reasons).toEqual(['unknown-to-google', 'never-crawled']);
+  });
+});
+
 describe('assessSweep', () => {
   const sitemap: SitemapEntry[] = [
     { url: INDEXED.url, lastmod: hoursAgo(200) },
@@ -289,6 +365,37 @@ describe('nextLedger', () => {
     expect(out[INDEXED.url].lastCrawlTime).toBe('2026-08-26T06:14:46Z');
     // …but the check date moves, so a reading that has stopped updating shows.
     expect(out[INDEXED.url].lastCheckedAt).toBe(NOW.toISOString());
+  });
+});
+
+describe('alarmIssueTitle — the line a human reads first', () => {
+  const sweep = (entries: SitemapEntry[], results: UrlInspectionResult[]) =>
+    assessSweep(entries, new Map(results.map((r) => [r.url, r])), {}, NOW);
+
+  it('says "dark" when everything alarming is dark', () => {
+    const t = alarmIssueTitle(sweep([{ url: UNKNOWN.url, lastmod: hoursAgo(200) }], [UNKNOWN]));
+    expect(t).toBe('ALARM: 1 sitemap URL(s) are dark to Google (>72h, unknown or uncrawled)');
+  });
+
+  it('does NOT say "dark" about a URL Google crawled and then refused', () => {
+    // RISK-07: calling this "dark" is how a new alarm gets read as a familiar
+    // one and closed. Google fetched the page; it did what the page asked.
+    const t = alarmIssueTitle(sweep([{ url: NOINDEXED.url, lastmod: hoursAgo(200) }], [NOINDEXED]));
+    expect(t).not.toMatch(/dark/);
+    expect(t).toBe('ALARM: 1 sitemap URL(s) are advertised while serving noindex (>72h)');
+  });
+
+  it('counts both shapes separately when both are present', () => {
+    const t = alarmIssueTitle(
+      sweep(
+        [
+          { url: UNKNOWN.url, lastmod: hoursAgo(200) },
+          { url: NOINDEXED.url, lastmod: hoursAgo(200) },
+        ],
+        [UNKNOWN, NOINDEXED],
+      ),
+    );
+    expect(t).toBe('ALARM: 1 sitemap URL(s) dark to Google and 1 serving noindex (>72h)');
   });
 });
 
