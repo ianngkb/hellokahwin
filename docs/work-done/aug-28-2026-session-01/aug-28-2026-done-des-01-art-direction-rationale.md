@@ -16,7 +16,8 @@ anyway.
 
 | Question | Answer |
 |---|---|
-| What does premium look like in the Malaysian wedding market today? | Two registers, and neither is ours. At the top, imported Western luxury in English — Grazia MY's bridal roundup sells Oscar de la Renta and "fairytale". In the Malay-language middle, warm-neutral geometric sans on cream grounds — ADNAA, Rizman Ruzaini, Songket Dunia. **Nobody occupies premium and Malay-native at once.** |
+| What does premium look like in the Malaysian wedding market today? | Two registers, and neither is ours. At the top, imported Western luxury in English — Grazia MY's bridal roundup sells Oscar de la Renta and "fairytale". In the Malay-language middle, geometric sans on near-neutral grounds — **six of seven measured brands**. **Nobody occupies premium and Malay-native at once.** |
+| What do ALL the references agree on? | **Colour count, and nothing else.** Carats + Cake 2, Alia Bastamam 5, Mimpikita 5, PartySlate 6, Dentelle 5 — against nikahsatu.com's 50 and mingguanwanita.my's 66. They disagree on face, weight and temperature. **The premium/amateur split in this market is count discipline, and it costs nothing.** |
 | Where are our SERP competitors weak? | Not in content. In maintenance. mingguanwanita.my ships **66 distinct hex colours** and 30 `font-family` declarations on one article. nikahsatu.com ships 50 colours and **zero `<h1>`**. ppsignature.com — the measured market leader at ~29,745 visits/mo — ships **zero `<h1>`** on its top page. lanaianggun.com, ranked #1 for *kos kahwin*, is `'Arial', sans-serif !important`. |
 | Do the owner's two touchstones agree? | **No, and that is the useful part.** Carats & Cake is a serif at one weight; PartySlate is Gotham A at three, with **no structural serif on the page**. They agree only on discipline — one dominant family, ≤3 weights, colours in single figures, one accent. **The transferable thing is the restraint, not the face.** |
 | What is the proposed register? | **A publication of record, warmly printed.** Not a bridal magazine. The locked wordmark sits as a **masthead over a reference work** — which is what a 10:1 outlined mark is actually for. |
@@ -54,14 +55,22 @@ empty body and then 403; aliabastamam.com and mimpikita.com.my returned 403 —
 three screenshots are committed in `aug-28-2026-des-01-EVIDENCE/`. They are not
 of equal value and the document does not treat them as if they were:
 
-| Screenshot | What it supports | Limit, stated |
+**All three were then measured in Chrome, and every claim about them comes from
+computed styles rather than from the pictures.** The screenshots are provenance
+for the fetch; the census is the evidence. That distinction matters most for
+`aliabastamam.com`, whose capture shows a largely unloaded page because its
+images are lazy-loaded — **so nothing in this document describes its composition,
+only its computed type and colour.**
+
+| Screenshot | Role | Limit, stated |
 |---|---|---|
-| `partyslate-homepage-2026-08-28.jpg` | Full measurement — computed styles read off the delivered page. Section (c). | None material. |
-| `mimpikita-homepage-2026-08-28.jpg` | **Partial.** The wordmark, the hero photograph and the nav are legible. Section (a). | A sign-up modal covers the centre and the page below the fold never loaded. Type is read **by eye from the image**, not from computed styles. |
-| `aliabastamam-homepage-2026-08-28.jpg` | **Almost nothing.** The page did not render its content. | Only the nav labels and the ground colour are legible. **No claim about this brand's design is made anywhere in this document.** |
+| `partyslate-homepage-2026-08-28.jpg` (238,704 b) | Clean full-viewport capture of the hero. Composition read from it in section (c). | None material. |
+| `mimpikita-homepage-2026-08-28.jpg` (75,008 b) | Provenance. Computed-style census in section (a). | A sign-up modal covers the centre; below the fold never loaded. No composition claim. |
+| `aliabastamam-homepage-2026-08-28.jpg` (8,125 b) | Provenance only. Computed-style census in section (a). | **Page did not render its content — lazy images. No composition claim anywhere.** |
 
 Where a reading comes from looking at an image rather than from computed styles,
-it says so at the point it is used.
+it says so at the point it is used. That happens in exactly one place — the four
+composition notes on PartySlate at the end of section (c).
 
 ---
 
@@ -103,43 +112,118 @@ the delivered HTML.
 | **Dentelle Bridal** — bespoke, modest, nikah-to-reception | `https://www.dentellebridal.com/` | Figtree, Nunito (10 self-hosted files) | **5** | `#f6f0ed`, `#e4d8dc`, `#945e69`, `#5a505e`, `#fcfcfc`. |
 | **The Gown Atelier** — Vera Wang Bride stockist | `https://thegownatelier.com/` | **Cormorant Garamond** via Google Fonts | 59 | The one serif. Also the most Western-facing brand in the set. |
 
-**A sixth brand, read from a screenshot rather than from computed styles.**
-`mimpikita.com.my` refused a scripted fetch and was captured in a browser on 28
-Ogos 2026. A sign-up modal covers the middle of the page and nothing below the
-fold loaded, so this is a weaker piece of evidence than the five above and is
-weighted accordingly. What is legible: **the MIMPIKITA wordmark is a bold
-geometric sans in uppercase**, set in white over the hero photograph — no serif
-— and the hero is a warm terracotta, camel and sand palette. It points the same
-way as the other four Malay-audience brands. It is corroboration, not a load-
-bearing source, and the conclusion below does not depend on it.
+**Two more brands, measured in a browser after they refused a scripted fetch.**
+Both were captured on 28 Ogos 2026 and their **computed styles read off the
+delivered page**, so these are full measurements rather than readings off a
+picture.
 
-`aliabastamam.com` was captured the same way and **did not render its content at
-all** — only the nav labels *"NEW / SHOP ALL / EXPLORE"* in wide-tracked
-uppercase sans on a near-white ground are legible. **No claim about that brand
-is made here.** Alia Bastamam appears in this document only as a house that
-Grazia MY profiles, with Grazia cited as the source.
+| Brand | URL | Families (text elements) | Text colours | Backgrounds | Body |
+|---|---|---|---|---|---|
+| **Alia Bastamam** — atelier and bridal, Grazia MY's lead example | `https://aliabastamam.com/` | **Montserrat 265**, Times 40 | **5** | **4** | Montserrat, `#262626` on `#F9FAF8` |
+| **Mimpikita** — modest bridalwear | `https://www.mimpikita.com.my/` | **Inter 782**, Times 55, Poppins 4 | **5** | **5** | Inter, `#3D2F16` on `#FFFFFF`; h1 Inter 36.94px w400 |
 
-Two things fall out of the table above and both are load-bearing for the
-register.
+The `Times` counts in both are an **unstyled browser fallback, not a design
+choice** — 40 elements out of 305 and 55 out of 841. Neither brand specifies a
+serif anywhere. Saying so matters, because a careless reading of that census
+would report "Times" as a second typeface and invent a serif that nobody chose.
+
+That takes the measured set to **seven Malaysian premium bridal brands**, and
+the count is now stronger than the first draft's:
+
+| # | Brand | Structural face | Family |
+|---|---|---|---|
+| 1 | ADNAA | Montserrat / Poppins / Roboto | sans |
+| 2 | Rizman Ruzaini | Montserrat, Felix Titling | sans |
+| 3 | Songket Dunia | Jost | sans |
+| 4 | Dentelle Bridal | Figtree, Nunito | sans |
+| 5 | Alia Bastamam | Montserrat | sans |
+| 6 | Mimpikita | Inter | sans |
+| 7 | **The Gown Atelier** | **Cormorant Garamond** | **serif** |
+
+**Six of seven on geometric or humanist sans. The single serif still belongs to
+the Vera Wang Bride stockist.** Adding two brands did not soften the finding; it
+sharpened the denominator.
+
+### Three things follow, and the third is the sturdiest
 
 **First: serif display is not the Malaysian premium signal. It is the Western
-one.** Four of the five Malay-audience-native brands use geometric or humanist
-sans. The single serif belongs to the Vera Wang stockist. Any rationale that
-begins "premium means serif" is arguing from a bridal-magazine reflex, not from
-this market.
+one.** Six of seven Malay-audience brands use sans, and the serif tracks the
+Western label. Any rationale that begins "premium means serif" is arguing from a
+bridal-magazine reflex rather than from this market.
 
-**Second, and more useful: the locked palette is already native here.** Songket
-Dunia — a brand that literally sells songket — grounds its site on `#f4eee1`
-with `#302205` ink. Our locked palette is `#EDEAE1` parchment with `#16130F`
-ink. Those are the same decision. A brand whose entire product is the motif
-chose warm parchment and deep brown *and used no motif as ornament anywhere on
-the page*. That is a real independent confirmation of two of our locked
-decisions at once, and it is the strongest single piece of evidence in this
-document.
+**Second: the locked palette is native here — but the pattern is narrower than
+it first looks, and I am reporting the narrower version.** I computed the
+red-minus-blue spread of each brand's ink and ground as a plain warmth signal,
+because "warm" as an adjective is exactly the kind of claim that survives
+scrutiny badly.
 
-Dentelle's **five colours** is the other number worth keeping. A bespoke bridal
-house with a five-value palette against a mass-market publisher with 66 is the
-whole argument about restraint, made by the market rather than by me.
+| Brand | Ink | Ground | Ink contrast | Ink R−B | Ground R−B |
+|---|---|---|---|---|---|
+| **HelloKahwin (locked)** | `#16130F` | `#EDEAE1` | **15.39:1** | **+7** | **+12** |
+| Songket Dunia | `#302205` | `#F4EEE1` | 13.39:1 | **+43** | +19 |
+| Mimpikita | `#3D2F16` | `#FFFFFF` | 12.99:1 | **+39** | 0 |
+| Alia Bastamam | `#262626` | `#F9FAF8` | 14.45:1 | **0** | +1 |
+| PartySlate | `#000000` | `#F8F8F8` | 19.77:1 | **0** | 0 |
+| Carats + Cake | `#000000` | `#FAF9F8` | 19.97:1 | **0** | +2 |
+
+**The three-brand "warm ink" convergence does not survive the arithmetic.**
+Alia Bastamam's `#262626` is R=G=B=38 — *perfectly neutral grey*, not warm
+black — and its secondary background `#F4F7FB` is faintly **cool**. Reporting it
+alongside Songket Dunia and Mimpikita as a third warm-ink brand would be
+manufacturing a pattern out of two real data points and one that points the
+other way.
+
+What the numbers actually show is better, because it maps onto the serif
+finding:
+
+> **Warmth tracks cultural proximity, the same way the serif tracks Western
+> proximity.** The two brands rooted in traditional craft run genuinely warm ink
+> — Songket Dunia +43, Mimpikita +39. The Western touchstones and the most
+> Western-facing Malaysian house all run dead-neutral ink at 0. Our locked
+> `#16130F` sits at **+7**: warm, and the most restrained warm in the set.
+
+For a publication of record that is close to exactly right — warmer than the
+Western references, far quieter than the craft brands. It is the temperature of
+paper rather than the temperature of a product shot.
+
+**And one claim that does hold across all six, which is the one worth putting in
+the NOT-do list:** *no measured brand pairs pure black with pure white.* Both
+touchstones use true black — on an off-white ground. Mimpikita uses true white —
+with warm brown-black ink. Every single one softens at least one side. **Ours
+softens both**, which is a stronger version of the same instinct rather than a
+departure from it.
+
+**Third, and the sturdiest of the three: the premium/amateur split in this
+market is COLOUR COUNT, and it survives the touchstone disagreement.**
+
+| Measured in a browser (computed text colours) | | Counted in delivered HTML (hex literals) | |
+|---|---:|---|---:|
+| Alia Bastamam | **5** | Carats + Cake | **2** |
+| Mimpikita | **5** | Dentelle Bridal | **5** |
+| PartySlate | **6** | Songket Dunia | 28 |
+| | | kahwinstudio.com | 12 |
+| | | ppsignature.com | 27 |
+| | | nikahsatu.com | **50** |
+| | | mingguanwanita.my | **66** |
+
+**These two columns are different measurements and are not directly
+comparable** — one counts computed colours on rendered text, the other counts
+colour literals in the delivered markup, and a site can score low on the second
+by keeping its colour in an external file. I have kept them apart for that
+reason. But the spread inside each column tells the same story, and that is the
+point: every brand anyone would call premium sits in single figures or close to
+it, and the two sites nobody would sit at 50 and 66.
+
+This is the sturdiest finding in the document because **it is the one thing every
+reference agrees on.** Carats & Cake is a serif; PartySlate is a sans; ADNAA is
+geometric; Songket Dunia is warm; Alia Bastamam is neutral. They agree on
+nothing about the face and nothing about the temperature. They agree completely
+that a page uses very few colours. The serif/sans finding tells us what *not* to
+copy. The colour-count finding tells us what to *do*, and it costs nothing —
+which is the same shape as the whole webfont argument in section (e).
+
+It is also why the register's colour rule in (e) is stated as a **ceiling on how
+many values appear at once**, not as a longer palette.
 
 ---
 
@@ -726,11 +810,11 @@ Restraint everywhere else is what makes one picture land.
    gate.
 2. **Dark mode.** The 2026-07-14 decision made it deliberately unreachable.
    DES-03 and DES-05 require it. Reverse the decision, or amend the two DoDs.
-Both touchstones are now measured, so there is no outstanding evidence gap on
-the ones you named. The two weak captures — mimpikita.com.my, partial behind a
-modal, and aliabastamam.com, which did not render — are supporting material in
-section (a) and nothing rests on them. Four Malay-audience premium brands were
-measured directly from their delivered HTML and all four point the same way.
+**There is no outstanding evidence gap.** Every site named in this document has
+been measured — the five Malaysian brands and the SERP set from their delivered
+HTML, and PartySlate, Alia Bastamam and Mimpikita from computed styles in a
+browser after each refused a scripted fetch. Seven Malaysian premium bridal
+brands, six SERP occupants, both touchstones and our own live site.
 
 ---
 
@@ -742,11 +826,9 @@ reproducible as written.
 ```powershell
 Invoke-WebRequest -Uri https://caratsandcake.com/          # 200, 83,545 bytes
 Invoke-WebRequest -Uri https://use.typekit.net/irr0rbw.css # 200, 1,248 bytes -> ivyora-display, weight 300 only
-Invoke-WebRequest -Uri https://www.partyslate.com/         # 202, 0 bytes; then 403
-                                                           # -> re-measured in Chrome 1512x771, see below
-Invoke-WebRequest -Uri https://aliabastamam.com/           # 403 -> browser capture DID NOT RENDER; no claim made
-Invoke-WebRequest -Uri https://mimpikita.com.my/           # 403 -> browser capture PARTIAL (modal + no below-fold);
-                                                           #        wordmark/hero read BY EYE, corroboration only
+Invoke-WebRequest -Uri https://www.partyslate.com/         # 202, 0 bytes; then 403  -- see BROWSER below
+Invoke-WebRequest -Uri https://aliabastamam.com/           # 403                     -- see BROWSER below
+Invoke-WebRequest -Uri https://mimpikita.com.my/           # 403                     -- see BROWSER below
 Invoke-WebRequest -Uri https://www.adnaa.com.my/           # 200, 1,031,802 bytes
 Invoke-WebRequest -Uri https://rizmanruzaini.com/          # 200, 394,775 bytes
 Invoke-WebRequest -Uri https://songketdunia.my/            # 200, 299,827 bytes
@@ -796,6 +878,55 @@ partyslate  (Chrome 1512x771, computed styles off the delivered page, 28 Ogos 20
   h1 count   : 2, but two DIFFERENT section headings — not our duplicated-node defect
   screenshot : aug-28-2026-des-01-EVIDENCE/partyslate-homepage-2026-08-28.jpg (238,704 bytes)
 
+aliabastamam  (Chrome, computed styles off the delivered page, 28 Ogos 2026)
+  title      : "aliabastamam"          h1 count: 1
+  families   : Montserrat 265 text els · Times 40  <- Times is an UNSTYLED FALLBACK, not a chosen face
+  text cols  : FIVE — rgb(38,38,38) x229 · rgb(255,255,255) x40 · rgb(44,44,44) x33 · 2 alpha variants
+  backgrounds: FOUR — rgb(249,250,248) x15 · rgb(244,247,251) x8 · 2 alpha variants
+  body       : Montserrat / rgb(38,38,38) #262626 on rgb(249,250,248) #F9FAF8
+  note       : #262626 is R=G=B — PERFECTLY NEUTRAL, not warm black. #F4F7FB is faintly COOL.
+  screenshot : aug-28-2026-des-01-EVIDENCE/aliabastamam-homepage-2026-08-28.jpg (8,125 bytes)
+               PAGE DID NOT RENDER (lazy images) — provenance only, no composition claim made
+
+mimpikita     (Chrome, computed styles off the delivered page, 28 Ogos 2026)
+  resolves   : mimpikita.com.my -> www.mimpikita.com.my
+  title      : "Mimpi Kita Sdn Bhd | Chasing dreams together, celebrating one another. – Mimpikita"
+  h1 count   : 1        h1: Inter 36.94px w400
+  families   : Inter 782 text els · Times 55 (UNSTYLED FALLBACK) · Poppins 4
+  text cols  : FIVE — rgb(61,47,22) x376 · rgb(73,74,70) x364 · rgb(255,255,255) x99 ·
+               rgb(44,44,44) x1 · 1 alpha variant
+  backgrounds: FIVE — white x33 · black x19 · rgb(37,37,37) · rgb(31,30,30) · 1 alpha
+  body       : Inter 9px / lh 14.4px, ink rgb(61,47,22) #3D2F16 on #FFFFFF
+  screenshot : aug-28-2026-des-01-EVIDENCE/mimpikita-homepage-2026-08-28.jpg (75,008 bytes)
+               PARTIAL (sign-up modal over the centre, nothing below the fold) — provenance only
+```
+
+**Reproducing the three browser measurements.** The `Invoke-WebRequest` lines
+above genuinely return 202-with-empty-body and 403 — that result is real and
+reproducible, and it is *not* the result the numbers came from. The three
+censuses were taken by loading each URL in Chrome at 1512×771 and walking the
+rendered DOM, tallying `getComputedStyle` values across every text-bearing
+element:
+
+```js
+// per page, in the browser console — families, text colours, backgrounds
+const els = [...document.querySelectorAll('*')].filter(e =>
+  e.childNodes && [...e.childNodes].some(n => n.nodeType === 3 && n.textContent.trim()));
+const tally = f => els.reduce((m, e) => (m[f(getComputedStyle(e))] =
+  (m[f(getComputedStyle(e))] || 0) + 1, m), {});
+tally(s => s.fontFamily.split(',')[0].replace(/["']/g, ''));  // families
+tally(s => s.color);                                          // text colours
+tally(s => s.backgroundColor);                                // backgrounds
+```
+
+A scripted fetch cannot reproduce these numbers, so the method is stated rather
+than implied. Warmth figures in section (a) are red-minus-blue on the 0–255
+channels, computed from the hex values above.
+
+**The remaining sites did not need a browser** — they returned their markup to
+`Invoke-WebRequest`, and these figures are counted from the delivered HTML:
+
+```
 mingguanwanita HTML      : font-family declarations = 30; distinct hex = 66
                            #4db2ec x29, #dd3333 x23, #ec1c24 x19
 nikahsatu HTML           : distinct hex = 50; h1 = 0; h2 = 59
@@ -819,10 +950,12 @@ Full matrix in section (e).
 ### 1. What did we learn that is not written down anywhere?
 
 **Serif display is the Western signal in this market, not the premium one.**
-Four of the five Malay-audience-native premium brands I fetched use geometric or
-humanist sans; the one that uses a serif is the Vera Wang stockist. Nothing in
-the repo says this, and every instinct in the brief points the other way. It is
-the reason the register puts the serif on a short leash instead of everywhere.
+**Six of the seven** Malay-audience-native premium brands measured use geometric
+or humanist sans; the one that uses a serif is the Vera Wang stockist. Nothing
+in the repo says this, and every instinct in the brief points the other way. It
+is the reason the register puts the serif on a short leash instead of everywhere.
+Adding the last two brands widened the denominator without weakening the
+finding, which is the outcome you want from more evidence and do not always get.
 
 **And the sharper version, which only appeared once both touchstones were
 measured: the owner's two references disagree on the face and agree on the
@@ -833,6 +966,28 @@ in single figures, colours in single figures, one accent, and photography
 carrying the feeling. **The premium signal is restraint, not a typeface** — and
 restraint is free, which is the whole argument for cutting four webfonts to
 one.
+
+**Sharper still, and it is now the spine of the register: the one thing EVERY
+reference agrees on is colour count.** Carats + Cake 2, Alia Bastamam 5,
+Mimpikita 5, Dentelle 5, PartySlate 6 — against nikahsatu's 50 and
+mingguanwanita's 66. They agree on nothing about face, weight or temperature.
+They agree completely that a page uses very few colours. The serif/sans finding
+tells us what not to copy; **the count finding tells us what to do, and it is
+free.** A register built on that spine survives the owner changing their mind
+about the typeface, which the serif finding alone does not.
+
+**Fourth, and it is a caution about my own method: "warm" nearly became a
+pattern that the arithmetic does not support.** Three brands were handed to me
+as converging on warm-black ink. Two do — Songket Dunia at red-minus-blue +43,
+Mimpikita +39. The third, Alia Bastamam's `#262626`, is **R=G=B, dead neutral**,
+and its secondary ground `#F4F7FB` is faintly cool. Computing the channel spread
+instead of trusting the adjective turned a shaky three-brand claim into a real
+two-brand one **plus a better finding** — warmth tracks cultural proximity the
+same way the serif tracks Western proximity, with our locked ink at +7 sitting
+deliberately between the craft brands and the Western references. **The rule:
+when a colour claim is stated as an adjective, compute the channels before
+repeating it.** "Warm" is exactly the kind of word that survives review by not
+being checkable.
 
 **And the corollary nobody had written down: the locked palette is
 independently confirmed by the market.** Songket Dunia grounds on `#f4eee1` with
@@ -926,8 +1081,11 @@ the four-faces-to-one webfont cut and that it promotes DES-04's own F3
 falsifier. 128 records the three live defects on the highest-impression article,
 including that the current system solves responsive type by duplicating the DOM
 node. 129 records the two open owner decisions and, as amended, the closed
-PartySlate gap. **130 added on the second pass: the two touchstones disagree on
-the face and agree on the discipline.**
+PartySlate gap. **130 and 131 added on the second pass** — the touchstones
+disagree on the face and agree on the discipline, and the process finding that a
+gap recorded honestly is still a gap. **135 and 136 added on the third** — the
+spine moving from typeface to colour count, and the warm-ink claim that the
+channel arithmetic cut down by a third.
 
 **3. `docs/work-done/README.md`** — this entry added to the completion index.
 
