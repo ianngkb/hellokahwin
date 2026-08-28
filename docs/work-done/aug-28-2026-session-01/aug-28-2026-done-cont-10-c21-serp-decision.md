@@ -77,6 +77,16 @@ without them.
 | seed vs topic 5 — `hantaran kahwin` vs `barang hantaran` | 2 | 15% | **0** | **0%** |
 | **seed vs bride** — `hantaran kahwin` vs `barang hantaran perempuan` | 4 | **40%** | 2 | **25%** |
 
+**The condition that has to travel with these numbers: the six SERPs are not
+same-day.** Ahrefs serves a cached crawl per keyword, and these range from
+15 Julai to 25 Ogos 2026. A six-week spread could manufacture a difference that
+is really just drift, so here is the control. The two closest cross-angle
+queries, `barang hantaran perempuan` (5 Ogos) and `barang hantaran lelaki`
+(11 Ogos), are **six days apart and still share only the two constants**. The two
+groom queries, seven days apart, share four. Time between crawls is not what
+separates groom from bride. Anyone re-running this will get different snapshot
+dates and should re-check that control rather than assume it holds.
+
 The first two rows are the calibration, and they matter more than any threshold
 borrowed from a blog post. They are pairs of queries that one article already
 targets, so they show what "same intent, same page" looks like in this data: 40%
