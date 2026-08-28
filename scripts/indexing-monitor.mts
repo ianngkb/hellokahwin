@@ -59,6 +59,7 @@ import {
 } from '../src/lib/seo/gsc-url-inspection';
 import {
   alarmIssueBody,
+  alarmIssueTitle,
   assessSweep,
   nextLedger,
   GRACE_HOURS,
@@ -301,9 +302,7 @@ async function main() {
   // measurement this job takes on itself, not a claim in a document.
   const detectedAt = new Date().toISOString();
 
-  const title =
-    `ALARM: ${assessment.alarms.length} sitemap URL(s) are dark to Google ` +
-    `(>${GRACE_HOURS}h, unknown or uncrawled)`;
+  const title = alarmIssueTitle(assessment);
   const body = alarmIssueBody({
     assessment,
     property: args.property,
@@ -364,8 +363,12 @@ async function main() {
     '',
     `| bucket | count |`,
     `| --- | --- |`,
-    `| alarming (dark >${GRACE_HOURS}h) | ${assessment.alarms.length} |`,
-    `| watching (dark, inside ${GRACE_HOURS}h) | ${assessment.watching.length} |`,
+    // "dark" was the only word here until RISK-07, and the six URLs that
+    // defect is named after spent a sprint below this table in the
+    // coverage_state census rather than in it. A bucket label that cannot
+    // describe a defect is a place for that defect to hide.
+    `| alarming (>${GRACE_HOURS}h) | ${assessment.alarms.length} |`,
+    `| watching (inside ${GRACE_HOURS}h) | ${assessment.watching.length} |`,
     `| not answered by Google | ${assessment.blind.length} |`,
     '',
     '| coverage_state | count |',
