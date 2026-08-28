@@ -647,3 +647,21 @@ assumption that optical size axes do what optical size axes usually do. They do
 here — but only on the thin strokes, and in the direction that made the shipped
 cut wrong rather than right. An argument I had reached for as support turned into
 the item's main finding once it was pointed at the correct glyph.
+
+**And one that was not caught before it shipped, recorded as such.** The wrong
+measurement described above did not just get discarded — it stayed in
+`verify.py` under the heading *"WHAT opsz DOES TO THE HAIRLINE"* and went into
+the first push at `90aac90`. So the committed evidence contained a table saying
+the axis is inert, three files away from the table saying it collapses by 94%,
+and the evidence README listed `verify.py` first in the run order. A reader
+reproducing this would have met the contradiction before the real number. It was
+found by the second `creative-director` agent that had been spawned onto this
+item, reading the shipped artefacts rather than the argument. Section C is now
+retitled to what it actually measures, carries a comment explaining why the `H`
+and an outer-contour gap cannot see a hairline, and points at `out-opsz.txt`;
+the README says do not quote it and runs `opsz.py` first. **Kept rather than
+deleted, because the trap reproduces and is worth being able to run.** The
+lesson underneath it is narrower than "check your work": *I wrote the failure up
+correctly in this retrospective and still shipped the artefact it was about.*
+Describing a mistake in prose is not the same as removing it from the evidence,
+and only one of those is what an auditor sees.

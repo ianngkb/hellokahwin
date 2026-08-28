@@ -24,9 +24,12 @@ first path of hellokahwin-horizontal.svg, 28 points
   Bodoni Moda H @opsz 40 wght 400 -> glyph H    cap 1500  x set [40, 219, 410, 610, 870, 1070, 1259, 1440]
   Bodoni Moda H @opsz 96 wght 400 -> glyph H    cap 1500  x set [37, 216, 407, 607, 867, 1067, 1256, 1437]
 
-== C. WHAT opsz DOES TO THE HAIRLINE ==
-Measured on 'H': stem width (thick) and on 'o': thin stroke, font units,
-normalised to a 1500-unit cap height so the numbers are comparable.
+== C. THE FAILED MEASUREMENT - DOES NOT MEASURE THE HAIRLINE ==
+Kept as a reproducible trap, NOT as a result. 'H stem' measures a glyph
+whose strokes are all thick; 'o outer-to-next' never touches the counter,
+so neither column can see a hairline. Both are near-invariant for that
+reason. For what opsz actually does to the hairline - 72 -> 4 units across
+opsz 6 -> 96 - run opsz.py and read out-opsz.txt.
   opsz  6  cap 1500  H stem  181  o outer-to-next  112  stem/cap 0.1207
   opsz  8  cap 1500  H stem  181  o outer-to-next  112  stem/cap 0.1207
   opsz 11  cap 1500  H stem  180  o outer-to-next  112  stem/cap 0.1200

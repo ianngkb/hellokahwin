@@ -7,8 +7,10 @@ Three questions, answered by measurement rather than assertion:
      plausibly reach for?
   B. PROVENANCE - are the five shipped wordmark SVGs really Bodoni Moda, or
      something else that was labelled Bodoni Moda?
-  C. OPTICAL SIZE - what does the opsz axis actually do to the hairline, which
-     is the whole reason a didone is risky at an 18px mark?
+  C. A FAILED MEASUREMENT, kept deliberately - the first attempt at the optical
+     size question, which measured the wrong strokes and concluded the axis does
+     nothing. opsz.py holds the sound measurement. See the comment above the
+     section.
 
 Run:  python verify.py <font.ttf> <charset.json> <dir-of-svgs>
 """
@@ -158,11 +160,39 @@ for opsz in (6, 11, 40, 96):
         % (opsz, gname, inst["OS/2"].sCapHeight, xs)
     )
 
-# ------------------------------------------------------------ C. optical size
+# ------------------------------------------- C. the measurement that was WRONG
+#
+# KEPT ON PURPOSE, AND IT DOES NOT ANSWER THE HAIRLINE QUESTION.  Read this
+# before you read the numbers.
+#
+# This was the first attempt at "what does opsz do?", and it says the axis does
+# almost nothing.  That conclusion is FALSE, and the two columns below are why:
+#
+#   * "H stem" measures the H, and the H is the one letter in a didone where
+#     EVERY stroke is thick.  Its stem moves 181 -> 179 units across the whole
+#     axis, about 1%, because thick strokes are not what an optical size axis
+#     moves.
+#   * "o outer-to-next" is the gap between the two leftmost x coordinates on the
+#     o's OUTER contour.  It is not the thin stroke.  The hairline is the
+#     distance between the top of the outer contour and the top of the COUNTER,
+#     and this column never touches the counter, which is why it is a flat 112
+#     at every size.
+#
+# The real measurement is in opsz.py, and it reports the hairline moving
+# 72 -> 4 units across opsz 6 -> 96 - a 94% collapse.  THAT is the number the
+# decision, decision-log entry 141 and DES-10's reopened brief rest on.  See
+# out-opsz.txt.
+#
+# This block stays in the evidence because the trap is worth being able to
+# reproduce: it shows exactly how a confident, wrong answer falls out of
+# measuring a property on a glyph that does not carry it.
 print()
-print("== C. WHAT opsz DOES TO THE HAIRLINE ==")
-print("Measured on 'H': stem width (thick) and on 'o': thin stroke, font units,")
-print("normalised to a 1500-unit cap height so the numbers are comparable.")
+print("== C. THE FAILED MEASUREMENT - DOES NOT MEASURE THE HAIRLINE ==")
+print("Kept as a reproducible trap, NOT as a result. 'H stem' measures a glyph")
+print("whose strokes are all thick; 'o outer-to-next' never touches the counter,")
+print("so neither column can see a hairline. Both are near-invariant for that")
+print("reason. For what opsz actually does to the hairline - 72 -> 4 units across")
+print("opsz 6 -> 96 - run opsz.py and read out-opsz.txt.")
 for opsz in (6, 8, 11, 14, 24, 48, 72, 96):
     inst = instantiateVariableFont(
         TTFont(font_path), {"opsz": opsz, "wght": 400}, inplace=False, updateFontNames=False

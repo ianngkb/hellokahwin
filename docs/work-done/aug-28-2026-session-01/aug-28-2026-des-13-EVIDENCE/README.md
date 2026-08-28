@@ -14,8 +14,8 @@ curl -Lo BodoniModa-var.ttf \
   'https://raw.githubusercontent.com/google/fonts/main/ofl/bodonimoda/BodoniModa%5Bopsz%2Cwght%5D.ttf'
 
 python charset.py  <live-html-files...>          > out-charset-census.txt
+python opsz.py     BodoniModa-var.ttf            > out-opsz.txt   # the hairline
 python verify.py   BodoniModa-var.ttf charset.json svgs-as-measured/  > out-verify.txt
-python opsz.py     BodoniModa-var.ttf            > out-opsz.txt
 python hairline.py                               > out-hairline.txt
 python subset.py   BodoniModa-var.ttf charset.json > out-subset.txt
 ```
@@ -32,8 +32,8 @@ produced by DES-06 on the same day.
 | File | What it is |
 |---|---|
 | `charset.py` · `charset.json` · `out-charset-census.txt` | Every codepoint the site's display type sets, counted from live HTML plus all 86 article titles and 15 category names. 69 distinct, 2 of them non-ASCII. |
-| `verify.py` · `out-verify.txt` | Coverage against Bodoni Moda's cmap, and the provenance check that identifies which face and which optical-size instance the five shipped SVGs were cut from. |
-| `opsz.py` · `out-opsz.txt` | What the `opsz` axis moves: set width, sidebearings, and the hairline. |
+| `verify.py` · `out-verify.txt` | **A and B only:** coverage against Bodoni Moda's cmap, and the provenance check that identifies which face and which optical-size instance the five shipped SVGs were cut from. **Its section C is a FAILED measurement kept deliberately** — it measures the `H`, whose strokes are all thick, and a gap on the `o`'s outer contour that never touches the counter, so it cannot see a hairline and wrongly reads the axis as inert. It says so in its own heading. Do not quote it. |
+| `opsz.py` · `out-opsz.txt` | **The sound measurement of what the `opsz` axis moves:** set width, sidebearings, and the hairline — 72 → 4 units across opsz 6 → 96. Every hairline figure in the decision and in decision-log entry 141 comes from here. |
 | `hairline.py` · `out-hairline.txt` | What a sub-pixel hairline does to the mark's contrast, at real mark heights and real device pixel ratios. |
 | `subset.py` · `out-subset.txt` | The webfont's byte cost, subsetted, in woff2, against decision 127's 20–30 KB budget. |
 | `svgs-as-measured/` | The five lockups exactly as they exist on `origin/feat/des-10-brand-page` in the site repo, copied so the provenance check runs without that repo. |
