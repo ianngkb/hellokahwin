@@ -3,6 +3,23 @@
 One entry per decision: date, decision, basis, prediction. Reviewed at later
 meetings against what actually happened. Newest first.
 
+## 2026-08-29 — DES-05: the design system, and where the reference page could and could not go
+
+154. **The `/design-system` reference page stays under `/admin/`, not at the
+bare path the owner-decision text names, because `src/middleware.ts` scopes
+Clerk to `/admin(.*)`, `/login(.*)`, `/no-access` and `/api/v1/inspire(.*)`
+only.** The file's own comment states why: Clerk runs "ONLY on admin
+surfaces" so the public audience pays no auth latency. A page outside those
+prefixes never gets wrapped by `clerkMiddleware()`, so `requireAdmin()`'s
+`auth()`/`currentUser()` calls would either throw or resolve to a
+signed-out state some code path could treat permissively — the opposite of
+"private." Basis: read the middleware file before moving the route, not
+after. Consequence: `/admin/design-system` is the durable location for this
+surface, and any future item wanting the bare `/design-system` path needs to
+widen the Clerk matcher first, deliberately, as its own change — not as a
+side effect of a design-system item. Full record:
+`docs/work-done/aug-28-2026-session-01/aug-28-2026-done-des-05-design-system.md`.
+
 ## 2026-08-29 — CONT-11: the four zero-volume C2.1 head terms, settled
 
 153. **⚠ CONT-11 — four C2.1 head terms carrying ZERO `volume` and no `parent_topic`
