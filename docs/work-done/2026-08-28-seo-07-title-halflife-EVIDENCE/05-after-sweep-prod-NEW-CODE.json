@@ -1,0 +1,1037 @@
+{
+  "base": "https://hellokahwin.com",
+  "bust": false,
+  "delay": 300,
+  "rows": [
+    {
+      "url": "https://hellokahwin.com",
+      "status": 200,
+      "title": "HelloKahwin — Idea & Panduan Perkahwinan Malaysia | HelloKahwin",
+      "ogTitle": "HelloKahwin — Idea & Panduan Perkahwinan Malaysia",
+      "cache": "HIT",
+      "age": "161",
+      "ms": 104,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel",
+      "status": 200,
+      "title": "Artikel | HelloKahwin",
+      "ogTitle": "Artikel | HelloKahwin",
+      "cache": "PRERENDER",
+      "age": "0",
+      "ms": 557,
+      "verdict": "slug-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/idea-dan-nasihat",
+      "status": 200,
+      "title": "Idea dan nasihat | Inspire | HelloKahwin",
+      "ogTitle": "Idea dan nasihat | Artikel | HelloKahwin",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 958,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hiasan-dekorasi",
+      "status": 200,
+      "title": "Hiasan & Dekorasi | Inspire | HelloKahwin",
+      "ogTitle": "Hiasan & Dekorasi | Artikel | HelloKahwin",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 353,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/real-wedding",
+      "status": 200,
+      "title": "Real Wedding | Inspire | HelloKahwin",
+      "ogTitle": "Real Wedding | Artikel | HelloKahwin",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 560,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/moden-kontemporari",
+      "status": 200,
+      "title": "Moden Kontemporari | Inspire | HelloKahwin",
+      "ogTitle": "Moden Kontemporari | Artikel | HelloKahwin",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 353,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/pantai-santai",
+      "status": 200,
+      "title": "Pantai Santai | Inspire | HelloKahwin",
+      "ogTitle": "Pantai Santai | Artikel | HelloKahwin",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 322,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/glamor-eksklusif",
+      "status": 200,
+      "title": "Glamor Eksklusif | Inspire | HelloKahwin",
+      "ogTitle": "Glamor Eksklusif | Artikel | HelloKahwin",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 357,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/fotografi-videografi",
+      "status": 200,
+      "title": "Fotografi & Videografi | Inspire | HelloKahwin",
+      "ogTitle": "Fotografi & Videografi | Artikel | HelloKahwin",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 1087,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/minimalis-mewah",
+      "status": 200,
+      "title": "Minimalis Mewah | Inspire | HelloKahwin",
+      "ogTitle": "Minimalis Mewah | Artikel | HelloKahwin",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 377,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/nikah-undang-undang",
+      "status": 200,
+      "title": "Nikah & Undang-undang | Inspire | HelloKahwin",
+      "ogTitle": "Nikah & Undang-undang | Artikel | HelloKahwin",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 346,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin",
+      "status": 200,
+      "title": "Hantaran & Mas Kahwin | Inspire | HelloKahwin",
+      "ogTitle": "Hantaran & Mas Kahwin | Artikel | HelloKahwin",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 338,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/ucapan-doa",
+      "status": 200,
+      "title": "Ucapan, Doa & Adab Majlis | Inspire | HelloKahwin",
+      "ogTitle": "Ucapan, Doa & Adab Majlis | Artikel | HelloKahwin",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 334,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/busana-pengantin",
+      "status": 200,
+      "title": "Busana & Penampilan Pengantin | Inspire | HelloKahwin",
+      "ogTitle": "Busana & Penampilan Pengantin | Artikel | HelloKahwin",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 323,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/pelamin-kad-cenderahati",
+      "status": 200,
+      "title": "Pelamin, Kad & Cenderahati Majlis | Inspire | HelloKahwin",
+      "ogTitle": "Pelamin, Kad & Cenderahati Majlis | Artikel | HelloKahwin",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 314,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/venue-perancangan",
+      "status": 200,
+      "title": "Venue, Kos & Perancangan | Inspire | HelloKahwin",
+      "ogTitle": "Venue, Kos & Perancangan | Artikel | HelloKahwin",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 354,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/sebelum-nikah",
+      "status": 200,
+      "title": "Sebelum Nikah: Jodoh, Merisik & Tunang | Inspire | HelloKahwin",
+      "ogTitle": "Sebelum Nikah: Jodoh, Merisik & Tunang | Artikel | HelloKahwin",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 332,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang",
+      "status": 200,
+      "title": "Hantaran tunang | HelloKahwin",
+      "ogTitle": "Hantaran tunang",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 4880,
+      "verdict": "slug-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/busana-pengantin/baju-pengantin-sewa-atau-beli",
+      "status": 200,
+      "title": "Baju pengantin: sewa atau beli, dan kos sebenar 2026 | HelloKahwin",
+      "ogTitle": "Baju pengantin: sewa atau beli, dan kos sebenar 2026",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3011,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/glamor-eksklusif/amankila-bali",
+      "status": 200,
+      "title": "Majlis Perkahwinan Mewah dan Berkonsep Organik di Amankila, Bali | HelloKahwin",
+      "ogTitle": "Majlis Perkahwinan Mewah dan Berkonsep Organik di Amankila, Bali",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3032,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-sabah-sarawak",
+      "status": 200,
+      "title": "Mas kahwin sabah sarawak | HelloKahwin",
+      "ogTitle": "Mas kahwin sabah sarawak",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 6119,
+      "verdict": "slug-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/venue-perancangan/checklist-kahwin",
+      "status": 200,
+      "title": "Checklist Kahwin: Senarai Persediaan 12 Bulan Sebelum Majlis, Ikut Urutan | HelloKahwin",
+      "ogTitle": "Checklist Kahwin: Senarai Persediaan 12 Bulan Sebelum Majlis, Ikut Urutan",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2998,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/glamor-eksklusif/grand-hyatt-kuala-lumpur",
+      "status": 200,
+      "title": "Majlis Perkahwinan Putih Bergaya di Grand Hyatt Kuala Lumpur | HelloKahwin",
+      "ogTitle": "Majlis Perkahwinan Putih Bergaya di Grand Hyatt Kuala Lumpur",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2887,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/venue-perancangan/pakej-dewan-kahwin",
+      "status": 200,
+      "title": "Pakej Dewan Kahwin: Apa yang Termasuk, dan Apa yang Selalu Tak Termasuk | HelloKahwin",
+      "ogTitle": "Pakej Dewan Kahwin: Apa yang Termasuk, dan Apa yang Selalu Tak Termasuk",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2763,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/ucapan-doa/ucapan-pengantin-baru",
+      "status": 200,
+      "title": "Ucapan pengantin baru: apa yang ditulis ikut siapa dia | HelloKahwin",
+      "ogTitle": "Ucapan pengantin baru: apa yang ditulis ikut siapa dia",
+      "cache": "HIT",
+      "age": "129",
+      "ms": 55,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-pahang-negeri-sembilan",
+      "status": 200,
+      "title": "Mas kahwin Pahang dan Negeri Sembilan 2026: kadar rasmi | HelloKahwin",
+      "ogTitle": "Mas kahwin Pahang dan Negeri Sembilan 2026: kadar rasmi",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2959,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/real-wedding/villa-warisan",
+      "status": 200,
+      "title": "Villa Warisan: Majlis Perkahwinan Tradisional di Lokasi Bernuansa Kayu dan Penuh Nilai Warisan | HelloKahwin",
+      "ogTitle": "Villa Warisan: Majlis Perkahwinan Tradisional di Lokasi Bernuansa Kayu dan Penuh Nilai Warisan",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2894,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/moden-kontemporari/marriott-putrajaya",
+      "status": 200,
+      "title": "Tema Perkahwinan Monokrom yang Bergaya di Marriott Putrajaya | HelloKahwin",
+      "ogTitle": "Tema Perkahwinan Monokrom yang Bergaya di Marriott Putrajaya",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2879,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/cara-buat-kad-kahwin-digital",
+      "status": 200,
+      "title": "Cara Buat Kad Kahwin Digital Sendiri – Lengkap Dengan Contoh & Template Percuma | HelloKahwin",
+      "ogTitle": "Cara Buat Kad Kahwin Digital Sendiri – Lengkap Dengan Contoh & Template Percuma",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3208,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/ucapan-doa/doa-majlis-perkahwinan",
+      "status": 200,
+      "title": "Doa majlis perkahwinan: struktur, tempoh dan siapa baca | HelloKahwin",
+      "ogTitle": "Doa majlis perkahwinan: struktur, tempoh dan siapa baca",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2945,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/venue-perancangan/harga-sewa-dewan-kahwin",
+      "status": 200,
+      "title": "Harga Sewa Dewan Kahwin 2026: Kadar Rasmi Majlis Perbandaran, Bukan Anggaran | HelloKahwin",
+      "ogTitle": "Harga Sewa Dewan Kahwin 2026: Kadar Rasmi Majlis Perbandaran, Bukan Anggaran",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2968,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/real-wedding/cheong-fatt-tze-mansion",
+      "status": 200,
+      "title": "Perkahwinan Pelbagai Budaya di Cheong Fatt Tze Mansion, Ikon Bersejarah Pulau Pinang | HelloKahwin",
+      "ogTitle": "Perkahwinan Pelbagai Budaya di Cheong Fatt Tze Mansion, Ikon Bersejarah Pulau Pinang",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2998,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/real-wedding/sentosa-janda-baik",
+      "status": 200,
+      "title": "Majlis Perkahwinan Penuh Nilai Budaya di Sentosa, Janda Baik dengan Inspirasi Warisan Diraja | HelloKahwin",
+      "ogTitle": "Majlis Perkahwinan Penuh Nilai Budaya di Sentosa, Janda Baik dengan Inspirasi Warisan Diraja",
+      "cache": "HIT",
+      "age": "148",
+      "ms": 59,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/pelamin-kahwin-dewan",
+      "status": 200,
+      "title": "10 Jenis Venue Dewan Kahwin yang Sesuai untuk Pelamin Gaya Moden | HelloKahwin",
+      "ogTitle": "10 Jenis Venue Dewan Kahwin yang Sesuai untuk Pelamin Gaya Moden",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3240,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-kahwin-5-balas-7",
+      "status": 200,
+      "title": "Hantaran kahwin 5 balas 7: isi dua belas dulang itu | HelloKahwin",
+      "ogTitle": "Hantaran kahwin 5 balas 7: isi dua belas dulang itu",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2983,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/nisbah-hantaran",
+      "status": 200,
+      "title": "Nisbah hantaran: maksud dulang berbalas dan asal usulnya | HelloKahwin",
+      "ogTitle": "Nisbah hantaran: maksud dulang berbalas dan asal usulnya",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3019,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/busana-pengantin/inai-tangan-pengantin",
+      "status": 200,
+      "title": "Inai tangan pengantin: mana selamat, berapa lama tahan | HelloKahwin",
+      "ogTitle": "Inai tangan pengantin: mana selamat, berapa lama tahan",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3101,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang-3-balas-5",
+      "status": 200,
+      "title": "Hantaran tunang 3 balas 5: apa yang dibawa dan dibalas | HelloKahwin",
+      "ogTitle": "Hantaran tunang 3 balas 5: apa yang dibawa dan dibalas",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3192,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/minimalis-mewah/the-danna-langkawi",
+      "status": 200,
+      "title": "Majlis Perkahwinan Intim Bertemakan Warna Pastel Tropika di The Danna Langkawi | HelloKahwin",
+      "ogTitle": "Majlis Perkahwinan Intim Bertemakan Warna Pastel Tropika di The Danna Langkawi",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2803,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/barang-hantaran-perempuan",
+      "status": 200,
+      "title": "Barang hantaran perempuan | HelloKahwin",
+      "ogTitle": "Barang hantaran perempuan",
+      "cache": "HIT",
+      "age": "223",
+      "ms": 55,
+      "verdict": "slug-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang-untuk-lelaki",
+      "status": 200,
+      "title": "Hantaran tunang untuk lelaki: apa yang dibalas dan harganya | HelloKahwin",
+      "ogTitle": "Hantaran tunang untuk lelaki: apa yang dibalas dan harganya",
+      "cache": "HIT",
+      "age": "218",
+      "ms": 49,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/bilangan-dulang-hantaran-ganjil",
+      "status": 200,
+      "title": "Bilangan dulang hantaran ganjil: adat, atau boleh genap? | HelloKahwin",
+      "ogTitle": "Bilangan dulang hantaran ganjil: adat, atau boleh genap?",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2917,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/cara-tetapkan-duit-hantaran",
+      "status": 200,
+      "title": "Cara tetapkan jumlah duit hantaran tanpa jatuh air muka | HelloKahwin",
+      "ogTitle": "Cara tetapkan jumlah duit hantaran tanpa jatuh air muka",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2958,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/duit-hantaran-kahwin",
+      "status": 200,
+      "title": "Duit hantaran kahwin: beza dengan mas kahwin dan hak siapa | HelloKahwin",
+      "ogTitle": "Duit hantaran kahwin: beza dengan mas kahwin dan hak siapa",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3031,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/sebelum-nikah/doa-majlis-pertunangan",
+      "status": 200,
+      "title": "Doa Majlis Pertunangan: Apa yang Sebenarnya Dibaca, dan Apa yang Tidak | HelloKahwin",
+      "ogTitle": "Doa Majlis Pertunangan: Apa yang Sebenarnya Dibaca, dan Apa yang Tidak",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3067,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/dewan-kahwin",
+      "status": 200,
+      "title": "Dewan Kahwin KL & Selangor 2026 Bawah RM5,000 | HelloKahwin",
+      "ogTitle": "10 Dewan Kahwin Murah di Selangor & KL – Sesuai untuk Bajet Bawah RM5,000",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3081,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/real-wedding/perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan",
+      "status": 200,
+      "title": "Perkahwinan di Ruma Hotel Kuala Lumpur Dengan Sentuhan Warisan Peranakan | HelloKahwin",
+      "ogTitle": "Perkahwinan di Ruma Hotel Kuala Lumpur Dengan Sentuhan Warisan Peranakan",
+      "cache": "HIT",
+      "age": "230",
+      "ms": 46,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/tempat-honeymoon-di-malaysia",
+      "status": 200,
+      "title": "19 Tempat Honeymoon Terbaik di Malaysia 2026 | HelloKahwin",
+      "ogTitle": "19 Tempat Honeymoon di Malaysia yang Wajib Masuk Wishlist Pasangan",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3544,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/moden-kontemporari/jw-marriott-kuala-lumpur",
+      "status": 200,
+      "title": "Perkahwinan Kontemporari Bertema Chinoiserie di JW Marriott Kuala Lumpur | HelloKahwin",
+      "ogTitle": "Perkahwinan Kontemporari Bertema Chinoiserie di JW Marriott Kuala Lumpur",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2798,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/moden-kontemporari/perkahwinan-romantis-di-jen-shangri-la-puteri-harbour",
+      "status": 200,
+      "title": "Perkahwinan Romantis di JEN Shangri-La, Puteri Harbour | HelloKahwin",
+      "ogTitle": "Perkahwinan Romantis di JEN Shangri-La, Puteri Harbour",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3561,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-coklat",
+      "status": 200,
+      "title": "Hantaran coklat: cara ia tahan sepanjang petang yang panas | HelloKahwin",
+      "ogTitle": "Hantaran coklat: cara ia tahan sepanjang petang yang panas",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2976,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/gubahan-hantaran-simple",
+      "status": 200,
+      "title": "Gubahan hantaran simple tapi cantik: 6 gaya dan harganya | HelloKahwin",
+      "ogTitle": "Gubahan hantaran simple tapi cantik: 6 gaya dan harganya",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2974,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang-simple",
+      "status": 200,
+      "title": "Hantaran tunang simple: contoh lapan dulang dan kosnya | HelloKahwin",
+      "ogTitle": "Hantaran tunang simple: contoh lapan dulang dan kosnya",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2978,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tema-warna",
+      "status": 200,
+      "title": "Tema warna hantaran: cara padankan tanpa beli dua kali | HelloKahwin",
+      "ogTitle": "Tema warna hantaran: cara padankan tanpa beli dua kali",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2929,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/nikah-undang-undang/lafaz-taklik",
+      "status": 200,
+      "title": "Lafaz Taklik: Apa Suami Baca Selepas Akad, dan Apa Ertinya | HelloKahwin",
+      "ogTitle": "Lafaz Taklik: Apa Suami Baca Selepas Akad, dan Apa Ertinya",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2926,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tempah-atau-buat-sendiri",
+      "status": 200,
+      "title": "Hantaran: tempah atau buat sendiri? Kos sebenar 7 dulang | HelloKahwin",
+      "ogTitle": "Hantaran: tempah atau buat sendiri? Kos sebenar 7 dulang",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2929,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hidden-hantaran",
+      "status": 200,
+      "title": "Hidden hantaran: maksud, sebab ia popular dan cara buat | HelloKahwin",
+      "ogTitle": "Hidden hantaran: maksud, sebab ia popular dan cara buat",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 1150,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/gubahan-hantaran",
+      "status": 200,
+      "title": "Gubahan hantaran: cara susun dan cara baca sebut harga | HelloKahwin",
+      "ogTitle": "Gubahan hantaran: cara susun dan cara baca sebut harga",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3225,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri",
+      "status": 200,
+      "title": "Mas kahwin ikut negeri 2026: RM22.50 ke RM300 | HelloKahwin",
+      "ogTitle": "Mas kahwin ikut negeri 2026: kadar minimum setiap negeri",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2966,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-perak",
+      "status": 200,
+      "title": "Mas kahwin Perak 2026: tiada kadar minimum ditetapkan | HelloKahwin",
+      "ogTitle": "Mas kahwin Perak 2026: tiada kadar minimum ditetapkan",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2950,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/majlis-kahwin",
+      "status": 200,
+      "title": "10 Lokasi Majlis Kahwin yang Popular di Shah Alam | HelloKahwin",
+      "ogTitle": "10 Lokasi Majlis Kahwin yang Popular di Shah Alam",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3097,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/busana-pengantin/songket-tenunan-tangan-atau-cetak",
+      "status": 200,
+      "title": "Kain songket tenunan tangan atau cetak: beza dan harga | HelloKahwin",
+      "ogTitle": "Kain songket tenunan tangan atau cetak: beza dan harga",
+      "cache": "HIT",
+      "age": "271",
+      "ms": 45,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/pelamin-kad-cenderahati/pelamin",
+      "status": 200,
+      "title": "Pelamin 2026: jenis, saiz dan apa yang menentukan harga | HelloKahwin",
+      "ogTitle": "Pelamin 2026: jenis, saiz dan apa yang menentukan harga",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3150,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/hadiah-untuk-pengantin",
+      "status": 200,
+      "title": "Hadiah untuk Pengantin Sesuai untuk Semua Bajet – 17 Pilihan | HelloKahwin",
+      "ogTitle": "Hadiah untuk Pengantin Sesuai untuk Semua Bajet – 17 Pilihan",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3127,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/sebelum-nikah/taaruf-maksud",
+      "status": 200,
+      "title": "Taaruf Maksud: Apa Itu Taaruf dan Apa Bezanya dengan Bercinta | HelloKahwin",
+      "ogTitle": "Taaruf Maksud: Apa Itu Taaruf dan Apa Bezanya dengan Bercinta",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3092,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-melebihi-kadar-minimum",
+      "status": 200,
+      "title": "Bolehkah mas kahwin melebihi kadar minimum negeri? | HelloKahwin",
+      "ogTitle": "Bolehkah mas kahwin melebihi kadar minimum negeri?",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2992,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-johor",
+      "status": 200,
+      "title": "Mas kahwin Johor 2026: RM22.50 dan asal usul angkanya | HelloKahwin",
+      "ogTitle": "Mas kahwin Johor 2026: RM22.50 dan asal usul angkanya",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2913,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/nikah-undang-undang/syarat-sah-nikah",
+      "status": 200,
+      "title": "Syarat Sah Nikah: Senarai Penuh Ikut Setiap Pihak | HelloKahwin",
+      "ogTitle": "Syarat Sah Nikah: Senarai Penuh Ikut Setiap Pihak",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2959,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/ucapan-doa/walimatul-urus",
+      "status": 200,
+      "title": "Walimatul urus: maksud, hukum dan adab jemputan | HelloKahwin",
+      "ogTitle": "Walimatul urus: maksud, hukum dan adab jemputan",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3082,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/dulang-hantaran",
+      "status": 200,
+      "title": "Dulang hantaran: jenis, saiz dan kos beli atau sewa | HelloKahwin",
+      "ogTitle": "Dulang hantaran: jenis, saiz dan kos beli atau sewa",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2939,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-untuk-lelaki",
+      "status": 200,
+      "title": "Hantaran untuk lelaki: senarai barang dan kos 2026 | HelloKahwin",
+      "ogTitle": "Hantaran untuk lelaki: senarai barang dan kos 2026",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2943,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-kahwin-bajet",
+      "status": 200,
+      "title": "Hantaran kahwin bajet: kos sebenar 12 dulang, 2026 | HelloKahwin",
+      "ogTitle": "Hantaran kahwin bajet: kos sebenar 12 dulang, 2026",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2908,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/ucapan-doa/skrip-pengacara-majlis-perkahwinan",
+      "status": 200,
+      "title": "Skrip pengacara majlis perkahwinan: susunan dan lafaz | HelloKahwin",
+      "ogTitle": "Skrip pengacara majlis perkahwinan: susunan dan lafaz",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3310,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/barang-hantaran-berguna",
+      "status": 200,
+      "title": "Barang hantaran berguna | HelloKahwin",
+      "ogTitle": "Barang hantaran berguna",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 5698,
+      "verdict": "slug-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/adat-hantaran-ikut-keluarga",
+      "status": 200,
+      "title": "Adat hantaran ikut keluarga: bila dua senarai berbeza | HelloKahwin",
+      "ogTitle": "Adat hantaran ikut keluarga: bila dua senarai berbeza",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3277,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/berapa-dulang-hantaran-tunang",
+      "status": 200,
+      "title": "Berapa dulang hantaran tunang, dan siapa yang tentukan | HelloKahwin",
+      "ogTitle": "Berapa dulang hantaran tunang, dan siapa yang tentukan",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 1121,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang-untuk-perempuan",
+      "status": 200,
+      "title": "Hantaran tunang untuk perempuan: apa yang dibawa masuk | HelloKahwin",
+      "ogTitle": "Hantaran tunang untuk perempuan: apa yang dibawa masuk",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 1012,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/tempat-beli-hantaran",
+      "status": 200,
+      "title": "Tempat beli hantaran | HelloKahwin",
+      "ogTitle": "Tempat beli hantaran",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 5888,
+      "verdict": "slug-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/persiapan-hantaran-kahwin",
+      "status": 200,
+      "title": "Persiapan hantaran kahwin: jadual lapan minggu | HelloKahwin",
+      "ogTitle": "Persiapan hantaran kahwin: jadual lapan minggu",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3239,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/barang-hantaran-tunang",
+      "status": 200,
+      "title": "Barang hantaran tunang: disimpan, dipulang atau dibawa ke nikah | HelloKahwin",
+      "ogTitle": "Barang hantaran tunang: disimpan, dipulang atau dibawa ke nikah",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3229,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat",
+      "status": 200,
+      "title": "Hantaran wajib atau adat: mana yang boleh ditolak | HelloKahwin",
+      "ogTitle": "Hantaran wajib atau adat: mana yang boleh ditolak",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2991,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/adat-hantaran-berbeza-negeri",
+      "status": 200,
+      "title": "Adat hantaran berbeza negeri: bila dua keluarga tak sama | HelloKahwin",
+      "ogTitle": "Adat hantaran berbeza negeri: bila dua keluarga tak sama",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3009,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/sirih-junjung",
+      "status": 200,
+      "title": "Sirih junjung: maksud, cara dibuat dan harganya 2026 | HelloKahwin",
+      "ogTitle": "Sirih junjung: maksud, cara dibuat dan harganya 2026",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2949,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/pelamin-kad-cenderahati/bunga-telur",
+      "status": 200,
+      "title": "Bunga telur: maksud, beza dengan bunga pahar, dan kos | HelloKahwin",
+      "ogTitle": "Bunga telur: maksud, beza dengan bunga pahar, dan kos",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3161,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/pelamin-kad-cenderahati/contoh-kad-jemputan-kahwin",
+      "status": 200,
+      "title": "Contoh kad jemputan kahwin: susunan, ayat dan silap biasa | HelloKahwin",
+      "ogTitle": "Contoh kad jemputan kahwin: susunan, ayat dan silap biasa",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3149,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/sebelum-nikah/cincin-tunang",
+      "status": 200,
+      "title": "Cincin Tunang, Nikah dan Merisik: Tiga Cincin, Siapa Beri yang Mana | HelloKahwin",
+      "ogTitle": "Cincin Tunang, Nikah dan Merisik: Tiga Cincin, Siapa Beri yang Mana",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3137,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/ucapan-doa/doa-pengantin-baru",
+      "status": 200,
+      "title": "Doa pengantin baru: lafaz penuh, rumi dan maksudnya | HelloKahwin",
+      "ogTitle": "Doa pengantin baru: lafaz penuh, rumi dan maksudnya",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3015,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/venue-perancangan/bajet-kahwin",
+      "status": 200,
+      "title": "Bajet Kahwin 2026: Apa yang Boleh Diharga Tepat, dan Apa yang Tidak | HelloKahwin",
+      "ogTitle": "Bajet Kahwin 2026: Apa yang Boleh Diharga Tepat, dan Apa yang Tidak",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3016,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/nikah-undang-undang/rukun-nikah",
+      "status": 200,
+      "title": "Rukun Nikah: 5 Rukun dan Apa Yang Membatalkannya | HelloKahwin",
+      "ogTitle": "Rukun Nikah: 5 Rukun dan Apa Yang Membatalkannya",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2969,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/nikah-undang-undang/borang-nikah",
+      "status": 200,
+      "title": "Borang Nikah: Borang Mana, Isi Apa, Hantar Ke Mana | HelloKahwin",
+      "ogTitle": "Borang Nikah: Borang Mana, Isi Apa, Hantar Ke Mana",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3177,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/apa-itu-mas-kahwin",
+      "status": 200,
+      "title": "Maksud mas kahwin: hak isteri dan beza dengan hantaran | HelloKahwin",
+      "ogTitle": "Maksud mas kahwin: hak isteri dan beza dengan hantaran",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2964,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-kelantan-terengganu",
+      "status": 200,
+      "title": "Mas kahwin Kelantan dan Terengganu 2026: tiada kadar tetap | HelloKahwin",
+      "ogTitle": "Mas kahwin Kelantan dan Terengganu 2026: tiada kadar tetap",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2992,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/wedding-planner-terbaik-di-malaysia",
+      "status": 200,
+      "title": "14 Wedding Planner Terbaik di Malaysia Pilihan Pengantin Tahun Ini | HelloKahwin",
+      "ogTitle": "14 Wedding Planner Terbaik di Malaysia Pilihan Pengantin Tahun Ini",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3155,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hiasan-dekorasi/goodies-kahwin",
+      "status": 200,
+      "title": "20+ Idea Goodies Kahwin & Doorgift Murah 2026 | HelloKahwin",
+      "ogTitle": "20+ Idea Goodies Kahwin dan Hadiah yang Patut Dielakkan",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3214,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/real-wedding/perkahwinan-taman-kebun-yang-minimalis-di-hulu-langat",
+      "status": 200,
+      "title": "Perkahwinan Taman Kebun yang Minimalis di Hulu Langat | HelloKahwin",
+      "ogTitle": "Perkahwinan Taman Kebun yang Minimalis di Hulu Langat",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3158,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/pantai-santai/perkahwinan-indah-di-laman-fajar-menyinsing-port-dickson",
+      "status": 200,
+      "title": "Perkahwinan Indah di Laman Fajar Menyinsing, Port Dickson | HelloKahwin",
+      "ogTitle": "Perkahwinan Indah di Laman Fajar Menyinsing, Port Dickson",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3106,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/real-wedding/yasaka-shrine",
+      "status": 200,
+      "title": "Perkahwinan Jepun di Yasaka Shrine & Majlis Resepsi Bertemakan Sakura di Sodoh Higashiyama | HelloKahwin",
+      "ogTitle": "Perkahwinan Jepun di Yasaka Shrine & Majlis Resepsi Bertemakan Sakura di Sodoh Higashiyama",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2942,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/kursus-kahwin",
+      "status": 200,
+      "title": "Kursus Kahwin 2026: Syarat, Daftar & Tempat | HelloKahwin",
+      "ogTitle": "Kursus Kahwin: Panduan Lengkap Daftar, Syarat & Tempat di Seluruh Malaysia",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3499,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik",
+      "status": 200,
+      "title": "20 Lokasi Terbaik Pre Wedding Photoshoot di Malaysia – Dari Alam Semula Jadi Hingga Urban City! | HelloKahwin",
+      "ogTitle": "20 Lokasi Terbaik Pre Wedding Photoshoot di Malaysia – Dari Alam Semula Jadi Hingga Urban City!",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3223,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-kahwin",
+      "status": 200,
+      "title": "Hantaran Kahwin Lengkap Untuk Lelaki dan Perempuan – Panduan & Tips Bajet Terkini | HelloKahwin",
+      "ogTitle": "Hantaran Kahwin Lengkap Untuk Lelaki dan Perempuan – Panduan & Tips Bajet Terkini",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2969,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/sewa-dewan-kahwin",
+      "status": 200,
+      "title": "Checklist Sewa Dewan Kahwin: Apa yang Perlu Ditanya Sebelum Bayar Deposit | HelloKahwin",
+      "ogTitle": "Checklist Sewa Dewan Kahwin: Apa yang Perlu Ditanya Sebelum Bayar Deposit",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3211,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/moden-kontemporari/sime-darby-convention-centre",
+      "status": 200,
+      "title": "Majlis Perkahwinan Mewah dengan Sentuhan Warna Lembut di Sime Darby Convention Centre | HelloKahwin",
+      "ogTitle": "Majlis Perkahwinan Mewah dengan Sentuhan Warna Lembut di Sime Darby Convention Centre",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 2887,
+      "verdict": "article-title"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding",
+      "status": 200,
+      "title": "20 Venue Garden Wedding Paling Cantik di Malaysia | HelloKahwin",
+      "ogTitle": "20 Venue Garden Wedding Paling Cantik di Malaysia",
+      "cache": "MISS",
+      "age": "0",
+      "ms": 3425,
+      "verdict": "article-title"
+    }
+  ]
+}
