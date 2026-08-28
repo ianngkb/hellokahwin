@@ -248,6 +248,19 @@ minute to relaunch; the prompts will otherwise recur indefinitely.
   admin editor does not purge the edge**, so an editor re-parent leaves the CDN
   copies in place for up to `s-maxage=300` plus stale window. A direct SQL
   write is fine when followed by both drops in that order.
+- **A secondary-only `article_categories` link DOES render the pillar
+  architecture — confirmed live, 2026-08-28, SEO-09.** CONT-04's 25 Aug note
+  flagged this as verified in code but never observed in production, because
+  no article existed yet with a secondary cluster link and no primary link
+  into the same pillar family. `cara-buat-kad-kahwin-digital` is now that
+  article: its primary category stayed `idea-dan-nasihat`, a second
+  `article_categories` row was added pointing at `kad-kahwin-jemputan` (a
+  cluster under pillar `pelamin-kad-cenderahati`), and on the first request
+  after purge its own page carried one pillar up-link and one cluster anchor,
+  and `/artikel/pelamin-kad-cenderahati` listed it back. Wave A of CONT-04's
+  plan (link seven-then-nine legacy articles to their cluster, no URL change,
+  no redirect) is confirmed to work exactly as the plan argued from code —
+  this is no longer an inference.
 - The purge set for a re-file must include the NEW URL, not just the old. A
   new URL that was ever requested before the move (a verification probe, a
   crawler) has a cached 308 back to the old URL at the edge; after the move
