@@ -1,0 +1,4 @@
+[inspire-article-meta:sentosa-janda-baik] degraded to tier=fallback (deadlines 1ms/1ms): deadline_exceeded:inspire-article-meta:sentosa-janda-baik
+[inspire-article-meta:sentosa-janda-baik] degraded to tier=slug (deadlines 1ms/1ms): deadline_exceeded:inspire-article-meta-fallback:sentosa-janda-baik
+[inspire-article-meta:songket-tenunan-tangan-atau-cetak] degraded to tier=fallback (deadlines 1ms/1ms): deadline_exceeded:inspire-article-meta:songket-tenunan-tangan-atau-cetak
+[inspire-article-meta:songket-tenunan-tangan-atau-cetak] degraded to tier=slug (deadlines 1ms/1ms): deadline_exceeded:inspire-article-meta-fallback:songket-tenunan-tangan-atau-cetak

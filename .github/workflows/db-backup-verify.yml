@@ -18,7 +18,7 @@ name: DB backup freshness alarm
 
 on:
   schedule:
-    - cron: '17 22 * * *'   # 22:17 UTC = 06:17 MYT, four hours after the backup
+    - cron: '17 22 * * *' # 22:17 UTC = 06:17 MYT, four hours after the backup
   workflow_dispatch:
 
 permissions:
