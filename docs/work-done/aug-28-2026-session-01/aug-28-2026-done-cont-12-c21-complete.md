@@ -127,6 +127,12 @@ dulang and gubahan — dulang and gubahan appear in no sibling's comparison tabl
 and then one short, sourced answer per question with a link down to the article
 that carries the working. **19 unique internal links**, all followed.
 
+A link you wrote is not a link Google follows, so the emitted `<a>` tags were
+counted on the shipped HTML rather than in the draft. The served page carries
+**20** unique `/artikel/hantaran-mas-kahwin/*` anchors, and the extra one is
+`persiapan-hantaran-kahwin` from the template's related-articles block, not from
+the body. **Zero of the twenty carry `rel="nofollow"`.**
+
 ### The body, in numbers
 
 | | Before | After |
