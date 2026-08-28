@@ -263,8 +263,12 @@ told writers:
 No engineer marked anything up at ingest, and no code did either — that line
 described behaviour the codebase did not have, for the whole life of the
 corpus. It now describes what actually happens, and turns the block's format
-rules into the contract that decides whether the schema appears at all. The
-edit is in the same commit series as this entry; see the retrospective below.
+rules into the contract that decides whether the schema appears at all.
+
+That file lives on `feat/command-centre-dashboard`, not on `master` — the two
+lines of this repo hold the docs and the site separately. The edit is commit
+`0ed754b` on that branch, pushed, together with the two other documents named in
+the retrospective.
 
 ## Method
 
