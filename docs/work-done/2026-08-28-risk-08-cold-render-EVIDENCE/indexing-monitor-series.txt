@@ -1,0 +1,1141 @@
+############################################################
+# GitHub Actions run 33016014024  (gh run view 33016014024 --log)
+############################################################
+2026-08-26T21:35:16.9383458Z 91 URLs in the live sitemap.
+2026-08-26T21:35:17.0946163Z 
+2026-08-26T21:35:17.0947431Z Inspecting…
+2026-08-26T21:35:23.4930841Z   [  1/91] https://hellokahwin.com/artikel
+2026-08-26T21:35:23.4931567Z         Submitted and indexed
+2026-08-26T21:35:23.5351680Z   [  2/91] https://hellokahwin.com/artikel/idea-dan-nasihat
+2026-08-26T21:35:23.5352845Z         Submitted and indexed
+2026-08-26T21:35:23.5357084Z   [  3/91] https://hellokahwin.com
+2026-08-26T21:35:23.5357994Z         Submitted and indexed
+2026-08-26T21:35:23.5498343Z   [  4/91] https://hellokahwin.com/artikel/hiasan-dekorasi
+2026-08-26T21:35:23.5499666Z         Excluded by ‘noindex’ tag
+2026-08-26T21:35:29.8727718Z   [  5/91] https://hellokahwin.com/artikel/real-wedding
+2026-08-26T21:35:29.8728388Z         Submitted and indexed
+2026-08-26T21:35:29.8769928Z   [  6/91] https://hellokahwin.com/artikel/pantai-santai
+2026-08-26T21:35:29.8771219Z         Excluded by ‘noindex’ tag
+2026-08-26T21:35:29.8858396Z   [  7/91] https://hellokahwin.com/artikel/moden-kontemporari
+2026-08-26T21:35:29.8859549Z         Excluded by ‘noindex’ tag
+2026-08-26T21:35:29.9428071Z   [  8/91] https://hellokahwin.com/artikel/glamor-eksklusif
+2026-08-26T21:35:29.9429335Z         Excluded by ‘noindex’ tag
+2026-08-26T21:35:36.2140349Z   [  9/91] https://hellokahwin.com/artikel/fotografi-videografi
+2026-08-26T21:35:36.2141350Z         Excluded by ‘noindex’ tag
+2026-08-26T21:35:36.2227593Z   [ 10/91] https://hellokahwin.com/artikel/nikah-undang-undang
+2026-08-26T21:35:36.2228405Z         Submitted and indexed
+2026-08-26T21:35:36.2245983Z   [ 11/91] https://hellokahwin.com/artikel/minimalis-mewah
+2026-08-26T21:35:36.2247368Z         Excluded by ‘noindex’ tag
+2026-08-26T21:35:36.3316343Z   [ 12/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin
+2026-08-26T21:35:36.3317266Z         Submitted and indexed
+2026-08-26T21:35:42.5654938Z   [ 13/91] https://hellokahwin.com/artikel/pelamin-kad-cenderahati
+2026-08-26T21:35:42.5658228Z         Submitted and indexed
+2026-08-26T21:35:42.6198884Z   [ 14/91] https://hellokahwin.com/artikel/ucapan-doa
+2026-08-26T21:35:42.6199777Z         Submitted and indexed
+2026-08-26T21:35:42.6349172Z   [ 15/91] https://hellokahwin.com/artikel/busana-pengantin
+2026-08-26T21:35:42.6350927Z         Submitted and indexed
+2026-08-26T21:35:42.6720776Z   [ 16/91] https://hellokahwin.com/artikel/venue-perancangan
+2026-08-26T21:35:42.6721478Z         Submitted and indexed
+2026-08-26T21:35:48.9741763Z   [ 17/91] https://hellokahwin.com/artikel/busana-pengantin/baju-pengantin-sewa-atau-beli
+2026-08-26T21:35:48.9742542Z         Submitted and indexed
+2026-08-26T21:35:49.0081385Z   [ 18/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-kelantan-terengganu
+2026-08-26T21:35:49.0082491Z         Submitted and indexed
+2026-08-26T21:35:49.0636080Z   [ 19/91] https://hellokahwin.com/artikel/sebelum-nikah
+2026-08-26T21:35:49.0636984Z         Submitted and indexed
+2026-08-26T21:35:49.1092802Z   [ 20/91] https://hellokahwin.com/artikel/glamor-eksklusif/amankila-bali
+2026-08-26T21:35:49.1093696Z         Submitted and indexed
+2026-08-26T21:35:55.3135681Z   [ 21/91] https://hellokahwin.com/artikel/nikah-undang-undang/rukun-nikah
+2026-08-26T21:35:55.3137188Z         Submitted and indexed
+2026-08-26T21:35:55.4077791Z   [ 22/91] https://hellokahwin.com/artikel/venue-perancangan/checklist-kahwin
+2026-08-26T21:35:55.4079114Z         Submitted and indexed
+2026-08-26T21:35:55.4313223Z   [ 23/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-sabah-sarawak
+2026-08-26T21:35:55.4314553Z         Submitted and indexed
+2026-08-26T21:35:55.4855951Z   [ 24/91] https://hellokahwin.com/artikel/sebelum-nikah/cincin-tunang
+2026-08-26T21:35:55.4857408Z         Submitted and indexed
+2026-08-26T21:36:01.6621994Z   [ 25/91] https://hellokahwin.com/artikel/glamor-eksklusif/grand-hyatt-kuala-lumpur
+2026-08-26T21:36:01.6623289Z         Submitted and indexed
+2026-08-26T21:36:01.7356213Z   [ 26/91] https://hellokahwin.com/artikel/venue-perancangan/bajet-kahwin
+2026-08-26T21:36:01.7357656Z         Submitted and indexed
+2026-08-26T21:36:01.7977841Z   [ 27/91] https://hellokahwin.com/artikel/venue-perancangan/pakej-dewan-kahwin
+2026-08-26T21:36:01.7979403Z         Submitted and indexed
+2026-08-26T21:36:01.8538814Z   [ 28/91] https://hellokahwin.com/artikel/ucapan-doa/ucapan-pengantin-baru
+2026-08-26T21:36:01.8540004Z         Submitted and indexed
+2026-08-26T21:36:08.0654973Z   [ 29/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-pahang-negeri-sembilan
+2026-08-26T21:36:08.0655860Z         Submitted and indexed
+2026-08-26T21:36:08.0727121Z   [ 30/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/sirih-junjung
+2026-08-26T21:36:08.0727861Z         Submitted and indexed
+2026-08-26T21:36:08.1923655Z   [ 31/91] https://hellokahwin.com/artikel/ucapan-doa/doa-pengantin-baru
+2026-08-26T21:36:08.1924336Z         Submitted and indexed
+2026-08-26T21:36:08.2532187Z   [ 32/91] https://hellokahwin.com/artikel/real-wedding/villa-warisan
+2026-08-26T21:36:08.2532906Z         Submitted and indexed
+2026-08-26T21:36:14.4348682Z   [ 33/91] https://hellokahwin.com/artikel/moden-kontemporari/marriott-putrajaya
+2026-08-26T21:36:14.4349575Z         Submitted and indexed
+2026-08-26T21:36:14.4359448Z   [ 34/91] https://hellokahwin.com/artikel/pelamin-kad-cenderahati/contoh-kad-jemputan-kahwin
+2026-08-26T21:36:14.4360979Z         Submitted and indexed
+2026-08-26T21:36:14.6115925Z   [ 35/91] https://hellokahwin.com/artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik
+2026-08-26T21:36:14.6117295Z         Discovered - currently not indexed
+2026-08-26T21:36:14.6208326Z   [ 36/91] https://hellokahwin.com/artikel/idea-dan-nasihat/cara-buat-kad-kahwin-digital
+2026-08-26T21:36:14.6209453Z         Submitted and indexed
+2026-08-26T21:36:20.7680923Z   [ 37/91] https://hellokahwin.com/artikel/ucapan-doa/doa-majlis-perkahwinan
+2026-08-26T21:36:20.7681867Z         Submitted and indexed
+2026-08-26T21:36:20.8010625Z   [ 38/91] https://hellokahwin.com/artikel/venue-perancangan/harga-sewa-dewan-kahwin
+2026-08-26T21:36:20.8011752Z         Submitted and indexed
+2026-08-26T21:36:20.9386303Z   [ 39/91] https://hellokahwin.com/artikel/real-wedding/cheong-fatt-tze-mansion
+2026-08-26T21:36:20.9387265Z         Submitted and indexed
+2026-08-26T21:36:20.9719577Z   [ 40/91] https://hellokahwin.com/artikel/moden-kontemporari/sime-darby-convention-centre
+2026-08-26T21:36:20.9720680Z         Submitted and indexed
+2026-08-26T21:36:27.0968882Z   [ 41/91] https://hellokahwin.com/artikel/real-wedding/sentosa-janda-baik
+2026-08-26T21:36:27.0969930Z         Submitted and indexed
+2026-08-26T21:36:27.1705039Z   [ 42/91] https://hellokahwin.com/artikel/idea-dan-nasihat/pelamin-kahwin-dewan
+2026-08-26T21:36:27.1705996Z         Submitted and indexed
+2026-08-26T21:36:27.2837636Z   [ 43/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang
+2026-08-26T21:36:27.2838481Z         Discovered - currently not indexed
+2026-08-26T21:36:27.4835158Z   [ 44/91] https://hellokahwin.com/artikel/busana-pengantin/inai-tangan-pengantin
+2026-08-26T21:36:27.4835894Z         Submitted and indexed
+2026-08-26T21:36:33.3222251Z   [ 45/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/nisbah-hantaran
+2026-08-26T21:36:33.3223244Z         Submitted and indexed
+2026-08-26T21:36:33.5283512Z   [ 46/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-kahwin-5-balas-7
+2026-08-26T21:36:33.5284611Z         Submitted and indexed
+2026-08-26T21:36:33.7474717Z   [ 47/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat
+2026-08-26T21:36:33.7475647Z         Submitted and indexed
+2026-08-26T21:36:34.0230001Z   [ 48/91] https://hellokahwin.com/artikel/minimalis-mewah/the-danna-langkawi
+2026-08-26T21:36:34.0231343Z         Submitted and indexed
+2026-08-26T21:36:39.6618111Z   [ 49/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang-3-balas-5
+2026-08-26T21:36:39.6619070Z         Submitted and indexed
+2026-08-26T21:36:39.9100786Z   [ 50/91] https://hellokahwin.com/artikel/real-wedding/perkahwinan-taman-kebun-yang-minimalis-di-hulu-langat
+2026-08-26T21:36:39.9101790Z         Submitted and indexed
+2026-08-26T21:36:40.0901741Z   [ 51/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/bilangan-dulang-hantaran-ganjil
+2026-08-26T21:36:40.0902731Z         Discovered - currently not indexed
+2026-08-26T21:36:40.4027424Z   [ 52/91] https://hellokahwin.com/artikel/sebelum-nikah/doa-majlis-pertunangan
+2026-08-26T21:36:40.4029048Z         Submitted and indexed
+2026-08-26T21:36:46.0086640Z   [ 53/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/duit-hantaran-kahwin
+2026-08-26T21:36:46.0087760Z         Submitted and indexed
+2026-08-26T21:36:46.2632332Z   [ 54/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/cara-tetapkan-duit-hantaran
+2026-08-26T21:36:46.2633602Z         Submitted and indexed
+2026-08-26T21:36:46.4548712Z   [ 55/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/adat-hantaran-berbeza-negeri
+2026-08-26T21:36:46.4549775Z         Submitted and indexed
+2026-08-26T21:36:46.7673845Z   [ 56/91] https://hellokahwin.com/artikel/real-wedding/perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan
+2026-08-26T21:36:46.7675417Z         Submitted and indexed
+2026-08-26T21:36:52.3587837Z   [ 57/91] https://hellokahwin.com/artikel/pantai-santai/perkahwinan-indah-di-laman-fajar-menyinsing-port-dickson
+2026-08-26T21:36:52.3589538Z         Submitted and indexed
+2026-08-26T21:36:52.5808752Z   [ 58/91] https://hellokahwin.com/artikel/idea-dan-nasihat/dewan-kahwin
+2026-08-26T21:36:52.5809693Z         Submitted and indexed
+2026-08-26T21:36:52.8439640Z   [ 59/91] https://hellokahwin.com/artikel/hiasan-dekorasi/goodies-kahwin
+2026-08-26T21:36:52.8440820Z         Submitted and indexed
+2026-08-26T21:36:53.1252330Z   [ 60/91] https://hellokahwin.com/artikel/moden-kontemporari/jw-marriott-kuala-lumpur
+2026-08-26T21:36:53.1253256Z         Submitted and indexed
+2026-08-26T21:36:58.7334097Z   [ 61/91] https://hellokahwin.com/artikel/pelamin-kad-cenderahati/bunga-telur
+2026-08-26T21:36:58.7335090Z         Submitted and indexed
+2026-08-26T21:36:58.9505049Z   [ 62/91] https://hellokahwin.com/artikel/idea-dan-nasihat/tempat-honeymoon-di-malaysia
+2026-08-26T21:36:58.9506058Z         Submitted and indexed
+2026-08-26T21:36:59.2006783Z   [ 63/91] https://hellokahwin.com/artikel/moden-kontemporari/perkahwinan-romantis-di-jen-shangri-la-puteri-harbour
+2026-08-26T21:36:59.2008299Z         Submitted and indexed
+2026-08-26T21:36:59.4620675Z   [ 64/91] https://hellokahwin.com/artikel/nikah-undang-undang/borang-nikah
+2026-08-26T21:36:59.4621619Z         Submitted and indexed
+2026-08-26T21:37:05.0499789Z   [ 65/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-coklat
+2026-08-26T21:37:05.0501164Z         URL is unknown to Google
+2026-08-26T21:37:05.2746558Z   [ 66/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/gubahan-hantaran-simple
+2026-08-26T21:37:05.2747904Z         URL is unknown to Google
+2026-08-26T21:37:05.5436171Z   [ 67/91] https://hellokahwin.com/artikel/real-wedding/yasaka-shrine
+2026-08-26T21:37:05.5437075Z         Submitted and indexed
+2026-08-26T21:37:05.8075398Z   [ 68/91] https://hellokahwin.com/artikel/nikah-undang-undang/lafaz-taklik
+2026-08-26T21:37:05.8075987Z         Submitted and indexed
+2026-08-26T21:37:11.5316574Z   [ 69/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tema-warna
+2026-08-26T21:37:11.5318051Z         URL is unknown to Google
+2026-08-26T21:37:11.6148934Z   [ 70/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tempah-atau-buat-sendiri
+2026-08-26T21:37:11.6151430Z         URL is unknown to Google
+2026-08-26T21:37:11.9018225Z   [ 71/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hidden-hantaran
+2026-08-26T21:37:11.9019332Z         URL is unknown to Google
+2026-08-26T21:37:12.1434963Z   [ 72/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/gubahan-hantaran
+2026-08-26T21:37:12.1436523Z         Submitted and indexed
+2026-08-26T21:37:17.8929658Z   [ 73/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-kahwin
+2026-08-26T21:37:17.8931613Z         Submitted and indexed
+2026-08-26T21:37:17.9554822Z   [ 74/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri
+2026-08-26T21:37:17.9555687Z         Submitted and indexed
+2026-08-26T21:37:18.2775653Z   [ 75/91] https://hellokahwin.com/artikel/idea-dan-nasihat/majlis-kahwin
+2026-08-26T21:37:18.2776433Z         Submitted and indexed
+2026-08-26T21:37:18.4673293Z   [ 76/91] https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding
+2026-08-26T21:37:18.4674245Z         Submitted and indexed
+2026-08-26T21:37:24.3018530Z   [ 77/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-perak
+2026-08-26T21:37:24.3019649Z         Submitted and indexed
+2026-08-26T21:37:24.3882564Z   [ 78/91] https://hellokahwin.com/artikel/idea-dan-nasihat/sewa-dewan-kahwin
+2026-08-26T21:37:24.3884192Z         Submitted and indexed
+2026-08-26T21:37:24.6458955Z   [ 79/91] https://hellokahwin.com/artikel/busana-pengantin/songket-tenunan-tangan-atau-cetak
+2026-08-26T21:37:24.6459736Z         Submitted and indexed
+2026-08-26T21:37:24.8040567Z   [ 80/91] https://hellokahwin.com/artikel/pelamin-kad-cenderahati/pelamin
+2026-08-26T21:37:24.8041639Z         Submitted and indexed
+2026-08-26T21:37:30.6559967Z   [ 81/91] https://hellokahwin.com/artikel/idea-dan-nasihat/hadiah-untuk-pengantin
+2026-08-26T21:37:30.6561432Z         Discovered - currently not indexed
+2026-08-26T21:37:30.7094205Z   [ 82/91] https://hellokahwin.com/artikel/idea-dan-nasihat/wedding-planner-terbaik-di-malaysia
+2026-08-26T21:37:30.7095624Z         Submitted and indexed
+2026-08-26T21:37:31.0021592Z   [ 83/91] https://hellokahwin.com/artikel/sebelum-nikah/taaruf-maksud
+2026-08-26T21:37:31.0022134Z         Submitted and indexed
+2026-08-26T21:37:31.1570886Z   [ 84/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-johor
+2026-08-26T21:37:31.1571943Z         Submitted and indexed
+2026-08-26T21:37:37.0037820Z   [ 85/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/apa-itu-mas-kahwin
+2026-08-26T21:37:37.0038552Z         Submitted and indexed
+2026-08-26T21:37:37.0764386Z   [ 86/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-melebihi-kadar-minimum
+2026-08-26T21:37:37.0765643Z         Submitted and indexed
+2026-08-26T21:37:37.3250984Z   [ 87/91] https://hellokahwin.com/artikel/nikah-undang-undang/syarat-sah-nikah
+2026-08-26T21:37:37.3251931Z         Submitted and indexed
+2026-08-26T21:37:37.5301086Z   [ 88/91] https://hellokahwin.com/artikel/idea-dan-nasihat/kursus-kahwin
+2026-08-26T21:37:37.5302034Z         Submitted and indexed
+2026-08-26T21:37:43.3636406Z   [ 89/91] https://hellokahwin.com/artikel/ucapan-doa/walimatul-urus
+2026-08-26T21:37:43.3637071Z         Submitted and indexed
+2026-08-26T21:37:43.4019708Z   [ 90/91] https://hellokahwin.com/artikel/hantaran-mas-kahwin/dulang-hantaran
+2026-08-26T21:37:43.4020973Z         Submitted and indexed
+2026-08-26T21:37:43.6946800Z   [ 91/91] https://hellokahwin.com/artikel/ucapan-doa/skrip-pengacara-majlis-perkahwinan
+2026-08-26T21:37:43.6948765Z         Submitted and indexed
+2026-08-26T21:37:43.6974000Z 
+2026-08-26T21:37:43.6975219Z ### Indexing monitor — 91 sitemap URLs swept
+2026-08-26T21:37:43.6975788Z 
+2026-08-26T21:37:43.6976166Z | bucket | count |
+2026-08-26T21:37:43.6976959Z | --- | --- |
+2026-08-26T21:37:43.6977830Z | alarming (dark >72h) | 0 |
+2026-08-26T21:37:43.6979063Z | watching (dark, inside 72h) | 9 |
+2026-08-26T21:37:43.6980537Z | not answered by Google | 0 |
+2026-08-26T21:37:43.6981087Z 
+2026-08-26T21:37:43.6981434Z | coverage_state | count |
+2026-08-26T21:37:43.6981987Z | --- | --- |
+2026-08-26T21:37:43.6982721Z | Submitted and indexed | 76 |
+2026-08-26T21:37:43.6983706Z | Excluded by ‘noindex’ tag | 6 |
+2026-08-26T21:37:43.6984405Z | URL is unknown to Google | 5 |
+2026-08-26T21:37:43.6985135Z | Discovered - currently not indexed | 4 |
+2026-08-26T21:37:43.6985637Z 
+2026-08-26T21:37:43.6985849Z #### Watching
+2026-08-26T21:37:43.6987640Z - `https://hellokahwin.com/artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik` — Discovered - currently not indexed (27h)
+2026-08-26T21:37:43.6989864Z - `https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang` — Discovered - currently not indexed (6h)
+2026-08-26T21:37:43.6992149Z - `https://hellokahwin.com/artikel/hantaran-mas-kahwin/bilangan-dulang-hantaran-ganjil` — Discovered - currently not indexed (6h)
+2026-08-26T21:37:43.6993643Z - `https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-coklat` — URL is unknown to Google (4h)
+2026-08-26T21:37:43.6995039Z - `https://hellokahwin.com/artikel/hantaran-mas-kahwin/gubahan-hantaran-simple` — URL is unknown to Google (4h)
+2026-08-26T21:37:43.6996459Z - `https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tema-warna` — URL is unknown to Google (4h)
+2026-08-26T21:37:43.6997909Z - `https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tempah-atau-buat-sendiri` — URL is unknown to Google (4h)
+2026-08-26T21:37:43.6999235Z - `https://hellokahwin.com/artikel/hantaran-mas-kahwin/hidden-hantaran` — URL is unknown to Google (4h)
+2026-08-26T21:37:43.7000948Z - `https://hellokahwin.com/artikel/idea-dan-nasihat/hadiah-untuk-pengantin` — Discovered - currently not indexed (27h)
+2026-08-26T21:37:43.7001552Z 
+2026-08-26T21:37:43.7002225Z alarm=false alarms=0 watching=9 blind=0 detectedAt=2026-08-26T21:37:43.696Z
+2026-08-26T21:37:43.7300806Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-08-26T21:37:43.7302234Z ##[group]Run actions/github-script@v7
+2026-08-26T21:37:43.7302581Z with:
+2026-08-26T21:37:43.7307874Z   script: const fs = require('fs');
+const path = `$***process.env.OUT_DIR***/alarm.json`;
+if (!fs.existsSync(path)) ***
+  core.info('no alarm.json — the sweep did not get far enough to decide.');
+  return;
+***
+const alarm = JSON.parse(fs.readFileSync(path, 'utf8'));
+core.setOutput('detected_at', alarm.detectedAt);
+if (!alarm.alarm) ***
+  core.info(`clean: 0 alarming, $***alarm.watchingCount*** watching, $***alarm.blindCount*** blind.`);
+  return;
+***
+
+// One open issue, reused. A repeating failure should nag in one
+// place rather than bury the repo — same rule as db-backup.yml.
+// Dedupe is by LABEL, never by title: the title carries the count,
+// so it changes between runs.
+const *** data: open *** = await github.rest.issues.listForRepo(***
+  ...context.repo, state: 'open', labels: 'indexing-alarm',
+***);
+let issue;
+if (open.length > 0) ***
+  const *** data: comment *** = await github.rest.issues.createComment(***
+    ...context.repo, issue_number: open[0].number, body: alarm.body,
+  ***);
+  issue = *** number: open[0].number, created_at: comment.created_at, html_url: comment.html_url ***;
+*** else ***
+  const *** data: created *** = await github.rest.issues.create(***
+    ...context.repo, title: alarm.title, body: alarm.body, labels: ['indexing-alarm'],
+  ***);
+  issue = *** number: created.number, created_at: created.created_at, html_url: created.html_url ***;
+***
+core.setOutput('issue_number', String(issue.number));
+core.setOutput('issue_url', issue.html_url);
+core.setOutput('issue_created_at', issue.created_at);
+core.notice(`indexing alarm filed: $***issue.html_url***`);
+
+2026-08-26T21:37:43.7315748Z   github-token: ***
+2026-08-26T21:37:43.7316054Z   debug: false
+2026-08-26T21:37:43.7316356Z   user-agent: actions/github-script
+2026-08-26T21:37:43.7316704Z   result-encoding: json
+2026-08-26T21:37:43.7316998Z   retries: 0
+2026-08-26T21:37:43.7317306Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-08-26T21:37:43.7317680Z env:
+2026-08-26T21:37:43.7317952Z   R2_BUCKET: hellokahwin-assets
+2026-08-26T21:37:43.7318297Z   STATE_KEY: indexing-monitor/state.json
+2026-08-26T21:37:43.7318664Z   OUT_DIR: .tmp-indexing-monitor
+2026-08-26T21:37:43.7319050Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+2026-08-26T21:37:43.7319620Z   R2_ENDPOINT: https://***.r2.cloudflarestorage.com
+2026-08-26T21:37:43.7320024Z ##[endgroup]
+2026-08-26T21:37:43.8157036Z clean: 0 alarming, 9 watching, 0 blind.
+2026-08-26T21:37:43.8330375Z ##[group]Run set -euo pipefail
+2026-08-26T21:37:43.8330893Z ^[[36;1mset -euo pipefail^[[0m
+2026-08-26T21:37:43.8331380Z ^[[36;1mif [ ! -f "$***OUT_DIR***/snapshot.json" ]; then^[[0m
+2026-08-26T21:37:43.8332010Z ^[[36;1m  echo "no snapshot to archive — the sweep did not complete."^[[0m
+2026-08-26T21:37:43.8332549Z ^[[36;1m  exit 0^[[0m
+2026-08-26T21:37:43.8332886Z ^[[36;1mfi^[[0m
+2026-08-26T21:37:43.8333344Z ^[[36;1m# Both the filename and the key path come from the SAME `date -u`^[[0m
+2026-08-26T21:37:43.8334031Z ^[[36;1m# call, so the directory date can never drift from the timestamp in^[[0m
+2026-08-26T21:37:43.8334623Z ^[[36;1m# the name. Same rule as db-backup.yml.^[[0m
+2026-08-26T21:37:43.8335093Z ^[[36;1mTS="$(date -u +%Y%m%dT%H%M%SZ)"^[[0m
+2026-08-26T21:37:43.8335529Z ^[[36;1mDATEPATH="$(date -u +%Y/%m/%d)"^[[0m
+2026-08-26T21:37:43.8336077Z ^[[36;1mKEY="indexing-monitor/$***DATEPATH***/sweep-$***TS***.json"^[[0m
+2026-08-26T21:37:43.8336861Z ^[[36;1maws s3 cp "$***OUT_DIR***/snapshot.json" "s3://$***R2_BUCKET***/$***KEY***" \^[[0m
+2026-08-26T21:37:43.8337602Z ^[[36;1m  --endpoint-url "$R2_ENDPOINT" --content-type application/json^[[0m
+2026-08-26T21:37:43.8338389Z ^[[36;1mecho "archived: $***KEY***"^[[0m
+2026-08-26T21:37:43.8338787Z ^[[36;1m^[[0m
+2026-08-26T21:37:43.8339260Z ^[[36;1m# The mutable ledger goes up LAST, so a run that dies mid-sweep leaves^[[0m
+2026-08-26T21:37:43.8339959Z ^[[36;1m# yesterday's ledger intact rather than a half-written one.^[[0m
+2026-08-26T21:37:43.8340916Z ^[[36;1mif [ -f "$***OUT_DIR***/state.json" ]; then^[[0m
+2026-08-26T21:37:43.8341540Z ^[[36;1m  aws s3 cp "$***OUT_DIR***/state.json" "s3://$***R2_BUCKET***/$***STATE_KEY***" \^[[0m
+2026-08-26T21:37:43.8342259Z ^[[36;1m    --endpoint-url "$R2_ENDPOINT" --content-type application/json^[[0m
+2026-08-26T21:37:43.8342821Z ^[[36;1m  echo "ledger updated: $***STATE_KEY***"^[[0m
+2026-08-26T21:37:43.8343228Z ^[[36;1mfi^[[0m
+2026-08-26T21:37:43.8382369Z shell: /usr/bin/bash -e ***0***
+2026-08-26T21:37:43.8382775Z env:
+2026-08-26T21:37:43.8383119Z   R2_BUCKET: hellokahwin-assets
+2026-08-26T21:37:43.8383542Z   STATE_KEY: indexing-monitor/state.json
+2026-08-26T21:37:43.8383993Z   OUT_DIR: .tmp-indexing-monitor
+2026-08-26T21:37:43.8384460Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+2026-08-26T21:37:43.8385156Z   R2_ENDPOINT: https://***.r2.cloudflarestorage.com
+2026-08-26T21:37:43.8385702Z   AWS_ACCESS_KEY_ID: ***
+2026-08-26T21:37:43.8386275Z   AWS_SECRET_ACCESS_KEY: ***
+2026-08-26T21:37:43.8386661Z   AWS_DEFAULT_REGION: auto
+2026-08-26T21:37:43.8387015Z ##[endgroup]
+2026-08-26T21:37:45.1118350Z Completed 54.0 KiB/54.0 KiB (79.3 KiB/s) with 1 file(s) remaining
+2026-08-26T21:37:45.1121853Z upload: .tmp-indexing-monitor/snapshot.json to s3://hellokahwin-assets/indexing-monitor/2026/08/26/sweep-20260826T213743Z.json
+2026-08-26T21:37:45.2348077Z archived: indexing-monitor/2026/08/26/sweep-20260826T213743Z.json
+2026-08-26T21:37:46.8120738Z Completed 30.2 KiB/30.2 KiB (30.4 KiB/s) with 1 file(s) remaining
+2026-08-26T21:37:46.8121731Z upload: .tmp-indexing-monitor/state.json to s3://hellokahwin-assets/indexing-monitor/state.json
+2026-08-26T21:37:46.9018196Z ledger updated: indexing-monitor/state.json
+2026-08-26T21:37:46.9079018Z ##[group]Run set -euo pipefail
+2026-08-26T21:37:46.9079712Z ^[[36;1mset -euo pipefail^[[0m
+2026-08-26T21:37:46.9080646Z ^[[36;1mif [ -f "$***OUT_DIR***/summary.md" ]; then^[[0m
+2026-08-26T21:37:46.9081506Z ^[[36;1m  cat "$***OUT_DIR***/summary.md" >> "$GITHUB_STEP_SUMMARY"^[[0m
+2026-08-26T21:37:46.9081978Z ^[[36;1melse^[[0m
+2026-08-26T21:37:46.9082520Z ^[[36;1m  echo "### Indexing monitor did not produce a summary — the sweep failed." >> "$GITHUB_STEP_SUMMARY"^[[0m
+2026-08-26T21:37:46.9083112Z ^[[36;1mfi^[[0m
+2026-08-26T21:37:46.9120630Z shell: /usr/bin/bash -e ***0***
+2026-08-26T21:37:46.9120977Z env:
+2026-08-26T21:37:46.9121260Z   R2_BUCKET: hellokahwin-assets
+2026-08-26T21:37:46.9121637Z   STATE_KEY: indexing-monitor/state.json
+2026-08-26T21:37:46.9122020Z   OUT_DIR: .tmp-indexing-monitor
+2026-08-26T21:37:46.9122418Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+2026-08-26T21:37:46.9123003Z   R2_ENDPOINT: https://***.r2.cloudflarestorage.com
+2026-08-26T21:37:46.9123452Z ##[endgroup]
+2026-08-26T21:37:46.9295199Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-08-26T21:37:46.9296557Z Post job cleanup.
+2026-08-26T21:37:47.0520519Z (node:2525) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-08-26T21:37:47.0521990Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-08-26T21:37:47.0525033Z Cache hit occurred on the primary key node-cache-Linux-x64-pnpm-9367a9280658c0171106e91a788339168f7c879bb6b33b71ffcee2e7c9cd2962, not saving cache.
+2026-08-26T21:37:47.0638481Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-08-26T21:37:47.0640016Z Post job cleanup.
+2026-08-26T21:37:47.2125551Z Pruning is unnecessary.
+2026-08-26T21:37:47.2348466Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-08-26T21:37:47.2351161Z Post job cleanup.
+2026-08-26T21:37:47.3293537Z [command]/usr/bin/git version
+2026-08-26T21:37:47.3333181Z git version 2.55.0
+2026-08-26T21:37:47.3417364Z Temporarily overriding HOME='/home/runner/work/_temp/7a27589b-025c-4f78-ac6b-a932d8f9c931' before making global git config changes
+2026-08-26T21:37:47.3419480Z Adding repository directory to the temporary git global config as a safe directory
+2026-08-26T21:37:47.3421660Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/hellokahwin/hellokahwin
+2026-08-26T21:37:47.3453555Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-08-26T21:37:47.3487271Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-08-26T21:37:47.3712803Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-08-26T21:37:47.3737961Z http.https://github.com/.extraheader
+2026-08-26T21:37:47.3748644Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-08-26T21:37:47.3782213Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-08-26T21:37:47.4003008Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-08-26T21:37:47.4034878Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-08-26T21:37:47.4396198Z Cleaning up orphan processes
+2026-08-26T21:37:47.4682472Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/github-script@v7, actions/setup-node@v4, pnpm/action-setup@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+
+############################################################
+# GitHub Actions run 33127688344  (gh run view 33127688344 --log)
+############################################################
+2026-08-27T23:51:00.3797990Z 103 URLs in the live sitemap.
+2026-08-27T23:51:00.5064557Z 
+2026-08-27T23:51:00.5065840Z Inspecting…
+2026-08-27T23:51:06.9622116Z   [  1/103] https://hellokahwin.com/artikel
+2026-08-27T23:51:06.9622925Z         Submitted and indexed
+2026-08-27T23:51:06.9846121Z   [  2/103] https://hellokahwin.com/artikel/idea-dan-nasihat
+2026-08-27T23:51:06.9847091Z         Submitted and indexed
+2026-08-27T23:51:07.0011406Z   [  3/103] https://hellokahwin.com
+2026-08-27T23:51:07.0012072Z         Submitted and indexed
+2026-08-27T23:51:07.0031796Z   [  4/103] https://hellokahwin.com/artikel/hiasan-dekorasi
+2026-08-27T23:51:07.0032795Z         Excluded by ‘noindex’ tag
+2026-08-27T23:51:13.3089764Z   [  5/103] https://hellokahwin.com/artikel/real-wedding
+2026-08-27T23:51:13.3090620Z         Submitted and indexed
+2026-08-27T23:51:13.3776806Z   [  6/103] https://hellokahwin.com/artikel/pantai-santai
+2026-08-27T23:51:13.3778159Z         Excluded by ‘noindex’ tag
+2026-08-27T23:51:13.3887788Z   [  7/103] https://hellokahwin.com/artikel/moden-kontemporari
+2026-08-27T23:51:13.3888960Z         Excluded by ‘noindex’ tag
+2026-08-27T23:51:13.4473999Z   [  8/103] https://hellokahwin.com/artikel/glamor-eksklusif
+2026-08-27T23:51:13.4475354Z         Excluded by ‘noindex’ tag
+2026-08-27T23:51:19.6992538Z   [  9/103] https://hellokahwin.com/artikel/fotografi-videografi
+2026-08-27T23:51:19.6993711Z         Excluded by ‘noindex’ tag
+2026-08-27T23:51:19.7874305Z   [ 10/103] https://hellokahwin.com/artikel/nikah-undang-undang
+2026-08-27T23:51:19.7875326Z         Submitted and indexed
+2026-08-27T23:51:19.7884250Z   [ 11/103] https://hellokahwin.com/artikel/minimalis-mewah
+2026-08-27T23:51:19.7885514Z         Excluded by ‘noindex’ tag
+2026-08-27T23:51:19.8514426Z   [ 12/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin
+2026-08-27T23:51:19.8515272Z         Submitted and indexed
+2026-08-27T23:51:26.0985494Z   [ 13/103] https://hellokahwin.com/artikel/ucapan-doa
+2026-08-27T23:51:26.0986563Z         Submitted and indexed
+2026-08-27T23:51:26.1559560Z   [ 14/103] https://hellokahwin.com/artikel/busana-pengantin
+2026-08-27T23:51:26.1560138Z         Submitted and indexed
+2026-08-27T23:51:26.1939907Z   [ 15/103] https://hellokahwin.com/artikel/pelamin-kad-cenderahati
+2026-08-27T23:51:26.1941002Z         Submitted and indexed
+2026-08-27T23:51:26.2022847Z   [ 16/103] https://hellokahwin.com/artikel/venue-perancangan
+2026-08-27T23:51:26.2023665Z         Submitted and indexed
+2026-08-27T23:51:32.3743661Z   [ 17/103] https://hellokahwin.com/artikel/sebelum-nikah
+2026-08-27T23:51:32.3744580Z         Submitted and indexed
+2026-08-27T23:51:32.5328155Z   [ 18/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang
+2026-08-27T23:51:32.5328867Z         Submitted and indexed
+2026-08-27T23:51:32.5537023Z   [ 19/103] https://hellokahwin.com/artikel/glamor-eksklusif/amankila-bali
+2026-08-27T23:51:32.5537751Z         Submitted and indexed
+2026-08-27T23:51:32.6337246Z   [ 20/103] https://hellokahwin.com/artikel/busana-pengantin/baju-pengantin-sewa-atau-beli
+2026-08-27T23:51:32.6338004Z         Submitted and indexed
+2026-08-27T23:51:38.7347291Z   [ 21/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-sabah-sarawak
+2026-08-27T23:51:38.7348546Z         Submitted and indexed
+2026-08-27T23:51:38.9053847Z   [ 22/103] https://hellokahwin.com/artikel/glamor-eksklusif/grand-hyatt-kuala-lumpur
+2026-08-27T23:51:38.9054579Z         Submitted and indexed
+2026-08-27T23:51:38.9343410Z   [ 23/103] https://hellokahwin.com/artikel/venue-perancangan/checklist-kahwin
+2026-08-27T23:51:38.9344129Z         Submitted and indexed
+2026-08-27T23:51:39.0658416Z   [ 24/103] https://hellokahwin.com/artikel/venue-perancangan/pakej-dewan-kahwin
+2026-08-27T23:51:39.0659656Z         Submitted and indexed
+2026-08-27T23:51:45.0998534Z   [ 25/103] https://hellokahwin.com/artikel/ucapan-doa/ucapan-pengantin-baru
+2026-08-27T23:51:45.0999199Z         Submitted and indexed
+2026-08-27T23:51:45.4059796Z   [ 26/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-pahang-negeri-sembilan
+2026-08-27T23:51:45.4060849Z         Submitted and indexed
+2026-08-27T23:51:45.4485016Z   [ 27/103] https://hellokahwin.com/artikel/moden-kontemporari/marriott-putrajaya
+2026-08-27T23:51:45.4485757Z         Submitted and indexed
+2026-08-27T23:51:45.6029886Z   [ 28/103] https://hellokahwin.com/artikel/real-wedding/villa-warisan
+2026-08-27T23:51:45.6030759Z         Submitted and indexed
+2026-08-27T23:51:51.4487916Z   [ 29/103] https://hellokahwin.com/artikel/idea-dan-nasihat/cara-buat-kad-kahwin-digital
+2026-08-27T23:51:51.4488649Z         Submitted and indexed
+2026-08-27T23:51:51.7901577Z   [ 30/103] https://hellokahwin.com/artikel/ucapan-doa/doa-majlis-perkahwinan
+2026-08-27T23:51:51.7902510Z         Submitted and indexed
+2026-08-27T23:51:51.8828417Z   [ 31/103] https://hellokahwin.com/artikel/venue-perancangan/harga-sewa-dewan-kahwin
+2026-08-27T23:51:51.8829635Z         Submitted and indexed
+2026-08-27T23:51:51.9757772Z   [ 32/103] https://hellokahwin.com/artikel/real-wedding/cheong-fatt-tze-mansion
+2026-08-27T23:51:51.9758733Z         Submitted and indexed
+2026-08-27T23:51:57.7972869Z   [ 33/103] https://hellokahwin.com/artikel/real-wedding/sentosa-janda-baik
+2026-08-27T23:51:57.7974205Z         Submitted and indexed
+2026-08-27T23:51:58.1458221Z   [ 34/103] https://hellokahwin.com/artikel/idea-dan-nasihat/pelamin-kahwin-dewan
+2026-08-27T23:51:58.1458937Z         Submitted and indexed
+2026-08-27T23:51:58.3052002Z   [ 35/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-kahwin-5-balas-7
+2026-08-27T23:51:58.3052991Z         Submitted and indexed
+2026-08-27T23:51:58.4501024Z   [ 36/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/nisbah-hantaran
+2026-08-27T23:51:58.4501707Z         Submitted and indexed
+2026-08-27T23:52:04.1995978Z   [ 37/103] https://hellokahwin.com/artikel/busana-pengantin/inai-tangan-pengantin
+2026-08-27T23:52:04.1997222Z         Submitted and indexed
+2026-08-27T23:52:04.5113389Z   [ 38/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang-3-balas-5
+2026-08-27T23:52:04.5114459Z         Submitted and indexed
+2026-08-27T23:52:04.7233158Z   [ 39/103] https://hellokahwin.com/artikel/minimalis-mewah/the-danna-langkawi
+2026-08-27T23:52:04.7234739Z         Submitted and indexed
+2026-08-27T23:52:04.8218507Z   [ 40/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/barang-hantaran-perempuan
+2026-08-27T23:52:04.8219539Z         Submitted and indexed
+2026-08-27T23:52:10.5623987Z   [ 41/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang-untuk-lelaki
+2026-08-27T23:52:10.5624688Z         Submitted and indexed
+2026-08-27T23:52:10.8210241Z   [ 42/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/bilangan-dulang-hantaran-ganjil
+2026-08-27T23:52:10.8211450Z         Discovered - currently not indexed
+2026-08-27T23:52:11.0884193Z   [ 43/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/cara-tetapkan-duit-hantaran
+2026-08-27T23:52:11.0885266Z         Submitted and indexed
+2026-08-27T23:52:11.1826262Z   [ 44/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/duit-hantaran-kahwin
+2026-08-27T23:52:11.1837556Z         Submitted and indexed
+2026-08-27T23:52:16.9164287Z   [ 45/103] https://hellokahwin.com/artikel/sebelum-nikah/doa-majlis-pertunangan
+2026-08-27T23:52:16.9165220Z         Submitted and indexed
+2026-08-27T23:52:17.1915512Z   [ 46/103] https://hellokahwin.com/artikel/idea-dan-nasihat/dewan-kahwin
+2026-08-27T23:52:17.1916785Z         Submitted and indexed
+2026-08-27T23:52:17.5092181Z   [ 47/103] https://hellokahwin.com/artikel/real-wedding/perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan
+2026-08-27T23:52:17.5093710Z         Submitted and indexed
+2026-08-27T23:52:17.5562853Z   [ 48/103] https://hellokahwin.com/artikel/idea-dan-nasihat/tempat-honeymoon-di-malaysia
+2026-08-27T23:52:17.5563967Z         Submitted and indexed
+2026-08-27T23:52:23.2667369Z   [ 49/103] https://hellokahwin.com/artikel/moden-kontemporari/jw-marriott-kuala-lumpur
+2026-08-27T23:52:23.2668533Z         Submitted and indexed
+2026-08-27T23:52:23.5466507Z   [ 50/103] https://hellokahwin.com/artikel/moden-kontemporari/perkahwinan-romantis-di-jen-shangri-la-puteri-harbour
+2026-08-27T23:52:23.5467742Z         Submitted and indexed
+2026-08-27T23:52:23.9266173Z   [ 51/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-coklat
+2026-08-27T23:52:23.9267698Z         Submitted and indexed
+2026-08-27T23:52:23.9523052Z   [ 52/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/gubahan-hantaran-simple
+2026-08-27T23:52:23.9524108Z         Submitted and indexed
+2026-08-27T23:52:29.6561382Z   [ 53/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang-simple
+2026-08-27T23:52:29.6562565Z         URL is unknown to Google
+2026-08-27T23:52:29.8732610Z   [ 54/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tema-warna
+2026-08-27T23:52:29.8733723Z         Submitted and indexed
+2026-08-27T23:52:30.3336565Z   [ 55/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tempah-atau-buat-sendiri
+2026-08-27T23:52:30.3337378Z         Submitted and indexed
+2026-08-27T23:52:30.3527057Z   [ 56/103] https://hellokahwin.com/artikel/nikah-undang-undang/lafaz-taklik
+2026-08-27T23:52:30.3527798Z         Submitted and indexed
+2026-08-27T23:52:35.9978812Z   [ 57/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hidden-hantaran
+2026-08-27T23:52:35.9979825Z         Submitted and indexed
+2026-08-27T23:52:36.2778149Z   [ 58/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/gubahan-hantaran
+2026-08-27T23:52:36.2779091Z         Submitted and indexed
+2026-08-27T23:52:36.7887338Z   [ 59/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-perak
+2026-08-27T23:52:36.7888252Z         Submitted and indexed
+2026-08-27T23:52:36.8078817Z   [ 60/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri
+2026-08-27T23:52:36.8079588Z         Submitted and indexed
+2026-08-27T23:52:42.3551196Z   [ 61/103] https://hellokahwin.com/artikel/idea-dan-nasihat/majlis-kahwin
+2026-08-27T23:52:42.3551842Z         Submitted and indexed
+2026-08-27T23:52:42.6425016Z   [ 62/103] https://hellokahwin.com/artikel/busana-pengantin/songket-tenunan-tangan-atau-cetak
+2026-08-27T23:52:42.6426135Z         Submitted and indexed
+2026-08-27T23:52:43.0937025Z   [ 63/103] https://hellokahwin.com/artikel/idea-dan-nasihat/hadiah-untuk-pengantin
+2026-08-27T23:52:43.0937711Z         URL is unknown to Google
+2026-08-27T23:52:43.1778018Z   [ 64/103] https://hellokahwin.com/artikel/pelamin-kad-cenderahati/pelamin
+2026-08-27T23:52:43.1778715Z         Submitted and indexed
+2026-08-27T23:52:48.6894299Z   [ 65/103] https://hellokahwin.com/artikel/sebelum-nikah/taaruf-maksud
+2026-08-27T23:52:48.6895191Z         Submitted and indexed
+2026-08-27T23:52:49.0382170Z   [ 66/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-melebihi-kadar-minimum
+2026-08-27T23:52:49.0383286Z         Submitted and indexed
+2026-08-27T23:52:49.4496592Z   [ 67/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-johor
+2026-08-27T23:52:49.4497264Z         Submitted and indexed
+2026-08-27T23:52:49.5810870Z   [ 68/103] https://hellokahwin.com/artikel/nikah-undang-undang/syarat-sah-nikah
+2026-08-27T23:52:49.5811881Z         Submitted and indexed
+2026-08-27T23:52:55.0223870Z   [ 69/103] https://hellokahwin.com/artikel/ucapan-doa/walimatul-urus
+2026-08-27T23:52:55.0224735Z         Submitted and indexed
+2026-08-27T23:52:55.4127143Z   [ 70/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/dulang-hantaran
+2026-08-27T23:52:55.4128209Z         Submitted and indexed
+2026-08-27T23:52:55.8338061Z   [ 71/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-untuk-lelaki
+2026-08-27T23:52:55.8339037Z         Submitted and indexed
+2026-08-27T23:52:56.0099839Z   [ 72/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-kahwin-bajet
+2026-08-27T23:52:56.0100829Z         Submitted and indexed
+2026-08-27T23:53:01.3912476Z   [ 73/103] https://hellokahwin.com/artikel/ucapan-doa/skrip-pengacara-majlis-perkahwinan
+2026-08-27T23:53:01.3913230Z         Submitted and indexed
+2026-08-27T23:53:01.7916011Z   [ 74/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/barang-hantaran-berguna
+2026-08-27T23:53:01.7917319Z         Submitted and indexed
+2026-08-27T23:53:02.2006736Z   [ 75/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/adat-hantaran-ikut-keluarga
+2026-08-27T23:53:02.2007857Z         Submitted and indexed
+2026-08-27T23:53:02.3952142Z   [ 76/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/berapa-dulang-hantaran-tunang
+2026-08-27T23:53:02.3953541Z         Discovered - currently not indexed
+2026-08-27T23:53:07.7794604Z   [ 77/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang-untuk-perempuan
+2026-08-27T23:53:07.7795674Z         Submitted and indexed
+2026-08-27T23:53:08.1607789Z   [ 78/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/tempat-beli-hantaran
+2026-08-27T23:53:08.1608735Z         Submitted and indexed
+2026-08-27T23:53:08.7294575Z   [ 79/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/persiapan-hantaran-kahwin
+2026-08-27T23:53:08.7295694Z         Submitted and indexed
+2026-08-27T23:53:08.8127383Z   [ 80/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/barang-hantaran-tunang
+2026-08-27T23:53:08.8128941Z         Submitted and indexed
+2026-08-27T23:53:14.1672675Z   [ 81/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat
+2026-08-27T23:53:14.1673683Z         Submitted and indexed
+2026-08-27T23:53:14.5335726Z   [ 82/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/adat-hantaran-berbeza-negeri
+2026-08-27T23:53:14.5336808Z         Submitted and indexed
+2026-08-27T23:53:15.1102847Z   [ 83/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/sirih-junjung
+2026-08-27T23:53:15.1110534Z         Submitted and indexed
+2026-08-27T23:53:15.2287993Z   [ 84/103] https://hellokahwin.com/artikel/pelamin-kad-cenderahati/bunga-telur
+2026-08-27T23:53:15.2289140Z         Submitted and indexed
+2026-08-27T23:53:20.5600606Z   [ 85/103] https://hellokahwin.com/artikel/pelamin-kad-cenderahati/contoh-kad-jemputan-kahwin
+2026-08-27T23:53:20.5601647Z         Submitted and indexed
+2026-08-27T23:53:20.9029218Z   [ 86/103] https://hellokahwin.com/artikel/sebelum-nikah/cincin-tunang
+2026-08-27T23:53:20.9030192Z         Submitted and indexed
+2026-08-27T23:53:21.4187628Z   [ 87/103] https://hellokahwin.com/artikel/ucapan-doa/doa-pengantin-baru
+2026-08-27T23:53:21.4188602Z         Submitted and indexed
+2026-08-27T23:53:21.6740765Z   [ 88/103] https://hellokahwin.com/artikel/venue-perancangan/bajet-kahwin
+2026-08-27T23:53:21.6741673Z         Submitted and indexed
+2026-08-27T23:53:26.9207034Z   [ 89/103] https://hellokahwin.com/artikel/nikah-undang-undang/rukun-nikah
+2026-08-27T23:53:26.9208051Z         Submitted and indexed
+2026-08-27T23:53:27.2606232Z   [ 90/103] https://hellokahwin.com/artikel/nikah-undang-undang/borang-nikah
+2026-08-27T23:53:27.2607431Z         Submitted and indexed
+2026-08-27T23:53:27.8903913Z   [ 91/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/apa-itu-mas-kahwin
+2026-08-27T23:53:27.8905015Z         Submitted and indexed
+2026-08-27T23:53:28.0648602Z   [ 92/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-kelantan-terengganu
+2026-08-27T23:53:28.0649923Z         Submitted and indexed
+2026-08-27T23:53:33.2847925Z   [ 93/103] https://hellokahwin.com/artikel/idea-dan-nasihat/wedding-planner-terbaik-di-malaysia
+2026-08-27T23:53:33.2848769Z         Submitted and indexed
+2026-08-27T23:53:33.6752894Z   [ 94/103] https://hellokahwin.com/artikel/hiasan-dekorasi/goodies-kahwin
+2026-08-27T23:53:33.6753834Z         Submitted and indexed
+2026-08-27T23:53:34.3507131Z   [ 95/103] https://hellokahwin.com/artikel/real-wedding/perkahwinan-taman-kebun-yang-minimalis-di-hulu-langat
+2026-08-27T23:53:34.3508345Z         Submitted and indexed
+2026-08-27T23:53:34.4730645Z   [ 96/103] https://hellokahwin.com/artikel/pantai-santai/perkahwinan-indah-di-laman-fajar-menyinsing-port-dickson
+2026-08-27T23:53:34.4731991Z         Submitted and indexed
+2026-08-27T23:53:39.6182831Z   [ 97/103] https://hellokahwin.com/artikel/real-wedding/yasaka-shrine
+2026-08-27T23:53:39.6183729Z         Submitted and indexed
+2026-08-27T23:53:40.2356168Z   [ 98/103] https://hellokahwin.com/artikel/idea-dan-nasihat/kursus-kahwin
+2026-08-27T23:53:40.2357343Z         Submitted and indexed
+2026-08-27T23:53:40.7102099Z   [ 99/103] https://hellokahwin.com/artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik
+2026-08-27T23:53:40.7103359Z         Discovered - currently not indexed
+2026-08-27T23:53:40.8744774Z   [100/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-kahwin
+2026-08-27T23:53:40.8745615Z         Submitted and indexed
+2026-08-27T23:53:46.0040775Z   [101/103] https://hellokahwin.com/artikel/idea-dan-nasihat/sewa-dewan-kahwin
+2026-08-27T23:53:46.0041873Z         Submitted and indexed
+2026-08-27T23:53:46.6100759Z   [102/103] https://hellokahwin.com/artikel/moden-kontemporari/sime-darby-convention-centre
+2026-08-27T23:53:46.6101476Z         Submitted and indexed
+2026-08-27T23:53:47.0786146Z   [103/103] https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding
+2026-08-27T23:53:47.0787069Z         Submitted and indexed
+2026-08-27T23:53:47.0812165Z 
+2026-08-27T23:53:47.0813183Z ### Indexing monitor — 103 sitemap URLs swept
+2026-08-27T23:53:47.0813609Z 
+2026-08-27T23:53:47.0813865Z | bucket | count |
+2026-08-27T23:53:47.0814397Z | --- | --- |
+2026-08-27T23:53:47.0814894Z | alarming (dark >72h) | 0 |
+2026-08-27T23:53:47.0815497Z | watching (dark, inside 72h) | 5 |
+2026-08-27T23:53:47.0816112Z | not answered by Google | 0 |
+2026-08-27T23:53:47.0816715Z 
+2026-08-27T23:53:47.0816965Z | coverage_state | count |
+2026-08-27T23:53:47.0817469Z | --- | --- |
+2026-08-27T23:53:47.0818026Z | Submitted and indexed | 92 |
+2026-08-27T23:53:47.0818740Z | Excluded by ‘noindex’ tag | 6 |
+2026-08-27T23:53:47.0819183Z | Discovered - currently not indexed | 3 |
+2026-08-27T23:53:47.0819850Z | URL is unknown to Google | 2 |
+2026-08-27T23:53:47.0820461Z 
+2026-08-27T23:53:47.0820682Z #### Watching
+2026-08-27T23:53:47.0822103Z - `https://hellokahwin.com/artikel/hantaran-mas-kahwin/bilangan-dulang-hantaran-ganjil` — Discovered - currently not indexed (32h)
+2026-08-27T23:53:47.0824548Z - `https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang-simple` — URL is unknown to Google (26h)
+2026-08-27T23:53:47.0826817Z - `https://hellokahwin.com/artikel/idea-dan-nasihat/hadiah-untuk-pengantin` — URL is unknown to Google (53h)
+2026-08-27T23:53:47.0828960Z - `https://hellokahwin.com/artikel/hantaran-mas-kahwin/berapa-dulang-hantaran-tunang` — Discovered - currently not indexed (26h)
+2026-08-27T23:53:47.0831368Z - `https://hellokahwin.com/artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik` — Discovered - currently not indexed (53h)
+2026-08-27T23:53:47.0832486Z 
+2026-08-27T23:53:47.0833122Z alarm=false alarms=0 watching=5 blind=0 detectedAt=2026-08-27T23:53:47.079Z
+2026-08-27T23:53:47.1117497Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-08-27T23:53:47.1118874Z ##[group]Run actions/github-script@v7
+2026-08-27T23:53:47.1119209Z with:
+2026-08-27T23:53:47.1124254Z   script: const fs = require('fs');
+const path = `$***process.env.OUT_DIR***/alarm.json`;
+if (!fs.existsSync(path)) ***
+  core.info('no alarm.json — the sweep did not get far enough to decide.');
+  return;
+***
+const alarm = JSON.parse(fs.readFileSync(path, 'utf8'));
+core.setOutput('detected_at', alarm.detectedAt);
+if (!alarm.alarm) ***
+  core.info(`clean: 0 alarming, $***alarm.watchingCount*** watching, $***alarm.blindCount*** blind.`);
+  return;
+***
+
+// One open issue, reused. A repeating failure should nag in one
+// place rather than bury the repo — same rule as db-backup.yml.
+// Dedupe is by LABEL, never by title: the title carries the count,
+// so it changes between runs.
+const *** data: open *** = await github.rest.issues.listForRepo(***
+  ...context.repo, state: 'open', labels: 'indexing-alarm',
+***);
+let issue;
+if (open.length > 0) ***
+  const *** data: comment *** = await github.rest.issues.createComment(***
+    ...context.repo, issue_number: open[0].number, body: alarm.body,
+  ***);
+  issue = *** number: open[0].number, created_at: comment.created_at, html_url: comment.html_url ***;
+*** else ***
+  const *** data: created *** = await github.rest.issues.create(***
+    ...context.repo, title: alarm.title, body: alarm.body, labels: ['indexing-alarm'],
+  ***);
+  issue = *** number: created.number, created_at: created.created_at, html_url: created.html_url ***;
+***
+core.setOutput('issue_number', String(issue.number));
+core.setOutput('issue_url', issue.html_url);
+core.setOutput('issue_created_at', issue.created_at);
+core.notice(`indexing alarm filed: $***issue.html_url***`);
+
+2026-08-27T23:53:47.1132330Z   github-token: ***
+2026-08-27T23:53:47.1132619Z   debug: false
+2026-08-27T23:53:47.1132914Z   user-agent: actions/github-script
+2026-08-27T23:53:47.1133252Z   result-encoding: json
+2026-08-27T23:53:47.1133541Z   retries: 0
+2026-08-27T23:53:47.1134056Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-08-27T23:53:47.1134449Z env:
+2026-08-27T23:53:47.1134716Z   R2_BUCKET: hellokahwin-assets
+2026-08-27T23:53:47.1135054Z   STATE_KEY: indexing-monitor/state.json
+2026-08-27T23:53:47.1135408Z   OUT_DIR: .tmp-indexing-monitor
+2026-08-27T23:53:47.1135781Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+2026-08-27T23:53:47.1136666Z   R2_ENDPOINT: https://***.r2.cloudflarestorage.com
+2026-08-27T23:53:47.1137066Z ##[endgroup]
+2026-08-27T23:53:47.1922568Z clean: 0 alarming, 5 watching, 0 blind.
+2026-08-27T23:53:47.2057912Z ##[group]Run set -euo pipefail
+2026-08-27T23:53:47.2058328Z ^[[36;1mset -euo pipefail^[[0m
+2026-08-27T23:53:47.2058727Z ^[[36;1mif [ ! -f "$***OUT_DIR***/snapshot.json" ]; then^[[0m
+2026-08-27T23:53:47.2059236Z ^[[36;1m  echo "no snapshot to archive — the sweep did not complete."^[[0m
+2026-08-27T23:53:47.2059664Z ^[[36;1m  exit 0^[[0m
+2026-08-27T23:53:47.2059935Z ^[[36;1mfi^[[0m
+2026-08-27T23:53:47.2060316Z ^[[36;1m# Both the filename and the key path come from the SAME `date -u`^[[0m
+2026-08-27T23:53:47.2060890Z ^[[36;1m# call, so the directory date can never drift from the timestamp in^[[0m
+2026-08-27T23:53:47.2061367Z ^[[36;1m# the name. Same rule as db-backup.yml.^[[0m
+2026-08-27T23:53:47.2061751Z ^[[36;1mTS="$(date -u +%Y%m%dT%H%M%SZ)"^[[0m
+2026-08-27T23:53:47.2062106Z ^[[36;1mDATEPATH="$(date -u +%Y/%m/%d)"^[[0m
+2026-08-27T23:53:47.2062551Z ^[[36;1mKEY="indexing-monitor/$***DATEPATH***/sweep-$***TS***.json"^[[0m
+2026-08-27T23:53:47.2063135Z ^[[36;1maws s3 cp "$***OUT_DIR***/snapshot.json" "s3://$***R2_BUCKET***/$***KEY***" \^[[0m
+2026-08-27T23:53:47.2063722Z ^[[36;1m  --endpoint-url "$R2_ENDPOINT" --content-type application/json^[[0m
+2026-08-27T23:53:47.2064178Z ^[[36;1mecho "archived: $***KEY***"^[[0m
+2026-08-27T23:53:47.2064501Z ^[[36;1m^[[0m
+2026-08-27T23:53:47.2064890Z ^[[36;1m# The mutable ledger goes up LAST, so a run that dies mid-sweep leaves^[[0m
+2026-08-27T23:53:47.2065439Z ^[[36;1m# yesterday's ledger intact rather than a half-written one.^[[0m
+2026-08-27T23:53:47.2065911Z ^[[36;1mif [ -f "$***OUT_DIR***/state.json" ]; then^[[0m
+2026-08-27T23:53:47.2066712Z ^[[36;1m  aws s3 cp "$***OUT_DIR***/state.json" "s3://$***R2_BUCKET***/$***STATE_KEY***" \^[[0m
+2026-08-27T23:53:47.2067301Z ^[[36;1m    --endpoint-url "$R2_ENDPOINT" --content-type application/json^[[0m
+2026-08-27T23:53:47.2067786Z ^[[36;1m  echo "ledger updated: $***STATE_KEY***"^[[0m
+2026-08-27T23:53:47.2068138Z ^[[36;1mfi^[[0m
+2026-08-27T23:53:47.2104155Z shell: /usr/bin/bash -e ***0***
+2026-08-27T23:53:47.2104491Z env:
+2026-08-27T23:53:47.2104776Z   R2_BUCKET: hellokahwin-assets
+2026-08-27T23:53:47.2105128Z   STATE_KEY: indexing-monitor/state.json
+2026-08-27T23:53:47.2105493Z   OUT_DIR: .tmp-indexing-monitor
+2026-08-27T23:53:47.2105888Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+2026-08-27T23:53:47.2106717Z   R2_ENDPOINT: https://***.r2.cloudflarestorage.com
+2026-08-27T23:53:47.2107185Z   AWS_ACCESS_KEY_ID: ***
+2026-08-27T23:53:47.2107660Z   AWS_SECRET_ACCESS_KEY: ***
+2026-08-27T23:53:47.2107988Z   AWS_DEFAULT_REGION: auto
+2026-08-27T23:53:47.2108278Z ##[endgroup]
+2026-08-27T23:53:48.5037173Z Completed 61.0 KiB/61.0 KiB (86.4 KiB/s) with 1 file(s) remaining
+2026-08-27T23:53:48.5038671Z upload: .tmp-indexing-monitor/snapshot.json to s3://hellokahwin-assets/indexing-monitor/2026/08/27/sweep-20260827T235347Z.json
+2026-08-27T23:53:48.6013442Z archived: indexing-monitor/2026/08/27/sweep-20260827T235347Z.json
+2026-08-27T23:53:49.9301138Z Completed 34.3 KiB/34.3 KiB (44.8 KiB/s) with 1 file(s) remaining
+2026-08-27T23:53:49.9302577Z upload: .tmp-indexing-monitor/state.json to s3://hellokahwin-assets/indexing-monitor/state.json
+2026-08-27T23:53:50.0372323Z ledger updated: indexing-monitor/state.json
+2026-08-27T23:53:50.0406957Z ##[group]Run set -euo pipefail
+2026-08-27T23:53:50.0407378Z ^[[36;1mset -euo pipefail^[[0m
+2026-08-27T23:53:50.0407761Z ^[[36;1mif [ -f "$***OUT_DIR***/summary.md" ]; then^[[0m
+2026-08-27T23:53:50.0408224Z ^[[36;1m  cat "$***OUT_DIR***/summary.md" >> "$GITHUB_STEP_SUMMARY"^[[0m
+2026-08-27T23:53:50.0408893Z ^[[36;1melse^[[0m
+2026-08-27T23:53:50.0409393Z ^[[36;1m  echo "### Indexing monitor did not produce a summary — the sweep failed." >> "$GITHUB_STEP_SUMMARY"^[[0m
+2026-08-27T23:53:50.0409949Z ^[[36;1mfi^[[0m
+2026-08-27T23:53:50.0446891Z shell: /usr/bin/bash -e ***0***
+2026-08-27T23:53:50.0447234Z env:
+2026-08-27T23:53:50.0447505Z   R2_BUCKET: hellokahwin-assets
+2026-08-27T23:53:50.0447860Z   STATE_KEY: indexing-monitor/state.json
+2026-08-27T23:53:50.0448223Z   OUT_DIR: .tmp-indexing-monitor
+2026-08-27T23:53:50.0448610Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+2026-08-27T23:53:50.0449176Z   R2_ENDPOINT: https://***.r2.cloudflarestorage.com
+2026-08-27T23:53:50.0449607Z ##[endgroup]
+2026-08-27T23:53:50.0653472Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-08-27T23:53:50.0655028Z Post job cleanup.
+2026-08-27T23:53:50.1897181Z (node:2441) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-08-27T23:53:50.1898811Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-08-27T23:53:50.1901523Z Cache hit occurred on the primary key node-cache-Linux-x64-pnpm-9367a9280658c0171106e91a788339168f7c879bb6b33b71ffcee2e7c9cd2962, not saving cache.
+2026-08-27T23:53:50.2014217Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-08-27T23:53:50.2015542Z Post job cleanup.
+2026-08-27T23:53:50.3621663Z Pruning is unnecessary.
+2026-08-27T23:53:50.3822205Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-08-27T23:53:50.3825310Z Post job cleanup.
+2026-08-27T23:53:50.4808570Z [command]/usr/bin/git version
+2026-08-27T23:53:50.4846961Z git version 2.55.0
+2026-08-27T23:53:50.4920450Z Temporarily overriding HOME='/home/runner/work/_temp/188af66d-1a36-42f1-bce6-9e74a678b1bd' before making global git config changes
+2026-08-27T23:53:50.4922184Z Adding repository directory to the temporary git global config as a safe directory
+2026-08-27T23:53:50.4926946Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/hellokahwin/hellokahwin
+2026-08-27T23:53:50.4966944Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-08-27T23:53:50.5001992Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-08-27T23:53:50.5273488Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-08-27T23:53:50.5299517Z http.https://github.com/.extraheader
+2026-08-27T23:53:50.5310797Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-08-27T23:53:50.5343184Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-08-27T23:53:50.5634382Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-08-27T23:53:50.5695765Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-08-27T23:53:50.6091126Z Cleaning up orphan processes
+2026-08-27T23:53:50.6544555Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/github-script@v7, actions/setup-node@v4, pnpm/action-setup@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+
+############################################################
+# GitHub Actions run 33139930483  (gh run view 33139930483 --log)
+############################################################
+2026-08-28T03:48:03.1224430Z 103 URLs in the live sitemap.
+2026-08-28T03:48:03.1871278Z 
+2026-08-28T03:48:03.1872477Z Inspecting…
+2026-08-28T03:48:09.4560342Z   [  1/103] https://hellokahwin.com/artikel/idea-dan-nasihat
+2026-08-28T03:48:09.4560818Z         Submitted and indexed
+2026-08-28T03:48:09.5052543Z   [  2/103] https://hellokahwin.com
+2026-08-28T03:48:09.5052966Z         Submitted and indexed
+2026-08-28T03:48:09.6226775Z   [  3/103] https://hellokahwin.com/artikel/hiasan-dekorasi
+2026-08-28T03:48:09.6229430Z         Excluded by ‘noindex’ tag
+2026-08-28T03:48:09.6530902Z   [  4/103] https://hellokahwin.com/artikel
+2026-08-28T03:48:09.6531295Z         Submitted and indexed
+2026-08-28T03:48:15.6992623Z   [  5/103] https://hellokahwin.com/artikel/real-wedding
+2026-08-28T03:48:15.6993225Z         Submitted and indexed
+2026-08-28T03:48:15.7501458Z   [  6/103] https://hellokahwin.com/artikel/moden-kontemporari
+2026-08-28T03:48:15.7502160Z         Excluded by ‘noindex’ tag
+2026-08-28T03:48:16.0981316Z   [  7/103] https://hellokahwin.com/artikel/pantai-santai
+2026-08-28T03:48:16.0982420Z         Excluded by ‘noindex’ tag
+2026-08-28T03:48:16.1193977Z   [  8/103] https://hellokahwin.com/artikel/glamor-eksklusif
+2026-08-28T03:48:16.1195366Z         Excluded by ‘noindex’ tag
+2026-08-28T03:48:21.8927511Z   [  9/103] https://hellokahwin.com/artikel/fotografi-videografi
+2026-08-28T03:48:21.8928668Z         Excluded by ‘noindex’ tag
+2026-08-28T03:48:21.9698254Z   [ 10/103] https://hellokahwin.com/artikel/minimalis-mewah
+2026-08-28T03:48:21.9698937Z         Excluded by ‘noindex’ tag
+2026-08-28T03:48:22.2342148Z   [ 11/103] https://hellokahwin.com/artikel/nikah-undang-undang
+2026-08-28T03:48:22.2342614Z         Submitted and indexed
+2026-08-28T03:48:22.7711392Z   [ 12/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin
+2026-08-28T03:48:22.7711873Z         Submitted and indexed
+2026-08-28T03:48:28.2523628Z   [ 13/103] https://hellokahwin.com/artikel/ucapan-doa
+2026-08-28T03:48:28.2524243Z         Submitted and indexed
+2026-08-28T03:48:28.3966318Z   [ 14/103] https://hellokahwin.com/artikel/busana-pengantin
+2026-08-28T03:48:28.3966763Z         Submitted and indexed
+2026-08-28T03:48:28.5194822Z   [ 15/103] https://hellokahwin.com/artikel/pelamin-kad-cenderahati
+2026-08-28T03:48:28.5195359Z         Submitted and indexed
+2026-08-28T03:48:28.9793768Z   [ 16/103] https://hellokahwin.com/artikel/venue-perancangan
+2026-08-28T03:48:28.9794413Z         Submitted and indexed
+2026-08-28T03:48:34.6475082Z   [ 17/103] https://hellokahwin.com/artikel/sebelum-nikah
+2026-08-28T03:48:34.6475543Z         Submitted and indexed
+2026-08-28T03:48:34.6735461Z   [ 18/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang
+2026-08-28T03:48:34.6735925Z         Submitted and indexed
+2026-08-28T03:48:34.7883780Z   [ 19/103] https://hellokahwin.com/artikel/busana-pengantin/baju-pengantin-sewa-atau-beli
+2026-08-28T03:48:34.7884315Z         Submitted and indexed
+2026-08-28T03:48:35.5393691Z   [ 20/103] https://hellokahwin.com/artikel/glamor-eksklusif/amankila-bali
+2026-08-28T03:48:35.5394181Z         Submitted and indexed
+2026-08-28T03:48:40.9234642Z   [ 21/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-sabah-sarawak
+2026-08-28T03:48:40.9235180Z         Submitted and indexed
+2026-08-28T03:48:40.9260476Z   [ 22/103] https://hellokahwin.com/artikel/glamor-eksklusif/grand-hyatt-kuala-lumpur
+2026-08-28T03:48:40.9260970Z         Submitted and indexed
+2026-08-28T03:48:40.9639380Z   [ 23/103] https://hellokahwin.com/artikel/venue-perancangan/checklist-kahwin
+2026-08-28T03:48:40.9639859Z         Submitted and indexed
+2026-08-28T03:48:41.9748005Z   [ 24/103] https://hellokahwin.com/artikel/venue-perancangan/pakej-dewan-kahwin
+2026-08-28T03:48:41.9748537Z         Submitted and indexed
+2026-08-28T03:48:47.1169803Z   [ 25/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-pahang-negeri-sembilan
+2026-08-28T03:48:47.1170520Z         Submitted and indexed
+2026-08-28T03:48:47.1428500Z   [ 26/103] https://hellokahwin.com/artikel/ucapan-doa/ucapan-pengantin-baru
+2026-08-28T03:48:47.1428955Z         Submitted and indexed
+2026-08-28T03:48:47.4512715Z   [ 27/103] https://hellokahwin.com/artikel/real-wedding/villa-warisan
+2026-08-28T03:48:47.4513371Z         Submitted and indexed
+2026-08-28T03:48:48.4110522Z   [ 28/103] https://hellokahwin.com/artikel/moden-kontemporari/marriott-putrajaya
+2026-08-28T03:48:48.4111290Z         Submitted and indexed
+2026-08-28T03:48:53.3022733Z   [ 29/103] https://hellokahwin.com/artikel/idea-dan-nasihat/cara-buat-kad-kahwin-digital
+2026-08-28T03:48:53.3023272Z         Submitted and indexed
+2026-08-28T03:48:53.3574309Z   [ 30/103] https://hellokahwin.com/artikel/ucapan-doa/doa-majlis-perkahwinan
+2026-08-28T03:48:53.3574795Z         Submitted and indexed
+2026-08-28T03:48:53.8365309Z   [ 31/103] https://hellokahwin.com/artikel/venue-perancangan/harga-sewa-dewan-kahwin
+2026-08-28T03:48:53.8365828Z         Submitted and indexed
+2026-08-28T03:48:54.7302688Z   [ 32/103] https://hellokahwin.com/artikel/real-wedding/cheong-fatt-tze-mansion
+2026-08-28T03:48:54.7303374Z         Submitted and indexed
+2026-08-28T03:48:59.4783652Z   [ 33/103] https://hellokahwin.com/artikel/real-wedding/sentosa-janda-baik
+2026-08-28T03:48:59.4784341Z         Submitted and indexed
+2026-08-28T03:48:59.5297500Z   [ 34/103] https://hellokahwin.com/artikel/idea-dan-nasihat/pelamin-kahwin-dewan
+2026-08-28T03:48:59.5298694Z         Submitted and indexed
+2026-08-28T03:49:00.0031162Z   [ 35/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-kahwin-5-balas-7
+2026-08-28T03:49:00.0031830Z         Submitted and indexed
+2026-08-28T03:49:00.9527052Z   [ 36/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/nisbah-hantaran
+2026-08-28T03:49:00.9527558Z         Submitted and indexed
+2026-08-28T03:49:05.6779664Z   [ 37/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang-3-balas-5
+2026-08-28T03:49:05.6780318Z         Submitted and indexed
+2026-08-28T03:49:05.6819555Z   [ 38/103] https://hellokahwin.com/artikel/busana-pengantin/inai-tangan-pengantin
+2026-08-28T03:49:05.6822445Z         Submitted and indexed
+2026-08-28T03:49:06.2362286Z   [ 39/103] https://hellokahwin.com/artikel/minimalis-mewah/the-danna-langkawi
+2026-08-28T03:49:06.2362981Z         Submitted and indexed
+2026-08-28T03:49:07.3837001Z   [ 40/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/barang-hantaran-perempuan
+2026-08-28T03:49:07.3837559Z         Submitted and indexed
+2026-08-28T03:49:11.8304944Z   [ 41/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang-untuk-lelaki
+2026-08-28T03:49:11.8305472Z         Submitted and indexed
+2026-08-28T03:49:12.0337590Z   [ 42/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/bilangan-dulang-hantaran-ganjil
+2026-08-28T03:49:12.4969754Z         Discovered - currently not indexed
+2026-08-28T03:49:12.4970539Z   [ 43/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/cara-tetapkan-duit-hantaran
+2026-08-28T03:49:12.4970988Z         Submitted and indexed
+2026-08-28T03:49:13.6763834Z   [ 44/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/duit-hantaran-kahwin
+2026-08-28T03:49:13.6764365Z         Submitted and indexed
+2026-08-28T03:49:18.0779675Z   [ 45/103] https://hellokahwin.com/artikel/sebelum-nikah/doa-majlis-pertunangan
+2026-08-28T03:49:18.0780370Z         Submitted and indexed
+2026-08-28T03:49:18.2614384Z   [ 46/103] https://hellokahwin.com/artikel/idea-dan-nasihat/dewan-kahwin
+2026-08-28T03:49:18.2615049Z         Submitted and indexed
+2026-08-28T03:49:18.6923979Z   [ 47/103] https://hellokahwin.com/artikel/real-wedding/perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan
+2026-08-28T03:49:18.6924941Z         Submitted and indexed
+2026-08-28T03:49:20.0458372Z   [ 48/103] https://hellokahwin.com/artikel/idea-dan-nasihat/tempat-honeymoon-di-malaysia
+2026-08-28T03:49:20.0458897Z         Submitted and indexed
+2026-08-28T03:49:24.3091618Z   [ 49/103] https://hellokahwin.com/artikel/moden-kontemporari/jw-marriott-kuala-lumpur
+2026-08-28T03:49:24.3092359Z         Submitted and indexed
+2026-08-28T03:49:24.5752407Z   [ 50/103] https://hellokahwin.com/artikel/moden-kontemporari/perkahwinan-romantis-di-jen-shangri-la-puteri-harbour
+2026-08-28T03:49:24.5753022Z         Submitted and indexed
+2026-08-28T03:49:24.9106770Z   [ 51/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-coklat
+2026-08-28T03:49:24.9107523Z         Submitted and indexed
+2026-08-28T03:49:26.2534513Z   [ 52/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/gubahan-hantaran-simple
+2026-08-28T03:49:26.2535266Z         Submitted and indexed
+2026-08-28T03:49:30.7102558Z   [ 53/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang-simple
+2026-08-28T03:49:30.7103326Z         Discovered - currently not indexed
+2026-08-28T03:49:30.7921702Z   [ 54/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tema-warna
+2026-08-28T03:49:30.7922388Z         Submitted and indexed
+2026-08-28T03:49:31.1743983Z   [ 55/103] https://hellokahwin.com/artikel/nikah-undang-undang/lafaz-taklik
+2026-08-28T03:49:31.1745900Z         Submitted and indexed
+2026-08-28T03:49:32.9104945Z   [ 56/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tempah-atau-buat-sendiri
+2026-08-28T03:49:32.9105706Z         Submitted and indexed
+2026-08-28T03:49:36.8776646Z   [ 57/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hidden-hantaran
+2026-08-28T03:49:36.8777847Z         Submitted and indexed
+2026-08-28T03:49:37.3774974Z   [ 58/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/gubahan-hantaran
+2026-08-28T03:49:37.3775674Z         Submitted and indexed
+2026-08-28T03:49:37.5150533Z   [ 59/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri
+2026-08-28T03:49:37.5151245Z         Submitted and indexed
+2026-08-28T03:49:39.1811671Z   [ 60/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-perak
+2026-08-28T03:49:39.1812347Z         Submitted and indexed
+2026-08-28T03:49:43.2261184Z   [ 61/103] https://hellokahwin.com/artikel/idea-dan-nasihat/majlis-kahwin
+2026-08-28T03:49:43.2261833Z         Submitted and indexed
+2026-08-28T03:49:43.5341253Z   [ 62/103] https://hellokahwin.com/artikel/busana-pengantin/songket-tenunan-tangan-atau-cetak
+2026-08-28T03:49:43.5341996Z         Submitted and indexed
+2026-08-28T03:49:43.7680913Z   [ 63/103] https://hellokahwin.com/artikel/pelamin-kad-cenderahati/pelamin
+2026-08-28T03:49:43.7681628Z         Submitted and indexed
+2026-08-28T03:49:45.3313763Z   [ 64/103] https://hellokahwin.com/artikel/idea-dan-nasihat/hadiah-untuk-pengantin
+2026-08-28T03:49:45.3314517Z         Discovered - currently not indexed
+2026-08-28T03:49:49.3888344Z   [ 65/103] https://hellokahwin.com/artikel/sebelum-nikah/taaruf-maksud
+2026-08-28T03:49:49.3889002Z         Submitted and indexed
+2026-08-28T03:49:49.6860900Z   [ 66/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-melebihi-kadar-minimum
+2026-08-28T03:49:49.6861643Z         Submitted and indexed
+2026-08-28T03:49:49.9598737Z   [ 67/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-johor
+2026-08-28T03:49:49.9599406Z         Submitted and indexed
+2026-08-28T03:49:51.6754436Z   [ 68/103] https://hellokahwin.com/artikel/nikah-undang-undang/syarat-sah-nikah
+2026-08-28T03:49:51.6755122Z         Submitted and indexed
+2026-08-28T03:49:55.6007866Z   [ 69/103] https://hellokahwin.com/artikel/ucapan-doa/walimatul-urus
+2026-08-28T03:49:55.6008385Z         Submitted and indexed
+2026-08-28T03:49:55.8407256Z   [ 70/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/dulang-hantaran
+2026-08-28T03:49:55.8407944Z         Submitted and indexed
+2026-08-28T03:49:56.1543731Z   [ 71/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-untuk-lelaki
+2026-08-28T03:49:56.1544411Z         Submitted and indexed
+2026-08-28T03:49:57.9004067Z   [ 72/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-kahwin-bajet
+2026-08-28T03:49:57.9004783Z         Submitted and indexed
+2026-08-28T03:50:01.9832713Z   [ 73/103] https://hellokahwin.com/artikel/ucapan-doa/skrip-pengacara-majlis-perkahwinan
+2026-08-28T03:50:01.9833455Z         Submitted and indexed
+2026-08-28T03:50:02.0378688Z   [ 74/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/barang-hantaran-berguna
+2026-08-28T03:50:02.0379400Z         Submitted and indexed
+2026-08-28T03:50:02.5543356Z   [ 75/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/adat-hantaran-ikut-keluarga
+2026-08-28T03:50:02.5544130Z         Submitted and indexed
+2026-08-28T03:50:04.1394910Z   [ 76/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/berapa-dulang-hantaran-tunang
+2026-08-28T03:50:04.1395720Z         Discovered - currently not indexed
+2026-08-28T03:50:08.1778789Z   [ 77/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/tempat-beli-hantaran
+2026-08-28T03:50:08.1779481Z         Submitted and indexed
+2026-08-28T03:50:08.2788021Z   [ 78/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang-untuk-perempuan
+2026-08-28T03:50:08.2788748Z         Submitted and indexed
+2026-08-28T03:50:08.7701052Z   [ 79/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/persiapan-hantaran-kahwin
+2026-08-28T03:50:08.7701759Z         Submitted and indexed
+2026-08-28T03:50:10.3596458Z   [ 80/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/barang-hantaran-tunang
+2026-08-28T03:50:10.3597004Z         Submitted and indexed
+2026-08-28T03:50:14.3995793Z   [ 81/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat
+2026-08-28T03:50:14.3996504Z         Submitted and indexed
+2026-08-28T03:50:14.4844298Z   [ 82/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/adat-hantaran-berbeza-negeri
+2026-08-28T03:50:14.4845144Z         Submitted and indexed
+2026-08-28T03:50:14.9868182Z   [ 83/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/sirih-junjung
+2026-08-28T03:50:14.9868700Z         Submitted and indexed
+2026-08-28T03:50:16.5705741Z   [ 84/103] https://hellokahwin.com/artikel/pelamin-kad-cenderahati/bunga-telur
+2026-08-28T03:50:16.5706638Z         Submitted and indexed
+2026-08-28T03:50:20.6782732Z   [ 85/103] https://hellokahwin.com/artikel/pelamin-kad-cenderahati/contoh-kad-jemputan-kahwin
+2026-08-28T03:50:20.6783284Z         Submitted and indexed
+2026-08-28T03:50:20.7146986Z   [ 86/103] https://hellokahwin.com/artikel/sebelum-nikah/cincin-tunang
+2026-08-28T03:50:20.7147935Z         Submitted and indexed
+2026-08-28T03:50:21.1963141Z   [ 87/103] https://hellokahwin.com/artikel/ucapan-doa/doa-pengantin-baru
+2026-08-28T03:50:21.1963789Z         Submitted and indexed
+2026-08-28T03:50:22.8544342Z   [ 88/103] https://hellokahwin.com/artikel/venue-perancangan/bajet-kahwin
+2026-08-28T03:50:22.8545051Z         Submitted and indexed
+2026-08-28T03:50:26.8848643Z   [ 89/103] https://hellokahwin.com/artikel/nikah-undang-undang/rukun-nikah
+2026-08-28T03:50:26.8849136Z         Submitted and indexed
+2026-08-28T03:50:27.2048577Z   [ 90/103] https://hellokahwin.com/artikel/nikah-undang-undang/borang-nikah
+2026-08-28T03:50:27.2049058Z         Submitted and indexed
+2026-08-28T03:50:27.4555285Z   [ 91/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/apa-itu-mas-kahwin
+2026-08-28T03:50:27.4555796Z         Submitted and indexed
+2026-08-28T03:50:29.0866809Z   [ 92/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-kelantan-terengganu
+2026-08-28T03:50:29.0867589Z         Submitted and indexed
+2026-08-28T03:50:33.2518089Z   [ 93/103] https://hellokahwin.com/artikel/idea-dan-nasihat/wedding-planner-terbaik-di-malaysia
+2026-08-28T03:50:33.2518649Z         Submitted and indexed
+2026-08-28T03:50:33.6511163Z   [ 94/103] https://hellokahwin.com/artikel/hiasan-dekorasi/goodies-kahwin
+2026-08-28T03:50:33.6511659Z         Submitted and indexed
+2026-08-28T03:50:33.9251878Z   [ 95/103] https://hellokahwin.com/artikel/real-wedding/perkahwinan-taman-kebun-yang-minimalis-di-hulu-langat
+2026-08-28T03:50:33.9252480Z         Submitted and indexed
+2026-08-28T03:50:35.5957116Z   [ 96/103] https://hellokahwin.com/artikel/pantai-santai/perkahwinan-indah-di-laman-fajar-menyinsing-port-dickson
+2026-08-28T03:50:35.5957737Z         Submitted and indexed
+2026-08-28T03:50:39.6666521Z   [ 97/103] https://hellokahwin.com/artikel/real-wedding/yasaka-shrine
+2026-08-28T03:50:39.6667135Z         Submitted and indexed
+2026-08-28T03:50:40.1434682Z   [ 98/103] https://hellokahwin.com/artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik
+2026-08-28T03:50:40.1435595Z         URL is unknown to Google
+2026-08-28T03:50:40.2635554Z   [ 99/103] https://hellokahwin.com/artikel/idea-dan-nasihat/kursus-kahwin
+2026-08-28T03:50:40.2636207Z         Submitted and indexed
+2026-08-28T03:50:42.1257278Z   [100/103] https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-kahwin
+2026-08-28T03:50:42.1257794Z         Submitted and indexed
+2026-08-28T03:50:46.1332173Z   [101/103] https://hellokahwin.com/artikel/idea-dan-nasihat/sewa-dewan-kahwin
+2026-08-28T03:50:46.1332680Z         Submitted and indexed
+2026-08-28T03:50:46.4450847Z   [102/103] https://hellokahwin.com/artikel/moden-kontemporari/sime-darby-convention-centre
+2026-08-28T03:50:46.4451389Z         Submitted and indexed
+2026-08-28T03:50:46.5232384Z   [103/103] https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding
+2026-08-28T03:50:46.5232862Z         Submitted and indexed
+2026-08-28T03:50:46.5259453Z 
+2026-08-28T03:50:46.5260312Z ### Indexing monitor — 103 sitemap URLs swept
+2026-08-28T03:50:46.5260922Z 
+2026-08-28T03:50:46.5261085Z | bucket | count |
+2026-08-28T03:50:46.5261413Z | --- | --- |
+2026-08-28T03:50:46.5261918Z | alarming (>72h) | 4 |
+2026-08-28T03:50:46.5263146Z | watching (inside 72h) | 7 |
+2026-08-28T03:50:46.5263808Z | not answered by Google | 0 |
+2026-08-28T03:50:46.5264119Z 
+2026-08-28T03:50:46.5264501Z | coverage_state | count |
+2026-08-28T03:50:46.5265141Z | --- | --- |
+2026-08-28T03:50:46.5265767Z | Submitted and indexed | 92 |
+2026-08-28T03:50:46.5285009Z | Excluded by ‘noindex’ tag | 6 |
+2026-08-28T03:50:46.5285807Z | Discovered - currently not indexed | 4 |
+2026-08-28T03:50:46.5286328Z | URL is unknown to Google | 1 |
+2026-08-28T03:50:46.5286608Z 
+2026-08-28T03:50:46.5286803Z #### Alarming
+2026-08-28T03:50:46.5287910Z - `https://hellokahwin.com/artikel/moden-kontemporari` — Excluded by ‘noindex’ tag (171h, sitemap-url-noindexed)
+2026-08-28T03:50:46.5289362Z - `https://hellokahwin.com/artikel/pantai-santai` — Excluded by ‘noindex’ tag (171h, sitemap-url-noindexed)
+2026-08-28T03:50:46.5291112Z - `https://hellokahwin.com/artikel/glamor-eksklusif` — Excluded by ‘noindex’ tag (171h, sitemap-url-noindexed)
+2026-08-28T03:50:46.5292455Z - `https://hellokahwin.com/artikel/minimalis-mewah` — Excluded by ‘noindex’ tag (171h, sitemap-url-noindexed)
+2026-08-28T03:50:46.5293049Z 
+2026-08-28T03:50:46.5293200Z #### Watching
+2026-08-28T03:50:46.5293992Z - `https://hellokahwin.com/artikel/hiasan-dekorasi` — Excluded by ‘noindex’ tag (34h)
+2026-08-28T03:50:46.5295160Z - `https://hellokahwin.com/artikel/fotografi-videografi` — Excluded by ‘noindex’ tag (57h)
+2026-08-28T03:50:46.5296659Z - `https://hellokahwin.com/artikel/hantaran-mas-kahwin/bilangan-dulang-hantaran-ganjil` — Discovered - currently not indexed (36h)
+2026-08-28T03:50:46.5298359Z - `https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang-simple` — Discovered - currently not indexed (30h)
+2026-08-28T03:50:46.5300048Z - `https://hellokahwin.com/artikel/idea-dan-nasihat/hadiah-untuk-pengantin` — Discovered - currently not indexed (57h)
+2026-08-28T03:50:46.5301675Z - `https://hellokahwin.com/artikel/hantaran-mas-kahwin/berapa-dulang-hantaran-tunang` — Discovered - currently not indexed (30h)
+2026-08-28T03:50:46.5306570Z - `https://hellokahwin.com/artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik` — URL is unknown to Google (57h)
+2026-08-28T03:50:46.5307362Z 
+2026-08-28T03:50:46.5307822Z alarm=true alarms=4 watching=7 blind=0 detectedAt=2026-08-28T03:50:46.524Z
+﻿2026-08-28T03:50:46.5508908Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-08-28T03:50:46.5510190Z ##[group]Run actions/github-script@v7
+2026-08-28T03:50:46.5510487Z with:
+2026-08-28T03:50:46.5514310Z   script: const fs = require('fs');
+const path = `$***process.env.OUT_DIR***/alarm.json`;
+if (!fs.existsSync(path)) ***
+  core.info('no alarm.json — the sweep did not get far enough to decide.');
+  return;
+***
+const alarm = JSON.parse(fs.readFileSync(path, 'utf8'));
+core.setOutput('detected_at', alarm.detectedAt);
+if (!alarm.alarm) ***
+  core.info(`clean: 0 alarming, $***alarm.watchingCount*** watching, $***alarm.blindCount*** blind.`);
+  return;
+***
+
+// One open issue, reused. A repeating failure should nag in one
+// place rather than bury the repo — same rule as db-backup.yml.
+// Dedupe is by LABEL, never by title: the title carries the count,
+// so it changes between runs.
+const *** data: open *** = await github.rest.issues.listForRepo(***
+  ...context.repo, state: 'open', labels: 'indexing-alarm',
+***);
+let issue;
+if (open.length > 0) ***
+  const *** data: comment *** = await github.rest.issues.createComment(***
+    ...context.repo, issue_number: open[0].number, body: alarm.body,
+  ***);
+  issue = *** number: open[0].number, created_at: comment.created_at, html_url: comment.html_url ***;
+*** else ***
+  const *** data: created *** = await github.rest.issues.create(***
+    ...context.repo, title: alarm.title, body: alarm.body, labels: ['indexing-alarm'],
+  ***);
+  issue = *** number: created.number, created_at: created.created_at, html_url: created.html_url ***;
+***
+core.setOutput('issue_number', String(issue.number));
+core.setOutput('issue_url', issue.html_url);
+core.setOutput('issue_created_at', issue.created_at);
+core.notice(`indexing alarm filed: $***issue.html_url***`);
+
+2026-08-28T03:50:46.5520500Z   github-token: ***
+2026-08-28T03:50:46.5520765Z   debug: false
+2026-08-28T03:50:46.5521017Z   user-agent: actions/github-script
+2026-08-28T03:50:46.5521306Z   result-encoding: json
+2026-08-28T03:50:46.5521554Z   retries: 0
+2026-08-28T03:50:46.5521817Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-08-28T03:50:46.5522119Z env:
+2026-08-28T03:50:46.5522349Z   R2_BUCKET: hellokahwin-assets
+2026-08-28T03:50:46.5522639Z   STATE_KEY: indexing-monitor/state.json
+2026-08-28T03:50:46.5522949Z   OUT_DIR: .tmp-indexing-monitor
+2026-08-28T03:50:46.5523268Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+2026-08-28T03:50:46.5523716Z   R2_ENDPOINT: https://***.r2.cloudflarestorage.com
+2026-08-28T03:50:46.5524029Z ##[endgroup]
+2026-08-28T03:50:47.3832382Z [@octokit/request] "POST https://api.github.com/repos/ianngkb/hellokahwin/issues" is deprecated. It is scheduled to be removed on Fri, 10 Mar 2028 00:00:00 GMT. See https://docs.github.com/en/rest/about-the-rest-api/api-versions
+2026-08-28T03:50:47.3862128Z ##[notice]indexing alarm filed: https://github.com/ianngkb/hellokahwin/issues/10
+﻿2026-08-28T03:50:47.3962738Z ##[group]Run set -euo pipefail
+2026-08-28T03:50:47.3963064Z ^[[36;1mset -euo pipefail^[[0m
+2026-08-28T03:50:47.3963346Z ^[[36;1md="$(date -u -d "$DETECTED_AT" +%s)"^[[0m
+2026-08-28T03:50:47.3963666Z ^[[36;1mc="$(date -u -d "$CREATED_AT" +%s)"^[[0m
+2026-08-28T03:50:47.3963953Z ^[[36;1mgap=$(( c - d ))^[[0m
+2026-08-28T03:50:47.3964225Z ^[[36;1mecho "detected at : $DETECTED_AT"^[[0m
+2026-08-28T03:50:47.3964538Z ^[[36;1mecho "issue at    : $CREATED_AT"^[[0m
+2026-08-28T03:50:47.3964851Z ^[[36;1mecho "gap         : $***gap***s"^[[0m
+2026-08-28T03:50:47.3965151Z ^[[36;1mecho "issue       : $ISSUE_URL"^[[0m
+2026-08-28T03:50:47.3965428Z ^[[36;1m***^[[0m
+2026-08-28T03:50:47.3965676Z ^[[36;1m  echo "| alarm latency | value |"^[[0m
+2026-08-28T03:50:47.3965972Z ^[[36;1m  echo "| --- | --- |"^[[0m
+2026-08-28T03:50:47.3966271Z ^[[36;1m  echo "| detected | \`$***DETECTED_AT***\` |"^[[0m
+2026-08-28T03:50:47.3966607Z ^[[36;1m  echo "| filed | \`$***CREATED_AT***\` |"^[[0m
+2026-08-28T03:50:47.3966913Z ^[[36;1m  echo "| gap | $***gap***s |"^[[0m
+2026-08-28T03:50:47.3967232Z ^[[36;1m  echo "| issue | $***ISSUE_URL*** |"^[[0m
+2026-08-28T03:50:47.3967536Z ^[[36;1m*** >> "$GITHUB_STEP_SUMMARY"^[[0m
+2026-08-28T03:50:47.3967899Z ^[[36;1m# The DoD's number, enforced rather than claimed. If a future change^[[0m
+2026-08-28T03:50:47.3968345Z ^[[36;1m# puts a slow step between detection and the issue, this is what says^[[0m
+2026-08-28T03:50:47.3968803Z ^[[36;1m# so — an alarm that arrives late is a defect, not a warning.^[[0m
+2026-08-28T03:50:47.3969175Z ^[[36;1mif [ "$gap" -gt 10 ]; then^[[0m
+2026-08-28T03:50:47.3969549Z ^[[36;1m  echo "::error::the alarm took $***gap***s to reach GitHub; the bar is 10s."^[[0m
+2026-08-28T03:50:47.3970117Z ^[[36;1m  exit 1^[[0m
+2026-08-28T03:50:47.3970355Z ^[[36;1mfi^[[0m
+2026-08-28T03:50:47.4002330Z shell: /usr/bin/bash -e ***0***
+2026-08-28T03:50:47.4002614Z env:
+2026-08-28T03:50:47.4002850Z   R2_BUCKET: hellokahwin-assets
+2026-08-28T03:50:47.4003135Z   STATE_KEY: indexing-monitor/state.json
+2026-08-28T03:50:47.4003441Z   OUT_DIR: .tmp-indexing-monitor
+2026-08-28T03:50:47.4003769Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+2026-08-28T03:50:47.4004219Z   R2_ENDPOINT: https://***.r2.cloudflarestorage.com
+2026-08-28T03:50:47.4004552Z   DETECTED_AT: 2026-08-28T03:50:46.524Z
+2026-08-28T03:50:47.4004837Z   CREATED_AT: 2026-08-28T03:50:47Z
+2026-08-28T03:50:47.4005168Z   ISSUE_URL: https://github.com/ianngkb/hellokahwin/issues/10
+2026-08-28T03:50:47.4005727Z ##[endgroup]
+2026-08-28T03:50:47.4075109Z detected at : 2026-08-28T03:50:46.524Z
+2026-08-28T03:50:47.4075635Z issue at    : 2026-08-28T03:50:47Z
+2026-08-28T03:50:47.4075919Z gap         : 1s
+2026-08-28T03:50:47.4076285Z issue       : https://github.com/ianngkb/hellokahwin/issues/10
+﻿2026-08-28T03:50:47.4105565Z ##[group]Run set -euo pipefail
+2026-08-28T03:50:47.4105884Z ^[[36;1mset -euo pipefail^[[0m
+2026-08-28T03:50:47.4106203Z ^[[36;1mif [ ! -f "$***OUT_DIR***/snapshot.json" ]; then^[[0m
+2026-08-28T03:50:47.4106603Z ^[[36;1m  echo "no snapshot to archive — the sweep did not complete."^[[0m
+2026-08-28T03:50:47.4106948Z ^[[36;1m  exit 0^[[0m
+2026-08-28T03:50:47.4107181Z ^[[36;1mfi^[[0m
+2026-08-28T03:50:47.4107490Z ^[[36;1m# Both the filename and the key path come from the SAME `date -u`^[[0m
+2026-08-28T03:50:47.4107932Z ^[[36;1m# call, so the directory date can never drift from the timestamp in^[[0m
+2026-08-28T03:50:47.4108325Z ^[[36;1m# the name. Same rule as db-backup.yml.^[[0m
+2026-08-28T03:50:47.4108656Z ^[[36;1mTS="$(date -u +%Y%m%dT%H%M%SZ)"^[[0m
+2026-08-28T03:50:47.4108951Z ^[[36;1mDATEPATH="$(date -u +%Y/%m/%d)"^[[0m
+2026-08-28T03:50:47.4109299Z ^[[36;1mKEY="indexing-monitor/$***DATEPATH***/sweep-$***TS***.json"^[[0m
+2026-08-28T03:50:47.4109741Z ^[[36;1maws s3 cp "$***OUT_DIR***/snapshot.json" "s3://$***R2_BUCKET***/$***KEY***" \^[[0m
+2026-08-28T03:50:47.4110439Z ^[[36;1m  --endpoint-url "$R2_ENDPOINT" --content-type application/json^[[0m
+2026-08-28T03:50:47.4110821Z ^[[36;1mecho "archived: $***KEY***"^[[0m
+2026-08-28T03:50:47.4111099Z ^[[36;1m^[[0m
+2026-08-28T03:50:47.4111427Z ^[[36;1m# The mutable ledger goes up LAST, so a run that dies mid-sweep leaves^[[0m
+2026-08-28T03:50:47.4111871Z ^[[36;1m# yesterday's ledger intact rather than a half-written one.^[[0m
+2026-08-28T03:50:47.4112246Z ^[[36;1mif [ -f "$***OUT_DIR***/state.json" ]; then^[[0m
+2026-08-28T03:50:47.4112650Z ^[[36;1m  aws s3 cp "$***OUT_DIR***/state.json" "s3://$***R2_BUCKET***/$***STATE_KEY***" \^[[0m
+2026-08-28T03:50:47.4113144Z ^[[36;1m    --endpoint-url "$R2_ENDPOINT" --content-type application/json^[[0m
+2026-08-28T03:50:47.4113541Z ^[[36;1m  echo "ledger updated: $***STATE_KEY***"^[[0m
+2026-08-28T03:50:47.4113850Z ^[[36;1mfi^[[0m
+2026-08-28T03:50:47.4141656Z shell: /usr/bin/bash -e ***0***
+2026-08-28T03:50:47.4141937Z env:
+2026-08-28T03:50:47.4142179Z   R2_BUCKET: hellokahwin-assets
+2026-08-28T03:50:47.4142479Z   STATE_KEY: indexing-monitor/state.json
+2026-08-28T03:50:47.4142783Z   OUT_DIR: .tmp-indexing-monitor
+2026-08-28T03:50:47.4143094Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+2026-08-28T03:50:47.4143544Z   R2_ENDPOINT: https://***.r2.cloudflarestorage.com
+2026-08-28T03:50:47.4143901Z   AWS_ACCESS_KEY_ID: ***
+2026-08-28T03:50:47.4144276Z   AWS_SECRET_ACCESS_KEY: ***
+2026-08-28T03:50:47.4144540Z   AWS_DEFAULT_REGION: auto
+2026-08-28T03:50:47.4144787Z ##[endgroup]
+2026-08-28T03:50:49.2803490Z Completed 61.2 KiB/61.2 KiB (43.1 KiB/s) with 1 file(s) remaining
+2026-08-28T03:50:49.2804345Z upload: .tmp-indexing-monitor/snapshot.json to s3://hellokahwin-assets/indexing-monitor/2026/08/28/sweep-20260828T035047Z.json
+2026-08-28T03:50:49.3599171Z archived: indexing-monitor/2026/08/28/sweep-20260828T035047Z.json
+2026-08-28T03:50:50.6605352Z Completed 34.4 KiB/34.4 KiB (39.6 KiB/s) with 1 file(s) remaining
+2026-08-28T03:50:50.6606068Z upload: .tmp-indexing-monitor/state.json to s3://hellokahwin-assets/indexing-monitor/state.json
+2026-08-28T03:50:50.7379820Z ledger updated: indexing-monitor/state.json
+﻿2026-08-28T03:50:50.7418158Z ##[group]Run set -euo pipefail
+2026-08-28T03:50:50.7418500Z ^[[36;1mset -euo pipefail^[[0m
+2026-08-28T03:50:50.7418819Z ^[[36;1mif [ -f "$***OUT_DIR***/summary.md" ]; then^[[0m
+2026-08-28T03:50:50.7419199Z ^[[36;1m  cat "$***OUT_DIR***/summary.md" >> "$GITHUB_STEP_SUMMARY"^[[0m
+2026-08-28T03:50:50.7419530Z ^[[36;1melse^[[0m
+2026-08-28T03:50:50.7420126Z ^[[36;1m  echo "### Indexing monitor did not produce a summary — the sweep failed." >> "$GITHUB_STEP_SUMMARY"^[[0m
+2026-08-28T03:50:50.7420593Z ^[[36;1mfi^[[0m
+2026-08-28T03:50:50.7453338Z shell: /usr/bin/bash -e ***0***
+2026-08-28T03:50:50.7453625Z env:
+2026-08-28T03:50:50.7453860Z   R2_BUCKET: hellokahwin-assets
+2026-08-28T03:50:50.7454151Z   STATE_KEY: indexing-monitor/state.json
+2026-08-28T03:50:50.7454459Z   OUT_DIR: .tmp-indexing-monitor
+2026-08-28T03:50:50.7454776Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+2026-08-28T03:50:50.7455231Z   R2_ENDPOINT: https://***.r2.cloudflarestorage.com
+2026-08-28T03:50:50.7455550Z ##[endgroup]
+﻿2026-08-28T03:50:50.7591653Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-08-28T03:50:50.7592626Z Post job cleanup.
+2026-08-28T03:50:50.8532787Z (node:2350) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-08-28T03:50:50.8533572Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-08-28T03:50:50.8535546Z Cache hit occurred on the primary key node-cache-Linux-x64-pnpm-9367a9280658c0171106e91a788339168f7c879bb6b33b71ffcee2e7c9cd2962, not saving cache.
+﻿2026-08-28T03:50:50.8623868Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-08-28T03:50:50.8624870Z Post job cleanup.
+2026-08-28T03:50:50.9750964Z Pruning is unnecessary.
+﻿2026-08-28T03:50:50.9866162Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-08-28T03:50:50.9867159Z Post job cleanup.
+2026-08-28T03:50:51.0549606Z [command]/usr/bin/git version
+2026-08-28T03:50:51.0578730Z git version 2.55.0
+2026-08-28T03:50:51.0606363Z Temporarily overriding HOME='/home/runner/work/_temp/ef11524b-a284-4dfb-996f-8a72650826c7' before making global git config changes
+2026-08-28T03:50:51.0607586Z Adding repository directory to the temporary git global config as a safe directory
+2026-08-28T03:50:51.0610942Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/hellokahwin/hellokahwin
+2026-08-28T03:50:51.0639741Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-08-28T03:50:51.0666162Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-08-28T03:50:51.0864135Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-08-28T03:50:51.0874014Z http.https://github.com/.extraheader
+2026-08-28T03:50:51.0881838Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-08-28T03:50:51.0907314Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-08-28T03:50:51.1087125Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-08-28T03:50:51.1110545Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+﻿2026-08-28T03:50:51.1409338Z Cleaning up orphan processes
+2026-08-28T03:50:51.1644327Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/github-script@v7, actions/setup-node@v4, pnpm/action-setup@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+

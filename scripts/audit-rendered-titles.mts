@@ -37,8 +37,8 @@
  *
  *   pnpm audit:titles                        # sitemap of production, all URLs
  *   pnpm audit:titles --base https://…       # another origin (a preview URL)
- *   pnpm audit:titles --bust                 # unique ?_t= per URL: skips the
- *                                            # Vercel edge, measures the origin
+ *   pnpm audit:titles --bust                 # unique ?_t= per URL. DOES NOT
+ *                                            # reach the origin -- see below
  *   pnpm audit:titles --delay 500            # ms between requests (default 300)
  *   pnpm audit:titles --only /artikel/a/b    # substring filter
  *   pnpm audit:titles --out path.json        # also write the full row set
@@ -46,6 +46,36 @@
  * Every row carries `x-vercel-cache` and `age`, because a title without its
  * cache state is not a measurement of anything — the same URL answers
  * differently from HIT, STALE and MISS.
+ *
+ * ── `--bust` DOES NOT FORCE A COLD RENDER. IT NEVER DID. ──────────────────
+ *
+ * The flag's own description said it "skips the Vercel edge and measures the
+ * origin". It does not. The query string is not part of this route's CDN cache
+ * key, so `?_t=…` is served the identical entry. Re-verified on production
+ * 28 Ogos 2026 against a path last rendered three minutes earlier — one entry
+ * ageing in real time through four requests:
+ *
+ *     (no query)          x-vercel-cache: HIT   age: 181
+ *     ?_t=1787901554-1    x-vercel-cache: HIT   age: 183
+ *     ?_t=1787901554-2    x-vercel-cache: HIT   age: 185
+ *     (no query)          x-vercel-cache: HIT   age: 186
+ *
+ * The flag is kept because a novel query is still worth having for any
+ * downstream cache that DOES key on it, and because deleting it would break
+ * anyone's muscle memory silently. But it buys nothing here, and a run that
+ * relies on it to be cold is a warm run that thinks it is cold.
+ *
+ * What actually works is the clock. `next.config.ts` gives this route
+ * `Vercel-CDN-Cache-Control: s-maxage=300, stale-while-revalidate=600`, so an
+ * entry is fresh for 300s, STALE for the next 600s and MISS after 900s. Leave a
+ * path alone for fifteen minutes and its next request renders. The other
+ * reliable cold window is the minutes after a production deploy, when the whole
+ * corpus is cold at once.
+ *
+ * This does not invalidate any number this script has already produced: every
+ * row carries its own `x-vercel-cache`, so a MISS row was a render whatever the
+ * flag was doing. It invalidates the belief that passing `--bust` makes a run
+ * cold. See `scripts/measure-cold-render.mts` and RISK-08.
  */
 
 import { writeFileSync } from 'node:fs';
