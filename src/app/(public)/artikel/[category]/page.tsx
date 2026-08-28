@@ -14,6 +14,7 @@ import { PillarBody } from '@/components/inspire/pillar-body';
 import { getPillarView } from '@/lib/inspire/pillar-queries';
 import { tagEdgeResponse } from '@/lib/cache/edge-tag';
 import { categoryOwnsPublishedArticles } from '@/lib/inspire/category-indexability';
+import { categoryRobots, ROBOTS_ON_DEADLINE_MISS } from '@/lib/seo/category-robots';
 
 // Cache forever; invalidate via `revalidateTag('articles')` /
 // `revalidateTag('inspire-categories')` from admin write paths. See
@@ -189,6 +190,13 @@ export async function generateMetadata({
     title: `${cat.name} | Inspire`,
     description,
     alternates: { canonical: `/artikel/${categorySlug}` },
+    // Explicit `index, follow` rather than an absent tag. Same meaning to
+    // Google; a different meaning to us. `generateMetadata` also returns `{}`
+    // when the category lookup blows its deadline, so "no robots meta" used to
+    // be indistinguishable from "metadata render failed" on the wire — and
+    // RISK-07 is precisely a robots state nobody could read off the live HTML.
+    // Every branch below that wants something else overrides this key.
+    robots: ROBOTS_ON_DEADLINE_MISS,
     openGraph: {
       title: `${cat.name} | Artikel | HelloKahwin`,
       description,
@@ -233,10 +241,10 @@ export async function generateMetadata({
     } catch {
       // Left as `true` — see above.
     }
-    if (!ownsArticles) {
-      return { ...baseMeta, robots: { index: false, follow: true } };
-    }
-    return baseMeta;
+    return {
+      ...baseMeta,
+      robots: categoryRobots({ view: 'child-hub', ownsPublishedArticles: ownsArticles }),
+    };
   }
 
   // Soft-404 prevention for `?sub=` URLs (~3 in the May 2026 GSC bucket):
@@ -279,9 +287,10 @@ export async function generateMetadata({
         3_000,
         `inspire-category-base-articles-meta:${categorySlug}`,
       );
-      if (Number(total) === 0) {
-        return { ...baseMeta, robots: { index: false, follow: true } };
-      }
+      return {
+        ...baseMeta,
+        robots: categoryRobots({ view: 'base-hub', subtreeArticleCount: Number(total) }),
+      };
     } catch {
       // Couldn't determine count within deadline — default to indexable.
     }
@@ -294,7 +303,7 @@ export async function generateMetadata({
     : hierarchy.grandchildren.find((g) => g.slug === subParam);
 
   if (!activeChild && !activeGrandchild) {
-    return { ...baseMeta, robots: { index: false, follow: false } };
+    return { ...baseMeta, robots: categoryRobots({ view: 'invalid-sub' }) };
   }
 
   const subCategoryIds = activeChild
@@ -313,9 +322,10 @@ export async function generateMetadata({
       3_000,
       `inspire-category-sub-articles-meta:${categorySlug}`,
     );
-    if (total === 0) {
-      return { ...baseMeta, robots: { index: false, follow: true } };
-    }
+    return {
+      ...baseMeta,
+      robots: categoryRobots({ view: 'valid-sub', subtreeArticleCount: Number(total) }),
+    };
   } catch {
     // Couldn't determine count within deadline — default to indexable.
   }
