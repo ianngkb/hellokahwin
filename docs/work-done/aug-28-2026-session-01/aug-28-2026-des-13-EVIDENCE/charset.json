@@ -1,0 +1,864 @@
+[
+ {
+  "cp": "U+0020",
+  "char": " ",
+  "count": 1656,
+  "name": "SPACE",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:h3",
+   "live:title",
+   "wordmark"
+  ]
+ },
+ {
+  "cp": "U+0021",
+  "char": "!",
+  "count": 1,
+  "name": "EXCLAMATION MARK",
+  "sources": [
+   "corpus:title"
+  ]
+ },
+ {
+  "cp": "U+0026",
+  "char": "&",
+  "count": 81,
+  "name": "AMPERSAND",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:title"
+  ]
+ },
+ {
+  "cp": "U+002B",
+  "char": "+",
+  "count": 1,
+  "name": "PLUS SIGN",
+  "sources": [
+   "corpus:title"
+  ]
+ },
+ {
+  "cp": "U+002C",
+  "char": ",",
+  "count": 75,
+  "name": "COMMA",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:h3",
+   "live:title"
+  ]
+ },
+ {
+  "cp": "U+002D",
+  "char": "-",
+  "count": 6,
+  "name": "HYPHEN-MINUS",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h3"
+  ]
+ },
+ {
+  "cp": "U+002E",
+  "char": ".",
+  "count": 3,
+  "name": "FULL STOP",
+  "sources": [
+   "corpus:title",
+   "live:h3",
+   "live:title"
+  ]
+ },
+ {
+  "cp": "U+0030",
+  "char": "0",
+  "count": 42,
+  "name": "DIGIT ZERO",
+  "sources": [
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:h3",
+   "live:title"
+  ]
+ },
+ {
+  "cp": "U+0031",
+  "char": "1",
+  "count": 11,
+  "name": "DIGIT ONE",
+  "sources": [
+   "corpus:title",
+   "live:h2",
+   "live:h3"
+  ]
+ },
+ {
+  "cp": "U+0032",
+  "char": "2",
+  "count": 67,
+  "name": "DIGIT TWO",
+  "sources": [
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:h3",
+   "live:title"
+  ]
+ },
+ {
+  "cp": "U+0033",
+  "char": "3",
+  "count": 3,
+  "name": "DIGIT THREE",
+  "sources": [
+   "corpus:title",
+   "live:h2",
+   "live:title"
+  ]
+ },
+ {
+  "cp": "U+0034",
+  "char": "4",
+  "count": 1,
+  "name": "DIGIT FOUR",
+  "sources": [
+   "corpus:title"
+  ]
+ },
+ {
+  "cp": "U+0035",
+  "char": "5",
+  "count": 7,
+  "name": "DIGIT FIVE",
+  "sources": [
+   "corpus:title",
+   "live:h3",
+   "live:title"
+  ]
+ },
+ {
+  "cp": "U+0036",
+  "char": "6",
+  "count": 29,
+  "name": "DIGIT SIX",
+  "sources": [
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:h3",
+   "live:title"
+  ]
+ },
+ {
+  "cp": "U+0037",
+  "char": "7",
+  "count": 4,
+  "name": "DIGIT SEVEN",
+  "sources": [
+   "corpus:title",
+   "live:h3"
+  ]
+ },
+ {
+  "cp": "U+0038",
+  "char": "8",
+  "count": 1,
+  "name": "DIGIT EIGHT",
+  "sources": [
+   "live:h2"
+  ]
+ },
+ {
+  "cp": "U+0039",
+  "char": "9",
+  "count": 1,
+  "name": "DIGIT NINE",
+  "sources": [
+   "corpus:title"
+  ]
+ },
+ {
+  "cp": "U+003A",
+  "char": ":",
+  "count": 104,
+  "name": "COLON",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:h3",
+   "live:title"
+  ]
+ },
+ {
+  "cp": "U+003F",
+  "char": "?",
+  "count": 16,
+  "name": "QUESTION MARK",
+  "sources": [
+   "corpus:title",
+   "live:h2",
+   "live:h3"
+  ]
+ },
+ {
+  "cp": "U+0041",
+  "char": "A",
+  "count": 39,
+  "name": "LATIN CAPITAL LETTER A",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:h3",
+   "live:title",
+   "wordmark"
+  ]
+ },
+ {
+  "cp": "U+0042",
+  "char": "B",
+  "count": 60,
+  "name": "LATIN CAPITAL LETTER B",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h2",
+   "live:h3"
+  ]
+ },
+ {
+  "cp": "U+0043",
+  "char": "C",
+  "count": 17,
+  "name": "LATIN CAPITAL LETTER C",
+  "sources": [
+   "corpus:category",
+   "corpus:title"
+  ]
+ },
+ {
+  "cp": "U+0044",
+  "char": "D",
+  "count": 40,
+  "name": "LATIN CAPITAL LETTER D",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:h3",
+   "live:title"
+  ]
+ },
+ {
+  "cp": "U+0045",
+  "char": "E",
+  "count": 6,
+  "name": "LATIN CAPITAL LETTER E",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h3",
+   "wordmark"
+  ]
+ },
+ {
+  "cp": "U+0046",
+  "char": "F",
+  "count": 3,
+  "name": "LATIN CAPITAL LETTER F",
+  "sources": [
+   "corpus:category",
+   "corpus:title"
+  ]
+ },
+ {
+  "cp": "U+0047",
+  "char": "G",
+  "count": 10,
+  "name": "LATIN CAPITAL LETTER G",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h2",
+   "live:h3"
+  ]
+ },
+ {
+  "cp": "U+0048",
+  "char": "H",
+  "count": 98,
+  "name": "LATIN CAPITAL LETTER H",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:h3",
+   "live:title",
+   "wordmark"
+  ]
+ },
+ {
+  "cp": "U+0049",
+  "char": "I",
+  "count": 32,
+  "name": "LATIN CAPITAL LETTER I",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:title",
+   "wordmark"
+  ]
+ },
+ {
+  "cp": "U+004A",
+  "char": "J",
+  "count": 12,
+  "name": "LATIN CAPITAL LETTER J",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h2",
+   "live:h3"
+  ]
+ },
+ {
+  "cp": "U+004B",
+  "char": "K",
+  "count": 104,
+  "name": "LATIN CAPITAL LETTER K",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:h3",
+   "live:title",
+   "wordmark"
+  ]
+ },
+ {
+  "cp": "U+004C",
+  "char": "L",
+  "count": 25,
+  "name": "LATIN CAPITAL LETTER L",
+  "sources": [
+   "corpus:title",
+   "live:h2",
+   "live:h3",
+   "wordmark"
+  ]
+ },
+ {
+  "cp": "U+004D",
+  "char": "M",
+  "count": 116,
+  "name": "LATIN CAPITAL LETTER M",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:h3",
+   "live:title"
+  ]
+ },
+ {
+  "cp": "U+004E",
+  "char": "N",
+  "count": 20,
+  "name": "LATIN CAPITAL LETTER N",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h2",
+   "live:h3",
+   "wordmark"
+  ]
+ },
+ {
+  "cp": "U+004F",
+  "char": "O",
+  "count": 2,
+  "name": "LATIN CAPITAL LETTER O",
+  "sources": [
+   "corpus:title",
+   "wordmark"
+  ]
+ },
+ {
+  "cp": "U+0050",
+  "char": "P",
+  "count": 81,
+  "name": "LATIN CAPITAL LETTER P",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:h3",
+   "live:title"
+  ]
+ },
+ {
+  "cp": "U+0052",
+  "char": "R",
+  "count": 18,
+  "name": "LATIN CAPITAL LETTER R",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h2",
+   "live:h3",
+   "live:title"
+  ]
+ },
+ {
+  "cp": "U+0053",
+  "char": "S",
+  "count": 52,
+  "name": "LATIN CAPITAL LETTER S",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h2",
+   "live:h3"
+  ]
+ },
+ {
+  "cp": "U+0054",
+  "char": "T",
+  "count": 41,
+  "name": "LATIN CAPITAL LETTER T",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h2",
+   "live:h3"
+  ]
+ },
+ {
+  "cp": "U+0055",
+  "char": "U",
+  "count": 13,
+  "name": "LATIN CAPITAL LETTER U",
+  "sources": [
+   "corpus:category",
+   "corpus:title"
+  ]
+ },
+ {
+  "cp": "U+0056",
+  "char": "V",
+  "count": 10,
+  "name": "LATIN CAPITAL LETTER V",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h1",
+   "live:title"
+  ]
+ },
+ {
+  "cp": "U+0057",
+  "char": "W",
+  "count": 21,
+  "name": "LATIN CAPITAL LETTER W",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "wordmark"
+  ]
+ },
+ {
+  "cp": "U+0059",
+  "char": "Y",
+  "count": 3,
+  "name": "LATIN CAPITAL LETTER Y",
+  "sources": [
+   "corpus:title",
+   "live:h2"
+  ]
+ },
+ {
+  "cp": "U+0061",
+  "char": "a",
+  "count": 2040,
+  "name": "LATIN SMALL LETTER A",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:h3",
+   "live:title",
+   "wordmark"
+  ]
+ },
+ {
+  "cp": "U+0062",
+  "char": "b",
+  "count": 156,
+  "name": "LATIN SMALL LETTER B",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:h3",
+   "live:title"
+  ]
+ },
+ {
+  "cp": "U+0063",
+  "char": "c",
+  "count": 50,
+  "name": "LATIN SMALL LETTER C",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:h3",
+   "live:title"
+  ]
+ },
+ {
+  "cp": "U+0064",
+  "char": "d",
+  "count": 339,
+  "name": "LATIN SMALL LETTER D",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:h3",
+   "live:title"
+  ]
+ },
+ {
+  "cp": "U+0065",
+  "char": "e",
+  "count": 551,
+  "name": "LATIN SMALL LETTER E",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:h3",
+   "live:title",
+   "wordmark"
+  ]
+ },
+ {
+  "cp": "U+0066",
+  "char": "f",
+  "count": 10,
+  "name": "LATIN SMALL LETTER F",
+  "sources": [
+   "corpus:category",
+   "corpus:title"
+  ]
+ },
+ {
+  "cp": "U+0067",
+  "char": "g",
+  "count": 287,
+  "name": "LATIN SMALL LETTER G",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:h3",
+   "live:title"
+  ]
+ },
+ {
+  "cp": "U+0068",
+  "char": "h",
+  "count": 311,
+  "name": "LATIN SMALL LETTER H",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:h3",
+   "live:title",
+   "wordmark"
+  ]
+ },
+ {
+  "cp": "U+0069",
+  "char": "i",
+  "count": 663,
+  "name": "LATIN SMALL LETTER I",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:h3",
+   "live:title",
+   "wordmark"
+  ]
+ },
+ {
+  "cp": "U+006A",
+  "char": "j",
+  "count": 68,
+  "name": "LATIN SMALL LETTER J",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:h3",
+   "live:title"
+  ]
+ },
+ {
+  "cp": "U+006B",
+  "char": "k",
+  "count": 292,
+  "name": "LATIN SMALL LETTER K",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:h3",
+   "live:title"
+  ]
+ },
+ {
+  "cp": "U+006C",
+  "char": "l",
+  "count": 301,
+  "name": "LATIN SMALL LETTER L",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:h3",
+   "live:title",
+   "wordmark"
+  ]
+ },
+ {
+  "cp": "U+006D",
+  "char": "m",
+  "count": 209,
+  "name": "LATIN SMALL LETTER M",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:h3",
+   "live:title"
+  ]
+ },
+ {
+  "cp": "U+006E",
+  "char": "n",
+  "count": 1164,
+  "name": "LATIN SMALL LETTER N",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:h3",
+   "live:title",
+   "wordmark"
+  ]
+ },
+ {
+  "cp": "U+006F",
+  "char": "o",
+  "count": 154,
+  "name": "LATIN SMALL LETTER O",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:h3",
+   "live:title",
+   "wordmark"
+  ]
+ },
+ {
+  "cp": "U+0070",
+  "char": "p",
+  "count": 196,
+  "name": "LATIN SMALL LETTER P",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:h3",
+   "live:title"
+  ]
+ },
+ {
+  "cp": "U+0072",
+  "char": "r",
+  "count": 444,
+  "name": "LATIN SMALL LETTER R",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:h3",
+   "live:title"
+  ]
+ },
+ {
+  "cp": "U+0073",
+  "char": "s",
+  "count": 348,
+  "name": "LATIN SMALL LETTER S",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:h3",
+   "live:title"
+  ]
+ },
+ {
+  "cp": "U+0074",
+  "char": "t",
+  "count": 429,
+  "name": "LATIN SMALL LETTER T",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:h3",
+   "live:title"
+  ]
+ },
+ {
+  "cp": "U+0075",
+  "char": "u",
+  "count": 366,
+  "name": "LATIN SMALL LETTER U",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:h3",
+   "live:title"
+  ]
+ },
+ {
+  "cp": "U+0076",
+  "char": "v",
+  "count": 2,
+  "name": "LATIN SMALL LETTER V",
+  "sources": [
+   "corpus:title",
+   "live:h2"
+  ]
+ },
+ {
+  "cp": "U+0077",
+  "char": "w",
+  "count": 150,
+  "name": "LATIN SMALL LETTER W",
+  "sources": [
+   "corpus:category",
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:h3",
+   "live:title",
+   "wordmark"
+  ]
+ },
+ {
+  "cp": "U+0079",
+  "char": "y",
+  "count": 94,
+  "name": "LATIN SMALL LETTER Y",
+  "sources": [
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:h3",
+   "live:title"
+  ]
+ },
+ {
+  "cp": "U+007A",
+  "char": "z",
+  "count": 25,
+  "name": "LATIN SMALL LETTER Z",
+  "sources": [
+   "corpus:title",
+   "live:h1",
+   "live:h2",
+   "live:h3",
+   "live:title"
+  ]
+ },
+ {
+  "cp": "U+007C",
+  "char": "|",
+  "count": 9,
+  "name": "VERTICAL LINE",
+  "sources": [
+   "live:title"
+  ]
+ },
+ {
+  "cp": "U+2013",
+  "char": "–",
+  "count": 6,
+  "name": "EN DASH",
+  "sources": [
+   "corpus:title"
+  ]
+ },
+ {
+  "cp": "U+2014",
+  "char": "—",
+  "count": 2,
+  "name": "EM DASH",
+  "sources": [
+   "live:h1",
+   "live:title"
+  ]
+ }
+]

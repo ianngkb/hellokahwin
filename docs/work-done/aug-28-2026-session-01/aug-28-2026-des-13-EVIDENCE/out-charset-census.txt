@@ -1,0 +1,72 @@
+corpus rows: 86
+distinct codepoints: 69
+non-ASCII: 2
+U+0020 ' ' 1656 SPACE corpus:category,corpus:title,live:h1,live:h2,live:h3,live:title,wordmark
+U+0021 '!' 1 EXCLAMATION MARK corpus:title
+U+0026 '&' 81 AMPERSAND corpus:category,corpus:title,live:h1,live:h2,live:title
+U+002B '+' 1 PLUS SIGN corpus:title
+U+002C ',' 75 COMMA corpus:category,corpus:title,live:h1,live:h2,live:h3,live:title
+U+002D '-' 6 HYPHEN-MINUS corpus:category,corpus:title,live:h3
+U+002E '.' 3 FULL STOP corpus:title,live:h3,live:title
+U+0030 '0' 42 DIGIT ZERO corpus:title,live:h1,live:h2,live:h3,live:title
+U+0031 '1' 11 DIGIT ONE corpus:title,live:h2,live:h3
+U+0032 '2' 67 DIGIT TWO corpus:title,live:h1,live:h2,live:h3,live:title
+U+0033 '3' 3 DIGIT THREE corpus:title,live:h2,live:title
+U+0034 '4' 1 DIGIT FOUR corpus:title
+U+0035 '5' 7 DIGIT FIVE corpus:title,live:h3,live:title
+U+0036 '6' 29 DIGIT SIX corpus:title,live:h1,live:h2,live:h3,live:title
+U+0037 '7' 4 DIGIT SEVEN corpus:title,live:h3
+U+0038 '8' 1 DIGIT EIGHT live:h2
+U+0039 '9' 1 DIGIT NINE corpus:title
+U+003A ':' 104 COLON corpus:category,corpus:title,live:h1,live:h2,live:h3,live:title
+U+003F '?' 16 QUESTION MARK corpus:title,live:h2,live:h3
+U+0041 'A' 39 LATIN CAPITAL LETTER A corpus:category,corpus:title,live:h1,live:h2,live:h3,live:title,wordmark
+U+0042 'B' 60 LATIN CAPITAL LETTER B corpus:category,corpus:title,live:h2,live:h3
+U+0043 'C' 17 LATIN CAPITAL LETTER C corpus:category,corpus:title
+U+0044 'D' 40 LATIN CAPITAL LETTER D corpus:category,corpus:title,live:h1,live:h2,live:h3,live:title
+U+0045 'E' 6 LATIN CAPITAL LETTER E corpus:category,corpus:title,live:h3,wordmark
+U+0046 'F' 3 LATIN CAPITAL LETTER F corpus:category,corpus:title
+U+0047 'G' 10 LATIN CAPITAL LETTER G corpus:category,corpus:title,live:h2,live:h3
+U+0048 'H' 98 LATIN CAPITAL LETTER H corpus:category,corpus:title,live:h1,live:h2,live:h3,live:title,wordmark
+U+0049 'I' 32 LATIN CAPITAL LETTER I corpus:category,corpus:title,live:h1,live:h2,live:title,wordmark
+U+004A 'J' 12 LATIN CAPITAL LETTER J corpus:category,corpus:title,live:h2,live:h3
+U+004B 'K' 104 LATIN CAPITAL LETTER K corpus:category,corpus:title,live:h1,live:h2,live:h3,live:title,wordmark
+U+004C 'L' 25 LATIN CAPITAL LETTER L corpus:title,live:h2,live:h3,wordmark
+U+004D 'M' 116 LATIN CAPITAL LETTER M corpus:category,corpus:title,live:h1,live:h2,live:h3,live:title
+U+004E 'N' 20 LATIN CAPITAL LETTER N corpus:category,corpus:title,live:h2,live:h3,wordmark
+U+004F 'O' 2 LATIN CAPITAL LETTER O corpus:title,wordmark
+U+0050 'P' 81 LATIN CAPITAL LETTER P corpus:category,corpus:title,live:h1,live:h2,live:h3,live:title
+U+0052 'R' 18 LATIN CAPITAL LETTER R corpus:category,corpus:title,live:h2,live:h3,live:title
+U+0053 'S' 52 LATIN CAPITAL LETTER S corpus:category,corpus:title,live:h2,live:h3
+U+0054 'T' 41 LATIN CAPITAL LETTER T corpus:category,corpus:title,live:h2,live:h3
+U+0055 'U' 13 LATIN CAPITAL LETTER U corpus:category,corpus:title
+U+0056 'V' 10 LATIN CAPITAL LETTER V corpus:category,corpus:title,live:h1,live:title
+U+0057 'W' 21 LATIN CAPITAL LETTER W corpus:category,corpus:title,wordmark
+U+0059 'Y' 3 LATIN CAPITAL LETTER Y corpus:title,live:h2
+U+0061 'a' 2040 LATIN SMALL LETTER A corpus:category,corpus:title,live:h1,live:h2,live:h3,live:title,wordmark
+U+0062 'b' 156 LATIN SMALL LETTER B corpus:category,corpus:title,live:h1,live:h2,live:h3,live:title
+U+0063 'c' 50 LATIN SMALL LETTER C corpus:category,corpus:title,live:h1,live:h2,live:h3,live:title
+U+0064 'd' 339 LATIN SMALL LETTER D corpus:category,corpus:title,live:h1,live:h2,live:h3,live:title
+U+0065 'e' 551 LATIN SMALL LETTER E corpus:category,corpus:title,live:h1,live:h2,live:h3,live:title,wordmark
+U+0066 'f' 10 LATIN SMALL LETTER F corpus:category,corpus:title
+U+0067 'g' 287 LATIN SMALL LETTER G corpus:category,corpus:title,live:h1,live:h2,live:h3,live:title
+U+0068 'h' 311 LATIN SMALL LETTER H corpus:category,corpus:title,live:h1,live:h2,live:h3,live:title,wordmark
+U+0069 'i' 663 LATIN SMALL LETTER I corpus:category,corpus:title,live:h1,live:h2,live:h3,live:title,wordmark
+U+006A 'j' 68 LATIN SMALL LETTER J corpus:category,corpus:title,live:h1,live:h2,live:h3,live:title
+U+006B 'k' 292 LATIN SMALL LETTER K corpus:category,corpus:title,live:h1,live:h2,live:h3,live:title
+U+006C 'l' 301 LATIN SMALL LETTER L corpus:category,corpus:title,live:h1,live:h2,live:h3,live:title,wordmark
+U+006D 'm' 209 LATIN SMALL LETTER M corpus:category,corpus:title,live:h1,live:h2,live:h3,live:title
+U+006E 'n' 1164 LATIN SMALL LETTER N corpus:category,corpus:title,live:h1,live:h2,live:h3,live:title,wordmark
+U+006F 'o' 154 LATIN SMALL LETTER O corpus:category,corpus:title,live:h1,live:h2,live:h3,live:title,wordmark
+U+0070 'p' 196 LATIN SMALL LETTER P corpus:category,corpus:title,live:h1,live:h2,live:h3,live:title
+U+0072 'r' 444 LATIN SMALL LETTER R corpus:category,corpus:title,live:h1,live:h2,live:h3,live:title
+U+0073 's' 348 LATIN SMALL LETTER S corpus:category,corpus:title,live:h1,live:h2,live:h3,live:title
+U+0074 't' 429 LATIN SMALL LETTER T corpus:category,corpus:title,live:h1,live:h2,live:h3,live:title
+U+0075 'u' 366 LATIN SMALL LETTER U corpus:category,corpus:title,live:h1,live:h2,live:h3,live:title
+U+0076 'v' 2 LATIN SMALL LETTER V corpus:title,live:h2
+U+0077 'w' 150 LATIN SMALL LETTER W corpus:category,corpus:title,live:h1,live:h2,live:h3,live:title,wordmark
+U+0079 'y' 94 LATIN SMALL LETTER Y corpus:title,live:h1,live:h2,live:h3,live:title
+U+007A 'z' 25 LATIN SMALL LETTER Z corpus:title,live:h1,live:h2,live:h3,live:title
+U+007C '|' 9 VERTICAL LINE live:title
+U+2013 '–' 6 EN DASH corpus:title
+U+2014 '—' 2 EM DASH live:h1,live:title

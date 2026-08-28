@@ -1,0 +1,37 @@
+== A. COVERAGE ==
+upem: 2000  glyphs: 563  cmap entries: 428
+codepoints the live site's display type sets: 69
+MISSING from Bodoni Moda: 0 []
+  Basic Latin (printable)           95/ 95 present, missing none
+  Latin-1 Supplement (letters)      64/ 64 present, missing none
+  Latin Extended-A                 128/128 present, missing none
+  punctuation the register uses     12/ 12 present, missing none
+  currency / figures                 8/  8 present, missing none
+  Rumi Malay alphabet A-Z a-z:      52/52 present
+
+== B. PROVENANCE OF THE SHIPPED SVGs ==
+hellokahwin-horizontal-wide.svg        viewBox 22283x1800  ratio 12.38:1  paths 11  2754 bytes
+hellokahwin-horizontal.svg             viewBox 18000x1800  ratio 10.00:1  paths 11  2752 bytes
+hellokahwin-monogram.svg               viewBox 3334x1800  ratio 1.85:1  paths 2  529 bytes
+hellokahwin-shortmark.svg              viewBox 12208x1800  ratio 6.78:1  paths 6  1152 bytes
+hellokahwin-vertical.svg               viewBox 10835x3930  ratio 2.76:1  paths 11  2805 bytes
+
+first path of hellokahwin-horizontal.svg, 28 points
+  x range 62 -> 1462
+  y range 0 -> 1500
+  Bodoni Moda H @opsz  6 wght 400 -> glyph H    cap 1500  x set [86, 267, 457, 656, 916, 1116, 1307, 1486]
+  Bodoni Moda H @opsz 11 wght 400 -> glyph H    cap 1500  x set [62, 242, 433, 632, 892, 1092, 1282, 1462]
+  Bodoni Moda H @opsz 40 wght 400 -> glyph H    cap 1500  x set [40, 219, 410, 610, 870, 1070, 1259, 1440]
+  Bodoni Moda H @opsz 96 wght 400 -> glyph H    cap 1500  x set [37, 216, 407, 607, 867, 1067, 1256, 1437]
+
+== C. WHAT opsz DOES TO THE HAIRLINE ==
+Measured on 'H': stem width (thick) and on 'o': thin stroke, font units,
+normalised to a 1500-unit cap height so the numbers are comparable.
+  opsz  6  cap 1500  H stem  181  o outer-to-next  112  stem/cap 0.1207
+  opsz  8  cap 1500  H stem  181  o outer-to-next  112  stem/cap 0.1207
+  opsz 11  cap 1500  H stem  180  o outer-to-next  112  stem/cap 0.1200
+  opsz 14  cap 1500  H stem  180  o outer-to-next  112  stem/cap 0.1200
+  opsz 24  cap 1500  H stem  179  o outer-to-next  112  stem/cap 0.1193
+  opsz 48  cap 1500  H stem  179  o outer-to-next  112  stem/cap 0.1193
+  opsz 72  cap 1500  H stem  179  o outer-to-next  112  stem/cap 0.1193
+  opsz 96  cap 1500  H stem  179  o outer-to-next  112  stem/cap 0.1193

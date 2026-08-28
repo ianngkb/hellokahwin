@@ -1,0 +1,23 @@
+/*
+ * The Typekit service used to deliver this font or fonts for use on websites
+ * is provided by Adobe and is subject to these Terms of Use
+ * http://www.adobe.com/products/eulas/tou_typekit. For font license
+ * information, see the list below.
+ *
+ * ivyora-display:
+ *   - http://typekit.com/eulas/0000000000000000774ba00a
+ *
+ * © 2009-2026 Adobe Systems Incorporated. All Rights Reserved.
+ */
+/*{"last_published":"2025-07-01 21:23:26 UTC"}*/
+
+@import url("https://p.typekit.net/p.css?s=1&k=irr0rbw&ht=tk&f=51760&a=485787&app=typekit&e=css");
+
+@font-face {
+font-family:"ivyora-display";
+src:url("https://use.typekit.net/af/f7cf4b/0000000000000000774ba00a/31/l?primer=f592e0a4b9356877842506ce344308576437e4f677d7c9b78ca2162e6cad991a&fvd=n3&v=3") format("woff2"),url("https://use.typekit.net/af/f7cf4b/0000000000000000774ba00a/31/d?primer=f592e0a4b9356877842506ce344308576437e4f677d7c9b78ca2162e6cad991a&fvd=n3&v=3") format("woff"),url("https://use.typekit.net/af/f7cf4b/0000000000000000774ba00a/31/a?primer=f592e0a4b9356877842506ce344308576437e4f677d7c9b78ca2162e6cad991a&fvd=n3&v=3") format("opentype");
+font-display:auto;font-style:normal;font-weight:300;font-stretch:normal;
+}
+
+.tk-ivyora-display { font-family: "ivyora-display",sans-serif; }
+

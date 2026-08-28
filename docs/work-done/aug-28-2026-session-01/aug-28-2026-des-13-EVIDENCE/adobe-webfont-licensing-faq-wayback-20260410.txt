@@ -1,0 +1,210 @@
+
+ Web fonts from Adobe Fonts 
+ User Guide 
+ Cancel 
+Q> Web fonts from Adobe Fonts
+ Search 
+Q> 
+ Last updated on 
+ Nov 14, 2025 
+ | 
+ Also applies to Adobe Creative Cloud
+ Fonts 
+ Browse fonts 
+ Adobe Fonts User Guide 
+ Introduction
+ System and subscription requirements 
+ Browser and OS support 
+ Add fonts on your computer 
+ Add fonts to your website 
+ Add fonts on CC Mobile 
+ Font licensing
+ Fonts added from Adobe Fonts 
+ Web fonts from Adobe Fonts 
+ Creative Cloud for enterprise customers 
+ Removed fonts 
+ Why aren't these fonts included in my Creative Cloud subscription? 
+ Why am I being asked to purchase a license for fonts in Adobe Fonts? 
+ Adobe Fonts not available to Adobe IDs registered in China 
+ Getting and using fonts
+ Using Adobe Fonts in Creative Cloud apps 
+ Manage your fonts 
+ Find fonts from images 
+ Resolve missing fonts in desktop applications 
+ Using fonts in InDesign 
+ Fonts and typography 
+ Using web fonts in HTML5 Canvas documents 
+ Using fonts in InCopy 
+ Using web fonts in Muse 
+ Packaging font files 
+ Troubleshooting guide: Adding fonts 
+ Added fonts aren't showing to the font menu 
+ "Unable to add one or more fonts" or "A font with the same name is already installed" 
+ What happens when a font I'm using is updated by the foundry? 
+ Hide fonts in Adobe programs 
+ Web design and development
+ Add fonts to your website 
+ Troubleshooting guide: Adding fonts to a website 
+ Troubleshoot font issues 
+ Using web fonts in HTML email or newsletters 
+ Using web fonts with Accelerated Mobile Pages (AMP) 
+ CSS selectors 
+ Customize web font performance with font-display settings 
+ Embed codes 
+ Dynamic subsetting & web font serving 
+ Font events 
+ Why are my web fonts from use.typekit.net? 
+ Site can't connect to use.typekit.net 
+ Using web fonts with CodePen 
+ Browser and OS support 
+ Domains 
+ Using web fonts when developing locally 
+ Content security policy 
+ Printing web fonts 
+ Language support and OpenType features
+ Language support and subsetting 
+ Using OpenType features 
+ Syntax for OpenType features in CSS 
+ Font technology
+ OpenType-SVG color fonts 
+ Ten Mincho: important points on updating from Version 1.000 
+ Get answers to frequently asked questions about web fonts from Adobe Fonts
+ Adobe Fonts offers thousands of fonts from over 150 type foundries as part of your Creative Cloud subscription.  All fonts are licensed for personal and commercial use. Read about the font licensing  Terms of Use . 
+ The licensing information in these FAQs applies to any fonts added to a website using the embed code provided by Adobe Fonts.
+Q> Web fonts
+ No. Adobe doesn't offer the ability to host fonts locally. Our web font hosting delivers fonts from a globally distributed content delivery network ( CDN ). If local hosting (also known as self-hosting) is needed, you must purchase a license from the foundry or from an authorized reseller . 
+ Yes. If your website is viewed in the browser–either on the desktop or on a mobile device - your font use is covered by the web font license.  
+ The web font license requires that fonts be added to your website by the embed code provided. Learn how to add fonts to your website . Any other method of displaying the font on your website isn't allowed. 
+ No. The Terms of Use don't permit this. Your client's website must load Adobe Fonts through their own Creative Cloud subscription to ensure uninterrupted font licensing or web font hosting.    
+ You can:
+ Set up the same web project on the new subscription and update the website embed code to use the new web project ID, or  
+ Contact Adobe Care to speak with the support team about transferring an existing web project to a client's account. 
+ The client needs to set up their Creative Cloud subscription before the web font project can be transferred. 
+ Yes, you can use web fonts from Adobe Fonts in HTML emails or newsletters. To do this, you must use the @import CSS embed code . For detailed instructions, refer to the HTML email or newsletters help page. 
+ Yes, you can use web fonts from Adobe Fonts in banner advertisements. To do this, you must use the CSS embed code . 
+ No. The  Terms of Use  don't permit you to use the fonts in any way where your customers  select and apply fonts to their own text as part of the design. This applies to both digital products, such as e-cards, and physical products, such as T-shirts and coffee cups.   
+ Allowing your customers to create their own content requires a custom license, which needs to be purchased directly from the foundry or from an authorized reseller .
+ No. The font licensing does not allow you to embed the fonts within mobile or desktop applications. This requires an appropriate license to be purchased directly from  the foundry or from an authorized reseller .
+ The web fonts will work from a web view within a mobile or desktop application, though. 
+ No, the Adobe Fonts web service requires that web fonts be used through the  embed code  they provide. The Terms of Use don't allow you to self-host the web font files or upload them to a website design platform. 
+ No. If you cancel your Creative Cloud subscription, the web fonts will no longer be available to your websites. Any site using the web fonts will display the fallback fonts specified in your font stack or your browser's defaults. 
+ No. There is no limitation on the number of monthly pageviews for web fonts displayed on your website using an Adobe Fonts web project. 
+ Several foundry partners offer a “bring your own license” option. You can license a web font directly from them and use Adobe Fonts for hosting. This option is available from the following foundries: 
+ Frere-Jones Type 
+ Process Type Foundry 
+ ARS Type 
+ Note 
+ Only fonts purchased from these Foundry partners can be added to your Adobe Fonts account. Fonts purchased from other foundries or resellers cannot be hosted via Adobe Fonts. 
+Q> Get help faster and easier 
+ Sign in 
+ New user?
+ Create an account › 
+ Manage account 
+ Quick links
+ View all your plans 
+ Manage your plans 
+ View quick links
+ Hide quick links
+ Legal Notices    |    Online Privacy Policy 
+ Explore Adobe Fonts 
+Find the perfect typeface for any web or print project.
+ Browse fonts 
+ Browse fonts 
+Q> 
+ Share this page
+ Copied 
+Q> Adobe Fonts
+ < Visit Adobe Help Center 
+ Learn & Support 
+ Get Started 
+ User Guide 
+Q> Ask the Community 
+ Post questions and get answers from experts. 
+ Ask now 
+Q> Contact Us 
+ Expert support for your issues. 
+ Start now 
+ ^ Back to top 
+ Language Navigation
+ Language Navigation
+ Choose a region
+ Selecting a region changes the language and/or content on Adobe.com.
+ Americas
+ Brasil
+ Canada - English
+ Canada - Français
+ Latinoamérica
+ México
+ Argentina
+ Colombia
+ Perú
+ Chile
+ United States
+ Asia Pacific
+ Australia
+ Hong Kong S.A.R. of China
+ India - English
+ Indonesia - English
+ Malaysia - English
+ New Zealand
+ Philippines - English
+ Vietnam - English
+ 中国
+ 中國香港特別行政區
+ 台灣地區
+ 日本
+ Indonesia
+ Malaysia
+ Pilipinas
+ Việt Nam
+ भारत
+ 한국
+ Singapore
+ Thailand - English
+ ประเทศไทย
+ Europe, Middle East and Africa
+ Africa - English
+ België - Nederlands
+ Belgique - Français
+ Belgium - English
+ Česká republika
+ Danmark
+ Deutschland
+ Eesti
+ España
+ France
+ Greece - English
+ Ireland
+ Israel - English
+ Italia
+ Latvija
+ Lietuva
+ Luxembourg - Deutsch
+ Luxembourg - English
+ Luxembourg - Français
+ Magyarország
+ Middle East and North Africa - English
+ Nederland
+ Norge
+ Österreich
+ Polska
+ Portugal
+ România
+ Schweiz
+ Slovenija
+ Slovensko
+ Suisse
+ Suomi
+ Svizzera
+ Türkiye
+ United Kingdom
+ България
+ Россия
+ Україна
+ الشرق الأوسط وشمال أفريقيا - اللغة العربية
+ ישראל - עברית
+ Sverige
+ Saudi Arabia - English
+ United Arab Emirates - English
+ الإمارات العربية المتحدة
+ المملكة العربية السعودية

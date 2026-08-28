@@ -1,0 +1,251 @@
+
+ Frequently asked questions about font licensing for web and desktop | Adobe Fonts 
+ Adobe Fonts 
+ Help 
+Q> 
+ Browse fonts
+ Adobe Help Center 
+ Adobe Fonts Help 
+ Introduction 
+ System and subscription requirements 
+ Browser and OS support 
+ Add fonts on your computer 
+ Add fonts to your website 
+ Font licensing 
+ Font licensing FAQs 
+ Web fonts from Adobe Fonts 
+ Licensing for Creative Cloud for enterprise customers 
+ Removing fonts from the subscription library 
+ Why aren’t these fonts included in my Creative Cloud subscription? 
+ Foundry licensing request 
+ Adobe Fonts not available to Adobe IDs registered in China 
+ Getting and using fonts 
+ Manage your fonts 
+ Find fonts from images 
+ Resolve missing fonts in desktop applications 
+ Package font files 
+ Troubleshooting guide: Adding fonts 
+ Added fonts aren't showing in the font menu 
+ Resolving font addition errors and conflicts 
+ What happens when a font I'm using is updated by the foundry? 
+ Hide fonts in Adobe programs 
+ Web design and development 
+ Add fonts to your website 
+ Troubleshooting guide: Adding fonts to a website 
+ Troubleshoot font issues 
+ Using web fonts in HTML email or newsletters 
+ Using web fonts with Accelerated Mobile Pages (AMP) 
+ CSS selectors 
+ Customize web font performance with font-display settings 
+ Embed codes 
+ Dynamic subsetting & web font serving 
+ Font events 
+ Why are my web fonts from use.typekit.net? 
+ Site can't connect to use.typekit.net 
+ Using web fonts with CodePen 
+ Browser and OS support 
+ Domains 
+ Using web fonts when developing locally 
+ Content security policy 
+ Printing web fonts 
+ Language support and OpenType features 
+ Language support and subsetting 
+ Using OpenType features 
+ Syntax for OpenType features in CSS 
+ Font technology 
+ OpenType-SVG color fonts 
+ Ten Mincho: important points on updating from Version 1.000 
+ Adobe Help Center 
+ Adobe Fonts Help 
+ Introduction 
+ System and subscription requirements 
+ Browser and OS support 
+ Add fonts on your computer 
+ Add fonts to your website 
+ Font licensing 
+ Font licensing FAQs 
+ Web fonts from Adobe Fonts 
+ Licensing for Creative Cloud for enterprise customers 
+ Removing fonts from the subscription library 
+ Why aren’t these fonts included in my Creative Cloud subscription? 
+ Foundry licensing request 
+ Adobe Fonts not available to Adobe IDs registered in China 
+ Getting and using fonts 
+ Manage your fonts 
+ Find fonts from images 
+ Resolve missing fonts in desktop applications 
+ Package font files 
+ Troubleshooting guide: Adding fonts 
+ Added fonts aren't showing in the font menu 
+ Resolving font addition errors and conflicts 
+ What happens when a font I'm using is updated by the foundry? 
+ Hide fonts in Adobe programs 
+ Web design and development 
+ Add fonts to your website 
+ Troubleshooting guide: Adding fonts to a website 
+ Troubleshoot font issues 
+ Using web fonts in HTML email or newsletters 
+ Using web fonts with Accelerated Mobile Pages (AMP) 
+ CSS selectors 
+ Customize web font performance with font-display settings 
+ Embed codes 
+ Dynamic subsetting & web font serving 
+ Font events 
+ Why are my web fonts from use.typekit.net? 
+ Site can't connect to use.typekit.net 
+ Using web fonts with CodePen 
+ Browser and OS support 
+ Domains 
+ Using web fonts when developing locally 
+ Content security policy 
+ Printing web fonts 
+ Language support and OpenType features 
+ Language support and subsetting 
+ Using OpenType features 
+ Syntax for OpenType features in CSS 
+ Font technology 
+ OpenType-SVG color fonts 
+ Ten Mincho: important points on updating from Version 1.000 
+Q> Font licensing FAQs
+ Last updated on 
+ Mar 27, 2026 
+ Adobe Fonts offers thousands of fonts from over 150 type foundries as part of your Creative Cloud subscription. All fonts are licensed for personal and commercial use. Read about the font licensing  Terms of Use . 
+ The licensing information in these FAQs applies to any fonts  added  through your Adobe account. For web font usage, visit the web fonts section.
+ Note 
+ Fonts installed in the Fonts folder on your computer are licensed under their own end-user agreements. These FAQs don't apply to those fonts. Contact the font foundry directly for license questions. 
+Q> Fonts added from Adobe Fonts
+ Yes. You can use the fonts in any desktop program (such as Adobe Photoshop) to create images or vector artwork, which you can then use for any purpose. This includes generating a PDF, EPS file, or bitmapped file such as a JPEG or PNG. 
+ Yes, you can copyright or register the logo as a trademark. However, the fonts or typeface designs used in the logo cannot be copyrighted or registered as a trademark, as outlined in the  Terms of Use . 
+ Yes, you can use Adobe Fonts for commercial projects, including digital designs and print materials created for your own use or clients. This includes generating files such as PDFs, EPS, JPEGs, or PNGs. 
+ Yes, you can modify or decorate type that has been rasterized or converted to outlines. The resulting image may be copyrighted, registered as a trademark, or used in commercial products. 
+ However, you may not make changes to the font software file or create your own font software from converted outlines. 
+ No, your client does not need a separate font license if you provide them with graphics or documents that contain rasterized or properly embedded font data, such as PDFs, JPEGs, or PNGs. 
+ However, if your client needs to edit the design and access the fonts directly, they will require their own license, either through a Creative Cloud subscription or by purchasing a desktop font license . 
+ Yes, you can use Adobe Fonts to design merchandise for commercial sale, whether it's a t-shirt for a friend or product packaging for a client. Printed products such as books, magazines, posters, and other items are also permitted. There are no restrictions on the number of impressions or items you may produce. 
+ No. You may not create a product that is individual glyphs from the font files, e.g. an alphabet set of each letter to spell out your own phrase. Creating products from individual glyphs is not allowed in any format. 
+ No. The Terms of Use do not permit you to use the fonts in any way where your customers select and apply fonts to their own text as part of the design. This applies to both digital products, such as e-cards, and physical products, such as T-shirts and coffee cups.  
+ Allowing your customers to create their own content requires a custom license, which needs to be purchased directly from the foundry or from an authorized reseller . 
+ Yes, Adobe Fonts are licensed for embedding in ebook formats that protect font data, such as EPUB, iBooks, Kindle (MOBI), Adobe’s Digital Publishing Suite (DPS), and PDFs.
+ However, any ebook authoring workflow that requires users to manually move font files isn't permitted under the Terms of Use .
+ As with any electronic document, fonts must be subset and used only for viewing or printing existing content, not for creating new document variations, templates, or dynamic content.
+ You may also use the fonts to create printed publications, such as books or magazines. However, you are not allowed  to package or share the fonts with designers or print bureaus .
+ There is no limitation on the number of impressions you may produce. 
+ No. You are not obligated to include attribution for the fonts used in the documents or products you create. 
+ No. The font licensing does not allow you to embed the fonts within mobile or desktop applications. This requires an appropriate license to be purchased directly from the foundry or one of their authorized resellers . 
+ Yes. You can use the fonts to produce film or video content for in-house, commercial exhibition, or broadcast use, using tools like Adobe Premiere or Adobe After Effects. The fonts may also be used in video content which will be distributed online through services such as YouTube or Vimeo. 
+ No, there is no limit on the number of fonts you can select to add. However, we recommend removing fonts you no longer use to keep your font menu short and optimize performance. The fonts can always be added again if you need to use them. 
+ No, Adobe Fonts are not compatible with packaging workflows that involve transferring font files to another user or computer. The  Terms of Use  don't permit the fonts to be transferred to another user or computer, so they cannot be packaged with the file.  
+ If your printer or collaborator needs access to the fonts, they must have their own license, either through a Creative Cloud subscription or by purchasing a perpetual desktop license .
+ For more details, refer to Packaging font files . 
+ No. The font licensing isn't compatible with server installation. You will need to purchase the appropriate font license for any fonts that you want to install on your server from the font foundry directly or the foundry's authorized reseller. 
+ No. The font licensing isn't compatible with InDesign Server. You will need to purchase the appropriate font license for any fonts that you want to use in InDesign Server from the font foundry directly or the foundry's authorized reseller. 
+ Any file that embeds the font data, such as PDF or image formats, and any text that has been rasterized or outlined will continue to display correctly. These types of files may be reproduced and distributed independent of your subscription status. 
+ However, documents that reference live, editable fonts, such as an InDesign or Word document, will show a missing fonts warning and use a default font from the program in place of the one from Adobe Fonts. You would need to purchase a new font license and install the fonts on your computer to continue to display and edit these files. 
+ For  Adobe-owned fonts , desktop licenses and extended licensing are available from our resellers .
+ For other fonts on Adobe Fonts, desktop licenses and licenses for self-hosting, use in mobile applications, or other custom uses can be purchased from the font foundry or the foundry's authorized reseller. The foundry’s name is shown prominently on each font family’s page on the Adobe Fonts website. 
+ Designs created using Adobe Fonts can be stored and managed within a Digital Asset Management (DAM) system. However, the   Terms of Use  don't permit you to move or copy font files to a DAM, or distribute them in any way that would allow others to access or use the fonts directly. 
+Q> Desktop fonts in Adobe Font Folio
+ Important Reminder: 
+ After June 1, 2022 (End-of-Sale Date), Font Folio 11.1 and Font Folio Education Essentials will no longer be available for purchase. For more information, see End of Sale for Adobe Font Folio . 
+ The Adobe Fonts library is included with all paid Creative Cloud subscription plans, and fonts can be added to your computer via the Creative Cloud desktop application . Adobe Font Folio is a collection of perpetually licensed font files to download and install locally on your computer.  
+ Both include Adobe Originals , but are otherwise unique collections of fonts. 
+ Font Folio collection (PDF font list)
+ Adobe Fonts collection 
+ Font Folio has Adobe's traditional, perpetual end-user licensing agreement for desktop publishing. The fonts in Font Folio are not licensed for web use. Font licensing for Adobe Fonts includes web and desktop use for everything in the font library, as long as you have an active Creative Cloud subscription . Font Folio supports server use, while Adobe Fonts does not. 
+ Adobe Font Folio 11.1 product page 
+ Font Folio FAQ 
+ Explore Adobe Fonts 
+Find the perfect typeface for any web or print project.
+ Browse fonts 
+ Browse fonts 
+ Next 
+ Web fonts from Adobe Fonts
+Q> Learn
+ Learn with step-by-step video tutorials and hands-on guidance right in the app.
+Q> Community
+ Join discussions, find answers, learn from experts, and share your knowledge.
+Q> Adobe Home
+ Access your favorite Creative Cloud apps, services, file management, and more.
+ Language Navigation
+ Language Navigation
+ Choose a region
+ Selecting a region changes the language and/or content on Adobe.com.
+ Americas
+ Brasil
+ Canada - English
+ Canada - Français
+ Latinoamérica
+ México
+ Argentina
+ Colombia
+ Perú
+ Chile
+ United States
+ Asia Pacific
+ Australia
+ Hong Kong S.A.R. of China
+ India - English
+ Indonesia - English
+ Malaysia - English
+ New Zealand
+ Philippines - English
+ Vietnam - English
+ 中国
+ 中國香港特別行政區
+ 台灣地區
+ 日本
+ Indonesia
+ Malaysia
+ Pilipinas
+ Việt Nam
+ भारत
+ 한국
+ Singapore
+ Thailand - English
+ ประเทศไทย
+ Europe, Middle East and Africa
+ Africa - English
+ België - Nederlands
+ Belgique - Français
+ Belgium - English
+ Česká republika
+ Danmark
+ Deutschland
+ Eesti
+ España
+ France
+ Greece - English
+ Ireland
+ Israel - English
+ Italia
+ Latvija
+ Lietuva
+ Luxembourg - Deutsch
+ Luxembourg - English
+ Luxembourg - Français
+ Magyarország
+ Middle East and North Africa - English
+ Nederland
+ Norge
+ Österreich
+ Polska
+ Portugal
+ România
+ Schweiz
+ Slovenija
+ Slovensko
+ Suisse
+ Suomi
+ Svizzera
+ Türkiye
+ United Kingdom
+ България
+ Россия
+ Україна
+ الشرق الأوسط وشمال أفريقيا - اللغة العربية
+ ישראל - עברית
+ Sverige
+ Saudi Arabia - English
+ United Arab Emirates - English
+ الإمارات العربية المتحدة
+ المملكة العربية السعودية

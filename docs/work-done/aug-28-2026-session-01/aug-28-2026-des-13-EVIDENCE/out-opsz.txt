@@ -1,0 +1,22 @@
+Bodoni Moda 2.005, wght 400, cap height 1500 units (upem 2000)
+opsz  'HelloKahwin'  adv H  lsb H  adv o  lsb o  hairline   o stem  contrast
+6          12263   1572     86   1139    111        72      201     2.79:1
+8          12153   1553     76   1132    108        58      203     3.48:1
+11         11992   1524     62   1122    103        38      206     5.42:1
+14         11932   1513     57   1118    101        30      206     6.69:1
+18         11874   1503     52   1115    100        24      207     8.63:1
+24         11821   1493     47   1111     98        17      208    11.84:1
+36         11750   1480     41   1107     96         8      209    23.58:1
+48         11735   1478     39   1106     96         7      209    29.58:1
+72         11717   1475     38   1105     95         5      209    39.63:1
+96         11708   1473     37   1104     95         4      210    52.50:1
+
+opsz 6 -> 96 : set width 12263 -> 11708 (-4.5%), hairline 72 -> 4 (-94.4%), contrast 2.79 -> 52.50
+
+Hairline at the real rendered sizes, in device pixels:
+(hairline units / 2000 upem * font-size px, at cap height 1500 => the
+ mark's own height is 0.75 * em, so a mark H px tall is H/0.75 em)
+  wordmark, brand-page minimum @opsz 11  0.46 px hairline
+  wordmark, likely header @opsz 11  0.56 px hairline
+  article h1 mobile 30px @opsz 11   0.76 px hairline
+  article h1 desktop 44px @opsz 11  1.11 px hairline

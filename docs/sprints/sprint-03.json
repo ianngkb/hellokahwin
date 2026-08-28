@@ -361,16 +361,18 @@
       "id": "DES-10",
       "track": "design",
       "points": 3,
-      "state": "blocked",
+      "state": "todo",
       "owner": "creative-director",
       "title": "Wordmark set in the locked register - five outlined lockups",
       "flags": [
         "owner-locked-the-direction",
-        "built-awaiting-merge"
+        "built-awaiting-merge",
+        "reopened-by-DES-13-optical-size",
+        "wcag-1-4-11-finding"
       ],
       "why": "Owner locked the Carats & Cake register on 28 Aug, after it was tested against five alternatives and against the mobile constraint. Their production marks measure 10.0:1 and their sister brand Bliss & Bone 11.2:1 - both fetched from live SVGs rather than described. Our primary is generated at exactly 10.0:1.",
       "dod": "OBSERVABLE: Five outlined SVGs in public/brand/logos: horizontal (10.0:1), horizontal-wide (12.4:1), vertical, shortmark, monogram. Letterforms are PATHS not <text>, every file is fill=currentColor, largest under 3KB. Each parses as valid XML and carries an aria-label. CHECKED BY: Parse each file, count paths, assert currentColor and aria-label present. Ratios computed from the viewBox, not asserted. BEWARE THE FALSE PASS: A mark set in live <text> looks identical here and breaks on any machine lacking the font. Check for <path>, not for appearance. EVIDENCE LANDS: Branch feat/des-10-brand-page. docs/work-done/ entry on merge.",
-      "brief": "BUILT AND PUSHED, NOT MERGED. Branch feat/des-10-brand-page. Done when merged and the marks resolve on production. BLOCKED ON THE OWNER: built and pushed, awaiting merge. Done means merged and live."
+      "brief": "REOPENED 28 Aug BY DES-13, and it is the creative-director's own work to redo. The five lockups ARE Bodoni Moda - proved by matching the shipped H path's x coordinates (62 242 433 632 892 1092 1282 1462) against the font's own outline, which is exact at opsz 11 and wrong at every other instance. But opsz 11 is the font's DEFAULT (registry_default_overrides in METADATA.pb), so the optical size was never chosen - and on this face opsz moves the hairline 72 -> 4 units across 6 -> 96 while the thick stroke moves only 201 -> 210. At the brand page's own stated 18px minimum on a DPR 1 display the shipped hairline is 0.46 device px and composites #16130F to #8B8881, 2.94:1 against parchment - under the 3:1 floor of WCAG 2.2 1.4.11. TO DO: (a) re-cut all five at wght 400 opsz 6, where the same 18px mark composites to #33302C at 10.91:1; (b) re-solve the tracking - set width moves +2.26%, which tracking absorbs, so 10.0:1 holds; (c) re-measure all five ratios and update brand-assets.ts, recording the face, version AND instance in its header; (d) COMMIT THE GENERATION SCRIPT - five outlined lockups exist with no tooling in the repo, so 'regenerate rather than rescale' is currently an instruction nobody can follow. NEEDS THE OWNER FIRST: the branch is in front of them for merge and was deliberately not rewritten underneath them - re-push with corrected marks, or merge as-is and correct after. Done means merged and live."
     },
     {
       "id": "DES-11",
@@ -383,11 +385,11 @@
         "public-facing",
         "owner-requested",
         "built-awaiting-merge",
-        "blocked-by-DES-13"
+        "blocked-by-DES-10"
       ],
       "why": "Owner asked for a page in the shape of thepicklebase.com/brand, whose real structure was read from that repo rather than guessed: a typed asset registry driving section components, with per-asset downloads. Ours adds measured contrast to the colour section and six named DON'Ts.",
       "dod": "OBSERVABLE: /brand returns 200 on production and renders all five marks, the palette with measured ratios, an on-dark demonstration, and the DON'T list. Every Download SVG link resolves to a real file. Page is force-static and reads no database. CHECKED BY: curl /brand first-request for the status code, then quote content only the real page contains - the marks are inline SVG references, so check one resolves 200 too. A status code alone proves nothing. BEWARE THE FALSE PASS: This is PUBLIC. Verify against production, not against dev - and check it in both colour schemes, since the page carries its own dark palette. EVIDENCE LANDS: docs/work-done/ entry with the live URL and one quoted asset URL.",
-      "brief": "BUILT AND PUSHED, NOT MERGED. Branch feat/des-10-brand-page. Scoped to .bp so it does not inherit current site styling - it is the first public surface in the new register. head-of-seo-content should confirm /brand is deliberately excluded from or included in the sitemap before merge. BLOCKED ON THE OWNER: built and pushed, awaiting merge. Done means merged and live. SEQUENCING CORRECTED 28 Aug: DES-13 (confirm the typeface) must land FIRST. The marks are set in a STAND-IN face, and DES-13 says a different choice regenerates all five SVGs. Shipping a public brand page or a production header on a provisional wordmark means redoing both and stranding anyone who downloaded the assets."
+      "brief": "BUILT AND PUSHED, NOT MERGED. Branch feat/des-10-brand-page. Scoped to .bp so it does not inherit current site styling - it is the first public surface in the new register. head-of-seo-content should confirm /brand is deliberately excluded from or included in the sitemap before merge. BLOCKED ON THE OWNER: built and pushed, awaiting merge. Done means merged and live. DES-13 CLOSED 28 Aug: the face is FINAL - Bodoni Moda 2.005, SIL Open Font License 1.1, RM0, complete Latin coverage. The wordmark is no longer provisional and this item is unblocked on the face. It still sits behind DES-10, which must re-cut the five lockups at wght 400 opsz 6: the shipped files were cut at the font's DEFAULT opsz 11, where the hairline composites to 2.94:1 at the brand page's own 18px minimum on a DPR 1 display - under the 3:1 WCAG 2.2 non-text floor. Numbers and the per-lockup instance table: docs/work-done/aug-28-2026-session-01/aug-28-2026-done-des-13-display-typeface.md"
     },
     {
       "id": "DES-12",
@@ -399,24 +401,24 @@
       "flags": [
         "blocked-by-DES-11",
         "mobile-is-the-constraint",
-        "blocked-by-DES-13"
+        "blocked-by-DES-10"
       ],
       "why": "A brand page nobody applies is a document, not a rebrand. The header is where the mark actually earns its keep - and where the locked register is most at risk, because Bliss & Bone ships at 250x22, which is 69% of a 360px viewport and leaves 78px for search and menu.",
       "dod": "OBSERVABLE: The wordmark live in the production header at both breakpoints. At 360px the header holds the mark AND a reachable search affordance simultaneously - screenshot or measured widths proving both fit. Monogram used below 18px, per the brand page's own minimum. CHECKED BY: Load production at 360px and at desktop. Measure the rendered mark width against the viewport. If the horizontal does not fit beside search, the vertical or the monogram is the answer - not shrinking the mark past its stated minimum. BEWARE THE FALSE PASS: Checking only desktop is how this ships broken - 64% of impressions arrive on mobile, at position 8.7 against desktop's 28.9. EVIDENCE LANDS: docs/work-done/ entry with both measurements.",
-      "brief": "If the horizontal cannot fit beside search at 360px, that is a finding to bring back, not a reason to violate the minimum height. SEQUENCING CORRECTED 28 Aug: DES-13 (confirm the typeface) must land FIRST. The marks are set in a STAND-IN face, and DES-13 says a different choice regenerates all five SVGs. Shipping a public brand page or a production header on a provisional wordmark means redoing both and stranding anyone who downloaded the assets."
+      "brief": "If the horizontal cannot fit beside search at 360px, that is a finding to bring back, not a reason to violate the minimum height. DES-13 CLOSED 28 Aug: the face is FINAL - Bodoni Moda 2.005, SIL Open Font License 1.1, RM0, complete Latin coverage. The wordmark is no longer provisional and this item is unblocked on the face. It still sits behind DES-10, which must re-cut the five lockups at wght 400 opsz 6: the shipped files were cut at the font's DEFAULT opsz 11, where the hairline composites to 2.94:1 at the brand page's own 18px minimum on a DPR 1 display - under the 3:1 WCAG 2.2 non-text floor. Numbers and the per-lockup instance table: docs/work-done/aug-28-2026-session-01/aug-28-2026-done-des-13-display-typeface.md"
     },
     {
       "id": "DES-13",
       "track": "design",
       "points": 2,
-      "state": "todo",
+      "state": "done",
       "owner": "creative-director",
       "title": "Confirm the display typeface, or the wordmark is provisional",
       "flags": [
-        "blocks-final-signoff",
-        "stand-in-in-production"
+        "closed-28-aug",
+        "face-is-final"
       ],
-      "why": "The marks are set in Bodoni Moda as a STAND-IN for ivyora-display, the Adobe face Carats & Cake actually use. In a text logo the typeface IS the logo, so this is not a detail - it decides whether the shipped mark is final or provisional.",
+      "why": "WHY IT EXISTED: the marks were set in Bodoni Moda as a stand-in for ivyora-display, the Adobe face Carats & Cake use. In a text logo the typeface IS the logo. ANSWERED 28 Aug: Bodoni Moda 2.005 is the FINAL face, not a stand-in - SIL Open Font License 1.1, RM0, perpetual, self-hostable, and all 69 codepoints the site sets are covered plus all 128 of Latin Extended-A. ivyora-display rejected on the LICENCE not the price: the Adobe Fonts Product Specific Terms forbid self-hosting (3.4E1), permit no web delivery but their embed code (3.1B), and end the grant when the subscription does (3.1). If the owner still wants that face the route is Ivy Foundry direct at about RM121, not Adobe.",
       "dod": "OBSERVABLE: A decision naming the face, its licence, its cost, and whether it covers the Latin set the site needs. If a face other than Bodoni Moda is chosen, all five SVGs are regenerated from it and the ratios re-measured. CHECKED BY: State the licence terms and where they were read. Regenerate rather than rescale. BEWARE THE FALSE PASS: Correction to an earlier CEO claim: Malay in Rumi script is essentially plain Latin, so 'Malay diacritic coverage' is a much weaker gate than three personas were written to believe. Do not block a face on it - check licence and cost, which are the real constraints. EVIDENCE LANDS: docs/work-done/ entry and a decision-log entry.",
       "brief": "Until this closes, the wordmark on /brand is provisional and should be described as such to anyone outside the company."
     }

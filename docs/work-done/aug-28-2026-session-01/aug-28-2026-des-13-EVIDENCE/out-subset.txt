@@ -1,0 +1,8 @@
+Bodoni Moda 2.005 variable (opsz 6-96, wght 400-900), source TTF 162104 bytes
+
+subset                                               glyphs  ttf bytes woff2 bytes
+measured site set only                                  106      49476      25960
+measured site set only, opsz pinned 11                  106      28200      14124
+site set + Latin-1 + punctuation                        219      78520      39000
+site set + Latin-1 + punctuation, opsz pinned 11        219      44524      21428
+site set + Latin-1 + punctuation, opsz pinned 6         219      44492      21160
