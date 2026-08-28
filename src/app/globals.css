@@ -112,11 +112,18 @@
   /* Radius — TWO scales coexist by design (see design-system audit):
      • v2 SEMANTIC scale below (--radius-control/image/card/modal/chip) is
        CANONICAL for new component work — pick by role, not size.
-     • v1 T-SHIRT scale here (--radius-sm..pill) is RETAINED because ~478
-       existing `rounded-sm/md/lg` utilities resolve to these custom values;
-       removing them would silently fall every one back to Tailwind's smaller
+     • v1 T-SHIRT scale here (--radius-sm..pill) is RETAINED because existing
+       `rounded-sm/md/lg` utilities resolve to these custom values; removing
+       them would silently fall every one back to Tailwind's smaller
        defaults. Full v1 retirement is a separate migration, intentionally
-       deferred. Prefer the v2 scale for anything new. */
+       deferred. Prefer the v2 scale for anything new.
+       CORRECTED 29 Ogos 2026 (DES-04/DES-05): this comment previously said
+       "~478" — a figure carried across from the TWN repo this file was
+       ported from and never re-measured here. The real count in THIS repo
+       is ~90 (`grep -rhoE 'rounded-(sm|md|lg)[a-z-]*' src | wc -l`; DES-04
+       measured 92 the day before this edit — small natural drift from other
+       work landing in between, not a discrepancy). Recorded in
+       docs/work-done/aug-28-2026-session-01/aug-28-2026-done-des-04-stack-recommendation.md. */
   --radius-sm: 0.25rem; /* 4px — badges, chips, small elements */
   --radius-md: 0.75rem; /* 12px — cards, inputs, images, containers */
   --radius-lg: 1rem; /* 16px — large cards, modals, sheets */
