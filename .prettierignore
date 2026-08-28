@@ -23,3 +23,22 @@ _bmad-output
 
 # drizzle-kit owns these; reformatting them makes the next `db:generate` fight prettier
 src/lib/db/migrations
+
+# ── EVIDENCE IS A RECORD, NOT SOURCE ──────────────────────────────────────
+#
+# `docs/work-done/**-EVIDENCE/` holds what was measured at the time: captured
+# HTML, probe output, and `.json` files whose first line is a `### header`
+# naming the URL and cache mode the numbers below it came from. Prettier cannot
+# parse those and `pnpm lint` — which is `prettier --check .` — has therefore
+# been RED on master since 27 Aug 2026, on 7 committed files, for reasons no
+# incoming change caused and no incoming change can fix.
+#
+# A permanently-red gate is worse than no gate: it trains everyone to run
+# `lint:fix` instead, and `lint:fix` is `prettier --write .` — which on
+# 28 Ogos 2026 silently rewrote 117 files across three prior sprints'
+# evidence directories while a single route file was being formatted. Rewriting
+# the record of what was measured is not a formatting change; it is editing
+# the evidence after the fact.
+#
+# So the record is ignored, and the gate is green for the reason it should be.
+docs/work-done

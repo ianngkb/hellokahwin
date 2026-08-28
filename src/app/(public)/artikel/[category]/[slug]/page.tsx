@@ -30,7 +30,11 @@ import { extractHeadings } from '@/lib/inspire/heading-anchors';
 import { buildItemListJsonLd } from '@/lib/inspire/listicle-schema';
 import type { GalleryImage } from '@/components/inspire/article-renderer';
 import { ArticleSidebar } from '@/components/inspire/article-sidebar';
-import { ARTICLE_PAGE_CACHE_KEY, ARTICLE_PAGE_CACHE_TAGS } from '@/lib/inspire/article-cache';
+import {
+  ARTICLE_PAGE_CACHE_KEY,
+  ARTICLE_META_CACHE_KEY,
+  ARTICLE_PAGE_CACHE_TAGS,
+} from '@/lib/inspire/article-cache';
 
 import {
   resolveDynamicBlocks,
@@ -43,7 +47,8 @@ import { Breadcrumbs, BreadcrumbJsonLd } from '@/components/common/breadcrumbs';
 import { PillarUpLinkBlock } from '@/components/inspire/pillar-up-link';
 import { getPillarUpLink, getClusterSiblings } from '@/lib/inspire/pillar-queries';
 import { ImageCredit } from '@/components/inspire/image-credit';
-import { stripBrandSuffix, buildArticleDescription, decodeMetaEntities } from '@/lib/seo/meta';
+import { buildArticleDescription } from '@/lib/seo/meta';
+import { resolveArticleMetadata, type ArticleMetadataSource } from '@/lib/seo/article-metadata';
 import { AuthorBox } from '@/components/inspire/author-box';
 import { WhatsAppShare } from '@/components/inspire/whatsapp-share';
 import { INSPIRE_AUTHORS_TAG } from '@/lib/authors/queries';
@@ -411,89 +416,150 @@ export async function generateStaticParams(): Promise<Array<{ category: string; 
   return [];
 }
 
+// ── THE CHEAP TITLE SOURCE (SEO-07 tier 2) ────────────────────────────────
+//
+// The metadata columns and nothing else: no `content` (the large TipTap JSONB
+// that makes the full payload expensive to ship and to parse), no tags query,
+// no secondary-categories query, no `resolveDynamicBlocks`, no `media` join.
+// One indexed lookup on `articles.slug` plus the two joins the byline and the
+// canonical URL cannot do without.
+//
+// IT DOES NOT RUN ON THE HAPPY PATH. `resolveArticleMetadataSource` only
+// reaches for it after the full payload has already missed its deadline, so
+// the steady-state query count against the 5-wide pool
+// (`src/lib/db/drizzle.ts`) is unchanged — this does not widen the fan-out the
+// rest of this file spends so much effort keeping narrow.
+//
+// `revalidate: false` with the same tags as the page payload: once an article
+// has filled this entry it answers from cache, taking no connection at all, so
+// the deadline path gets cheaper the more it is used. An editor's save evicts
+// it through `articles` exactly like everything else.
+const getArticleMetadataFallback = unstable_cache(
+  async (slug: string): Promise<ArticleMetadataSource | null> => {
+    const [row] = await db
+      .select({
+        title: articles.title,
+        slug: articles.slug,
+        metaTitle: articles.metaTitle,
+        metaDescription: articles.metaDescription,
+        excerpt: articles.excerpt,
+        publishedAt: articles.publishedAt,
+        updatedAt: articles.updatedAt,
+        coverImageUrl: articles.coverImageUrl,
+        coverImageSmartCrops: articles.coverImageSmartCrops,
+        categoryName: inspireCategories.name,
+        categorySlug: inspireCategories.slug,
+        authorFirstName: profiles.firstName,
+        authorLastName: profiles.lastName,
+      })
+      .from(articles)
+      .leftJoin(inspireCategories, eq(articles.primaryCategoryId, inspireCategories.id))
+      .leftJoin(profiles, eq(articles.authorId, profiles.id))
+      .where(and(eq(articles.slug, slug), eq(articles.status, 'published')))
+      .limit(1);
+    return row ?? null;
+  },
+  [ARTICLE_META_CACHE_KEY],
+  { tags: [...ARTICLE_PAGE_CACHE_TAGS, INSPIRE_AUTHORS_TAG], revalidate: false },
+);
+
+// `profiles` is INNER-joined in the page payload and LEFT-joined here on
+// purpose. The page needs an author to render a byline and an author box; the
+// `<head>` does not — `buildArticleMetadata` falls back to "HelloKahwin" for
+// the author name. An orphaned `author_id` must not be able to turn the last
+// line of defence into a second way to lose the title.
+
+/**
+ * How long the metadata path may spend on each tier, in milliseconds.
+ *
+ * Environment-tunable for two reasons, and neither is a test hook that leaked.
+ * The first is operational: 1,500ms was chosen against a 5-wide pool and a
+ * given render cost, and both move — a knob is cheaper than a deploy when the
+ * next pool change reveals it was the wrong number. The second is evidential:
+ * the whole point of SEO-07 is a defect that only appears when the deadline
+ * fires, and a claim that the fallback works is worth nothing if a reader
+ * cannot force the deadline to fire for themselves. Setting
+ * `INSPIRE_META_DEADLINE_MS=1` reproduces the timeout deterministically on any
+ * deployment, which is the condition under which the evidence in
+ * `docs/work-done/2026-08-28-seo-07-title-halflife.md` was gathered.
+ *
+ * Read at module scope, NOT per request: `process.env` is a plain object on the
+ * server and reading it does not opt the route out of static rendering the way
+ * `headers()` or `cookies()` would. Nothing here can make this route dynamic.
+ */
+const META_DEADLINE_MS = Number(process.env.INSPIRE_META_DEADLINE_MS ?? 1_500);
+const META_FALLBACK_DEADLINE_MS = Number(process.env.INSPIRE_META_FALLBACK_DEADLINE_MS ?? 1_200);
+
 export async function generateMetadata({ params }: ArticlePageProps): Promise<Metadata> {
-  const { slug } = await params;
+  const { category, slug } = await params;
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com';
 
-  // Deadline-protect the metadata path so a stalled DB doesn't burn the
-  // whole 5s budget on metadata alone — the page render below still gets
-  // its own deadline. On deadline error, fall back to empty metadata; the
-  // page render will surface the real error (or render successfully if the
-  // cache warmed in between).
-  // Tight deadline on metadata. NOTE: this does NOT run sequentially before the
-  // page render — an earlier version of this comment claimed it did, and that
-  // claim is what hid Sentry TWN-NEW-47 for so long. In Next 16 `generateMetadata`
-  // and the page component are kicked off CONCURRENTLY, so both reach
-  // `getArticlePageData` at the same moment. `unstable_cache` has no in-flight
-  // dedupe, which meant every cold article render issued its DB fan-out twice;
-  // the React `cache()` wrapper on `getArticlePageData` is what collapses them.
+  // Deadline-protect the metadata path so a stalled DB doesn't burn the whole
+  // 5s budget on metadata alone — the page render below still gets its own
+  // deadline. NOTE: this does NOT run sequentially before the page render — an
+  // earlier version of this comment claimed it did, and that claim is what hid
+  // Sentry TWN-NEW-47 for so long. In Next 16 `generateMetadata` and the page
+  // component are kicked off CONCURRENTLY, so both reach `getArticlePageData`
+  // at the same moment. `unstable_cache` has no in-flight dedupe, which meant
+  // every cold article render issued its DB fan-out twice; the React `cache()`
+  // wrapper on `getArticlePageData` is what collapses them.
   //
-  // The 1.5s budget still matters: page-level maxDuration=5s caps the whole
-  // invocation, and metadata must not be the thing that eats it.
-  let pageData;
-  try {
-    pageData = await withDeadline(getArticlePageData(slug), 1_500, `inspire-article-meta:${slug}`);
-  } catch {
-    return {};
-  }
-  if (!pageData) return { title: 'Not Found' };
-  const { article, tags } = pageData;
-
-  // Strip the brand suffix if the imported `metaTitle` already includes it.
-  // The root layout declares `title.template = '%s | HelloKahwin'`,
-  // which Next.js appends to any non-absolute title — so without this strip
-  // an imported value like "Foo | HelloKahwin" renders as
-  // "Foo | HelloKahwin | HelloKahwin", and longer titles
-  // get truncated mid-suffix ("Foo | The Wedding  | HelloKahwin").
-  // Surfaced in the GSC Crawled-not-indexed bucket on inspire articles
-  // re-imported from WordPress where `meta_title` carried the suffix.
-  const stripped = decodeMetaEntities(stripBrandSuffix(article.metaTitle));
-  const metaTitle = stripped || article.title;
-  const description = articleMetaDescription(article);
-  const realAuthorName = [article.authorFirstName, article.authorLastName]
-    .filter(Boolean)
-    .join(' ')
-    .trim();
-  const hasRealAuthor = realAuthorName.length > 0;
-  const authorNameForMeta = hasRealAuthor ? realAuthorName : 'HelloKahwin';
-  const ogImageUrl =
-    getSmartCropUrl(article.coverImageSmartCrops, 'crop-16x9-og') ?? article.coverImageUrl;
-  return {
-    title: metaTitle,
-    ...(description ? { description } : {}),
-    authors: [{ name: authorNameForMeta }],
-    alternates: { canonical: `/artikel/${article.categorySlug}/${slug}` },
-    robots: {
-      index: true,
-      follow: true,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-      'max-video-preview': -1,
+  // ── WHAT USED TO BE HERE, AND WHY IT WAS THE WORST LINE ON THE SITE ──────
+  //
+  //     catch { return {}; }
+  //
+  // `{}` is not "no metadata". Next merges by walking the returned object's own
+  // keys, so an empty one overrides nothing and the ROOT LAYOUT'S
+  // `title.default` survives onto the article — the homepage title, on a
+  // wedding guide, in the SERP. And because the resolved title is rendered
+  // inside the same RSC tree as the page, it lands in the SAME cache entry: one
+  // unlucky render published it to every later reader and to Googlebot. SEO-05
+  // shipped five correct database rows in Sprint 02 and a verified-correct
+  // title was serving the site default again FOURTEEN MINUTES LATER, because a
+  // background revalidation lost this race and re-froze the shell. No title
+  // decision downstream of that is measurable.
+  //
+  // Measured sequentially against production on 28 Ogos 2026
+  // (`pnpm audit:titles`): 7 of 75 cold article renders — 9.3%, at a
+  // concurrency of ONE — lost the 1.5s race and served the site default. This
+  // deadline does not fire only when the database has stalled. It fires on an
+  // ordinary slow render, roughly one cold render in eleven.
+  //
+  // The tier chain and the reasoning for each tier live in
+  // `@/lib/seo/article-metadata`. The rule it enforces: this function never
+  // returns a metadata object without a title in it.
+  const { metadata } = await resolveArticleMetadata({
+    slug,
+    category,
+    baseUrl,
+    full: async () => {
+      const pageData = await getArticlePageData(slug);
+      if (!pageData) return null;
+      const { article, tags } = pageData;
+      return {
+        ...article,
+        bodyText: extractTextContent(article.content),
+        tagNames: tags.map((t) => t.name),
+      };
     },
-    openGraph: {
-      title: article.title,
-      ...(description ? { description } : {}),
-      type: 'article',
-      url: `${baseUrl}/artikel/${article.categorySlug}/${slug}`,
-      siteName: 'HelloKahwin',
-      ...(article.publishedAt
-        ? { publishedTime: new Date(article.publishedAt).toISOString() }
-        : {}),
-      modifiedTime: new Date(article.updatedAt).toISOString(),
-      authors: [authorNameForMeta],
-      ...(article.categoryName ? { section: article.categoryName } : {}),
-      ...(tags.length > 0 ? { tags: tags.map((t) => t.name) } : {}),
-      ...(ogImageUrl
-        ? { images: [{ url: ogImageUrl, width: 1200, height: 630, alt: article.title }] }
-        : {}),
+    fallback: () => getArticleMetadataFallback(slug),
+    fullMs: META_DEADLINE_MS,
+    fallbackMs: META_FALLBACK_DEADLINE_MS,
+    // Loud on purpose. The old `catch {}` swallowed this entirely, which is why
+    // a defect reproducing on ~9% of cold renders went a whole sprint without a
+    // single log line to name it. `[inspire-article-meta:*]` is the string to
+    // grep in Vercel logs to find out how often the deadline path is used, and
+    // a `tier=slug` line means the database missed TWICE and that article's
+    // `<head>` is running on its slug alone.
+    onDegrade: (tier, reason) => {
+      console.warn(
+        `[inspire-article-meta:${slug}] degraded to tier=${tier} ` +
+          `(deadlines ${META_DEADLINE_MS}ms/${META_FALLBACK_DEADLINE_MS}ms):`,
+        reason instanceof Error ? reason.message : reason,
+      );
     },
-    twitter: {
-      card: article.coverImageUrl ? 'summary_large_image' : 'summary',
-      title: article.title,
-      ...(description ? { description } : {}),
-      ...(ogImageUrl ? { images: [ogImageUrl] } : {}),
-    },
-  };
+  });
+  return metadata;
 }
 
 export default async function InspireArticlePage({ params }: ArticlePageProps) {

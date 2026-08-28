@@ -131,9 +131,9 @@ describe('SQL tagged templates in the ingest script', () => {
         const lastLine = t.body.trimEnd().split('\n').pop() ?? '';
         return sqlish && lastLine.trim().startsWith('--');
       });
-      expect(
-        offenders.map((o) => `line ${o.line}: SQL template ends inside a -- comment`),
-      ).toEqual([]);
+      expect(offenders.map((o) => `line ${o.line}: SQL template ends inside a -- comment`)).toEqual(
+        [],
+      );
     });
 
     it(`${file}: SQL comments carry no backtick-quoted identifiers`, () => {

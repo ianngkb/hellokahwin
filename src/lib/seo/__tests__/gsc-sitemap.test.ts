@@ -50,7 +50,9 @@ describe('gscPropertyFor', () => {
 
   it('drops any path it is handed, because the property is the origin', () => {
     withEnv(undefined, () => {
-      expect(gscPropertyFor('https://hellokahwin.com/artikel/x/y')).toBe('https://hellokahwin.com/');
+      expect(gscPropertyFor('https://hellokahwin.com/artikel/x/y')).toBe(
+        'https://hellokahwin.com/',
+      );
     });
   });
 
@@ -74,7 +76,9 @@ describe('gscSitemapUrlFor', () => {
     // Deriving from the property makes that combination correct; deriving from
     // the purge target would submit `http://127.0.0.1:3199/sitemap.xml`, which
     // Google rejects because it is not under the property.
-    expect(gscSitemapUrlFor('https://hellokahwin.com/')).toBe('https://hellokahwin.com/sitemap.xml');
+    expect(gscSitemapUrlFor('https://hellokahwin.com/')).toBe(
+      'https://hellokahwin.com/sitemap.xml',
+    );
   });
 
   it('is stable whether or not the property carries a trailing slash', () => {
@@ -104,7 +108,11 @@ describe('the operator notices', () => {
 
   it('never makes the success claim on failure, and carries Google reason verbatim', () => {
     const failures: GscSitemapResult[] = [
-      { ...ok, ok: false, detail: 'HTTP 403 {"error":{"message":"User does not have permission"}}' },
+      {
+        ...ok,
+        ok: false,
+        detail: 'HTTP 403 {"error":{"message":"User does not have permission"}}',
+      },
       { ...ok, ok: false, detail: 'token exchange HTTP 400 {"error":"invalid_grant"}' },
       {
         ...ok,

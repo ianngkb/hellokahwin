@@ -156,7 +156,9 @@ async function accessToken(sa: ServiceAccount): Promise<{ token?: string; detail
     // A malformed private key lands here. The message is about the key's SHAPE
     // (bad PEM, wrong type) and never contains the key, which is why it is safe
     // to surface — an operator cannot fix this one without being told.
-    return { detail: `could not sign the assertion: ${err instanceof Error ? err.message : String(err)}` };
+    return {
+      detail: `could not sign the assertion: ${err instanceof Error ? err.message : String(err)}`,
+    };
   }
 
   try {

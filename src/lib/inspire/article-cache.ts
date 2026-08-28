@@ -47,6 +47,25 @@ export const ARTICLE_PAGE_CACHE_KEY = 'inspire-article-page-v8';
  */
 export const ARTICLE_PAGE_CACHE_TAGS = ['articles', 'inspire-categories', 'inspire-tags'] as const;
 
+/**
+ * Cache key for the CHEAP metadata-only entry — the tier-2 title source added
+ * by SEO-07 (`getArticleMetadataFallback` in the route file).
+ *
+ * It shares `ARTICLE_PAGE_CACHE_TAGS`, so an editor's save evicts it in the
+ * same breath as the page payload and the two can never disagree about a title.
+ * It gets its own KEY rather than riding `ARTICLE_PAGE_CACHE_KEY` because the
+ * two entries hold different shapes: this one has no `content`, no tags and no
+ * resolved dynamic blocks. Sharing a key would let a metadata-shaped entry be
+ * served to the page renderer, which is the exact class of bug every version
+ * bump on `ARTICLE_PAGE_CACHE_KEY` above was written to prevent.
+ *
+ * v1 (2026-08-28): initial shape — `ArticleMetadataSource` minus `bodyText`
+ * and `tagNames`. Bump this whenever a column is added to or removed from the
+ * fallback SELECT; with `revalidate: false` an entry written under the old
+ * shape would otherwise be served forever against the new one.
+ */
+export const ARTICLE_META_CACHE_KEY = 'inspire-article-meta-v1';
+
 /** Cache key for the vendor-credit sidebar entry. */
 export const ARTICLE_CREDITS_CACHE_KEY = 'inspire-article-credits-v1';
 
