@@ -555,7 +555,23 @@ personas and reported them as landed.
     C2.2 titles near verbatim.** Google splits the topic the way the plan split
     it; sub-angle pages rank independently; the absorbing incumbent is DR 14.
   - **C2.1 (`barang hantaran lelaki`): DECIDED 28 Aug 2026 — DO NOT MERGE.
-    Eight articles stand; no URL changes, no redirects. CONT-12 plans against 8.**
+    Eight articles stand; no URL changes, no redirects.**
+    **🟢 AND NOW COMPLETE. CONT-12 (28 Aug) verified all eight live** — 200 with
+    the correct `<title>`, every one linked on its pillar, zero "akan datang",
+    sitemap held at **103** and the published-article count at **86**. Zero new
+    articles, because the count was fixed upstream at eight and eight were
+    already live; that is the DoD satisfied with N=0, not narrowed. **The one
+    job left in the cluster, decision 120's re-angle of the legacy seed,
+    shipped.** `hantaran-kahwin` went from a 20-item idea list duplicating its
+    own two children to the cluster's definitional head and router: 152 body
+    nodes down to 57, **0 internal links up to 19**, all four of its own PAA
+    questions answered, and **25 unlicensed legacy images carrying an English
+    `source: sentuhan nin's` label removed from a Malay reader page** — the
+    Sprint 02 failure-mode-5 shape, found live on the article whose own DoD
+    warned about it. **⚠ Its cover is still uncredited** (`credit`,
+    `licensor_name`, `license_class` all null, alt text is the article title) and
+    is escalated to `managing-editor` for Stage 6b. Evidence:
+    `docs/work-done/aug-28-2026-session-01/aug-28-2026-done-cont-12-c21-complete.md`.
     CONT-07 found **three C2.1 articles plus the legacy seed** on one parent
     (`hantaran kahwin` 2,000, `hantaran untuk lelaki` 700, `barang hantaran
     lelaki` 500, `barang hantaran` 350 — reads 500 on 28 Aug, same `volume`
@@ -629,8 +645,29 @@ personas and reported them as landed.
   addition: it is the only item on the 21-point quality bar that cannot be
   satisfied by reading, so a lone reviewer will approximate it unless it is
   written as a tool call.
-- **🔴 The cached-metadata / wrong-`<title>` defect**- **🔴 The cached-metadata / wrong-`<title>` defect** — see "OPEN AND UNFIXED"
+- **🔴 The cached-metadata / wrong-`<title>` defect** — see "OPEN AND UNFIXED"
   above under Site state. Route is on master and unblocked; needs an owner.
+  **CONT-12 (28 Aug) reproduced it twice and it now has a repro, which is the
+  thing that was missing.** The shape: **a `STALE` Vercel edge copy serves a
+  `<title>` truncated at the first colon; the next request, after the refresh
+  completes, serves the full title.**
+
+  | Article | Request | `x-vercel-cache` | `age` | `<title>` |
+  |---|---|---|---|---|
+  | `hantaran-kahwin` | first past TTL | STALE | 304 | Hantaran kahwin |
+  | `hantaran-kahwin` | second | HIT | 4 | Hantaran kahwin: maksud, adat dan beza… |
+  | `hantaran-untuk-lelaki` | first past TTL | STALE | 344 | Hantaran untuk lelaki |
+  | `hantaran-untuk-lelaki` | second | HIT | 45 | Hantaran untuk lelaki: senarai barang dan kos 2026 |
+
+  **To see it: fetch any article past its 300 s edge TTL, read the `<title>` on
+  the STALE response, then read it again.** The STALE copy of `hantaran-kahwin`
+  carried the NEW body with a title matching **neither** the old row nor the new
+  one, so it is not simply an old render. **Two articles, both healed on the
+  second request. Six others were not tested and nothing is claimed about
+  them** — a confirmed fault licenses re-checking the neighbours, never
+  concluding about them.
+  **A reader who lands from search on a cold URL sees the truncated title**,
+  which is why this is worth an owner rather than a shrug.
 
 ## Site state (verified 2026-08-24)
 

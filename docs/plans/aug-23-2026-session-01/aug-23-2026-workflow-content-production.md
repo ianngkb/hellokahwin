@@ -663,6 +663,40 @@ So:
 This applies to the 29 WordPress-migration rows in particular, because those are
 the ones nobody holds a source file for.
 
+#### A DIRECT DATABASE WRITE runs none of the ingest CLI's four side effects
+
+Added 28 Aug 2026, on CONT-12, after CONT-05 had already taken the same path
+without the checklist existing.
+
+A WordPress-migration row has no source file, so the rule above — *editing one
+section of a live article is a substring swap, not a body write* — means the
+correct tool is a script against `articles.content`, not `pnpm ingest`. Two items
+have now done exactly that. **The ingest CLI is not just a writer; it is four
+side effects, and a raw `update` fires none of them.** Each one has to be run by
+hand, and each one fails silently if it is not.
+
+| What ingest does after the write | What a raw SQL write does | Run it by hand with |
+|---|---|---|
+| `POST /api/cron/revalidate-content` — drops the Next data cache | nothing; the origin serves the old page indefinitely | `fetch(endpoint, { headers: { authorization: 'Bearer ' + CRON_SECRET } })`, three attempts, non-zero exit if it fails |
+| `purgeVercelEdge(pathsInvalidatedByIngest(pillar, slug))` — the article, its pillar and `/sitemap.xml` | nothing; the edge holds its copy for its full TTL | the same two functions from `@/lib/cache/edge-purge`. **Needs `VERCEL_TOKEN`.** If it is absent the purge is skipped and the call *reports* that it was skipped — read the return value, do not assume it ran |
+| `syncMediaUsage(articleId, content)` — reconciles `media_article_usage` | nothing; the derived index keeps naming images the body no longer has | delete the article's rows, re-insert one per media row matching a URL in the new body. Mirror the reconcile, do not invent one |
+| `submitSitemapToGsc(...)` — tells Google | nothing | only matters when a URL is new; a body change does not need it |
+
+**`published_at` is the fifth trap and it goes the other way.** The ingest CLI's
+`on conflict` clause restamps it; a hand-written `update` that lists its columns
+does not, which is the safe behaviour — but it is safe by accident, so the write
+script should assert `published_at` unchanged after the write rather than
+assume it.
+
+**Without `VERCEL_TOKEN` the edge is the long pole.** CONT-12 could not reach a
+token from any worktree, so the page took its full 300 s TTL to turn over. The
+Stage 7 rule about the second request being the honest one is not optional in
+that case, it is the only measurement available: the first request past the TTL
+is served `STALE` while it triggers the refresh, and on CONT-12 that STALE copy
+carried the NEW body with a `<title>` matching neither the old row nor the new
+one. Do not poll it. Wait, then request twice, and record which request you are
+quoting.
+
 #### The run, exactly
 
 Written out 25 Aug 2026 after the P1+P6 batch, because every item below had to

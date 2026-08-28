@@ -1,0 +1,13 @@
+# CONT-12 proof requests, 2026-08-28T06:40:15.722Z
+# Sequential, 3s apart. redirect: manual, so a 3xx is reported as a 3xx.
+# name	status	x-vercel-cache	age	bytes	title_or_loc_count
+hantaran-kahwin	200	HIT	21	135580	Hantaran kahwin: maksud, adat dan beza dengan mas kahwin | HelloKahwin
+hantaran-untuk-lelaki	200	HIT	282	126222	Hantaran untuk lelaki | HelloKahwin
+barang-hantaran-perempuan	200	HIT	278	150768	Barang hantaran perempuan: senarai ikut kategori dan kos | HelloKahwin
+hantaran-kahwin-bajet	200	HIT	274	146333	Hantaran kahwin bajet: kos sebenar 12 dulang, 2026 | HelloKahwin
+barang-hantaran-berguna	200	HIT	271	142815	Barang hantaran yang digunakan, dan yang tersimpan | HelloKahwin
+adat-hantaran-ikut-keluarga	200	HIT	267	143301	Adat hantaran ikut keluarga: bila dua senarai berbeza | HelloKahwin
+persiapan-hantaran-kahwin	200	HIT	264	145332	Persiapan hantaran kahwin: jadual lapan minggu | HelloKahwin
+tempat-beli-hantaran	200	HIT	260	150814	Tempat beli barang hantaran: lima jenis kedai | HelloKahwin
+PILLAR-hantaran-mas-kahwin	200	HIT	256	58951	Hantaran &amp; Mas Kahwin | Inspire | HelloKahwin
+sitemap	200	HIT	265	20098	loc=103
