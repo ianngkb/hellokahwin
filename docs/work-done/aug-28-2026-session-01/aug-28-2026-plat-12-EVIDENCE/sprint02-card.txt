@@ -1,0 +1,20 @@
+Sprint 02 — Close the publishing hole, then earn a click  active 7h 02m  elapsed 29h 31m
+  window 2026-08-25T16:00:00+00:00 .. 2026-08-27T15:59:59+00:00
+  branches: (none - matched by window and cwd)
+  Building & conversation               6h 17m  <synthetic>,Fable 5,Opus 5 steps=3254 out=  1.88M think= 688.7k
+  Bmad Agent Dev                       42m 50s  Opus 5       steps=368 out= 356.0k think= 134.6k
+  Humanizer                             2m 56s  Opus 5       steps= 52 out=  55.4k think=  12.1k
+  TOTAL                                 7h 02m  steps=3674 out=2.29M think=835.5k
+sessions:
+  main checkout                      <synthetic>,Fable 5,Opus 5 steps=2000 out=  1.81M
+  main checkout helper               <synthetic>,Fable 5,Opus 5 steps=1674 out= 476.0k
+agents: managing-editor x4, writer-inspirasi-vendor-venue x3, editorial-verification-lead x3, head-of-seo-content x3
+skills invoked:
+  16:02Z  /humanizer  (main checkout helper)
+  16:05Z  /claude-in-chrome  (main checkout helper)
+  16:12Z  /humanizer  (main checkout)
+  16:21Z  /humanizer  (main checkout helper)
+  14:42Z  /bmad-agent-dev  (main checkout)
+  15:38Z  /bmad-agent-dev  (main checkout)
+  17:06Z  /bmad-agent-dev  (main checkout)
+  17:12Z  /humanizer  (main checkout helper)

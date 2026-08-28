@@ -1,0 +1,5 @@
+1. moved out while state=planned       departures=[]
+2. sprint started, 2 items             in-sprint points=10  departures=[]
+3. moved out while state=in_progress   in-sprint points=8  departures=[{"at": "2026-08-28", "by": "SYSTEM", "points": 2, "item_key": "PRF-02"}]  => planned = 10
+4. moved back in                       in-sprint points=10  departures=[]  => planned = 10
+5. moved out again                     departures=[{"at": "2026-08-28", "by": "SYSTEM", "points": 2, "item_key": "PRF-02"}]
