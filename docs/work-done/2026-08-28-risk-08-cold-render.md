@@ -173,6 +173,19 @@ requests with ttfb > 5000ms (the route's maxDuration): 0
 **20.7× at p50.** All 86 responses came from `sin1::sin1`; 0 non-200 across all
 258 requests in the three rig sweeps.
 
+Re-measured once more on `58280eb`, the commit actually serving the site as this
+entry was written, again in the minutes after its deploy so the whole corpus was
+cold (`sweep-confirm-58280eb.json`, 07:48–07:50Z):
+
+```
+x-vercel-cache: MISS   n=85   server p50 156  p90 232  max 1139 ms
+requests with ttfb > 5000ms (the route's maxDuration): 0
+```
+
+Two independent post-fix sweeps of the same 86 URLs, on two different
+deployments, agree to within 12 ms at p50. That is the number to hold the site
+to.
+
 This also re-sizes the 5-wide pool in `src/lib/db/drizzle.ts` without touching
 `max`: five lanes at 175 ms a query clear ~28 queries a second, the same five at
 15 ms clear ~330. The pool starvation behind Sentry TWN-NEW-47 was never really
