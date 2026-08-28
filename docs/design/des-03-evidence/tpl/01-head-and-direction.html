@@ -1,0 +1,387 @@
+<title>Warkah</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,600&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600&display=swap">
+
+<style>
+/* ==========================================================================
+   THE SPECIFICATION DOCUMENT'S OWN CHROME
+   Cooler and greyer than the site palette on purpose, so a reader never
+   mistakes spec furniture for site colour. Every value below is measured in
+   des-03-evidence/contrast-2026-08-28.txt.
+   ========================================================================== */
+:root{
+  /* PRIMITIVES - every literal the document's own chrome owns, light and dark
+     alike, defined once, unscoped. This runs the identical two-layer model
+     &sect;3.1 specifies for the site: no hex or rgb() literal appears inside a
+     dark-scoped rule below - probe.mjs counts them and the correct count is
+     zero, checked the same way it checks the "hk" system. */
+  --doc-paper-100:#EFEEEC; --doc-paper-200:#E4E3E0; --doc-paper-300:#CFCEC9;
+  --doc-ink-900:#1B1B1A;   --doc-ink-600:#55554F;
+  --doc-blue-700:#2F3A4A;  --doc-blue-300:#9FB4D4;
+  --doc-rust-700:#8C3A22;  --doc-rust-300:#E2907A;
+  --doc-green-700:#2F5D3A; --doc-green-300:#8FC29E;
+  --doc-night-900:#17181A; --doc-night-800:#202225;
+  --doc-night-fg:#E8E8E6;  --doc-night-fg2:#A3A39D; --doc-night-rule:#33353A;
+  --doc-shadow-day:rgba(27,27,26,.10); --doc-shadow-night:rgba(0,0,0,.5);
+  --sans:"IBM Plex Sans","Segoe UI",system-ui,-apple-system,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --serif:"Bodoni Moda",Didot,"Bodoni MT",Georgia,serif;
+  --sys:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  /* SEMANTIC - LIGHT, complete */
+  --doc-bg:var(--doc-paper-100); --doc-panel:var(--doc-paper-200);
+  --doc-fg:var(--doc-ink-900);   --doc-fg2:var(--doc-ink-600);
+  --doc-accent:var(--doc-blue-700); --doc-rule:var(--doc-paper-300);
+  --doc-flag:var(--doc-rust-700);   --doc-ok:var(--doc-green-700);
+  --doc-shadow:var(--doc-shadow-day);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    /* SEMANTIC - DARK. var() references onto the primitives above, nothing else. */
+    --doc-bg:var(--doc-night-900); --doc-panel:var(--doc-night-800);
+    --doc-fg:var(--doc-night-fg);  --doc-fg2:var(--doc-night-fg2);
+    --doc-accent:var(--doc-blue-300); --doc-rule:var(--doc-night-rule);
+    --doc-flag:var(--doc-rust-300);   --doc-ok:var(--doc-green-300);
+    --doc-shadow:var(--doc-shadow-night);
+  }
+}
+:root[data-theme="dark"]{
+  --doc-bg:var(--doc-night-900); --doc-panel:var(--doc-night-800);
+  --doc-fg:var(--doc-night-fg);  --doc-fg2:var(--doc-night-fg2);
+  --doc-accent:var(--doc-blue-300); --doc-rule:var(--doc-night-rule);
+  --doc-flag:var(--doc-rust-300);   --doc-ok:var(--doc-green-300);
+  --doc-shadow:var(--doc-shadow-night);
+}
+
+*{box-sizing:border-box;}
+body{
+  margin:0; background:var(--doc-bg); color:var(--doc-fg);
+  font-family:var(--sans); font-size:16px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1060px;margin:0 auto;padding:0 20px 120px;}
+@media (min-width:760px){ .wrap{padding:0 40px 140px;} }
+
+/* --- document typography --------------------------------------------- */
+h1,h2,h3,h4{margin:0;font-weight:600;text-wrap:balance;letter-spacing:-.012em;}
+h1{font-size:clamp(2rem,1.55rem+2vw,3rem);line-height:1.06;}
+h2{font-size:clamp(1.4rem,1.24rem+.7vw,1.85rem);line-height:1.15;}
+h3{font-size:clamp(1.08rem,1.02rem+.28vw,1.25rem);line-height:1.25;}
+h4{font-size:1rem;line-height:1.3;}
+p{margin:0;max-width:68ch;}
+a{color:var(--doc-accent);}
+.stack{display:flex;flex-direction:column;gap:16px;}
+.stack-l{display:flex;flex-direction:column;gap:28px;}
+.sec{display:flex;flex-direction:column;gap:24px;padding:56px 0 0;scroll-margin-top:20px;}
+.sec > .sechead{display:flex;gap:16px;align-items:baseline;border-top:2px solid var(--doc-fg);padding-top:14px;}
+.secno{font-family:var(--mono);font-size:.8rem;font-weight:600;color:var(--doc-accent);
+  letter-spacing:.06em;padding-top:.35em;white-space:nowrap;}
+.lede{font-size:1.06rem;color:var(--doc-fg2);max-width:66ch;}
+.note{font-size:.9rem;color:var(--doc-fg2);max-width:74ch;}
+.eyebrow{font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--doc-fg2);}
+strong{font-weight:600;}
+code,.m{font-family:var(--mono);font-size:.88em;}
+.num{font-variant-numeric:tabular-nums;}
+
+/* --- document furniture ---------------------------------------------- */
+.panel{background:var(--doc-panel);border:1px solid var(--doc-rule);padding:20px;}
+@media (min-width:760px){ .panel{padding:26px 28px;} }
+.flag{border-left:3px solid var(--doc-flag);padding-left:16px;}
+.flag .eyebrow{color:var(--doc-flag);}
+.ok{border-left:3px solid var(--doc-ok);padding-left:16px;}
+.ok .eyebrow{color:var(--doc-ok);}
+.rulebox{border:1px solid var(--doc-rule);padding:18px 20px;display:flex;flex-direction:column;gap:10px;}
+.grid2{display:grid;gap:20px;grid-template-columns:1fr;}
+@media (min-width:820px){ .grid2{grid-template-columns:1fr 1fr;} }
+.grid3{display:grid;gap:16px;grid-template-columns:1fr;}
+@media (min-width:760px){ .grid3{grid-template-columns:repeat(3,1fr);} }
+
+/* --- tables ----------------------------------------------------------- */
+.tw{overflow-x:auto;border:1px solid var(--doc-rule);}
+table.d{border-collapse:collapse;width:100%;font-size:.86rem;line-height:1.45;min-width:520px;}
+table.d th{text-align:left;font-family:var(--mono);font-size:.7rem;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--doc-fg2);
+  padding:11px 14px;border-bottom:1px solid var(--doc-fg2);white-space:nowrap;
+  background:var(--doc-panel);position:sticky;top:0;}
+table.d td{padding:9px 14px;border-bottom:1px solid var(--doc-rule);vertical-align:top;}
+table.d tr:last-child td{border-bottom:0;}
+table.d td.n,table.d th.n{font-family:var(--mono);font-variant-numeric:tabular-nums;
+  white-space:nowrap;text-align:right;}
+table.d td.k{font-family:var(--mono);font-size:.8rem;white-space:nowrap;}
+.sw{display:inline-block;width:13px;height:13px;border:1px solid var(--doc-rule);
+  vertical-align:-2px;margin-right:7px;}
+.pass{color:var(--doc-ok);font-weight:600;}
+.fail{color:var(--doc-flag);font-weight:600;}
+
+/* --- code ------------------------------------------------------------- */
+pre{margin:0;overflow-x:auto;background:var(--doc-panel);border:1px solid var(--doc-rule);
+  padding:16px 18px;font-family:var(--mono);font-size:.78rem;line-height:1.6;}
+@media (min-width:760px){ pre{font-size:.82rem;} }
+
+/* --- index rail ------------------------------------------------------- */
+.toc{border:1px solid var(--doc-rule);padding:18px 20px;display:flex;flex-direction:column;gap:2px;}
+.toc a{display:flex;gap:12px;text-decoration:none;color:var(--doc-fg);padding:4px 0;
+  font-size:.88rem;border-bottom:1px solid transparent;}
+.toc a:hover{border-bottom-color:var(--doc-accent);}
+.toc a span:first-child{font-family:var(--mono);font-size:.75rem;color:var(--doc-accent);
+  width:2.2em;flex:0 0 auto;padding-top:.15em;}
+a:focus-visible,button:focus-visible{outline:2px solid var(--doc-accent);outline-offset:3px;}
+
+/* ==========================================================================
+   THE SCREENS
+   These carry the SITE palette, not the document palette. Light and dark are
+   drawn side by side and are FIXED to their class - they do not follow the
+   reader's theme - because the site ships light only (decision 2026-07-14,
+   upheld by the CEO 28 Ogos 2026) and this document has to show both anyway.
+   ========================================================================== */
+/* PRIMITIVES. Every colour the site system owns - light AND dark - is defined
+   here, on the base, exactly once. This document runs the same two-layer model
+   it specifies in 3.1, so the rule can be checked against this file:
+   NO colour literal appears inside .hk-light or .hk-dark. probe.mjs counts them
+   and the correct count is zero. */
+.hk-light,.hk-dark{
+  --hk-parchment-100:#EDEAE1; --hk-parchment-200:#E3DFD4;
+  --hk-parchment-300:#C9C3B6; --hk-parchment-400:#A89C88;
+  --hk-ink-900:#16130F;       --hk-ink-600:#4A443C;   --hk-ink-500:#5A5348;
+  --hk-gold-700:#725825;      --hk-gold-400:#C9A253;
+  --hk-oxblood-700:#6B2130;   --hk-oxblood-300:#D98C7A;
+  --hk-night-900:#14110D;     --hk-night-800:#1E1A15;
+  --hk-thread-500:#A8823C;
+  --a-tint:5%; --a-hair:12%; --a-rule:22%; --a-boundary:47%; --a-skel:9%;
+}
+/* SEMANTIC - LIGHT, complete. */
+.hk-light{
+  --bg:var(--hk-parchment-100); --bg-raised:var(--hk-parchment-200);
+  --fg:var(--hk-ink-900); --fg-muted:var(--hk-ink-600); --fg-dim:var(--hk-ink-500);
+  --accent:var(--hk-gold-700); --alert:var(--hk-oxblood-700);
+}
+/* SEMANTIC - DARK. Redefines the semantic layer and the three alphas that must
+   change, and nothing else. */
+.hk-dark{
+  --a-hair:11%; --a-rule:20%; --a-boundary:37%;
+  --bg:var(--hk-night-900); --bg-raised:var(--hk-night-800);
+  --fg:var(--hk-parchment-100); --fg-muted:var(--hk-parchment-300); --fg-dim:var(--hk-parchment-400);
+  --accent:var(--hk-gold-400); --alert:var(--hk-oxblood-300);
+}
+/* DERIVED - expressed in terms of --fg, so they invert with the theme and need
+   no redefinition in the dark block. */
+.hk-light,.hk-dark{
+  --tint:     color-mix(in srgb, var(--fg) var(--a-tint),     transparent);
+  --hair:     color-mix(in srgb, var(--fg) var(--a-hair),     transparent);
+  --rule:     color-mix(in srgb, var(--fg) var(--a-rule),     transparent);
+  --boundary: color-mix(in srgb, var(--fg) var(--a-boundary), transparent);
+  --skel:     color-mix(in srgb, var(--fg) var(--a-skel),     transparent);
+  --focus:    var(--fg);
+}
+.hk{
+  background:var(--bg); color:var(--fg); font-family:var(--sys);
+  --fs-wordmark:18px; --fs-h1:30px; --fs-h2:22px; --fs-h3:19px; --fs-deck:18px;
+  --fs-body:17px; --fs-table:16px; --fs-caption:14px; --fs-label:13px;
+  --lh-body:1.65; --gutter:16px;
+  font-size:var(--fs-body); line-height:var(--lh-body);
+}
+.hk *{box-sizing:border-box;}
+.hk p{margin:0;max-width:none;}
+.hk h1,.hk h2,.hk h3{margin:0;}
+
+/* the two frames everything is drawn in */
+.ph{width:360px;flex:0 0 360px;overflow:hidden;border:1px solid var(--doc-rule);}
+.ph .hk{--gutter:16px;}
+.dk{width:1200px;flex:0 0 1200px;border:1px solid var(--doc-rule);}
+.dk .hk{
+  --fs-wordmark:24px; --fs-h1:44px; --fs-h2:26px; --fs-h3:21px; --fs-deck:20px;
+  --fs-body:18px; --lh-body:1.7; --gutter:40px;
+}
+.rail{display:flex;gap:18px;overflow-x:auto;padding:4px 0 14px;align-items:flex-start;}
+.frame{display:flex;flex-direction:column;gap:8px;}
+.fcap{font-family:var(--mono);font-size:.72rem;line-height:1.45;color:var(--doc-fg2);
+  max-width:360px;display:flex;gap:8px;align-items:baseline;}
+.dk + .fcap,.frame > .fcap.wide{max-width:none;}
+.id{font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.08em;
+  color:var(--doc-bg);background:var(--doc-accent);padding:2px 6px;white-space:nowrap;}
+.id.warn{background:var(--doc-flag);}
+
+/* --- site components, specified once and reused in every screen -------- */
+.s-pad{padding-left:var(--gutter);padding-right:var(--gutter);}
+.s-mast{display:flex;justify-content:space-between;align-items:baseline;gap:24px;
+  padding-top:20px;padding-bottom:14px;border-bottom:1px solid var(--rule);}
+.s-wm{font-family:var(--serif);font-variation-settings:"opsz" 6;font-weight:400;
+  letter-spacing:.092em;text-transform:uppercase;line-height:1;font-size:var(--fs-wordmark);}
+.s-label{font-size:var(--fs-label);line-height:1.2;letter-spacing:.08em;text-transform:uppercase;}
+.s-nav{display:flex;gap:26px;align-items:baseline;}
+.s-h1{font-family:var(--serif);font-variation-settings:"opsz" 11;font-weight:400;
+  letter-spacing:-.022em;line-height:1.08;text-wrap:balance;font-size:var(--fs-h1);}
+.s-deck{font-size:var(--fs-deck);line-height:1.5;color:var(--fg-muted);}
+.s-h2{font-size:var(--fs-h2);line-height:1.25;font-weight:600;letter-spacing:-.01em;max-width:34ch;}
+.s-h3{font-size:var(--fs-h3);line-height:1.3;font-weight:600;max-width:40ch;}
+.s-meta{font-size:var(--fs-caption);line-height:1.45;color:var(--fg-muted);}
+.s-dim{font-size:var(--fs-caption);line-height:1.45;color:var(--fg-dim);}
+.s-body{font-size:var(--fs-body);line-height:var(--lh-body);max-width:68ch;}
+.s-cred{font-size:var(--fs-label);letter-spacing:.08em;text-transform:uppercase;color:var(--accent);line-height:1.2;}
+
+.s-rekod{border-top:2px solid var(--fg);padding-top:12px;}
+.s-rekod .s-label{color:var(--fg-muted);}
+.s-frow{display:flex;justify-content:space-between;gap:14px;padding:9px 0;
+  border-bottom:1px solid var(--hair);}
+.s-frow:last-child{border-bottom:0;}
+.s-val{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap;}
+
+.s-tab{border-collapse:collapse;width:100%;font-size:var(--fs-table);line-height:1.45;
+  font-variant-numeric:tabular-nums;}
+.s-tab th{text-align:left;font-weight:600;font-size:var(--fs-label);letter-spacing:.08em;
+  text-transform:uppercase;color:var(--fg-muted);padding:0 14px 8px 0;
+  border-bottom:1px solid var(--rule);}
+.s-tab td{padding:10px 14px 10px 0;border-bottom:1px solid var(--hair);vertical-align:top;}
+.s-tab tbody tr:nth-child(even){background:var(--tint);}
+
+.s-row{display:grid;grid-template-columns:80px minmax(0,1fr);gap:14px;align-items:start;
+  padding:14px 0;border-bottom:1px solid var(--hair);}
+.s-row img{width:80px;height:80px;object-fit:cover;display:block;}
+.s-row .t{font-size:15px;line-height:1.3;font-weight:600;}
+.dk .s-row{grid-template-columns:44px minmax(0,1fr) 176px;gap:28px;padding:20px 0;}
+.dk .s-row img{width:176px;height:132px;order:3;}
+.dk .s-row .t{font-size:var(--fs-h3);line-height:1.3;}
+.s-idx{font-size:13px;font-variant-numeric:tabular-nums;color:var(--fg-muted);
+  letter-spacing:.04em;padding-top:4px;}
+
+.s-card figure{margin:0;}
+.s-card img{display:block;width:100%;object-fit:cover;}
+.s-chiprow{display:flex;flex-wrap:wrap;gap:8px;}
+.s-chip{font-size:var(--fs-label);letter-spacing:.06em;text-transform:uppercase;
+  border:1px solid var(--boundary);padding:11px 12px;line-height:1;white-space:nowrap;
+  min-height:44px;display:inline-flex;align-items:center;gap:7px;color:var(--fg);}
+.s-chip .c{color:var(--fg-dim);font-variant-numeric:tabular-nums;}
+.s-chip[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg);}
+.s-chip[aria-pressed="true"] .c{color:var(--bg);}
+.s-btn{min-height:44px;display:inline-flex;align-items:center;padding:0 18px;
+  border:1px solid var(--boundary);background:transparent;color:var(--fg);
+  font-size:var(--fs-label);letter-spacing:.08em;text-transform:uppercase;font-family:inherit;}
+.s-btn.solid{background:var(--fg);color:var(--bg);border-color:var(--fg);}
+.s-focus{outline:2px solid var(--focus);outline-offset:2px;}
+
+.s-empty{border-top:1px solid var(--rule);padding-top:14px;display:flex;
+  flex-direction:column;gap:10px;}
+.s-err{border-left:3px solid var(--alert);padding:2px 0 2px 14px;display:flex;
+  flex-direction:column;gap:10px;}
+.s-skel{background:var(--skel);}
+.s-bar{height:2px;background:var(--accent);}
+.s-crumb{font-size:var(--fs-caption);color:var(--fg-muted);display:flex;gap:8px;
+  align-items:baseline;flex-wrap:wrap;}
+.s-foot{border-top:2px solid var(--fg);padding-top:16px;display:flex;flex-direction:column;gap:14px;}
+.s-imgless{border:1px solid var(--boundary);padding:12px 14px;display:flex;
+  flex-direction:column;gap:6px;}
+</style>
+
+<div class="wrap">
+
+<!-- =====================================================================
+     MASTHEAD
+     ===================================================================== -->
+<header class="stack" style="padding:56px 0 0;">
+  <p class="eyebrow">DES-03 &middot; Sprint 03 &middot; creative-director &middot; 28 Ogos 2026</p>
+  <h1>Warkah</h1>
+  <p class="lede">The specification the Design Systems Engineer builds against. Direction&nbsp;A,
+  hardened: real faces, real breakpoints, both palettes defined, and the
+  thirty-nine states a static mock leaves out.</p>
+  <div class="rulebox">
+    <p class="eyebrow">If it is not in this document, it is not specified</p>
+    <p class="note">That cuts both ways. Everything here is a number the build must hit,
+    and anything absent is a decision that has not been made yet &mdash; so it comes back
+    to me rather than being invented downstream. Section&nbsp;12 lists what is deliberately
+    absent and who owns it.</p>
+  </div>
+</header>
+
+<nav class="toc" style="margin-top:32px;" aria-label="Kandungan">
+  <a href="#s1"><span>1</span><span>The direction, and what survives 390&nbsp;px</span></a>
+  <a href="#s2"><span>2</span><span>Type &mdash; the faces, their licences, their cost, the scale</span></a>
+  <a href="#s3"><span>3</span><span>Colour &mdash; two palettes, one exposed, every ratio measured</span></a>
+  <a href="#s4"><span>4</span><span>Space, grid and breakpoints</span></a>
+  <a href="#s5"><span>5</span><span>The three page types, drawn</span></a>
+  <a href="#s6"><span>6</span><span>Photography &mdash; three frame classes and their byte ceilings</span></a>
+  <a href="#s7"><span>7</span><span>The state set &mdash; 39 states across five surfaces</span></a>
+  <a href="#s8"><span>8</span><span>Components</span></a>
+  <a href="#s9"><span>9</span><span>Heading hierarchy and schema slots</span></a>
+  <a href="#s10"><span>10</span><span>Focus, targets and announcements</span></a>
+  <a href="#s11"><span>11</span><span>The DES-07 cross-check, run the other way</span></a>
+  <a href="#s12"><span>12</span><span>What is not specified here</span></a>
+  <a href="#s13"><span>13</span><span>The strongest argument against this, answered</span></a>
+</nav>
+
+<!-- =====================================================================
+     1. THE DIRECTION
+     ===================================================================== -->
+<section class="sec" id="s1">
+  <div class="sechead"><span class="secno">01</span><h2>The direction, and what survives 390&nbsp;px</h2></div>
+
+  <p class="lede">Direction&nbsp;A &mdash; <strong>Warkah, the record</strong> &mdash; was chosen by the
+  owner on 28 Ogos 2026 on three grounds, none of them taste. Those three grounds are
+  constraints on this document, so they are restated as constraints rather than as history.</p>
+
+  <div class="tw">
+    <table class="d">
+      <thead><tr><th>Ground for the choice</th><th>What it obliges this specification to do</th><th class="n">Where</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Inventory.</strong> Four of eleven photo frames survive enlargement; seven do not (DES-02, finding&nbsp;1)</td>
+          <td>Specify frames at sizes the library actually supports, and say what happens when a cover is one of the seven &mdash; and when there is no cover at all.</td>
+          <td class="n">&sect;6</td>
+        </tr>
+        <tr>
+          <td><strong>Intent.</strong> The site's highest-impression page is a rate table. A reader searching <em>mas kahwin Perak</em> wants the number.</td>
+          <td>The answer sits above the fold on every device. The Rekod panel is not decoration; it is the page's first paragraph.</td>
+          <td class="n">&sect;5, &sect;8.1</td>
+        </tr>
+        <tr>
+          <td><strong>Device mix.</strong> Mobile is 64% of impressions at position 8.7; desktop 28.9. Direction&nbsp;C died because its identity lived in a rail that collapses on a phone.</td>
+          <td>Whatever makes A recognisable must survive at 390&nbsp;px &mdash; and at 360&nbsp;px, which is where this document draws it.</td>
+          <td class="n">&sect;1.2, &sect;5</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 id="s1-2">1.1 &nbsp;What Warkah actually is</h3>
+  <p>A publication of record, warmly printed. Not a bridal magazine. The mark carries the
+  whitespace; the page carries the density. Whitespace here has one job and it is stated:
+  <strong>it separates the fields of a record</strong> &mdash; state, rate, issuing authority,
+  date checked &mdash; so they can be scanned. It is not there to signal expense.</p>
+
+  <h3>1.2 &nbsp;The five things that make it recognisable, and what each does at 360&nbsp;px</h3>
+  <p class="note">This is the answer to the device-mix constraint. Each row names the device,
+  what it does on a phone, and what would be lost if it were dropped. Nothing in this
+  list needs a viewport wider than 360&nbsp;px to exist.</p>
+  <div class="tw">
+    <table class="d">
+      <thead><tr><th>Device</th><th>Desktop &ge;1024&nbsp;px</th><th>Phone 360&ndash;767&nbsp;px</th><th>If it were dropped</th></tr></thead>
+      <tbody>
+        <tr><td><strong>The Rekod panel</strong></td>
+          <td>A 300&nbsp;px column to the right of the headline, opened by a 2&nbsp;px ink rule</td>
+          <td><strong>Full width, directly under the deck, still above the fold.</strong> Same 2&nbsp;px rule, same fields, same hairline separators</td>
+          <td>The direction stops being a record and becomes an article with a headline</td></tr>
+        <tr><td><strong>Bodoni Moda on the mark and the <span class="m">h1</span>, nowhere else</strong></td>
+          <td>Wordmark 24&nbsp;px at <span class="m">opsz&nbsp;6</span>, <span class="m">h1</span> 44&nbsp;px at <span class="m">opsz&nbsp;11</span></td>
+          <td>Wordmark 18&nbsp;px, <span class="m">h1</span> 30&nbsp;px. Same two instances, same tracking</td>
+          <td>The masthead and the headline disagree, which is visible on every page</td></tr>
+        <tr><td><strong>Four colours, and every rule an alpha of the ink</strong></td>
+          <td>Identical</td><td>Identical</td>
+          <td>The one thing every premium reference in DES-01 agreed on</td></tr>
+        <tr><td><strong>Tabular figures everywhere a number repeats</strong></td>
+          <td>Rates, counts, dates align in columns</td><td>Same, in the Rekod panel and the rate table</td>
+          <td>A rate table stops reading as a rate table</td></tr>
+        <tr><td><strong>The credit is designed, not appended</strong></td>
+          <td>Gold 13&nbsp;px label, right of the caption</td>
+          <td>Gold 13&nbsp;px label, under the caption</td>
+          <td>PartySlate's most transferable device, and the site holds 617 uncredited images</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="rulebox ok">
+    <p class="eyebrow">The test this passes</p>
+    <p class="note">Cover the photograph in any phone screen in &sect;5 or &sect;7 and the page is
+    still recognisably Warkah. That is the property direction&nbsp;C did not have, and it is
+    the reason A can be built against a library that only supports four full-size frames.</p>
+  </div>
+</section>

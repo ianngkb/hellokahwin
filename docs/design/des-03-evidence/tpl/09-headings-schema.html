@@ -1,0 +1,60 @@
+<!-- =====================================================================
+     9. HEADING HIERARCHY AND SCHEMA SLOTS
+     ===================================================================== -->
+<section class="sec" id="s9">
+  <div class="sechead"><span class="secno">09</span><h2>Heading hierarchy and schema slots</h2></div>
+  <p class="lede">These are design decisions, not implementation detail, and this section is
+  what <span class="m">head-of-seo-content</span> reviews before this document is treated as
+  the spec. Every heading level below is tied to a visual style already drawn in &sect;5; none
+  is invented to satisfy an outline that has no corresponding block on the page.</p>
+
+  <h3>9.1 &nbsp;Heading levels, one page at a time</h3>
+  <div class="tw">
+    <table class="d">
+      <thead><tr><th>Page</th><th class="n">Level</th><th>Used for</th><th>Style</th></tr></thead>
+      <tbody>
+        <tr><td rowspan="4">Article</td><td class="n">h1</td><td>The article title. Exactly one per page.</td><td class="m">.s-h1</td></tr>
+        <tr><td class="n">h2</td><td>Named article sections &mdash; &ldquo;Kadar minimum mas kahwin mengikut negeri&rdquo; and its siblings. One per contents-list entry.</td><td class="m">.s-h2</td></tr>
+        <tr><td class="n">h3&ndash;h4</td><td>Sub-points inside a section. Not used as a styling shortcut &mdash; a bold paragraph lead is not a heading.</td><td class="m">.s-h3</td></tr>
+        <tr><td class="n">n/a</td><td>Rekod panel labels, table headers, credits: never a heading level. They are metadata about the article, not the article's structure.</td><td class="m">.s-label</td></tr>
+        <tr><td rowspan="2">Catalogue</td><td class="n">h1</td><td>The category name. Exactly one.</td><td class="m">.s-h1</td></tr>
+        <tr><td class="n">h2</td><td>Each row/card title <em>within the list</em> &mdash; the article's own headline, marked up as a heading because a catalogue is a list of documents, not a list of links. This is why &sect;5.2's list rows use <span class="m">&lt;h2 class="t"&gt;</span> rather than a bare span.</td><td class="m">.t</td></tr>
+        <tr><td rowspan="3">Homepage</td><td class="n">h1</td><td>Not the wordmark &mdash; the wordmark is a link, not a heading. h1 is the hero article's own headline.</td><td class="m">.s-h1</td></tr>
+        <tr><td class="n">h2</td><td><em>Terkini</em> and each subsequent section label.</td><td class="m">.s-label</td></tr>
+        <tr><td class="n">h3</td><td>Each row/card title within a section, for the same reason as the catalogue.</td><td class="m">.t</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="rulebox flag">
+    <p class="eyebrow">One correction this makes to what &sect;5 drew</p>
+    <p class="note">&sect;5.2 and &sect;5.3's list-row titles are marked <span class="m">&lt;h2 class="t"&gt;</span>
+    and <span class="m">&lt;h2 class="t"&gt;</span> respectively in the source, but a homepage
+    row sits inside a page whose own h1 is the hero &mdash; those rows must build as h3, not h2,
+    or the homepage carries two h2 levels with no h1 between the second and the page title.
+    This is a markup correction the DSE applies during the build; the visual style
+    <span class="m">.t</span> is unaffected.</p>
+  </div>
+
+  <h3>9.2 &nbsp;Schema slots</h3>
+  <div class="tw">
+    <table class="d">
+      <thead><tr><th>Page</th><th>Type</th><th>Field</th><th>Source in this document</th></tr></thead>
+      <tbody>
+        <tr><td rowspan="5">Article</td><td rowspan="5" class="k">Article</td><td class="k">headline</td><td>h1 text</td></tr>
+        <tr><td class="k">dateModified</td><td>Rekod &ldquo;Disemak&rdquo; field &mdash; the one date on the page a reader can see, so the visible claim and the schema claim cannot disagree</td></tr>
+        <tr><td class="k">author, publisher</td><td>Not drawn in &sect;5 &mdash; byline ownership is <span class="m">managing-editor</span>'s, not specified here. Listed in &sect;12.</td></tr>
+        <tr><td class="k">image</td><td>The cover per &sect;6, or omitted entirely on the missing-cover state (&sect;7.2) &mdash; never a placeholder asset in the schema either</td></tr>
+        <tr><td class="k">articleBody / mainEntityOfPage</td><td>The text column, excluding the Rekod panel and the &ldquo;Dalam artikel ini&rdquo; rail</td></tr>
+        <tr><td>Article</td><td class="k">BreadcrumbList</td><td>Full path</td><td class="m">.s-crumb</td></tr>
+        <tr><td>Article (rate pages only)</td><td class="k">Table</td><td>Rows</td><td>The mas-kahwin-class rate table, marked up as data, not as a generic content table &mdash; this is the page type the intent ground in &sect;1 exists to serve</td></tr>
+        <tr><td>Catalogue</td><td class="k">CollectionPage / ItemList</td><td>itemListElement</td><td>Each row/card in reading order, index numbers in &sect;5.2's desktop drawing match <span class="m">position</span> directly</td></tr>
+        <tr><td>Not-found (E2)</td><td>&mdash;</td><td><span class="m">noindex</span>, HTTP 404</td><td>&sect;7.4 &mdash; server-rendered means the status code and the content ship together, unlike production today</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">FAQPage schema is deliberately absent from this table. Several live articles
+  carry a <em>Soalan lazim</em> section (visible in &sect;5.1's contents list) but whether its
+  answers qualify for FAQPage markup is an editorial and structured-data policy call, not a
+  layout one &mdash; owed to <span class="m">head-of-seo-content</span> and listed again in
+  &sect;12.</p>
+</section>

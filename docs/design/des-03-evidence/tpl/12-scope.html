@@ -1,0 +1,26 @@
+<!-- =====================================================================
+     12. WHAT IS NOT SPECIFIED HERE
+     ===================================================================== -->
+<section class="sec" id="s12">
+  <div class="sechead"><span class="secno">12</span><h2>What is not specified here</h2></div>
+  <p class="lede">Named so a gap reads as a decision not yet made, owned by somebody, rather
+  than as something this artifact quietly assumed. The rulebox in the masthead promised this
+  list; this is it.</p>
+
+  <div class="tw">
+    <table class="d">
+      <thead><tr><th>Not specified</th><th>Why not</th><th>Owner</th></tr></thead>
+      <tbody>
+        <tr><td>Search panel and results page</td><td>DES-06 &sect;4&ndash;5 already specify it in full. Repeating it here would let the two drift.</td><td>design-systems-engineer, from DES-06</td></tr>
+        <tr><td>Pagination, filter and sort mechanisms</td><td>DES-06 &sect;3.4&ndash;3.6, co-owned with content strategy. This document draws the states their logic produces (K5, &sect;7.4's chip row) without reopening how filtering works.</td><td>head-of-seo-content, from DES-06</td></tr>
+        <tr><td>Byline and author identity on an article</td><td>Editorial policy &mdash; whether articles carry a named author, a house byline, or none &mdash; is not a layout decision.</td><td>managing-editor</td></tr>
+        <tr><td>FAQPage structured data</td><td>&sect;9.2 &mdash; whether the <em>Soalan lazim</em> section qualifies is a structured-data policy call, not a heading-level one.</td><td>head-of-seo-content</td></tr>
+        <tr><td>Whether an empty section renders its heading at all, or hides until it has an article</td><td>Carried unresolved from DES-07 &sect;11.3 &mdash; still an editorial call, not a visual one.</td><td>managing-editor</td></tr>
+        <tr><td>A real-device check of the Android system serif</td><td>DES-07 flagged the truncation rate moves from 66% to 36% depending on which serif a device supplies. This document specifies Bodoni Moda as a webfont (&sect;2) precisely to remove that variance, but has not measured a physical device.</td><td>ceo-hellokahwin, from DES-07 &sect;11.3</td></tr>
+        <tr><td>Category counts available at render time</td><td>A hard build dependency named by DES-07 and unchanged here: without it, K1, K2, K5, K7, K9 and &sect;7.4's E2 chip counts cannot be printed.</td><td>Whoever builds this</td></tr>
+        <tr><td>The build itself</td><td>This is a specification artifact. No production code accompanies it.</td><td>design-systems-engineer</td></tr>
+        <tr><td>A toggle exposing dark mode to a reader</td><td>Deliberately out of scope by standing CEO ruling, 28 Ogos 2026 upholding 2026-07-14. Both palettes are specified (&sect;3) so the system is ready if that ruling changes; no <span class="m">ThemeProvider</span> is specified.</td><td>ceo-hellokahwin</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>

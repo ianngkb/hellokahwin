@@ -1,0 +1,40 @@
+<!-- =====================================================================
+     10. FOCUS, TARGETS, ANNOUNCEMENTS
+     ===================================================================== -->
+<section class="sec" id="s10">
+  <div class="sechead"><span class="secno">10</span><h2>Focus, targets and announcements</h2></div>
+
+  <h3>10.1 &nbsp;Focus ring</h3>
+  <p class="note">DES-07 &sect;10.4 flagged the shipped ring &mdash; <span class="m">focus:ring-ring/30</span>
+  &mdash; at 1.96:1 against the background, under the 3:1 floor WCAG&nbsp;2.2 SC&nbsp;1.4.11
+  sets for a non-text UI boundary. This specification sets the ring at
+  <span class="m">var(--focus)</span>, which resolves to <span class="m">--fg</span> at full
+  opacity: <strong>15.39:1 in light, 15.65:1 in dark</strong> &mdash; both measured in
+  <span class="m">des-03-evidence/contrast-2026-08-28.txt</span>. DES-07 named this fix as
+  owed to DES-05; it is specified here so DES-05 receives a number rather than a complaint.</p>
+  <pre>.s-focus{outline:2px solid var(--focus);outline-offset:2px;}</pre>
+
+  <h3>10.2 &nbsp;Target size</h3>
+  <p class="note">Every interactive element in this document is &ge;44&nbsp;px in its smaller
+  dimension, matching DES-07's own floor and directly fixing the 40&nbsp;px pill button DES-07
+  found on the shipped error boundary (&sect;7.4, E3/E4).</p>
+  <div class="tw">
+    <table class="d">
+      <thead><tr><th>Control</th><th class="n">Height</th><th>Where</th></tr></thead>
+      <tbody>
+        <tr><td class="m">.s-btn</td><td class="n">44&nbsp;px</td><td><em>Muat lagi</em>, <em>Cuba semula</em>, <em>Laman utama</em>, search entry</td></tr>
+        <tr><td class="m">.s-chip</td><td class="n">44&nbsp;px</td><td>Category chips, &sect;7.4</td></tr>
+        <tr><td class="m">.s-row</td><td class="n">80&nbsp;px (phone), 132&nbsp;px (desktop)</td><td>The entire row is the tap target, not just the title text</td></tr>
+        <tr><td>Breadcrumb link</td><td class="n">20&nbsp;px text in a 44&nbsp;px hit slop</td><td>Text stays 14&nbsp;px per &sect;2; the hit area is padded to 44 rather than growing the type</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>10.3 &nbsp;Live regions</h3>
+  <p class="note">Exactly one <span class="m">aria-live="polite"</span> region per page,
+  reused by three states so a screen-reader user is not registered to three separate
+  announcers: the &sect;7.3 loading bar at &ge;3&nbsp;s, <em>Muat lagi</em>'s result count
+  after a catalogue append, and a section-error retry's outcome. A visual-only state change
+  &mdash; the chip's <span class="m">aria-pressed</span> fill in &sect;8 &mdash; needs no live
+  region because the control itself already exposes the state.</p>
+</section>

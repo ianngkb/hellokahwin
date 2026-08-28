@@ -1,0 +1,40 @@
+<!-- =====================================================================
+     8. COMPONENTS
+     ===================================================================== -->
+<section class="sec" id="s8">
+  <div class="sechead"><span class="secno">08</span><h2>Components</h2></div>
+  <p class="lede">Every component below is used at least twice in &sect;5 and &sect;7. None is
+  introduced here for the first time &mdash; this section names what was already drawn, states
+  its variants, and gives the Design Systems Engineer one row per build unit rather than
+  requiring it be reverse-engineered from the screens.</p>
+
+  <div class="tw">
+    <table class="d">
+      <thead><tr><th>Component</th><th>Class</th><th>Variants</th><th>Drawn in</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Masthead</strong></td><td class="k">.s-mast</td><td>Phone (wordmark + Cari), desktop (+ 3 category links)</td><td>Every frame</td></tr>
+        <tr><td><strong>Rekod panel</strong></td><td class="k">.s-rekod</td><td>Full-width block (phone), 300&nbsp;px rail (desktop). 2&ndash;5 field rows.</td><td>&sect;5.1, &sect;7.2</td></tr>
+        <tr><td><strong>List row</strong></td><td class="k">.s-row</td><td>80&nbsp;px square thumb (phone), 176&times;132 + index number (desktop)</td><td>&sect;5.1&ndash;5.3</td></tr>
+        <tr><td><strong>Card</strong></td><td class="k">.s-card</td><td>328&nbsp;px full-width figure + heading + deck + credit</td><td>&sect;5.2</td></tr>
+        <tr><td><strong>Data table</strong></td><td class="k">.s-tab</td><td>Zebra striped at <span class="m">--tint</span> (ink/parchment 5%), tabular figures</td><td>&sect;5.1</td></tr>
+        <tr><td><strong>Chip</strong></td><td class="k">.s-chip</td><td>Default, <span class="m">aria-pressed</span> (inverted fill)</td><td>&sect;7.4</td></tr>
+        <tr><td><strong>Button</strong></td><td class="k">.s-btn</td><td>Outline, <span class="m">.solid</span></td><td>&sect;5.2, &sect;7.2&ndash;7.4</td></tr>
+        <tr><td><strong>Empty block</strong></td><td class="k">.s-empty</td><td>One shared block for K3, K4, K5, E1, E2</td><td>&sect;7.2, &sect;7.4</td></tr>
+        <tr><td><strong>Error block</strong></td><td class="k">.s-err</td><td>One shared block for K6, A4, E3, E4, E5</td><td>&sect;7.4</td></tr>
+        <tr><td><strong>Breadcrumb</strong></td><td class="k">.s-crumb</td><td>Truncates at the container edge, never wraps to a second line</td><td>&sect;5.1&ndash;5.2</td></tr>
+        <tr><td><strong>Footer / read-next</strong></td><td class="k">.s-foot</td><td>3 related links, category-scoped</td><td>&sect;5.1</td></tr>
+        <tr><td><strong>No-image list row</strong></td><td class="k">.s-imgless</td><td>Bordered block replacing the thumbnail when a row's own item has no cover, at boundary alpha</td><td>Specified, not separately drawn &mdash; identical rule to &sect;7.2's article state, applied at row scale</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="rulebox">
+    <p class="eyebrow">The empty/error distinction, and why it is two components, not one</p>
+    <p class="note">DES-07 rule 3.5: the empty and error blocks must be visually
+    distinguishable at a glance. <span class="m">.s-empty</span> carries no colour signal
+    &mdash; nothing is wrong, there is simply nothing here yet. <span class="m">.s-err</span>
+    opens with a 3&nbsp;px <span class="m">--alert</span> rule and sets its heading in
+    <span class="m">--alert</span>. A reader scanning past either should be able to tell which
+    one it is before reading the words.</p>
+  </div>
+</section>

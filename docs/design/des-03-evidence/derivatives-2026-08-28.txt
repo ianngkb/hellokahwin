@@ -1,0 +1,36 @@
+DES-03 image derivatives - measured on 11 real HelloKahwin photographs
+Source: C:\Users\Ian Ng\Documents\Code\hellokahwin\hellokahwin\docs\work-done\aug-28-2026-session-01\aug-28-2026-des-02-EVIDENCE\images
+========================================================================================================
+
+crop-4x5-mobile-cover-sm   box 720x900    q74   ceiling 122,880 B   WITHIN BUDGET
+   min      23,558 B  wali.webp        (675, 900)
+   median   44,166 B  c-bersusun.webp  (720, 540)
+   max      67,624 B  c-naikrumah.webp (720, 540)
+
+crop-3x2-column-md         box 760x507    q74   ceiling 112,640 B   WITHIN BUDGET
+   min      12,614 B  wali.webp        (380, 507)
+   median   41,374 B  c-merah.webp     (676, 507)
+   max      62,808 B  c-naikrumah.webp (676, 507)
+
+crop-4x3-card-sm           box 480x360    q72   ceiling  46,080 B   WITHIN BUDGET
+   min       8,324 B  wali.webp        (270, 360)
+   median   25,500 B  c-bersusun.webp  (480, 360)
+   max      37,708 B  c-naikrumah.webp (480, 360)
+
+crop-1x1-row-sm            box 160x160    q72   ceiling  12,288 B   WITHIN BUDGET
+   min       3,054 B  wali.webp        (120, 160)
+   median    4,748 B  c-tujuh.webp     (160, 120)
+   max       6,340 B  c-naikrumah.webp (160, 120)
+
+========================================================================================================
+Against what production serves today, from DES-09 section 3.5:
+   crop-4x5-mobile-cover  1920x2400  median 1,405,400 B   <- DES-09 G19 vetoed this
+   crop-4x3-article-card  1600x1200  median   823,997 B   <- every card on the homepage
+
+G19 ceiling 204,800 B - G20 sum of preloads 307,200 B - G21 any single asset 409,600 B.
+Exactly ONE image is preloaded per page under this specification: the article cover.
+Everything else is loading=lazy with srcset+sizes, which is also G22.
+
+NOTE the sources are already downsampled copies (800x600 and 900x1200), so these
+figures are the derivative sizes for THESE files. A re-encode from the 1920x2400
+original will differ; the ceilings are what the DSE must hit, not these numbers.

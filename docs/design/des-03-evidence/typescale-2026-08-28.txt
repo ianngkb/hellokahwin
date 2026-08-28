@@ -1,0 +1,51 @@
+DES-03 fluid type scale - anchors from DES-01 (e), interpolated 360px -> 1024px
+====================================================================================================================
+
+CSS, as the Design Systems Engineer should paste it
+--------------------------------------------------------------------------------------------------------------------
+  --t-wordmark:        clamp(1.1250rem, 0.9217rem + 0.9036vw, 1.5000rem);
+  --t-h1:              clamp(1.8750rem, 1.4006rem + 2.1084vw, 2.7500rem);
+  --t-h2:              clamp(1.3750rem, 1.2395rem + 0.6024vw, 1.6250rem);
+  --t-h3:              clamp(1.1875rem, 1.1197rem + 0.3012vw, 1.3125rem);
+  --t-deck:            clamp(1.1250rem, 1.0572rem + 0.3012vw, 1.2500rem);
+  --t-body:            clamp(1.0625rem, 1.0286rem + 0.1506vw, 1.1250rem);
+  --t-table:           1.0000rem;                                                      /* fixed 16px */
+  --t-caption:         0.8750rem;                                                      /* fixed 14px */
+  --t-label:           0.8125rem;                                                      /* fixed 13px */
+
+Evaluated back at every breakpoint - px, rounded to 2dp
+--------------------------------------------------------------------------------------------------------------------
+  role                       360      390      768     1024     1200     1440   lh                measure
+  wordmark                 18.00    18.27    21.69    24.00    24.00    24.00   1.00              -
+  h1 / display             30.00    30.63    38.60    44.00    44.00    44.00   1.08              22-30ch
+  h2                       22.00    22.18    24.46    26.00    26.00    26.00   1.25              34ch
+  h3                       19.00    19.09    20.23    21.00    21.00    21.00   1.30              40ch
+  deck                     18.00    18.09    19.23    20.00    20.00    20.00   1.50              60ch
+  body                     17.00    17.05    17.61    18.00    18.00    18.00   1.65 -> 1.70      68ch
+  table / figure           16.00    16.00    16.00    16.00    16.00    16.00   1.45              -
+  caption / credit         14.00    14.00    14.00    14.00    14.00    14.00   1.45              60ch
+  label / eyebrow          13.00    13.00    13.00    13.00    13.00    13.00   1.20              -
+
+Why fluid, in one number
+--------------------------------------------------------------------------------------------------------------------
+  The live article ships TWO <h1> elements with identical text - text-[1.75rem]
+  and text-[2.5rem] - one hidden per breakpoint. Verified in the delivered HTML
+  of /artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri on 28 Ogos 2026: h1 count = 2.
+  A single clamp() covers 28.00px -> 40.00px across the same range with one node.
+
+Measure, in px, at the container widths this spec defines
+--------------------------------------------------------------------------------------------------------------------
+  360px phone,  16px gutters                                 body 17.00px  column  328px  = ~ 38.6ch  -> renders at 39ch
+  390px phone,  20px gutters                                 body 17.05px  column  350px  = ~ 41.1ch  -> renders at 41ch
+  768px tablet, 32px gutters                                 body 17.61px  column  704px  = ~ 79.9ch  -> renders at 68ch
+  1024px desk,  40px gutters + 300px record rail + 48px gap  body 18.00px  column  596px  = ~ 66.2ch  -> renders at 66ch
+  1200px desk,  40px gutters + 300px record rail + 64px gap  body 18.00px  column  756px  = ~ 84.0ch  -> renders at 68ch
+  1440px desk,  container caps at 1200                       body 18.00px  column  756px  = ~ 84.0ch  -> renders at 68ch
+
+  0.5em average advance is an ESTIMATE - the body face is the system stack, so the
+  advance is whatever the reader's OS supplies. The container widths are exact.
+  The 68ch cap is what makes the estimate safe: above 1024px the cap binds, not the column.
+
+  328px at 360px viewport is not a taste number: DES-07 measured all 86 live titles
+  in that box and 86 of 86 fit in three lines with nothing clamped. At the shipped
+  156px two-column box, 57 of 86 are cut.

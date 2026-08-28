@@ -1,0 +1,90 @@
+<!-- =====================================================================
+     4. SPACE, GRID, BREAKPOINTS
+     ===================================================================== -->
+<section class="sec" id="s4">
+  <div class="sechead"><span class="secno">04</span><h2>Space, grid and breakpoints</h2></div>
+
+  <p class="lede">Whitespace in Warkah has one stated job &mdash; <strong>it separates the
+  fields of a record so they can be scanned.</strong> It is not there to signal expense.
+  Every value below is on a 4&nbsp;px base, and every one names what it separates. A scale
+  step with no job attached is not on the scale.</p>
+
+  <h3>4.1 &nbsp;The spacing scale</h3>
+  <div class="tw">
+    <table class="d">
+      <thead><tr><th>Token</th><th class="n">px</th><th class="n">rem</th><th>What it separates</th></tr></thead>
+      <tbody>
+        <tr><td class="k">--sp-1</td><td class="n">4</td><td class="n">0.25</td><td>A credit from the caption above it. Nothing larger.</td></tr>
+        <tr><td class="k">--sp-2</td><td class="n">8</td><td class="n">0.5</td><td>Chip to chip. Index number to its row.</td></tr>
+        <tr><td class="k">--sp-3</td><td class="n">12</td><td class="n">0.75</td><td>Field rows inside the Rekod panel. Table cell padding.</td></tr>
+        <tr><td class="k">--sp-4</td><td class="n">16</td><td class="n">1.0</td><td><strong>Page gutter below 390&nbsp;px.</strong> Deck to Rekod rule.</td></tr>
+        <tr><td class="k">--sp-5</td><td class="n">20</td><td class="n">1.25</td><td><strong>Page gutter 390&ndash;767&nbsp;px.</strong> List row padding.</td></tr>
+        <tr><td class="k">--sp-6</td><td class="n">24</td><td class="n">1.5</td><td>Paragraph to paragraph. Eyebrow to headline.</td></tr>
+        <tr><td class="k">--sp-7</td><td class="n">32</td><td class="n">2.0</td><td><strong>Page gutter 768&ndash;1023&nbsp;px.</strong> Headline block to figure.</td></tr>
+        <tr><td class="k">--sp-8</td><td class="n">40</td><td class="n">2.5</td><td><strong>Page gutter &ge;1024&nbsp;px.</strong> Section to section on a phone.</td></tr>
+        <tr><td class="k">--sp-9</td><td class="n">56</td><td class="n">3.5</td><td>Section to section on desktop. Masthead to first content.</td></tr>
+        <tr><td class="k">--sp-10</td><td class="n">72</td><td class="n">4.5</td><td>Last content block to the footer rule. Nothing else.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="rulebox">
+    <p class="eyebrow">The two rhythm rules that stop this drifting</p>
+    <p class="note"><strong>One.</strong> Vertical space between sibling blocks is set by
+    the parent's <span class="m">gap</span>, never by a margin on the child. A child that
+    carries its own margin collapses differently depending on what precedes it, which is
+    how a rhythm becomes a set of exceptions.<br>
+    <strong>Two.</strong> Section separation is a single step: <span class="m">--sp-8</span>
+    below 1024&nbsp;px, <span class="m">--sp-9</span> at and above. There is no third value,
+    and a block that wants one is asking to be a section.</p>
+  </div>
+
+  <h3>4.2 &nbsp;Breakpoints, and what changes at each</h3>
+  <div class="tw">
+    <table class="d">
+      <thead><tr><th class="n">px</th><th>Token</th><th>What changes</th><th>Why that number</th></tr></thead>
+      <tbody>
+        <tr><td class="n"><strong>360</strong></td><td class="k">floor</td><td>Nothing &mdash; this is the narrowest supported viewport, not a breakpoint. Gutters 16, column 328.</td><td>DES-07 measured every state here because it is where the failures are.</td></tr>
+        <tr><td class="n"><strong>390</strong></td><td class="k">--bp-sm</td><td>Gutters go 16 &rarr; 20.</td><td>The design phone. Below it the extra 8&nbsp;px of gutter costs more than it gives.</td></tr>
+        <tr><td class="n"><strong>768</strong></td><td class="k">--bp-md</td><td>Gutters 32. Catalogue rows gain the desktop three-column layout. Rekod panel splits into two field columns.</td><td>Where the 68ch measure starts binding instead of the screen.</td></tr>
+        <tr><td class="n"><strong>1024</strong></td><td class="k">--bp-lg</td><td><strong>The record rail appears</strong> &mdash; 300&nbsp;px, gap 48. Nav shows three categories plus Cari. Type scale reaches its ceiling.</td><td>Desktop is 28.9% of impressions. This is the first width where a 300&nbsp;px rail leaves a usable column.</td></tr>
+        <tr><td class="n"><strong>1200</strong></td><td class="k">--bp-xl</td><td>Container caps at 1200. Rail gap 48 &rarr; 64.</td><td>Beyond it the page grows margins, not columns.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>4.3 &nbsp;Containers and columns, in exact px</h3>
+  <div class="tw">
+    <table class="d">
+      <thead><tr><th class="n">Viewport</th><th class="n">Container</th><th class="n">Gutter</th><th class="n">Content</th><th class="n">Rail</th><th class="n">Gap</th><th class="n">Text column</th></tr></thead>
+      <tbody>
+        <tr><td class="n">360</td><td class="n">360</td><td class="n">16</td><td class="n"><strong>328</strong></td><td class="n">&mdash;</td><td class="n">&mdash;</td><td class="n">328</td></tr>
+        <tr><td class="n">390</td><td class="n">390</td><td class="n">20</td><td class="n">350</td><td class="n">&mdash;</td><td class="n">&mdash;</td><td class="n">350</td></tr>
+        <tr><td class="n">768</td><td class="n">768</td><td class="n">32</td><td class="n">704</td><td class="n">&mdash;</td><td class="n">&mdash;</td><td class="n">704 &rarr; capped 68ch</td></tr>
+        <tr><td class="n">1024</td><td class="n">1024</td><td class="n">40</td><td class="n">944</td><td class="n">300</td><td class="n">48</td><td class="n"><strong>596</strong></td></tr>
+        <tr><td class="n">1200+</td><td class="n">1200</td><td class="n">40</td><td class="n">1120</td><td class="n">300</td><td class="n">64</td><td class="n"><strong>756</strong> &rarr; capped 68ch</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid2">
+    <div class="rulebox ok">
+      <p class="eyebrow">328 px is a measurement, not a preference</p>
+      <p class="note">DES-07 ran all 86 live titles through the real card box at three
+      widths. At the shipped 156&nbsp;px two-column card, <strong>57 of 86 are cut</strong> and
+      the worst loses 46 of 95 characters. At 236&nbsp;px, 5 are cut. <strong>At 328&nbsp;px,
+      none are</strong> &mdash; every title on the site fits in three lines and 77 of 86 fit in
+      two. That single table decides the one-column layout, and it is why the gutter below
+      390&nbsp;px is 16 and not 20.</p>
+    </div>
+    <div class="rulebox flag">
+      <p class="eyebrow">The rail is not allowed to be empty</p>
+      <p class="note">DES-02 rendered direction A and found <strong>300&nbsp;px of dead
+      rail</strong> beside the photograph &mdash; a hole for a screen and a half. The fix is in
+      the spec, not left to judgement: <strong>the rail carries the Rekod panel, then the
+      section index, then the source list, in that order, and it never starts a block it
+      cannot fill.</strong> If a page has no sources and no headings, the rail ends after
+      the Rekod panel and the text column widens to the full 1120&nbsp;px. A rail that runs
+      out is worse than no rail.</p>
+    </div>
+  </div>
+</section>

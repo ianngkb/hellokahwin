@@ -1,0 +1,48 @@
+<!-- =====================================================================
+     11. THE DES-07 CROSS-CHECK, RUN THE OTHER WAY
+     ===================================================================== -->
+<section class="sec" id="s11">
+  <div class="sechead"><span class="secno">11</span><h2>The DES-07 cross-check, run the other way</h2></div>
+
+  <div class="rulebox">
+    <p class="eyebrow">What was owed, quoted</p>
+    <p class="note">DES-07 &sect;11.2: <em>&ldquo;DES-07's DoD requires a cross-check against
+    the three page types in DES-03&hellip; the check has been run one way &mdash; this document
+    against DES-03's stated page types and against production &mdash; and the other direction
+    is owed. When DES-03 lands, the check is: open its artifact and confirm every state in the
+    table below is present. Any that is missing is the gap the DoD names.&rdquo;</em> This
+    section is that check, run against <span class="m">docs/design/des-07-set-keadaan.html
+    &sect;11.2</span> on 28 Ogos 2026.</p>
+  </div>
+
+  <div class="tw">
+    <table class="d">
+      <thead><tr><th>DES-07's row</th><th class="n">Count</th><th>Present in this artifact?</th></tr></thead>
+      <tbody>
+        <tr><td>Homepage</td><td class="n">8</td><td class="pass">Yes &mdash; &sect;5.3, both palettes and breakpoints</td></tr>
+        <tr><td>Catalogue</td><td class="n">11</td><td class="pass">Yes &mdash; &sect;5.2 default + &sect;7.2 empty category, both palettes and breakpoints</td></tr>
+        <tr><td>Article</td><td class="n">9</td><td class="pass">Yes &mdash; &sect;5.1 default + &sect;7.2 missing/downgraded cover, both palettes and breakpoints</td></tr>
+        <tr><td>Shared chrome</td><td class="n">6</td><td class="pass">Yes &mdash; masthead, nav, breadcrumb, footer in every frame; loading layers in &sect;7.3</td></tr>
+        <tr><td>Not-found and error</td><td class="n">5</td><td class="pass">Yes &mdash; added as &sect;7.4, which did not exist as scope before this correction</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="note"><strong>No gap found.</strong> The one item DES-07 explicitly named as
+  missing from the prior scope &mdash; the not-found and error surface &mdash; is the one this
+  correction added. Nothing else in DES-07's table lacks a corresponding drawing above.</p>
+
+  <h3>11.1 &nbsp;What travels back to DES-07's own handover table</h3>
+  <div class="tw">
+    <table class="d">
+      <thead><tr><th>DES-07 &sect;11.3 item</th><th>Resolved here</th></tr></thead>
+      <tbody>
+        <tr><td>&ldquo;The empty and error blocks must be visually distinguishable at a glance&rdquo;</td><td class="pass">&sect;8 &mdash; two components, colour signal only on the error one</td></tr>
+        <tr><td>&ldquo;The focus ring&hellip; needs rebuilding&rdquo;</td><td class="pass">&sect;10.1 &mdash; full-opacity <span class="m">--fg</span>, 15.39:1 / 15.65:1</td></tr>
+        <tr><td>&ldquo;The error boundary needs rebuilding in the site's own vocabulary&rdquo;</td><td class="pass">&sect;7.4 &mdash; E3/E4 both use <span class="m">.s-err</span>, 44&nbsp;px buttons, no bespoke pill</td></tr>
+        <tr><td>328&nbsp;px column claim (DES-07 &sect;4.3's citation)</td><td class="pass">&sect;4.3 &mdash; sets the same 328&nbsp;px content width below 390&nbsp;px, on the same measurement</td></tr>
+        <tr><td>Category counts must exist at render time for K1, K2, K5, K7, K9, E2</td><td class="ok">Not this document's to resolve &mdash; carried to &sect;12 as a build dependency, unchanged from DES-07's framing</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>

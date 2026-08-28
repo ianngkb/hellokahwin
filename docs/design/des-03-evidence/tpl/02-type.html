@@ -1,0 +1,178 @@
+<!-- =====================================================================
+     2. TYPE
+     ===================================================================== -->
+<section class="sec" id="s2">
+  <div class="sechead"><span class="secno">02</span><h2>Type &mdash; the faces, their licences, their cost, the scale</h2></div>
+
+  <h3>2.1 &nbsp;The faces</h3>
+  <p class="note">A face name is a label, not a specification. On Bodoni Moda the
+  <span class="m">opsz</span> axis moves the hairline by 94% and the set width by 4.5%, so
+  two marks carrying the same family name can be different marks. Every face below is
+  named with its version and its axis coordinates, and priced in the two currencies that
+  matter &mdash; money and bytes.</p>
+
+  <div class="tw">
+    <table class="d">
+      <thead><tr><th>Role</th><th>Family, version, instance</th><th>Licence, and where it was read</th><th class="n">Money</th><th class="n">Bytes shipped</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Wordmark / masthead</strong></td>
+          <td class="k">Bodoni&nbsp;Moda&nbsp;2.005<br><span class="m">wght&nbsp;400, opsz&nbsp;6</span><br>tracking&nbsp;+0.092em, uppercase<br><em>ships as outlined SVG paths, not text</em></td>
+          <td>SIL Open Font License 1.1 &mdash; <span class="m">google/fonts@main, ofl/bodonimoda/OFL.txt</span>, read 28 Ogos 2026. The OFL states that it does not apply to a document created with the font, so an outlined SVG mark is clean.</td>
+          <td class="n">RM0</td>
+          <td class="n"><strong>0</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Article <span class="m">h1</span>, category <span class="m">h1</span>, 404 <span class="m">h1</span></strong></td>
+          <td class="k">Bodoni&nbsp;Moda&nbsp;2.005<br><span class="m">wght&nbsp;400, opsz&nbsp;11 PINNED</span><br>tracking&nbsp;&minus;0.022em<br>219-glyph subset, self-hosted,<br><span class="m">font-display:swap</span>, preloaded</td>
+          <td>Same OFL 1.1. Self-hosting, subsetting and redistribution are granted; it may not be sold on its own, and the notice travels with any redistributed copy.</td>
+          <td class="n">RM0</td>
+          <td class="n"><strong>21,388</strong> woff2</td>
+        </tr>
+        <tr>
+          <td><strong>Everything else</strong> &mdash; deck, body, tables, labels, nav, captions, numerals</td>
+          <td class="k">The system stack, unchanged:<br><span class="m">-apple-system, BlinkMacSystemFont,<br>"Segoe UI", Roboto, "Helvetica Neue",<br>Arial, sans-serif</span></td>
+          <td>Not licensed by us. Supplied by the reader's operating system.</td>
+          <td class="n">RM0</td>
+          <td class="n"><strong>0</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Monospace</strong></td>
+          <td class="k">None. Dropped &mdash; we have no code, and <span class="m">font-variant-numeric:tabular-nums</span> aligns the figures without a file.</td>
+          <td>&mdash;</td>
+          <td class="n">RM0</td>
+          <td class="n"><strong>0</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid2">
+    <div class="rulebox">
+      <p class="eyebrow">Latin coverage, checked once and closed</p>
+      <p class="note">Bodoni Moda 2.005 carries Basic Latin 95/95, Latin-1 Supplement
+      letters 64/64 and <strong>Latin Extended-A 128/128</strong>. Rumi Malay is plain
+      Latin: measured across every <span class="m">h1</span>, <span class="m">h2</span>,
+      <span class="m">h3</span> and <span class="m">title</span> on production &mdash; all 86
+      article titles and all 15 category names &mdash; the site's display type sets
+      <strong>69 codepoints, of which exactly two are non-ASCII, and both are dashes.</strong>
+      Not one accented letter. Diacritic coverage cannot discriminate between two shipping
+      Latin faces here, so it is not a selection criterion. Licence and cost are.</p>
+    </div>
+    <div class="rulebox flag">
+      <p class="eyebrow">The face is free; loading it is not</p>
+      <p class="note">DES-09 G23 caps HTML+CSS+JS at 266,240&nbsp;B a page. The article page
+      already spends 251,692&nbsp;B, leaving <strong>14,548&nbsp;B of headroom against a
+      21,388&nbsp;B face.</strong> It does not fit until something gives the bytes back:
+      DES-04's 6,317&nbsp;B of admin-only CSS, or part of the 202,523&nbsp;B of JavaScript on
+      a page that is, on the reading path, static text and pictures. <strong>DES-05 lands
+      one of those before the face is loaded.</strong> That is arithmetic, not an objection.</p>
+    </div>
+  </div>
+
+  <p class="note"><strong>Where the drawings differ from the build, said out loud so
+  nobody trips on it.</strong> Every screen below sets the wordmark in the live variable
+  face at <span class="m">opsz&nbsp;6</span> so the letterforms are right on screen. In the
+  build the wordmark is the outlined SVG mark and costs zero font bytes, and the
+  21,388-byte subset is pinned at <span class="m">opsz&nbsp;11</span> and serves the
+  <span class="m">h1</span> and nothing else. One file, one instance, one job.</p>
+
+  <h3>2.2 &nbsp;The scale is fluid, and here is why it has to be</h3>
+  <p>The live article ships <strong>two <span class="m">h1</span> elements carrying identical
+  text</strong> &mdash; <span class="m">text-[1.75rem]</span> and <span class="m">text-[2.5rem]</span>,
+  one hidden per breakpoint, both in the DOM. Re-verified in the delivered HTML of
+  <span class="m">/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri</span> on 28 Ogos 2026:
+  <span class="m">h1</span> count = 2, <span class="m">h2</span> count = 1,
+  <span class="m">h3</span> count = 13. Duplicating the node is how this codebase solves
+  responsive type today. Every size below is one <span class="m">clamp()</span>, which
+  retires the second <span class="m">h1</span> as a side effect and satisfies DES-09 G01.</p>
+
+  <div class="tw">
+    <table class="d">
+      <thead><tr><th>Role</th><th class="n">360</th><th class="n">390</th><th class="n">768</th><th class="n">1024</th><th class="n">1200+</th><th class="n">line-height</th><th>measure</th><th class="n">tracking</th></tr></thead>
+      <tbody>
+        <tr><td>Wordmark</td><td class="n">18.00</td><td class="n">18.27</td><td class="n">21.69</td><td class="n">24.00</td><td class="n">24.00</td><td class="n">1.00</td><td>&mdash;</td><td class="n">+0.092em</td></tr>
+        <tr><td><strong><span class="m">h1</span> &middot; display</strong></td><td class="n"><strong>30.00</strong></td><td class="n">30.63</td><td class="n">38.60</td><td class="n"><strong>44.00</strong></td><td class="n">44.00</td><td class="n">1.08</td><td>22&ndash;30ch</td><td class="n">&minus;0.022em</td></tr>
+        <tr><td><span class="m">h2</span></td><td class="n">22.00</td><td class="n">22.18</td><td class="n">24.46</td><td class="n">26.00</td><td class="n">26.00</td><td class="n">1.25</td><td>34ch</td><td class="n">&minus;0.01em</td></tr>
+        <tr><td><span class="m">h3</span></td><td class="n">19.00</td><td class="n">19.09</td><td class="n">20.23</td><td class="n">21.00</td><td class="n">21.00</td><td class="n">1.30</td><td>40ch</td><td class="n">0</td></tr>
+        <tr><td>Deck</td><td class="n">18.00</td><td class="n">18.09</td><td class="n">19.23</td><td class="n">20.00</td><td class="n">20.00</td><td class="n">1.50</td><td>60ch</td><td class="n">0</td></tr>
+        <tr><td><strong>Body</strong></td><td class="n"><strong>17.00</strong></td><td class="n">17.05</td><td class="n">17.61</td><td class="n"><strong>18.00</strong></td><td class="n">18.00</td><td class="n">1.65 &rarr; 1.70</td><td><strong>cap 68ch</strong></td><td class="n">0</td></tr>
+        <tr><td>Table, figure</td><td class="n">16.00</td><td class="n">16.00</td><td class="n">16.00</td><td class="n">16.00</td><td class="n">16.00</td><td class="n">1.45</td><td>full column</td><td class="n">0</td></tr>
+        <tr><td>Caption, credit</td><td class="n">14.00</td><td class="n">14.00</td><td class="n">14.00</td><td class="n">14.00</td><td class="n">14.00</td><td class="n">1.45</td><td>60ch</td><td class="n">0</td></tr>
+        <tr><td>Label, eyebrow</td><td class="n">13.00</td><td class="n">13.00</td><td class="n">13.00</td><td class="n">13.00</td><td class="n">13.00</td><td class="n">1.20</td><td>&mdash;</td><td class="n">+0.08em</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">CSS px, interpolated linearly between 360 and 1024&nbsp;px of viewport and
+  clamped at both ends. Emitted and then re-evaluated by
+  <span class="m">des-03-evidence/typescale.py</span>, so this table and the CSS below cannot
+  drift apart. <strong>Body line-height is a step, not a ramp:</strong> 1.65 below
+  1024&nbsp;px, 1.70 at and above.</p>
+
+  <pre>/* generated by typescale.py, 28 Ogos 2026 - paste as-is */
+--t-wordmark: clamp(1.1250rem, 0.9217rem + 0.9036vw, 1.5000rem);  /* 18 -&gt; 24 */
+--t-h1:       clamp(1.8750rem, 1.4006rem + 2.1084vw, 2.7500rem);  /* 30 -&gt; 44 */
+--t-h2:       clamp(1.3750rem, 1.2395rem + 0.6024vw, 1.6250rem);  /* 22 -&gt; 26 */
+--t-h3:       clamp(1.1875rem, 1.1197rem + 0.3012vw, 1.3125rem);  /* 19 -&gt; 21 */
+--t-deck:     clamp(1.1250rem, 1.0572rem + 0.3012vw, 1.2500rem);  /* 18 -&gt; 20 */
+--t-body:     clamp(1.0625rem, 1.0286rem + 0.1506vw, 1.1250rem);  /* 17 -&gt; 18 */
+--t-table:    1.0000rem;   /* 16 - fixed */
+--t-caption:  0.8750rem;   /* 14 - fixed */
+--t-label:    0.8125rem;   /* 13 - fixed */</pre>
+
+  <h3>2.3 &nbsp;Measure, in px, at every container this document defines</h3>
+  <div class="tw">
+    <table class="d">
+      <thead><tr><th>Viewport and container</th><th class="n">body px</th><th class="n">column px</th><th class="n">est. ch</th><th>what binds</th></tr></thead>
+      <tbody>
+        <tr><td>360, gutters 16</td><td class="n">17.00</td><td class="n">328</td><td class="n">~38.6</td><td>the screen</td></tr>
+        <tr><td>390, gutters 20</td><td class="n">17.05</td><td class="n">350</td><td class="n">~41.1</td><td>the screen</td></tr>
+        <tr><td>768, gutters 32</td><td class="n">17.61</td><td class="n">704</td><td class="n">~79.9</td><td><strong>the 68ch cap</strong></td></tr>
+        <tr><td>1024, gutters 40 + 300 rail + 48 gap</td><td class="n">18.00</td><td class="n">596</td><td class="n">~66.2</td><td>the column</td></tr>
+        <tr><td>1200 and up, gutters 40 + 300 rail + 64 gap</td><td class="n">18.00</td><td class="n">756</td><td class="n">~84.0</td><td><strong>the 68ch cap</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">The 0.5em average advance behind the <em>ch</em> column is an estimate,
+  because the body face is whatever the reader's operating system supplies. The container
+  widths are exact and the 68ch cap is what makes the estimate safe &mdash; above
+  1024&nbsp;px the cap binds, not the column.</p>
+
+  <div class="grid2">
+    <div class="rulebox">
+      <p class="eyebrow">Against what ships today</p>
+      <p class="note">The live article sets <span class="m">font-size:.875rem; line-height:1.5</span>
+      inside <span class="m">max-w-7xl px-2 lg:px-4</span> &mdash; <strong>14&nbsp;px in up to
+      1,248&nbsp;px</strong>, roughly 160 to 175 characters a line.
+      <span class="m">.hk-measure</span> (<span class="m">max-width:40rem</span>) is defined in
+      the served stylesheet and used <strong>zero times</strong> in the delivered HTML. Both
+      re-verified against the served artefacts on 28 Ogos 2026.</p>
+    </div>
+    <div class="rulebox flag">
+      <p class="eyebrow">The number I am not going to round up</p>
+      <p class="note"><strong>At 360&nbsp;px the measure is about 39ch, under the 45ch
+      comfort floor.</strong> Every remedy is worse. Smaller type raises the character count
+      by making the type harder to read; narrower gutters cost the 328&nbsp;px column that
+      takes title truncation from 66% to zero. On a 360&nbsp;px screen the measure is set by
+      the screen, and that is stated rather than dressed up.</p>
+    </div>
+  </div>
+
+  <h3>2.4 &nbsp;What the display face may set, and what it may not</h3>
+  <div class="grid2">
+    <div class="rulebox ok">
+      <p class="eyebrow">May</p>
+      <p class="note">The wordmark. The article <span class="m">h1</span>. The category
+      <span class="m">h1</span>. The 404's <span class="m">h1</span>. That is the complete
+      list: four elements across four surfaces.</p>
+    </div>
+    <div class="rulebox flag">
+      <p class="eyebrow">May not</p>
+      <p class="note"><span class="m">h2</span>, <span class="m">h3</span>, decks, pull
+      quotes, table headers, numerals, buttons, nav, captions, credits, or anything set
+      below 24&nbsp;px. A Didone at small sizes is a hairline problem wearing a style. There
+      is no italic file, no bold file and no second family &mdash; asking for one is a
+      change request, not an implementation detail.</p>
+    </div>
+  </div>
+</section>

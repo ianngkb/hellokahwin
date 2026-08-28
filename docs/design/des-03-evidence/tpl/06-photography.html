@@ -1,0 +1,85 @@
+<!-- =====================================================================
+     6. PHOTOGRAPHY
+     ===================================================================== -->
+<section class="sec" id="s6">
+  <div class="sechead"><span class="secno">06</span><h2>Photography &mdash; three frame classes and their byte ceilings</h2></div>
+
+  <p class="lede">DES-02 counted the library rather than describing it: of eleven photographs
+  pulled off our own CDN, <strong>four hold at any size and seven come apart above roughly
+  300&nbsp;px of enlargement.</strong> That is not a spectrum to eyeball per photo at build
+  time &mdash; it is a class, assigned once, that gates which derivative a cover is allowed to
+  reach. Below is the assignment for all eleven, the ceiling each class is permitted, and
+  what happens at the two edges: a class-G cover, and no cover at all.</p>
+
+  <h3>6.1 &nbsp;The three classes</h3>
+  <div class="tw">
+    <table class="d">
+      <thead><tr><th>Class</th><th>What it is</th><th class="n">Count</th><th>Ceiling derivative</th><th>Never used as</th></tr></thead>
+      <tbody>
+        <tr><td><strong>O &mdash; object</strong></td><td>Close-up, static: an item on a dulang, no depth of field problem. Tepak sirih, Quran, two stacked-dulang frames.</td><td class="n">4</td><td><span class="m">crop-4x5-mobile-cover-sm</span>, 720&times;900</td><td>&mdash; eligible everywhere, including the tall portrait article cover.</td></tr>
+        <tr><td><strong>P &mdash; moment</strong></td><td>A documentary frame with one clear focal interaction &mdash; two people, a table's width of distance. Reads at a landscape crop; loses faces at a tall enlargement.</td><td class="n">3</td><td><span class="m">crop-3x2-column-md</span>, 760&times;507</td><td>The 4:5 portrait cover crop. Landscape only, capped at 507&nbsp;px tall.</td></tr>
+        <tr><td><strong>G &mdash; group</strong></td><td>A wide documentary frame, several 2009-era Flickr sources: a procession, a crowd at a distance. This is what DES-02 means by &ldquo;comes apart&rdquo;.</td><td class="n">4</td><td><span class="m">crop-4x3-card-sm</span>, 480&times;360</td><td>Any hero, any full-bleed cover, any column placement above 360&nbsp;px.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tw">
+    <table class="d">
+      <thead><tr><th>File</th><th>Subject</th><th>Class</th><th>Where it is used in &sect;5 / &sect;7</th></tr></thead>
+      <tbody>
+        <tr><td class="k">c-sirih</td><td>Tepak sirih on a dulang, red roses</td><td><strong>O</strong></td><td>Catalogue card and row, homepage hero (H1)</td></tr>
+        <tr><td class="k">c-quran</td><td>Al-Qur&rsquo;an and sejadah in a white cage</td><td><strong>O</strong></td><td>Catalogue and homepage rows</td></tr>
+        <tr><td class="k">c-bersusun</td><td>Stacked dulang, red cloth and lace</td><td><strong>O</strong></td><td>Catalogue row</td></tr>
+        <tr><td class="k">c-merah</td><td>Open dulang, red flowers and white lace</td><td><strong>O</strong></td><td>Catalogue row</td></tr>
+        <tr><td class="k">akad</td><td>Tok kadi and groom's hand at the moment of lafaz akad</td><td><strong>P</strong></td><td>Article cover, A1 &mdash; landscape crop only, capped 756&times;420, never the portrait 4:5</td></tr>
+        <tr><td class="k">c-organza</td><td>Two family representatives seated, hantaran between them</td><td><strong>P</strong></td><td>Homepage row</td></tr>
+        <tr><td class="k">c-kek</td><td>Bride with family, cake tray</td><td><strong>P</strong></td><td>Homepage row, catalogue card</td></tr>
+        <tr><td class="k">wali</td><td>Wali portrait, mid-distance</td><td><strong>G</strong></td><td>Not placed above card scale in &sect;5</td></tr>
+        <tr><td class="k">c-rombongan</td><td>Rombongan procession on a roadside</td><td><strong>G</strong></td><td>Catalogue row and card only</td></tr>
+        <tr><td class="k">c-naikrumah</td><td>Naik rumah ceremony, wide</td><td><strong>G</strong></td><td>Not drawn; reserve stock</td></tr>
+        <tr><td class="k">c-tujuh</td><td>Group standing in front of a house</td><td><strong>G</strong></td><td>Not drawn; reserve stock</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="rulebox flag">
+    <p class="eyebrow">The rule this table exists to enforce</p>
+    <p class="note">Cover class is an editorial selection input, checked at the point an
+    article is written or its cover is chosen &mdash; not a rendering decision made silently by
+    whatever crop happens to fit. <strong>A class-G photograph is never assigned as an article
+    cover or a homepage hero.</strong> If the only candidate photograph for a new article is
+    class G, the article ships with the no-cover layout in &sect;7.2 rather than an enlarged
+    class-G frame. That is a real editorial cost &mdash; managing-editor and whoever selects
+    photography need this table before publishing, not after a reader sees a soft image.</p>
+  </div>
+
+  <h3>6.2 &nbsp;Byte ceilings, measured on the site's own eleven photographs</h3>
+  <p class="note">Generated by <span class="m">des-03-evidence/derivatives.py</span> against
+  the real DES-02 corpus, re-encoded WebP at the quality named. Every ceiling is set against
+  the <strong>worst</strong> file in the corpus, not the median, so a new photograph that
+  lands inside the existing spread does not blow the budget.</p>
+  <div class="tw">
+    <table class="d">
+      <thead><tr><th>Derivative</th><th class="n">Box</th><th class="n">Quality</th><th class="n">Ceiling</th><th class="n">Measured max</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr><td class="k">crop-4x5-mobile-cover-sm</td><td class="n">720&times;900</td><td class="n">q74</td><td class="n">122,880&nbsp;B</td><td class="n">67,624&nbsp;B</td><td class="pass">within budget</td></tr>
+        <tr><td class="k">crop-3x2-column-md</td><td class="n">760&times;507</td><td class="n">q74</td><td class="n">112,640&nbsp;B</td><td class="n">62,808&nbsp;B</td><td class="pass">within budget</td></tr>
+        <tr><td class="k">crop-4x3-card-sm</td><td class="n">480&times;360</td><td class="n">q72</td><td class="n">46,080&nbsp;B</td><td class="n">37,708&nbsp;B</td><td class="pass">within budget</td></tr>
+        <tr><td class="k">crop-1x1-row-sm</td><td class="n">160&times;160</td><td class="n">q72</td><td class="n">12,288&nbsp;B</td><td class="n">6,340&nbsp;B</td><td class="pass">within budget</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">Against what production serves today (DES-09 &sect;3.5): the shipped 4:5
+  mobile cover has a <strong>median of 1,405,400&nbsp;B</strong> &mdash; DES-09's G19 vetoed it
+  outright &mdash; and the shipped 4:3 card a median of 823,997&nbsp;B. Every ceiling above sits
+  at 3&ndash;11% of what ships now, on the same photographs. Exactly one image is preloaded per
+  page (the article or hero cover); everything else is <span class="m">loading=lazy</span>
+  with <span class="m">srcset</span>+<span class="m">sizes</span>, which is also DES-09 G22.</p>
+
+  <h3 id="s6-3">6.3 &nbsp;The two edges: a class-G cover, and no cover</h3>
+  <p class="note">Both are drawn as states in &sect;7.2, not asserted here. In outline: a
+  class-G cover is downgraded to the card ceiling and never enlarged past it, wherever the
+  layout would otherwise ask for a column or hero placement; a missing cover removes the
+  figure entirely and gives its vertical space to the text, rather than rendering a broken
+  <span class="m">&lt;img&gt;</span> or a placeholder box that implies a photograph is coming.</p>
+</section>

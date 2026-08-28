@@ -1,0 +1,69 @@
+DES-03 measured contrast - WCAG 2.x relative luminance
+======================================================================================================================
+
+LIGHT - text on ground #EDEAE1 (parchment-100)
+  body, headings           ink-900                     #16130F on #EDEAE1   15.39:1  AAA  
+  deck, caption, credit    ink-600                     #4A443C on #EDEAE1    8.00:1  AAA  
+  meta, timestamp          ink-500                     #5A5348 on #EDEAE1    6.31:1  AA   <- floor for small text
+  label, eyebrow, link     gold-700                    #725825 on #EDEAE1    5.56:1  AA   13px labels ride on this
+  alert text               oxblood-700                 #6B2130 on #EDEAE1    9.26:1  AAA  
+
+LIGHT - text on raised #E3DFD4 (parchment-200)
+  body on raised           ink-900                     #16130F on #E3DFD4   13.91:1  AAA  
+  deck on raised           ink-600                     #4A443C on #E3DFD4    7.22:1  AAA  
+  label on raised          gold-700                    #725825 on #E3DFD4    5.03:1  AA   
+
+DARK - text on ground #14110D (night-900)
+  body, headings           parchment-100               #EDEAE1 on #14110D   15.65:1  AAA  
+  deck, caption, credit    parchment-300               #C9C3B6 on #14110D   10.72:1  AAA  
+  meta, timestamp          parchment-400               #A89C88 on #14110D    6.97:1  AA   <- floor for small text
+  label, eyebrow, link     gold-400                    #C9A253 on #14110D    7.87:1  AAA  
+  alert text               oxblood-300                 #D98C7A on #14110D    7.15:1  AAA  
+
+DARK - text on raised #1E1A15 (night-800)
+  body on raised           parchment-100               #EDEAE1 on #1E1A15   14.38:1  AAA  
+  deck on raised           parchment-300               #C9C3B6 on #1E1A15    9.86:1  AAA  
+  label on raised          gold-400                    #C9A253 on #1E1A15    7.23:1  AAA  
+
+TINTS - every rule, stripe and boundary is an alpha of the ink/parchment, so a page
+still renders in exactly four hex values. Composited first, then measured.
+  light  table stripe            ink @  5% -> #E2DFD6  #E2DFD6 on #EDEAE1    1.11:1  n/a  
+  light  field separator (hair)  ink @ 12% -> #D3D0C8  #D3D0C8 on #EDEAE1    1.28:1  n/a  
+  light  section rule            ink @ 22% -> #BEBBB3  #BEBBB3 on #EDEAE1    1.59:1  n/a  
+  light  CONTROL BOUNDARY        ink @ 47% -> #88857E  #88857E on #EDEAE1    3.06:1  PASS 
+  dark   table stripe            parchment @  5% -> #1F1C18 #1F1C18 on #14110D    1.11:1  n/a  
+  dark   field separator (hair)  parchment @ 11% -> #2C2924 #2C2924 on #14110D    1.30:1  n/a  
+  dark   section rule            parchment @ 20% -> #3F3C37 #3F3C37 on #14110D    1.71:1  n/a  
+  dark   CONTROL BOUNDARY        parchment @ 37% -> #64615B #64615B on #14110D    3.05:1  PASS 
+
+DISQUALIFIED and SHIPPED-DEFECT values, measured so nobody re-proposes them
+  thread-500 as a control boundary                     #A8823C on #EDEAE1    2.95:1  FAIL FAILS 1.4.11 - decorative hairline only
+  thread-500 as text                                   #A8823C on #EDEAE1    2.95:1  FAIL FAILS - never text
+  SHIPPED focus ring ring/30 -> #BBB4BA                #BBB4BA on #FCFAF7    1.95:1  FAIL the live defect DES-06/DES-07 found
+  SHIPPED --border #DBD7D0 on --background             #DBD7D0 on #FCFAF7    1.38:1  FAIL shipped default border also under the floor
+  SHIPPED --border-strong #898581 on parchment         #898581 on #EDEAE1    3.04:1  PASS the one shipped token that clears it
+  SPEC focus ring  ink-900 @ 100%                      #16130F on #EDEAE1   15.39:1  PASS the fix, light
+  SPEC focus ring  parchment @ 100%                    #EDEAE1 on #14110D   15.65:1  PASS the fix, dark
+  ink on PURE WHITE (rejected)                         #16130F on #FFFFFF   18.52:1  AAA  harsher than 15.39 for no gain
+
+THE SPECIFICATION DOCUMENT'S OWN CHROME - deliberately cooler and greyer than
+the site palette, so a reader never mistakes spec furniture for site colour.
+  doc light fg       on ground                         #1B1B1A on #EFEEEC   14.87:1  AAA  
+  doc light fg2      on ground                         #55554F on #EFEEEC    6.47:1  AA   
+  doc light accent   on ground                         #2F3A4A on #EFEEEC    9.92:1  AAA  
+  doc light fg       on panel                          #1B1B1A on #E4E3E0   13.43:1  AAA  
+  doc light fg2      on panel                          #55554F on #E4E3E0    5.85:1  AA   
+  doc light accent   on panel                          #2F3A4A on #E4E3E0    8.97:1  AAA  
+  doc light rule on ground                             #CFCEC9 on #EFEEEC    1.36:1  n/a  
+  doc dark  fg       on ground                         #E8E8E6 on #17181A   14.48:1  AAA  
+  doc dark  fg2      on ground                         #A3A39D on #17181A    7.01:1  AAA  
+  doc dark  accent   on ground                         #9FB4D4 on #17181A    8.42:1  AAA  
+  doc dark  fg       on panel                          #E8E8E6 on #202225   13.00:1  AAA  
+  doc dark  fg2      on panel                          #A3A39D on #202225    6.29:1  AA   
+  doc dark  accent   on panel                          #9FB4D4 on #202225    7.56:1  AAA  
+  doc dark  rule on ground                             #33353A on #17181A    1.45:1  n/a  
+
+FLOORS: normal text 4.5:1 (SC 1.4.3) - large text >=24px, or >=18.66px bold, 3:1
+        non-text UI boundary and focus indicator 3:1 (SC 1.4.11)
+        Nothing in this specification ships below 3.00:1 for a boundary
+        or 4.50:1 for text.

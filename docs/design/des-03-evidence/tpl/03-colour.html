@@ -1,0 +1,225 @@
+<!-- =====================================================================
+     3. COLOUR
+     ===================================================================== -->
+<section class="sec" id="s3">
+  <div class="sechead"><span class="secno">03</span><h2>Colour &mdash; two palettes, one exposed, every ratio measured</h2></div>
+
+  <div class="rulebox">
+    <p class="eyebrow">The dark-mode ruling, and exactly what it obliges</p>
+    <p class="note">The decision of 2026-07-14 <strong>stands</strong>: dark is not
+    reachable by a reader, there is no <span class="m">ThemeProvider</span> and there is no
+    toggle. That is the CEO's ruling of 28 Ogos 2026 and this document does not reopen it.
+    What the ruling does <em>not</em> do is excuse the system from defining dark. So:
+    <strong>light is complete on the base, dark redefines only the semantic layer, and no
+    colour anywhere has its sole definition inside a dark block.</strong> Both palettes are
+    specified; one is exposed. That is what <span class="m">globals.css</span> already asks
+    for in its own comment &mdash; <em>keep this palette in sync so dark can be switched on
+    later</em> &mdash; and it is the only arrangement in which that comment can be true.</p>
+  </div>
+
+  <h3>3.1 &nbsp;Two layers, and the rule that makes the ruling enforceable</h3>
+  <p>Every colour value in the system lives in the <strong>primitive</strong> layer, on the
+  bare <span class="m">:root</span>, light and dark alike. Nothing consumes a primitive
+  directly. Components read only the <strong>semantic</strong> layer, and the dark block
+  redefines semantics by pointing them at primitives that are already defined. Switching
+  dark on later is then one class on <span class="m">&lt;html&gt;</span> and nothing else &mdash;
+  no new hex, no second stylesheet, no audit.</p>
+
+  <pre>:root{
+  /* PRIMITIVES - every value the system owns, light and dark, defined once, here.
+     Nothing below this block introduces a colour. */
+  --hk-parchment-100:#EDEAE1;  --hk-parchment-200:#E3DFD4;
+  --hk-parchment-300:#C9C3B6;  --hk-parchment-400:#A89C88;
+  --hk-ink-900:#16130F;        --hk-ink-600:#4A443C;      --hk-ink-500:#5A5348;
+  --hk-gold-700:#725825;       --hk-gold-400:#C9A253;
+  --hk-oxblood-700:#6B2130;    --hk-oxblood-300:#D98C7A;
+  --hk-night-900:#14110D;      --hk-night-800:#1E1A15;
+  --hk-thread-500:#A8823C;     /* decorative hairline ONLY - see 3.5 */
+
+  /* the alpha ladder. Rules and stripes are tints of the ink, not new colours,
+     which is how a page renders in four hex values and still has furniture. */
+  --a-tint:5%;   --a-hair:12%;  --a-rule:22%;  --a-boundary:47%;
+
+  /* SEMANTIC - LIGHT, complete. Components read ONLY these. */
+  --bg:         var(--hk-parchment-100);
+  --bg-raised:  var(--hk-parchment-200);
+  --fg:         var(--hk-ink-900);
+  --fg-muted:   var(--hk-ink-600);
+  --fg-dim:     var(--hk-ink-500);
+  --accent:     var(--hk-gold-700);
+  --alert:      var(--hk-oxblood-700);
+  --tint:       color-mix(in srgb, var(--fg) var(--a-tint),     transparent);
+  --hair:       color-mix(in srgb, var(--fg) var(--a-hair),     transparent);
+  --rule:       color-mix(in srgb, var(--fg) var(--a-rule),     transparent);
+  --boundary:   color-mix(in srgb, var(--fg) var(--a-boundary), transparent);
+  --focus:      var(--fg);
+}
+
+/* SEMANTIC - DARK. Redefines the semantic layer and the two alphas that must
+   change, and NOTHING ELSE. Not user-reachable today; kept correct on purpose.
+   .hk-dark is the class, applied to &lt;html&gt; the day the toggle is built. */
+.hk-dark{
+  --a-hair:11%;  --a-rule:20%;  --a-boundary:37%;
+  --bg:         var(--hk-night-900);
+  --bg-raised:  var(--hk-night-800);
+  --fg:         var(--hk-parchment-100);
+  --fg-muted:   var(--hk-parchment-300);
+  --fg-dim:     var(--hk-parchment-400);
+  --accent:     var(--hk-gold-400);
+  --alert:      var(--hk-oxblood-300);
+  /* --tint/--hair/--rule/--boundary/--focus need no redefinition: they are
+     already expressed in terms of --fg, so they invert with it. */
+}</pre>
+
+  <div class="grid2">
+    <div class="rulebox ok">
+      <p class="eyebrow">Why the alphas differ between the themes</p>
+      <p class="note">A tint of ink on parchment and a tint of parchment on night are not
+      symmetric &mdash; light ink on a dark ground reads stronger at the same alpha. The two
+      boundary values were tuned to the same target, <strong>the 3:1 non-text floor</strong>,
+      and land at 3.06:1 and 3.05:1. The alphas are numbers in the primitive layer, not
+      colours, so the dark block still introduces no colour of its own.</p>
+    </div>
+    <div class="rulebox">
+      <p class="eyebrow">The check the DSE runs before merging</p>
+      <p class="note">Grep the stylesheet for a hex literal or an <span class="m">rgb()</span>
+      inside any <span class="m">.hk-dark</span>, <span class="m">[data-theme]</span> or
+      <span class="m">prefers-color-scheme</span> block. <strong>The correct count is
+      zero.</strong> One hit means a colour exists that light has never seen, and the
+      palettes have started to drift &mdash; which is the exact failure the 2026-07-14 comment
+      was written to prevent.</p>
+    </div>
+  </div>
+
+  <h3>3.2 &nbsp;The primitives</h3>
+  <div class="tw">
+    <table class="d">
+      <thead><tr><th>Token</th><th class="n">Hex</th><th>Job</th><th>Used by</th></tr></thead>
+      <tbody>
+        <tr><td class="k">--hk-parchment-100</td><td class="n"><span class="sw" style="background:#EDEAE1"></span>#EDEAE1</td><td>Light ground</td><td class="k">--bg light, --fg dark</td></tr>
+        <tr><td class="k">--hk-parchment-200</td><td class="n"><span class="sw" style="background:#E3DFD4"></span>#E3DFD4</td><td>Light raised surface</td><td class="k">--bg-raised light</td></tr>
+        <tr><td class="k">--hk-parchment-300</td><td class="n"><span class="sw" style="background:#C9C3B6"></span>#C9C3B6</td><td>Dark muted text</td><td class="k">--fg-muted dark</td></tr>
+        <tr><td class="k">--hk-parchment-400</td><td class="n"><span class="sw" style="background:#A89C88"></span>#A89C88</td><td>Dark dim text</td><td class="k">--fg-dim dark</td></tr>
+        <tr><td class="k">--hk-ink-900</td><td class="n"><span class="sw" style="background:#16130F"></span>#16130F</td><td>Light ink</td><td class="k">--fg light, --focus light</td></tr>
+        <tr><td class="k">--hk-ink-600</td><td class="n"><span class="sw" style="background:#4A443C"></span>#4A443C</td><td>Light muted text</td><td class="k">--fg-muted light</td></tr>
+        <tr><td class="k">--hk-ink-500</td><td class="n"><span class="sw" style="background:#5A5348"></span>#5A5348</td><td>Light dim text</td><td class="k">--fg-dim light</td></tr>
+        <tr><td class="k">--hk-gold-700</td><td class="n"><span class="sw" style="background:#725825"></span>#725825</td><td>Light accent</td><td class="k">--accent light</td></tr>
+        <tr><td class="k">--hk-gold-400</td><td class="n"><span class="sw" style="background:#C9A253"></span>#C9A253</td><td>Dark accent</td><td class="k">--accent dark</td></tr>
+        <tr><td class="k">--hk-oxblood-700</td><td class="n"><span class="sw" style="background:#6B2130"></span>#6B2130</td><td>Light alert</td><td class="k">--alert light</td></tr>
+        <tr><td class="k">--hk-oxblood-300</td><td class="n"><span class="sw" style="background:#D98C7A"></span>#D98C7A</td><td>Dark alert</td><td class="k">--alert dark</td></tr>
+        <tr><td class="k">--hk-night-900</td><td class="n"><span class="sw" style="background:#14110D"></span>#14110D</td><td>Dark ground</td><td class="k">--bg dark</td></tr>
+        <tr><td class="k">--hk-night-800</td><td class="n"><span class="sw" style="background:#1E1A15"></span>#1E1A15</td><td>Dark raised surface</td><td class="k">--bg-raised dark</td></tr>
+        <tr><td class="k">--hk-thread-500</td><td class="n"><span class="sw" style="background:#A8823C"></span>#A8823C</td><td><strong>Decorative hairline only</strong></td><td class="k">nothing in this spec &mdash; see 3.5</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>3.3 &nbsp;Every text-on-background pairing, measured</h3>
+  <p class="note">Computed with the WCAG 2.x relative-luminance formula by
+  <span class="m">des-03-evidence/contrast.py</span>; the full run is committed as
+  <span class="m">contrast-2026-08-28.txt</span>. Alpha tints are composited onto their own
+  ground before the ratio is taken, because that is what a reader's eye receives. Floors:
+  <strong>4.5:1 normal text</strong> (SC 1.4.3), <strong>3:1 non-text boundary and focus
+  indicator</strong> (SC 1.4.11). AA is the floor, not the target.</p>
+
+  <div class="tw">
+    <table class="d">
+      <thead><tr><th>Pairing</th><th class="n">Foreground</th><th class="n">Ground</th><th class="n">Ratio</th><th class="n">Grade</th><th>Where it is used</th></tr></thead>
+      <tbody>
+        <tr><td colspan="6" style="background:#EDEAE1;color:#16130F;font-weight:600;">LIGHT &mdash; on parchment #EDEAE1</td></tr>
+        <tr><td>Body, headings</td><td class="n">#16130F</td><td class="n">#EDEAE1</td><td class="n"><strong>15.39:1</strong></td><td class="n pass">AAA</td><td>All running text, <span class="m">h1</span>&ndash;<span class="m">h3</span>, table cells</td></tr>
+        <tr><td>Deck, caption, credit</td><td class="n">#4A443C</td><td class="n">#EDEAE1</td><td class="n"><strong>8.00:1</strong></td><td class="n pass">AAA</td><td>Decks, figcaptions, Rekod field names</td></tr>
+        <tr><td>Meta, timestamp</td><td class="n">#5A5348</td><td class="n">#EDEAE1</td><td class="n"><strong>6.31:1</strong></td><td class="n pass">AA</td><td><strong>Floor for small text.</strong> Chip counts, list index</td></tr>
+        <tr><td>Label, eyebrow, link</td><td class="n">#725825</td><td class="n">#EDEAE1</td><td class="n"><strong>5.56:1</strong></td><td class="n pass">AA</td><td>13&nbsp;px labels, credits, category eyebrow</td></tr>
+        <tr><td>Alert text</td><td class="n">#6B2130</td><td class="n">#EDEAE1</td><td class="n"><strong>9.26:1</strong></td><td class="n pass">AAA</td><td>Error blocks only &mdash; see 3.4</td></tr>
+        <tr><td>Body on raised</td><td class="n">#16130F</td><td class="n">#E3DFD4</td><td class="n">13.91:1</td><td class="n pass">AAA</td><td>Nothing today. Reserved.</td></tr>
+        <tr><td>Deck on raised</td><td class="n">#4A443C</td><td class="n">#E3DFD4</td><td class="n">7.22:1</td><td class="n pass">AAA</td><td>Nothing today. Reserved.</td></tr>
+        <tr><td>Label on raised</td><td class="n">#725825</td><td class="n">#E3DFD4</td><td class="n">5.03:1</td><td class="n pass">AA</td><td>Nothing today. Reserved.</td></tr>
+
+        <tr><td colspan="6" style="background:#14110D;color:#EDEAE1;font-weight:600;">DARK &mdash; on night #14110D &nbsp;&middot;&nbsp; specified, not exposed</td></tr>
+        <tr><td>Body, headings</td><td class="n">#EDEAE1</td><td class="n">#14110D</td><td class="n"><strong>15.65:1</strong></td><td class="n pass">AAA</td><td>All running text</td></tr>
+        <tr><td>Deck, caption, credit</td><td class="n">#C9C3B6</td><td class="n">#14110D</td><td class="n"><strong>10.72:1</strong></td><td class="n pass">AAA</td><td>Decks, figcaptions, field names</td></tr>
+        <tr><td>Meta, timestamp</td><td class="n">#A89C88</td><td class="n">#14110D</td><td class="n"><strong>6.97:1</strong></td><td class="n pass">AA</td><td><strong>Floor for small text</strong></td></tr>
+        <tr><td>Label, eyebrow, link</td><td class="n">#C9A253</td><td class="n">#14110D</td><td class="n"><strong>7.87:1</strong></td><td class="n pass">AAA</td><td>13&nbsp;px labels, credits</td></tr>
+        <tr><td>Alert text</td><td class="n">#D98C7A</td><td class="n">#14110D</td><td class="n"><strong>7.15:1</strong></td><td class="n pass">AAA</td><td>Error blocks only</td></tr>
+        <tr><td>Body on raised</td><td class="n">#EDEAE1</td><td class="n">#1E1A15</td><td class="n">14.38:1</td><td class="n pass">AAA</td><td>Nothing today. Reserved.</td></tr>
+        <tr><td>Deck on raised</td><td class="n">#C9C3B6</td><td class="n">#1E1A15</td><td class="n">9.86:1</td><td class="n pass">AAA</td><td>Nothing today. Reserved.</td></tr>
+        <tr><td>Label on raised</td><td class="n">#C9A253</td><td class="n">#1E1A15</td><td class="n">7.23:1</td><td class="n pass">AAA</td><td>Nothing today. Reserved.</td></tr>
+
+        <tr><td colspan="6" style="background:#E4E3E0;color:#1B1B1A;font-weight:600;">TINTS &mdash; composited, then measured</td></tr>
+        <tr><td>Light table stripe &mdash; ink @ 5%</td><td class="n">&rarr; #E2DFD6</td><td class="n">#EDEAE1</td><td class="n">1.11:1</td><td class="n">n/a</td><td>Zebra fill. Carries no meaning alone.</td></tr>
+        <tr><td>Light field separator &mdash; ink @ 12%</td><td class="n">&rarr; #D3D0C8</td><td class="n">#EDEAE1</td><td class="n">1.28:1</td><td class="n">n/a</td><td>Rekod row rules, list-row rules</td></tr>
+        <tr><td>Light section rule &mdash; ink @ 22%</td><td class="n">&rarr; #BEBBB3</td><td class="n">#EDEAE1</td><td class="n">1.59:1</td><td class="n">n/a</td><td>Masthead rule, section boundaries</td></tr>
+        <tr><td><strong>Light control boundary &mdash; ink @ 47%</strong></td><td class="n">&rarr; #88857E</td><td class="n">#EDEAE1</td><td class="n"><strong>3.06:1</strong></td><td class="n pass">PASS</td><td><strong>Every input, chip and button border</strong></td></tr>
+        <tr><td>Dark table stripe &mdash; parchment @ 5%</td><td class="n">&rarr; #1F1C18</td><td class="n">#14110D</td><td class="n">1.11:1</td><td class="n">n/a</td><td>Zebra fill</td></tr>
+        <tr><td>Dark field separator &mdash; parchment @ 11%</td><td class="n">&rarr; #2C2924</td><td class="n">#14110D</td><td class="n">1.30:1</td><td class="n">n/a</td><td>Row rules</td></tr>
+        <tr><td>Dark section rule &mdash; parchment @ 20%</td><td class="n">&rarr; #3F3C37</td><td class="n">#14110D</td><td class="n">1.71:1</td><td class="n">n/a</td><td>Section boundaries</td></tr>
+        <tr><td><strong>Dark control boundary &mdash; parchment @ 37%</strong></td><td class="n">&rarr; #64615B</td><td class="n">#14110D</td><td class="n"><strong>3.05:1</strong></td><td class="n pass">PASS</td><td><strong>Every input, chip and button border</strong></td></tr>
+
+        <tr><td colspan="6" style="background:#E4E3E0;color:#1B1B1A;font-weight:600;">DISQUALIFIED, and the shipped defects, measured so nobody re-proposes them</td></tr>
+        <tr><td>Thread gold as a control boundary</td><td class="n">#A8823C</td><td class="n">#EDEAE1</td><td class="n">2.95:1</td><td class="n fail">FAIL</td><td>Fails SC 1.4.11. Decorative rule and nothing else.</td></tr>
+        <tr><td>Thread gold as text</td><td class="n">#A8823C</td><td class="n">#EDEAE1</td><td class="n">2.95:1</td><td class="n fail">FAIL</td><td>Never text, at any size.</td></tr>
+        <tr><td><strong>Shipped focus ring</strong> <span class="m">ring-ring/30</span></td><td class="n">&rarr; #BBB4BA</td><td class="n">#FCFAF7</td><td class="n">1.95:1</td><td class="n fail">FAIL</td><td>The live defect. <span class="m">--ring:#22122d</span> at 30% on <span class="m">--background:#fcfaf7</span>, both read from the served stylesheet 28 Ogos 2026.</td></tr>
+        <tr><td>Shipped <span class="m">--border</span></td><td class="n">#DBD7D0</td><td class="n">#FCFAF7</td><td class="n">1.38:1</td><td class="n fail">FAIL</td><td>The shipped default border is also under the floor.</td></tr>
+        <tr><td>Shipped <span class="m">--border-strong</span></td><td class="n">#898581</td><td class="n">#EDEAE1</td><td class="n">3.04:1</td><td class="n pass">PASS</td><td>The one shipped boundary token that clears it. DES-06 and DES-07 report 3.01:1; same call, same verdict, rounding apart.</td></tr>
+        <tr><td><strong>Specified focus ring, light</strong></td><td class="n">#16130F</td><td class="n">#EDEAE1</td><td class="n"><strong>15.39:1</strong></td><td class="n pass">PASS</td><td>2&nbsp;px solid <span class="m">--focus</span>, offset 2&nbsp;px, full opacity</td></tr>
+        <tr><td><strong>Specified focus ring, dark</strong></td><td class="n">#EDEAE1</td><td class="n">#14110D</td><td class="n"><strong>15.65:1</strong></td><td class="n pass">PASS</td><td>Same rule, inverted by the token</td></tr>
+        <tr><td>Ink on pure white &mdash; rejected</td><td class="n">#16130F</td><td class="n">#FFFFFF</td><td class="n">18.52:1</td><td class="n">&mdash;</td><td>Harsher than 15.39:1 for no readability gain. No pure white, no pure black.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>3.4 &nbsp;The one-colour rule, and how the count actually holds at four</h3>
+  <p>DES-01 fixed the ceiling: <strong>any single page renders in at most four palette
+  values plus photography.</strong> That is the one thing every premium reference in the
+  market survey agreed on &mdash; Carats &amp; Cake 2, Dentelle 5, Alia Bastamam 5,
+  PartySlate 6, against nikahsatu's 50 and mingguanwanita's 66. It is also the cheapest
+  discipline available: it costs nothing and it is the thing a reader feels as
+  <em>someone is in charge here</em>.</p>
+  <p>Obeying it literally used to be impossible, because DES-01 also listed a raised
+  ground and a hairline as separate tokens, which takes a page with rules and stripes to
+  six. The resolution: <strong>every rule, stripe, separator and boundary is an alpha of
+  the ink</strong>, so it is a tint of a colour already on the page rather than a new one.
+  A page therefore renders in exactly four hex values.</p>
+  <div class="tw">
+    <table class="d">
+      <thead><tr><th>Surface</th><th class="n">1</th><th class="n">2</th><th class="n">3</th><th class="n">4</th><th class="n">count</th></tr></thead>
+      <tbody>
+        <tr><td>Homepage, catalogue, article &mdash; every normal state</td><td class="n">#EDEAE1</td><td class="n">#16130F</td><td class="n">#4A443C</td><td class="n">#725825</td><td class="n"><strong>4</strong></td></tr>
+        <tr><td>Small text present (<span class="m">--fg-dim</span>)</td><td class="n">#EDEAE1</td><td class="n">#16130F</td><td class="n">#4A443C</td><td class="n">#5A5348 <em>or</em> #725825</td><td class="n"><strong>4</strong></td></tr>
+        <tr><td><strong>Error and alert surfaces</strong></td><td class="n">#EDEAE1</td><td class="n">#16130F</td><td class="n">#4A443C</td><td class="n"><strong>#6B2130</strong></td><td class="n"><strong>4</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="rulebox">
+    <p class="eyebrow">The decision that keeps the third row at four, and it is mine</p>
+    <p class="note"><strong>Oxblood and gold never appear on the same page.</strong> On a
+    surface that carries an alert, oxblood takes the accent slot and gold stands down &mdash;
+    labels and credits render in <span class="m">--fg-muted</span> instead. This is not a
+    contrivance to save the count. An error screen with a decorative gold eyebrow above a
+    red warning is a page with two accents competing for the same attention, and the
+    warning loses. One accent per surface; the surface decides which.</p>
+  </div>
+
+  <h3>3.5 &nbsp;Three colour rules that are not negotiable downstream</h3>
+  <div class="grid3">
+    <div class="rulebox flag">
+      <p class="eyebrow">No text over a photograph</p>
+      <p class="note">Anywhere. A contrast ratio against a photograph cannot be measured,
+      so it cannot be asserted, so the pairing does not exist. Headlines, decks and credits
+      all sit on the ground. Every credit in every screen below does.</p>
+    </div>
+    <div class="rulebox flag">
+      <p class="eyebrow">Thread gold draws nothing that matters</p>
+      <p class="note">2.95:1 on parchment. It fails the 3:1 non-text floor, so it may not
+      border an input, ring a focus state, or carry text at any size. It is a decorative
+      rule. If a boundary needs to be seen, it is <span class="m">--boundary</span>.</p>
+    </div>
+    <div class="rulebox flag">
+      <p class="eyebrow">No pure black, no pure white</p>
+      <p class="note">Measured: 18.52:1 against 15.39:1, for no readability gain and a
+      harsher page. Every measured premium brand in the market survey softens at least one
+      side. This softens both, which is a stronger reading of the same instinct.</p>
+    </div>
+  </div>
+</section>
