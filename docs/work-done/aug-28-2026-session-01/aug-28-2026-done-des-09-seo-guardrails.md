@@ -394,11 +394,42 @@ curl -sSIL -w "\nFINAL %{http_code} %{url_effective} %{num_redirects}\n" \
 Each one is a threshold, the command that tests it, and where it stands today.
 `FAILS TODAY` means the redesign has to fix it, not that it may skip it.
 
-There are **39** guardrails, numbered `G01`–`G40`. **`G29` is intentionally
-unused — no guardrail was cut.** IDs are assigned once and never reused,
-because section 8.2 and `check-guardrails.py` both reference them by literal
-string; renumbering would desynchronise the document from the tool that tests
-it. A reader who sees `G28` followed by `G30` has not lost a guardrail.
+### 4.0 The guardrail index
+
+**43 guardrails: `G00`–`G40`, plus `G17b` and `G25b`.** IDs are assigned once
+and never reused or renumbered, because section 8.2 and
+`check-guardrails.py` both reference them by literal string.
+
+**On the `G29` gap, corrected 28 Ogos 2026.** The first version of this document
+ran `G01`–`G28` then `G30`–`G40`, and a note was added recording `G29` as
+intentionally unused. That note was wrong and has been replaced. **No guardrail
+was cut — `G29` was never assigned in the first place**, a drafting slip: in
+section E, the pagination ruling (E1) was given `G28` inline, and the two
+rulings after it were left with no ID at all. `G29` is now assigned to the
+`/cari` ruling in E2, where it always belonged. The sequence is contiguous and
+nothing was renumbered.
+
+The lesson is narrow and worth stating, because this document is a gate someone
+else runs as a checklist: **an ID sequence with a hole in it costs a reader more
+than the guardrail is worth.** They have to stop and work out whether something
+was dropped in review, lost, or never existed, and until now the answer was not
+in the file.
+
+**Which guardrails the checker implements.** The spec and the tool do not cover
+the same set, and a reader running one against the other needs to know where
+they part company:
+
+| | ids |
+|---|---|
+| in the spec AND implemented in `check-guardrails.py` | G01, G02, G03, G05, G06, G07, G08, G09, G10, G11, G12, G13, G14, G15, G16, G17, G17b, G18, G19, G20, G21, G22, G23, G24, G25, G26, G31, G32, G33, G35, G36, G37, G38, G40 |
+| in the spec, NOT implementable yet | G04 (needs a before/after against DES-08), G28 and G29 (`/cari` and pagination return 404 today), G39 (a URL-shape review, not a measurement) |
+| in the spec, mechanically checkable, NOT YET WRITTEN | **G25b** (cold render ≤ 5,000 ms), **G27** (image format), **G30** (crawl depth ≤ 2), **G34** (`robots.txt` literal). Named as a gap rather than left to be discovered. |
+| implemented in the checker, NOT in the spec until now | **G00** — every sitemap URL responds. It caught the one cold-render timeout. Documented in section F below. |
+
+I have deliberately not written the four missing checks in this pass. A checker
+change needs a run against production to prove it works, and this correction is
+a text fix. They are one small commit, and they belong to whoever runs the
+post-ship sweep.
 
 ### A. Heading hierarchy
 
@@ -679,6 +710,7 @@ wants covers on that page, G21 has to be fixed first.
 
 | id | guardrail | threshold |
 |---|---|---|
+| **G00** | Every URL in the sitemap returns a body within the request budget | 0 URLs failing to respond. Fails today: 1 of 103, a cold render at 21,733 ms |
 | **G31** | The sitemap URL set does not shrink | ≥ 103 URLs, and no URL present on 28 Ogos may disappear |
 | **G32** | Every page emits a self-referential canonical | 102/102 present AND self-referential |
 | **G33** | The 29 legacy WordPress redirects | **29/29, one hop, 308 → 200, zero multi-hop, zero broken** |
