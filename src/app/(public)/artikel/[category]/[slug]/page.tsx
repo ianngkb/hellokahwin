@@ -35,6 +35,8 @@ import {
   ARTICLE_PAGE_CACHE_KEY,
   ARTICLE_META_CACHE_KEY,
   ARTICLE_PAGE_CACHE_TAGS,
+  ARTICLE_RENDER_BUDGET_MS,
+  READ_FLOOR_MS,
 } from '@/lib/inspire/article-cache';
 
 import {
@@ -576,9 +578,10 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
   // ONE SHARED BUDGET across every sequential read in this render, not a fresh
   // deadline per read. Giving each its own ceiling would permit 3s + 1.5s + 2s
   // = 6.5s against `maxDuration = 5`, i.e. Vercel kills the function before any
-  // fallback can even log. A 4s total leaves ~1s for the render itself, and
-  // `startDeadlineBudget` floors each read at 250ms so a late one still gets a
-  // real attempt rather than an already-expired deadline.
+  // fallback can even log. `startDeadlineBudget` floors each read at 250ms so a
+  // late one still gets a real attempt rather than an already-expired deadline
+  // -- which means the floors add to the total, and the total is derived from
+  // `maxDuration` rather than picked to sit near it. See below.
   //
   // It covers TWO sequential reads now, not three. The cover credit was the
   // middle one and it is gone — folded into the payload's own join on
@@ -590,7 +593,20 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
   // This route has no build-phase concern to carve out: `generateStaticParams`
   // returns [] (see the note there), so nothing renders this page during
   // `next build`.
-  const budgetLeft = startDeadlineBudget(4_000);
+  //
+  // 4_000 was a number chosen next to `maxDuration`, not derived from it, and
+  // the difference is the 502. `startDeadlineBudget` floors each read, so the
+  // floors ADD: 4,000 + 250 + 250 + 250 = 4,750ms of database waiting against a
+  // 5,000ms ceiling, leaving 250ms to render and flush. Overrunning a STREAMING
+  // response is not a slow page or an error page -- it is
+  // `502 FUNCTION_RESPONSE_STREAM_INCOMPLETE`, which is what the first request
+  // ever made to a new article URL returned in Sprint 01. Every fallback in
+  // this file needs the function to still be alive to run.
+  //
+  // `ARTICLE_RENDER_BUDGET_MS` is derived from `maxDuration` in
+  // `@/lib/inspire/article-cache` and its arithmetic is asserted by that
+  // module's test, including that the literal on line 70 above still agrees.
+  const budgetLeft = startDeadlineBudget(ARTICLE_RENDER_BUDGET_MS, READ_FLOOR_MS);
 
   const pageData = await withDeadline(
     getArticlePageData(slug),

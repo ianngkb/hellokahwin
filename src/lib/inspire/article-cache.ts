@@ -86,3 +86,78 @@ export const ARTICLE_CREDITS_CACHE_TAGS = ['articles', 'listings'] as const;
 // non-zero). The reasoning and the conditions for a future attempt are recorded
 // on `generateStaticParams` in the route file — the fix needed is concurrency
 // control, not a smaller count.
+
+// ── THE RENDER'S TIME BUDGET, AND WHY THE ARITHMETIC LIVES HERE ────────────
+//
+// RISK-08 opened with two symptoms. One was "cold renders take 5-22s", which
+// turned out to be a TCP handshake stall on the measuring machine and not a
+// render at all. The other was real and is what these constants are about: the
+// first request ever made to a new article URL returned
+// `502 FUNCTION_RESPONSE_STREAM_INCOMPLETE`.
+//
+// That status is what Vercel produces when `maxDuration` kills a function that
+// has ALREADY STARTED STREAMING. The reader does not get a slow page or an
+// error page; they get a truncated response and a 502, and so does Googlebot.
+// It is a strictly worse outcome than any degradation the route's own fallbacks
+// were written to produce — every one of which needs the function to still be
+// alive to run.
+//
+// So the route must never be able to spend `maxDuration` on database waiting,
+// and until this change it could. `startDeadlineBudget` FLOORS each read at
+// `READ_FLOOR_MS` so a late read still gets a real attempt rather than an
+// already-expired 0ms deadline. That floor is deliberate and stays — but it
+// means the floors ADD to the total. With a 4,000ms budget and the three
+// floored reads that follow the payload read, the worst case was
+//
+//     4,000 + 250 + 250 + 250 = 4,750ms of database waiting
+//
+// against a 5,000ms ceiling, leaving 250ms for React to render the article,
+// serialise it and flush the first byte. Exceed that and the kill lands
+// mid-stream.
+//
+// The budget is therefore DERIVED from the ceiling instead of chosen next to
+// it, and `article-cache.test.ts` asserts the sum fits. These live here rather
+// than in `page.tsx` for the same reason the cache keys above do: `page.tsx`
+// drags in the whole article renderer and cannot be imported by a unit test.
+
+/**
+ * `maxDuration` as declared by `/artikel/[category]/[slug]`, in milliseconds.
+ *
+ * ⚠️ DUPLICATED ON PURPOSE. Next requires a route segment's `maxDuration` to be
+ * a literal it can read statically, so `page.tsx` cannot import this. The test
+ * file reads `page.tsx` as TEXT and asserts the two agree, which is why this
+ * duplication cannot drift.
+ */
+export const ARTICLE_MAX_DURATION_MS = 5_000;
+
+/**
+ * Reserved for the render itself — React, serialisation, and the first flush of
+ * the stream — before any of `maxDuration` is offered to the database.
+ *
+ * 1,000ms against a measured render. After the function moved into the
+ * database's own region (see "Where the functions run" in the README), a
+ * sequential sweep of all 82 cold article URLs on the deployment that shipped
+ * it gave a whole server response of p50 185ms / p90 271ms / max 385ms — and
+ * that figure INCLUDES the database reads this reserve excludes.
+ */
+export const RENDER_RESERVE_MS = 1_000;
+
+/** The floor `startDeadlineBudget` gives a read whose budget is exhausted. */
+export const READ_FLOOR_MS = 250;
+
+/**
+ * Reads that run AFTER the payload read and can each claim the floor:
+ * the pillar up-link, the cluster siblings, and the related-articles fallback.
+ * Raising this count without re-deriving the budget below is the bug this
+ * whole block exists to make impossible.
+ */
+export const FLOORED_READS_AFTER_PAYLOAD = 3;
+
+/**
+ * The shared budget the article render starts with.
+ *
+ * Derived, never chosen: whatever is left of `maxDuration` once the render has
+ * its reserve and every floored read that follows can still be paid.
+ */
+export const ARTICLE_RENDER_BUDGET_MS =
+  ARTICLE_MAX_DURATION_MS - RENDER_RESERVE_MS - FLOORED_READS_AFTER_PAYLOAD * READ_FLOOR_MS;
