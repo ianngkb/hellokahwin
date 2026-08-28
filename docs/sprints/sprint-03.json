@@ -378,11 +378,12 @@
       "flags": [
         "public-facing",
         "owner-requested",
-        "built-awaiting-merge"
+        "built-awaiting-merge",
+        "blocked-by-DES-13"
       ],
       "why": "Owner asked for a page in the shape of thepicklebase.com/brand, whose real structure was read from that repo rather than guessed: a typed asset registry driving section components, with per-asset downloads. Ours adds measured contrast to the colour section and six named DON'Ts.",
       "dod": "OBSERVABLE: /brand returns 200 on production and renders all five marks, the palette with measured ratios, an on-dark demonstration, and the DON'T list. Every Download SVG link resolves to a real file. Page is force-static and reads no database. CHECKED BY: curl /brand first-request for the status code, then quote content only the real page contains - the marks are inline SVG references, so check one resolves 200 too. A status code alone proves nothing. BEWARE THE FALSE PASS: This is PUBLIC. Verify against production, not against dev - and check it in both colour schemes, since the page carries its own dark palette. EVIDENCE LANDS: docs/work-done/ entry with the live URL and one quoted asset URL.",
-      "brief": "BUILT AND PUSHED, NOT MERGED. Branch feat/des-10-brand-page. Scoped to .bp so it does not inherit current site styling - it is the first public surface in the new register. head-of-seo-content should confirm /brand is deliberately excluded from or included in the sitemap before merge. BLOCKED ON THE OWNER: built and pushed, awaiting merge. Done means merged and live."
+      "brief": "BUILT AND PUSHED, NOT MERGED. Branch feat/des-10-brand-page. Scoped to .bp so it does not inherit current site styling - it is the first public surface in the new register. head-of-seo-content should confirm /brand is deliberately excluded from or included in the sitemap before merge. BLOCKED ON THE OWNER: built and pushed, awaiting merge. Done means merged and live. SEQUENCING CORRECTED 28 Aug: DES-13 (confirm the typeface) must land FIRST. The marks are set in a STAND-IN face, and DES-13 says a different choice regenerates all five SVGs. Shipping a public brand page or a production header on a provisional wordmark means redoing both and stranding anyone who downloaded the assets."
     },
     {
       "id": "DES-12",
@@ -393,11 +394,12 @@
       "title": "Adopt the wordmark in the site header, and retire the current one",
       "flags": [
         "blocked-by-DES-11",
-        "mobile-is-the-constraint"
+        "mobile-is-the-constraint",
+        "blocked-by-DES-13"
       ],
       "why": "A brand page nobody applies is a document, not a rebrand. The header is where the mark actually earns its keep - and where the locked register is most at risk, because Bliss & Bone ships at 250x22, which is 69% of a 360px viewport and leaves 78px for search and menu.",
       "dod": "OBSERVABLE: The wordmark live in the production header at both breakpoints. At 360px the header holds the mark AND a reachable search affordance simultaneously - screenshot or measured widths proving both fit. Monogram used below 18px, per the brand page's own minimum. CHECKED BY: Load production at 360px and at desktop. Measure the rendered mark width against the viewport. If the horizontal does not fit beside search, the vertical or the monogram is the answer - not shrinking the mark past its stated minimum. BEWARE THE FALSE PASS: Checking only desktop is how this ships broken - 64% of impressions arrive on mobile, at position 8.7 against desktop's 28.9. EVIDENCE LANDS: docs/work-done/ entry with both measurements.",
-      "brief": "If the horizontal cannot fit beside search at 360px, that is a finding to bring back, not a reason to violate the minimum height."
+      "brief": "If the horizontal cannot fit beside search at 360px, that is a finding to bring back, not a reason to violate the minimum height. SEQUENCING CORRECTED 28 Aug: DES-13 (confirm the typeface) must land FIRST. The marks are set in a STAND-IN face, and DES-13 says a different choice regenerates all five SVGs. Shipping a public brand page or a production header on a provisional wordmark means redoing both and stranding anyone who downloaded the assets."
     },
     {
       "id": "DES-13",
