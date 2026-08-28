@@ -28,12 +28,7 @@
         "unowned-until-now"
       ],
       "why": "Found by RISK-05 in Sprint 02, which correctly recorded it and did NOT half-fix it because it met neither of the monitor's own alarm conditions. Six URLs we are actively advertising in the sitemap tell Google not to index them. Google crawled and excluded all six. This is the cheapest available correction of a self-inflicted wound.",
-      "dod": {
-        "observable": "All six URLs named explicitly. Each returns a robots meta WITHOUT noindex on a fresh request. The sitemap URL count is unchanged (103) - this is a robots fix, not a sitemap edit. At least one of the six shows its exclusion cleared in GSC URL Inspection.",
-        "how_checked": "curl each of the six and grep the robots meta, before and after, quoted literally. GSC URL Inspection on at least one. Count the live sitemap with curl | grep -c '<loc>'.",
-        "evidence_lands": "docs/work-done/ entry naming all six URLs with before/after robots meta quoted from live HTML.",
-        "false_pass_warning": "Do not check the route source and call it fixed. Check the artefact the consumer receives - the live response. This is the failure shape the production doctrine names."
-      },
+      "dod": "OBSERVABLE: All six URLs named explicitly. Each returns a robots meta WITHOUT noindex on a fresh request. The sitemap URL count is unchanged (103) - this is a robots fix, not a sitemap edit. At least one of the six shows its exclusion cleared in GSC URL Inspection. CHECKED BY: curl each of the six and grep the robots meta, before and after, quoted literally. GSC URL Inspection on at least one. Count the live sitemap with curl | grep -c '<loc>'. BEWARE THE FALSE PASS: Do not check the route source and call it fixed. Check the artefact the consumer receives - the live response. This is the failure shape the production doctrine names. EVIDENCE LANDS: docs/work-done/ entry naming all six URLs with before/after robots meta quoted from live HTML.",
       "brief": "src/app/sitemap.ts. Enumerate which six and why they were excluded before changing anything - the RISK-05 finding names them."
     },
     {
@@ -48,17 +43,12 @@
         "now-has-monitor-data"
       ],
       "why": "Measured in Sprint 01, never root-caused, deferred from Sprint 02 deliberately because RISK-04 and RISK-05 changed what Googlebot meets first. RISK-05's monitor has now been running, so Sprint 03 revisits this with data rather than by guessing - which is exactly the condition the deferral was written against. One new article URL also returned 502 FUNCTION_RESPONSE_STREAM_INCOMPLETE.",
-      "dod": {
-        "observable": "The monitor's actual series quoted for the affected routes. Either a stated root cause with the fix deployed and a cold-path measurement showing the new figure, OR a stated finding that the monitor shows this no longer bites, with the series that proves it.",
-        "how_checked": "Reproduce deliberately on a COLD path. A warmed cache proves nothing - RISK-06 in Sprint 02 established that the CEO's own earlier requests hid a defect present on 50 of 61 pages.",
-        "evidence_lands": "docs/work-done/ entry with the monitor series and the literal timings.",
-        "false_pass_warning": "'Could not reproduce' is a statement about conditions, not about the site. If it cannot be reproduced, say what conditions were tested and why they were cold."
-      },
+      "dod": "OBSERVABLE: The monitor's actual series quoted for the affected routes. Either a stated root cause with the fix deployed and a cold-path measurement showing the new figure, OR a stated finding that the monitor shows this no longer bites, with the series that proves it. CHECKED BY: Reproduce deliberately on a COLD path. A warmed cache proves nothing - RISK-06 in Sprint 02 established that the CEO's own earlier requests hid a defect present on 50 of 61 pages. BEWARE THE FALSE PASS: 'Could not reproduce' is a statement about conditions, not about the site. If it cannot be reproduced, say what conditions were tested and why they were cold. EVIDENCE LANDS: docs/work-done/ entry with the monitor series and the literal timings.",
       "brief": "Read the mechanism in source before measuring. Reading the source first is what made RISK-06's 50/61 appear on the first try."
     },
     {
       "id": "SEO-07",
-      "track": "technical-seo",
+      "track": "seo",
       "points": 3,
       "state": "todo",
       "owner": "BMAD",
@@ -68,17 +58,12 @@
         "blocks-measurement"
       ],
       "why": "THE MOST IMPORTANT ITEM IN THIS SPRINT. SEO-05 shipped repaired titles for the mas-kahwin family in Sprint 02. That family now draws ~300 impressions at positions 6.5-12.2 and earns 3 clicks. We CANNOT TELL whether the repaired titles are what Google is being served, because a correct row can render as the site-default title 14 minutes after a verified repair. Every title decision downstream of this is unmeasurable until it is fixed.",
-      "dod": {
-        "observable": "The mechanism stated from source. The defect reproduced deliberately. The true count of affected pages stated WITH its method - the count is currently unknown. After the fix: a repaired title still correct on a cold fetch 30+ minutes later, quoted literally.",
-        "how_checked": "Re-measure the render-level defect SEQUENTIALLY, not concurrently - the Sprint 02 note says the true count is unknown precisely because the measurement method was wrong. Then wait out the cache window and re-fetch cold.",
-        "evidence_lands": "docs/work-done/ entry with the mechanism, the count and its method, and the 30-minute cold re-fetch.",
-        "false_pass_warning": "Verifying a title immediately after deploy is the false pass. The defect IS the delay. A check that does not wait cannot catch it."
-      },
+      "dod": "OBSERVABLE: The mechanism stated from source. The defect reproduced deliberately. The true count of affected pages stated WITH its method - the count is currently unknown. After the fix: a repaired title still correct on a cold fetch 30+ minutes later, quoted literally. CHECKED BY: Re-measure the render-level defect SEQUENTIALLY, not concurrently - the Sprint 02 note says the true count is unknown precisely because the measurement method was wrong. Then wait out the cache window and re-fetch cold. BEWARE THE FALSE PASS: Verifying a title immediately after deploy is the false pass. The defect IS the delay. A check that does not wait cannot catch it. EVIDENCE LANDS: docs/work-done/ entry with the mechanism, the count and its method, and the 30-minute cold re-fetch.",
       "brief": "Read Next's generateMetadata caching behaviour in source. This is the same class as decision 44 - a caching mechanism whose argument reads like an intensity."
     },
     {
       "id": "SEO-08",
-      "track": "technical-seo",
+      "track": "seo",
       "points": 3,
       "state": "todo",
       "owner": "head-of-seo-content",
@@ -88,17 +73,12 @@
         "decision-item"
       ],
       "why": "Decision 88 deferred this to Sprint 03 planning with the data attached. The data: /garden-wedding/ draws 814 impressions - 28% of ALL site impressions - and earns 4 clicks at 0.49% CTR from position 36.6. It is an English-intent page on a Malay-first site sitting on page four. It is the largest single distortion in every report we produce.",
-      "dod": {
-        "observable": "A written decision - rewrite Malay-first, keep and stop reporting it, or drop it - with SERP evidence on who owns positions 1-3 for the head terms. If kept: the target and the date it is judged on. If dropped: what happens to the URL.",
-        "how_checked": "Ahrefs SERP overview on the head terms, quoting the volume field used (per the standing rule: quote `volume`, the 12-month average, and say which field). Apply the SERP-ownership rule - volume AND who owns position 1.",
-        "evidence_lands": "docs/work-done/ entry and a decision-log entry.",
-        "false_pass_warning": "The Sprint 02 retro found the SERP-ownership rule was used to KILL an option and then not applied to its replacement. Run the rule against whatever replaces this page too."
-      },
+      "dod": "OBSERVABLE: A written decision - rewrite Malay-first, keep and stop reporting it, or drop it - with SERP evidence on who owns positions 1-3 for the head terms. If kept: the target and the date it is judged on. If dropped: what happens to the URL. CHECKED BY: Ahrefs SERP overview on the head terms, quoting the volume field used (per the standing rule: quote `volume`, the 12-month average, and say which field). Apply the SERP-ownership rule - volume AND who owns position 1. BEWARE THE FALSE PASS: The Sprint 02 retro found the SERP-ownership rule was used to KILL an option and then not applied to its replacement. Run the rule against whatever replaces this page too. EVIDENCE LANDS: docs/work-done/ entry and a decision-log entry.",
       "brief": "This is a decision item, not a build item. It may correctly produce no code."
     },
     {
       "id": "SEO-09",
-      "track": "technical-seo",
+      "track": "seo",
       "points": 3,
       "state": "todo",
       "owner": "BMAD",
@@ -108,17 +88,12 @@
         "plan-already-exists"
       ],
       "why": "CONT-04 produced the plan in Sprint 01 and established it needs NO redirects. Deferred from Sprint 02 only because the venue and zero-CTR work touched the same pillar pages, and two agents on one file is how Sprint 01 nearly lost work. That collision risk does not exist this sprint if it is sequenced away from SEO-10.",
-      "dod": {
-        "observable": "All 13 articles live at their new paths, each returning 200 on FIRST request. No redirect added. Sitemap count unchanged at 103. Each appears under its correct pillar.",
-        "how_checked": "curl all 13 with -w '%{http_code}' on a first request each. Count the live sitemap. Load each parent pillar and confirm the article is linked from it.",
-        "evidence_lands": "docs/work-done/ entry listing all 13 old->new paths with status codes.",
-        "false_pass_warning": "Check the PILLAR shows them, not just that the URL resolves. Sprint 02's failure mode 3 was a layer reading done from above while the layer below was 404."
-      },
+      "dod": "OBSERVABLE: All 13 articles live at their new paths, each returning 200 on FIRST request. No redirect added. Sitemap count unchanged at 103. Each appears under its correct pillar. CHECKED BY: curl all 13 with -w '%{http_code}' on a first request each. Count the live sitemap. Load each parent pillar and confirm the article is linked from it. BEWARE THE FALSE PASS: Check the PILLAR shows them, not just that the URL resolves. Sprint 02's failure mode 3 was a layer reading done from above while the layer below was 404. EVIDENCE LANDS: docs/work-done/ entry listing all 13 old->new paths with status codes.",
       "brief": "CONT-04's Sprint 01 plan is the input. Do not re-derive it."
     },
     {
       "id": "SEO-10",
-      "track": "technical-seo",
+      "track": "seo",
       "points": 3,
       "state": "todo",
       "owner": "BMAD",
@@ -128,12 +103,7 @@
         "owner-role-retired"
       ],
       "why": "Found during SEO-05. Question-and-answer blocks are earning no rich result on a site whose entire Malay long tail is question-shaped - which is the cheapest rich-result opportunity we have. Recorded as ONE emitter fix, not 31 article fixes. The original owner (full-stack-engineer) was retired to BMAD, which is why this has sat unowned.",
-      "dod": {
-        "observable": "The emitter fixed. FAQPage JSON-LD present in the live HTML of at least five named articles that carry Q&A blocks. Validated against Google's Rich Results Test or the schema spec, with the result quoted.",
-        "how_checked": "curl each of the five and extract the JSON-LD block literally. Do not infer from the route source.",
-        "evidence_lands": "docs/work-done/ entry with the JSON-LD quoted from live HTML for five articles.",
-        "false_pass_warning": "Evidence file from Sprint 02 exists: docs/work-done/2026-08-27-seo-05-titles-EVIDENCE/faq-schema-gap.json. Read it rather than re-deriving the gap."
-      },
+      "dod": "OBSERVABLE: The emitter fixed. FAQPage JSON-LD present in the live HTML of at least five named articles that carry Q&A blocks. Validated against Google's Rich Results Test or the schema spec, with the result quoted. CHECKED BY: curl each of the five and extract the JSON-LD block literally. Do not infer from the route source. BEWARE THE FALSE PASS: Evidence file from Sprint 02 exists: docs/work-done/2026-08-27-seo-05-titles-EVIDENCE/faq-schema-gap.json. Read it rather than re-deriving the gap. EVIDENCE LANDS: docs/work-done/ entry with the JSON-LD quoted from live HTML for five articles.",
       "brief": "Fix the emitter, THEN correct the writer instruction so it describes what actually happens - the instruction currently describes behaviour the code does not have."
     },
     {
@@ -148,13 +118,7 @@
         "gate-first"
       ],
       "why": "Parked in Sprint 02 at its own sourcing gate: real prices and capacities could not be sourced at scale. The gate firing was the correct outcome and the item built nothing rather than inventing capacities. Its own park recommendation is the way back in: PHONE-VERIFY eight venues and publish with 'disemak Ogos 2026' - the method that built mas-kahwin-ikut-negeri and the method our whole competitive claim rests on.",
-      "dod": {
-        "gate": "GATE FIRST, BEFORE ANYTHING IS BUILT: phone-verify eight venues. If eight cannot be verified, STOP and bring it back. Do NOT invent a capacity or a price, and do NOT quietly downgrade to the council-hall target that decision 83 already killed. A parked item with a clear reason is a good outcome here. A directory of plausible invented capacities is the worst possible outcome on a site whose entire claim is that its numbers carry sources - and the hardest to detect months later.",
-        "observable": "Eight entity pages live, each returning 200 on first request, each carrying its source authority and the date checked. Sitemap count rises by exactly the number published. Setiawangsa published as the declared CONTROL.",
-        "how_checked": "curl each page first-request. Quote the sourcing line from live HTML. Count the sitemap before and after.",
-        "evidence_lands": "docs/work-done/ entry with the phone-verification record per venue - who was called, when, what was confirmed.",
-        "control_condition": "Setiawangsa runs as a deliberate control so the council-hall category is PROVED dead rather than quietly dropped. Decision 83 declared this control and SEO-04's park meant it never ran. It runs this time."
-      },
+      "dod": "GATE FIRST — GATE FIRST, BEFORE ANYTHING IS BUILT: phone-verify eight venues. If eight cannot be verified, STOP and bring it back. Do NOT invent a capacity or a price, and do NOT quietly downgrade to the council-hall target that decision 83 already killed. A parked item with a clear reason is a good outcome here. A directory of plausible invented capacities is the worst possible outcome on a site whose entire claim is that its numbers carry sources - and the hardest to detect months later. OBSERVABLE: Eight entity pages live, each returning 200 on first request, each carrying its source authority and the date checked. Sitemap count rises by exactly the number published. Setiawangsa published as the declared CONTROL. CHECKED BY: curl each page first-request. Quote the sourcing line from live HTML. Count the sitemap before and after. CONTROL: Setiawangsa runs as a deliberate control so the council-hall category is PROVED dead rather than quietly dropped. Decision 83 declared this control and SEO-04's park meant it never ran. It runs this time. EVIDENCE LANDS: docs/work-done/ entry with the phone-verification record per venue - who was called, when, what was confirmed.",
       "brief": "Expected outcome is position 3-5, not 1 (decision 83). Commercial venue brands, not council halls. Resolve the operator before ranking a competitor - nikahsatu is the venue OPERATOR, not a competitor, which is the correction Sprint 02's retro made."
     },
     {
@@ -169,12 +133,7 @@
         "decision-item"
       ],
       "why": "C2.1 (barang hantaran lelaki) is DELIBERATELY undecided. CONT-07 found three C2.1 articles plus the legacy seed on one parent. C2.2 was decided DO-NOT-MERGE on decisive SERP evidence - Google's own People-also-ask box carries two C2.2 titles near verbatim. C2.1 has had NO SERP check, and deciding on parent_topic alone would repeat the exact error this whole thread corrected. The parent_topic signal is demonstrably noisy in Malay long-tail: Ahrefs gives the head hantaran tunang a traffic potential of 400 while four of its children score 1,100-1,300, which is impossible.",
-      "dod": {
-        "observable": "A written decision - merge or do not merge - resting on a SERP check, not on parent_topic. Specifically: does the MY SERP split the groom/bride angles, and do sub-angle pages rank independently?",
-        "how_checked": "Ahrefs SERP overview on the C2.1 head terms. Name the volume field used. The resolver is the SERP, not the field.",
-        "evidence_lands": "docs/work-done/ entry and a decision-log entry. CONT-12's article count comes from this decision.",
-        "false_pass_warning": "The playbook's own rules conflict here - SEO rule 4 says a shared parent means merge, rule 2 says every question over 100/mo gets a page, and in C2.2 both were followed. This item does not resolve that conflict globally; it decides THIS cluster on evidence."
-      },
+      "dod": "OBSERVABLE: A written decision - merge or do not merge - resting on a SERP check, not on parent_topic. Specifically: does the MY SERP split the groom/bride angles, and do sub-angle pages rank independently? CHECKED BY: Ahrefs SERP overview on the C2.1 head terms. Name the volume field used. The resolver is the SERP, not the field. BEWARE THE FALSE PASS: The playbook's own rules conflict here - SEO rule 4 says a shared parent means merge, rule 2 says every question over 100/mo gets a page, and in C2.2 both were followed. This item does not resolve that conflict globally; it decides THIS cluster on evidence. EVIDENCE LANDS: docs/work-done/ entry and a decision-log entry. CONT-12's article count comes from this decision.",
       "brief": "Run the parent_topic check at PLANNING time - that is the interim guard all three sessions adopted."
     },
     {
@@ -188,12 +147,7 @@
         "target-selection-fix"
       ],
       "why": "hantaran kahwin bajet, kos hantaran kahwin, adat hantaran and persiapan hantaran all carry zero volume and no parent topic, while SURROUNDING parents carry 2,400-2,700 traffic potential. The subject is real; the chosen head terms are not. This is independent of the merge decision and true regardless of how CONT-10 lands.",
-      "dod": {
-        "observable": "Each of the four either replaced with a head term carrying stated volume and traffic potential, or explicitly dropped with a reason. Every figure quoted with its Ahrefs field name.",
-        "how_checked": "Ahrefs Keywords Explorer, quoting `volume` (12-month average) and saying so - the standing rule after three sessions argued over a phantom.",
-        "evidence_lands": "docs/work-done/ entry with old term, new term, and both volumes.",
-        "false_pass_warning": "NEVER derive an article's target keyword from its slug. That error scored berapa-dulang-hantaran-tunang at 15/mo when it targets a 742/mo term. For a planned cluster the target is in the brief."
-      },
+      "dod": "OBSERVABLE: Each of the four either replaced with a head term carrying stated volume and traffic potential, or explicitly dropped with a reason. Every figure quoted with its Ahrefs field name. CHECKED BY: Ahrefs Keywords Explorer, quoting `volume` (12-month average) and saying so - the standing rule after three sessions argued over a phantom. BEWARE THE FALSE PASS: NEVER derive an article's target keyword from its slug. That error scored berapa-dulang-hantaran-tunang at 15/mo when it targets a 742/mo term. For a planned cluster the target is in the brief. EVIDENCE LANDS: docs/work-done/ entry with old term, new term, and both volumes.",
       "brief": "Apply the SERP-ownership rule to the replacements too - volume AND who owns position 1."
     },
     {
@@ -208,12 +162,7 @@
         "count-not-yet-fixed"
       ],
       "why": "C2.1 is the last open Tier 1 cluster. Its article count CANNOT be fixed until CONT-10 decides whether the cluster merges - which is why this item is sized on the larger shape and explicitly declared blocked rather than given a count it might not keep.",
-      "dod": {
-        "observable": "Every article ingested to production, 200 on FIRST request, appearing under its correct pillar, with the pillar no longer advertising it as 'akan datang'. Sitemap count rises by exactly the number published.",
-        "how_checked": "curl each first-request. Load the parent pillar and confirm each is linked. Count the sitemap before and after.",
-        "evidence_lands": "docs/work-done/ entry with every URL and its first-request status code.",
-        "false_pass_warning": "Sprint 02 failure mode 5: when work transforms a document, check what the transformation CARRIED THROUGH. An English SOURCE NOTES block with struck-through internal claims went live on a Malay reader page and sat there a day."
-      },
+      "dod": "OBSERVABLE: Every article ingested to production, 200 on FIRST request, appearing under its correct pillar, with the pillar no longer advertising it as 'akan datang'. Sitemap count rises by exactly the number published. CHECKED BY: curl each first-request. Load the parent pillar and confirm each is linked. Count the sitemap before and after. BEWARE THE FALSE PASS: Sprint 02 failure mode 5: when work transforms a document, check what the transformation CARRIED THROUGH. An English SOURCE NOTES block with struck-through internal claims went live on a Malay reader page and sat there a day. EVIDENCE LANDS: docs/work-done/ entry with every URL and its first-request status code.",
       "brief": "BLOCKED until CONT-10 decides. Do not start writing against a count that may change. All content runs through /humanizer - company-wide rule, decision 3."
     },
     {
@@ -228,11 +177,7 @@
         "round-table-finding"
       ],
       "why": "Moving an item out of a sprint silently shrinks `planned`. Sprint 02 planned 77 points across 20 items; SEO-04 parked and moved to the backlog, and that move turned 72-of-77 into a flattering 100%. The tracker's whole design principle is that velocity cannot be TYPED into. It must also be impossible to FLATTER by moving an item.",
-      "dod": {
-        "observable": "Moving an item out of a sprint after it starts no longer reduces `planned`. Demonstrated by reproducing the exact Sprint 02 case: a 77-point sprint with a 5-point item moved out must not compute 100%.",
-        "how_checked": "Run the reproduction against the tracker and quote the computed figure before and after the fix.",
-        "evidence_lands": "docs/work-done/ entry with the reproduction output."
-      },
+      "dod": "OBSERVABLE: Moving an item out of a sprint after it starts no longer reduces `planned`. Demonstrated by reproducing the exact Sprint 02 case: a 77-point sprint with a 5-point item moved out must not compute 100%. CHECKED BY: Run the reproduction against the tracker and quote the computed figure before and after the fix. EVIDENCE LANDS: docs/work-done/ entry with the reproduction output.",
       "brief": "CUT CANDIDATE, flagged not hidden. The CEO's argument for cutting: this is reporting accuracy on a tracker only we read, and every point here is a point not spent on the zero-click problem. The argument against, which the owner should weigh: Sprint 02's retro rule says a lesson carried forward twice means the template is wrong rather than the run. The owner kept it in scope."
     },
     {
@@ -247,12 +192,7 @@
         "safety-critical"
       ],
       "why": "git merge-base --is-ancestor returns false FOREVER for a squash-merged branch, because squashing creates a new commit and the branch tip never becomes an ancestor. The CEO used it on PLAT-05 and reported SHIPPED work as UNSHIPPED. A false negative is worse than no check, because the correct response to 'unshipped' is to ship it again. On PLAT-06 the check was silent on genuinely unshipped work with a clean git status.",
-      "dod": {
-        "observable": "Ancestry replaced with POSITIVE EVIDENCE: git cat-file -e origin/main:<a file the work added>. `git rev-list @{u}..HEAD` mandatory per item. Both the squash-merge false negative and the clean-status false silence reproduced against the fixed check and shown to be caught.",
-        "how_checked": "Reproduce both real Sprint 02 cases - PLAT-05 squash-merged, PLAT-06 unshipped-with-clean-status - and show the new check returns the right answer on each.",
-        "evidence_lands": "docs/work-done/ entry with both reproductions.",
-        "false_pass_warning": "Check which merge style the repo actually uses before trusting either test."
-      },
+      "dod": "OBSERVABLE: Ancestry replaced with POSITIVE EVIDENCE: git cat-file -e origin/main:<a file the work added>. `git rev-list @{u}..HEAD` mandatory per item. Both the squash-merge false negative and the clean-status false silence reproduced against the fixed check and shown to be caught. CHECKED BY: Reproduce both real Sprint 02 cases - PLAT-05 squash-merged, PLAT-06 unshipped-with-clean-status - and show the new check returns the right answer on each. BEWARE THE FALSE PASS: Check which merge style the repo actually uses before trusting either test. EVIDENCE LANDS: docs/work-done/ entry with both reproductions.",
       "brief": "This one is not a cut candidate. It is the check that decides whether anything else in this sprint is really done."
     },
     {
@@ -267,11 +207,7 @@
         "carried-forward-twice"
       ],
       "why": "It keys off /buildit's ship-log, and a sprint never writes one, so effort per stage is unmeasured for Sprint 01 AND Sprint 02. Carried forward once already and not acted on. By the retro's own rule, twice is the signal that the template is wrong rather than the run. 'Report it honestly as empty' is not acceptable a third time.",
-      "dod": {
-        "observable": "Either /startsprint writes the ship-log entry the tool expects, OR run-stats.py keys off a sprint. Demonstrated by running it against Sprint 02's real data and producing a NON-EMPTY card.",
-        "how_checked": "Run it against Sprint 02 and quote the output. An empty card is a failed DoD.",
-        "evidence_lands": "docs/work-done/ entry with the rendered card."
-      },
+      "dod": "OBSERVABLE: Either /startsprint writes the ship-log entry the tool expects, OR run-stats.py keys off a sprint. Demonstrated by running it against Sprint 02's real data and producing a NON-EMPTY card. CHECKED BY: Run it against Sprint 02 and quote the output. An empty card is a failed DoD. EVIDENCE LANDS: docs/work-done/ entry with the rendered card.",
       "brief": "CUT CANDIDATE, flagged not hidden - same reasoning as PLAT-10. Owner kept it in scope."
     },
     {
@@ -287,12 +223,7 @@
         "blocks-DES-02"
       ],
       "why": "The owner named caratsandcake.com and partyslate.com as touchstones and named what premium must NOT be (Western bridal pastiche on Malay words). Nobody has defined what it positively IS for a Malaysian Muslim audience. Taste arguments are unwinnable in the abstract and cheap to settle against evidence, so the reasoning is approved before anything is drawn.",
-      "dod": {
-        "observable": "A written rationale containing: what premium looks like in the Malaysian wedding market today (NAMED brands with URLs or screenshots); what our actual SERP competitors look like and where they are weak; the proposed register with its reasoning; and an explicit list of what we will NOT do, with reasons.",
-        "how_checked": "Every market claim carries a real URL or screenshot with the date fetched. The owner approves the REASONING before DES-02 begins.",
-        "evidence_lands": "docs/work-done/ entry, opened for the owner with its full path.",
-        "false_pass_warning": "A rationale asserting what Malaysian couples find premium without showing a single real brand is an opinion, not evidence. Fetch them."
-      },
+      "dod": "OBSERVABLE: A written rationale containing: what premium looks like in the Malaysian wedding market today (NAMED brands with URLs or screenshots); what our actual SERP competitors look like and where they are weak; the proposed register with its reasoning; and an explicit list of what we will NOT do, with reasons. CHECKED BY: Every market claim carries a real URL or screenshot with the date fetched. The owner approves the REASONING before DES-02 begins. BEWARE THE FALSE PASS: A rationale asserting what Malaysian couples find premium without showing a single real brand is an opinion, not evidence. Fetch them. EVIDENCE LANDS: docs/work-done/ entry, opened for the owner with its full path.",
       "brief": "GATE: DES-02 does not start until the owner approves this. A parked or redirected direction here is far cheaper than three rejected comps."
     },
     {
@@ -307,12 +238,7 @@
         "owner-decision-gate"
       ],
       "why": "The owner chooses the art direction; everything downstream of that choice is the Creative Director's without further approval. One gate, early. Three directions on one canvas make the choice comparable rather than sequential.",
-      "dod": {
-        "observable": "A published multi-artboard canvas (/design) carrying THREE directions applied to the SAME page so they are comparable, using REAL Malay headlines and REAL article titles from the live site. The owner names the winner.",
-        "how_checked": "Live artifact URL handed to the owner. Different means different - three saturations of one idea fails this DoD.",
-        "evidence_lands": "The canvas URL recorded in docs/work-done/ and in the decision log with the owner's choice.",
-        "false_pass_warning": "Lorem ipsum or English placeholder text hides the exact problem this redesign exists to fix: Malay compounds run long and wrap where English does not."
-      },
+      "dod": "OBSERVABLE: A published multi-artboard canvas (/design) carrying THREE directions applied to the SAME page so they are comparable, using REAL Malay headlines and REAL article titles from the live site. The owner names the winner. CHECKED BY: Live artifact URL handed to the owner. Different means different - three saturations of one idea fails this DoD. BEWARE THE FALSE PASS: Lorem ipsum or English placeholder text hides the exact problem this redesign exists to fix: Malay compounds run long and wrap where English does not. EVIDENCE LANDS: The canvas URL recorded in docs/work-done/ and in the decision log with the owner's choice.",
       "brief": "Human photography only, and covers must depict their subject - company rule, applies to comps too."
     },
     {
@@ -328,12 +254,7 @@
         "seo-review-required"
       ],
       "why": "A canvas decides a look; it does not specify a build. The HTML artifact IS the specification the Design Systems Engineer builds against - real type, real breakpoints, real light and dark, and the states a static mock always omits.",
-      "dod": {
-        "observable": "A self-contained responsive HTML artifact covering homepage, catalogue and article, carrying: real fonts, real breakpoints, light AND dark, and the awkward cases - a three-line Malay headline beside a one-line one, a missing cover image, an empty category. Type scale, spacing scale and colour stated as NUMBERS with contrast ratios.",
-        "how_checked": "Open it at 360px and at desktop, in both themes. Every text-on-background pairing quotes its measured contrast ratio, WCAG AA floor.",
-        "evidence_lands": "Artifact URL + docs/work-done/ entry.",
-        "false_pass_warning": "If it is not in the artifact it is not specified. Do not leave a state out and expect it built."
-      },
+      "dod": "OBSERVABLE: A self-contained responsive HTML artifact covering homepage, catalogue and article, carrying: real fonts, real breakpoints, light AND dark, and the awkward cases - a three-line Malay headline beside a one-line one, a missing cover image, an empty category. Type scale, spacing scale and colour stated as NUMBERS with contrast ratios. CHECKED BY: Open it at 360px and at desktop, in both themes. Every text-on-background pairing quotes its measured contrast ratio, WCAG AA floor. BEWARE THE FALSE PASS: If it is not in the artifact it is not specified. Do not leave a state out and expect it built. EVIDENCE LANDS: Artifact URL + docs/work-done/ entry.",
       "brief": "Name every typeface with its licence AND its Malay diacritic coverage. Display faces routinely ship broken diacritics and it is found in production. head-of-seo-content REVIEWS this artifact before it is treated as the spec - heading hierarchy and schema slots are design decisions, not implementation details."
     },
     {
@@ -349,12 +270,7 @@
         "owner-opened-this-question"
       ],
       "why": "The owner deliberately did NOT pre-decide the stack; it is the engineer's call, argued against the art direction once it exists rather than against a hypothetical one. The site runs Tailwind + shadcn defaults on Geist - the generic look being replaced. The visual defaults are the problem; the accessibility primitives are valuable.",
-      "dod": {
-        "observable": "A written recommendation answering, separately and explicitly: does Tailwind stay and what exactly changes; do shadcn/Radix primitives stay; the cost of each option in work and risk; and what would make the recommendation wrong.",
-        "how_checked": "Read against the DES-01 rationale and the DES-03 artifact. STOPS and reports before any system work begins.",
-        "evidence_lands": "docs/work-done/ entry and a decision-log entry.",
-        "false_pass_warning": "Conflating 'shadcn looks generic' with 'Radix accessibility must go' is how teams throw away accessibility to fix a look. Answer the two questions separately."
-      },
+      "dod": "OBSERVABLE: A written recommendation answering, separately and explicitly: does Tailwind stay and what exactly changes; do shadcn/Radix primitives stay; the cost of each option in work and risk; and what would make the recommendation wrong. CHECKED BY: Read against the DES-01 rationale and the DES-03 artifact. STOPS and reports before any system work begins. BEWARE THE FALSE PASS: Conflating 'shadcn looks generic' with 'Radix accessibility must go' is how teams throw away accessibility to fix a look. Answer the two questions separately. EVIDENCE LANDS: docs/work-done/ entry and a decision-log entry.",
       "brief": "GATE: DES-05 does not start until this is decided and recorded."
     },
     {
@@ -370,12 +286,7 @@
         "seo-review-required"
       ],
       "why": "Owner decision: the system lives INSIDE the hellokahwin site repo (src/design-system/) with a private /design-system reference page, matching what buddy already does. One repo, one consumer, no versioning ceremony until a second surface exists.",
-      "dod": {
-        "observable": "Tokens (colour, type scale, spacing, radii, shadows, motion) as primitive AND semantic layers, light and dark defined together. Components consume SEMANTIC tokens only. A live /design-system reference page that reads tokens from the system itself. Zero hex literals outside the token modules.",
-        "how_checked": "grep the component tree for hex literals - the count must be zero. Load /design-system in both themes. Every text-on-background pairing quotes its contrast ratio.",
-        "evidence_lands": "docs/work-done/ entry with the live reference-page URL.",
-        "false_pass_warning": "Reading your own source proves what you intended. Fetch the BUILT page and read the rendered CSS."
-      },
+      "dod": "OBSERVABLE: Tokens (colour, type scale, spacing, radii, shadows, motion) as primitive AND semantic layers, light and dark defined together. Components consume SEMANTIC tokens only. A live /design-system reference page that reads tokens from the system itself. Zero hex literals outside the token modules. CHECKED BY: grep the component tree for hex literals - the count must be zero. Load /design-system in both themes. Every text-on-background pairing quotes its contrast ratio. BEWARE THE FALSE PASS: Reading your own source proves what you intended. Fetch the BUILT page and read the rendered CSS. EVIDENCE LANDS: docs/work-done/ entry with the live reference-page URL.",
       "brief": "The reference page is the regression test for taste, not documentation. It updates in the SAME change as any token or component. DONE MEANS SHIPPED - merged, deployed, visible. head-of-seo-content REVIEWS the component set for heading semantics and internal-link affordances."
     },
     {
@@ -392,12 +303,7 @@
         "seo-review-required"
       ],
       "why": "Decision 76 found no search anywhere on a site whose demand is overwhelmingly named-entity lookups - readers arrive hunting a specific hall, a specific state's rate, a specific hantaran question. The owner put this in scope: the catalogue redesign is close to meaningless without it.",
-      "dod": {
-        "observable": "Specified flows for: search entry point, query experience, results, NO-RESULTS, and how search relates to browsing. Catalogue filters, sort, and the pagination-vs-infinite-scroll decision WITH its reasoning (SEO crawlability, back button, return-to-position). Mobile-first, proved at 360px.",
-        "how_checked": "Walked against the REAL site - real category counts, real article titles, including the thin categories.",
-        "evidence_lands": "docs/work-done/ entry, full path stated to the owner.",
-        "false_pass_warning": "A flow designed against an imagined content set fails on contact. Fetch the actual categories and use their real counts."
-      },
+      "dod": "OBSERVABLE: Specified flows for: search entry point, query experience, results, NO-RESULTS, and how search relates to browsing. Catalogue filters, sort, and the pagination-vs-infinite-scroll decision WITH its reasoning (SEO crawlability, back button, return-to-position). Mobile-first, proved at 360px. CHECKED BY: Walked against the REAL site - real category counts, real article titles, including the thin categories. BEWARE THE FALSE PASS: A flow designed against an imagined content set fails on contact. Fetch the actual categories and use their real counts. EVIDENCE LANDS: docs/work-done/ entry, full path stated to the owner.",
       "brief": "DESIGN ONLY. Building search is a separate item, sized after this exists - do not assume designing it means it ships this sprint. head-of-seo-content CO-OWNS the pagination-vs-infinite-scroll decision. It is an SEO call (crawl depth, link equity, back-button) as much as a UX one, and DES-09's guardrails bind it."
     },
     {
@@ -412,12 +318,7 @@
         "the-states-nobody-designs"
       ],
       "why": "This is what separates a design that survives production from one that does not. Sprint 02 shipped a homepage with a grey placeholder card, a category page with two 'coming soon' empty states above its real content, and nav text truncated mid-word. Every one is an unspecified state, not a bug.",
-      "dod": {
-        "observable": "For every surface in the redesign: default, loading, empty, error, too-few-items, too-many-items, slow/no-JS, and the LONGEST plausible Malay content. Each specified visually, not described.",
-        "how_checked": "Cross-check against the three page types in DES-03. Any state present in neither document is a gap.",
-        "evidence_lands": "docs/work-done/ entry.",
-        "false_pass_warning": "A specification showing only the happy path is not finished - the missing states get invented by whoever builds it."
-      },
+      "dod": "OBSERVABLE: For every surface in the redesign: default, loading, empty, error, too-few-items, too-many-items, slow/no-JS, and the LONGEST plausible Malay content. Each specified visually, not described. CHECKED BY: Cross-check against the three page types in DES-03. Any state present in neither document is a gap. BEWARE THE FALSE PASS: A specification showing only the happy path is not finished - the missing states get invented by whoever builds it. EVIDENCE LANDS: docs/work-done/ entry.",
       "brief": "Real Malay headlines at real length. English placeholders hide the wrap problems entirely."
     },
     {
@@ -433,12 +334,7 @@
         "seo-review-required"
       ],
       "why": "The design system is the vocabulary; this is the three pages actually built in it and shipped. Without this item the whole design track produces artifacts nobody outside the company ever sees.",
-      "dod": {
-        "observable": "All three page types live in production on the new system, matching the DES-03 artifact. Each returns 200 on first request. The old generic styling is gone - verified by fetching the live page and confirming the new tokens are present and Geist-as-body is not.",
-        "how_checked": "curl each live URL first-request; quote rendered CSS from the built page, not the source. Check at 360px and desktop, light and dark.",
-        "evidence_lands": "docs/work-done/ entry with live URLs and quoted CSS.",
-        "false_pass_warning": "A status code proves nothing about whether a page renders correctly. Quote content only the real redesigned page contains."
-      },
+      "dod": "OBSERVABLE: All three page types live in production on the new system, matching the DES-03 artifact. Each returns 200 on first request. The old generic styling is gone - verified by fetching the live page and confirming the new tokens are present and Geist-as-body is not. CHECKED BY: curl each live URL first-request; quote rendered CSS from the built page, not the source. Check at 360px and desktop, light and dark. BEWARE THE FALSE PASS: A status code proves nothing about whether a page renders correctly. Quote content only the real redesigned page contains. EVIDENCE LANDS: docs/work-done/ entry with live URLs and quoted CSS.",
       "brief": "Build against the DES-03 artifact and the DES-05 system. If the spec is wrong, raise it as a finding - never narrow it to match what got built. head-of-seo-content SIGNS OFF post-deploy against DES-09's guardrails, with live numbers."
     },
     {
@@ -454,19 +350,14 @@
         "seo-is-the-business"
       ],
       "why": "THE OWNER CAUGHT THIS: the design track was planned with head-of-seo-content on ZERO items, on a site where organic search IS the business. A redesign is one of the few changes that can undo Sprint 01 and Sprint 02 in a single deploy. Sprint 02 spent 77 points getting 103 URLs indexed, positions from 20 to 17.7 and impressions from 88/day to 412/day. A redesign that drops heading hierarchy, breaks internal links, strips schema, or triples LCP with hero photography gives all of that back - and the loss shows up weeks later, attributed to nothing.",
-      "dod": {
-        "observable": "A written guardrail spec that DES-03 and DES-05 must satisfy, covering at minimum: heading hierarchy per page type (one h1, ordered h2/h3); the internal-linking model (SEO-02 removed 79 rel=nofollow links and added 68 real ones - the redesign must not regress it); which schema types each page emits today and must still emit (Article, BreadcrumbList, ItemList, FAQPage per SEO-10); Core Web Vitals budgets with numbers, especially LCP against big editorial photography; catalogue crawlability (the pagination-vs-infinite-scroll call in DES-06 is an SEO decision as much as a UX one); image weight and format budget; and what must NOT change - URLs, canonicals, the redirect layer verified 29/29.",
-        "how_checked": "Read against the DES-03 artifact and signed off BEFORE DES-08 builds. After DES-08 ships: re-run the checks against live production and quote the numbers.",
-        "evidence_lands": "docs/work-done/ entry with the guardrails, plus a post-ship verification with before/after numbers.",
-        "false_pass_warning": "'The design looks fine for SEO' is not a check. Every guardrail must be a number or a literal string that can be tested against the live page."
-      },
+      "dod": "OBSERVABLE: A written guardrail spec that DES-03 and DES-05 must satisfy, covering at minimum: heading hierarchy per page type (one h1, ordered h2/h3); the internal-linking model (SEO-02 removed 79 rel=nofollow links and added 68 real ones - the redesign must not regress it); which schema types each page emits today and must still emit (Article, BreadcrumbList, ItemList, FAQPage per SEO-10); Core Web Vitals budgets with numbers, especially LCP against big editorial photography; catalogue crawlability (the pagination-vs-infinite-scroll call in DES-06 is an SEO decision as much as a UX one); image weight and format budget; and what must NOT change - URLs, canonicals, the redirect layer verified 29/29. CHECKED BY: Read against the DES-03 artifact and signed off BEFORE DES-08 builds. After DES-08 ships: re-run the checks against live production and quote the numbers. BEWARE THE FALSE PASS: 'The design looks fine for SEO' is not a check. Every guardrail must be a number or a literal string that can be tested against the live page. EVIDENCE LANDS: docs/work-done/ entry with the guardrails, plus a post-ship verification with before/after numbers.",
       "brief": "GATE: DES-08 does not ship until these guardrails are signed off, and head-of-seo-content re-verifies AFTER the deploy. This seat has veto over anything that measurably harms rankings - that veto is the point of the item."
     },
     {
       "id": "DES-10",
       "track": "design",
       "points": 3,
-      "state": "review",
+      "state": "blocked",
       "owner": "creative-director",
       "title": "Wordmark set in the locked register - five outlined lockups",
       "flags": [
@@ -474,19 +365,14 @@
         "built-awaiting-merge"
       ],
       "why": "Owner locked the Carats & Cake register on 28 Aug, after it was tested against five alternatives and against the mobile constraint. Their production marks measure 10.0:1 and their sister brand Bliss & Bone 11.2:1 - both fetched from live SVGs rather than described. Our primary is generated at exactly 10.0:1.",
-      "dod": {
-        "observable": "Five outlined SVGs in public/brand/logos: horizontal (10.0:1), horizontal-wide (12.4:1), vertical, shortmark, monogram. Letterforms are PATHS not <text>, every file is fill=currentColor, largest under 3KB. Each parses as valid XML and carries an aria-label.",
-        "how_checked": "Parse each file, count paths, assert currentColor and aria-label present. Ratios computed from the viewBox, not asserted.",
-        "evidence_lands": "Branch feat/des-10-brand-page. docs/work-done/ entry on merge.",
-        "false_pass_warning": "A mark set in live <text> looks identical here and breaks on any machine lacking the font. Check for <path>, not for appearance."
-      },
-      "brief": "BUILT AND PUSHED, NOT MERGED. Branch feat/des-10-brand-page. Done when merged and the marks resolve on production."
+      "dod": "OBSERVABLE: Five outlined SVGs in public/brand/logos: horizontal (10.0:1), horizontal-wide (12.4:1), vertical, shortmark, monogram. Letterforms are PATHS not <text>, every file is fill=currentColor, largest under 3KB. Each parses as valid XML and carries an aria-label. CHECKED BY: Parse each file, count paths, assert currentColor and aria-label present. Ratios computed from the viewBox, not asserted. BEWARE THE FALSE PASS: A mark set in live <text> looks identical here and breaks on any machine lacking the font. Check for <path>, not for appearance. EVIDENCE LANDS: Branch feat/des-10-brand-page. docs/work-done/ entry on merge.",
+      "brief": "BUILT AND PUSHED, NOT MERGED. Branch feat/des-10-brand-page. Done when merged and the marks resolve on production. BLOCKED ON THE OWNER: built and pushed, awaiting merge. Done means merged and live."
     },
     {
       "id": "DES-11",
       "track": "design",
       "points": 5,
-      "state": "review",
+      "state": "blocked",
       "owner": "design-systems-engineer",
       "title": "/brand - the public brand page",
       "flags": [
@@ -495,13 +381,8 @@
         "built-awaiting-merge"
       ],
       "why": "Owner asked for a page in the shape of thepicklebase.com/brand, whose real structure was read from that repo rather than guessed: a typed asset registry driving section components, with per-asset downloads. Ours adds measured contrast to the colour section and six named DON'Ts.",
-      "dod": {
-        "observable": "/brand returns 200 on production and renders all five marks, the palette with measured ratios, an on-dark demonstration, and the DON'T list. Every Download SVG link resolves to a real file. Page is force-static and reads no database.",
-        "how_checked": "curl /brand first-request for the status code, then quote content only the real page contains - the marks are inline SVG references, so check one resolves 200 too. A status code alone proves nothing.",
-        "evidence_lands": "docs/work-done/ entry with the live URL and one quoted asset URL.",
-        "false_pass_warning": "This is PUBLIC. Verify against production, not against dev - and check it in both colour schemes, since the page carries its own dark palette."
-      },
-      "brief": "BUILT AND PUSHED, NOT MERGED. Branch feat/des-10-brand-page. Scoped to .bp so it does not inherit current site styling - it is the first public surface in the new register. head-of-seo-content should confirm /brand is deliberately excluded from or included in the sitemap before merge."
+      "dod": "OBSERVABLE: /brand returns 200 on production and renders all five marks, the palette with measured ratios, an on-dark demonstration, and the DON'T list. Every Download SVG link resolves to a real file. Page is force-static and reads no database. CHECKED BY: curl /brand first-request for the status code, then quote content only the real page contains - the marks are inline SVG references, so check one resolves 200 too. A status code alone proves nothing. BEWARE THE FALSE PASS: This is PUBLIC. Verify against production, not against dev - and check it in both colour schemes, since the page carries its own dark palette. EVIDENCE LANDS: docs/work-done/ entry with the live URL and one quoted asset URL.",
+      "brief": "BUILT AND PUSHED, NOT MERGED. Branch feat/des-10-brand-page. Scoped to .bp so it does not inherit current site styling - it is the first public surface in the new register. head-of-seo-content should confirm /brand is deliberately excluded from or included in the sitemap before merge. BLOCKED ON THE OWNER: built and pushed, awaiting merge. Done means merged and live."
     },
     {
       "id": "DES-12",
@@ -515,12 +396,7 @@
         "mobile-is-the-constraint"
       ],
       "why": "A brand page nobody applies is a document, not a rebrand. The header is where the mark actually earns its keep - and where the locked register is most at risk, because Bliss & Bone ships at 250x22, which is 69% of a 360px viewport and leaves 78px for search and menu.",
-      "dod": {
-        "observable": "The wordmark live in the production header at both breakpoints. At 360px the header holds the mark AND a reachable search affordance simultaneously - screenshot or measured widths proving both fit. Monogram used below 18px, per the brand page's own minimum.",
-        "how_checked": "Load production at 360px and at desktop. Measure the rendered mark width against the viewport. If the horizontal does not fit beside search, the vertical or the monogram is the answer - not shrinking the mark past its stated minimum.",
-        "evidence_lands": "docs/work-done/ entry with both measurements.",
-        "false_pass_warning": "Checking only desktop is how this ships broken - 64% of impressions arrive on mobile, at position 8.7 against desktop's 28.9."
-      },
+      "dod": "OBSERVABLE: The wordmark live in the production header at both breakpoints. At 360px the header holds the mark AND a reachable search affordance simultaneously - screenshot or measured widths proving both fit. Monogram used below 18px, per the brand page's own minimum. CHECKED BY: Load production at 360px and at desktop. Measure the rendered mark width against the viewport. If the horizontal does not fit beside search, the vertical or the monogram is the answer - not shrinking the mark past its stated minimum. BEWARE THE FALSE PASS: Checking only desktop is how this ships broken - 64% of impressions arrive on mobile, at position 8.7 against desktop's 28.9. EVIDENCE LANDS: docs/work-done/ entry with both measurements.",
       "brief": "If the horizontal cannot fit beside search at 360px, that is a finding to bring back, not a reason to violate the minimum height."
     },
     {
@@ -535,12 +411,7 @@
         "stand-in-in-production"
       ],
       "why": "The marks are set in Bodoni Moda as a STAND-IN for ivyora-display, the Adobe face Carats & Cake actually use. In a text logo the typeface IS the logo, so this is not a detail - it decides whether the shipped mark is final or provisional.",
-      "dod": {
-        "observable": "A decision naming the face, its licence, its cost, and whether it covers the Latin set the site needs. If a face other than Bodoni Moda is chosen, all five SVGs are regenerated from it and the ratios re-measured.",
-        "how_checked": "State the licence terms and where they were read. Regenerate rather than rescale.",
-        "evidence_lands": "docs/work-done/ entry and a decision-log entry.",
-        "false_pass_warning": "Correction to an earlier CEO claim: Malay in Rumi script is essentially plain Latin, so 'Malay diacritic coverage' is a much weaker gate than three personas were written to believe. Do not block a face on it - check licence and cost, which are the real constraints."
-      },
+      "dod": "OBSERVABLE: A decision naming the face, its licence, its cost, and whether it covers the Latin set the site needs. If a face other than Bodoni Moda is chosen, all five SVGs are regenerated from it and the ratios re-measured. CHECKED BY: State the licence terms and where they were read. Regenerate rather than rescale. BEWARE THE FALSE PASS: Correction to an earlier CEO claim: Malay in Rumi script is essentially plain Latin, so 'Malay diacritic coverage' is a much weaker gate than three personas were written to believe. Do not block a face on it - check licence and cost, which are the real constraints. EVIDENCE LANDS: docs/work-done/ entry and a decision-log entry.",
       "brief": "Until this closes, the wordmark on /brand is provisional and should be described as such to anyone outside the company."
     }
   ],
