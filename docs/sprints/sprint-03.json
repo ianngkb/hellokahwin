@@ -1,7 +1,7 @@
 {
   "id": 3,
   "name": "Convert the impressions we now have - and stop looking generic",
-  "state": "planned",
+  "state": "in_progress",
   "planned_at": "2026-08-27",
   "governance": {
     "body_of_work_not_duration": "A sprint ends when every item is done AND the owner has reviewed it, however long that takes. No calendar window. No rolling work forward to hit a date.",
@@ -433,5 +433,6 @@
     "BUILDING search. DES-06 designs it; the implementation is deliberately a separate item to be sized once the design exists. Owner chose design-it-then-size-the-build rather than growing this sprint further.",
     "Sub-brand lockups (a Coach/Court/Events equivalent). ThePickleBase's brand page carries four brand families; HelloKahwin has one and inventing sub-brands to fill a page template would be designing an org chart we do not have."
   ],
-  "retro": null
+  "retro": null,
+  "_warning": "DO NOT RE-IMPORT THIS FILE DURING A SPRINT. The tracker is the state; this file is the frozen scoping snapshot. On 28 Aug an import of this file mid-sprint carried its stale state=planned back over the live in_progress and reset the sprint. Item states and evidence survived because import updates rather than replaces them, but the sprint header did not. If a DoD must be amended mid-sprint, edit it in the TRACKER with the CLI, not here."
 }
