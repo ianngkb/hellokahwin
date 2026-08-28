@@ -53,6 +53,7 @@ import { writeFileSync } from 'node:fs';
 // root layout's `title.default`; a local copy of that string would keep passing
 // after somebody reworded the homepage title, on a corpus that was still broken.
 import { SITE_DEFAULT_TITLE } from '../src/lib/seo/site-title';
+import { titleFromSlug } from '../src/lib/seo/article-metadata';
 
 interface Row {
   url: string;
@@ -62,7 +63,41 @@ interface Row {
   cache: string | null;
   age: string | null;
   ms: number;
-  verdict: 'article-title' | 'site-default' | 'not-found' | 'no-title' | 'error';
+  verdict: 'article-title' | 'slug-title' | 'site-default' | 'not-found' | 'no-title' | 'error';
+}
+
+/**
+ * The suffix Next's root `title.template` appends to every non-absolute title.
+ * Stripped before comparing, because the sweep reasons about what
+ * `generateMetadata` RETURNED and the template is added after that.
+ */
+const BRAND_SUFFIX = ' | HelloKahwin';
+
+/** `/artikel/<category>/<slug>` — the only route the tier chain governs. */
+const ARTICLE_PATH = /^\/artikel\/[^/]+\/[^/]+$/;
+
+/**
+ * Is this the tier-3 emergency title — the slug read back, because BOTH
+ * database reads missed?
+ *
+ * Worth its own verdict rather than being counted as a pass. It is not the
+ * defect (it is never the site-default title, and it is about the right
+ * article), but it IS a page whose `<head>` ran on its slug alone, and a run
+ * with several of these is telling you the database was struggling even though
+ * every row says "ok".
+ */
+function isSlugTitle(url: string, title: string): boolean {
+  // ONLY article routes. `/artikel` is a listing page on a different route that
+  // does not use the tier chain at all, and its real title is "Artikel" — which
+  // is also what this function would derive from its path. Checking every URL
+  // reported that page as degraded on the first post-fix sweep. A detector that
+  // fires on a healthy page is how a real degradation later gets waved through.
+  const path = url.split('?')[0].replace(/^https?:\/\/[^/]+/, '');
+  if (!ARTICLE_PATH.test(path)) return false;
+  const slug = path.replace(/\/$/, '').split('/').pop();
+  if (!slug) return false;
+  const bare = title.endsWith(BRAND_SUFFIX) ? title.slice(0, -BRAND_SUFFIX.length) : title;
+  return bare === titleFromSlug(slug);
 }
 
 function arg(name: string): string | undefined {
@@ -118,6 +153,7 @@ async function probe(url: string): Promise<Row> {
     if (!title) verdict = 'no-title';
     else if (title === SITE_DEFAULT_TITLE) verdict = 'site-default';
     else if (title.startsWith('Not Found')) verdict = 'not-found';
+    else if (isSlugTitle(url, title)) verdict = 'slug-title';
     else verdict = 'article-title';
     return { url, status: res.status, title, ogTitle, cache, age, ms, verdict };
   } catch {
@@ -158,7 +194,8 @@ async function main() {
     const row = await probe(target);
     row.url = url; // report the canonical URL, not the busted one
     rows.push(row);
-    const mark = row.verdict === 'article-title' ? 'ok  ' : 'FAIL';
+    const mark =
+      row.verdict === 'article-title' ? 'ok  ' : row.verdict === 'slug-title' ? 'slug' : 'FAIL';
     console.log(
       `${mark} ${String(i + 1).padStart(3)}/${urls.length} ` +
         `[${row.status} ${row.cache ?? '-'} age=${row.age ?? '-'} ${row.ms}ms] ` +
@@ -167,7 +204,7 @@ async function main() {
     if (delay > 0 && i < urls.length - 1) await new Promise((r) => setTimeout(r, delay));
   }
 
-  const articles = rows.filter((r) => /\/artikel\/[^/]+\/[^/]+$/.test(r.url));
+  const articles = rows.filter((r) => ARTICLE_PATH.test(r.url.replace(/^https?:\/\/[^/]+/, '')));
   const count = (rs: Row[], v: Row['verdict']) => rs.filter((r) => r.verdict === v).length;
 
   console.log('');
@@ -179,12 +216,27 @@ async function main() {
   ] as const) {
     console.log(`# ${label}: ${rs.length}`);
     console.log(`#   article-title : ${count(rs, 'article-title')}`);
+    console.log(
+      `#   slug-title    : ${count(rs, 'slug-title')}   <- degraded: both DB reads missed`,
+    );
     console.log(`#   site-default  : ${count(rs, 'site-default')}   <- serves NO article title`);
     console.log(`#   not-found     : ${count(rs, 'not-found')}`);
     console.log(`#   no-title      : ${count(rs, 'no-title')}`);
     console.log(`#   error         : ${count(rs, 'error')}`);
   }
-  const failed = rows.filter((r) => r.verdict !== 'article-title');
+
+  // `slug-title` is NOT a failure. It is never the site-default title and it is
+  // about the right article — the tier-3 emergency source doing its job. It is
+  // listed separately because a run with several of them is telling you the
+  // database was struggling, on a run where every other row says "ok".
+  const degraded = rows.filter((r) => r.verdict === 'slug-title');
+  if (degraded.length > 0) {
+    console.log('#');
+    console.log('# degraded to the slug (tier 3 — both DB reads missed their deadline):');
+    for (const r of degraded) console.log(`#   ${r.url}  <title> ${r.title}`);
+  }
+
+  const failed = rows.filter((r) => r.verdict !== 'article-title' && r.verdict !== 'slug-title');
   if (failed.length > 0) {
     console.log('#');
     console.log('# pages serving no article title:');

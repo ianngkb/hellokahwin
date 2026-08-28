@@ -1,0 +1,52 @@
+### PLAIN — what a reader and Googlebot receive  (2026-08-28T04:43:15Z)
+/artikel/ucapan-doa/ucapan-pengantin-baru
+  http=200  x-vercel-cache=MISS  age=0
+  <title> Ucapan pengantin baru: apa yang ditulis ikut siapa dia | HelloKahwin
+/artikel/real-wedding/sentosa-janda-baik
+  http=200  x-vercel-cache=MISS  age=0
+  <title> Majlis Perkahwinan Penuh Nilai Budaya di Sentosa, Janda Baik dengan Inspirasi Warisan Diraja | HelloKahwin
+/artikel/hantaran-mas-kahwin/barang-hantaran-perempuan
+  http=200  x-vercel-cache=MISS  age=0
+  <title> Barang hantaran perempuan: senarai ikut kategori dan kos | HelloKahwin
+/artikel/hantaran-mas-kahwin/hantaran-tunang-untuk-lelaki
+  http=200  x-vercel-cache=MISS  age=0
+  <title> Hantaran tunang untuk lelaki: apa yang dibalas dan harganya | HelloKahwin
+/artikel/real-wedding/perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan
+  http=  x-vercel-cache=-  age=-
+  <title> Hantaran tunang untuk lelaki: apa yang dibalas dan harganya | HelloKahwin
+/artikel/busana-pengantin/songket-tenunan-tangan-atau-cetak
+  http=200  x-vercel-cache=MISS  age=0
+  <title> Kain songket tenunan tangan atau cetak: beza dan harga | HelloKahwin
+/artikel/hantaran-mas-kahwin/berapa-dulang-hantaran-tunang
+  http=200  x-vercel-cache=MISS  age=0
+  <title> Berapa dulang hantaran tunang, dan siapa yang tentukan | HelloKahwin
+/artikel/hantaran-mas-kahwin/hantaran-tunang-untuk-perempuan
+  http=200  x-vercel-cache=MISS  age=0
+  <title> Hantaran tunang untuk perempuan: apa yang dibawa masuk | HelloKahwin
+
+### ?_t= CACHE-BUSTED — edge bypassed, answered by the origin  (2026-08-28T04:44:25Z)
+/artikel/ucapan-doa/ucapan-pengantin-baru
+  http=200  x-vercel-cache=HIT  age=66
+  <title> Ucapan pengantin baru: apa yang ditulis ikut siapa dia | HelloKahwin
+/artikel/real-wedding/sentosa-janda-baik
+  http=200  x-vercel-cache=HIT  age=63
+  <title> Majlis Perkahwinan Penuh Nilai Budaya di Sentosa, Janda Baik dengan Inspirasi Warisan Diraja | HelloKahwin
+/artikel/hantaran-mas-kahwin/barang-hantaran-perempuan
+  http=200  x-vercel-cache=HIT  age=84
+  <title> Barang hantaran perempuan: senarai ikut kategori dan kos | HelloKahwin
+/artikel/hantaran-mas-kahwin/hantaran-tunang-untuk-lelaki
+  http=200  x-vercel-cache=HIT  age=83
+  <title> Hantaran tunang untuk lelaki: apa yang dibalas dan harganya | HelloKahwin
+/artikel/real-wedding/perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan
+  http=200  x-vercel-cache=STALE  age=866
+  <title> Perkahwinan di Ruma Hotel Kuala Lumpur Dengan Sentuhan Warisan Peranakan | HelloKahwin
+/artikel/busana-pengantin/songket-tenunan-tangan-atau-cetak
+  http=200  x-vercel-cache=HIT  age=41
+  <title> Kain songket tenunan tangan atau cetak: beza dan harga | HelloKahwin
+/artikel/hantaran-mas-kahwin/berapa-dulang-hantaran-tunang
+  http=200  x-vercel-cache=HIT  age=40
+  <title> Berapa dulang hantaran tunang, dan siapa yang tentukan | HelloKahwin
+/artikel/hantaran-mas-kahwin/hantaran-tunang-untuk-perempuan
+  http=200  x-vercel-cache=HIT  age=37
+  <title> Hantaran tunang untuk perempuan: apa yang dibawa masuk | HelloKahwin
+
