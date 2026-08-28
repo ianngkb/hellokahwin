@@ -18,6 +18,7 @@ anyway.
 |---|---|
 | What does premium look like in the Malaysian wedding market today? | Two registers, and neither is ours. At the top, imported Western luxury in English — Grazia MY's bridal roundup sells Oscar de la Renta and "fairytale". In the Malay-language middle, warm-neutral geometric sans on cream grounds — ADNAA, Rizman Ruzaini, Songket Dunia. **Nobody occupies premium and Malay-native at once.** |
 | Where are our SERP competitors weak? | Not in content. In maintenance. mingguanwanita.my ships **66 distinct hex colours** and 30 `font-family` declarations on one article. nikahsatu.com ships 50 colours and **zero `<h1>`**. ppsignature.com — the measured market leader at ~29,745 visits/mo — ships **zero `<h1>`** on its top page. lanaianggun.com, ranked #1 for *kos kahwin*, is `'Arial', sans-serif !important`. |
+| Do the owner's two touchstones agree? | **No, and that is the useful part.** Carats & Cake is a serif at one weight; PartySlate is Gotham A at three, with **no structural serif on the page**. They agree only on discipline — one dominant family, ≤3 weights, colours in single figures, one accent. **The transferable thing is the restraint, not the face.** |
 | What is the proposed register? | **A publication of record, warmly printed.** Not a bridal magazine. The locked wordmark sits as a **masthead over a reference work** — which is what a 10:1 outlined mark is actually for. |
 | What is the biggest change from the drafted register? | **One webfont, not four.** One display serif for the masthead and `<h1>`; the system stack keeps the body. That is ~25 KB instead of 120–200 KB, and it fires the DSE's own F3 falsifier as the primary specification rather than a fallback. |
 | What did I find on our own live site? | Body text is **14px at line-height 1.5** in a container up to **1,248px wide**. `.hk-measure` is defined in the shipped CSS and used **zero times**. The article has **two `<h1>` elements** with identical text, and **13 `<h3>` hanging off no `<h2>`**. |
@@ -47,12 +48,20 @@ HelloKahwin and TWN score zero: their colour lives in an external file. The
 comparison between the WordPress sites is fair because they are all built the
 same way; the comparison to us is not, and is not made.
 
-**Three sites refused to be fetched and are recorded as unfetched, not
-described:** aliabastamam.com (403), mimpikita.com.my (403), and
-partyslate.com (202 with an empty body to `Invoke-WebRequest`, 403 to WebFetch).
-PartySlate is one of the owner's two named touchstones, so its absence matters
-and is flagged again at the end. Browser automation was not available to this
-agent context.
+**Three sites refused a scripted fetch** — partyslate.com returned 202 with an
+empty body and then 403; aliabastamam.com and mimpikita.com.my returned 403 —
+**and all three were then captured in a real browser on 28 Ogos 2026.** The
+three screenshots are committed in `aug-28-2026-des-01-EVIDENCE/`. They are not
+of equal value and the document does not treat them as if they were:
+
+| Screenshot | What it supports | Limit, stated |
+|---|---|---|
+| `partyslate-homepage-2026-08-28.jpg` | Full measurement — computed styles read off the delivered page. Section (c). | None material. |
+| `mimpikita-homepage-2026-08-28.jpg` | **Partial.** The wordmark, the hero photograph and the nav are legible. Section (a). | A sign-up modal covers the centre and the page below the fold never loaded. Type is read **by eye from the image**, not from computed styles. |
+| `aliabastamam-homepage-2026-08-28.jpg` | **Almost nothing.** The page did not render its content. | Only the nav labels and the ground colour are legible. **No claim about this brand's design is made anywhere in this document.** |
+
+Where a reading comes from looking at an image rather than from computed styles,
+it says so at the point it is used.
 
 ---
 
@@ -94,7 +103,24 @@ the delivered HTML.
 | **Dentelle Bridal** — bespoke, modest, nikah-to-reception | `https://www.dentellebridal.com/` | Figtree, Nunito (10 self-hosted files) | **5** | `#f6f0ed`, `#e4d8dc`, `#945e69`, `#5a505e`, `#fcfcfc`. |
 | **The Gown Atelier** — Vera Wang Bride stockist | `https://thegownatelier.com/` | **Cormorant Garamond** via Google Fonts | 59 | The one serif. Also the most Western-facing brand in the set. |
 
-Two things fall out of this table and both are load-bearing for the register.
+**A sixth brand, read from a screenshot rather than from computed styles.**
+`mimpikita.com.my` refused a scripted fetch and was captured in a browser on 28
+Ogos 2026. A sign-up modal covers the middle of the page and nothing below the
+fold loaded, so this is a weaker piece of evidence than the five above and is
+weighted accordingly. What is legible: **the MIMPIKITA wordmark is a bold
+geometric sans in uppercase**, set in white over the hero photograph — no serif
+— and the hero is a warm terracotta, camel and sand palette. It points the same
+way as the other four Malay-audience brands. It is corroboration, not a load-
+bearing source, and the conclusion below does not depend on it.
+
+`aliabastamam.com` was captured the same way and **did not render its content at
+all** — only the nav labels *"NEW / SHOP ALL / EXPLORE"* in wide-tracked
+uppercase sans on a near-white ground are legible. **No claim about that brand
+is made here.** Alia Bastamam appears in this document only as a house that
+Grazia MY profiles, with Grazia cited as the source.
+
+Two things fall out of the table above and both are load-bearing for the
+register.
 
 **First: serif display is not the Malaysian premium signal. It is the Western
 one.** Four of the five Malay-audience-native brands use geometric or humanist
@@ -215,14 +241,104 @@ Worth noting so we do not copy it: they ship **three `<h1>` elements** on the
 homepage. DES-09 will not allow that here, and it is not part of what we are
 taking.
 
-**partyslate.com — NOT FETCHED.** Returned HTTP 202 with a zero-byte body to
-`Invoke-WebRequest` and HTTP 403 to WebFetch on 28 Ogos 2026, from two different
-user-agent strings. I have no measurements for it and have not described it.
-This is a gap in the evidence for one of the owner's two named touchstones, and
-it is the one thing in this document I would fix before DES-02 if the owner
-wants it fixed. Decision 101 already records the relevant point about both
-touchstones — they are vendor marketplaces and we chose editorial — so the gap
-does not block the register.
+**partyslate.com — FETCHED, and it disagrees with the other touchstone.**
+
+This gap was closed after the first draft. `Invoke-WebRequest` got HTTP 202 with
+a zero-byte body and WebFetch got 403, from two user-agent strings, so the page
+was measured in a real browser instead — Chrome at 1512×771, 28 Ogos 2026, title
+*"Luxury Party Ideas, Venues and Top Event Professionals | PartySlate"*.
+Computed styles were read off the delivered page rather than its source.
+Screenshot: `aug-28-2026-des-01-EVIDENCE/partyslate-homepage-2026-08-28.jpg`
+(238,704 bytes), committed alongside this document.
+
+**Every structural heading on the page is geometric sans. There is no
+structural serif at all.**
+
+| Element | Face | Size | Weight |
+|---|---|---|---|
+| H2 *"Plan Your Dream Event"* | Gotham A | 24px | 500 |
+| H1 *"Venues Worth Booking"* | Gotham A | 24px | 500 |
+| H1 *"Expert Event Planners"* | Gotham A | 24px | 500 |
+| H2 *"Browse by celebration"* | Gotham A | 16px | 500 |
+| H2 *"Find venues & event spaces by city"* | Gotham A | 16px | 500 |
+| All h3 — *"Wedding Venues"*, *"Wedding Vendors"*, *"Corporate Event Venues"* | Gotham A | 16px | 500, lh 17.6px |
+
+Gotham A loads at **three weights only — 300, 400, 500. No bold anywhere on the
+page.** Three families total: Gotham A (100 text elements), Georgia (86), and a
+Helvetica CJK fallback (7).
+
+**Georgia is the accent voice, not the display voice.** It appears on 89 text
+elements, **11 of them italic**, at 12/14/16/18px and one at 32px — the small
+italic *"find"* floating above the hero headline, and the gold italic *"Photo by
+John & Joseph Photography"* credit. Body computes to Georgia 16px / 24px on
+`rgb(248,248,248)`.
+
+Colour is as disciplined as Carats & Cake, just counted differently: **six text
+colours and five backgrounds, with exactly one accent** — gold `#B69853`, on
+eight elements, used for the photo credit and almost nothing else.
+
+### The two touchstones disagree, and that is the useful part
+
+This has to be said plainly, because reading PartySlate as simple confirmation
+would be the false pass the brief warns about wearing a different costume.
+
+**They disagree on the face.** Carats & Cake is `ivyora-display` — a serif — at
+one weight. PartySlate is Gotham A — a geometric sans — at three, with no
+structural serif on the page. Two premium American touchstones, named by the
+same owner, landing on opposite answers to "what face carries a premium
+publication".
+
+**They agree completely on the discipline.** One dominant family. Three weights
+or fewer. A colour count in single figures. Exactly one accent. Photography
+carrying the emotional load while the furniture stays quiet.
+
+So the transferable thing is **not the face — it is the restraint**, and that
+reframes my headline finding into something more defensible. The claim in
+section (a) was always about the *Malaysian* market: inside Malaysia, the serif
+travels with the Western label. PartySlate is American and does not test that
+claim either way. What it does do is kill the lazier version of the claim —
+"premium equals serif" — from inside the owner's own reference set. A serif
+register and a sans register both reach premium. Neither reaches it without
+discipline.
+
+**This strengthens the one-webfont cut in section (e) rather than weakening
+it.** If the two touchstones disagree on face and agree on restraint, then the
+part worth buying is the restraint, and restraint costs nothing. It also makes
+the short leash on our serif a position *between* the two touchstones rather
+than a compromise: Carats & Cake would set the whole page in it, PartySlate
+would set none of it, and we set the mark and the `<h1>`.
+
+### Four things from the screenshot the computed styles do not show
+
+1. **Their own wordmark mixes the two voices.** "PARTY" is bold sans caps,
+   "SLATE" is italic serif caps. Even the mark refuses to choose. Ours is
+   locked all-serif at 10:1, which is the Carats & Cake answer — worth knowing
+   that the other touchstone would have solved it differently.
+2. **The hero headline builds hierarchy without colour.** Small Georgia italic
+   *"find"*, then *"ONE-OF-A-KIND"* in outlined caps with a transparent fill,
+   then *"VENUES"* in solid black. Three levels inside one line, on a busy
+   photograph, using weight and fill rather than a second colour. That is a
+   device worth stealing.
+3. **The text sits on its own white ground, not on the photograph.** The H2 and
+   the CTA float in a white card over the hero. It is why the photograph is
+   allowed to be busy without costing legibility — relevant to us, because our
+   covers are dense objects like dulang and pelamin.
+4. **The photo credit is designed, not appended.** Gold Georgia italic,
+   bottom-right, deliberate. We hold a locked credit format
+   (`Kredit: … (CC BY 2.0)`) and 617 uncredited images site-wide. PartySlate
+   treats attribution as part of the premium signal rather than as an
+   obligation. That is the most directly transferable thing on the page.
+
+**And one place the parallel must not be allowed to soften our own finding.**
+PartySlate ships two `<h1>` elements — but they are two *different* section
+headings, *"Venues Worth Booking"* and *"Expert Event Planners"*. Our two `<h1>`
+elements carry **identical text**, one per breakpoint, both in the DOM. Those
+are not the same thing. Theirs is a debatable semantic choice; ours is a
+responsive workaround that duplicates a node. Defect (d)(4) stands unchanged.
+
+Similarly, PartySlate runs two navigation rows and so do we — but theirs are
+hierarchical (kind of thing, then kind of event) while decision 76 found ours
+carry **two different category taxonomies**. Not a precedent for our defect.
 
 ---
 
@@ -367,6 +483,13 @@ tabular-nums`. Figures align without a font file.
 `font-display: swap` on `<h1>` only is a budget an LCP guardrail can accept
 next to full-bleed photography. 120–200 KB, on this audience, probably is not —
 and DES-09 holds a veto that is the point of the item.
+
+**Five, added after PartySlate was measured.** The two touchstones disagree on
+the face and agree on the discipline — see (c). Gotham A ships at three weights
+with no bold; `ivyora-display` ships at one. Neither reference buys a large
+type library, and both get their premium read from restraint that costs
+nothing. If the thing that transfers is discipline rather than a specific
+typeface, then a four-face register was buying the wrong half of the lesson.
 
 Type scale, stated as numbers and **fluid**, so nobody duplicates a DOM node
 again:
@@ -603,9 +726,11 @@ Restraint everywhere else is what makes one picture land.
    gate.
 2. **Dark mode.** The 2026-07-14 decision made it deliberately unreachable.
    DES-03 and DES-05 require it. Reverse the decision, or amend the two DoDs.
-3. **Optional:** whether to spend more time getting PartySlate fetched. It is
-   one of your two named touchstones and it is the one measurement I could not
-   take.
+Both touchstones are now measured, so there is no outstanding evidence gap on
+the ones you named. The two sites still unfetched — aliabastamam.com and
+mimpikita.com.my — are supporting examples in section (a), not load-bearing
+ones; four other Malay-audience premium brands were measured directly and they
+all point the same way.
 
 ---
 
@@ -617,9 +742,11 @@ reproducible as written.
 ```powershell
 Invoke-WebRequest -Uri https://caratsandcake.com/          # 200, 83,545 bytes
 Invoke-WebRequest -Uri https://use.typekit.net/irr0rbw.css # 200, 1,248 bytes -> ivyora-display, weight 300 only
-Invoke-WebRequest -Uri https://www.partyslate.com/         # 202, 0 bytes  -> NOT FETCHED
-Invoke-WebRequest -Uri https://aliabastamam.com/           # 403           -> NOT FETCHED
-Invoke-WebRequest -Uri https://mimpikita.com.my/           # 403           -> NOT FETCHED
+Invoke-WebRequest -Uri https://www.partyslate.com/         # 202, 0 bytes; then 403
+                                                           # -> re-measured in Chrome 1512x771, see below
+Invoke-WebRequest -Uri https://aliabastamam.com/           # 403 -> browser capture DID NOT RENDER; no claim made
+Invoke-WebRequest -Uri https://mimpikita.com.my/           # 403 -> browser capture PARTIAL (modal + no below-fold);
+                                                           #        wordmark/hero read BY EYE, corroboration only
 Invoke-WebRequest -Uri https://www.adnaa.com.my/           # 200, 1,031,802 bytes
 Invoke-WebRequest -Uri https://rizmanruzaini.com/          # 200, 394,775 bytes
 Invoke-WebRequest -Uri https://songketdunia.my/            # 200, 299,827 bytes
@@ -654,6 +781,21 @@ hellokahwin article HTML : h2 count = 1 ("Lagi dalam Hantaran & Mas Kahwin"), h3
 caratsandcake HTML       : distinct hex = 2 (#faf9f8, #ffffff); img=55; a=476; h1=3
 use.typekit.net/irr0rbw  : font-family "ivyora-display"; font-weight 300; font-style normal  (one family, one weight)
 
+partyslate  (Chrome 1512x771, computed styles off the delivered page, 28 Ogos 2026)
+  title      : "Luxury Party Ideas, Venues and Top Event Professionals | PartySlate"
+  headings   : ALL Gotham A, weight 500 — h1/h2 at 24px and 16px, h3 at 16px/lh 17.6px
+  Gotham A   : three weights only — 300 / 400 / 500. No bold on the page.
+  families   : Gotham A (100 text els), Georgia (86, 11 ITALIC, 12/14/16/18px + one 32px),
+               Helvetica CJK fallback (7)
+  body       : georgia 16px / lh 24px / rgb(0,0,0) on rgb(248,248,248)
+  text cols  : rgb(0,0,0) x160 · rgb(79,79,79) x11 · rgb(182,152,83) x8 ·
+               rgb(118,118,118) x7 · rgb(255,255,255) x4 · rgb(40,40,40) x3
+  backgrounds: rgb(255,255,255) x40 · rgb(239,239,239) x10 · rgb(248,248,248) x3 ·
+               rgb(0,0,0) x2 · rgb(238,238,238) x1
+  accent     : ONE — gold #B69853, 8 elements, mostly the photo credit
+  h1 count   : 2, but two DIFFERENT section headings — not our duplicated-node defect
+  screenshot : aug-28-2026-des-01-EVIDENCE/partyslate-homepage-2026-08-28.jpg (238,704 bytes)
+
 mingguanwanita HTML      : font-family declarations = 30; distinct hex = 66
                            #4db2ec x29, #dd3333 x23, #ec1c24 x19
 nikahsatu HTML           : distinct hex = 50; h1 = 0; h2 = 59
@@ -681,6 +823,16 @@ Four of the five Malay-audience-native premium brands I fetched use geometric or
 humanist sans; the one that uses a serif is the Vera Wang stockist. Nothing in
 the repo says this, and every instinct in the brief points the other way. It is
 the reason the register puts the serif on a short leash instead of everywhere.
+
+**And the sharper version, which only appeared once both touchstones were
+measured: the owner's two references disagree on the face and agree on the
+discipline.** Carats & Cake is a serif at one weight; PartySlate is a geometric
+sans at three with no structural serif at all. Two premium references, opposite
+answers, both read as expensive. What they share is one dominant family, weights
+in single figures, colours in single figures, one accent, and photography
+carrying the feeling. **The premium signal is restraint, not a typeface** — and
+restraint is free, which is the whole argument for cutting four webfonts to
+one.
 
 **And the corollary nobody had written down: the locked palette is
 independently confirmed by the market.** Songket Dunia grounds on `#f4eee1` with
@@ -735,6 +887,24 @@ fallback I independently arrived at is the useful signal here: **when two people
 reach the same answer from different directions, promote it from fallback to
 specification.**
 
+**Third, and it was caught after I had already reported the item done: a
+rationale that measured the touchstone which agreed with me and shipped without
+the one that did not.** I recorded partyslate.com as unfetched, said so
+honestly, and moved on — which felt like the disciplined choice. It was not.
+The team lead measured it in a browser and it turned out to **contradict the
+face half of my headline finding**: every structural heading on PartySlate is
+geometric sans, no serif anywhere. Carats & Cake is the opposite. Had that
+landed after DES-02 was drawn, it would have arrived as a challenge to three
+comps instead of as a correction to one paragraph.
+
+**The rule: an unfetched source that could disagree with you is not a footnote,
+it is an open risk, and "recorded honestly as missing" does not close it.** I
+flagged the gap correctly and then let the item pass anyway. Being transparent
+about a hole is not the same as filling it, and on a gate item the standard is
+filling it. The claim is stronger for the correction — *the transferable thing
+is the restraint, not the face* survives both touchstones, where *premium means
+serif* survived only one.
+
 ---
 
 ## Edits made from this retrospective
@@ -755,8 +925,9 @@ records that the market independently confirms the locked palette. 127 records
 the four-faces-to-one webfont cut and that it promotes DES-04's own F3
 falsifier. 128 records the three live defects on the highest-impression article,
 including that the current system solves responsive type by duplicating the DOM
-node. 129 records the two open owner decisions and the one touchstone I could
-not fetch.
+node. 129 records the two open owner decisions and, as amended, the closed
+PartySlate gap. **130 added on the second pass: the two touchstones disagree on
+the face and agree on the discipline.**
 
 **3. `docs/work-done/README.md`** — this entry added to the completion index.
 
