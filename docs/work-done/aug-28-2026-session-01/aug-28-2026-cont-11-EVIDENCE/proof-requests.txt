@@ -1,0 +1,28 @@
+CONT-11 live verification — adat-hantaran-ikut-keluarga
+URL: https://hellokahwin.com/artikel/hantaran-mas-kahwin/adat-hantaran-ikut-keluarga
+Waited full 300s edge TTL after the write (POST /api/cron/revalidate-content ran
+immediately after the write; no VERCEL_TOKEN available for edge purge).
+
+=== Request 1 (first past TTL) ===
+Age: 0
+X-Vercel-Cache: MISS
+<title>Adat hantaran kahwin ikut keluarga: bila dua senarai berbeza | HelloKahwin</title>
+
+=== Request 2 (honest, per Stage 7 — 3s later) ===
+Age: 3
+X-Vercel-Cache: HIT
+<title>Adat hantaran kahwin ikut keluarga: bila dua senarai berbeza | HelloKahwin</title>
+<meta name="description" content="Adat hantaran kahwin berbeza ikut keluarga dan negeri. Tiga rekod rasmi, tiga senarai barang berlainan, dan empat langkah menyatukan dua senarai jadi satu."/>
+
+Both requests already agree (no STALE-serving-old-content window hit, unlike CONT-12 on
+the same edge-TTL condition). Request 2 is the one the claim quotes, per the standing
+rule, regardless.
+
+=== Adjacent finding: pillar page carries a second, near-duplicate-titled article ===
+curl -s https://hellokahwin.com/artikel/hantaran-mas-kahwin | grep -c "Adat hantaran berbeza negeri"
+1
+curl -s https://hellokahwin.com/artikel/hantaran-mas-kahwin | grep -c "Adat hantaran kahwin ikut keluarga"
+1
+Both are distinct live articles (distinct ids, distinct slugs, distinct
+meta_description) confirmed via direct DB read — not a caching artefact. See §6 in the
+work-done doc for the finding and why it is not investigated further here.

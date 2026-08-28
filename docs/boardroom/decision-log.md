@@ -3,6 +3,42 @@
 One entry per decision: date, decision, basis, prediction. Reviewed at later
 meetings against what actually happened. Newest first.
 
+## 2026-08-29 — CONT-11: the four zero-volume C2.1 head terms, settled
+
+153. **⚠ CONT-11 — four C2.1 head terms carrying ZERO `volume` and no `parent_topic`
+are DECIDED: one replaced, three dropped, none invented.** Ahrefs Keywords Explorer
+`volume` (12-month average), country `my`, 29 Aug 2026. **`adat hantaran` →
+`adat hantaran kahwin`** (`volume` 20, `volume_monthly` 22, `parent_topic`
+`balas hantaran`, `traffic_potential` 40 — small, real, and not owned by any C2.1
+sibling). **SERP-ownership run against the replacement itself**, not only against
+what was rejected (Sprint 02's retro rule): organic position 1 on both
+`adat hantaran kahwin` and its parent `balas hantaran` is the same page,
+`locco.com.my`, DR 25, one 2020 blog post, 56 estimated monthly traffic — no
+official portal, no entrenched authority, and position 3 on the parent is
+ppsignature.com (DR 4, decision 13's hidden competitor) earning 396 traffic from
+one URL. **Expected position stated honestly at 3–5, never 1**, per the standing
+rule against promising the top spot on a brand-new target. Live edit shipped on
+`adat-hantaran-ikut-keluarga`: `title` 53→60 chars, `meta_description` 148→155
+chars, both carrying the new phrase, both passed `/humanizer` before the write,
+undo committed and pushed BEFORE the UPDATE ran, verified live after the Vercel
+edge TTL (no `VERCEL_TOKEN` available, same condition CONT-12 hit — the SECOND
+request past the 300s TTL is the one quoted, per Stage 7). **`hantaran kahwin
+bajet` and `kos hantaran kahwin`** (both read as the same topic-4 budget article,
+`hantaran-kahwin-bajet` — no surviving brief table names which term belonged to
+which article, so this is stated as an inference from live content, not a
+certainty) and **`persiapan hantaran`** (`persiapan-hantaran-kahwin`) are
+**DROPPED**: confirmed `volume` 0 AND zero rows from `serp-overview` — a stronger
+absence than a rounded-down zero, meaning Ahrefs holds no record of these exact
+strings at all. Two matching-terms sweeps (top 200 by volume on seed `hantaran`;
+a 250-row substring sweep across `bajet`/`kos`/`murah`/`jimat`/`adat`/`persiapan`/
+`persediaan`/`senarai`/`harga`) surfaced only candidates that either shared a
+parent topic already owned by a sibling article in the same cluster (rule 4) or
+did not match the article's actual content (`checklist kahwin` at 800/mo is a
+whole-wedding checklist, not the hantaran-only 8-week schedule the live page
+covers). Both articles stay live and unchanged; their organic value is cluster
+completeness and internal-linking equity, not a ranking play on their own phrase.
+Evidence: `docs/work-done/aug-28-2026-session-01/aug-28-2026-done-cont-11-target-terms.md`.
+
 ## 2026-08-27 — Sprint 03 planning: convert the impressions we now have
 
 89. **Decision 50 is CLOSED, not re-assigned — `dewan komuniti setiawangsa` is dead as a target.** GSC 28d to 27 Aug: **100 impressions, position 9.0, ZERO clicks**, against 25 impressions at 8.9 when it was assigned on 24 Aug. Four-fold impression growth, three days holding page one, no click ever. Decision 82 had already killed it on significance grounds and decision 83 killed the category structurally (~30 searches/mo; DBKL's own DR 64 booking portal at positions 1–2). **What the audit added: decision 83 declared Setiawangsa a deliberate CONTROL so the council-hall category would be proved dead rather than quietly dropped — and SEO-04 parked before reaching it, so the control never ran.** Folded into SEO-04's revival at no extra cost. The audit's job was to score an assignment; it found a second, quieter thing that had evaporated inside the first.

@@ -649,11 +649,25 @@ personas and reported them as landed.
     is recorded rather than smoothed: Site Explorer gives that bride page
     `best_position` **1** on the term while the 5 Aug crawl does not show it in
     organic at all. The decision does not turn on which is currently true.
-  - **Separately and regardless of any merge: four C2.1 head terms carry ZERO
-    volume and no parent topic** — `hantaran kahwin bajet`, `kos hantaran
-    kahwin`, `adat hantaran`, `persiapan hantaran`. Surrounding parents carry
-    2,400–2,700 traffic potential, so the subject is real and the chosen head
-    terms are not. That is a target-selection fix.
+  - **🟢 CONT-11 (29 Aug) DECIDED all four.** One replaced, three dropped, each
+    with Ahrefs `volume` (12-month average) quoted. **`adat hantaran` →
+    `adat hantaran kahwin`** (`volume` 20, `parent_topic` `balas hantaran`,
+    `traffic_potential` 40 — small but real and unclaimed by any C2.1 sibling;
+    SERP-ownership run on the replacement too, per the standing rule: organic
+    position 1 on both the term and its parent is one 2020 blog post, DR 25,
+    56 estimated traffic — no official portal, beatable, expected position
+    3–5, never promised 1). Live on `adat-hantaran-ikut-keluarga`: `title` and
+    `meta_description` edited to carry the new phrase, verified on production
+    after the edge TTL, undo committed before the write. **`hantaran kahwin
+    bajet` and `kos hantaran kahwin`** (both map to `hantaran-kahwin-bajet`)
+    and **`persiapan hantaran`** (maps to `persiapan-hantaran-kahwin`) are
+    **dropped** — confirmed zero `volume` AND zero Ahrefs SERP rows (a
+    stronger absence than a rounded zero), and no real-volume candidate found
+    across two matching-terms sweeps that both matched the article's actual
+    content and avoided a parent topic already owned by a sibling. Both
+    articles stay live unchanged; their value is cluster completeness and
+    internal-linking equity, not a keyword ranking play. Evidence:
+    `docs/work-done/aug-28-2026-session-01/aug-28-2026-done-cont-11-target-terms.md`.
   - **⚠ THE `parent_topic` SIGNAL IS NOISY IN MALAY LONG-TAIL — treat it as
     opening an investigation, not closing one.** Ahrefs gives the head
     `hantaran tunang` a traffic potential of **400** while four of its children
