@@ -26,6 +26,24 @@
   font-size: var(--fs-body);
   line-height: var(--lh-body);
   --gutter: 16px;
+  /* DES-08 fix — re-declared HERE, not just in tokens.css's `:root`.
+     `(public)/layout.tsx` wraps every public page in `.hk-public`
+     (globals.css), which re-declares `--accent` for the pre-existing
+     Editorial Monotone theme (oklch(0.955 0.003 85), a near-white surface
+     tint). CSS custom properties inherit from the NEAREST ancestor that sets
+     them — `:root` specificity is irrelevant once a closer ancestor
+     (`.hk-public`) re-declares the same name, which is exactly what
+     happened: every `.s-*` element under `.hk` inherited `.hk-public`'s
+     value, so DES-03's gold accent (`--hk-gold-700`, 5.56:1 on parchment)
+     rendered as near-invisible near-white text instead — caught by
+     `getComputedStyle` returning `lab(94.79 0.08 1.14)` on a live eyebrow,
+     not by reading the source. `.hk` is the closer ancestor for every
+     component this system owns, so re-asserting it here wins regardless of
+     what wraps `.hk` from outside. */
+  --accent: var(--hk-gold-700);
+}
+.hk-dark {
+  --accent: var(--hk-gold-400);
 }
 @media (min-width: 390px) {
   .hk {
@@ -234,11 +252,22 @@
   }
 }
 .s-idx {
+  /* DES-08 fix: spec §5.2's index number is a DESKTOP-ONLY device — the
+     360px K1 drawing carries no `.s-idx` at all, and `.s-row`'s own mobile
+     grid-template-columns (80px thumb + 1fr text, two tracks) has no third
+     track for it. Rendering it unconditionally on mobile silently overflowed
+     into the two-track grid as an unplaced item. */
+  display: none;
   font-size: 13px;
   font-variant-numeric: tabular-nums;
   color: var(--fg-muted);
   letter-spacing: 0.04em;
   padding-top: 4px;
+}
+@media (min-width: 1024px) {
+  .s-idx {
+    display: block;
+  }
 }
 
 /* ── no-image list row (§8 .s-imgless) ───────────────────────────── */

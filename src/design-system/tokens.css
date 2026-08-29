@@ -20,6 +20,18 @@
  * contrast table cannot drift from this file by hand-transcription error.
  * ══════════════════════════════════════════════════════════════════════ */
 
+/* DES-08 finding — three names here (`--accent`, `--font-serif`, `--radius`)
+   collide with the pre-existing Tailwind/shadcn theme in globals.css, which
+   also declares them on `:root`. That alone would be a source-order tie, but
+   `(public)/layout.tsx` wraps every public page in `.hk-public`, which
+   re-declares `--accent` again for its OWN theme — and a custom property
+   inherits from the NEAREST ancestor that sets it, so `:root` specificity
+   here is moot once a closer ancestor wins. Caught live: a homepage eyebrow's
+   `getComputedStyle` returned `lab(94.79 0.08 1.14)` — near-white, not
+   `--hk-gold-700`. Fixed at the actual point of collision: `.hk` (the
+   closest ancestor every component in this system renders inside)
+   re-declares `--accent` in components.css. This block stays the source of
+   truth for the value; nothing here needed to change. */
 :root {
   /* ── colour: primitives — every hex the system owns, light AND dark,
      defined once, unscoped. Nothing below this block introduces a colour;

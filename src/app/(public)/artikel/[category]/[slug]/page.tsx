@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { unstable_cache } from 'next/cache';
-import Image from 'next/image';
 import Link from 'next/link';
 import { notFound, permanentRedirect } from 'next/navigation';
 import { cache } from 'react';
@@ -10,7 +9,7 @@ import { db } from '@/lib/db/drizzle';
 import { withDeadline, startDeadlineBudget } from '@/lib/api/timeout';
 import { lookupRedirect } from '@/lib/redirects/lookup';
 import { tagEdgeResponse } from '@/lib/cache/edge-tag';
-import { getSmartCropUrl, getMobileCoverUrl } from '@/lib/storage/smart-crop-url';
+import { getSmartCropUrl } from '@/lib/storage/smart-crop-url';
 import {
   articles,
   inspireCategories,
@@ -25,7 +24,6 @@ import {
   extractImageUrlsWithVariants,
   extractTextContent,
 } from '@/components/inspire/article-renderer';
-import { ArticleCard } from '@/components/inspire/article-card';
 import { extractHeadings } from '@/lib/inspire/heading-anchors';
 import { buildItemListJsonLd } from '@/lib/inspire/listicle-schema';
 import { buildFaqPageJsonLd } from '@/lib/inspire/faq-schema';
@@ -44,8 +42,11 @@ import {
   mergeDynamicBlocks,
   collectEmbeddedBlockIds,
 } from '@/lib/inspire/dynamic-blocks';
-import { ArticleCoverMobile } from '@/components/inspire/article-cover-mobile';
 import { MobileArticleBar } from '@/components/inspire/mobile-article-bar';
+import { PhotoGallery } from '@/components/inspire/photo-gallery';
+import { resolveCoverSource } from '@/lib/storage/responsive-cover';
+import '@/design-system/tokens.css';
+import '@/design-system/components.css';
 import { Breadcrumbs, BreadcrumbJsonLd } from '@/components/common/breadcrumbs';
 import { PillarUpLinkBlock } from '@/components/inspire/pillar-up-link';
 import { getPillarUpLink, getClusterSiblings } from '@/lib/inspire/pillar-queries';
@@ -752,31 +753,28 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
       }
     : null;
 
-  // LCP preload — explicit hints with media queries so the browser preload
-  // scanner discovers the LCP image during initial HTML parse instead of
-  // waiting for Next.js Image's auto-emitted preload (which dedupes/clashes
-  // when multiple priority images render in different viewport branches).
-  // Pairs the desktop hero (lg+) and mobile cover (below lg) to their
-  // respective smart crops, falling back to the high webp variant.
-  if (article.coverImageUrl) {
-    const coverHigh =
-      (article.coverImageVariants as { high?: { url: string } } | null)?.high?.url ??
-      article.coverImageUrl;
-    const desktopHero =
-      getSmartCropUrl(article.coverImageSmartCrops, 'crop-4.3x1-desktop-hero') ?? coverHigh;
-    // Must stay identical to what ArticleCoverMobile renders — both resolve
-    // through getMobileCoverUrl for exactly that reason. A mismatch here costs
-    // a duplicate high-priority image fetch and silently voids the LCP hint.
-    const mobileCover = getMobileCoverUrl(article.coverImageSmartCrops, coverHigh);
-    ReactDOM.preload(desktopHero, {
+  // LCP preload — ONE hint, no media query, because the redesigned cover is
+  // ONE `<img>` at every breakpoint (spec §5.1) rather than the mobile/desktop
+  // pair this route used to render. That pair needed two media-scoped preloads
+  // and each had to stay byte-identical to whichever branch would render, or
+  // the browser fetched both at high priority and the preload stopped being a
+  // preload. One element, one hint, nothing left to drift.
+  //
+  // `resolveCoverSource` is the single definition of what that element loads —
+  // the same call the figure below makes, so the two cannot disagree.
+  const coverPreload = article.coverImageUrl
+    ? resolveCoverSource(
+        article.coverImageVariants as Record<string, { url: string }> | null,
+        article.coverImageSmartCrops,
+        article.coverImageUrl,
+      )
+    : null;
+  if (coverPreload) {
+    ReactDOM.preload(coverPreload.src, {
       as: 'image',
       fetchPriority: 'high',
-      media: '(min-width: 1024px)',
-    });
-    ReactDOM.preload(mobileCover, {
-      as: 'image',
-      fetchPriority: 'high',
-      media: '(max-width: 1023px)',
+      imageSrcSet: coverPreload.srcSet,
+      imageSizes: '(min-width: 1024px) 768px, 100vw',
     });
   }
 
@@ -926,7 +924,7 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
           no search, with the footer 12,000px away as the nearest escape. If you
           are about to re-add it here, read the block above the rule in
           globals.css first. */}
-      <div className="serif-editorial container mx-auto px-4 pb-20 lg:px-6 lg:pt-8 lg:pb-8">
+      <div className="hk serif-editorial s-pad container mx-auto pb-20 lg:pt-8 lg:pb-8">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -950,151 +948,155 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
           />
         )}
         <BreadcrumbJsonLd items={breadcrumbItems} />
-        <div className="hidden lg:block">
-          <Breadcrumbs items={breadcrumbItems} />
-        </div>
+        <Breadcrumbs items={breadcrumbItems} />
 
         <div className="inspire-editorial">
-          {/* Mobile cover — full-bleed 4:5 with overlay nav + curved panel.
-          Prefer coverImageVariants.high.url over the legacy /{ts}-cover.{ext}
-          original URL — the high webp variant is much smaller for the same
-          rendered quality. Smart crops still take precedence when present. */}
-          {article.coverImageUrl ? (
-            (() => {
-              const coverHigh =
-                (article.coverImageVariants as { high?: { url: string } } | null)?.high?.url ??
-                article.coverImageUrl;
-              return (
-                <>
-                  <ArticleCoverMobile
-                    coverImageUrl={coverHigh}
-                    smartCrops={
-                      article.coverImageSmartCrops as
-                        Record<string, { url: string; width: number; height: number }> | undefined
-                    }
-                    categoryName={article.categoryName ?? 'Tiada kategori'}
-                    categorySlug={article.categorySlug ?? categorySlug}
-                    title={article.title}
-                    authorName={authorName}
-                    authorSlug={authorSlug}
-                    authorAvatarUrl={authorAvatarUrl}
-                    updatedAt={article.updatedAt}
-                    readTime={readTime}
-                    galleryImages={galleryImages}
-                    articleId={article.id}
-                    lqip={article.coverImageLqip}
-                  />
-                  {/* Mobile cover credit. The mobile hero is a full-bleed
-                      photograph with an overlay, so the credit sits under it on
-                      paper rather than fighting the scrim for contrast. */}
-                  <ImageCredit
-                    credit={coverCredit?.credit}
-                    creditUrl={coverCredit?.creditUrl}
-                    className="text-muted-foreground px-4 pt-2 text-xs lg:hidden"
-                  />
+          {/* ── The record above the fold — spec §5.1 ────────────────────────
+              ONE header, ONE `<h1>`, at every breakpoint. This replaces the
+              two-block mobile/desktop pair that put the same headline in the
+              DOM twice (DES-09 G01: 85 of 85 articles emitted two `<h1>`).
+              `.s-h1`'s clamp() is what makes one node work at both sizes —
+              spec §2.2: "every size below is one clamp(), which retires the
+              second h1 as a side effect".
 
-                  {/* Desktop cover — Editorial Monotone: the plate carries no
-                        type at all. Category, headline and byline sit beneath it
-                        on paper, which keeps the photograph whole and holds the
-                        headline at full contrast. */}
-                  <div className="mb-10 hidden lg:block">
-                    <div className="bg-muted relative aspect-[2.4/1] max-h-[420px] w-full overflow-hidden">
-                      <Image
-                        src={
-                          getSmartCropUrl(
-                            article.coverImageSmartCrops,
-                            'crop-4.3x1-desktop-hero',
-                          ) ?? coverHigh
-                        }
-                        alt={article.title}
-                        fill
-                        sizes="(max-width: 1280px) 100vw, 1280px"
-                        className="object-cover"
-                        priority
-                        {...(article.coverImageLqip
-                          ? { placeholder: 'blur' as const, blurDataURL: article.coverImageLqip }
-                          : {})}
-                      />
-                    </div>
-                    {/* Cover credit — the courtesy that earns the next licence,
-                        and the record that makes the owner findable later. */}
+              Order is the composition: eyebrow, headline, deck, then the
+              Rekod panel — "the reader searching mas kahwin Perak has the
+              answer before the photograph loads" — and the figure after it. */}
+          <header className="mx-auto max-w-3xl pt-4">
+            <span className="s-label" style={{ color: 'var(--accent)' }}>
+              {article.categoryName ?? 'Tiada kategori'}
+            </span>
+            <h1 className="s-h1 mt-3">{article.title}</h1>
+            {article.excerpt && <p className="s-deck mt-4">{article.excerpt}</p>}
+
+            {/* The Rekod panel, spec §5.1/§8. Every field is a fact this page
+                already holds — nothing invented. "Disemak" is the same
+                `updatedAt` the Article schema's `dateModified` asserts (spec
+                §9.2: "the visible claim and the schema claim cannot
+                disagree"). */}
+            <div className="s-rekod mt-5">
+              <span className="s-label">Rekod</span>
+              <div style={{ marginTop: 10 }}>
+                <div className="s-frow">
+                  <span className="s-meta">Kategori</span>
+                  <span className="s-val">{article.categoryName ?? 'Tiada kategori'}</span>
+                </div>
+                <div className="s-frow">
+                  <span className="s-meta">Penulis</span>
+                  <span className="s-val">
+                    {authorSlug ? (
+                      <Link
+                        href={authorArchivePath(authorSlug)}
+                        style={{ color: 'inherit', textDecoration: 'none' }}
+                      >
+                        {authorName}
+                      </Link>
+                    ) : (
+                      authorName
+                    )}
+                  </span>
+                </div>
+                {readTime && (
+                  <div className="s-frow">
+                    <span className="s-meta">Bacaan</span>
+                    <span className="s-val">{readTime}</span>
+                  </div>
+                )}
+                <div className="s-frow">
+                  <span className="s-meta">Disemak</span>
+                  <span className="s-val" style={{ color: 'var(--accent)' }}>
+                    {new Date(article.updatedAt).toLocaleDateString('ms-MY', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </header>
+
+          {/* The cover, with its caption and credit as one figure — spec §5.1
+              and DES-09 G38: the credit is part of the component contract, not
+              an appended line that a component swap can drop. */}
+          {article.coverImageUrl &&
+            (() => {
+              const cover = resolveCoverSource(
+                article.coverImageVariants as Record<string, { url: string }> | null,
+                article.coverImageSmartCrops,
+                article.coverImageUrl,
+              );
+              if (!cover) return null;
+              return (
+                <figure
+                  className="mx-auto mt-6 mb-10 max-w-3xl"
+                  style={{ margin: '24px auto 40px' }}
+                >
+                  <div
+                    className="bg-muted relative aspect-[3/2] w-full overflow-hidden lg:aspect-[2.4/1]"
+                    style={
+                      article.coverImageLqip
+                        ? {
+                            backgroundImage: `url(${article.coverImageLqip})`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                          }
+                        : undefined
+                    }
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element -- see responsive-cover.ts */}
+                    <img
+                      src={cover.src}
+                      srcSet={cover.srcSet}
+                      sizes="(min-width: 1024px) 768px, 100vw"
+                      alt={article.title}
+                      width={1200}
+                      height={500}
+                      fetchPriority="high"
+                      decoding="async"
+                      className="absolute inset-0 h-full w-full object-cover"
+                    />
+                  </div>
+                  <figcaption
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      gap: 24,
+                      flexWrap: 'wrap',
+                      paddingTop: 9,
+                    }}
+                  >
                     <ImageCredit
                       credit={coverCredit?.credit}
                       creditUrl={coverCredit?.creditUrl}
-                      className="text-muted-foreground mt-2 text-right text-xs"
+                      className="s-cred"
                     />
-                    <header className="mx-auto max-w-3xl pt-8 text-center">
-                      <span className="hk-eyebrow">{article.categoryName ?? 'Tiada kategori'}</span>
-                      <h1 className="hk-display mt-3 text-[2.5rem]">{article.title}</h1>
-                      <p className="hk-meta mt-5">
-                        {authorSlug ? (
-                          <Link
-                            href={authorArchivePath(authorSlug)}
-                            className="hover:text-foreground underline-offset-2 transition-colors hover:underline"
-                          >
-                            {authorName}
-                          </Link>
-                        ) : (
-                          authorName
-                        )}
-                        {article.updatedAt && (
-                          <>
-                            {' '}
-                            &middot; Dikemas kini{' '}
-                            {new Date(article.updatedAt).toLocaleDateString('ms-MY', {
-                              year: 'numeric',
-                              month: 'long',
-                              day: 'numeric',
-                            })}
-                          </>
-                        )}
-                        {readTime && <> &middot; {readTime}</>}
-                      </p>
-                    </header>
-                  </div>
-                </>
+                    {galleryImages.length > 0 && (
+                      <PhotoGallery
+                        images={galleryImages}
+                        trigger={
+                          <span className="s-btn">Lihat semua foto ({galleryImages.length})</span>
+                        }
+                      />
+                    )}
+                  </figcaption>
+                </figure>
               );
-            })()
-          ) : (
-            <div className="mb-10">
-              <div className="border-border mx-auto max-w-3xl border-b pb-8 text-center">
-                <span className="hk-eyebrow">{article.categoryName ?? 'Tiada kategori'}</span>
-                <h1 className="hk-display mx-auto mt-3 text-[1.875rem] lg:text-[2.5rem]">
-                  {article.title}
-                </h1>
-                <p className="hk-meta mt-5">
-                  {authorSlug ? (
-                    <Link
-                      href={authorArchivePath(authorSlug)}
-                      className="hover:text-foreground underline-offset-2 transition-colors hover:underline"
-                    >
-                      {authorName}
-                    </Link>
-                  ) : (
-                    authorName
-                  )}
-                  {article.updatedAt && (
-                    <>
-                      {' '}
-                      &middot; Dikemas kini{' '}
-                      {new Date(article.updatedAt).toLocaleDateString('ms-MY', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                      })}
-                    </>
-                  )}
-                  {readTime && <> &middot; {readTime}</>}
-                </p>
-              </div>
-            </div>
-          )}
+            })()}
 
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_280px]">
             {/* Main article content */}
             <article>
-              <div className="border-border mb-8 flex flex-wrap items-center justify-between gap-4 border-y py-4">
-                <span className="hk-eyebrow">Kongsi artikel ini</span>
+              <div
+                className="mb-8 flex flex-wrap items-center justify-between gap-4 py-4"
+                style={{
+                  borderTop: '1px solid var(--rule)',
+                  borderBottom: '1px solid var(--rule)',
+                }}
+              >
+                <span className="s-label" style={{ color: 'var(--fg-muted)' }}>
+                  Kongsi artikel ini
+                </span>
                 <WhatsAppShare title={article.title} url={canonicalUrl} />
               </div>
               <ArticleRenderer content={renderContent} articleId={article.id} />
@@ -1158,40 +1160,62 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
           {/* Related articles — crawlable internal links to same-category content.
           The primary mechanism (with the sitemap) for distributing crawl depth
           across deep/older articles that otherwise have no inbound links. */}
+          {/* The literal `Lagi dalam ` prefix on an `<h2>` is DES-09's G05, and
+              this block is what supplies the difference between a median of 8
+              inbound links per article and a median of 4 (G40). The heading
+              text and level are the contract; only the row styling changed. */}
           {relatedArticles.length > 0 && (
-            <section className="mt-16 border-t pt-10" aria-labelledby="related-articles-heading">
-              <div className="hk-rule pb-8">
-                <h2 id="related-articles-heading" className="hk-eyebrow whitespace-nowrap">
-                  {article.categoryName
-                    ? 'Lagi dalam ' + article.categoryName
-                    : 'Artikel berkaitan'}
-                </h2>
-              </div>
-              <div className="grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-3 lg:gap-8">
-                {relatedArticles.map((related) => (
-                  <ArticleCard
-                    key={related.id}
-                    title={related.title}
-                    slug={related.slug}
-                    categorySlug={related.categorySlug ?? categorySlug}
-                    categories={[]}
-                    coverImageUrl={related.coverImageUrl}
-                    coverImageVariants={
-                      related.coverImageVariants as Record<
-                        string,
-                        { url: string; sizeBytes: number }
-                      > | null
-                    }
-                    smartCrops={
-                      related.coverImageSmartCrops as Record<
-                        string,
-                        { url: string; width: number; height: number }
-                      > | null
-                    }
-                    publishedAt={null}
-                    lqip={related.coverImageLqip}
-                  />
-                ))}
+            <section
+              className="mt-16 pt-10"
+              style={{ borderTop: '1px solid var(--rule)' }}
+              aria-labelledby="related-articles-heading"
+            >
+              <h2
+                id="related-articles-heading"
+                className="s-label"
+                style={{
+                  color: 'var(--fg-muted)',
+                  borderTop: '2px solid var(--fg)',
+                  paddingTop: 12,
+                  display: 'block',
+                }}
+              >
+                {article.categoryName ? 'Lagi dalam ' + article.categoryName : 'Artikel berkaitan'}
+              </h2>
+              <div>
+                {relatedArticles.map((related, i) => {
+                  const cover = resolveCoverSource(
+                    related.coverImageVariants as Record<string, { url: string }> | null,
+                    related.coverImageSmartCrops,
+                    related.coverImageUrl,
+                  );
+                  return (
+                    <a
+                      key={related.id}
+                      href={`/artikel/${related.categorySlug ?? categorySlug}/${related.slug}`}
+                      className={cover ? 's-row' : 's-imgless'}
+                      style={{ textDecoration: 'none', color: 'inherit' }}
+                    >
+                      <span className="s-idx">{String(i + 1).padStart(2, '0')}</span>
+                      {cover && (
+                        // eslint-disable-next-line @next/next/no-img-element -- see responsive-cover.ts
+                        <img
+                          src={cover.src}
+                          srcSet={cover.srcSet}
+                          sizes="176px"
+                          alt=""
+                          width={176}
+                          height={132}
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      )}
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+                        <h3 className="t">{related.title}</h3>
+                      </div>
+                    </a>
+                  );
+                })}
               </div>
             </section>
           )}

@@ -7,7 +7,7 @@ import { unstable_cache } from 'next/cache';
 import { db } from '@/lib/db/drizzle';
 import { withDeadline } from '@/lib/api/timeout';
 import { articles, inspireCategories, articleCategories } from '@/lib/db/schema/articles';
-import { ArticleCard } from '@/components/inspire/article-card';
+import { media } from '@/lib/db/schema/media';
 import { Pagination } from '@/components/ui/pagination';
 import { Breadcrumbs, BreadcrumbJsonLd } from '@/components/common/breadcrumbs';
 import { PillarBody } from '@/components/inspire/pillar-body';
@@ -15,6 +15,10 @@ import { getPillarView } from '@/lib/inspire/pillar-queries';
 import { tagEdgeResponse } from '@/lib/cache/edge-tag';
 import { categoryOwnsPublishedArticles } from '@/lib/inspire/category-indexability';
 import { categoryRobots, ROBOTS_ON_DEADLINE_MISS } from '@/lib/seo/category-robots';
+import { resolveCoverSource } from '@/lib/storage/responsive-cover';
+import { EmptyCategoryState } from '@/design-system/components';
+import '@/design-system/tokens.css';
+import '@/design-system/components.css';
 
 // Cache forever; invalidate via `revalidateTag('articles')` /
 // `revalidateTag('inspire-categories')` from admin write paths. See
@@ -109,10 +113,15 @@ const getCategoryArticles = unstable_cache(
           publishedAt: articles.publishedAt,
           categoryName: inspireCategories.name,
           categorySlug: inspireCategories.slug,
+          // DES-08 / spec §1.2's fifth device, the leading card's credit —
+          // same exact-match join the article route relies on.
+          coverCredit: media.credit,
+          coverCreditUrl: media.creditUrl,
         })
         .from(articles)
         .innerJoin(matchingIds, eq(articles.id, matchingIds.id))
         .leftJoin(inspireCategories, eq(articles.primaryCategoryId, inspireCategories.id))
+        .leftJoin(media, eq(media.url, articles.coverImageUrl))
         .orderBy(desc(articles.publishedAt))
         .limit(perPage)
         .offset(offset),
@@ -161,7 +170,7 @@ const getCategoryArticles = unstable_cache(
 
     return { data: articlesWithCategories, total: totalResult[0]?.count ?? 0 };
   },
-  ['inspire-category-articles'],
+  ['inspire-category-articles-v2'],
   { tags: ['articles', 'inspire-categories'], revalidate: false },
 );
 
@@ -362,7 +371,7 @@ async function renderPillarPage(category: CategoryRow, categorySlug: string) {
   ];
 
   return (
-    <div className="container mx-auto px-4 py-8 lg:px-6">
+    <div className="hk s-pad mx-auto max-w-6xl py-8">
       <BreadcrumbJsonLd items={breadcrumbItems} />
       <script
         type="application/ld+json"
@@ -388,11 +397,16 @@ async function renderPillarPage(category: CategoryRow, categorySlug: string) {
       />
       <Breadcrumbs items={breadcrumbItems} />
 
-      <header className="border-border mx-auto max-w-3xl border-b pt-4 pb-10 text-center">
-        <span className="hk-eyebrow">Panduan</span>
-        <h1 className="hk-display mt-3 text-[2rem] lg:text-[2.75rem]">{category.name}</h1>
+      <header className="mx-auto max-w-3xl pt-4 pb-10 text-center">
+        <span className="s-label" style={{ color: 'var(--accent)' }}>
+          Panduan
+        </span>
+        <h1 className="s-h1 mx-auto mt-3">{category.name}</h1>
       </header>
 
+      {/* PillarBody's own h2-per-cluster outline is already correct (DES-09
+          §3.2: the seven pillar hubs go h1 h2 h2 …, unlike the eight
+          non-pillar categories fixed below) — left untouched. */}
       <PillarBody view={view} intro={category.intro} />
     </div>
   );
@@ -503,8 +517,15 @@ export default async function InspireCategoryPage({ params, searchParams }: Cate
       : [{ label: category.name }]),
   ];
 
+  // The first item of the set is a Card (full-width figure + heading), the
+  // rest are ListRows — spec §5.2: twelve full-width cards runs ~4,000px of
+  // scroll, twelve rows ~1,150px. Card only on page 1 — pages 2+ are all rows,
+  // matching the spec's "index · title · thumbnail" desktop drawing.
+  const [firstArticle, ...restArticles] = data;
+  const leadIsCard = page === 1 && Boolean(firstArticle);
+
   return (
-    <div className="container mx-auto px-4 py-8 lg:px-6">
+    <div className="hk s-pad mx-auto max-w-6xl py-8">
       <BreadcrumbJsonLd items={breadcrumbItems} />
       <script
         type="application/ld+json"
@@ -525,96 +546,151 @@ export default async function InspireCategoryPage({ params, searchParams }: Cate
       />
       <Breadcrumbs items={breadcrumbItems} />
 
-      <div>
-        <header className="border-border mx-auto max-w-3xl border-b pt-4 pb-10 text-center">
-          <span className="hk-eyebrow">Kategori</span>
-          <h1 className="hk-display mt-3 text-[2rem] lg:text-[2.75rem]">{category.name}</h1>
-          {category.description && <p className="hk-deck mt-4">{category.description}</p>}
+      <div className="mx-auto max-w-3xl">
+        {/* h1 = the category name, exactly one — spec §9.1. The article count
+            + "Disemak" (checked) fields are the record §7.1's "category counts
+            available at render time" build dependency asks for; `total` is
+            already computed above for pagination, so this is free. */}
+        <header>
+          <span className="s-label" style={{ color: 'var(--accent)' }}>
+            Kategori
+          </span>
+          <h1 className="s-h1 mt-3">{category.name}</h1>
+          {category.description && <p className="s-deck mt-4">{category.description}</p>}
         </header>
+        <div
+          style={{
+            display: 'flex',
+            gap: 28,
+            borderTop: '2px solid var(--fg)',
+            marginTop: 18,
+            paddingTop: 12,
+          }}
+        >
+          <div>
+            <div className="s-label" style={{ color: 'var(--fg-muted)', marginBottom: 5 }}>
+              Artikel
+            </div>
+            <div className="s-val" style={{ fontSize: 17 }}>
+              {total}
+            </div>
+          </div>
+        </div>
 
-        {/* Subcategory filter chips */}
+        {/* Subcategory filter chips — real <a> navigation, not a JS toggle:
+            `?sub=` is a real crawlable URL, per DES-09 E1's anchor-only rule.
+            `.s-chip`'s [aria-pressed] fill is for the standalone Chip button;
+            here the active state is `aria-current="page"` (the correct ARIA
+            role for "the page I'm already on"), styled the same way. */}
         {children.length > 0 && (
-          <div className="mb-8 space-y-3">
-            <div className="flex flex-wrap gap-2">
-              <Link
-                href={`/artikel/${categorySlug}`}
-                className="hk-chip"
-                data-active={Boolean(!sp.sub)}
-              >
-                Semua
-              </Link>
-              {children.map((child) => (
+          <div className="s-chiprow" style={{ marginTop: 20 }}>
+            <Link
+              href={`/artikel/${categorySlug}`}
+              className="s-chip"
+              aria-current={!sp.sub ? 'page' : undefined}
+              style={
+                !sp.sub
+                  ? { background: 'var(--fg)', color: 'var(--bg)', borderColor: 'var(--fg)' }
+                  : undefined
+              }
+            >
+              Semua
+            </Link>
+            {children.map((child) => {
+              const isActive = activeChild?.id === child.id;
+              return (
                 <Link
                   key={child.id}
                   href={`/artikel/${categorySlug}?sub=${child.slug}`}
-                  className="hk-chip"
-                  data-active={Boolean(activeChild?.id === child.id)}
+                  className="s-chip"
+                  aria-current={isActive ? 'page' : undefined}
+                  style={
+                    isActive
+                      ? { background: 'var(--fg)', color: 'var(--bg)', borderColor: 'var(--fg)' }
+                      : undefined
+                  }
                 >
                   {child.name}
                 </Link>
-              ))}
-            </div>
-            {/* Level-3 grandchild chips (shown when a level-2 child is selected) */}
-            {activeChild &&
-              (() => {
-                const childGrandchildren = grandchildren.filter(
-                  (g) => g.parentId === activeChild!.id,
-                );
-                if (childGrandchildren.length === 0) return null;
-                return (
-                  <div className="flex flex-wrap gap-2 pl-2">
-                    <Link
-                      href={`/artikel/${categorySlug}?sub=${activeChild.slug}`}
-                      className="hk-chip"
-                      data-active={Boolean(!activeGrandchild)}
-                    >
-                      Semua {activeChild.name}
-                    </Link>
-                    {childGrandchildren.map((gc) => (
-                      <Link
-                        key={gc.id}
-                        href={`/artikel/${categorySlug}?sub=${gc.slug}`}
-                        className="hk-chip"
-                        data-active={Boolean(activeGrandchild?.id === gc.id)}
-                      >
-                        {gc.name}
-                      </Link>
-                    ))}
-                  </div>
-                );
-              })()}
+              );
+            })}
           </div>
         )}
+        {activeChild &&
+          (() => {
+            const childGrandchildren = grandchildren.filter((g) => g.parentId === activeChild!.id);
+            if (childGrandchildren.length === 0) return null;
+            return (
+              <div className="s-chiprow" style={{ marginTop: 8, paddingLeft: 8 }}>
+                <Link
+                  href={`/artikel/${categorySlug}?sub=${activeChild.slug}`}
+                  className="s-chip"
+                  aria-current={!activeGrandchild ? 'page' : undefined}
+                  style={
+                    !activeGrandchild
+                      ? { background: 'var(--fg)', color: 'var(--bg)', borderColor: 'var(--fg)' }
+                      : undefined
+                  }
+                >
+                  Semua {activeChild.name}
+                </Link>
+                {childGrandchildren.map((gc) => {
+                  const isActive = activeGrandchild?.id === gc.id;
+                  return (
+                    <Link
+                      key={gc.id}
+                      href={`/artikel/${categorySlug}?sub=${gc.slug}`}
+                      className="s-chip"
+                      aria-current={isActive ? 'page' : undefined}
+                      style={
+                        isActive
+                          ? {
+                              background: 'var(--fg)',
+                              color: 'var(--bg)',
+                              borderColor: 'var(--fg)',
+                            }
+                          : undefined
+                      }
+                    >
+                      {gc.name}
+                    </Link>
+                  );
+                })}
+              </div>
+            );
+          })()}
 
-        {/* Article grid */}
+        {/* List — spec §5.2/§9.1: every row/card title is h2 (this page's own
+            h1 is the category name, so the list is the page's only h2 level). */}
         {data.length > 0 ? (
           <>
-            <div className="grid grid-cols-2 gap-x-4 gap-y-10 pt-10 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-14">
-              {data.map((article, index) => (
+            <div style={{ paddingTop: 20 }}>
+              {leadIsCard && firstArticle && (
+                <CategoryCard key={firstArticle.id} article={firstArticle} />
+              )}
+              {(leadIsCard ? restArticles : data).map((article, i) => (
                 <Fragment key={article.id}>
-                  <ArticleCard
-                    title={article.title}
-                    slug={article.slug}
-                    categorySlug={article.categorySlug ?? categorySlug}
-                    categories={article.categories}
-                    coverImageUrl={article.coverImageUrl}
-                    coverImageVariants={
-                      article.coverImageVariants as Record<
-                        string,
-                        { url: string; sizeBytes: number }
-                      > | null
-                    }
-                    smartCrops={
-                      article.coverImageSmartCrops as Record<
-                        string,
-                        { url: string; width: number; height: number }
-                      > | null
-                    }
-                    publishedAt={null}
-                    lqip={article.coverImageLqip}
+                  <CategoryRow
+                    article={article}
+                    index={leadIsCard ? i + 2 : (page - 1) * data.length + i + 1}
                   />
                 </Fragment>
               ))}
+            </div>
+
+            <div
+              style={{
+                borderTop: '2px solid var(--fg)',
+                marginTop: 6,
+                paddingTop: 14,
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              <span className="s-meta">
+                Menunjukkan {data.length} daripada {total}
+              </span>
             </div>
 
             {totalPages > 1 && (
@@ -629,14 +705,95 @@ export default async function InspireCategoryPage({ params, searchParams }: Cate
             )}
           </>
         ) : (
-          <div className="py-20 text-center">
-            <p className="text-lg font-medium">Tiada artikel dijumpai</p>
-            <p className="text-muted-foreground mt-1 text-sm">
-              Artikel {category.name.toLowerCase()} akan datang tidak lama lagi.
-            </p>
+          <div style={{ paddingTop: 20 }}>
+            <EmptyCategoryState />
           </div>
         )}
       </div>
     </div>
+  );
+}
+
+type CategoryArticle = Awaited<ReturnType<typeof getCategoryArticles>>['data'][number];
+
+/** The first item of the set — spec §5.2's `.s-card`. */
+function CategoryCard({ article }: { article: CategoryArticle }) {
+  const cover = resolveCoverSource(
+    article.coverImageVariants as Record<string, { url: string }> | null,
+    article.coverImageSmartCrops,
+    article.coverImageUrl,
+  );
+  const credit = article.coverCredit;
+  const href = `/artikel/${article.categorySlug ?? ''}/${article.slug}`;
+  return (
+    <a href={href} className="s-card" style={{ textDecoration: 'none', color: 'inherit' }}>
+      <figure style={{ margin: 0 }}>
+        {cover && (
+          // eslint-disable-next-line @next/next/no-img-element -- see responsive-cover.ts
+          <img
+            src={cover.src}
+            srcSet={cover.srcSet}
+            sizes="(min-width: 1024px) 400px, 100vw"
+            alt=""
+            width={800}
+            height={600}
+            loading="lazy"
+            decoding="async"
+          />
+        )}
+        <figcaption style={{ paddingTop: 10, display: 'flex', flexDirection: 'column', gap: 6 }}>
+          <h2 className="s-h3" style={{ fontSize: 19 }}>
+            {article.title}
+          </h2>
+          {/* `credit` already carries its "Kredit: " prefix — see page.tsx's
+              hero note; do not prepend a second one. */}
+          {credit && <span className="s-cred">{credit}</span>}
+        </figcaption>
+      </figure>
+    </a>
+  );
+}
+
+/** Every subsequent item — spec §5.2's `.s-row`, with the desktop index
+ * number (§5.2: "the catalogue is ordered… the number is how a reader knows
+ * where they are"). */
+function CategoryRow({ article, index }: { article: CategoryArticle; index: number }) {
+  const cover = resolveCoverSource(
+    article.coverImageVariants as Record<string, { url: string }> | null,
+    article.coverImageSmartCrops,
+    article.coverImageUrl,
+  );
+  const href = `/artikel/${article.categorySlug ?? ''}/${article.slug}`;
+  return (
+    <a
+      href={href}
+      className={cover ? 's-row' : 's-imgless'}
+      style={{ textDecoration: 'none', color: 'inherit' }}
+    >
+      <span className="s-idx">{String(index).padStart(2, '0')}</span>
+      {cover && (
+        /* Before the text in source order; `.s-row img` takes `order:3` at
+           desktop, which is where the spec puts the thumbnail. */
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={cover.src}
+          srcSet={cover.srcSet}
+          sizes="176px"
+          alt=""
+          width={176}
+          height={132}
+          loading="lazy"
+          decoding="async"
+        />
+      )}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+        <h2 className="t">{article.title}</h2>
+        {article.categories[0] && (
+          <span className="s-dim" style={{ fontSize: 13 }}>
+            {article.categories[0].name}
+          </span>
+        )}
+      </div>
+    </a>
   );
 }

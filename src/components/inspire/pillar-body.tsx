@@ -38,9 +38,9 @@ export function PillarBody({ view, intro }: { view: PillarView; intro: string | 
   return (
     <div className="mx-auto max-w-3xl">
       {paragraphs.length > 0 && (
-        <div className="border-border border-b pb-10">
+        <div style={{ borderBottom: '1px solid var(--rule)', paddingBottom: 40 }}>
           {paragraphs.map((p, i) => (
-            <p key={i} className={i === 0 ? 'hk-deck' : 'hk-deck mt-4'}>
+            <p key={i} className="s-deck" style={i === 0 ? undefined : { marginTop: 16 }}>
               {p}
             </p>
           ))}
@@ -50,25 +50,31 @@ export function PillarBody({ view, intro }: { view: PillarView; intro: string | 
       <div className="mt-12 space-y-14">
         {orderedClusters.map((cluster) => (
           <section key={cluster.id} aria-labelledby={`cluster-${cluster.id}`}>
-            <h2 id={`cluster-${cluster.id}`} className="hk-display text-[1.5rem] lg:text-[1.75rem]">
+            <h2 id={`cluster-${cluster.id}`} className="s-h2">
               {cluster.name}
             </h2>
 
             {cluster.articles.length > 0 ? (
-              <ul className="border-border mt-5 divide-y border-t">
+              <div style={{ marginTop: 20, borderTop: '1px solid var(--rule)' }}>
                 {cluster.articles.map((article) => (
-                  <li key={article.id}>
-                    <Link
-                      href={`/artikel/${article.categorySlug}/${article.slug}`}
-                      className="hover:text-muted-foreground block py-3 text-base transition-colors"
-                    >
-                      {article.title}
-                    </Link>
-                  </li>
+                  <Link
+                    key={article.id}
+                    href={`/artikel/${article.categorySlug}/${article.slug}`}
+                    className="t"
+                    style={{
+                      display: 'block',
+                      padding: '13px 0',
+                      borderBottom: '1px solid var(--hair)',
+                      textDecoration: 'none',
+                      color: 'inherit',
+                    }}
+                  >
+                    {article.title}
+                  </Link>
                 ))}
-              </ul>
+              </div>
             ) : (
-              <p className="text-muted-foreground mt-4 text-sm">
+              <p className="s-meta mt-4">
                 Artikel untuk {cluster.entityPhrase} akan datang tidak lama lagi.
               </p>
             )}
@@ -77,21 +83,27 @@ export function PillarBody({ view, intro }: { view: PillarView; intro: string | 
 
         {view.unclustered.length > 0 && (
           <section aria-labelledby="cluster-lain-lain">
-            <h2 id="cluster-lain-lain" className="hk-display text-[1.5rem] lg:text-[1.75rem]">
+            <h2 id="cluster-lain-lain" className="s-h2">
               Lain-lain
             </h2>
-            <ul className="border-border mt-5 divide-y border-t">
+            <div style={{ marginTop: 20, borderTop: '1px solid var(--rule)' }}>
               {view.unclustered.map((article) => (
-                <li key={article.id}>
-                  <Link
-                    href={`/artikel/${article.categorySlug}/${article.slug}`}
-                    className="hover:text-muted-foreground block py-3 text-base transition-colors"
-                  >
-                    {article.title}
-                  </Link>
-                </li>
+                <Link
+                  key={article.id}
+                  href={`/artikel/${article.categorySlug}/${article.slug}`}
+                  className="t"
+                  style={{
+                    display: 'block',
+                    padding: '13px 0',
+                    borderBottom: '1px solid var(--hair)',
+                    textDecoration: 'none',
+                    color: 'inherit',
+                  }}
+                >
+                  {article.title}
+                </Link>
               ))}
-            </ul>
+            </div>
           </section>
         )}
       </div>

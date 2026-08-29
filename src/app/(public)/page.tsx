@@ -4,11 +4,38 @@ import { eq, desc } from 'drizzle-orm';
 import { unstable_cache } from 'next/cache';
 import { db } from '@/lib/db/drizzle';
 import { articles, inspireCategories } from '@/lib/db/schema/articles';
-import { ArticleCard } from '@/components/inspire/article-card';
-import { getSmartCropUrl } from '@/lib/storage/smart-crop-url';
+import { media } from '@/lib/db/schema/media';
+import { resolveCoverSource } from '@/lib/storage/responsive-cover';
+import '@/design-system/tokens.css';
+import '@/design-system/components.css';
 
 // ISR — same cadence as the artikel hub.
 export const revalidate = 1800;
+
+/**
+ * Spec §6.1/§6.3: a class-G cover (a wide documentary frame — a procession, a
+ * crowd at a distance) is never assigned as the homepage hero, DES-08's
+ * largest single frame — "if the only candidate photograph for a new article
+ * is class G, the article ships with the no-cover layout… rather than an
+ * enlarged class-G frame."
+ *
+ * This is NOT automated. `coverImageDetectionData` (AWS Rekognition
+ * faces/labels, meant to give exactly this signal) is EMPTY for the entire
+ * recent corpus checked here — `REKOGNITION_ENABLED` was off at ingest, so
+ * there is no face count, no label, nothing to threshold on. Image aspect
+ * ratio doesn't discriminate either (every `low` derivative resizes to the
+ * same ~1.5:1 regardless of subject — checked against 8 recent covers).
+ *
+ * So this is a hand-curated, disclosed stopgap: the one cover visually
+ * confirmed as a wide group/procession shot (13 people across a street,
+ * DES-02's exact failure mode) is named here by slug and skipped for hero
+ * placement only — it still displays normally as a small "Terkini" row,
+ * where enlargement isn't the risk. A real fix needs either Rekognition
+ * turned back on for new ingests or an editorial cover-class field (spec
+ * §6.1: "cover class is an editorial selection input") — named as a
+ * follow-up in the DES-08 work-done entry, not invented here.
+ */
+const HERO_INELIGIBLE_SLUGS = new Set<string>(['persiapan-hantaran-kahwin']);
 
 export const metadata: Metadata = {
   title: 'HelloKahwin — Idea & Panduan Perkahwinan Malaysia',
@@ -47,16 +74,24 @@ const getHomeData = unstable_cache(
         publishedAt: articles.publishedAt,
         categoryName: inspireCategories.name,
         categorySlug: inspireCategories.slug,
+        // DES-08 / spec §1.2's fifth device — "the credit is designed, not
+        // appended". Same exact-match join the article route already relies
+        // on (media.url == coverImageUrl); see that route for the incident
+        // this pattern exists to prevent (25 Aug 2026, 8 uncredited covers).
+        coverCredit: media.credit,
+        coverCreditUrl: media.creditUrl,
       })
       .from(articles)
       .innerJoin(inspireCategories, eq(articles.primaryCategoryId, inspireCategories.id))
+      .leftJoin(media, eq(media.url, articles.coverImageUrl))
       .where(eq(articles.status, 'published'))
       .orderBy(desc(articles.publishedAt))
-      .limit(13);
+      .limit(20); // buffer above the 13 displayed, so skipping an ineligible
+    // hero candidate doesn't also shrink the "Terkini" list beneath it.
 
     return { latestArticles };
   },
-  ['hk-home'],
+  ['hk-home-v3'],
   // Tagged, not just time-boxed: every admin write path and the scheduled-
   // publish cron fire `revalidateTag('articles')`. `revalidatePath` does NOT
   // invalidate an `unstable_cache` entry, so without these tags a publish (or
@@ -67,109 +102,130 @@ const getHomeData = unstable_cache(
 
 export default async function HomePage() {
   const { latestArticles } = await getHomeData();
-  const [hero, ...rest] = latestArticles;
+  const heroIndex = latestArticles.findIndex((a) => !HERO_INELIGIBLE_SLUGS.has(a.slug));
+  const hero = heroIndex >= 0 ? latestArticles[heroIndex] : latestArticles[0];
+  const rest = latestArticles.filter((_, i) => i !== heroIndex).slice(0, 12);
 
-  // --- Hero sources, art-directed ------------------------------------------
-  // ONE crop per viewport, and only one is ever fetched (see the <picture>
-  // below). Measured against this page's own hero box:
-  //
-  //   desktop box 1905x560 (w-full, lg:aspect-[21/9] capped by lg:max-h-[560px])
-  //     crop-4x3-article-card   1600x1200 -> cover scales x1.191 (a 19% UPSCALE)
-  //                                          and discards 60.8% of the frame
-  //     crop-4.3x1-desktop-hero 2464x700  -> cover scales x0.800 (no upscale)
-  //                                          and discards 3.4% of the frame
-  //   mobile box 390x293 (aspect-[4/3])
-  //     crop-4x3-article-card   1600x1200 -> exact ratio match, 0% discarded
-  //     crop-4.3x1-desktop-hero 2464x700  -> discards 62.1% of the frame
-  //
-  // So the two presets are not ranked, they are per-breakpoint: the wide crop
-  // is right for the wide box and wrong for the tall one, and the reverse. A
-  // straight swap would have moved a 61% waste off the desktop and onto the
-  // phone, which is where this site's traffic actually is. The desktop crop is
-  // also the smaller file on the measured hero asset (623 KB vs 793 KB), which
-  // matters because next.config.ts sets `images: { unoptimized: true }` — the
-  // raw file IS what the browser downloads.
-  const heroFallback = hero
-    ? ((hero.coverImageVariants as Record<string, { url: string }> | null)?.high?.url ??
-      hero.coverImageUrl)
+  // --- Hero source ----------------------------------------------------------
+  // Spec §5.3 draws ONE image per breakpoint from the pipeline's own
+  // derivatives, in `low` (q30, ≤1200px — see responsive-cover.ts), never the
+  // 800KB–1.2MB smart-crop/high assets DES-09 G19/G20/G21 vetoed. `low`'s
+  // aspect ratio follows the source, so a plain `<img>` with `object-fit:
+  // cover` art-directs it the same way the old two-crop <picture> did, at a
+  // fraction of the bytes.
+  const heroCover = hero
+    ? resolveCoverSource(
+        hero.coverImageVariants as Record<string, { url: string }> | null,
+        hero.coverImageSmartCrops,
+        hero.coverImageUrl,
+        'crop-4.3x1-desktop-hero',
+      )
     : null;
-  const heroDesktopSrc =
-    hero && heroFallback
-      ? (getSmartCropUrl(hero.coverImageSmartCrops, 'crop-4.3x1-desktop-hero') ?? heroFallback)
-      : null;
-  const heroMobileSrc =
-    hero && heroFallback
-      ? (getSmartCropUrl(hero.coverImageSmartCrops, 'crop-4x3-article-card') ?? heroFallback)
-      : null;
+
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com';
 
   return (
-    <div>
-      <h1 className="sr-only">HelloKahwin — Idea &amp; Panduan Perkahwinan Malaysia</h1>
-
+    <div className="hk">
+      {/* DES-09 G18: "Homepage and /artikel emit Organization + WebSite" —
+          0 @type values today, named as "a gap the redesign should close,
+          not a regression it would cause". Closing it here; /artikel itself
+          is DES-06's page, not this item's. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@graph': [
+              {
+                '@type': 'Organization',
+                name: 'HelloKahwin',
+                url: baseUrl,
+                logo: `${baseUrl}/hellokahwin-logo.png`,
+              },
+              { '@type': 'WebSite', name: 'HelloKahwin', url: baseUrl, inLanguage: 'ms' },
+            ],
+          }).replace(/</g, '\\u003c'),
+        }}
+      />
       {/* --- Lead story ---------------------------------------------------
-          Full-bleed plate, headline below the image. Text is never set over
-          the photograph: it keeps the wedding imagery intact and keeps the
-          headline legible on a cheap screen in daylight. */}
+          Spec §5.3: figure first, then eyebrow / h1 / deck / credit in the
+          figcaption below it — never set over the photograph. The homepage's
+          h1 IS the hero headline (spec §9.1: "not the wordmark — the wordmark
+          is a link, not a heading"), a real element, once, no sr-only stand-in
+          and no second h1 hiding at another breakpoint. */}
       <section className="pt-6 lg:pt-10">
         {hero ? (
           <article>
             <Link href={`/artikel/${hero.categorySlug}/${hero.slug}`} className="group block">
               <div
-                className="bg-muted relative aspect-[4/3] w-full overflow-hidden bg-cover bg-center sm:aspect-[16/9] lg:aspect-[21/9] lg:max-h-[560px]"
+                className="bg-muted relative aspect-[4/3] w-full overflow-hidden bg-cover bg-center sm:aspect-[16/9] lg:aspect-[2.4/1]"
                 style={
-                  // UX-04's blur placeholder, carried onto the container because
-                  // next/image's placeholder="blur" cannot ride on a <picture>.
-                  // Same effect and no JS: the stored LQIP is a ~190-byte WebP a
-                  // few pixels wide, so cover-scaling it to 1905px IS the blur. It
-                  // sits behind the <img>, so it is gone the moment the hero paints.
                   hero.coverImageLqip
                     ? { backgroundImage: `url(${hero.coverImageLqip})` }
                     : undefined
                 }
               >
-                {heroDesktopSrc && heroMobileSrc ? (
-                  /* A plain <picture>, deliberately, not next/image.
-                     next/image renders exactly one <img> and cannot carry a
-                     <source media>, so art-directing with it takes two elements
-                     — and the hidden one still downloads. That is not
-                     theoretical: measured on production at 390x844, the article
-                     route's two-block hero fetches BOTH crops and spends 748 KB
-                     on a desktop plate the phone never displays. <picture> lets
-                     the browser choose one and fetch one. Nothing is given up by
-                     dropping next/image here: `images: { unoptimized: true }`
-                     means it was never resizing these, and `fill` was only
-                     supplying the absolute inset, which is one class. */
-                  <picture>
-                    <source media="(min-width: 1024px)" srcSet={heroDesktopSrc} />
-                    <img
-                      src={heroMobileSrc}
-                      alt={hero.title}
-                      fetchPriority="high"
-                      decoding="async"
-                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
-                    />
-                  </picture>
+                {heroCover ? (
+                  /* `low` has no fixed intrinsic aspect for next/image's
+                     width/height contract; object-fit:cover art-directs it
+                     identically, and `images.unoptimized` means next/image was
+                     never resizing these anyway. */
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={heroCover.src}
+                    srcSet={heroCover.srcSet}
+                    sizes="(min-width: 1024px) 1200px, 100vw"
+                    alt={hero.title}
+                    width={1200}
+                    height={500}
+                    fetchPriority="high"
+                    decoding="async"
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                  />
                 ) : (
                   <div className="flex h-full items-center justify-center">
-                    <span className="hk-meta">Tiada gambar</span>
+                    <span className="s-meta">Tiada gambar</span>
                   </div>
                 )}
               </div>
 
-              <div className="mx-auto max-w-3xl px-4 pt-6 text-center lg:pt-10">
-                <span className="hk-eyebrow">{hero.categoryName}</span>
-                <h2 className="hk-display mt-3 text-[1.75rem] sm:text-4xl lg:text-[3rem]">
+              <div className="s-pad mx-auto max-w-3xl pt-6 text-center lg:pt-10">
+                <span className="s-label" style={{ color: 'var(--accent)' }}>
+                  {hero.categoryName}
+                </span>
+                <h1 className="s-h1 mx-auto mt-3" style={{ maxWidth: '20ch' }}>
                   <span className="decoration-border-strong underline-offset-[0.14em] group-hover:underline">
                     {hero.title}
                   </span>
-                </h2>
-                {hero.excerpt && <p className="hk-deck mt-4 line-clamp-3">{hero.excerpt}</p>}
+                </h1>
+                {hero.excerpt && (
+                  <p className="s-deck mx-auto mt-4" style={{ maxWidth: '60ch' }}>
+                    {hero.excerpt}
+                  </p>
+                )}
+                {/* `credit` is stored WITH its "Kredit: " prefix already
+                    (src/lib/inspire/__tests__/article-file.test.ts) — do not
+                    prepend a second one, which is what shipped first and
+                    printed "Kredit: Kredit: …" on every credited hero. */}
+                {hero.coverCredit &&
+                  (hero.coverCreditUrl ? (
+                    <a
+                      href={hero.coverCreditUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="s-cred mt-3 inline-block"
+                    >
+                      {hero.coverCredit}
+                    </a>
+                  ) : (
+                    <p className="s-cred mt-3">{hero.coverCredit}</p>
+                  ))}
               </div>
             </Link>
           </article>
         ) : (
-          <div className="border-border mx-4 border border-dashed p-12 text-center">
-            <p className="hk-deck">
+          <div className="s-pad border-border mx-4 border border-dashed p-12 text-center">
+            <p className="s-deck mx-auto">
               Belum ada artikel. Kandungan akan datang tidak lama lagi — jumpa lagi!
             </p>
           </div>
@@ -190,46 +246,66 @@ export default async function HomePage() {
           masthead is the one navigation. Deleting this also takes a whole
           category query and its article-count subquery off the homepage. */}
 
-      {/* --- Latest grid --------------------------------------------------- */}
+      {/* --- Terkini: list rows, not cards ----------------------------------
+          Spec §5.3/§9.1: this section's own label is the page's h2 ("Terkini");
+          each row title is h3 (the hero already holds the page's one h1, so a
+          second h2 level here would leave nothing between it and the row
+          titles). List rows, not the card grid — spec §5.2's own reasoning:
+          twelve cards runs ~4,000px of scroll, twelve rows ~1,150px. */}
       {rest.length > 0 && (
-        <section className="mx-auto max-w-6xl px-4 pt-10 lg:px-6 lg:pt-16">
-          <div className="hk-rule pb-8">
-            <h2 className="hk-eyebrow whitespace-nowrap">Terkini</h2>
+        <section className="s-pad mx-auto max-w-3xl pt-10 lg:pt-16">
+          {/* A real <h2>, not a styled div. Spec §9.1 assigns the homepage's h2
+              to "Terkini and each subsequent section label" — and DES-09 G02
+              requires the first heading after the h1 to be an h2, so styling
+              this as a label while leaving the level out would ship an
+              h1→h3 skip: the exact defect this rebuild is here to fix, in a
+              new place. `.s-label` is the visual style; h2 is the level. */}
+          <h2
+            className="s-label"
+            style={{ borderTop: '2px solid var(--fg)', paddingTop: 12, display: 'block' }}
+          >
+            Terkini
+          </h2>
+          <div>
+            {rest.map((article) => {
+              const cover = resolveCoverSource(
+                article.coverImageVariants as Record<string, { url: string }> | null,
+                article.coverImageSmartCrops,
+                article.coverImageUrl,
+              );
+              return (
+                <a
+                  key={article.id}
+                  href={`/artikel/${article.categorySlug ?? 'artikel'}/${article.slug}`}
+                  className={cover ? 's-row' : 's-imgless'}
+                  style={{ textDecoration: 'none', color: 'inherit' }}
+                >
+                  {cover && (
+                    // eslint-disable-next-line @next/next/no-img-element -- see hero note above
+                    <img
+                      src={cover.src}
+                      srcSet={cover.srcSet}
+                      sizes="176px"
+                      width={176}
+                      height={132}
+                      loading="lazy"
+                      decoding="async"
+                      alt=""
+                    />
+                  )}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+                    <h3 className="t">{article.title}</h3>
+                    <span className="s-dim" style={{ fontSize: 13 }}>
+                      {article.categoryName}
+                    </span>
+                  </div>
+                </a>
+              );
+            })}
           </div>
-          <div className="grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-14">
-            {rest.map((article, i) => (
-              <ArticleCard
-                key={article.id}
-                title={article.title}
-                slug={article.slug}
-                categorySlug={article.categorySlug ?? 'artikel'}
-                categories={
-                  article.categoryName && article.categorySlug
-                    ? [{ name: article.categoryName, slug: article.categorySlug }]
-                    : []
-                }
-                coverImageUrl={article.coverImageUrl}
-                coverImageVariants={
-                  article.coverImageVariants as Record<
-                    string,
-                    { url: string; sizeBytes: number }
-                  > | null
-                }
-                smartCrops={
-                  article.coverImageSmartCrops as Record<
-                    string,
-                    { url: string; width: number; height: number }
-                  > | null
-                }
-                publishedAt={null}
-                priority={i < 2}
-                lqip={article.coverImageLqip}
-              />
-            ))}
-          </div>
-          <div className="pt-12 text-center lg:pt-16">
-            <Link href="/artikel" className="hk-btn-ghost">
-              Lihat Semua Artikel
+          <div className="pt-6 text-center">
+            <Link href="/artikel" className="s-btn" style={{ display: 'inline-flex' }}>
+              Lihat semua artikel
             </Link>
           </div>
         </section>
