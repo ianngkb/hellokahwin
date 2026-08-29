@@ -1,0 +1,304 @@
+<title>Sprint 03 Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400&family=Archivo:wght@400;500;600&display=swap">
+<style>
+:root{--ink:#16130f;--page:#edeae1;--surf:#e4e0d4;--rule:#c6bfac;--gold:#725825;--thread:#a8823c;--blood:#6b2130;--soft:#4a443a;--mute:#615c4e}
+@media(prefers-color-scheme:dark){:root{--ink:#ede8dc;--page:#14110d;--surf:#1c1813;--rule:#3a3328;--gold:#c9a45c;--thread:#a8823c;--blood:#c26e7f;--soft:#c3bcab;--mute:#8e8676}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--ink);font:16px/1.6 Archivo,system-ui,-apple-system,"Segoe UI",sans-serif;padding:0 24px 80px}
+.w{max-width:1080px;margin:0 auto}
+h1{font:400 clamp(2rem,5vw,3.2rem)/1.05 "Bodoni Moda",Didot,Georgia,serif;margin:0;letter-spacing:-.01em}
+h2{font:400 1.6rem/1.15 "Bodoni Moda",Didot,Georgia,serif;margin:0 0 6px}
+h3{font:600 1rem/1.3 Archivo,sans-serif;margin:0 0 4px}
+header{padding:64px 0 32px;border-bottom:1px solid var(--thread)}
+.eyebrow{font:500 .68rem/1 ui-monospace,Menlo,monospace;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin:0 0 18px}
+.lede{font-size:1.05rem;color:var(--soft);max-width:64ch;margin:16px 0 0}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));border-left:1px solid var(--rule);border-top:1px solid var(--rule);margin:28px 0 0}
+.kpi div{border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:14px 16px}
+.kpi b{display:block;font:400 1.9rem/1 "Bodoni Moda",Georgia,serif;font-variant-numeric:tabular-nums}
+.kpi span{font:.62rem/1.4 ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);display:block;margin-top:5px}
+section{padding:52px 0 0}
+.sh{border-top:1px solid var(--rule);padding-top:14px;margin-bottom:24px}
+.sh p{margin:6px 0 0;color:var(--soft);font-size:.92rem;max-width:70ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));border-left:1px solid var(--rule);border-top:1px solid var(--rule)}
+.item{border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:18px 20px 20px}
+.id{font:500 .62rem/1 ui-monospace,Menlo,monospace;letter-spacing:.1em;color:var(--gold);display:block;margin-bottom:8px}
+.item p{margin:0 0 10px;font-size:.9rem;color:var(--soft)}
+.chk{font-size:.82rem;color:var(--mute);border-top:1px dotted var(--rule);padding-top:9px;margin:0}
+.chk b{display:block;font:500 .58rem/1 ui-monospace,Menlo,monospace;letter-spacing:.09em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+code{font:.85em ui-monospace,Menlo,monospace;background:var(--surf);padding:1px 4px}
+a{color:var(--gold)}
+.note{border:1px solid var(--rule);border-left:3px solid var(--thread);padding:18px 20px;background:var(--surf);margin-bottom:16px}
+.note.bad{border-left-color:var(--blood)}
+.note h3{margin-bottom:8px}
+.note p{margin:0 0 8px;font-size:.9rem;color:var(--soft)}
+ul,ol{margin:8px 0 0;padding-left:20px;color:var(--soft);font-size:.9rem}
+li{margin-bottom:7px}
+table.stats{width:100%;border-collapse:collapse;font-size:.85rem;margin-top:10px}
+table.stats th,table.stats td{padding:8px 12px;border-bottom:1px solid var(--rule);text-align:left}
+table.stats th{font:500 .6rem/1 ui-monospace,Menlo,monospace;letter-spacing:.09em;text-transform:uppercase;color:var(--mute);background:var(--surf)}
+.num{text-align:right;font-variant-numeric:tabular-nums;font-family:ui-monospace,Menlo,monospace}
+.fine{font-size:.78rem;color:var(--mute);line-height:1.5}
+.card{border:1px solid var(--rule);padding:18px 20px;margin-bottom:16px;background:var(--surf)}
+.card h2{font-size:1.2rem}
+.sub{font-size:.88rem;color:var(--soft)}
+.chip{font:.6rem ui-monospace,Menlo,monospace;border:1px solid var(--rule);padding:1px 5px;color:var(--mute);white-space:nowrap}
+footer{border-top:1px solid var(--thread);margin-top:56px;padding-top:18px;font:.72rem/1.6 ui-monospace,Menlo,monospace;color:var(--mute)}
+footer table{border-collapse:collapse;width:100%}
+footer td{padding:4px 14px 4px 0;font-size:.7rem;border-bottom:1px solid var(--rule)}
+</style>
+
+<div class="w">
+<header>
+  <p class="eyebrow">HelloKahwin · Sprint 03 · report</p>
+  <h1>Convert the impressions we now have — and stop looking generic</h1>
+  <p class="lede">Planned 27 August, closed 29 August 2026. Twenty-six items across risk, search, design, content and platform. The site was rebuilt on a design system it did not have, and given a wordmark of its own.</p>
+  <div class="kpi">
+    <div><b>115</b><span>points planned</span></div>
+    <div><b>107</b><span>completed · 25 items</span></div>
+    <div><b>8</b><span>parked · 1 item</span></div>
+    <div><b>0</b><span>moved out</span></div>
+    <div><b>0</b><span>unfinished</span></div>
+  </div>
+  <p class="fine" style="margin-top:14px">Deployed: site <code>105e79d</code> · buddy <code>d169a3e</code> · docs <code>a0bba78</code>. No database migration shipped in this sprint. No gate was waived.</p>
+</header>
+
+<section>
+  <div class="sh"><h2>What shipped</h2><p>Every item, in plain terms, with a way to check it yourself. Best judged on a phone — two thirds of readers arrive that way.</p></div>
+  <div class="grid">
+
+<div class="item"><span class="id">RISK-07 · risk</span><h3>Six hub pages told Google not to index them</h3>
+<p>Six category pages were quietly asking Google to ignore them. They now ask to be indexed.</p>
+<p class="chk"><b>How to check it</b>Open <a href="https://hellokahwin.com/artikel/minimalis-mewah">/artikel/minimalis-mewah</a> and view source: the robots line reads <code>index, follow</code>. Google re-crawled it on 28 Aug after the owner pressed Request Indexing.</p></div>
+
+<div class="item"><span class="id">RISK-08 · risk</span><h3>Slow page loads were a measuring error — a real one hid underneath</h3>
+<p>The reported 5–22 second loads were an artefact of how they were timed. Underneath sat a real fault: pages were being built 15,000 km from the database. That is fixed — 3.5 seconds down to 0.17.</p>
+<p class="chk"><b>How to check it</b>Any article now answers from Singapore rather than the US. In the response headers <code>X-Vercel-Id</code> reads <code>sin1::sin1</code> where it used to read <code>sin1::iad1</code>.</p></div>
+
+<div class="item"><span class="id">SEO-07 · seo</span><h3>Page titles could silently revert to the site default</h3>
+<p>A corrected page title could quietly change back to the generic site title minutes later. It can no longer do that.</p>
+<p class="chk"><b>How to check it</b>Open <a href="https://hellokahwin.com/artikel/venue-perancangan/checklist-kahwin">any article</a> and check the browser tab carries the article name, not “HelloKahwin — Idea &amp; Panduan”.</p></div>
+
+<div class="item"><span class="id">SEO-08 · seo</span><h3>Decided what to do with the garden-wedding page</h3>
+<p>Keep it, do not rewrite it, spend nothing on it, judge it on 27 November. Our own records called it an English page; it is 2,332 words of Malay about twenty Malaysian venues. What is English is the phrase people type into Google.</p>
+<p class="chk"><b>How to check it</b>The decision is in <code>docs/work-done/aug-28-2026-session-01/aug-28-2026-done-seo-08-garden-wedding-decision.md</code>.</p></div>
+
+<div class="item"><span class="id">SEO-09 · seo</span><h3>Nine older articles now sit under the right topic</h3>
+<p>Nine legacy articles are linked under the pillar they belong to. No web address changed, so no existing link broke.</p>
+<p class="chk"><b>How to check it</b>Open <a href="https://hellokahwin.com/artikel/hantaran-mas-kahwin">the Hantaran hub</a> — hantaran-kahwin, hantaran-tunang, gubahan-hantaran and sirih-junjung all appear on it.</p></div>
+
+<div class="item"><span class="id">SEO-10 · seo</span><h3>Question-and-answer sections are now machine-readable</h3>
+<p>Articles with a “Soalan lazim” section now describe those questions in a form search engines can read. 29 articles, 122 questions, from zero.</p>
+<p class="chk"><b>How to check it</b>View source on <a href="https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-perak">mas-kahwin-perak</a> and search for <code>FAQPage</code>.</p></div>
+
+<div class="item"><span class="id">CONT-10 · content</span><h3>Settled whether the Hantaran cluster should merge</h3>
+<p>Decided on live search-results evidence: do not merge. The cluster stays at eight articles.</p>
+<p class="chk"><b>How to check it</b><code>aug-28-2026-done-cont-10-c21-serp-decision.md</code>, with its evidence folder.</p></div>
+
+<div class="item"><span class="id">CONT-11 · content</span><h3>Four target phrases nobody searches for</h3>
+<p>Four phrases the cluster aimed at turn out to have no search traffic at all. One was replaced; three were dropped rather than invent replacements to look complete.</p>
+<p class="chk"><b>How to check it</b><code>aug-28-2026-done-cont-11-target-terms.md</code> — every figure names which Ahrefs field it came from.</p></div>
+
+<div class="item"><span class="id">CONT-12 · content</span><h3>The Hantaran cluster is complete at eight articles</h3>
+<p>All eight are live and linked from their pillar, and the cluster’s main page no longer duplicates two of its own articles.</p>
+<p class="chk"><b>How to check it</b>Open <a href="https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-kahwin">hantaran-kahwin</a> and the other seven from the hub.</p></div>
+
+<div class="item"><span class="id">DES-01 · design</span><h3>Decided what “premium” means for a Malay wedding audience</h3>
+<p>A researched argument rather than a mood board: seven Malaysian premium brands, six competitors and our own site, all measured. The register chosen is “a publication of record, warmly printed”.</p>
+<p class="chk"><b>How to check it</b><code>aug-28-2026-done-des-01-art-direction-rationale.md</code>. Every market claim carries a URL and the date it was fetched.</p></div>
+
+<div class="item"><span class="id">DES-02 · design</span><h3>Three visual directions, drawn on a real page</h3>
+<p>Three genuinely different designs on the same live article, at desktop and phone size, light and dark. Direction A — Warkah — was chosen.</p>
+<p class="chk"><b>How to check it</b><a href="https://claude.ai/code/artifact/1936d75a-b30a-47ec-9239-fde2c232c0b9">Open the canvas</a>. Eleven artboards over four pages.</p></div>
+
+<div class="item"><span class="id">DES-03 · design</span><h3>The chosen direction turned into a build specification</h3>
+<p>Thirteen page states drawn as eighteen exact-size frames at 360px and 1200px, light and dark, every text-on-background pairing carrying a measured contrast figure.</p>
+<p class="chk"><b>How to check it</b><a href="https://claude.ai/code/artifact/82d4d556-db93-4139-b1ce-84db67010522">Open the specification</a>.</p></div>
+
+<div class="item"><span class="id">DES-04 · design</span><h3>Decided what to keep of the existing front-end</h3>
+<p>Tailwind stays. The accessibility components stay. What gets replaced is the visual theme layer — the part that made the site look generic.</p>
+<p class="chk"><b>How to check it</b><code>aug-28-2026-done-des-04-stack-recommendation.md</code> answers the two questions separately rather than conflating them.</p></div>
+
+<div class="item"><span class="id">DES-05 · design</span><h3>The design system exists</h3>
+<p>Colour, type, spacing and shared components in one place, with a private reference page that reads its values from the system itself so it cannot drift out of date.</p>
+<p class="chk"><b>How to check it</b>Signed in, open <code>/admin/design-system</code>. The rule is zero colour codes anywhere outside the token files.</p></div>
+
+<div class="item"><span class="id">DES-06 · design</span><h3>Designed search and browsing — and corrected the brief</h3>
+<p>The brief said the site has no search. It does — and it returns nothing for 84.3% of the phrases people actually arrive on, covering 70.9% of a month’s impressions.</p>
+<p class="chk"><b>How to check it</b><code>aug-28-2026-done-des-06-search-and-catalogue.md</code>. Building it is separate and not yet sized.</p></div>
+
+<div class="item"><span class="id">DES-07 · design</span><h3>Designed what pages look like when things go wrong</h3>
+<p>Empty, loading, error, too-few, too-many and longest-possible-headline, for every surface — 39 screens at phone width, against real Malay text.</p>
+<p class="chk"><b>How to check it</b><code>aug-28-2026-done-des-07-state-set.md</code>.</p></div>
+
+<div class="item"><span class="id">DES-08 · design</span><h3>The homepage, category pages and articles are rebuilt</h3>
+<p>All three page types now use the new design system. Two bugs were caught before shipping: text that would have been invisible sitewide, and a doubled “Kredit:” label under photographs.</p>
+<p class="chk"><b>How to check it</b>Open <a href="https://hellokahwin.com/">hellokahwin.com</a>, a <a href="https://hellokahwin.com/artikel/hantaran-mas-kahwin">category</a>, and an <a href="https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-perak">article</a>. Best judged on a phone.</p></div>
+
+<div class="item"><span class="id">DES-09 · design</span><h3>Wrote the search rules the redesign was not allowed to break</h3>
+<p>A runnable checklist of what a redesign must not damage — headings, internal links, structured data, page weight — with the current state measured before any of it started.</p>
+<p class="chk"><b>How to check it</b>Run <code>aug-28-2026-des-09-EVIDENCE/check-guardrails.py</code>. It already fails on two pre-existing defects, which is what a baseline is for.</p></div>
+
+<div class="item"><span class="id">DES-10 · design</span><h3>Five versions of the logo</h3>
+<p>The wordmark drawn as shapes rather than typed text, in five shapes — including a compact HK monogram for favicons and avatars.</p>
+<p class="chk"><b>How to check it</b>Open <a href="https://hellokahwin.com/brand">hellokahwin.com/brand</a> and download any of them.</p></div>
+
+<div class="item"><span class="id">DES-11 · design</span><h3>A public brand page</h3>
+<p>One page carrying the logos, the colours with their measured contrast, and six specific ways to get the brand wrong.</p>
+<p class="chk"><b>How to check it</b>Open <a href="https://hellokahwin.com/brand">hellokahwin.com/brand</a>.</p></div>
+
+<div class="item"><span class="id">DES-12 · design</span><h3>The real wordmark is in the site header</h3>
+<p>The header carries the actual logo rather than typed text — and it fits beside the search box on a phone, which is the constraint that shaped it.</p>
+<p class="chk"><b>How to check it</b>Open <a href="https://hellokahwin.com/">hellokahwin.com</a> on a phone. At 360px the logo takes 180px — half the screen — leaving 148px for search and menu.</p></div>
+
+<div class="item"><span class="id">DES-13 · design</span><h3>The typeface is confirmed, not provisional</h3>
+<p>Bodoni Moda, at one specific setting. On this face the setting matters more than the name: it barely changes letter thickness but nearly erases the thin strokes — which is why every logo was re-cut before the brand page went public.</p>
+<p class="chk"><b>How to check it</b><code>aug-28-2026-done-des-13-display-typeface.md</code>. Every figure is printed by a script in its evidence folder.</p></div>
+
+  </div>
+</section>
+
+<section>
+  <div class="sh"><h2>Behind the scenes</h2><p>Three tools that had been reporting things that were not true.</p></div>
+  <div class="grid">
+    <div class="item"><span class="id">PLAT-10</span><p>Sprint completion percentages could be flattered by moving an item out of a running sprint. They no longer can — and running the fix against Sprint 02 immediately re-stated that sprint honestly: 77 points planned, not the flattering 72.</p></div>
+    <div class="item"><span class="id">PLAT-11</span><p>The check that confirms work has shipped was giving the wrong answer for squash-merged branches — calling shipped work unshipped. It now tests by content on the main branch.</p></div>
+    <div class="item"><span class="id">PLAT-12</span><p>The effort-and-tokens report had come out empty for two consecutive sprints because it was looking for the wrong record. It works now, and its first output is this sprint’s most useful number.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="sh"><h2>Parked</h2><p>One item — and it is the most valuable eight points in the sprint.</p></div>
+  <div class="note bad">
+    <h3>SEO-04 — venue entity pages · 8 points · parked</h3>
+    <p>It built nothing, twice, and both times that was correct. The plan was to publish pages for individual wedding venues carrying real prices and capacities. Those figures cannot be sourced — and the second attempt found <em>why</em>, which neither the first park nor the CEO’s diagnosis had identified.</p>
+    <p><strong>nikahsatu.com is not a competitor we can out-build. It is the operator of those venues.</strong> Its own footer reads “© 2019 NikahSatu by Zest Venture Sdn Bhd”, all four candidate venue brands route their bookings through it, and the only published prices anywhere are its own undated discount packages.</p>
+    <p>So the premise this item was revived on — that we could copy a directory strategy — was measuring a company publishing its own properties. <strong>Where it goes next:</strong> the page-type decision needs re-deciding from scratch. It must not be revived by changing the sourcing method a third time.</p>
+  </div>
+  <p class="fine">No item was moved out of this sprint. That figure is reported even though it is zero, because until this sprint the number did not exist — and its absence let Sprint 02 record a 100% that described nothing.</p>
+</section>
+
+<section>
+  <div class="sh"><h2>Time, models &amp; tokens</h2><p>Generated, not estimated. <strong>This undercounts.</strong> The dispatched agents worked in worktrees that were deleted during cleanup before this ran, so their sessions are unreachable. An earlier run that could still see one of them reported <strong>6h 56m active against 25h 39m elapsed</strong> — that pair is the honest figure for idle time, and it is the one quoted in the retrospective below.</p></div>
+
+<div class="card">
+  <h2>Time, models &amp; tokens</h2>
+  <p class="sub"><b>4h 50m</b> of working time across <b>3939</b> steps, run on <b>Opus 5, Sonnet 5</b>. Each row is one stage of the work.</p>
+  <p class="fine">Measuring <b>Sprint 03</b> (2026-08-27 16:00Z to 2026-08-29 09:56Z), matched by TIME WINDOW and working directory only — a sprint has no branch list, so anything else running in these trees during the window is counted too.</p>
+  <div style="overflow-x:auto">
+  <table class="stats">
+    <thead><tr><th>Stage</th><th>Took</th><th>Model</th><th class="num">Steps</th><th class="num">Written</th><th class="num">Thinking</th></tr></thead>
+    <tbody>
+      <tr><td>Building &amp; conversation <span class="chip">2798 via helpers</span></td><td>4h 28m</td><td>Opus 5, Sonnet 5</td><td class="num">3589</td><td class="num">2.13M</td><td class="num">592.7k</td></tr>
+      <tr><td>Artifact Design</td><td>2m 59s</td><td>Opus 5</td><td class="num">54</td><td class="num">54.5k</td><td class="num">19.0k</td></tr>
+      <tr><td>Bmad Agent Bmad Master</td><td>41s</td><td>Opus 5</td><td class="num">14</td><td class="num">2.8k</td><td class="num">334</td></tr>
+      <tr><td>Bmad Agent Dev</td><td>15m 55s</td><td>Opus 5</td><td class="num">249</td><td class="num">231.8k</td><td class="num">66.1k</td></tr>
+      <tr><td>Humanizer</td><td>2m 20s</td><td>Opus 5</td><td class="num">33</td><td class="num">113.3k</td><td class="num">14.1k</td></tr>
+    </tbody>
+    <tfoot><tr><th>Total</th><th>4h 50m</th><th></th><th class="num">3939</th><th class="num">2.53M</th><th class="num">692.2k</th></tr></tfoot>
+  </table>
+  </div>
+  <p class="fine"><b>Reading this.</b> <em>Written</em> is new text produced — the closest thing to real effort. <em>Thinking</em> is reasoning done before answering, already counted inside Written. <em>Took</em> is working time: any pause longer than five minutes is treated as waiting rather than working, so an answer left open overnight does not read as an overnight task.</p>
+</div>
+
+<div class="card">
+  <h2>How this build ran</h2>
+  <p class="sub"><b>2</b> working sessions, <b>17</b> helper agents spawned, <b>21</b> skill invocations.</p>
+  <div style="overflow-x:auto">
+  <table class="stats">
+    <thead><tr><th>Session</th><th>Model</th><th>Elapsed</th><th class="num">Steps</th><th class="num">Written</th></tr></thead>
+    <tbody>
+      <tr><td>main checkout</td><td>Opus 5, Sonnet 5</td><td>14h 52m</td><td class="num">1141</td><td class="num">1.08M</td></tr>
+      <tr><td>main checkout helper</td><td>Opus 5, Sonnet 5</td><td>14h 42m</td><td class="num">2798</td><td class="num">1.45M</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p><b>Helper agents:</b> <span class="chip">head-of-seo-content ×5</span> <span class="chip">creative-director ×5</span> <span class="chip">Explore ×4</span> <span class="chip">design-systems-engineer</span> <span class="chip">writer-inspirasi-vendor-venue</span> <span class="chip">product-designer</span></p>
+  <p class="fine">Sessions are the separate working copies that took part; helpers are short-lived agents spawned for one job. This table shows two sessions because the dispatched agents’ worktrees were removed before the tool ran — see the caveat above.</p>
+</div>
+</section>
+
+<section>
+  <div class="sh"><h2>Cleanup</h2></div>
+  <ul>
+    <li>20 of 21 Orca terminals closed; the one still working was left alone.</li>
+    <li>8 worktrees deregistered, each verified shipped by <em>content on the main branch</em> rather than by ancestry — every one of them read “ahead” while being fully merged.</li>
+    <li>4 of 10 directories reclaimed from disk. Six remain, held by lingering file handles — the same pattern as Sprint 02’s, which is still there. Cost is disk only.</li>
+    <li><strong>Left deliberately:</strong> <code>pillars-ingest-redirects</code> (Sprint 01’s, still registered) and the branch <code>feat/des-05-design-system-reference</code>, which is superseded and would clobber shipped work if merged. Deleting a pushed branch is the owner’s call.</li>
+  </ul>
+</section>
+
+<section>
+  <div class="sh"><h2>The retrospective</h2><p>Held 29 August with the seats that did the work.</p></div>
+
+  <div class="note">
+    <h3>1. What we learned that was not written down</h3>
+    <p><strong>Prose rules do not fire. Gates and scripts do.</strong> Everything that worked this sprint was a definition-of-done gate or a runnable script — the sourcing gate that stopped SEO-04 twice, the guardrail checker, a writer producing an undo script before a database write because the DoD said to. Everything that failed was prose in a persona: “resolve the operator”, “re-arm the watcher”, “check the artefact”.</p>
+    <p>Sprint 02’s retrospective had already recorded that five correct, deployed rules failed to fire. <strong>That finding was itself written in prose, and it then happened again.</strong></p>
+  </div>
+
+  <div class="note">
+    <h3>2. Which documents changed</h3>
+    <ul>
+      <li><code>agents/projects/hellokahwin/Executive/ceo-hellokahwin.md</code> — three new sections: the nine bad checks tabulated, the two self-inflicted bottlenecks, and the prose-versus-gates instruction.</li>
+      <li><code>agents/projects/hellokahwin/Marketing/head-of-seo-content.md</code> — “resolve the operator” moved from ethos prose to a <strong>pre-flight checklist item</strong>, because the prose version had existed since Sprint 02 and did not fire.</li>
+      <li><code>skills/startsprint/SKILL.md</code> — re-arming the watcher, and the rule that an authentication stall is a fleet event rather than a per-agent one.</li>
+      <li><code>docs/plans/aug-23-2026-session-01/aug-23-2026-production-doctrine.md</code> — section 5.7, the rendered-colour audit.</li>
+      <li>Both design personas, edited by the agents themselves and found uncommitted by the closing ship check.</li>
+    </ul>
+  </div>
+
+  <div class="note bad">
+    <h3>3. What we did twice</h3>
+    <ul>
+      <li><strong>Nine bad verification checks in one session</strong>, all the same error: checked a proxy, with a pattern nobody tested. Two of them would have deleted or reverted shipped work.</li>
+      <li><strong>Watchers not re-armed, three times.</strong> One cost ten hours.</li>
+      <li><strong>The competitor rule ignored on a replacement</strong> — the exact failure Sprint 02’s retrospective described.</li>
+    </ul>
+  </div>
+
+  <div class="note bad">
+    <h3>4. What we nearly shipped</h3>
+    <p><strong>Invisible text, sitewide, with every automated check reporting green.</strong> A colour-token collision would have rendered gold text on a gold ground across the site. Nothing in any check we run compares a computed colour or a contrast ratio — and the specification carries 47 measured contrast figures that nothing verifies.</p>
+    <p>It was caught by eye, on one crop, at one screen size, because the affected text happened to sit in the first fold of the first screenshot someone looked at closely. <strong>That is not a mechanism.</strong> It is now section 5.7 of the production doctrine.</p>
+  </div>
+
+  <div class="note bad">
+    <h3>5. What the process got wrong</h3>
+    <p><strong>The sprint was idle roughly three quarters of the time, and the two largest gaps were both the CEO.</strong></p>
+    <ul>
+      <li><strong>DES-08 waited 10 hours 5 minutes</strong> at a review gate the CEO itself demanded, because the CEO stopped re-arming its watcher. The owner found it by asking.</li>
+      <li><strong>The brand page was held about six hours</strong> as an owner decision that never applied — the owner had commissioned that public page by name, with a reference URL. Eleven points sat behind a gate the CEO invented for itself.</li>
+    </ul>
+    <p>Over-escalating and under-watching are opposite errors with one root: <strong>the CEO does not model itself as a resource that can be the bottleneck.</strong> Three authentication stalls cost about an hour between them — an order of magnitude less.</p>
+    <p><strong>What held:</strong> the review gate. DES-08 offered to ship on “verification is complete”; that was refused, and four named regression checks were demanded with both sides quoted. All four passed against live production. The closing ship check also caught SEO-09 reporting success with a production undo script still unmerged on a branch, and both design agents’ retrospective edits sitting uncommitted.</p>
+  </div>
+
+  <div class="note">
+    <h3>Filed for next sprint</h3>
+    <ul>
+      <li><strong>PLAT-13</strong> — the watcher wakes on every <code>curl</code> line and never on a completion. Do not simply delete the pattern: it deliberately fires on deploy status codes, which was the right behaviour in Sprint 02.</li>
+      <li><strong>PLAT-14</strong> — a per-item state-transition log with a “waiting on CEO” state. We can see <em>when</em> work stopped and never <em>why</em>; this sprint’s idle time had to be reconstructed from completion timestamps plus one person’s memory.</li>
+      <li><strong>Unowned:</strong> 27 of 48 images on the garden-wedding page carry no credit — an owner-level rule, on the page drawing 28% of all site impressions. And 307 legacy assets still live across the old WordPress articles.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+<table>
+<tr><td>RISK-07</td><td>BMAD</td><td>feat/risk07-noindex</td><td>shipped</td></tr>
+<tr><td>RISK-08</td><td>BMAD</td><td>feat/risk08-cold-render</td><td>shipped</td></tr>
+<tr><td>SEO-07 · SEO-09 · SEO-10</td><td>BMAD</td><td>three branches</td><td>shipped</td></tr>
+<tr><td>SEO-08 · CONT-10 · CONT-11</td><td>head-of-seo-content</td><td>docs</td><td>shipped</td></tr>
+<tr><td>CONT-12</td><td>writer-inspirasi-vendor-venue</td><td>docs + production</td><td>shipped</td></tr>
+<tr><td>DES-01 · 02 · 03 · 13</td><td>creative-director</td><td>docs + artifacts</td><td>shipped</td></tr>
+<tr><td>DES-04 · 05 · 11 · 12</td><td>design-systems-engineer</td><td>site</td><td>shipped</td></tr>
+<tr><td>DES-06 · 07</td><td>product-designer</td><td>docs</td><td>shipped</td></tr>
+<tr><td>DES-08 · 09 · 10</td><td>BMAD · head-of-seo-content · creative-director</td><td>site</td><td>shipped</td></tr>
+<tr><td>PLAT-10 · 11 · 12</td><td>BMAD</td><td>buddy #47</td><td>shipped</td></tr>
+<tr><td>SEO-04</td><td>head-of-seo-content</td><td>—</td><td>parked · nothing built</td></tr>
+</table>
+<p>Evidence for every item is on the sprint board and in <code>docs/work-done/aug-28-2026-session-01/</code>. Retrospective: <code>docs/sprints/sprint-03-retro.json</code>. Scope as planned: <code>docs/sprints/sprint-03.json</code>.</p>
+</footer>
+</div>
