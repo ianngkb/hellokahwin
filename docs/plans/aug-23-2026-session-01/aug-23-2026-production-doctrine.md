@@ -838,6 +838,70 @@ silently did not apply. Every number looked plausible. A measurement script that
 does not state the conditions it measured under is a script that will lie to you
 politely.
 
+### 5.7 The rendered-colour audit: no guardrail here can see a colour
+
+*Added 29 Ogos 2026 by whoever built DES-08, after shipping (then catching,
+pre-deploy) a defect none of that item's own checks could see. Sibling to 5.5
+and 5.6: those two turned "does it fit" and "does it match demand" into a
+number; this one is owed for "is it visible" — and today nothing produces
+that number at all.*
+
+DES-03's specification carries **47 measured contrast ratios** — every text
+role, on every surface, in both palettes — computed once by
+`docs/design/des-03-evidence/contrast.py` and reproduced independently by
+`src/design-system/token-values.ts`. Both compute the ratio a token *should*
+render at. **Neither one, nor anything in `check-guardrails.py`, nor the
+DES-08 structural-diff script built alongside it, reads the colour a browser
+actually paints.** All three compare markup, counts, JSON-LD and byte
+weights — never a computed style, never a pixel.
+
+That gap is not theoretical. Building DES-08 against this exact system, the
+homepage's gold eyebrow and photo credit rendered **near-invisible** —
+`getComputedStyle` returned `lab(94.79 0.08 1.14)`, a near-white "warm cream"
+already used by the pre-existing Tailwind/shadcn theme for the unrelated
+custom property name `--accent`, instead of `--hk-gold-700`. The cause: a
+custom property inherits from the nearest ancestor that redeclares it, and
+`(public)/layout.tsx`'s `.hk-public` wrapper does exactly that for `--accent`
+— `:root`-level specificity in the design system's own tokens.css was
+irrelevant once a closer ancestor won. Every check that ran — structural
+diff, the DES-09 guardrail sweep, a horizontal-overflow assertion at 360 and
+1280 px — passed cleanly on every page this shipped, because none of them
+looks at colour. **It was caught by one person looking at one screenshot at
+one breakpoint on one page, and only because the affected text happened to
+sit in the first fold of the first image reviewed closely enough to notice
+something looked faint.** Any other page, any other crop not opened, and it
+ships sitewide with every automated gate green.
+
+**Why it belongs in the doctrine, not just in one item's retrospective.** The
+failure mode generalises past this one collision: any token-name collision
+between a new design system and whatever a Tailwind/shadcn base theme
+already owns will reproduce it silently, on any future item, on any page,
+because nothing mechanical checks for it. A build that is structurally
+perfect — right headings, right schema, right links — can still be
+unreadable, and today that is discoverable only by luck.
+
+**The rule it produces:** *before a design-token system ships to a page a
+reader reaches, its rendered computed colour — not its source value — must
+be checked against every colliding custom-property name the base theme
+already defines, and its contrast ratio against the surface it actually
+paints on must be measured from a live DOM, not read from the token file.*
+`getComputedStyle` alone is not sufficient for the second half — this
+site's tokens are `oklch()`, and Chrome hands `getComputedStyle` back as
+`lab()`, which a naive rgb() parser reports as confident garbage; the
+canvas-based contrast measurement this team has used before (`canvas`
+`getImageData`, not string-parsing a colour function) is the one that
+cannot lie about what actually painted.
+
+**Owed, concretely:** a `G41`-shaped guardrail in `check-guardrails.py` (or
+its own script, on the `des-03-evidence/contrast.py` pattern) that loads
+each page type in a real headless browser, samples the computed color of
+every element carrying a `.s-*`/token-driven class via canvas, and asserts
+each against DES-03 §3's 47 measured ratios — plus a same-shaped check for
+whatever the *next* design system introduces. Not written here: a check
+that has only ever passed after being written from a single caught
+instance is not evidence it generalises, and this doctrine's own rule
+(5.6's own trap) is to build the check, not just narrate the incident.
+
 ## 6. What this doctrine asks for
 
 Nothing new. It asks for the same four decisions already open, and it explains
