@@ -396,13 +396,13 @@
       "id": "DES-12",
       "track": "design",
       "points": 3,
-      "state": "todo",
+      "state": "done",
       "owner": "design-systems-engineer",
       "title": "Adopt the wordmark in the site header, and retire the current one",
       "flags": [
-        "blocked-by-DES-11",
-        "mobile-is-the-constraint",
-        "blocked-by-DES-10"
+        "shipped-2026-08-29",
+        "mobile-fits-at-stated-minimum",
+        "evidence-aug-29-2026-des-12"
       ],
       "why": "A brand page nobody applies is a document, not a rebrand. The header is where the mark actually earns its keep - and where the locked register is most at risk, because Bliss & Bone ships at 250x22, which is 69% of a 360px viewport and leaves 78px for search and menu.",
       "dod": "OBSERVABLE: The wordmark live in the production header at both breakpoints. At 360px the header holds the mark AND a reachable search affordance simultaneously - screenshot or measured widths proving both fit. Monogram used below 18px, per the brand page's own minimum. CHECKED BY: Load production at 360px and at desktop. Measure the rendered mark width against the viewport. If the horizontal does not fit beside search, the vertical or the monogram is the answer - not shrinking the mark past its stated minimum. BEWARE THE FALSE PASS: Checking only desktop is how this ships broken - 64% of impressions arrive on mobile, at position 8.7 against desktop's 28.9. EVIDENCE LANDS: docs/work-done/ entry with both measurements.",

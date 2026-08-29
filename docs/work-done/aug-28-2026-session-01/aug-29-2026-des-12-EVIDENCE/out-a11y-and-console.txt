@@ -1,0 +1,19 @@
+DES-12 accessibility + console check — production homepage
+
+{
+  "homeLinkAriaLabel": "HelloKahwin — Laman utama",
+  "homeLinkAccessibleTextGuess": "",
+  "svgRole": "img",
+  "svgAriaLabel": "HelloKahwin",
+  "svgViewBox": "0 0 18000 1800"
+}
+console/page errors: [
+  'Error: Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings.'
+]
+
+--- desktop viewport, three page types, isMobile:false ---
+https://hellokahwin.com/ -> [
+  'Error: Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings.'
+]
+https://hellokahwin.com/artikel -> no errors
+https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri -> no errors

@@ -1,0 +1,22 @@
+DES-12 second-ground contrast — (admin-preview) route group, root :root tokens
+Values verbatim from src/app/globals.css :root lines 217 (--background) and 228 (--foreground).
+Method: canvas pixel sampling (not getComputedStyle string parsing) — see
+hellokahwin-contrast-must-be-measured-via-canvas-not-getcomputedstyle memory.
+
+{
+  "bgCss": "oklch(0.985 0.004 75)",
+  "fgCss": "oklch(0.18 0.005 75)",
+  "bgRGB": [
+    252,
+    250,
+    247
+  ],
+  "fgRGB": [
+    19,
+    17,
+    15
+  ],
+  "bgHex": "#fcfaf7",
+  "fgHex": "#13110f",
+  "contrast": 18.08128062911998
+}

@@ -1,0 +1,56 @@
+<!doctype html>
+<meta charset="utf-8" />
+<style>
+  /* Root tokens, verbatim from src/app/globals.css :root (lines 217, 228) —
+     the ground the shared Navbar renders on outside `.hk-public`
+     ((admin-preview) route group; the (public) group overrides both via
+     .hk-public). Not .dark: nothing applies that class to a route the
+     Navbar renders in. */
+  body {
+    background: oklch(0.985 0.004 75);
+    color: oklch(0.18 0.005 75);
+    margin: 0;
+    padding: 40px;
+  }
+</style>
+<body>
+  <script>
+    const toRGB = (css) => {
+      const c = document.createElement('canvas');
+      c.width = c.height = 1;
+      const g = c.getContext('2d');
+      g.fillStyle = '#000';
+      g.fillStyle = css;
+      g.fillRect(0, 0, 1, 1);
+      const d = g.getImageData(0, 0, 1, 1).data;
+      return [d[0], d[1], d[2]];
+    };
+    const lum = ([r, g, b]) => {
+      const f = (v) => {
+        v /= 255;
+        return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+      };
+      return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
+    };
+    const contrast = (a, b) => {
+      const la = lum(a),
+        lb = lum(b);
+      const [hi, lo] = la > lb ? [la, lb] : [lb, la];
+      return (hi + 0.05) / (lo + 0.05);
+    };
+    const bg = getComputedStyle(document.body).backgroundColor;
+    const fg = getComputedStyle(document.body).color;
+    const bgRGB = toRGB(bg);
+    const fgRGB = toRGB(fg);
+    window.__RESULT__ = {
+      bgCss: bg,
+      fgCss: fg,
+      bgRGB,
+      fgRGB,
+      bgHex: '#' + bgRGB.map((v) => v.toString(16).padStart(2, '0')).join(''),
+      fgHex: '#' + fgRGB.map((v) => v.toString(16).padStart(2, '0')).join(''),
+      contrast: contrast(bgRGB, fgRGB),
+    };
+    document.title = 'ready';
+  </script>
+</body>

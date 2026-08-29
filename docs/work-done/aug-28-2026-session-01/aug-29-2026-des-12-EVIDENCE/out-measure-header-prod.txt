@@ -1,0 +1,94 @@
+DES-12 header measurement — production, hellokahwin.com
+Run: 2026-08-29T05:29:32Z
+Tool: playwright-core driving installed Chrome (Google Chrome, executablePath pinned)
+
+
+=== width=360 ===
+{
+  "viewportWidth": 360,
+  "markWidth": 180,
+  "markHeight": 18,
+  "markRight": 270,
+  "searchLeft": 300,
+  "searchWidth": 44,
+  "searchRight": 344,
+  "gap": 30,
+  "headerWidth": 360,
+  "overlaps": false,
+  "offscreen": false,
+  "headerBgCss": "lab(98.6163 0.0525117 0.759542)",
+  "markColorCss": "lab(6.20863 0.107564 1.2439)",
+  "markRGB": [
+    21,
+    20,
+    18
+  ],
+  "bgRGB": [
+    252,
+    251,
+    250
+  ],
+  "contrastMarkVsHeaderBg": 17.812478579129003,
+  "documentScrollWidth": 360,
+  "hasHorizontalOverflow": false
+}
+
+=== width=390 ===
+{
+  "viewportWidth": 390,
+  "markWidth": 182.65625,
+  "markHeight": 18.265625,
+  "markRight": 286.328125,
+  "searchLeft": 330,
+  "searchWidth": 44,
+  "searchRight": 374,
+  "gap": 43.671875,
+  "headerWidth": 390,
+  "overlaps": false,
+  "offscreen": false,
+  "headerBgCss": "lab(98.6163 0.0525117 0.759542)",
+  "markColorCss": "lab(6.20863 0.107564 1.2439)",
+  "markRGB": [
+    21,
+    20,
+    18
+  ],
+  "bgRGB": [
+    252,
+    251,
+    250
+  ],
+  "contrastMarkVsHeaderBg": 17.812478579129003,
+  "documentScrollWidth": 390,
+  "hasHorizontalOverflow": false
+}
+
+=== width=1400 ===
+{
+  "viewportWidth": 1400,
+  "markWidth": 240,
+  "markHeight": 24,
+  "markRight": 820,
+  "searchLeft": 1204.6875,
+  "searchWidth": 55.3125,
+  "searchRight": 1260,
+  "gap": 384.6875,
+  "headerWidth": 1400,
+  "overlaps": false,
+  "offscreen": false,
+  "headerBgCss": "lab(98.6163 0.0525117 0.759542)",
+  "markColorCss": "lab(6.20863 0.107564 1.2439)",
+  "markRGB": [
+    21,
+    20,
+    18
+  ],
+  "bgRGB": [
+    252,
+    251,
+    250
+  ],
+  "contrastMarkVsHeaderBg": 17.812478579129003,
+  "documentScrollWidth": 1400,
+  "hasHorizontalOverflow": false
+}

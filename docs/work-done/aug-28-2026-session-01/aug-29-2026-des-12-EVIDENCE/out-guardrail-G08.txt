@@ -1,0 +1,24 @@
+DES-09 guardrails · base=https://hellokahwin.com · 9 URLs · SEQUENTIAL, 2.0s apart · started 2026-08-29T05:30:09Z
+
+[1/9] 200   146ms  /
+[2/9] 200   116ms  /artikel
+[3/9] 200   129ms  /artikel/hantaran-mas-kahwin
+[4/9] 200   149ms  /artikel/real-wedding
+[5/9] 200   187ms  /artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri
+[6/9] 200   152ms  /artikel/idea-dan-nasihat/dewan-kahwin
+[7/9] 200   118ms  /artikel/hantaran-mas-kahwin/hantaran-tunang
+[8/9] 200   156ms  /artikel/nikah-undang-undang/borang-nikah
+[9/9] 200   142ms  /artikel/glamor-eksklusif/amankila-bali
+
+NOTE: partial sweep - corpus-scoped guardrails (G09, G12, G15, G17, G38) report UNKNOWN.
+
+PASS  G08  All 11 navigation spine paths linked from every page
+        measured : 11/11 present on every page
+        threshold: 11/11 on 100% of pages
+        detail   : {}
+PASS  G31  The sitemap URL set does not shrink
+        measured : 103 URLs
+        threshold: >= 103 (2026-08-28)
+
+2 pass, 0 fail, 0 warn, 0 unknown
+wrote C:/Users/Ian Ng/Documents/Code/hellokahwin/hellokahwin/docs/work-done/aug-28-2026-session-01/aug-29-2026-des-12-EVIDENCE/out-guardrail-G08.json

@@ -1,0 +1,22 @@
+{
+ "base": "https://hellokahwin.com",
+ "when": "2026-08-29T05:30:27Z",
+ "results": [
+  {
+   "gid": "G08",
+   "title": "All 11 navigation spine paths linked from every page",
+   "verdict": "PASS",
+   "measured": "11/11 present on every page",
+   "threshold": "11/11 on 100% of pages",
+   "detail": "{}"
+  },
+  {
+   "gid": "G31",
+   "title": "The sitemap URL set does not shrink",
+   "verdict": "PASS",
+   "measured": "103 URLs",
+   "threshold": ">= 103 (2026-08-28)",
+   "detail": ""
+  }
+ ]
+}
