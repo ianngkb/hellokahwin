@@ -4,13 +4,16 @@ import { getMastheadCategories } from '@/lib/services/inspire-nav';
 import { InspireNavMenu, type MenuCategory } from '@/components/inspire/inspire-nav-menu';
 import { EdgeScroller } from '@/components/layout/edge-scroller';
 import { withDeadline } from '@/lib/api/timeout';
+import { SiteWordmark } from '@/components/brand/site-wordmark';
 
 /**
  * Public masthead — Editorial Monotone.
  *
- * A magazine masthead, not an app bar: the wordmark is centred and set in the
- * serif voice with wide tracking, sitting between two hairlines, with the
- * category rail on the line below. On mobile that rail scrolls horizontally
+ * A magazine masthead, not an app bar: the wordmark is centred — the real
+ * DES-13 outlined mark (`<SiteWordmark>`), not typeset text, fluid-sized off
+ * `--fs-wordmark` (18px floor at 360px, DES-12) — sitting between two
+ * hairlines, with the category rail on the line below. On mobile that rail
+ * scrolls horizontally
  * (no hamburger, no overlay) so the whole taxonomy stays one thumb-swipe away
  * — the audience is mostly low-end Android and a menu sheet is a tap tax.
  *
@@ -51,11 +54,8 @@ export async function Navbar() {
             search control. The empty first cell is the counterweight. */}
         <div className="mx-auto grid h-14 max-w-6xl grid-cols-[1fr_auto_1fr] items-center px-4 lg:h-[4.5rem]">
           <span aria-hidden="true" />
-          <Link
-            href="/"
-            className="font-serif text-[1.35rem] leading-none tracking-[0.22em] uppercase lg:text-[1.6rem]"
-          >
-            HelloKahwin
+          <Link href="/" aria-label="HelloKahwin — Laman utama" className="text-foreground">
+            <SiteWordmark />
           </Link>
           {/* Search was already built and already working — it just had no door.
               The typeahead lives on /artikel and nothing in the masthead pointed
