@@ -1,0 +1,270 @@
+{
+ "base": "https://hellokahwin.com",
+ "when": "2026-08-29T04:38:30Z",
+ "results": [
+  {
+   "gid": "G01",
+   "title": "Exactly one <h1> per page",
+   "verdict": "PASS",
+   "measured": "103/103 pages have exactly one h1",
+   "threshold": "100% of pages, h1 count == 1",
+   "detail": ""
+  },
+  {
+   "gid": "G02",
+   "title": "First heading after the h1 is an h2 (no level skip)",
+   "verdict": "FAIL",
+   "measured": "96/103 pages ordered",
+   "threshold": "100% of pages, first non-h1 heading == h2",
+   "detail": "/artikel/hantaran-mas-kahwin/mas-kahwin-sabah-sarawak (h1 h3 h3 h3 h3 h3); /artikel/hantaran-mas-kahwin/mas-kahwin-pahang-negeri-sembilan (h1 h3 h4 h3 h4 h3); /artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri (h1 h3 h3 h3 h3 h3); /artikel/hantaran-mas-kahwin/mas-kahwin-perak (h1 h3 h3 h3 h3 h3); /artikel/hantaran-mas-kahwin/mas-kahwin-johor (h1 h3 h3 h3 h3 h3); /artikel/hantaran-mas-kahwin/apa-itu-mas-kahwin (h1 h3 h3 h3 h3 h3)"
+  },
+  {
+   "gid": "G03",
+   "title": "Every article <h1> carries the article title (non-empty)",
+   "verdict": "PASS",
+   "measured": "86/86 articles",
+   "threshold": "non-empty h1 text on 100%",
+   "detail": ""
+  },
+  {
+   "gid": "G05",
+   "title": "Related-articles module is an <h2> starting \"Lagi dalam \"",
+   "verdict": "PASS",
+   "measured": "83/86 articles carry it",
+   "threshold": "present on every article whose category holds >1 article (4 known exceptions)",
+   "detail": ""
+  },
+  {
+   "gid": "G06",
+   "title": "Zero rel=nofollow on INTERNAL links",
+   "verdict": "PASS",
+   "measured": "0 internal nofollow",
+   "threshold": "== 0",
+   "detail": "SEO-02 removed 79 of these; re-introducing one regresses it"
+  },
+  {
+   "gid": "G07",
+   "title": "Zero target=_blank on INTERNAL links",
+   "verdict": "PASS",
+   "measured": "0 internal target=_blank",
+   "threshold": "== 0",
+   "detail": ""
+  },
+  {
+   "gid": "G08",
+   "title": "All 11 navigation spine paths linked from every page",
+   "verdict": "PASS",
+   "measured": "11/11 present on every page",
+   "threshold": "11/11 on 100% of pages",
+   "detail": "{}"
+  },
+  {
+   "gid": "G09",
+   "title": "Zero orphan articles (>=1 inbound in-page link)",
+   "verdict": "PASS",
+   "measured": "0 orphans of 86 articles",
+   "threshold": "== 0 orphans",
+   "detail": ""
+  },
+  {
+   "gid": "G10",
+   "title": "Per-page unique internal link-target floor",
+   "verdict": "FAIL",
+   "measured": "99/103 at or above floor",
+   "threshold": "article>=12, category>=13, homepage>=24, /artikel>=56",
+   "detail": "/artikel/hiasan-dekorasi (12 < 13); /artikel/pantai-santai (12 < 13); /artikel/fotografi-videografi (12 < 13); /artikel/minimalis-mewah (12 < 13)"
+  },
+  {
+   "gid": "G11",
+   "title": "Zero generic anchor text (\"klik di sini\", \"baca lagi\", …)",
+   "verdict": "PASS",
+   "measured": "0 banned anchors",
+   "threshold": "== 0",
+   "detail": ""
+  },
+  {
+   "gid": "G12",
+   "title": "Internal links spending a 308 hop must not increase",
+   "verdict": "PASS",
+   "measured": "13 distinct root-slug targets",
+   "threshold": "<= 15 (2026-08-28 baseline)",
+   "detail": "/cara-buat-kad-kahwin-digital; /dewan-kahwin; /garden-wedding; /grand-hyatt-kuala-lumpur; /hantaran-kahwin; /kursus-kahwin; /lokasi-pre-wedding-photoshoot-terbaik; /majlis-kahwin"
+  },
+  {
+   "gid": "G13",
+   "title": "article pages emit ['Article', 'BreadcrumbList', 'ImageObject', 'ListItem', 'Organization', 'WebPage']",
+   "verdict": "PASS",
+   "measured": "86/86 pages",
+   "threshold": "superset of the 2026-08-28 emitted set",
+   "detail": ""
+  },
+  {
+   "gid": "G14",
+   "title": "category pages emit ['BreadcrumbList', 'CollectionPage', 'ListItem', 'Organization']",
+   "verdict": "PASS",
+   "measured": "15/15 pages",
+   "threshold": "superset of the 2026-08-28 emitted set",
+   "detail": ""
+  },
+  {
+   "gid": "G15",
+   "title": "Listicle articles keep their ItemList schema",
+   "verdict": "PASS",
+   "measured": "8 articles emit ItemList",
+   "threshold": ">= 8 (2026-08-28 baseline)",
+   "detail": "/artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik; /artikel/idea-dan-nasihat/dewan-kahwin; /artikel/idea-dan-nasihat/garden-wedding; /artikel/idea-dan-nasihat/hadiah-untuk-pengantin; /artikel/idea-dan-nasihat/majlis-kahwin; /artikel/idea-dan-nasihat/pelamin-kahwin-dewan; /artikel/idea-dan-nasihat/sewa-dewan-kahwin; /artikel/nikah-undang-undang/rukun-nikah"
+  },
+  {
+   "gid": "G16",
+   "title": "Every JSON-LD block parses as JSON",
+   "verdict": "PASS",
+   "measured": "0 unparseable blocks",
+   "threshold": "== 0",
+   "detail": ""
+  },
+  {
+   "gid": "G17",
+   "title": "Articles carrying a \"Soalan lazim\" block keep it (SEO-10 input)",
+   "verdict": "PASS",
+   "measured": "47 carry the block, 47 emit FAQPage",
+   "threshold": "\"Soalan lazim\" block count >= 45",
+   "detail": ""
+  },
+  {
+   "gid": "G17b",
+   "title": "\"Soalan lazim\" is an <h2> on every article that has one",
+   "verdict": "WARN",
+   "measured": "6 articles use h3",
+   "threshold": "== 0 (SEO-10 keys on the level)",
+   "detail": "/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri; /artikel/hantaran-mas-kahwin/mas-kahwin-johor; /artikel/hantaran-mas-kahwin/mas-kahwin-kelantan-terengganu; /artikel/hantaran-mas-kahwin/mas-kahwin-pahang-negeri-sembilan; /artikel/hantaran-mas-kahwin/mas-kahwin-perak; /artikel/hantaran-mas-kahwin/mas-kahwin-sabah-sarawak"
+  },
+  {
+   "gid": "G18",
+   "title": "Homepage and /artikel emit Organization + WebSite JSON-LD",
+   "verdict": "PASS",
+   "measured": "2 @type values across the two pages",
+   "threshold": ">= 2 (currently 0 — this is a gap the redesign should close)",
+   "detail": ""
+  },
+  {
+   "gid": "G19",
+   "title": "Preloaded (LCP-path) image <= 200 KB transferred",
+   "verdict": "FAIL",
+   "measured": "largest preloaded image 998350 B",
+   "threshold": "<= 204800 B (200 KB)",
+   "detail": "/artikel: 798092B crop-4x3-article-card.webp?v=0.6867_0.49; /artikel: 499856B crop-4x3-article-card.webp?v=0.2475_0.65; /artikel: 998350B crop-4x3-article-card.webp?v=0.6533_0.85"
+  },
+  {
+   "gid": "G21",
+   "title": "No single public image asset exceeds 400 KB",
+   "verdict": "FAIL",
+   "measured": "191 assets over budget, largest 2221708 B",
+   "threshold": "<= 409600 B (400 KB)",
+   "detail": "798092B 1787780683875-images-s-rombongan-h; 499856B 1787780709236-images-s-dulang-buah; 998350B 1787780652248-images-s-rombongan-l; 968966B 1787781777697-images-s-dulang-kek-; 581112B 1787780589299-images-s-tujuh-dulan; 803446B 1787781752165-images-s-serah-dulan"
+  },
+  {
+   "gid": "G22",
+   "title": "Every <img> carries srcset + sizes",
+   "verdict": "FAIL",
+   "measured": "1324 images without srcset",
+   "threshold": "== 0",
+   "detail": "/ (13/13); /artikel (12/12); /artikel/idea-dan-nasihat (15/15); /artikel/hiasan-dekorasi (1/1); /artikel/real-wedding (14/14)"
+  },
+  {
+   "gid": "G23",
+   "title": "HTML + CSS + JS transfer <= 260 KB per page",
+   "verdict": "PASS",
+   "measured": "max 262001 B",
+   "threshold": "<= 266240 B (260 KB)",
+   "detail": ""
+  },
+  {
+   "gid": "G24",
+   "title": "Webfont payload: at most one face, <= 30 KB, preloaded, swap",
+   "verdict": "PASS",
+   "measured": "189 .woff2 references in HTML",
+   "threshold": "<= 1 face and <= 30720 B; today 0 bytes are shipped",
+   "detail": "informational until DES-13 picks the face"
+  },
+  {
+   "gid": "G25",
+   "title": "Warm response <= 1500 ms",
+   "verdict": "PASS",
+   "measured": "0 pages over budget",
+   "threshold": "<= 1500 ms",
+   "detail": ""
+  },
+  {
+   "gid": "G26",
+   "title": "Every <img> reserves its box (width+height or aspect-ratio)",
+   "verdict": "WARN",
+   "measured": "95 images without width",
+   "threshold": "== 0 (CLS)",
+   "detail": "/artikel (12/12); /artikel/hantaran-mas-kahwin/hantaran-tunang (1/20); /artikel/busana-pengantin/baju-pengantin-sewa-atau-beli (1/5); /artikel/glamor-eksklusif/amankila-bali (1/46); /artikel/hantaran-mas-kahwin/hantaran-kahwin (1/10)"
+  },
+  {
+   "gid": "G32",
+   "title": "Every page emits a self-referential canonical",
+   "verdict": "PASS",
+   "measured": "103/103 correct",
+   "threshold": "100% present AND self-referential",
+   "detail": ""
+  },
+  {
+   "gid": "G35",
+   "title": "Root element carries lang=\"ms\"",
+   "verdict": "PASS",
+   "measured": "103/103",
+   "threshold": "literal lang=\"ms\"",
+   "detail": ""
+  },
+  {
+   "gid": "G36",
+   "title": "Every <title> ends with the literal \" | HelloKahwin\"",
+   "verdict": "PASS",
+   "measured": "103/103",
+   "threshold": "literal suffix \" | HelloKahwin\" (14 chars)",
+   "detail": ""
+  },
+  {
+   "gid": "G37",
+   "title": "No article serves the ROOT DEFAULT title (cached metadata miss)",
+   "verdict": "PASS",
+   "measured": "0 articles on the root default title",
+   "threshold": "== 0",
+   "detail": "  [re-run after any POST /api/cron/revalidate-content]"
+  },
+  {
+   "gid": "G40",
+   "title": "Repeated renders of one article are stable",
+   "verdict": "PASS",
+   "measured": "5/5 renders carry the related module; byte spread 43 B",
+   "threshold": "5/5 renders carry the module, byte spread <= 2048",
+   "detail": "probe: /artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri; sizes [143484, 143441, 143441, 143441, 143441]"
+  },
+  {
+   "gid": "G38",
+   "title": "Articles keep their outbound image-credit links",
+   "verdict": "PASS",
+   "measured": "83 articles carry >=1 credit link",
+   "threshold": ">= 59 (2026-08-28 baseline)",
+   "detail": "owner-level rule: every image credited to its original source"
+  },
+  {
+   "gid": "G33",
+   "title": "The 29 legacy WordPress redirects: one hop to 200",
+   "verdict": "PASS",
+   "measured": "29/29 one-hop-to-200",
+   "threshold": "29/29, zero multi-hop, zero broken",
+   "detail": ""
+  },
+  {
+   "gid": "G31",
+   "title": "The sitemap URL set does not shrink",
+   "verdict": "PASS",
+   "measured": "103 URLs",
+   "threshold": ">= 103 (2026-08-28)",
+   "detail": ""
+  }
+ ]
+}

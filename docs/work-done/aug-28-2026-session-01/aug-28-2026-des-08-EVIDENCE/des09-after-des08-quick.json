@@ -1,0 +1,270 @@
+{
+ "base": "https://hellokahwin.com",
+ "when": "2026-08-29T03:55:27Z",
+ "results": [
+  {
+   "gid": "G01",
+   "title": "Exactly one <h1> per page",
+   "verdict": "PASS",
+   "measured": "9/9 pages have exactly one h1",
+   "threshold": "100% of pages, h1 count == 1",
+   "detail": ""
+  },
+  {
+   "gid": "G02",
+   "title": "First heading after the h1 is an h2 (no level skip)",
+   "verdict": "FAIL",
+   "measured": "8/9 pages ordered",
+   "threshold": "100% of pages, first non-h1 heading == h2",
+   "detail": "/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri (h1 h3 h3 h3 h3 h3)"
+  },
+  {
+   "gid": "G03",
+   "title": "Every article <h1> carries the article title (non-empty)",
+   "verdict": "PASS",
+   "measured": "5/5 articles",
+   "threshold": "non-empty h1 text on 100%",
+   "detail": ""
+  },
+  {
+   "gid": "G05",
+   "title": "Related-articles module is an <h2> starting \"Lagi dalam \"",
+   "verdict": "PASS",
+   "measured": "5/5 articles carry it",
+   "threshold": "present on every article whose category holds >1 article (4 known exceptions)",
+   "detail": ""
+  },
+  {
+   "gid": "G06",
+   "title": "Zero rel=nofollow on INTERNAL links",
+   "verdict": "PASS",
+   "measured": "0 internal nofollow",
+   "threshold": "== 0",
+   "detail": "SEO-02 removed 79 of these; re-introducing one regresses it"
+  },
+  {
+   "gid": "G07",
+   "title": "Zero target=_blank on INTERNAL links",
+   "verdict": "PASS",
+   "measured": "0 internal target=_blank",
+   "threshold": "== 0",
+   "detail": ""
+  },
+  {
+   "gid": "G08",
+   "title": "All 11 navigation spine paths linked from every page",
+   "verdict": "PASS",
+   "measured": "11/11 present on every page",
+   "threshold": "11/11 on 100% of pages",
+   "detail": "{}"
+  },
+  {
+   "gid": "G09",
+   "title": "Zero orphan articles (>=1 inbound in-page link)",
+   "verdict": "UNKNOWN",
+   "measured": "1 orphans of 5 articles",
+   "threshold": "== 0 orphans",
+   "detail": "corpus-scoped: needs the full sitemap sweep, not --quick. Measured value above is a partial count."
+  },
+  {
+   "gid": "G10",
+   "title": "Per-page unique internal link-target floor",
+   "verdict": "PASS",
+   "measured": "9/9 at or above floor",
+   "threshold": "article>=12, category>=13, homepage>=24, /artikel>=56",
+   "detail": ""
+  },
+  {
+   "gid": "G11",
+   "title": "Zero generic anchor text (\"klik di sini\", \"baca lagi\", …)",
+   "verdict": "PASS",
+   "measured": "0 banned anchors",
+   "threshold": "== 0",
+   "detail": ""
+  },
+  {
+   "gid": "G12",
+   "title": "Internal links spending a 308 hop must not increase",
+   "verdict": "UNKNOWN",
+   "measured": "5 distinct root-slug targets",
+   "threshold": "<= 15 (2026-08-28 baseline)",
+   "detail": "corpus-scoped: needs the full sitemap sweep, not --quick. Measured value above is a partial count."
+  },
+  {
+   "gid": "G13",
+   "title": "article pages emit ['Article', 'BreadcrumbList', 'ImageObject', 'ListItem', 'Organization', 'WebPage']",
+   "verdict": "PASS",
+   "measured": "5/5 pages",
+   "threshold": "superset of the 2026-08-28 emitted set",
+   "detail": ""
+  },
+  {
+   "gid": "G14",
+   "title": "category pages emit ['BreadcrumbList', 'CollectionPage', 'ListItem', 'Organization']",
+   "verdict": "PASS",
+   "measured": "2/2 pages",
+   "threshold": "superset of the 2026-08-28 emitted set",
+   "detail": ""
+  },
+  {
+   "gid": "G15",
+   "title": "Listicle articles keep their ItemList schema",
+   "verdict": "UNKNOWN",
+   "measured": "1 articles emit ItemList",
+   "threshold": ">= 8 (2026-08-28 baseline)",
+   "detail": "corpus-scoped: needs the full sitemap sweep, not --quick. Measured value above is a partial count."
+  },
+  {
+   "gid": "G16",
+   "title": "Every JSON-LD block parses as JSON",
+   "verdict": "PASS",
+   "measured": "0 unparseable blocks",
+   "threshold": "== 0",
+   "detail": ""
+  },
+  {
+   "gid": "G17",
+   "title": "Articles carrying a \"Soalan lazim\" block keep it (SEO-10 input)",
+   "verdict": "UNKNOWN",
+   "measured": "1 carry the block, 1 emit FAQPage",
+   "threshold": "\"Soalan lazim\" block count >= 45",
+   "detail": "corpus-scoped: needs the full sitemap sweep, not --quick. Measured value above is a partial count."
+  },
+  {
+   "gid": "G17b",
+   "title": "\"Soalan lazim\" is an <h2> on every article that has one",
+   "verdict": "WARN",
+   "measured": "1 articles use h3",
+   "threshold": "== 0 (SEO-10 keys on the level)",
+   "detail": "/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri"
+  },
+  {
+   "gid": "G18",
+   "title": "Homepage and /artikel emit Organization + WebSite JSON-LD",
+   "verdict": "PASS",
+   "measured": "2 @type values across the two pages",
+   "threshold": ">= 2 (currently 0 — this is a gap the redesign should close)",
+   "detail": ""
+  },
+  {
+   "gid": "G19",
+   "title": "Preloaded (LCP-path) image <= 200 KB transferred",
+   "verdict": "FAIL",
+   "measured": "largest preloaded image 998350 B",
+   "threshold": "<= 204800 B (200 KB)",
+   "detail": "/artikel: 798092B crop-4x3-article-card.webp?v=0.6867_0.49; /artikel: 499856B crop-4x3-article-card.webp?v=0.2475_0.65; /artikel: 998350B crop-4x3-article-card.webp?v=0.6533_0.85"
+  },
+  {
+   "gid": "G21",
+   "title": "No single public image asset exceeds 400 KB",
+   "verdict": "FAIL",
+   "measured": "44 assets over budget, largest 2221708 B",
+   "threshold": "<= 409600 B (400 KB)",
+   "detail": "798092B 1787780683875-images-s-rombongan-h; 499856B 1787780709236-images-s-dulang-buah; 998350B 1787780652248-images-s-rombongan-l; 968966B 1787781777697-images-s-dulang-kek-; 581112B 1787780589299-images-s-tujuh-dulan; 803446B 1787781752165-images-s-serah-dulan"
+  },
+  {
+   "gid": "G22",
+   "title": "Every <img> carries srcset + sizes",
+   "verdict": "FAIL",
+   "measured": "138 images without srcset",
+   "threshold": "== 0",
+   "detail": "/ (13/13); /artikel (12/12); /artikel/real-wedding (14/14); /artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri (11/11); /artikel/idea-dan-nasihat/dewan-kahwin (14/14)"
+  },
+  {
+   "gid": "G23",
+   "title": "HTML + CSS + JS transfer <= 260 KB per page",
+   "verdict": "PASS",
+   "measured": "max 254560 B",
+   "threshold": "<= 266240 B (260 KB)",
+   "detail": ""
+  },
+  {
+   "gid": "G24",
+   "title": "Webfont payload: at most one face, <= 30 KB, preloaded, swap",
+   "verdict": "PASS",
+   "measured": "14 .woff2 references in HTML",
+   "threshold": "<= 1 face and <= 30720 B; today 0 bytes are shipped",
+   "detail": "informational until DES-13 picks the face"
+  },
+  {
+   "gid": "G25",
+   "title": "Warm response <= 1500 ms",
+   "verdict": "PASS",
+   "measured": "0 pages over budget",
+   "threshold": "<= 1500 ms",
+   "detail": ""
+  },
+  {
+   "gid": "G26",
+   "title": "Every <img> reserves its box (width+height or aspect-ratio)",
+   "verdict": "WARN",
+   "measured": "17 images without width",
+   "threshold": "== 0 (CLS)",
+   "detail": "/artikel (12/12); /artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri (1/11); /artikel/idea-dan-nasihat/dewan-kahwin (1/14); /artikel/hantaran-mas-kahwin/hantaran-tunang (1/20); /artikel/nikah-undang-undang/borang-nikah (1/8)"
+  },
+  {
+   "gid": "G32",
+   "title": "Every page emits a self-referential canonical",
+   "verdict": "PASS",
+   "measured": "9/9 correct",
+   "threshold": "100% present AND self-referential",
+   "detail": ""
+  },
+  {
+   "gid": "G35",
+   "title": "Root element carries lang=\"ms\"",
+   "verdict": "PASS",
+   "measured": "9/9",
+   "threshold": "literal lang=\"ms\"",
+   "detail": ""
+  },
+  {
+   "gid": "G36",
+   "title": "Every <title> ends with the literal \" | HelloKahwin\"",
+   "verdict": "PASS",
+   "measured": "9/9",
+   "threshold": "literal suffix \" | HelloKahwin\" (14 chars)",
+   "detail": ""
+  },
+  {
+   "gid": "G37",
+   "title": "No article serves the ROOT DEFAULT title (cached metadata miss)",
+   "verdict": "PASS",
+   "measured": "0 articles on the root default title",
+   "threshold": "== 0",
+   "detail": "  [re-run after any POST /api/cron/revalidate-content]"
+  },
+  {
+   "gid": "G40",
+   "title": "Repeated renders of one article are stable",
+   "verdict": "PASS",
+   "measured": "5/5 renders carry the related module; byte spread 43 B",
+   "threshold": "5/5 renders carry the module, byte spread <= 2048",
+   "detail": "probe: /artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri; sizes [143484, 143441, 143441, 143441, 143441]"
+  },
+  {
+   "gid": "G38",
+   "title": "Articles keep their outbound image-credit links",
+   "verdict": "UNKNOWN",
+   "measured": "4 articles carry >=1 credit link",
+   "threshold": ">= 59 (2026-08-28 baseline)",
+   "detail": "corpus-scoped: needs the full sitemap sweep, not --quick. Measured value above is a partial count."
+  },
+  {
+   "gid": "G33",
+   "title": "The 29 legacy WordPress redirects: one hop to 200",
+   "verdict": "PASS",
+   "measured": "29/29 one-hop-to-200",
+   "threshold": "29/29, zero multi-hop, zero broken",
+   "detail": ""
+  },
+  {
+   "gid": "G31",
+   "title": "The sitemap URL set does not shrink",
+   "verdict": "PASS",
+   "measured": "103 URLs",
+   "threshold": ">= 103 (2026-08-28)",
+   "detail": ""
+  }
+ ]
+}
