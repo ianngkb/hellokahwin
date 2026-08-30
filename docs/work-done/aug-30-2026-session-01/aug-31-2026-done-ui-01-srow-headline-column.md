@@ -297,6 +297,18 @@ throws, neither fails a structural diff, both render a page.
 > never by position. Position-derived references stay valid right up until the
 > pool changes, and then fail without an error.**
 
+**This is no longer a paragraph in two retrospectives — it is
+[production doctrine §5.9, "Address by identity, never by position"](../../plans/aug-23-2026-session-01/aug-23-2026-production-doctrine.md),
+written jointly with UI-03 and shipped in `0f59dc7`.** It tabulates three
+instances from this sprint, not two: mine, UI-03's `heroIndex` filter, and a
+third UI-03 found while writing it up — `HERO_MIN_SOURCE_ASPECT = 1.15`, a
+threshold *positioned* relative to a hero aspect ratio it did not reference, so
+widening the plate would silently stop it matching. All three are silent: nothing
+throws, nothing fails a structural diff, the page renders and the HTML is valid.
+
+Read §5.9 rather than this section. The fixes it records are three code changes
+and no prose, which is the ratio it is asking the next person to reach for.
+
 ### 2. Which document must change, and who owns the edit?
 
 | Document | Edit | Owner | Status |
@@ -305,9 +317,10 @@ throws, neither fails a structural diff, both render a page.
 | `src/design-system/components/content.tsx` | `index` required, zero-padded in the component | design-systems-engineer | **DONE**, shipped in `9e81bc8` |
 | `scripts/audit-srow-geometry.mjs` (new) | The gate: rendered geometry, a negative control, LAYOUT/CONTENT split, refuses to run below 1024px | design-systems-engineer | **DONE**, shipped in `9e81bc8` |
 | `docs/plans/aug-30-2026-session-01/aug-31-2026-dispatch-map.md` | A second "rule this produces": **a brief may not assert file isolation** — it is measurable, so measure it and name the shared paths and line ranges | creative-director | **DONE**, this session |
-| Sprint backlog | An item to convert the three hand-rolled `.s-row` call sites to `ListRow` | ceo-hellokahwin to schedule, design-systems-engineer to build | **OPEN** — follow-up 1 |
+| `docs/plans/aug-23-2026-session-01/aug-23-2026-production-doctrine.md` | New **§5.9 "Address by identity, never by position"** — the one lesson behind three of this sprint's silent defects | creative-director (UI-01) + UI-03, jointly | **DONE**, shipped in `0f59dc7` |
+| Sprint backlog | An item to convert the three hand-rolled `.s-row` call sites to `ListRow` | ceo-hellokahwin to schedule, design-systems-engineer to build | **FILED as `DES-14`** — follow-up 1 |
 
-Three of the five edits are code or a script. That is deliberate: **Sprint 03's
+Four of the six edits are code, a script, or a tracker item. That is deliberate: **Sprint 03's
 central finding is that prose rules do not fire and gates and scripts do.** The
 one lesson that could only be prose — the dispatch map's isolation rule — is
 written as a command to run, not as an exhortation to be careful.
