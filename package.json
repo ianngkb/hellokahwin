@@ -21,12 +21,15 @@
     "audit:images": "tsx scripts/audit-live-images.mts",
     "audit:drafts": "tsx scripts/audit-draft-vs-live.mts",
     "audit:titles": "tsx scripts/audit-rendered-titles.mts",
+    "audit:credits": "tsx scripts/audit-image-credits.mts",
     "seed:pillars": "tsx scripts/seed-pillars.ts",
     "covers": "tsx scripts/generate-cover-graphics.mts",
     "links:audit": "tsx scripts/audit-internal-links.mts",
     "monitor:indexing": "tsx scripts/indexing-monitor.mts",
     "backfill:lqip": "tsx scripts/backfill-cover-lqip.mts",
     "perf:measure": "node scripts/measure-page.mjs",
+    "audit:srow": "node scripts/audit-srow-geometry.mjs",
+    "perf:hero": "node scripts/measure-hero.mjs",
     "measure:cold": "tsx scripts/measure-cold-render.mts"
   },
   "dependencies": {

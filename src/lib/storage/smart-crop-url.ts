@@ -16,6 +16,47 @@ export function getSmartCropUrl(crops: unknown, targetName: string): string | nu
 }
 
 /**
+ * The same lookup, but returning the crop's STORED intrinsic dimensions
+ * alongside its URL — all three or nothing.
+ *
+ * UI-03 R4 ("every `w` descriptor states the asset's REAL intrinsic width") and
+ * R6 ("`width`/`height` on the `<img>` state the default source's real
+ * intrinsic dimensions") cannot be satisfied from a `CROP_TARGETS` number,
+ * because a target is a CEILING, not a promise: `generateSmartCrops` resizes
+ * with `fit:'inside', withoutEnlargement:true`, so the delivered file is
+ * whatever the crop window rounded to.
+ *
+ * That is not hypothetical. Measured across the homepage's 20-article buffer on
+ * production, 31 Ogos 2026: `crop-4.3x1-desktop-hero` is **2463×700 for 12 of
+ * the 20 and 2464×700 for the other 8**. A hardcoded `2464w` is therefore a
+ * 1px overstatement on the majority of articles — small, but R4 exists
+ * precisely because the previous descriptor understated the same asset by 54%,
+ * and "close enough" is the habit that produced it. `crop-16x9-og` happens to
+ * be a uniform 1200×630 today; nothing guarantees it stays that way.
+ *
+ * Returns null when the entry is absent OR its dimensions are unrecorded.
+ * Callers must treat unrecorded as unusable rather than substituting a nominal
+ * value — an asserted intrinsic width is the exact defect R4 names.
+ */
+export interface SmartCropRef {
+  url: string;
+  width: number;
+  height: number;
+}
+
+export function getSmartCropRef(crops: unknown, targetName: string): SmartCropRef | null {
+  if (!crops || typeof crops !== 'object') return null;
+  const entry = (crops as Record<string, unknown>)[targetName];
+  if (!entry || typeof entry !== 'object') return null;
+  const { url, width, height } = entry as { url?: unknown; width?: unknown; height?: unknown };
+  if (typeof url !== 'string' || typeof width !== 'number' || typeof height !== 'number') {
+    return null;
+  }
+  if (!Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) return null;
+  return { url, width, height };
+}
+
+/**
  * The crop the mobile article cover actually renders, in preference order.
  *
  * ONE definition, because there are two callers that must never disagree: the

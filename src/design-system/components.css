@@ -17,6 +17,35 @@
  * of fixed-width frames (360px / 1200px) used only to reproduce the spec's
  * own frozen drawings for a side-by-side crosscheck — production code never
  * needs them.
+ *
+ * ──────────────────────────────────────────────────────────────────────
+ * THIS FILE IS THE REAL INTERFACE. `content.tsx` IS DOCUMENTATION.
+ * (Standing note, established by UI-01 on 31 Ogos 2026.)
+ *
+ *     grep -rn "ListRow" --include=*.tsx src/
+ *
+ * returns `/admin/design-system` and two comments. `ListRow` and `Card` in
+ * `components/content.tsx` have NO public caller. All three public list
+ * surfaces hand-roll the same markup against the class names below:
+ *
+ *     src/app/(public)/page.tsx:280                      (homepage Terkini)
+ *     src/app/(public)/artikel/[category]/page.tsx:770   (catalogue)
+ *     src/app/(public)/artikel/[category]/[slug]/page.tsx:1196  (related)
+ *
+ * Two consequences, and they are the reason UI-01 existed at all:
+ *
+ *   - Changing a component in `content.tsx` does NOT reach production. It
+ *     changes one specimen on the reference page. Its prop types are a
+ *     description of the contract, not an enforcement of it — UI-01 made
+ *     `ListRowProps.index` required, and `tsc` now guards a component no
+ *     shipping page calls.
+ *   - Changing a `.s-*` rule in THIS file does reach production, on all
+ *     three surfaces at once. That is why the `.s-row` guard is here.
+ *
+ * So "the same component" was able to be correct on two surfaces and broken
+ * on a third: they are three independent copies of the markup, free to drift
+ * apart silently. Until the public call sites are converted to the real
+ * components, the class contract in this file is the interface that matters.
  * ══════════════════════════════════════════════════════════════════════ */
 
 .hk {
@@ -249,6 +278,21 @@
   .s-row .t {
     font-size: var(--fs-h3);
     line-height: 1.3;
+  }
+  /* UI-01: the track count follows the children. `.s-row` declares three
+     desktop tracks (44 number / flexible headline / 176 thumbnail) and grid
+     auto-placement fills the FIRST free one — so a call site that omits the
+     number silently put its headline in the 44px number slot. Measured on
+     production 31 Ogos 2026: all 12 homepage rows, headline 44px wide and
+     225-307px tall, clipped by the thumbnail.
+
+     This REMOVES the number track when there is no number, rather than pinning
+     the headline to track 2 and leaving the 44px gutter empty — the patch the
+     CEO measured working and rejected for exactly that reason. Second line of
+     defence only: the fix is that every call site passes the number (UI-01
+     spec 3.1) and that `ListRow` now requires it (3.3). */
+  .s-row:not(:has(.s-idx)) {
+    grid-template-columns: minmax(0, 1fr) 176px;
   }
 }
 .s-idx {

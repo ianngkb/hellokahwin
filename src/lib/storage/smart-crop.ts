@@ -59,20 +59,33 @@ export const CROP_TARGETS: SmartCropTarget[] = [
   { name: 'crop-4x5-mobile-cover', aspectRatio: 4 / 5, outputWidth: 1920, outputHeight: 2400 },
   // NOTE: this target is **3.52:1**, not the 4.3:1 its name suggests.
   //
-  // The hero sits at full `container` width (it is NOT inside the
-  // `lg:grid-cols-[minmax(0,1fr)_280px]` sidebar grid — that opens further down the page),
-  // and Tailwind v4's `container` DOES emit a `max-width` at each `--breakpoint-*`.
-  // So the box has three plateaus, not a continuous slide:
-  //   viewport 1024–1279 → box  976×350 (2.79:1)
-  //   viewport 1280–1535 → box 1232×350 (3.52:1)   ← ~50% of desktop traffic
-  //   viewport ≥1536     → box 1488×350 (4.25:1)   ← ~48%
+  // ⚠️ CORRECTED, UI-03 (31 Ogos 2026). This comment used to describe the hero
+  // as sitting at Tailwind `container` width, with three `max-width` plateaus
+  // of 976 / 1232 / 1488 px. That layout no longer exists: DES-08 shipped the
+  // homepage lead plate **full-bleed at `w-full`**, so the box is the whole
+  // viewport — 1920px at a 1920px viewport, not 1488px — and it slides
+  // continuously rather than stepping. The next person to retarget this crop
+  // would otherwise have sized it against a number the site does not have.
   //
-  // 2464×700 matches the 1232px plateau exactly → a true 2.00× DPR there, and
-  // 1.66× on the wider plateau. Matching the NARROWER common plateau is strictly
-  // better than the wider one: when the asset is narrower than the box,
-  // `object-cover` crops height and still uses the asset's full width, so nothing
-  // horizontal is wasted. 2464 also stays under the 2560px cap that the WordPress
-  // ingest path imposes on ~99% of source images.
+  // The box today (`src/app/(public)/page.tsx`, and every future full-bleed
+  // hero, per `docs/design/hero-image-rules.md`):
+  //   viewport <1024 → 100vw at 40/21 = 1.905  ← served by crop-16x9-og
+  //   viewport ≥1024 → 100vw at 88/25 = 3.520  ← served by THIS target
+  // The `88/25` box is this target's own aspect ratio, exactly: the box was
+  // derived from the asset rather than chosen first, so aspect deviation is
+  // 0.0% and not merely inside tolerance.
+  //
+  // 2464px still clears a 1920px full-bleed plate without upscaling (0.78×), so
+  // the geometry survived the layout change intact — only the prose was stale.
+  // It remains a true 2.00× at 1232 CSS px and 1.28× at 1920. 2464 also stays
+  // under the 2560px cap that the WordPress ingest path imposes on ~99% of
+  // source images.
+  //
+  // ⚠️ Do NOT retune these numbers to "match" a layout. `GEOMETRY_VERSION` below
+  // is derived from this array, so any edit to a dimension re-queues EVERY live
+  // cover through Rekognition + R2 — an AWS-cost decision that belongs to the
+  // owner. A spec is corrected deliberately, never narrowed after the fact to
+  // fit what got built.
   //
   // The `crop-4.3x1-desktop-hero` name is deliberately retained as a stable
   // R2/JSON key — renaming it orphans every existing crop. Do not "fix" it.
