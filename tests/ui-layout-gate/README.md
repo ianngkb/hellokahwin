@@ -5,13 +5,23 @@ Everything here exists to answer one question about `scripts/ui-layout-gate.mjs`
 only ever run green proves nothing at all.
 
 ```
-pnpm ui:gate:selftest        # 59 assertions: each check fires AND clears
+pnpm ui:gate:selftest        # 72 assertions: each check fires AND clears
 pnpm ui:gate:fixtures        # the pre-fix capture; exits 1, as it must
 pnpm ui:gate --base https://hellokahwin.com
+UI_GATE_BYPASS=<secret> pnpm ui:gate --base <a preview *.vercel.app>
 ```
 
 Requires `playwright-core` and the installed Chrome. Override the browser with
 `UI_GATE_CHROME=/path/to/chrome`.
+
+A Vercel **preview** deployment is behind team SSO and answers an
+unauthenticated request with a 302 to `vercel.com/sso-api`. Without a bypass the
+gate measures the login page and reports a clean run over nothing, so it now
+treats an off-origin redirect as an ERROR and takes the bypass secret from
+`UI_GATE_BYPASS` (vault key `vercelbypass.hellokahwin`, injected by
+`vault.ps1 run … -EnvVar UI_GATE_BYPASS`, never on a command line). UI-10 added
+this because without it the gate can only be run after a deploy has already
+reached production — the wrong side of the ship.
 
 ---
 
