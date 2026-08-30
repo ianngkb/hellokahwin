@@ -433,6 +433,25 @@ heading levels. Not irony worth enjoying — just the ordinary way this fails, a
 the reason "read it end to end before citing it" earned its keep twice in one
 afternoon.
 
+**UI-03 turned that into a mechanical check, which is the right form, and it has
+one hole worth recording here in case their item closed first.** The proposed
+`pre-commit` line for `docs/plans/**` is
+`git show <sha> -- <file> | grep -c '^-## '` — an additive commit should delete
+no headings. It separates the two commits correctly (`0f59dc7` → 0,
+`01c70a2` → 1) and the regex is proved by printing the deleted line. **But
+`^-## ` cannot match a deleted `###`:** after the `-` it requires `#`, `#`,
+space, and `-### 5.9 …` has `#` in the third position. The doctrine's §5.8,
+§5.9 and §5.10 — lines 905, 973 and 1006 — are all `###`, so the check would
+miss the deletion of every section this sprint added, including the two carrying
+our joint lessons. **Use `grep -c '^-#\+ '`.** Re-running every commit either of
+us made under the wider form changes no verdict; it only closes the hole before
+the hook ships. Note also that a non-zero result is a flag, not a verdict — a
+legitimate rename will trip it, and a hook that refuses rather than asks will
+teach everyone to pass `--no-verify`. Owner of the check: UI-03; it lands in
+`scripts/git-hooks/`, behind the same install RISK-09 is waiting on.
+
+My own five docs commits score 0 under both regexes.
+
 **(e) Believing a red build was ours.** `pnpm build` failed at "Generating static
 pages" on `ECONNREFUSED 127.0.0.1:5433`. It was the local WSL Postgres cluster,
 `Stopped` after idling — not the code, which had already compiled successfully.
