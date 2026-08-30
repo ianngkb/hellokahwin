@@ -27,6 +27,9 @@
     "monitor:indexing": "tsx scripts/indexing-monitor.mts",
     "backfill:lqip": "tsx scripts/backfill-cover-lqip.mts",
     "perf:measure": "node scripts/measure-page.mjs",
+    "ui:gate": "node scripts/ui-layout-gate.mjs",
+    "ui:gate:fixtures": "node scripts/ui-layout-gate.mjs --fixtures",
+    "ui:gate:selftest": "node scripts/ui-layout-gate.mjs --selftest",
     "measure:cold": "tsx scripts/measure-cold-render.mts"
   },
   "dependencies": {

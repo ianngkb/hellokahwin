@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="ms">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>UILINT discriminator fixture</title>
+    <!--
+      A hand-built unit fixture for scripts/ui-layout-gate.mjs.
+
+      The production capture in ./2026-08-31-pre-ui-fix/ proves the gate catches
+      the two defects it was commissioned for. It cannot prove the gate stays
+      honest as it is edited: every check there fires on the same page, so a
+      check that quietly started flagging EVERYTHING would still look right.
+
+      This file puts a true positive and a near-miss false positive side by side
+      for each of the five checks, so the self-test can assert an exact count and
+      catch either kind of drift. Thirteen cases; six of them must produce exactly
+      nothing.
+
+      Cases E and F below are why the 1024px breakpoint is in the overflow rule:
+      the same markup is a legitimate swipeable rail on a phone and lost
+      navigation on a laptop.
+    -->
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, sans-serif;
+        font-size: 15px;
+        line-height: 1.3;
+      }
+      section {
+        padding: 12px;
+        border-bottom: 1px solid #ddd;
+      }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        margin: -1px;
+      }
+      .col-44 {
+        width: 44px;
+      }
+      .col-300 {
+        width: 300px;
+      }
+      .rail {
+        overflow-x: auto;
+        width: 100%;
+      }
+      .rail-inner {
+        width: 2000px;
+        background: #eee;
+      }
+      .stage {
+        position: relative;
+      }
+      .truncate {
+        width: 120px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+      .past-edge {
+        position: absolute;
+        top: 0;
+        left: calc(100vw + 40px);
+        width: 200px;
+        background: #fdd;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- A · MUST NOT FIRE. Screen-reader-only heading: long text, 1x1 clipped
+         box. This exact pattern (h1.sr-only on /artikel) was the gate's first
+         false positive against production. -->
+    <section data-case="A">
+      <h1 class="sr-only">
+        Artikel Perkahwinan HelloKahwin — panduan hantaran, nikah dan majlis
+      </h1>
+      <p>A · visually hidden heading above; nothing here should be reported.</p>
+    </section>
+
+    <!-- B · MUST FIRE (narrow-text-column). A headline wrapping inside a 44px
+         column — the homepage defect of 31 Aug 2026, reduced. -->
+    <section data-case="B">
+      <div class="col-44">
+        <h3>Adat hantaran kahwin ikut keluarga: bila dua senarai bertembung</h3>
+      </div>
+    </section>
+
+    <!-- C · MUST NOT FIRE. The same 44px box holding a rank number. One line,
+         so it is a label, not a column. This is the negative control that keeps
+         the article template green. -->
+    <section data-case="C">
+      <div class="col-44"><span>01</span></div>
+    </section>
+
+    <!-- D · MUST NOT FIRE. Wrapping text in a column comfortably over 120px. -->
+    <section data-case="D">
+      <div class="col-300">
+        <h3>Adat hantaran kahwin ikut keluarga: bila dua senarai bertembung</h3>
+      </div>
+    </section>
+
+    <!-- E · MUST FIRE (viewport-overflow) at every width. Content past the right
+         edge with no scroll container anywhere above it: simply unreachable. -->
+    <section data-case="E">
+      <div class="stage"><div class="past-edge">E · past the right edge</div></div>
+    </section>
+
+    <!-- F · MUST FIRE at 1024 and 1440 ONLY. A contained horizontal rail: a
+         swipe reaches it on a phone, a mouse does not on a laptop. -->
+    <section data-case="F">
+      <div class="rail"><div class="rail-inner">F · 2000px rail inside a contained scroller</div></div>
+    </section>
+
+    <!-- G · MUST FIRE (image-upscale, 2.0x). 100x100 decoded, painted 200x200.
+         Aspect is unchanged, so it must NOT also raise image-aspect. -->
+    <section data-case="G">
+      <img
+        alt=""
+        style="width: 200px; height: 200px; object-fit: cover"
+        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAAAtUlEQVR4nO3QQQkAIADAQHMazDhms4IfGcLBAowbe01dNvKDj4IFC1YeLFiw8mDBgpUHCxasPFiwYOXBggUrDxYsWHmwYMHKgwULVh4sWLDyYMGClQcLFqw8WLBg5cGCBSsPFixYebBgwcqDBQtWHixYsPJgwYKVBwsWrDxYsGDlwYIFKw8WLFh5sGDByoMFC1YeLFiw8mDBgpUHCxasPFiwYOXBggUrDxYsWHmwYMHKgwXrTQdScqCwX94BXAAAAABJRU5ErkJggg=="
+      />
+    </section>
+
+    <!-- H · MUST FIRE (image-aspect, 50%). 200x100 decoded into a square frame.
+         Under `cover` the paint scale is 1.0x, so it must NOT also raise
+         image-upscale — the two checks have to stay independent. -->
+    <section data-case="H">
+      <img
+        alt=""
+        style="width: 100px; height: 100px; object-fit: cover"
+        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAABkCAIAAABM5OhcAAABG0lEQVR4nO3SQQkAIADAQGMbwhBGtYRDkIMLsMfGXBuuG88L+JKxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLxAEC1jQBPfiFqAAAAABJRU5ErkJggg=="
+      />
+    </section>
+
+    <!-- I · MUST NOT FIRE. 100x100 decoded, painted 100x100. -->
+    <section data-case="I">
+      <img
+        alt=""
+        style="width: 100px; height: 100px"
+        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAAAtUlEQVR4nO3QQQkAIADAQHMazDhms4IfGcLBAowbe01dNvKDj4IFC1YeLFiw8mDBgpUHCxasPFiwYOXBggUrDxYsWHmwYMHKgwULVh4sWLDyYMGClQcLFqw8WLBg5cGCBSsPFixYebBgwcqDBQtWHixYsPJgwYKVBwsWrDxYsGDlwYIFKw8WLFh5sGDByoMFC1YeLFiw8mDBgpUHCxasPFiwYOXBggUrDxYsWHmwYMHKgwXrTQdScqCwX94BXAAAAABJRU5ErkJggg=="
+      />
+    </section>
+
+    <!-- K · MUST FIRE (clipped-text). A category label whose string is wider
+         than its own box, losing its last word behind an ellipsis. /artikel
+         does this to 9 of 11 labels at 390px, by 10 pixels. -->
+    <section data-case="K">
+      <p class="truncate">HANTARAN &amp; MAS KAHWIN — nama penuh kategori ini</p>
+    </section>
+
+    <!-- M · MUST FIRE (clipped-text). The same clip, but the text sits inside a
+         child <a> rather than directly in the truncating box. That one node of
+         depth is what the first version of the check missed, reporting zero on
+         /artikel while nine labels were visibly losing their last word. -->
+    <section data-case="M">
+      <p class="truncate"><a href="#">PELAMIN, KAD &amp; CENDERAHATI MAJLIS — nama penuh</a></p>
+    </section>
+
+    <!-- L · MUST NOT FIRE. The same truncation idiom on a string that fits.
+         Truncation is only a defect when it actually truncates. -->
+    <section data-case="L">
+      <p class="truncate">HANTARAN</p>
+    </section>
+
+    <!-- J · MUST NOT FIRE, and must be COUNTED. An image that never decodes
+         reports naturalWidth 0. On 31 Aug 2026 nine such images on the homepage
+         were reported as broken and the finding was withdrawn after
+         measurement: they were below the fold and lazy-loading. The gate skips
+         them and prints the count; it never calls them a defect. -->
+    <section data-case="J">
+      <img alt="" loading="lazy" style="width: 50px; height: 50px" src="/never-decodes.png" />
+    </section>
+  </body>
+</html>
