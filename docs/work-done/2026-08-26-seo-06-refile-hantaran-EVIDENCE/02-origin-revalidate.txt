@@ -1,2 +1,0 @@
-{"revalidated":["articles","inspire-categories"]}
-HTTP 200
