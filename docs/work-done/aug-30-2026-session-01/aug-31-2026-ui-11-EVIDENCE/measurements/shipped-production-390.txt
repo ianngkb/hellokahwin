@@ -1,0 +1,28 @@
+
+-- https://hellokahwin.com/ @ 390px ------------------------------------
+   innerWidth 390 - layoutWidth 390 - (max-width:767px)=true (min-width:1024px)=false
+   29 targets - 29 standalone - 0 in-sentence (WCAG 2.5.8 exempt)
+   => 0 standalone target(s) under 24px
+
+-- https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding @ 390px ------------------------------------
+   innerWidth 390 - layoutWidth 390 - (max-width:767px)=true (min-width:1024px)=false
+   72 targets - 69 standalone - 3 in-sentence (WCAG 2.5.8 exempt)
+   => 0 standalone target(s) under 24px
+
+-- https://hellokahwin.com/artikel/hantaran-mas-kahwin @ 390px ------------------------------------
+   innerWidth 390 - layoutWidth 390 - (max-width:767px)=true (min-width:1024px)=false
+   54 targets - 54 standalone - 0 in-sentence (WCAG 2.5.8 exempt)
+   => 0 standalone target(s) under 24px
+
+-- https://hellokahwin.com/artikel @ 390px ------------------------------------
+   innerWidth 390 - layoutWidth 390 - (max-width:767px)=true (min-width:1024px)=false
+   93 targets - 93 standalone - 0 in-sentence (WCAG 2.5.8 exempt)
+   => 0 standalone target(s) under 24px
+
+-- https://hellokahwin.com/dewan-kahwin @ 390px ------------------------------------
+   innerWidth 390 - layoutWidth 390 - (max-width:767px)=true (min-width:1024px)=false
+   48 targets - 46 standalone - 2 in-sentence (WCAG 2.5.8 exempt)
+   => 0 standalone target(s) under 24px
+
+==== 0 failing target(s) across 5 URL(s) x 1 width(s), floor 24px ====
+

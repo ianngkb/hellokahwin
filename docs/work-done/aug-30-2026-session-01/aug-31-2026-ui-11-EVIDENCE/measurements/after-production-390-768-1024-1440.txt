@@ -1,0 +1,153 @@
+
+-- https://hellokahwin.com/ @ 390px ------------------------------------
+   innerWidth 390 - layoutWidth 390 - (max-width:767px)=true (min-width:1024px)=false
+   29 targets - 29 standalone - 0 in-sentence (WCAG 2.5.8 exempt)
+   => 0 standalone target(s) under 24px
+
+-- https://hellokahwin.com/ @ 768px ------------------------------------
+   innerWidth 768 - layoutWidth 768 - (max-width:767px)=false (min-width:1024px)=false
+   29 targets - 29 standalone - 0 in-sentence (WCAG 2.5.8 exempt)
+   => 0 standalone target(s) under 24px
+
+-- https://hellokahwin.com/ @ 1024px ------------------------------------
+   innerWidth 1024 - layoutWidth 1024 - (max-width:767px)=false (min-width:1024px)=true
+   29 targets - 29 standalone - 0 in-sentence (WCAG 2.5.8 exempt)
+   => 0 standalone target(s) under 24px
+
+-- https://hellokahwin.com/ @ 1440px ------------------------------------
+   innerWidth 1440 - layoutWidth 1440 - (max-width:767px)=false (min-width:1024px)=true
+   29 targets - 29 standalone - 0 in-sentence (WCAG 2.5.8 exempt)
+   => 0 standalone target(s) under 24px
+
+-- https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding @ 390px ------------------------------------
+   innerWidth 390 - layoutWidth 390 - (max-width:767px)=true (min-width:1024px)=false
+   72 targets - 69 standalone - 3 in-sentence (WCAG 2.5.8 exempt)
+   => 0 standalone target(s) under 24px
+
+-- https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding @ 768px ------------------------------------
+   innerWidth 768 - layoutWidth 768 - (max-width:767px)=false (min-width:1024px)=false
+   72 targets - 68 standalone - 4 in-sentence (WCAG 2.5.8 exempt)
+   FAIL   453.94 x     20  rects 1 (20-20)  inline        "10 Lokasi Majlis Kahwin yang Popular di Shah A"
+        ul > li > p > a
+   FAIL    665.8 x     20  rects 1 (20-20)  inline        "Checklist Kahwin: Senarai Persediaan 12 Bulan "
+        ul > li > p > a
+   FAIL   621.48 x     20  rects 1 (20-20)  inline        "Bajet Kahwin 2026: Apa yang Boleh Diharga Tepa"
+        ul > li > p > a
+   FAIL   518.28 x     20  rects 1 (20-20)  inline        "Perkahwinan Taman Kebun yang Minimalis di Hulu"
+        ul > li > p > a
+   FAIL   636.91 x     20  rects 1 (20-20)  inline        "19 Tempat Honeymoon di Malaysia yang Wajib Mas"
+        ul > li > p > a
+   => 5 standalone target(s) under 24px
+
+-- https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding @ 1024px ------------------------------------
+   innerWidth 1024 - layoutWidth 1024 - (max-width:767px)=false (min-width:1024px)=true
+   69 targets - 66 standalone - 3 in-sentence (WCAG 2.5.8 exempt)
+   FAIL   453.94 x     20  rects 1 (20-20)  inline        "10 Lokasi Majlis Kahwin yang Popular di Shah A"
+        ul > li > p > a
+   FAIL   518.28 x     20  rects 1 (20-20)  inline        "Perkahwinan Taman Kebun yang Minimalis di Hulu"
+        ul > li > p > a
+   => 2 standalone target(s) under 24px
+
+-- https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding @ 1440px ------------------------------------
+   innerWidth 1440 - layoutWidth 1440 - (max-width:767px)=false (min-width:1024px)=true
+   69 targets - 64 standalone - 5 in-sentence (WCAG 2.5.8 exempt)
+   FAIL   453.94 x     20  rects 1 (20-20)  inline        "10 Lokasi Majlis Kahwin yang Popular di Shah A"
+        ul > li > p > a
+   FAIL   707.03 x     20  rects 1 (20-20)  inline        "10 Dewan Kahwin Murah di Selangor & KL – Sesua"
+        ul > li > p > a
+   FAIL    665.8 x     20  rects 1 (20-20)  inline        "Checklist Kahwin: Senarai Persediaan 12 Bulan "
+        ul > li > p > a
+   FAIL   621.48 x     20  rects 1 (20-20)  inline        "Bajet Kahwin 2026: Apa yang Boleh Diharga Tepa"
+        ul > li > p > a
+   FAIL   518.28 x     20  rects 1 (20-20)  inline        "Perkahwinan Taman Kebun yang Minimalis di Hulu"
+        ul > li > p > a
+   FAIL   746.92 x     20  rects 1 (20-20)  inline        "Majlis Perkahwinan Intim Bertemakan Warna Past"
+        ul > li > p > a
+   FAIL   636.91 x     20  rects 1 (20-20)  inline        "19 Tempat Honeymoon di Malaysia yang Wajib Mas"
+        ul > li > p > a
+   => 7 standalone target(s) under 24px
+
+-- https://hellokahwin.com/artikel/hantaran-mas-kahwin @ 390px ------------------------------------
+   innerWidth 390 - layoutWidth 390 - (max-width:767px)=true (min-width:1024px)=false
+   54 targets - 54 standalone - 0 in-sentence (WCAG 2.5.8 exempt)
+   => 0 standalone target(s) under 24px
+
+-- https://hellokahwin.com/artikel/hantaran-mas-kahwin @ 768px ------------------------------------
+   innerWidth 768 - layoutWidth 768 - (max-width:767px)=false (min-width:1024px)=false
+   54 targets - 54 standalone - 0 in-sentence (WCAG 2.5.8 exempt)
+   => 0 standalone target(s) under 24px
+
+-- https://hellokahwin.com/artikel/hantaran-mas-kahwin @ 1024px ------------------------------------
+   innerWidth 1024 - layoutWidth 1024 - (max-width:767px)=false (min-width:1024px)=true
+   54 targets - 54 standalone - 0 in-sentence (WCAG 2.5.8 exempt)
+   => 0 standalone target(s) under 24px
+
+-- https://hellokahwin.com/artikel/hantaran-mas-kahwin @ 1440px ------------------------------------
+   innerWidth 1440 - layoutWidth 1440 - (max-width:767px)=false (min-width:1024px)=true
+   54 targets - 54 standalone - 0 in-sentence (WCAG 2.5.8 exempt)
+   => 0 standalone target(s) under 24px
+
+-- https://hellokahwin.com/artikel @ 390px ------------------------------------
+   innerWidth 390 - layoutWidth 390 - (max-width:767px)=true (min-width:1024px)=false
+   93 targets - 93 standalone - 0 in-sentence (WCAG 2.5.8 exempt)
+   => 0 standalone target(s) under 24px
+
+-- https://hellokahwin.com/artikel @ 768px ------------------------------------
+   innerWidth 768 - layoutWidth 768 - (max-width:767px)=false (min-width:1024px)=false
+   93 targets - 93 standalone - 0 in-sentence (WCAG 2.5.8 exempt)
+   => 0 standalone target(s) under 24px
+
+-- https://hellokahwin.com/artikel @ 1024px ------------------------------------
+   innerWidth 1024 - layoutWidth 1024 - (max-width:767px)=false (min-width:1024px)=true
+   93 targets - 93 standalone - 0 in-sentence (WCAG 2.5.8 exempt)
+   => 0 standalone target(s) under 24px
+
+-- https://hellokahwin.com/artikel @ 1440px ------------------------------------
+   innerWidth 1440 - layoutWidth 1440 - (max-width:767px)=false (min-width:1024px)=true
+   93 targets - 93 standalone - 0 in-sentence (WCAG 2.5.8 exempt)
+   => 0 standalone target(s) under 24px
+
+-- https://hellokahwin.com/dewan-kahwin @ 390px ------------------------------------
+   innerWidth 390 - layoutWidth 390 - (max-width:767px)=true (min-width:1024px)=false
+   48 targets - 46 standalone - 2 in-sentence (WCAG 2.5.8 exempt)
+   => 0 standalone target(s) under 24px
+
+-- https://hellokahwin.com/dewan-kahwin @ 768px ------------------------------------
+   innerWidth 768 - layoutWidth 768 - (max-width:767px)=false (min-width:1024px)=false
+   48 targets - 46 standalone - 2 in-sentence (WCAG 2.5.8 exempt)
+   FAIL   453.94 x     20  rects 1 (20-20)  inline        "10 Lokasi Majlis Kahwin yang Popular di Shah A"
+        ul > li > p > a
+   FAIL   569.63 x     20  rects 1 (20-20)  inline        "Majlis Perkahwinan Putih Bergaya di Grand Hyat"
+        ul > li > p > a
+   FAIL   621.48 x     20  rects 1 (20-20)  inline        "Bajet Kahwin 2026: Apa yang Boleh Diharga Tepa"
+        ul > li > p > a
+   => 3 standalone target(s) under 24px
+
+-- https://hellokahwin.com/dewan-kahwin @ 1024px ------------------------------------
+   innerWidth 1024 - layoutWidth 1024 - (max-width:767px)=false (min-width:1024px)=true
+   45 targets - 43 standalone - 2 in-sentence (WCAG 2.5.8 exempt)
+   FAIL   453.94 x     20  rects 1 (20-20)  inline        "10 Lokasi Majlis Kahwin yang Popular di Shah A"
+        ul > li > p > a
+   FAIL   569.63 x     20  rects 1 (20-20)  inline        "Majlis Perkahwinan Putih Bergaya di Grand Hyat"
+        ul > li > p > a
+   => 2 standalone target(s) under 24px
+
+-- https://hellokahwin.com/dewan-kahwin @ 1440px ------------------------------------
+   innerWidth 1440 - layoutWidth 1440 - (max-width:767px)=false (min-width:1024px)=true
+   45 targets - 43 standalone - 2 in-sentence (WCAG 2.5.8 exempt)
+   FAIL   453.94 x     20  rects 1 (20-20)  inline        "10 Lokasi Majlis Kahwin yang Popular di Shah A"
+        ul > li > p > a
+   FAIL   690.61 x     20  rects 1 (20-20)  inline        "Checklist Sewa Dewan Kahwin: Apa yang Perlu Di"
+        ul > li > p > a
+   FAIL   569.63 x     20  rects 1 (20-20)  inline        "Majlis Perkahwinan Putih Bergaya di Grand Hyat"
+        ul > li > p > a
+   FAIL   683.75 x     20  rects 1 (20-20)  inline        "Pakej Dewan Kahwin: Apa yang Termasuk, dan Apa"
+        ul > li > p > a
+   FAIL   621.48 x     20  rects 1 (20-20)  inline        "Bajet Kahwin 2026: Apa yang Boleh Diharga Tepa"
+        ul > li > p > a
+   FAIL    833.5 x     20  rects 1 (20-20)  inline        "Majlis Perkahwinan Mewah dengan Sentuhan Warna"
+        ul > li > p > a
+   => 6 standalone target(s) under 24px
+
+==== 25 failing target(s) across 5 URL(s) x 4 width(s), floor 24px ====
+

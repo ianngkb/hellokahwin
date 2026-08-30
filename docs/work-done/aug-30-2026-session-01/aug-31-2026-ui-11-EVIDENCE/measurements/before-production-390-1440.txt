@@ -1,0 +1,355 @@
+
+-- https://hellokahwin.com/ @ 390px ------------------------------------
+   innerWidth 390 - layoutWidth 390 - (max-width:767px)=true (min-width:1024px)=false
+   29 targets - 29 standalone - 0 in-sentence (WCAG 2.5.8 exempt)
+   FAIL   236.88 x  15.59  rects 1 (15.59-15.59)  inline-block  "Kredit: Azlan DuPree (CC BY 2.0)"
+        article > a.group.block > div.s-pad.mx-auto.max-w-3xl > a.s-cred.mt-3.inline-block
+   FAIL   182.75 x     21  rects 1 (21-21)  inline        "HelloKahwin"
+        div.hk-public.flex.min-h-screen > footer.border-border.mt-20.border-t > div.mx-auto.max-w-6xl.px-4 > a.font-serif.text-lg.leading-none
+   FAIL    99.38 x  15.39  rects 1 (15.39-15.39)  block         "Laman Utama"
+        footer.border-border.mt-20.border-t > div.mx-auto.max-w-6xl.px-4 > nav.border-border.mt-8.flex > a.hk-eyebrow.hover:text-foreground.transition-colors
+   FAIL   103.69 x  15.39  rects 1 (15.39-15.39)  block         "Semua Artikel"
+        footer.border-border.mt-20.border-t > div.mx-auto.max-w-6xl.px-4 > nav.border-border.mt-8.flex > a.hk-eyebrow.hover:text-foreground.transition-colors
+   => 4 standalone target(s) under 24px
+
+-- https://hellokahwin.com/ @ 1440px ------------------------------------
+   innerWidth 1440 - layoutWidth 1440 - (max-width:767px)=false (min-width:1024px)=true
+   29 targets - 29 standalone - 0 in-sentence (WCAG 2.5.8 exempt)
+   FAIL   236.88 x  15.59  rects 1 (15.59-15.59)  inline-block  "Kredit: Azlan DuPree (CC BY 2.0)"
+        article > a.group.block > div.s-pad.mx-auto.max-w-3xl > a.s-cred.mt-3.inline-block
+   FAIL   182.75 x     21  rects 1 (21-21)  inline        "HelloKahwin"
+        div.hk-public.flex.min-h-screen > footer.border-border.mt-20.border-t > div.mx-auto.max-w-6xl.px-4 > a.font-serif.text-lg.leading-none
+   FAIL    99.38 x  15.39  rects 1 (15.39-15.39)  block         "Laman Utama"
+        footer.border-border.mt-20.border-t > div.mx-auto.max-w-6xl.px-4 > nav.border-border.mt-8.flex > a.hk-eyebrow.hover:text-foreground.transition-colors
+   FAIL   103.69 x  15.39  rects 1 (15.39-15.39)  block         "Semua Artikel"
+        footer.border-border.mt-20.border-t > div.mx-auto.max-w-6xl.px-4 > nav.border-border.mt-8.flex > a.hk-eyebrow.hover:text-foreground.transition-colors
+   => 4 standalone target(s) under 24px
+
+-- https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding @ 390px ------------------------------------
+   innerWidth 390 - layoutWidth 390 - (max-width:767px)=true (min-width:1024px)=false
+   72 targets - 65 standalone - 7 in-sentence (WCAG 2.5.8 exempt)
+   FAIL    40.67 x     20  rects 1 (20-20)  block         "Utama"
+        nav.mb-6 > ol.text-muted-foreground.flex.flex-wrap > li.flex.items-center.gap-1 > a.hover:text-foreground.transition-colors
+   FAIL     39.7 x     20  rects 1 (20-20)  block         "Artikel"
+        nav.mb-6 > ol.text-muted-foreground.flex.flex-wrap > li.flex.items-center.gap-1 > a.hover:text-foreground.transition-colors
+   FAIL   101.55 x     20  rects 1 (20-20)  block         "Idea dan nasihat"
+        nav.mb-6 > ol.text-muted-foreground.flex.flex-wrap > li.flex.items-center.gap-1 > a.hover:text-foreground.transition-colors
+   FAIL    170.7 x     17  rects 1 (17-17)  inline        "1. The Waterway Villa, Pahang"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   216.13 x     17  rects 1 (17-17)  inline        "2. Aman Rimba Private Estate, Pahang"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   143.22 x     17  rects 1 (17-17)  inline        "3. Puncak Rimba, Pahang"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   167.98 x     17  rects 1 (17-17)  inline        "4. Forest Valley Hall, Selangor"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   147.23 x     17  rects 1 (17-17)  inline        "5. Sunlight Suites, Pahang"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   183.53 x     17  rects 1 (17-17)  inline        "6. Boathouse Ampang, Selangor"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   113.17 x     17  rects 1 (17-17)  inline        "7. Cove 55, Sarawak"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   108.41 x     17  rects 1 (17-17)  inline        "8. A-Park, Selangor"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   148.63 x     17  rects 1 (17-17)  inline        "9. Glasshouse, Seputeh KL"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   166.69 x     17  rects 1 (17-17)  inline        "10. Pulai Spring Resort, Johor"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   160.55 x     17  rects 1 (17-17)  inline        "11. Kebun Rimba Janda Baik"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   268.94 x     17  rects 1 (17-17)  inline        "12. Kuala Lumpur Golf & Country Club (KLGCC)"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   102.95 x     17  rects 1 (17-17)  inline        "13. Tiarasa Escape"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   100.83 x     17  rects 1 (17-17)  inline        "14. Sangkot Place"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL    238.5 x     17  rects 1 (17-17)  inline        "15. Anantara Desaru Coast Resort & Villas"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   128.38 x     17  rects 1 (17-17)  inline        "16. Jardin Event Venue"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   238.33 x     17  rects 1 (17-17)  inline        "17. The Smokehouse, Cameron Highlands"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   149.64 x     17  rects 1 (17-17)  inline        "18. Rama V, Kuala Lumpur"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   180.48 x     17  rects 1 (17-17)  inline        "19. Mutiara Hillhomes, Bentong"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   191.02 x     17  rects 1 (17-17)  inline        "20. Rowan & Parsley, Johor Bahru"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL    66.16 x     17  rects 1 (17-17)  inline        "Kesimpulan"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   185.83 x     21  rects 1 (21-21)  inline        "dewan majlis perkahwinan"
+        article > nav.border-border.bg-muted/30.mt-12 > p.mt-2.text-base > a.underline.underline-offset-4
+   FAIL   182.75 x     21  rects 1 (21-21)  inline        "HelloKahwin"
+        div.hk-public.flex.min-h-screen > footer.border-border.mt-20.border-t > div.mx-auto.max-w-6xl.px-4 > a.font-serif.text-lg.leading-none
+   FAIL    99.38 x  15.39  rects 1 (15.39-15.39)  block         "Laman Utama"
+        footer.border-border.mt-20.border-t > div.mx-auto.max-w-6xl.px-4 > nav.border-border.mt-8.flex > a.hk-eyebrow.hover:text-foreground.transition-colors
+   FAIL   103.69 x  15.39  rects 1 (15.39-15.39)  block         "Semua Artikel"
+        footer.border-border.mt-20.border-t > div.mx-auto.max-w-6xl.px-4 > nav.border-border.mt-8.flex > a.hk-eyebrow.hover:text-foreground.transition-colors
+   => 28 standalone target(s) under 24px
+
+-- https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding @ 1440px ------------------------------------
+   innerWidth 1440 - layoutWidth 1440 - (max-width:767px)=false (min-width:1024px)=true
+   69 targets - 60 standalone - 9 in-sentence (WCAG 2.5.8 exempt)
+   FAIL    40.67 x     20  rects 1 (20-20)  block         "Utama"
+        nav.mb-6 > ol.text-muted-foreground.flex.flex-wrap > li.flex.items-center.gap-1 > a.hover:text-foreground.transition-colors
+   FAIL     39.7 x     20  rects 1 (20-20)  block         "Artikel"
+        nav.mb-6 > ol.text-muted-foreground.flex.flex-wrap > li.flex.items-center.gap-1 > a.hover:text-foreground.transition-colors
+   FAIL   101.55 x     20  rects 1 (20-20)  block         "Idea dan nasihat"
+        nav.mb-6 > ol.text-muted-foreground.flex.flex-wrap > li.flex.items-center.gap-1 > a.hover:text-foreground.transition-colors
+   FAIL    170.7 x     17  rects 1 (17-17)  inline        "1. The Waterway Villa, Pahang"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   216.13 x     17  rects 1 (17-17)  inline        "2. Aman Rimba Private Estate, Pahang"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   143.22 x     17  rects 1 (17-17)  inline        "3. Puncak Rimba, Pahang"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   167.98 x     17  rects 1 (17-17)  inline        "4. Forest Valley Hall, Selangor"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   147.23 x     17  rects 1 (17-17)  inline        "5. Sunlight Suites, Pahang"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   183.53 x     17  rects 1 (17-17)  inline        "6. Boathouse Ampang, Selangor"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   113.17 x     17  rects 1 (17-17)  inline        "7. Cove 55, Sarawak"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   108.41 x     17  rects 1 (17-17)  inline        "8. A-Park, Selangor"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   148.63 x     17  rects 1 (17-17)  inline        "9. Glasshouse, Seputeh KL"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   166.69 x     17  rects 1 (17-17)  inline        "10. Pulai Spring Resort, Johor"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   160.55 x     17  rects 1 (17-17)  inline        "11. Kebun Rimba Janda Baik"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   268.94 x     17  rects 1 (17-17)  inline        "12. Kuala Lumpur Golf & Country Club (KLGCC)"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   102.95 x     17  rects 1 (17-17)  inline        "13. Tiarasa Escape"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   100.83 x     17  rects 1 (17-17)  inline        "14. Sangkot Place"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL    238.5 x     17  rects 1 (17-17)  inline        "15. Anantara Desaru Coast Resort & Villas"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   128.38 x     17  rects 1 (17-17)  inline        "16. Jardin Event Venue"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   238.33 x     17  rects 1 (17-17)  inline        "17. The Smokehouse, Cameron Highlands"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   149.64 x     17  rects 1 (17-17)  inline        "18. Rama V, Kuala Lumpur"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   180.48 x     17  rects 1 (17-17)  inline        "19. Mutiara Hillhomes, Bentong"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   191.02 x     17  rects 1 (17-17)  inline        "20. Rowan & Parsley, Johor Bahru"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL    66.16 x     17  rects 1 (17-17)  inline        "Kesimpulan"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   453.94 x     20  rects 1 (20-20)  inline        "10 Lokasi Majlis Kahwin yang Popular di Shah A"
+        ul > li > p > a
+   FAIL   707.03 x     20  rects 1 (20-20)  inline        "10 Dewan Kahwin Murah di Selangor & KL – Sesua"
+        ul > li > p > a
+   FAIL    665.8 x     20  rects 1 (20-20)  inline        "Checklist Kahwin: Senarai Persediaan 12 Bulan "
+        ul > li > p > a
+   FAIL   621.48 x     20  rects 1 (20-20)  inline        "Bajet Kahwin 2026: Apa yang Boleh Diharga Tepa"
+        ul > li > p > a
+   FAIL   518.28 x     20  rects 1 (20-20)  inline        "Perkahwinan Taman Kebun yang Minimalis di Hulu"
+        ul > li > p > a
+   FAIL   746.92 x     20  rects 1 (20-20)  inline        "Majlis Perkahwinan Intim Bertemakan Warna Past"
+        ul > li > p > a
+   FAIL   636.91 x     20  rects 1 (20-20)  inline        "19 Tempat Honeymoon di Malaysia yang Wajib Mas"
+        ul > li > p > a
+   FAIL    35.56 x     17  rects 1 (17-17)  inline        "Venue"
+        div.sidebar-meta.flex.items-center > span > span > a.hover:text-foreground.transition-colors
+   FAIL   182.75 x     21  rects 1 (21-21)  inline        "HelloKahwin"
+        div.hk-public.flex.min-h-screen > footer.border-border.mt-20.border-t > div.mx-auto.max-w-6xl.px-4 > a.font-serif.text-lg.leading-none
+   FAIL    99.38 x  15.39  rects 1 (15.39-15.39)  block         "Laman Utama"
+        footer.border-border.mt-20.border-t > div.mx-auto.max-w-6xl.px-4 > nav.border-border.mt-8.flex > a.hk-eyebrow.hover:text-foreground.transition-colors
+   FAIL   103.69 x  15.39  rects 1 (15.39-15.39)  block         "Semua Artikel"
+        footer.border-border.mt-20.border-t > div.mx-auto.max-w-6xl.px-4 > nav.border-border.mt-8.flex > a.hk-eyebrow.hover:text-foreground.transition-colors
+   => 35 standalone target(s) under 24px
+
+-- https://hellokahwin.com/artikel/hantaran-mas-kahwin @ 390px ------------------------------------
+   innerWidth 390 - layoutWidth 390 - (max-width:767px)=true (min-width:1024px)=false
+   54 targets - 54 standalone - 0 in-sentence (WCAG 2.5.8 exempt)
+   FAIL    40.67 x     20  rects 1 (20-20)  block         "Utama"
+        nav.mb-6 > ol.text-muted-foreground.flex.flex-wrap > li.flex.items-center.gap-1 > a.hover:text-foreground.transition-colors
+   FAIL     39.7 x     20  rects 1 (20-20)  block         "Artikel"
+        nav.mb-6 > ol.text-muted-foreground.flex.flex-wrap > li.flex.items-center.gap-1 > a.hover:text-foreground.transition-colors
+   FAIL   182.75 x     21  rects 1 (21-21)  inline        "HelloKahwin"
+        div.hk-public.flex.min-h-screen > footer.border-border.mt-20.border-t > div.mx-auto.max-w-6xl.px-4 > a.font-serif.text-lg.leading-none
+   FAIL    99.38 x  15.39  rects 1 (15.39-15.39)  block         "Laman Utama"
+        footer.border-border.mt-20.border-t > div.mx-auto.max-w-6xl.px-4 > nav.border-border.mt-8.flex > a.hk-eyebrow.hover:text-foreground.transition-colors
+   FAIL   103.69 x  15.39  rects 1 (15.39-15.39)  block         "Semua Artikel"
+        footer.border-border.mt-20.border-t > div.mx-auto.max-w-6xl.px-4 > nav.border-border.mt-8.flex > a.hk-eyebrow.hover:text-foreground.transition-colors
+   => 5 standalone target(s) under 24px
+
+-- https://hellokahwin.com/artikel/hantaran-mas-kahwin @ 1440px ------------------------------------
+   innerWidth 1440 - layoutWidth 1440 - (max-width:767px)=false (min-width:1024px)=true
+   54 targets - 54 standalone - 0 in-sentence (WCAG 2.5.8 exempt)
+   FAIL    40.67 x     20  rects 1 (20-20)  block         "Utama"
+        nav.mb-6 > ol.text-muted-foreground.flex.flex-wrap > li.flex.items-center.gap-1 > a.hover:text-foreground.transition-colors
+   FAIL     39.7 x     20  rects 1 (20-20)  block         "Artikel"
+        nav.mb-6 > ol.text-muted-foreground.flex.flex-wrap > li.flex.items-center.gap-1 > a.hover:text-foreground.transition-colors
+   FAIL   182.75 x     21  rects 1 (21-21)  inline        "HelloKahwin"
+        div.hk-public.flex.min-h-screen > footer.border-border.mt-20.border-t > div.mx-auto.max-w-6xl.px-4 > a.font-serif.text-lg.leading-none
+   FAIL    99.38 x  15.39  rects 1 (15.39-15.39)  block         "Laman Utama"
+        footer.border-border.mt-20.border-t > div.mx-auto.max-w-6xl.px-4 > nav.border-border.mt-8.flex > a.hk-eyebrow.hover:text-foreground.transition-colors
+   FAIL   103.69 x  15.39  rects 1 (15.39-15.39)  block         "Semua Artikel"
+        footer.border-border.mt-20.border-t > div.mx-auto.max-w-6xl.px-4 > nav.border-border.mt-8.flex > a.hk-eyebrow.hover:text-foreground.transition-colors
+   => 5 standalone target(s) under 24px
+
+-- https://hellokahwin.com/artikel @ 390px ------------------------------------
+   innerWidth 390 - layoutWidth 390 - (max-width:767px)=true (min-width:1024px)=false
+   93 targets - 93 standalone - 0 in-sentence (WCAG 2.5.8 exempt)
+   FAIL   181.16 x     15  rects 1 (15-15)  inline        "Hantaran & Mas Kahwin"
+        article.group > div.mt-3 > p.hk-eyebrow.truncate > a.hover:text-foreground.relative.z-[2]
+   FAIL   181.16 x     15  rects 1 (15-15)  inline        "Hantaran & Mas Kahwin"
+        article.group > div.mt-3 > p.hk-eyebrow.truncate > a.hover:text-foreground.relative.z-[2]
+   FAIL   181.16 x     15  rects 1 (15-15)  inline        "Hantaran & Mas Kahwin"
+        article.group > div.mt-3 > p.hk-eyebrow.truncate > a.hover:text-foreground.relative.z-[2]
+   FAIL   181.16 x     15  rects 1 (15-15)  inline        "Hantaran & Mas Kahwin"
+        article.group > div.mt-3 > p.hk-eyebrow.truncate > a.hover:text-foreground.relative.z-[2]
+   FAIL   181.16 x     15  rects 1 (15-15)  inline        "Hantaran & Mas Kahwin"
+        article.group > div.mt-3 > p.hk-eyebrow.truncate > a.hover:text-foreground.relative.z-[2]
+   FAIL   181.16 x     15  rects 1 (15-15)  inline        "Hantaran & Mas Kahwin"
+        article.group > div.mt-3 > p.hk-eyebrow.truncate > a.hover:text-foreground.relative.z-[2]
+   FAIL   181.16 x     15  rects 1 (15-15)  inline        "Hantaran & Mas Kahwin"
+        article.group > div.mt-3 > p.hk-eyebrow.truncate > a.hover:text-foreground.relative.z-[2]
+   FAIL   181.16 x     15  rects 1 (15-15)  inline        "Hantaran & Mas Kahwin"
+        article.group > div.mt-3 > p.hk-eyebrow.truncate > a.hover:text-foreground.relative.z-[2]
+   FAIL   181.16 x     15  rects 1 (15-15)  inline        "Hantaran & Mas Kahwin"
+        article.group > div.mt-3 > p.hk-eyebrow.truncate > a.hover:text-foreground.relative.z-[2]
+   FAIL   181.16 x     15  rects 1 (15-15)  inline        "Hantaran & Mas Kahwin"
+        article.group > div.mt-3 > p.hk-eyebrow.truncate > a.hover:text-foreground.relative.z-[2]
+   FAIL   181.16 x     15  rects 1 (15-15)  inline        "Hantaran & Mas Kahwin"
+        article.group > div.mt-3 > p.hk-eyebrow.truncate > a.hover:text-foreground.relative.z-[2]
+   FAIL   182.75 x     21  rects 1 (21-21)  inline        "HelloKahwin"
+        div.hk-public.flex.min-h-screen > footer.border-border.mt-20.border-t > div.mx-auto.max-w-6xl.px-4 > a.font-serif.text-lg.leading-none
+   FAIL    99.38 x  15.39  rects 1 (15.39-15.39)  block         "Laman Utama"
+        footer.border-border.mt-20.border-t > div.mx-auto.max-w-6xl.px-4 > nav.border-border.mt-8.flex > a.hk-eyebrow.hover:text-foreground.transition-colors
+   FAIL   103.69 x  15.39  rects 1 (15.39-15.39)  block         "Semua Artikel"
+        footer.border-border.mt-20.border-t > div.mx-auto.max-w-6xl.px-4 > nav.border-border.mt-8.flex > a.hk-eyebrow.hover:text-foreground.transition-colors
+   => 14 standalone target(s) under 24px
+
+-- https://hellokahwin.com/artikel @ 1440px ------------------------------------
+   innerWidth 1440 - layoutWidth 1440 - (max-width:767px)=false (min-width:1024px)=true
+   93 targets - 93 standalone - 0 in-sentence (WCAG 2.5.8 exempt)
+   FAIL   181.16 x     15  rects 1 (15-15)  inline        "Hantaran & Mas Kahwin"
+        article.group > div.mt-3 > p.hk-eyebrow.truncate > a.hover:text-foreground.relative.z-[2]
+   FAIL   181.16 x     15  rects 1 (15-15)  inline        "Hantaran & Mas Kahwin"
+        article.group > div.mt-3 > p.hk-eyebrow.truncate > a.hover:text-foreground.relative.z-[2]
+   FAIL   181.16 x     15  rects 1 (15-15)  inline        "Hantaran & Mas Kahwin"
+        article.group > div.mt-3 > p.hk-eyebrow.truncate > a.hover:text-foreground.relative.z-[2]
+   FAIL   181.16 x     15  rects 1 (15-15)  inline        "Hantaran & Mas Kahwin"
+        article.group > div.mt-3 > p.hk-eyebrow.truncate > a.hover:text-foreground.relative.z-[2]
+   FAIL   181.16 x     15  rects 1 (15-15)  inline        "Hantaran & Mas Kahwin"
+        article.group > div.mt-3 > p.hk-eyebrow.truncate > a.hover:text-foreground.relative.z-[2]
+   FAIL   181.16 x     15  rects 1 (15-15)  inline        "Hantaran & Mas Kahwin"
+        article.group > div.mt-3 > p.hk-eyebrow.truncate > a.hover:text-foreground.relative.z-[2]
+   FAIL   181.16 x     15  rects 1 (15-15)  inline        "Hantaran & Mas Kahwin"
+        article.group > div.mt-3 > p.hk-eyebrow.truncate > a.hover:text-foreground.relative.z-[2]
+   FAIL   181.16 x     15  rects 1 (15-15)  inline        "Hantaran & Mas Kahwin"
+        article.group > div.mt-3 > p.hk-eyebrow.truncate > a.hover:text-foreground.relative.z-[2]
+   FAIL   181.16 x     15  rects 1 (15-15)  inline        "Hantaran & Mas Kahwin"
+        article.group > div.mt-3 > p.hk-eyebrow.truncate > a.hover:text-foreground.relative.z-[2]
+   FAIL   181.16 x     15  rects 1 (15-15)  inline        "Hantaran & Mas Kahwin"
+        article.group > div.mt-3 > p.hk-eyebrow.truncate > a.hover:text-foreground.relative.z-[2]
+   FAIL   181.16 x     15  rects 1 (15-15)  inline        "Hantaran & Mas Kahwin"
+        article.group > div.mt-3 > p.hk-eyebrow.truncate > a.hover:text-foreground.relative.z-[2]
+   FAIL   182.75 x     21  rects 1 (21-21)  inline        "HelloKahwin"
+        div.hk-public.flex.min-h-screen > footer.border-border.mt-20.border-t > div.mx-auto.max-w-6xl.px-4 > a.font-serif.text-lg.leading-none
+   FAIL    99.38 x  15.39  rects 1 (15.39-15.39)  block         "Laman Utama"
+        footer.border-border.mt-20.border-t > div.mx-auto.max-w-6xl.px-4 > nav.border-border.mt-8.flex > a.hk-eyebrow.hover:text-foreground.transition-colors
+   FAIL   103.69 x  15.39  rects 1 (15.39-15.39)  block         "Semua Artikel"
+        footer.border-border.mt-20.border-t > div.mx-auto.max-w-6xl.px-4 > nav.border-border.mt-8.flex > a.hk-eyebrow.hover:text-foreground.transition-colors
+   => 14 standalone target(s) under 24px
+
+-- https://hellokahwin.com/dewan-kahwin @ 390px ------------------------------------
+   innerWidth 390 - layoutWidth 390 - (max-width:767px)=true (min-width:1024px)=false
+   48 targets - 42 standalone - 6 in-sentence (WCAG 2.5.8 exempt)
+   FAIL    40.67 x     20  rects 1 (20-20)  block         "Utama"
+        nav.mb-6 > ol.text-muted-foreground.flex.flex-wrap > li.flex.items-center.gap-1 > a.hover:text-foreground.transition-colors
+   FAIL     39.7 x     20  rects 1 (20-20)  block         "Artikel"
+        nav.mb-6 > ol.text-muted-foreground.flex.flex-wrap > li.flex.items-center.gap-1 > a.hover:text-foreground.transition-colors
+   FAIL   101.55 x     20  rects 1 (20-20)  block         "Idea dan nasihat"
+        nav.mb-6 > ol.text-muted-foreground.flex.flex-wrap > li.flex.items-center.gap-1 > a.hover:text-foreground.transition-colors
+   FAIL    182.8 x     17  rects 1 (17-17)  inline        "1. Dewan Seri Siantan, Putrajaya"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   227.09 x     17  rects 1 (17-17)  inline        "2. Dewan Komuniti AU2 Taman Keramat"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   195.94 x     17  rects 1 (17-17)  inline        "3. Dewan Sivik MBPJ, Petaling Jaya"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL    211.5 x     17  rects 1 (17-17)  inline        "4. Dewan Kenanga MBSA, Shah Alam"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   153.67 x     17  rects 1 (17-17)  inline        "5. Dewan Perdana Keramat"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   174.17 x     17  rects 1 (17-17)  inline        "6. Pusat Komuniti Setiawangsa"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   240.42 x     17  rects 1 (17-17)  inline        "7. Pusat Komuniti PPR Pinggiran Bukit Jalil"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   253.09 x     17  rects 1 (17-17)  inline        "8. Dewan Warisan Kampung Melayu Subang"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   171.78 x     17  rects 1 (17-17)  inline        "9. Dewan Seri Melati, Gombak"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   225.44 x     17  rects 1 (17-17)  inline        "10. Dewan MBSA Seksyen 7, Shah Alam"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL    66.16 x     17  rects 1 (17-17)  inline        "Kesimpulan"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   185.83 x     21  rects 1 (21-21)  inline        "dewan majlis perkahwinan"
+        article > nav.border-border.bg-muted/30.mt-12 > p.mt-2.text-base > a.underline.underline-offset-4
+   FAIL   182.75 x     21  rects 1 (21-21)  inline        "HelloKahwin"
+        div.hk-public.flex.min-h-screen > footer.border-border.mt-20.border-t > div.mx-auto.max-w-6xl.px-4 > a.font-serif.text-lg.leading-none
+   FAIL    99.38 x  15.39  rects 1 (15.39-15.39)  block         "Laman Utama"
+        footer.border-border.mt-20.border-t > div.mx-auto.max-w-6xl.px-4 > nav.border-border.mt-8.flex > a.hk-eyebrow.hover:text-foreground.transition-colors
+   FAIL   103.69 x  15.39  rects 1 (15.39-15.39)  block         "Semua Artikel"
+        footer.border-border.mt-20.border-t > div.mx-auto.max-w-6xl.px-4 > nav.border-border.mt-8.flex > a.hk-eyebrow.hover:text-foreground.transition-colors
+   => 18 standalone target(s) under 24px
+
+-- https://hellokahwin.com/dewan-kahwin @ 1440px ------------------------------------
+   innerWidth 1440 - layoutWidth 1440 - (max-width:767px)=false (min-width:1024px)=true
+   45 targets - 39 standalone - 6 in-sentence (WCAG 2.5.8 exempt)
+   FAIL    40.67 x     20  rects 1 (20-20)  block         "Utama"
+        nav.mb-6 > ol.text-muted-foreground.flex.flex-wrap > li.flex.items-center.gap-1 > a.hover:text-foreground.transition-colors
+   FAIL     39.7 x     20  rects 1 (20-20)  block         "Artikel"
+        nav.mb-6 > ol.text-muted-foreground.flex.flex-wrap > li.flex.items-center.gap-1 > a.hover:text-foreground.transition-colors
+   FAIL   101.55 x     20  rects 1 (20-20)  block         "Idea dan nasihat"
+        nav.mb-6 > ol.text-muted-foreground.flex.flex-wrap > li.flex.items-center.gap-1 > a.hover:text-foreground.transition-colors
+   FAIL    182.8 x     17  rects 1 (17-17)  inline        "1. Dewan Seri Siantan, Putrajaya"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   227.09 x     17  rects 1 (17-17)  inline        "2. Dewan Komuniti AU2 Taman Keramat"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   195.94 x     17  rects 1 (17-17)  inline        "3. Dewan Sivik MBPJ, Petaling Jaya"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL    211.5 x     17  rects 1 (17-17)  inline        "4. Dewan Kenanga MBSA, Shah Alam"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   153.67 x     17  rects 1 (17-17)  inline        "5. Dewan Perdana Keramat"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   174.17 x     17  rects 1 (17-17)  inline        "6. Pusat Komuniti Setiawangsa"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   240.42 x     17  rects 1 (17-17)  inline        "7. Pusat Komuniti PPR Pinggiran Bukit Jalil"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   253.09 x     17  rects 1 (17-17)  inline        "8. Dewan Warisan Kampung Melayu Subang"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   171.78 x     17  rects 1 (17-17)  inline        "9. Dewan Seri Melati, Gombak"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   225.44 x     17  rects 1 (17-17)  inline        "10. Dewan MBSA Seksyen 7, Shah Alam"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL    66.16 x     17  rects 1 (17-17)  inline        "Kesimpulan"
+        nav.article-toc.border-border.bg-muted/40 > ol > li > a
+   FAIL   453.94 x     20  rects 1 (20-20)  inline        "10 Lokasi Majlis Kahwin yang Popular di Shah A"
+        ul > li > p > a
+   FAIL   690.61 x     20  rects 1 (20-20)  inline        "Checklist Sewa Dewan Kahwin: Apa yang Perlu Di"
+        ul > li > p > a
+   FAIL   569.63 x     20  rects 1 (20-20)  inline        "Majlis Perkahwinan Putih Bergaya di Grand Hyat"
+        ul > li > p > a
+   FAIL   683.75 x     20  rects 1 (20-20)  inline        "Pakej Dewan Kahwin: Apa yang Termasuk, dan Apa"
+        ul > li > p > a
+   FAIL   621.48 x     20  rects 1 (20-20)  inline        "Bajet Kahwin 2026: Apa yang Boleh Diharga Tepa"
+        ul > li > p > a
+   FAIL    833.5 x     20  rects 1 (20-20)  inline        "Majlis Perkahwinan Mewah dengan Sentuhan Warna"
+        ul > li > p > a
+   FAIL    35.56 x     17  rects 1 (17-17)  inline        "Venue"
+        div.sidebar-meta.flex.items-center > span > span > a.hover:text-foreground.transition-colors
+   FAIL   182.75 x     21  rects 1 (21-21)  inline        "HelloKahwin"
+        div.hk-public.flex.min-h-screen > footer.border-border.mt-20.border-t > div.mx-auto.max-w-6xl.px-4 > a.font-serif.text-lg.leading-none
+   FAIL    99.38 x  15.39  rects 1 (15.39-15.39)  block         "Laman Utama"
+        footer.border-border.mt-20.border-t > div.mx-auto.max-w-6xl.px-4 > nav.border-border.mt-8.flex > a.hk-eyebrow.hover:text-foreground.transition-colors
+   FAIL   103.69 x  15.39  rects 1 (15.39-15.39)  block         "Semua Artikel"
+        footer.border-border.mt-20.border-t > div.mx-auto.max-w-6xl.px-4 > nav.border-border.mt-8.flex > a.hk-eyebrow.hover:text-foreground.transition-colors
+   => 24 standalone target(s) under 24px
+
+==== 151 failing target(s) across 5 URL(s) x 2 width(s), floor 24px ====
+
