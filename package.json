@@ -30,6 +30,9 @@
     "perf:measure": "node scripts/measure-page.mjs",
     "audit:srow": "node scripts/audit-srow-geometry.mjs",
     "perf:hero": "node scripts/measure-hero.mjs",
+    "ui:gate": "node scripts/ui-layout-gate.mjs",
+    "ui:gate:fixtures": "node scripts/ui-layout-gate.mjs --fixtures",
+    "ui:gate:selftest": "node scripts/ui-layout-gate.mjs --selftest",
     "measure:cold": "tsx scripts/measure-cold-render.mts"
   },
   "dependencies": {

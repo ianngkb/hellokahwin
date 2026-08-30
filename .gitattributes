@@ -1,0 +1,8 @@
+# The UI layout gate's fixtures are a CAPTURE, not source.
+#
+# `tests/ui-layout-gate/README.md` records a sha256 for each captured file so a
+# reader can prove the copy here is the CEO's 31 Aug 2026 capture byte for byte.
+# On Windows checkouts git would otherwise rewrite LF to CRLF and every one of
+# those hashes would be wrong on someone else's machine — a provenance claim
+# that fails for a reason that has nothing to do with provenance.
+tests/ui-layout-gate/fixtures/** -text
