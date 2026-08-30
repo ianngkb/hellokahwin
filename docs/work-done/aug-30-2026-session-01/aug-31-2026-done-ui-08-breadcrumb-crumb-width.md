@@ -447,3 +447,70 @@ the one docs commit that did not is the one that went wrong.
   measurement was the evidence — and this is the third time in this item that
   looking at a rendered thing beat reasoning about it, and the second time that
   *only* measuring it settled the question.
+
+---
+
+## Post-ship amendment — the `lang="ms"` guard challenged, and cleared
+
+**Nothing changed. Recorded because a negative result that is not written down
+gets re-litigated.**
+
+UI-11 reported that the identity guard PR #28 added can false-alarm on a real
+page: this site's 404 renders from a different Next root as
+`<html id="__next_error__">` with **no `lang` attribute at all**, so a guard
+asserting `lang === 'ms'` would reject a legitimate page. Their proposed fix was
+to admit `document.documentElement.id === '__next_error__'` as an alternative
+valid marker. Observed in **their** rig (`scripts/audit-tap-targets.mjs`), not
+in this one.
+
+**The markup half is true.** Confirmed on `/tiada-halaman-ui11` and on four
+other `notFound()` paths: `<html id="__next_error__">`, no `lang`.
+
+**It does not reproduce in `scripts/ui-layout-gate.mjs`.** The gate's
+pre-existing status check short-circuits first, and my check is guarded by it:
+
+```js
+if (resp && resp.status() >= 400) error = `HTTP ${resp.status()}`;   // line 714
+...
+if (!error) { /* origin, then lang */ }                              // line 744
+```
+
+Pointed at the real 404, the real gate prints `[ERROR] … HTTP 404` at all four
+widths, `UILINT EXIT: 2`. **The `lang` branch is unreachable on a 404.**
+
+Swept to be sure the hole is not somewhere else — every URL in the `TEMPLATES`
+manifest plus `/admin/design-system`, `/no-access`, `/draft/<bad-token>` and four
+`notFound()` paths:
+
+| Class | Status | `<html>` |
+|---|---|---|
+| all 7 manifest templates, `/admin/design-system`, `/no-access` | **200** | `lang="ms"` |
+| 5 `notFound()` paths | **404** | `id="__next_error__"`, no `lang` |
+
+**No 200-without-`lang` exists on this site today**, so the guard has no
+reachable false-alarm.
+
+**And the proposed fix would be wrong here even if it were reachable.** The
+guard exists to reject documents that are not a measurable page;
+`__next_error__` is exactly such a document. Whitelisting it widens the guard to
+admit the class of thing it was built to catch, to cover a path the status check
+already covers. The one residual case is a global-error boundary firing
+**client-side on a 200** — the root becomes `__next_error__` with no `lang` and
+the check fires. That is correct, not a false alarm: a page whose global error
+boundary has fired is not a page to read layout numbers off, and admitting the
+marker would turn a loud `exit 2` into a measured, meaningless green.
+
+One thing verified rather than assumed, because UI-11's trust argument depends
+on it: **the origin check is already structurally before the marker check** —
+`if` at 752, `else if` at 754 — not merely ordered by a comment. A cross-origin
+wall cannot reach the marker branch either way.
+
+`ui06-layout-gate-3f` owns the file and has been told, including why I think the
+`__next_error__` marker should be declined if it is proposed to them.
+
+**Also for the record:** UI-11 independently verified the `aa0b290` sweep,
+confirmed all nine of their screenshots byte-identical, reverted nothing and
+committed the remainder on top in `ef39e79`. No harm done — but the lesson
+stands unchanged, because it was luck that the files were identical and not
+judgement.
+
