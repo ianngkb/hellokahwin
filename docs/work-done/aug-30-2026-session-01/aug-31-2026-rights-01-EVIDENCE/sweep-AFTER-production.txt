@@ -1,0 +1,65 @@
+sweeping 86 article URLs at https://hellokahwin.com
+build fingerprint: c7e8a9c3 (32 chunks)
+
+LABEL VARIANTS — visible markup
+    178  Kredit:
+
+LABEL VARIANTS — RSC flight payload
+    174  Kredit:
+
+separator after the colon that is not U+0020: 0
+<img> across all article pages:                1260
+credit figcaptions:                            345
+
+ARTICLE PAGES WITH ZERO PER-IMAGE CREDIT CAPTIONS: 17 — 14 credited once via a body "Kredit Vendor" block, 3 with no credit anywhere
+  /artikel/glamor-eksklusif/amankila-bali  (46 <img>)  [Kredit Vendor block in body]
+  /artikel/glamor-eksklusif/grand-hyatt-kuala-lumpur  (21 <img>)  [Kredit Vendor block in body]
+  /artikel/real-wedding/villa-warisan  (29 <img>)  [Kredit Vendor block in body]
+  /artikel/moden-kontemporari/marriott-putrajaya  (23 <img>)  [Kredit Vendor block in body]
+  /artikel/idea-dan-nasihat/cara-buat-kad-kahwin-digital  (8 <img>)  [NO CREDIT ANYWHERE]
+  /artikel/real-wedding/cheong-fatt-tze-mansion  (29 <img>)  [Kredit Vendor block in body]
+  /artikel/real-wedding/sentosa-janda-baik  (31 <img>)  [Kredit Vendor block in body]
+  /artikel/minimalis-mewah/the-danna-langkawi  (26 <img>)  [Kredit Vendor block in body]
+  /artikel/real-wedding/perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan  (40 <img>)  [Kredit Vendor block in body]
+  /artikel/moden-kontemporari/jw-marriott-kuala-lumpur  (27 <img>)  [Kredit Vendor block in body]
+  /artikel/moden-kontemporari/perkahwinan-romantis-di-jen-shangri-la-puteri-harbour  (50 <img>)  [Kredit Vendor block in body]
+  /artikel/hiasan-dekorasi/goodies-kahwin  (15 <img>)  [NO CREDIT ANYWHERE]
+  /artikel/real-wedding/perkahwinan-taman-kebun-yang-minimalis-di-hulu-langat  (27 <img>)  [Kredit Vendor block in body]
+  /artikel/pantai-santai/perkahwinan-indah-di-laman-fajar-menyinsing-port-dickson  (37 <img>)  [Kredit Vendor block in body]
+  /artikel/real-wedding/yasaka-shrine  (28 <img>)  [Kredit Vendor block in body]
+  /artikel/idea-dan-nasihat/sewa-dewan-kahwin  (16 <img>)  [NO CREDIT ANYWHERE]
+  /artikel/moden-kontemporari/sime-darby-convention-centre  (25 <img>)  [Kredit Vendor block in body]
+
+CAPTIONS THAT ARE NOT A `word:` CREDIT: 171
+  /artikel/busana-pengantin/baju-pengantin-sewa-atau-beli — "Baju pengantin lelaki selalunya terlepas daripada bajet kerana ia dibincangkan s"
+  /artikel/busana-pengantin/baju-pengantin-sewa-atau-beli — "Satu set baju sanding lengkap: baju melayu, samping songket dan tanjak bagi piha"
+  /artikel/hantaran-mas-kahwin/hantaran-kahwin — "Setiap barang duduk atas dulangnya sendiri, dan itulah sebabnya bilangan dulang "
+  /artikel/hantaran-mas-kahwin/hantaran-kahwin — "Yang dihulurkan di sini ialah hantaran. Mas kahwin bukan barang di atas dulang, "
+  /artikel/hantaran-mas-kahwin/mas-kahwin-sabah-sarawak — "Sabah dan Sarawak ada enakmen keluarga Islam sendiri. Mahkamah Syariah negeri in"
+  /artikel/hantaran-mas-kahwin/mas-kahwin-sabah-sarawak — "Barang di atas dulang tidak pernah menjadi mas kahwin, walaupun di negeri yang t"
+  /artikel/hantaran-mas-kahwin/mas-kahwin-sabah-sarawak — "Mas kahwin diserahkan pada majlis akad, bukan sebelumnya. Angka itu perlu disahk"
+  /artikel/venue-perancangan/checklist-kahwin — "Sembilan bulan sebelum: tempah dewan dan bayar cagaran. Tarikh hujung minggu yan"
+  /artikel/venue-perancangan/checklist-kahwin — "Enam bulan sebelum: kunci katerer. Minta sebut harga bertulis yang menyatakan bi"
+  /artikel/venue-perancangan/checklist-kahwin — "Satu bulan sebelum: edar kad. Sebelum itu bilangan tetamu masih boleh berubah, d"
+  /artikel/venue-perancangan/checklist-kahwin — "Pada hari majlis, orang yang menguruskan dewan perlu senarai vendor dan waktu — "
+  /artikel/venue-perancangan/pakej-dewan-kahwin — "Dewan majlis daerah seperti ini yang menyiarkan kadar rasminya dalam talian. Yan"
+  /artikel/venue-perancangan/pakej-dewan-kahwin — "Satu pinggan seperti ini ialah unit kos katering. Bilangan tetamu yang menggerak"
+  /artikel/venue-perancangan/pakej-dewan-kahwin — "Syarat katerer bahagian yang paling mengikat dalam pakej. Ada dewan yang hanya m"
+  /artikel/venue-perancangan/pakej-dewan-kahwin — "Hidangan barat di kenduri Melayu biasanya kursus tambahan. Tanya sama ada ia dik"
+  /artikel/ucapan-doa/ucapan-pengantin-baru — "Ucapan yang paling banyak didengar pada hari itu bukan ucapan bertulis, tetapi d"
+  /artikel/ucapan-doa/ucapan-pengantin-baru — "Ucapan pada kad dan sampul ada hadnya: satu atau dua baris. Lafaz yang ada sumbe"
+  /artikel/ucapan-doa/ucapan-pengantin-baru — "Silat menyambut pengantin ialah adat, bukan tuntutan agama. Bezanya penting apab"
+  /artikel/ucapan-doa/ucapan-pengantin-baru — "Menolak jemputan bukan perkara kecil dalam adab Melayu. Cara menolaknya yang mem"
+  /artikel/hantaran-mas-kahwin/mas-kahwin-pahang-negeri-sembilan — "Kadar Pahang disahkan di peringkat daerah. Papan tanda seperti ini yang membawa "
+  /artikel/hantaran-mas-kahwin/mas-kahwin-pahang-negeri-sembilan — "Adat perpatih diamalkan di Negeri Sembilan. Bumbung melengkung rumah gadang ini "
+  /artikel/hantaran-mas-kahwin/mas-kahwin-pahang-negeri-sembilan — "Rembau salah satu daerah adat perpatih. Yang berubah dalam perkahwinan adat itu "
+  /artikel/hantaran-mas-kahwin/mas-kahwin-pahang-negeri-sembilan — "Adat perpatih mengubah banyak perkara dalam majlis, tetapi tidak mengubah ini: h"
+  /artikel/ucapan-doa/doa-majlis-perkahwinan — "Bacaan doa dalam majlis. Siapa yang membaca dan berapa lama ia dibaca adalah uru"
+  /artikel/ucapan-doa/doa-majlis-perkahwinan — "Doa masuk dalam aturcara majlis, bukan sebelum atau selepasnya. Tempatnya biasan"
+  /artikel/ucapan-doa/doa-majlis-perkahwinan — "Doa majlis lazimnya dibaca oleh imam atau pegawai masjid. Bahagian di atas mener"
+  /artikel/ucapan-doa/doa-majlis-perkahwinan — "Kenduri di rumah tidak tertakluk pada aturcara dewan. Doanya boleh lebih pendek,"
+  /artikel/venue-perancangan/harga-sewa-dewan-kahwin — "Dewan yang sama boleh berharga dua angka berbeza, bergantung sama ada ia disewa "
+  /artikel/venue-perancangan/harga-sewa-dewan-kahwin — "Dewan majlis daerah biasanya paling murah dalam senarai. Yang menaikkan jumlahny"
+  /artikel/venue-perancangan/harga-sewa-dewan-kahwin — "Di satu hujung anda menyewa ruang kosong seperti ini; di hujung yang lain anda m"
+
+PASS — every credit on 86 article pages reads "Kredit: ".

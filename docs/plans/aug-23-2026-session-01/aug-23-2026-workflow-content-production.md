@@ -446,6 +446,41 @@ cannot see it; a caption that *teaches* rather than describes; `credit`,
 The parser refuses a cover missing any of the three credit fields — that gate is
 the owner's rule in code, not a formality.
 
+**The credit LABEL is `Kredit:`, and it is applied at render — do not type it.**
+Style guide §13.1. Put the owner's name in the `credit` field and in the caption;
+`src/lib/inspire/image-credit-label.ts` supplies the label and the casing, so an
+editor who types `source:` still gets `Kredit:` on the page. Three words are
+RESERVED and are never image credits: `Sumber:` cites a fact, `Jurugambar:` is a
+line in the imported vendor block, `Grafik:` is our own original graphic. See
+style guide §13.1 and §13.1a.
+
+**Gate — run it before you call the visual build done, and after any deploy that
+touches the renderer:**
+
+```
+pnpm --silent audit:credits                    # sweeps every article in the sitemap
+pnpm --silent audit:credits --base-url <url>   # a preview or a local `next start`
+```
+
+Exit 0 means every credit on every article page reads `Kredit: `. It also prints
+the pages carrying **no per-image credit**, with their slugs, split into "credited
+once in a body `Kredit Vendor` block" and "NO CREDIT ANYWHERE" — the second list
+is the one that needs a decision.
+
+**It ENUMERATES; it never tests for a string it expects.** RIGHTS-01 began with
+`grep -c 'Kredit'` returning **zero** on a page carrying forty credits, because
+the credits were labelled in English — and zero read as *worse than reported*
+rather than *wrong regex*. The same run also turned up a variant nobody had
+recorded: `U+00A0` instead of a space after the colon, on 10 credits.
+
+**Read the `build fingerprint` line in its header before you believe a number.**
+It hashes the content-hashed chunk filenames the host serves. RIGHTS-01 measured
+the wrong server twice — once following the local sitemap's `localhost:3200` URLs
+to another session's dev server, once because `next start` died with `EADDRINUSE`
+and the previous build kept answering the port. Both runs produced a confident,
+precise, false number. If the fingerprint did not change after a rebuild, you are
+looking at the old build.
+
 #### Working notes for this stage (26 Aug 2026)
 
 - **Anything importing `src/lib/**` runs under `tsx`, never bare `node`** — the

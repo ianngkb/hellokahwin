@@ -551,6 +551,68 @@ Credit line sits immediately under the image, in the caption slot, as the last e
 - **Our own original graphic — a diagram, a map, an illustration** *(added 23 Ogos 2026, at the A2 review board; scope narrowed 26 Ogos 2026, see §13.4)*: **`Grafik: HelloKahwin`.** This is a permitted specialisation of `Kredit:`, not an exception to it — it names the owner exactly as `Kredit:` does, and it is more accurate, because it tells the reader the asset is a drawn graphic rather than a photograph. Use `Kredit:` for photography and `Grafik:` for original graphics. **This bullet used to read "graphic, chart, table or diagram". "Chart" and "table" are struck out: a table rendered as an image is a text card, and §13.4 forbids those.**
 - **Never** `Kredit: Internet`, `Kredit: Google`, `Kredit: Pinterest`, `Sumber: media sosial`, or an unattributed image. A platform is not an owner.
 
+**The label is applied at RENDER, so do not type it and do not vary it**
+*(added 31 Ogos 2026, RIGHTS-01)*. Put the owner's name in the caption and in the
+media record; `src/lib/inspire/image-credit-label.ts` supplies `Kredit:` and its
+casing. An editor who types `source:`, `SOURCE:` or `Foto:` still gets `Kredit:`
+on the page. This is a function rather than a one-off data fix because a data fix
+corrects the articles that exist and none of the ones written next week.
+
+**Three labels are RESERVED and are never image credits.** Each was already in
+live use for something else when this rule was written, and conflating any of
+them with a credit makes the page say something untrue:
+
+| Label | What it actually means | Where |
+|---|---|---|
+| `Sumber:` | the authority behind a **FACT** — an enactment, a council rate sheet, a gazette | body prose; **87 occurrences** on 31 Ogos 2026, e.g. `Sumber: seksyen 2 Enakmen Undang-Undang Keluarga Islam (Negeri Pulau Pinang) 2004` |
+| `Jurugambar:` | one line inside the imported `Kredit Vendor` block | body prose on the real-wedding articles; see §13.1a |
+| `Grafik:` | our own original graphic | the permitted specialisation above |
+
+RIGHTS-01 nearly standardised the image credit on `Sumber:`, which is what the
+outside evidence supports — Astro Awani credits images `Sumber: FB Maybank
+Marathon`, Sinar Harian uses `Foto:`. On this site it would have made *where this
+photograph came from* and *where this legal rate came from* indistinguishable to
+a reader. **`Kredit:` keeps them apart, and that is the reason it is the label.**
+
+### 13.1a The `Kredit Vendor` block — the imported real-wedding format
+
+*(documented 31 Ogos 2026, RIGHTS-01; it was already in production and written
+down nowhere.)*
+
+**14 real-wedding articles credit the whole photo set once, in the body**, rather
+than per image:
+
+> **Kredit Vendor**
+> Lokasi: Amankila, Bali
+> Jurugambar: Bonjo, Terralogical
+> Juruvideo: Bob, Leura Films
+> Perancang Majlis: …
+
+**This is allowed and it stays.** It names the photographer, so the owner-level
+rule — *an image whose origin nobody can name does not publish* — is satisfied.
+It is not §13.1's per-image shape, and the two must not be "reconciled" by a
+find-and-replace: `Jurugambar:` is reserved above precisely so no tool converts
+these lines into image credits.
+
+**New articles use §13.1.** The block is the imported format, not the target one.
+
+### 13.1b The check
+
+```
+pnpm --silent audit:credits
+```
+
+Sweeps every article URL in the sitemap and reports what the credit labels
+**actually say**, by enumeration rather than by testing for an expected string.
+Exit 0 means one label, one casing, sitewide. It also lists the pages carrying no
+per-image credit, with their slugs.
+
+**Why enumeration.** The check that opened RIGHTS-01 was `grep -c 'Kredit'`. It
+returned **zero** on a page carrying forty credits, because the credits were
+labelled in English — and zero would have read as *worse than reported* rather
+than *wrong regex*. **When a check returns a surprising absence, verify the check
+before believing the absence.**
+
 ### 13.2 The record, with the asset
 
 Every asset carries, in the media record, before it can be attached to a draft:
