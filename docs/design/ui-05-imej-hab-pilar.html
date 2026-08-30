@@ -1121,13 +1121,29 @@ the click — no thumbnail, no excerpt, no deck — and these are long descripti
 titles where the discriminating fact sits after the colon ("Hantaran tunang untuk lelaki:
 apa yang dibalas dan harganya"). The reader is parsing a phrase, not scanning a label.
 17px is the site's reading size and says <em>read this</em>; 15px says <em>scan this</em>.</p>
-<p><strong>400, and why not 600.</strong> On a pillar the cluster <code>h2</code>
-(<code>.s-h2</code>, serif 600) sits directly above its links with a hairline between,
-repeating down the page. Weight separation between heading and entry is doing structural
-work: it is what makes the page read as a map with sections rather than one undifferentiated
-stack. At 600 the h2 would have to carry that on size alone. On a grid category page the h2
-is nowhere near the rows, so the constraint does not exist there. And 38 consecutive
-semibold didone lines on the hantaran pillar is a wall; 400 gives the stack air.</p>
+<p><strong>400, and why not 600 — and the first reason given for this was wrong.</strong>
+The creative director originally argued that weight separation between the cluster
+<code>h2</code> and its links was doing structural work on the pillar. They withdrew it on
+checking, and I verified the withdrawal on the live page rather than accepting either
+version: <strong><code>h2.s-h2</code> computes to weight 400, not 600.</strong></p>
+<p><code>.s-h2</code> declares <code>font-weight: 600</code>, but
+<code>.hk-public h1, h2, h3, h4 { font-weight: 400 }</code> has specificity (0,1,1) and
+beats a bare class at (0,1,0). So the declaration never wins on any public page. Measured
+live on the hantaran pillar: the cluster <code>h2</code> is <strong>400</strong> at both
+390px and 1280px, and so is the link. <strong>There is no weight separation on that page
+and there never was.</strong></p>
+<p><strong>The conclusion survives and gets stronger.</strong> At 600 the pillar entries
+would be <em>heavier than the heading above them</em>, because that heading renders 400.
+That is inverted hierarchy, not a stylistic preference. Separation is carried instead by
+size, tracking and the opening rule — measured, the size step is
+<strong>22.18px → 17px = 1.30×</strong> at 390px and <strong>26px → 21px = 1.24×</strong>
+at 1280px. That step is thinner than either of us assumed, which is the real argument for
+keeping the entries light: at 600 the only remaining separation would be running backwards.</p>
+<p>The dead <code>.s-h2</code> declaration is <strong>not</strong> fixed here — it is the
+same class of defect as the dead <code>.t</code> (an authoritative-looking declaration in
+<code>components.css</code> that does nothing on any public page) by a different mechanism,
+specificity rather than a missing ancestor. Raised as its own item; changing it would alter
+every public heading on the site, which is far outside UI-05.</p>
 <p><strong>Recorded explicitly as deliberate</strong>, so the next reader does not
 mistake it for the same class of bug: a pillar map row is lighter and larger than a grid
 list row, because it carries no photograph, because it is the whole click decision, and

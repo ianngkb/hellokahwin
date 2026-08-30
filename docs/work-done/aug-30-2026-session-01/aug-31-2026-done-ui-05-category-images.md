@@ -270,6 +270,8 @@ specification.
 | **Every category thumbnail on the 37 grid pages serves `low` (q30)** into a 176px/80px slot with no correctly-sized derivative in the pipeline. Real, measured, and larger than this item. | `creative-director`, with UI-03's pipeline finding |
 | **The `.s-row` thumbnails on the 37 grid category pages violate UI-03's R1 and R2.** Measured on `/artikel/idea-dan-nasihat` with intrinsic read from a detached `Image()`: at 390px, **5 of 5 fail R1** (deviation 33–50%); at 1920px, **3 of 5 fail** (one portrait 1200×1800 cover deviates **100%** in the 176×132 box); **5 of 5 fail R2** at both widths, all serving `low.webp`, with `width`/`height` attributes reading `176x132` regardless of the asset. The lead `.s-card` passes R1 (no fixed aspect) but fails R2 and R6. **Outside UI-05's DoD — that covers the 7 zero-image pages, not the 37 — so raised, not absorbed.** | proposed to the CEO as a new item |
 | **The `garden-wedding` article cover** — UI-03 measured `box 768x320 / boxAR 2.400 / low.webp / intrinsic 1024x683 / assetAR 1.499 / deviation 60.1% / attrs "1200x500"` at `artikel/[category]/[slug]/page.tsx:1036`, and explicitly declined to widen its item to cover it. It is on the **article** page, not the category page, so it is outside UI-05's DoD too. Same root cause as UI-03 and as the row above: `low` in a shaped box plus `width`/`height` describing neither box nor asset. **I did not absorb it.** My own rig timed out on that URL and I did not reproduce UI-03's exact figures, so I am passing their numbers through attributed to them rather than restating them as mine. | proposed to the CEO as a new item |
+| **`.s-h2`'s `font-weight: 600` and `letter-spacing: -0.01em` are dead on every public page.** `.hk-public h1,h2,h3,h4 { font-weight: 400 }` is (0,1,1) and beats the bare class at (0,1,0). Verified live at both breakpoints: the cluster `h2` computes **400**, not 600. Same class of defect as the dead `.t`, different mechanism — a rule that matches and never wins, versus a class matching no rule — so UI-14's check will not catch it. Raised as **`DES-15`**. | `design-systems-engineer` |
+| **Optical size runs backwards.** `.s-h1` pins `"opsz" 11`; `.s-h2`, `.s-h3`, `.hk-card-title`, `.s-row .t` and `.s-pillar-link` all compute `font-variation-settings: normal` with `optical-sizing: auto`, so opsz tracks font-size. The h1 at 30–44px gets a sturdier cut than the h2 at 22–26px. Also means one article title is two different Bodoni cuts across breakpoints. Raised by the `design-systems-engineer` during the build, owned by the `creative-director`, as **`DES-16`**. | `creative-director` |
 | Three files fail `prettier --check` on `master` and were already failing at base `105e79d`: `src/app/(public)/brand/brand.css`, `src/app/(public)/brand/page.tsx`, `src/components/brand/brand-assets.ts`. Not from this item. `pnpm lint` keeps failing for everyone until someone formats them. | unassigned |
 
 ---
@@ -365,6 +367,16 @@ nobody re-examines the sentence next to it. What caught it was another seat writ
 mechanism, and what confirmed it was re-running the test with `complete: true` asserted.
 All three files are corrected, and the committed rig that uses the bad method
 (`walk390.mjs`) now carries the warning at the exact field that would repeat it.
+
+**And a third, caught by the creative director against their own earlier answer.** The
+reason recorded in the spec for the pillar link's weight — that weight separation between
+the cluster `h2` (600) and its links (400) was doing structural work — **was false.**
+`.s-h2`'s 600 never wins on a public page; the heading renders 400, same as the link. I
+verified that on the live artefact before editing rather than accepting either the original
+reason or its retraction. The conclusion survived and got stronger: at 600 the entries
+would be *heavier than the heading above them*. **A correct conclusion resting on a false
+reason is the same failure as the `naturalWidth` correction above, twice in one item** —
+and both times the number was right, which is exactly why nobody re-read the sentence.
 
 **And one I caught myself:** an argument resting on UI-03's "rendered aspect within 15% of
 source" rule to condemn 80px thumbnails. That rule was written for a full-bleed hero at
