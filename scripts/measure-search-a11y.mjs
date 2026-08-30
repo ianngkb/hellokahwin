@@ -291,6 +291,43 @@ async function tabToInput(page, cap = 80) {
    so it stays out of shell history; production needs none of this. */
 const BYPASS = process.env.VERCEL_AUTOMATION_BYPASS_SECRET || null;
 
+/**
+ * Screenshot the search surface, not the page it sits on.
+ *
+ * The first pass of this rig saved viewport shots: 15 MB of /artikel in which
+ * the thing under measurement — a 2px ring, a 1px hairline, an 8px difference
+ * in field height — was a few pixels somewhere in the middle. Evidence you
+ * have to hunt through is evidence nobody checks. This clips to #cari plus its
+ * open panel, with a margin, so the ring is legible at 1:1.
+ */
+async function shootField(page, file) {
+  const box = await page.evaluate(() => {
+    const anchor = document.getElementById('cari');
+    if (!anchor) return null;
+    let { top, left, right, bottom } = anchor.getBoundingClientRect();
+    /* The results panel is absolutely positioned and can hang below #cari's
+       own box, so union it in rather than cropping it off. */
+    const panel = document.querySelector('.inspire-search-results');
+    if (panel) {
+      const p = panel.getBoundingClientRect();
+      top = Math.min(top, p.top);
+      left = Math.min(left, p.left);
+      right = Math.max(right, p.right);
+      bottom = Math.max(bottom, p.bottom);
+    }
+    const M = 24;
+    return {
+      x: Math.max(0, Math.floor(left - M)),
+      y: Math.max(0, Math.floor(top - M)),
+      width: Math.min(window.innerWidth, Math.ceil(right - left + M * 2)),
+      height: Math.min(window.innerHeight, Math.ceil(bottom - top + M * 2)),
+    };
+  });
+  if (!box || box.width <= 0 || box.height <= 0) return false;
+  await page.screenshot({ path: file, clip: box });
+  return true;
+}
+
 const browser = await chromium.launch({ executablePath: CHROME, headless: true });
 const report = [];
 
@@ -539,7 +576,9 @@ STOP at ${width}px: no #cari on ${row.identity.finalUrl} ` +
     };
   });
   if (shotsDir) {
-    await page.screenshot({ path: path.join(shotsDir, `search-${width}-a-focus.png`) });
+    await shootField(page, path.join(shotsDir, `search-${width}-a-focus.png`));
+    /* One viewport shot per width, for the context the crops deliberately lose. */
+    await page.screenshot({ path: path.join(shotsDir, `search-${width}-z-page.png`) });
   }
 
   /* ── 3b. Announcement, results ───────────────────────────────────── */
@@ -560,7 +599,7 @@ STOP at ${width}px: no #cari on ${row.identity.finalUrl} ` +
     }),
   };
   if (shotsDir) {
-    await page.screenshot({ path: path.join(shotsDir, `search-${width}-b-results.png`) });
+    await shootField(page, path.join(shotsDir, `search-${width}-b-results.png`));
   }
 
   /* ── 3c. Announcement, no results ────────────────────────────────── */
@@ -576,7 +615,7 @@ STOP at ${width}px: no #cari on ${row.identity.finalUrl} ` +
     }),
   };
   if (shotsDir) {
-    await page.screenshot({ path: path.join(shotsDir, `search-${width}-c-empty.png`) });
+    await shootField(page, path.join(shotsDir, `search-${width}-c-empty.png`));
   }
 
   /* ── Verdicts, one per DoD clause ────────────────────────────────── */
