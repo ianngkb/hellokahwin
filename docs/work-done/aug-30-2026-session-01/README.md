@@ -9,7 +9,7 @@ keeping both rows, never by replacing the table.
 
 | Item       | Title                                                    | Log                                                      | Exit                                          |
 | ---------- | -------------------------------------------------------- | -------------------------------------------------------- | --------------------------------------------- |
-| **UI-12**  | Every fixed-aspect image slot was fed the photographer's aspect ratio | [`aug-31-2026-done-ui-12-thumb-geometry.md`](./aug-31-2026-done-ui-12-thumb-geometry.md) | `image-aspect` 37→5 against master's gate. `image-upscale` was already 0 — UI-06's own fix, not ours. **STOP-AND-REPORT fired**, count 86 |
+| **UI-12**  | Every fixed-aspect image slot was fed the photographer's aspect ratio | [`aug-31-2026-done-ui-12-thumb-geometry.md`](./aug-31-2026-done-ui-12-thumb-geometry.md) | **SHIPPED** `a210b0a`, PR #31. Production: `image-aspect` 37→5, `image-upscale` 0. Every page but the homepage is 0 across all nine checks at five widths. **STOP-AND-REPORT fired**, count 86 |
 
 ## Open findings raised by this session, with their owners
 

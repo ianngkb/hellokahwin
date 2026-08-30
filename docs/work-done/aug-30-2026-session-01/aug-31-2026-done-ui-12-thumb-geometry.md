@@ -28,9 +28,19 @@ totals: empty-content 0 · narrow-text-column 0 · reading-measure 0 · clipped-
         image-upscale 0 · image-aspect 37
         image-attr-aspect 73 (advisory, does not fail the build) · image-unmeasurable 0
 
-AFTER, master's gate, production
-totals: PENDING-DEPLOY
+AFTER, master's gate, production, after a210b0a deployed
+totals: empty-content 0 · narrow-text-column 0 · reading-measure 0 · clipped-text 0
+        viewport-overflow 0 · scroll-container-clip 0
+        image-upscale 0 · image-aspect 5
+        image-attr-aspect 66 (advisory, does not fail the build) · image-unmeasurable 0
+UILINT EXIT: 1
 ```
+
+**Measured on live production, not locally.** The gate's build fingerprint reports
+`css=[d0eb02e81ca49aac …]` against the before-run's `c66a84bfeb1b056d`, so the two
+runs are of different builds. Five of the gate's nine checks that were non-zero or
+at risk are now zero; every page except the homepage reports **0 violations of any
+kind at all five widths**.
 
 **`image-upscale` was already 0 before this item touched anything.** All 25 were
 the old check's artefact and UI-06's own fix cleared them. **I am not claiming
@@ -300,6 +310,21 @@ keeping 66%, because the fruit and the swan gubahan now fill the frame.
 
 Looking at the lead plate is also what found the second class-G cover (§3). **The
 crop review is not a formality; it produced a finding the numbers could not.**
+
+**Repeated against the shipped page, not the plan** — `AFTER-live-*.jpg` in the
+evidence directory, captured from production at DPR 2 after `a210b0a` deployed:
+
+- **Terkini rows at 1440 and at 390.** Twelve 4:3 thumbnails at each width, the
+  same shape on both for the first time. Every one depicts its subject — dulang
+  hantaran, rombongan, tepak sirih, cincin, a tiered cake. Row 02, the portrait
+  cover that remains the open violation, reads as a dulang buah with fruit and a
+  swan gubahan: a legible photograph of its own subject at 50% retained, which is
+  why it is a geometry debt rather than a picture to swap.
+- **`/artikel` lead plate at 1440** — the 3.52:1 band: tiered dulang, a cake with
+  red roses, the bride's hands, songket. The frame I accepted before specifying it.
+- **`/artikel` lead plate at 390** — the 1.905 band, and it is the stronger of the
+  two: the bride is centred, the group of women is in frame, the dulang and cake
+  sit in the foreground, and at 188px tall the headline is on the first screen.
 
 ## 7. Retrospective — Stage 9
 
