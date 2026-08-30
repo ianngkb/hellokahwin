@@ -2,6 +2,9 @@ import type { CSSProperties } from 'react';
 import Link from 'next/link';
 import { Bodoni_Moda } from 'next/font/google';
 import { requireAdminSection } from '@/lib/auth/admin';
+import { getMastheadCategories } from '@/lib/services/inspire-nav';
+import { CategoryRail } from '@/components/layout/category-rail';
+import type { MenuCategory } from '@/components/inspire/inspire-nav-menu';
 import { ConsoleBreadcrumb } from '@/components/console/console-breadcrumb';
 import { PageHeader } from '@/components/layout/page-header';
 import '@/design-system/tokens.css';
@@ -136,6 +139,17 @@ export default async function DesignSystemPage({
   // This is what makes "Load /design-system in both themes" reproducible
   // without inventing the toggle DES-03 §12 explicitly rules out.
   const { theme } = await searchParams;
+
+  // The rail in §07 renders the SAME <CategoryRail> the public masthead
+  // renders, fed by the SAME query — so this page cannot show a rail the site
+  // does not have. Soft-fail for the same reason the masthead soft-fails: a DB
+  // blip must cost this section, not the page.
+  let railCategories: MenuCategory[] = [];
+  try {
+    railCategories = await getMastheadCategories();
+  } catch {
+    railCategories = [];
+  }
   const dark = theme === 'dark';
   const rootClass = `hk s-pad ${bodoniModa.variable} ${dark ? 'hk-dark' : ''}`;
 
@@ -861,9 +875,84 @@ export default async function DesignSystemPage({
           </p>
         </section>
 
-        {/* ── 07 SCOPE ───────────────────────────────────────────────── */}
+        {/* ── 07 MASTHEAD CATEGORY RAIL ──────────────────────────────── */}
+        <section className="flex flex-col gap-6">
+          <SectionHead
+            n="07"
+            title="Masthead category rail"
+            note="UI-02 — the real component, not a copy of it"
+          />
+          <p className="text-muted-foreground max-w-[74ch] text-sm">
+            Everything below is <code>&lt;CategoryRail&gt;</code> rendered from{' '}
+            <code>getMastheadCategories()</code> — the same component and the same query the public
+            masthead uses. Resize this window: at and above 1024px the rail wraps to as many rows as
+            it needs and never scrolls; below 1024px it becomes a horizontal scroller with the{' '}
+            <code>.hk-edge</code> cues, which is what a phone gets. {railCategories.length}{' '}
+            categories are live right now.
+          </p>
+          <div className="hk-public border" style={{ borderColor: 'var(--border)' }}>
+            <CategoryRail categories={railCategories} />
+          </div>
+          <div className="overflow-x-auto border">
+            <table className="w-full text-sm">
+              <thead className="bg-muted/40">
+                <tr>
+                  <th className="p-2 text-left font-mono text-[11px] uppercase">Token</th>
+                  <th className="p-2 text-right font-mono text-[11px] uppercase">Value</th>
+                  <th className="p-2 text-left font-mono text-[11px] uppercase">Decides</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  [
+                    '--navrail-measure',
+                    '80rem / 1280px',
+                    'How wide the rail is allowed to be. Kept, not widened: widening it was the DES-08 attempt to fit nine pillars on one line, and it did not.',
+                  ],
+                  [
+                    '--navrail-gutter',
+                    '0.5rem → 1rem at 1024px',
+                    'Inline padding on the rail container.',
+                  ],
+                  [
+                    '--navrail-item-pad',
+                    '0.75rem / 12px',
+                    'Inline padding per link. 16px → 12px takes the nine live labels from 1,969.53px of row to 1,897.53px — measured, not estimated.',
+                  ],
+                  ['--navrail-item-gap-x', '0.25rem / 4px', 'Link to link across a row.'],
+                  ['--navrail-item-gap-y', '0.5rem / 8px', 'Row to row once the rail wraps.'],
+                  [
+                    '--navrail-target',
+                    '2.75rem / 44px',
+                    'Minimum height of every link. The rail is set in 11px type, which alone gives a 32.5px target; this is the site’s only navigation on a phone.',
+                  ],
+                ].map(([tok, val, job]) => (
+                  <tr key={tok} className="border-t">
+                    <td className="p-2 font-mono text-[11px] whitespace-nowrap">{tok}</td>
+                    <td className="p-2 text-right font-mono text-[11px] tabular-nums whitespace-nowrap">
+                      {val}
+                    </td>
+                    <td className="p-2 text-sm">{job}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="text-muted-foreground max-w-[74ch] text-xs">
+            <strong>Measured, live production, 31 Aug 2026, before UI-02</strong> (
+            <code>node scripts/measure-nav-overflow.mjs https://hellokahwin.com/</code>): the rail
+            was 1,970px of content in a 1,264px scroller at 1280px, 1440px <em>and</em> 1920px of
+            viewport — three of nine links past the viewport edge at 1280/1440, two at 1920, and
+            three clipped by the scroller at every width. The focus ring here is{' '}
+            <code>var(--foreground)</code> at 2px with a 2px offset, 17.81:1 on the public paper,
+            and <code>outline-color</code> is deliberately excluded from the item&rsquo;s transition
+            list so the ring lands on the first frame rather than fading in.
+          </p>
+        </section>
+
+        {/* ── 08 SCOPE ───────────────────────────────────────────────── */}
         <section className="flex flex-col gap-4">
-          <SectionHead n="07" title="Not yet here, and why" />
+          <SectionHead n="08" title="Not yet here, and why" />
           <ul className="text-muted-foreground max-w-[74ch] list-disc space-y-2 pl-5 text-sm">
             <li>
               <strong>Search panel, results, pagination and filter mechanisms</strong> — DES-06
