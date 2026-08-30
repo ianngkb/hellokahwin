@@ -1063,6 +1063,53 @@ were caught, one by a Design Systems Engineer's report and two by a peer who
 checked. **Both agents caught these voluntarily, before any audit.** That habit
 is the control, and it is worth more than either item shipped.
 
+### 5.11 Never truncate a value you are about to judge
+
+*Added 31 Ogos 2026 by UI-09, after a 60-character `slice()` turned a measured
+focus ring into a reported absence and the absence reached a brief.*
+
+**What happened.** DES-06 §8 measured the search field's focus ring on 28 Ogos
+and got it right: *present, 2px, `--ring` at 30% alpha, composites to 1.96:1,
+below the 3:1 WCAG 2.2 SC 1.4.11 asks.* Three days later UI-04 re-measured the
+same production CSS through a rig that read
+`getComputedStyle(el).boxShadow.slice(0, 60)`. Tailwind emits five box-shadow
+layers and puts four empty placeholders first, so the first 60 characters are
+`rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px…` and the ring —
+layer four — was never in the window. UI-04 reported the ring **fully
+transparent**. UI-09's brief inherited "fully transparent" as fact.
+
+**Why it nearly cost nothing, and why that is not reassuring.** The fix for
+"there is no ring" and the fix for "the ring is 1.98:1" happened to be the same
+line of CSS, so the sprint got away with it. But those findings close
+differently. *"No focus indicator"* is satisfied by **anything visible**. *"The
+indicator measures 1.98:1 against a 3:1 floor"* is satisfied only by a number.
+A 1px hairline would have closed the first and failed the second, with every
+check green.
+
+**The rule.** *Never truncate a value you are about to judge.* `slice(0, n)` on
+a computed style, a response header, an HTML body or a query result converts
+"I did not look" into "it is not there", and the two are indistinguishable in
+the output. If a value is too long to print, print **its length and a parsed
+summary** — never a prefix. A prefix is the one form of summary that can be
+confidently wrong about the part it dropped.
+
+**And its sibling, from the same item:** *a colour claim states the flattened
+sRGB triple, the ground it was flattened over, and the ratio.* A translucent
+colour quoted at its own opacity is not a measurement. The same ring reads
+**17.64:1** unflattened — a number that would have declared the defect fixed —
+and **1.98:1** flattened at its actual 30% over the page. Only one of those is
+what a reader's eye receives. This pairs with §5.7, which says no guardrail here
+can see a colour; §5.7 tells you to go and look, and this tells you what to
+report when you have.
+
+**The form it took:** `scripts/measure-search-a11y.mjs` in the site repo prints
+the raw value beside every verdict it derives from it, splits box-shadow into
+layers rather than slicing the string, flattens alpha over the real ground
+before computing any ratio, and exits non-zero on any failing clause. It found
+its own three bugs by disagreeing with itself in the printout — which is the
+argument for printing the raw value in the first place.
+
+
 ## 6. What this doctrine asks for
 
 Nothing new. It asks for the same four decisions already open, and it explains

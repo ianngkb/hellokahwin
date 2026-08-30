@@ -1,0 +1,54 @@
+
+UI-09 search accessibility — https://hellokahwin.com
+Chrome: C:/Program Files/Google/Chrome/Application/chrome.exe
+
+── 390px  (innerWidth 390, layout 390, mq<=767 true, mq>=1024 false, HTTP 200) ──
+  1 focus       FAIL  best=box-shadow 2px  1.98:1 (floor 3:1)
+                outline: none 1px offset 0px  (not drawn)
+                box-shadow: 5 layers, ring=2px alpha 0.302 -> rgb(182,181,180) 1.98:1
+                ground rgb(252,251,250)  :focus-visible true  reached by Tab x18 from a :: 
+  2 name        FAIL  computed "Cari artikel..." from [placeholder]  role combobox
+  3 live region FAIL  at first render 0 []  hit "Barang hantaran yang digunakan, dan yang tersimpanhantaran mas kahwinHantaran untuk lelaki: senarai barang dan kos 2026h"  miss "Tiada hasil dijumpai"
+  4 font-size   FAIL  14px (line-height 20px)
+  5 hit height  FAIL  38px x 320px (padding 8px / 8px, border 1px, min-height 0px)
+    aria        listbox x2 nested=true options=5
+    border      FAIL resting rgb(218,217,215) 1.36:1 vs rgb(252,251,250)  (SC 1.4.11 floor 3:1 — not a DoD clause)
+
+── 768px  (innerWidth 768, layout 768, mq<=767 false, mq>=1024 false, HTTP 200) ──
+  1 focus       FAIL  best=box-shadow 2px  1.98:1 (floor 3:1)
+                outline: none 1px offset 0px  (not drawn)
+                box-shadow: 5 layers, ring=2px alpha 0.302 -> rgb(182,181,180) 1.98:1
+                ground rgb(252,251,250)  :focus-visible true  reached by Tab x62 from a :: 
+  2 name        FAIL  computed "Cari artikel..." from [placeholder]  role combobox
+  3 live region FAIL  at first render 0 []  hit "Barang hantaran yang digunakan, dan yang tersimpanhantaran mas kahwinHantaran untuk lelaki: senarai barang dan kos 2026h"  miss "Tiada hasil dijumpai"
+  4 font-size   FAIL  14px (line-height 20px)
+  5 hit height  FAIL  38px x 320px (padding 8px / 8px, border 1px, min-height 0px)
+    aria        listbox x2 nested=true options=5
+    border      FAIL resting rgb(218,217,215) 1.36:1 vs rgb(252,251,250)  (SC 1.4.11 floor 3:1 — not a DoD clause)
+
+── 1024px  (innerWidth 1024, layout 1024, mq<=767 false, mq>=1024 true, HTTP 200) ──
+  1 focus       FAIL  best=box-shadow 2px  1.98:1 (floor 3:1)
+                outline: none 1px offset 0px  (not drawn)
+                box-shadow: 5 layers, ring=2px alpha 0.302 -> rgb(182,181,180) 1.98:1
+                ground rgb(252,251,250)  :focus-visible true  reached by Tab x62 from a :: 
+  2 name        FAIL  computed "Cari artikel..." from [placeholder]  role combobox
+  3 live region FAIL  at first render 0 []  hit "Barang hantaran yang digunakan, dan yang tersimpanhantaran mas kahwinHantaran untuk lelaki: senarai barang dan kos 2026h"  miss "Tiada hasil dijumpai"
+  4 font-size   FAIL  14px (line-height 20px)
+  5 hit height  FAIL  38px x 320px (padding 8px / 8px, border 1px, min-height 0px)
+    aria        listbox x2 nested=true options=5
+    border      FAIL resting rgb(218,217,215) 1.36:1 vs rgb(252,251,250)  (SC 1.4.11 floor 3:1 — not a DoD clause)
+
+── 1440px  (innerWidth 1440, layout 1440, mq<=767 false, mq>=1024 true, HTTP 200) ──
+  1 focus       FAIL  best=box-shadow 2px  1.98:1 (floor 3:1)
+                outline: none 1px offset 0px  (not drawn)
+                box-shadow: 5 layers, ring=2px alpha 0.302 -> rgb(182,181,180) 1.98:1
+                ground rgb(252,251,250)  :focus-visible true  reached by Tab x62 from a :: 
+  2 name        FAIL  computed "Cari artikel..." from [placeholder]  role combobox
+  3 live region FAIL  at first render 0 []  hit "Barang hantaran yang digunakan, dan yang tersimpanhantaran mas kahwinHantaran untuk lelaki: senarai barang dan kos 2026h"  miss "Tiada hasil dijumpai"
+  4 font-size   FAIL  14px (line-height 20px)
+  5 hit height  FAIL  38px x 320px (padding 8px / 8px, border 1px, min-height 0px)
+    aria        listbox x2 nested=true options=5
+    border      FAIL resting rgb(218,217,215) 1.36:1 vs rgb(252,251,250)  (SC 1.4.11 floor 3:1 — not a DoD clause)
+
+FAIL at 390px, 768px, 1024px, 1440px
+json → C:/Users/Ian Ng/Documents/Code/hellokahwin/hellokahwin/docs/work-done/aug-30-2026-session-01/aug-31-2026-ui-09-EVIDENCE/before/measurements.json

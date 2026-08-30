@@ -1,0 +1,746 @@
+[
+  {
+    "width": 390,
+    "url": "https://hellokahwin.com/artikel#cari",
+    "status": 200,
+    "viewport": {
+      "innerWidth": 390,
+      "layoutWidth": 390,
+      "dpr": 1,
+      "mqMax767": true,
+      "mqMin1024": false
+    },
+    "identity": {
+      "hasCariAnchor": true,
+      "finalUrl": "https://hellokahwin.com/artikel#cari",
+      "title": "Artikel | HelloKahwin",
+      "articleLinks": 23
+    },
+    "liveRegionsAtFirstRender": [
+      {
+        "tag": "div",
+        "id": "inspire-search-status-_R_aav5uivb_",
+        "role": "status",
+        "ariaLive": "polite",
+        "ariaAtomic": "true",
+        "className": "sr-only",
+        "text": ""
+      }
+    ],
+    "field": {
+      "inputsUnderCari": 1,
+      "type": "text",
+      "autocomplete": "off",
+      "enterKeyHint": null,
+      "role": "combobox",
+      "ariaExpanded": "false",
+      "ariaControls": "inspire-search-results-_R_aav5uivb_",
+      "ariaAutocomplete": "list",
+      "ariaDescribedby": null,
+      "fontSizePx": 16,
+      "lineHeight": "24px",
+      "heightPx": 46,
+      "widthPx": 320,
+      "paddingBlock": "10px / 10px",
+      "borderWidth": "1px",
+      "minHeight": "44px"
+    },
+    "restingBorder": {
+      "raw": "lab(60.5763 0.109702 1.52209)",
+      "srgb": {
+        "r": 147,
+        "g": 146,
+        "b": 143,
+        "a": 1
+      },
+      "groundSrgb": {
+        "css": "lab(98.6163 0.0525117 0.759542)",
+        "resolved": "lab(98.6163 0.0525117 0.759542)",
+        "r": 252,
+        "g": 251,
+        "b": 250,
+        "a": 1
+      },
+      "ratio": 3.01,
+      "passes1411": true
+    },
+    "popupStructureIdle": {
+      "listboxCount": 0,
+      "nestedListbox": false,
+      "optionCount": 0
+    },
+    "accessibleName": {
+      "computedName": "CARI",
+      "nameFrom": [
+        "relatedElement",
+        "placeholder"
+      ],
+      "role": "combobox",
+      "attrs": {
+        "id": "inspire-search-_R_aav5uivb_",
+        "ariaLabel": null,
+        "ariaLabelledby": null,
+        "placeholder": "Cari artikel...",
+        "wrappingLabel": null,
+        "labelForText": "Cari",
+        "labelForVisible": true
+      }
+    },
+    "keyboard": {
+      "reached": true,
+      "presses": 18,
+      "startedAt": "a :: "
+    },
+    "focusVisible": {
+      "reachedByKeyboard": true,
+      "matchesFocusVisible": true,
+      "groundCss": "lab(98.6163 0.0525117 0.759542)",
+      "groundSrgb": {
+        "css": "lab(98.6163 0.0525117 0.759542)",
+        "resolved": "lab(98.6163 0.0525117 0.759542)",
+        "r": 252,
+        "g": 251,
+        "b": 250,
+        "a": 1
+      },
+      "transition": "all 0s",
+      "outlineStyle": "solid",
+      "outlineWidth": "2px",
+      "outlineOffset": "2px",
+      "outlineColorRaw": "lab(6.20863 0.107564 1.2439)",
+      "outlineSrgbUnflattened": {
+        "css": "lab(6.20863 0.107564 1.2439)",
+        "resolved": "lab(6.20863 0.107564 1.2439)",
+        "r": 21,
+        "g": 20,
+        "b": 18,
+        "a": 1
+      },
+      "outlineSrgbOverGround": {
+        "r": 21,
+        "g": 20,
+        "b": 18,
+        "a": 1
+      },
+      "outlineRatio": 17.81,
+      "boxShadow": "none",
+      "boxShadowLayerCount": 0,
+      "ringLayer": null,
+      "ringSpreadPx": null,
+      "ringAlpha": null,
+      "ringSrgbOverGround": null,
+      "ringRatio": null,
+      "bestIndicator": {
+        "kind": "outline",
+        "widthPx": 2,
+        "ratio": 17.81
+      }
+    },
+    "focusProgrammatic": {
+      "matchesFocusVisible": true,
+      "outlineStyle": "solid",
+      "outlineWidth": "2px",
+      "boxShadow": "none"
+    },
+    "hit": {
+      "query": "hantaran",
+      "liveRegions": [
+        {
+          "tag": "div",
+          "id": "inspire-search-status-_R_aav5uivb_",
+          "role": "status",
+          "ariaLive": "polite",
+          "ariaAtomic": "true",
+          "className": "sr-only",
+          "text": "5 hasil."
+        }
+      ],
+      "visibleOptions": 5,
+      "popupStructure": {
+        "listboxCount": 1,
+        "nestedListbox": false
+      }
+    },
+    "miss": {
+      "query": "zzzqqqxyz",
+      "liveRegions": [
+        {
+          "tag": "div",
+          "id": "inspire-search-status-_R_aav5uivb_",
+          "role": "status",
+          "ariaLive": "polite",
+          "ariaAtomic": "true",
+          "className": "sr-only",
+          "text": "Tiada hasil dijumpai."
+        }
+      ],
+      "visibleOptions": 0,
+      "panelText": "CARI | Tiada hasil dijumpai. | Tiada hasil dijumpai"
+    },
+    "verdict": {
+      "1_focusIndicator": "PASS",
+      "2_accessibleName": "PASS",
+      "3_liveRegion": "PASS",
+      "4_fontSize16": "PASS",
+      "5_hitHeight44": "PASS"
+    }
+  },
+  {
+    "width": 768,
+    "url": "https://hellokahwin.com/artikel#cari",
+    "status": 200,
+    "viewport": {
+      "innerWidth": 768,
+      "layoutWidth": 768,
+      "dpr": 1,
+      "mqMax767": false,
+      "mqMin1024": false
+    },
+    "identity": {
+      "hasCariAnchor": true,
+      "finalUrl": "https://hellokahwin.com/artikel#cari",
+      "title": "Artikel | HelloKahwin",
+      "articleLinks": 23
+    },
+    "liveRegionsAtFirstRender": [
+      {
+        "tag": "div",
+        "id": "inspire-search-status-_R_aav5uivb_",
+        "role": "status",
+        "ariaLive": "polite",
+        "ariaAtomic": "true",
+        "className": "sr-only",
+        "text": ""
+      }
+    ],
+    "field": {
+      "inputsUnderCari": 1,
+      "type": "text",
+      "autocomplete": "off",
+      "enterKeyHint": null,
+      "role": "combobox",
+      "ariaExpanded": "false",
+      "ariaControls": "inspire-search-results-_R_aav5uivb_",
+      "ariaAutocomplete": "list",
+      "ariaDescribedby": null,
+      "fontSizePx": 16,
+      "lineHeight": "24px",
+      "heightPx": 46,
+      "widthPx": 320,
+      "paddingBlock": "10px / 10px",
+      "borderWidth": "1px",
+      "minHeight": "44px"
+    },
+    "restingBorder": {
+      "raw": "lab(60.5763 0.109702 1.52209)",
+      "srgb": {
+        "r": 147,
+        "g": 146,
+        "b": 143,
+        "a": 1
+      },
+      "groundSrgb": {
+        "css": "lab(98.6163 0.0525117 0.759542)",
+        "resolved": "lab(98.6163 0.0525117 0.759542)",
+        "r": 252,
+        "g": 251,
+        "b": 250,
+        "a": 1
+      },
+      "ratio": 3.01,
+      "passes1411": true
+    },
+    "popupStructureIdle": {
+      "listboxCount": 0,
+      "nestedListbox": false,
+      "optionCount": 0
+    },
+    "accessibleName": {
+      "computedName": "CARI",
+      "nameFrom": [
+        "relatedElement",
+        "placeholder"
+      ],
+      "role": "combobox",
+      "attrs": {
+        "id": "inspire-search-_R_aav5uivb_",
+        "ariaLabel": null,
+        "ariaLabelledby": null,
+        "placeholder": "Cari artikel...",
+        "wrappingLabel": null,
+        "labelForText": "Cari",
+        "labelForVisible": true
+      }
+    },
+    "keyboard": {
+      "reached": true,
+      "presses": 62,
+      "startedAt": "a :: "
+    },
+    "focusVisible": {
+      "reachedByKeyboard": true,
+      "matchesFocusVisible": true,
+      "groundCss": "lab(98.6163 0.0525117 0.759542)",
+      "groundSrgb": {
+        "css": "lab(98.6163 0.0525117 0.759542)",
+        "resolved": "lab(98.6163 0.0525117 0.759542)",
+        "r": 252,
+        "g": 251,
+        "b": 250,
+        "a": 1
+      },
+      "transition": "all 0s",
+      "outlineStyle": "solid",
+      "outlineWidth": "2px",
+      "outlineOffset": "2px",
+      "outlineColorRaw": "lab(6.20863 0.107564 1.2439)",
+      "outlineSrgbUnflattened": {
+        "css": "lab(6.20863 0.107564 1.2439)",
+        "resolved": "lab(6.20863 0.107564 1.2439)",
+        "r": 21,
+        "g": 20,
+        "b": 18,
+        "a": 1
+      },
+      "outlineSrgbOverGround": {
+        "r": 21,
+        "g": 20,
+        "b": 18,
+        "a": 1
+      },
+      "outlineRatio": 17.81,
+      "boxShadow": "none",
+      "boxShadowLayerCount": 0,
+      "ringLayer": null,
+      "ringSpreadPx": null,
+      "ringAlpha": null,
+      "ringSrgbOverGround": null,
+      "ringRatio": null,
+      "bestIndicator": {
+        "kind": "outline",
+        "widthPx": 2,
+        "ratio": 17.81
+      }
+    },
+    "focusProgrammatic": {
+      "matchesFocusVisible": true,
+      "outlineStyle": "solid",
+      "outlineWidth": "2px",
+      "boxShadow": "none"
+    },
+    "hit": {
+      "query": "hantaran",
+      "liveRegions": [
+        {
+          "tag": "div",
+          "id": "inspire-search-status-_R_aav5uivb_",
+          "role": "status",
+          "ariaLive": "polite",
+          "ariaAtomic": "true",
+          "className": "sr-only",
+          "text": "5 hasil."
+        }
+      ],
+      "visibleOptions": 5,
+      "popupStructure": {
+        "listboxCount": 1,
+        "nestedListbox": false
+      }
+    },
+    "miss": {
+      "query": "zzzqqqxyz",
+      "liveRegions": [
+        {
+          "tag": "div",
+          "id": "inspire-search-status-_R_aav5uivb_",
+          "role": "status",
+          "ariaLive": "polite",
+          "ariaAtomic": "true",
+          "className": "sr-only",
+          "text": "Tiada hasil dijumpai."
+        }
+      ],
+      "visibleOptions": 0,
+      "panelText": "CARI | Tiada hasil dijumpai. | Tiada hasil dijumpai"
+    },
+    "verdict": {
+      "1_focusIndicator": "PASS",
+      "2_accessibleName": "PASS",
+      "3_liveRegion": "PASS",
+      "4_fontSize16": "PASS",
+      "5_hitHeight44": "PASS"
+    }
+  },
+  {
+    "width": 1024,
+    "url": "https://hellokahwin.com/artikel#cari",
+    "status": 200,
+    "viewport": {
+      "innerWidth": 1024,
+      "layoutWidth": 1024,
+      "dpr": 1,
+      "mqMax767": false,
+      "mqMin1024": true
+    },
+    "identity": {
+      "hasCariAnchor": true,
+      "finalUrl": "https://hellokahwin.com/artikel#cari",
+      "title": "Artikel | HelloKahwin",
+      "articleLinks": 23
+    },
+    "liveRegionsAtFirstRender": [
+      {
+        "tag": "div",
+        "id": "inspire-search-status-_R_aav5uivb_",
+        "role": "status",
+        "ariaLive": "polite",
+        "ariaAtomic": "true",
+        "className": "sr-only",
+        "text": ""
+      }
+    ],
+    "field": {
+      "inputsUnderCari": 1,
+      "type": "text",
+      "autocomplete": "off",
+      "enterKeyHint": null,
+      "role": "combobox",
+      "ariaExpanded": "false",
+      "ariaControls": "inspire-search-results-_R_aav5uivb_",
+      "ariaAutocomplete": "list",
+      "ariaDescribedby": null,
+      "fontSizePx": 16,
+      "lineHeight": "24px",
+      "heightPx": 46,
+      "widthPx": 320,
+      "paddingBlock": "10px / 10px",
+      "borderWidth": "1px",
+      "minHeight": "44px"
+    },
+    "restingBorder": {
+      "raw": "lab(60.5763 0.109702 1.52209)",
+      "srgb": {
+        "r": 147,
+        "g": 146,
+        "b": 143,
+        "a": 1
+      },
+      "groundSrgb": {
+        "css": "lab(98.6163 0.0525117 0.759542)",
+        "resolved": "lab(98.6163 0.0525117 0.759542)",
+        "r": 252,
+        "g": 251,
+        "b": 250,
+        "a": 1
+      },
+      "ratio": 3.01,
+      "passes1411": true
+    },
+    "popupStructureIdle": {
+      "listboxCount": 0,
+      "nestedListbox": false,
+      "optionCount": 0
+    },
+    "accessibleName": {
+      "computedName": "CARI",
+      "nameFrom": [
+        "relatedElement",
+        "placeholder"
+      ],
+      "role": "combobox",
+      "attrs": {
+        "id": "inspire-search-_R_aav5uivb_",
+        "ariaLabel": null,
+        "ariaLabelledby": null,
+        "placeholder": "Cari artikel...",
+        "wrappingLabel": null,
+        "labelForText": "Cari",
+        "labelForVisible": true
+      }
+    },
+    "keyboard": {
+      "reached": true,
+      "presses": 62,
+      "startedAt": "a :: "
+    },
+    "focusVisible": {
+      "reachedByKeyboard": true,
+      "matchesFocusVisible": true,
+      "groundCss": "lab(98.6163 0.0525117 0.759542)",
+      "groundSrgb": {
+        "css": "lab(98.6163 0.0525117 0.759542)",
+        "resolved": "lab(98.6163 0.0525117 0.759542)",
+        "r": 252,
+        "g": 251,
+        "b": 250,
+        "a": 1
+      },
+      "transition": "all 0s",
+      "outlineStyle": "solid",
+      "outlineWidth": "2px",
+      "outlineOffset": "2px",
+      "outlineColorRaw": "lab(6.20863 0.107564 1.2439)",
+      "outlineSrgbUnflattened": {
+        "css": "lab(6.20863 0.107564 1.2439)",
+        "resolved": "lab(6.20863 0.107564 1.2439)",
+        "r": 21,
+        "g": 20,
+        "b": 18,
+        "a": 1
+      },
+      "outlineSrgbOverGround": {
+        "r": 21,
+        "g": 20,
+        "b": 18,
+        "a": 1
+      },
+      "outlineRatio": 17.81,
+      "boxShadow": "none",
+      "boxShadowLayerCount": 0,
+      "ringLayer": null,
+      "ringSpreadPx": null,
+      "ringAlpha": null,
+      "ringSrgbOverGround": null,
+      "ringRatio": null,
+      "bestIndicator": {
+        "kind": "outline",
+        "widthPx": 2,
+        "ratio": 17.81
+      }
+    },
+    "focusProgrammatic": {
+      "matchesFocusVisible": true,
+      "outlineStyle": "solid",
+      "outlineWidth": "2px",
+      "boxShadow": "none"
+    },
+    "hit": {
+      "query": "hantaran",
+      "liveRegions": [
+        {
+          "tag": "div",
+          "id": "inspire-search-status-_R_aav5uivb_",
+          "role": "status",
+          "ariaLive": "polite",
+          "ariaAtomic": "true",
+          "className": "sr-only",
+          "text": "5 hasil."
+        }
+      ],
+      "visibleOptions": 5,
+      "popupStructure": {
+        "listboxCount": 1,
+        "nestedListbox": false
+      }
+    },
+    "miss": {
+      "query": "zzzqqqxyz",
+      "liveRegions": [
+        {
+          "tag": "div",
+          "id": "inspire-search-status-_R_aav5uivb_",
+          "role": "status",
+          "ariaLive": "polite",
+          "ariaAtomic": "true",
+          "className": "sr-only",
+          "text": "Tiada hasil dijumpai."
+        }
+      ],
+      "visibleOptions": 0,
+      "panelText": "CARI | Tiada hasil dijumpai. | Tiada hasil dijumpai"
+    },
+    "verdict": {
+      "1_focusIndicator": "PASS",
+      "2_accessibleName": "PASS",
+      "3_liveRegion": "PASS",
+      "4_fontSize16": "PASS",
+      "5_hitHeight44": "PASS"
+    }
+  },
+  {
+    "width": 1440,
+    "url": "https://hellokahwin.com/artikel#cari",
+    "status": 200,
+    "viewport": {
+      "innerWidth": 1440,
+      "layoutWidth": 1440,
+      "dpr": 1,
+      "mqMax767": false,
+      "mqMin1024": true
+    },
+    "identity": {
+      "hasCariAnchor": true,
+      "finalUrl": "https://hellokahwin.com/artikel#cari",
+      "title": "Artikel | HelloKahwin",
+      "articleLinks": 23
+    },
+    "liveRegionsAtFirstRender": [
+      {
+        "tag": "div",
+        "id": "inspire-search-status-_R_aav5uivb_",
+        "role": "status",
+        "ariaLive": "polite",
+        "ariaAtomic": "true",
+        "className": "sr-only",
+        "text": ""
+      }
+    ],
+    "field": {
+      "inputsUnderCari": 1,
+      "type": "text",
+      "autocomplete": "off",
+      "enterKeyHint": null,
+      "role": "combobox",
+      "ariaExpanded": "false",
+      "ariaControls": "inspire-search-results-_R_aav5uivb_",
+      "ariaAutocomplete": "list",
+      "ariaDescribedby": null,
+      "fontSizePx": 16,
+      "lineHeight": "24px",
+      "heightPx": 46,
+      "widthPx": 320,
+      "paddingBlock": "10px / 10px",
+      "borderWidth": "1px",
+      "minHeight": "44px"
+    },
+    "restingBorder": {
+      "raw": "lab(60.5763 0.109702 1.52209)",
+      "srgb": {
+        "r": 147,
+        "g": 146,
+        "b": 143,
+        "a": 1
+      },
+      "groundSrgb": {
+        "css": "lab(98.6163 0.0525117 0.759542)",
+        "resolved": "lab(98.6163 0.0525117 0.759542)",
+        "r": 252,
+        "g": 251,
+        "b": 250,
+        "a": 1
+      },
+      "ratio": 3.01,
+      "passes1411": true
+    },
+    "popupStructureIdle": {
+      "listboxCount": 0,
+      "nestedListbox": false,
+      "optionCount": 0
+    },
+    "accessibleName": {
+      "computedName": "CARI",
+      "nameFrom": [
+        "relatedElement",
+        "placeholder"
+      ],
+      "role": "combobox",
+      "attrs": {
+        "id": "inspire-search-_R_aav5uivb_",
+        "ariaLabel": null,
+        "ariaLabelledby": null,
+        "placeholder": "Cari artikel...",
+        "wrappingLabel": null,
+        "labelForText": "Cari",
+        "labelForVisible": true
+      }
+    },
+    "keyboard": {
+      "reached": true,
+      "presses": 62,
+      "startedAt": "a :: "
+    },
+    "focusVisible": {
+      "reachedByKeyboard": true,
+      "matchesFocusVisible": true,
+      "groundCss": "lab(98.6163 0.0525117 0.759542)",
+      "groundSrgb": {
+        "css": "lab(98.6163 0.0525117 0.759542)",
+        "resolved": "lab(98.6163 0.0525117 0.759542)",
+        "r": 252,
+        "g": 251,
+        "b": 250,
+        "a": 1
+      },
+      "transition": "all 0s",
+      "outlineStyle": "solid",
+      "outlineWidth": "2px",
+      "outlineOffset": "2px",
+      "outlineColorRaw": "lab(6.20863 0.107564 1.2439)",
+      "outlineSrgbUnflattened": {
+        "css": "lab(6.20863 0.107564 1.2439)",
+        "resolved": "lab(6.20863 0.107564 1.2439)",
+        "r": 21,
+        "g": 20,
+        "b": 18,
+        "a": 1
+      },
+      "outlineSrgbOverGround": {
+        "r": 21,
+        "g": 20,
+        "b": 18,
+        "a": 1
+      },
+      "outlineRatio": 17.81,
+      "boxShadow": "none",
+      "boxShadowLayerCount": 0,
+      "ringLayer": null,
+      "ringSpreadPx": null,
+      "ringAlpha": null,
+      "ringSrgbOverGround": null,
+      "ringRatio": null,
+      "bestIndicator": {
+        "kind": "outline",
+        "widthPx": 2,
+        "ratio": 17.81
+      }
+    },
+    "focusProgrammatic": {
+      "matchesFocusVisible": true,
+      "outlineStyle": "solid",
+      "outlineWidth": "2px",
+      "boxShadow": "none"
+    },
+    "hit": {
+      "query": "hantaran",
+      "liveRegions": [
+        {
+          "tag": "div",
+          "id": "inspire-search-status-_R_aav5uivb_",
+          "role": "status",
+          "ariaLive": "polite",
+          "ariaAtomic": "true",
+          "className": "sr-only",
+          "text": "5 hasil."
+        }
+      ],
+      "visibleOptions": 5,
+      "popupStructure": {
+        "listboxCount": 1,
+        "nestedListbox": false
+      }
+    },
+    "miss": {
+      "query": "zzzqqqxyz",
+      "liveRegions": [
+        {
+          "tag": "div",
+          "id": "inspire-search-status-_R_aav5uivb_",
+          "role": "status",
+          "ariaLive": "polite",
+          "ariaAtomic": "true",
+          "className": "sr-only",
+          "text": "Tiada hasil dijumpai."
+        }
+      ],
+      "visibleOptions": 0,
+      "panelText": "CARI | Tiada hasil dijumpai. | Tiada hasil dijumpai"
+    },
+    "verdict": {
+      "1_focusIndicator": "PASS",
+      "2_accessibleName": "PASS",
+      "3_liveRegion": "PASS",
+      "4_fontSize16": "PASS",
+      "5_hitHeight44": "PASS"
+    }
+  }
+]

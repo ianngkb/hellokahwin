@@ -1,0 +1,722 @@
+[
+  {
+    "width": 390,
+    "url": "https://hellokahwin.com/artikel#cari",
+    "status": 200,
+    "viewport": {
+      "innerWidth": 390,
+      "layoutWidth": 390,
+      "dpr": 1,
+      "mqMax767": true,
+      "mqMin1024": false
+    },
+    "identity": {
+      "hasCariAnchor": true,
+      "finalUrl": "https://hellokahwin.com/artikel#cari",
+      "title": "Artikel | HelloKahwin",
+      "articleLinks": 23
+    },
+    "liveRegionsAtFirstRender": [],
+    "field": {
+      "inputsUnderCari": 1,
+      "type": "text",
+      "autocomplete": null,
+      "enterKeyHint": null,
+      "role": "combobox",
+      "ariaExpanded": "false",
+      "ariaControls": "inspire-search-results",
+      "ariaAutocomplete": "list",
+      "ariaDescribedby": null,
+      "fontSizePx": 14,
+      "lineHeight": "20px",
+      "heightPx": 38,
+      "widthPx": 320,
+      "paddingBlock": "8px / 8px",
+      "borderWidth": "1px",
+      "minHeight": "0px"
+    },
+    "restingBorder": {
+      "raw": "lab(86.6724 0.0800192 1.14005)",
+      "srgb": {
+        "r": 218,
+        "g": 217,
+        "b": 215,
+        "a": 1
+      },
+      "groundSrgb": {
+        "css": "lab(98.6163 0.0525117 0.759542)",
+        "resolved": "lab(98.6163 0.0525117 0.759542)",
+        "r": 252,
+        "g": 251,
+        "b": 250,
+        "a": 1
+      },
+      "ratio": 1.36,
+      "passes1411": false
+    },
+    "popupStructureIdle": {
+      "listboxCount": 0,
+      "nestedListbox": false,
+      "optionCount": 0
+    },
+    "accessibleName": {
+      "computedName": "Cari artikel...",
+      "nameFrom": [
+        "placeholder"
+      ],
+      "role": "combobox",
+      "attrs": {
+        "id": null,
+        "ariaLabel": null,
+        "ariaLabelledby": null,
+        "placeholder": "Cari artikel...",
+        "wrappingLabel": null,
+        "labelForText": null,
+        "labelForVisible": null
+      }
+    },
+    "keyboard": {
+      "reached": true,
+      "presses": 18,
+      "startedAt": "a :: "
+    },
+    "focusVisible": {
+      "reachedByKeyboard": true,
+      "matchesFocusVisible": true,
+      "groundCss": "lab(98.6163 0.0525117 0.759542)",
+      "groundSrgb": {
+        "css": "lab(98.6163 0.0525117 0.759542)",
+        "resolved": "lab(98.6163 0.0525117 0.759542)",
+        "r": 252,
+        "g": 251,
+        "b": 250,
+        "a": 1
+      },
+      "transition": "box-shadow 0.15s",
+      "outlineStyle": "none",
+      "outlineWidth": "1px",
+      "outlineOffset": "0px",
+      "outlineColorRaw": "oklab(0.19 0.00034678 0.003989 / 0.5)",
+      "outlineSrgbUnflattened": {
+        "css": "oklab(0.19 0.00034678 0.003989 / 0.5)",
+        "resolved": "oklab(0.19 0.00034678 0.003989 / 0.5)",
+        "r": 22,
+        "g": 20,
+        "b": 18,
+        "a": 0.502
+      },
+      "outlineSrgbOverGround": {
+        "r": 137,
+        "g": 135,
+        "b": 134,
+        "a": 1
+      },
+      "outlineRatio": null,
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.19 0.00034678 0.003989 / 0.3) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "boxShadowLayerCount": 5,
+      "ringLayer": "oklab(0.19 0.00034678 0.003989 / 0.3) 0px 0px 0px 2px",
+      "ringSpreadPx": 2,
+      "ringAlpha": 0.302,
+      "ringSrgbOverGround": {
+        "r": 182,
+        "g": 181,
+        "b": 180,
+        "a": 1
+      },
+      "ringRatio": 1.98,
+      "bestIndicator": {
+        "kind": "box-shadow",
+        "widthPx": 2,
+        "ratio": 1.98
+      }
+    },
+    "focusProgrammatic": {
+      "matchesFocusVisible": true,
+      "outlineStyle": "none",
+      "outlineWidth": "1px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.19 0.00034678 0.003989 / 0.3) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+    },
+    "hit": {
+      "query": "hantaran",
+      "liveRegions": [
+        {
+          "tag": "div",
+          "id": "inspire-search-results",
+          "role": "listbox",
+          "ariaLive": "polite",
+          "ariaAtomic": null,
+          "className": "inspire-search-results bg-popover absolute top-full right-0 ",
+          "text": "Barang hantaran yang digunakan, dan yang tersimpanhantaran mas kahwinHantaran untuk lelaki: senarai barang dan kos 2026h"
+        }
+      ],
+      "visibleOptions": 5,
+      "popupStructure": {
+        "listboxCount": 2,
+        "nestedListbox": true
+      }
+    },
+    "miss": {
+      "query": "zzzqqqxyz",
+      "liveRegions": [
+        {
+          "tag": "div",
+          "id": "inspire-search-results",
+          "role": "listbox",
+          "ariaLive": "polite",
+          "ariaAtomic": null,
+          "className": "inspire-search-results bg-popover absolute top-full right-0 ",
+          "text": "Tiada hasil dijumpai"
+        }
+      ],
+      "visibleOptions": 0,
+      "panelText": "Tiada hasil dijumpai"
+    },
+    "verdict": {
+      "1_focusIndicator": "FAIL",
+      "2_accessibleName": "FAIL",
+      "3_liveRegion": "FAIL",
+      "4_fontSize16": "FAIL",
+      "5_hitHeight44": "FAIL"
+    }
+  },
+  {
+    "width": 768,
+    "url": "https://hellokahwin.com/artikel#cari",
+    "status": 200,
+    "viewport": {
+      "innerWidth": 768,
+      "layoutWidth": 768,
+      "dpr": 1,
+      "mqMax767": false,
+      "mqMin1024": false
+    },
+    "identity": {
+      "hasCariAnchor": true,
+      "finalUrl": "https://hellokahwin.com/artikel#cari",
+      "title": "Artikel | HelloKahwin",
+      "articleLinks": 23
+    },
+    "liveRegionsAtFirstRender": [],
+    "field": {
+      "inputsUnderCari": 1,
+      "type": "text",
+      "autocomplete": null,
+      "enterKeyHint": null,
+      "role": "combobox",
+      "ariaExpanded": "false",
+      "ariaControls": "inspire-search-results",
+      "ariaAutocomplete": "list",
+      "ariaDescribedby": null,
+      "fontSizePx": 14,
+      "lineHeight": "20px",
+      "heightPx": 38,
+      "widthPx": 320,
+      "paddingBlock": "8px / 8px",
+      "borderWidth": "1px",
+      "minHeight": "0px"
+    },
+    "restingBorder": {
+      "raw": "lab(86.6724 0.0800192 1.14005)",
+      "srgb": {
+        "r": 218,
+        "g": 217,
+        "b": 215,
+        "a": 1
+      },
+      "groundSrgb": {
+        "css": "lab(98.6163 0.0525117 0.759542)",
+        "resolved": "lab(98.6163 0.0525117 0.759542)",
+        "r": 252,
+        "g": 251,
+        "b": 250,
+        "a": 1
+      },
+      "ratio": 1.36,
+      "passes1411": false
+    },
+    "popupStructureIdle": {
+      "listboxCount": 0,
+      "nestedListbox": false,
+      "optionCount": 0
+    },
+    "accessibleName": {
+      "computedName": "Cari artikel...",
+      "nameFrom": [
+        "placeholder"
+      ],
+      "role": "combobox",
+      "attrs": {
+        "id": null,
+        "ariaLabel": null,
+        "ariaLabelledby": null,
+        "placeholder": "Cari artikel...",
+        "wrappingLabel": null,
+        "labelForText": null,
+        "labelForVisible": null
+      }
+    },
+    "keyboard": {
+      "reached": true,
+      "presses": 62,
+      "startedAt": "a :: "
+    },
+    "focusVisible": {
+      "reachedByKeyboard": true,
+      "matchesFocusVisible": true,
+      "groundCss": "lab(98.6163 0.0525117 0.759542)",
+      "groundSrgb": {
+        "css": "lab(98.6163 0.0525117 0.759542)",
+        "resolved": "lab(98.6163 0.0525117 0.759542)",
+        "r": 252,
+        "g": 251,
+        "b": 250,
+        "a": 1
+      },
+      "transition": "box-shadow 0.15s",
+      "outlineStyle": "none",
+      "outlineWidth": "1px",
+      "outlineOffset": "0px",
+      "outlineColorRaw": "oklab(0.19 0.00034678 0.003989 / 0.5)",
+      "outlineSrgbUnflattened": {
+        "css": "oklab(0.19 0.00034678 0.003989 / 0.5)",
+        "resolved": "oklab(0.19 0.00034678 0.003989 / 0.5)",
+        "r": 22,
+        "g": 20,
+        "b": 18,
+        "a": 0.502
+      },
+      "outlineSrgbOverGround": {
+        "r": 137,
+        "g": 135,
+        "b": 134,
+        "a": 1
+      },
+      "outlineRatio": null,
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.19 0.00034678 0.003989 / 0.3) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "boxShadowLayerCount": 5,
+      "ringLayer": "oklab(0.19 0.00034678 0.003989 / 0.3) 0px 0px 0px 2px",
+      "ringSpreadPx": 2,
+      "ringAlpha": 0.302,
+      "ringSrgbOverGround": {
+        "r": 182,
+        "g": 181,
+        "b": 180,
+        "a": 1
+      },
+      "ringRatio": 1.98,
+      "bestIndicator": {
+        "kind": "box-shadow",
+        "widthPx": 2,
+        "ratio": 1.98
+      }
+    },
+    "focusProgrammatic": {
+      "matchesFocusVisible": true,
+      "outlineStyle": "none",
+      "outlineWidth": "1px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.19 0.00034678 0.003989 / 0.3) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+    },
+    "hit": {
+      "query": "hantaran",
+      "liveRegions": [
+        {
+          "tag": "div",
+          "id": "inspire-search-results",
+          "role": "listbox",
+          "ariaLive": "polite",
+          "ariaAtomic": null,
+          "className": "inspire-search-results bg-popover absolute top-full right-0 ",
+          "text": "Barang hantaran yang digunakan, dan yang tersimpanhantaran mas kahwinHantaran untuk lelaki: senarai barang dan kos 2026h"
+        }
+      ],
+      "visibleOptions": 5,
+      "popupStructure": {
+        "listboxCount": 2,
+        "nestedListbox": true
+      }
+    },
+    "miss": {
+      "query": "zzzqqqxyz",
+      "liveRegions": [
+        {
+          "tag": "div",
+          "id": "inspire-search-results",
+          "role": "listbox",
+          "ariaLive": "polite",
+          "ariaAtomic": null,
+          "className": "inspire-search-results bg-popover absolute top-full right-0 ",
+          "text": "Tiada hasil dijumpai"
+        }
+      ],
+      "visibleOptions": 0,
+      "panelText": "Tiada hasil dijumpai"
+    },
+    "verdict": {
+      "1_focusIndicator": "FAIL",
+      "2_accessibleName": "FAIL",
+      "3_liveRegion": "FAIL",
+      "4_fontSize16": "FAIL",
+      "5_hitHeight44": "FAIL"
+    }
+  },
+  {
+    "width": 1024,
+    "url": "https://hellokahwin.com/artikel#cari",
+    "status": 200,
+    "viewport": {
+      "innerWidth": 1024,
+      "layoutWidth": 1024,
+      "dpr": 1,
+      "mqMax767": false,
+      "mqMin1024": true
+    },
+    "identity": {
+      "hasCariAnchor": true,
+      "finalUrl": "https://hellokahwin.com/artikel#cari",
+      "title": "Artikel | HelloKahwin",
+      "articleLinks": 23
+    },
+    "liveRegionsAtFirstRender": [],
+    "field": {
+      "inputsUnderCari": 1,
+      "type": "text",
+      "autocomplete": null,
+      "enterKeyHint": null,
+      "role": "combobox",
+      "ariaExpanded": "false",
+      "ariaControls": "inspire-search-results",
+      "ariaAutocomplete": "list",
+      "ariaDescribedby": null,
+      "fontSizePx": 14,
+      "lineHeight": "20px",
+      "heightPx": 38,
+      "widthPx": 320,
+      "paddingBlock": "8px / 8px",
+      "borderWidth": "1px",
+      "minHeight": "0px"
+    },
+    "restingBorder": {
+      "raw": "lab(86.6724 0.0800192 1.14005)",
+      "srgb": {
+        "r": 218,
+        "g": 217,
+        "b": 215,
+        "a": 1
+      },
+      "groundSrgb": {
+        "css": "lab(98.6163 0.0525117 0.759542)",
+        "resolved": "lab(98.6163 0.0525117 0.759542)",
+        "r": 252,
+        "g": 251,
+        "b": 250,
+        "a": 1
+      },
+      "ratio": 1.36,
+      "passes1411": false
+    },
+    "popupStructureIdle": {
+      "listboxCount": 0,
+      "nestedListbox": false,
+      "optionCount": 0
+    },
+    "accessibleName": {
+      "computedName": "Cari artikel...",
+      "nameFrom": [
+        "placeholder"
+      ],
+      "role": "combobox",
+      "attrs": {
+        "id": null,
+        "ariaLabel": null,
+        "ariaLabelledby": null,
+        "placeholder": "Cari artikel...",
+        "wrappingLabel": null,
+        "labelForText": null,
+        "labelForVisible": null
+      }
+    },
+    "keyboard": {
+      "reached": true,
+      "presses": 62,
+      "startedAt": "a :: "
+    },
+    "focusVisible": {
+      "reachedByKeyboard": true,
+      "matchesFocusVisible": true,
+      "groundCss": "lab(98.6163 0.0525117 0.759542)",
+      "groundSrgb": {
+        "css": "lab(98.6163 0.0525117 0.759542)",
+        "resolved": "lab(98.6163 0.0525117 0.759542)",
+        "r": 252,
+        "g": 251,
+        "b": 250,
+        "a": 1
+      },
+      "transition": "box-shadow 0.15s",
+      "outlineStyle": "none",
+      "outlineWidth": "1px",
+      "outlineOffset": "0px",
+      "outlineColorRaw": "oklab(0.19 0.00034678 0.003989 / 0.5)",
+      "outlineSrgbUnflattened": {
+        "css": "oklab(0.19 0.00034678 0.003989 / 0.5)",
+        "resolved": "oklab(0.19 0.00034678 0.003989 / 0.5)",
+        "r": 22,
+        "g": 20,
+        "b": 18,
+        "a": 0.502
+      },
+      "outlineSrgbOverGround": {
+        "r": 137,
+        "g": 135,
+        "b": 134,
+        "a": 1
+      },
+      "outlineRatio": null,
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.19 0.00034678 0.003989 / 0.3) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "boxShadowLayerCount": 5,
+      "ringLayer": "oklab(0.19 0.00034678 0.003989 / 0.3) 0px 0px 0px 2px",
+      "ringSpreadPx": 2,
+      "ringAlpha": 0.302,
+      "ringSrgbOverGround": {
+        "r": 182,
+        "g": 181,
+        "b": 180,
+        "a": 1
+      },
+      "ringRatio": 1.98,
+      "bestIndicator": {
+        "kind": "box-shadow",
+        "widthPx": 2,
+        "ratio": 1.98
+      }
+    },
+    "focusProgrammatic": {
+      "matchesFocusVisible": true,
+      "outlineStyle": "none",
+      "outlineWidth": "1px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.19 0.00034678 0.003989 / 0.3) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+    },
+    "hit": {
+      "query": "hantaran",
+      "liveRegions": [
+        {
+          "tag": "div",
+          "id": "inspire-search-results",
+          "role": "listbox",
+          "ariaLive": "polite",
+          "ariaAtomic": null,
+          "className": "inspire-search-results bg-popover absolute top-full right-0 ",
+          "text": "Barang hantaran yang digunakan, dan yang tersimpanhantaran mas kahwinHantaran untuk lelaki: senarai barang dan kos 2026h"
+        }
+      ],
+      "visibleOptions": 5,
+      "popupStructure": {
+        "listboxCount": 2,
+        "nestedListbox": true
+      }
+    },
+    "miss": {
+      "query": "zzzqqqxyz",
+      "liveRegions": [
+        {
+          "tag": "div",
+          "id": "inspire-search-results",
+          "role": "listbox",
+          "ariaLive": "polite",
+          "ariaAtomic": null,
+          "className": "inspire-search-results bg-popover absolute top-full right-0 ",
+          "text": "Tiada hasil dijumpai"
+        }
+      ],
+      "visibleOptions": 0,
+      "panelText": "Tiada hasil dijumpai"
+    },
+    "verdict": {
+      "1_focusIndicator": "FAIL",
+      "2_accessibleName": "FAIL",
+      "3_liveRegion": "FAIL",
+      "4_fontSize16": "FAIL",
+      "5_hitHeight44": "FAIL"
+    }
+  },
+  {
+    "width": 1440,
+    "url": "https://hellokahwin.com/artikel#cari",
+    "status": 200,
+    "viewport": {
+      "innerWidth": 1440,
+      "layoutWidth": 1440,
+      "dpr": 1,
+      "mqMax767": false,
+      "mqMin1024": true
+    },
+    "identity": {
+      "hasCariAnchor": true,
+      "finalUrl": "https://hellokahwin.com/artikel#cari",
+      "title": "Artikel | HelloKahwin",
+      "articleLinks": 23
+    },
+    "liveRegionsAtFirstRender": [],
+    "field": {
+      "inputsUnderCari": 1,
+      "type": "text",
+      "autocomplete": null,
+      "enterKeyHint": null,
+      "role": "combobox",
+      "ariaExpanded": "false",
+      "ariaControls": "inspire-search-results",
+      "ariaAutocomplete": "list",
+      "ariaDescribedby": null,
+      "fontSizePx": 14,
+      "lineHeight": "20px",
+      "heightPx": 38,
+      "widthPx": 320,
+      "paddingBlock": "8px / 8px",
+      "borderWidth": "1px",
+      "minHeight": "0px"
+    },
+    "restingBorder": {
+      "raw": "lab(86.6724 0.0800192 1.14005)",
+      "srgb": {
+        "r": 218,
+        "g": 217,
+        "b": 215,
+        "a": 1
+      },
+      "groundSrgb": {
+        "css": "lab(98.6163 0.0525117 0.759542)",
+        "resolved": "lab(98.6163 0.0525117 0.759542)",
+        "r": 252,
+        "g": 251,
+        "b": 250,
+        "a": 1
+      },
+      "ratio": 1.36,
+      "passes1411": false
+    },
+    "popupStructureIdle": {
+      "listboxCount": 0,
+      "nestedListbox": false,
+      "optionCount": 0
+    },
+    "accessibleName": {
+      "computedName": "Cari artikel...",
+      "nameFrom": [
+        "placeholder"
+      ],
+      "role": "combobox",
+      "attrs": {
+        "id": null,
+        "ariaLabel": null,
+        "ariaLabelledby": null,
+        "placeholder": "Cari artikel...",
+        "wrappingLabel": null,
+        "labelForText": null,
+        "labelForVisible": null
+      }
+    },
+    "keyboard": {
+      "reached": true,
+      "presses": 62,
+      "startedAt": "a :: "
+    },
+    "focusVisible": {
+      "reachedByKeyboard": true,
+      "matchesFocusVisible": true,
+      "groundCss": "lab(98.6163 0.0525117 0.759542)",
+      "groundSrgb": {
+        "css": "lab(98.6163 0.0525117 0.759542)",
+        "resolved": "lab(98.6163 0.0525117 0.759542)",
+        "r": 252,
+        "g": 251,
+        "b": 250,
+        "a": 1
+      },
+      "transition": "box-shadow 0.15s",
+      "outlineStyle": "none",
+      "outlineWidth": "1px",
+      "outlineOffset": "0px",
+      "outlineColorRaw": "oklab(0.19 0.00034678 0.003989 / 0.5)",
+      "outlineSrgbUnflattened": {
+        "css": "oklab(0.19 0.00034678 0.003989 / 0.5)",
+        "resolved": "oklab(0.19 0.00034678 0.003989 / 0.5)",
+        "r": 22,
+        "g": 20,
+        "b": 18,
+        "a": 0.502
+      },
+      "outlineSrgbOverGround": {
+        "r": 137,
+        "g": 135,
+        "b": 134,
+        "a": 1
+      },
+      "outlineRatio": null,
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.19 0.00034678 0.003989 / 0.3) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+      "boxShadowLayerCount": 5,
+      "ringLayer": "oklab(0.19 0.00034678 0.003989 / 0.3) 0px 0px 0px 2px",
+      "ringSpreadPx": 2,
+      "ringAlpha": 0.302,
+      "ringSrgbOverGround": {
+        "r": 182,
+        "g": 181,
+        "b": 180,
+        "a": 1
+      },
+      "ringRatio": 1.98,
+      "bestIndicator": {
+        "kind": "box-shadow",
+        "widthPx": 2,
+        "ratio": 1.98
+      }
+    },
+    "focusProgrammatic": {
+      "matchesFocusVisible": true,
+      "outlineStyle": "none",
+      "outlineWidth": "1px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.19 0.00034678 0.003989 / 0.3) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+    },
+    "hit": {
+      "query": "hantaran",
+      "liveRegions": [
+        {
+          "tag": "div",
+          "id": "inspire-search-results",
+          "role": "listbox",
+          "ariaLive": "polite",
+          "ariaAtomic": null,
+          "className": "inspire-search-results bg-popover absolute top-full right-0 ",
+          "text": "Barang hantaran yang digunakan, dan yang tersimpanhantaran mas kahwinHantaran untuk lelaki: senarai barang dan kos 2026h"
+        }
+      ],
+      "visibleOptions": 5,
+      "popupStructure": {
+        "listboxCount": 2,
+        "nestedListbox": true
+      }
+    },
+    "miss": {
+      "query": "zzzqqqxyz",
+      "liveRegions": [
+        {
+          "tag": "div",
+          "id": "inspire-search-results",
+          "role": "listbox",
+          "ariaLive": "polite",
+          "ariaAtomic": null,
+          "className": "inspire-search-results bg-popover absolute top-full right-0 ",
+          "text": "Tiada hasil dijumpai"
+        }
+      ],
+      "visibleOptions": 0,
+      "panelText": "Tiada hasil dijumpai"
+    },
+    "verdict": {
+      "1_focusIndicator": "FAIL",
+      "2_accessibleName": "FAIL",
+      "3_liveRegion": "FAIL",
+      "4_fontSize16": "FAIL",
+      "5_hitHeight44": "FAIL"
+    }
+  }
+]

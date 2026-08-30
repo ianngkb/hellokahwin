@@ -1,0 +1,143 @@
+
+UILINT — rendered-layout gate · https://hellokahwin.com
+widths 390/768/1024/1440 · chrome C:/Program Files/Google/Chrome/Application/chrome.exe
+──────────────────────────────────────────────────────────────────────────────
+[FAIL] homepage / @390                                12 violation(s)  narrow:0 clipped:0 overflow:0 upscale:0 aspect:12
+        image-aspect ×12
+          34% off — source 1.50:1 (176x117), painted 1.00:1 (80x80), ~66% of the frame kept (ceiling 25%)
+            section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img
+            "80683875-images-s-rombongan-hantaran-jalan-azlan-dupree/low.webp"
+          50% off — source 0.67:1 (176x264), painted 1.00:1 (80x80), ~67% of the frame kept (ceiling 25%)
+            section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img
+            "/1787780709236-images-s-dulang-buah-hantaran-mohd-hasan/low.webp"
+          34% off — source 1.50:1 (176x117), painted 1.00:1 (80x80), ~66% of the frame kept (ceiling 25%)
+            section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img
+            "7-images-s-dulang-kek-coklat-buah-hantaran-azlan-dupree/low.webp"
+          34% off — source 1.50:1 (176x117), painted 1.00:1 (80x80), ~66% of the frame kept (ceiling 25%)
+            section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img
+            "9-images-s-tujuh-dulang-hantaran-rombongan-azlan-dupree/low.webp"
+          … and 8 more
+[FAIL] homepage / @768                                12 violation(s)  narrow:0 clipped:0 overflow:0 upscale:0 aspect:12
+        image-aspect ×12
+          34% off — source 1.50:1 (176x117), painted 1.00:1 (80x80), ~66% of the frame kept (ceiling 25%)
+            section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img
+            "80683875-images-s-rombongan-hantaran-jalan-azlan-dupree/low.webp"
+          50% off — source 0.67:1 (176x264), painted 1.00:1 (80x80), ~67% of the frame kept (ceiling 25%)
+            section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img
+            "/1787780709236-images-s-dulang-buah-hantaran-mohd-hasan/low.webp"
+          34% off — source 1.50:1 (176x117), painted 1.00:1 (80x80), ~66% of the frame kept (ceiling 25%)
+            section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img
+            "7-images-s-dulang-kek-coklat-buah-hantaran-azlan-dupree/low.webp"
+          34% off — source 1.50:1 (176x117), painted 1.00:1 (80x80), ~66% of the frame kept (ceiling 25%)
+            section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img
+            "9-images-s-tujuh-dulang-hantaran-rombongan-azlan-dupree/low.webp"
+          … and 8 more
+[FAIL] homepage / @1024                               12 violation(s)  narrow:0 clipped:0 overflow:0 upscale:11 aspect:1
+        image-upscale ×11
+          1.13x — 176x117 decoded, painted 176x132 (object-fit: cover, ceiling 1.1x)
+            section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img
+            "80683875-images-s-rombongan-hantaran-jalan-azlan-dupree/low.webp"
+          1.13x — 176x117 decoded, painted 176x132 (object-fit: cover, ceiling 1.1x)
+            section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img
+            "7-images-s-dulang-kek-coklat-buah-hantaran-azlan-dupree/low.webp"
+          1.13x — 176x117 decoded, painted 176x132 (object-fit: cover, ceiling 1.1x)
+            section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img
+            "9-images-s-tujuh-dulang-hantaran-rombongan-azlan-dupree/low.webp"
+          1.13x — 176x117 decoded, painted 176x132 (object-fit: cover, ceiling 1.1x)
+            section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img
+            "2165-images-s-serah-dulang-hantaran-lelaki-azlan-dupree/low.webp"
+          … and 7 more
+        image-aspect ×1
+          100% off — source 0.67:1 (176x264), painted 1.33:1 (176x132), ~50% of the frame kept (ceiling 25%)
+            section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img
+            "/1787780709236-images-s-dulang-buah-hantaran-mohd-hasan/low.webp"
+[FAIL] homepage / @1440                               12 violation(s)  narrow:0 clipped:0 overflow:0 upscale:11 aspect:1
+        image-upscale ×11
+          1.13x — 176x117 decoded, painted 176x132 (object-fit: cover, ceiling 1.1x)
+            section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img
+            "80683875-images-s-rombongan-hantaran-jalan-azlan-dupree/low.webp"
+          1.13x — 176x117 decoded, painted 176x132 (object-fit: cover, ceiling 1.1x)
+            section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img
+            "7-images-s-dulang-kek-coklat-buah-hantaran-azlan-dupree/low.webp"
+          1.13x — 176x117 decoded, painted 176x132 (object-fit: cover, ceiling 1.1x)
+            section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img
+            "9-images-s-tujuh-dulang-hantaran-rombongan-azlan-dupree/low.webp"
+          1.13x — 176x117 decoded, painted 176x132 (object-fit: cover, ceiling 1.1x)
+            section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img
+            "2165-images-s-serah-dulang-hantaran-lelaki-azlan-dupree/low.webp"
+          … and 7 more
+        image-aspect ×1
+          100% off — source 0.67:1 (176x264), painted 1.33:1 (176x132), ~50% of the frame kept (ceiling 25%)
+            section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img
+            "/1787780709236-images-s-dulang-buah-hantaran-mohd-hasan/low.webp"
+[ ok ] catalogue index /artikel @390                  0 violation(s)  narrow:0 clipped:0 overflow:0 upscale:0 aspect:0
+[FAIL] catalogue index /artikel @768                  1 violation(s)  narrow:0 clipped:0 overflow:0 upscale:0 aspect:1
+        image-aspect ×1
+          33% off — source 1.33:1 (1600x1200), painted 1.78:1 (736x414), ~75% of the frame kept (ceiling 25%)
+            div.mb-12.lg:mb-16 > a.group.block > div.bg-muted.relative.aspect-[4/3] > img.object-cover.transition-transform.duration-700
+            "zlan-dupree/crop-4x3-article-card.webp?v=0.6867_0.4980-g48c0b959"
+[FAIL] catalogue index /artikel @1024                 1 violation(s)  narrow:0 clipped:0 overflow:0 upscale:0 aspect:1
+        image-aspect ×1
+          80% off — source 1.33:1 (1600x1200), painted 2.40:1 (976x407), ~56% of the frame kept (ceiling 25%)
+            div.mb-12.lg:mb-16 > a.group.block > div.bg-muted.relative.aspect-[4/3] > img.object-cover.transition-transform.duration-700
+            "zlan-dupree/crop-4x3-article-card.webp?v=0.6867_0.4980-g48c0b959"
+[FAIL] catalogue index /artikel @1440                 1 violation(s)  narrow:0 clipped:0 overflow:0 upscale:0 aspect:1
+        image-aspect ×1
+          80% off — source 1.33:1 (1600x1200), painted 2.40:1 (1232x513), ~56% of the frame kept (ceiling 25%)
+            div.mb-12.lg:mb-16 > a.group.block > div.bg-muted.relative.aspect-[4/3] > img.object-cover.transition-transform.duration-700
+            "zlan-dupree/crop-4x3-article-card.webp?v=0.6867_0.4980-g48c0b959"
+[ ok ] category archive /artikel/hantaran-mas-kahwin @390 0 violation(s)  narrow:0 clipped:0 overflow:0 upscale:0 aspect:0
+[ ok ] category archive /artikel/hantaran-mas-kahwin @768 0 violation(s)  narrow:0 clipped:0 overflow:0 upscale:0 aspect:0
+[ ok ] category archive /artikel/hantaran-mas-kahwin @1024 0 violation(s)  narrow:0 clipped:0 overflow:0 upscale:0 aspect:0
+[ ok ] category archive /artikel/hantaran-mas-kahwin @1440 0 violation(s)  narrow:0 clipped:0 overflow:0 upscale:0 aspect:0
+[ ok ] article /artikel/idea-dan-nasihat/garden-wedding @390 0 violation(s)  narrow:0 clipped:0 overflow:0 upscale:0 aspect:0
+[FAIL] article /artikel/idea-dan-nasihat/garden-wedding @768 1 violation(s)  narrow:0 clipped:0 overflow:0 upscale:1 aspect:0
+        image-upscale ×1
+          1.12x — 628x786 decoded, painted 704x881 (object-fit: fill, ceiling 1.1x)
+            article > div.inspire-prose.max-w-none > div.group.relative.lg:mx-auto > img.h-auto.w-full.rounded-md
+            "ding/1787397105442-IN-GardenWedding-JardinEventVenue-4/high.webp"
+[FAIL] article /artikel/idea-dan-nasihat/garden-wedding @1024 2 violation(s)  narrow:0 clipped:0 overflow:0 upscale:1 aspect:1
+        image-upscale ×1
+          1.17x — 655x437 decoded, painted 768x320 (object-fit: cover, ceiling 1.1x)
+            div.inspire-editorial > figure.mx-auto.mt-6.mb-10 > div.bg-muted.relative.aspect-[3/2] > img.absolute.inset-0.h-full
+            "lokahwin.com/inspire/garden-wedding/1787397040017-cover/low.webp"
+        image-aspect ×1
+          60% off — source 1.50:1 (655x437), painted 2.40:1 (768x320), ~62% of the frame kept (ceiling 25%)
+            div.inspire-editorial > figure.mx-auto.mt-6.mb-10 > div.bg-muted.relative.aspect-[3/2] > img.absolute.inset-0.h-full
+            "lokahwin.com/inspire/garden-wedding/1787397040017-cover/low.webp"
+[FAIL] article /artikel/idea-dan-nasihat/garden-wedding @1440 2 violation(s)  narrow:0 clipped:0 overflow:0 upscale:1 aspect:1
+        image-upscale ×1
+          1.17x — 655x437 decoded, painted 768x320 (object-fit: cover, ceiling 1.1x)
+            div.inspire-editorial > figure.mx-auto.mt-6.mb-10 > div.bg-muted.relative.aspect-[3/2] > img.absolute.inset-0.h-full
+            "lokahwin.com/inspire/garden-wedding/1787397040017-cover/low.webp"
+        image-aspect ×1
+          60% off — source 1.50:1 (655x437), painted 2.40:1 (768x320), ~62% of the frame kept (ceiling 25%)
+            div.inspire-editorial > figure.mx-auto.mt-6.mb-10 > div.bg-muted.relative.aspect-[3/2] > img.absolute.inset-0.h-full
+            "lokahwin.com/inspire/garden-wedding/1787397040017-cover/low.webp"
+[ ok ] tag archive /artikel/tag/hantaran @390         0 violation(s)  narrow:0 clipped:0 overflow:0 upscale:0 aspect:0
+[ ok ] tag archive /artikel/tag/hantaran @768         0 violation(s)  narrow:0 clipped:0 overflow:0 upscale:0 aspect:0
+[ ok ] tag archive /artikel/tag/hantaran @1024        0 violation(s)  narrow:0 clipped:0 overflow:0 upscale:0 aspect:0
+[ ok ] tag archive /artikel/tag/hantaran @1440        0 violation(s)  narrow:0 clipped:0 overflow:0 upscale:0 aspect:0
+[ ok ] brand page /brand @390                         0 violation(s)  narrow:0 clipped:0 overflow:0 upscale:0 aspect:0
+[ ok ] brand page /brand @768                         0 violation(s)  narrow:0 clipped:0 overflow:0 upscale:0 aspect:0
+[ ok ] brand page /brand @1024                        0 violation(s)  narrow:0 clipped:0 overflow:0 upscale:0 aspect:0
+[ ok ] brand page /brand @1440                        0 violation(s)  narrow:0 clipped:0 overflow:0 upscale:0 aspect:0
+──────────────────────────────────────────────────────────────────────────────
+totals: narrow-text-column 0 · clipped-text 0 · viewport-overflow 0 · image-upscale 25 · image-aspect 31
+build fingerprint (last width measured, per target):
+  homepage /
+    200 HIT age=4 sin1::8hrz9-1788116800926-59106c400d7d css=[4f3c021c4479d324.css a21d9bc70c9be05f.css 0b7b6677a7ad9134.css]
+  catalogue index /artikel
+    200 HIT age=55 sin1::wdjg9-1788116808608-570c302f04bb css=[4f3c021c4479d324.css a21d9bc70c9be05f.css]
+  category archive /artikel/hantaran-mas-kahwin
+    200 HIT age=4 sin1::sin1::cw7xj-1788116814258-9eed9940de2d css=[4f3c021c4479d324.css a21d9bc70c9be05f.css 0b7b6677a7ad9134.css]
+  article /artikel/idea-dan-nasihat/garden-wedding
+    200 HIT age=119 sin1::sin1::vv85n-1788116857714-3895b16713da css=[4f3c021c4479d324.css a21d9bc70c9be05f.css 0b7b6677a7ad9134.css]
+  tag archive /artikel/tag/hantaran
+    200 HIT age=5 sin1::sin1::7cx7s-1788116897021-08c16fb35c4e css=[4f3c021c4479d324.css a21d9bc70c9be05f.css]
+  brand page /brand
+    200 HIT age=4 sin1::5rmzd-1788116903044-ba4756ab9e06 css=[4f3c021c4479d324.css a21d9bc70c9be05f.css 67fff3a667e4db3b.css]
+NOT COVERED (declared, not hidden):
+  - author archive (/artikel/author/[slug]) — no reachable instance on this site; pass --author-slug when one exists
+  - /[slug] — legacy WordPress resolver, 301s, renders no template
+UILINT EXIT: 1

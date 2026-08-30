@@ -1,0 +1,54 @@
+
+UI-09 search accessibility — https://hellokahwin.com
+Chrome: C:/Program Files/Google/Chrome/Application/chrome.exe
+
+── 390px  (innerWidth 390, layout 390, mq<=767 true, mq>=1024 false, HTTP 200) ──
+  1 focus       PASS  best=outline 2px  17.81:1 (floor 3:1)
+                outline: solid 2px offset 2px  rgb(21,20,18) 17.81:1
+                box-shadow: 0 layers, ring=none
+                ground rgb(252,251,250)  :focus-visible true  reached by Tab x18 from a :: 
+  2 name        PASS  computed "CARI" from [relatedElement, placeholder]  role combobox
+  3 live region PASS  at first render 1 ["status"]  hit "5 hasil."  miss "Tiada hasil dijumpai."
+  4 font-size   PASS  16px (line-height 24px)
+  5 hit height  PASS  46px x 320px (padding 10px / 10px, border 1px, min-height 44px)
+    aria        listbox x1 nested=false options=5
+    border      PASS resting rgb(147,146,143) 3.01:1 vs rgb(252,251,250)  (SC 1.4.11 floor 3:1 — not a DoD clause)
+
+── 768px  (innerWidth 768, layout 768, mq<=767 false, mq>=1024 false, HTTP 200) ──
+  1 focus       PASS  best=outline 2px  17.81:1 (floor 3:1)
+                outline: solid 2px offset 2px  rgb(21,20,18) 17.81:1
+                box-shadow: 0 layers, ring=none
+                ground rgb(252,251,250)  :focus-visible true  reached by Tab x62 from a :: 
+  2 name        PASS  computed "CARI" from [relatedElement, placeholder]  role combobox
+  3 live region PASS  at first render 1 ["status"]  hit "5 hasil."  miss "Tiada hasil dijumpai."
+  4 font-size   PASS  16px (line-height 24px)
+  5 hit height  PASS  46px x 320px (padding 10px / 10px, border 1px, min-height 44px)
+    aria        listbox x1 nested=false options=5
+    border      PASS resting rgb(147,146,143) 3.01:1 vs rgb(252,251,250)  (SC 1.4.11 floor 3:1 — not a DoD clause)
+
+── 1024px  (innerWidth 1024, layout 1024, mq<=767 false, mq>=1024 true, HTTP 200) ──
+  1 focus       PASS  best=outline 2px  17.81:1 (floor 3:1)
+                outline: solid 2px offset 2px  rgb(21,20,18) 17.81:1
+                box-shadow: 0 layers, ring=none
+                ground rgb(252,251,250)  :focus-visible true  reached by Tab x62 from a :: 
+  2 name        PASS  computed "CARI" from [relatedElement, placeholder]  role combobox
+  3 live region PASS  at first render 1 ["status"]  hit "5 hasil."  miss "Tiada hasil dijumpai."
+  4 font-size   PASS  16px (line-height 24px)
+  5 hit height  PASS  46px x 320px (padding 10px / 10px, border 1px, min-height 44px)
+    aria        listbox x1 nested=false options=5
+    border      PASS resting rgb(147,146,143) 3.01:1 vs rgb(252,251,250)  (SC 1.4.11 floor 3:1 — not a DoD clause)
+
+── 1440px  (innerWidth 1440, layout 1440, mq<=767 false, mq>=1024 true, HTTP 200) ──
+  1 focus       PASS  best=outline 2px  17.81:1 (floor 3:1)
+                outline: solid 2px offset 2px  rgb(21,20,18) 17.81:1
+                box-shadow: 0 layers, ring=none
+                ground rgb(252,251,250)  :focus-visible true  reached by Tab x62 from a :: 
+  2 name        PASS  computed "CARI" from [relatedElement, placeholder]  role combobox
+  3 live region PASS  at first render 1 ["status"]  hit "5 hasil."  miss "Tiada hasil dijumpai."
+  4 font-size   PASS  16px (line-height 24px)
+  5 hit height  PASS  46px x 320px (padding 10px / 10px, border 1px, min-height 44px)
+    aria        listbox x1 nested=false options=5
+    border      PASS resting rgb(147,146,143) 3.01:1 vs rgb(252,251,250)  (SC 1.4.11 floor 3:1 — not a DoD clause)
+
+ALL PASS — 4 widths x 5 clauses
+json → C:/Users/Ian Ng/Documents/Code/hellokahwin/hellokahwin/docs/work-done/aug-30-2026-session-01/aug-31-2026-ui-09-EVIDENCE/after/measurements.json
