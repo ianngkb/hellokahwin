@@ -48,15 +48,17 @@
  *
  * 2. VIEWPORT OVERFLOW — nothing painted past the right edge of the viewport.
  *
- *    With one exemption, and the exemption is deliberate: below 1024px an
- *    element inside an ancestor that scrolls horizontally (`overflow-x:
- *    auto|scroll`, and whose own box is inside the viewport) is allowed to
- *    overflow, because a swipeable rail is a legitimate mobile pattern and the
- *    content is reachable. At >= 1024px there is NO exemption. A mouse user
- *    has no swipe, this site hides the scrollbar (`scrollbar-width:none`), and
- *    that is exactly how `Venue, Kos & Perancangan` — which contains the site's
- *    third-best-converting article — became invisible on desktop. `overflow-x:
- *    hidden|clip` is never exempt at any width: clipped content is unreachable.
+ *    The nearest ancestor that decides the fate of the overflow answers the
+ *    question. If it CLIPS (`overflow-x: hidden|clip`) and sits inside the
+ *    viewport, nothing is painted past the edge and this check says nothing —
+ *    losing that text is a real defect, and it is check 5's, reported in pixels
+ *    lost. If it SCROLLS (`auto|scroll`) and sits inside the viewport, the
+ *    overflow is exempt below 1024px, because a swipeable rail is a legitimate
+ *    mobile pattern and the content is reachable. At >= 1024px it is not
+ *    exempt: a mouse user has no swipe, this site hides the scrollbar
+ *    (`scrollbar-width:none`), and that is exactly how `Venue, Kos &
+ *    Perancangan` — which contains the site's third-best-converting article —
+ *    became invisible on desktop.
  *
  * 3. IMAGE UPSCALE — no image painted at more than 1.1x its decoded pixels.
  *
@@ -372,21 +374,30 @@ function collect(limits) {
       if (r.right <= vw + 0.5) continue;
       if (!visible(el)) continue;
 
-      if (vw < DESKTOP_BREAKPOINT) {
-        // Below the desktop breakpoint, a contained horizontal rail is allowed.
-        let n = el.parentElement,
-          exempt = false;
-        while (n && n !== document.documentElement) {
-          const ox = getComputedStyle(n).overflowX;
-          if (ox === 'auto' || ox === 'scroll') {
-            if (n.getBoundingClientRect().right <= vw + 0.5) exempt = true;
-            break;
-          }
-          if (ox === 'hidden' || ox === 'clip') break; // clipped is never exempt
-          n = n.parentElement;
-        }
-        if (exempt) continue;
+      // Walk out to the first ancestor that decides what happens to the
+      // overflow, and let that ancestor answer the question.
+      let clippedAway = false;
+      let inRail = false;
+      for (let n = el.parentElement; n && n !== document.documentElement; n = n.parentElement) {
+        const ox = getComputedStyle(n).overflowX;
+        if (ox !== 'hidden' && ox !== 'clip' && ox !== 'auto' && ox !== 'scroll') continue;
+        if (n.getBoundingClientRect().right > vw + 0.5) break; // the ancestor overflows too
+        if (ox === 'hidden' || ox === 'clip') clippedAway = true;
+        else inRail = true;
+        break;
       }
+      // An element an ancestor clips is not painted past the viewport edge, at
+      // any width. The first version treated `hidden|clip` as never exempt,
+      // conflating two different defects, and CI caught it on Linux: a 408px
+      // inline <a> inside a 120px `overflow:hidden` box reported as 30px past a
+      // 390px viewport while being entirely invisible there. Windows text
+      // metrics made the same element 38px narrower, so it passed locally.
+      // Losing that text IS a defect — it is what the clipped-text check
+      // reports, with the number of pixels lost.
+      if (clippedAway) continue;
+      // A contained horizontal rail is a legitimate mobile pattern: swipe
+      // reaches it. A mouse does not, so at desktop widths it still fails.
+      if (inRail && vw < DESKTOP_BREAKPOINT) continue;
       offenders.push({ el, r });
     }
     // Collapse the subtree: keep the outermost offender of each chain, plus any
