@@ -1,0 +1,45 @@
+census: docs/work-done/aug-30-2026-session-01/serp-shape-census.csv (84 rows)
+
+relabelled vs SEO-11's intent_of():
+  garden wedding                           other         -> unknown
+  garden wedding malaysia                  other         -> unknown
+  garden wedding kl                        other         -> unknown
+  garden wedding kuala lumpur              other         -> unknown
+  walimatul urus                           other         -> definition
+  wedding garden                           other         -> unknown
+  garden wedding in kl                     other         -> unknown
+  outdoor wedding locations                other         -> navigational
+  outdoor wedding places                   other         -> navigational
+  walimatul urus atau walimatulurus        other         -> unknown
+  garden wedding venues                    other         -> navigational
+  outdoor wedding                          other         -> unknown
+  hantaran tunang untuk lelaki             other         -> document
+  hantaran tunang untuk perempuan          other         -> document
+  waris di hari perkahwinan                other         -> unknown
+  花园婚礼 马来西亚 地点                             other         -> unknown
+  outdoor wedding venues                   other         -> navigational
+  hantaran ikut negeri                     other         -> document
+  hantaran tunang untuk lelaki simple      other         -> document
+  19 of 84 rows relabelled
+
+distribution: {'navigational': 11, 'unknown': 10, 'number': 38, 'definition': 3, 'document': 22}
+coverage: 74 of 84 rows classified, 10 UNKNOWN (12%)
+
+SEO-11 intent_of(), for comparison
+----------------------------------
+  treatment                                      document           number/definition       ratio fisher p
+  all band rows (positions 3-11, quarantine out) 10/220  =  4.55%   3/806  =  0.37%      12.2x  0.0000267
+  stale SERP snapshots dropped                    8/185  =  4.32%   0/727  =  0.00%        inf  0.0000025
+  no-SERP-data rows also dropped                  8/151  =  5.30%   0/480  =  0.00%        inf  0.0000093
+  mean position: document 7.07, number/definition 7.64 (0.57 apart)
+
+SEO-12 check-serp-shape.py
+--------------------------
+  treatment                                      document           number/definition       ratio fisher p
+  all band rows (positions 3-11, quarantine out) 10/239  =  4.18%   4/889  =  0.45%       9.3x  0.0000690
+  stale SERP snapshots dropped                    8/199  =  4.02%   1/810  =  0.12%      32.6x  0.0000153
+  no-SERP-data rows also dropped                  8/160  =  5.00%   1/563  =  0.18%      28.1x  0.0000365
+  mean position: document 7.24, number/definition 7.85 (0.61 apart)
+
+Every re-cut holds. The gate is built on the variable that survives.
+SERPSHAPE EXIT: 0

@@ -1,0 +1,77 @@
+SEO-12 EVIDENCE — the four regression cases, real process exit codes.
+Captured 2026-08-30T18:45:01Z on 58a74e9.
+Run with --offline so this reproduces with NO Ahrefs credential, from the
+committed cache at scripts/seo/serp-shape-siblings.json.
+
+================================================================
+$ python scripts/seo/check-serp-shape.py --offline "mas kahwin johor"
+
+keyword      : mas kahwin johor
+intent       : number
+decided by   : T4 number-entity  [\bmas kahwin\b]
+
+ADVISORY - recorded, NEVER gated on (SEO-11 sections 5.1-5.3):
+  AI Overview  : yes @ position 3
+  snapshot     : snapshot 2026-08-09T11:35:09Z - a stale `true` is the reliable direction
+  volume (my)  : 1000/mo against SEO-11's 2700 floor for number intent - BELOW it; a planning input for a NEW page, not a verdict on this query
+  parent topic : mas kahwin perak
+
+FAIL: mas kahwin johor - the answer is a figure and Google states it; the click is gone
+SERPSHAPE EXIT: 1
+$? = 1
+
+================================================================
+$ python scripts/seo/check-serp-shape.py --offline "walimatul urus"
+
+keyword      : walimatul urus
+intent       : definition
+decided by   : B sibling-variant evidence
+sibling terms: parent topic 'walimatul urus', cache, pulled 2026-08-30T18:36:28Z
+               walimatul urus maksud                         150/mo  definition  T1 definition-explicit
+               maksud walimatul urus                          40/mo  definition  T1 definition-explicit
+               definition holds 100% of 190/mo marked sibling volume (bar: 67%, >=2 siblings)
+
+ADVISORY - recorded, NEVER gated on (SEO-11 sections 5.1-5.3):
+  AI Overview  : yes @ position 1
+  snapshot     : snapshot 2026-08-19T02:32:33Z - a stale `true` is the reliable direction
+  volume (my)  : 1000/mo against SEO-11's 2700 floor for definition intent - BELOW it; a planning input for a NEW page, not a verdict on this query
+  parent topic : walimatul urus
+
+FAIL: walimatul urus - the answer is a meaning and Google states it; the click is gone
+SERPSHAPE EXIT: 1
+$? = 1
+
+================================================================
+$ python scripts/seo/check-serp-shape.py --offline "doa pengantin baru rumi"
+
+keyword      : doa pengantin baru rumi
+intent       : document
+decided by   : T3 document  [\bdoa\b]
+
+ADVISORY - recorded, NEVER gated on (SEO-11 sections 5.1-5.3):
+  AI Overview  : no
+  snapshot     : snapshot 2026-08-09T16:24:33Z - current month
+  volume (my)  : 200/mo against SEO-11's 220 floor for document intent - BELOW it; a planning input for a NEW page, not a verdict on this query
+  parent topic : doa pengantin baru ringkas
+
+PASS: doa pengantin baru rumi - the reader leaves with a text or a list; the blue link survives
+SERPSHAPE EXIT: 0
+$? = 0
+
+================================================================
+$ python scripts/seo/check-serp-shape.py --offline "idea goodies kahwin"
+
+keyword      : idea goodies kahwin
+intent       : document
+decided by   : T3 document  [\bidea\b]
+
+ADVISORY - recorded, NEVER gated on (SEO-11 sections 5.1-5.3):
+  AI Overview  : yes @ position 1
+  snapshot     : snapshot 2026-07-24T01:14:05Z - a stale `true` is the reliable direction
+  volume (my)  : 200/mo against SEO-11's 220 floor for document intent - BELOW it; a planning input for a NEW page, not a verdict on this query
+  parent topic : doorgift kahwin
+
+PASS: idea goodies kahwin - the reader leaves with a text or a list; the blue link survives
+SERPSHAPE EXIT: 0
+$? = 0
+

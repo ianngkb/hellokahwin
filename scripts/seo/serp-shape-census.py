@@ -268,6 +268,15 @@ INTENT_PATTERNS = [
 ]
 
 
+# SUPERSEDED FOR GATING, 31 Ogos 2026 (SEO-12).  `scripts/seo/check-serp-shape.py`
+# is the canonical answer-type classifier: it adds a tier ORDER, a stage-B rule
+# that decides bare terms of art from their own demand family, and an UNKNOWN
+# class instead of `other`.  It relabels 19 of this census's 84 rows.
+#
+# This function is deliberately FROZEN so the committed serp-shape-census.csv
+# still reproduces byte-for-byte.  When the census is re-run at the end of
+# Sprint 05, import the gate's classifier and re-issue the CSV; do not quietly
+# edit this one and leave a file nobody can reproduce.
 def intent_of(query):
     q = query.lower()
     for label, pats in INTENT_PATTERNS:
