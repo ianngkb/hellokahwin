@@ -147,13 +147,21 @@
       "why": "hellokahwin (docs) and hellokahwin-site are the SAME repo - same remote, same root commit 3a1fbe09 - kept apart only by the convention that nobody merges feat/command-centre-dashboard. A single `git checkout master` in the docs directory would swap the company record for the site source. Carried forward from Sprint 03 as a STRUCTURAL hazard with no guard. Prose in a README is exactly the form Sprint 03 proved does not fire.",
       "dod": "A git hook (pre-checkout or post-checkout), COMMITTED AND INSTALLED IN BOTH TREES, that refuses or loudly warns on a branch switch across the docs/site boundary. Verified by running the switch in a THROWAWAY CLONE and quoting the literal refusal text, PLUS a negative control showing an ordinary in-space switch still succeeds. Both sides quoted. A gate, not a paragraph.",
       "brief": "Do not implement this as documentation. The deliverable is an executable guard. Test it in a throwaway clone, never in either live tree - the hazard being guarded against is exactly the operation under test.",
-      "evidence": []
+      "evidence": [
+        {
+          "at": "2026-08-30T18:10:44.786Z",
+          "link": "docs/work-done/aug-30-2026-session-01/aug-31-2026-risk-09-EVIDENCE/refusal-and-negative-control-transcript.txt",
+          "actor": "SYSTEM",
+          "claim": "CEO-VERIFIED: the guard is built, tested and committed, and it genuinely RESTORES rather than merely warning. It is NOT yet installed in the live trees, and that is the CEO's ordering instruction, not a shortfall.",
+          "proof": "Verified 31 Aug by the CEO reading the agent's throwaway-clone transcript at docs/work-done/aug-30-2026-session-01/aug-31-2026-risk-09-EVIDENCE/. The hook is a POST-checkout hook, so git reports 'Switched to branch hk-site' BEFORE the guard speaks - the CEO checked whether it actually reverts or merely claims to, and it reverts: 'RESTORED. You are back on hk-docs at ab89692', exit code 1, then git rev-parse returns hk-docs with docs/boardroom present and src absent. TWO negative controls both pass at exit 0: docs->docs and site->site in-space switches proceed normally. An escape hatch exists (HK_GIT_SPACE_GUARD=off). Hooks are on the remote at scripts/git-hooks/ - post-checkout, pre-commit, install-hooks.sh, README. REMAINING: installation into the live trees, deliberately deferred by the CEO because six agents are doing checkouts in those trees right now; the brief stated in terms that this is an ordering instruction and NOT a narrowing of the DoD. The agent independently flagged that the hooks currently live only on feat/command-centre-dashboard, so a fresh clone would not get them."
+        }
+      ]
     },
     {
       "id": "SEO-11",
       "track": "seo",
       "points": 5,
-      "state": "in_progress",
+      "state": "done",
       "owner": "head-of-seo-content",
       "title": "SERP-shape census - classify every ranking query and compute the click ceiling per cluster",
       "flags": [
@@ -164,7 +172,15 @@
       "why": "The board meeting tested THREE queries and found a 15x CTR split on AI Overview presence. That is an anecdote until it is a census. This item produces the number that governs all future content selection, and it populates the split CTR metric the owner approved on 30 Aug. It is also the input that chooses CONT-13's targets - the CEO deliberately does NOT choose them, because a target list picked from three SERP checks is the precise-wrong-finding shape that has cost this company before.",
       "dod": "A committed CSV at docs/work-done/aug-30-2026-session-01/serp-shape-census.csv, one row per query with >=20 impressions in the last 28d, carrying: query, impressions, our position, actual CTR, ai_overview present (bool), ai_overview position, PAA present, image_pack present, expected CTR at that position, ratio actual/expected. PLUS a written rule stating the impression threshold above which an AI-Overview'd query is not worth a new page. VERIFY THE PATTERN BEFORE TRUSTING IT: hand-check one row against the raw serp-overview response and quote both, before trusting the other 200 rows.",
       "brief": "Use Ahrefs serp-overview (country my) for SERP features and GSC for our own performance - never Ahrefs for our traffic (decision 91: Ahrefs reported 9 organic keywords against GSC's 2,869 impressions the same day). Expected-CTR-by-position must cite its source curve. Report queries where actual EXCEEDS expected too; those are as informative as the failures.",
-      "evidence": []
+      "evidence": [
+        {
+          "at": "2026-08-30T18:08:47.482Z",
+          "link": "https://github.com/ianng89/hellokahwin/blob/feat/command-centre-dashboard/docs/work-done/aug-30-2026-session-01/aug-31-2026-done-seo-11-serp-shape-census.md",
+          "actor": "SYSTEM",
+          "claim": "CEO-VERIFIED. SEO-11 shipped, and it CORRECTED THE CEO on the central finding of the 30 Aug board meeting.",
+          "proof": "Verified 31 Aug by the CEO: 0 unpushed in the docs tree; the 84-row census CSV and the report both resolve on origin/feat/command-centre-dashboard via git cat-file -e; decisions 169-174 present in the pushed decision-log. THE CORRECTION, checked at source in the CSV: the split decision 156 found is REAL and larger than a summary would suggest - 12.2x at matched positions, Fisher exact p=0.00002 - but the CAUSE was wrong. INTENT (does a two-sentence answer satisfy the searcher) survives every treatment at p=0.000003 to 0.000025. AI OVERVIEW PRESENCE DOES NOT: p=0.102 across all 30 analysis-band rows, p=0.0009 across only the 23 in-month rows, on 14 total clicks - not decidable in either direction. The CEO independently confirmed the medians are uninformative (0.0 in BOTH groups) because most rows are low-impression zero-click queries, which is the company's own standing rule that zero clicks at low impressions is not a finding. Decision 156 was right in its PROSE and wrong in the GATE it derived from it."
+        }
+      ]
     },
     {
       "id": "SEO-12",
@@ -186,7 +202,7 @@
       "id": "PLAT-15",
       "track": "platform",
       "points": 2,
-      "state": "done",
+      "state": "in_progress",
       "owner": "BMAD",
       "title": "sprint-NN.json and the tracker diverge - and the JSON is supposed to be the contract",
       "flags": [
@@ -203,6 +219,13 @@
           "actor": "SYSTEM",
           "claim": "sprint-NN.json now agrees with the tracker ITEM FOR ITEM for all four sprints, and the mechanism is closed by a gate that exits non-zero rather than a paragraph",
           "proof": "BEFORE (sprint reconcile N --check, run before any change): sprint 01 4 of 14 items disagreed + 3 header fields; sprint 02 20 of 20 + 4; sprint 03 23 of 26 + 4; sprint 04 10 of 11 + 2. sprint-03.json read state=in_progress with 24 of 26 items todo against a tracker reading done 107/115. AFTER: all four reconciled, and proved by an INDEPENDENT verifier that queries PostgREST directly and reimplements the comparison so a bug in the reconciler cannot make it pass - 'sprint 01 file 14/tracker 14 AGREES; sprint 02 20/19 AGREES (SEO-04 in the PLAT-10 departures ledger); sprint 03 26/26 AGREES; sprint 04 16/16 AGREES. 76 file items compared. 0 disagreements. EXIT=0'. The as-scoped record survived byte-identical: 71 items x 10 fields (track, points, owner, title, why, dod, brief, flags, spec, spec_status) checked against HEAD, lost:none altered:none. NEW: 'sprint reconcile N [--file F] [--check]' writes the tracker back into the file (the direction import never had); --check writes nothing and exits 1 on disagreement, wired into /endsprint as new Step 4a. Two gates added to 'sprint import', both replacing prose that had already failed: it now REFUSES to carry a stale file header over a running sprint (the 28 Aug Sprint 03 accident, still fully reproducible today - tested), and validates the whole file before writing any of it (tracks/states/DoD reported all at once, nothing written on failure - Sprint 04's rejected 'ui' and 'rights' tracks). Negative control: after both refusals the sprint was untouched (state=in_progress startedAt=2026-08-31 itemCount=16) and a valid import ran clean, 0 created 16 updated. 231 tests pass (sprint-cli.test.ts 30 to 42), tsc clean on @buddy/db AND scripts/sprint.ts, eslint clean. SHIPPED: buddy c6cba4a on origin/main; hellokahwin 5bdb19c on origin/feat/command-centre-dashboard; skills live via ~/.claude/skills symlinks (verified through the symlink)."
+        },
+        {
+          "at": "2026-08-30T18:09:31.417Z",
+          "link": "docs/sprints/sprint-02.json",
+          "actor": "SYSTEM",
+          "claim": "CEO REVERSED THE AGENT'S OWN 'done'. The item marked itself complete; verification found it fails its own DoD on one case, and the DoD is not being narrowed to fit.",
+          "proof": "Verified 31 Aug by the CEO with an item-for-item diff of sorted ITEM=state pairs, line-endings normalised, tracker vs JSON. Sprint 01: IDENTICAL, 14 items. Sprint 03: IDENTICAL, 26 items. SPRINT 02: FAILS - tracker holds 19 items, sprint-02.json holds 20, the extra being SEO-04=todo. SEO-04 was MOVED OUT of Sprint 02 (velocity reports moved-out 5pt) and now sits parked in Sprint 03. A CLOSED sprint carrying a 'todo' reads as 5 points abandoned, which is the exact misrepresentation this item exists to kill. The DoD says 'every item state matching the tracker ITEM FOR ITEM' and this does not. Re-checked AFTER the CEO messaged the agent: still 20 items, still SEO-04=todo, so the message was not acted on. NOTE ON THE CEO'S OWN CHECK: it was wrong twice before it was right - first returning '0 json items' for all three sprints (a $HOME expansion broken by the space in the user path), then showing every line as differing (CRLF vs LF). The absence was verified before it was believed, per the standing rule."
         }
       ]
     },
@@ -342,7 +365,7 @@
     "note": "state, started_at, ended_at, retro and every item's state and evidence are the TRACKER's. points, track, owner, title, why, dod and brief are left AS SCOPED so /endsprint can still measure sizing accuracy against them.",
     "tracker_velocity": {
       "planned": 64,
-      "completed": 10,
+      "completed": 13,
       "parked": 0,
       "moved_out": 0
     },
