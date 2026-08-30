@@ -411,6 +411,31 @@ minute to relaunch; the prompts will otherwise recur indefinitely.
 
 ## Measurement rules
 
+- **⚠ A RENDERED MEASUREMENT BELONGS TO A BUILD, NOT TO A URL. RECORD THE
+  DEPLOYMENT ID, THE CACHE STATE AND THE CSS CHUNK HASHES BESIDE EVERY NUMBER.**
+  Established by UI-06, 31 Aug 2026. Production changed three times in one
+  afternoon while seven agents merged in parallel, and two runs of the same gate
+  twelve minutes apart disagreed about the nav on three pages. Nothing was
+  flaky: UI-01 and UI-02 had deployed between them and the edge was serving a
+  mix of old and new HTML — one later run measured TWO DIFFERENT CSS chunk
+  hashes across pages at the same moment. **Without the fingerprint a true
+  finding is indistinguishable from an unreliable instrument, and it is the
+  instrument that gets blamed.** `scripts/ui-layout-gate.mjs` prints
+  `200 HIT age=4 sin1::… css=[…]` next to every result and there is no flag to
+  turn it off; anything that measures a rendered page copies that. This is the
+  same lesson as the FCP-vs-`x-vercel-cache` rule one line of reasoning up: a
+  number without the state it was taken in is not a measurement.
+- **⚠ A GATE YOU HAVE ONLY SEEN FAIL IS HALF-PROVEN, AND A GREEN TICK IS NOT
+  EVIDENCE THAT ONE RAN.** Also UI-06. A check that flags EVERYTHING fails on a
+  known-bad input and looks identical in the log, so every threshold needs a
+  paired assertion — fires on the defect, clears on an input differing in
+  exactly that one thing — plus a control that reaches exit 0 on a real page.
+  Building those pairs changed two of the gate's five checks before it shipped.
+  And the gate's own CI job reported **SUCCESS** on its first run while printing
+  `UILINT EXIT: 1` with an assertion failed, because `node … | tee log` reports
+  TEE's exit status: `set -o pipefail`, and never accept a tick where a quoted
+  line of output would do.
+
 - **⚠ QUOTE THE HEADLINE EX-QUARANTINE. `/garden-wedding/` HAS BEEN HIDING THE
   DIFFERENCE BETWEEN A SITE ON PAGE TWO AND A SITE ON PAGE ONE.** Established by
   SEO-08, 28 Aug 2026, decision 148. One page draws about a quarter of all
