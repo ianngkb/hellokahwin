@@ -2,7 +2,17 @@
 
 **Owner:** Creative Director · **Issued:** 31 Ogos 2026 · **Item:** UI-03
 **Binding on:** the homepage lead plate, and every future full-bleed hero slot
-(UI-05 inherits this document rather than re-deciding it).
+(UI-05 inherits this document rather than re-deciding it). **UI-12 confirmed the
+catalogue `/artikel` featured plate is one of those slots and inherited §3 and R8
+here rather than re-deciding them.**
+
+**Extended by:** `docs/design/card-thumbnail-image-rules.md` (UI-12, 31 Ogos
+2026), which carries R1–R8 forward to every fixed-aspect slot that is NOT a hero —
+the `.s-row` thumbnail, the article cover figure, in-body prose images — and adds
+three rules those slots need and a hero does not. **Read it before specifying any
+image slot on this site.** Its §0 is the general form of the defect this document
+found in one place: _every fixed-aspect image slot is fed `low.webp`, whose aspect
+ratio is the photographer's, not the designer's._
 
 Every number below was measured on live production on 31 Ogos 2026 with
 `scripts/measure-hero.mjs`. Nothing here is asserted from reading source.
@@ -406,3 +416,27 @@ detached `Image()` loaded from the same `currentSrc` reported 1200 × 1800.
 construction** and can never fire. Intrinsic size must be read from a detached
 `Image()` on `currentSrc`. This is a direct instruction to UI-06's regression
 gate.
+
+⚠ **UI-06 shipped reading `img.naturalWidth` anyway, and UI-12 measured what that
+costs. Recorded here because this paragraph is where the next person will look.**
+
+The consequence above is only half of it, and the missing half is what made UI-12
+legible. `naturalWidth` is not ≈1.0 in general — it resolves to _whatever `sizes`
+said the box was_, because density is `descriptor_w / sizes_resolved_width`. So on
+a `srcset` image the two checks become:
+
+- **`image-aspect` compares the BOX's aspect to the ASSET's aspect, and nothing
+  else.** Density scaling is uniform, so it cancels. `sizes` cannot affect it.
+- **`image-upscale` collapses to `boxWidth / <what sizes resolved to>`** — an audit
+  of whether `sizes` tells the truth, not of upscaling. And when the box and the
+  asset do NOT share an aspect ratio, the mismatch leaks in through
+  `object-fit: cover`'s taller axis and is reported as an upscale.
+
+Measured on production 31 Ogos 2026: eleven homepage `.s-row` thumbnails reported
+**1.13× "upscale"** while genuinely downscaling by **6×**. They were an aspect
+defect wearing the other check's name. **Deleting one untrue `srcset` cleared all
+25 upscale violations on the site without touching a single image file.**
+
+So: an `image-upscale` violation on an element carrying a `srcset` is a claim about
+`sizes` or about the box's aspect — never, on its own, a claim that a photograph
+lacks pixels. Check which before you go looking for a bigger asset.

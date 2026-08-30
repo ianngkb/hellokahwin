@@ -1,0 +1,283 @@
+
+UILINT — rendered-layout gate · https://hellokahwin.com
+widths 390/768/1024/1440/1920 · chrome C:/Program Files/Google/Chrome/Application/chrome.exe
+──────────────────────────────────────────────────────────────────────────────
+[FAIL] homepage / @390                                12 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:12 attr:1 unmeasurable:0 · +1 advisory
+        image-aspect ×12
+          33% off — file 1.50:1 (1200x800), painted 1.00:1 (80x80), ~67% of the frame kept (ceiling 25%)
+            section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img  ⟨img · link → /artikel/hantaran-mas-kahwin/persiapan-hantaran-kahwin · alt=null⟩
+            "80683875-images-s-rombongan-hantaran-jalan-azlan-dupree/low.webp"
+          50% off — file 0.67:1 (1200x1800), painted 1.00:1 (80x80), ~67% of the frame kept (ceiling 25%)
+            section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img  ⟨img · link → /artikel/hantaran-mas-kahwin/tempat-beli-hantaran · alt=null⟩
+            "/1787780709236-images-s-dulang-buah-hantaran-mohd-hasan/low.webp"
+          33% off — file 1.50:1 (1200x800), painted 1.00:1 (80x80), ~67% of the frame kept (ceiling 25%)
+            section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img  ⟨img · link → /artikel/hantaran-mas-kahwin/barang-hantaran-berguna · alt=null⟩
+            "7-images-s-dulang-kek-coklat-buah-hantaran-azlan-dupree/low.webp"
+          33% off — file 1.50:1 (1200x800), painted 1.00:1 (80x80), ~67% of the frame kept (ceiling 25%)
+            section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img  ⟨img · link → /artikel/hantaran-mas-kahwin/hantaran-kahwin-bajet · alt=null⟩
+            "9-images-s-tujuh-dulang-hantaran-rombongan-azlan-dupree/low.webp"
+          … and 8 more
+        image-attr-aspect ×1
+          declared width="176" height="132" (1.33:1) for a 1200x1800 file (0.67:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img  ⟨img · link → /artikel/hantaran-mas-kahwin/tempat-beli-hantaran · alt=null⟩
+            "/1787780709236-images-s-dulang-buah-hantaran-mohd-hasan/low.webp"
+[FAIL] homepage / @768                                12 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:12 attr:1 unmeasurable:0 · +1 advisory
+        image-aspect ×12
+          33% off — file 1.50:1 (1200x800), painted 1.00:1 (80x80), ~67% of the frame kept (ceiling 25%)
+            section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img  ⟨img · link → /artikel/hantaran-mas-kahwin/persiapan-hantaran-kahwin · alt=null⟩
+            "80683875-images-s-rombongan-hantaran-jalan-azlan-dupree/low.webp"
+          50% off — file 0.67:1 (1200x1800), painted 1.00:1 (80x80), ~67% of the frame kept (ceiling 25%)
+            section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img  ⟨img · link → /artikel/hantaran-mas-kahwin/tempat-beli-hantaran · alt=null⟩
+            "/1787780709236-images-s-dulang-buah-hantaran-mohd-hasan/low.webp"
+          33% off — file 1.50:1 (1200x800), painted 1.00:1 (80x80), ~67% of the frame kept (ceiling 25%)
+            section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img  ⟨img · link → /artikel/hantaran-mas-kahwin/barang-hantaran-berguna · alt=null⟩
+            "7-images-s-dulang-kek-coklat-buah-hantaran-azlan-dupree/low.webp"
+          33% off — file 1.50:1 (1200x800), painted 1.00:1 (80x80), ~67% of the frame kept (ceiling 25%)
+            section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img  ⟨img · link → /artikel/hantaran-mas-kahwin/hantaran-kahwin-bajet · alt=null⟩
+            "9-images-s-tujuh-dulang-hantaran-rombongan-azlan-dupree/low.webp"
+          … and 8 more
+        image-attr-aspect ×1
+          declared width="176" height="132" (1.33:1) for a 1200x1800 file (0.67:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img  ⟨img · link → /artikel/hantaran-mas-kahwin/tempat-beli-hantaran · alt=null⟩
+            "/1787780709236-images-s-dulang-buah-hantaran-mohd-hasan/low.webp"
+[FAIL] homepage / @1024                               1 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:1 attr:2 unmeasurable:0 · +2 advisory
+        image-aspect ×1
+          100% off — file 0.67:1 (1200x1800), painted 1.33:1 (176x132), ~50% of the frame kept (ceiling 25%)
+            section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img  ⟨img · link → /artikel/hantaran-mas-kahwin/tempat-beli-hantaran · alt=null⟩
+            "/1787780709236-images-s-dulang-buah-hantaran-mohd-hasan/low.webp"
+        image-attr-aspect ×2
+          declared width="1200" height="630" (1.90:1) for a 2463x700 file (3.52:1) — 46% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            a.group.block > div.bg-muted.relative.aspect-[40/21] > picture > img.absolute.inset-0.h-full  ⟨img · link → /artikel/hantaran-mas-kahwin/adat-hantaran-ikut-keluarga · alt="Adat hantaran kahwin ikut keluarga: bila dua senarai berbeza"⟩
+            "an-dupree/crop-4.3x1-desktop-hero.webp?v=0.6533_0.8520-g48c0b959"
+          declared width="176" height="132" (1.33:1) for a 1200x1800 file (0.67:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img  ⟨img · link → /artikel/hantaran-mas-kahwin/tempat-beli-hantaran · alt=null⟩
+            "/1787780709236-images-s-dulang-buah-hantaran-mohd-hasan/low.webp"
+[FAIL] homepage / @1440                               1 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:1 attr:2 unmeasurable:0 · +2 advisory
+        image-aspect ×1
+          100% off — file 0.67:1 (1200x1800), painted 1.33:1 (176x132), ~50% of the frame kept (ceiling 25%)
+            section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img  ⟨img · link → /artikel/hantaran-mas-kahwin/tempat-beli-hantaran · alt=null⟩
+            "/1787780709236-images-s-dulang-buah-hantaran-mohd-hasan/low.webp"
+        image-attr-aspect ×2
+          declared width="1200" height="630" (1.90:1) for a 2463x700 file (3.52:1) — 46% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            a.group.block > div.bg-muted.relative.aspect-[40/21] > picture > img.absolute.inset-0.h-full  ⟨img · link → /artikel/hantaran-mas-kahwin/adat-hantaran-ikut-keluarga · alt="Adat hantaran kahwin ikut keluarga: bila dua senarai berbeza"⟩
+            "an-dupree/crop-4.3x1-desktop-hero.webp?v=0.6533_0.8520-g48c0b959"
+          declared width="176" height="132" (1.33:1) for a 1200x1800 file (0.67:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img  ⟨img · link → /artikel/hantaran-mas-kahwin/tempat-beli-hantaran · alt=null⟩
+            "/1787780709236-images-s-dulang-buah-hantaran-mohd-hasan/low.webp"
+[FAIL] homepage / @1920                               1 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:1 attr:2 unmeasurable:0 · +2 advisory
+        image-aspect ×1
+          100% off — file 0.67:1 (1200x1800), painted 1.33:1 (176x132), ~50% of the frame kept (ceiling 25%)
+            section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img  ⟨img · link → /artikel/hantaran-mas-kahwin/tempat-beli-hantaran · alt=null⟩
+            "/1787780709236-images-s-dulang-buah-hantaran-mohd-hasan/low.webp"
+        image-attr-aspect ×2
+          declared width="1200" height="630" (1.90:1) for a 2463x700 file (3.52:1) — 46% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            a.group.block > div.bg-muted.relative.aspect-[40/21] > picture > img.absolute.inset-0.h-full  ⟨img · link → /artikel/hantaran-mas-kahwin/adat-hantaran-ikut-keluarga · alt="Adat hantaran kahwin ikut keluarga: bila dua senarai berbeza"⟩
+            "an-dupree/crop-4.3x1-desktop-hero.webp?v=0.6533_0.8520-g48c0b959"
+          declared width="176" height="132" (1.33:1) for a 1200x1800 file (0.67:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img  ⟨img · link → /artikel/hantaran-mas-kahwin/tempat-beli-hantaran · alt=null⟩
+            "/1787780709236-images-s-dulang-buah-hantaran-mohd-hasan/low.webp"
+[ ok ] catalogue index /artikel @390                  0 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0
+[FAIL] catalogue index /artikel @768                  1 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:1 attr:0 unmeasurable:0
+        image-aspect ×1
+          33% off — file 1.33:1 (1600x1200), painted 1.78:1 (736x414), ~75% of the frame kept (ceiling 25%)
+            div.mb-12.lg:mb-16 > a.group.block > div.bg-muted.relative.aspect-[4/3] > img.object-cover.transition-transform.duration-700  ⟨img · link → /artikel/hantaran-mas-kahwin/persiapan-hantaran-kahwin · alt="Persiapan hantaran kahwin: jadual lapan minggu"⟩
+            "zlan-dupree/crop-4x3-article-card.webp?v=0.6867_0.4980-g48c0b959"
+[FAIL] catalogue index /artikel @1024                 1 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:1 attr:0 unmeasurable:0
+        image-aspect ×1
+          80% off — file 1.33:1 (1600x1200), painted 2.40:1 (976x407), ~56% of the frame kept (ceiling 25%)
+            div.mb-12.lg:mb-16 > a.group.block > div.bg-muted.relative.aspect-[4/3] > img.object-cover.transition-transform.duration-700  ⟨img · link → /artikel/hantaran-mas-kahwin/persiapan-hantaran-kahwin · alt="Persiapan hantaran kahwin: jadual lapan minggu"⟩
+            "zlan-dupree/crop-4x3-article-card.webp?v=0.6867_0.4980-g48c0b959"
+[FAIL] catalogue index /artikel @1440                 1 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:1 attr:0 unmeasurable:0
+        image-aspect ×1
+          80% off — file 1.33:1 (1600x1200), painted 2.40:1 (1232x513), ~56% of the frame kept (ceiling 25%)
+            div.mb-12.lg:mb-16 > a.group.block > div.bg-muted.relative.aspect-[4/3] > img.object-cover.transition-transform.duration-700  ⟨img · link → /artikel/hantaran-mas-kahwin/persiapan-hantaran-kahwin · alt="Persiapan hantaran kahwin: jadual lapan minggu"⟩
+            "zlan-dupree/crop-4x3-article-card.webp?v=0.6867_0.4980-g48c0b959"
+[FAIL] catalogue index /artikel @1920                 1 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:1 attr:0 unmeasurable:0
+        image-aspect ×1
+          80% off — file 1.33:1 (1600x1200), painted 2.40:1 (1488x620), ~56% of the frame kept (ceiling 25%)
+            div.mb-12.lg:mb-16 > a.group.block > div.bg-muted.relative.aspect-[4/3] > img.object-cover.transition-transform.duration-700  ⟨img · link → /artikel/hantaran-mas-kahwin/persiapan-hantaran-kahwin · alt="Persiapan hantaran kahwin: jadual lapan minggu"⟩
+            "zlan-dupree/crop-4x3-article-card.webp?v=0.6867_0.4980-g48c0b959"
+[ ok ] category archive /artikel/hantaran-mas-kahwin @390 0 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0
+[ ok ] category archive /artikel/hantaran-mas-kahwin @768 0 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0
+[ ok ] category archive /artikel/hantaran-mas-kahwin @1024 0 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0
+[ ok ] category archive /artikel/hantaran-mas-kahwin @1440 0 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0
+[ ok ] category archive /artikel/hantaran-mas-kahwin @1920 0 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0
+[ ok ] article /artikel/idea-dan-nasihat/garden-wedding @390 0 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:11 unmeasurable:0 · +11 advisory
+        image-attr-aspect ×11
+          declared width="1200" height="500" (2.40:1) for a 1024x683 file (1.50:1) — 60% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            div.inspire-editorial > figure.mt-6.mb-10.max-w-3xl > div.bg-muted.relative.aspect-[3/2] > img.absolute.inset-0.h-full  ⟨img · not a link · alt="20 Venue Garden Wedding Paling Cantik di Malaysia"⟩
+            "lokahwin.com/inspire/garden-wedding/1787397040017-cover/low.webp"
+          declared width="1200" height="800" (1.50:1) for a 684x1024 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-full.rounded-md  ⟨img · not a link · alt=null⟩
+            "garden-wedding/1787397070738-IN-GardenWedding-Cove55-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x669 file (1.17:1) — 28% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-full.rounded-md  ⟨img · not a link · alt=null⟩
+            "ding/1787397101516-IN-GardenWedding-JardinEventVenue-1/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x743 file (1.06:1) — 42% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-full.rounded-md  ⟨img · not a link · alt=null⟩
+            "ding/1787397102800-IN-GardenWedding-JardinEventVenue-2/high.webp"
+          … and 7 more
+[ ok ] article /artikel/idea-dan-nasihat/garden-wedding @768 0 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:11 unmeasurable:0 · +11 advisory
+        image-attr-aspect ×11
+          declared width="1200" height="500" (2.40:1) for a 1024x683 file (1.50:1) — 60% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            div.inspire-editorial > figure.mt-6.mb-10.max-w-3xl > div.bg-muted.relative.aspect-[3/2] > img.absolute.inset-0.h-full  ⟨img · not a link · alt="20 Venue Garden Wedding Paling Cantik di Malaysia"⟩
+            "lokahwin.com/inspire/garden-wedding/1787397040017-cover/low.webp"
+          declared width="1200" height="800" (1.50:1) for a 684x1024 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-full.rounded-md  ⟨img · not a link · alt=null⟩
+            "garden-wedding/1787397070738-IN-GardenWedding-Cove55-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x669 file (1.17:1) — 28% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-full.rounded-md  ⟨img · not a link · alt=null⟩
+            "ding/1787397101516-IN-GardenWedding-JardinEventVenue-1/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x743 file (1.06:1) — 42% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-full.rounded-md  ⟨img · not a link · alt=null⟩
+            "ding/1787397102800-IN-GardenWedding-JardinEventVenue-2/high.webp"
+          … and 7 more
+[FAIL] article /artikel/idea-dan-nasihat/garden-wedding @1024 1 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:1 attr:11 unmeasurable:0 · +11 advisory
+        image-aspect ×1
+          60% off — file 1.50:1 (1024x683), painted 2.40:1 (768x320), ~62% of the frame kept (ceiling 25%)
+            div.inspire-editorial > figure.mt-6.mb-10.max-w-3xl > div.bg-muted.relative.aspect-[3/2] > img.absolute.inset-0.h-full  ⟨img · not a link · alt="20 Venue Garden Wedding Paling Cantik di Malaysia"⟩
+            "lokahwin.com/inspire/garden-wedding/1787397040017-cover/low.webp"
+        image-attr-aspect ×11
+          declared width="1200" height="500" (2.40:1) for a 1024x683 file (1.50:1) — 60% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            div.inspire-editorial > figure.mt-6.mb-10.max-w-3xl > div.bg-muted.relative.aspect-[3/2] > img.absolute.inset-0.h-full  ⟨img · not a link · alt="20 Venue Garden Wedding Paling Cantik di Malaysia"⟩
+            "lokahwin.com/inspire/garden-wedding/1787397040017-cover/low.webp"
+          declared width="1200" height="800" (1.50:1) for a 684x1024 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-full.rounded-md  ⟨img · not a link · alt=null⟩
+            "garden-wedding/1787397070738-IN-GardenWedding-Cove55-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x669 file (1.17:1) — 28% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-full.rounded-md  ⟨img · not a link · alt=null⟩
+            "ding/1787397101516-IN-GardenWedding-JardinEventVenue-1/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x743 file (1.06:1) — 42% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-full.rounded-md  ⟨img · not a link · alt=null⟩
+            "ding/1787397102800-IN-GardenWedding-JardinEventVenue-2/high.webp"
+          … and 7 more
+[FAIL] article /artikel/idea-dan-nasihat/garden-wedding @1440 1 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:1 attr:11 unmeasurable:0 · +11 advisory
+        image-aspect ×1
+          60% off — file 1.50:1 (1024x683), painted 2.40:1 (768x320), ~62% of the frame kept (ceiling 25%)
+            div.inspire-editorial > figure.mt-6.mb-10.max-w-3xl > div.bg-muted.relative.aspect-[3/2] > img.absolute.inset-0.h-full  ⟨img · not a link · alt="20 Venue Garden Wedding Paling Cantik di Malaysia"⟩
+            "lokahwin.com/inspire/garden-wedding/1787397040017-cover/low.webp"
+        image-attr-aspect ×11
+          declared width="1200" height="500" (2.40:1) for a 1024x683 file (1.50:1) — 60% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            div.inspire-editorial > figure.mt-6.mb-10.max-w-3xl > div.bg-muted.relative.aspect-[3/2] > img.absolute.inset-0.h-full  ⟨img · not a link · alt="20 Venue Garden Wedding Paling Cantik di Malaysia"⟩
+            "lokahwin.com/inspire/garden-wedding/1787397040017-cover/low.webp"
+          declared width="1200" height="800" (1.50:1) for a 684x1024 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-full.rounded-md  ⟨img · not a link · alt=null⟩
+            "garden-wedding/1787397070738-IN-GardenWedding-Cove55-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x669 file (1.17:1) — 28% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-full.rounded-md  ⟨img · not a link · alt=null⟩
+            "ding/1787397101516-IN-GardenWedding-JardinEventVenue-1/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x743 file (1.06:1) — 42% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-full.rounded-md  ⟨img · not a link · alt=null⟩
+            "ding/1787397102800-IN-GardenWedding-JardinEventVenue-2/high.webp"
+          … and 7 more
+[FAIL] article /artikel/idea-dan-nasihat/garden-wedding @1920 1 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:1 attr:11 unmeasurable:0 · +11 advisory
+        image-aspect ×1
+          60% off — file 1.50:1 (1024x683), painted 2.40:1 (768x320), ~62% of the frame kept (ceiling 25%)
+            div.inspire-editorial > figure.mt-6.mb-10.max-w-3xl > div.bg-muted.relative.aspect-[3/2] > img.absolute.inset-0.h-full  ⟨img · not a link · alt="20 Venue Garden Wedding Paling Cantik di Malaysia"⟩
+            "lokahwin.com/inspire/garden-wedding/1787397040017-cover/low.webp"
+        image-attr-aspect ×11
+          declared width="1200" height="500" (2.40:1) for a 1024x683 file (1.50:1) — 60% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            div.inspire-editorial > figure.mt-6.mb-10.max-w-3xl > div.bg-muted.relative.aspect-[3/2] > img.absolute.inset-0.h-full  ⟨img · not a link · alt="20 Venue Garden Wedding Paling Cantik di Malaysia"⟩
+            "lokahwin.com/inspire/garden-wedding/1787397040017-cover/low.webp"
+          declared width="1200" height="800" (1.50:1) for a 684x1024 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-full.rounded-md  ⟨img · not a link · alt=null⟩
+            "garden-wedding/1787397070738-IN-GardenWedding-Cove55-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x669 file (1.17:1) — 28% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-full.rounded-md  ⟨img · not a link · alt=null⟩
+            "ding/1787397101516-IN-GardenWedding-JardinEventVenue-1/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x743 file (1.06:1) — 42% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-full.rounded-md  ⟨img · not a link · alt=null⟩
+            "ding/1787397102800-IN-GardenWedding-JardinEventVenue-2/high.webp"
+          … and 7 more
+[ ok ] article (longest title on the site, 95 chars) /artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik @390 0 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:2 unmeasurable:0 · +2 advisory
+        image-attr-aspect ×2
+          declared width="1200" height="500" (2.40:1) for a 1024x683 file (1.50:1) — 60% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            div.inspire-editorial > figure.mt-6.mb-10.max-w-3xl > div.bg-muted.relative.aspect-[3/2] > img.absolute.inset-0.h-full  ⟨img · not a link · alt="20 Lokasi Terbaik Pre Wedding Photoshoot di Malaysia – Dari Alam Semula Jadi Hingga Urban City!"⟩
+            "kasi-pre-wedding-photoshoot-terbaik/1787396444200-cover/low.webp"
+          declared width="1024" height="57" (17.96:1) for a 1280x720 file (1.78:1) — 911% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-full.rounded-md  ⟨img · not a link · alt=null⟩
+            "290-IN-PreWeddingPhotoshoot-TamanBotaniPerdana-1024x57/high.webp"
+[ ok ] article (longest title on the site, 95 chars) /artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik @768 0 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:2 unmeasurable:0 · +2 advisory
+        image-attr-aspect ×2
+          declared width="1200" height="500" (2.40:1) for a 1024x683 file (1.50:1) — 60% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            div.inspire-editorial > figure.mt-6.mb-10.max-w-3xl > div.bg-muted.relative.aspect-[3/2] > img.absolute.inset-0.h-full  ⟨img · not a link · alt="20 Lokasi Terbaik Pre Wedding Photoshoot di Malaysia – Dari Alam Semula Jadi Hingga Urban City!"⟩
+            "kasi-pre-wedding-photoshoot-terbaik/1787396444200-cover/low.webp"
+          declared width="1024" height="57" (17.96:1) for a 1280x720 file (1.78:1) — 911% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-full.rounded-md  ⟨img · not a link · alt=null⟩
+            "290-IN-PreWeddingPhotoshoot-TamanBotaniPerdana-1024x57/high.webp"
+[FAIL] article (longest title on the site, 95 chars) /artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik @1024 1 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:1 attr:2 unmeasurable:0 · +2 advisory
+        image-aspect ×1
+          60% off — file 1.50:1 (1024x683), painted 2.40:1 (768x320), ~62% of the frame kept (ceiling 25%)
+            div.inspire-editorial > figure.mt-6.mb-10.max-w-3xl > div.bg-muted.relative.aspect-[3/2] > img.absolute.inset-0.h-full  ⟨img · not a link · alt="20 Lokasi Terbaik Pre Wedding Photoshoot di Malaysia – Dari Alam Semula Jadi Hingga Urban City!"⟩
+            "kasi-pre-wedding-photoshoot-terbaik/1787396444200-cover/low.webp"
+        image-attr-aspect ×2
+          declared width="1200" height="500" (2.40:1) for a 1024x683 file (1.50:1) — 60% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            div.inspire-editorial > figure.mt-6.mb-10.max-w-3xl > div.bg-muted.relative.aspect-[3/2] > img.absolute.inset-0.h-full  ⟨img · not a link · alt="20 Lokasi Terbaik Pre Wedding Photoshoot di Malaysia – Dari Alam Semula Jadi Hingga Urban City!"⟩
+            "kasi-pre-wedding-photoshoot-terbaik/1787396444200-cover/low.webp"
+          declared width="1024" height="57" (17.96:1) for a 1280x720 file (1.78:1) — 911% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-full.rounded-md  ⟨img · not a link · alt=null⟩
+            "290-IN-PreWeddingPhotoshoot-TamanBotaniPerdana-1024x57/high.webp"
+[FAIL] article (longest title on the site, 95 chars) /artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik @1440 1 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:1 attr:2 unmeasurable:0 · +2 advisory
+        image-aspect ×1
+          60% off — file 1.50:1 (1024x683), painted 2.40:1 (768x320), ~62% of the frame kept (ceiling 25%)
+            div.inspire-editorial > figure.mt-6.mb-10.max-w-3xl > div.bg-muted.relative.aspect-[3/2] > img.absolute.inset-0.h-full  ⟨img · not a link · alt="20 Lokasi Terbaik Pre Wedding Photoshoot di Malaysia – Dari Alam Semula Jadi Hingga Urban City!"⟩
+            "kasi-pre-wedding-photoshoot-terbaik/1787396444200-cover/low.webp"
+        image-attr-aspect ×2
+          declared width="1200" height="500" (2.40:1) for a 1024x683 file (1.50:1) — 60% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            div.inspire-editorial > figure.mt-6.mb-10.max-w-3xl > div.bg-muted.relative.aspect-[3/2] > img.absolute.inset-0.h-full  ⟨img · not a link · alt="20 Lokasi Terbaik Pre Wedding Photoshoot di Malaysia – Dari Alam Semula Jadi Hingga Urban City!"⟩
+            "kasi-pre-wedding-photoshoot-terbaik/1787396444200-cover/low.webp"
+          declared width="1024" height="57" (17.96:1) for a 1280x720 file (1.78:1) — 911% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-full.rounded-md  ⟨img · not a link · alt=null⟩
+            "290-IN-PreWeddingPhotoshoot-TamanBotaniPerdana-1024x57/high.webp"
+[FAIL] article (longest title on the site, 95 chars) /artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik @1920 1 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:1 attr:2 unmeasurable:0 · +2 advisory
+        image-aspect ×1
+          60% off — file 1.50:1 (1024x683), painted 2.40:1 (768x320), ~62% of the frame kept (ceiling 25%)
+            div.inspire-editorial > figure.mt-6.mb-10.max-w-3xl > div.bg-muted.relative.aspect-[3/2] > img.absolute.inset-0.h-full  ⟨img · not a link · alt="20 Lokasi Terbaik Pre Wedding Photoshoot di Malaysia – Dari Alam Semula Jadi Hingga Urban City!"⟩
+            "kasi-pre-wedding-photoshoot-terbaik/1787396444200-cover/low.webp"
+        image-attr-aspect ×2
+          declared width="1200" height="500" (2.40:1) for a 1024x683 file (1.50:1) — 60% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            div.inspire-editorial > figure.mt-6.mb-10.max-w-3xl > div.bg-muted.relative.aspect-[3/2] > img.absolute.inset-0.h-full  ⟨img · not a link · alt="20 Lokasi Terbaik Pre Wedding Photoshoot di Malaysia – Dari Alam Semula Jadi Hingga Urban City!"⟩
+            "kasi-pre-wedding-photoshoot-terbaik/1787396444200-cover/low.webp"
+          declared width="1024" height="57" (17.96:1) for a 1280x720 file (1.78:1) — 911% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-full.rounded-md  ⟨img · not a link · alt=null⟩
+            "290-IN-PreWeddingPhotoshoot-TamanBotaniPerdana-1024x57/high.webp"
+[ ok ] tag archive /artikel/tag/hantaran @390         0 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0
+[ ok ] tag archive /artikel/tag/hantaran @768         0 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0
+[ ok ] tag archive /artikel/tag/hantaran @1024        0 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0
+[ ok ] tag archive /artikel/tag/hantaran @1440        0 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0
+[ ok ] tag archive /artikel/tag/hantaran @1920        0 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0
+[ ok ] brand page /brand @390                         0 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0
+[ ok ] brand page /brand @768                         0 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0
+[ ok ] brand page /brand @1024                        0 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0
+[ ok ] brand page /brand @1440                        0 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0
+[ ok ] brand page /brand @1920                        0 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0
+──────────────────────────────────────────────────────────────────────────────
+totals: empty-content 0
+        narrow-text-column 0
+        reading-measure 0
+        clipped-text 0
+        viewport-overflow 0
+        scroll-container-clip 0
+        image-upscale 0
+        image-aspect 37
+        image-attr-aspect 73 (advisory, does not fail the build)
+        image-unmeasurable 0
+build fingerprint (last width measured, per target):
+  homepage /
+    200 HIT age=3 sin1::sin1::cx2pw-1788119602414-b0ccb27b7aab css=[c66a84bfeb1b056d.css 19b83a0982f1e330.css 996a0a3c26350dd8.css]
+  catalogue index /artikel
+    200 HIT age=11 sin1::sin1::pc8nn-1788119610530-d66e851fe93a css=[c66a84bfeb1b056d.css 19b83a0982f1e330.css]
+  category archive /artikel/hantaran-mas-kahwin
+    200 HIT age=5 sin1::sin1::pt62v-1788119621253-98ab6595a20c css=[c66a84bfeb1b056d.css 19b83a0982f1e330.css 996a0a3c26350dd8.css]
+  article /artikel/idea-dan-nasihat/garden-wedding
+    200 HIT age=75 sin1::sin1::s8d9b-1788119698206-16e19cad9b85 css=[c66a84bfeb1b056d.css 19b83a0982f1e330.css 996a0a3c26350dd8.css]
+  article (longest title on the site, 95 chars) /artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik
+    200 HIT age=10 sin1::sin1::t59sb-1788119742663-8e10d40be193 css=[c66a84bfeb1b056d.css 19b83a0982f1e330.css 996a0a3c26350dd8.css]
+  tag archive /artikel/tag/hantaran
+    200 HIT age=20 sin1::sin1::dvp9r-1788119764978-895de4dd8681 css=[c66a84bfeb1b056d.css 19b83a0982f1e330.css]
+  brand page /brand
+    200 HIT age=4 sin1::sin1::qtwkh-1788119771739-c18591823677 css=[c66a84bfeb1b056d.css 19b83a0982f1e330.css 67fff3a667e4db3b.css]
+NOT COVERED (declared, not hidden):
+  - author archive (/artikel/author/[slug]) — no reachable instance on this site; pass --author-slug when one exists
+  - /[slug] — legacy WordPress resolver, 301s, renders no template
+UILINT EXIT: 1
