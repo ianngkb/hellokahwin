@@ -1003,7 +1003,65 @@ plate re-derives it; UI-01's `.s-row` grid now has a child that explicitly claim
 the number track. Three code changes, no prose. That is the right ratio, and it
 is what this section is asking the next person to reach for first.
 
-## 6. What this doctrine asks for
+### 5.10 Nothing here measures the REPORT, and the report is what the owner reads
+
+*Added 31 Ogos 2026 by UI-01 and UI-03 jointly, at the end of a sprint in which
+both items shipped correctly and both agents' written accounts of them contained
+false claims. The closing observation is UI-01's, in their words: "every gate
+either of us built this afternoon measures the artefact; nothing measures the
+report, and the report is what the owner reads."*
+
+5.5 through 5.9 all add instruments. Every one of them points at the artefact —
+the page, the colour, the photograph, the constant. **Not one points at the
+sentence an agent writes about the artefact**, and that sentence is the only part
+most decisions are ever made from.
+
+**What actually happened, on a day when both items passed every gate they owned.**
+UI-03 published three claims and every one was false:
+
+| Claim | Reality | Basis for the claim |
+|---|---|---|
+| "the transaction pooler on 6543 dead-ends from this machine" | Both 6543 and 5432 work — 86 rows each | Proved 5432 worked; **never tried 6543 at all** |
+| "the pooler port explains UI-01's local 500" | A stopped WSL cluster on 5433 | Diagnosed a machine state never observed |
+| "`tempat-beli-hantaran` becomes Terkini row 1" | Row 1 never changed; a **row-2 swap** | Reasoned "newest goes to the top" without checking what was already there |
+
+UI-01 adopted two of them and repeated one to the owner. Neither reached a
+tracker entry, and only by luck.
+
+**The shape, and why existing rules did not catch it.** All three are *a
+plausible mechanism substituted for a measurement*. The doctrine already says
+"check the artefact, never a summary of it" — and both agents obeyed it
+scrupulously, all afternoon, about the artefact. UI-03 refused `grep -c` on a
+one-line HTML file, refused `img.naturalWidth`, refused a 20-of-20 sample as
+proof of an 86-row corpus, refused a 200 status code as proof a page rendered —
+and then stated a port comparison from memory without running one command.
+
+> **Rigour applied only to the artefact under test, and never to the claims made
+> around it, is rigour with a hole in it exactly where the reports go.**
+
+**Why it is hard to catch, in UI-01's framing:** *a wrong guess that sounds wrong
+gets challenged; a wrong guess that sounds right gets adopted.* All three sounded
+right, and two travelled because they arrived with numbers attached. Hence the
+receiving half of the rule, which is UI-01's and belongs beside it:
+
+> **When a teammate hands you a fact with numbers attached, the numbers are
+> evidence for THEIR claim, not for the inference you build on it.**
+
+**The rule this produces:** *before a causal claim leaves a session — into a
+message, a commit body, a work-done entry or a report — either run the command
+that establishes it, or write the word "unverified" beside it.* A claim about the
+environment, about another agent's failure, or about what a change will do to
+something you have not yet re-measured is exactly as much a measurement as a
+contrast ratio, and gets exactly the same treatment.
+
+**Deliberately prose, and this is the one place that is the honest answer.** A
+script can diff a page, sample a pixel and compute a retained frame. Nothing
+mechanical can read a paragraph and ask whether its author ran the command. The
+nearest available mechanism is the reviewing half — a second agent refusing to
+adopt a numbered claim without re-deriving it, which is how all three of these
+were caught, one by a Design Systems Engineer's report and two by a peer who
+checked. **Both agents caught these voluntarily, before any audit.** That habit
+is the control, and it is worth more than either item shipped.
 
 Nothing new. It asks for the same four decisions already open, and it explains
 what each one costs if it stays open.

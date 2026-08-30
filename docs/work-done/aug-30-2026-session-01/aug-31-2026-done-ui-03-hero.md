@@ -374,6 +374,15 @@ recollection about a port without a single command. **Rigour applied only to the
 artefact under test, never to the claims made around it, is rigour with a hole in
 it exactly where the reports go.**
 
+**Now doctrine §5.10, "Nothing here measures the REPORT, and the report is what
+the owner reads"** — written jointly with UI-01, whose closing observation names
+it and whose framing (*a wrong guess that sounds wrong gets challenged; a wrong
+guess that sounds right gets adopted*) is the reason it is hard to catch. It
+carries the receiving half of the rule too, which is theirs: **when a teammate
+hands you a fact with numbers attached, the numbers are evidence for THEIR claim,
+not for the inference you build on it.** UI-01 logged their own half — they
+adopted two of my three and repeated one to the owner — in their `(d)`.
+
 **Form:** this cannot be a script, and per the brief's instruction I should say
 so rather than pretend. The nearest mechanism is a habit with a trigger:
 **before a causal claim leaves this session — into a message, a commit, or a
