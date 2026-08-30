@@ -411,7 +411,7 @@ because there is no knowledge to acquire that would prevent it.
 be purely additive should delete no headings:
 
 ```
-git show <sha> -- <file> | grep -c '^-#\+ '        # BRE; use '^-#+ ' with grep -E or rg
+git show <sha> -- <file> | grep -c '^-##* '   # identical in BRE, ERE and rg
 ```
 
 Run against the two commits that used the same anchor: **`0f59dc7` → 0,
@@ -449,6 +449,43 @@ own rule, quoted by me to UI-01 hours earlier.
 
 Verdicts are unchanged under the corrected regex (`01c70a2` → 1, everything else
 0), so no finding moves; the hole was closed before the hook shipped, not after.
+
+⚠ **The regex DIALECT trap, which UI-01 flagged and which is worse than the
+`###` hole because it reports a pass.** `\+` is one-or-more in BRE and a
+*literal plus* in ERE, so the same pattern string silently matches nothing in the
+other engine — and a hook that matches nothing prints clean on every commit
+forever:
+
+```
+printf -- '-### h
+' | grep -c  '^-#\+ '   -> 1   correct   (BRE)
+printf -- '-### h
+' | grep -Ec '^-#\+ '   -> 0   SILENT FAILURE (ERE)
+printf -- '-### h
+' | grep -Ec '^-#+ '    -> 1   correct   (ERE)
+printf -- '-### h
+' | grep -c  '^-#+ '    -> 0   SILENT FAILURE (BRE)
+```
+
+`grep -E` and `rg` are the likely reflex for anyone writing this fresh, so the
+trap is not hypothetical. **This is §5.10 one level down: the instrument's own
+output becomes a claim nobody measured, and the failure is indistinguishable from
+success.**
+
+**So do not document the trap — remove it.** `##*` is one-or-more `#` in *every*
+dialect, because `*` means the same thing in all of them. Verified on a
+six-line sample containing four heading-shaped deletions and one `+## added`
+that must not count:
+
+| pattern | BRE | ERE | rg |
+|---|---|---|---|
+| `^-#\+ ` | 4 | **0** | — |
+| `^-#+ ` | **0** | 4 | — |
+| **`^-##* `** | **4** | **4** | **4** |
+
+Verdicts against the real commits are unchanged under the dialect-proof form
+(`01c70a2` → 1, all others 0, in both engines). **A check whose correctness
+depends on which engine runs it is not a check.**
 
 **A non-zero result is a FLAG, not a verdict** (UI-01's note, and it is
 necessary rather than merely nice). A legitimate rename or removal trips it, and
@@ -511,7 +548,7 @@ structural diff, the page renders.
 | (a)–(c) | **Binding spec** — inherited by UI-05 rather than re-decided | `docs/design/hero-image-rules.md` | creative-director | ✅ **created** |
 | (c) | **Costed pipeline request** — owner decision, AWS spend | spec §5 + Follow-up 1 | ceo-hellokahwin | ⏳ **raised** |
 | (e) | **Install the guard that already exists** — the single highest-leverage action available from this item | `aug-31-2026-done-risk-09-boundary-guard.md` → `scripts/git-hooks/install-hooks.sh` | ceo-hellokahwin (green-light) → design-systems-engineer | ⏳ **raised, and it is a decision not a build** |
-| (h) | **A runnable check** — `git show <sha> -- <file> \| grep -c '^-#\+ '` should be 0 on an additive commit, reported as a FLAG not a refusal; proposed as a `pre-commit` line for `docs/plans/**` | `scripts/git-hooks/` (site repo) | design-systems-engineer | ⏳ **proposed; first draft used `'^-## '` and was blind to `###` — hole found by UI-01 and closed before shipping** |
+| (h) | **A runnable check** — `git show <sha> -- <file> \| grep -c '^-##* '` should be 0 on an additive commit, reported as a FLAG not a refusal; proposed as a `pre-commit` line for `docs/plans/**` | `scripts/git-hooks/` (site repo) | design-systems-engineer | ⏳ **proposed; first draft used `'^-## '` and was blind to `###` — hole found by UI-01 and closed before shipping** |
 | (f) | **Doctrine §5.8 closing paragraph** — address by identity, never by position | `docs/plans/aug-23-2026-session-01/aug-23-2026-production-doctrine.md` | creative-director | ✅ **edited** |
 
 **Deliberately NOT prose.** Sprint 03's central finding is that prose rules do
