@@ -1,47 +1,45 @@
-# Brief — UI-01: Homepage .s-row - all 12 cards render their headline in a 44px column
+# Brief — RIGHTS-01: Image credit labels are English and inconsistently cased on live Malay pages
 
 **Sprint:** 04 — *Fix what shipped - the front page is broken in production*
-**Item:** `UI-01` · **3 points** · track `design`
-**Owner:** `creative-director`
-**Tracker:** `pnpm --silent sprint get UI-01 --sprint 4` (run from `~/Documents/Code/buddy`)
+**Item:** `RIGHTS-01` · **3 points** · track `content`
+**Owner:** `BMAD`
+**Tracker:** `pnpm --silent sprint get RIGHTS-01 --sprint 4` (run from `~/Documents/Code/buddy`)
 
-**YOUR WORKTREE:** `~/orca/workspaces/hellokahwin-site/ui01-srow`
+**YOUR WORKTREE:** `~/orca/workspaces/hellokahwin-site/rights01-credits`
 
 ---
 
 ## Why this item exists — verbatim from the tracker
 
-Measured 31 Aug on live production: every one of the 12 homepage cards declares grid-template-columns 44px 412px 176px and has only TWO children, so the headline auto-places into the 44px RANK-NUMBER slot - 44px wide, 225-307px tall, one word per line, clipped by the thumbnail. THE 44px COLUMN IS NOT A MISTAKE: the same component on /artikel/idea-dan-nasihat/garden-wedding renders THREE children whose first cell is 01, a rank number at 44x26px, and looks correct. Same component, two call sites; the article page passes the number and the homepage does not. Desktop only - the base rule below 1024px is two columns for two children and is correct.
+On /artikel/idea-dan-nasihat/garden-wedding alone - the page drawing 28% of all site impressions - the credit label appears as `Source:` x22, `source:` x6, `sOURCE:` x6 and `SOURCE:` x6. Two defects nobody had recorded: the label is ENGLISH on a Malay reader page (the same shape as the `## SOURCE NOTES` block in the DoD standard's failure mode 5 - English scaffolding surviving a conversion onto a page readers see), and `sOURCE:` is a visible typo rendering live six times. Confirmed on 3 of 30 further articles sampled: dewan-kahwin 14 labels across three casings, hantaran-tunang 12, pelamin-kahwin-dewan 8.
 
 ---
 
 ## Definition of done — verbatim from the tracker, and it is NOT negotiable
 
-On the live homepage at >=1024px, EVERY .s-row headline column measures >=350px wide and <=100px tall, verified by a committed script that prints the measured width of all 12. PLUS the same measurement on an article page proving the numbered variant STILL renders 01 correctly - a fix that repairs the homepage by breaking the article template is not done. Screenshot before and after, both committed.
+ONE Malay label, ONE casing, sitewide. `sOURCE:` returns ZERO across all 86 article URLs. Verified by a COMMITTED SCRIPT that sweeps the sitemap and reports label variants - run it BEFORE and AFTER and paste both counts. Uncredited images are reported as a count WITH THEIR SLUGS and either credited or listed for a decision; they are NOT silently left out.
 
 ---
 
 ## Brief — verbatim from the tracker
 
-THIS IS A DESIGN DECISION, NOT A ONE-LINER, and it is yours. Option (a): the homepage passes the rank number, restoring the numbered Terkini list the article template still implements. Option (b): the homepage variant declares a two-column grid and drops the number. The CEO recommends (a) and the CEO's authority stops there. WARNING: the CEO measured a THIRD option live - grid-column:2 on the headline wrapper, which does work, 44px to 412px wide and 225px to 78px tall - and it is REJECTED as a patch: it leaves a permanent empty 44px gutter and silently abandons a design the article template still uses. Recorded so nobody rediscovers it and ships it.
+NOTE THE CORRECTED BASELINE: Sprint 03 carried forward '27 of 48 garden-wedding images carry NO CREDIT'. That figure is STALE - there are ~40 credits across 49 photos, so roughly 9 uncredited. The CEO's first check grepped for 'Kredit' and returned zero, which would have read as WORSE; the credits exist under an English label. Verify your own pattern before trusting an absence. Coordinate with RIGHTS-02 so that when permission lands the credit format is already correct.
 
 ---
 
 ## What the CEO wants you to know beyond the tracker
 
-**RE-DISPATCH.** An earlier UI-01 agent was sent to `pillars-ingest-redirects`, which is 42 commits behind master and contains ZERO `.s-row` code. It was stopped. You are in a correct tree at `105e79d`.
+**Runs concurrently.** You own the image-credit label; no other item touches it.
 
-**You are the most visible defect in the sprint** — this is what the owner is looking at. Desktop-only; the base rule below 1024px is correct and must stay correct.
+**⚠ THE CARRIED-FORWARD BASELINE IS WRONG AND YOU SHOULD NOT INHERIT IT.** Sprint 03's retro says *'27 of 48 garden-wedding images carry NO CREDIT'*. That is stale — there are ~40 credits across 49 photos, so roughly **9** uncredited. The CEO's own first check grepped for `Kredit`, returned **zero**, and would have read as *worse* than reported — because the credits are labelled in **English**. **Verify your own pattern before you trust an absence.**
 
-**UI-06 needs the broken state to prove its gate fires, and that is already handled** — pre-fix production is committed at `docs/fixtures/2026-08-31-pre-ui-fix/`. **Ship without waiting for anyone.**
-
-**UI-03 (the hero) is running concurrently in its own tree under another agent.** You share no files.
+**RIGHTS-02 (the permissions worklist) is DEFERRED to Sprint 05**, but coordinate in spirit: when the owner obtains photographer permissions, the credit format should already be correct.
 
 ---
 
 ## Where this sits in the sprint
 
-**Wave 2, concurrent.** Re-dispatched into a correct tree.
+**Wave 2, concurrent.** Independent.
 
 ## Context you need: what this sprint is and why it exists
 

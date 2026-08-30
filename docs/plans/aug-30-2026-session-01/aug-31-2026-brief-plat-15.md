@@ -1,47 +1,48 @@
-# Brief — UI-01: Homepage .s-row - all 12 cards render their headline in a 44px column
+# Brief — PLAT-15: sprint-NN.json and the tracker diverge - and the JSON is supposed to be the contract
 
 **Sprint:** 04 — *Fix what shipped - the front page is broken in production*
-**Item:** `UI-01` · **3 points** · track `design`
-**Owner:** `creative-director`
-**Tracker:** `pnpm --silent sprint get UI-01 --sprint 4` (run from `~/Documents/Code/buddy`)
-
-**YOUR WORKTREE:** `~/orca/workspaces/hellokahwin-site/ui01-srow`
+**Item:** `PLAT-15` · **2 points** · track `platform`
+**Owner:** `BMAD`
+**Tracker:** `pnpm --silent sprint get PLAT-15 --sprint 4` (run from `~/Documents/Code/buddy`)
 
 ---
 
 ## Why this item exists — verbatim from the tracker
 
-Measured 31 Aug on live production: every one of the 12 homepage cards declares grid-template-columns 44px 412px 176px and has only TWO children, so the headline auto-places into the 44px RANK-NUMBER slot - 44px wide, 225-307px tall, one word per line, clipped by the thumbnail. THE 44px COLUMN IS NOT A MISTAKE: the same component on /artikel/idea-dan-nasihat/garden-wedding renders THREE children whose first cell is 01, a rank number at 44x26px, and looks correct. Same component, two call sites; the article page passes the number and the homepage does not. Desktop only - the base rule below 1024px is two columns for two children and is correct.
+Found during Sprint 04 planning. sprint-03.json reads state:in_progress with 24 of 26 items todo, while the tracker reads done, 107/115. /endsprint writes a SEPARATE -retro.json and never reconciles the contract file. Same for sprints 01 and 02. The /hellokahwin skill calls sprint-NN.json 'the contract: /startsprint executes it, the dashboard reads it, /endsprint writes the retro into it' - and it is abandoned mid-sprint every time. A reader opening sprint-03.json would conclude nothing shipped.
 
 ---
 
 ## Definition of done — verbatim from the tracker, and it is NOT negotiable
 
-On the live homepage at >=1024px, EVERY .s-row headline column measures >=350px wide and <=100px tall, verified by a committed script that prints the measured width of all 12. PLUS the same measurement on an article page proving the numbered variant STILL renders 01 correctly - a fix that repairs the homepage by breaking the article template is not done. Screenshot before and after, both committed.
+Running /endsprint on a closed sprint leaves sprint-NN.json with state:'done' and EVERY item's state matching the tracker. Demonstrated by BACK-FILLING sprints 01-03, showing a diff of sprint-03.json before and after, PLUS a query proving the JSON now agrees with the tracker ITEM FOR ITEM - not just on the header totals.
 
 ---
 
 ## Brief — verbatim from the tracker
 
-THIS IS A DESIGN DECISION, NOT A ONE-LINER, and it is yours. Option (a): the homepage passes the rank number, restoring the numbered Terkini list the article template still implements. Option (b): the homepage variant declares a two-column grid and drops the number. The CEO recommends (a) and the CEO's authority stops there. WARNING: the CEO measured a THIRD option live - grid-column:2 on the headline wrapper, which does work, 44px to 412px wide and 225px to 78px tall - and it is REJECTED as a patch: it leaves a permanent empty 44px gutter and silently abandons a design the article template still uses. Recorded so nobody rediscovers it and ships it.
+The header agreeing while items disagree is the failure mode that hid this for three sprints. Compare item-for-item.
 
 ---
 
 ## What the CEO wants you to know beyond the tracker
 
-**RE-DISPATCH.** An earlier UI-01 agent was sent to `pillars-ingest-redirects`, which is 42 commits behind master and contains ZERO `.s-row` code. It was stopped. You are in a correct tree at `105e79d`.
+**You touch two trees and neither is the site.**
 
-**You are the most visible defect in the sprint** — this is what the owner is looking at. Desktop-only; the base rule below 1024px is correct and must stay correct.
+- `~/Documents/Code/buddy` — the `/endsprint` skill in `skillcentral/skills/endsprint/`
+- `~/Documents/Code/hellokahwin/hellokahwin` — `docs/sprints/sprint-0*.json`
 
-**UI-06 needs the broken state to prove its gate fires, and that is already handled** — pre-fix production is committed at `docs/fixtures/2026-08-31-pre-ui-fix/`. **Ship without waiting for anyone.**
+**⚠ Two other agents (UI-04 and SEO-11) are writing to the docs repo right now**, to `docs/work-done/`. You are writing to `docs/sprints/`. Different files, shared HEAD — **commit narrowly with explicit paths, never `git add -A`**, and never `git checkout`/`git reset`/`git stash` in that tree.
 
-**UI-03 (the hero) is running concurrently in its own tree under another agent.** You share no files.
+**This item has fresh evidence from today:** Sprint 04 did not exist in the tracker at all when `/startsprint` ran — it lived only in `sprint-04.json` and had to be seeded with `sprint import`. That is the divergence from the other direction, and it belongs in your fix.
+
+**Also record:** the tracker rejected tracks `ui` and `rights` on import. `SPRINT_TRACKS` in `packages/db/src/repositories/sprints.ts` allows only `risk, platform, seo, design, content`, and `/hellokahwin` writes sprint files with no such validation — so a planned sprint can be unimportable. Worth a line in your retrospective.
 
 ---
 
 ## Where this sits in the sprint
 
-**Wave 2, concurrent.** Re-dispatched into a correct tree.
+**Wave 2, concurrent.** Touches buddy and the docs repo, not the site.
 
 ## Context you need: what this sprint is and why it exists
 

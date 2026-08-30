@@ -1,47 +1,43 @@
-# Brief — UI-01: Homepage .s-row - all 12 cards render their headline in a 44px column
+# Brief — UI-03: The hero is a portrait photo forced into a landscape frame, upscaled, at low quality
 
 **Sprint:** 04 — *Fix what shipped - the front page is broken in production*
-**Item:** `UI-01` · **3 points** · track `design`
+**Item:** `UI-03` · **5 points** · track `design`
 **Owner:** `creative-director`
-**Tracker:** `pnpm --silent sprint get UI-01 --sprint 4` (run from `~/Documents/Code/buddy`)
+**Tracker:** `pnpm --silent sprint get UI-03 --sprint 4` (run from `~/Documents/Code/buddy`)
 
-**YOUR WORKTREE:** `~/orca/workspaces/hellokahwin-site/ui01-srow`
+**YOUR WORKTREE:** `~/orca/workspaces/hellokahwin-site/ui03-hero`
 
 ---
 
 ## Why this item exists — verbatim from the tracker
 
-Measured 31 Aug on live production: every one of the 12 homepage cards declares grid-template-columns 44px 412px 176px and has only TWO children, so the headline auto-places into the 44px RANK-NUMBER slot - 44px wide, 225-307px tall, one word per line, clipped by the thumbnail. THE 44px COLUMN IS NOT A MISTAKE: the same component on /artikel/idea-dan-nasihat/garden-wedding renders THREE children whose first cell is 01, a rank number at 44x26px, and looks correct. Same component, two call sites; the article page passes the number and the homepage does not. Desktop only - the base rule below 1024px is two columns for two children and is correct.
+Measured live: a 1200x1800 PORTRAIT source (aspect 0.67) rendered into a 1905x794 LANDSCAPE box (aspect 2.40) with object-fit cover and object-position 50% 50%. Only about 28% of the image is visible, it is upscaled 1.59x from a 1200px source, and it serves the low.webp variant as the largest element on the page. Its alt text is 'Tempat beli barang hantaran: lima jenis kedai' - this is an ARTICLE CARD IMAGE being reused as a full-bleed hero, which is why its aspect ratio is wrong for the slot. The result is an extreme close-up of a fruit tray filling the entire first screen with NO HEADLINE over it.
 
 ---
 
 ## Definition of done — verbatim from the tracker, and it is NOT negotiable
 
-On the live homepage at >=1024px, EVERY .s-row headline column measures >=350px wide and <=100px tall, verified by a committed script that prints the measured width of all 12. PLUS the same measurement on an article page proving the numbered variant STILL renders 01 correctly - a fix that repairs the homepage by breaking the article template is not done. Screenshot before and after, both committed.
+On the live homepage: the hero's rendered aspect ratio is within 15% of its source aspect ratio OR the source is a landscape asset chosen for the slot; upscale factor <=1.1x; the served variant is not low. All three quoted as measured numbers before and after. If the fix is that heroes need a dedicated landscape crop, say so and state what the pipeline must produce.
 
 ---
 
 ## Brief — verbatim from the tracker
 
-THIS IS A DESIGN DECISION, NOT A ONE-LINER, and it is yours. Option (a): the homepage passes the rank number, restoring the numbered Terkini list the article template still implements. Option (b): the homepage variant declares a two-column grid and drops the number. The CEO recommends (a) and the CEO's authority stops there. WARNING: the CEO measured a THIRD option live - grid-column:2 on the headline wrapper, which does work, 44px to 412px wide and 225px to 78px tall - and it is REJECTED as a patch: it leaves a permanent empty 44px gutter and silently abandons a design the article template still uses. Recorded so nobody rediscovers it and ships it.
+GATE: if no suitable landscape hero asset exists for the featured article, STOP and report rather than shipping a different bad crop. A hero slot that cannot be filled correctly is a pipeline finding worth more than a swapped photo.
 
 ---
 
 ## What the CEO wants you to know beyond the tracker
 
-**RE-DISPATCH.** An earlier UI-01 agent was sent to `pillars-ingest-redirects`, which is 42 commits behind master and contains ZERO `.s-row` code. It was stopped. You are in a correct tree at `105e79d`.
+**Runs concurrently.** UI-01 is fixing the homepage card grid in a separate tree; you own the hero. You share no files with it, but you are both on the homepage — **coordinate through master, and merge with a merge commit if you conflict.**
 
-**You are the most visible defect in the sprint** — this is what the owner is looking at. Desktop-only; the base rule below 1024px is correct and must stay correct.
-
-**UI-06 needs the broken state to prove its gate fires, and that is already handled** — pre-fix production is committed at `docs/fixtures/2026-08-31-pre-ui-fix/`. **Ship without waiting for anyone.**
-
-**UI-03 (the hero) is running concurrently in its own tree under another agent.** You share no files.
+**UI-05 will need whatever image rules you establish**, so state them explicitly rather than only fixing this one asset.
 
 ---
 
 ## Where this sits in the sprint
 
-**Wave 2, concurrent.** Re-dispatched into a correct tree.
+**Wave 2, concurrent.** Same page as UI-01, different files.
 
 ## Context you need: what this sprint is and why it exists
 

@@ -1,47 +1,45 @@
-# Brief — UI-01: Homepage .s-row - all 12 cards render their headline in a 44px column
+# Brief — RISK-09: Guard the shared-repo hazard - one git checkout swaps the company record for the site source
 
 **Sprint:** 04 — *Fix what shipped - the front page is broken in production*
-**Item:** `UI-01` · **3 points** · track `design`
-**Owner:** `creative-director`
-**Tracker:** `pnpm --silent sprint get UI-01 --sprint 4` (run from `~/Documents/Code/buddy`)
-
-**YOUR WORKTREE:** `~/orca/workspaces/hellokahwin-site/ui01-srow`
+**Item:** `RISK-09` · **3 points** · track `risk`
+**Owner:** `BMAD`
+**Tracker:** `pnpm --silent sprint get RISK-09 --sprint 4` (run from `~/Documents/Code/buddy`)
 
 ---
 
 ## Why this item exists — verbatim from the tracker
 
-Measured 31 Aug on live production: every one of the 12 homepage cards declares grid-template-columns 44px 412px 176px and has only TWO children, so the headline auto-places into the 44px RANK-NUMBER slot - 44px wide, 225-307px tall, one word per line, clipped by the thumbnail. THE 44px COLUMN IS NOT A MISTAKE: the same component on /artikel/idea-dan-nasihat/garden-wedding renders THREE children whose first cell is 01, a rank number at 44x26px, and looks correct. Same component, two call sites; the article page passes the number and the homepage does not. Desktop only - the base rule below 1024px is two columns for two children and is correct.
+hellokahwin (docs) and hellokahwin-site are the SAME repo - same remote, same root commit 3a1fbe09 - kept apart only by the convention that nobody merges feat/command-centre-dashboard. A single `git checkout master` in the docs directory would swap the company record for the site source. Carried forward from Sprint 03 as a STRUCTURAL hazard with no guard. Prose in a README is exactly the form Sprint 03 proved does not fire.
 
 ---
 
 ## Definition of done — verbatim from the tracker, and it is NOT negotiable
 
-On the live homepage at >=1024px, EVERY .s-row headline column measures >=350px wide and <=100px tall, verified by a committed script that prints the measured width of all 12. PLUS the same measurement on an article page proving the numbered variant STILL renders 01 correctly - a fix that repairs the homepage by breaking the article template is not done. Screenshot before and after, both committed.
+A git hook (pre-checkout or post-checkout), COMMITTED AND INSTALLED IN BOTH TREES, that refuses or loudly warns on a branch switch across the docs/site boundary. Verified by running the switch in a THROWAWAY CLONE and quoting the literal refusal text, PLUS a negative control showing an ordinary in-space switch still succeeds. Both sides quoted. A gate, not a paragraph.
 
 ---
 
 ## Brief — verbatim from the tracker
 
-THIS IS A DESIGN DECISION, NOT A ONE-LINER, and it is yours. Option (a): the homepage passes the rank number, restoring the numbered Terkini list the article template still implements. Option (b): the homepage variant declares a two-column grid and drops the number. The CEO recommends (a) and the CEO's authority stops there. WARNING: the CEO measured a THIRD option live - grid-column:2 on the headline wrapper, which does work, 44px to 412px wide and 225px to 78px tall - and it is REJECTED as a patch: it leaves a permanent empty 44px gutter and silently abandons a design the article template still uses. Recorded so nobody rediscovers it and ships it.
+Do not implement this as documentation. The deliverable is an executable guard. Test it in a throwaway clone, never in either live tree - the hazard being guarded against is exactly the operation under test.
 
 ---
 
 ## What the CEO wants you to know beyond the tracker
 
-**RE-DISPATCH.** An earlier UI-01 agent was sent to `pillars-ingest-redirects`, which is 42 commits behind master and contains ZERO `.s-row` code. It was stopped. You are in a correct tree at `105e79d`.
+**⚠ ONE HARD SEQUENCING CONSTRAINT, AND IT IS THE CEO'S INSTRUCTION, NOT A SUGGESTION.**
 
-**You are the most visible defect in the sprint** — this is what the owner is looking at. Desktop-only; the base rule below 1024px is correct and must stay correct.
+Your DoD requires the hook **installed in both trees**. **Build and test it now, in a throwaway clone, exactly as your brief says — but DO NOT install it into the live trees until the CEO tells you the sprint's site work has merged.**
 
-**UI-06 needs the broken state to prove its gate fires, and that is already handled** — pre-fix production is committed at `docs/fixtures/2026-08-31-pre-ui-fix/`. **Ship without waiting for anyone.**
+**Why:** six agents are doing `git checkout` in hellokahwin worktrees right now. A `pre-checkout`/`post-checkout` guard that refuses or warns on branch switches, installed mid-sprint, is a live hazard to six running agents.
 
-**UI-03 (the hero) is running concurrently in its own tree under another agent.** You share no files.
+**This is NOT a narrowing of your DoD** — installation still has to happen and the item is not done without it. It is an ordering instruction. Build it, test it in the throwaway clone, prove both the refusal and the negative control, then **report `ITEM EXIT: 0` with the install pending and say so plainly.** The CEO will green-light installation.
 
 ---
 
 ## Where this sits in the sprint
 
-**Wave 2, concurrent.** Re-dispatched into a correct tree.
+**Wave 2, concurrent — with ONE sequencing constraint, stated below.**
 
 ## Context you need: what this sprint is and why it exists
 

@@ -1,47 +1,43 @@
-# Brief — UI-01: Homepage .s-row - all 12 cards render their headline in a 44px column
+# Brief — UI-05: Category pages render zero images on the most visual vertical there is
 
 **Sprint:** 04 — *Fix what shipped - the front page is broken in production*
-**Item:** `UI-01` · **3 points** · track `design`
-**Owner:** `creative-director`
-**Tracker:** `pnpm --silent sprint get UI-01 --sprint 4` (run from `~/Documents/Code/buddy`)
+**Item:** `UI-05` · **5 points** · track `design`
+**Owner:** `product-designer`
+**Tracker:** `pnpm --silent sprint get UI-05 --sprint 4` (run from `~/Documents/Code/buddy`)
 
-**YOUR WORKTREE:** `~/orca/workspaces/hellokahwin-site/ui01-srow`
+**YOUR WORKTREE:** `~/orca/workspaces/hellokahwin-site/ui05-category-images`
 
 ---
 
 ## Why this item exists — verbatim from the tracker
 
-Measured 31 Aug on live production: every one of the 12 homepage cards declares grid-template-columns 44px 412px 176px and has only TWO children, so the headline auto-places into the 44px RANK-NUMBER slot - 44px wide, 225-307px tall, one word per line, clipped by the thumbnail. THE 44px COLUMN IS NOT A MISTAKE: the same component on /artikel/idea-dan-nasihat/garden-wedding renders THREE children whose first cell is 01, a rank number at 44x26px, and looks correct. Same component, two call sites; the article page passes the number and the homepage does not. Desktop only - the base rule below 1024px is two columns for two children and is correct.
+Measured: /artikel/hantaran-mas-kahwin renders 0 images - a clean list of text links with hairline rules. STATED HONESTLY: this is a design judgement, not a defect, and these pages draw about 16 impressions with zero clicks (decision 86), so nothing here is costing traffic. It is in scope because the owner asked for the site to stop looking bad, and a wedding category page with no photography is a decision that should be taken deliberately rather than by default.
 
 ---
 
 ## Definition of done — verbatim from the tracker, and it is NOT negotiable
 
-On the live homepage at >=1024px, EVERY .s-row headline column measures >=350px wide and <=100px tall, verified by a committed script that prints the measured width of all 12. PLUS the same measurement on an article page proving the numbered variant STILL renders 01 correctly - a fix that repairs the homepage by breaking the article template is not done. Screenshot before and after, both committed.
+Either category pages carry imagery - shipped, live, measured, with the image pipeline honouring UI-03's aspect and quality rules - or a written, committed rationale for why they stay text-only, agreed with the creative director. BOTH are acceptable outcomes; silently leaving them as they are is not.
 
 ---
 
 ## Brief — verbatim from the tracker
 
-THIS IS A DESIGN DECISION, NOT A ONE-LINER, and it is yours. Option (a): the homepage passes the rank number, restoring the numbered Terkini list the article template still implements. Option (b): the homepage variant declares a two-column grid and drops the number. The CEO recommends (a) and the CEO's authority stops there. WARNING: the CEO measured a THIRD option live - grid-column:2 on the headline wrapper, which does work, 44px to 412px wide and 225px to 78px tall - and it is REJECTED as a patch: it leaves a permanent empty 44px gutter and silently abandons a design the article template still uses. Recorded so nobody rediscovers it and ships it.
+Do not justify this on SEO. Decision 86 already measured that these pages earn nothing, and pretending otherwise is how a later meeting scores this as a failure.
 
 ---
 
 ## What the CEO wants you to know beyond the tracker
 
-**RE-DISPATCH.** An earlier UI-01 agent was sent to `pillars-ingest-redirects`, which is 42 commits behind master and contains ZERO `.s-row` code. It was stopped. You are in a correct tree at `105e79d`.
+**Runs concurrently.** **This is the one item in the sprint where BOTH outcomes are acceptable** — shipping imagery, or a written rationale for staying text-only agreed with the creative director. Silently leaving it as-is is the only failure.
 
-**You are the most visible defect in the sprint** — this is what the owner is looking at. Desktop-only; the base rule below 1024px is correct and must stay correct.
-
-**UI-06 needs the broken state to prove its gate fires, and that is already handled** — pre-fix production is committed at `docs/fixtures/2026-08-31-pre-ui-fix/`. **Ship without waiting for anyone.**
-
-**UI-03 (the hero) is running concurrently in its own tree under another agent.** You share no files.
+**UI-03 is establishing the image aspect and quality rules** in parallel. If you ship imagery, honour them; if UI-03 has not landed yet, say which rules you assumed.
 
 ---
 
 ## Where this sits in the sprint
 
-**Wave 2, concurrent.** Re-dispatched into a correct tree.
+**Wave 2, concurrent.** Soft dependency on UI-03's image rules.
 
 ## Context you need: what this sprint is and why it exists
 

@@ -1,47 +1,43 @@
-# Brief — UI-01: Homepage .s-row - all 12 cards render their headline in a 44px column
+# Brief — UI-02: Two of nine categories are unreachable on a 1920px desktop
 
 **Sprint:** 04 — *Fix what shipped - the front page is broken in production*
-**Item:** `UI-01` · **3 points** · track `design`
-**Owner:** `creative-director`
-**Tracker:** `pnpm --silent sprint get UI-01 --sprint 4` (run from `~/Documents/Code/buddy`)
+**Item:** `UI-02` · **3 points** · track `design`
+**Owner:** `design-systems-engineer`
+**Tracker:** `pnpm --silent sprint get UI-02 --sprint 4` (run from `~/Documents/Code/buddy`)
 
-**YOUR WORKTREE:** `~/orca/workspaces/hellokahwin-site/ui01-srow`
+**YOUR WORKTREE:** `~/orca/workspaces/hellokahwin-site/ui02-nav`
 
 ---
 
 ## Why this item exists — verbatim from the tracker
 
-Measured 31 Aug on live production: every one of the 12 homepage cards declares grid-template-columns 44px 412px 176px and has only TWO children, so the headline auto-places into the 44px RANK-NUMBER slot - 44px wide, 225-307px tall, one word per line, clipped by the thumbnail. THE 44px COLUMN IS NOT A MISTAKE: the same component on /artikel/idea-dan-nasihat/garden-wedding renders THREE children whose first cell is 01, a rank number at 44x26px, and looks correct. Same component, two call sites; the article page passes the number and the homepage does not. Desktop only - the base rule below 1024px is two columns for two children and is correct.
+The nav measures 1970px inside a 1920px viewport. Measured right edges: Venue, Kos & Perancangan at 1986px and Sebelum Nikah: Jodoh, Merisik at 2298px - both past the viewport edge behind a small chevron. NOT cosmetic: Venue, Kos & Perancangan contains checklist-kahwin, which converts at 6.58% CTR, the third-best rate on the site.
 
 ---
 
 ## Definition of done — verbatim from the tracker, and it is NOT negotiable
 
-On the live homepage at >=1024px, EVERY .s-row headline column measures >=350px wide and <=100px tall, verified by a committed script that prints the measured width of all 12. PLUS the same measurement on an article page proving the numbered variant STILL renders 01 correctly - a fix that repairs the homepage by breaking the article template is not done. Screenshot before and after, both committed.
+At 1280, 1440 and 1920 CSS px, ALL NINE category links are reachable - each one's right edge is <= the viewport width, OR a deliberate, visible, keyboard-accessible overflow affordance exists and is proven to work. Measured right-edges for all nine quoted at each width, before and after.
 
 ---
 
 ## Brief — verbatim from the tracker
 
-THIS IS A DESIGN DECISION, NOT A ONE-LINER, and it is yours. Option (a): the homepage passes the rank number, restoring the numbered Terkini list the article template still implements. Option (b): the homepage variant declares a two-column grid and drops the number. The CEO recommends (a) and the CEO's authority stops there. WARNING: the CEO measured a THIRD option live - grid-column:2 on the headline wrapper, which does work, 44px to 412px wide and 225px to 78px tall - and it is REJECTED as a patch: it leaves a permanent empty 44px gutter and silently abandons a design the article template still uses. Recorded so nobody rediscovers it and ships it.
+A chevron that appears only on hover and scrolls a nav with overflow-x:visible is what exists now and is not an affordance. Whatever you choose must work with a keyboard.
 
 ---
 
 ## What the CEO wants you to know beyond the tracker
 
-**RE-DISPATCH.** An earlier UI-01 agent was sent to `pillars-ingest-redirects`, which is 42 commits behind master and contains ZERO `.s-row` code. It was stopped. You are in a correct tree at `105e79d`.
+**Runs concurrently with five other site items, each in its own worktree.** You own the masthead nav; nobody else touches it.
 
-**You are the most visible defect in the sprint** — this is what the owner is looking at. Desktop-only; the base rule below 1024px is correct and must stay correct.
-
-**UI-06 needs the broken state to prove its gate fires, and that is already handled** — pre-fix production is committed at `docs/fixtures/2026-08-31-pre-ui-fix/`. **Ship without waiting for anyone.**
-
-**UI-03 (the hero) is running concurrently in its own tree under another agent.** You share no files.
+**UI-06 is building a gate that will assert no element's right edge exceeds the viewport** — your fix is one of the two known-bad inputs it must first prove it catches. Pre-fix production is preserved at `docs/fixtures/2026-08-31-pre-ui-fix/`, so **ship without waiting for it.**
 
 ---
 
 ## Where this sits in the sprint
 
-**Wave 2, concurrent.** Re-dispatched into a correct tree.
+**Wave 2, concurrent.** Independent of every other item.
 
 ## Context you need: what this sprint is and why it exists
 
