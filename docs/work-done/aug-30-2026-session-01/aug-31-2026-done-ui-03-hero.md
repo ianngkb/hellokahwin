@@ -21,14 +21,31 @@ band.
 Measured on all 13 homepage covers, source aspect read from each `low.webp`
 (which preserves it):
 
-| Sources | Dimensions | Aspect | Orientation | Height kept at 3.52:1 |
+| Covers displayed | `low.webp` dimensions | Aspect | Orientation | Height kept at 3.52:1 |
 |---|---|---|---|---|
 | **12 of 13** | 1200 × 800 | 1.500 | LANDSCAPE | **42.6%** |
 | **1 of 13** | 1200 × 1800 | 0.667 | PORTRAIT | **18.9%** |
 
 **The one portrait was the one in the hero.** Selection ordered by `publishedAt
-desc` with no orientation predicate, so the single portrait photograph in the
-set won the largest slot on the site by recency accident.
+desc` with no orientation predicate, so it won the largest slot on the site by
+recency accident.
+
+**Three scope precisions, because "the only portrait" is true of one set and
+false of two others**, and the loose phrasing reached my PR description:
+
+- **13 displayed covers: 1 portrait.** The row above. This is the set the
+  homepage renders.
+- **20-article selection buffer: 2 portraits** — `tempat-beli-hantaran` and
+  `hantaran-tempah-atau-buat-sendiri`. This is the set `heroIndex` actually
+  scans, so it is the one that matters for the rule. Both are now ineligible.
+- **86-article corpus: 12 disqualified** (0.667 ×6, 0.750 ×4, 0.748, 0.753).
+
+The dimensions above are the **`low.webp` derivative's**, which is what I
+surveyed. `media.width`/`height` hold the **original upload** dimensions
+(3888×2592, 4000×6000, …) and so will not match this table numerically. The
+*aspect ratios* are identical, which is why the two measurements agree on every
+verdict — but they are different numbers of different things and the column is
+now labelled as such.
 
 This was found by *looking at the photographs*, not by reading their metadata.
 Every automated number said the 3.52:1 crop was correct — right aspect, no
@@ -53,14 +70,17 @@ their hardware. Measured on the same page at the same moment:
 
 ### What shipped
 
-- **R8(c) — hero eligibility now tests the source photograph's orientation**
-  (`media.width / media.height >= 1.15`), riding the `media` leftJoin the credit
-  already needed. Unknown dimensions count as ineligible.
+- **R8(c) — hero eligibility now tests the source photograph's RETAINED FRAME**
+  — `sourceAspect / HERO_ASPECT >= 0.33`, derived from the plate's own aspect
+  rather than hardcoded, so widening the plate re-derives the threshold instead
+  of silently invalidating it. Rides the `media` leftJoin the credit already
+  needed, so no new query. Unknown dimensions count as ineligible.
 - **`<picture>` with one crop per band**, box aspect derived from the asset:
   `40/21` (1.905) below 1024px from `crop-16x9-og`; `88/25` (3.520) at and above
   from `crop-4.3x1-desktop-hero`. Aspect deviation 0.0%, not merely within 15%.
-- True `w` descriptors (the hero crop was declared `1600w`, is genuinely
-  `2464w`) and true `width`/`height` (were `1200×500`, describing neither asset).
+- True `w` descriptors (the hero crop was declared `1600w`; the delivered files
+  are ~2463–2464w, since `fit:'inside'` rounds against each source) and true
+  `width`/`height` (were `1200×500`, describing neither asset).
 - `scripts/measure-hero.mjs`, the rig that asserts all of it, committed.
 - A stale comment in `smart-crop.ts` corrected — the geometry deliberately not
   touched, because changing `CROP_TARGETS` changes `GEOMETRY_VERSION` and
@@ -77,7 +97,7 @@ Not treated as a STOP, because the gate exists to prevent *"shipping a different
 bad crop"* and what shipped is a **selection rule**, not a hand-picked
 photograph — which is the gate's own second sentence: *a pipeline finding worth
 more than a swapped photo*. Flagged rather than hidden: if the CEO reads the
-gate more strictly, the evidence to re-scope is in §2.1 of the spec.
+gate more strictly, the evidence to re-scope is in §2 of the spec.
 
 ## Ship state
 
@@ -196,21 +216,62 @@ Top of the buffer, which decides today's hero:
 3. adat-hantaran-ikut-keluarga    3888×2592  1.500  42.6%  <- becomes the hero
 ```
 
+**What actually moved in the Terkini list — measured on production either side of
+the deploy, because I predicted this wrong twice.** I told UI-01, twice, that
+`tempat-beli-hantaran` would become their **row 1**. It did not. Row 1 never
+changed:
+
+| Row | Before | After |
+|---|---|---|
+| **1** | `persiapan-hantaran-kahwin` | `persiapan-hantaran-kahwin` — **unchanged** |
+| **2** | `adat-hantaran-ikut-keluarga` | `tempat-beli-hantaran` |
+| 3–12 | *identical* | *identical* |
+
+It is a straight **swap at row 2**: the article promoted to hero leaves the list,
+the one demoted from hero takes its place. `persiapan-hantaran-kahwin` is index 0
+by `publishedAt desc` and was already excluded from the hero by gate (a)
+(`HERO_INELIGIBLE_SLUGS`), so it was row 1 before and stays row 1 after.
+
+I reasoned from "the demoted article is the newest, so it goes to the top"
+without checking that something newer was already sitting there — having *read
+that exact ordering off production earlier in the item*. The Design Systems
+Engineer caught it from the rendered page.
+
 Note 4:3 sources (10 articles, 1.333) retain 37.9% and pass — the rule is not
 merely a 3:2 filter, and nothing in the corpus is near the 1.16 boundary.
 
-⚠ **Connection note:** the worktree `.env` points `DATABASE_URL` at the Supabase
-**transaction pooler on 6543**, which dead-ends from this machine. The **session
-pooler on 5432** works — same host, same credentials.
+**⚠ RETRACTED IN FULL — the connection claim was false, and I made the same
+error twice.**
 
-**⚠ CORRECTION, and it is mine.** I told UI-01 this was the cause of their local
-homepage 500. **It was not.** Theirs was `ECONNREFUSED 127.0.0.1:5433` — the
-local WSL Postgres cluster showing `Stopped`, fixed with `pg_ctlcluster 16 main
-start`. Two different failures with one symptom, and I asserted a cause for a
-machine state I had never observed, on the strength of a plausible mechanism.
-That is the exact error this sprint's brief names: **a confident diagnosis of an
-absence, without verifying it.** UI-01 caught it. Both facts are true and
-separate: 6543 does dead-end here, *and* it was not their bug.
+I wrote that the worktree's `DATABASE_URL` on the Supabase **transaction pooler,
+port 6543**, "dead-ends from this machine", and that the session pooler on 5432
+was needed instead. **Both halves of that were asserted, not tested.** I reached
+for a remembered note, found that 5432 worked, and never tried 6543 at all.
+Tested afterwards, side by side, same host, same credentials:
+
+```
+PORT 6543 WORKS: 86 published
+PORT 5432 WORKS: 86 published
+```
+
+**6543 works.** The Design Systems Engineer ran the entire build, `next start`,
+29 static page renders and two probe scripts through 6543 unchanged, and said so;
+that is what prompted the test.
+
+This was the **second** time in one item I diagnosed a cause I had not observed.
+The first: I told UI-01 the pooler port explained their local homepage 500. It
+did not — theirs was `ECONNREFUSED 127.0.0.1:5433`, a stopped local WSL cluster,
+fixed with `pg_ctlcluster 16 main start`. I then compounded it by *reasserting*
+the pooler claim as established fact while conceding the UI-01 half.
+
+Both are the same failure and it is the one this sprint's brief names first:
+**a confident claim about an absence, from a plausible mechanism, without
+running the check.** I applied that discipline rigorously to image data all
+afternoon and not once to my own environment. The tell was available and I
+ignored it — I had proof 5432 worked and *no* observation of 6543 whatsoever,
+which is not evidence of a comparison, it is a sample of one.
+
+Corrected in the two messages that carried it (UI-01, and the DSE brief).
 
 **And a second correction from UI-01, which I accept:** to take the AFTER
 measurement I ran a local production build against the **production** database.
@@ -290,7 +351,38 @@ aspect-correct but exist at exactly one quality. There is no aspect-correct,
 quality-reduced derivative at all. DES-08 met this same matrix, chose bytes over
 shape, and that is how a portrait ended up in a landscape box.
 
-**(d) Enumerate a destructive command's blast radius BEFORE running it.**
+**(d) I applied the sprint's own discipline to data and not once to myself.**
+Three times in this item I stated a cause or a consequence I had not observed,
+each from a mechanism that was real but not present:
+
+| Claim | Reality | Caught by |
+|---|---|---|
+| "6543 dead-ends from this machine" | **6543 works.** I proved 5432 worked and never tried 6543 | DSE, then a test I should have run first |
+| "the pooler port is UI-01's 500" | Theirs was a stopped WSL cluster on 5433 | UI-01 |
+| "`tempat-beli-hantaran` becomes row 1" | Row 1 never changed; it is a **row-2 swap** | DSE, from the rendered page |
+
+All three are one failure: **a plausible mechanism substituted for a
+measurement.** And it is worse than an ordinary guess, because a *wrong* guess
+that sounds wrong gets challenged, while a wrong guess that sounds right gets
+adopted — I passed the first two on to two other agents as established fact, and
+the third I asserted after having read the true ordering off production earlier
+in this very item.
+
+The asymmetry is the finding. I spent the afternoon refusing to accept `grep -c`,
+`img.naturalWidth`, a 20-of-20 sample, or a 200 status code — and accepted my own
+recollection about a port without a single command. **Rigour applied only to the
+artefact under test, never to the claims made around it, is rigour with a hole in
+it exactly where the reports go.**
+
+**Form:** this cannot be a script, and per the brief's instruction I should say
+so rather than pretend. The nearest mechanism is a habit with a trigger:
+**before a causal claim leaves this session — into a message, a commit, or a
+report — either run the command that establishes it, or write the word
+"unverified" next to it.** Filed against the persona, which already says "when
+you assert something about the live site, verify it yourself" — a rule I had,
+and applied to the site, and not to anything else I said.
+
+**(e) Enumerate a destructive command's blast radius BEFORE running it.**
 Cleaning 4.6 MB of evidence PNGs out of the site repo I ran
 `git rm -r --cached docs/work-done`, which took the **whole tree — 339 files,
 102,257 deletions**, including every pre-existing work-done entry tracked on
@@ -305,7 +397,7 @@ you assume" applied to git rather than to grep — and it is the more dangerous
 direction, because grep returning the wrong answer costs a wrong belief while
 `git rm` returning the wrong answer costs the repository.
 
-**(e) A guard that is built but not installed is indistinguishable from no
+**(f) A guard that is built but not installed is indistinguishable from no
 guard.** The only reason either the original mis-commit or my bad fix was
 reachable is that **RISK-09's docs/site boundary guard is built, tested 22/22,
 and NOT INSTALLED** — its own work-done entry says `partial — INSTALL PENDING
@@ -313,7 +405,7 @@ the CEO's green-light`. It would have blocked both. This is the sprint's central
 finding ("prose does not fire, gates do") with one more turn on it: *a gate that
 is not installed does not fire either*.
 
-**(f) Values derived by POSITION rather than by IDENTITY.** *(Framing owed to
+**(g) Values derived by POSITION rather than by IDENTITY.** *(Framing owed to
 UI-01, who named it across both items.)* Their bug: CSS Grid auto-placed the
 headline into the rank-number track because no child *claimed* it. Ours:
 `filter((_, i) => i !== heroIndex)` matched by index, so once the eligibility
