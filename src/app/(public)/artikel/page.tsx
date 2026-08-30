@@ -8,7 +8,11 @@ import { articles, inspireCategories, articleCategories } from '@/lib/db/schema/
 import { media } from '@/lib/db/schema/media';
 import { ArticleCard } from '@/components/inspire/article-card';
 import { getSmartCropRef } from '@/lib/storage/smart-crop-url';
-import { isHeroFrameEligible, resolveHeroCrops } from '@/lib/inspire/hero-frame';
+import {
+  HERO_INELIGIBLE_SLUGS,
+  isHeroFrameEligible,
+  resolveHeroCrops,
+} from '@/lib/inspire/hero-frame';
 import { flattenCategoriesByArticleCount } from '@/lib/inspire/category-tree';
 import { InspireArticleSearch } from '@/components/inspire/inspire-article-search';
 
@@ -172,28 +176,31 @@ export default async function InspireHomePage() {
   // definitions the homepage uses — not a second copy, which would be free to
   // drift while every check stayed green.
   //
-  // ⚠️ OPEN FINDING — `HERO_INELIGIBLE_SLUGS` is deliberately NOT applied here,
-  // and it has a measured consequence. UI-12 §3 S4 asks for "the first
-  // hero-frame-eligible article", which is R8(c) plus R8(b); R8(a) is the
-  // homepage's hand-curated class-G slug list, and extending a curated
-  // editorial exclusion to a second surface is the Creative Director's call,
-  // not the builder's.
+  // ⚠️ R8(a) IS APPLIED HERE, AND IT WAS A RULING, NOT A DEFAULT.
   //
-  // Measured against production data on a local build, 31 Ogos 2026: without
-  // R8(a) this plate selects `persiapan-hantaran-kahwin` — the single article
-  // that list exists to keep OUT of a large frame (a wide procession shot, 13
-  // people across a street, DES-02's exact failure mode). Its geometry is fine
-  // (it passes R8(b) and R8(c) and the gate is green on it); its SUBJECT is the
-  // reason it was excluded from the homepage hero.
+  // UI-12 S4 asks for "the first hero-frame-eligible article", which names
+  // R8(c) and implies R8(b). R8(a) — the hand-curated class-G slug list — is an
+  // EDITORIAL exclusion, so it was raised to the Creative Director rather than
+  // decided by the builder. Measured on a local production-data build,
+  // 31 Ogos 2026: without R8(a) this plate selected `persiapan-hantaran-kahwin`,
+  // the single article that list exists to keep out of a large frame.
   //
-  // Raised, not absorbed. Applying R8(a) here is one clause on the predicate
-  // below; it is not applied unless the Creative Director says so.
+  // The ruling, 31 Ogos 2026, made by rendering the 2463×700 crop at the plate's
+  // painted 1232×350 and looking at it: apply R8(a). The failure R8(a) guards
+  // against is ENLARGEMENT, and 1232×350 is a large frame by any reading, so the
+  // reasoning transfers to this surface exactly. Half-inheriting R8 is how the
+  // defect returns. All three gates, one definition, both surfaces.
   //
-  // Skipped articles are not dropped — they fall into the supporting-card
-  // positions in order, so the newest article stays at the top of the page and
-  // simply stops holding a plate its photograph cannot fill.
+  // That review also found `hantaran-kahwin-bajet` failing the same way and NOT
+  // on the list — see the note above `HERO_INELIGIBLE_SLUGS` in
+  // `@/lib/inspire/hero-frame`, which is the more important half of this change.
+  // All three R8 gates in one pass, in the same order and from the same module
+  // the homepage uses: (a) the hand-curated class-G slug list, (b) both hero
+  // crops exist with their dimensions recorded, (c) the SOURCE photograph
+  // retains >= 33% of its height in a 3.520 box.
   const leadIndex = latestArticles.findIndex(
     (a) =>
+      !HERO_INELIGIBLE_SLUGS.has(a.slug) &&
       resolveHeroCrops(a.coverImageSmartCrops) !== null &&
       isHeroFrameEligible(a.coverWidth, a.coverHeight),
   );

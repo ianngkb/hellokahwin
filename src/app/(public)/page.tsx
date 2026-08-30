@@ -6,7 +6,11 @@ import { db } from '@/lib/db/drizzle';
 import { articles, inspireCategories } from '@/lib/db/schema/articles';
 import { media } from '@/lib/db/schema/media';
 import { resolveCoverSource } from '@/lib/storage/responsive-cover';
-import { isHeroFrameEligible, resolveHeroCrops } from '@/lib/inspire/hero-frame';
+import {
+  HERO_INELIGIBLE_SLUGS,
+  isHeroFrameEligible,
+  resolveHeroCrops,
+} from '@/lib/inspire/hero-frame';
 import '@/design-system/tokens.css';
 import '@/design-system/components.css';
 
@@ -14,34 +18,12 @@ import '@/design-system/components.css';
 export const revalidate = 1800;
 
 /**
- * Spec §6.1/§6.3: a class-G cover (a wide documentary frame — a procession, a
- * crowd at a distance) is never assigned as the homepage hero, DES-08's
- * largest single frame — "if the only candidate photograph for a new article
- * is class G, the article ships with the no-cover layout… rather than an
- * enlarged class-G frame."
- *
- * This is NOT automated. `coverImageDetectionData` (AWS Rekognition
- * faces/labels, meant to give exactly this signal) is EMPTY for the entire
- * recent corpus checked here — `REKOGNITION_ENABLED` was off at ingest, so
- * there is no face count, no label, nothing to threshold on. Image aspect
- * ratio doesn't discriminate either (every `low` derivative resizes to the
- * same ~1.5:1 regardless of subject — checked against 8 recent covers).
- *
- * So this is a hand-curated, disclosed stopgap: the one cover visually
- * confirmed as a wide group/procession shot (13 people across a street,
- * DES-02's exact failure mode) is named here by slug and skipped for hero
- * placement only — it still displays normally as a small "Terkini" row,
- * where enlargement isn't the risk. A real fix needs either Rekognition
- * turned back on for new ingests or an editorial cover-class field (spec
- * §6.1: "cover class is an editorial selection input") — named as a
- * follow-up in the DES-08 work-done entry, not invented here.
- */
-const HERO_INELIGIBLE_SLUGS = new Set<string>(['persiapan-hantaran-kahwin']);
-
-/**
- * UI-03 R8's automatic hero-eligibility gates — `resolveHeroCrops` (R8b) and
- * `isHeroFrameEligible` / `HERO_ASPECT` / `MIN_RETAINED_FRAME` (R8c) — now live
- * in `src/lib/inspire/hero-frame.ts`, because UI-12 S4 gave them a SECOND
+ * ALL THREE of UI-03 R8's hero-eligibility gates — `HERO_INELIGIBLE_SLUGS`
+ * (R8a), `resolveHeroCrops` (R8b) and `isHeroFrameEligible` / `HERO_ASPECT` /
+ * `MIN_RETAINED_FRAME` (R8c) — now live in `src/lib/inspire/hero-frame.ts`,
+ * INCLUDING the hand-curated class-G slug list, which the Creative Director
+ * ruled on 31 Ogos 2026 transfers to any large frame rather than belonging to
+ * this page. UI-12 S4 gave them a SECOND
  * caller: `/artikel`'s featured lead plate, which carried the identical
  * selection defect (recency order, no orientation predicate). Lifted verbatim;
  * the homepage's hero selection is unchanged by the move, and the same 20-row

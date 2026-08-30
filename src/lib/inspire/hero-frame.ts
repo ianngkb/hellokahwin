@@ -25,6 +25,72 @@ import { getSmartCropRef, type SmartCropRef } from '@/lib/storage/smart-crop-url
  */
 
 /**
+ * R8(a) — THE HAND-CURATED CLASS-G SLUG LIST.
+ *
+ * Moved here from `src/app/(public)/page.tsx` by UI-12 C1. The Creative
+ * Director's ruling, 31 Ogos 2026: this list is NOT a property of the homepage.
+ * The failure it guards against is ENLARGEMENT, so it transfers to any large
+ * frame — and `/artikel`'s lead plate paints 1232×350 at a 1440 viewport, which
+ * is a large frame by any reading. Half-inheriting R8 is how the defect
+ * returns, so both surfaces now run all three gates off this one definition.
+ *
+ * The DES-08 reasoning below is preserved verbatim. Read it before adding an
+ * entry; read the UI-12 note after it before adding a THIRD.
+ */
+
+/**
+ * Spec §6.1/§6.3: a class-G cover (a wide documentary frame — a procession, a
+ * crowd at a distance) is never assigned as the homepage hero, DES-08's
+ * largest single frame — "if the only candidate photograph for a new article
+ * is class G, the article ships with the no-cover layout… rather than an
+ * enlarged class-G frame."
+ *
+ * This is NOT automated. `coverImageDetectionData` (AWS Rekognition
+ * faces/labels, meant to give exactly this signal) is EMPTY for the entire
+ * recent corpus checked here — `REKOGNITION_ENABLED` was off at ingest, so
+ * there is no face count, no label, nothing to threshold on. Image aspect
+ * ratio doesn't discriminate either (every `low` derivative resizes to the
+ * same ~1.5:1 regardless of subject — checked against 8 recent covers).
+ *
+ * So this is a hand-curated, disclosed stopgap: the one cover visually
+ * confirmed as a wide group/procession shot (13 people across a street,
+ * DES-02's exact failure mode) is named here by slug and skipped for hero
+ * placement only — it still displays normally as a small "Terkini" row,
+ * where enlargement isn't the risk. A real fix needs either Rekognition
+ * turned back on for new ingests or an editorial cover-class field (spec
+ * §6.1: "cover class is an editorial selection input") — named as a
+ * follow-up in the DES-08 work-done entry, not invented here.
+ */
+
+/**
+ * ⚠️ UI-12 C2 — SECOND ENTRY, AND THE SECOND ENTRY IS THE FINDING.
+ *
+ * `hantaran-kahwin-bajet` was added on 31 Ogos 2026 after the Creative Director
+ * rendered its `crop-4.3x1-desktop-hero` (2463×700) at the plate's PAINTED size
+ * — 1232×350 at a 1440 viewport — and looked at it rather than reading a
+ * comment about it. Judged class G: an even wider line of people across a yard,
+ * faces smaller than `persiapan-hantaran-kahwin`'s. Same failure mode, and it
+ * was not on the list.
+ *
+ * THAT IS WORTH MORE THAN THE FIX. DES-08 described this list as a stopgap with
+ * one entry. Twelve covers on the front page contain at least TWO class-G
+ * frames, so the list is not merely a stopgap — it is an INCOMPLETE one, and
+ * nothing in the pipeline can tell us how incomplete. A curated list that grows
+ * this fast is evidence it must be REPLACED, not extended indefinitely: either
+ * `REKOGNITION_ENABLED` back on at ingest so `coverImageDetectionData` carries a
+ * face count and a label to threshold on, or the editorial cover-class field
+ * spec §6.1 already calls for ("cover class is an editorial selection input").
+ *
+ * Before you add a third entry, raise the replacement instead.
+ */
+export const HERO_INELIGIBLE_SLUGS = new Set<string>([
+  // DES-08: 13 people across a street, DES-02's exact failure mode.
+  'persiapan-hantaran-kahwin',
+  // UI-12 C2: a wider line of people across a yard, faces smaller still.
+  'hantaran-kahwin-bajet',
+]);
+
+/**
  * R8(c) — RETAINED FRAME. This is the rule the whole of UI-03 turned on.
  *
  * Having the right-shaped crop is not the same as having the right PHOTOGRAPH.
