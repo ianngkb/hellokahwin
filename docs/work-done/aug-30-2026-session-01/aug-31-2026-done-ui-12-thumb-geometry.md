@@ -155,6 +155,50 @@ Specified in `docs/design/card-thumbnail-image-rules.md` §3, built by
   on `master` in between and narrowed the prose column. This ships as hardening
   (T3), not as a live fix, and is not counted in the 37.
 
+- **S4b / R8(d) — the section front does not lead with the front page's
+  photograph.** S4 CAUSED this: before it, `/artikel` led with a different
+  article; applying R8(a) and R8(c) walked the plate onto
+  `adat-hantaran-ikut-keluarga`, the homepage hero's own photograph, in the same
+  88/25 crop at the same painted size. Fixed rather than filed, because it was
+  new and it was mine. One exported `pickHeroIndex(articles, fromIndex)`; neither
+  surface reads the other's query.
+- **S4c — each `<source>` states its own file's real dimensions**, from the same
+  `getSmartCropRef` lookup as its `w` descriptor (`2463w`, read — not `2464` from
+  `CROP_TARGETS`). **This one changed no measured number and is not listed as a
+  fix.** See below.
+
+### S4c achieved nothing measurable, and I ordered it on a mechanism that does not exist
+
+Recorded at this length because the failure is more useful than the change.
+
+**I predicted two things and both were wrong.** That `image-attr-aspect` would go
+66 → 60, and that the six rows existed because the browser reserves the fallback
+`<img>`'s 1.905 and reflows to 3.520 at ≥1024px — "a layout shift on the largest
+element of two templates, and the LCP element on `/artikel`".
+
+**Measured, both false.**
+
+- `image-attr-aspect` stayed at **66**. The check reads
+  `img.getAttribute('width')` and never inspects `<source>`, so the edit could not
+  move it. 66 → 60 was never reachable.
+- There is no reflow, and there never was. With every image request aborted, and
+  again with the attributes stripped from the HTML in flight as a negative
+  control, the reserved box is **identical either way** at 1024/1440/1920 on both
+  plates. The wrapper's `aspect-[40/21] lg:aspect-[88/25]` pins the box and the
+  `<img>` is `absolute inset-0 h-full w-full` — an absolutely-positioned, fully
+  inset image cannot size its containing block. R6's sentence is right in general;
+  DES-08's wrapper pattern had already solved it in CSS here.
+
+**It shipped anyway, on a justification that survives measurement, not on the one
+that was ordered:** it supplies the data the *gate's* own fix needs (see §7), it
+is an honest per-band declaration tied to its own descriptor, and it becomes
+load-bearing the moment someone drops the wrapper's aspect class. Zero measured
+cost — not a painted pixel moved and eight of nine checks were byte-identical.
+
+**The engineer caught it, not me**, and it rewrote its own first draft of the
+comment rather than shipping prose it had disproved. That is the right instinct
+and it is the reason this is a paragraph rather than a defect.
+
 ### R8 eligibility, and a second class-G cover
 
 `HERO_ASPECT`, `MIN_RETAINED_FRAME`, `isHeroFrameEligible`, `resolveHeroCrops` and
@@ -369,6 +413,41 @@ evidence directory, captured from production at DPR 2 after `a210b0a` deployed:
    `garden-wedding` alone. That is UI-03 R6, at scale, and it shares a root with
    this item's R4 problem: **the pipeline does not record image dimensions
    anywhere it can be read at render time.** One fix closes both.
+
+5. **I GUARDED THE RISK I IMAGINED, NOT THE CLAIM I MADE — and that is the
+   transferable lesson of this item.** Ordering S4c, I set one stop condition:
+   *if `image-aspect` moves at all, stop, because that would mean reservation
+   attributes changed a painted box.* It did not move. The guard passed. And both
+   things I had actually asserted — that the advisory count would fall 66 → 60,
+   and that a reflow existed — were false.
+
+   The guard covered the way I thought the change might do HARM. It covered
+   nothing about whether the change would do the GOOD I claimed. Those are
+   different questions and I only asked one. **A prediction is not verified by an
+   unrelated check staying still.** The fix is a habit, not a document: when you
+   order work on a stated mechanism, name the measurement that would falsify the
+   MECHANISM, not just the one that would catch collateral damage. Here that was
+   one line — abort the image requests and compare the reserved box with and
+   without the attributes — and the engineer ran it unprompted after the number
+   failed to move.
+
+6. **`image-attr-aspect` cannot be satisfied by a `<picture>`, and that is a gate
+   finding, not a markup one.** It reads the `<img>`'s `width`/`height` and
+   compares them against the file at `currentSrc` — which above the breakpoint is
+   the `<source>`'s file. An `<img>` carries one pair of attributes; a `<picture>`
+   serves different aspects per band by design. Six rows on the two lead plates are
+   therefore unclearable by any correct markup. **Owner: UI-06.** The check must
+   read the `<source>`'s dimensions when a `<source>` supplied `currentSrc` — and
+   S4c, which cleared nothing itself, is what put those dimensions in the DOM for
+   it to read. That is the whole of S4c's value and it is worth stating plainly.
+
+7. **The `parseImageDims` fallback is not just a data-quality finding — it is the
+   specific blocker keeping a ninth check non-blocking.** The gate's own comment
+   says `image-attr-aspect` is advisory only because it fails its negative control
+   (a boilerplate `1200 × 800` on 11 of 51 images on `article.html`), and "should
+   become blocking once the declarations are corrected". Recording real dimensions
+   at ingest therefore buys a promotion from advisory to blocking, not just tidier
+   numbers.
 
 **What we did twice.** I derived the `naturalWidth` density arithmetic by hand
 before finding UI-03 §7 had already written it — §7 is at the bottom of a long
