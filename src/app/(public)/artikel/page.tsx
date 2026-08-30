@@ -325,11 +325,39 @@ export default async function InspireHomePage() {
                               every width, which retains 35.0% even from the
                               corpus's worst source (0.667). Never degrade to a
                               portrait in a landscape box. */}
+                          {/* R6 PER BAND — the `<source>`'s own file, stated on the `<source>`.
+                              `width`/`height` here are the desktop crop's REAL dimensions
+                              (2463×700 = 3.51857), read from the same `getSmartCropRef` ref as
+                              the `w` descriptor on the line above, so a future retarget moves
+                              all three together or none of them. The `<img>` below keeps
+                              `crop-16x9-og`'s 1200×630. Two bands, two files, two truths.
+
+                              ⚠️ WHAT THIS DOES **NOT** DO, measured 31 Ogos 2026 rather than
+                              assumed. It does not prevent a layout shift, because there is no
+                              layout shift here to prevent. The box is pinned by the WRAPPER's
+                              `aspect-[40/21] lg:aspect-[88/25]`, and this `<img>` is
+                              `absolute inset-0 h-full w-full` — an absolutely-positioned,
+                              fully-inset image cannot size its containing block, so neither
+                              its attributes nor the `<source>`'s can move the reserved box.
+                              Proved by aborting every image request and comparing the
+                              reserved box with these attributes present and stripped in
+                              flight: identical at 1024/1440/1920 on this plate
+                              — reserved 976x277 / 1232x350 / 1488x423 either way.
+
+                              So this is defence in depth and an honest declaration, NOT a CLS
+                              fix. It starts doing real work the moment someone removes the
+                              wrapper's aspect class or stops absolutely positioning the image,
+                              which is exactly when a silent reflow would otherwise appear.
+                              Do not cite it as a shift fix, and do not expect it to move
+                              `image-attr-aspect`: that check reads `img.getAttribute('width')`
+                              and never inspects `<source>` (ui-layout-gate.mjs). */}
                           {leadCrops && (
                             <source
                               media="(min-width: 1024px)"
                               srcSet={`${leadCrops.desktop.url} ${leadCrops.desktop.width}w`}
                               sizes="100vw"
+                              width={leadCrops.desktop.width}
+                              height={leadCrops.desktop.height}
                             />
                           )}
                           {/* No eslint-disable needed: `@next/next/no-img-element`

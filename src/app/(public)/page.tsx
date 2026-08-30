@@ -261,10 +261,38 @@ export default async function HomePage() {
                         a ceiling and the window rounds. One candidate per band,
                         because these are two different photographs and `srcset`
                         chooses a SIZE, not a CROP. */}
+                    {/* R6 PER BAND — the `<source>`'s own file, stated on the `<source>`.
+                        `width`/`height` here are the desktop crop's REAL dimensions
+                        (2463×700 = 3.51857), read from the same `getSmartCropRef` ref as
+                        the `w` descriptor on the line above, so a future retarget moves
+                        all three together or none of them. The `<img>` below keeps
+                        `crop-16x9-og`'s 1200×630. Two bands, two files, two truths.
+
+                        ⚠️ WHAT THIS DOES **NOT** DO, measured 31 Ogos 2026 rather than
+                        assumed. It does not prevent a layout shift, because there is no
+                        layout shift here to prevent. The box is pinned by the WRAPPER's
+                        `aspect-[40/21] lg:aspect-[88/25]`, and this `<img>` is
+                        `absolute inset-0 h-full w-full` — an absolutely-positioned,
+                        fully-inset image cannot size its containing block, so neither
+                        its attributes nor the `<source>`'s can move the reserved box.
+                        Proved by aborting every image request and comparing the
+                        reserved box with these attributes present and stripped in
+                        flight: identical at 1024/1440/1920 on this plate
+                        — reserved 1024x291 / 1440x409 / 1920x545 either way.
+
+                        So this is defence in depth and an honest declaration, NOT a CLS
+                        fix. It starts doing real work the moment someone removes the
+                        wrapper's aspect class or stops absolutely positioning the image,
+                        which is exactly when a silent reflow would otherwise appear.
+                        Do not cite it as a shift fix, and do not expect it to move
+                        `image-attr-aspect`: that check reads `img.getAttribute('width')`
+                        and never inspects `<source>` (ui-layout-gate.mjs). */}
                     <source
                       media="(min-width: 1024px)"
                       srcSet={`${heroCrops.desktop.url} ${heroCrops.desktop.width}w`}
                       sizes="100vw"
+                      width={heroCrops.desktop.width}
+                      height={heroCrops.desktop.height}
                     />
                     {/* No eslint-disable needed here: `@next/next/no-img-element`
                         does not fire on an `<img>` inside a `<picture>`, which
