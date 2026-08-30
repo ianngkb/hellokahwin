@@ -1002,6 +1002,11 @@ export default async function DesignSystemPage({
                     '20px text, 44px hit slop',
                     'Text stays 14px; the hit area is padded, not the type grown',
                   ],
+                  [
+                    'Search field (/artikel#cari)',
+                    '46px',
+                    'UI-09. 16px type is the constraint, not the target: iOS Safari zooms a field under 16px on focus, and mobile is 79% of clicks. 16px line-height 24 + 10px padding + 1px border = 46px, over the 44 floor without a fixed height that would clip enlarged type',
+                  ],
                 ].map((row, i) => (
                   <tr key={i} className="border-t">
                     {row.map((c, j) => (
@@ -1023,6 +1028,22 @@ export default async function DesignSystemPage({
             <code>ring-ring/30</code> at 1.95:1 that DES-07 flagged. Exactly one{' '}
             <code>aria-live=&quot;polite&quot;</code> region per page, reused by the loading bar at
             ≥3s, a <em>Muat lagi</em> result count, and a retry outcome — not built three times.
+          </p>
+          <p className="text-muted-foreground max-w-[74ch] text-xs">
+            <strong>
+              UI-09, 31 Ogos 2026 — the same defect, found shipped on the public site.
+            </strong>{' '}
+            DES-07 flagged <code>ring-ring/30</code> inside this module; the article search field on{' '}
+            <code>/artikel#cari</code> was still painting it. Measured on production at 390 / 768 /
+            1024 / 1440, canvas-resolved rather than parsed from <code>getComputedStyle</code>{' '}
+            (every token here is <code>oklch()</code>, which Chrome returns as <code>oklab()</code>
+            ): the ring composited to <code>rgb(182,181,180)</code> over{' '}
+            <code>rgb(252,251,250)</code> — <strong>1.98:1</strong>, against the 3:1 that WCAG 2.2
+            SC 1.4.11 asks of an indicator. It is now <code>outline: 2px solid var(--ring)</code> at{' '}
+            <code>outline-offset: 2px</code> on <code>:focus-visible</code>, the same shape the
+            masthead rail uses, at <strong>17.7:1</strong>. The lesson worth keeping is that a ring
+            can be present, correctly sized, and still not be an indicator — “is there a box-shadow”
+            was never the test; the flattened ratio is.
           </p>
         </section>
 
