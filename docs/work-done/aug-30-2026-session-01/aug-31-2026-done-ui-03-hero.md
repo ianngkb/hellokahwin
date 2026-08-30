@@ -391,6 +391,45 @@ report — either run the command that establishes it, or write the word
 you assert something about the live site, verify it yourself" — a rule I had,
 and applied to the site, and not to anything else I said.
 
+**(h) An anchored find-and-replace silently eats its anchor. §5.10 deleted a
+heading — and it is the section arguing that nothing measures the write-up.**
+
+Inserting §5.10 by replacing the `## 6. What this doctrine asks for` heading, I
+appended the new section and **failed to re-emit the anchor**. The doctrine ran
+5.10 → "## Data provenance", with section 6's four open decisions — the writer
+hires, the pillar pages, the venue directory, the redirect chain — orphaned
+inside §5.10, so "Nothing new. It asks for the same four decisions already open"
+read as a statement about §5.10. UI-01 caught it, restored it in `8a1ca60`, and
+confirmed from `git show 01c70a2` that the deletion was mine and not theirs.
+
+**I used that identical anchor twice and got it right the first time.** The §5.8
+insertion re-emitted `## 6.` correctly; the §5.10 insertion did not. So this is
+not a misunderstanding of the tool — it is an inconsistency, which is worse,
+because there is no knowledge to acquire that would prevent it.
+
+**Form — and unlike (d), this one CAN be a check.** A commit that is supposed to
+be purely additive should delete no headings:
+
+```
+git show <sha> -- <file> | grep -c '^-## '
+```
+
+Run against the two commits that used the same anchor: **`0f59dc7` → 0,
+`01c70a2` → 1.** It separates them exactly, costs nothing, and would have caught
+this before it was pushed. Worth a `pre-commit` line for `docs/plans/**` the next
+time anyone is in `scripts/git-hooks/` — which is the same place RISK-09's
+uninstalled guard lives.
+
+**Why it belongs in this entry and not in the doctrine:** UI-01's judgement, and
+it is right — §5.10 does not need a monument to its own first casualty. But the
+irony is exactly on point and I am not going to lose it: **the section arguing
+that every instrument we own points at the artefact and none at the write-up
+damaged the artefact it was added to.** Nothing in either repo checks heading
+levels, and the loss is invisible in a rendered view. It was found only because
+UI-01 read the section end to end before citing it — the same reflex that
+produced their row-1/row-2 capture an hour earlier, paying twice in one
+afternoon.
+
 **(e) Enumerate a destructive command's blast radius BEFORE running it.**
 Cleaning 4.6 MB of evidence PNGs out of the site repo I ran
 `git rm -r --cached docs/work-done`, which took the **whole tree — 339 files,
@@ -435,6 +474,7 @@ structural diff, the page renders.
 | (a)–(c) | **Binding spec** — inherited by UI-05 rather than re-decided | `docs/design/hero-image-rules.md` | creative-director | ✅ **created** |
 | (c) | **Costed pipeline request** — owner decision, AWS spend | spec §5 + Follow-up 1 | ceo-hellokahwin | ⏳ **raised** |
 | (e) | **Install the guard that already exists** — the single highest-leverage action available from this item | `aug-31-2026-done-risk-09-boundary-guard.md` → `scripts/git-hooks/install-hooks.sh` | ceo-hellokahwin (green-light) → design-systems-engineer | ⏳ **raised, and it is a decision not a build** |
+| (h) | **A runnable check** — `git show <sha> -- <file> \| grep -c '^-## '` must be 0 on an additive commit; proposed as a `pre-commit` line for `docs/plans/**` | `scripts/git-hooks/` (site repo) | design-systems-engineer | ⏳ **proposed, with the check written and demonstrated 0 vs 1** |
 | (f) | **Doctrine §5.8 closing paragraph** — address by identity, never by position | `docs/plans/aug-23-2026-session-01/aug-23-2026-production-doctrine.md` | creative-director | ✅ **edited** |
 
 **Deliberately NOT prose.** Sprint 03's central finding is that prose rules do
