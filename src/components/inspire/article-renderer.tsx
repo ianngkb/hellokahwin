@@ -17,6 +17,7 @@ import { getArticleVariantUrl } from '@/lib/storage/article-image-variant';
 // Duplicating a security check is how one copy quietly stops matching the
 // other, so there is exactly one.
 import { safeHref } from '@/lib/utils/safe-href';
+import { normaliseCaptionLabel } from '@/lib/inspire/image-credit-label';
 import {
   extractHeadings,
   createHeadingIdAssigner,
@@ -175,11 +176,15 @@ type DomOutput = (string | Record<string, string> | DomOutput)[];
 /** `<figure><img …>[<figcaption>…</figcaption>]</figure>` in Tiptap's DOM-spec form. */
 function figureSpec(src: string, alt: string, caption: string, captionUrl: string): DomOutput {
   const children: DomOutput = [['img', { src, alt, loading: 'lazy' }]];
-  if (caption) {
+  // RIGHTS-01: a figcaption here is EITHER a credit or a descriptive caption.
+  // `normaliseCaptionLabel` relabels only the credits and returns teaching
+  // captions untouched — see `image-credit-label.ts`.
+  const label = normaliseCaptionLabel(caption);
+  if (label) {
     children.push([
       'figcaption',
       {},
-      captionUrl ? ['a', { href: captionUrl, rel: 'noopener noreferrer' }, caption] : caption,
+      captionUrl ? ['a', { href: captionUrl, rel: 'noopener noreferrer' }, label] : label,
     ]);
   }
   return ['figure', {}, ...children];
@@ -589,11 +594,15 @@ function renderHtmlParts(
 
   for (let i = 0; i < parts.length; i++) {
     const part = parts[i];
+    // RIGHTS-01: one label, one casing, normalised at render. Descriptive
+    // captions pass through unchanged; `null` means there is nothing to show,
+    // including a caption that is a bare label with no owner after it.
+    const creditLabel = part.type === 'html' ? null : normaliseCaptionLabel(part.caption);
     if (part.type === 'html') {
       elements.push(
         <div key={`${keyPrefix}-${i}`} dangerouslySetInnerHTML={{ __html: part.value }} />,
       );
-    } else if (part.caption) {
+    } else if (creditLabel) {
       elements.push(
         <figure
           key={`${keyPrefix}-${i}`}
@@ -633,11 +642,11 @@ function renderHtmlParts(
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                {part.caption}
+                {creditLabel}
                 <ExternalLinkIcon />
               </a>
             ) : (
-              part.caption
+              creditLabel
             )}
           </figcaption>
         </figure>,
