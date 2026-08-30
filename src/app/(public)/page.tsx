@@ -61,34 +61,51 @@ function resolveHeroCrops(smartCrops: unknown): { desktop: SmartCropRef; og: Sma
 }
 
 /**
- * R8(c) — and this is the rule the whole item turns on.
+ * R8(c) — RETAINED FRAME. This is the rule the whole item turns on.
  *
- * Having the right-shaped crop is not the same as having a landscape
- * PHOTOGRAPH. `computeCropWindow` is width-constrained, so a 3.52:1 window on a
- * 2:3 portrait source keeps `(w / 3.52) / h` = **18.9% of the source height**.
- * That produces a band: correctly proportioned, sharp, and depicting nothing.
- * On a 1.5 landscape source the same window keeps 42.6% and yields a real
- * frame. Same pipeline, same target — the difference is the source.
+ * Having the right-shaped crop is not the same as having the right PHOTOGRAPH.
+ * The hero target is wider than every source in this corpus, so
+ * `computeCropWindow` always takes the width-constrained branch, and the
+ * surviving fraction of the source's height is exactly
+ * `sourceAspect / HERO_ASPECT`. Measured:
+ *
+ *   source 1.500 (12 of 13 covers) → 42.6% retained → a photograph
+ *   source 0.667 (the one that shipped) → 18.9% retained → a texture
+ *   threshold 1.16 → 33.0% retained → the line
+ *
+ * Below roughly a third of the frame a crop stops reading as a photograph of
+ * its subject. That 33% is the Creative Director's judgement, owned as
+ * judgement — a defensible line, not a derived constant. Everything else here
+ * IS derived, which is the point: expressed as a bare `>= 1.15` the test hides
+ * its own reasoning and rots the moment the plate's aspect changes.
  *
  * Selection is `publishedAt desc` with no orientation predicate, so before this
- * gate existed the single portrait photograph in the set won the largest slot
- * on the site by recency accident. Measured on production 31 Ogos 2026 across
- * the full 20-article buffer: 18 landscape sources (AR 1.414–1.500) and 2
- * portrait (AR 0.667) — and one of the two portraits was the live hero.
- *
- * Fixing only the crop would therefore have shipped a sharp, correctly
+ * gate the portrait photograph in the set won the largest slot on the site by
+ * recency accident. Fixing only the crop would have shipped a sharp, correctly
  * proportioned photograph of nothing.
  *
- * ⚠️ `width`/`height` are nullable, and UNKNOWN COUNTS AS INELIGIBLE. Defaulting
- * unknown to eligible is precisely how this defect shipped. Verified populated
- * 20/20 on production before relying on them — a joinable row with null
- * dimensions would be a proxy, not a measurement.
+ * Corpus, verified against production 31 Ogos 2026 (86 published articles):
+ *   0.667 ×6 · 0.748 ×1 · 0.750 ×4 · 0.753 ×1   → 12 disqualified
+ *   1.333 ×10 · 1.339 ×1 · 1.414 ×1 · 1.494 ×1 · 1.500 ×33 · 1.504 ×2 → 48 pass
+ * 4:3 (1.333) retains 37.9% and passes, so this is not merely a 3:2 filter, and
+ * the lowest passing value sits well clear of the 1.16 boundary — no marginal
+ * cases.
+ *
+ * ⚠️ NULLABLE, AND UNKNOWN COUNTS AS INELIGIBLE. Defaulting unknown to eligible
+ * is precisely how this defect shipped. Verified by querying production, not by
+ * reading code: **60 of 86 articles have width/height populated; 26 are null.**
+ * Within the 20-article homepage buffer it is 20/20 with zero nulls — but note
+ * WHY that is safe. The 26 nulls are ranks 58–86 by recency, the oldest tail,
+ * every one of them; the buffer never reaches them. That is a data fact about
+ * where the nulls sit, not a property of this rule. If the buffer ever deepens
+ * past ~57 articles, this starts excluding real candidates.
  */
-const HERO_MIN_SOURCE_ASPECT = 1.15;
+const HERO_ASPECT = 88 / 25; // 3.520 — MUST stay in sync with `lg:aspect-[88/25]` below.
+const MIN_RETAINED_FRAME = 0.33; // A hero crop must keep a third of the source frame.
 
-function isSourceLandscape(width: number | null, height: number | null): boolean {
-  if (!width || !height) return false;
-  return width / height >= HERO_MIN_SOURCE_ASPECT;
+function isHeroFrameEligible(width: number | null, height: number | null): boolean {
+  if (width == null || height == null || height <= 0) return false;
+  return width / height / HERO_ASPECT >= MIN_RETAINED_FRAME;
 }
 
 export const metadata: Metadata = {
@@ -134,11 +151,13 @@ const getHomeData = unstable_cache(
         // this pattern exists to prevent (25 Aug 2026, 8 uncredited covers).
         coverCredit: media.credit,
         coverCreditUrl: media.creditUrl,
-        // UI-03 R8(c) — the SOURCE photograph's orientation. Free: this rides
-        // the `media` leftJoin the credit already needs, so no new query and no
-        // new join. Nullable `integer` columns; null means unknown, and unknown
-        // is NOT hero-eligible (see `isSourceLandscape`). Verified populated
-        // 20/20 across the whole homepage buffer on production 31 Ogos 2026.
+        // UI-03 R8(c) — the SOURCE photograph's shape. Free: this rides the
+        // `media` leftJoin the credit already needs, so no new query and no new
+        // join. Nullable `integer` columns; null means unknown, and unknown is
+        // NOT hero-eligible (see `isHeroFrameEligible`). Verified by querying
+        // production 31 Ogos 2026: 60 of 86 articles populated, 26 null — but
+        // 20/20 within this 20-article buffer, because every null sits in the
+        // oldest tail (ranks 58–86) that the buffer never reaches.
         coverWidth: media.width,
         coverHeight: media.height,
       })
@@ -177,7 +196,7 @@ export default async function HomePage() {
     (a) =>
       !HERO_INELIGIBLE_SLUGS.has(a.slug) &&
       resolveHeroCrops(a.coverImageSmartCrops) !== null &&
-      isSourceLandscape(a.coverWidth, a.coverHeight),
+      isHeroFrameEligible(a.coverWidth, a.coverHeight),
   );
   // R8's failure mode, made explicit: if NOTHING in the 20-article buffer is
   // hero-eligible, the lead story still runs — it holds the page's one <h1> —
@@ -274,14 +293,27 @@ export default async function HomePage() {
                   box aspect is the served asset's intrinsic aspect exactly, so
                   deviation is 0.0% rather than merely inside R1's 15%:
                     <1024px  40/21 = 1.905  ← crop-16x9-og           1200×630
-                    ≥1024px  88/25 = 3.520  ← crop-4.3x1-desktop-hero 2464×700
+                    ≥1024px  88/25 = 3.520  ← crop-4.3x1-desktop-hero ~2464×700
                   A third band would make the plate shape non-monotonic, so
                   `sm:aspect-[16/9]` and the old `lg:aspect-[2.4/1]` (which
-                  matched no asset the pipeline produces) are both gone. 88/25
-                  is also what puts the h1 back on the first screen: it makes
-                  the plate 545px at 1920×900 — 60.6% of the viewport, under
-                  R7's 60%-ish ceiling — where 2.4/1 made it 88.9% and pushed
-                  the headline to y=1024, off-screen. */}
+                  matched no asset the pipeline produces) are both gone.
+
+                  88/25 is also what puts the h1 back on the first screen. R7's
+                  test is `h1.getBoundingClientRect().top < innerHeight`, and it
+                  passes at all five measured viewports. Plate height as a share
+                  of the viewport is a DIAGNOSTIC, not the gate: the plate is
+                  545px at 1920×900, i.e. 60.6%, reported so the number is on
+                  the record. The old `2.4/1` made it 800px — 88.9% — and pushed
+                  the headline to y=1024, off-screen entirely. Anything past
+                  ~65% is close enough that the h1 position wants checking
+                  explicitly rather than inferring it from the percentage.
+
+                  ⚠️ `lg:aspect-[88/25]` is tied to `HERO_ASPECT` above, which
+                  derives R8(c)'s eligibility threshold. Tailwind needs the
+                  literal here, so the two cannot share one constant — change
+                  this and you MUST change that, or the plate widens while the
+                  threshold stays put and portrait sources creep back in with
+                  every check still green. */}
               <div
                 className="bg-muted relative aspect-[40/21] w-full overflow-hidden bg-cover bg-center lg:aspect-[88/25]"
                 style={
