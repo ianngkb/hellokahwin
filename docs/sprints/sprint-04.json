@@ -1,11 +1,11 @@
 {
   "id": 4,
-  "name": "Earn the click - build for the queries Google cannot answer itself",
+  "name": "Fix what shipped - the front page is broken in production",
   "state": "planned",
   "planned_at": "2026-08-30",
-  "governance": "A sprint is a BODY OF WORK, not a duration. It ends when every item is done and the owner has reviewed them, however long that takes. Completeness beats fitting a point budget. Every item is presented to the owner as CLAIM + EVIDENCE + LIVE LINK. DONE MEANS SHIPPED - an item is not done until the owner can look at the result. A definition of done is never narrowed after the sprint starts; an item that turns out bigger stays open, gets parked with a reason, or carries forward. Owner decision 30 Aug: nothing cut, all 43 points in scope.",
-  "points": 43,
-  "theme": "Sprint 03 grew impressions 17x against baseline but sitewide CTR FELL 1.78% -> 1.48%. Three controlled serp-overview tests establish why: queries wanting a NUMBER or a DEFINITION are answered by Google's AI Overview above us (mas kahwin johor 0.64% at pos 6.3; walimatul urus 0.83% at pos 10.0), while queries wanting a DOCUMENT the reader takes away are not (doa pengantin baru rumi 9.52% at pos 3.7). All three SERPs carry an image pack, so the image pack is not the discriminator - the AI Overview is. This sprint makes that testable at scale, turns it into a gate, and bets content on the class that still has a click in it.",
+  "governance": "A sprint is a BODY OF WORK, not a duration. It ends when every item is done and the owner has reviewed them, however long that takes. Completeness beats fitting a point budget. Every item is presented to the owner as CLAIM + EVIDENCE + LIVE LINK. DONE MEANS SHIPPED - an item is not done until the owner can look at the result. A definition of done is never narrowed after the sprint starts; an item that turns out bigger stays open, gets parked with a reason, or carries forward. Owner decision 30 Aug: nothing cut. Owner redirect 31 Aug: the sprint refocuses on the shipped UI defects. UI-04 IS A DISCOVERY ITEM AND RUNS FIRST - this sprint is EXPECTED to grow once a real mobile viewport is rendered, and that growth will be surfaced as it happens rather than absorbed silently, which is the Sprint 02 behaviour the retro said to keep.",
+  "points": 48,
+  "theme": "OWNER DIRECTIVE, 31 Aug: 'I want you to review the desktop and mobile page. It looks terrible, fix all of it. I want this sprint to focus on fixing it.' The CEO's audit found the homepage article list BROKEN IN PRODUCTION - all 12 cards rendering their headline in a 44px column, one word per line, clipped by the thumbnail - plus two of nine categories unreachable at 1920px and a hero that is a portrait photo cropped to 28% and upscaled 1.59x at low quality. Sprint 04's original theme 'Earn the click' is NOT abandoned: SEO-11 and SEO-12 stay in scope and run in parallel under a different owner, because they cost the design team nothing. The content bet CONT-13 is DEFERRED to Sprint 05 - it was gated on SEO-11 anyway, and publishing six new articles into a broken front page is the wrong order.",
   "baseline": {
     "source": "GSC property https://hellokahwin.com/, pulled 2026-08-30",
     "clicks_28d": 99,
@@ -16,6 +16,105 @@
     "prior_snapshot_27_aug": "51 clicks, 2869 impressions, CTR 1.78%, position 17.7 (decision 96)"
   },
   "items": [
+    {
+      "id": "UI-04",
+      "track": "ui",
+      "points": 8,
+      "state": "todo",
+      "owner": "product-designer",
+      "title": "RENDERED audit of every template at real breakpoints, desktop AND mobile - runs FIRST",
+      "flags": [
+        "DISCOVERY-runs-first",
+        "CEO-could-not-do-this",
+        "expect-sprint-to-grow"
+      ],
+      "why": "The CEO's 31 Aug audit could NOT render a mobile viewport: resize_window reported success while innerWidth AND outerWidth stayed 1920, a same-origin iframe was refused, and window.open was blocked. matchMedia (max-width:1023px) returned false throughout. So every rendered finding the CEO produced is desktop-at-1920 only, and the owner's report that MOBILE looks terrible is UNRESOLVED. Static CSS analysis says mobile is structurally sound - correct viewport meta, coherent 390/768/1024 breakpoints, one fixed width over 390px and it is on an internal admin page - which either means the complaint was about desktop, or there is a rendered defect that static analysis cannot see. Do not guess between those.",
+      "dod": "Every public template - homepage, article, category, /artikel index, /dewan-kahwin, search - captured at 390, 768, 1024 and 1440 CSS px on a REAL rendered viewport, with matchMedia asserted at each width so the breakpoint is PROVEN rather than assumed. One screenshot per template per breakpoint, committed. Every defect logged with the COMPUTED VALUE that evidences it - a width, a right-edge, a ratio - never a description alone. Explicitly answer: is there a mobile-only defect, yes or no, with evidence either way.",
+      "brief": "Read docs/plans/aug-30-2026-session-01/aug-31-2026-audit-ui-desktop-mobile.md first - section 3 lists five candidate findings the CEO KILLED by measuring, and re-reporting any of them is a fail. Lazy-loaded images report naturalWidth 0 and are NOT broken. Empty alt on a card thumbnail inside a titled link is CORRECT. THIS ITEM IS DISCOVERY: it is expected to add items to the sprint, and finding nothing on mobile is a valid and valuable result.",
+      "evidence": null
+    },
+    {
+      "id": "UI-01",
+      "track": "ui",
+      "points": 3,
+      "state": "todo",
+      "owner": "creative-director",
+      "title": "Homepage .s-row - all 12 cards render their headline in a 44px column",
+      "flags": [
+        "SEVERE",
+        "live-in-production",
+        "owner-reported"
+      ],
+      "why": "Measured 31 Aug on live production: every one of the 12 homepage cards declares grid-template-columns 44px 412px 176px and has only TWO children, so the headline auto-places into the 44px RANK-NUMBER slot - 44px wide, 225-307px tall, one word per line, clipped by the thumbnail. THE 44px COLUMN IS NOT A MISTAKE: the same component on /artikel/idea-dan-nasihat/garden-wedding renders THREE children whose first cell is 01, a rank number at 44x26px, and looks correct. Same component, two call sites; the article page passes the number and the homepage does not. Desktop only - the base rule below 1024px is two columns for two children and is correct.",
+      "dod": "On the live homepage at >=1024px, EVERY .s-row headline column measures >=350px wide and <=100px tall, verified by a committed script that prints the measured width of all 12. PLUS the same measurement on an article page proving the numbered variant STILL renders 01 correctly - a fix that repairs the homepage by breaking the article template is not done. Screenshot before and after, both committed.",
+      "brief": "THIS IS A DESIGN DECISION, NOT A ONE-LINER, and it is yours. Option (a): the homepage passes the rank number, restoring the numbered Terkini list the article template still implements. Option (b): the homepage variant declares a two-column grid and drops the number. The CEO recommends (a) and the CEO's authority stops there. WARNING: the CEO measured a THIRD option live - grid-column:2 on the headline wrapper, which does work, 44px to 412px wide and 225px to 78px tall - and it is REJECTED as a patch: it leaves a permanent empty 44px gutter and silently abandons a design the article template still uses. Recorded so nobody rediscovers it and ships it.",
+      "evidence": null
+    },
+    {
+      "id": "UI-02",
+      "track": "ui",
+      "points": 3,
+      "state": "todo",
+      "owner": "design-systems-engineer",
+      "title": "Two of nine categories are unreachable on a 1920px desktop",
+      "flags": [
+        "navigation-failure",
+        "costs-a-converting-category"
+      ],
+      "why": "The nav measures 1970px inside a 1920px viewport. Measured right edges: Venue, Kos & Perancangan at 1986px and Sebelum Nikah: Jodoh, Merisik at 2298px - both past the viewport edge behind a small chevron. NOT cosmetic: Venue, Kos & Perancangan contains checklist-kahwin, which converts at 6.58% CTR, the third-best rate on the site.",
+      "dod": "At 1280, 1440 and 1920 CSS px, ALL NINE category links are reachable - each one's right edge is <= the viewport width, OR a deliberate, visible, keyboard-accessible overflow affordance exists and is proven to work. Measured right-edges for all nine quoted at each width, before and after.",
+      "brief": "A chevron that appears only on hover and scrolls a nav with overflow-x:visible is what exists now and is not an affordance. Whatever you choose must work with a keyboard.",
+      "evidence": null
+    },
+    {
+      "id": "UI-03",
+      "track": "ui",
+      "points": 5,
+      "state": "todo",
+      "owner": "creative-director",
+      "title": "The hero is a portrait photo forced into a landscape frame, upscaled, at low quality",
+      "flags": [
+        "largest-element-on-the-site",
+        "three-compounding-defects"
+      ],
+      "why": "Measured live: a 1200x1800 PORTRAIT source (aspect 0.67) rendered into a 1905x794 LANDSCAPE box (aspect 2.40) with object-fit cover and object-position 50% 50%. Only about 28% of the image is visible, it is upscaled 1.59x from a 1200px source, and it serves the low.webp variant as the largest element on the page. Its alt text is 'Tempat beli barang hantaran: lima jenis kedai' - this is an ARTICLE CARD IMAGE being reused as a full-bleed hero, which is why its aspect ratio is wrong for the slot. The result is an extreme close-up of a fruit tray filling the entire first screen with NO HEADLINE over it.",
+      "dod": "On the live homepage: the hero's rendered aspect ratio is within 15% of its source aspect ratio OR the source is a landscape asset chosen for the slot; upscale factor <=1.1x; the served variant is not low. All three quoted as measured numbers before and after. If the fix is that heroes need a dedicated landscape crop, say so and state what the pipeline must produce.",
+      "brief": "GATE: if no suitable landscape hero asset exists for the featured article, STOP and report rather than shipping a different bad crop. A hero slot that cannot be filled correctly is a pipeline finding worth more than a swapped photo.",
+      "evidence": null
+    },
+    {
+      "id": "UI-05",
+      "track": "ui",
+      "points": 5,
+      "state": "todo",
+      "owner": "product-designer",
+      "title": "Category pages render zero images on the most visual vertical there is",
+      "flags": [
+        "design-judgement-not-a-bug",
+        "no-traffic-justification"
+      ],
+      "why": "Measured: /artikel/hantaran-mas-kahwin renders 0 images - a clean list of text links with hairline rules. STATED HONESTLY: this is a design judgement, not a defect, and these pages draw about 16 impressions with zero clicks (decision 86), so nothing here is costing traffic. It is in scope because the owner asked for the site to stop looking bad, and a wedding category page with no photography is a decision that should be taken deliberately rather than by default.",
+      "dod": "Either category pages carry imagery - shipped, live, measured, with the image pipeline honouring UI-03's aspect and quality rules - or a written, committed rationale for why they stay text-only, agreed with the creative director. BOTH are acceptable outcomes; silently leaving them as they are is not.",
+      "brief": "Do not justify this on SEO. Decision 86 already measured that these pages earn nothing, and pretending otherwise is how a later meeting scores this as a failure.",
+      "evidence": null
+    },
+    {
+      "id": "UI-06",
+      "track": "ui",
+      "points": 8,
+      "state": "todo",
+      "owner": "design-systems-engineer",
+      "title": "A rendered-layout regression gate - because nothing we own looks at a computed value",
+      "flags": [
+        "gate-not-prose",
+        "retro-predicted-this-exact-failure",
+        "NOT-optional"
+      ],
+      "why": "DES-08 shipped these templates and every automated check passed. Sprint 03's retrospective had ALREADY recorded the mechanism: NO AUTOMATED CHECK IN THIS COMPANY COMPARES A COMPUTED COLOUR OR A CONTRAST RATIO - structural-diff.py, the DES-09 checker and its own overflow script all compare structure, never a pixel or a CSS value. A 44px-wide headline column IS a computed-layout value: the DOM is valid, the HTML diffs clean, every element is present, the page renders without error. NOTHING WE OWN LOOKS AT THE NUMBER 44. The same retro caught a near-identical near-miss - a token collision that would have shipped invisible gold text sitewide with every check green - and it was caught by a PERSON LOOKING AT ONE CROP, which that retro itself called not a mechanism. This is the same failure one sprint later, and this time nobody looked.",
+      "dod": "A committed, runnable script that loads every public template at 390/768/1024/1440 in a real headless browser and FAILS THE BUILD on: any text column narrower than 120px; any element whose right edge exceeds the viewport width; any image upscaled beyond 1.1x; any image whose rendered aspect differs from its source aspect by more than 25%. PROVE IT CATCHES THE REAL BUGS: run it against the CURRENT production homepage and show it failing on the .s-row 44px column AND the 1970px nav, then against the fixed build and show it passing. A gate that has never failed on a known-bad input is not proven.",
+      "brief": "Print 'UILINT EXIT: <n>' at the start of a line so the watcher's milestone convention applies. The four thresholds above are a starting set - add any check that would have caught something UI-04 finds.",
+      "evidence": null
+    },
     {
       "id": "RISK-09",
       "track": "risk",
@@ -67,73 +166,6 @@
       "evidence": null
     },
     {
-      "id": "CONT-13",
-      "track": "content",
-      "points": 12,
-      "state": "todo",
-      "owner": "writer-inspirasi-vendor-venue",
-      "title": "The document-intent bet - six articles for queries that still have a click in them",
-      "flags": [
-        "strategic-core",
-        "GATED-on-SEO-11",
-        "SECOND-GATE-religious-accuracy",
-        "points-provisional"
-      ],
-      "why": "Three of the site's four best-converting queries are already document-intent: idea goodies kahwin 10.53%, doa pengantin baru rumi 9.52%, hantaran kahwin 5 balas 7 4.76%. This is not a new audience - it is noticing which existing pages work and building deliberately in that shape. A query has document intent when the searcher needs to TAKE A TEXT AWAY and a two-sentence answer does not satisfy them.",
-      "dod": "Six articles LIVE IN PRODUCTION, each returning 200 ON FIRST REQUEST. Sitemap count rises 103 -> 109, quoted before and after. THE COMPLETE ARTEFACT IS ON EACH PAGE - verified by fetching the live URL and quoting the full text, not by the writer asserting it; for a doa that means Arabic, rumi AND Malay meaning all present in the fetched HTML. Every target carries its SEO-12 gate result showing no AI Overview at selection time. Every religious text carries its authority and date checked, verified by editorial-verification-lead. All copy passes /humanizer before the write. UNDO committed and pushed BEFORE any production write, naming exact slugs. Evidence in docs/work-done/aug-30-2026-session-01/ with live links.",
-      "brief": "COMPLETENESS IS THE PRODUCT. An article that summarises the artefact is competing with the AI Overview on its own ground and will lose. Candidate families for SEO-11 to CONFIRM OR KILL (these are hypotheses, not a target list): doa dan ucapan; skrip pengacara majlis; kata-kata dan teks ucapan; senarai dan checklist; teks kad jemputan.",
-      "gate": "GATE ONE, BEFORE ANYTHING IS WRITTEN: spend up to one hour confirming SEO-11's census surfaces AT LEAST SIX document-intent targets clearing all three tests - (1) >=100 impressions/28d in GSC or >=100 monthly volume in Ahrefs MY, (2) NO AI Overview verified by SEO-12's script, (3) not already owned by a sibling page on the same parent topic. IF FEWER THAN SIX CLEAR, STOP AND BRING IT BACK. Do not pad the list with number or definition targets we have proved are capped. Do not fall back to more mas kahwin state pages because they are easy to write. Do not lower the impression floor to make the count. A parked CONT-13 with a clear reason is a good outcome. GATE TWO, NOT NEGOTIABLE - RELIGIOUS TEXT ACCURACY: doa and Quranic content is our highest-converting family AND our highest-risk. A misquoted prayer is not a wrong venue price; it is a brand-ending error with a Malay Muslim audience. EVERY doa, Arabic string, transliteration and religious claim goes through editorial-verification-lead against a NAMED PUBLISHED AUTHORITY (JAKIM, a state mufti's office, DBP, or a recognised published collection), with authority and date checked recorded PER ITEM. If a text cannot be sourced to a named authority IT DOES NOT SHIP - the article publishes without it or does not publish.",
-      "falsifier": "If the six articles reach positions comparable to our existing pages (4-10) and STILL earn under 2% CTR, the document-intent theory is WRONG and the problem is this site rather than query shape. Recorded now so Sprint 05 scores it honestly rather than explaining it afterwards.",
-      "evidence": null
-    },
-    {
-      "id": "CONT-14",
-      "track": "content",
-      "points": 3,
-      "state": "todo",
-      "owner": "writer-inspirasi-vendor-venue",
-      "title": "Re-angle the hantaran-kahwin legacy seed toward definition and money",
-      "flags": [
-        "open-in-ceo-memory",
-        "assigned-to-CONT-12-and-never-done"
-      ],
-      "why": "The one C2.1 boundary left OPEN in ceo-memory.md. Decision 120 assigned this to CONT-12; CONT-12 closed without doing it. The seed's own SERP is half money (Shopee, duit hantaran hak siapa, wang hantaran, Loanstreet) and its PAA asks 'Apakah maksud hantaran kahwin?' while the live page centres on '20 Idea Hantaran Kahwin Lelaki & Perempuan' - the job topics 2 and 3 now do. Changes one body, not the count. This is also a sub-commitment that evaporated inside a closed item, which is the exact failure shape decision 89 named.",
-      "dod": "The live page's <h1>, title and opening 200 words centre on WHAT HANTARAN KAHWIN MEANS AND WHAT IT COSTS, not on '20 Idea'. Verified by fetching the live URL PAST THE 300s EDGE TTL - quote the SECOND request, per Stage 7 - and pasting BOTH the before and after strings. UNDO committed and pushed BEFORE the UPDATE runs.",
-      "brief": "One body, not the count. Do not create a new article and do not merge anything - CONT-10 settled C2.1 as DO-NOT-MERGE on SERP evidence. Copy passes /humanizer before the write.",
-      "evidence": null
-    },
-    {
-      "id": "PLAT-13",
-      "track": "platform",
-      "points": 2,
-      "state": "todo",
-      "owner": "BMAD",
-      "title": "watch-agent.sh wakes on every curl line via its ^HTTP/ milestone",
-      "flags": [
-        "carried-forward-sprint-03"
-      ],
-      "why": "Every DoD on this team demands curl verification, and the ^HTTP/ milestone fires on all of it. SEO-09 and RISK-08 each tripped it 3+ times on ordinary work and NEVER ONCE on a completion. A watcher that fires on text an agent happens to produce is noise, and noise is how a real signal gets ignored.",
-      "dod": "`bash watch-agent.sh --self-test` exits 0, with the eight real false-wake lines PLUS AT LEAST THREE REAL curl OUTPUT LINES in the must-not-fire set, and the ten real outcomes still in the must-fire set. The self-test IS the deliverable; a fix without a failing-then-passing test is not done. Quote the self-test output before and after.",
-      "brief": "DO NOT SIMPLY DELETE THE PATTERN. The self-test deliberately asserts HTTP/2 200 and HTTP/1.1 502 MUST fire, because in Sprint 02 a deploy returning those WAS the outcome. Make it context-aware, not absent.",
-      "evidence": null
-    },
-    {
-      "id": "PLAT-14",
-      "track": "platform",
-      "points": 3,
-      "state": "todo",
-      "owner": "BMAD",
-      "title": "Per-item state-transition log with a waiting_on_ceo state",
-      "flags": [
-        "carried-forward-sprint-03",
-        "owner-requested"
-      ],
-      "why": "Filed at the OWNER'S REQUEST after they asked why Sprint 03 took 25h 39m of elapsed time to do 6h 56m of work. We can see WHEN work stopped and never WHY - Sprint 03's idle had to be reconstructed from completion timestamps plus one person's memory of the incidents, which a CEO reading it in three sprints could not do. 73% of Sprint 03 was idle and the two largest gaps were both the CEO: once by not watching, once by not deciding. waiting_on_ceo exists to make that visible as a number instead of an anecdote.",
-      "dod": "Every sprint item records its state transitions with timestamps and a reason, including a distinct waiting_on_ceo state. Demonstrated by BACK-FILLING at least one real Sprint 03 gap (DES-08's 10h 05m review wait) and showing the query that returns it. The output must let a reader who was not there answer 'why did this item stop' without asking anyone.",
-      "brief": "Use klToday()/klWallClock for any date column - buddy runs on Asia/Kuala_Lumpur and toISOString() is the UTC day, which is yesterday for eight hours out of every twenty-four.",
-      "evidence": null
-    },
-    {
       "id": "PLAT-15",
       "track": "platform",
       "points": 2,
@@ -147,22 +179,6 @@
       "why": "Found during Sprint 04 planning. sprint-03.json reads state:in_progress with 24 of 26 items todo, while the tracker reads done, 107/115. /endsprint writes a SEPARATE -retro.json and never reconciles the contract file. Same for sprints 01 and 02. The /hellokahwin skill calls sprint-NN.json 'the contract: /startsprint executes it, the dashboard reads it, /endsprint writes the retro into it' - and it is abandoned mid-sprint every time. A reader opening sprint-03.json would conclude nothing shipped.",
       "dod": "Running /endsprint on a closed sprint leaves sprint-NN.json with state:'done' and EVERY item's state matching the tracker. Demonstrated by BACK-FILLING sprints 01-03, showing a diff of sprint-03.json before and after, PLUS a query proving the JSON now agrees with the tracker ITEM FOR ITEM - not just on the header totals.",
       "brief": "The header agreeing while items disagree is the failure mode that hid this for three sprints. Compare item-for-item.",
-      "evidence": null
-    },
-    {
-      "id": "PLAT-16",
-      "track": "platform",
-      "points": 2,
-      "state": "todo",
-      "owner": "BMAD",
-      "title": "Name collision - two creative-director personas, dispatch can resolve the wrong one",
-      "flags": [
-        "carried-forward-sprint-03",
-        "ceo-withdrew-own-cut"
-      ],
-      "why": "skillcentral/agents/Marketing/creative-director.md (social video, another workstream) and .../projects/hellokahwin/Design/creative-director.md (ours) share a name. Dispatching `creative-director` could resolve to the wrong persona and put a video specialist on wedding site design. The CEO proposed cutting this and WITHDREW THE CUT: the workaround is 'remember to always type the full path', and Sprint 03's central finding is that prose rules do not fire. Two points to make the trap structurally impossible beats a rule the CEO has to remember.",
-      "dod": "Dispatching the bare name `creative-director` either resolves unambiguously to the intended persona or FAILS LOUDLY naming both candidates. Demonstrated by running the ambiguous dispatch and quoting what happens, plus a negative control showing the intended persona still dispatches correctly. Renaming is acceptable; silent precedence is not.",
-      "brief": "Check whether other names collide across skillcentral/agents/ while you are in there, and report the list even if you only fix this one.",
       "evidence": null
     },
     {
@@ -180,26 +196,6 @@
       "dod": "ONE Malay label, ONE casing, sitewide. `sOURCE:` returns ZERO across all 86 article URLs. Verified by a COMMITTED SCRIPT that sweeps the sitemap and reports label variants - run it BEFORE and AFTER and paste both counts. Uncredited images are reported as a count WITH THEIR SLUGS and either credited or listed for a decision; they are NOT silently left out.",
       "brief": "NOTE THE CORRECTED BASELINE: Sprint 03 carried forward '27 of 48 garden-wedding images carry NO CREDIT'. That figure is STALE - there are ~40 credits across 49 photos, so roughly 9 uncredited. The CEO's first check grepped for 'Kredit' and returned zero, which would have read as WORSE; the credits exist under an English label. Verify your own pattern before trusting an absence. Coordinate with RIGHTS-02 so that when permission lands the credit format is already correct.",
       "evidence": null
-    },
-    {
-      "id": "RIGHTS-02",
-      "track": "rights",
-      "points": 5,
-      "state": "todo",
-      "owner": "BMAD",
-      "title": "jangan-guna assets - execute the request list that has been blocked since 25 Aug",
-      "flags": [
-        "carried-forward-sprint-03",
-        "RE-SCOPED-BY-OWNER-30-aug",
-        "PRIOR-WORK-EXISTS-found-after-proposal",
-        "no-longer-a-clearance"
-      ],
-      "why": "OWNER DECISION 30 Aug: \"I will obtain permissions to use it, just take it, photographers have good relationships with us.\" THEN, AFTER the proposal was written, the CEO found that THE WORKLIST THIS ITEM WAS SCOPED TO PRODUCE ALREADY EXISTS: docs/plans/aug-23-2026-session-01/aug-25-2026-rights-risk-and-request-list.md, 381 lines, written by managing-editor on 25 Aug, BLOCKED FOR FIVE DAYS on \"owner decision on outbound contact\" - which is exactly the decision the owner made today. It already carries: the real count (281 jangan-guna: 269 IN- plus 12 others, NOT 307), ten Real Wedding studios named and credited by studio name in the post bodies, a ranked rights-risk list, consolidated request lists, and two ready email templates (BM primary, EN). Its own recommendation matches the owner's instinct: exposure is low, do not spend money, the 269 vendor images stay and are left alone. So this item is no longer a census. IT IS EXECUTION OF A PLAN THAT HAS BEEN WAITING.",
-      "dod": "(1) REFRESH the existing census against live state - the numbers have moved (307 was already wrong at 281; garden-wedding now shows zero) - and state the current figure with its command. (2) TWO DELETES, which the owner's relationship argument does NOT cover: the Getty/iStock image and the press photograph, whose rights holders are INSTITUTIONS not photographers we know. UNDO committed and pushed BEFORE the delete. (3) RUN THE ATTACHMENT-PAGE CHECK - free, one minute, and it changes the denominator by 64. (4) HAND THE OWNER the ten template B letters populated and ready to send, plus template A for candidates 1-3, as a single committed document, OPENED FOR THEM. NOTHING IS SENT BY US. Evidence in docs/work-done/aug-30-2026-session-01/.",
-      "brief": "READ THE EXISTING PLAN FIRST: docs/plans/aug-23-2026-session-01/aug-25-2026-rights-risk-and-request-list.md and aug-25-2026-enforcing-credit-everywhere.md. Do NOT redo its analysis - refresh it and execute the four decisions in its section 3.4. Approaching photographers remains carve-out 3 and the owner has taken it; we prepare, they send. Coordinate with RIGHTS-01 so the credit format is correct when permission lands.",
-      "risk_accepted_by_owner": "Until permission is actually obtained these images remain live without documented rights. The owner made that call explicitly and named the mitigation (existing photographer relationships). It is their decision and is not re-litigated; it is recorded so a later meeting can ask whether the permissions were obtained, rather than discovering the question was never tracked. Follow-up owner: the CEO, at Sprint 05 planning.",
-      "evidence": null,
-      "ceo_error_note": "THE CEO BUILT THIS SPRINT'S BACKLOG FROM THE SPRINT FILES, THE RETRO AND ceo-memory.md, AND MISSED A FINISHED PLAN SITTING IN docs/plans/ THAT HAD ALREADY DONE THE WORK. Decision 94 recorded exactly this lesson for ceo-memory.md three days ago. The same lesson now applies to docs/plans/README.md: A PLAN MARKED BLOCKED IS FINISHED WORK WAITING ON A DECISION, and the planning pass must read the blocked rows before sizing anything. Found only because the CEO went to update the plans index at the very end of the meeting."
     }
   ],
   "out_of_scope": [
@@ -219,5 +215,45 @@
     "FALSIFIER, recorded now: if sitewide CTR RISES without CONT-13 having shipped, the SERP-shape mechanism is wrong."
   ],
   "metrics_change": "OWNER DECISION 30 Aug: the CTR metric is SPLIT. From Sprint 04 on, board reports carry CTR separately for document-intent and number/definition queries. Sitewide CTR stops being a headline figure because it averages a 9.52% query and a 0.64% query into one number that recommends nothing. Clicks/28d remains the north star. SEO-11's census populates the split, which is what makes the classification reproducible rather than a per-query judgement call by the CEO.",
-  "retro": null
+  "retro": null,
+  "deferred_to_sprint_05": [
+    {
+      "id": "CONT-13",
+      "points": 12,
+      "title": "The document-intent bet - six articles for queries that still have a click in them",
+      "reason": "Gated on SEO-11 and superseded in priority by the owner redirect. Publishing six new articles into a broken front page is the wrong order."
+    },
+    {
+      "id": "CONT-14",
+      "points": 3,
+      "title": "Re-angle the hantaran-kahwin legacy seed toward definition and money",
+      "reason": "Deferred by the owner redirect of 31 Aug; unchanged and still owned."
+    },
+    {
+      "id": "PLAT-13",
+      "points": 2,
+      "title": "watch-agent.sh wakes on every curl line via its ^HTTP/ milestone",
+      "reason": "Deferred by the owner redirect of 31 Aug; unchanged and still owned."
+    },
+    {
+      "id": "PLAT-14",
+      "points": 3,
+      "title": "Per-item state-transition log with a waiting_on_ceo state",
+      "reason": "Deferred by the owner redirect of 31 Aug; unchanged and still owned."
+    },
+    {
+      "id": "PLAT-16",
+      "points": 2,
+      "title": "Name collision - two creative-director personas, dispatch can resolve the wrong one",
+      "reason": "Deferred by the owner redirect of 31 Aug; unchanged and still owned."
+    },
+    {
+      "id": "RIGHTS-02",
+      "points": 5,
+      "title": "jangan-guna assets - execute the request list that has been blocked since 25 Aug",
+      "reason": "Deferred by the owner redirect of 31 Aug; unchanged and still owned."
+    }
+  ],
+  "audit": "docs/plans/aug-30-2026-session-01/aug-31-2026-audit-ui-desktop-mobile.md",
+  "cost_note": "RECORDED SO A LATER MEETING DOES NOT SCORE THIS WRONG. The homepage earned 4 clicks from 5 impressions in the last 7 days. Fixing it will not move the click target, and neither will the hero crop or the category pages. This is a BRAND AND CREDIBILITY bet, exactly as the Sprint 03 redesign was - decision 102 recorded that same protection for that sprint. What makes it urgent is not traffic: it is that the front page of the company is visibly broken in production and has been since DES-08 shipped."
 }
