@@ -28,6 +28,7 @@
     "monitor:indexing": "tsx scripts/indexing-monitor.mts",
     "backfill:lqip": "tsx scripts/backfill-cover-lqip.mts",
     "perf:measure": "node scripts/measure-page.mjs",
+    "audit:srow": "node scripts/audit-srow-geometry.mjs",
     "measure:cold": "tsx scripts/measure-cold-render.mts"
   },
   "dependencies": {
