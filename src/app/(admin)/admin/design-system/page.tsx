@@ -2,6 +2,8 @@ import type { CSSProperties } from 'react';
 import Link from 'next/link';
 import { Bodoni_Moda } from 'next/font/google';
 import { requireAdminSection } from '@/lib/auth/admin';
+import { PillarBody } from '@/components/inspire/pillar-body';
+import type { PillarView } from '@/lib/inspire/pillar-queries';
 import { getMastheadCategories } from '@/lib/services/inspire-nav';
 import { CategoryRail } from '@/components/layout/category-rail';
 import type { MenuCategory } from '@/components/inspire/inspire-nav-menu';
@@ -127,6 +129,55 @@ const NAV_ITEMS = [
   { label: 'Hantaran & Mas Kahwin', href: '#', current: true },
   { label: 'Venue, Kos & Perancangan', href: '#' },
 ];
+
+/* UI-05 — a fixture, not a mock: the real `PillarBody` is rendered from it
+   below, so this entry cannot drift from the seven live pillar hubs. Shaped
+   after `sebelum-nikah`, which is what makes it a useful test — one populated
+   cluster, one empty one, and a title long enough to wrap. */
+const PILLAR_DEMO: PillarView = {
+  totalArticles: 3,
+  unclustered: [],
+  clusters: [
+    {
+      id: 'demo-taaruf',
+      name: 'Jodoh, taaruf & istikharah',
+      slug: 'jodoh-taaruf-istikharah',
+      entityPhrase: 'jodoh, taaruf dan istikharah',
+      pillarCode: null,
+      articles: [
+        {
+          id: 'demo-a1',
+          title: 'Taaruf Maksud: Apa Itu Taaruf dan Apa Bezanya dengan Bercinta Sebelum Nikah',
+          slug: 'taaruf-maksud',
+          categorySlug: 'jodoh-taaruf-istikharah',
+          publishedAt: null,
+        },
+        {
+          id: 'demo-a2',
+          title: 'Solat istikharah jodoh: cara, bacaan dan apa yang berlaku selepas',
+          slug: 'solat-istikharah-jodoh',
+          categorySlug: 'jodoh-taaruf-istikharah',
+          publishedAt: null,
+        },
+        {
+          id: 'demo-a3',
+          title: 'Kursus kahwin: kos',
+          slug: 'kursus-kahwin-kos',
+          categorySlug: 'kursus-kahwin-saringan-pra-nikah',
+          publishedAt: null,
+        },
+      ],
+    },
+    {
+      id: 'demo-merisik',
+      name: 'Merisik & meminang',
+      slug: 'merisik-meminang',
+      entityPhrase: 'merisik',
+      pillarCode: null,
+      articles: [],
+    },
+  ],
+};
 
 export default async function DesignSystemPage({
   searchParams,
@@ -667,6 +718,49 @@ export default async function DesignSystemPage({
                 the card is 01, so these rows are 2&ndash;4. <code>.s-row</code> reserves a 44px
                 desktop track for it, and a row that omits it puts its headline in that track rather
                 than losing it.
+              </p>
+            </div>
+
+            {/* Pillar list — the OTHER article-row shape (UI-05) */}
+            <div className="pt-8">
+              <Label muted className="mb-2 block">
+                Pillar list — .s-pillar-link — populated cluster, then an empty one
+              </Label>
+              <PillarBody view={PILLAR_DEMO} intro={null} />
+              <p className="text-muted-foreground mt-2 max-w-[74ch] text-xs">
+                The real <code>PillarBody</code>, rendered from a fixture — not a copy of it — so
+                this entry cannot drift from the seven pillar hubs. A pillar row is deliberately{' '}
+                <strong>lighter and larger</strong> than the <code>.s-row</code> above it (400/17px
+                vs 600/15px at 390px, both Bodoni Moda at <code>−0.012em</code>/
+                <code>−0.018em</code>
+                ): a pillar is a map of a topic, not a feed. Until UI-05 these links carried{' '}
+                <code>.t</code>, which only ever existed as <code>.s-row .t</code> — a descendant
+                selector that never matched here — so they rendered in body sans at 17.04px, proved
+                by <code>getComputedStyle</code> on production.
+              </p>
+              <p className="text-muted-foreground mt-2 max-w-[74ch] text-xs">
+                The empty cluster keeps its heading (hiding it would make the pillar look complete
+                when it is not) and now opens on the same <code>--rule</code> and the same 20px of
+                air as a populated one, with its promise line on a link row&rsquo;s 13px rhythm. The
+                rule is structural: it says &ldquo;the cluster body starts here&rdquo;, which is not
+                conditional on there being links.
+              </p>
+            </div>
+
+            {/* Empty pillar — the P6 state, and the soft-fail shape */}
+            <div className="pt-8">
+              <Label muted className="mb-2 block">
+                Empty pillar — .s-empty + .s-btn link — UI-05 P6
+              </Label>
+              <PillarBody view={{ clusters: [], unclustered: [], totalArticles: 0 }} intro={null} />
+              <p className="text-muted-foreground mt-2 max-w-[74ch] text-xs">
+                A pillar with no clusters and no unclustered articles. This is also exactly what the
+                route renders when <code>getPillarView</code> fails or blows its 3s deadline — the
+                error is swallowed and <code>view</code> stays empty — so the soft-fail path and the
+                genuinely-empty path get the same designed exit rather than a blank{' '}
+                <code>&lt;div&gt;</code>. The way out is a real <code>&lt;Link&gt;</code> wearing{' '}
+                <code>.s-btn</code>, not a <code>Button</code>: <code>EmptyState</code>&rsquo;s{' '}
+                <code>action</code> takes an <code>onClick</code>, and this renders on the server.
               </p>
             </div>
 

@@ -51,9 +51,17 @@ at any quality. Only named landscape crop targets may fill a hero.
 **R3 — Art-direct with `<picture>` + `<source media>`.** One crop per band. Never
 express a crop change as a `srcset` width candidate. (See §0 for what that costs.)
 
-**R4 — Every `w` descriptor states the asset's REAL intrinsic width.** Live today
-`crop-4.3x1-desktop-hero` is declared `1600w` and is genuinely `2464w` — a 54%
-understatement that corrupts every selection decision the browser makes.
+**R4 — Every `w` descriptor states the delivered file's REAL intrinsic width, read
+from the file.** Before this item `crop-4.3x1-desktop-hero` was declared `1600w`
+and the delivered files are ~2463–2464w — a 54% understatement that corrupts
+every selection decision the browser makes.
+
+**Read it; do not copy it from `CROP_TARGETS`.** A crop target is a _ceiling_:
+`generateSmartCrops` resizes with `fit:'inside', withoutEnlargement:true`, so the
+delivered width is whatever the crop window rounded to against that particular
+source. The 2464×700 target yields **2464**w on one cover and **2463**w on the
+one now in the hero. A descriptor hardcoded from the target is right for most
+assets and quietly wrong for the rest.
 
 **R5 — Upscale ceiling 1.1× in CSS pixels.** Intrinsic width ≥ 0.91 × rendered
 CSS width, at the widest viewport the band covers. Report the device-pixel figure
@@ -141,6 +149,16 @@ backfill `media.width`/`height`, not to loosen the rule.
 Nothing in the corpus sits near the boundary: the lowest passing value is 1.333,
 well clear of 1.16. There are no marginal cases to argue about today.
 
+⚠ **The derived rule is marginally STRICTER than the `1.15` constant it
+replaced, and `1.15` is not the threshold.** At `88/25` the exact boundary is
+`sourceAspect ≥ 1.1616`, so a source at exactly 1.15 retains 32.67% and now
+**fails**, where the old hardcode passed it. Nothing in the corpus sits between
+0.753 and 1.333, so this changes no verdict today — the derived form was
+verified to reproduce the same **48 pass / 12 fail** split. But do not read
+`1.15` anywhere as normative: **the threshold is `MIN_RETAINED_FRAME` and the
+plate's aspect, and it moves when the plate does.** That is the entire point of
+deriving it.
+
 Write it this way round so that changing the hero's aspect ratio automatically
 re-derives the eligibility threshold instead of silently invalidating a
 hardcoded `1.15`. **`HERO_ASPECT` in the eligibility test and the Tailwind
@@ -170,14 +188,26 @@ band.
 Measured on all 13 homepage covers, source aspect read from each `low.webp`
 (which preserves it):
 
-| Sources      | Dimensions  | Aspect | Orientation | Height kept at 3.52:1 |
-| ------------ | ----------- | ------ | ----------- | --------------------- |
-| **12 of 13** | 1200 × 800  | 1.500  | LANDSCAPE   | **42.6%**             |
-| **1 of 13**  | 1200 × 1800 | 0.667  | PORTRAIT    | **18.9%**             |
+| Covers displayed | `low.webp` dims | Aspect | Orientation | Height kept at 3.52:1 |
+| ---------------- | --------------- | ------ | ----------- | --------------------- |
+| **12 of 13**     | 1200 × 800      | 1.500  | LANDSCAPE   | **42.6%**             |
+| **1 of 13**      | 1200 × 1800     | 0.667  | PORTRAIT    | **18.9%**             |
 
 **The one portrait is the one in the hero.** Selection is `publishedAt desc`
-with no orientation predicate, so the single portrait photograph in the set won
-the largest slot on the site by recency accident.
+with no orientation predicate, so it won the largest slot on the site by recency
+accident.
+
+⚠ **Say which set you mean — "the only portrait" is true of one and false of
+two.** 13 displayed covers → **1** portrait. The 20-article selection buffer
+`heroIndex` actually scans → **2** (`tempat-beli-hantaran` and
+`hantaran-tempah-atau-buat-sendiri`). The 86-article corpus → **12**
+disqualified. The buffer is the set the rule operates on.
+
+⚠ **These are `low.webp` dimensions.** `media.width`/`height` — what the code
+tests — hold the **original upload** size (3888×2592, 4000×6000, …) and will not
+match these numerically. The aspect _ratios_ are identical, which is why both
+measurements return the same verdict on every article, but they are different
+numbers of different things.
 
 Looked at, not inferred: the 3.52:1 crop of the current hero is correctly
 shaped, sharp and editorially useless — an extreme macro of artificial flowers

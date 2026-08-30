@@ -1,0 +1,189 @@
+name: UI layout gate
+
+# The rendered-layout gate. See `scripts/ui-layout-gate.mjs` for the four checks
+# and the reasoning behind each threshold.
+#
+# WHY THIS EXISTS. On 31 Aug 2026 every one of the twelve cards on the front page
+# rendered its headline in a 44-pixel column, and every automated check this repo
+# owns was green while it happened, because every one of them compares structure:
+# the DOM was valid, the HTML diffed clean, nothing threw. Sprint 03's own
+# retrospective had already written down that nothing here looks at a computed
+# value. Prose in a retro did not stop it. This is the thing that looks.
+#
+# TWO JOBS, ON PURPOSE.
+#
+#   selftest    Blocking, on every push and PR. Hermetic apart from the fixture
+#               images. It does not check the site — it checks the GATE, against
+#               a committed capture of the broken production HTML and a
+#               hand-built discriminator fixture, asserting that each check
+#               fires where the defect is and clears where it is not. A gate
+#               nobody has seen fail is not a gate, and a gate that has quietly
+#               started passing everything looks exactly like a healthy one.
+#
+#   production  Scheduled and manual, never blocking a PR. Runs the four checks
+#               against the four widths of every public template on the live
+#               site and files a loud issue when they fail. It is deliberately
+#               NOT a required check: six agents were merging in parallel when
+#               this landed, and a required check that is red for a defect none
+#               of their PRs touch stops the work that would fix it.
+#
+# A scheduled workflow only runs from the repository's DEFAULT branch. On a
+# feature branch this file is decorative — the same trap that cost a reopen in
+# Sprint 01. Confirm with `gh workflow list` after merging.
+#
+# playwright-core is installed here with `npm i --no-save` rather than added to
+# package.json. The lockfile is shared by every concurrent worktree and a
+# dependency bump is the most conflict-prone line in the repo; the browser
+# binary is Chrome, already on the runner image, so nothing else is needed.
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  schedule:
+    # 01:07 UTC daily = 09:07 MYT. Off the hour: the top of the hour is when
+    # GitHub's scheduler is most congested.
+    - cron: '7 1 * * *'
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: 'Base URL to gate (defaults to production)'
+        required: false
+        default: 'https://hellokahwin.com'
+
+permissions:
+  contents: read
+  issues: write
+
+env:
+  PLAYWRIGHT_CORE_VERSION: '1.58.2'
+
+jobs:
+  selftest:
+    name: gate self-test (blocking)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install playwright-core
+        run: npm i --no-save playwright-core@${{ env.PLAYWRIGHT_CORE_VERSION }}
+
+      - name: Locate Chrome
+        id: chrome
+        run: |
+          which google-chrome || which google-chrome-stable || which chromium-browser
+          echo "path=$(which google-chrome || which google-chrome-stable || which chromium-browser)" >> "$GITHUB_OUTPUT"
+
+      # Needs outbound access to images.hellokahwin.com: one of the assertions
+      # is that all 13 homepage images DECODE, which is what proves the
+      # naturalWidth-0 exclusion is not quietly hiding a real defect.
+      - name: Does the gate fire on known-bad and clear on known-good?
+        env:
+          UI_GATE_CHROME: ${{ steps.chrome.outputs.path }}
+        run: node scripts/ui-layout-gate.mjs --selftest | tee gate.log
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo '### UI layout gate — self-test'
+            echo ''
+            echo '```'
+            tail -n 60 gate.log || true
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  production:
+    name: gate the live site (scheduled)
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install playwright-core
+        run: npm i --no-save playwright-core@${{ env.PLAYWRIGHT_CORE_VERSION }}
+
+      - name: Locate Chrome
+        id: chrome
+        run: echo "path=$(which google-chrome || which google-chrome-stable || which chromium-browser)" >> "$GITHUB_OUTPUT"
+
+      - name: Gate every public template at 390/768/1024/1440
+        env:
+          UI_GATE_CHROME: ${{ steps.chrome.outputs.path }}
+        run: |
+          node scripts/ui-layout-gate.mjs \
+            --base "${{ github.event.inputs.base_url || 'https://hellokahwin.com' }}" \
+            --json gate.json | tee gate.log
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo '### UI layout gate — live site'
+            echo ''
+            echo '```'
+            tail -n 80 gate.log || true
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ui-layout-gate
+          path: |
+            gate.log
+            gate.json
+          if-no-files-found: warn
+
+      - name: Raise the alarm
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const url = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            let tail = '';
+            try {
+              tail = fs.readFileSync('gate.log', 'utf8').split('\n').slice(-45).join('\n');
+            } catch {}
+            const body = [
+              '**The live site is failing the rendered-layout gate.**',
+              '',
+              'These are computed values read out of a real browser at 390/768/1024/1440,',
+              'not a structural diff. A page can be valid HTML, diff clean and throw no',
+              'error while looking broken; that is precisely how the 44px headline column',
+              'reached the front page on 31 Aug 2026.',
+              '',
+              '```',
+              tail,
+              '```',
+              '',
+              `Run: ${url}`,
+              '',
+              'Reproduce locally:',
+              '`node scripts/ui-layout-gate.mjs --base https://hellokahwin.com`',
+            ].join('\n');
+
+            const { data: open } = await github.rest.issues.listForRepo({
+              ...context.repo, state: 'open', labels: 'ui-layout-gate',
+            });
+            if (open.length > 0) {
+              await github.rest.issues.createComment({
+                ...context.repo, issue_number: open[0].number, body,
+              });
+            } else {
+              await github.rest.issues.create({
+                ...context.repo,
+                title: 'ALARM: hellokahwin.com is failing the rendered-layout gate',
+                body,
+                labels: ['ui-layout-gate'],
+              });
+            }
