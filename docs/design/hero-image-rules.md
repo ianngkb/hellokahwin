@@ -51,9 +51,17 @@ at any quality. Only named landscape crop targets may fill a hero.
 **R3 — Art-direct with `<picture>` + `<source media>`.** One crop per band. Never
 express a crop change as a `srcset` width candidate. (See §0 for what that costs.)
 
-**R4 — Every `w` descriptor states the asset's REAL intrinsic width.** Live today
-`crop-4.3x1-desktop-hero` is declared `1600w` and is genuinely `2464w` — a 54%
-understatement that corrupts every selection decision the browser makes.
+**R4 — Every `w` descriptor states the delivered file's REAL intrinsic width, read
+from the file.** Before this item `crop-4.3x1-desktop-hero` was declared `1600w`
+and the delivered files are ~2463–2464w — a 54% understatement that corrupts
+every selection decision the browser makes.
+
+**Read it; do not copy it from `CROP_TARGETS`.** A crop target is a _ceiling_:
+`generateSmartCrops` resizes with `fit:'inside', withoutEnlargement:true`, so the
+delivered width is whatever the crop window rounded to against that particular
+source. The 2464×700 target yields **2464**w on one cover and **2463**w on the
+one now in the hero. A descriptor hardcoded from the target is right for most
+assets and quietly wrong for the rest.
 
 **R5 — Upscale ceiling 1.1× in CSS pixels.** Intrinsic width ≥ 0.91 × rendered
 CSS width, at the widest viewport the band covers. Report the device-pixel figure
