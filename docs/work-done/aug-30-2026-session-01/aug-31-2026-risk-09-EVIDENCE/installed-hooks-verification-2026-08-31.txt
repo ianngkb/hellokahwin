@@ -1,0 +1,148 @@
+RISK-09 — verification against the INSTALLED hooks, 31 August 2026
+==================================================================
+Installed into both live trees:
+
+  === /c/Users/Ian Ng/Documents/Code/hellokahwin/hellokahwin
+      hooks dir: C:/Users/Ian Ng/Documents/Code/hellokahwin/hellokahwin/.git/hooks
+      post-checkout: installed
+      pre-merge-commit: installed
+      pre-commit: installed
+  === /c/Users/Ian Ng/Documents/Code/hellokahwin-site
+      hooks dir: C:/Users/Ian Ng/Documents/Code/hellokahwin-site/.git/hooks
+      post-checkout: installed
+      pre-merge-commit: installed
+      pre-commit: installed
+  INSTALL EXIT: 0
+  --check EXIT: 0   (0 = installed in both)
+
+Installed bytes, both trees:
+  post-checkout     CR bytes=0   exec=yes shebang=#   !   /   b   i   n   /   s   h  \n
+  pre-commit        CR bytes=0   exec=yes shebang=#   !   /   b   i   n   /   s   h  \n
+  pre-merge-commit  CR bytes=0   exec=yes shebang=#   !   /   b   i   n   /   s   h  \n
+
+------------------------------------------------------------------
+REFUSAL — DOCS repo, against the installed hook (byte-identical: YES)
+------------------------------------------------------------------
+$ git rev-parse --short HEAD; ls -d docs/boardroom
+1c16969
+docs/boardroom
+$ git checkout origin/master          # origin/master is the SITE source
+Previous HEAD position was 1c16969 UI-06: the rendered-layout gate, its evidence, and the two rules it changed
+HEAD is now at c2215ba Merge pull request #21 from ianngkb/ianng89/ui06-layout-gate
+
+==============================================================================
+  REFUSED: this checkout crosses the hellokahwin docs/site boundary.
+==============================================================================
+
+  from: docs space   1c16969
+  to:   site space   c2215ba  (c2215ba)
+
+  hellokahwin (docs) and hellokahwin-site are the SAME repository - same
+  remote, same root commit 3a1fbe09 - kept apart only by convention. This
+  switch replaces the contents of this working tree with the other space.
+
+  RESTORED. You are back on HEAD at 1c16969.
+  Nothing was lost. Work in the other tree instead:
+    docs -> ~/Documents/Code/hellokahwin/hellokahwin
+    site -> ~/Documents/Code/hellokahwin-site
+
+  If you truly mean to cross the boundary in THIS tree:
+    HK_GIT_SPACE_GUARD=off git checkout c2215ba
+==============================================================================
+
+EXIT CODE: 1
+$ git rev-parse --short HEAD; ls -d docs/boardroom; ls -d src
+1c16969
+docs/boardroom
+ls: cannot access 'src': No such file or directory
+
+------------------------------------------------------------------
+IN-SPACE CONTROL — DOCS repo
+------------------------------------------------------------------
+$ git rev-parse --short HEAD
+1c16969
+$ git checkout origin/feat/cont-08-nisbah      # another DOCS-space commit
+Previous HEAD position was 1c16969 UI-06: the rendered-layout gate, its evidence, and the two rules it changed
+HEAD is now at 5105700 docs(cont-08): work-done log with Stage 9 retrospective, and the two edits it names
+EXIT CODE: 0
+$ git rev-parse --short HEAD; ls -d docs/boardroom
+5105700
+docs/boardroom
+
+------------------------------------------------------------------
+REFUSAL — SITE repo, against the installed hook (byte-identical: YES)
+------------------------------------------------------------------
+$ git rev-parse --short HEAD; ls -d src
+a7ae51f
+src
+$ git checkout origin/feat/command-centre-dashboard    # the DOCS space
+Previous HEAD position was a7ae51f Merge pull request #19 from ianngkb/ianng89/ui06-layout-gate
+HEAD is now at 1c16969 UI-06: the rendered-layout gate, its evidence, and the two rules it changed
+
+==============================================================================
+  REFUSED: this checkout crosses the hellokahwin docs/site boundary.
+==============================================================================
+
+  from: site space   a7ae51f
+  to:   docs space   1c16969  (1c16969)
+
+  hellokahwin (docs) and hellokahwin-site are the SAME repository - same
+  remote, same root commit 3a1fbe09 - kept apart only by convention. This
+  switch replaces the contents of this working tree with the other space.
+
+  RESTORED. You are back on HEAD at a7ae51f.
+  Nothing was lost. Work in the other tree instead:
+    docs -> ~/Documents/Code/hellokahwin/hellokahwin
+    site -> ~/Documents/Code/hellokahwin-site
+
+  If you truly mean to cross the boundary in THIS tree:
+    HK_GIT_SPACE_GUARD=off git checkout 1c16969
+==============================================================================
+
+EXIT CODE: 1
+$ git rev-parse --short HEAD; ls -d src; ls -d docs/boardroom
+a7ae51f
+src
+ls: cannot access 'docs/boardroom': No such file or directory
+
+------------------------------------------------------------------
+IN-SPACE CONTROL — SITE repo
+------------------------------------------------------------------
+$ git rev-parse --short HEAD
+a7ae51f
+$ git checkout origin/feat/ux-04-lqip          # another SITE-space commit
+Previous HEAD position was a7ae51f Merge pull request #19 from ianngkb/ianng89/ui06-layout-gate
+HEAD is now at 6d02fe4 docs(ux-04): work-done log with Stage 9 retrospective, and the edit it names
+EXIT CODE: 0
+$ git rev-parse --short HEAD; ls -d src next.config.ts
+6d02fe4
+next.config.ts
+src
+
+------------------------------------------------------------------
+ORDINARY COMMIT — SITE repo, pre-commit stays silent
+------------------------------------------------------------------
+staged: 1 file
+EXIT CODE: 0
+commit landed: dde1a5d risk09: install probe (throwaway, detached HEAD)
+(discarded with the probe worktree; `git branch -a --contains dde1a5d` returns nothing)
+
+------------------------------------------------------------------
+LIVE WORKTREES AFTER: 15, none moved by me, no artefact leaked
+------------------------------------------------------------------
+  hellokahwin-site             a7ae51f  dirty=0
+  pillars-ingest-redirects     06a377b  dirty=7
+  rights01-credits             0d9deb5  dirty=6
+  ui-01-ship                   105e79d  dirty=1
+  ui01-srow                    ef1716e  dirty=6
+  ui02-nav                     d934570  dirty=6
+  ui03-hero                    7a746d2  dirty=6
+  ui05-category-images         c1632d1  dirty=6
+  ui06-layout-gate             c2215ba  dirty=6
+  ui07-label-clip              00e7267  dirty=6
+  ui08-attrib-link             a06a009  dirty=6
+  ui09-search-a11y             8b1ee87  dirty=6
+  ui10-measure                 01d24a1  dirty=8
+  ui11-tap-targets             b060c84  dirty=6
+  ui12-thumb-geometry          9302658  dirty=7
+(the dirty files are the agents' own untracked persona files, pre-existing)

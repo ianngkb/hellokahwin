@@ -1,11 +1,16 @@
-# RISK-09 — the shared-repo boundary guard is built, tested, and NOT YET INSTALLED
+# RISK-09 — the shared-repo boundary guard, built, proven, and INSTALLED IN BOTH TREES
 
 **Sprint:** 04 · **Item:** `RISK-09` · 3 points · track `risk`
 **Date:** 31 August 2026
-**Status:** built and proven in a throwaway clone. **Installation into the two
-live trees is PENDING the CEO's green-light** — the ordering constraint the CEO
-set in the brief, not a narrowing of the DoD. See *Install, and why it has not
-happened yet* below.
+**Status:** **done.** Built and proven in a throwaway clone (27/27), then
+installed into both live trees on the owner's green-light and re-proven against
+the *installed* hooks — refusal and in-space control quoted from **each** repo.
+`install-hooks.sh --check` exits 0 in both.
+
+One thing remains open and is named rather than buried: the hooks are committed
+on `feat/command-centre-dashboard` only, so a fresh clone of the site repo has
+nothing to install from. The concrete fix is written out under
+*The remaining gap* below.
 
 ---
 
@@ -224,51 +229,222 @@ the `.risk09-throwaway` marker it drops itself.
 
 ---
 
-## Install, and why it has not happened yet
+## Installed — and the pre-flight that decided it was safe
 
-**The DoD requires the hook installed in both trees. It is not installed. The
-item is therefore not fully closed, and this entry does not claim otherwise.**
+The owner green-lit installation while **15 site trees** were live (the main
+checkout plus 14 `git worktree` trees — it was 9 when this item started; the
+sprint grew). A guard that refuses branch switches, dropped into a shared
+`.git/hooks` mid-sprint, is a real hazard to running agents, so the question was
+answered with measurements before anything was written.
 
-The CEO's brief set the ordering explicitly: six agents are running
-`git checkout` in `hellokahwin-site` worktrees right now, and a guard that
-refuses branch switches, installed mid-sprint, is a live hazard to them. Build
-and prove now; install on the green-light.
-
-Both trees are ready — audited 31 Aug, **zero non-sample hooks, no husky, no
-`core.hooksPath`** in either, so nothing will be clobbered:
+**1. Could an in-space switch by a running agent trigger a refusal? No.** Every
+live worktree HEAD classifies `site`, using `hk_space()` extracted verbatim from
+the shipped `post-checkout` with `sed` rather than retyped:
 
 ```
-=== C:/Users/Ian Ng/Documents/Code/hellokahwin/hellokahwin
-  core.hooksPath: ''
-  non-sample hooks:
-    (end)
-  husky dir: absent
-=== C:/Users/Ian Ng/Documents/Code/hellokahwin-site
-  core.hooksPath: ''
-  non-sample hooks:
-    (end)
-  husky dir: absent
+  hellokahwin-site      a7ae51f  site      ui07-label-clip       00e7267  site
+  pillars-ingest-...    06a377b  site      ui08-attrib-link      a06a009  site
+  rights01-credits      0d9deb5  site      ui09-search-a11y      8b1ee87  site
+  ui-01-ship            105e79d  site      ui10-measure          01d24a1  site
+  ui01-srow             ef1716e  site      ui11-tap-targets      61a505f  site
+  ui02-nav              d934570  site      ui12-thumb-geometry   9302658  site
+  ui03-hero             7a746d2  site
+  ui05-category-images  c1632d1  site
+  ui06-layout-gate      c2215ba  site
 ```
 
-### The exact commands, pending green-light
+Positive control, so `site` is earned and not a default: `git cat-file -e
+a7ae51f:next.config.ts` succeeds. All **27** local branches in the site repo
+also classify `site`.
 
-```sh
-cd ~/Documents/Code/hellokahwin/hellokahwin
-scripts/git-hooks/install-hooks.sh
-scripts/git-hooks/install-hooks.sh --check    # must exit 0
+(Those shas are the pre-flight snapshot. Several moved while this ran —
+`ui08-attrib-link` `66cab1f`→`a06a009`, `ui11-tap-targets` `61a505f`→`b060c84` —
+because the agents were committing, which is the point: this was measured on a
+sprint in motion, not a frozen one.)
+
+**2. `pre-commit` now runs on every commit in 15 trees. Does it break any of
+them?** Stress-tested in the throwaway clone with the hooks installed —
+**every one exit 0**: ordinary commit, `--amend`, cherry-pick
+(`CHERRY_PICK_HEAD`, no `MERGE_HEAD`), rebase, and **commit inside a linked
+worktree**, which is the shape 14 of the 15 trees actually have.
+
+**3. Do linked worktrees even share the installed hooks?** Yes, and that cuts
+both ways — it is why one install covers 15 trees, and why a bad hook would have
+broken all 15. Proven: a linked worktree's
+`git rev-parse --git-common-dir` resolves to the main repo's `.git`, and the
+refusal fires from inside a linked worktree.
+
+**4. `git worktree add` of a cross-space branch is deliberately NOT refused.**
+`post-checkout` gets a null previous HEAD and exits early. That is correct:
+adding a new worktree overwrites nothing, and it is the legitimate way to hold
+both spaces at once. Only switching an *existing* tree destroys anything.
+
+**5. Line endings.** `core.autocrlf=true` in the docs repo, but all installed
+hooks are LF-clean — `CR bytes=0`, shebang `#!/bin/sh\n` verified with `od -c`
+in both trees. This was the failure mode that could have broken every commit for
+every agent, so it is stated as measured bytes rather than as intent.
+
+### Installed
+
+```
+=== /c/Users/Ian Ng/Documents/Code/hellokahwin/hellokahwin
+    post-checkout: installed / pre-merge-commit: installed / pre-commit: installed
+=== /c/Users/Ian Ng/Documents/Code/hellokahwin-site
+    post-checkout: installed / pre-merge-commit: installed / pre-commit: installed
+INSTALL EXIT: 0
+--check EXIT: 0      (0 = installed in both)
 ```
 
-The default targets are the two live trees. Hooks live in each repository's
-**common** git dir, so this one run also covers all **eight** `hellokahwin-site`
-worktrees and the `hellokahwin` worktree — verified with `git worktree list`.
+After the work, all 15 site worktrees are back at their own HEADs, none moved by
+me, and nothing of mine leaked into any of them.
 
-### One thing that is still open after install
+## Proof against the INSTALLED hooks
 
-The hook source is committed on `feat/command-centre-dashboard` (docs space).
-It is **not** on `master`, so a fresh clone of the site repo has no
-`scripts/git-hooks/` to install from. Closing that needs a small PR putting
-`scripts/git-hooks/` onto `master` as well. It is named here rather than left
-implicit; it is the CEO's call whether it rides with the green-light or follows.
+The destructive case cannot be run in a live tree — that operation is the hazard
+itself. Instead each demonstration ran in a **temporary detached worktree of the
+live repo**, which shares the repository's `.git/hooks`; the hook file it used
+was confirmed **byte-identical** to the installed one with `cmp`. Both probe
+worktrees were removed afterwards. This is equivalent because the hook under
+test is the same file, invoked by the same git, in the same repository.
+
+### Refusal — docs repo
+
+```
+$ git rev-parse --short HEAD; ls -d docs/boardroom
+1c16969
+docs/boardroom
+$ git checkout origin/master          # origin/master is the SITE source
+Previous HEAD position was 1c16969 UI-06: the rendered-layout gate, its evidence, and the two rules it changed
+HEAD is now at c2215ba Merge pull request #21 from ianngkb/ianng89/ui06-layout-gate
+
+==============================================================================
+  REFUSED: this checkout crosses the hellokahwin docs/site boundary.
+==============================================================================
+
+  from: docs space   1c16969
+  to:   site space   c2215ba  (c2215ba)
+
+  hellokahwin (docs) and hellokahwin-site are the SAME repository - same
+  remote, same root commit 3a1fbe09 - kept apart only by convention. This
+  switch replaces the contents of this working tree with the other space.
+
+  RESTORED. You are back on HEAD at 1c16969.
+  Nothing was lost. Work in the other tree instead:
+    docs -> ~/Documents/Code/hellokahwin/hellokahwin
+    site -> ~/Documents/Code/hellokahwin-site
+
+  If you truly mean to cross the boundary in THIS tree:
+    HK_GIT_SPACE_GUARD=off git checkout c2215ba
+==============================================================================
+
+EXIT CODE: 1
+$ git rev-parse --short HEAD; ls -d docs/boardroom; ls -d src
+1c16969
+docs/boardroom
+ls: cannot access 'src': No such file or directory
+```
+
+### In-space control — docs repo, exit 0
+
+```
+$ git checkout origin/feat/cont-08-nisbah      # another DOCS-space commit
+Previous HEAD position was 1c16969 UI-06: the rendered-layout gate, its evidence, and the two rules it changed
+HEAD is now at 5105700 docs(cont-08): work-done log with Stage 9 retrospective, and the two edits it names
+EXIT CODE: 0
+$ git rev-parse --short HEAD; ls -d docs/boardroom
+5105700
+docs/boardroom
+```
+
+### Refusal — site repo
+
+```
+$ git rev-parse --short HEAD; ls -d src
+a7ae51f
+src
+$ git checkout origin/feat/command-centre-dashboard    # the DOCS space
+Previous HEAD position was a7ae51f Merge pull request #19 from ianngkb/ianng89/ui06-layout-gate
+HEAD is now at 1c16969 UI-06: the rendered-layout gate, its evidence, and the two rules it changed
+
+==============================================================================
+  REFUSED: this checkout crosses the hellokahwin docs/site boundary.
+==============================================================================
+
+  from: site space   a7ae51f
+  to:   docs space   1c16969  (1c16969)
+
+  hellokahwin (docs) and hellokahwin-site are the SAME repository - same
+  remote, same root commit 3a1fbe09 - kept apart only by convention. This
+  switch replaces the contents of this working tree with the other space.
+
+  RESTORED. You are back on HEAD at a7ae51f.
+  Nothing was lost. Work in the other tree instead:
+    docs -> ~/Documents/Code/hellokahwin/hellokahwin
+    site -> ~/Documents/Code/hellokahwin-site
+
+  If you truly mean to cross the boundary in THIS tree:
+    HK_GIT_SPACE_GUARD=off git checkout 1c16969
+==============================================================================
+
+EXIT CODE: 1
+$ git rev-parse --short HEAD; ls -d src; ls -d docs/boardroom
+a7ae51f
+src
+ls: cannot access 'docs/boardroom': No such file or directory
+```
+
+### In-space control — site repo, exit 0
+
+```
+$ git checkout origin/feat/ux-04-lqip          # another SITE-space commit
+Previous HEAD position was a7ae51f Merge pull request #19 from ianngkb/ianng89/ui06-layout-gate
+HEAD is now at 6d02fe4 docs(ux-04): work-done log with Stage 9 retrospective, and the edit it names
+EXIT CODE: 0
+$ git rev-parse --short HEAD; ls -d src next.config.ts
+6d02fe4
+next.config.ts
+src
+```
+
+And an ordinary commit in the site repo, which is what 15 trees do all day:
+`EXIT CODE: 0`, `dde1a5d risk09: install probe`. That commit was made on a
+detached HEAD in the probe worktree and died with it —
+`git branch -a --contains dde1a5d` returns nothing.
+
+Full transcript: `aug-31-2026-risk-09-EVIDENCE/installed-hooks-verification-2026-08-31.txt`
+
+## The remaining gap, concretely
+
+`scripts/git-hooks/` is committed on `feat/command-centre-dashboard` only. The
+consequence is precise and limited: **the installed hooks work today, in both
+trees, for everyone using these checkouts.** What does not work is a *fresh
+clone* of the site repo — `git clone` then `scripts/git-hooks/install-hooks.sh`
+fails, because on `master` that path does not exist. New worktrees are fine;
+they inherit the installed hooks from the common git dir.
+
+The fix, in the order it should happen:
+
+1. Branch from `master` in `hellokahwin-site`, e.g. `chore/risk09-hooks-on-master`.
+2. Copy the six files from the docs branch — they are self-contained and have no
+   dependency on anything in the docs tree:
+   ```sh
+   git --git-dir=<docs>/.git show feat/command-centre-dashboard:scripts/git-hooks/post-checkout > scripts/git-hooks/post-checkout
+   ```
+   and the same for `pre-commit`, `pre-merge-commit`, `install-hooks.sh`,
+   `verify-guard.sh`, `README.md`, `.gitattributes`.
+3. **`.gitattributes` must land with them**, or `master`'s checkout reintroduces
+   CRLF. `git ls-files --stage` must show mode `100755` on the four executables;
+   `core.filemode` is `false` on this machine, so set it explicitly with
+   `git update-index --chmod=+x`.
+4. `verify-guard.sh` points its fixture at the repo it lives in. On `master` it
+   would need `hk-docs` to resolve to a docs-space ref — either fetch one, or
+   accept that the harness runs from the docs tree only and say so in the README.
+   **This is the one part that is not a straight copy.**
+5. Open the PR against `master`; it touches nothing any other item touches.
+
+Sizing it honestly: steps 1–3 and 5 are maybe twenty minutes. Step 4 is a real
+decision about where the harness lives. **It is a separate item, not a leftover
+of this one** — and the guard is installed and working meanwhile.
 
 ---
 
@@ -293,6 +469,21 @@ this; only running the real merge showed it.
 `docs/plat-10-11-12` is site source. Any guard, script or human rule that keys
 off the branch name is wrong on a branch that already exists.
 
+**Installing a shared hook is a fleet-wide change, and it should be argued like
+one.** `.git/hooks` is shared by every worktree, so this install reached 15 trees
+at once. That is the whole value — one command guards all of them — and it is
+also the whole risk: a `pre-commit` that throws breaks every agent's commit
+simultaneously. The pre-flight that mattered was not "does the guard refuse"
+but "does it stay silent through `--amend`, cherry-pick, rebase, and a commit
+inside a linked worktree". **Ask what a guard does on the paths it is *not* meant
+to fire on, and test those, because that is where the blast radius is.**
+
+**A guard's non-firing cases are design, not omission.** `git worktree add` of a
+cross-space branch is not refused, and should not be — nothing is overwritten,
+and it is the legitimate way to hold both spaces at once. Writing down *why* a
+guard stays quiet is what stops the next person "fixing" it into something that
+blocks honest work and then gets deleted.
+
 ### 2. Which document must change, and who owns the edit?
 
 | Document | Change | Owner |
@@ -308,6 +499,20 @@ guard is missing, so it can sit in a pre-flight as a gate. The prose in
 `ceo-memory.md` exists only to point at the command.
 
 ### 3. What did we do twice that we should never repeat?
+
+**Split a path on the space in "Ian Ng" — twice, in two different tools, both
+times producing a confident wrong answer rather than an error.** First in
+`install-hooks.sh` (`for tree in $TARGETS`), where it reported every tree
+"MISSING" and still exited 1, which reads like a correct "not installed". Then
+again during the install pre-flight, in a throwaway `git worktree list | while
+read -r path sha rest` — which classified **all 15 worktrees as `unknown`**, a
+uniform and entirely plausible result that would have led straight to
+"installation is safe, nothing classifies" for completely the wrong reason.
+
+Both were caught by the output looking odd, not by an exit code. The rule that
+would have caught them the first time: **on this machine every real path contains
+a space, so any `for x in $VAR` or bare `read` over paths is a bug.** Use
+positional parameters, or `--porcelain` output with an explicit delimiter.
 
 **Cloned the docs tree twice.** The first throwaway clone silently lost 34 files
 to Windows `MAX_PATH` — `Filename too long`, on paths under

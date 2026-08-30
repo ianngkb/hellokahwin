@@ -49,15 +49,21 @@ worked example was wrong and is corrected; venue pages parked at the sourcing ga
   tree swaps the company record for the site source. **RISK-09 (Sprint 04) built the
   guard and proved it: 22/22 cases in a throwaway clone, refusals and negative
   controls both.** It lives in `scripts/git-hooks/` and it is an executable, not a
-  paragraph. **⚠ IT IS NOT YET INSTALLED — the CEO deferred installation because six
-  agents were running `git checkout` in site worktrees mid-sprint.** Until it is, the
-  hazard is exactly as unguarded as it was.
-  - **Install (needs the CEO's green-light):** `scripts/git-hooks/install-hooks.sh`
+  paragraph. **✅ INSTALLED IN BOTH TREES on the owner's green-light, 31 Aug**, and
+  re-proven against the installed hooks: refusal AND a passing in-space control
+  quoted from each repo. One install covers **15 site trees** (main checkout + 14
+  worktrees) because hooks live in the common git dir.
   - **Is it installed? Do not guess — this exits 1 when it is not:**
-    `scripts/git-hooks/install-hooks.sh --check`
-  - **Still open after install:** the hooks are committed on
-    `feat/command-centre-dashboard` only. A fresh clone of the site repo has no
-    `scripts/git-hooks/` to install from. Needs a small PR onto `master`.
+    `scripts/git-hooks/install-hooks.sh --check`  (currently exits 0)
+  - **Deliberate override, when someone really means it:**
+    `HK_GIT_SPACE_GUARD=off git checkout <ref>`
+  - **⚠ STILL OPEN, and it is a real gap:** the hooks are committed on
+    `feat/command-centre-dashboard` only. Existing checkouts are guarded, but a
+    **fresh clone of the site repo cannot install them** — the path does not exist
+    on `master`. Needs a small PR onto `master`; the step-by-step is in the RISK-09
+    work-done entry under *The remaining gap*. Not a leftover of RISK-09 — a
+    separate item, because moving `verify-guard.sh` to `master` needs a decision
+    about where its docs-space fixture comes from.
   - **Do not classify a branch by its name.** `docs/plat-10-11-12` is *site* source
     and `feat/command-centre-dashboard` is *docs*. The guard reads tree content
     (`next.config.ts`) and so must any check written later.
