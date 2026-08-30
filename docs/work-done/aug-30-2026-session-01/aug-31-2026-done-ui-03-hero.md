@@ -494,6 +494,29 @@ verified. So the hook must say *"you deleted N heading-shaped lines, confirm tha
 was deliberate"* and never refuse. A gate that blocks legitimate work teaches
 everyone to reach for `--no-verify`, and then it protects nothing.
 
+**⚠ DO NOT READ THIS AS "THE CHECK WAS UNRELIABLE" — that is the wrong
+conclusion and it would cost more than the bug did.** (UI-01's reframe, and it
+corrects my own first draft of this paragraph.)
+
+Three corrections landed on a nine-word check. My instinct was to file that as a
+story about carelessness. It is not:
+
+> **The check went through three revisions BECAUSE it was written down, in a
+> repo, where somebody else could run it. The two of us traded a dozen
+> assertions this afternoon that were never written down anywhere, and those got
+> exactly zero revisions.** The check is not the thing that failed three times;
+> it is the only thing that was reviewable enough to fail visibly.
+
+Three of my false claims this item — the pooler port, UI-01's 500, the row-1
+prediction — survived precisely because they were prose in a message rather than
+a command in a file. Nobody could run them. **A reader who takes "he got a
+nine-word check wrong three times" and concludes "write fewer checks" has
+inverted the finding**, and lesson (d) is the proof: the unwritten claims did
+more damage and were caught later.
+
+Write more of them. Expect them to be wrong at first. That is what written-down
+means.
+
 **Why it belongs in this entry and not in the doctrine:** UI-01's judgement, and
 it is right — §5.10 does not need a monument to its own first casualty. But the
 irony is exactly on point and I am not going to lose it: **the section arguing
