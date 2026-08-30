@@ -275,6 +275,35 @@ alone — 40/21 at every width, which retains **35.0%** even from the corpus's w
 source (0.667) and so needs no predicate. Never degrade to a portrait in a
 landscape box.
 
+**S4b — R8(d): the section front does not lead with the photograph the front page
+is leading with.** Added after S4 was built, because S4 CAUSED this: before it,
+`/artikel` led with `persiapan-hantaran-kahwin`; applying R8(a) and R8(c) walked
+the plate onto **`adat-hantaran-ikut-keluarga`, the homepage hero's own
+photograph**. Two surfaces one click apart, the same 88/25 crop at the same
+painted size. A reader who clicks _Lihat semua artikel_ and lands on an identical
+plate reads that as a page that failed to load, not as art direction.
+
+This is a fourth skip predicate on a slot that already has three, not a new kind
+of rule: the lead plate is `featured[0]`, an **editorial** slot, not a
+chronological one. The cold reader who arrives from search loses nothing — they
+get rank 3 instead of rank 2, and rank 3 is `barang-hantaran-berguna`, whose
+2463×700 crop was rendered at 1232×350 and accepted (tiered dulang, a cake with
+red roses, the bride's hands, songket).
+
+⚠ **Implement it WITHOUT a second query.** Two surfaces computing "the hero"
+from independently-built lists is the defect the deleted homepage category rail
+is a monument to — _"built from a different query than the masthead's, and the two
+disagreed"_ — and a second instance of it is not acceptable. Export the selection
+itself from `src/lib/inspire/hero-frame.ts` as one function over a list
+(`pickHeroIndex(articles)`, applying R8(a)+(b)+(c) and returning an index or −1).
+The homepage calls it on its list; `/artikel` calls it on **its own** list, which
+carries the same `publishedAt desc` ordering, to learn what the front page is
+leading with, then takes the next eligible article after it. One definition of the
+predicate, no cross-page data dependency, and both surfaces move together if the
+ordering ever changes. The comment must say that it depends on both surfaces
+ordering by `publishedAt desc`, so whoever changes either ordering is told what
+they break.
+
 Retained frame at each band, from the modal 1.500 source: **78.7%** at 1.905,
 **42.6%** at 3.520. Both clear the 33% floor.
 
