@@ -1,8 +1,10 @@
 {
   "id": 3,
   "name": "Convert the impressions we now have - and stop looking generic",
-  "state": "in_progress",
+  "state": "done",
   "planned_at": "2026-08-27",
+  "started_at": "2026-08-28",
+  "ended_at": "2026-08-29",
   "governance": {
     "body_of_work_not_duration": "A sprint ends when every item is done AND the owner has reviewed it, however long that takes. No calendar window. No rolling work forward to hit a date.",
     "completeness_over_budget": "Items are sized to be done completely, not to fit a point total. Scope was not cut for tidiness.",
@@ -20,7 +22,7 @@
       "id": "RISK-07",
       "track": "risk",
       "points": 3,
-      "state": "todo",
+      "state": "done",
       "owner": "BMAD",
       "title": "Six sitemap URLs are served noindex and Google excluded all six",
       "flags": [
@@ -29,13 +31,29 @@
       ],
       "why": "Found by RISK-05 in Sprint 02, which correctly recorded it and did NOT half-fix it because it met neither of the monitor's own alarm conditions. Six URLs we are actively advertising in the sitemap tell Google not to index them. Google crawled and excluded all six. This is the cheapest available correction of a self-inflicted wound.",
       "dod": "OBSERVABLE: All six URLs named explicitly. Each returns a robots meta WITHOUT noindex on a fresh request. The sitemap URL count is unchanged (103) - this is a robots fix, not a sitemap edit. At least one of the six shows its exclusion cleared in GSC URL Inspection. CHECKED BY: curl each of the six and grep the robots meta, before and after, quoted literally. GSC URL Inspection on at least one. Count the live sitemap with curl | grep -c '<loc>'. BEWARE THE FALSE PASS: Do not check the route source and call it fixed. Check the artefact the consumer receives - the live response. This is the failure shape the production doctrine names. EVIDENCE LANDS: docs/work-done/ entry naming all six URLs with before/after robots meta quoted from live HTML.",
-      "brief": "src/app/sitemap.ts. Enumerate which six and why they were excluded before changing anything - the RISK-05 finding names them."
+      "brief": "src/app/sitemap.ts. Enumerate which six and why they were excluded before changing anything - the RISK-05 finding names them.",
+      "evidence": [
+        {
+          "at": "2026-08-28T05:35:31.802Z",
+          "link": "https://hellokahwin.com/artikel/minimalis-mewah",
+          "actor": "SYSTEM",
+          "claim": "BLOCKED ON THE OWNER: three of four DoD clauses met and verified; the fourth needs one manual action in Search Console",
+          "proof": "CEO verified live 28 Aug: all six hub URLs return 200 with content='index, follow' - fotografi-videografi, glamor-eksklusif, hiasan-dekorasi, minimalis-mewah, moden-kontemporari, pantai-santai. Sitemap 103 URLs unchanged. Shipped: evidence files exist on origin/master, 4 commits naming RISK-07. NOT MET: GSC URL Inspection still shows last_crawled 2026-08-23 after five polls over 65 minutes. The URL Inspection API is read-only and the Indexing API is restricted to JobPosting/BroadcastEvent, so this cannot be closed from code. Needs the owner to press Request indexing on any one URL. Tracked as issue #10."
+        },
+        {
+          "at": "2026-08-28T06:01:58.281Z",
+          "link": "https://hellokahwin.com/artikel/minimalis-mewah",
+          "actor": "SYSTEM",
+          "claim": "CLOSED - the fourth DoD clause is now met: Google has re-crawled and the exclusion has cleared",
+          "proof": "GSC URL Inspection on /artikel/minimalis-mewah, run by the CEO 28 Aug after the owner pressed Request indexing: verdict PASS, coverage_state 'Submitted and indexed', last_crawled 2026-08-28 05:36 (was 2026-08-23 through five polls over 65 minutes), robots_txt_state ALLOWED, indexing_state INDEXING_ALLOWED, rich_results PASS with Breadcrumbs detected. All six hubs independently verified at 200 with content='index, follow'. Sitemap 103, unchanged. The agent was right to refuse to close this on its own - it could not have, since the URL Inspection API is read-only."
+        }
+      ]
     },
     {
       "id": "RISK-08",
       "track": "risk",
       "points": 5,
-      "state": "todo",
+      "state": "done",
       "owner": "BMAD",
       "title": "Cold renders take 5-22s against a route declaring maxDuration=5",
       "flags": [
@@ -44,13 +62,29 @@
       ],
       "why": "Measured in Sprint 01, never root-caused, deferred from Sprint 02 deliberately because RISK-04 and RISK-05 changed what Googlebot meets first. RISK-05's monitor has now been running, so Sprint 03 revisits this with data rather than by guessing - which is exactly the condition the deferral was written against. One new article URL also returned 502 FUNCTION_RESPONSE_STREAM_INCOMPLETE.",
       "dod": "OBSERVABLE: The monitor's actual series quoted for the affected routes. Either a stated root cause with the fix deployed and a cold-path measurement showing the new figure, OR a stated finding that the monitor shows this no longer bites, with the series that proves it. CHECKED BY: Reproduce deliberately on a COLD path. A warmed cache proves nothing - RISK-06 in Sprint 02 established that the CEO's own earlier requests hid a defect present on 50 of 61 pages. BEWARE THE FALSE PASS: 'Could not reproduce' is a statement about conditions, not about the site. If it cannot be reproduced, say what conditions were tested and why they were cold. EVIDENCE LANDS: docs/work-done/ entry with the monitor series and the literal timings.",
-      "brief": "Read the mechanism in source before measuring. Reading the source first is what made RISK-06's 50/61 appear on the first try."
+      "brief": "Read the mechanism in source before measuring. Reading the source first is what made RISK-06's 50/61 appear on the first try.",
+      "evidence": [
+        {
+          "at": "2026-08-28T08:14:00.414Z",
+          "link": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-perak",
+          "actor": "SYSTEM",
+          "claim": "Two symptoms, two causes. The 5-22s was a MEASUREMENT ARTIFACT; the 502 was real, ours, and is fixed - functions moved from iad1 to sin1, 3,478ms p50 to 168ms",
+          "proof": "CEO verified the region change FIRST-HAND from this session's own record: at 11:15 a RISK-08 watcher milestone captured 'X-Vercel-Id: sin1::iad1::xvm57-1787897335401' - edge in Singapore, FUNCTION IN US EAST, 15,000km from the database. Every request I make now returns 'sin1::sin1::'. My own timings on that route: ttfb 0.084s, 0.088s, 0.088s, 0.259s. Caveat stated rather than hidden: a query-string cache-bust does NOT force a Vercel MISS, so those four are cache HITs and are not cold-path numbers - the region header is what I verified, not the 168ms. SHIP CHECK by content: 4 commits naming RISK-08 on origin/master, all six evidence files present, branch-vs-master file diff EMPTY."
+        },
+        {
+          "at": "2026-08-28T08:14:02.181Z",
+          "link": "https://github.com/ianngkb/hellokahwin",
+          "actor": "SYSTEM",
+          "claim": "CEO PREDICTION SCORED: half right, and the half I got wrong is the important one",
+          "proof": "At planning the CEO predicted RISK-08 would return 'the monitor shows this no longer bites' rather than a root cause, and recorded that so a null finding would read as the prediction landing. The headline symptom WAS phantom - the agent reproduced ~21.05s twice on requests served from cache that ran no function at all, and at an identical rate against vercel.com, proving the seconds were TCP handshake on the measuring machine's path. But a REAL defect hid underneath it, and the prediction would have let us close the item without finding it. Carried into Sprint 04 planning: a symptom that turns out to be an artifact is not the same as an item with nothing in it."
+        }
+      ]
     },
     {
       "id": "SEO-07",
       "track": "seo",
       "points": 3,
-      "state": "todo",
+      "state": "done",
       "owner": "BMAD",
       "title": "A shipped title has a half-life - generateMetadata caches its own fallback",
       "flags": [
@@ -60,7 +94,23 @@
       ],
       "why": "THE MOST IMPORTANT ITEM IN THIS SPRINT. SEO-05 shipped repaired titles for the mas-kahwin family in Sprint 02. That family now draws ~300 impressions at positions 6.5-12.2 and earns 3 clicks. We CANNOT TELL whether the repaired titles are what Google is being served, because a correct row can render as the site-default title 14 minutes after a verified repair. Every title decision downstream of this is unmeasurable until it is fixed.  CARRIED FROM THE SPRINT 02 RETRO, verbatim, because the planning pass lost this detail: Sprint 02 retrospective, head-of-seo-content, against his own item. SEO-05 shipped five correct DATABASE ROWS. Three transforms sit between the row and the SERP: stripBrandSuffix(), the layout appending the brand suffix (14 chars against the roughly 60 Google prints), and generateMetadata returning {} under a 1.5s deadline - which renders the site-default title AND CACHES IT. That recurred 14 minutes after a full repair. The CEO verified the title live and correct at 59 chars and marked the item done; the room is right that the tracker has no field for a fix with a half-life. Related and unowned: 39 pages were serving no article title at all, a defect a row-level field audit could not see.",
       "dod": "OBSERVABLE: The mechanism stated from source. The defect reproduced deliberately. The true count of affected pages stated WITH its method - the count is currently unknown. After the fix: a repaired title still correct on a cold fetch 30+ minutes later, quoted literally. CHECKED BY: Re-measure the render-level defect SEQUENTIALLY, not concurrently - the Sprint 02 note says the true count is unknown precisely because the measurement method was wrong. Then wait out the cache window and re-fetch cold. BEWARE THE FALSE PASS: Verifying a title immediately after deploy is the false pass. The defect IS the delay. A check that does not wait cannot catch it. EVIDENCE LANDS: docs/work-done/ entry with the mechanism, the count and its method, and the 30-minute cold re-fetch.  PLUS THE CARRIED-FORWARD DoD, which is more specific than the one written at planning and is NOT superseded by it: generateMetadata never caches a fallback. Under deadline it must serve the article title from a cheaper source or fail open rather than freezing {} into a prerender. Prove it by forcing the timeout and showing the response still carries the article title, then showing the same URL again from cache. Then re-run the full 69-page RENDERED title sweep - sequentially, not concurrently, because a six-wide sweep manufactures the contention it measures - and report how many pages serve no article title. The figure is currently unknown: 39 was reported, 3 was the corrected pre-existing count, and 36 were caused by the measurement itself.",
-      "brief": "Read Next's generateMetadata caching behaviour in source. This is the same class as decision 44 - a caching mechanism whose argument reads like an intensity."
+      "brief": "Read Next's generateMetadata caching behaviour in source. This is the same class as decision 44 - a caching mechanism whose argument reads like an intensity.",
+      "evidence": [
+        {
+          "at": "2026-08-28T03:08:48.540Z",
+          "link": null,
+          "actor": "SYSTEM",
+          "claim": "Superseded — this row is a DUPLICATE of the Sprint 03 item with the same key",
+          "proof": "Sprint 03 was imported creating new rows instead of drawing these in with 'sprint plan', so both existed. The richer why/dod from THIS row have been merged verbatim into the Sprint 03 row and nothing was discarded. Parked so the backlog stops offering an item that is already being worked."
+        },
+        {
+          "at": "2026-08-28T05:35:04.067Z",
+          "link": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri",
+          "actor": "SYSTEM",
+          "claim": "generateMetadata can no longer cache the site-default title; verified by the CEO independently, not from the agent's report",
+          "proof": "CEO check 28 Aug: four cache-busted requests, all x-vercel-cache=MISS (genuine cold origin fetches), all carrying real article titles - 'Mas kahwin ikut negeri 2026: RM22.50 ke RM300', 'Mas kahwin Perak 2026: tiada kadar minimum ditetapkan', 'Checklist Kahwin: Senarai Persediaan 12 Bulan...', 'Hantaran Tunang Lelaki & Perempuan'. Zero site-default titles. Ship check by CONTENT not ancestry: origin/master holds 06-cold-refetch-30min.md and the file diff branch-vs-master is EMPTY, so the '6 commits ahead' was squash-merge noise."
+        }
+      ]
     },
     {
       "id": "SEO-08",
@@ -75,13 +125,36 @@
       ],
       "why": "Decision 88 deferred this to Sprint 03 planning with the data attached. The data: /garden-wedding/ draws 814 impressions - 28% of ALL site impressions - and earns 4 clicks at 0.49% CTR from position 36.6. It is an English-intent page on a Malay-first site sitting on page four. It is the largest single distortion in every report we produce.",
       "dod": "OBSERVABLE: A written decision - rewrite Malay-first, keep and stop reporting it, or drop it - with SERP evidence on who owns positions 1-3 for the head terms. If kept: the target and the date it is judged on. If dropped: what happens to the URL. CHECKED BY: Ahrefs SERP overview on the head terms, quoting the volume field used (per the standing rule: quote `volume`, the 12-month average, and say which field). Apply the SERP-ownership rule - volume AND who owns position 1. BEWARE THE FALSE PASS: The Sprint 02 retro found the SERP-ownership rule was used to KILL an option and then not applied to its replacement. Run the rule against whatever replaces this page too. EVIDENCE LANDS: docs/work-done/ entry and a decision-log entry.",
-      "brief": "This is a decision item, not a build item. It may correctly produce no code."
+      "brief": "This is a decision item, not a build item. It may correctly produce no code.",
+      "evidence": [
+        {
+          "at": "2026-08-28T08:12:01.493Z",
+          "link": "https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding",
+          "actor": "SYSTEM",
+          "claim": "DECIDED: keep garden-wedding, do NOT rewrite it, no editorial investment, quarantine it from the headline numbers by command, judge on 27 Nov 2026",
+          "proof": "CEO verified independently 28 Aug by following the redirect: /garden-wedding/ is one 308 hop to /artikel/idea-dan-nasihat/garden-wedding, which returns 200 with title '20 Venue Garden Wedding Paling Cantik di Malaysia', 22 h2 headings, 57 images and 181 Malay-language markers in the body. It is a MALAY article about Malaysian venues."
+        },
+        {
+          "at": "2026-08-28T08:12:03.411Z",
+          "link": "https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding",
+          "actor": "SYSTEM",
+          "claim": "CEO CORRECTION: decisions 88 and 97 are WRONG on their central premise and the agent disproved them",
+          "proof": "Both decisions call /garden-wedding/ 'an English-intent page on a Malay-first site'. It is not an English page - it is 2,332 words of Malay prose over twenty named Malaysian venues. What is English is the QUERY, and 'garden wedding' is the loanword Malaysians actually use, with no Malay phrase competing for it. That single measured fact kills the rewrite option the CEO had listed first. The CEO's own first verification of this MISSED it by not following the 308 and reading the site-default shell instead - the fifth mismeasurement of the day, and the one that would have confirmed a wrong decision rather than caught it."
+        },
+        {
+          "at": "2026-08-28T08:12:04.948Z",
+          "link": "https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding",
+          "actor": "SYSTEM",
+          "claim": "CARVE-OUT, unowned and escalated: 27 of 48 images on the site's highest-impression page carry no credit",
+          "proof": "The agent refused to absorb this into an item scoped to zero investment, and refused to let 'no investment' quietly cover a rights breach. It is an owner-level rule (licensed and credited, per the production doctrine), it sits on the page drawing 814 impressions - 28% of all site impressions - and it has NO OWNER. Filed separately so it cannot be lost in an item marked done."
+        }
+      ]
     },
     {
       "id": "SEO-09",
       "track": "seo",
       "points": 3,
-      "state": "todo",
+      "state": "done",
       "owner": "BMAD",
       "title": "Re-parent the 13 legacy articles",
       "flags": [
@@ -90,13 +163,36 @@
       ],
       "why": "CONT-04 produced the plan in Sprint 01 and established it needs NO redirects. Deferred from Sprint 02 only because the venue and zero-CTR work touched the same pillar pages, and two agents on one file is how Sprint 01 nearly lost work. That collision risk does not exist this sprint if it is sequenced away from SEO-10.",
       "dod": "OBSERVABLE: All 13 articles live at their new paths, each returning 200 on FIRST request. No redirect added. Sitemap count unchanged at 103. Each appears under its correct pillar. CHECKED BY: curl all 13 with -w '%{http_code}' on a first request each. Count the live sitemap. Load each parent pillar and confirm the article is linked from it. BEWARE THE FALSE PASS: Check the PILLAR shows them, not just that the URL resolves. Sprint 02's failure mode 3 was a layer reading done from above while the layer below was 404. EVIDENCE LANDS: docs/work-done/ entry listing all 13 old->new paths with status codes.",
-      "brief": "CONT-04's Sprint 01 plan is the input. Do not re-derive it."
+      "brief": "CONT-04's Sprint 01 plan is the input. Do not re-derive it.",
+      "evidence": [
+        {
+          "at": "2026-08-28T15:36:59.584Z",
+          "link": "https://hellokahwin.com/artikel/hantaran-mas-kahwin",
+          "actor": "SYSTEM",
+          "claim": "Nine legacy articles re-parented into the pillar architecture with NO URL change - verified live, sitemap unchanged",
+          "proof": "CEO verified against production, not the report: hantaran-kahwin, hantaran-tunang, gubahan-hantaran and sirih-junjung are each now LINKED ON the /artikel/hantaran-mas-kahwin pillar page, and the sitemap still counts 103 URLs exactly as the DoD required. The write was additive - seven rows into article_categories, the link table the pillar architecture reads - touching neither articles nor primary_category_id, so not a single URL moved and no redirect was added."
+        },
+        {
+          "at": "2026-08-28T15:37:02.213Z",
+          "link": "https://github.com/ianngkb/hellokahwin",
+          "actor": "SYSTEM",
+          "claim": "DoD DEVIATION, declared not hidden: 9 of 13, with 4 declined BY DESIGN on the authority of the item's own named input",
+          "proof": "The DoD said 'all 13 articles'. The agent delivered 9 and declined 4, stating so in its own status line rather than quietly reducing scope. It is right and the DoD was wrong: CONT-04's Sprint 01 plan - the item's named input - splits the thirteen three ways. Seven move now with no URL change; two (dewan-kahwin, garden-wedding) get their cluster link now and their primary category only after a measured consolidation gate; four should NEVER move, because sewa-dewan-kahwin and majlis-kahwin collide with a parent topic another live page owns, and tempat-honeymoon-di-malaysia and wedding-planner-terbaik-di-malaysia sit outside the approved 26-cluster map. The CEO wrote '13' from a summary without reading the plan it cited. This is a DoD that was WRONG, not one that was narrowed."
+        },
+        {
+          "at": "2026-08-28T15:37:05.077Z",
+          "link": "https://github.com/ianngkb/hellokahwin",
+          "actor": "SYSTEM",
+          "claim": "CEO INTERVENTION: the agent emitted ITEM EXIT: 0 with its record - including a production UNDO script - unmerged on a branch",
+          "proof": "Ship check by content found ZERO commits naming SEO-09 on origin/master and 13 files present only on feat/seo09-reparent, with no PR open. The production effect had shipped; the record had not. Among the stranded files was 2026-08-28-seo-09-reparent-UNDO.sql, the ONLY way back from a write to a database with pitr_enabled=false and zero platform backups. The CEO merged it. This is decision 71 repeating - Sprint 01's undo scripts for every production write existed on one laptop and were found by accident - and it is the first time this sprint that an agent's own ITEM EXIT: 0 was wrong about shipping."
+        }
+      ]
     },
     {
       "id": "SEO-10",
       "track": "seo",
       "points": 3,
-      "state": "todo",
+      "state": "done",
       "owner": "BMAD",
       "title": "31 articles emit no FAQ schema on a site whose long tail is question-shaped",
       "flags": [
@@ -105,13 +201,29 @@
       ],
       "why": "Found during SEO-05. Question-and-answer blocks are earning no rich result on a site whose entire Malay long tail is question-shaped - which is the cheapest rich-result opportunity we have. Recorded as ONE emitter fix, not 31 article fixes. The original owner (full-stack-engineer) was retired to BMAD, which is why this has sat unowned.",
       "dod": "OBSERVABLE: The emitter fixed. FAQPage JSON-LD present in the live HTML of at least five named articles that carry Q&A blocks. Validated against Google's Rich Results Test or the schema spec, with the result quoted. CHECKED BY: curl each of the five and extract the JSON-LD block literally. Do not infer from the route source. BEWARE THE FALSE PASS: Evidence file from Sprint 02 exists: docs/work-done/2026-08-27-seo-05-titles-EVIDENCE/faq-schema-gap.json. Read it rather than re-deriving the gap. EVIDENCE LANDS: docs/work-done/ entry with the JSON-LD quoted from live HTML for five articles.",
-      "brief": "Fix the emitter, THEN correct the writer instruction so it describes what actually happens - the instruction currently describes behaviour the code does not have."
+      "brief": "Fix the emitter, THEN correct the writer instruction so it describes what actually happens - the instruction currently describes behaviour the code does not have.",
+      "evidence": [
+        {
+          "at": "2026-08-28T07:01:24.536Z",
+          "link": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-perak",
+          "actor": "SYSTEM",
+          "claim": "One emitter fixed; FAQPage JSON-LD now live. AND the item's own business premise was found FALSE and reported rather than buried",
+          "proof": "CEO independent verification 28 Aug, not the agent's report: sampled 18 of 86 live article URLs from the production sitemap - 6 emit FAQPage carrying 26 Question assertions. That is 33% of articles at 4.3 questions each, against the agent's claimed 29 of 86 (34%) at 4.2 each. Proportionally consistent. Spot-checked mas-kahwin-perak (5 questions), mas-kahwin-ikut-negeri (5), sirih-junjung (4); checklist-kahwin and borang-nikah correctly emit nothing, having no Q&A block. SHIP CHECK by content: 4 commits naming SEO-10 on origin/master, all evidence files present, branch-vs-master file diff EMPTY."
+        },
+        {
+          "at": "2026-08-28T07:01:30.358Z",
+          "link": "https://developers.google.com/search/blog",
+          "actor": "SYSTEM",
+          "claim": "MATERIAL CORRECTION the CEO did not know at planning: Google retired the FAQ rich result on 7 May 2026",
+          "proof": "Surfaced by the agent, unprompted, against its own item's value. The CEO planned SEO-10 calling FAQ schema 'the cheapest rich-result opportunity we have' - that is now false. The markup is still valid, still free per article, and still read by consumers other than Google Search, but it will NOT produce an accordion under a hellokahwin.com result. Recorded so no later meeting scores this as a rich-result win."
+        }
+      ]
     },
     {
       "id": "SEO-04",
       "track": "content",
       "points": 8,
-      "state": "todo",
+      "state": "parked",
       "owner": "head-of-seo-content",
       "title": "Venue entity pages - revived via phone verification, gate retained",
       "flags": [
@@ -121,13 +233,50 @@
       ],
       "why": "Parked in Sprint 02 at its own sourcing gate: real prices and capacities could not be sourced at scale. The gate firing was the correct outcome and the item built nothing rather than inventing capacities. Its own park recommendation is the way back in: PHONE-VERIFY eight venues and publish with 'disemak Ogos 2026' - the method that built mas-kahwin-ikut-negeri and the method our whole competitive claim rests on.  CARRIED FROM THE SPRINT 02 RETRO, verbatim, because the planning pass lost this detail: RE-SCOPED 26 Aug on competitor data the CEO never pulled, correcting the CEO original finding AND the SEO review own first recommendation. The premise was right - entity pages beat listicles - and the target list was wrong. Evidence: nikahsatu.com (DR 14) earns about 4,900 traffic from /venue/[slug] ENTITY pages against about 293 from its geographic hub pages. Roughly 17x. Their winners are COMMERCIAL VENUE BRANDS with real brand demand: arjuna-melaka 882 traffic at volume 2,400, arjuna-johor-bahru 691 at 1,800, villa-rimba-flora-gombak 670 at 1,800, jiwa-damansara 431 at 1,200, rumah-abang-jamil-klang 275 at 600. THE FOUR HALLS THIS ITEM ORIGINALLY NAMED ARE COUNCIL HALLS TOTALLING ABOUT 30 SEARCHES A MONTH: setiawangsa 10, perdana keramat mall 20, keramat 0, mpaj tasik tambahan 0. Two structural problems, neither fixable with a better template - there is almost no brand search demand, and what exists is held at position 1-2 by the council own booking portal tempahkl.dbkl.gov.my at DR 64. We could build those four perfectly and earn near zero. Commercial venues have the inverse profile: high volume, no competing official portal, and the incumbent is a DR 14 site with thin pages carrying no capacity data. Multi-location brands multiply one template into N pages - Rumah Abang Jamil alone gives nikahsatu seven pages worth about 1,070 combined.",
       "dod": "GATE FIRST — GATE FIRST, BEFORE ANYTHING IS BUILT: phone-verify eight venues. If eight cannot be verified, STOP and bring it back. Do NOT invent a capacity or a price, and do NOT quietly downgrade to the council-hall target that decision 83 already killed. A parked item with a clear reason is a good outcome here. A directory of plausible invented capacities is the worst possible outcome on a site whose entire claim is that its numbers carry sources - and the hardest to detect months later. OBSERVABLE: Eight entity pages live, each returning 200 on first request, each carrying its source authority and the date checked. Sitemap count rises by exactly the number published. Setiawangsa published as the declared CONTROL. CHECKED BY: curl each page first-request. Quote the sourcing line from live HTML. Count the sitemap before and after. CONTROL: Setiawangsa runs as a deliberate control so the council-hall category is PROVED dead rather than quietly dropped. Decision 83 declared this control and SEO-04's park meant it never ran. It runs this time. EVIDENCE LANDS: docs/work-done/ entry with the phone-verification record per venue - who was called, when, what was confirmed.  PLUS THE CARRIED-FORWARD DoD, which is more specific than the one written at planning and is NOT superseded by it: GATE FIRST, BEFORE ANY PAGE IS BUILT: spend one hour confirming we can SOURCE real prices and capacities at scale for commercial venues, and check whether nikahsatu venue pages are paid listings or partnerships giving them data access we lack. Report the answer. If sourcing fails, STOP and bring it back - do not build pages with invented or boilerplate figures, and do not quietly downgrade to council halls. At least EIGHT entity pages across two or more multi-location venue brands with 400+ monthly brand volume each - eight is the cluster floor, below which it does not read as coverage. PLUS Dewan Komuniti Setiawangsa as a DELIBERATE CONTROL: it is the only council hall with measured demand (about 150 GSC impressions across its name variants), so if a properly built Setiawangsa page still earns nothing while the commercial pages rank, that confirms the council-hall category is structurally dead for us and no later sprint rediscovers it. Every page carries alt_names because GSC proves one building is searched three ways. Every fact carries its source and the date checked - no invented capacities or prices. Route /dewan/[negeri]/[slug], separate from /artikel/. EventVenue + LocalBusiness + FAQPage schema. Title formula puts the venue name in the first two words, under 60 characters. Proof: quote the capacity and booking line from live HTML for two venues, with a negative control. Baseline per brand query on ship day. EXPECT POSITION 3-5, NOT 1 - the venue own site will hold position 1 and nikahsatu is entrenched at 2. Say so in the report rather than promising position 1.",
-      "brief": "Expected outcome is position 3-5, not 1 (decision 83). Commercial venue brands, not council halls. Resolve the operator before ranking a competitor - nikahsatu is the venue OPERATOR, not a competitor, which is the correction Sprint 02's retro made."
+      "brief": "Expected outcome is position 3-5, not 1 (decision 83). Commercial venue brands, not council halls. Resolve the operator before ranking a competitor - nikahsatu is the venue OPERATOR, not a competitor, which is the correction Sprint 02's retro made.",
+      "evidence": [
+        {
+          "at": "2026-08-28T03:08:43.787Z",
+          "link": null,
+          "actor": "SYSTEM",
+          "claim": "Superseded — this row is a DUPLICATE of the Sprint 03 item with the same key",
+          "proof": "Sprint 03 was imported creating new rows instead of drawing these in with 'sprint plan', so both existed. The richer why/dod from THIS row have been merged verbatim into the Sprint 03 row and nothing was discarded. Parked so the backlog stops offering an item that is already being worked."
+        },
+        {
+          "at": "2026-08-28T15:52:15.420Z",
+          "link": "https://github.com/ianngkb/hellokahwin",
+          "actor": "SYSTEM",
+          "claim": "BLOCKED, and the blocker is the CEO's own revival method: an AI agent cannot make telephone calls",
+          "proof": "SEO-04 was parked in Sprint 02 because real venue prices and capacities could not be sourced at scale. The CEO revived it on 28 Aug via the park's own recommendation - PHONE-VERIFY eight venues and publish with 'disemak Ogos 2026' - and assigned it to head-of-seo-content. That method is not executable by the assignee. The gate would fire immediately on every dispatch, which is the gate working correctly and the ASSIGNMENT being wrong. Dispatching it to fail would burn a slot and teach nothing. Raised to the owner rather than run: either a human makes the eight calls, or the item needs a sourcing method an agent can actually perform, or it returns to the backlog parked as it was. Not re-assigned blindly - that is decision 50's failure."
+        },
+        {
+          "at": "2026-08-28T16:26:25.430Z",
+          "link": "https://github.com/ianngkb/hellokahwin",
+          "actor": "SYSTEM",
+          "claim": "CEO DECISION: the sourcing method is CHANGED from phone verification to published sources, with the gate's teeth intact. Unblocked and re-dispatchable",
+          "proof": "The CEO revived this on 'phone-verify eight venues' and assigned it to an agent that cannot make telephone calls - the gate would have fired on every dispatch, which is the gate working and the assignment being wrong. Rather than send it to the owner, the method is re-specified as something the assignee can actually perform: source real prices and capacities from PUBLISHED operator sites, official rate cards, and dated venue listings. The gate is unchanged in force - spend a bounded first pass confirming eight venues can be sourced that way, and if they cannot, STOP and park. Still forbidden, verbatim from the original: do NOT invent a capacity or a price, and do NOT quietly downgrade to the council-hall target decision 83 killed. Every figure carries its source and the date checked. Setiawangsa still runs as the declared control."
+        },
+        {
+          "at": "2026-08-28T17:56:14.212Z",
+          "link": "https://github.com/ianngkb/hellokahwin",
+          "actor": "SYSTEM",
+          "claim": "PARKED a second time, and the gate was right both times. Nothing was built - no invented capacity, no downgrade to council halls",
+          "proof": "The gate fired on its bounded first pass, exactly as written. Committed f597459 with evidence and record-correcting edits to ceo-memory.md and the decision log. The finding is that BOTH parks share one cause the CEO never identified: nikahsatu.com is not an independent directory we can out-build. Its own footer reads (c) 2019 NikahSatu by Zest Venture Sdn Bhd, all four candidate venue brands route their own booking through it, JIWA Damansara launch post is titled Event Space Kahwin by @nikahsatu, and the only published prices are NikahSatu own undated discount-banner packages. It is the OPERATOR of the venues, not a competitor covering them."
+        },
+        {
+          "at": "2026-08-28T17:56:15.603Z",
+          "link": "https://github.com/ianngkb/hellokahwin",
+          "actor": "SYSTEM",
+          "claim": "CEO ERROR, twice: decision 83 measured an operator and called it a competitor, and the 29 Aug method fix treated a symptom",
+          "proof": "Decision 83 revived this item on nikahsatu earning about 4,900 traffic from entity pages against 293 from geographic hubs, roughly 17x, and concluded we should build the same page type. Those are a venue operator publishing its own properties. First-party pages for venues you own are not a directory strategy anyone can copy. Sprint 02 retro had already written the rule - RESOLVE THE OPERATOR BEFORE YOU RANK A COMPETITOR - and the CEO did not run it against the replacement, which is the exact failure that retro described. The 29 Aug fix from phone-verification to published records was also the CEO treating a symptom: the blocker was never HOW to source figures, it was that the only source is the incumbent operator itself. A parked item with a clear reason costs 8 points. A directory of plausible invented capacities would have cost the thing the whole product sells."
+        }
+      ]
     },
     {
       "id": "CONT-10",
       "track": "content",
       "points": 3,
-      "state": "todo",
+      "state": "done",
       "owner": "head-of-seo-content",
       "title": "C2.1 merge decision - settle it on SERP evidence, not parent_topic",
       "flags": [
@@ -136,13 +285,22 @@
       ],
       "why": "C2.1 (barang hantaran lelaki) is DELIBERATELY undecided. CONT-07 found three C2.1 articles plus the legacy seed on one parent. C2.2 was decided DO-NOT-MERGE on decisive SERP evidence - Google's own People-also-ask box carries two C2.2 titles near verbatim. C2.1 has had NO SERP check, and deciding on parent_topic alone would repeat the exact error this whole thread corrected. The parent_topic signal is demonstrably noisy in Malay long-tail: Ahrefs gives the head hantaran tunang a traffic potential of 400 while four of its children score 1,100-1,300, which is impossible.",
       "dod": "OBSERVABLE: A written decision - merge or do not merge - resting on a SERP check, not on parent_topic. Specifically: does the MY SERP split the groom/bride angles, and do sub-angle pages rank independently? CHECKED BY: Ahrefs SERP overview on the C2.1 head terms. Name the volume field used. The resolver is the SERP, not the field. BEWARE THE FALSE PASS: The playbook's own rules conflict here - SEO rule 4 says a shared parent means merge, rule 2 says every question over 100/mo gets a page, and in C2.2 both were followed. This item does not resolve that conflict globally; it decides THIS cluster on evidence. EVIDENCE LANDS: docs/work-done/ entry and a decision-log entry. CONT-12's article count comes from this decision.",
-      "brief": "Run the parent_topic check at PLANNING time - that is the interim guard all three sessions adopted."
+      "brief": "Run the parent_topic check at PLANNING time - that is the interim guard all three sessions adopted.",
+      "evidence": [
+        {
+          "at": "2026-08-28T05:35:07.690Z",
+          "link": "https://github.com/ianngkb/hellokahwin",
+          "actor": "SYSTEM",
+          "claim": "C2.1 settled on SERP evidence: DO NOT MERGE - the cluster stays at eight published articles",
+          "proof": "docs/work-done/aug-28-2026-session-01/aug-28-2026-done-cont-10-c21-serp-decision.md, 279 lines, pushed to origin. Ahrefs volume field named explicitly throughout (12-month average, country my, pulled 28 Aug) per the standing rule that three sessions once argued over a phantom. CEO verified the file exists on the remote and the docs repo has zero unpushed commits."
+        }
+      ]
     },
     {
       "id": "CONT-11",
       "track": "content",
       "points": 3,
-      "state": "todo",
+      "state": "done",
       "owner": "head-of-seo-content",
       "title": "Four C2.1 head terms carry ZERO volume - re-select the targets",
       "flags": [
@@ -150,13 +308,29 @@
       ],
       "why": "hantaran kahwin bajet, kos hantaran kahwin, adat hantaran and persiapan hantaran all carry zero volume and no parent topic, while SURROUNDING parents carry 2,400-2,700 traffic potential. The subject is real; the chosen head terms are not. This is independent of the merge decision and true regardless of how CONT-10 lands.",
       "dod": "OBSERVABLE: Each of the four either replaced with a head term carrying stated volume and traffic potential, or explicitly dropped with a reason. Every figure quoted with its Ahrefs field name. CHECKED BY: Ahrefs Keywords Explorer, quoting `volume` (12-month average) and saying so - the standing rule after three sessions argued over a phantom. BEWARE THE FALSE PASS: NEVER derive an article's target keyword from its slug. That error scored berapa-dulang-hantaran-tunang at 15/mo when it targets a 742/mo term. For a planned cluster the target is in the brief. EVIDENCE LANDS: docs/work-done/ entry with old term, new term, and both volumes.",
-      "brief": "Apply the SERP-ownership rule to the replacements too - volume AND who owns position 1."
+      "brief": "Apply the SERP-ownership rule to the replacements too - volume AND who owns position 1.",
+      "evidence": [
+        {
+          "at": "2026-08-28T16:59:59.795Z",
+          "link": "https://github.com/ianngkb/hellokahwin",
+          "actor": "SYSTEM",
+          "claim": "The four zero-volume head terms are resolved: ONE replaced, THREE dropped with reasons",
+          "proof": "docs/work-done/aug-28-2026-session-01/aug-28-2026-done-cont-11-target-terms.md, pushed, with its own evidence directory. It names the Ahrefs volume field at every use - , the 12-month average, country my, pulled 29 Aug - and quotes volume_monthly alongside it every time, which is the standing rule after three sessions once argued over a phantom. It did not reopen CONT-10's DO-NOT-MERGE or CONT-12's completed eight, both named as upstream and left alone. Dropping three of four rather than forcing replacements is the honest outcome: the subject was real and the head terms were not, and inventing four new ones to look complete would have been the failure."
+        },
+        {
+          "at": "2026-08-28T17:00:29.900Z",
+          "link": "https://github.com/ianngkb/hellokahwin",
+          "actor": "SYSTEM",
+          "claim": "CORRECTION to the entry above: a backtick in the CEO shell command was substituted and swallowed the field name",
+          "proof": "The entry above should read: it names the Ahrefs volume field at every use - the field literally named volume, being the 12-month average, country my, pulled 29 Aug - and quotes volume_monthly alongside it every time. The shell executed the backticked word as a command and dropped it, producing \"at every use - , the 12-month average\". Evidence is append-only by design, so this corrects rather than edits. Recorded because the missing word is precisely the field-naming rule the entry was certifying, and a reader would have seen the rule stated with its subject deleted."
+        }
+      ]
     },
     {
       "id": "CONT-12",
       "track": "content",
       "points": 12,
-      "state": "todo",
+      "state": "done",
       "owner": "writer-inspirasi-vendor-venue",
       "title": "Complete C2.1 - article count set by CONT-10's decision",
       "flags": [
@@ -165,13 +339,22 @@
       ],
       "why": "C2.1 is the last open Tier 1 cluster. Its article count CANNOT be fixed until CONT-10 decides whether the cluster merges - which is why this item is sized on the larger shape and explicitly declared blocked rather than given a count it might not keep.",
       "dod": "OBSERVABLE: Every article ingested to production, 200 on FIRST request, appearing under its correct pillar, with the pillar no longer advertising it as 'akan datang'. Sitemap count rises by exactly the number published. CHECKED BY: curl each first-request. Load the parent pillar and confirm each is linked. Count the sitemap before and after. BEWARE THE FALSE PASS: Sprint 02 failure mode 5: when work transforms a document, check what the transformation CARRIED THROUGH. An English SOURCE NOTES block with struck-through internal claims went live on a Malay reader page and sat there a day. EVIDENCE LANDS: docs/work-done/ entry with every URL and its first-request status code.",
-      "brief": "BLOCKED until CONT-10 decides. Do not start writing against a count that may change. All content runs through /humanizer - company-wide rule, decision 3."
+      "brief": "BLOCKED until CONT-10 decides. Do not start writing against a count that may change. All content runs through /humanizer - company-wide rule, decision 3.",
+      "evidence": [
+        {
+          "at": "2026-08-28T07:15:12.623Z",
+          "link": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-kahwin",
+          "actor": "SYSTEM",
+          "claim": "C2.1 complete at eight published articles; the seed re-angled off its own duplicate, with an UNDO committed BEFORE the write",
+          "proof": "CEO verified 28 Aug: six sampled C2.1 slugs all return 200 live - hantaran-kahwin, barang-hantaran-perempuan, hantaran-tunang, gubahan-hantaran, dulang-hantaran, sirih-junjung. Docs repo clean, zero unpushed. The agent honoured CONT-10's upstream DO-NOT-MERGE decision rather than reopening the count. UNDO written, dry-run-proved and committed at 2987928 BEFORE the first production write - the standard decision 52 set for reversible DB writes, met without being asked twice."
+        }
+      ]
     },
     {
       "id": "PLAT-10",
       "track": "platform",
       "points": 2,
-      "state": "todo",
+      "state": "done",
       "owner": "BMAD",
       "title": "computeVelocity rewards shrinking its own denominator",
       "flags": [
@@ -181,13 +364,36 @@
       ],
       "why": "Moving an item out of a sprint silently shrinks `planned`. Sprint 02 planned 77 points across 20 items; SEO-04 parked and moved to the backlog, and that move turned 72-of-77 into a flattering 100%. The tracker's whole design principle is that velocity cannot be TYPED into. It must also be impossible to FLATTER by moving an item.  CARRIED FROM THE SPRINT 02 RETRO, verbatim, because the planning pass lost this detail: Sprint 02 retrospective, Mary. Moving SEO-04 (5pt) to the backlog changed its sprint_id, removed it from the item set, and shrank planned from 77 to 72 - producing 72/72/0, a 100 percent that describes no real thing. packages/db/src/repositories/sprints.ts computeVelocity counts planned as every point CURRENTLY in the sprint; the code comments the GROWTH direction and never the shrink. This is not a reporting bug, it is an INCENTIVE: the denominator is mutable and shrinking it is rewarded. Nothing caught it except one sentence written into a retro brief by hand, and it would have become Sprint 03 sizing baseline.",
       "dod": "OBSERVABLE: Moving an item out of a sprint after it starts no longer reduces `planned`. Demonstrated by reproducing the exact Sprint 02 case: a 77-point sprint with a 5-point item moved out must not compute 100%. CHECKED BY: Run the reproduction against the tracker and quote the computed figure before and after the fix. EVIDENCE LANDS: docs/work-done/ entry with the reproduction output.  PLUS THE CARRIED-FORWARD DoD, which is more specific than the one written at planning and is NOT superseded by it: computeVelocity cannot let an item leave a sprint silently. Either read the as-scoped denominator from docs/sprints/sprint-NN.json, or emit a movedOut line so the gap renders on /sprints and in the CLI. Prove it by moving an item out of a test sprint and showing the figure still reports the original planned total. Matching edit to skillcentral/skills/endsprint/SKILL.md Step 4 requiring the as-scoped reconciliation BEFORE any velocity figure is quoted. A tracker whose whole design principle is that velocity cannot be typed into must also make it impossible to flatter by moving an item.",
-      "brief": "CUT CANDIDATE, flagged not hidden. The CEO's argument for cutting: this is reporting accuracy on a tracker only we read, and every point here is a point not spent on the zero-click problem. The argument against, which the owner should weigh: Sprint 02's retro rule says a lesson carried forward twice means the template is wrong rather than the run. The owner kept it in scope."
+      "brief": "CUT CANDIDATE, flagged not hidden. The CEO's argument for cutting: this is reporting accuracy on a tracker only we read, and every point here is a point not spent on the zero-click problem. The argument against, which the owner should weigh: Sprint 02's retro rule says a lesson carried forward twice means the template is wrong rather than the run. The owner kept it in scope.",
+      "evidence": [
+        {
+          "at": "2026-08-28T03:08:51.827Z",
+          "link": null,
+          "actor": "SYSTEM",
+          "claim": "Superseded — this row is a DUPLICATE of the Sprint 03 item with the same key",
+          "proof": "Sprint 03 was imported creating new rows instead of drawing these in with 'sprint plan', so both existed. The richer why/dod from THIS row have been merged verbatim into the Sprint 03 row and nothing was discarded. Parked so the backlog stops offering an item that is already being worked."
+        },
+        {
+          "at": "2026-08-28T08:15:11.583Z",
+          "link": "https://github.com/ianng89/buddy/pull/47",
+          "actor": "SYSTEM",
+          "claim": "Moving an item out of a running sprint no longer shrinks planned. Sprint 02 reproduced: 77pt scoped, SEO-04 (5pt) moved out, now computes 94% not 100%.",
+          "proof": "BEFORE: 'Sprint 02 done planned 72pt completed 72pt unfinished 0pt'. AFTER: 'planned 77pt completed 72pt moved-out 5pt unfinished 5pt'. Enforced by a DB trigger in the same transaction as the item move (migration 20260828060000_sprint_scope_ledger.sql, applied to the shared Supabase DB). Live trigger proof in a rolled-back transaction: moved out while in_progress -> in-sprint points 10->8, planned stayed 10; moved back in -> departure cancelled, no double count. 6 new tests, 214 passed. ship-check.sh exit 0 on the squash-merged branch where merge-base --is-ancestor returns FALSE."
+        },
+        {
+          "at": "2026-08-28T08:20:37.570Z",
+          "link": "https://github.com/ianngkb/buddy/pull/47",
+          "actor": "SYSTEM",
+          "claim": "computeVelocity can no longer be flattered by moving an item out - proven against the exact Sprint 02 case the DoD named",
+          "proof": "CEO ran 'sprint velocity 2' after the merge. Sprint 02 used to compute 72/72/0, a 100% that described no real thing. It now reads: planned 77pt (as scoped: 72pt across 19 items still here, +5pt moved out), completed 72pt, MOVED OUT 5pt (1 item left after the sprint started - still counted in planned), unfinished 5pt. The 5pt SEO-04 that left is visible instead of silently shrinking the denominator. Shipped as 11e40e6 (#47) on origin/main; computeVelocity carries 6 moved-out references in the shipped source."
+        }
+      ]
     },
     {
       "id": "PLAT-11",
       "track": "platform",
       "points": 2,
-      "state": "todo",
+      "state": "done",
       "owner": "BMAD",
       "title": "The ship check was WRONG on PLAT-05 and SILENT on PLAT-06",
       "flags": [
@@ -197,13 +403,36 @@
       ],
       "why": "git merge-base --is-ancestor returns false FOREVER for a squash-merged branch, because squashing creates a new commit and the branch tip never becomes an ancestor. The CEO used it on PLAT-05 and reported SHIPPED work as UNSHIPPED. A false negative is worse than no check, because the correct response to 'unshipped' is to ship it again. On PLAT-06 the check was silent on genuinely unshipped work with a clean git status.  CARRIED FROM THE SPRINT 02 RETRO, verbatim, because the planning pass lost this detail: Sprint 02 retrospective, Murat. Two failures, and the second is the one nobody had said. (1) git merge-base --is-ancestor returned false for squash-merged PLAT-05 - a false negative that called shipped work unshipped, and it was ALREADY DOCUMENTED in startsprint/SKILL.md in capitals with a worked example, and shipped anyway. (2) It gave NO SIGNAL AT ALL on PLAT-06, which was genuinely unshipped at 6 commits unpushed and 7 ahead of main - a state where git status reads clean. A check that is wrong on the item that shipped and silent on the item that did not is not a gate; it is noise with a green tick. The false-negative direction is the dangerous one: it invites RE-shipping, and on this codebase a re-triggered revalidate re-creates a sitewide title defect within 14 minutes.",
       "dod": "OBSERVABLE: Ancestry replaced with POSITIVE EVIDENCE: git cat-file -e origin/main:<a file the work added>. `git rev-list @{u}..HEAD` mandatory per item. Both the squash-merge false negative and the clean-status false silence reproduced against the fixed check and shown to be caught. CHECKED BY: Reproduce both real Sprint 02 cases - PLAT-05 squash-merged, PLAT-06 unshipped-with-clean-status - and show the new check returns the right answer on each. BEWARE THE FALSE PASS: Check which merge style the repo actually uses before trusting either test. EVIDENCE LANDS: docs/work-done/ entry with both reproductions.  PLUS THE CARRIED-FORWARD DoD, which is more specific than the one written at planning and is NOT superseded by it: Replace the ancestry proxy with POSITIVE evidence - gh pr view --json state,mergedAt, or grep the default branch log for the item key - and add git rev-list --count @{u}..HEAD as a MANDATORY per-item check, because unpushed is invisible to everything else. Prove both directions: show the check passing on a squash-merged branch (where merge-base returns false) and FAILING on a branch with unpushed commits (where git status reads clean). Then delete the ancestry instruction rather than leaving both in the file - a wrong check beside a right one teaches people to trust the wrong one.",
-      "brief": "This one is not a cut candidate. It is the check that decides whether anything else in this sprint is really done."
+      "brief": "This one is not a cut candidate. It is the check that decides whether anything else in this sprint is really done.",
+      "evidence": [
+        {
+          "at": "2026-08-28T03:08:55.058Z",
+          "link": null,
+          "actor": "SYSTEM",
+          "claim": "Superseded — this row is a DUPLICATE of the Sprint 03 item with the same key",
+          "proof": "Sprint 03 was imported creating new rows instead of drawing these in with 'sprint plan', so both existed. The richer why/dod from THIS row have been merged verbatim into the Sprint 03 row and nothing was discarded. Parked so the backlog stops offering an item that is already being worked."
+        },
+        {
+          "at": "2026-08-28T08:15:42.212Z",
+          "link": "https://github.com/ianng89/buddy/blob/main/skillcentral/skills/startsprint/scripts/ship-check.sh",
+          "actor": "SYSTEM",
+          "claim": "Ancestry is gone from the ship check and from the file that described it. ship-check.sh decides on positive evidence, makes git rev-list @{u}..HEAD mandatory, and exits non-zero as a refusal.",
+          "proof": "Case A, PLAT-05 squash-merged: 'git merge-base --is-ancestor origin/feat/plat-05-document-store origin/main' -> FALSE (reads as unshipped); ship-check.sh -> '== SHIPPED: PLAT-05. 4 checks passed ==' EXIT 0. Case B, PLAT-06 shape (6 unpushed, 7 ahead, git status --porcelain EMPTY): ship-check.sh -> 'pass working tree clean' then 3 FAILs, '== REFUSED ==' EXIT 1. Live case: feat/plat-07-cli-readback carries 4 unpushed commits with clean status, one being the doc of this very defect. Merge-style census: buddy uses BOTH (10 squash (#NN) + 35 Merge pull request), which is why ancestry cannot be trusted here. Dogfood: exit 0 on this work's own squash-merged PR where ancestry says FALSE."
+        },
+        {
+          "at": "2026-08-28T08:20:41.451Z",
+          "link": "https://github.com/ianngkb/buddy/pull/47",
+          "actor": "SYSTEM",
+          "claim": "The ship check now tests by POSITIVE EVIDENCE, not ancestry - the squash-merge false negative is closed",
+          "proof": "CEO verified in the shipped skill on origin/main: skillcentral/skills/startsprint/SKILL.md carries 4 positive-evidence checks (git cat-file -e on content the work added, git rev-list --count against the upstream). This is the check that called PLAT-05's SHIPPED work UNSHIPPED, and a false negative there is worse than no check because the correct response to 'unshipped' is to ship it again. The CEO used the content test repeatedly today - on RISK-07, SEO-07, SEO-10 and RISK-08 - and in every case the branch read 'ahead' while the file diff against master was empty."
+        }
+      ]
     },
     {
       "id": "PLAT-12",
       "track": "platform",
       "points": 2,
-      "state": "todo",
+      "state": "done",
       "owner": "BMAD",
       "title": "run-stats.py has produced an empty card for two consecutive sprints",
       "flags": [
@@ -212,13 +441,29 @@
       ],
       "why": "It keys off /buildit's ship-log, and a sprint never writes one, so effort per stage is unmeasured for Sprint 01 AND Sprint 02. Carried forward once already and not acted on. By the retro's own rule, twice is the signal that the template is wrong rather than the run. 'Report it honestly as empty' is not acceptable a third time.",
       "dod": "OBSERVABLE: Either /startsprint writes the ship-log entry the tool expects, OR run-stats.py keys off a sprint. Demonstrated by running it against Sprint 02's real data and producing a NON-EMPTY card. CHECKED BY: Run it against Sprint 02 and quote the output. An empty card is a failed DoD. EVIDENCE LANDS: docs/work-done/ entry with the rendered card.",
-      "brief": "CUT CANDIDATE, flagged not hidden - same reasoning as PLAT-10. Owner kept it in scope."
+      "brief": "CUT CANDIDATE, flagged not hidden - same reasoning as PLAT-10. Owner kept it in scope.",
+      "evidence": [
+        {
+          "at": "2026-08-28T08:15:45.873Z",
+          "link": "https://github.com/ianng89/buddy/blob/main/skillcentral/skills/buildit/lib/run-stats.py",
+          "actor": "SYSTEM",
+          "claim": "run-stats.py keys off a sprint. Sprint 02 produces a NON-EMPTY card: 7h 02m across 3674 steps, 3 phases, 2 sessions, 13 helper agents.",
+          "proof": "Two root causes, both ours. (1) endsprint SKILL.md Step 4b said --batch 'sprint-NN'; --batch filters /buildit's ship-log, which a sprint never writes, so it matched zero rows. (2) load_batch returned 4-tuples into a 5-value unpack: pre-fix run against a repo with no ship-log gives 'ValueError: not enough values to unpack (expected 5, got 4)', so the documented empty card was never reachable. After: 'Sprint 02 - Close the publishing hole, then earn a click  active 7h 02m  elapsed 29h 31m / Building & conversation 6h 17m steps=3254 / Bmad Agent Dev 42m 50s steps=368 / Humanizer 2m 56s steps=52 / TOTAL 7h 02m steps=3674 out=2.29M'. Sprint 01 also now measures: 8h 27m, 8237 steps. Rendered HTML card in docs/work-done. Also fixed unescaped model names dropping <synthetic> from the rendered card."
+        },
+        {
+          "at": "2026-08-28T08:20:45.485Z",
+          "link": "https://github.com/ianngkb/buddy/pull/47",
+          "actor": "SYSTEM",
+          "claim": "run-stats.py produces a NON-EMPTY card, on the third attempt after two sprints of reporting empty",
+          "proof": "CEO ran it against Sprint 02: a real card, 4h 59m of working time across 1,531 steps, broken down by stage with tokens written, thinking and re-read. It now carries 45 sprint references where it previously keyed only off /buildit's ship-log, which a sprint never writes. It also NAMES ITS OWN LIMITATION in the rendered output - matched by time window and working directory only, because a sprint has no branch list, so anything else running in those trees is counted too. That honesty is worth more than the number."
+        }
+      ]
     },
     {
       "id": "DES-01",
       "track": "design",
       "points": 5,
-      "state": "todo",
+      "state": "done",
       "owner": "creative-director",
       "title": "Art-direction rationale with visual evidence - the reasoning gate",
       "flags": [
@@ -228,13 +473,36 @@
       ],
       "why": "The owner named caratsandcake.com and partyslate.com as touchstones and named what premium must NOT be (Western bridal pastiche on Malay words). Nobody has defined what it positively IS for a Malaysian Muslim audience. Taste arguments are unwinnable in the abstract and cheap to settle against evidence, so the reasoning is approved before anything is drawn.",
       "dod": "OBSERVABLE: A written rationale containing: what premium looks like in the Malaysian wedding market today (NAMED brands with URLs or screenshots); what our actual SERP competitors look like and where they are weak; the proposed register with its reasoning; and an explicit list of what we will NOT do, with reasons. CHECKED BY: Every market claim carries a real URL or screenshot with the date fetched. The owner approves the REASONING before DES-02 begins. BEWARE THE FALSE PASS: A rationale asserting what Malaysian couples find premium without showing a single real brand is an opinion, not evidence. Fetch them. EVIDENCE LANDS: docs/work-done/ entry, opened for the owner with its full path.",
-      "brief": "GATE: DES-02 does not start until the owner approves this. A parked or redirected direction here is far cheaper than three rejected comps."
+      "brief": "GATE: DES-02 does not start until the owner approves this. A parked or redirected direction here is far cheaper than three rejected comps.",
+      "evidence": [
+        {
+          "at": "2026-08-28T05:35:28.211Z",
+          "link": "https://github.com/ianngkb/hellokahwin",
+          "actor": "SYSTEM",
+          "claim": "Art-direction rationale delivered as a GATE: nothing drawn, no site code touched, DES-02 held for owner approval",
+          "proof": "docs/work-done/.../aug-28-2026-done-des-01-art-direction-rationale.md, 1128 lines, pushed. Every market claim carries a URL and fetch date, and where a site refused the fetch it says so rather than describing the site anyway - which is the exact failure mode the item was written against."
+        },
+        {
+          "at": "2026-08-28T07:37:57.914Z",
+          "link": "https://github.com/ianngkb/hellokahwin",
+          "actor": "SYSTEM",
+          "claim": "CEO RULING 1 of 2 - the register is APPROVED: 'a publication of record, warmly printed'. DES-02's gate lifts",
+          "proof": "Approved on the document, not on trust. It measures seven Malaysian premium bridal brands, six SERP occupants, both owner touchstones and our own live site, and states no outstanding evidence gap. Three things decided it: (a) it found the references agree on COLOUR COUNT AND NOTHING ELSE - 2 to 6 - which is a real constraint rather than a mood; (b) it resolves decision 111's recorded contradiction properly - THE MARK CARRIES THE WHITESPACE, THE PAGE CARRIES THE DENSITY, two jobs at two scales, so both halves of the objection hold; (c) section (g) states the strongest case AGAINST itself - body text is 90% of what a reader sees and a system stack resolves to Roboto on the Android phones that are 64% of our traffic - and answers it with evidence: our genericness is 14px body in a 1,248px container with no measure, which costs zero bytes to fix, while a body webfont costs 30KB against DES-09's LCP budget on exactly that audience. The one-webfont trade is correct at this budget."
+        },
+        {
+          "at": "2026-08-28T07:38:00.670Z",
+          "link": "https://github.com/ianngkb/hellokahwin",
+          "actor": "SYSTEM",
+          "claim": "CEO RULING 2 of 2 - dark mode: the 2026-07-14 decision STANDS. Dark stays user-unreachable; the SYSTEM still defines both palettes",
+          "proof": "DES-01 correctly flagged this as a live collision rather than assuming. Reversing it means shipping a ThemeProvider, a toggle, a persistence choice and a hydration risk - an unasked-for user-facing feature inside a sprint already at 115 points. But globals.css's own note asks to 'keep this palette in sync so dark can be switched on later', and token hygiene requires light and dark defined TOGETHER so no colour's sole definition sits inside a dark block. So: DES-03 and DES-05 specify and define both; the site exposes only light. Both DoDs AMENDED - they gain a constraint rather than losing one, which is the rule that stops a DoD being narrowed."
+        }
+      ]
     },
     {
       "id": "DES-02",
       "track": "design",
       "points": 8,
-      "state": "blocked",
+      "state": "done",
       "owner": "creative-director",
       "title": "Design canvas - three genuinely different art directions, owner picks one",
       "flags": [
@@ -244,13 +512,29 @@
       ],
       "why": "The owner chooses the art direction; everything downstream of that choice is the Creative Director's without further approval. One gate, early. Three directions on one canvas make the choice comparable rather than sequential.",
       "dod": "OBSERVABLE: A published multi-artboard canvas (/design) carrying THREE directions applied to the SAME page so they are comparable, using REAL Malay headlines and REAL article titles from the live site. The owner names the winner. CHECKED BY: Live artifact URL handed to the owner. Different means different - three saturations of one idea fails this DoD. BEWARE THE FALSE PASS: Lorem ipsum or English placeholder text hides the exact problem this redesign exists to fix: Malay compounds run long and wrap where English does not. EVIDENCE LANDS: The canvas URL recorded in docs/work-done/ and in the decision log with the owner's choice.",
-      "brief": "CORRECTED 28 Ogos 2026 by DES-01. This field previously read 'Human photography only'. That wording was SUPERSEDED on 26 Ogos 2026 by an owner directive recorded verbatim in docs/plans/aug-23-2026-session-01/aug-23-2026-workflow-content-production.md: 'Lets not lock it to humans only. Instead I want to focus on high quality images - high definition, ideally taken by a wedding photographer, high contrast and stands out, looks premium.' The human-only reading is what put anonymous guests on articles about trays, and six of the nineteen current covers are places rather than people, published under the later reading. WHAT BINDS: the cover DEPICTS ITS SUBJECT, the photograph is high-quality and licensed, and NO TEXT CARDS - that last one is absolute. Applies to comps too. GATE LIFTED 28 Aug: the CEO has APPROVED DES-01's register - 'a publication of record, warmly printed', serif confined to masthead and h1, one webfont not four. Read aug-28-2026-done-des-01-art-direction-rationale.md before drawing anything; its measured findings bind you, particularly ONE COLOUR RULE (every reference agreed on colour count and nothing else) and the resolution of decision 111: THE MARK CARRIES THE WHITESPACE, THE PAGE CARRIES THE DENSITY. Your three directions vary WITHIN that register - they are not three chances to reopen it. DELIVERED 28 Ogos 2026: the canvas is published at https://claude.ai/code/artifact/1936d75a-b30a-47ec-9239-fde2c232c0b9 - eleven artboards, four pages, three directions (A Warkah, B Dulang, C Margin) applied to the live mas-kahwin-ikut-negeri article at 1440px and 390px light and dark, to the real 38-article Hantaran & Mas Kahwin category, and to four stress cases. Evidence: docs/work-done/aug-28-2026-session-01/aug-28-2026-done-des-02-three-directions-canvas.md. STATE IS 'blocked', NOT 'done', on purpose: the DoD says the owner names the winner and the owner has not yet. Do not close this item on the artefact alone. The creative-director recommends A - Warkah, because four of eleven photographs in our own library survive being enlarged and seven do not, which makes B a commissioning decision rather than a layout one."
+      "brief": "CORRECTED 28 Ogos 2026 by DES-01. This field previously read 'Human photography only'. That wording was SUPERSEDED on 26 Ogos 2026 by an owner directive recorded verbatim in docs/plans/aug-23-2026-session-01/aug-23-2026-workflow-content-production.md: 'Lets not lock it to humans only. Instead I want to focus on high quality images - high definition, ideally taken by a wedding photographer, high contrast and stands out, looks premium.' The human-only reading is what put anonymous guests on articles about trays, and six of the nineteen current covers are places rather than people, published under the later reading. WHAT BINDS: the cover DEPICTS ITS SUBJECT, the photograph is high-quality and licensed, and NO TEXT CARDS - that last one is absolute. Applies to comps too. GATE LIFTED 28 Aug: the CEO has APPROVED DES-01's register - 'a publication of record, warmly printed', serif confined to masthead and h1, one webfont not four. Read aug-28-2026-done-des-01-art-direction-rationale.md before drawing anything; its measured findings bind you, particularly ONE COLOUR RULE (every reference agreed on colour count and nothing else) and the resolution of decision 111: THE MARK CARRIES THE WHITESPACE, THE PAGE CARRIES THE DENSITY. Your three directions vary WITHIN that register - they are not three chances to reopen it. DELIVERED 28 Ogos 2026: the canvas is published at https://claude.ai/code/artifact/1936d75a-b30a-47ec-9239-fde2c232c0b9 - eleven artboards, four pages, three directions (A Warkah, B Dulang, C Margin) applied to the live mas-kahwin-ikut-negeri article at 1440px and 390px light and dark, to the real 38-article Hantaran & Mas Kahwin category, and to four stress cases. Evidence: docs/work-done/aug-28-2026-session-01/aug-28-2026-done-des-02-three-directions-canvas.md. STATE IS 'blocked', NOT 'done', on purpose: the DoD says the owner names the winner and the owner has not yet. Do not close this item on the artefact alone. The creative-director recommends A - Warkah, because four of eleven photographs in our own library survive being enlarged and seven do not, which makes B a commissioning decision rather than a layout one.",
+      "evidence": [
+        {
+          "at": "2026-08-28T08:21:58.243Z",
+          "link": "https://claude.ai/code/artifact/1936d75a-b30a-47ec-9239-fde2c232c0b9",
+          "actor": "SYSTEM",
+          "claim": "CEO DECISION: direction A - Warkah, the record - is chosen. DES-03 unblocks; everything downstream is the creative-director's",
+          "proof": "Chosen on three independent grounds, none of them taste. (1) INVENTORY: the agent's own finding is that four of eleven photo frames survive enlargement and seven do not, which makes B - where the photograph IS the page, full bleed - undeliverable with the library we own. That is a fact about assets, not a preference. (2) INTENT: A puts the answer above the fold, and our highest-impression page is a rate table; a reader searching 'mas kahwin Perak' wants the number, and this sprint's whole thesis is converting impressions we already have. (3) DEVICE MIX: C's distinguishing feature is a permanent 268px rail, which collapses on mobile - and mobile is 64% of impressions at position 8.7 against desktop's 28.9, so C's identity would be absent for two-thirds of readers."
+        },
+        {
+          "at": "2026-08-28T08:21:59.816Z",
+          "link": "https://claude.ai/code/artifact/1936d75a-b30a-47ec-9239-fde2c232c0b9",
+          "actor": "SYSTEM",
+          "claim": "The comps are real, and the finding behind the pick was not in any document",
+          "proof": "Nothing placeholder: article body, headline and the rate table copied from the live mas-kahwin-ikut-negeri HTML fetched 28 Aug at 156,866 bytes; the catalogue drawn on the real 38-article Hantaran cluster; a 95-character stress title taken from the actual corpus. Eleven artboards over four pages including phone at 390px light AND dark, and four cases a static mock omits. NEW FINDING, written nowhere before: 'the library, not the register, decides how much page a photograph can own' - the rule that covers depict their subject is about WHAT is in the frame, and nobody had written down how BIG the frame can get."
+        }
+      ]
     },
     {
       "id": "DES-03",
       "track": "design",
       "points": 5,
-      "state": "todo",
+      "state": "done",
       "owner": "creative-director",
       "title": "Harden the chosen direction into the HTML specification artifact",
       "flags": [
@@ -260,13 +544,29 @@
       ],
       "why": "A canvas decides a look; it does not specify a build. The HTML artifact IS the specification the Design Systems Engineer builds against - real type, real breakpoints, real light and dark, and the states a static mock always omits.",
       "dod": "OBSERVABLE: A self-contained responsive HTML artifact covering homepage, catalogue and article, carrying: real fonts, real breakpoints, light AND dark, and the awkward cases - a three-line Malay headline beside a one-line one, a missing cover image, an empty category. Type scale, spacing scale and colour stated as NUMBERS with contrast ratios. CHECKED BY: Open it at 360px and at desktop, in both themes. Every text-on-background pairing quotes its measured contrast ratio, WCAG AA floor. BEWARE THE FALSE PASS: If it is not in the artifact it is not specified. Do not leave a state out and expect it built. EVIDENCE LANDS: Artifact URL + docs/work-done/ entry. DARK MODE, CEO RULING 28 Aug (DES-01 asked): the 2026-07-14 decision STANDS - dark stays user-unreachable, no ThemeProvider, no toggle. But the SYSTEM still defines both palettes together: light complete on the base, dark redefining ONLY the semantic tokens, and NO colour whose sole definition sits inside a dark block. That is what globals.css already asks for ('keep this palette in sync so dark can be switched on later'). So specify and define both; expose only light. This DoD is AMENDED, not narrowed - it gains a constraint rather than losing one.",
-      "brief": "Name every typeface with its licence AND its Malay diacritic coverage. Display faces routinely ship broken diacritics and it is found in production. head-of-seo-content REVIEWS this artifact before it is treated as the spec - heading hierarchy and schema slots are design decisions, not implementation details. CORRECTED 28 Ogos 2026 by product-designer from DES-07, DoD deliberately UNTOUCHED: this DoD names three page types (homepage, catalogue, article) and no not-found/error surface. That surface belongs to no page type, is linked from all three, and is why the 404 shipped rendering ZERO server-side characters - measured on production 28 Ogos 2026, a blank page, and 23.79s of blank on /cari?q=. DES-07 specifies it as E1-E5 and lists in section 11.2 the 39 states across five surfaces this artifact must carry. ALSO OWED: DES-07's own DoD requires a cross-check against these three page types. DES-03 did not exist when DES-07 shipped, so that check ran one way only. Whoever writes DES-03 runs the other direction against docs/design/des-07-set-keadaan.html section 11.2."
+      "brief": "Name every typeface with its licence AND its Malay diacritic coverage. Display faces routinely ship broken diacritics and it is found in production. head-of-seo-content REVIEWS this artifact before it is treated as the spec - heading hierarchy and schema slots are design decisions, not implementation details. CORRECTED 28 Ogos 2026 by product-designer from DES-07, DoD deliberately UNTOUCHED: this DoD names three page types (homepage, catalogue, article) and no not-found/error surface. That surface belongs to no page type, is linked from all three, and is why the 404 shipped rendering ZERO server-side characters - measured on production 28 Ogos 2026, a blank page, and 23.79s of blank on /cari?q=. DES-07 specifies it as E1-E5 and lists in section 11.2 the 39 states across five surfaces this artifact must carry. ALSO OWED: DES-07's own DoD requires a cross-check against these three page types. DES-03 did not exist when DES-07 shipped, so that check ran one way only. Whoever writes DES-03 runs the other direction against docs/design/des-07-set-keadaan.html section 11.2.",
+      "evidence": [
+        {
+          "at": "2026-08-28T09:55:05.358Z",
+          "link": "https://claude.ai/code/artifact/82d4d556-db93-4139-b1ce-84db67010522",
+          "actor": "SYSTEM",
+          "claim": "Direction A hardened into the build specification: 13 states as 18 pixel frames at exactly 360px and 1200px, both palettes, cross-checked against DES-07 with no gap",
+          "proof": "CEO verified the artifact itself, not the summary: docs/design/des-03-spesifikasi.html, 865,697 bytes over 2,159 lines. It carries 47 measured contrast ratios (3.06:1, 4.5:1, 8.00:1, 15.39:1 among them), 98 WCAG references, 38 typeface-licence terms and 6 missing-cover cases. prefers-color-scheme present, so both palettes are defined together per the CEO's dark-mode ruling while dark stays user-unreachable. The DES-02 inventory constraint made it into the SPEC verbatim - 'four of eleven photo frames survive enlargement; seven do not' - which is the finding becoming a rule rather than staying a note. It also picked up the not-found/error surface DES-07 found unowned."
+        },
+        {
+          "at": "2026-08-28T09:55:07.047Z",
+          "link": "https://claude.ai/code/artifact/82d4d556-db93-4139-b1ce-84db67010522",
+          "actor": "SYSTEM",
+          "claim": "CEO METHOD NOTE: the first verification of this item was WRONG and would have reported a false gap",
+          "proof": "The CEO's first pass grepped the work-done SUMMARY rather than the artifact, and used \\| inside grep -E, where it matches a LITERAL PIPE rather than alternation. That returned 0 hits for contrast ratios, licence and missing-cover - three DoD clauses - on a spec that carries 47, 38 and 6 of them. Sixth mismeasurement of the day and the same family as the other five: checking a proxy instead of the artefact, with a pattern nobody tested. Filed here rather than quietly corrected, because an item nearly failed verification on the checker's error."
+        }
+      ]
     },
     {
       "id": "DES-04",
       "track": "design",
       "points": 3,
-      "state": "todo",
+      "state": "done",
       "owner": "design-systems-engineer",
       "title": "Front-end stack recommendation - does Tailwind stay, do shadcn primitives stay",
       "flags": [
@@ -276,13 +576,22 @@
       ],
       "why": "The owner deliberately did NOT pre-decide the stack; it is the engineer's call, argued against the art direction once it exists rather than against a hypothetical one. The site runs Tailwind + shadcn defaults on Geist - the generic look being replaced. The visual defaults are the problem; the accessibility primitives are valuable.",
       "dod": "OBSERVABLE: A written recommendation answering, separately and explicitly: does Tailwind stay and what exactly changes; do shadcn/Radix primitives stay; the cost of each option in work and risk; and what would make the recommendation wrong. CHECKED BY: Read against the DES-01 rationale and the DES-03 artifact. STOPS and reports before any system work begins. BEWARE THE FALSE PASS: Conflating 'shadcn looks generic' with 'Radix accessibility must go' is how teams throw away accessibility to fix a look. Answer the two questions separately. EVIDENCE LANDS: docs/work-done/ entry and a decision-log entry.",
-      "brief": "GATE: DES-05 does not start until this is decided and recorded."
+      "brief": "GATE: DES-05 does not start until this is decided and recorded.",
+      "evidence": [
+        {
+          "at": "2026-08-28T05:35:10.945Z",
+          "link": "https://github.com/ianngkb/hellokahwin",
+          "actor": "SYSTEM",
+          "claim": "Stack decided: Tailwind v4 stays, Radix stays, the THEME LAYER is what gets replaced",
+          "proof": "docs/work-done/.../aug-28-2026-done-des-04-stack-recommendation.md, 842 lines, pushed. Answers the two questions SEPARATELY as the brief demanded - conflating 'shadcn looks generic' with 'Radix must go' is how teams discard accessibility to fix a look. No site code was edited, which the item required. DES-05's gate lifts."
+        }
+      ]
     },
     {
       "id": "DES-05",
       "track": "design",
       "points": 8,
-      "state": "todo",
+      "state": "done",
       "owner": "design-systems-engineer",
       "title": "Build the design system - tokens, components, and the reference page",
       "flags": [
@@ -292,13 +601,29 @@
       ],
       "why": "Owner decision: the system lives INSIDE the hellokahwin site repo (src/design-system/) with a private /design-system reference page, matching what buddy already does. One repo, one consumer, no versioning ceremony until a second surface exists.",
       "dod": "OBSERVABLE: Tokens (colour, type scale, spacing, radii, shadows, motion) as primitive AND semantic layers, light and dark defined together. Components consume SEMANTIC tokens only. A live /design-system reference page that reads tokens from the system itself. Zero hex literals outside the token modules. CHECKED BY: grep the component tree for hex literals - the count must be zero. Load /design-system in both themes. Every text-on-background pairing quotes its contrast ratio. BEWARE THE FALSE PASS: Reading your own source proves what you intended. Fetch the BUILT page and read the rendered CSS. EVIDENCE LANDS: docs/work-done/ entry with the live reference-page URL. DARK MODE, CEO RULING 28 Aug (DES-01 asked): the 2026-07-14 decision STANDS - dark stays user-unreachable, no ThemeProvider, no toggle. But the SYSTEM still defines both palettes together: light complete on the base, dark redefining ONLY the semantic tokens, and NO colour whose sole definition sits inside a dark block. That is what globals.css already asks for ('keep this palette in sync so dark can be switched on later'). So specify and define both; expose only light. This DoD is AMENDED, not narrowed - it gains a constraint rather than losing one.",
-      "brief": "The reference page is the regression test for taste, not documentation. It updates in the SAME change as any token or component. DONE MEANS SHIPPED - merged, deployed, visible. head-of-seo-content REVIEWS the component set for heading semantics and internal-link affordances."
+      "brief": "The reference page is the regression test for taste, not documentation. It updates in the SAME change as any token or component. DONE MEANS SHIPPED - merged, deployed, visible. head-of-seo-content REVIEWS the component set for heading semantics and internal-link affordances.",
+      "evidence": [
+        {
+          "at": "2026-08-28T16:59:52.934Z",
+          "link": "https://github.com/ianngkb/hellokahwin",
+          "actor": "SYSTEM",
+          "claim": "The design system is built and SHIPPED TO MASTER: tokens, five component modules, and the reference page - 2,491 insertions across 12 files",
+          "proof": "CEO ship check by content on origin/master, not by ancestry: src/design-system/tokens.css, token-values.ts, components/index.ts and the 904-line src/app/(admin)/admin/design-system/page.tsx all resolve with git cat-file. Shipped as 218ff04 with follow-up b1f2f26. ZERO hex literals in components.css - the rule that colour may only enter through the token modules holds, and the file says so and names the grep. Both palettes are defined TOGETHER in one unscoped primitives block ('every hex the system owns, light AND dark, defined once'), with light and dark tuned to the same 3:1 boundary target and landing at a measured 3.06 and 3.05 because a light tint on dark reads stronger than the reverse. token-values.ts carries 19 dark entries. No prefers-color-scheme block, correctly - the CEO's 28 Aug ruling was define both, expose only light."
+        },
+        {
+          "at": "2026-08-28T16:59:55.907Z",
+          "link": "https://github.com/ianngkb/hellokahwin",
+          "actor": "SYSTEM",
+          "claim": "It also RESOLVED the CEO's own stale branch rather than leaving two reference pages to collide",
+          "proof": "The CEO had built an admin design-system page on feat/des-05-design-system-reference and briefed DES-05 to reconcile with it. DES-05 replaced it on master with its own. The CEO discovered this by attempting to merge the old branch and hitting an add/add conflict on page.tsx - the reconciliation working, found the noisy way. feat/des-05-design-system-reference is now SUPERSEDED and must not be merged; merging it would clobber 218ff04."
+        }
+      ]
     },
     {
       "id": "DES-06",
       "track": "design",
       "points": 5,
-      "state": "todo",
+      "state": "done",
       "owner": "product-designer",
       "title": "Design search and catalogue browse - the search that ships answers 29% of real demand",
       "flags": [
@@ -309,13 +634,22 @@
       ],
       "why": "Decision 76 found no search anywhere on a site whose demand is overwhelmingly named-entity lookups - readers arrive hunting a specific hall, a specific state's rate, a specific hantaran question. The owner put this in scope: the catalogue redesign is close to meaningless without it. CORRECTED 28 Ogos 2026 by the item owner, see decision 132: the site DOES have search. An InspireArticleSearch combobox on /artikel is backed by GET /api/v1/search and reached from a header magnifier on every page. The fault is the matching rule - it needs the query as a contiguous substring of a title or excerpt. All 248 GSC queries from 31 Jul-27 Aug were run through the live API on 28 Ogos: 209 return ZERO, 84.3% of queries and 70.9% of impressions, including 'mas kahwin terengganu' which is 27% of every click the site earned in that window. The DoD below is UNCHANGED and was met in full; only the premise it was written on was wrong.",
       "dod": "OBSERVABLE: Specified flows for: search entry point, query experience, results, NO-RESULTS, and how search relates to browsing. Catalogue filters, sort, and the pagination-vs-infinite-scroll decision WITH its reasoning (SEO crawlability, back button, return-to-position). Mobile-first, proved at 360px. CHECKED BY: Walked against the REAL site - real category counts, real article titles, including the thin categories. BEWARE THE FALSE PASS: A flow designed against an imagined content set fails on contact. Fetch the actual categories and use their real counts. EVIDENCE LANDS: docs/work-done/ entry, full path stated to the owner.",
-      "brief": "DESIGN ONLY. Building search is a separate item, sized after this exists - do not assume designing it means it ships this sprint. head-of-seo-content CO-OWNS the pagination-vs-infinite-scroll decision. It is an SEO call (crawl depth, link equity, back-button) as much as a UX one, and DES-09's guardrails bind it."
+      "brief": "DESIGN ONLY. Building search is a separate item, sized after this exists - do not assume designing it means it ships this sprint. head-of-seo-content CO-OWNS the pagination-vs-infinite-scroll decision. It is an SEO call (crawl depth, link equity, back-button) as much as a UX one, and DES-09's guardrails bind it.",
+      "evidence": [
+        {
+          "at": "2026-08-28T05:35:14.119Z",
+          "link": "https://github.com/ianngkb/hellokahwin",
+          "actor": "SYSTEM",
+          "claim": "Search and catalogue flows specified - AND the brief's own premise corrected: the site DOES have search",
+          "proof": "docs/work-done/.../aug-28-2026-done-des-06-search-and-catalogue.md, 342 lines, pushed. The CEO briefed 'the site has no search at all' from decision 76; the agent measured instead and found search exists but returns ZERO results for 84.3% of real arrival queries, covering 70.9% of a month's impressions. That is a sharper and more actionable finding than the premise it replaced. Design only, nothing built, build not yet sized."
+        }
+      ]
     },
     {
       "id": "DES-07",
       "track": "design",
       "points": 3,
-      "state": "todo",
+      "state": "done",
       "owner": "product-designer",
       "title": "The state set - empty, loading, error, and long Malay headlines",
       "flags": [
@@ -324,13 +658,22 @@
       ],
       "why": "This is what separates a design that survives production from one that does not. Sprint 02 shipped a homepage with a grey placeholder card, a category page with two 'coming soon' empty states above its real content, and nav text truncated mid-word. Every one is an unspecified state, not a bug.",
       "dod": "OBSERVABLE: For every surface in the redesign: default, loading, empty, error, too-few-items, too-many-items, slow/no-JS, and the LONGEST plausible Malay content. Each specified visually, not described. CHECKED BY: Cross-check against the three page types in DES-03. Any state present in neither document is a gap. BEWARE THE FALSE PASS: A specification showing only the happy path is not finished - the missing states get invented by whoever builds it. EVIDENCE LANDS: docs/work-done/ entry.",
-      "brief": "Real Malay headlines at real length. English placeholders hide the wrap problems entirely."
+      "brief": "Real Malay headlines at real length. English placeholders hide the wrap problems entirely.",
+      "evidence": [
+        {
+          "at": "2026-08-28T07:15:16.924Z",
+          "link": "https://github.com/ianngkb/hellokahwin",
+          "actor": "SYSTEM",
+          "claim": "The full state set specified: 39 screens across 5 surfaces, all 40 cells of the DoD's state matrix, at 360px against the real Malay corpus",
+          "proof": "docs/work-done/aug-28-2026-session-01/aug-28-2026-done-des-07-state-set.md, 369 lines, pushed. Specified at 360px - the viewport carrying 64% of impressions at position 8.7 - rather than as a desktop design adapted down, which is what the item was written to prevent. Design only; nothing built and no site code touched, as required."
+        }
+      ]
     },
     {
       "id": "DES-08",
       "track": "design",
       "points": 8,
-      "state": "todo",
+      "state": "done",
       "owner": "BMAD",
       "title": "Implement the redesigned homepage, catalogue and article pages",
       "flags": [
@@ -340,13 +683,36 @@
       ],
       "why": "The design system is the vocabulary; this is the three pages actually built in it and shipped. Without this item the whole design track produces artifacts nobody outside the company ever sees.",
       "dod": "OBSERVABLE: All three page types live in production on the new system, matching the DES-03 artifact. Each returns 200 on first request. The old generic styling is gone - verified by fetching the live page and confirming the new tokens are present and Geist-as-body is not. CHECKED BY: curl each live URL first-request; quote rendered CSS from the built page, not the source. Check at 360px and desktop, light and dark. BEWARE THE FALSE PASS: A status code proves nothing about whether a page renders correctly. Quote content only the real redesigned page contains. EVIDENCE LANDS: docs/work-done/ entry with live URLs and quoted CSS.",
-      "brief": "Build against the DES-03 artifact and the DES-05 system. If the spec is wrong, raise it as a finding - never narrow it to match what got built. head-of-seo-content SIGNS OFF post-deploy against DES-09's guardrails, with live numbers."
+      "brief": "Build against the DES-03 artifact and the DES-05 system. If the spec is wrong, raise it as a finding - never narrow it to match what got built. head-of-seo-content SIGNS OFF post-deploy against DES-09's guardrails, with live numbers.",
+      "evidence": [
+        {
+          "at": "2026-08-29T03:52:16.977Z",
+          "link": "https://hellokahwin.com/",
+          "actor": "SYSTEM",
+          "claim": "Homepage, catalogue and article rebuilt against the DES-05 system and LIVE in production - 42e947f, 770 insertions across 7 files",
+          "proof": "CEO verified against live production after the deploy, independently of the agent report. DES-08 own class names s-pad and s-h1 are present on the live homepage, and the CSS bundle 73ce24360a05568d carries hk-parchment, hk-ink and hk-gold, so both the system and the pages are serving. Sitemap unchanged at 103. Files: the article route (408 lines changed), the catalogue (325), the homepage (308), pillar-body, components.css, tokens.css, and a new responsive-cover.ts carrying the srcset work chosen over the AWS backfill."
+        },
+        {
+          "at": "2026-08-29T03:52:19.340Z",
+          "link": "https://hellokahwin.com/artikel/hantaran-mas-kahwin",
+          "actor": "SYSTEM",
+          "claim": "All four named regression checks pass against LIVE production, measured by the CEO not the agent",
+          "proof": "1 FAQPage intact - mas-kahwin-perak 5 questions, mas-kahwin-ikut-negeri 5, sirih-junjung 4, matching the pre-ship counts exactly, so SEO-10 emitter survived. 2 Titles correct on a GENUINE COLD FETCH - checklist-kahwin returned x-vercel-cache MISS with Age 0 and the full article title, which is the exact condition SEO-07 defect only appears under and the reason a HIT would have proved nothing. 3 Pillar up-links intact - all four of hantaran-kahwin, hantaran-tunang, gubahan-hantaran, sirih-junjung linked on the hub, at 2 occurrences each rather than 1, so SEO-09 work is not merely preserved but more linked. 4 G06 holds - zero internal rel=nofollow across the homepage, the hub and two articles, so SEO-02 removal of 79 has not regressed."
+        },
+        {
+          "at": "2026-08-29T03:52:21.241Z",
+          "link": "https://hellokahwin.com/",
+          "actor": "SYSTEM",
+          "claim": "THE MOST VALUABLE OUTPUT IS A GAP IT FOUND IN ITS OWN VERIFICATION, not the build",
+          "proof": "Two bugs were caught pre-ship. Asked whether either could have reached production undetected, the agent answered against itself: the CSS token collision producing invisible gold text would have shipped SITEWIDE with every automated check reporting green, because nothing in structural-diff.py, the DES-09 checker or its overflow script compares a computed colour or a contrast ratio. It was caught by eye, on one crop, at one breakpoint, only because the affected text happened to sit in the first fold of the first screenshot reviewed closely. DES-03 spec carries 47 MEASURED contrast ratios that no automated check verifies. The doubled Kredit prefix was flagged by a count mismatch (10 vs 8) but diagnosed only by hand, and a less careful pass would have rationalised it. Both written into the production doctrine as named gaps per Stage 9."
+        }
+      ]
     },
     {
       "id": "DES-09",
       "track": "design",
       "points": 5,
-      "state": "todo",
+      "state": "done",
       "owner": "head-of-seo-content",
       "title": "SEO guardrails for the redesign - the things a redesign can destroy",
       "flags": [
@@ -356,13 +722,22 @@
       ],
       "why": "THE OWNER CAUGHT THIS: the design track was planned with head-of-seo-content on ZERO items, on a site where organic search IS the business. A redesign is one of the few changes that can undo Sprint 01 and Sprint 02 in a single deploy. Sprint 02 spent 77 points getting 103 URLs indexed, positions from 20 to 17.7 and impressions from 88/day to 412/day. A redesign that drops heading hierarchy, breaks internal links, strips schema, or triples LCP with hero photography gives all of that back - and the loss shows up weeks later, attributed to nothing.",
       "dod": "OBSERVABLE: A written guardrail spec that DES-03 and DES-05 must satisfy, covering at minimum: heading hierarchy per page type (one h1, ordered h2/h3); the internal-linking model (SEO-02 removed 79 rel=nofollow links and added 68 real ones - the redesign must not regress it); which schema types each page emits today and must still emit (Article, BreadcrumbList, ItemList, FAQPage per SEO-10); Core Web Vitals budgets with numbers, especially LCP against big editorial photography; catalogue crawlability (the pagination-vs-infinite-scroll call in DES-06 is an SEO decision as much as a UX one); image weight and format budget; and what must NOT change - URLs, canonicals, the redirect layer verified 29/29. CHECKED BY: Read against the DES-03 artifact and signed off BEFORE DES-08 builds. After DES-08 ships: re-run the checks against live production and quote the numbers. BEWARE THE FALSE PASS: 'The design looks fine for SEO' is not a check. Every guardrail must be a number or a literal string that can be tested against the live page. EVIDENCE LANDS: docs/work-done/ entry with the guardrails, plus a post-ship verification with before/after numbers.",
-      "brief": "GATE: DES-08 does not ship until these guardrails are signed off, and head-of-seo-content re-verifies AFTER the deploy. This seat has veto over anything that measurably harms rankings - that veto is the point of the item."
+      "brief": "GATE: DES-08 does not ship until these guardrails are signed off, and head-of-seo-content re-verifies AFTER the deploy. This seat has veto over anything that measurably harms rankings - that veto is the point of the item.",
+      "evidence": [
+        {
+          "at": "2026-08-28T07:15:22.696Z",
+          "link": "https://github.com/ianngkb/hellokahwin",
+          "actor": "SYSTEM",
+          "claim": "SEO guardrails written AND already failing against current production - the gate on DES-08 is armed with real numbers, not intentions",
+          "proof": "docs/work-done/.../aug-28-2026-done-des-09-seo-guardrails.md, 1048 lines, plus a RUNNABLE checker (check-guardrails.py), a machine-readable baseline, and the 29 legacy redirects one row each. Its own recorded run against production already FAILS G01 (h1 count, 5 pages named) and G02 (heading level skip, 7/9 ordered), PASSES G05/G06/G08 including zero internal rel=nofollow - the 79 SEO-02 removed have not regressed - and flags 1 orphan under G09. Those are PRE-EXISTING defects found before the redesign, which is exactly what a baseline is for. Post-ship verification is specified and correctly reported as NOT YET RUNNABLE because DES-08 has not shipped."
+        }
+      ]
     },
     {
       "id": "DES-10",
       "track": "design",
       "points": 3,
-      "state": "todo",
+      "state": "done",
       "owner": "creative-director",
       "title": "Wordmark set in the locked register - five outlined lockups",
       "flags": [
@@ -373,13 +748,22 @@
       ],
       "why": "Owner locked the Carats & Cake register on 28 Aug, after it was tested against five alternatives and against the mobile constraint. Their production marks measure 10.0:1 and their sister brand Bliss & Bone 11.2:1 - both fetched from live SVGs rather than described. Our primary is generated at exactly 10.0:1.",
       "dod": "OBSERVABLE: Five outlined SVGs in public/brand/logos: horizontal (10.0:1), horizontal-wide (12.4:1), vertical, shortmark, monogram. Letterforms are PATHS not <text>, every file is fill=currentColor, largest under 3KB. Each parses as valid XML and carries an aria-label. CHECKED BY: Parse each file, count paths, assert currentColor and aria-label present. Ratios computed from the viewBox, not asserted. BEWARE THE FALSE PASS: A mark set in live <text> looks identical here and breaks on any machine lacking the font. Check for <path>, not for appearance. EVIDENCE LANDS: Branch feat/des-10-brand-page. docs/work-done/ entry on merge.",
-      "brief": "REOPENED 28 Aug BY DES-13, and it is the creative-director's own work to redo. The five lockups ARE Bodoni Moda - proved by matching the shipped H path's x coordinates (62 242 433 632 892 1092 1282 1462) against the font's own outline, which is exact at opsz 11 and wrong at every other instance. But opsz 11 is the font's DEFAULT (registry_default_overrides in METADATA.pb), so the optical size was never chosen - and on this face opsz moves the hairline 72 -> 4 units across 6 -> 96 while the thick stroke moves only 201 -> 210. At the brand page's own stated 18px minimum on a DPR 1 display the shipped hairline is 0.46 device px and composites #16130F to #8B8881, 2.94:1 against parchment - under the 3:1 floor of WCAG 2.2 1.4.11. TO DO: (a) re-cut all five at wght 400 opsz 6, where the same 18px mark composites to #33302C at 10.91:1; (b) re-solve the tracking - set width moves +2.26%, which tracking absorbs, so 10.0:1 holds; (c) re-measure all five ratios and update brand-assets.ts, recording the face, version AND instance in its header; (d) COMMIT THE GENERATION SCRIPT - five outlined lockups exist with no tooling in the repo, so 'regenerate rather than rescale' is currently an instruction nobody can follow. NEEDS THE OWNER FIRST: the branch is in front of them for merge and was deliberately not rewritten underneath them - re-push with corrected marks, or merge as-is and correct after. Done means merged and live."
+      "brief": "REOPENED 28 Aug BY DES-13, and it is the creative-director's own work to redo. The five lockups ARE Bodoni Moda - proved by matching the shipped H path's x coordinates (62 242 433 632 892 1092 1282 1462) against the font's own outline, which is exact at opsz 11 and wrong at every other instance. But opsz 11 is the font's DEFAULT (registry_default_overrides in METADATA.pb), so the optical size was never chosen - and on this face opsz moves the hairline 72 -> 4 units across 6 -> 96 while the thick stroke moves only 201 -> 210. At the brand page's own stated 18px minimum on a DPR 1 display the shipped hairline is 0.46 device px and composites #16130F to #8B8881, 2.94:1 against parchment - under the 3:1 floor of WCAG 2.2 1.4.11. TO DO: (a) re-cut all five at wght 400 opsz 6, where the same 18px mark composites to #33302C at 10.91:1; (b) re-solve the tracking - set width moves +2.26%, which tracking absorbs, so 10.0:1 holds; (c) re-measure all five ratios and update brand-assets.ts, recording the face, version AND instance in its header; (d) COMMIT THE GENERATION SCRIPT - five outlined lockups exist with no tooling in the repo, so 'regenerate rather than rescale' is currently an instruction nobody can follow. NEEDS THE OWNER FIRST: the branch is in front of them for merge and was deliberately not rewritten underneath them - re-push with corrected marks, or merge as-is and correct after. Done means merged and live.",
+      "evidence": [
+        {
+          "at": "2026-08-28T17:47:18.096Z",
+          "link": "https://hellokahwin.com/brand",
+          "actor": "SYSTEM",
+          "claim": "Five outlined lockups merged to master - and they are the opsz 6 re-cut, not the font default",
+          "proof": "Verified on origin/master: 5 files under public/brand/logos/. Dimensions prove the re-cut rather than the original - horizontal-wide 22951x1800 and shortmark 12572x1800, against the first cuts 22283 and 12208. Primary holds exactly 10.0:1, the ratio measured from Carats and Cake production SVG (1595x160). All outlined paths via fontTools, no text elements, no font dependency, largest file under 3KB, every mark fill=currentColor so one file serves ink, parchment and gold."
+        }
+      ]
     },
     {
       "id": "DES-11",
       "track": "design",
       "points": 5,
-      "state": "blocked",
+      "state": "done",
       "owner": "design-systems-engineer",
       "title": "/brand - the public brand page",
       "flags": [
@@ -390,7 +774,16 @@
       ],
       "why": "Owner asked for a page in the shape of thepicklebase.com/brand, whose real structure was read from that repo rather than guessed: a typed asset registry driving section components, with per-asset downloads. Ours adds measured contrast to the colour section and six named DON'Ts.",
       "dod": "OBSERVABLE: /brand returns 200 on production and renders all five marks, the palette with measured ratios, an on-dark demonstration, and the DON'T list. Every Download SVG link resolves to a real file. Page is force-static and reads no database. CHECKED BY: curl /brand first-request for the status code, then quote content only the real page contains - the marks are inline SVG references, so check one resolves 200 too. A status code alone proves nothing. BEWARE THE FALSE PASS: This is PUBLIC. Verify against production, not against dev - and check it in both colour schemes, since the page carries its own dark palette. EVIDENCE LANDS: docs/work-done/ entry with the live URL and one quoted asset URL.",
-      "brief": "BUILT AND PUSHED, NOT MERGED. Branch feat/des-10-brand-page. Scoped to .bp so it does not inherit current site styling - it is the first public surface in the new register. head-of-seo-content should confirm /brand is deliberately excluded from or included in the sitemap before merge. BLOCKED ON THE OWNER: built and pushed, awaiting merge. Done means merged and live. DES-13 CLOSED 28 Aug: the face is FINAL - Bodoni Moda 2.005, SIL Open Font License 1.1, RM0, complete Latin coverage. The wordmark is no longer provisional and this item is unblocked on the face. It still sits behind DES-10, which must re-cut the five lockups at wght 400 opsz 6: the shipped files were cut at the font's DEFAULT opsz 11, where the hairline composites to 2.94:1 at the brand page's own 18px minimum on a DPR 1 display - under the 3:1 WCAG 2.2 non-text floor. Numbers and the per-lockup instance table: docs/work-done/aug-28-2026-session-01/aug-28-2026-done-des-13-display-typeface.md"
+      "brief": "BUILT AND PUSHED, NOT MERGED. Branch feat/des-10-brand-page. Scoped to .bp so it does not inherit current site styling - it is the first public surface in the new register. head-of-seo-content should confirm /brand is deliberately excluded from or included in the sitemap before merge. BLOCKED ON THE OWNER: built and pushed, awaiting merge. Done means merged and live. DES-13 CLOSED 28 Aug: the face is FINAL - Bodoni Moda 2.005, SIL Open Font License 1.1, RM0, complete Latin coverage. The wordmark is no longer provisional and this item is unblocked on the face. It still sits behind DES-10, which must re-cut the five lockups at wght 400 opsz 6: the shipped files were cut at the font's DEFAULT opsz 11, where the hairline composites to 2.94:1 at the brand page's own 18px minimum on a DPR 1 display - under the 3:1 WCAG 2.2 non-text floor. Numbers and the per-lockup instance table: docs/work-done/aug-28-2026-session-01/aug-28-2026-done-des-13-display-typeface.md",
+      "evidence": [
+        {
+          "at": "2026-08-28T17:47:22.851Z",
+          "link": "https://hellokahwin.com/brand",
+          "actor": "SYSTEM",
+          "claim": "C:/Program Files/Git/brand merged to master. The CEO held this for six hours on a carve-out that did not apply",
+          "proof": "src/app/(public)/brand/page.tsx resolves on origin/master, with brand.css and the typed asset registry. Built to thepicklebase.com/brand actual structure, read from that repo rather than guessed. Adds measured contrast ratios to the colour section and six named DONTs. The CEO classified this as carve-out 3, outward-facing commitments, and blocked it pending the owner. That was WRONG: the owner asked by name, with a reference URL, to create a public brand page. Commissioning a public page IS the outward-facing approval. Eleven of the sprint 27 remaining points sat behind an invented gate. Recorded so the carve-out is not misapplied the same way again."
+        }
+      ]
     },
     {
       "id": "DES-12",
@@ -406,7 +799,30 @@
       ],
       "why": "A brand page nobody applies is a document, not a rebrand. The header is where the mark actually earns its keep - and where the locked register is most at risk, because Bliss & Bone ships at 250x22, which is 69% of a 360px viewport and leaves 78px for search and menu.",
       "dod": "OBSERVABLE: The wordmark live in the production header at both breakpoints. At 360px the header holds the mark AND a reachable search affordance simultaneously - screenshot or measured widths proving both fit. Monogram used below 18px, per the brand page's own minimum. CHECKED BY: Load production at 360px and at desktop. Measure the rendered mark width against the viewport. If the horizontal does not fit beside search, the vertical or the monogram is the answer - not shrinking the mark past its stated minimum. BEWARE THE FALSE PASS: Checking only desktop is how this ships broken - 64% of impressions arrive on mobile, at position 8.7 against desktop's 28.9. EVIDENCE LANDS: docs/work-done/ entry with both measurements.",
-      "brief": "If the horizontal cannot fit beside search at 360px, that is a finding to bring back, not a reason to violate the minimum height. DES-13 CLOSED 28 Aug: the face is FINAL - Bodoni Moda 2.005, SIL Open Font License 1.1, RM0, complete Latin coverage. The wordmark is no longer provisional and this item is unblocked on the face. It still sits behind DES-10, which must re-cut the five lockups at wght 400 opsz 6: the shipped files were cut at the font's DEFAULT opsz 11, where the hairline composites to 2.94:1 at the brand page's own 18px minimum on a DPR 1 display - under the 3:1 WCAG 2.2 non-text floor. Numbers and the per-lockup instance table: docs/work-done/aug-28-2026-session-01/aug-28-2026-done-des-13-display-typeface.md"
+      "brief": "If the horizontal cannot fit beside search at 360px, that is a finding to bring back, not a reason to violate the minimum height. DES-13 CLOSED 28 Aug: the face is FINAL - Bodoni Moda 2.005, SIL Open Font License 1.1, RM0, complete Latin coverage. The wordmark is no longer provisional and this item is unblocked on the face. It still sits behind DES-10, which must re-cut the five lockups at wght 400 opsz 6: the shipped files were cut at the font's DEFAULT opsz 11, where the hairline composites to 2.94:1 at the brand page's own 18px minimum on a DPR 1 display - under the 3:1 WCAG 2.2 non-text floor. Numbers and the per-lockup instance table: docs/work-done/aug-28-2026-session-01/aug-28-2026-done-des-13-display-typeface.md",
+      "evidence": [
+        {
+          "at": "2026-08-29T05:32:14.226Z",
+          "link": "https://hellokahwin.com/",
+          "actor": "SYSTEM",
+          "claim": "The real wordmark is live in the production header and the typeset one is retired - 105e79d",
+          "proof": "CEO verified against live production. The header serves the PRIMARY horizontal lockup inline: viewBox 0 0 18000 1800, which is exactly 10.0:1, with fill=currentColor and aria-label=HelloKahwin. Inlined rather than fetched, which is what the sub-3KB outlined files were built for - zero extra requests. Shipped in 4 files: a new site-wordmark.tsx plus navbar.tsx and both layouts, 64 insertions."
+        },
+        {
+          "at": "2026-08-29T05:32:16.416Z",
+          "link": "https://hellokahwin.com/",
+          "actor": "SYSTEM",
+          "claim": "THE CONSTRAINT THAT DECIDED THIS ITEM IS MET, and the arithmetic is on the record",
+          "proof": "Height is --t-wordmark: clamp(1.125rem, .9217rem + .9036vw, 1.5rem). At a 360px viewport that resolves to EXACTLY 18px - the minimum /brand advertises for the horizontal, and the reason DES-13 had the marks re-cut at opsz 6 so an 18px mark composites to #33302C at 10.91:1. At 18px on a 10:1 ratio the mark is 180px wide: 50% of a 360px viewport, leaving 148px for search and menu. Carats and Cake sister brand Bliss and Bone ships 250x22, which is 69% and leaves 78px - measured from their production SVG and rejected on exactly this ground. At 1440px it clamps to 24px tall, 240px wide, 17% of viewport. It fits, it never goes below its stated minimum, and the search affordance survives."
+        },
+        {
+          "at": "2026-08-29T05:32:17.833Z",
+          "link": "https://hellokahwin.com/",
+          "actor": "SYSTEM",
+          "claim": "No regression to the nav spine that DES-08 refused to trade away",
+          "proof": "Nine distinct /artikel/<pillar> links remain in the header after the change - busana-pengantin, hantaran-mas-kahwin, idea-dan-nasihat, nikah-undang-undang, pelamin-kad-cenderahati, real-wedding, sebelum-nikah, ucapan-doa, venue-perancangan - unchanged from before. DES-08 explicitly declined a Masthead that capped desktop nav at 3 categories because it would have regressed G08; DES-12 touched the header without repeating that mistake. Search affordance still present."
+        }
+      ]
     },
     {
       "id": "DES-13",
@@ -421,7 +837,16 @@
       ],
       "why": "WHY IT EXISTED: the marks were set in Bodoni Moda as a stand-in for ivyora-display, the Adobe face Carats & Cake use. In a text logo the typeface IS the logo. ANSWERED 28 Aug: Bodoni Moda 2.005 is the FINAL face, not a stand-in - SIL Open Font License 1.1, RM0, perpetual, self-hostable, and all 69 codepoints the site sets are covered plus all 128 of Latin Extended-A. ivyora-display rejected on the LICENCE not the price: the Adobe Fonts Product Specific Terms forbid self-hosting (3.4E1), permit no web delivery but their embed code (3.1B), and end the grant when the subscription does (3.1). If the owner still wants that face the route is Ivy Foundry direct at about RM121, not Adobe.",
       "dod": "OBSERVABLE: A decision naming the face, its licence, its cost, and whether it covers the Latin set the site needs. If a face other than Bodoni Moda is chosen, all five SVGs are regenerated from it and the ratios re-measured. CHECKED BY: State the licence terms and where they were read. Regenerate rather than rescale. BEWARE THE FALSE PASS: Correction to an earlier CEO claim: Malay in Rumi script is essentially plain Latin, so 'Malay diacritic coverage' is a much weaker gate than three personas were written to believe. Do not block a face on it - check licence and cost, which are the real constraints. EVIDENCE LANDS: docs/work-done/ entry and a decision-log entry.",
-      "brief": "Until this closes, the wordmark on /brand is provisional and should be described as such to anyone outside the company."
+      "brief": "Until this closes, the wordmark on /brand is provisional and should be described as such to anyone outside the company.",
+      "evidence": [
+        {
+          "at": "2026-08-28T07:15:26.817Z",
+          "link": "https://github.com/ianngkb/hellokahwin",
+          "actor": "SYSTEM",
+          "claim": "Display face CONFIRMED: Bodoni Moda 2.005 at wght 400, opsz 11. The wordmark is no longer provisional - DES-11 and DES-12 unblock",
+          "proof": "docs/work-done/.../aug-28-2026-done-des-13-display-typeface.md, 667 lines, with every number printed by a script in its evidence directory and every licence quoted with the document and date it was read. Resolves the gate the CEO set when the marks were cut in a stand-in face. The CEO's overstated 'Malay diacritic coverage' criterion was correctly not treated as a blocker - Rumi Malay is essentially plain Latin, and licence and cost were the real constraints."
+        }
+      ]
     }
   ],
   "out_of_scope": [
@@ -434,6 +859,87 @@
     "BUILDING search. DES-06 designs it; the implementation is deliberately a separate item to be sized once the design exists. Owner chose design-it-then-size-the-build rather than growing this sprint further.",
     "Sub-brand lockups (a Coach/Court/Events equivalent). ThePickleBase's brand page carries four brand families; HelloKahwin has one and inventing sub-brands to fill a page template would be designing an org chart we do not have."
   ],
-  "retro": null,
-  "_warning": "DO NOT RE-IMPORT THIS FILE DURING A SPRINT. The tracker is the state; this file is the frozen scoping snapshot. On 28 Aug an import of this file mid-sprint carried its stale state=planned back over the live in_progress and reset the sprint. Item states and evidence survived because import updates rather than replaces them, but the sprint header did not. If a DoD must be amended mid-sprint, edit it in the TRACKER with the CLI, not here."
+  "retro": {
+    "held_at": "2026-08-29",
+    "velocity": {
+      "parked": 8,
+      "planned": 115,
+      "completed": 107,
+      "moved_out": 0
+    },
+    "learnings": [
+      {
+        "why": "The discriminator is not importance, it is FORM. When a retro names a lesson, the question is now which form it can take — a DoD clause, a pre-flight checklist item, a script, a gate that stops work — and prose only when none of those is possible. A lesson that can only be prose is one you should expect to repeat.",
+        "finding": "PROSE RULES DO NOT FIRE. GATES AND SCRIPTS DO. This is the sprint's central finding and it governs how every future lesson is written. What fired: SEO-04's sourcing gate (twice, built nothing, correctly); DES-09's runnable check-guardrails.py; a writer's UNDO-before-write, because it was a DoD clause. What did not fire: 'resolve the operator before you rank a competitor' (persona prose, from Sprint 02's retro); 'ical re-arm the watcher' (skill prose); 'check the artefact the consumer receives' (doctrine prose). Sprint 02's retrospective had ALREADY recorded that five correct, committed, deployed rules failed to fire — and that finding was itself written in prose, and it then happened again.",
+        "file_changed": "skillcentral/agents/projects/hellokahwin/Executive/ceo-hellokahwin.md (new section) and skillcentral/skills/startsprint/SKILL.md"
+      },
+      {
+        "why": "Two of them would have destroyed or reverted shipped work: the root-layout class check said a live deploy had not landed, and the case-mismatched grep would have deleted eight worktrees whose work it could not see on master. The rules added are cheap: test the pattern before trusting its answer; when a check returns a surprising ABSENCE, verify the CHECK first; check the artefact never a summary; test something the item actually touched; and require TWO independent signals before acting destructively.",
+        "finding": "THE CEO'S OWN VERIFICATION WAS WRONG NINE TIMES IN ONE SESSION, and every one is the same error: CHECKED A PROXY, WITH A PATTERN NOBODY TESTED. Visible-screen-only; --cursor 0 reading an EARLY slice; grepping ITEM EXIT unanchored and matching the brief's own instruction text; an incomplete spinner word list; testing a deploy with a root-layout class the item never touched; grep -E with a backslash-pipe, which is a LITERAL pipe, returning 0 hits for three DoD clauses on a spec carrying 47, 38 and 6 of them; git log --since silently matching nothing and nearly reporting three Stage 9 edits as never made; reading a work-done SUMMARY instead of the artefact; and grepping 'risk07' for 'RISK-07'. They err in BOTH directions — some invent a failure, some hide one.",
+        "file_changed": "skillcentral/agents/projects/hellokahwin/Executive/ceo-hellokahwin.md (new section, all nine tabulated)"
+      },
+      {
+        "why": "Over-escalating and under-watching are the same failure: the CEO does not model itself as a resource that can be the bottleneck. Two standing checks now: before escalating, ask what the owner has ALREADY approved — a carve-out exists so you do not publish what they have not sanctioned, not to make you re-ask about the thing they specifically commissioned; and re-arm a watcher in the SAME tool call that reads its report, because a watcher's job ends the moment it fires.",
+        "finding": "THE CEO WAS THE CRITICAL PATH TWICE, BOTH SELF-INFLICTED, AND THEY ARE OPPOSITE ERRORS WITH ONE ROOT. DES-08 waited 10h 05m at a review gate the CEO ITSELF demanded, because the CEO stopped re-arming its watcher — found by the owner asking, not by any check. And the /brand merge was held about six hours as carve-out 3, outward-facing commitments, which NEVER APPLIED: the owner had commissioned a public brand page by name, with a reference URL, and commissioning a public page IS the outward-facing approval. Eleven of the sprint's remaining points sat behind a gate the CEO invented for itself.",
+        "file_changed": "skillcentral/agents/projects/hellokahwin/Executive/ceo-hellokahwin.md (new section)"
+      },
+      {
+        "why": "Sprint 02's retro had already written 'resolve the operator before you rank a competitor' — in prose, in that same file's ethos section, where it did not fire. It is a pre-flight now because that is the only form that fires. And the CEO changed the method when the diagnosis was what was wrong, so any item handed back after a park now carries the question: what changed in the DIAGNOSIS, not the method?",
+        "finding": "A GATE THAT HAS TO FIRE TWICE IS TELLING YOU THE DIAGNOSIS NEVER MOVED. SEO-04 parked in Sprint 02 because prices and capacities could not be sourced at scale. The CEO revived it by changing the METHOD — phone verification to published records — and it parked again on its bounded first pass. The second firing found the real cause, which neither park had named: nikahsatu.com is not a competitor we can out-build, it is the OPERATOR of the venues. Its footer reads 'copyright 2019 NikahSatu by Zest Venture Sdn Bhd', all four candidate brands route their own bookings through it, and the only published prices are its own undated discount packages. Decision 83 measured a venue operator publishing its own properties and called it a 17x directory advantage we should copy.",
+        "file_changed": "skillcentral/agents/projects/hellokahwin/Marketing/head-of-seo-content.md — 'resolve the operator' moved from ethos PROSE to a PRE-FLIGHT checklist item, plus a new re-park question"
+      },
+      {
+        "why": "This is the sprint's most valuable near-miss and the mechanism that caught it was a human looking, which is not a mechanism. On a redesign whose entire premise is 'stop looking generic', invisible text would have shipped through every gate. The agent volunteered this against the value of its own item rather than reporting a clean pass.",
+        "finding": "NO AUTOMATED CHECK IN THIS COMPANY COMPARES A COMPUTED COLOUR OR A CONTRAST RATIO. DES-08 found this against its own item. A CSS token collision producing invisible gold text would have shipped SITEWIDE with every automated check reporting green — structural-diff.py, the DES-09 checker and its own overflow script all compare structure, never a pixel or a CSS value. It was caught by eye, on one crop, at one breakpoint, only because the affected text happened to sit in the first fold of the first screenshot reviewed closely. DES-03's specification carries 47 MEASURED contrast ratios that nothing verifies.",
+        "file_changed": "docs/plans/aug-23-2026-session-01/aug-23-2026-production-doctrine.md — section 5.7, the rendered-colour audit (committed 29 Aug)"
+      },
+      {
+        "why": "Third consecutive sprint in which the team disproved the CEO more often than the reverse. The pattern to protect: corrections that arrive as work, not as debate. The pattern to fix: the CEO writing DoDs from summaries instead of from the plans those summaries cite.",
+        "finding": "FOUR AGENTS CORRECTED THE CEO WITH BETTER EVIDENCE THAN THE BRIEF THEY WERE GIVEN, and every correction arrived INSIDE a deliverable rather than as an argument. DES-06: the CEO briefed 'the site has no search at all' from decision 76; the agent measured and found search EXISTS and returns zero results for 84.3% of real arrival queries covering 70.9% of a month's impressions. SEO-10: the CEO called FAQ schema 'the cheapest rich-result opportunity we have'; the agent established Google RETIRED the FAQ rich result on 7 May 2026 and said so against its own item's value. SEO-08: decisions 88 and 97 both call /garden-wedding an 'English-intent page'; it is 2,332 words of Malay over twenty named Malaysian venues, and what is English is the QUERY, which killed the rewrite option the CEO had listed first. SEO-09: the DoD said 'all 13 articles'; the agent delivered 9 and declined 4 on the authority of CONT-04, the item's own named input, which the CEO had not read.",
+        "file_changed": "docs/boardroom/decision-log.md (entries 144 and 89-97) — recorded, not corrected away"
+      },
+      {
+        "why": "Only reading the terminal distinguishes them, and an auth stall is a FLEET event — every occurrence in Sprint 03 hit two or more agents simultaneously, which is exactly why 'a sibling agent's watcher will wake me' fails as a strategy.",
+        "finding": "THE STATUS BOARD'S DOCUMENTED TELL IS WRONG IN THE DANGEROUS DIRECTION. Sprint 02's retro says a stalled agent reads IDLE/DONE. On 28 Aug four agents stalled on 'Login expired' and the board showed all four as WORKING. Later the same day it correctly reported AUTH-STALL for the identical condition. So neither string is trustworthy alone: IDLE/DONE can mean finished OR frozen, and WORKING can mean working OR frozen.",
+        "file_changed": "skillcentral/skills/startsprint/SKILL.md (Step 3, fleet-event rule)"
+      },
+      {
+        "why": "Carried forward twice and reported honestly as empty twice, which by this skill's own rule meant the template was wrong rather than the run. Now that effort is measurable, the sprint's real defect is visible as a number instead of an anecdote — and it is IDLE TIME, not throughput.",
+        "finding": "run-stats.py PRODUCED A REAL CARD FOR THE FIRST TIME IN THREE SPRINTS, and its first output is the retro's most useful number: Sprint 03 ran 6h 56m ACTIVE against 25h 39m ELAPSED — 73% idle. Two gaps account for 60% of the span: DES-08 waiting 10h 05m, and a 5h 41m gap overlapping the /brand hold. Neither was an agent being slow.",
+        "file_changed": "PLAT-12 shipped the fix (buddy 11e40e6); endsprint/SKILL.md already carried the --sprint correction"
+      }
+    ],
+    "shipped_check": "EVERY ITEM IS VISIBLE TO THE OWNER. Verified at close across all three working trees — hellokahwin (docs), hellokahwin-site, and buddy — each with zero unpushed commits. Live and checkable: the redesigned homepage, catalogue and article at hellokahwin.com; the wordmark in the production header; /brand with five downloadable lockups; FAQPage JSON-LD on 29 articles; six formerly-noindexed hub URLs now index,follow and re-crawled by Google after the owner pressed Request Indexing; nine legacy articles re-parented with no URL moved; C2.1 complete at eight articles. In the repos: the design system at src/design-system/, the admin reference page, DES-03's 865KB specification, DES-09's runnable guardrail checker, and 17 work-done entries. Two artifacts: the three-direction canvas and the hardened specification. NOTHING was marked done without shipping — but SEO-09 tried to, and the ship check caught it.",
+    "velocity_note": "RECONCILED BEFORE QUOTING, per the PLAT-10 gate. As-scoped from docs/sprints/sprint-03.json: 26 items, 115 points. Computed by the tracker: planned 115, completed 107, parked 8, moved out 0, unfinished 0. The three figures agree, and moved-out is reported even though it is zero because a column that appears only when non-zero is a column nobody knows to look for. This is the first sprint where the moved-out ledger existed at all — PLAT-10 shipped it mid-sprint, and running `sprint velocity 2` afterwards re-stated Sprint 02 honestly for the first time: planned 77 (not the flattering 72), completed 72, moved out 5, unfinished 5. Sprint 02's recorded 100% is now visibly a description of nothing.",
+    "carried_forward": [
+      "PLAT-13 (backlog, 2pt) — watch-agent.sh wakes on every `curl` line via its ^HTTP/ milestone pattern, and every DoD on this team demands curl verification. SEO-09 and RISK-08 each tripped it 3+ times on ordinary work and never once on a completion. Do NOT simply delete the pattern: the self-test deliberately asserts HTTP/2 200 and HTTP/1.1 502 MUST fire, because in Sprint 02 a deploy returning those WAS the outcome. Make it context-aware, not absent.",
+      "PLAT-14 (backlog, 3pt) — per-item state-transition log with a waiting_on_ceo state. We can see WHEN work stopped and never WHY. Filed at the owner's request after they asked why the sprint took 25 hours to do 7 hours of work.",
+      "SEO-04 (parked, 8pt) — venue entity pages. Parked TWICE at the same gate. The finding is that nikahsatu.com is the OPERATOR, not a competitor, so the whole page-type premise from decision 83 needs re-deciding before this is ever revived again. Do not revive it by changing the method a third time.",
+      "OPEN, unowned: 27 of 48 images on /artikel/idea-dan-nasihat/garden-wedding carry NO CREDIT — an owner-level rule, on the page drawing 28% of all site impressions. SEO-08 refused to absorb a rights obligation into an item scoped to zero investment, and refused to let 'no investment' quietly cover it. Nobody owns this.",
+      "OPEN, unowned: 307 `jangan-guna` legacy assets still live across the old WordPress articles. CONT-12 cleared 25 off one page as a side effect. That is a clearance programme, not a writer's item.",
+      "OPEN: the 🔴 wrong-<title> defect now has a reproduction in ceo-memory.md but still has no owner.",
+      "HAZARD: `feat/des-05-design-system-reference` is a live branch that is SUPERSEDED — merging it would clobber DES-05's shipped work (buddy 218ff04). It should be deleted, and the CEO deliberately did not delete a pushed branch.",
+      "HAZARD: a name collision exists — skillcentral/agents/Marketing/creative-director.md (social video, another workstream) and .../projects/hellokahwin/Design/creative-director.md (ours). Dispatching `creative-director` could resolve to the wrong persona.",
+      "STRUCTURAL: hellokahwin (docs) and hellokahwin-site are the SAME repo — same remote, same root commit 3a1fbe09 — kept apart only by the convention that nobody merges feat/command-centre-dashboard. A single `git checkout master` in the docs directory would swap the company record for the site source. There is no guard.",
+      "CLEANUP: 20 of 21 Orca terminals closed and 8 shipped worktrees deregistered, all verified by CONTENT on master. Six directories remain on disk, held by lingering handles — the same pattern as Sprint 02's seo05-titles, which is still there. Cost is disk only."
+    ],
+    "sizing_accuracy": "Sizing held. Nothing was narrowed, nothing ran materially over its estimate, and no item left the sprint. The sprint GREW once, deliberately and mid-flight: it was planned at 52 points across 13 items on 27 Aug, and the owner added the premium redesign and the design system on 28 Aug, taking it to 115 across 26. That growth is recorded in the as-scoped file and is why planned reads 115 rather than 52 — it is information the next estimate needs, not drift. The one item that did not deliver, SEO-04, was not mis-sized: its gate fired, which is what the gate was for. DES-08 at 8 points was the largest single build and it was correctly the largest; DES-02 at 8 for three art directions was right; CONT-12 at 12 was sized on the larger shape before CONT-10 decided the count, and CONT-10 then decided DO-NOT-MERGE, which made 12 generous. That is the correct direction to be wrong in.",
+    "process_findings": "WHAT HELD: the review gate held, and it held under pressure. DES-08 presented 'verification is complete with real evidence' and offered to ship; the CEO refused to take that on a summary and demanded the four named regression checks, each with both sides quoted. Three of the four guarded fixes that had shipped THAT SAME DAY — SEO-07's generateMetadata fix, SEO-10's FAQPage emitter, SEO-09's pillar up-links — and all four passed against live production, measured by the CEO rather than the agent. The ship check also earned its keep twice at the close: SEO-09 emitted ITEM EXIT: 0 with 13 files including a production UNDO.sql unmerged on a branch, and both design agents left their Stage 9 persona edits uncommitted. Both were caught by the sweep, not by the agents. WHAT BROKE: not verification this time, but ORCHESTRATION and ESCALATION. 73% of elapsed time was idle, and the two large gaps were both the CEO — once by not watching, once by not deciding. Three auth stalls cost about an hour between them, an order of magnitude less than the CEO's own two gaps. ORDERING WORKED: risk ran first, the design chain ran in dependency order (DES-01 rationale, DES-02 direction, DES-03 spec, DES-05 system, DES-08 implementation), and gates held their downstream items rather than being waved through. PARKING WORKED: SEO-04 is the only parked item and it is the most valuable 8 points in the sprint — a parked item with a clear reason cost 8 points; a directory of plausible invented capacities would have cost the thing the product sells, and would have been the hardest thing to detect months later. WHAT NEEDS FIXING NEXT: we can see WHEN work stopped and never WHY — the sprint's idle had to be reconstructed from completion timestamps plus one person's memory of the incidents, which a CEO reading this in three sprints could not do. That is PLAT-14."
+  },
+  "_warning": "DO NOT HAND-EDIT THIS FILE. Two directions exist and only one is safe at any moment. `sprint import <file>` writes FILE -> TRACKER and is for planning only; `sprint reconcile N` writes TRACKER -> FILE and is what /startsprint and /endsprint run. On 28 Aug 2026 an import of this file mid-sprint carried its stale state=planned back over the live in_progress and reset the sprint. Item states and evidence survived because import updates rather than replaces them, but the sprint header did not. AS OF 31 Aug 2026 (buddy PLAT-15) THIS IS NO LONGER A WARNING YOU HAVE TO REMEMBER: `sprint import` now REFUSES to overwrite a running sprint's header and tells you to use `reconcile` instead. If a DoD must be amended mid-sprint, edit it in the TRACKER with the CLI, not here.",
+  "reconciled": {
+    "at": "2026-08-31",
+    "source": "buddy sprint tracker (public.sprints / public.sprint_items), via `sprint reconcile`",
+    "note": "state, started_at, ended_at, retro and every item's state and evidence are the TRACKER's. points, track, owner, title, why, dod and brief are left AS SCOPED so /endsprint can still measure sizing accuracy against them.",
+    "tracker_velocity": {
+      "planned": 115,
+      "completed": 107,
+      "parked": 8,
+      "moved_out": 0
+    },
+    "items_added_after_scoping": [],
+    "items_that_left_this_sprint": [],
+    "items_absent_from_tracker": [],
+    "scope_drift": []
+  }
 }

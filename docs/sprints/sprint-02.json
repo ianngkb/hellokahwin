@@ -1,8 +1,10 @@
 {
   "id": 2,
   "name": "Close the publishing hole, then earn a click",
-  "state": "planned",
+  "state": "done",
   "planned_at": "2026-08-26",
+  "started_at": "2026-08-26",
+  "ended_at": "2026-08-27",
   "points": 77,
   "points_note": "Opened at 35 across 10 items. The UI/UX review added UX-01..04 (13pt) and the SEO review added RISK-06 and SEO-06 (5pt), both commissioned during the meeting and reporting before it adjourned. The owner then directed that Tier 1 be FINISHED, replacing a 4-article CONT-05 with the full 25-article completion across CONT-05..08 (+21pt). Final: 74 points across 19 items. The owner approved 29 of the original proposal; 74 is far past that and every increment was flagged back to them rather than absorbed. Reconciled against the tracker item-by-item at close: 19 items both sides, no drift.",
   "note": "This file records how Sprint 02 was ORIGINALLY SCOPED. It is not the live state — the tracker in buddy is (`pnpm --silent sprint list --sprint 2`, or buddy.ian.ng/sprints). Never rewritten after close.",
@@ -31,7 +33,7 @@
       "id": "RISK-04",
       "track": "risk",
       "points": 3,
-      "state": "todo",
+      "state": "done",
       "owner": "BMAD",
       "title": "Publishing tells Google — resubmit the sitemap on ingest",
       "flags": [
@@ -39,17 +41,36 @@
         "blocks-all-content"
       ],
       "why": "Every content point in this sprint is worthless until this closes. NOTE: the Indexing API is restricted to JobPosting and BroadcastEvent — using it for articles is a policy violation. The CEO proposed it in the meeting and withdrew it. The sanctioned mechanism is sitemap resubmission with accurate lastmod.",
-      "dod": "Ingest an article; the same run resubmits the sitemap through the GSC API and prints the literal API response. Verified by: GSC sitemap last_downloaded moves past the ingest timestamp, AND a URL inspection of the new article leaves 'URL is unknown to Google' within 48h — show the before and after inspection verbatim. lastmod on the new entry equals the ingest date, not the build date. Re-run ingest on an unchanged article and show the sitemap is NOT needlessly resubmitted."
+      "dod": "Ingest an article; the same run resubmits the sitemap through the GSC API and prints the literal API response. Verified by: GSC sitemap last_downloaded moves past the ingest timestamp, AND a URL inspection of the new article leaves 'URL is unknown to Google' within 48h — show the before and after inspection verbatim. lastmod on the new entry equals the ingest date, not the build date. Re-run ingest on an unchanged article and show the sitemap is NOT needlessly resubmitted.",
+      "evidence": [
+        {
+          "at": "2026-08-26T14:06:16.064Z",
+          "link": "https://hellokahwin.com/sitemap.xml",
+          "actor": "SYSTEM",
+          "claim": "Publishing now tells Google, and all four dark articles left unknown-to-Google in under 8 hours",
+          "proof": "CEO verified via GSC after deploy. SITEMAP: last_downloaded moved 2026-08-25 15:58 -> 2026-08-26 13:33 and count 73 -> 78, so Google now sees every URL. THE FOUR THAT WERE UNKNOWN: gubahan-hantaran and walimatul-urus are now Submitted and indexed, crawled 2026-08-26, with breadcrumb rich results; sirih-junjung and dulang-hantaran are Discovered - currently not indexed. All four left 'URL is unknown to Google' against a 48h bar. lastmod on a new entry reads 2026-08-26T13:40:15Z - the ingest time, not a build date. The Indexing API was NOT used; sitemap resubmission is the sanctioned mechanism. Near-miss caught by the agent: it nearly submitted http://127.0.0.1:3199/sitemap.xml to the production property, caught only because the failure path prints Google's literal reason."
+        }
+      ]
     },
     {
       "id": "RISK-05",
       "track": "risk",
       "points": 2,
-      "state": "todo",
+      "state": "done",
       "owner": "BMAD",
       "title": "The indexing monitor — a baseline you take once is a photograph",
       "why": "Murat, this meeting: the CEO found five dark articles by hand because it happened to run a URL inspection. SEO-01 was a one-off baseline. Nothing would have caught this, and nothing will catch the next one.",
-      "dod": "A scheduled job inspects every URL in the live sitemap, records coverage_state per URL with the date, and files a loud alarm (the RISK-01 pattern — a GitHub issue within 10s) when any URL is unknown-to-Google or uncrawled more than 72h after appearing in the sitemap. Proved by deliberately feeding it a URL known to be unknown and showing the alarm fired. Runs from the DEFAULT branch — scheduled workflows do not run from feature branches, which cost a reopen in Sprint 01."
+      "dod": "A scheduled job inspects every URL in the live sitemap, records coverage_state per URL with the date, and files a loud alarm (the RISK-01 pattern — a GitHub issue within 10s) when any URL is unknown-to-Google or uncrawled more than 72h after appearing in the sitemap. Proved by deliberately feeding it a URL known to be unknown and showing the alarm fired. Runs from the DEFAULT branch — scheduled workflows do not run from feature branches, which cost a reopen in Sprint 01.",
+      "evidence": [
+        {
+          "at": "2026-08-26T18:19:56.859Z",
+          "link": "https://github.com/ianngkb/hellokahwin/issues/5",
+          "actor": "SYSTEM",
+          "claim": "The indexing monitor runs from the default branch and its alarm has been proven by firing",
+          "proof": "CEO verified independently. .github/workflows/indexing-monitor.yml is on origin/MASTER - not a feature branch, which is the exact failure that cost a reopen in Sprint 01 when RISK-01's schedule sat on a branch and silently never fired. gh workflow list reports 'Indexing monitor  active  343129988'. Two runs completed successfully on master (32996238991, 32995851727). THE ALARM WAS PROVEN BY MAKING IT FIRE, not asserted: issue #5 'ALARM: 1 sitemap URL(s) are dark to Google (>72h, unknown or uncrawled)', label indexing-alarm, filed 2026-08-26T17:54Z and since closed. No production regression: sirih-junjung still serves stale-while-revalidate=3000, so RISK-06's cap survived the merge. WHAT THE AGENT CAUGHT IN ITSELF, worth keeping: it nearly shipped a monitor that treated a FAILED inspection as 'absent' and would have reported clean over a smaller denominator - SEO-01's failure re-implemented one layer up. A pure-module split caught it, and blind/exit-code-2 handling exists because of that question. NOT VERIFIED, stated by the agent: no SCHEDULED run has fired yet (first is 04:43 MYT); a green run tomorrow without workflow_dispatch would confirm the cron itself. NEW DEFECT HANDED OVER: six sitemap URLs are served with noindex and Google crawled and excluded all six - not one of this DoD's two conditions, so the monitor records and stays quiet. src/app/sitemap.ts belongs to another item."
+        }
+      ],
+      "flags": []
     },
     {
       "id": "SEO-04",
@@ -60,86 +81,239 @@
       "title": "Venue entity pages — commercial brands with real demand, not council halls",
       "rescoped": "26 Aug, on competitor data the CEO never pulled. Corrects the CEO's original finding AND the SEO reviewer's own first recommendation, which had ranked the comparison hub above the entity pages.",
       "why": "The premise was right — entity pages beat listicles — and the target list was wrong. nikahsatu.com (DR 14) earns ~4,900 traffic from /venue/[slug] ENTITY pages against ~293 from its geographic hubs. Roughly 17x. Their winners are COMMERCIAL VENUE BRANDS with real brand demand: arjuna-melaka 882 traffic at volume 2,400; arjuna-johor-bahru 691 at 1,800; villa-rimba-flora-gombak 670 at 1,800; jiwa-damansara 431 at 1,200. THE FOUR HALLS THIS ITEM ORIGINALLY NAMED ARE COUNCIL HALLS TOTALLING ~30 SEARCHES A MONTH: setiawangsa 10, perdana keramat mall 20, keramat 0, mpaj tasik tambahan 0. Two structural problems, neither fixable with a better template — almost no brand search demand, and what exists is held at position 1–2 by the council's own booking portal (tempahkl.dbkl.gov.my, DR 64). We could build those four perfectly and earn near zero. Commercial venues have the inverse profile: high volume, no competing official portal, and the incumbent is a DR 14 site with thin pages carrying no capacity data. Multi-location brands multiply one template into N pages — Rumah Abang Jamil alone gives nikahsatu seven pages worth ~1,070 combined.",
-      "dod": "GATE FIRST, BEFORE ANY PAGE IS BUILT: one hour confirming we can SOURCE real prices and capacities at scale for commercial venues, and whether nikahsatu's venue pages are paid listings or partnerships giving them data access we lack. Report the answer. If sourcing fails, STOP and bring it back — do not build pages with invented or boilerplate figures, and do not quietly downgrade to council halls. Then: at least EIGHT entity pages across two or more multi-location venue brands at 400+ monthly brand volume each — eight is the cluster floor, below which it does not read as coverage. PLUS Dewan Komuniti Setiawangsa as a DELIBERATE CONTROL, the only council hall with measured demand (~150 GSC impressions across its name variants): if a properly built Setiawangsa page still earns nothing while the commercial pages rank, that confirms the council-hall category is structurally dead for us and no later sprint rediscovers it. Every page carries alt_names — GSC proves one building is searched three ways. Every fact carries its source and the date checked. Route /dewan/[negeri]/[slug], separate from /artikel/. EventVenue + LocalBusiness + FAQPage schema. Venue name in the first two words of a sub-60-character title. Proof: quote capacity and booking line from live HTML for two venues, with a negative control. EXPECT POSITION 3–5, NOT 1 — the venue's own site holds 1 and nikahsatu is entrenched at 2. Say so in the report rather than promising position 1."
+      "dod": "GATE FIRST, BEFORE ANY PAGE IS BUILT: one hour confirming we can SOURCE real prices and capacities at scale for commercial venues, and whether nikahsatu's venue pages are paid listings or partnerships giving them data access we lack. Report the answer. If sourcing fails, STOP and bring it back — do not build pages with invented or boilerplate figures, and do not quietly downgrade to council halls. Then: at least EIGHT entity pages across two or more multi-location venue brands at 400+ monthly brand volume each — eight is the cluster floor, below which it does not read as coverage. PLUS Dewan Komuniti Setiawangsa as a DELIBERATE CONTROL, the only council hall with measured demand (~150 GSC impressions across its name variants): if a properly built Setiawangsa page still earns nothing while the commercial pages rank, that confirms the council-hall category is structurally dead for us and no later sprint rediscovers it. Every page carries alt_names — GSC proves one building is searched three ways. Every fact carries its source and the date checked. Route /dewan/[negeri]/[slug], separate from /artikel/. EventVenue + LocalBusiness + FAQPage schema. Venue name in the first two words of a sub-60-character title. Proof: quote capacity and booking line from live HTML for two venues, with a negative control. EXPECT POSITION 3–5, NOT 1 — the venue's own site holds 1 and nikahsatu is entrenched at 2. Say so in the report rather than promising position 1.",
+      "departed_from_this_sprint": {
+        "at": "2026-08-26",
+        "points": 5,
+        "by": "SYSTEM",
+        "note": "Backfilled by 20260828060000_sprint_scope_ledger.sql. Moved to the backlog mid-sprint, before the ledger existed; sprint-02.json scoped 20 items / 77pt, the tracker holds 19 / 72pt."
+      }
     },
     {
       "id": "SEO-05",
       "track": "seo",
       "points": 2,
-      "state": "todo",
+      "state": "done",
       "owner": "head-of-seo-content",
       "title": "Titles: the one statistically real zero, and a seo_title drift audit",
       "rescoped": "TWICE on 26 Aug, both before work started. v1 'audit every page at position <10 with zero clicks' was noise. v2 'dewan komuniti setiawangsa entity-match' was ALSO wrong and was killed by the item's own owner. v3 is this.",
       "why": "v1 died on two counts: at 25–50 impressions expected clicks are 0.3–1.5 so zero is variance, and worse, the AVERAGED POSITIONS DESCRIBE NO ACTUAL QUERY — hantaran-tunang at 'average 9.8' is really 4 impressions at 10.2, 2 at 13.5, 1 at 33 and 1 at 56. v2 died because setiawangsa is not a real zero either: 104 impressions at position 9.0 predicts ~2.1 clicks, P(zero) ≈ 12%, and its SERP is DBKL's own booking portal at 1–2 with Instagram, Facebook, Waze and TikTok at 3–6, so realistic organic CTR is under 1%. The owner of this item put it sharply: the UX review applied a significance test and then exempted the one page it had already built a theory around. THE REAL ZERO IS `mas kahwin ikut negeri` — 388 impressions across THREE URLs of one redirect family (365 + 15 + 8), zero clicks, position 10–13, expected ~5.8 clicks, P(zero) ≈ 0.3%. It clears the bar by an order of magnitude and was missed because every single row reads as noise until you aggregate the family. Its cause is diagnosable, unlike setiawangsa's: CEO-verified against production, the title is 85 chars, asks a question instead of answering it, and carries no year — while the page's own H1 already reads 'Mas kahwin ikut negeri 2026: kadar minimum setiap negeri' and its meta already says 'RM22.50 hingga RM300'. A stale WordPress-era field disagreeing with its own page. SEPARATELY: our best page's title is 93 chars and Google prints it truncated, cutting away 'RM5,000' — the most clickable token in it. That is a TRUNCATION fix on a page already running 3.1% CTR at position 9.3, not an entity-match fix.",
-      "dod": "`mas kahwin ikut negeri` is item one, NOT setiawangsa. Five titles and metas rewritten and SHIPPED, each under 60 characters, each carrying the year, quoted from live HTML before and after. AUDIT EVERY seo_title FIELD FOR DRIFT against its H1 and meta — at least one is a stale pre-rewrite value and the total is unknown. TWO RULES land in ceo-memory.md AND the head-of-seo-content persona, not only in this item: (1) never trust an averaged position without the per-query breakdown; (2) AGGREGATE THE REDIRECT FAMILY BEFORE JUDGING A ZERO. Same class of error — a number that describes no real thing. State explicitly this is NOT funded as a conversion fix: sitewide CTR is 1.65% at average position 20, at or above the published curve. We have a position and volume problem; titles are cheap, not the bottleneck. OUT OF SCOPE with reasons: setiawangsa (P(zero) ≈ 12%, SERP owned by the operator's portal and social), dewan keramat (3 impressions), dewan mpaj tasik tambahan (1), hiasan-dekorasi/hantaran-kahwin (4). Hall-level entity-match is SEO-04's job — one 60-character listicle title cannot match seventeen distinct hall names and this item must not pretend otherwise."
+      "dod": "`mas kahwin ikut negeri` is item one, NOT setiawangsa. Five titles and metas rewritten and SHIPPED, each under 60 characters, each carrying the year, quoted from live HTML before and after. AUDIT EVERY seo_title FIELD FOR DRIFT against its H1 and meta — at least one is a stale pre-rewrite value and the total is unknown. TWO RULES land in ceo-memory.md AND the head-of-seo-content persona, not only in this item: (1) never trust an averaged position without the per-query breakdown; (2) AGGREGATE THE REDIRECT FAMILY BEFORE JUDGING A ZERO. Same class of error — a number that describes no real thing. State explicitly this is NOT funded as a conversion fix: sitewide CTR is 1.65% at average position 20, at or above the published curve. We have a position and volume problem; titles are cheap, not the bottleneck. OUT OF SCOPE with reasons: setiawangsa (P(zero) ≈ 12%, SERP owned by the operator's portal and social), dewan keramat (3 impressions), dewan mpaj tasik tambahan (1), hiasan-dekorasi/hantaran-kahwin (4). Hall-level entity-match is SEO-04's job — one 60-character listicle title cannot match seventeen distinct hall names and this item must not pretend otherwise.",
+      "evidence": [
+        {
+          "at": "2026-08-26T21:34:52.910Z",
+          "link": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri",
+          "actor": "SYSTEM",
+          "claim": "Five titles rewritten and live, every seo_title audited, and both measurement rules written down",
+          "proof": "CEO verified all five from live HTML, each now under 64 chars and carrying the year: mas-kahwin-ikut-negeri 59ch 'Mas kahwin ikut negeri 2026: RM22.50 ke RM300' (was 85ch asking a question with no year - the one statistically real zero at 388 impressions across a redirect family); dewan-kahwin 63ch 'Dewan Kahwin KL & Selangor 2026 Bawah RM5,000' - RM5,000 was the token Google was truncating away on our best page; kursus-kahwin 61ch (88->57 by its own count); goodies-kahwin 63ch (69->59); tempat-honeymoon-di-malaysia 58ch (80->58). IT PICKED DIFFERENT PAGES THAN THE CEO LISTED, and was right to: it chose by per-query breakdown rather than by averaged position, which is the exact rule this item required it to write down. hantaran-tunang was NOT rewritten because its impressions are a long tail with no real query behind the average. DRIFT AUDIT ANSWERED THE UNKNOWN: exactly ONE seo_title had drifted from its H1 across all 69 articles - the brief said the count was unknown, and 1 is far smaller than feared. Both rules landed in ceo-memory.md and the head-of-seo-content persona, and install.sh has been re-run. CEO pushed 11 site commits plus docs and buddy that the agent had left unpushed. Its closing line is worth keeping: 'the numbers I ended with are smaller and truer than the ones I started with.'"
+        }
+      ],
+      "flags": []
     },
     {
       "id": "PLAT-05",
       "track": "platform",
       "points": 8,
-      "state": "todo",
+      "state": "done",
       "owner": "BMAD",
       "title": "Document store — all 422 documents ingested, searchable and readable in buddy",
       "why": "Owner direction 26 Aug: an Atlassian-like place for all our documents, and make sure retros are stored. 422 markdown documents across two repos and no way to find any of them. Retros named explicitly — Sprint 01's was written to a repo root because nothing said where it belonged, and the previous spec omitted them.",
       "spec": "_bmad-output/implementation-artifacts/spec-plat-05-document-store.md",
-      "dod": "Both repos synced. Search any phrase at buddy.ian.ng/docs and get the document with its space, path and a highlighted snippet. Sprint 01's retro findable by searching a phrase from inside it. Re-running sync reports every document unchanged and moves no updated_at. A document containing a connection string is SKIPPED and named, and every other document still stores. Proof from the response body with a negative control."
+      "dod": "Both repos synced. Search any phrase at buddy.ian.ng/docs and get the document with its space, path and a highlighted snippet. Sprint 01's retro findable by searching a phrase from inside it. Re-running sync reports every document unchanged and moves no updated_at. A document containing a connection string is SKIPPED and named, and every other document still stores. Proof from the response body with a negative control.",
+      "evidence": [
+        {
+          "at": "2026-08-26T15:25:29.273Z",
+          "link": "https://buddy.ian.ng/docs?q=%22Sizing%20held.%20Nothing%20was%20narrowed%20to%20fit%22",
+          "actor": "SYSTEM",
+          "claim": "Both repos synced into the document store; /docs live on buddy.ian.ng with search, space, path and highlighted snippet; Sprint 01 retro findable; re-sync writes 0; connection-string doc skipped and named.",
+          "proof": "docs-sync: buddy 196 + hellokahwin 240 + sprints 1 = 437 documents; re-run 'unchanged 196/240/1, 0 written', DB fingerprint md5 0ea2efc1… identical before/after. Fixture: 'SKIPPED — buddy/docs/_fixture-secret-shape.md connection-string at line 5: postgres://buddy:***@db.example.com', other 196 unchanged. Production (dpl_4mEpNcisW46w1wwFnu3qLBYcXjw1, aliased buddy.ian.ng), authenticated GET: /docs?q=\"Sizing held. Nothing was narrowed to fit\" → 200, result-count 1, <mark>Sizing</mark>…, sprints/sprint-01/retro.md; /docs/sprints/sprint-01/retro.md → 200 'A gate you have to remember is a suggestion'. Negative controls same session: q=zzqxv-nonexistent → 'Nothing found', 0 cards; /docs/sprints/sprint-99/retro.md → 404; /definitely-not-a-real-route-xyz → 404. Full log: logs/2026-08-26-plat-05-document-store.md"
+        },
+        {
+          "at": "2026-08-26T15:33:23.406Z",
+          "link": "https://buddy.ian.ng/docs",
+          "actor": "SYSTEM",
+          "claim": "The document store is built, merged to main, and both repos are synced into it",
+          "proof": "CEO verified by CONTENT on origin/main, not by ancestry: supabase/migrations/20260826150000_documents.sql, packages/db/src/repositories/documents.ts, scripts/docs-sync.ts and the whole apps/web/app/(app)/docs route tree (page.tsx, docs-search.tsx, markdown.tsx, [space]/[...path]/page.tsx) are all present on origin/main across 4 PLAT-05 commits, merged via PR #41. 26 files, 3388 insertions. CEO ERROR CORRECTED IN PASSING: an initial check using 'git merge-base --is-ancestor' reported it NOT merged - that test returns false forever for a squash-merged branch, because squashing creates a new commit and the branch tip never becomes an ancestor. The ship check in /startsprint has been amended so this false negative is not repeated; a false negative is worse than no check because it invites re-shipping work that already shipped. LIMIT STATED: buddy.ian.ng is auth-gated, so the CEO cannot verify /docs renders from outside - that is PLAT-08's whole point, and the owner opening the page is the proof."
+        }
+      ],
+      "flags": []
     },
     {
       "id": "PLAT-06",
       "track": "platform",
       "points": 5,
-      "state": "todo",
+      "state": "done",
       "owner": "BMAD",
       "title": "Spaces and the page tree — browse the document store like Confluence",
       "why": "PLAT-05 answers 'where did we decide X'. It does not answer 'show me everything about this project'. A flat list of 422 results is a grep with a nicer font.",
       "spec": "_bmad-output/implementation-artifacts/spec-plat-06-document-spaces.md",
-      "dod": "Every space listed with counts and last sync. A space opens to a navigable tree derived from origin paths. A document shows breadcrumbs and a 'Referenced by' list. A relative link to a synced document navigates in-app; a link to something not in the store renders as marked plain text and produces NO 404."
+      "dod": "Every space listed with counts and last sync. A space opens to a navigable tree derived from origin paths. A document shows breadcrumbs and a 'Referenced by' list. A relative link to a synced document navigates in-app; a link to something not in the store renders as marked plain text and produces NO 404.",
+      "evidence": [
+        {
+          "at": "2026-08-26T17:41:59.574Z",
+          "link": null,
+          "actor": "SYSTEM",
+          "claim": "Built, committed and applied to the production DB; NOT merged and NOT deployed. Space index, page tree, folder views, breadcrumbs and Referenced by all exist; structure is derived from documents.path with no stored hierarchy.",
+          "proof": "commits de42dce, 63760bc, 570e119 on feat/plat-05-document-store. Migration 20260827020000_document_links.sql applied (both FKs + 2 indexes + RLS on, 0 policies) and re-applied to prove re-run-safe. Graph in prod: 77 edges, 30 source docs, 0 dangling. Idempotent: docs fingerprint 53f2093aa0ac82d01da6e260428f14d5 and links fingerprint 4a8d81b8151d21f5a4bb10b86f2be7d4 identical before and after a full re-run. 55 new unit tests; 1332 green across 87 files; lint clean; build 3/3 with all three /docs routes."
+        },
+        {
+          "at": "2026-08-26T17:42:14.350Z",
+          "link": null,
+          "actor": "SYSTEM",
+          "claim": "NOT MET: the tracker DoD's final clause, 'Proof from the response body with a negative control'. /docs is behind Google sign-in; the Chrome extension was not connected and Orca's only browser profile has no session. Signing in would mean entering the owner's credentials, which is out of bounds for an agent. Left in_progress deliberately rather than rewriting the DoD to fit.",
+          "proof": "The brief's quoted 'verbatim' DoD silently drops both 'buddy.ian.ng' and the proof clause that the tracker's DoD carries. On this app /docs, /sprints and a non-existent route all redirect identically when signed out, so a status code is not evidence. apps/web/e2e/v2-smoke.spec.ts already lists auth'd UI flows as operator-run. The three /docs routes were added to the auth-gated smoke cohort (20/20 pass) which proves no-5xx only. Owner check list and the durable fix (a Playwright storageState) are in hellokahwin/docs/work-done/aug-23-2026-session-01/aug-27-2026-done-plat-06-spaces-and-page-tree.md"
+        },
+        {
+          "at": "2026-08-26T18:17:17.301Z",
+          "link": "https://buddy.ian.ng/docs",
+          "actor": "SYSTEM",
+          "claim": "Spaces, the path-derived page tree, breadcrumbs and Referenced by are merged to main",
+          "proof": "CEO found it BUILT BUT NOT SHIPPED - 6 commits unpushed, 7 ahead of main - and shipped it: pushed the branch, opened PR#44, squash-merged. origin/main is now 72c6f84. Verified by CONTENT on main, not ancestry: the docs route went from 5 files to 8, adding doc-tree.tsx, breadcrumbs.tsx and [space]/page.tsx; migration supabase/migrations/20260827020000_document_links.sql is present with 10 backlink references; 2 PLAT-06 commits reachable from main. CEO NOTE ON ITS OWN CHECK: a first pass reported 'no backlinks migration' because it grepped for a filename containing 'backlink' - the migration is named document_links.sql. Checking for the wrong name is not the same as the thing being absent. The agent also declined to commit a done-file into the hellokahwin checkout because another agent had five drafts in flight there and it would have moved their HEAD - correct restraint, and it said so rather than doing it quietly. LIMIT: buddy.ian.ng is auth-gated so the rendered tree cannot be verified from outside; PLAT-08 is reopened over exactly that."
+        }
+      ],
+      "flags": []
     },
     {
       "id": "PLAT-07",
       "track": "platform",
       "points": 1,
-      "state": "todo",
+      "state": "done",
       "owner": "BMAD",
       "title": "sprint retro N is write-only — make it readable",
       "why": "Found closing Sprint 01. The CLI stores a retro and has no command to read one back; velocity cross-checks the row, proving it is there, but nothing prints it. Also: --backlog is documented in --help as a bare flag but the parser demands a value.",
-      "dod": "`sprint retro 1` with no --file prints Sprint 01's stored retro. `sprint get PLAT-05 --backlog` works as documented, without a value. Both covered by a test."
+      "dod": "`sprint retro 1` with no --file prints Sprint 01's stored retro. `sprint get PLAT-05 --backlog` works as documented, without a value. Both covered by a test.",
+      "evidence": [
+        {
+          "at": "2026-08-26T15:16:04.010Z",
+          "link": "https://github.com/ianng89/buddy/pull/39",
+          "actor": "SYSTEM",
+          "claim": "All five defects fixed and merged to origin/main (0084826, PR #39); verified from a FRESH clone of origin/main, not the working checkout.",
+          "proof": "Fresh clone at scratchpad/fresh @ 0084826: (1) 'sprint retro 1' with no --file prints Sprint 01's stored retro - 8 learnings with changed files, process findings, 4 carried-forward; before: 'retro needs --file <retro.json>.' exit 1. (2) 'sprint get PLAT-07' prints 'why' verbatim; before it printed title/track/owner/points/dod/updated only. (3) 'sprint get PLAT-05 --backlog' bare parses; before: '--backlog needs a value.' --from-backlog had the same shape and is fixed too. (4) status-board.py --project hellokahwin returns 7 rows not 23, handle is on the state's own line, --format tsv gives one record per terminal (grep <handle> | cut -f1 is that handle's own state; the old 'grep -A1 <handle>' returned the NEXT row's state). (5) watch-agent.sh --self-test: 18/18, SELF-TEST EXIT: 0 - the 8 lines that woke the CEO on 26 Aug ('Error: connect ECONNREFUSED', 'probe finished with exit code 1', 'command not found', 'I am refusing:') are all quiet, and MIGRATE EXIT: 0 / HTTP/2 200 / Production: https / Refusing: still fire. 25 new tests in packages/db/src/repositories/sprint-cli.test.ts pass from the fresh checkout. pnpm typecheck && pnpm lint && pnpm test && pnpm build all exit 0."
+        },
+        {
+          "at": "2026-08-26T15:27:08.913Z",
+          "link": "null",
+          "actor": "SYSTEM",
+          "claim": "All five CLI/tooling defects fixed and verified by running the commands that used to fail",
+          "proof": "CEO ran each personally. (1) 'sprint retro 1' with no --file now prints Sprint 01's stored retrospective - held date, velocity, sizing, 8 learnings - where it previously errored 'retro needs --file'. (2) 'sprint get SEO-06 --sprint 2' now prints the why field, which was stored and unreadable and had forced brief-writing out of the stale sprint-02.json. (3) 'sprint get PLAT-05 --backlog' works as a bare flag exactly as --help documents, returning 'No item PLAT-05 in the backlog' rather than dying on '--backlog needs a value'. (4) status-board.py is now project-scoped - prints '2 terminals - buddy' - and puts the handle ON THE SAME LINE as its state, closing the pairing defect that produced Sprint 01's wrong dispatch map. It also still runs on a default Windows shell. (5) watch-agent.sh milestone matching anchored to real outcomes. Ship check: buddy clean, 0 unpushed."
+        }
+      ],
+      "flags": []
     },
     {
       "id": "PLAT-08",
       "track": "platform",
       "points": 3,
-      "state": "todo",
+      "state": "done",
       "owner": "BMAD",
       "title": "A working preview environment — \"show me before you ship\" has nowhere to point",
       "why": "Carried from Sprint 01, unassigned. All 39 Vercel env vars on buddy-web target production only; hellokahwin preview builds fail on unpopulated env vars. Two projects, same failure. The owner review path agreed 26 Aug depends on a URL that can be handed over before merge, and today there is none.",
-      "dod": "Open a PR on each project and get a working preview URL that renders the changed page. Proof: quote content from the preview response body that only the changed version contains, plus a negative control. Preview-scoped env vars named in the /tokens registry with which are safe to share and which are not. If a project genuinely cannot have one, say so with the specific blocker."
+      "dod": "Open a PR on each project and get a working preview URL that renders the changed page. Proof: quote content from the preview response body that only the changed version contains, plus a negative control. Preview-scoped env vars named in the /tokens registry with which are safe to share and which are not. If a project genuinely cannot have one, say so with the specific blocker.",
+      "evidence": [
+        {
+          "at": "2026-08-26T18:05:46.871Z",
+          "link": "https://github.com/ianng89/buddy/pull/43",
+          "actor": "SYSTEM",
+          "claim": "Both projects have a working, verified preview URL. buddy-web previews are built by a new .github/workflows/deploy-preview.yml (Vercel's own git build is disabled there) and hellokahwin previews build through the git integration now that preview-scoped env vars exist. Preview env vars are named in the /tokens registry with safe/not-safe to share marked per var; no production secret was widened. hellokahwin previews read a NEW read-only Postgres role hk_preview_ro: SELECT on 14 tables, write privileges on ZERO, default_transaction_read_only=on, 4 admin tables denied.",
+          "proof": "buddy preview /login 200 66,966 bytes containing 'PREVIEW DEPLOYMENT | feat/plat-08-preview-environment | cc79020'; production buddy.ian.ng /login 200 65,039 bytes marker ABSENT; same preview without the bypass header 302/15 bytes; /sprints and /definitely-not-a-real-route-xyz both 307/15 bytes marker absent (the 307-is-not-health trap, demonstrated). hellokahwin preview article page 200 129,922 bytes containing 'PREVIEW DEPLOYMENT | ianng89/hk-plat08-preview | de6724a | read-only database'; production same path 200 129,227 bytes marker ABSENT; structural parity 8 h2 / 12 h3 / 11 img / 43 links / identical title. Role proof: UPDATE articles refused 25006 read-only transaction; SELECT audit_logs and admin_settings refused 42501."
+        },
+        {
+          "at": "2026-08-26T18:05:58.577Z",
+          "link": "https://hellokahwin-hr6ydd2fn-thewednotebook.vercel.app",
+          "actor": "SYSTEM",
+          "claim": "hellokahwin's second half also has a preview URL, and the PR is open.",
+          "proof": "PR https://github.com/ianngkb/hellokahwin/pull/4 (branch ianng89/hk-plat08-preview @ de6724a, rebased onto master 2ac2661). Vercel deployment dpl_AfEcigLWugr4D3RMwcJzWnDn5rB8 state READY."
+        },
+        {
+          "at": "2026-08-26T18:08:10.664Z",
+          "link": "https://github.com/ianng89/buddy/pull/43",
+          "actor": "SYSTEM",
+          "claim": "REOPENED by the CEO: the preview URL is Vercel-SSO-gated and buddy PR#43 is still OPEN",
+          "proof": "CEO tested the claimed URL independently. https://hellokahwin-hr6ydd2fn-thewednotebook.vercel.app returns HTTP 302 to vercel.com/sso-api, which follows to a Vercel LOGIN page - not the 200 the evidence claims. So the preview builds and deploys, but it is reachable only to someone signed into the Vercel team. That is a partial win worth keeping: it proves preview builds now succeed, which they did not this morning (every preview today was CANCELED or ERROR). It does NOT yet deliver the item's purpose, which is a URL the CEO can verify from outside instead of ending every auth-gated claim with 'the owner opening the page is the proof'. SECOND, INDEPENDENT PROBLEM: buddy PR#43 is still OPEN - unmerged. Committed is not shipped, and that is the exact state three Sprint 01 items were in. TO CLOSE: either merge PR#43 and disable Vercel deployment protection for preview scope (a deliberate decision - it makes previews publicly readable, so say what that exposes before doing it), or state plainly that SSO-gated previews are as far as this can go and park the remainder with that reason. Do not re-mark done on a 302."
+        },
+        {
+          "at": "2026-08-26T18:13:17.977Z",
+          "link": null,
+          "actor": "SYSTEM",
+          "claim": "CORRECTION to the earlier evidence. The bare preview URL is HTTP 302 to vercel.com/sso-api and follows to a Vercel LOGIN page - the CEO is right. My 200 was NOT session-derived (every probe used a fresh cookie jar and no Vercel session exists in this environment); it came from sending the x-vercel-protection-bypass header. The 302-without-bypass was in my negative controls, but the headline said 'working preview URL' with no qualifier, and that reads as a claim about the bare URL. It is not.",
+          "proof": "Fresh-cookie-jar audit, 4 caller types, both projects. (1) bare URL, no header: 302 -> https://vercel.com/sso-api?url=...&nonce=...; following redirects lands on a 482,404-byte Vercel login page with no banner. (2) with x-vercel-protection-bypass header: 200, 68,954 bytes, banner present. (3) with ?x-vercel-protection-bypass=<secret>&x-vercel-set-bypass-cookie=samesitenone: 307 -> clean path + Set-Cookie _vercel_jwt Max-Age=604800; a browser following it gets 200 with the banner and lands on the clean URL. (4) a DIFFERENT fresh browser on the clean URL afterwards: still gated, 482,404 bytes of Vercel login, no marker - so the cookie does not leak the preview to anyone else."
+        },
+        {
+          "at": "2026-08-26T18:13:34.110Z",
+          "link": null,
+          "actor": "SYSTEM",
+          "claim": "DECISION on Vercel deployment protection: KEEP IT ON for both projects. Previews stay SSO-gated; hand-over is a bypass link, not a public URL. This is a deliberate choice, not the default left untouched.",
+          "proof": "What disabling would expose, hellokahwin: src/app/robots.ts computes baseUrl from NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com', and NEXT_PUBLIC_SITE_URL is NOT set in preview - so a preview serves robots.txt with 'Allow: /' and does NOT noindex its own host. A publicly readable preview is therefore a fully crawlable duplicate of the entire site on a second hostname, for a business whose whole strategy is organic search. buddy-web: a public preview exposes /book/[slug], the public booking surface backed by real rows, plus /embed/*, and any future public route by default. Neither exposure buys anything the bypass link does not already deliver: verified that a bypass link opens the app in a browser with NO Vercel account (200, banner present) while a different fresh browser on the same clean URL is still gated."
+        },
+        {
+          "at": "2026-08-26T21:23:25.256Z",
+          "link": "https://github.com/ianng89/buddy/commit/bec31423bd0a90308145cf79de6463fab64e3f78",
+          "actor": "SYSTEM",
+          "claim": "SHIPPED on the buddy side. PR#43 merged with a MERGE COMMIT (not a squash) so the four commits other agents wrote into this shared checkout reach main with their own authors, per the CLAUDE.md rule one of those very commits added. hellokahwin PR#4 is open by choice: the preview capability there is already live on Vercel independent of the PR, and merging deploys the live public site, which is the owner's call.",
+          "proof": "buddy main = bec3142 (Merge pull request #43). Deploy Production run 33014471899 completed/success on bec3142; production deployment dpl_3wKgcHHbenRqrU6VYYe3g5ES1eHJ READY 21:16:46. Verified BY CONTENT on origin/main, not ancestry: deploy-preview.yml, preview-banner.tsx, preview-banner.ts, preview-banner.test.ts, tokens/registry.md and startsprint/SKILL.md all present; layout.tsx imports and renders PreviewBanner. https://buddy.ian.ng/login = 200, 65,046 bytes, banner ABSENT (correct - preview-only). Last Deploy Preview on the merged head d60b056 (includes PLAT-06) self-verified in CI: 'GET /login -> 200' and 'preview banner present'."
+        },
+        {
+          "at": "2026-08-27T02:16:49.931Z",
+          "link": "https://buddy-mcsb9imam-thepicklebase.vercel.app/login",
+          "actor": "SYSTEM",
+          "claim": "Both projects have working preview deployments; the URLs are 302 by design because Vercel deployment protection is ON, and that is the honest limit",
+          "proof": "CEO re-tested after reopening. Both previews build and deploy where every preview earlier tonight was CANCELED or ERROR: hellokahwin-drheimnrm-thewednotebook.vercel.app and buddy-mcsb9imam-thepicklebase.vercel.app/login. Both return 302 - to Vercel SSO. THE CEO'S REOPEN WAS RIGHT ON THE MEASUREMENT AND WRONG ON THE CONCLUSION: the 302 is Vercel deployment protection working as configured, not a broken preview. The URL works for the OWNER, who holds a Vercel session; it does not work for the CEO from outside. Turning protection off would make every preview publicly readable, which is a secret-exposure decision nobody asked for, so it stays on. Supporting work verified: preview env vars and an hk_preview_ro READ-ONLY database role are live on Vercel; /tokens now carries buddy-web, which was never listed, plus both preview env tables with safe/not-safe marked per var; and both retrospective edits are on origin/main - startsprint/SKILL.md gained 'a 200 carrying the right string is not health either' and 'the qualifier is part of the measurement', the second being the CEO's own reopen written down as a rule. WHAT IT CORRECTLY DID NOT DO: hellokahwin PR#4 carries only the preview banner, and merging it would deploy the live public site at 2am. It stopped and asked rather than shipping that unasked. The CEO agrees - it stays open for the owner. NET: the owner can now review a change on a preview URL before it merges, which is what the item was for. The CEO still cannot, and says so rather than claiming otherwise."
+        }
+      ],
+      "flags": []
     },
     {
       "id": "PLAT-09",
       "track": "platform",
       "points": 2,
-      "state": "todo",
+      "state": "done",
       "owner": "BMAD",
       "title": "buddy sidebar carries the latest additions",
       "why": "Owner request, 26 Aug. /sprints shipped in Sprint 01 and reaching it means typing the URL. /docs arrives with PLAT-05 and will have the same problem. A surface nobody can navigate to is close to a surface that does not exist — two of Sprint 01's three unshipped items hid behind exactly that.",
-      "dod": "Every app route a signed-in user is meant to reach appears in the sidebar, grouped sensibly, with the current route highlighted. /sprints and /docs both present. Verified by listing routes under apps/web/app/(app) and showing each has a nav entry or a written reason it does not. Proof from the rendered response body with a negative control."
+      "dod": "Every app route a signed-in user is meant to reach appears in the sidebar, grouped sensibly, with the current route highlighted. /sprints and /docs both present. Verified by listing routes under apps/web/app/(app) and showing each has a nav entry or a written reason it does not. Proof from the rendered response body with a negative control.",
+      "evidence": [
+        {
+          "at": "2026-08-26T16:57:10.800Z",
+          "link": "https://buddy.ian.ng/sprints",
+          "actor": "SYSTEM",
+          "claim": "Every app route now has a sidebar entry, /sprints and /docs included, and a test stops it drifting",
+          "proof": "CEO verified by CONTENT on origin/main (not by ancestry - merge-base lies on squash merges), PR #42, 3 PLAT-09 commits reachable. Enumerated apps/web/app/(app): 23 static routes exist and nav-model.ts carries 23 hrefs covering all of them; the only routes absent are dynamic children (notes/[id], meeting-types/[id], meeting-types/new, docs/[space]/[...path]) which correctly sit under a parent entry rather than getting their own. THE DRIFT GUARD IS THE REAL DELIVERABLE: nav-model.test.ts walks the filesystem and asserts 'gives every static route its own nav entry or a written reason', 'puts /sprints and /docs in the sidebar specifically', 'highlights exactly one entry for every discovered route', and 'excludes nothing it does not have to' - so a future route added without a nav entry fails the test rather than becoming invisible. LIMIT STATED PLAINLY: buddy.ian.ng is auth-gated so the CEO cannot verify the rendered sidebar from outside - that gap is exactly what PLAT-08 exists to close, and the owner opening the page is the proof."
+        },
+        {
+          "at": "2026-08-26T21:31:07.416Z",
+          "link": "https://buddy.ian.ng/sprints",
+          "actor": "SYSTEM",
+          "claim": "The rendered response body was verified with a negative control - the DoD's last clause, which the earlier entry recorded as unverifiable",
+          "proof": "The gap was real but not unavoidable. apps/web/middleware.ts:24-25 returns early when NEXT_PUBLIC_SUPABASE_URL / _PUBLISHABLE_KEY are absent, so a build WITHOUT them renders the real (app) layout anonymously. Built and served the merged commit that way (next build && next start -p 10009; NEXT_PUBLIC_* is inlined at build time, so it must be a build). RENDERED PROOF: GET /design-system -> 200, sidebar carries all 23 nav hrefs including href=\"/sprints\" and href=\"/docs\"; all nine section headings render, Workspace included; aria-current=\"page\" appears EXACTLY ONCE and on /design-system. GET /whatsapp -> 200, same 23 hrefs, aria-current exactly once and on /whatsapp - so the highlight MOVES, it is not static markup. NEGATIVE CONTROLS: href=\"/definitely-not-a-real-route\" appears 0 times in either body (the grep is not matching noise), and GET /definitely-not-a-real-route -> 404 with 0 occurrences of aria-label=\"Primary\" - distinguishable from a real page, unlike the auth-gated 307 where /sprints, /docs and a fake route are identical. COVERAGE TABLE: 27 routes - 23 own nav entry, 3 detail-of (dynamic), 1 excluded with a written reason, 0 uncovered. One correction to the earlier entry: /meeting-types/new is NOT a dynamic child - it is static, and it is the single NAV_EXCLUSIONS entry (a create form whose only entry point is an action on /meeting-types, itself in the sidebar). ALSO FOUND AND FIXED: /notes/chat and /notes/graph were full destinations reachable only from two small text links in the /notes page header - a prefix rule reads them as 'covered by /notes', which is why the test counts prefix nesting as coverage for DYNAMIC routes only. Both now have their own entry. Production: CI green (typecheck/lint/test) and Deploy Production succeeded on 9d1e24b; buddy.ian.ng alias moved to a deployment created 00:59:01 KL, after the merge. The production sidebar itself still cannot be verified anonymously - the owner opening the page is that proof."
+        }
+      ],
+      "flags": []
     },
     {
       "id": "CONT-05",
       "track": "content",
       "points": 5,
-      "state": "todo",
+      "state": "done",
       "owner": "writer-inspirasi-vendor-venue",
       "title": "C2.2 Hantaran tunang — complete the cluster (5 articles)",
       "why": "Highest-volume INCOMPLETE Tier 1 cluster at ~7,000/mo, and we hold 1 of 6 mapped topics. The plan's own rule is finish Tier 1 before opening others. SERP is weak: 4,700 head at KD 0, flat all year, one editorial incumbent, six of nine slots social. DEPENDENCY: the seed article is STRANDED in hiasan-dekorasi, so SEO-06 must land before or with this or we write into a cluster whose pillar still says 'akan datang tidak lama lagi'.",
-      "dod": "Topics 2-6: what goes on his trays at an engagement with prices; the same for hers; how many trays and who decides; a simple engagement hantaran done well at a stated budget; which items are kept, returned or carried to the wedding. Cluster verified complete at 6/6, cross-linked, pillar showing them as real entries rather than a coming-soon state."
+      "dod": "Topics 2-6: what goes on his trays at an engagement with prices; the same for hers; how many trays and who decides; a simple engagement hantaran done well at a stated budget; which items are kept, returned or carried to the wedding. Cluster verified complete at 6/6, cross-linked, pillar showing them as real entries rather than a coming-soon state.",
+      "evidence": [
+        {
+          "at": "2026-08-27T02:13:09.296Z",
+          "link": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang-simple",
+          "actor": "SYSTEM",
+          "claim": "C2.2 complete at 6 of 6 - the five new hantaran tunang articles are live",
+          "proof": "CEO verified from production. All five return 200 on first request: hantaran-tunang-untuk-lelaki, hantaran-tunang-untuk-perempuan, berapa-dulang-hantaran-tunang, hantaran-tunang-simple, barang-hantaran-tunang. Every one carries a cover credit in live HTML (Mohd Fazlin Mohd Effendi). ZERO uncredited, ZERO text cards, ZERO IMEJ markers. Seven tunang-related articles now sit under the pillar including the seed hantaran-tunang that SEO-06 re-filed, so the cluster is whole. Sitemap 91 to 103 URLs across this and CONT-07."
+        }
+      ],
+      "flags": []
     },
     {
       "id": "UX-01",
       "track": "platform",
       "points": 3,
-      "state": "todo",
+      "state": "done",
       "owner": "BMAD",
       "title": "Mobile article pages delete the site header — restore it",
       "flags": [
@@ -147,43 +321,82 @@
         "affects-79pct-of-clicks"
       ],
       "why": "`[slug]/page.tsx:796` sets `data-hide-mobile-nav`; `globals.css:934-939` then hides `header:first-child` below 767px. Someone arriving from Google onto an article on their phone — 34 of the site's 43 monthly clicks — gets no logo, no brand, no navigation, no search. The only escapes are a back arrow to the category page (which on venue-perancangan lands on 'akan datang tidak lama lagi') and a footer up to 10,638px below. On mobile this is a one-page site. Written for vendor-detail surfaces, applied to the pages that receive all the search traffic.",
-      "dod": "At 390px an article renders the site header with brand and navigation — screenshot it. `header nav a` computes min-height >= 44px (it measures 33px today; the design system already meets 44 elsewhere). The bottom bar offers something other than a photo gallery, with the choice justified. Mobile cover no taller than aspect-[3/2] with the first paragraph above the fold. Every claim proved from the RENDERED page at 390px, not from source."
+      "dod": "At 390px an article renders the site header with brand and navigation — screenshot it. `header nav a` computes min-height >= 44px (it measures 33px today; the design system already meets 44 elsewhere). The bottom bar offers something other than a photo gallery, with the choice justified. Mobile cover no taller than aspect-[3/2] with the first paragraph above the fold. Every claim proved from the RENDERED page at 390px, not from source.",
+      "evidence": [
+        {
+          "at": "2026-08-26T18:06:38.448Z",
+          "link": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/sirih-junjung",
+          "actor": "SYSTEM",
+          "claim": "The site header is restored on mobile article pages, live in production",
+          "proof": "CEO verified from the PRODUCTION response body after the merge to master (origin/master 97b0837 -> 2ac2661). data-hide-mobile-nav now returns 0 occurrences on sirih-junjung, nisbah-hantaran and dewan-kahwin, each of which renders a <header> containing real nav links (/artikel/real-wedding, /artikel/idea-dan-nasihat, /artikel/nikah-undang-undang, /artikel/hantaran-mas-kahwin). NEGATIVE CONTROL: /artikel/not-a-real-route-xyz returns 404, so this is real routing rather than a catch-all. The agent measured rather than asserted: tap targets 32.5px -> 44px, first paragraph 793px -> 668px (176px above the fold), desktop 1280px unregressed with a screenshot control, six captures at a real 390x844 DPR2 touch viewport via playwright-core kept in the scratchpad so package.json was untouched. Gates: 272 tests, typecheck clean, 0 lint errors, build 27/27 pages. Undo record and evidence at docs/work-done/2026-08-27-ux-01-mobile-article-header*. NOT VERIFIED, stated by the agent rather than papered over: the admin draft-preview surface is auth-gated and was not rendered; and it could NOT reproduce the CEO's 34-of-43-clicks figure (GSC returns 2 clicks over 28 days), so it confirmed the shape - article impressions overwhelmingly mobile - instead of restating a number it had not measured. That is a correction to the CEO, which had quoted the figure all evening without re-deriving it."
+        }
+      ]
     },
     {
       "id": "UX-02",
       "track": "seo",
       "points": 5,
-      "state": "todo",
+      "state": "done",
       "owner": "BMAD",
       "title": "Named halls are invisible to Google as entities — heading anchors, TOC, ItemList",
       "why": "The highest-expected-value finding on the site. Our best page is a listicle with 11 h2s naming specific halls, and the rendered DOM has ZERO id attributes on any heading, zero in-page anchors, no TOC, no table, and JSON-LD carrying only Article + BreadcrumbList. `article-renderer.tsx` has no slugify logic at all, so this is true of every article. Someone searches one hall by name; Google has no entity to match and shows a generic listicle title. The cheap 60% of what SEO-04 completes.",
-      "dod": "Every h2/h3 carries a deterministic slugified id — quote three from live HTML. Articles with >=4 h2s render a TOC with working anchors. Listicle-shaped articles emit ItemList and Place JSON-LD, validated against a schema validator with the validator's output shown. Applied by the renderer, not per-article. Baseline recorded for dewan komuniti setiawangsa (104 impressions, position 9.0, zero clicks over 28 days)."
+      "dod": "Every h2/h3 carries a deterministic slugified id — quote three from live HTML. Articles with >=4 h2s render a TOC with working anchors. Listicle-shaped articles emit ItemList and Place JSON-LD, validated against a schema validator with the validator's output shown. Applied by the renderer, not per-article. Baseline recorded for dewan komuniti setiawangsa (104 impressions, position 9.0, zero clicks over 28 days).",
+      "evidence": [
+        {
+          "at": "2026-08-27T02:10:21.993Z",
+          "link": "https://hellokahwin.com/artikel/idea-dan-nasihat/dewan-kahwin",
+          "actor": "SYSTEM",
+          "claim": "Every heading now carries an id, the listicle has a TOC, and ItemList/Place schema is live",
+          "proof": "CEO verified from live HTML on /artikel/idea-dan-nasihat/dewan-kahwin, the site's best page: 12 h2 elements carry id attributes and 11 in-page anchors resolve to them, where the audit found ZERO of each. The ids are the actual hall names - dewan-seri-siantan-putrajaya, dewan-komuniti-au2-taman-keramat, dewan-sivik-mbpj-petaling-jaya, dewan-kenanga-mbsa-shah-alam - which is the entity-matching this item existed to create. ItemList schema present (1) and Place schema present (1); the page previously carried only Article + BreadcrumbList. Applied by article-renderer.tsx so it is true of every article, not hand-added to one. No regressions: RISK-06's stale-while-revalidate=3000 still holds, UX-01's header fix still holds (0 occurrences of data-hide-mobile-nav), and /artikel/nonsense-xyz returns 404 as a negative control."
+        }
+      ],
+      "flags": []
     },
     {
       "id": "UX-03",
       "track": "platform",
       "points": 3,
-      "state": "todo",
+      "state": "done",
       "owner": "BMAD",
       "title": "The cheap cluster — hero crop, duplicate nav, hidden pillars, empty clusters, search",
       "why": "Six small fixes the review measured and located. The homepage hero requests crop-4x3-article-card into a 1905x560 box, discarding 61% of the frame and upscaling 19%, when crop-4.3x1-desktop-hero already exists at near-exact ratio and pads above detected faces. Two nav bars exist because two different queries feed them. THERE ARE NINE PILLARS, NOT SIX — 850px is clipped off-screen with the scrollbar hidden, so three pillars are invisible. Empty clusters render above real content, and on venue-perancangan the empty one is the exact cluster matching our only real search demand. Search EXISTS and works but nothing in the masthead links to it. hk-chip borders compute 1.36:1 against WCAG's 3:1.",
-      "dod": "Hero uses the desktop-hero preset — source and rendered dimensions before and after. Duplicate homepage rail deleted. Both scrollers show a right-edge affordance and all nine pillars reachable at 1400px — screenshot. Empty clusters sort below non-empty. Search reachable from the masthead on every page. hk-chip border contrast >= 3:1 with computed values shown."
+      "dod": "Hero uses the desktop-hero preset — source and rendered dimensions before and after. Duplicate homepage rail deleted. Both scrollers show a right-edge affordance and all nine pillars reachable at 1400px — screenshot. Empty clusters sort below non-empty. Search reachable from the masthead on every page. hk-chip border contrast >= 3:1 with computed values shown.",
+      "evidence": [
+        {
+          "at": "2026-08-27T02:10:31.599Z",
+          "link": "https://hellokahwin.com/",
+          "actor": "SYSTEM",
+          "claim": "Hero preset corrected, duplicate nav rail deleted, search reachable from the masthead",
+          "proof": "CEO verified from live HTML. HERO: the homepage now serves crop-4.3x1-desktop-hero (2464x700, near-exact ratio) where it previously requested crop-4x3-article-card into a 1905x560 box - 61 percent of the frame discarded and the source upscaled 19 percent. DUPLICATE NAV: one scroller element on the homepage, not two - the auto-derived rail that pulled in child categories as if they were pillars is gone, leaving the admin-managed masthead as the single source. SEARCH: the masthead now links to /artikel, where the working search component was already mounted but unreachable - the CEO had reported 'no search anywhere on the site' and was wrong; it existed and was simply unlinked. No regressions: RISK-06 cap holds, UX-01 header holds, 404 control passes."
+        }
+      ],
+      "flags": []
     },
     {
       "id": "UX-04",
       "track": "platform",
       "points": 2,
-      "state": "todo",
+      "state": "done",
       "owner": "BMAD",
       "title": "Cards go grey because they lazy-load with no placeholder — LQIP and a JS audit",
       "why": "The CEO reported a broken card-image variant. WRONG, disproved by measurement: every homepage image resolves at naturalWidth 1600. Cards 3-12 are loading=lazy over a bg-muted plate with no blur placeholder, so until the WebP decodes the card IS a grey box. Measured FCP 3,040ms with a warm cache on a fast connection: TTFB 22ms, HTML 147KB, CSS 135KB, and 542KB of JavaScript across 14 files for a page of static prose.",
-      "dod": "Cards and covers render a base64 LQIP via placeholder=blur — no flat grey plate at any point during load. FCP re-measured under the same conditions against the 3,040ms baseline. JS payload enumerated per file with keep/defer/drop decided for each; if it cannot be reduced, the blocking dependency is named."
+      "dod": "Cards and covers render a base64 LQIP via placeholder=blur — no flat grey plate at any point during load. FCP re-measured under the same conditions against the 3,040ms baseline. JS payload enumerated per file with keep/defer/drop decided for each; if it cannot be reduced, the blocking dependency is named.",
+      "evidence": [
+        {
+          "at": "2026-08-27T02:10:25.843Z",
+          "link": "https://hellokahwin.com/",
+          "actor": "SYSTEM",
+          "claim": "Cards and covers render a blur placeholder instead of a flat grey plate",
+          "proof": "CEO verified from live HTML: the homepage now serves 26 base64 data:image blur placeholders where there were none. The grey box the CEO reported as a broken image variant was a lazy-load with no placeholder over a bg-muted plate - every homepage image resolved fine at naturalWidth 1600. That CEO misdiagnosis is recorded because it sent a reviewer looking for a crop-engine bug that did not exist. Branch feat/ux-04-lqip is 0 ahead of origin/master, so it is merged, not merely committed."
+        }
+      ],
+      "flags": []
     },
     {
       "id": "RISK-06",
       "track": "risk",
       "points": 3,
-      "state": "todo",
+      "state": "done",
       "owner": "BMAD",
       "title": "stale-while-revalidate is set to 365 days — cap it",
       "flags": [
@@ -191,57 +404,123 @@
         "affects-every-page"
       ],
       "why": "Found by the SEO review, CONFIRMED by the CEO against production. Every article page ships `Cache-Control: s-maxage=600, stale-while-revalidate=31535400` — 365 DAYS of stale-serving. Verified live: mas-kahwin-ikut-negeri returned X-Vercel-Cache STALE at Age 787, dewan-kahwin STALE at Age 575, both past the 600s freshness window. The reviewer caught six distinct pages served from that window carrying the SITE-DEFAULT HOMEPAGE TITLE, no canonical and no og tags, while their H1 and JSON-LD were correct; each self-healed once the request triggered revalidation. The CEO could NOT reproduce it afterwards — six consecutive fetches all HIT with the correct title — because those earlier requests had already warmed the cache. Reported as EXPOSURE, not confirmed loss: nobody has proven Google indexed a stale shell. The mechanism is real and its blast radius is every page, which is why it outranks every title we ship this sprint.",
-      "dod": "stale-while-revalidate capped at hours rather than a year, with the number justified against how often content actually changes. Ingest purges the edge for affected paths — this COMPOSES WITH RISK-04, do not build two purge paths. Show the header before and after on three pages. Then ATTEMPT TO REPRODUCE the stale-shell symptom deliberately before fixing: request a cold path repeatedly and capture title, canonical and og tags on a STALE response. If it cannot be reproduced, say so plainly and ship the header cap on the mechanism alone. DO NOT report the symptom as fixed if it was never reproduced."
+      "dod": "stale-while-revalidate capped at hours rather than a year, with the number justified against how often content actually changes. Ingest purges the edge for affected paths — this COMPOSES WITH RISK-04, do not build two purge paths. Show the header before and after on three pages. Then ATTEMPT TO REPRODUCE the stale-shell symptom deliberately before fixing: request a cold path repeatedly and capture title, canonical and og tags on a STALE response. If it cannot be reproduced, say so plainly and ship the header cap on the mechanism alone. DO NOT report the symptom as fixed if it was never reproduced.",
+      "evidence": [
+        {
+          "at": "2026-08-26T13:05:50.911Z",
+          "link": null,
+          "actor": "SYSTEM",
+          "claim": "Header confirmed against production before dispatch",
+          "proof": "curl -sI: Cache-Control: s-maxage=600, stale-while-revalidate=31535400 with X-Vercel-Cache: STALE at Age 787 (mas-kahwin-ikut-negeri) and Age 575 (dewan-kahwin). CEO could NOT reproduce the wrong-title stale shell afterwards - six consecutive fetches all HIT with correct title - because its own earlier requests warmed the cache. Reported as exposure, not confirmed loss."
+        },
+        {
+          "at": "2026-08-26T14:06:11.939Z",
+          "link": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/sirih-junjung",
+          "actor": "SYSTEM",
+          "claim": "The 365-day stale window is capped and live on production",
+          "proof": "CEO verified independently after deploy: curl -sI on three articles (mas-kahwin-ikut-negeri, dewan-kahwin, sirih-junjung) all return Cache-Control: s-maxage=600, stale-while-revalidate=3000 - down from 31535400. That is 365 days to 50 minutes. Negative control: /definitely-not-real-xyz returns 404, so routing is real and not a catch-all. The agent reproduced the stale-shell symptom on 50 of 61 pages before fixing, which the CEO could not do - its own earlier requests had warmed the cache. 272 tests pass, typecheck clean, 0 lint. Deployment dpl_Ar1E4bgm READY production."
+        }
+      ]
     },
     {
       "id": "SEO-06",
       "track": "seo",
       "points": 2,
-      "state": "todo",
+      "state": "done",
       "owner": "head-of-seo-content",
       "title": "The Hantaran pillar advertises its own ranking articles as missing",
       "why": "/artikel/hantaran-mas-kahwin renders THREE 'akan datang tidak lama lagi' empty states — Hantaran kahwin, Hantaran tunang, Duit hantaran — and we have published, indexed, RANKING articles for the first two: hiasan-dekorasi/hantaran-kahwin at position 6.5, and hiasan-dekorasi/hantaran-tunang at 49 impressions position 9.6. They are filed under hiasan-dekorasi, so the pillar never links down to them and tells a reader the section is empty. That breaks the bidirectional pillar rule and strands two of our better-ranking pages. Taxonomy, not design.",
-      "dod": "Both articles re-filed into hantaran-mas-kahwin with the redirect verified as ONE hop to 200 — CONT-04 established that re-parenting needs no redirect-table entry because the route self-heals, so confirm which applies rather than assuming. The pillar shows them as real entries and the three empty states drop to at most one. Old URLs still resolve. Sitemap reflects the move. GSC positions for both recorded before and after so a ranking loss would be visible. COORDINATE WITH UX-03 — it touches the same pillar rendering and these two must not run concurrently on the same files."
+      "dod": "Both articles re-filed into hantaran-mas-kahwin with the redirect verified as ONE hop to 200 — CONT-04 established that re-parenting needs no redirect-table entry because the route self-heals, so confirm which applies rather than assuming. The pillar shows them as real entries and the three empty states drop to at most one. Old URLs still resolve. Sitemap reflects the move. GSC positions for both recorded before and after so a ranking loss would be visible. COORDINATE WITH UX-03 — it touches the same pillar rendering and these two must not run concurrently on the same files.",
+      "evidence": [
+        {
+          "at": "2026-08-26T15:27:05.003Z",
+          "link": "https://hellokahwin.com/artikel/hantaran-mas-kahwin",
+          "actor": "SYSTEM",
+          "claim": "Both ranking articles re-filed into the Hantaran pillar; the pillar no longer advertises them as missing",
+          "proof": "CEO verified against production. Old URLs redirect ONE hop: /artikel/hiasan-dekorasi/hantaran-kahwin and .../hantaran-tunang both return 308 to /artikel/hantaran-mas-kahwin/<slug>, which return 200. The pillar now lists 13 articles including both. Empty states fell from 3 to exactly 1 - only 'duit hantaran' remains, and CONT-08 is writing that cluster now. CEO NOTE: a first count said 2 empty states, which was a miscount - grep -o matched the phrase twice inside one rendered block. Re-counted by parsing the cluster structure."
+        }
+      ],
+      "flags": []
     },
     {
       "id": "CONT-06",
       "track": "content",
       "points": 5,
-      "state": "todo",
+      "state": "done",
       "owner": "writer-inspirasi-vendor-venue",
       "title": "C2.3 Gubahan & dulang hantaran — complete the cluster (5 articles)",
       "why": "~6,600/mo, 3 of 8 done — Sprint 01 shipped dulang-hantaran, gubahan-hantaran and sirih-junjung. Finishing what we started costs less than opening anything new, and a DR-0 shop page ranks second on this SERP with only one editorial article present.",
-      "dod": "Topics 3, 4, 6, 7, 8: which simple arrangement styles look expensive and which look homemade; arranging around a colour theme without buying twice; a chocolate or food hantaran that survives a hot afternoon; what hidden hantaran is and how it is done; what to commission versus make, with a realistic cost comparison. Cluster verified complete at 8/8, cross-linked, pillar shows all eight."
+      "dod": "Topics 3, 4, 6, 7, 8: which simple arrangement styles look expensive and which look homemade; arranging around a colour theme without buying twice; a chocolate or food hantaran that survives a hot afternoon; what hidden hantaran is and how it is done; what to commission versus make, with a realistic cost comparison. Cluster verified complete at 8/8, cross-linked, pillar shows all eight.",
+      "evidence": [
+        {
+          "at": "2026-08-26T18:11:36.343Z",
+          "link": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hidden-hantaran",
+          "actor": "SYSTEM",
+          "claim": "C2.3 complete at 8 of 8 - the five new articles are live in production",
+          "proof": "CEO verified from production, not from the agent's report. All five return 200: gubahan-hantaran-simple, hantaran-tema-warna, hantaran-coklat, hidden-hantaran, hantaran-tempah-atau-buat-sendiri. Every one carries a cover credit in live HTML (mohd hasan/Pexels x3, Qodak. stx/Pexels, Mohd Nasir Mat Noor CC). ZERO uncredited, ZERO text cards, ZERO IMEJ markers across all five. The Hantaran pillar now carries 26 articles, up from 21 after CONT-08 and 13 this morning. UNDO ORDER CHECKED BY TIMESTAMP, not by claim: the undo was committed at 01:22 (a5da5b8 in docs, 5784a4e in the site repo, 'written before the first write') and the production ingest write-backs landed at 01:45 - correct order. A SECOND undo at 01:45 is labelled 'reconstructed from production'; that is a post-write reconciliation, not a substitute for the pre-write one, and the CEO checked the order specifically because the wording could have read as an undo written after the fact. Register rows HK-P-0077..0082 with six reuse patches. Articles went through the Editorial Review Board and the humanizer before shipping."
+        }
+      ],
+      "flags": []
     },
     {
       "id": "CONT-07",
       "track": "content",
       "points": 7,
-      "state": "todo",
+      "state": "done",
       "owner": "writer-inspirasi-vendor-venue",
       "title": "C2.1 Hantaran kahwin — complete the cluster (7 articles)",
       "why": "~5,900/mo, 1 of 8 done. Half of page one is Pinterest, Shopee and Facebook — not editorial content. The incumbent worth naming is songketdunia.my at DR 3 with 823 organic keywords, a shop blog rather than a publication. DEPENDENCY: the seed article is STRANDED in hiasan-dekorasi — SEO-06 first. CAPACITY FLAG: this plus CONT-05 and CONT-06 puts 17 of the sprint's 25 articles on one seat.",
-      "dod": "Topics 2-8: groom's trays by category with real price bands; the same for the bride's; a complete hantaran under a stated budget without looking cheap; what people actually give and what gets quietly discarded; how hantaran differs by state and family tradition and how to handle two families who disagree; what to prepare and how far ahead at eight weeks out; where to buy, commission or rent and what each route costs. Cluster verified at 8/8."
+      "dod": "Topics 2-8: groom's trays by category with real price bands; the same for the bride's; a complete hantaran under a stated budget without looking cheap; what people actually give and what gets quietly discarded; how hantaran differs by state and family tradition and how to handle two families who disagree; what to prepare and how far ahead at eight weeks out; where to buy, commission or rent and what each route costs. Cluster verified at 8/8.",
+      "evidence": [
+        {
+          "at": "2026-08-27T02:13:15.505Z",
+          "link": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-kahwin-bajet",
+          "actor": "SYSTEM",
+          "claim": "C2.1 complete at 8 of 8 - Tier 1 is now finished across all five clusters",
+          "proof": "CEO verified from production with the slugs read from the agent's own work-done log, after two guesses at slug names returned 404 - guessing a slug is not checking. All seven return 200: adat-hantaran-ikut-keluarga, barang-hantaran-berguna, barang-hantaran-perempuan, hantaran-kahwin-bajet, hantaran-untuk-lelaki, persiapan-hantaran-kahwin, tempat-beli-hantaran. Every one credited (Azlan DuPree CC BY, mohd hasan/Pexels). ZERO uncredited, ZERO text cards, ZERO IMEJ markers. The Hantaran pillar now carries 38 articles, up from 13 at the start of this sprint. WHAT ITS OWN COMMITS SHOW, and this is the part worth keeping: it retracted a false SEO claim in its own log (8afaa6f), corrected its own retrospective when the persona entry did not name what was actually added (d77db82), and recorded that a persona edit is not live until install.sh runs and that git cannot see that (96771ab). It corrected itself three times without being asked."
+        }
+      ],
+      "flags": []
     },
     {
       "id": "CONT-08",
       "track": "content",
       "points": 8,
-      "state": "todo",
+      "state": "done",
       "owner": "writer-adat-agama-prosedur",
       "title": "C2.5 Nisbah, duit hantaran & etika — open and complete the cluster (8 articles)",
       "why": "~2,900/mo and 0 of 8 done — the only Tier 1 cluster with nothing published. Lowest volume of the five, but the plan calls it impossible to copy from outside the culture and the best organic result on page one earns 152 visits. Assigned to the adat seat because the cluster is ratio, entitlement and etiquette rather than products and prices.",
-      "dod": "The dulang ratio and where the custom came from; what 5 balas 7 means across the twelve trays; what 3 balas 5 means at an engagement; whether the ratio must be odd and what happens when a family insists otherwise; what duit hantaran is, how it differs from mas kahwin and who is entitled to it; plus the remaining three mapped topics READ FROM THE CLUSTER PLAN rather than invented. EVERY claim about entitlement or religious ruling carries its authority and the date checked — this is the highest factual risk in Tier 1 and the review board blocked a fabricated quotation on similar material in August. Cluster verified at 8/8."
+      "dod": "The dulang ratio and where the custom came from; what 5 balas 7 means across the twelve trays; what 3 balas 5 means at an engagement; whether the ratio must be odd and what happens when a family insists otherwise; what duit hantaran is, how it differs from mas kahwin and who is entitled to it; plus the remaining three mapped topics READ FROM THE CLUSTER PLAN rather than invented. EVERY claim about entitlement or religious ruling carries its authority and the date checked — this is the highest factual risk in Tier 1 and the review board blocked a fabricated quotation on similar material in August. Cluster verified at 8/8.",
+      "evidence": [
+        {
+          "at": "2026-08-26T16:48:29.531Z",
+          "link": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/nisbah-hantaran",
+          "actor": "SYSTEM",
+          "claim": "C2.5 opened and completed: all eight articles live in production, cluster at 8/8, pillar empty states now zero",
+          "proof": "CEO verified against production, not from the agent's report. All 8 URLs return 200 on FIRST request: nisbah-hantaran, hantaran-kahwin-5-balas-7, hantaran-tunang-3-balas-5, bilangan-dulang-hantaran-ganjil, duit-hantaran-kahwin, cara-tetapkan-duit-hantaran, hantaran-wajib-atau-adat, adat-hantaran-berbeza-negeri. Every one carries a cover credit line in live HTML (mohd hasan/Pexels, Azlan DuPree CC BY 2.0, Mohd Nasir Mat Noor, raja abd kadir CC BY 3.0, Marcin Konsek CC BY-SA 4.0, Sham Hardy CC BY-SA 2.0). ZERO text cards and ZERO IMEJ markers across all eight. Sitemap 78 to 86; the Hantaran pillar went 13 to 21 articles and its 'akan datang tidak lama lagi' empty states fell from 1 to 0 - the cluster the pillar advertised as missing now exists. 8 new register rows HK-P-0077..0084. UNDO DISCIPLINE HELD: the undo was committed to the site repo at 0098727 'written before the first write' and dry-run proved, with the ingest evidence landing after it at 815170c - verified by commit order, not by claim. Docs branch feat/cont-08-nisbah at 5105700, pushed, 0 unpushed."
+        }
+      ],
+      "flags": []
     },
     {
       "id": "CONT-09",
       "track": "content",
       "points": 3,
-      "state": "todo",
+      "state": "done",
       "owner": "managing-editor",
       "title": "Cover images must depict their subject — write the standard, then re-select",
       "why": "Owner directive 26 Aug. The UX review found the same thing independently and called it systemic: dulang-hantaran is about gift TRAYS and its cover is a tight crop of two guests' torsos with no tray in frame. TWO SEPARABLE CAUSES. (1) No selection standard exists — nothing anywhere says a cover must depict the article's subject, so nobody was wrong to pick a generic wedding image. (2) The pool is wrong — the register holds 152 stock, ZERO class-V photographer licences, and 658 of 794 rows with licensor 'TIDAK DIKETAHUI'. CC-licensed Malay wedding imagery is amateur snapshots, so no selection rule can produce a premium cover from it. This item fixes (1) and re-selects within what we can lawfully use. (2) is the owner's manual photographer outreach, arriving separately as class-V grants — see docs/plans/aug-23-2026-session-01/aug-26-2026-plan-photographer-outreach-list.md.",
-      "dod": "A written cover-selection standard in the content production workflow AND both writer personas — the file the next person reads, not a brief. It must state: the cover DEPICTS THE ARTICLE'S SUBJECT; what to do when no such image is licensable (say so and escalate, never substitute a generic wedding photo); and that crop is chosen so the subject survives both the 4x3 card and the desktop hero. Then re-select covers for every live article failing the standard — AUDIT ALL 61 AND REPORT THE COUNT BEFORE CHANGING ANYTHING, because the CEO has twice reported an image finding that measurement disproved. Every replacement keeps a full credit chain and register entry. Zero text cards. Report honestly how many articles CANNOT be fixed from the current licensable pool — that number is the size of the case for photographer outreach, and is more useful than a partial fix presented as done."
+      "dod": "A written cover-selection standard in the content production workflow AND both writer personas — the file the next person reads, not a brief. It must state: the cover DEPICTS THE ARTICLE'S SUBJECT; what to do when no such image is licensable (say so and escalate, never substitute a generic wedding photo); and that crop is chosen so the subject survives both the 4x3 card and the desktop hero. Then re-select covers for every live article failing the standard — AUDIT ALL 61 AND REPORT THE COUNT BEFORE CHANGING ANYTHING, because the CEO has twice reported an image finding that measurement disproved. Every replacement keeps a full credit chain and register entry. Zero text cards. Report honestly how many articles CANNOT be fixed from the current licensable pool — that number is the size of the case for photographer outreach, and is more useful than a partial fix presented as done.",
+      "evidence": [
+        {
+          "at": "2026-08-26T14:06:19.955Z",
+          "link": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/sirih-junjung",
+          "actor": "SYSTEM",
+          "claim": "The cover standard is written, deployed to both writer personas, and 19 covers re-selected; 6 escalated as unfixable from the current pool",
+          "proof": "CEO verified: install.sh re-wired and both deployed writer personas carry the standard (7 subject-references each) and match the skillcentral source; editorial-verification-lead gained blocking authority on covers. Covers demonstrably changed on production - mas-kahwin-perak now credits Chongkian (CC BY-SA 4.0), a different image. Commits afe1f3c and de83834 pushed. WHAT THE CEO DID NOT VERIFY, stated plainly: subject-relevance of all 19 replacements cannot be checked from outside - og:image filenames are generic crop names and og:image:alt is templated from the article title, so confirming a cover depicts its subject requires viewing 19 images. That rests on the agent's audit, not on an independent CEO check."
+        }
+      ],
+      "flags": []
     }
   ],
   "seo_review_corrections": {
@@ -277,7 +556,85 @@
     "Re-parenting the 13 legacy articles — CONT-04 produced the plan in Sprint 01 and found it needs no redirects. Not executed here: the venue and zero-CTR work touches the same pillar pages, and two agents on the same files is how Sprint 01 nearly lost work.",
     "A UI/UX overhaul of the homepage, category and article pages — under review as this sprint was scoped. Findings land after planning, so any work is added deliberately rather than absorbed silently."
   ],
-  "retro": null,
+  "retro": {
+    "held_at": "2026-08-27",
+    "velocity": {
+      "parked": 0,
+      "planned": 72,
+      "completed": 72
+    },
+    "learnings": [
+      {
+        "why": "Marking those eight done on that reading is precisely the failure the ship check exists to prevent. The tell is CLUSTERING: several agents going quiet inside one short window is not simultaneous completion. resume-fleet.sh interrupts and resumes only terminals showing an auth banner and leaves working agents untouched; on its first dry run it also found six agents in OTHER projects stalled on the same expiry that nobody was watching.",
+        "finding": "A GLOBAL AUTH EVENT STALLS THE ENTIRE FLEET AND REPORTS AS SUCCESS. The fleet froze four times in one night — once on a usage limit that set a private 4:30am countdown, three times on login expiry. A `/login` in the orchestrator's session does not reach dispatched agents; each is a separate process holding its own credentials. Worse, the status board shows a stalled agent as `IDLE/DONE`, the exact string a finished agent shows. Two agents sat dead for TWO HOURS before anyone noticed, and at one point eight items read as complete when not one had finished.",
+        "file_changed": "skillcentral/skills/hellokahwin/scripts/resume-fleet.sh (new) and skillcentral/skills/startsprint/SKILL.md"
+      },
+      {
+        "why": "The launcher is now `$Agent--$briefTag--$timestamp.ps1`, verified by re-running the exact failing case (two concurrent BMAD dispatches, 2/2 correct). THIS IS VERY LIKELY THE TRUE CAUSE OF SPRINT 01'S DUPLICATE DISPATCH, which was diagnosed at the time as the CEO assigning handles by status-board order. That diagnosis produced a genuinely useful fix — capture the handle at dispatch — but it was treating a symptom while the mechanism sat in the launcher. A correct-looking fix for the wrong cause hides the real one.",
+        "finding": "THE DISPATCH LAUNCHER WAS NAMED AFTER THE AGENT, SO CONCURRENT DISPATCHES SILENTLY SHARED ONE BRIEF. `dispatch-agent.ps1` wrote `$env:TEMP/hellokahwin-dispatch/$Agent.ps1`. Three concurrent BMAD dispatches all wrote `BMAD.ps1`; the last write won, and UX-01 and PLAT-09 both came up running PLAT-06's brief. Three agents, one item, and NO ERROR ANYWHERE — distinct handles, clean dispatch output. Only the post-dispatch brief audit caught it.",
+        "file_changed": "skillcentral/skills/hellokahwin/scripts/dispatch-agent.ps1"
+      },
+      {
+        "why": "A false negative is worse than no check, because the correct response to 'unshipped' is to ship it again. Verify by CONTENT on the default branch — `git cat-file -e origin/main:<a file the work added>` — and check which merge style the repo uses before trusting either test. The same section now also warns that checking for the WRONG FILENAME is not the same as the thing being absent: a PLAT-06 check reported 'no backlinks migration' because it grepped for `backlink`; the file is `document_links.sql`.",
+        "finding": "THE SHIP CHECK HAD A FALSE NEGATIVE. `git merge-base --is-ancestor <branch> origin/main` returns false FOREVER for a squash-merged branch, because squashing creates a new commit and the branch tip never becomes an ancestor. The CEO used it on PLAT-05 and reported shipped work as unshipped.",
+        "file_changed": "skillcentral/skills/startsprint/SKILL.md"
+      },
+      {
+        "why": "Corrected with a new rule: RESOLVE THE OPERATOR BEFORE YOU RANK A COMPETITOR. The general lesson is sharper than the specific one — a rule that eliminates an option must be run against the replacement before the replacement is adopted, or the rule has only been used to justify a decision already made.",
+        "finding": "A RULE WRITTEN THIS SPRINT WAS APPLIED TO THE OPTION IT KILLED AND EXEMPTED THE OPTION THAT REPLACED IT. The SERP-ownership rule — pick targets on volume AND who owns position 1 — was used to kill council halls (blocked by DBKL's own DR 64 booking portal) and then NOT applied to commercial venues, which have their own brand sites above them for exactly the same reason. SEO-04's retrospective found this in the CEO's own rule.",
+        "file_changed": "docs/boardroom/ceo-memory.md"
+      },
+      {
+        "why": "This is now the second sprint running in which the team disproved the CEO more often than the reverse. The standing expectation already says the evidence wins; what this sprint adds is that the CORRECTIONS ARRIVE INSIDE DELIVERABLES — in a work-done log, in a chosen target list — rather than as escalations. So they are only found by reading the report properly, which means a skimmed report costs more than a slow one.",
+        "finding": "AGENTS CORRECTED THE CEO REPEATEDLY AND WERE RIGHT EVERY TIME. UX-01 could not reproduce the CEO's '34 of 43 clicks' figure (GSC returns 2 clicks over 28 days) and confirmed the SHAPE instead of restating a number it had not measured — the CEO had quoted that figure all evening without re-deriving it. SEO-05 rejected two of the CEO's five title targets and chose different pages by per-query breakdown. CONT-07 retracted a false SEO claim in its own log unprompted. PLAT-06's agent refused to commit into a checkout another agent was using.",
+        "file_changed": "skillcentral/agents/projects/hellokahwin/Executive/ceo-hellokahwin.md"
+      },
+      {
+        "why": "Every one was recoverable because it was checked twice, but each first reading was confidently wrong. The rule added: when a check returns a surprising ABSENCE, verify the check before believing the absence — enumerate what exists rather than asserting what does not.",
+        "finding": "THE CEO'S OWN VERIFICATION FAILED IN THE SAME SHAPE THREE TIMES: checking the wrong thing and reading the result as an answer. Grepped `backlink` when the file was `document_links.sql`. Guessed article slugs and got 404s instead of reading the agent's own work-done log. Counted pillar empty states with `grep -o`, which matched one rendered block twice and reported 2 where there was 1.",
+        "file_changed": "docs/boardroom/ceo-memory.md"
+      },
+      {
+        "why": "Carried forward once already and not acted on, which by the retro's own rule means the template is wrong rather than the run. Twice is the signal. Either `/startsprint` writes the ship-log entry the tool expects, or `run-stats.py` learns to key off a sprint — but 'report it honestly as empty' is not a third acceptable outcome for a third sprint.",
+        "finding": "run-stats.py PRODUCED AN EMPTY CARD FOR THE SECOND SPRINT RUNNING. It keys off `/buildit`'s ship-log, and a sprint never writes one, so effort per stage is unmeasured for Sprint 01 AND Sprint 02.",
+        "file_changed": "skillcentral/skills/endsprint/SKILL.md"
+      },
+      {
+        "why": "On a site whose entire competitive claim is that its numbers carry sources, a directory of plausible invented capacities would have been the worst possible outcome and the hardest to detect later. Writing a gate that is allowed to kill the item — and saying so in the DoD — is now the pattern for any item whose value depends on data we do not yet hold.",
+        "finding": "THE GATE THAT KILLS AN ITEM IS A DELIVERABLE, AND IT WORKED. SEO-04's DoD opened with a one-hour sourcing check explicitly allowed to stop the item. It fired: no way to source real venue prices and capacities at scale. The agent built NOTHING — /dewan/ returns 404, zero sitemap entries, zero route files — and did not invent capacities or quietly downgrade back to council halls, both of which the brief named as forbidden.",
+        "file_changed": "skillcentral/skills/hellokahwin/SKILL.md"
+      },
+      {
+        "why": "Reading the source for a mechanism first is what made 50/61 appear on the first try. The same class of error nearly shipped in RISK-05, whose monitor initially treated a FAILED inspection as 'absent' and would have reported clean over a shrinking denominator — SEO-01's failure re-implemented one layer up. Both were caught by asking what the measurement could not see.",
+        "finding": "A REPRODUCTION IS A STATEMENT ABOUT CONDITIONS, NOT ABOUT A PAGE. RISK-06's agent reproduced a stale-shell symptom on 50 of 61 pages that the CEO could not reproduce at all — because the CEO's own earlier requests had warmed the cache. 'Could not reproduce' was true and told us nothing.",
+        "file_changed": "docs/plans/aug-23-2026-session-01/aug-23-2026-workflow-content-production.md"
+      }
+    ],
+    "velocity_note": "THE COMPUTED FIGURE READS 72/72/0 AND THAT IS NOT THE HONEST STORY. The sprint was PLANNED AT 77 POINTS ACROSS 20 ITEMS. SEO-04 (5pt) parked at its own sourcing gate and was moved to the backlog before close, per the carry-forward rule — and moving it out is what turned 72-of-77 into a flattering 100%. Both numbers belong in the record: 19 of 20 items shipped, 72 of 77 planned points delivered, and the 20th produced a decision not to build rather than a deliverable. A tracker that computes velocity cannot be typed into, which is the point — but it can still be flattered by moving an item, and that is worth knowing about the mechanism.",
+    "carried_forward": [
+      "SEO-04 (backlog, 5pt) — venue entity pages. Parked at its own sourcing gate: we cannot source real prices and capacities at scale. Its own recommendation is the way in: PHONE-VERIFY eight venues and publish with 'disemak Ogos 2026', which is the method that built mas-kahwin-ikut-negeri and is our actual differentiator. That is field research in Malay and needs a CONTENT owner, not an engineering dispatch.",
+      "OPEN, unowned: SIX SITEMAP URLs ARE SERVED WITH noindex and Google crawled and excluded all six. Found by RISK-05, which correctly recorded it and did not half-fix it because it met neither of its own alarm conditions. src/app/sitemap.ts.",
+      "OPEN, owner-only: hellokahwin PR #4 carries the preview banner and is deliberately left OPEN — merging it deploys the live public site. PLAT-08's agent stopped and asked rather than shipping it unasked at 2am, and the CEO agreed.",
+      "OPEN: previews are Vercel-SSO-gated, so they work for the OWNER and not for the CEO. Turning deployment protection off would make every preview publicly readable, which is a secret-exposure decision nobody has asked for. The honest position is that 'show me before you ship' now works for the owner only.",
+      "OPEN: run-stats.py has produced an empty card for two consecutive sprints. Fix the tool or fix /startsprint; do not report it honestly a third time.",
+      "CARRIED FROM SPRINT 01, still open: cold renders take 5–22s against a route declaring maxDuration=5. RISK-06 and RISK-04 changed what Googlebot meets first and RISK-05 now watches it, so Sprint 03 can revisit this with the monitor's data rather than by guessing.",
+      "PLAT-10 (backlog, 2pt) — computeVelocity rewards shrinking its own denominator. Moving an item out of a sprint silently shrinks `planned`. The tracker's whole design principle is that velocity cannot be typed into; it must also be impossible to flatter by moving an item.",
+      "PLAT-11 (backlog, 2pt) — the ship check was WRONG on PLAT-05 (squash-merge false negative) and SILENT on PLAT-06 (genuinely unshipped, git status clean). Replace ancestry with positive evidence and make `rev-list @{u}..HEAD` mandatory per item.",
+      "SEO-07 (backlog, 3pt) — a shipped title has a half-life: generateMetadata caches its own fallback, so a correct row can render as the site-default title 14 minutes after a verified repair. Also re-measure the render-level defect SEQUENTIALLY; the true count is unknown.",
+      "CLEANUP: 8 of 10 sprint worktrees fully removed. buddy-plat05 and seo05-titles are EMPTY folders that cannot be unlinked because a process still holds each as its working directory — zero contents, every commit on its remote. Also found and stopped TWO ORPHANED `next dev` SERVERS, one running since 24 Aug (86 hours), both left by agent sessions that had already been closed. Worth a standing check: a dispatched agent that starts a dev server does not stop it, and nothing else was watching for that."
+    ],
+    "sizing_accuracy": "Sizing held across the board; nothing was narrowed and nothing ran over its estimate. The sprint GREW instead — from the 29 points the owner first approved to 77, in four documented increments: the UX review added 13 (UX-01..04), the SEO review added 5 (RISK-06, SEO-06), finishing Tier 1 added 21 (CONT-05..08 replacing a 4-point placeholder), and the cover work added 3 (CONT-09). Every increment came from evidence produced after approval, and every one was flagged back to the owner rather than absorbed. That is the growth pattern to keep. The one item that did not deliver, SEO-04, was not mis-sized — its gate fired, which is what the gate was for.",
+    "process_findings": "THE PROCESS HELD WHERE SPRINT 01 BROKE, AND BROKE SOMEWHERE NEW. Sprint 01's defining failure was three items marked done without shipping, all found by the owner asking. THAT DID NOT RECUR: every one of the 19 completed items was verified against production or against content on the default branch before being marked, and the ship check caught real problems four separate times — PLAT-06 finished but 6 commits unpushed and 7 ahead of main, SEO-05 finished with 11 site commits unpushed, four unpushed commits across two trees after wave 1, and six unpushed docs commits on the final sweep. In every case the CEO pushed and merged rather than marking done. PLAT-08 was REOPENED after self-marking done on a preview URL that returned 302 rather than the claimed 200. WHAT BROKE INSTEAD WAS ORCHESTRATION, NOT VERIFICATION: four auth stalls that read as success, a dispatch launcher collision that put three agents on one item, and a ship-check false negative that called shipped work unshipped. All three are now fixed in the tools rather than in anyone's memory, which is the correct place — Murat's Sprint 01 line still governs: a gate you have to remember is a suggestion. ORDERING WORKED: risk items ran first and the content gate (RISK-04) shipped before a single one of the 25 articles was written, so nothing published into the void that Sprint 01 published into. Dependencies were declared in the briefs and held — SEO-06 landed before CONT-05 and CONT-07 wrote into its cluster, UX-01 released the site files before UX-02/03/04 touched them, and PLAT-05 merged before PLAT-09 added /docs to the sidebar. THE OWNER WAS NEVER THE CRITICAL PATH except where they should have been: PLAT-08's PR that would deploy the live public site at 2am was deliberately left open for them, and the photographer outreach that CONT-09's escalation depends on is theirs by design.",
+    "round_table_addendum": {
+      "note": "The round table (Winston, Murat, Mary, managing-editor, head-of-seo-content, writer-adat-agama-prosedur) reported AFTER the sprint was closed. Its findings are recorded here rather than silently merged, so the timing is visible. Three became backlog items (PLAT-10, PLAT-11, SEO-07); one produced an immediate code fix; one produced a doctrine edit.",
+      "immediate_fix_made": "status-board.py now detects both auth banners as their own AUTH-STALL state, ranked above STALLED?, searched against the UNCLIPPED tail. The room's diagnosis was directionally right and mechanically incomplete: the banners were missing from STALL_HINTS, AND that regex is searched against a tail truncated to 110 characters, so a matching phrase could fall outside the window anyway. Verified against both real captured banners plus a genuinely-finished agent and a working agent as negative controls.",
+      "the_unifying_shape": "OUR FAILURE MODE HAS ONE SHAPE — unknown/error collapsing into the value that means 'fine'. Five instances this sprint: IDLE/DONE on a dead agent; false ancestry on shipped work; 100% velocity on a moved item; the site-default title cached from a timed-out generateMetadata; a failed URL inspection reading as 'absent'. Written into docs/plans/.../aug-23-2026-production-doctrine.md with its corollary — CHECK THE ARTEFACT THE CONSUMER RECEIVES, NOT THE INPUT YOU CONTROL — which has now cost two sprints.",
+      "five_rules_did_not_fire": "The sharpest finding, and it indicts the retro process itself: FIVE rules that were correct, committed AND DEPLOYED failed to fire this sprint — the auth-stall section (four times), the squash-merge caveat, the SERP-ownership rule, its paired keep-a-control rule, and plan-time gate timing. Every one was written down before the sprint that ignored it. Mary: 'we now have measured evidence at scale of what happens to a correctly-written, deployed lesson — it does not fire.' Managing-editor is adding a NEW FIRST retro question: which of this sprint's failures was already covered by a written rule that did not fire?",
+      "unresolved_deliberately": "Murat holds that a non-executable rule is a mood; Winston holds that model-level lessons can only be prose. Recorded as an open disagreement rather than smoothed. Mary's adopted tiebreak: from Sprint 03, record for every failed-to-fire rule whether it was executable, and let six sprints settle it. Also unresolved: whether UX-01 should have landed BEFORE the 25 articles published onto a broken mobile header — Murat says ship the container before the contents even when the instance recovers; head-of-seo says the counterfactual is weak. Neither conceded.",
+      "a_number_the_room_conflated": "The round table reported SEO-05's drift audit as 'wrong by 12x — 39 of 69 reported, real figure 3'. That conflates two different measurements in the same log. The seo_title DRIFT count is exactly 1 (mas-kahwin-ikut-negeri), which is what this sprint's evidence records and it is correct. The 39 is a separate RENDER-level defect — pages serving no article title at all — which the agent later corrected to 3 pre-existing, with 36 manufactured by its own six-wide concurrent sweep. Both figures are real and they are not the same finding. Checked against the log at docs/work-done/2026-08-27-seo-05-titles.md lines 246-266 and 640 before accepting either.",
+      "self_interest_beats_diligence": "The most reliable reviewer this sprint was not diligence, it was self-interest. Every control discussed needs someone to SUMMON it — read the doc, run the audit, render the crops, check the ancestry — all forgettable. What actually caught SEO-05's headline error was UX-01 shipping an hour later and going to check whether SHE had broken production. 'Check whether you just broke something' is a far more reliably triggered habit than 'test load-bearing figures'."
+    }
+  },
   "tier_1_completion": {
     "decision": "Owner, 26 Aug: finish Tier 1 in Sprint 02 — all 25 missing articles.",
     "the_finding_that_should_govern_it": "C2.4 Mas kahwin ikut negeri is ALREADY COMPLETE at 8 of 8 mapped topics, addresses ~11,000 searches/mo, and produces 388 impressions with ZERO clicks. We have already run this experiment once. Either the cluster model works and the titles are broken (SEO-05's finding), or complete clusters do not convert for us yet. SEO-05 is the test and it is in this sprint.",
@@ -299,5 +656,22 @@
     "the_insight_for_outreach": "Ask for DETAIL shots, not hero portraits. Our articles are about things — trays, sirih junjung, bunga telur, the pelamin, the akad table. Photographers shoot these constantly as establishing frames and almost never publish them, because clients want the portraits. We are asking for the frames they are not otherwise using, which makes the ask easier and the images far more valuable to us.",
     "twn_caveat": "TWN carries photographers as vendors and has published its own best-of list, so those are warm relationships. But a vendor relationship with TWN grants TWN nothing transferable — any image on HelloKahwin still needs a grant naming HelloKahwin.",
     "pipeline_status": "Nothing needs building. Class V exists in the register and has never been used; the visible credit line shipped in Sprint 01 and is verified across 145 live images. A grant arrives, it gets registered, it ingests."
+  },
+  "reconciled": {
+    "at": "2026-08-31",
+    "source": "buddy sprint tracker (public.sprints / public.sprint_items), via `sprint reconcile`",
+    "note": "state, started_at, ended_at, retro and every item's state and evidence are the TRACKER's. points, track, owner, title, why, dod and brief are left AS SCOPED so /endsprint can still measure sizing accuracy against them.",
+    "tracker_velocity": {
+      "planned": 77,
+      "completed": 72,
+      "parked": 0,
+      "moved_out": 5
+    },
+    "items_added_after_scoping": [],
+    "items_that_left_this_sprint": [
+      "SEO-04"
+    ],
+    "items_absent_from_tracker": [],
+    "scope_drift": []
   }
 }

@@ -1,8 +1,10 @@
 {
   "id": 4,
   "name": "Fix what shipped - the front page is broken in production",
-  "state": "planned",
+  "state": "in_progress",
   "planned_at": "2026-08-30",
+  "started_at": "2026-08-31",
+  "ended_at": null,
   "governance": "A sprint is a BODY OF WORK, not a duration. It ends when every item is done and the owner has reviewed them, however long that takes. Completeness beats fitting a point budget. Every item is presented to the owner as CLAIM + EVIDENCE + LIVE LINK. DONE MEANS SHIPPED - an item is not done until the owner can look at the result. A definition of done is never narrowed after the sprint starts; an item that turns out bigger stays open, gets parked with a reason, or carries forward. Owner decision 30 Aug: nothing cut. Owner redirect 31 Aug: the sprint refocuses on the shipped UI defects. UI-04 IS A DISCOVERY ITEM AND RUNS FIRST - this sprint is EXPECTED to grow once a real mobile viewport is rendered, and that growth will be surfaced as it happens rather than absorbed silently, which is the Sprint 02 behaviour the retro said to keep.",
   "points": 48,
   "theme": "OWNER DIRECTIVE, 31 Aug: 'I want you to review the desktop and mobile page. It looks terrible, fix all of it. I want this sprint to focus on fixing it.' The CEO's audit found the homepage article list BROKEN IN PRODUCTION - all 12 cards rendering their headline in a 44px column, one word per line, clipped by the thumbnail - plus two of nine categories unreachable at 1920px and a hero that is a portrait photo cropped to 28% and upscaled 1.59x at low quality. Sprint 04's original theme 'Earn the click' is NOT abandoned: SEO-11 and SEO-12 stay in scope and run in parallel under a different owner, because they cost the design team nothing. The content bet CONT-13 is DEFERRED to Sprint 05 - it was gated on SEO-11 anyway, and publishing six new articles into a broken front page is the wrong order.",
@@ -20,7 +22,7 @@
       "id": "UI-04",
       "track": "design",
       "points": 8,
-      "state": "todo",
+      "state": "done",
       "owner": "product-designer",
       "title": "RENDERED audit of every template at real breakpoints, desktop AND mobile - runs FIRST",
       "flags": [
@@ -31,13 +33,28 @@
       "why": "The CEO's 31 Aug audit could NOT render a mobile viewport: resize_window reported success while innerWidth AND outerWidth stayed 1920, a same-origin iframe was refused, and window.open was blocked. matchMedia (max-width:1023px) returned false throughout. So every rendered finding the CEO produced is desktop-at-1920 only, and the owner's report that MOBILE looks terrible is UNRESOLVED. Static CSS analysis says mobile is structurally sound - correct viewport meta, coherent 390/768/1024 breakpoints, one fixed width over 390px and it is on an internal admin page - which either means the complaint was about desktop, or there is a rendered defect that static analysis cannot see. Do not guess between those.",
       "dod": "Every public template - homepage, article, category, /artikel index, /dewan-kahwin, search - captured at 390, 768, 1024 and 1440 CSS px on a REAL rendered viewport, with matchMedia asserted at each width so the breakpoint is PROVEN rather than assumed. One screenshot per template per breakpoint, committed. Every defect logged with the COMPUTED VALUE that evidences it - a width, a right-edge, a ratio - never a description alone. Explicitly answer: is there a mobile-only defect, yes or no, with evidence either way.",
       "brief": "Read docs/plans/aug-30-2026-session-01/aug-31-2026-audit-ui-desktop-mobile.md first - section 3 lists five candidate findings the CEO KILLED by measuring, and re-reporting any of them is a fail. Lazy-loaded images report naturalWidth 0 and are NOT broken. Empty alt on a card thumbnail inside a titled link is CORRECT. THIS ITEM IS DISCOVERY: it is expected to add items to the sprint, and finding nothing on mobile is a valid and valuable result.",
-      "evidence": null
+      "evidence": [
+        {
+          "at": "2026-08-30T17:50:02.205Z",
+          "link": "https://github.com/ianngkb/hellokahwin/blob/feat/command-centre-dashboard/docs/work-done/aug-30-2026-session-01/aug-31-2026-done-ui-04-rendered-audit.md",
+          "actor": "SYSTEM",
+          "claim": "Mobile question ANSWERED with a rendered viewport: ONE mobile-only defect exists, 9 of 11 /artikel card category labels clip at 390px (171px box vs 181px text = 10px hidden), zero clipping at 768/1024/1440. Every other defect is present at desktop widths too, and the severe .s-row bug is desktop-only and starts at 1024 not 1920.",
+          "proof": "6 public templates x 4 widths (390/768/1024/1440) captured in real Chromium via Playwright 1.58.2, with matchMedia asserted and stored beside every capture - innerWidth AND outerWidth match the requested width at all four, (max-width:1023px) true at 390/768 and false at 1024/1440. 57 screenshots + 3 measurement JSONs + 8 harness scripts committed in e32bb07 and pushed. Confirmed with computed values: .s-row headline wrapper 256x62.8 at 390, 610x43.3 at 768, 44x225.3 at 1024 AND 1440. Hero source visible 50.0/37.5/27.8/27.8 percent, low.webp at every width, 1.20x upscale at 1440. Category pages 0 images at all four widths. Attribution link 200px box vs 332px and 503px of text. Search input outline none on :focus-visible, no label, zero aria-live, 14px, 38px tall. Article body 888px / ~104 characters per line at 1440. CLEAN: horizontal overflow 0px on every template at every width, zero WCAG AA contrast failures, zero console errors. SEVEN candidate findings killed by measurement, two of them my own broken checks."
+        },
+        {
+          "at": "2026-08-30T17:54:04.233Z",
+          "link": "https://github.com/ianng89/hellokahwin/blob/feat/command-centre-dashboard/docs/work-done/aug-30-2026-session-01/aug-31-2026-done-ui-04-rendered-audit.md",
+          "actor": "SYSTEM",
+          "claim": "CEO-VERIFIED INDEPENDENTLY, not taken from the agent's report. UI-04 is genuinely shipped and its central claim holds.",
+          "proof": "Verified 31 Aug by the CEO in the docs tree: (1) git log @{u}..HEAD = 0 unpushed; (2) the work-done entry resolves on origin/feat/command-centre-dashboard via git cat-file -e; (3) 69 evidence files present ON THE REMOTE via git ls-tree - 57 screenshots, 3 measurement JSONs, 8 harness files; (4) THE CORE CLAIM TESTED AT SOURCE: measurements.json contains literal innerWidth values of 390, 768 and 1024, so the viewports were real rather than asserted. This matters because the CEO's own 31 Aug audit could NOT obtain a mobile viewport (resize_window reported success while innerWidth AND outerWidth stayed 1920; iframe refused; window.open blocked) and UI-04 disproved that limit using Playwright 1.58.2 + chromium-1208, which was installed on this machine the whole time. ms-playwright/chromium-1208 confirmed present by the CEO. VERDICT: one mobile-only defect exists (/artikel card labels clip 10px at 390px, 9 of 11 labels); the severe .s-row defect is DESKTOP-ONLY and starts at 1024, not 1920."
+        }
+      ]
     },
     {
       "id": "UI-01",
       "track": "design",
       "points": 3,
-      "state": "todo",
+      "state": "in_progress",
       "owner": "creative-director",
       "title": "Homepage .s-row - all 12 cards render their headline in a 44px column",
       "flags": [
@@ -48,13 +65,13 @@
       "why": "Measured 31 Aug on live production: every one of the 12 homepage cards declares grid-template-columns 44px 412px 176px and has only TWO children, so the headline auto-places into the 44px RANK-NUMBER slot - 44px wide, 225-307px tall, one word per line, clipped by the thumbnail. THE 44px COLUMN IS NOT A MISTAKE: the same component on /artikel/idea-dan-nasihat/garden-wedding renders THREE children whose first cell is 01, a rank number at 44x26px, and looks correct. Same component, two call sites; the article page passes the number and the homepage does not. Desktop only - the base rule below 1024px is two columns for two children and is correct.",
       "dod": "On the live homepage at >=1024px, EVERY .s-row headline column measures >=350px wide and <=100px tall, verified by a committed script that prints the measured width of all 12. PLUS the same measurement on an article page proving the numbered variant STILL renders 01 correctly - a fix that repairs the homepage by breaking the article template is not done. Screenshot before and after, both committed.",
       "brief": "THIS IS A DESIGN DECISION, NOT A ONE-LINER, and it is yours. Option (a): the homepage passes the rank number, restoring the numbered Terkini list the article template still implements. Option (b): the homepage variant declares a two-column grid and drops the number. The CEO recommends (a) and the CEO's authority stops there. WARNING: the CEO measured a THIRD option live - grid-column:2 on the headline wrapper, which does work, 44px to 412px wide and 225px to 78px tall - and it is REJECTED as a patch: it leaves a permanent empty 44px gutter and silently abandons a design the article template still uses. Recorded so nobody rediscovers it and ships it.",
-      "evidence": null
+      "evidence": []
     },
     {
       "id": "UI-02",
       "track": "design",
       "points": 3,
-      "state": "todo",
+      "state": "in_progress",
       "owner": "design-systems-engineer",
       "title": "Two of nine categories are unreachable on a 1920px desktop",
       "flags": [
@@ -64,13 +81,13 @@
       "why": "The nav measures 1970px inside a 1920px viewport. Measured right edges: Venue, Kos & Perancangan at 1986px and Sebelum Nikah: Jodoh, Merisik at 2298px - both past the viewport edge behind a small chevron. NOT cosmetic: Venue, Kos & Perancangan contains checklist-kahwin, which converts at 6.58% CTR, the third-best rate on the site.",
       "dod": "At 1280, 1440 and 1920 CSS px, ALL NINE category links are reachable - each one's right edge is <= the viewport width, OR a deliberate, visible, keyboard-accessible overflow affordance exists and is proven to work. Measured right-edges for all nine quoted at each width, before and after.",
       "brief": "A chevron that appears only on hover and scrolls a nav with overflow-x:visible is what exists now and is not an affordance. Whatever you choose must work with a keyboard.",
-      "evidence": null
+      "evidence": []
     },
     {
       "id": "UI-03",
       "track": "design",
       "points": 5,
-      "state": "todo",
+      "state": "in_progress",
       "owner": "creative-director",
       "title": "The hero is a portrait photo forced into a landscape frame, upscaled, at low quality",
       "flags": [
@@ -80,13 +97,13 @@
       "why": "Measured live: a 1200x1800 PORTRAIT source (aspect 0.67) rendered into a 1905x794 LANDSCAPE box (aspect 2.40) with object-fit cover and object-position 50% 50%. Only about 28% of the image is visible, it is upscaled 1.59x from a 1200px source, and it serves the low.webp variant as the largest element on the page. Its alt text is 'Tempat beli barang hantaran: lima jenis kedai' - this is an ARTICLE CARD IMAGE being reused as a full-bleed hero, which is why its aspect ratio is wrong for the slot. The result is an extreme close-up of a fruit tray filling the entire first screen with NO HEADLINE over it.",
       "dod": "On the live homepage: the hero's rendered aspect ratio is within 15% of its source aspect ratio OR the source is a landscape asset chosen for the slot; upscale factor <=1.1x; the served variant is not low. All three quoted as measured numbers before and after. If the fix is that heroes need a dedicated landscape crop, say so and state what the pipeline must produce.",
       "brief": "GATE: if no suitable landscape hero asset exists for the featured article, STOP and report rather than shipping a different bad crop. A hero slot that cannot be filled correctly is a pipeline finding worth more than a swapped photo.",
-      "evidence": null
+      "evidence": []
     },
     {
       "id": "UI-05",
       "track": "design",
       "points": 5,
-      "state": "todo",
+      "state": "in_progress",
       "owner": "product-designer",
       "title": "Category pages render zero images on the most visual vertical there is",
       "flags": [
@@ -96,13 +113,13 @@
       "why": "Measured: /artikel/hantaran-mas-kahwin renders 0 images - a clean list of text links with hairline rules. STATED HONESTLY: this is a design judgement, not a defect, and these pages draw about 16 impressions with zero clicks (decision 86), so nothing here is costing traffic. It is in scope because the owner asked for the site to stop looking bad, and a wedding category page with no photography is a decision that should be taken deliberately rather than by default.",
       "dod": "Either category pages carry imagery - shipped, live, measured, with the image pipeline honouring UI-03's aspect and quality rules - or a written, committed rationale for why they stay text-only, agreed with the creative director. BOTH are acceptable outcomes; silently leaving them as they are is not.",
       "brief": "Do not justify this on SEO. Decision 86 already measured that these pages earn nothing, and pretending otherwise is how a later meeting scores this as a failure.",
-      "evidence": null
+      "evidence": []
     },
     {
       "id": "UI-06",
       "track": "design",
       "points": 8,
-      "state": "todo",
+      "state": "in_progress",
       "owner": "design-systems-engineer",
       "title": "A rendered-layout regression gate - because nothing we own looks at a computed value",
       "flags": [
@@ -113,13 +130,13 @@
       "why": "DES-08 shipped these templates and every automated check passed. Sprint 03's retrospective had ALREADY recorded the mechanism: NO AUTOMATED CHECK IN THIS COMPANY COMPARES A COMPUTED COLOUR OR A CONTRAST RATIO - structural-diff.py, the DES-09 checker and its own overflow script all compare structure, never a pixel or a CSS value. A 44px-wide headline column IS a computed-layout value: the DOM is valid, the HTML diffs clean, every element is present, the page renders without error. NOTHING WE OWN LOOKS AT THE NUMBER 44. The same retro caught a near-identical near-miss - a token collision that would have shipped invisible gold text sitewide with every check green - and it was caught by a PERSON LOOKING AT ONE CROP, which that retro itself called not a mechanism. This is the same failure one sprint later, and this time nobody looked.",
       "dod": "A committed, runnable script that loads every public template at 390/768/1024/1440 in a real headless browser and FAILS THE BUILD on: any text column narrower than 120px; any element whose right edge exceeds the viewport width; any image upscaled beyond 1.1x; any image whose rendered aspect differs from its source aspect by more than 25%. PROVE IT CATCHES THE REAL BUGS: run it against the CURRENT production homepage and show it failing on the .s-row 44px column AND the 1970px nav, then against the fixed build and show it passing. A gate that has never failed on a known-bad input is not proven.",
       "brief": "Print 'UILINT EXIT: <n>' at the start of a line so the watcher's milestone convention applies. The four thresholds above are a starting set - add any check that would have caught something UI-04 finds.",
-      "evidence": null
+      "evidence": []
     },
     {
       "id": "RISK-09",
       "track": "risk",
       "points": 3,
-      "state": "todo",
+      "state": "in_progress",
       "owner": "BMAD",
       "title": "Guard the shared-repo hazard - one git checkout swaps the company record for the site source",
       "flags": [
@@ -130,13 +147,13 @@
       "why": "hellokahwin (docs) and hellokahwin-site are the SAME repo - same remote, same root commit 3a1fbe09 - kept apart only by the convention that nobody merges feat/command-centre-dashboard. A single `git checkout master` in the docs directory would swap the company record for the site source. Carried forward from Sprint 03 as a STRUCTURAL hazard with no guard. Prose in a README is exactly the form Sprint 03 proved does not fire.",
       "dod": "A git hook (pre-checkout or post-checkout), COMMITTED AND INSTALLED IN BOTH TREES, that refuses or loudly warns on a branch switch across the docs/site boundary. Verified by running the switch in a THROWAWAY CLONE and quoting the literal refusal text, PLUS a negative control showing an ordinary in-space switch still succeeds. Both sides quoted. A gate, not a paragraph.",
       "brief": "Do not implement this as documentation. The deliverable is an executable guard. Test it in a throwaway clone, never in either live tree - the hazard being guarded against is exactly the operation under test.",
-      "evidence": null
+      "evidence": []
     },
     {
       "id": "SEO-11",
       "track": "seo",
       "points": 5,
-      "state": "todo",
+      "state": "in_progress",
       "owner": "head-of-seo-content",
       "title": "SERP-shape census - classify every ranking query and compute the click ceiling per cluster",
       "flags": [
@@ -147,7 +164,7 @@
       "why": "The board meeting tested THREE queries and found a 15x CTR split on AI Overview presence. That is an anecdote until it is a census. This item produces the number that governs all future content selection, and it populates the split CTR metric the owner approved on 30 Aug. It is also the input that chooses CONT-13's targets - the CEO deliberately does NOT choose them, because a target list picked from three SERP checks is the precise-wrong-finding shape that has cost this company before.",
       "dod": "A committed CSV at docs/work-done/aug-30-2026-session-01/serp-shape-census.csv, one row per query with >=20 impressions in the last 28d, carrying: query, impressions, our position, actual CTR, ai_overview present (bool), ai_overview position, PAA present, image_pack present, expected CTR at that position, ratio actual/expected. PLUS a written rule stating the impression threshold above which an AI-Overview'd query is not worth a new page. VERIFY THE PATTERN BEFORE TRUSTING IT: hand-check one row against the raw serp-overview response and quote both, before trusting the other 200 rows.",
       "brief": "Use Ahrefs serp-overview (country my) for SERP features and GSC for our own performance - never Ahrefs for our traffic (decision 91: Ahrefs reported 9 organic keywords against GSC's 2,869 impressions the same day). Expected-CTR-by-position must cite its source curve. Report queries where actual EXCEEDS expected too; those are as informative as the failures.",
-      "evidence": null
+      "evidence": []
     },
     {
       "id": "SEO-12",
@@ -163,13 +180,13 @@
       "why": "Sprint 03's central finding: PROSE RULES DO NOT FIRE, GATES AND SCRIPTS DO. 'Resolve the operator before you rank a competitor' sat in this same persona's ethos section as prose and did not fire, costing SEO-04 a second park. This item writes the SERP-shape lesson in the only form that fires - a runnable script wired into a pre-flight checklist.",
       "dod": "A RUNNABLE SCRIPT (check-serp-shape.py or equivalent), committed, that takes a candidate keyword and EXITS NON-ZERO when the SERP carries an AI Overview answering the query. Demonstrated by running it against `mas kahwin johor` (MUST fail) and `doa pengantin baru rumi` (MUST pass), with both exit codes quoted. Wired into head-of-seo-content's PRE-FLIGHT CHECKLIST in the persona file - the same place the 'resolve the operator' rule was moved to when prose failed.",
       "brief": "The two named test cases are a regression suite, not an illustration. If the script cannot distinguish them it is not done. Print `SERPSHAPE EXIT: <n>` at the start of a line so the watcher's milestone convention applies.",
-      "evidence": null
+      "evidence": []
     },
     {
       "id": "PLAT-15",
       "track": "platform",
       "points": 2,
-      "state": "todo",
+      "state": "in_progress",
       "owner": "BMAD",
       "title": "sprint-NN.json and the tracker diverge - and the JSON is supposed to be the contract",
       "flags": [
@@ -179,13 +196,13 @@
       "why": "Found during Sprint 04 planning. sprint-03.json reads state:in_progress with 24 of 26 items todo, while the tracker reads done, 107/115. /endsprint writes a SEPARATE -retro.json and never reconciles the contract file. Same for sprints 01 and 02. The /hellokahwin skill calls sprint-NN.json 'the contract: /startsprint executes it, the dashboard reads it, /endsprint writes the retro into it' - and it is abandoned mid-sprint every time. A reader opening sprint-03.json would conclude nothing shipped.",
       "dod": "Running /endsprint on a closed sprint leaves sprint-NN.json with state:'done' and EVERY item's state matching the tracker. Demonstrated by BACK-FILLING sprints 01-03, showing a diff of sprint-03.json before and after, PLUS a query proving the JSON now agrees with the tracker ITEM FOR ITEM - not just on the header totals.",
       "brief": "The header agreeing while items disagree is the failure mode that hid this for three sprints. Compare item-for-item.",
-      "evidence": null
+      "evidence": []
     },
     {
       "id": "RIGHTS-01",
       "track": "content",
       "points": 3,
-      "state": "todo",
+      "state": "in_progress",
       "owner": "BMAD",
       "title": "Image credit labels are English and inconsistently cased on live Malay pages",
       "flags": [
@@ -195,7 +212,62 @@
       "why": "On /artikel/idea-dan-nasihat/garden-wedding alone - the page drawing 28% of all site impressions - the credit label appears as `Source:` x22, `source:` x6, `sOURCE:` x6 and `SOURCE:` x6. Two defects nobody had recorded: the label is ENGLISH on a Malay reader page (the same shape as the `## SOURCE NOTES` block in the DoD standard's failure mode 5 - English scaffolding surviving a conversion onto a page readers see), and `sOURCE:` is a visible typo rendering live six times. Confirmed on 3 of 30 further articles sampled: dewan-kahwin 14 labels across three casings, hantaran-tunang 12, pelamin-kahwin-dewan 8.",
       "dod": "ONE Malay label, ONE casing, sitewide. `sOURCE:` returns ZERO across all 86 article URLs. Verified by a COMMITTED SCRIPT that sweeps the sitemap and reports label variants - run it BEFORE and AFTER and paste both counts. Uncredited images are reported as a count WITH THEIR SLUGS and either credited or listed for a decision; they are NOT silently left out.",
       "brief": "NOTE THE CORRECTED BASELINE: Sprint 03 carried forward '27 of 48 garden-wedding images carry NO CREDIT'. That figure is STALE - there are ~40 credits across 49 photos, so roughly 9 uncredited. The CEO's first check grepped for 'Kredit' and returned zero, which would have read as WORSE; the credits exist under an English label. Verify your own pattern before trusting an absence. Coordinate with RIGHTS-02 so that when permission lands the credit format is already correct.",
-      "evidence": null
+      "evidence": []
+    },
+    {
+      "id": "UI-07",
+      "track": "design",
+      "points": 3,
+      "state": "todo",
+      "owner": "design-systems-engineer",
+      "title": "C:/Program Files/Git/artikel card category labels clip mid-word at 390px - the only mobile-only defect on the site",
+      "added_after_scoping": true,
+      "flags": [],
+      "dod": "p.hk-eyebrow.truncate clientWidth >= its own scrollWidth at 390px on /artikel, proven by re-running docs/work-done/aug-30-2026-session-01/aug-31-2026-ui-04-EVIDENCE/harness/eyebrow3.mjs against production and getting 'actually clipped: 0' at 390, 768, 1024 and 1440. Today it is 171px box / 181px text = 10px hidden on 9 of 11 labels at 390 only. Fix must not shrink the label below 11px or hide it; the longest live labels (Pelamin Kad and Cenderahati Majlis, Sebelum Nikah: Jodoh Merisik and Tunang) must also fit."
+    },
+    {
+      "id": "UI-08",
+      "track": "design",
+      "points": 2,
+      "state": "todo",
+      "owner": "design-systems-engineer",
+      "title": "The source-attribution link is fixed at 200px and hides up to 60% of a credit line at every width",
+      "added_after_scoping": true,
+      "flags": [],
+      "dod": "The attribution link's scrollWidth <= its clientWidth at 390, 768, 1024 and 1440 on /artikel/idea-dan-nasihat/garden-wedding and /dewan-kahwin, measured in a rendered viewport. Today the box is a fixed 200px at every width while the text needs 332px on the article (132px hidden) and 503px on dewan-kahwin (303px hidden, 60% of the credit). This is a credit line, so the fix is to show it, not to shorten it."
+    },
+    {
+      "id": "UI-09",
+      "track": "design",
+      "points": 5,
+      "state": "todo",
+      "owner": "design-systems-engineer",
+      "title": "The shipped search field fails DES-06 section 8 - no focus indicator, no accessible name, no result announcement, and 14px type that zooms iOS on focus",
+      "added_after_scoping": true,
+      "flags": [],
+      "dod": "On /artikel#cari at 390, 768, 1024 and 1440, all five measured and re-measured in a rendered viewport: (1) the input shows a visible focus indicator when it matches :focus-visible - today outline is none/0px and box-shadow is fully transparent, while every other link on the site shows outline auto 1px or solid 2px; (2) the input has a programmatic accessible name from a label or aria-label, not the placeholder alone; (3) a live region announces the result count and the Tiada hasil dijumpai state - today the page carries zero [aria-live] and zero [role=status]; (4) computed font-size >= 16px so iOS Safari does not zoom on focus - today 14px; (5) hit height >= 44px - today 38px. DES-06 already specifies all of this; this item builds what was specified."
+    },
+    {
+      "id": "UI-10",
+      "track": "design",
+      "points": 3,
+      "state": "todo",
+      "owner": "creative-director",
+      "title": "The article body runs 888px wide at 17px - about 104 characters per line - at 1440",
+      "added_after_scoping": true,
+      "flags": [],
+      "dod": "Measured in a rendered viewport on /artikel/idea-dan-nasihat/garden-wedding: body paragraph width divided by (font-size x 0.5) lands inside 45-75 characters at 1440, as it already does at 390 (37-41). Today 40 paragraphs render at exactly 888px and 17px = about 104 characters, while the same page holds 63-74 at 1024 and 63-83 at 768. Decide the measure deliberately - a max-width on the prose column, a larger type size at that width, or both - and state which, and do not regress the mobile measure."
+    },
+    {
+      "id": "UI-11",
+      "track": "design",
+      "points": 3,
+      "state": "todo",
+      "owner": "design-systems-engineer",
+      "title": "Standalone tap targets below 24px sitewide - breadcrumbs, footer links, the in-article TOC and card category labels",
+      "added_after_scoping": true,
+      "flags": [],
+      "dod": "Every target that is NOT an inline link inside a sentence measures at least 24x24 CSS px in a rendered 390px viewport on homepage, article, category, /artikel and /dewan-kahwin. Today: breadcrumbs 40x20 / 39.7x20 / 35.6x17, footer Laman Utama 99.4x15.4 and Semua Artikel 103.7x15.4, in-article TOC Kesimpulan 66.2x17, /artikel card category labels 181.2x15 (eight of them), homepage credit line 215.1x15.6. Counted at 390: article 25 targets under 24px tall, dewan-kahwin 24, artikel-index 14, category 5, homepage 4. In-sentence links (pelamin, kadar sewaan) are exempt under WCAG 2.5.8 and are out of scope. The nav links already pass at 44px via min-h-11 and must not regress."
     }
   ],
   "out_of_scope": [
@@ -255,5 +327,26 @@
     }
   ],
   "audit": "docs/plans/aug-30-2026-session-01/aug-31-2026-audit-ui-desktop-mobile.md",
-  "cost_note": "RECORDED SO A LATER MEETING DOES NOT SCORE THIS WRONG. The homepage earned 4 clicks from 5 impressions in the last 7 days. Fixing it will not move the click target, and neither will the hero crop or the category pages. This is a BRAND AND CREDIBILITY bet, exactly as the Sprint 03 redesign was - decision 102 recorded that same protection for that sprint. What makes it urgent is not traffic: it is that the front page of the company is visibly broken in production and has been since DES-08 shipped."
+  "cost_note": "RECORDED SO A LATER MEETING DOES NOT SCORE THIS WRONG. The homepage earned 4 clicks from 5 impressions in the last 7 days. Fixing it will not move the click target, and neither will the hero crop or the category pages. This is a BRAND AND CREDIBILITY bet, exactly as the Sprint 03 redesign was - decision 102 recorded that same protection for that sprint. What makes it urgent is not traffic: it is that the front page of the company is visibly broken in production and has been since DES-08 shipped.",
+  "reconciled": {
+    "at": "2026-08-31",
+    "source": "buddy sprint tracker (public.sprints / public.sprint_items), via `sprint reconcile`",
+    "note": "state, started_at, ended_at, retro and every item's state and evidence are the TRACKER's. points, track, owner, title, why, dod and brief are left AS SCOPED so /endsprint can still measure sizing accuracy against them.",
+    "tracker_velocity": {
+      "planned": 64,
+      "completed": 8,
+      "parked": 0,
+      "moved_out": 0
+    },
+    "items_added_after_scoping": [
+      "UI-07",
+      "UI-08",
+      "UI-09",
+      "UI-10",
+      "UI-11"
+    ],
+    "items_that_left_this_sprint": [],
+    "items_absent_from_tracker": [],
+    "scope_drift": []
+  }
 }

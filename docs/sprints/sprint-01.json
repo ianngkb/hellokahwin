@@ -1,10 +1,10 @@
 {
   "id": 1,
   "name": "Protect what we shipped, then measure it",
-  "state": "in_progress",
+  "state": "done",
   "planned_at": "2026-08-25",
   "started_at": "2026-08-25",
-  "ended_at": null,
+  "ended_at": "2026-08-26",
   "governance": {
     "length": "body-of-work",
     "length_note": "A sprint is a body of work, not a duration. It ends when every item is done and the owner has reviewed them. Owner decision, 25 Aug 2026.",
@@ -30,12 +30,7 @@
       "why": "Supabase nyidzlupgmyyazhyykuk has pitr_enabled=false, zero platform backups, and pg_dump 16.15 refuses PostgreSQL 17.6. Every write in the last two days was unrecoverable.",
       "dod": "A dump exists in R2 (hellokahwin-assets), has been RESTORED into a throwaway database and verified by row count, runs on a schedule, and fails loudly. Plus the actual price of Supabase PITR as a number.",
       "brief": "docs/plans/aug-23-2026-session-01/aug-24-2026-brief-r2-database-backup.md",
-      "evidence": {
-        "claim": "Production has a verified restore path, a daily backup on a schedule registered on the default branch, and an alarm proven to fire and reach a person.",
-        "proof": "R2 object CONFIRMED BY CEO: HEAD db-backups/2026/08/25/hellokahwin-20260825T161107Z.dump -> 200, 497489 bytes. Restore: 18 tables vs 18, every row count matching (articles 56/56, media 747/747, legacy_image_redirects 1639/1639). Workflows on master, both active: db-backup.yml, db-backup-verify.yml. Alarm proven by induced break - run 32873378190 failure 16:40:36Z, run 32873495210 success 16:41:48Z after revert. Failure surfaces as a FILED GITHUB ISSUE, ten seconds from failure: #3 'backup is stale or missing', #1 'backup failed'. PITR priced at $125/month minimum and settled against.",
-        "link": "https://github.com/ianngkb/hellokahwin/issues/1",
-        "verified_by_ceo": "Checked the R2 object, gh workflow list, gh run list and gh issue list myself. THIS ITEM WAS REOPENED once after the agent marked it done with the schedule still on a feature branch; it finished the merge and proved both halves. Issue #1 was NOT a test - it was a genuine CI failure catching the brief's own pg_dump 16 vs server 17 bug, so the alarm caught a real defect before it was ever tested deliberately. RECORDED GAP, in the agent's own words: 'no unattended cron fire has been observed yet... I would rather hand you that gap than round it up.' Next natural fire 18:17 UTC. Accepted as done: registered and dispatching on the default branch is as verifiable as it gets before the clock arrives."
-      },
+      "evidence": [],
       "handle": "term_08095dc5",
       "result": "LIVE. Dump in R2 (4 objects, newest db-backups/2026/08/25/hellokahwin-20260825T163938Z.dump, 502,159 bytes), RESTORED into a throwaway PostgreSQL 17.6 cluster and verified: 18/18 tables, every row count matching (articles 56, inspire_categories 57, media 747, media_article_usage 718 at dump time), and MD5 digests over every article body (27708377d4dd2a9f67730bcfa347ad0c) and every media key (6569f77b1049684c449d20aa8c0296e5) identical on both sides. Restored a second time from the object downloaded back out of R2. Tooling: EDB PostgreSQL 17.6 binaries zip (exact match to production); Docker engine returning 500 so the Supabase CLI route was unavailable; scoop only offers 18.3. SCHEDULE IS LIVE: PR #2 merged 2026-08-25T16:38:58Z as eebca16; both workflows registered active on master (342250539 db-backup.yml, 342253077 db-backup-verify.yml); real dispatched runs on master 32873254079 and 32873257728 both succeeded; next scheduled fire 18:17 UTC daily. ALARM PROVEN BY DELIBERATE BREAK: commit 4d7fbcd set MAX_AGE_HOURS=-1, run 32873378190 failed on \"age: 0h (threshold -1h)\" and auto-filed issue #3 at 16:40:46Z; reverted in 18a23d1 and run 32873495210 passed at \"age: 0h (threshold 26h)\". No production data touched, no R2 object altered. Retention: daily 30d + monthly 12mo = 42 objects, $0.00/month (0.21% of R2 free tier). PITR: $100/month per 7 days, org is on Free so Pro ($25/month) is required first = $125/month minimum.",
       "blocked_on_owner": null,
@@ -55,12 +50,16 @@
       "why": "The production connection string reached an agent transcript via pnpm's command-line banner on 24 Aug. Contained (no repository, no file) but real.",
       "dod": "The OLD connection string is rejected by the database (show the literal auth failure), the NEW one succeeds (show a row count), DATABASE_URL updated in Vercel, and a production page returns 200 after the redeploy.",
       "brief": null,
-      "evidence": {
-        "claim": "The credential has NOT been rotated. The owner has accepted the risk.",
-        "proof": "Owner decision, 25 Aug 2026. An earlier entry recorded this item as done on the basis that the owner had rotated it; the owner corrected that. That entry was wrong and is superseded.",
-        "link": null,
-        "verified_by_ceo": "Residual exposure stated for the record: the production connection string was printed by pnpm’s command-line banner into an agent transcript on 24 Aug. It is not in any repository, committed file, or file on disk — the scan for sbp_, sk_live, pk_live, postgres://, service_role and JWT-shaped strings returned zero matches in committed and uncommitted files. The exposure is a transcript only. Production has pitr_enabled=false and zero backups, so the blast radius if it were ever used is total and unrecoverable."
-      }
+      "evidence": [
+        {
+          "at": "2026-08-25T15:53:58.506Z",
+          "link": null,
+          "actor": "SYSTEM",
+          "claim": "The credential has NOT been rotated. The owner has accepted the risk.",
+          "proof": "Owner decision, 25 Aug 2026. An earlier entry recorded this item as done on the basis that the owner had rotated it; the owner corrected that. That entry was wrong and is superseded.",
+          "verified_by_ceo": "Residual exposure stated for the record: the production connection string was printed by pnpm’s command-line banner into an agent transcript on 24 Aug. It is not in any repository, committed file, or file on disk — the scan for sbp_, sk_live, pk_live, postgres://, service_role and JWT-shaped strings returned zero matches in committed and uncommitted files. The exposure is a transcript only. Production has pitr_enabled=false and zero backups, so the blast radius if it were ever used is total and unrecoverable."
+        }
+      ]
     },
     {
       "id": "RISK-03",
@@ -73,12 +72,16 @@
       "why": "A verified fix for a live rule-breaking defect sat uncommitted while four agents worked. The CEO found it with git status, not from a report.",
       "dod": "docs/plans/.../aug-23-2026-workflow-content-production.md contains a named pre-close check for uncommitted working-tree changes AND unpushed commits, with the owning seat named. Quote the added text, and demonstrate it by running `git status --short` and `git rev-list --count origin/master..HEAD` on the site worktree and reporting both.",
       "brief": null,
-      "evidence": {
-        "claim": "Stage 9b, the ship check, is in the content production workflow with the CEO named as its owning seat.",
-        "proof": "docs/plans/aug-23-2026-session-01/aug-23-2026-workflow-content-production.md now contains Stage 9b: two commands (git status --short, git rev-list --count origin/master..HEAD), both to be accounted for rather than merely run, plus a user-visible-surface check and a three-row table separating 'code is correct' / 'committed' / 'deployed' from 'done'. Demonstrated on the site worktree: git status --short -> 28 files; git rev-list --count origin/master..HEAD -> 0.",
-        "link": null,
-        "verified_by_ceo": "Ran both commands myself. The check found a real gap on its first use: four source files uncommitted in the site worktree - src/lib/inspire/article-file.ts (+32, the path-convention fix the review board flagged), src/lib/cache/purge.ts (+37), scripts/ingest-article.mts (+24/-3), package.json (+2/-1). Flagged to the RISK-01 agent rather than committing another session's in-flight work."
-      }
+      "evidence": [
+        {
+          "at": "2026-08-25T15:53:58.506Z",
+          "link": null,
+          "actor": "SYSTEM",
+          "claim": "Stage 9b, the ship check, is in the content production workflow with the CEO named as its owning seat.",
+          "proof": "docs/plans/aug-23-2026-session-01/aug-23-2026-workflow-content-production.md now contains Stage 9b: two commands (git status --short, git rev-list --count origin/master..HEAD), both to be accounted for rather than merely run, plus a user-visible-surface check and a three-row table separating 'code is correct' / 'committed' / 'deployed' from 'done'. Demonstrated on the site worktree: git status --short -> 28 files; git rev-list --count origin/master..HEAD -> 0.",
+          "verified_by_ceo": "Ran both commands myself. The check found a real gap on its first use: four source files uncommitted in the site worktree - src/lib/inspire/article-file.ts (+32, the path-convention fix the review board flagged), src/lib/cache/purge.ts (+37), scripts/ingest-article.mts (+24/-3), package.json (+2/-1). Flagged to the RISK-01 agent rather than committing another session's in-flight work."
+        }
+      ]
     },
     {
       "id": "PLAT-01",
@@ -93,12 +96,29 @@
       "why": "Owner directive 25 Aug: the sprint planning dashboard sits on buddy.ian.ng, JIRA-like. buddy is live (307/auth), Next.js + Chakra v3 + Supabase, and already has a working Kanban at apps/web/app/(app)/tasks/kanban-board.tsx to reuse rather than reinvent.",
       "dod": "Open buddy.ian.ng/sprints and see all 13 Sprint 01 items grouped by track. Move one item's state in the UI and show `sprint get` returning the new state from the CLI. Move one via the CLI and show the UI reflecting it. Both directions quoted literally. Schema additive only; no existing buddy route disturbed.",
       "brief": "docs/plans/aug-23-2026-session-01/aug-25-2026-plan-sprint-tracker-on-buddy.md",
-      "evidence": {
-        "claim": "The sprint tracker board is built on buddy: /sprints route, two additive tables, a guarded repository, and a `sprint` CLI sharing the same repository functions. Both directions of the DoD proven.",
-        "proof": "Commits a38b74d and cfa8ea9 on feat/plat-01-sprint-tracker - 3,343 insertions across 25 files: supabase/migrations/20260825120000_sprint_tracker.sql (189), packages/db/src/repositories/sprints.ts (551), sprints.test.ts (531), scripts/sprint.ts (365), apps/web/app/(app)/sprints/. Log at logs/2026-08-25-plat-01-sprint-tracker-board.md sections 'Direction 1 - move an item in the UI, read it from the CLI' and 'Direction 2 - move an item via the CLI, see the UI reflect it'.",
-        "link": "buddy.ian.ng/sprints (auth-gated)",
-        "verified_by_ceo": "Confirmed the commits and the file inventory myself via git show --stat, and read the DoD section for both directions rather than trusting the summary. THE PRE-DoD GATE I SET WAS ANSWERED AND SHARPENED: SUPABASE_SECRET_KEY is present and targets production, checked twice independently - but the agent narrowed its own migration comment to say what was NOT confirmed, namely that the plaintext behind it is a valid current key (the API returns ciphertext and it was deliberately never decrypted). 'The key exists' and 'the key works' are different claims and it said so. FINDING: all 39 Vercel env vars on buddy-web target production only - no preview target - so every preview deployment has no Supabase credentials and /sprints will fail there, as will every route touching Supabase. Pre-existing, correctly not blocking a production-scoped DoD."
-      },
+      "evidence": [
+        {
+          "at": "2026-08-26T00:59:10.765Z",
+          "link": null,
+          "actor": "SYSTEM",
+          "claim": "REOPENED by CEO: built and committed, NOT DEPLOYED.",
+          "proof": "Commits a38b74d and cfa8ea9 are NOT ancestors of origin/main; origin/main is still 36d887a. The DoD says 'Open buddy.ian.ng/sprints and see all 14 items' - that requires deployment. The 200 I first read as proof was worthless: /sprints, /tasks and /definitely-not-a-real-route-xyz all return 307, because the auth redirect fires before routing, so a fake route is indistinguishable from a real one. The tracker DATA is live and I have driven Sprint 01 through the CLI all evening; the WEB BOARD is not deployed."
+        },
+        {
+          "at": "2026-08-26T01:11:57.204Z",
+          "link": "https://buddy.ian.ng/sprints",
+          "actor": "SYSTEM",
+          "claim": "SHIPPED. Merged to main and deployed to production.",
+          "proof": "origin/main 52f6e63, Vercel deployment READY on target production for commit 52f6e63. PLAT-01 commits confirmed as ancestors of origin/main. Route files present: page.tsx, sprint-board.tsx, item-detail.tsx, actions.ts. Dev server also running on localhost:10000 for review."
+        },
+        {
+          "at": "2026-08-26T01:20:59.689Z",
+          "link": "https://buddy.ian.ng/sprints",
+          "actor": "SYSTEM",
+          "claim": "DEPLOYED and proven by body content, not a status code.",
+          "proof": "origin/main is 7ae5b1d; a38b74d and cfa8ea9 are now ancestors of it. Vercel dpl_B2u6XSVuFTUu1kJaUZr6RYoRojan target=production status=Ready, alias buddy.ian.ng, from GitHub Actions Deploy Production run 32917481631. Authenticated GET /sprints returns 200 with 161332 bytes containing 'Protect what we shipped, then measure it', the points line, and every item key (RISK-01, PLAT-01, PLAT-04, SEO-02, CONT-01). NEGATIVE CONTROL: the same session against /definitely-not-a-real-route-xyz returns 404 and contains none of those strings - which is what a 307 could never show. Both directions against production: the deployed page's own moveItem server action set PLAT-04 in_progress (attributed to the web user id 5fd81c1d, not SYSTEM) and the CLI read it back; then the CLI moved it and the deployed page rendered it in the matching column. Log: logs/2026-08-26-deploy-sprint-tracker.md"
+        }
+      ],
       "spec": "buddy/_bmad-output/implementation-artifacts/spec-plat-01-sprint-tracker-board.md",
       "spec_status": "ready-for-dev (CEO approved 25 Aug after round-table review)",
       "handle": "term_ed507170"
@@ -107,7 +127,7 @@
       "id": "PLAT-04",
       "track": "platform",
       "points": 5,
-      "state": "in_progress",
+      "state": "done",
       "owner": "BMAD",
       "title": "Sprint tracker Phase 2 - backlog, history, velocity, filters",
       "flags": [
@@ -116,7 +136,22 @@
       "why": "What makes the board a tracker rather than a viewer: planning happens in the UI, and velocity comes from the data rather than being hand-recorded.",
       "dod": "A second sprint can be planned entirely in the UI with items dragged from the backlog, and /startsprint executes it without touching a file. Sprint history shows planned vs completed vs parked per sprint. Owner and track filters work. The retro is attached to its sprint and readable in place.",
       "brief": "docs/plans/aug-23-2026-session-01/aug-25-2026-plan-sprint-tracker-on-buddy.md",
-      "evidence": null,
+      "evidence": [
+        {
+          "at": "2026-08-26T01:11:58.692Z",
+          "link": "https://buddy.ian.ng/sprints",
+          "actor": "SYSTEM",
+          "claim": "SHIPPED. Phase 2 surfaces merged and deployed.",
+          "proof": "origin/main 52f6e63 'feat(sprints): backlog, history, computed velocity and shared filters (PLAT-04)', Vercel READY on production. Files on main: backlog.tsx, history.tsx, filters.tsx, retro-panel.tsx, new-sprint.tsx. CLI verified by CEO: sprint list --owner and --track both filter; sprint velocity computes planned/completed/parked from item data."
+        },
+        {
+          "at": "2026-08-26T01:21:10.742Z",
+          "link": "https://buddy.ian.ng/sprints",
+          "actor": "SYSTEM",
+          "claim": "Phase 2 surfaces deployed and verified on production.",
+          "proof": "Backlog panel renders 'Backlog 1 items - 5pt - in no sprint' with the PLAT-05 card and its draw-in control. History renders Sprint 01 with COMPUTED velocity: planned 42, completed 37, parked 2, unfinished 3, itemCount 14, doneCount 12, parkedCount 1. Owner and track filters render server-side with live counts: Everyone (15), BMAD (6), CEO (1), head-of-seo-content (3), managing-editor (1), OWNER+BMAD (1), writer-adat-agama-prosedur (2), writer-inspirasi-vendor-venue (1); All tracks (15), content (4), platform (5), risk (3), seo (3). GAP, stated plainly: the filters are client-side React and the browser could not be signed in (cookie injection was blocked by the permission classifier and was not worked around), so nobody clicked them. Instead the shipped matchesFilters predicate was extracted verbatim from the deployed chunk and run over the live items, returning BMAD=6, platform=5, head-of-seo-content=3, all=15 - matching the server-rendered option counts exactly. Deployed logic over deployed data, not a mouse click. Log: logs/2026-08-26-deploy-sprint-tracker.md"
+        }
+      ],
       "spec": "buddy/_bmad-output/implementation-artifacts/spec-plat-04-sprint-tracker-phase-2.md",
       "spec_status": "ready-for-dev (CEO approved 25 Aug)",
       "handle": "term_4b288a7f"
@@ -125,7 +160,7 @@
       "id": "PLAT-02",
       "track": "platform",
       "points": 2,
-      "state": "todo",
+      "state": "done",
       "owner": "BMAD",
       "title": "Ingest-time edge purge",
       "flags": [
@@ -134,7 +169,29 @@
       "why": "Decision 45, approved 24 Aug, never built - reported blocked on a Vercel token that was already in the vault. Pillar pages can serve a copy up to five minutes stale; the interim rule is a human remembering a stopwatch.",
       "dod": "Ingest purges the article, its pillar and the sitemap. A one-request proof. A failed purge logs loudly without failing the publish.",
       "brief": "docs/plans/aug-23-2026-session-01/aug-24-2026-brief-edge-purge-on-ingest.md",
-      "evidence": null,
+      "evidence": [
+        {
+          "at": "2026-08-25T17:34:59.242Z",
+          "link": "https://hellokahwin.com/artikel/pantai-santai",
+          "actor": "SYSTEM",
+          "claim": "Ingest-time edge purge is live in production. The pillar page rebuilds on request #1 after a purge instead of serving a stale copy.",
+          "proof": "Same deployment, before and after: GET pillar -> MISS, GET again -> HIT age:6, POST dangerously-delete-by-tags STATUS 200, GET -> REVALIDATED age:0. REVALIDATED on the request immediately after the purge is the deliverable - the entry was deleted and request 1 rebuilt in the foreground. Shipped: origin/master 6002905, 0 unpushed commits."
+        },
+        {
+          "at": "2026-08-25T18:06:20.623Z",
+          "link": "https://hellokahwin.com/artikel/hantaran-mas-kahwin",
+          "actor": "SYSTEM",
+          "claim": "The edge purge held on its first real publishing run.",
+          "proof": "All three newly published C2.3 articles appear on /artikel/hantaran-mas-kahwin immediately - no five-minute wait, no stale pillar. The interim wait-five-minutes rule can be retired."
+        },
+        {
+          "at": "2026-08-26T00:49:24.848Z",
+          "link": "https://hellokahwin.com/artikel/ucapan-doa/walimatul-urus",
+          "actor": "SYSTEM",
+          "claim": "OPEN FINDING carried to Sprint 02: cold renders take 5-22s on a route declaring maxDuration=5, and the first request to a brand-new article URL returned 502 FUNCTION_RESPONSE_STREAM_INCOMPLETE.",
+          "proof": "CEO measured live 26 Aug: dulang-hantaran 22.0s cold then 0.12s warm; walimatul-urus 3.7s then 21.1s; established mas-kahwin-johor 5.6s. Agent's section 7 recorded the original 502 with X-Vercel-Error FUNCTION_RESPONSE_STREAM_INCOMPLETE, X-Vercel-Cache MISS, on a slug six seconds old. Not root-caused. WHY IT MATTERS: SEO-01 found 20 of 28 articles discovered-but-never-crawled, and Googlebot's first request to an uncrawled URL IS a cold render - so the first impression on twenty URLs we want indexed may be a 502. Same shared-4s-budget shape as the cover-credit race."
+        }
+      ],
       "spec": "buddy/_bmad-output/implementation-artifacts/spec-plat-02-ingest-edge-purge.md",
       "spec_status": "ready-for-dev (CEO approved 25 Aug)"
     },
@@ -149,12 +206,16 @@
       "why": "Named crops return 276 KB and 357 KB against high.webp at 66 KB. Backwards, and every image now goes through that pipeline.",
       "dod": "The byte size of every derivative for one image reported as literal numbers - high.webp, low.webp and all four named crops - with the cause of any crop exceeding high.webp stated. If it is real, the same table again after the fix.",
       "brief": null,
-      "evidence": {
-        "claim": "The crop-size anomaly is not a defect. high.webp is the SMALL variant, not the crops being oversized.",
-        "proof": "Literal bytes: high 68,564 | low 19,404 | crop-16x9-og 180,934 | crop-4.3x1-desktop-hero 148,686 | crop-4x5-mobile-cover 282,954 | crop-4x3-article-card 365,746. Cause, from image-variants.ts:18-19 and smart-crop.ts:59-82: high is capped at maxWidth 1200 / quality 80 = 1200x800 = 0.96 MP, while named crops are authored at display size - 4x3 card 1600x1200 (1.92 MP), 4x5 mobile 1920x2400 (4.61 MP). A 4.6 MP crop exceeding a 0.96 MP variant is arithmetic.",
-        "link": null,
-        "verified_by_ceo": "I measured every derivative myself by curl and read both config files. No code changed - correct outcome for a one-shot that resolves to a measurement. Carried forward as a Sprint 02 candidate, not fixed here: crop-4x5-mobile-cover is 4.6 MP / 283 KB and is what a phone receives."
-      },
+      "evidence": [
+        {
+          "at": "2026-08-25T15:53:58.506Z",
+          "link": null,
+          "actor": "SYSTEM",
+          "claim": "The crop-size anomaly is not a defect. high.webp is the SMALL variant, not the crops being oversized.",
+          "proof": "Literal bytes: high 68,564 | low 19,404 | crop-16x9-og 180,934 | crop-4.3x1-desktop-hero 148,686 | crop-4x5-mobile-cover 282,954 | crop-4x3-article-card 365,746. Cause, from image-variants.ts:18-19 and smart-crop.ts:59-82: high is capped at maxWidth 1200 / quality 80 = 1200x800 = 0.96 MP, while named crops are authored at display size - 4x3 card 1600x1200 (1.92 MP), 4x5 mobile 1920x2400 (4.61 MP). A 4.6 MP crop exceeding a 0.96 MP variant is arithmetic.",
+          "verified_by_ceo": "I measured every derivative myself by curl and read both config files. No code changed - correct outcome for a one-shot that resolves to a measurement. Carried forward as a Sprint 02 candidate, not fixed here: crop-4x5-mobile-cover is 4.6 MP / 283 KB and is what a phone receives."
+        }
+      ],
       "spec": null,
       "spec_status": "one-shot - no spec; a measurement and possibly a one-line fix"
     },
@@ -169,26 +230,29 @@
       "why": "Sitemap is 73 URLs; Google has seen almost none of the new ones. Post-migration consolidation is still in flight, so old URLs still carry the impressions.",
       "dod": "Sitemap resubmitted, indexing requested where it helps, and a GSC baseline captured for all 28 articles so Sprint 02 has something to score against. The report must union old and new URLs.",
       "brief": null,
-      "evidence": {
-        "claim": "GSC baseline captured for all 28 articles. 8 indexed, 19 discovered-but-never-crawled, 1 unknown to Google. Impressions zero on every canonical URL.",
-        "proof": "docs/plans/aug-23-2026-session-01/aug-25-2026-baseline-seo-01-gsc-indexing.md. All 28 return 200, none carries a robots meta tag - nothing is blocked, the constraint is crawl scheduling alone. Sitemap independently confirmed by CEO: Valid, 73 URLs, last downloaded 2026-08-25 15:58, after the articles published.",
-        "link": null,
-        "verified_by_ceo": "Read the log and confirmed the sitemap state via the gsc MCP myself. Manual indexing requests were NOT performed - my decision, not an oversight: the agent hit a two-browser picker and the browser path buys little when Google discovers via sitemap. Stated openly in the report rather than left as a silent gap. TWO CORRECTIONS TO THE RECORD came out of this and I have applied both to ceo-memory.md: (1) the union rule I wrote was WRONG - it compared one old URL to a different old URL; a re-parented article has THREE addresses and the canonical one had 0 impressions then and 0 now. (2) 'Consolidation still in flight' understated it - the legacy root was last crawled 24 July, four days BEFORE the migration, so Google does not yet know the 308 exists."
-      },
+      "evidence": [],
       "handle": "term_d35503f6"
     },
     {
       "id": "SEO-02",
       "track": "seo",
       "points": 3,
-      "state": "todo",
+      "state": "done",
       "owner": "head-of-seo-content",
       "title": "Internal linking pass across 28 articles",
       "flags": [],
       "why": "Articles were written in separate runs. Cross-pillar links were specified per-brief but never audited as a whole - and the cluster architecture only works if the links do.",
       "dod": "A before/after table: articles with zero inbound internal links (orphans) - target 0; dead internal links - target 0; total links added. Every count produced by a command over the live pages or the database, not by reading drafts.",
       "brief": null,
-      "evidence": null
+      "evidence": [
+        {
+          "at": "2026-08-26T00:55:16.193Z",
+          "link": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-johor",
+          "actor": "SYSTEM",
+          "claim": "Every published article now has an inbound editorial link, and we stopped telling Google not to follow our own internal links.",
+          "proof": "Both columns from the same command (pnpm links:audit) over the live database: orphans 32 -> 0; dead links 0 -> 0; article-to-article links 111 -> 178 (+67); links emitting rel=nofollow 79 -> 0; target=_blank 109 -> 0. 68 links added, 1 self-link removed. Structural renderer fix shipped: origin/master f01a13a, 0 unpushed. Gates: 250 tests / 22 files passing, typecheck clean."
+        }
+      ]
     },
     {
       "id": "SEO-03",
@@ -204,12 +268,15 @@
       "why": "The wrong RM120-RM150 claim was pulled 25 Aug and replaced with an honest varies-by-state. The real table was never built. Penang moves RM100 to RM120 on 1 September.",
       "dod": "Fourteen rows, each sourced primarily and dated, does-not-publish recorded where true, Penang's change stated with both figures and the changeover date. Government PDFs read by word coordinate, never pdftotext -layout.",
       "brief": null,
-      "evidence": {
-        "claim": "The kursus kahwin fee table is researched and drafted for all fourteen jurisdictions, ready to swap into the live article.",
-        "proof": "docs/plans/aug-23-2026-session-01/drafts/kursus-kahwin-yuran-section.html (8146 bytes, TipTap HTML - the shape the site actually stores), plus -section.md, -SWAP-INSTRUCTIONS.md and -SOURCES.md. Fourteen rows: thirteen states plus Wilayah Persekutuan. One state authority notice, nine from SPPIM (JAKIM's own live system), FOUR DATED NEGATIVES from the authority's own portal. No aggregator contributed a figure. Penang stated as RM100 now and RM120 from 1 September 2026, in both the opening paragraph and the table cell.",
-        "link": null,
-        "verified_by_ceo": "Read the log and confirmed the file inventory. The four dated negatives are the part that matters - authorities publishing nothing, recorded as such with the date, rather than filled with a plausible number. It also delivered in TipTap HTML rather than markdown, having noticed the ingest path for this legacy article takes HTML. NOT INGESTED - production write gated on RISK-01. Six days to the Penang change."
-      },
+      "evidence": [
+        {
+          "at": "2026-08-25T18:06:18.790Z",
+          "link": "https://hellokahwin.com/artikel/idea-dan-nasihat/kursus-kahwin",
+          "actor": "SYSTEM",
+          "claim": "PUBLISHED. The fourteen-jurisdiction fee table is live on the kursus article.",
+          "proof": "RM120 and RM100 both present with the changeover framing, on /artikel/idea-dan-nasihat/kursus-kahwin. Swapped in place, same slug, same URL."
+        }
+      ],
       "handle": "term_2e11d38e"
     },
     {
@@ -223,26 +290,44 @@
       "why": "Third launch cluster from the approved plan, and the one that genuinely needs real photography. P2 already has eight articles and the most traction, so depth compounds fastest here.",
       "dod": "Three URLs under /artikel/hantaran-mas-kahwin/ each return 200 on FIRST request; each renders a credit line quoted from live HTML; each og:image contains no kad-tajuk path; sitemap count rises by 3. Plus the Stage 9 retrospective in the work-done log.",
       "brief": null,
-      "evidence": {
-        "claim": "Three C2.3 articles written to the full standard, ingest-ready, held at the production gate.",
-        "proof": "docs/plans/aug-23-2026-session-01/drafts/ingest/ - C2-3-A1-dulang-hantaran.md (2113w), C2-3-A2-gubahan-hantaran.md (1956w), C2-3-A3-sirih-junjung.md (1862w). Each: pillar P2, cluster C2.3, 4 images, 0 IMEJ markers, 0 text-card PNGs.",
-        "link": null,
-        "verified_by_ceo": "Counted images, markers and png references myself with grep over the three files. Strategically well placed: P2 is the ONLY cluster Google has crawled (SEO-01 finding), so these land on the one pillar with an existing crawl path rather than joining the 20 articles waiting to be discovered. NOT PUBLISHED - gate holds."
-      },
+      "evidence": [
+        {
+          "at": "2026-08-25T18:06:15.385Z",
+          "link": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/sirih-junjung",
+          "actor": "SYSTEM",
+          "claim": "PUBLISHED. Three C2.3 articles are live and listed on their pillar.",
+          "proof": "dulang-hantaran, gubahan-hantaran, sirih-junjung all 200 under /artikel/hantaran-mas-kahwin/. Sitemap 73 to 78. Pillar page lists all three. Credit renders: 'Kredit: Mohd Nasir Mat Noor (CC BY 2.0)'."
+        }
+      ],
       "handle": "term_2520086f"
     },
     {
       "id": "CONT-02",
       "track": "content",
       "points": 3,
-      "state": "in_progress",
+      "state": "done",
       "owner": "managing-editor",
       "title": "Supporting-image enrichment to target",
       "flags": [],
       "why": "P4 and P5 average 3.7 images per article; P1, P3, P6 and P7 sit at 1.2-2.0. The target is roughly one per major H2.",
       "dod": "A per-article table of image count before and after, produced by a command over the drafts or database. Every live article at roughly one image per major H2 or carrying a written reason it is thin. Zero images missing credit, licensorName or licenseClass. Zero kad-tajuk paths anywhere.",
       "brief": null,
-      "evidence": null,
+      "evidence": [
+        {
+          "at": "2026-08-26T01:00:55.522Z",
+          "link": null,
+          "actor": "SYSTEM",
+          "claim": "REOPENED by CEO: enrichment is in the DRAFTS, not in production.",
+          "proof": "Live vs draft image counts, measured 26 Aug: borang-nikah 4 live / 4 draft (matches); doa-pengantin-baru 2 live / 4 draft; bajet-kahwin 4 live / 5 draft. The images were sourced, credited and written into draft front matter but never ingested, so readers do not see them. Owner directive: done means SHIPPED and reviewable."
+        },
+        {
+          "at": "2026-08-26T02:57:05.294Z",
+          "link": "https://hellokahwin.com/artikel/venue-perancangan/bajet-kahwin",
+          "actor": "SYSTEM",
+          "claim": "SHIPPED. Supporting images are live in production on all 33 articles.",
+          "proof": "Live image count across 33 articles: 76 to 145 (+69). Zero articles where a draft declares an image production does not serve. Zero images live without a full credit chain. Zero text cards, database and live, verified with pnpm audit:images --db --live. CEO spot-check: doa-pengantin-baru 2 to 5 live, bajet-kahwin 4 to 7, borang-nikah 4 to 7."
+        }
+      ],
       "handle": "term_250c124c"
     },
     {
@@ -256,12 +341,15 @@
       "why": "P3 is our thinnest pillar at three articles and 1.3 images each.",
       "dod": "Two URLs under /artikel/ucapan-doa/ each return 200 on FIRST request; each renders a credit line quoted from live HTML; the pillar's article count rises from 3 to 5 in the sitemap. Plus the Stage 9 retrospective.",
       "brief": null,
-      "evidence": {
-        "claim": "Two P3 articles written to the full standard, ingest-ready, held at the production gate.",
-        "proof": "P3-A4-walimatul-urus.md (P3 C3.3, 2239 words) and P3-A5-skrip-pengacara-majlis-perkahwinan.md (P3 C3.4, 2585 words). Each: 0 IMEJ markers, 6 images including cover, cover licenseClass S with a photograph.",
-        "link": null,
-        "verified_by_ceo": "I counted markers, images and cover licence class myself with grep over the drafts. Six images each against a P3 pillar averaging 1.3 - the enrichment target hit at authoring time rather than retrofitted. NOT YET PUBLISHED: correctly held, RISK-01 is open."
-      },
+      "evidence": [
+        {
+          "at": "2026-08-25T18:06:17.162Z",
+          "link": "https://hellokahwin.com/artikel/ucapan-doa/walimatul-urus",
+          "actor": "SYSTEM",
+          "claim": "PUBLISHED. Both P3 articles are live.",
+          "proof": "walimatul-urus and skrip-pengacara-majlis-perkahwinan both 200 under /artikel/ucapan-doa/."
+        }
+      ],
       "handle": "term_2ec4bc5d"
     },
     {
@@ -277,12 +365,7 @@
       "why": "Thirteen legacy articles belong in existing clusters, but re-parenting changes their URLs (/artikel/{categorySlug}/{slug}) - a migration with thirteen redirects while Google is still consolidating the 21 Aug one.",
       "dod": "A written migration plan with the redirect map and a recommended date. NOTHING EXECUTED.",
       "brief": null,
-      "evidence": {
-        "claim": "The re-parenting plan is written, and it disproved the brief's premise on both counts.",
-        "proof": "docs/plans/aug-23-2026-session-01/aug-25-2026-plan-cont-04-legacy-reparenting.md. (1) ZERO redirects needed - the article route resolves by slug alone and self-heals to the canonical category (artikel/[category]/[slug]/page.tsx:545); the redirects table holds 0 rows. Proved live: /artikel/real-wedding/mas-kahwin-ikut-negeri, a category that never held it, 308s to canonical. (2) The real cost is INDEX CHURN, not redirect risk - re-parenting mid-consolidation gives an article a third URL, and GSC shows mas-kahwin-ikut-negeri accumulating impressions across all three addresses.",
-        "link": null,
-        "verified_by_ceo": "Read the plan and the work-done log. It also split the batch rather than accepting it whole and dropped garden-wedding outright (English page, English queries, position 36.5 - an editorial decision, not a re-parent). NOTHING EXECUTED, as the DoD required."
-      },
+      "evidence": [],
       "handle": "term_5fb2d22f"
     }
   ],
@@ -294,7 +377,64 @@
     "Social accounts - deferred since founding; revisit when content velocity justifies it",
     "New pillars or clusters beyond C2.3 - depth beats breadth until the first ranking data lands"
   ],
-  "retro": null,
+  "retro": {
+    "held_at": "2026-08-26",
+    "velocity": {
+      "parked": 2,
+      "planned": 42,
+      "completed": 40
+    },
+    "learnings": [
+      {
+        "why": "Moved from a reminder to a refusal: `set-state done` is now defined as an assertion that the three checks have just been run for that item, and the evidence block's verified_by_ceo field must name what was checked. Murat: 'not that we lacked a check - we HAD one, and running it was left to memory.'",
+        "finding": "A gate you have to remember is a suggestion. Stage 9b, the ship check, was written on 25 Aug, caught a real gap on its first run, and was then not run again - after which three items were marked done without shipping.",
+        "file_changed": "skillcentral/skills/startsprint/SKILL.md"
+      },
+      {
+        "why": "Stage 6b's gate is now production, not the file - ingest as part of the stage, or hand to Stage 7 by name. A dry run exiting 0 proves a file is ingestABLE, which is not ingested.",
+        "finding": "Stage 6b, the visual build, ended at a draft. CONT-02 sourced, credited and wrote alt text for 69 images, marked the item done, and not one reached a reader. The Head of SEO diagnosed why it bites this stage and no other: ingesting is a writer's last step so a writer cannot forget it; this stage ends in a file, so its author can.",
+        "file_changed": "docs/plans/aug-23-2026-session-01/aug-23-2026-workflow-content-production.md"
+      },
+      {
+        "why": "The writer's own diagnosis. A placeholder marker is now defined as a FORMAT ERROR, malformed the same way a missing pillar: field is malformed - not a style preference a brief has to keep asking for.",
+        "finding": "A rule repeated in briefs belongs in the artefact. The instruction 'never leave IMEJ markers' was written into two separate briefs for the same writer.",
+        "file_changed": "skillcentral/agents/projects/hellokahwin/Editorial/writer-adat-agama-prosedur.md and writer-inspirasi-vendor-venue.md"
+      },
+      {
+        "why": "Two of the three unshipped items passed review because a 307 was read as a healthy response. The DoD standard now requires proof from the response body plus a negative control, and requires the CEO to say plainly when it cannot verify from outside rather than dressing a redirect up as evidence.",
+        "finding": "On an auth-gated app a status code cannot prove a deployment. /sprints, /tasks and /definitely-not-a-real-route-xyz all return 307, because the redirect fires before routing.",
+        "file_changed": "skillcentral/skills/hellokahwin/SKILL.md"
+      },
+      {
+        "why": "New DONE MEANS SHIPPED section with a per-kind table - site code merged AND deployed AND visible; content ingested; images and metadata in the production database not a draft; documents committed AND pushed. Plus the review path: when confidence is low or there is no preview environment, stand up dev and hand the owner a URL before merging.",
+        "finding": "Done means shipped, and the standard did not say so until the owner supplied it on day two. Every DoD said what would be true; none said where.",
+        "file_changed": "skillcentral/skills/hellokahwin/SKILL.md"
+      },
+      {
+        "why": "dispatch-agent.ps1 prints the handle. Capture it there, keep an item-to-handle map, and audit every handle's brief before reporting progress - a dispatch that silently did not happen produces no error anywhere.",
+        "finding": "Capturing the dispatch handle by reading the status board in order is wrong in both directions at once. PLAT-01 and CONT-04 each received two agents on the same brief; RISK-01 and SEO-01 never started, and RISK-01 was the gate item five others were queued behind.",
+        "file_changed": "skillcentral/skills/startsprint/SKILL.md"
+      },
+      {
+        "why": "New Stage 7 section, 'A link you wrote is not a link Google follows'. Found by measuring properly rather than eyeballing - it was not in the brief and nobody was looking for it.",
+        "finding": "79 internal links were emitting rel=nofollow. The site was telling Google not to follow its own internal links while we investigated why 20 of 28 articles were never crawled. And a link to a root slug does nothing: one article had three inbound links from indexed pages and was still never crawled, because all three pointed at a URL Google calls unknown.",
+        "file_changed": "docs/plans/aug-23-2026-session-01/aug-23-2026-workflow-content-production.md"
+      },
+      {
+        "why": "Both corrected at source rather than annotated in a log. Recorded in the CEO persona as a standing expectation: when a hire's evidence contradicts something the CEO wrote, the evidence wins and the file gets corrected.",
+        "finding": "Two rules the CEO wrote were disproved by its own team within two days, and both times the team was right: re-parenting needs no redirects (the route self-heals; the redirects table holds zero rows), and the union rule is three-way not two-way (the old note compared one old URL to a different old URL).",
+        "file_changed": "docs/boardroom/ceo-memory.md"
+      }
+    ],
+    "carried_forward": [
+      "PLAT-05 (backlog, 5pt) - sprint documents readable and searchable inside /sprints. Specced, round-tabled, approved ready-for-dev. The room found the secret-shape guard would have rejected the /tokens registry, the document most worth finding.",
+      "OPEN FINDING, unassigned: cold renders take 5-22 seconds against a route declaring maxDuration=5, and the first request to a brand-new article URL returned 502 FUNCTION_RESPONSE_STREAM_INCOMPLETE. Googlebot's first request to any of the 20 uncrawled articles IS a cold render. Same shared-4s-budget shape as the cover-credit race. Measured, not root-caused.",
+      "OPEN FINDING, unassigned: no working preview environment on either project. All 39 Vercel env vars on buddy-web target production only; hellokahwin's preview builds fail on unpopulated env vars. Two instances is a pattern, not a coincidence.",
+      "RISK-02 stays parked, not carried: the owner accepted the credential risk with a stated revisit trigger (if the transcript is ever shared or exported)."
+    ],
+    "sizing_accuracy": "Sizing held. Nothing was narrowed to fit and nothing ran over. The two items that grew did so because scope genuinely changed mid-sprint at the owner's direction, not because they were mis-estimated: PLAT-01 went 5 to 8 when the dashboard became a real tracker on buddy.ian.ng, and PLAT-04 was added at 5 for Phase 2. PLAT-03 was correctly routed as a one-shot rather than given a spec, and resolved to a measurement with no code change. The only reopened items were reopened for shipping, not for scope.",
+    "process_findings": "THE SPRINT PROCESS FAILED THREE TIMES IN ONE CLASS AND THE OWNER CAUGHT ALL THREE. PLAT-01 and PLAT-04 were built, committed, tested and marked done but never merged - origin/main was unchanged and the web board did not exist. CONT-02's 69 images sat in draft front matter. The paper trail sat at 161 uncommitted files and 14 unpushed commits. Every one was found by the owner asking 'is it shipped?', not by any check. The root cause is not carelessness: the DoD standard had no notion of shipped until the owner supplied it, and the ship check that did exist was a reminder rather than a gate. Ordering was the other failure - handles assigned by position on the status board rather than captured at dispatch, which gave two items two agents and left two never started, including the item everything else was queued behind. What went RIGHT and must not be mistaken for luck: both duplicate pairs froze rather than raced and escalated for an ownership ruling. Ingest is whole-file, so a race would have published the loser's work silently. Winston: do not congratulate the fleet for surviving a dispatch error; fix the dispatch."
+  },
   "open_decisions": [],
   "decisions_taken": [
     {
@@ -349,5 +489,20 @@
       "verified_by_ceo": "Swept ALL 28 live articles myself, not just the eight: zero non-photograph images remain. Every image on every live article is an images-s-* licensed photograph.",
       "open_question_for_retro": "A standard changed after a batch was already built, and nothing caught it. What in the process should detect 'this was built before the rule existed'?"
     }
-  ]
+  ],
+  "reconciled": {
+    "at": "2026-08-31",
+    "source": "buddy sprint tracker (public.sprints / public.sprint_items), via `sprint reconcile`",
+    "note": "state, started_at, ended_at, retro and every item's state and evidence are the TRACKER's. points, track, owner, title, why, dod and brief are left AS SCOPED so /endsprint can still measure sizing accuracy against them.",
+    "tracker_velocity": {
+      "planned": 42,
+      "completed": 40,
+      "parked": 2,
+      "moved_out": 0
+    },
+    "items_added_after_scoping": [],
+    "items_that_left_this_sprint": [],
+    "items_absent_from_tracker": [],
+    "scope_drift": []
+  }
 }
