@@ -278,9 +278,41 @@ red; it earned its keep by finding a bug in the gate itself instead.
 !a.startsWith('--'))` pattern and has the same latent bug — reported above,
 not touched, because it is another item's file and it is shipped and green.
 
+### A mistake made in this item, recorded because it will recur
+
+**A file-scoped `git add` is not isolation when six agents share a checkout.**
+Writing the persona lesson meant staging
+`skillcentral/agents/projects/hellokahwin/Design/design-systems-engineer.md` by
+path. Another agent had **uncommitted edits in that same file** — UI-06's four
+persona lessons and its hard rule 7 — and `git add -- <path>` took the file, not
+my hunk. The commit carried their work under my message and my `Co-Authored-By`.
+
+Caught by reading `--numstat` after committing: **45 insertions** for a block
+that is 17 lines. The habit of checking the diff stat against what you believe
+you wrote is what found it; nothing else would have.
+
+Their work is **preserved, not lost**. The commit message was amended to name
+which lessons are mine and which are UI-06's, and the commit was deliberately
+**left unpushed** so that whoever owns UI-06 can still commit it under their own
+name rather than have it land on a remote under mine.
+
+The rule I had been following — "stage explicit pathspecs, never `-A`" — is
+correct for *files nobody else is touching* and useless for shared ones. The
+sprint's own guidance about parallel work covers merge commits and worktrees; it
+does not cover the shared non-site checkouts (`buddy/skillcentral`, the docs
+branch) where agents edit the SAME file at the same time.
+
+**Form: a checklist item, and it belongs to whoever owns the sprint workflow —**
+before `git add -- <path>` in a shared checkout, run `git diff --numstat --
+<path>` and confirm the count matches what you wrote; if it does not, stage the
+hunk or wait. Named here rather than edited in because the sprint workflow file
+was not identified in this item and guessing at its location is how a rule ends
+up somewhere nobody reads.
+
 ### The form question, answered
 
-Of five lessons, three became a script, a gate assertion or a persona rule, one
-became a dated correction on the document that carried the wrong claim, and one
-is an open one-line fix assigned by name. None of them became a paragraph
-somebody has to remember to read.
+Of six lessons, three became a script, a gate assertion or a persona rule; one
+became a dated correction on the document that carried the wrong claim; one is
+an open one-line fix assigned by name; and one is a checklist item whose owning
+file this item could not identify, so it is stated with its owner rather than
+filed in a guessed location. Only that last one is prose, and it says why.
