@@ -265,7 +265,34 @@ function collect(limits) {
       bits.unshift(s);
       n = n.parentElement;
     }
-    return bits.join(' > ');
+    // ── WHAT IS THIS ELEMENT, not just where does it sit ────────────────────
+    // Added by UI-08, 31 Ogos 2026. A class path is a location. It says
+    // nothing about what the thing IS, and every report this gate writes was
+    // read by somebody who then had to guess.
+    //
+    // UI-04's audit reported this exact defect as "the source-attribution
+    // link" from a path that read
+    //   nav.mb-6 > ol.text-muted-foreground > li.flex > span.text-foreground
+    // — which is a breadcrumb's current-page label: no href, no <a>
+    // ancestor, aria-current="page", text identical to the page's own <h1>.
+    // The phrase then travelled into the tracker's DoD and into UI-08's brief,
+    // carrying a rights argument that did not apply, and three documents
+    // repeated it because each quoted the one before. Had the report said
+    // "not a link, aria-current=page" nobody could have written that sentence.
+    //
+    // So every violation now carries the attributes that answer "what is it":
+    // whether it is a link and to where, and the ARIA that names its role.
+    const a = el.closest && el.closest('a');
+    const attr = (k) => (el.getAttribute && el.getAttribute(k)) || null;
+    const id = [
+      el.tagName.toLowerCase(),
+      a ? `link → ${a.getAttribute('href')}` : 'not a link',
+      attr('role') && `role="${attr('role')}"`,
+      attr('aria-current') && `aria-current="${attr('aria-current')}"`,
+      attr('aria-label') && `aria-label="${attr('aria-label')}"`,
+      el.tagName === 'IMG' && `alt=${JSON.stringify(attr('alt') ?? null)}`,
+    ].filter(Boolean);
+    return `${bits.join(' > ')}  ⟨${id.join(' · ')}⟩`;
   };
 
   // Visually-hidden text is NOT a layout defect, and it does not announce
