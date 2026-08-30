@@ -948,9 +948,37 @@
   font-style: italic;
 }
 
-/* Article-page serif override — currently a no-op (site serif IS Cormorant),
-   kept as the hook for giving article surfaces their own serif if the split
-   is ever wanted again. */
+/* ⚠ THIS IS NOT A NO-OP. The comment here said it was — "currently a no-op
+   (site serif IS Cormorant), kept as the hook for giving article surfaces their
+   own serif if the split is ever wanted again" — and that was true when it was
+   written, before DES-05's `tokens.css` set `--font-serif: 'Bodoni Moda', Didot,
+   'Bodoni MT', Georgia, serif` on `:root`. It has been false ever since, and it
+   is the single line that decides the typeface of every article headline and
+   every word of body copy on the route that takes essentially all of the site's
+   search traffic. `--font-cormorant` is not Cormorant either; it is
+   `Georgia, 'Times New Roman', Times, serif` (see the top of this file).
+
+   MEASURED on live production, 31 Ogos 2026 (UI-10), by rendering each h1's own
+   text to a canvas in its computed stack and comparing the advance against the
+   same string forced to each candidate face:
+
+     homepage  h1  computed `"Bodoni Moda", Didot, …`   848.2 -> matches Bodoni
+     category  h1  computed `"Bodoni Moda", Didot, …`   484.1 -> matches Bodoni
+     article   h1  computed `Georgia, "Times New Roman"` 848.2 -> matches GEORGIA
+                                                        (870.0 as Bodoni: not it)
+
+   So the site sets its headlines in TWO different typefaces depending on the
+   template, and `.s-h1`'s `font-variation-settings: 'opsz' 11` — the instance
+   DES-13 pinned, and the one the creative director's standards require to be
+   named — is being applied here to Georgia, a static face with no `opsz` axis,
+   where it does nothing at all. Bodoni Moda IS loaded on the page
+   (`document.fonts` reports one loaded face); this rule redirects away from it.
+
+   NOT changed by UI-10, deliberately: unifying the face would restyle every
+   article headline and every paragraph on the site, which is an art-direction
+   decision with its own item, not a side effect of a measure fix. Raised in
+   `docs/work-done/aug-30-2026-session-01/aug-31-2026-done-ui-10-reading-measure.md`.
+   If you are about to "clean up this dead rule", it is not dead. */
 .serif-editorial {
   --font-serif: var(--font-cormorant);
   --font-accent: var(--font-cormorant);
