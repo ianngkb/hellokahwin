@@ -902,6 +902,107 @@ that has only ever passed after being written from a single caught
 instance is not evidence it generalises, and this doctrine's own rule
 (5.6's own trap) is to build the check, not just narrate the incident.
 
+### 5.8 The rendered-image audit: no guardrail here can see what a photograph depicts
+
+*Added 31 Ogos 2026 by the creative-director on UI-03, after nearly shipping a
+hero that passed all three of its own acceptance tests and showed nothing.
+Sibling to 5.7: that one is owed for "is it visible", this one for "is it still
+a photograph of its subject."*
+
+UI-03's Definition of Done named three measurable conditions for the homepage
+hero: rendered aspect within 15% of source, upscale ≤ 1.1×, and a served variant
+that is not `low`. A `<picture>` serving `crop-4.3x1-desktop-hero` satisfies all
+three — 0.0% deviation, 0.78× (a downscale), not `low`. **Opening the file
+showed an extreme macro of artificial flowers that does not depict its article,
+*"Tempat beli barang hantaran: lima jenis kedai."*** Every number was green.
+
+**The mechanism, and it generalises.** `computeCropWindow` takes the
+width-constrained branch whenever the source is narrower than the target, so the
+surviving fraction of the photograph is exactly `sourceAspect / targetAspect`.
+Measured across all 13 homepage covers on 31 Ogos 2026:
+
+| Source | Aspect | Retained at the 3.52:1 hero |
+|---|---|---|
+| 12 of 13 | 1.500 (3:2 landscape) | **42.6%** |
+| 1 of 13 | 0.667 (2:3 portrait) | **18.9%** |
+
+**And the one portrait was the one in the hero slot**, because selection ordered
+by `publishedAt desc` with no orientation predicate. The single portrait
+photograph in the corpus won the largest surface on the site by recency accident.
+A landscape crop of a portrait photograph is not a landscape photograph; it is a
+band.
+
+**Why it belongs in the doctrine.** This is 5.7's failure one level up. 5.7 says
+a structurally perfect page can be unreadable. 5.8 says a page can be
+structurally perfect, readable, correctly proportioned, sharp, byte-efficient —
+and depict nothing. Every guardrail this company owns compares markup, counts,
+ratios and weights. **Nothing looks at a picture.** Aspect-ratio and upscale
+checks make it *worse* by being reassuring: they measure the frame and say
+nothing about what is inside it, so a crop that is geometrically perfect and
+editorially empty scores better than one that is neither.
+
+**The rule it produces:** *before an image slot ships, compute the retained
+fraction `sourceAspect / targetAspect` for every source that can reach it, and
+open the rendered crop of at least the one that will actually render. A slot
+whose aspect ratio cannot retain roughly a third of the frame for the available
+sources is a finding about the slot or the pipeline — never a photograph to
+swap.* The one-third line is judgement, not a derived constant, and is labelled
+as such in `docs/design/hero-image-rules.md` R8.
+
+**Written, not merely narrated** (5.6's own trap): `scripts/measure-hero.mjs` in
+the site repo reports box, served variant, **true** intrinsic size, aspect
+deviation, upscale, retained fraction and headline position per viewport, and
+UI-03 encodes the eligibility threshold in the render path so a portrait source
+cannot reach a landscape hero by rule rather than by curation.
+
+**Still owed:** the retained-fraction assertion exists only for the hero. Every
+other image slot on the site — article covers, category cards, row thumbnails —
+has the same exposure and no check. The article page was measured on the same
+day and is already failing it: `/artikel/idea-dan-nasihat/garden-wedding` serves
+`low.webp` into a 2.400 box at **60.1% aspect deviation**.
+
+**⚠ And a trap for whoever writes that check:** `img.naturalWidth` returns
+intrinsic width **divided by the density the browser derived from `sizes`** on
+any element carrying a `srcset` with `w` descriptors. Measured the same day: the
+hero reported `naturalWidth: 390` at a 390px viewport for a genuinely 1200px
+asset. **An upscale check written as `box.width / img.naturalWidth` returns ≈1.0
+by construction and can never fire.** Probe a detached `Image()` on
+`currentSrc`. This is the precise shape of failure §0 of the UI audit warns
+about — a check that passes its own test and is blind in production.
+
+### 5.9 Address by identity, never by position
+
+*Added 31 Ogos 2026, jointly by UI-01 and UI-03 after hitting the same failure
+in the same file on the same afternoon. Framing owed to UI-01, who spotted that
+they were one lesson and not two.*
+
+**Three instances in one sprint:**
+
+| Item | The positional reference | What it cost |
+|---|---|---|
+| UI-01 | CSS Grid auto-placed the headline into the rank-number track because **no child claimed it** | All 12 homepage cards rendered a 44px-wide headline |
+| UI-03 | `rest = latestArticles.filter((_, i) => i !== heroIndex)` matched **by index** | With `heroIndex === -1` it kept every article while the hero block still rendered `latestArticles[0]` — the lead article rendered **twice** |
+| UI-03 | `HERO_MIN_SOURCE_ASPECT = 1.15` — a threshold **positioned** relative to a hero aspect ratio it did not reference | Widen the plate and the threshold silently stops matching; portrait sources return with every check green |
+
+**The rule:** *when a set can be reordered, filtered or re-laid-out, address its
+elements by identity — an id, a claim, a derived relationship — never by
+position. A positional reference stays valid right up until the set changes, and
+then fails without raising anything.*
+
+**Why it belongs in the doctrine rather than in two retrospectives.** Every one
+of these is silent. Nothing throws, nothing fails a structural diff, the page
+renders, and the HTML is valid. UI-01's shipped to production and survived every
+automated check for a sprint. UI-03's does not trigger on today's data at all,
+so no screenshot and no diff would ever have surfaced it — it was found by
+reading the code while changing something adjacent, which is luck, not a
+mechanism.
+
+**The forms it took here, in preference order:** UI-03's `rest` is now keyed on
+`hero.id`; UI-03's threshold is now *derived* from `HERO_ASPECT` so changing the
+plate re-derives it; UI-01's `.s-row` grid now has a child that explicitly claims
+the number track. Three code changes, no prose. That is the right ratio, and it
+is what this section is asking the next person to reach for first.
+
 ## 6. What this doctrine asks for
 
 Nothing new. It asks for the same four decisions already open, and it explains
