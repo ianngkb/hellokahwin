@@ -357,6 +357,19 @@ in a different face. The tell was arithmetic: it reported an identical 70.3 at
 both 1440 and 1920 while the body widths were 888px and 1144px — impossible for
 one element. Fixed to measure the same set `bodyParas` measures.
 
+**Staged a whole directory in a checkout six agents share, and had it done to me
+in the same hour.** UI-08's `git add docs/work-done/aug-30-2026-session-01/` swept
+55 of my in-progress EVIDENCE files into their commit `aa0b290`; my own
+`git add …/aug-31-2026-ui-10-EVIDENCE` was a directory too, and only harmless
+because that one happened to contain nothing but my own files. Verified afterwards
+rather than assumed: the committed tree is 81 files (README + 6 harness + 9
+measurements + 65 screens) and `git diff` against `origin` is empty for every path
+of mine, so nothing was truncated or left mid-write. **The lesson and its form
+belong to UI-08, who logged it — stage by explicit path, never by directory — and
+it is not restated here.** What this entry adds is the second data point: two
+agents made the same mistake within the hour, which is the argument for the rule
+being mechanical rather than remembered.
+
 **Ran the gate against a preview that was 18 commits behind `master` and read the
 difference as a regression of mine.** `clipped-text` came back 6 where production
 showed 0. It was another agent's fix that my branch had not merged yet. After
