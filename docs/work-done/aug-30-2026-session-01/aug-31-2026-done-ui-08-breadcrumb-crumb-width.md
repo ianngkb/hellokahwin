@@ -410,6 +410,28 @@ Nobody reading that line writes "the source-attribution link". That is the
 counterfactual, run against the actual bytes that produced the original
 mistake, rather than an assertion that next time we will read more carefully.
 
+### What I got wrong in this item: `git add <directory>` in a shared checkout
+
+Writing the entry, I staged with
+`git add docs/work-done/aug-30-2026-session-01/` and swept **60 files belonging
+to two other agents** into commit `aa0b290` — UI-10's entire EVIDENCE tree
+(harness, measurements, 56 screenshots) and four of UI-11's screenshots, all
+untracked and in flight at that moment. It is pushed.
+
+**Nothing is lost and nothing is altered** — the files are byte-identical to
+what those agents wrote, and this repo's own rule (`docs/work-done/README.md`,
+"Code work is not done until it is deployed") says unshipped work belonging to
+someone else should be *reported*, not left to get lost. So I have not reverted
+it: un-committing would risk deleting evidence out from under an agent still
+writing it, which is a strictly worse failure than committing it early. Both
+owners have been told, and the practical consequence for them is only that
+`git status` in that tree is now clean where they expected additions.
+
+**Form of the fix:** in a checkout shared by six concurrent agents, stage by
+explicit path, never by directory. `git add <dir>` is a wildcard over other
+people's work. The five site-repo commits in this item all used explicit paths;
+the one docs commit that did not is the one that went wrong.
+
 ### What we did twice
 
 - **Measured the same element with two independent tools**, deliberately, and it
