@@ -17,7 +17,7 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
           return (
-            <li key={index} className="flex items-center gap-1">
+            <li key={index} className="flex min-w-0 items-center gap-1">
               {index > 0 && <ChevronRight className="size-3.5 shrink-0" aria-hidden="true" />}
               {item.href && !isLast ? (
                 // `hk-tap` — a breadcrumb is a standalone target, not a link in
@@ -28,7 +28,16 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
                 </Link>
               ) : (
                 <span
-                  className="text-foreground max-w-[200px] truncate font-medium"
+                  // UI-08: this was `max-w-[200px] truncate`, a fixed box at
+                  // EVERY width. It hid 132px (40%) of the article title and
+                  // 303px (60%) of the /dewan-kahwin one, identically at 390,
+                  // 768, 1024 and 1440 — measured, UI-04 rendered audit. The
+                  // crumb is the page's own <h1> and the JSON-LD emits it in
+                  // full, so the visible label must match. `min-w-0` on the
+                  // <li> lets it shrink inside the flex row; the <ol> already
+                  // wraps. `break-words` covers the one state a title can
+                  // still overflow on: a single token longer than the column.
+                  className="text-foreground font-medium break-words"
                   aria-current="page"
                 >
                   {item.label}

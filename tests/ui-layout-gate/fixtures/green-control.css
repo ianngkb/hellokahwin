@@ -1,0 +1,28 @@
+/*
+ * GREEN CONTROL — a test fixture, not production code, and nothing here is a
+ * proposed fix.
+ *
+ * A gate that has only ever been seen failing is as untrustworthy as one that
+ * has only ever been seen passing: neither has been shown to DISCRIMINATE. The
+ * pre-fix capture fails; this stylesheet is the smallest edit that makes one of
+ * those same pages pass, so `--fixtures --green` demonstrates the gate can
+ * reach exit 0 on a real page rather than being permanently red.
+ *
+ * It is injected by `scripts/ui-layout-gate.mjs` at serve time and ONLY under
+ * `--green`. The fixture HTML on disk stays byte-identical to the CEO's 31 Aug
+ * capture.
+ *
+ * ONE RULE. The category page's only violation in the pre-fix capture is the
+ * shared header: a 1,969.5px category rail inside a 1,352px container, which
+ * puts two of nine categories past the right edge of a 1440px viewport. The
+ * rail's inner row already carries `flex-wrap: wrap`; `min-w-max` on its parent
+ * is what stops it wrapping. Release that and the rail fits.
+ *
+ * Which template fixes the real nav — wrap, a menu, fewer top-level categories,
+ * shorter labels — is UI-02's decision and the creative director's call. This
+ * file exists to prove a measurement instrument works, and it should not be
+ * cited in that decision.
+ */
+header .min-w-max {
+  min-width: 0;
+}

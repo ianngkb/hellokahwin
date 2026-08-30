@@ -2151,13 +2151,10 @@
    draft-preview surface, which never loads it. Without the fallback a target
    on that surface would silently lose its floor.
 
-   THREE VARIANTS. Same floor; they differ in what they must not break.
+   TWO VARIANTS. Same floor; they differ in what they must not break.
      .hk-tap       — the default. Text-only label, may wrap, optically centred.
-     .hk-tap-line  — a single-line label that must ellipsis. `text-overflow`
-                     needs a block container, which a flex container is not,
-                     so this one is a block and the 24px LINE BOX does the
-                     work instead of `align-items`. Use it only where the
-                     label truncates.
+                     `inline-flex` is shrink-to-fit, so it still wraps inside
+                     its column exactly where the inline anchor did.
      .hk-tap-flow  — a label whose content must keep flowing INLINE, because
                      something trails it that belongs after the last word.
                      Measured on the figure-caption credits at 390: as
@@ -2175,11 +2172,12 @@
   align-items: center;
   min-height: var(--tap-min, 24px);
 }
-.hk-tap-line {
-  display: block;
-  min-height: var(--tap-min, 24px);
-  line-height: var(--tap-min, 24px);
-}
+/* There was a third, `.hk-tap-line` — a block with a 24px line box, for a
+   single-line label that had to ellipsis. Its only consumer was the card's
+   category label, and UI-07 landed first with the finding that that label must
+   WRAP and never truncate. A design system that keeps a variant nothing
+   consumes is the drift this system exists to prevent, so it was removed
+   rather than left standing for a future component to find and misuse. */
 .hk-tap-flow {
   display: inline-block;
   min-height: var(--tap-min, 24px);

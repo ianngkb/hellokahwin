@@ -75,17 +75,29 @@ export function ArticleCard({
         )}
       </div>
       <div className="mt-3">
+        {/*
+          UI-07: this label wraps; it must never truncate. `truncate` hid 10px of
+          "Hantaran & Mas Kahwin" in the 171px two-up column at 390px, and the two
+          longest live category names lose 81px at 1024 and 17px at 1440 in the
+          four-up column too — the defect only looked mobile-only because no
+          article in the current grid carries them. Wrapping is the only fix that
+          holds at every width: the longest live label needs 301px, the widest
+          card column is 284px, and the label may not shrink below 11px or hide.
+          `wrap-anywhere` breaks a pathological single token instead of
+          overflowing the grid — the longest live token is 123px, so it is a
+          guard, not a behaviour anyone sees today.
+        */}
         {categories[0] && (
           // UI-11: the label is a standalone target and measured 181.2 x 15.
-          // `truncate` moved OFF the <p> and ON to the anchor deliberately:
-          // the anchor is now the box that must be 24px tall, and
-          // `text-overflow: ellipsis` is applied by the element that overflows.
-          // Left on the <p>, the anchor became an atomic inline inside it and
-          // the ellipsis had nothing inline-level left to trim.
-          <p className="hk-eyebrow">
+          // `hk-tap` and not the truncating variant, because UI-07 landed first
+          // and its finding stands: this label WRAPS and must never truncate.
+          // `inline-flex` is shrink-to-fit, so it wraps inside the column like
+          // the inline anchor it replaces, and `overflow-wrap` inherits from
+          // the `wrap-anywhere` on the <p> above it.
+          <p className="hk-eyebrow wrap-anywhere">
             <Link
               href={`/artikel/${categories[0].slug}`}
-              className="hk-tap-line hover:text-foreground relative z-[2] truncate transition-colors"
+              className="hk-tap hover:text-foreground relative z-[2] transition-colors"
             >
               {categories[0].name}
             </Link>
