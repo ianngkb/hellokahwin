@@ -1,0 +1,30 @@
+
+production (pre-fix) @390px
+{
+  "mq": false,
+  "rows": 12,
+  "cols": "80px 256px",
+  "idxPresent": false,
+  "idxDisplay": "(no .s-idx in DOM)",
+  "idxBoxW": null,
+  "headW": 256,
+  "headH": 63,
+  "imgW": 80,
+  "imgH": 80,
+  "overflowX": false
+}
+
+localhost (post-fix) @390px
+{
+  "mq": false,
+  "rows": 12,
+  "cols": "80px 256px",
+  "idxPresent": true,
+  "idxDisplay": "none",
+  "idxBoxW": 0,
+  "headW": 256,
+  "headH": 63,
+  "imgW": 80,
+  "imgH": 80,
+  "overflowX": false
+}

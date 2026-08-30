@@ -1,0 +1,38 @@
+
+> hellokahwin@0.1.0 audit:srow C:\Users\Ian Ng\orca\workspaces\hellokahwin-site\ui01-srow
+> node scripts/audit-srow-geometry.mjs "https://hellokahwin.com"
+
+
+=== homepage — https://hellokahwin.com/ @ 1440px ===
+status: 200   (min-width:1024px) matches: true
+rows: 12
+   #  chld  idx  idx WxH   headline W x H   rowH   grid-template-columns
+   1     3   01   44x26      412 x 78   PASS   173  44px 412px 176px   Persiapan hantaran kahwin: jadual lapan ming
+   2     3   02   44x26      412 x 78   PASS   173  44px 412px 176px   Adat hantaran kahwin ikut keluarga: bila dua
+   3     3   03   44x26      412 x 78   PASS   173  44px 412px 176px   Barang hantaran yang digunakan, dan yang ter
+   4     3   04   44x26      412 x 78   PASS   173  44px 412px 176px   Hantaran kahwin bajet: kos sebenar 12 dulang
+   5     3   05   44x26      412 x 78   PASS   173  44px 412px 176px   Hantaran untuk lelaki: senarai barang dan ko
+   6     3   06   44x26      412 x 78   PASS   173  44px 412px 176px   Barang hantaran perempuan: senarai ikut kate
+   7     3   07   44x26      412 x 78   PASS   173  44px 412px 176px   Barang hantaran tunang: disimpan, dipulang a
+   8     3   08   44x26      412 x 78   PASS   173  44px 412px 176px   Hantaran tunang simple: contoh lapan dulang 
+   9     3   09   44x26      412 x 78   PASS   173  44px 412px 176px   Berapa dulang hantaran tunang, dan siapa yan
+  10     3   10   44x26      412 x 78   PASS   173  44px 412px 176px   Hantaran tunang untuk perempuan: apa yang di
+  11     3   11   44x26      412 x 78   PASS   173  44px 412px 176px   Hantaran tunang untuk lelaki: apa yang dibal
+  12     3   12   44x26      412 x 78   PASS   173  44px 412px 176px   Hidden hantaran: maksud, sebab ia popular da
+  LAYOUT : PASS  — 12/12 rows in the headline box, 12/12 numbered
+  CONTENT: PASS  — 12 rows, expected 12
+
+=== article (control) — https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding @ 1440px ===
+status: 200   (min-width:1024px) matches: true
+rows: 1
+   #  chld  idx  idx WxH   headline W x H   rowH   grid-template-columns
+   1     3   01   44x26      924 x 27   PASS   173  44px 924px 176px   10 Dewan Kahwin Murah di Selangor & KL – Ses
+  LAYOUT : PASS  — 1/1 rows in the headline box, 1/1 numbered
+  CONTROL: PASS  — asserted first row idx="01" w 40-48px, h <= 40px; got idx="01" 44x26
+
+─────────────────────────────────────────────────────────────
+  LAYOUT : PASS
+  CONTENT: PASS
+  CONTROL: PASS
+  RIG    : PASS
+GATE: PASS  [headline width >= 350px, height <= 100px, every row numbered; control renders 01]

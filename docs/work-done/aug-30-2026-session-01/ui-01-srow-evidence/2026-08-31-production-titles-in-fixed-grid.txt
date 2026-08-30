@@ -1,0 +1,16 @@
+.t font-size 21px, line-height 27.3px
+  #  chars lines  titleH  wrapWxH    rowH  imgH   title
+   1     46     2      55  412x78     173   132   Persiapan hantaran kahwin: jadual lapan minggu
+   2     60     2      55  412x78     173   132   Adat hantaran kahwin ikut keluarga: bila dua senarai
+   3     50     2      55  412x78     173   132   Barang hantaran yang digunakan, dan yang tersimpan
+   4     50     2      55  412x78     173   132   Hantaran kahwin bajet: kos sebenar 12 dulang, 2026
+   5     50     2      55  412x78     173   132   Hantaran untuk lelaki: senarai barang dan kos 2026
+   6     56     2      55  412x78     173   132   Barang hantaran perempuan: senarai ikut kategori dan
+   7     63     2      55  412x78     173   132   Barang hantaran tunang: disimpan, dipulang atau diba
+   8     54     2      55  412x78     173   132   Hantaran tunang simple: contoh lapan dulang dan kosn
+   9     54     2      55  412x78     173   132   Berapa dulang hantaran tunang, dan siapa yang tentuk
+  10     54     2      55  412x78     173   132   Hantaran tunang untuk perempuan: apa yang dibawa mas
+  11     59     2      55  412x78     173   132   Hantaran tunang untuk lelaki: apa yang dibalas dan h
+  12     55     2      55  412x78     173   132   Hidden hantaran: maksud, sebab ia popular dan cara b
+
+rows exceeding the DoD's 100px: 0

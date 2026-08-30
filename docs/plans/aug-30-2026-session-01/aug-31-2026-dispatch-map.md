@@ -123,6 +123,41 @@ in each, against **3** before.
 **The rule this produces:** never dispatch into a worktree without confirming
 (a) its HEAD, and (b) that the code the item names is actually present in it.
 
+## ⚠ THE SECOND ONE: "you share no files" was asserted, not measured
+
+Added by UI-01, 31 Ogos 2026, after shipping.
+
+**UI-01's brief said "UI-03 (the hero) is running concurrently in its own tree
+under another agent. You share no files." UI-03's brief said the same of UI-01.
+Both were wrong.** The hero (lines ~105–200) and the Terkini list (lines
+~267–312) are in the same file, `src/app/(public)/page.tsx`. UI-02 also turned
+out to share `src/app/(admin)/admin/design-system/page.tsx` with UI-01, which
+neither brief mentioned either.
+
+Nothing broke, because the two agents found it themselves and coordinated —
+UI-01 shipped first so its before/after evidence had one variable in it, then
+released UI-03. But that was two agents' judgement recovering from a false
+statement in their own briefs, and judgement is not a mechanism.
+
+**The rule this produces:** a brief may not assert file isolation. It is a
+measurable fact, so measure it. Before dispatch, for every pair of concurrent
+items, list the files each will touch and intersect them:
+
+```
+grep -rl '<the symbol the item names>' src/     # per item, in a tree at origin/master
+```
+
+Then the brief says one of two things, never a third:
+
+- **"You share no files with X"** — only when that intersection was computed and
+  was empty, and the brief says when it was computed.
+- **"You share `<path>` with X, who owns lines A–B; keep your diff inside C–D"** —
+  which is what both of these briefs should have said, and which is exactly what
+  the two agents ended up writing to each other by hand.
+
+An unmeasured isolation claim is worse than no claim, because an agent that is
+told it is alone in a file will not go looking.
+
 ## Sequencing, stated out loud
 
 Only one item is sequenced, and the reason is in its brief:

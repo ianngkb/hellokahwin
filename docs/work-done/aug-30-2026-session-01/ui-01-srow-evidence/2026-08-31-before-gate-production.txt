@@ -1,0 +1,26 @@
+
+=== homepage — https://hellokahwin.com/ @ 1440px  (min-width:1024px matches: true) ===
+rows: 12 (expected 12)
+  #  chld  idx  idxWxH   headline W x H   grid-template-columns
+   1     2    —    —x—       44 x 225  FAIL  44px 412px 176px   Persiapan hantaran kahwin: jadual lapan ming
+   2     2    —    —x—       44 x 307  FAIL  44px 412px 176px   Adat hantaran kahwin ikut keluarga: bila dua
+   3     2    —    —x—       44 x 253  FAIL  44px 412px 176px   Barang hantaran yang digunakan, dan yang ter
+   4     2    —    —x—       44 x 280  FAIL  44px 412px 176px   Hantaran kahwin bajet: kos sebenar 12 dulang
+   5     2    —    —x—       44 x 280  FAIL  44px 412px 176px   Hantaran untuk lelaki: senarai barang dan ko
+   6     2    —    —x—       44 x 280  FAIL  44px 412px 176px   Barang hantaran perempuan: senarai ikut kate
+   7     2    —    —x—       44 x 307  FAIL  44px 412px 176px   Barang hantaran tunang: disimpan, dipulang a
+   8     2    —    —x—       44 x 280  FAIL  44px 412px 176px   Hantaran tunang simple: contoh lapan dulang 
+   9     2    —    —x—       44 x 280  FAIL  44px 412px 176px   Berapa dulang hantaran tunang, dan siapa yan
+  10     2    —    —x—       44 x 280  FAIL  44px 412px 176px   Hantaran tunang untuk perempuan: apa yang di
+  11     2    —    —x—       44 x 307  FAIL  44px 412px 176px   Hantaran tunang untuk lelaki: apa yang dibal
+  12     2    —    —x—       44 x 307  FAIL  44px 412px 176px   Hidden hantaran: maksud, sebab ia popular da
+  numbered check: 0/12 rows carry .s-idx
+  !! rows without a rank number: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
+
+=== article (control) — https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding @ 1440px  (min-width:1024px matches: true) ===
+rows: 1
+  #  chld  idx  idxWxH   headline W x H   grid-template-columns
+   1     3   01   44x26     924 x 27   PASS  44px 924px 176px   10 Dewan Kahwin Murah di Selangor & KL – Ses
+  numbered check: 1/1 rows carry .s-idx
+
+GATE: FAIL (13 failing conditions)  [headline width >= 350px, height <= 100px]

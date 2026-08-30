@@ -1,0 +1,9 @@
+with number   : {"cols":"44px 412px 176px","children":3,"headW":412,"headH":78}
+number removed: {"cols":"484px 176px","children":2,"headW":484,"headH":78}
+first track after removal: 484px
+
+guard fires (3 tracks -> 2): true
+no empty 44px gutter left behind: true
+headline still wide (>=350px): true (484px)
+
+RESULT: GUARD PROVEN
