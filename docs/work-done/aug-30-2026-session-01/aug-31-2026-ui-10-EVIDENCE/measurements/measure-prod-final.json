@@ -1,0 +1,6882 @@
+[
+  {
+    "tag": "prod-final",
+    "base": "https://hellokahwin.com",
+    "viewportRequested": 390,
+    "status": 200,
+    "xVercelCache": "HIT",
+    "mq": {
+      "max-width:767px": true,
+      "min-width:768px": false,
+      "max-width:1023px": true,
+      "min-width:1024px": false,
+      "min-width:1280px": false,
+      "min-width:1536px": false
+    },
+    "innerWidth": 390,
+    "dpr": 1,
+    "overflowPx": 0,
+    "scrollHeight": 32006,
+    "geometry": {
+      "shell": {
+        "sel": "div.hk.serif-editorial.s-pad",
+        "left": 0,
+        "right": 390,
+        "width": 390,
+        "maxWidth": "none",
+        "paddingLeft": "20px",
+        "paddingRight": "20px",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "marginInline": "0px / 0px"
+      },
+      "grid": {
+        "sel": "div.grid.grid-cols-1.gap-8",
+        "left": 20,
+        "right": 370,
+        "width": 350,
+        "maxWidth": "none",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "gridTemplateColumns": "350px",
+        "gap": "32px",
+        "marginInline": "0px / 0px"
+      },
+      "article": {
+        "sel": "article",
+        "left": 20,
+        "right": 370,
+        "width": 350,
+        "maxWidth": "562.483px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "marginInline": "0px / 0px"
+      },
+      "prose": {
+        "sel": "div.inspire-prose",
+        "left": 20,
+        "right": 370,
+        "width": 350,
+        "maxWidth": "562.483px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "marginInline": "0px / 0px"
+      },
+      "header": {
+        "sel": "header.max-w-3xl.pt-4",
+        "left": 20,
+        "right": 370,
+        "width": 350,
+        "maxWidth": "768px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "marginInline": "0px / 0px"
+      },
+      "coverFigure": {
+        "sel": "figure.mt-6.mb-10.max-w-3xl",
+        "left": 20,
+        "right": 370,
+        "width": 350,
+        "maxWidth": "768px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "marginInline": "0px / 0px"
+      },
+      "sidebar": {
+        "sel": "div.hidden.lg:block",
+        "left": 0,
+        "right": 0,
+        "width": 0,
+        "maxWidth": "none",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "marginInline": "0px / 0px"
+      }
+    },
+    "proseFigs": [
+      {
+        "sel": "img.h-auto.w-full.rounded-md",
+        "left": 20,
+        "width": 350
+      },
+      {
+        "sel": "figure.group.relative.my-6",
+        "left": 20,
+        "width": 350
+      },
+      {
+        "sel": "img.h-auto.w-full.rounded-md",
+        "left": 20,
+        "width": 350
+      },
+      {
+        "sel": "img.h-auto.w-full.rounded-md",
+        "left": 20,
+        "width": 350
+      },
+      {
+        "sel": "figure.group.relative.my-6",
+        "left": 20,
+        "width": 350
+      },
+      {
+        "sel": "img.h-auto.w-full.rounded-md",
+        "left": 20,
+        "width": 350
+      },
+      {
+        "sel": "img.h-auto.w-full.rounded-md",
+        "left": 20,
+        "width": 350
+      },
+      {
+        "sel": "figure.group.relative.my-6",
+        "left": 20,
+        "width": 350
+      }
+    ],
+    "headings": [
+      {
+        "tag": "h2",
+        "width": 350,
+        "left": 20,
+        "fontSize": 24,
+        "text": "1. The Waterway Villa, Pahang"
+      },
+      {
+        "tag": "h2",
+        "width": 350,
+        "left": 20,
+        "fontSize": 24,
+        "text": "2. Aman Rimba Private Estate, Pahang"
+      },
+      {
+        "tag": "h2",
+        "width": 350,
+        "left": 20,
+        "fontSize": 24,
+        "text": "3. Puncak Rimba, Pahang"
+      },
+      {
+        "tag": "h2",
+        "width": 350,
+        "left": 20,
+        "fontSize": 24,
+        "text": "4. Forest Valley Hall, Selangor"
+      },
+      {
+        "tag": "h2",
+        "width": 350,
+        "left": 20,
+        "fontSize": 24,
+        "text": "5. Sunlight Suites, Pahang"
+      },
+      {
+        "tag": "h2",
+        "width": 350,
+        "left": 20,
+        "fontSize": 24,
+        "text": "6. Boathouse Ampang, Selangor"
+      }
+    ],
+    "bodyParaCount": 81,
+    "bodyParas": [
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Jika anda mengimpikan majlis perkahwinan"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Malaysia mempunyai pelbagai lokasi menar"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Berikut ialah 20 venue garden wedding pa"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Terletak di tengah hutan hujan Bentong, "
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Dikelilingi bukit menghijau dan flora tr"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Pasangan boleh melangsungkan akad nikah "
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Villa yang tersorok di kawasan bukit ini"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Hanya 50 minit dari Kuala Lumpur, Aman R"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Dengan enam villa yang boleh memuatkan h"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Pengalaman perkahwinan di sini terasa se"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Terkenal selepas menjadi lokasi perkahwi"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Pasangan boleh memilih lokasi seperti Ke"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Forest Valley Hall ialah antara venue Ga"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Ruang utamanya ialah dewan kaca berkubah"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Gabungan hijau tropika dan seni bina mod"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Dahulu dikenali sebagai Jim Thompson Cot"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Terdiri daripada tiga bangunan utama Moo"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Manakala untuk 50–100 tetamu, Starlight "
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Walaupun berfungsi hanya sebagai ruang a"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Suasana sejuk, taman berbunga dan pemand"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Untuk pasangan yang mahu rustic garden w"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Ia menampilkan dua ruang utama iaitu Gla"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Dengan rekaan kolonial dan pemandangan t"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Sama ada majlis akad nikah, resepsi keci"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Cove 55 merupakan lokasi Garden Wedding "
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Tempat ini menjadi terkenal selepas pela"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Dengan 13 villa mewah dan dewan moden Se"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "A-Park merupakan antara lokasi Garden We"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Tempat ini mempunyai taman luas, tasik k"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Pasangan boleh memilih pakej mengikut sa"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Setiap sudut di A-Park sangat fotogenik,"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Glasshouse di Seputeh KL ialah destinasi"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Venue ini mempunyai beberapa ruang seper"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Pada waktu malam, pencahayaan lembut dan"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Ia sesuai untuk majlis akad nikah, resep"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Pulai Spring Resort sudah lama menjadi p"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Resort ini boleh menampung lebih 500 tet"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Suasananya hijau dan luas, sesuai untuk "
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Kebun Rimba Janda Baik ialah antara loka"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Tiga lokasi utama boleh dipilih untuk ma"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Dengan enam buah rumah kampung yang mamp"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Tempat ini sesuai bagi pasangan yang ing"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Bagi pasangan yang mahukan majlis dalam "
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "KLGCC menyediakan pelbagai ruang terbuka"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Gabungan kemewahan moden dan keindahan a"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Terletak di tengah hutan hijau, Tiarasa "
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Upacara perkahwinan boleh diadakan di ka"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Tempat ini menawarkan penginapan mewah d"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Sangkot Place terkenal sebagai lokasi ga"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Pakej perkahwinan untuk 500 tetamu bermu"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Kelebihan utama Sangkot Place ialah suas"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Anantara Desaru Coast Resort & Villas ia"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Pasangan boleh memilih untuk melangsungk"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Kemudahan lengkap seperti restoran antar"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Dengan pemandangan laut, layanan premium"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Jardin Event Venue membawa konsep Garden"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Ruang Hillview Garden boleh memuatkan 10"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Kelebihan Jardin ialah suasana moden tet"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "The Smokehouse di Cameron Highlands memb"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Majlis boleh diadakan di taman terbuka d"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Tempat ini juga menawarkan aktiviti tamb"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Di tengah hiruk-pikuk kota, Rama V ialah"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Ruang luarannya mempunyai taman kecil un"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Dengan kapasiti 230 tetamu dan dinding k"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Walaupun ruang parkir agak terhad, makan"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Terletak kira-kira 45 minit dari Kuala L"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Majlis boleh diadakan di taman Villa 1 ("
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Suasana damai dan udara segar menjadikan"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Rowan & Parsley ialah restoran bergaya m"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Ruang dalam boleh memuatkan 96 tetamu, m"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Rowan & Parsley sesuai untuk pasangan ya"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Daripada kehijauan hutan Pahang hingga k"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Sama ada anda mahukan suasana desa tradi"
+      },
+      {
+        "width": 326,
+        "fontSize": 17.0449,
+        "cpl": 38.25,
+        "left": 44,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "10 Lokasi Majlis Kahwin yang Popular di "
+      },
+      {
+        "width": 326,
+        "fontSize": 17.0449,
+        "cpl": 38.25,
+        "left": 44,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "10 Dewan Kahwin Murah di Selangor & KL –"
+      },
+      {
+        "width": 326,
+        "fontSize": 17.0449,
+        "cpl": 38.25,
+        "left": 44,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "20 Lokasi Terbaik Pre Wedding Photoshoot"
+      },
+      {
+        "width": 326,
+        "fontSize": 17.0449,
+        "cpl": 38.25,
+        "left": 44,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Checklist Kahwin: Senarai Persediaan 12 "
+      },
+      {
+        "width": 326,
+        "fontSize": 17.0449,
+        "cpl": 38.25,
+        "left": 44,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Bajet Kahwin 2026: Apa yang Boleh Diharg"
+      },
+      {
+        "width": 326,
+        "fontSize": 17.0449,
+        "cpl": 38.25,
+        "left": 44,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Perkahwinan Taman Kebun yang Minimalis d"
+      },
+      {
+        "width": 326,
+        "fontSize": 17.0449,
+        "cpl": 38.25,
+        "left": 44,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "Majlis Perkahwinan Intim Bertemakan Warn"
+      },
+      {
+        "width": 326,
+        "fontSize": 17.0449,
+        "cpl": 38.25,
+        "left": 44,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "text": "19 Tempat Honeymoon di Malaysia yang Waj"
+      }
+    ],
+    "ui04MeasureSet": [
+      {
+        "width": 350,
+        "fontSize": 18.0899,
+        "cpl": 38.7,
+        "left": 20,
+        "right": 370,
+        "family": "ui-sans-serif",
+        "lineHeight": "27.1348px",
+        "sel": "p.s-deck.mt-4",
+        "text": "Jika anda mengimpikan majlis perkahwinan yang di"
+      },
+      {
+        "width": 316,
+        "fontSize": 17.0449,
+        "cpl": 37.08,
+        "left": 37,
+        "right": 353,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p.hk-eyebrow.mb-2.5",
+        "text": "Isi Kandungan"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Jika anda mengimpikan majlis perkahwinan yang di"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Malaysia mempunyai pelbagai lokasi menarik yang "
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Berikut ialah 20 venue garden wedding paling can"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Terletak di tengah hutan hujan Bentong, The Wate"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Dikelilingi bukit menghijau dan flora tropika, v"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Pasangan boleh melangsungkan akad nikah atau res"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Villa yang tersorok di kawasan bukit ini memberi"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Hanya 50 minit dari Kuala Lumpur, Aman Rimba mem"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Dengan enam villa yang boleh memuatkan hingga 40"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Pengalaman perkahwinan di sini terasa seperti be"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Terkenal selepas menjadi lokasi perkahwinan peny"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Pasangan boleh memilih lokasi seperti Keshar Riv"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Forest Valley Hall ialah antara venue Garden Wed"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Ruang utamanya ialah dewan kaca berkubah tinggi "
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Gabungan hijau tropika dan seni bina moden menja"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Dahulu dikenali sebagai Jim Thompson Cottage, Su"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Terdiri daripada tiga bangunan utama Moonlight B"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Manakala untuk 50–100 tetamu, Starlight Rooms ju"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Walaupun berfungsi hanya sebagai ruang acara, pi"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Suasana sejuk, taman berbunga dan pemandangan hi"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Untuk pasangan yang mahu rustic garden wedding d"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Ia menampilkan dua ruang utama iaitu Glass House"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Dengan rekaan kolonial dan pemandangan tasik yan"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Sama ada majlis akad nikah, resepsi kecil atau R"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Cove 55 merupakan lokasi Garden Wedding paling e"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Tempat ini menjadi terkenal selepas pelakon Henr"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Dengan 13 villa mewah dan dewan moden Sera Hall "
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "A-Park merupakan antara lokasi Garden Wedding ya"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Tempat ini mempunyai taman luas, tasik kecil dan"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Pasangan boleh memilih pakej mengikut saiz tetam"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Setiap sudut di A-Park sangat fotogenik, menjadi"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Glasshouse di Seputeh KL ialah destinasi popular"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Venue ini mempunyai beberapa ruang seperti Grand"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Pada waktu malam, pencahayaan lembut dan hiasan "
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Ia sesuai untuk majlis akad nikah, resepsi hingg"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Pulai Spring Resort sudah lama menjadi pilihan p"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Resort ini boleh menampung lebih 500 tetamu deng"
+      },
+      {
+        "width": 350,
+        "fontSize": 17.0449,
+        "cpl": 41.07,
+        "left": 20,
+        "right": 370,
+        "family": "Georgia",
+        "lineHeight": "28.9764px",
+        "sel": "p",
+        "text": "Suasananya hijau dan luas, sesuai untuk majlis b"
+      }
+    ],
+    "h1": [
+      "20 Venue Garden Wedding Paling Cantik di Malaysia"
+    ],
+    "h2Count": 21,
+    "h3Count": 0,
+    "imgCount": 51,
+    "linkCount": 71,
+    "trueCpl": 44.31,
+    "avgAdvanceEm": 0.46345,
+    "buildId": "chunks",
+    "title": "20 Venue Garden Wedding Paling Cantik di Malaysia | HelloKahwin"
+  },
+  {
+    "tag": "prod-final",
+    "base": "https://hellokahwin.com",
+    "viewportRequested": 768,
+    "status": 200,
+    "xVercelCache": "HIT",
+    "mq": {
+      "max-width:767px": false,
+      "min-width:768px": true,
+      "max-width:1023px": true,
+      "min-width:1024px": false,
+      "min-width:1280px": false,
+      "min-width:1536px": false
+    },
+    "innerWidth": 768,
+    "dpr": 1,
+    "overflowPx": 0,
+    "scrollHeight": 37307,
+    "geometry": {
+      "shell": {
+        "sel": "div.hk.serif-editorial.s-pad",
+        "left": 0,
+        "right": 768,
+        "width": 768,
+        "maxWidth": "768px",
+        "paddingLeft": "32px",
+        "paddingRight": "32px",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "marginInline": "0px / 0px"
+      },
+      "grid": {
+        "sel": "div.grid.grid-cols-1.gap-8",
+        "left": 32,
+        "right": 736,
+        "width": 704,
+        "maxWidth": "none",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "gridTemplateColumns": "704px",
+        "gap": "32px",
+        "marginInline": "0px / 0px"
+      },
+      "article": {
+        "sel": "article",
+        "left": 32,
+        "right": 613.27,
+        "width": 581.27,
+        "maxWidth": "581.269px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "marginInline": "0px / 0px"
+      },
+      "prose": {
+        "sel": "div.inspire-prose",
+        "left": 32,
+        "right": 613.27,
+        "width": 581.27,
+        "maxWidth": "581.269px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "marginInline": "0px / 0px"
+      },
+      "header": {
+        "sel": "header.max-w-3xl.pt-4",
+        "left": 32,
+        "right": 736,
+        "width": 704,
+        "maxWidth": "768px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "marginInline": "0px / 0px"
+      },
+      "coverFigure": {
+        "sel": "figure.mt-6.mb-10.max-w-3xl",
+        "left": 32,
+        "right": 736,
+        "width": 704,
+        "maxWidth": "768px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "marginInline": "0px / 0px"
+      },
+      "sidebar": {
+        "sel": "div.hidden.lg:block",
+        "left": 0,
+        "right": 0,
+        "width": 0,
+        "maxWidth": "none",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "marginInline": "0px / 0px"
+      }
+    },
+    "proseFigs": [
+      {
+        "sel": "img.h-auto.w-full.rounded-md",
+        "left": 32,
+        "width": 581.27
+      },
+      {
+        "sel": "figure.group.relative.my-6",
+        "left": 32,
+        "width": 581.27
+      },
+      {
+        "sel": "img.h-auto.w-full.rounded-md",
+        "left": 32,
+        "width": 581.27
+      },
+      {
+        "sel": "img.h-auto.w-full.rounded-md",
+        "left": 32,
+        "width": 581.27
+      },
+      {
+        "sel": "figure.group.relative.my-6",
+        "left": 32,
+        "width": 581.27
+      },
+      {
+        "sel": "img.h-auto.w-full.rounded-md",
+        "left": 32,
+        "width": 581.27
+      },
+      {
+        "sel": "img.h-auto.w-full.rounded-md",
+        "left": 32,
+        "width": 581.27
+      },
+      {
+        "sel": "figure.group.relative.my-6",
+        "left": 32,
+        "width": 581.27
+      }
+    ],
+    "headings": [
+      {
+        "tag": "h2",
+        "width": 581.27,
+        "left": 32,
+        "fontSize": 24,
+        "text": "1. The Waterway Villa, Pahang"
+      },
+      {
+        "tag": "h2",
+        "width": 581.27,
+        "left": 32,
+        "fontSize": 24,
+        "text": "2. Aman Rimba Private Estate, Pahang"
+      },
+      {
+        "tag": "h2",
+        "width": 581.27,
+        "left": 32,
+        "fontSize": 24,
+        "text": "3. Puncak Rimba, Pahang"
+      },
+      {
+        "tag": "h2",
+        "width": 581.27,
+        "left": 32,
+        "fontSize": 24,
+        "text": "4. Forest Valley Hall, Selangor"
+      },
+      {
+        "tag": "h2",
+        "width": 581.27,
+        "left": 32,
+        "fontSize": 24,
+        "text": "5. Sunlight Suites, Pahang"
+      },
+      {
+        "tag": "h2",
+        "width": 581.27,
+        "left": 32,
+        "fontSize": 24,
+        "text": "6. Boathouse Ampang, Selangor"
+      }
+    ],
+    "bodyParaCount": 81,
+    "bodyParas": [
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Jika anda mengimpikan majlis perkahwinan"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Malaysia mempunyai pelbagai lokasi menar"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Berikut ialah 20 venue garden wedding pa"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Terletak di tengah hutan hujan Bentong, "
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Dikelilingi bukit menghijau dan flora tr"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Pasangan boleh melangsungkan akad nikah "
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Villa yang tersorok di kawasan bukit ini"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Hanya 50 minit dari Kuala Lumpur, Aman R"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Dengan enam villa yang boleh memuatkan h"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Pengalaman perkahwinan di sini terasa se"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Terkenal selepas menjadi lokasi perkahwi"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Pasangan boleh memilih lokasi seperti Ke"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Forest Valley Hall ialah antara venue Ga"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Ruang utamanya ialah dewan kaca berkubah"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Gabungan hijau tropika dan seni bina mod"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Dahulu dikenali sebagai Jim Thompson Cot"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Terdiri daripada tiga bangunan utama Moo"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Manakala untuk 50–100 tetamu, Starlight "
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Walaupun berfungsi hanya sebagai ruang a"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Suasana sejuk, taman berbunga dan pemand"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Untuk pasangan yang mahu rustic garden w"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Ia menampilkan dua ruang utama iaitu Gla"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Dengan rekaan kolonial dan pemandangan t"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Sama ada majlis akad nikah, resepsi keci"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Cove 55 merupakan lokasi Garden Wedding "
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Tempat ini menjadi terkenal selepas pela"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Dengan 13 villa mewah dan dewan moden Se"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "A-Park merupakan antara lokasi Garden We"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Tempat ini mempunyai taman luas, tasik k"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Pasangan boleh memilih pakej mengikut sa"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Setiap sudut di A-Park sangat fotogenik,"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Glasshouse di Seputeh KL ialah destinasi"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Venue ini mempunyai beberapa ruang seper"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Pada waktu malam, pencahayaan lembut dan"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Ia sesuai untuk majlis akad nikah, resep"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Pulai Spring Resort sudah lama menjadi p"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Resort ini boleh menampung lebih 500 tet"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Suasananya hijau dan luas, sesuai untuk "
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Kebun Rimba Janda Baik ialah antara loka"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Tiga lokasi utama boleh dipilih untuk ma"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Dengan enam buah rumah kampung yang mamp"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Tempat ini sesuai bagi pasangan yang ing"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Bagi pasangan yang mahukan majlis dalam "
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "KLGCC menyediakan pelbagai ruang terbuka"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Gabungan kemewahan moden dan keindahan a"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Terletak di tengah hutan hijau, Tiarasa "
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Upacara perkahwinan boleh diadakan di ka"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Tempat ini menawarkan penginapan mewah d"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Sangkot Place terkenal sebagai lokasi ga"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Pakej perkahwinan untuk 500 tetamu bermu"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Kelebihan utama Sangkot Place ialah suas"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Anantara Desaru Coast Resort & Villas ia"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Pasangan boleh memilih untuk melangsungk"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Kemudahan lengkap seperti restoran antar"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Dengan pemandangan laut, layanan premium"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Jardin Event Venue membawa konsep Garden"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Ruang Hillview Garden boleh memuatkan 10"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Kelebihan Jardin ialah suasana moden tet"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "The Smokehouse di Cameron Highlands memb"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Majlis boleh diadakan di taman terbuka d"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Tempat ini juga menawarkan aktiviti tamb"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Di tengah hiruk-pikuk kota, Rama V ialah"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Ruang luarannya mempunyai taman kecil un"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Dengan kapasiti 230 tetamu dan dinding k"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Walaupun ruang parkir agak terhad, makan"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Terletak kira-kira 45 minit dari Kuala L"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Majlis boleh diadakan di taman Villa 1 ("
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Suasana damai dan udara segar menjadikan"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Rowan & Parsley ialah restoran bergaya m"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Ruang dalam boleh memuatkan 96 tetamu, m"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Rowan & Parsley sesuai untuk pasangan ya"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Daripada kehijauan hutan Pahang hingga k"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Sama ada anda mahukan suasana desa tradi"
+      },
+      {
+        "width": 557.27,
+        "fontSize": 17.6142,
+        "cpl": 63.27,
+        "left": 56,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "10 Lokasi Majlis Kahwin yang Popular di "
+      },
+      {
+        "width": 557.27,
+        "fontSize": 17.6142,
+        "cpl": 63.27,
+        "left": 56,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "10 Dewan Kahwin Murah di Selangor & KL –"
+      },
+      {
+        "width": 557.27,
+        "fontSize": 17.6142,
+        "cpl": 63.27,
+        "left": 56,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "20 Lokasi Terbaik Pre Wedding Photoshoot"
+      },
+      {
+        "width": 557.27,
+        "fontSize": 17.6142,
+        "cpl": 63.27,
+        "left": 56,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Checklist Kahwin: Senarai Persediaan 12 "
+      },
+      {
+        "width": 557.27,
+        "fontSize": 17.6142,
+        "cpl": 63.27,
+        "left": 56,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Bajet Kahwin 2026: Apa yang Boleh Diharg"
+      },
+      {
+        "width": 557.27,
+        "fontSize": 17.6142,
+        "cpl": 63.27,
+        "left": 56,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Perkahwinan Taman Kebun yang Minimalis d"
+      },
+      {
+        "width": 557.27,
+        "fontSize": 17.6142,
+        "cpl": 63.27,
+        "left": 56,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "Majlis Perkahwinan Intim Bertemakan Warn"
+      },
+      {
+        "width": 557.27,
+        "fontSize": 17.6142,
+        "cpl": 63.27,
+        "left": 56,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "text": "19 Tempat Honeymoon di Malaysia yang Waj"
+      }
+    ],
+    "ui04MeasureSet": [
+      {
+        "width": 600.92,
+        "fontSize": 19.2284,
+        "cpl": 62.5,
+        "left": 32,
+        "right": 632.92,
+        "family": "ui-sans-serif",
+        "lineHeight": "28.8426px",
+        "sel": "p.s-deck.mt-4",
+        "text": "Jika anda mengimpikan majlis perkahwinan yang di"
+      },
+      {
+        "width": 547.27,
+        "fontSize": 17.6142,
+        "cpl": 62.14,
+        "left": 49,
+        "right": 596.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p.hk-eyebrow.mb-2.5",
+        "text": "Isi Kandungan"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Jika anda mengimpikan majlis perkahwinan yang di"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Malaysia mempunyai pelbagai lokasi menarik yang "
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Berikut ialah 20 venue garden wedding paling can"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Terletak di tengah hutan hujan Bentong, The Wate"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Dikelilingi bukit menghijau dan flora tropika, v"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Pasangan boleh melangsungkan akad nikah atau res"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Villa yang tersorok di kawasan bukit ini memberi"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Hanya 50 minit dari Kuala Lumpur, Aman Rimba mem"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Dengan enam villa yang boleh memuatkan hingga 40"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Pengalaman perkahwinan di sini terasa seperti be"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Terkenal selepas menjadi lokasi perkahwinan peny"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Pasangan boleh memilih lokasi seperti Keshar Riv"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Forest Valley Hall ialah antara venue Garden Wed"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Ruang utamanya ialah dewan kaca berkubah tinggi "
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Gabungan hijau tropika dan seni bina moden menja"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Dahulu dikenali sebagai Jim Thompson Cottage, Su"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Terdiri daripada tiga bangunan utama Moonlight B"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Manakala untuk 50–100 tetamu, Starlight Rooms ju"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Walaupun berfungsi hanya sebagai ruang acara, pi"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Suasana sejuk, taman berbunga dan pemandangan hi"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Untuk pasangan yang mahu rustic garden wedding d"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Ia menampilkan dua ruang utama iaitu Glass House"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Dengan rekaan kolonial dan pemandangan tasik yan"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Sama ada majlis akad nikah, resepsi kecil atau R"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Cove 55 merupakan lokasi Garden Wedding paling e"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Tempat ini menjadi terkenal selepas pelakon Henr"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Dengan 13 villa mewah dan dewan moden Sera Hall "
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "A-Park merupakan antara lokasi Garden Wedding ya"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Tempat ini mempunyai taman luas, tasik kecil dan"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Pasangan boleh memilih pakej mengikut saiz tetam"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Setiap sudut di A-Park sangat fotogenik, menjadi"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Glasshouse di Seputeh KL ialah destinasi popular"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Venue ini mempunyai beberapa ruang seperti Grand"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Pada waktu malam, pencahayaan lembut dan hiasan "
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Ia sesuai untuk majlis akad nikah, resepsi hingg"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Pulai Spring Resort sudah lama menjadi pilihan p"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Resort ini boleh menampung lebih 500 tetamu deng"
+      },
+      {
+        "width": 581.27,
+        "fontSize": 17.6142,
+        "cpl": 66,
+        "left": 32,
+        "right": 613.27,
+        "family": "Georgia",
+        "lineHeight": "29.9442px",
+        "sel": "p",
+        "text": "Suasananya hijau dan luas, sesuai untuk majlis b"
+      }
+    ],
+    "h1": [
+      "20 Venue Garden Wedding Paling Cantik di Malaysia"
+    ],
+    "h2Count": 21,
+    "h3Count": 0,
+    "imgCount": 51,
+    "linkCount": 71,
+    "trueCpl": 71.2,
+    "avgAdvanceEm": 0.46347000000000005,
+    "buildId": "chunks",
+    "title": "20 Venue Garden Wedding Paling Cantik di Malaysia | HelloKahwin"
+  },
+  {
+    "tag": "prod-final",
+    "base": "https://hellokahwin.com",
+    "viewportRequested": 1024,
+    "status": 200,
+    "xVercelCache": "HIT",
+    "mq": {
+      "max-width:767px": false,
+      "min-width:768px": true,
+      "max-width:1023px": false,
+      "min-width:1024px": true,
+      "min-width:1280px": false,
+      "min-width:1536px": false
+    },
+    "innerWidth": 1024,
+    "dpr": 1,
+    "overflowPx": 0,
+    "scrollHeight": 37865,
+    "geometry": {
+      "shell": {
+        "sel": "div.hk.serif-editorial.s-pad",
+        "left": 0,
+        "right": 1024,
+        "width": 1024,
+        "maxWidth": "1024px",
+        "paddingLeft": "40px",
+        "paddingRight": "40px",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "marginInline": "0px / 0px"
+      },
+      "grid": {
+        "sel": "div.grid.grid-cols-1.gap-8",
+        "left": 40,
+        "right": 984,
+        "width": 944,
+        "maxWidth": "none",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "gridTemplateColumns": "632px 280px",
+        "gap": "32px",
+        "marginInline": "0px / 0px"
+      },
+      "article": {
+        "sel": "article",
+        "left": 40,
+        "right": 633.98,
+        "width": 593.98,
+        "maxWidth": "593.992px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "marginInline": "0px / 0px"
+      },
+      "prose": {
+        "sel": "div.inspire-prose",
+        "left": 40,
+        "right": 633.98,
+        "width": 593.98,
+        "maxWidth": "593.992px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "marginInline": "0px / 0px"
+      },
+      "header": {
+        "sel": "header.max-w-3xl.pt-4",
+        "left": 40,
+        "right": 808,
+        "width": 768,
+        "maxWidth": "768px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "marginInline": "0px / 0px"
+      },
+      "coverFigure": {
+        "sel": "figure.mt-6.mb-10.max-w-3xl",
+        "left": 40,
+        "right": 808,
+        "width": 768,
+        "maxWidth": "768px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "marginInline": "0px / 0px"
+      },
+      "sidebar": {
+        "sel": "div.hidden.lg:block",
+        "left": 704,
+        "right": 984,
+        "width": 280,
+        "maxWidth": "none",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "marginInline": "0px / 0px"
+      }
+    },
+    "proseFigs": [
+      {
+        "sel": "img.h-auto.w-full.rounded-md",
+        "left": 40,
+        "width": 593.97
+      },
+      {
+        "sel": "figure.group.relative.my-6",
+        "left": 40,
+        "width": 593.98
+      },
+      {
+        "sel": "img.h-auto.w-full.rounded-md",
+        "left": 40,
+        "width": 593.95
+      },
+      {
+        "sel": "img.h-auto.w-full.rounded-md",
+        "left": 40,
+        "width": 593.97
+      },
+      {
+        "sel": "figure.group.relative.my-6",
+        "left": 40,
+        "width": 593.98
+      },
+      {
+        "sel": "img.h-auto.w-full.rounded-md",
+        "left": 40,
+        "width": 593.97
+      },
+      {
+        "sel": "img.h-auto.w-full.rounded-md",
+        "left": 40,
+        "width": 593.97
+      },
+      {
+        "sel": "figure.group.relative.my-6",
+        "left": 40,
+        "width": 593.98
+      }
+    ],
+    "headings": [
+      {
+        "tag": "h2",
+        "width": 593.98,
+        "left": 40,
+        "fontSize": 24,
+        "text": "1. The Waterway Villa, Pahang"
+      },
+      {
+        "tag": "h2",
+        "width": 593.98,
+        "left": 40,
+        "fontSize": 24,
+        "text": "2. Aman Rimba Private Estate, Pahang"
+      },
+      {
+        "tag": "h2",
+        "width": 593.98,
+        "left": 40,
+        "fontSize": 24,
+        "text": "3. Puncak Rimba, Pahang"
+      },
+      {
+        "tag": "h2",
+        "width": 593.98,
+        "left": 40,
+        "fontSize": 24,
+        "text": "4. Forest Valley Hall, Selangor"
+      },
+      {
+        "tag": "h2",
+        "width": 593.98,
+        "left": 40,
+        "fontSize": 24,
+        "text": "5. Sunlight Suites, Pahang"
+      },
+      {
+        "tag": "h2",
+        "width": 593.98,
+        "left": 40,
+        "fontSize": 24,
+        "text": "6. Boathouse Ampang, Selangor"
+      }
+    ],
+    "bodyParaCount": 81,
+    "bodyParas": [
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Jika anda mengimpikan majlis perkahwinan"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Malaysia mempunyai pelbagai lokasi menar"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Berikut ialah 20 venue garden wedding pa"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Terletak di tengah hutan hujan Bentong, "
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Dikelilingi bukit menghijau dan flora tr"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Pasangan boleh melangsungkan akad nikah "
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Villa yang tersorok di kawasan bukit ini"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Hanya 50 minit dari Kuala Lumpur, Aman R"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Dengan enam villa yang boleh memuatkan h"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Pengalaman perkahwinan di sini terasa se"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Terkenal selepas menjadi lokasi perkahwi"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Pasangan boleh memilih lokasi seperti Ke"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Forest Valley Hall ialah antara venue Ga"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Ruang utamanya ialah dewan kaca berkubah"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Gabungan hijau tropika dan seni bina mod"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Dahulu dikenali sebagai Jim Thompson Cot"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Terdiri daripada tiga bangunan utama Moo"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Manakala untuk 50–100 tetamu, Starlight "
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Walaupun berfungsi hanya sebagai ruang a"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Suasana sejuk, taman berbunga dan pemand"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Untuk pasangan yang mahu rustic garden w"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Ia menampilkan dua ruang utama iaitu Gla"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Dengan rekaan kolonial dan pemandangan t"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Sama ada majlis akad nikah, resepsi keci"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Cove 55 merupakan lokasi Garden Wedding "
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Tempat ini menjadi terkenal selepas pela"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Dengan 13 villa mewah dan dewan moden Se"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "A-Park merupakan antara lokasi Garden We"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Tempat ini mempunyai taman luas, tasik k"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Pasangan boleh memilih pakej mengikut sa"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Setiap sudut di A-Park sangat fotogenik,"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Glasshouse di Seputeh KL ialah destinasi"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Venue ini mempunyai beberapa ruang seper"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Pada waktu malam, pencahayaan lembut dan"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Ia sesuai untuk majlis akad nikah, resep"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Pulai Spring Resort sudah lama menjadi p"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Resort ini boleh menampung lebih 500 tet"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Suasananya hijau dan luas, sesuai untuk "
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Kebun Rimba Janda Baik ialah antara loka"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Tiga lokasi utama boleh dipilih untuk ma"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Dengan enam buah rumah kampung yang mamp"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Tempat ini sesuai bagi pasangan yang ing"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Bagi pasangan yang mahukan majlis dalam "
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "KLGCC menyediakan pelbagai ruang terbuka"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Gabungan kemewahan moden dan keindahan a"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Terletak di tengah hutan hijau, Tiarasa "
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Upacara perkahwinan boleh diadakan di ka"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Tempat ini menawarkan penginapan mewah d"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Sangkot Place terkenal sebagai lokasi ga"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Pakej perkahwinan untuk 500 tetamu bermu"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Kelebihan utama Sangkot Place ialah suas"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Anantara Desaru Coast Resort & Villas ia"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Pasangan boleh memilih untuk melangsungk"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Kemudahan lengkap seperti restoran antar"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Dengan pemandangan laut, layanan premium"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Jardin Event Venue membawa konsep Garden"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Ruang Hillview Garden boleh memuatkan 10"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Kelebihan Jardin ialah suasana moden tet"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "The Smokehouse di Cameron Highlands memb"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Majlis boleh diadakan di taman terbuka d"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Tempat ini juga menawarkan aktiviti tamb"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Di tengah hiruk-pikuk kota, Rama V ialah"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Ruang luarannya mempunyai taman kecil un"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Dengan kapasiti 230 tetamu dan dinding k"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Walaupun ruang parkir agak terhad, makan"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Terletak kira-kira 45 minit dari Kuala L"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Majlis boleh diadakan di taman Villa 1 ("
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Suasana damai dan udara segar menjadikan"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Rowan & Parsley ialah restoran bergaya m"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Ruang dalam boleh memuatkan 96 tetamu, m"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Rowan & Parsley sesuai untuk pasangan ya"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Daripada kehijauan hutan Pahang hingga k"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Sama ada anda mahukan suasana desa tradi"
+      },
+      {
+        "width": 569.98,
+        "fontSize": 17.9997,
+        "cpl": 63.33,
+        "left": 64,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "10 Lokasi Majlis Kahwin yang Popular di "
+      },
+      {
+        "width": 569.98,
+        "fontSize": 17.9997,
+        "cpl": 63.33,
+        "left": 64,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "10 Dewan Kahwin Murah di Selangor & KL –"
+      },
+      {
+        "width": 569.98,
+        "fontSize": 17.9997,
+        "cpl": 63.33,
+        "left": 64,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "20 Lokasi Terbaik Pre Wedding Photoshoot"
+      },
+      {
+        "width": 569.98,
+        "fontSize": 17.9997,
+        "cpl": 63.33,
+        "left": 64,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Checklist Kahwin: Senarai Persediaan 12 "
+      },
+      {
+        "width": 569.98,
+        "fontSize": 17.9997,
+        "cpl": 63.33,
+        "left": 64,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Bajet Kahwin 2026: Apa yang Boleh Diharg"
+      },
+      {
+        "width": 569.98,
+        "fontSize": 17.9997,
+        "cpl": 63.33,
+        "left": 64,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Perkahwinan Taman Kebun yang Minimalis d"
+      },
+      {
+        "width": 569.98,
+        "fontSize": 17.9997,
+        "cpl": 63.33,
+        "left": 64,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "Majlis Perkahwinan Intim Bertemakan Warn"
+      },
+      {
+        "width": 569.98,
+        "fontSize": 17.9997,
+        "cpl": 63.33,
+        "left": 64,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "text": "19 Tempat Honeymoon di Malaysia yang Waj"
+      }
+    ],
+    "ui04MeasureSet": [
+      {
+        "width": 624.98,
+        "fontSize": 19.9995,
+        "cpl": 62.5,
+        "left": 40,
+        "right": 664.98,
+        "family": "ui-sans-serif",
+        "lineHeight": "29.9992px",
+        "sel": "p.s-deck.mt-4",
+        "text": "Jika anda mengimpikan majlis perkahwinan yang di"
+      },
+      {
+        "width": 559.98,
+        "fontSize": 17.9997,
+        "cpl": 62.22,
+        "left": 57,
+        "right": 616.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p.hk-eyebrow.mb-2.5",
+        "text": "Isi Kandungan"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Jika anda mengimpikan majlis perkahwinan yang di"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Malaysia mempunyai pelbagai lokasi menarik yang "
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Berikut ialah 20 venue garden wedding paling can"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Terletak di tengah hutan hujan Bentong, The Wate"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Dikelilingi bukit menghijau dan flora tropika, v"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Pasangan boleh melangsungkan akad nikah atau res"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Villa yang tersorok di kawasan bukit ini memberi"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Hanya 50 minit dari Kuala Lumpur, Aman Rimba mem"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Dengan enam villa yang boleh memuatkan hingga 40"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Pengalaman perkahwinan di sini terasa seperti be"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Terkenal selepas menjadi lokasi perkahwinan peny"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Pasangan boleh memilih lokasi seperti Keshar Riv"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Forest Valley Hall ialah antara venue Garden Wed"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Ruang utamanya ialah dewan kaca berkubah tinggi "
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Gabungan hijau tropika dan seni bina moden menja"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Dahulu dikenali sebagai Jim Thompson Cottage, Su"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Terdiri daripada tiga bangunan utama Moonlight B"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Manakala untuk 50–100 tetamu, Starlight Rooms ju"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Walaupun berfungsi hanya sebagai ruang acara, pi"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Suasana sejuk, taman berbunga dan pemandangan hi"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Untuk pasangan yang mahu rustic garden wedding d"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Ia menampilkan dua ruang utama iaitu Glass House"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Dengan rekaan kolonial dan pemandangan tasik yan"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Sama ada majlis akad nikah, resepsi kecil atau R"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Cove 55 merupakan lokasi Garden Wedding paling e"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Tempat ini menjadi terkenal selepas pelakon Henr"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Dengan 13 villa mewah dan dewan moden Sera Hall "
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "A-Park merupakan antara lokasi Garden Wedding ya"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Tempat ini mempunyai taman luas, tasik kecil dan"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Pasangan boleh memilih pakej mengikut saiz tetam"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Setiap sudut di A-Park sangat fotogenik, menjadi"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Glasshouse di Seputeh KL ialah destinasi popular"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Venue ini mempunyai beberapa ruang seperti Grand"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Pada waktu malam, pencahayaan lembut dan hiasan "
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Ia sesuai untuk majlis akad nikah, resepsi hingg"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Pulai Spring Resort sudah lama menjadi pilihan p"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Resort ini boleh menampung lebih 500 tetamu deng"
+      },
+      {
+        "width": 593.98,
+        "fontSize": 17.9997,
+        "cpl": 66,
+        "left": 40,
+        "right": 633.98,
+        "family": "Georgia",
+        "lineHeight": "30.5996px",
+        "sel": "p",
+        "text": "Suasananya hijau dan luas, sesuai untuk majlis b"
+      }
+    ],
+    "h1": [
+      "20 Venue Garden Wedding Paling Cantik di Malaysia"
+    ],
+    "h2Count": 21,
+    "h3Count": 0,
+    "imgCount": 51,
+    "linkCount": 71,
+    "trueCpl": 71.22,
+    "avgAdvanceEm": 0.46334,
+    "buildId": "chunks",
+    "title": "20 Venue Garden Wedding Paling Cantik di Malaysia | HelloKahwin"
+  },
+  {
+    "tag": "prod-final",
+    "base": "https://hellokahwin.com",
+    "viewportRequested": 1440,
+    "status": 200,
+    "xVercelCache": "HIT",
+    "mq": {
+      "max-width:767px": false,
+      "min-width:768px": true,
+      "max-width:1023px": false,
+      "min-width:1024px": true,
+      "min-width:1280px": true,
+      "min-width:1536px": false
+    },
+    "innerWidth": 1440,
+    "dpr": 1,
+    "overflowPx": 0,
+    "scrollHeight": 37814,
+    "geometry": {
+      "shell": {
+        "sel": "div.hk.serif-editorial.s-pad",
+        "left": 80,
+        "right": 1360,
+        "width": 1280,
+        "maxWidth": "1280px",
+        "paddingLeft": "40px",
+        "paddingRight": "40px",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "marginInline": "80px / 80px"
+      },
+      "grid": {
+        "sel": "div.grid.grid-cols-1.gap-8",
+        "left": 120,
+        "right": 1320,
+        "width": 1200,
+        "maxWidth": "none",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "gridTemplateColumns": "888px 280px",
+        "gap": "32px",
+        "marginInline": "0px / 0px"
+      },
+      "article": {
+        "sel": "article",
+        "left": 120,
+        "right": 714,
+        "width": 594,
+        "maxWidth": "594px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "marginInline": "0px / 0px"
+      },
+      "prose": {
+        "sel": "div.inspire-prose",
+        "left": 120,
+        "right": 714,
+        "width": 594,
+        "maxWidth": "594px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "marginInline": "0px / 0px"
+      },
+      "header": {
+        "sel": "header.max-w-3xl.pt-4",
+        "left": 120,
+        "right": 888,
+        "width": 768,
+        "maxWidth": "768px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "marginInline": "0px / 0px"
+      },
+      "coverFigure": {
+        "sel": "figure.mt-6.mb-10.max-w-3xl",
+        "left": 120,
+        "right": 888,
+        "width": 768,
+        "maxWidth": "768px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "marginInline": "0px / 0px"
+      },
+      "sidebar": {
+        "sel": "div.hidden.lg:block",
+        "left": 1040,
+        "right": 1320,
+        "width": 280,
+        "maxWidth": "none",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "marginInline": "0px / 0px"
+      }
+    },
+    "proseFigs": [
+      {
+        "sel": "img.h-auto.w-full.rounded-md",
+        "left": 120,
+        "width": 593.97
+      },
+      {
+        "sel": "figure.group.relative.my-6",
+        "left": 120,
+        "width": 594
+      },
+      {
+        "sel": "img.h-auto.w-full.rounded-md",
+        "left": 120,
+        "width": 593.98
+      },
+      {
+        "sel": "img.h-auto.w-full.rounded-md",
+        "left": 120,
+        "width": 594
+      },
+      {
+        "sel": "figure.group.relative.my-6",
+        "left": 120,
+        "width": 594
+      },
+      {
+        "sel": "img.h-auto.w-full.rounded-md",
+        "left": 120,
+        "width": 594
+      },
+      {
+        "sel": "img.h-auto.w-full.rounded-md",
+        "left": 120,
+        "width": 593.97
+      },
+      {
+        "sel": "figure.group.relative.my-6",
+        "left": 120,
+        "width": 594
+      }
+    ],
+    "headings": [
+      {
+        "tag": "h2",
+        "width": 594,
+        "left": 120,
+        "fontSize": 24,
+        "text": "1. The Waterway Villa, Pahang"
+      },
+      {
+        "tag": "h2",
+        "width": 594,
+        "left": 120,
+        "fontSize": 24,
+        "text": "2. Aman Rimba Private Estate, Pahang"
+      },
+      {
+        "tag": "h2",
+        "width": 594,
+        "left": 120,
+        "fontSize": 24,
+        "text": "3. Puncak Rimba, Pahang"
+      },
+      {
+        "tag": "h2",
+        "width": 594,
+        "left": 120,
+        "fontSize": 24,
+        "text": "4. Forest Valley Hall, Selangor"
+      },
+      {
+        "tag": "h2",
+        "width": 594,
+        "left": 120,
+        "fontSize": 24,
+        "text": "5. Sunlight Suites, Pahang"
+      },
+      {
+        "tag": "h2",
+        "width": 594,
+        "left": 120,
+        "fontSize": 24,
+        "text": "6. Boathouse Ampang, Selangor"
+      }
+    ],
+    "bodyParaCount": 81,
+    "bodyParas": [
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Jika anda mengimpikan majlis perkahwinan"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Malaysia mempunyai pelbagai lokasi menar"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Berikut ialah 20 venue garden wedding pa"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Terletak di tengah hutan hujan Bentong, "
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Dikelilingi bukit menghijau dan flora tr"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Pasangan boleh melangsungkan akad nikah "
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Villa yang tersorok di kawasan bukit ini"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Hanya 50 minit dari Kuala Lumpur, Aman R"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Dengan enam villa yang boleh memuatkan h"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Pengalaman perkahwinan di sini terasa se"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Terkenal selepas menjadi lokasi perkahwi"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Pasangan boleh memilih lokasi seperti Ke"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Forest Valley Hall ialah antara venue Ga"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Ruang utamanya ialah dewan kaca berkubah"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Gabungan hijau tropika dan seni bina mod"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Dahulu dikenali sebagai Jim Thompson Cot"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Terdiri daripada tiga bangunan utama Moo"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Manakala untuk 50–100 tetamu, Starlight "
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Walaupun berfungsi hanya sebagai ruang a"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Suasana sejuk, taman berbunga dan pemand"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Untuk pasangan yang mahu rustic garden w"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Ia menampilkan dua ruang utama iaitu Gla"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Dengan rekaan kolonial dan pemandangan t"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Sama ada majlis akad nikah, resepsi keci"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Cove 55 merupakan lokasi Garden Wedding "
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Tempat ini menjadi terkenal selepas pela"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Dengan 13 villa mewah dan dewan moden Se"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "A-Park merupakan antara lokasi Garden We"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Tempat ini mempunyai taman luas, tasik k"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Pasangan boleh memilih pakej mengikut sa"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Setiap sudut di A-Park sangat fotogenik,"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Glasshouse di Seputeh KL ialah destinasi"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Venue ini mempunyai beberapa ruang seper"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Pada waktu malam, pencahayaan lembut dan"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Ia sesuai untuk majlis akad nikah, resep"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Pulai Spring Resort sudah lama menjadi p"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Resort ini boleh menampung lebih 500 tet"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Suasananya hijau dan luas, sesuai untuk "
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Kebun Rimba Janda Baik ialah antara loka"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Tiga lokasi utama boleh dipilih untuk ma"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Dengan enam buah rumah kampung yang mamp"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Tempat ini sesuai bagi pasangan yang ing"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Bagi pasangan yang mahukan majlis dalam "
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "KLGCC menyediakan pelbagai ruang terbuka"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Gabungan kemewahan moden dan keindahan a"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Terletak di tengah hutan hijau, Tiarasa "
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Upacara perkahwinan boleh diadakan di ka"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Tempat ini menawarkan penginapan mewah d"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Sangkot Place terkenal sebagai lokasi ga"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Pakej perkahwinan untuk 500 tetamu bermu"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Kelebihan utama Sangkot Place ialah suas"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Anantara Desaru Coast Resort & Villas ia"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Pasangan boleh memilih untuk melangsungk"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Kemudahan lengkap seperti restoran antar"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Dengan pemandangan laut, layanan premium"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Jardin Event Venue membawa konsep Garden"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Ruang Hillview Garden boleh memuatkan 10"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Kelebihan Jardin ialah suasana moden tet"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "The Smokehouse di Cameron Highlands memb"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Majlis boleh diadakan di taman terbuka d"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Tempat ini juga menawarkan aktiviti tamb"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Di tengah hiruk-pikuk kota, Rama V ialah"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Ruang luarannya mempunyai taman kecil un"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Dengan kapasiti 230 tetamu dan dinding k"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Walaupun ruang parkir agak terhad, makan"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Terletak kira-kira 45 minit dari Kuala L"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Majlis boleh diadakan di taman Villa 1 ("
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Suasana damai dan udara segar menjadikan"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Rowan & Parsley ialah restoran bergaya m"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Ruang dalam boleh memuatkan 96 tetamu, m"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Rowan & Parsley sesuai untuk pasangan ya"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Daripada kehijauan hutan Pahang hingga k"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Sama ada anda mahukan suasana desa tradi"
+      },
+      {
+        "width": 570,
+        "fontSize": 18,
+        "cpl": 63.33,
+        "left": 144,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "10 Lokasi Majlis Kahwin yang Popular di "
+      },
+      {
+        "width": 570,
+        "fontSize": 18,
+        "cpl": 63.33,
+        "left": 144,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "10 Dewan Kahwin Murah di Selangor & KL –"
+      },
+      {
+        "width": 570,
+        "fontSize": 18,
+        "cpl": 63.33,
+        "left": 144,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "20 Lokasi Terbaik Pre Wedding Photoshoot"
+      },
+      {
+        "width": 570,
+        "fontSize": 18,
+        "cpl": 63.33,
+        "left": 144,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Checklist Kahwin: Senarai Persediaan 12 "
+      },
+      {
+        "width": 570,
+        "fontSize": 18,
+        "cpl": 63.33,
+        "left": 144,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Bajet Kahwin 2026: Apa yang Boleh Diharg"
+      },
+      {
+        "width": 570,
+        "fontSize": 18,
+        "cpl": 63.33,
+        "left": 144,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Perkahwinan Taman Kebun yang Minimalis d"
+      },
+      {
+        "width": 570,
+        "fontSize": 18,
+        "cpl": 63.33,
+        "left": 144,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Majlis Perkahwinan Intim Bertemakan Warn"
+      },
+      {
+        "width": 570,
+        "fontSize": 18,
+        "cpl": 63.33,
+        "left": 144,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "19 Tempat Honeymoon di Malaysia yang Waj"
+      }
+    ],
+    "ui04MeasureSet": [
+      {
+        "width": 625.31,
+        "fontSize": 20,
+        "cpl": 62.53,
+        "left": 120,
+        "right": 745.31,
+        "family": "ui-sans-serif",
+        "lineHeight": "30px",
+        "sel": "p.s-deck.mt-4",
+        "text": "Jika anda mengimpikan majlis perkahwinan yang di"
+      },
+      {
+        "width": 560,
+        "fontSize": 18,
+        "cpl": 62.22,
+        "left": 137,
+        "right": 697,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p.hk-eyebrow.mb-2.5",
+        "text": "Isi Kandungan"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Jika anda mengimpikan majlis perkahwinan yang di"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Malaysia mempunyai pelbagai lokasi menarik yang "
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Berikut ialah 20 venue garden wedding paling can"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Terletak di tengah hutan hujan Bentong, The Wate"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Dikelilingi bukit menghijau dan flora tropika, v"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Pasangan boleh melangsungkan akad nikah atau res"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Villa yang tersorok di kawasan bukit ini memberi"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Hanya 50 minit dari Kuala Lumpur, Aman Rimba mem"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Dengan enam villa yang boleh memuatkan hingga 40"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Pengalaman perkahwinan di sini terasa seperti be"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Terkenal selepas menjadi lokasi perkahwinan peny"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Pasangan boleh memilih lokasi seperti Keshar Riv"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Forest Valley Hall ialah antara venue Garden Wed"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Ruang utamanya ialah dewan kaca berkubah tinggi "
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Gabungan hijau tropika dan seni bina moden menja"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Dahulu dikenali sebagai Jim Thompson Cottage, Su"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Terdiri daripada tiga bangunan utama Moonlight B"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Manakala untuk 50–100 tetamu, Starlight Rooms ju"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Walaupun berfungsi hanya sebagai ruang acara, pi"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Suasana sejuk, taman berbunga dan pemandangan hi"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Untuk pasangan yang mahu rustic garden wedding d"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Ia menampilkan dua ruang utama iaitu Glass House"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Dengan rekaan kolonial dan pemandangan tasik yan"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Sama ada majlis akad nikah, resepsi kecil atau R"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Cove 55 merupakan lokasi Garden Wedding paling e"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Tempat ini menjadi terkenal selepas pelakon Henr"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Dengan 13 villa mewah dan dewan moden Sera Hall "
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "A-Park merupakan antara lokasi Garden Wedding ya"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Tempat ini mempunyai taman luas, tasik kecil dan"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Pasangan boleh memilih pakej mengikut saiz tetam"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Setiap sudut di A-Park sangat fotogenik, menjadi"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Glasshouse di Seputeh KL ialah destinasi popular"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Venue ini mempunyai beberapa ruang seperti Grand"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Pada waktu malam, pencahayaan lembut dan hiasan "
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Ia sesuai untuk majlis akad nikah, resepsi hingg"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Pulai Spring Resort sudah lama menjadi pilihan p"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Resort ini boleh menampung lebih 500 tetamu deng"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 120,
+        "right": 714,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Suasananya hijau dan luas, sesuai untuk majlis b"
+      }
+    ],
+    "h1": [
+      "20 Venue Garden Wedding Paling Cantik di Malaysia"
+    ],
+    "h2Count": 21,
+    "h3Count": 0,
+    "imgCount": 51,
+    "linkCount": 71,
+    "trueCpl": 71.18,
+    "avgAdvanceEm": 0.46359,
+    "buildId": "chunks",
+    "title": "20 Venue Garden Wedding Paling Cantik di Malaysia | HelloKahwin"
+  },
+  {
+    "tag": "prod-final",
+    "base": "https://hellokahwin.com",
+    "viewportRequested": 1920,
+    "status": 200,
+    "xVercelCache": "HIT",
+    "mq": {
+      "max-width:767px": false,
+      "min-width:768px": true,
+      "max-width:1023px": false,
+      "min-width:1024px": true,
+      "min-width:1280px": true,
+      "min-width:1536px": true
+    },
+    "innerWidth": 1920,
+    "dpr": 1,
+    "overflowPx": 0,
+    "scrollHeight": 37814,
+    "geometry": {
+      "shell": {
+        "sel": "div.hk.serif-editorial.s-pad",
+        "left": 192,
+        "right": 1728,
+        "width": 1536,
+        "maxWidth": "1536px",
+        "paddingLeft": "40px",
+        "paddingRight": "40px",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "marginInline": "192px / 192px"
+      },
+      "grid": {
+        "sel": "div.grid.grid-cols-1.gap-8",
+        "left": 232,
+        "right": 1688,
+        "width": 1456,
+        "maxWidth": "none",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "gridTemplateColumns": "1144px 280px",
+        "gap": "32px",
+        "marginInline": "0px / 0px"
+      },
+      "article": {
+        "sel": "article",
+        "left": 232,
+        "right": 826,
+        "width": 594,
+        "maxWidth": "594px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "marginInline": "0px / 0px"
+      },
+      "prose": {
+        "sel": "div.inspire-prose",
+        "left": 232,
+        "right": 826,
+        "width": 594,
+        "maxWidth": "594px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "marginInline": "0px / 0px"
+      },
+      "header": {
+        "sel": "header.max-w-3xl.pt-4",
+        "left": 232,
+        "right": 1000,
+        "width": 768,
+        "maxWidth": "768px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "marginInline": "0px / 0px"
+      },
+      "coverFigure": {
+        "sel": "figure.mt-6.mb-10.max-w-3xl",
+        "left": 232,
+        "right": 1000,
+        "width": 768,
+        "maxWidth": "768px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "marginInline": "0px / 0px"
+      },
+      "sidebar": {
+        "sel": "div.hidden.lg:block",
+        "left": 1408,
+        "right": 1688,
+        "width": 280,
+        "maxWidth": "none",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "marginInline": "0px / 0px"
+      }
+    },
+    "proseFigs": [
+      {
+        "sel": "img.h-auto.w-full.rounded-md",
+        "left": 232,
+        "width": 593.97
+      },
+      {
+        "sel": "figure.group.relative.my-6",
+        "left": 232,
+        "width": 594
+      },
+      {
+        "sel": "img.h-auto.w-full.rounded-md",
+        "left": 232,
+        "width": 593.98
+      },
+      {
+        "sel": "img.h-auto.w-full.rounded-md",
+        "left": 232,
+        "width": 594
+      },
+      {
+        "sel": "figure.group.relative.my-6",
+        "left": 232,
+        "width": 594
+      },
+      {
+        "sel": "img.h-auto.w-full.rounded-md",
+        "left": 232,
+        "width": 594
+      },
+      {
+        "sel": "img.h-auto.w-full.rounded-md",
+        "left": 232,
+        "width": 593.97
+      },
+      {
+        "sel": "figure.group.relative.my-6",
+        "left": 232,
+        "width": 594
+      }
+    ],
+    "headings": [
+      {
+        "tag": "h2",
+        "width": 594,
+        "left": 232,
+        "fontSize": 24,
+        "text": "1. The Waterway Villa, Pahang"
+      },
+      {
+        "tag": "h2",
+        "width": 594,
+        "left": 232,
+        "fontSize": 24,
+        "text": "2. Aman Rimba Private Estate, Pahang"
+      },
+      {
+        "tag": "h2",
+        "width": 594,
+        "left": 232,
+        "fontSize": 24,
+        "text": "3. Puncak Rimba, Pahang"
+      },
+      {
+        "tag": "h2",
+        "width": 594,
+        "left": 232,
+        "fontSize": 24,
+        "text": "4. Forest Valley Hall, Selangor"
+      },
+      {
+        "tag": "h2",
+        "width": 594,
+        "left": 232,
+        "fontSize": 24,
+        "text": "5. Sunlight Suites, Pahang"
+      },
+      {
+        "tag": "h2",
+        "width": 594,
+        "left": 232,
+        "fontSize": 24,
+        "text": "6. Boathouse Ampang, Selangor"
+      }
+    ],
+    "bodyParaCount": 81,
+    "bodyParas": [
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Jika anda mengimpikan majlis perkahwinan"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Malaysia mempunyai pelbagai lokasi menar"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Berikut ialah 20 venue garden wedding pa"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Terletak di tengah hutan hujan Bentong, "
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Dikelilingi bukit menghijau dan flora tr"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Pasangan boleh melangsungkan akad nikah "
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Villa yang tersorok di kawasan bukit ini"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Hanya 50 minit dari Kuala Lumpur, Aman R"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Dengan enam villa yang boleh memuatkan h"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Pengalaman perkahwinan di sini terasa se"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Terkenal selepas menjadi lokasi perkahwi"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Pasangan boleh memilih lokasi seperti Ke"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Forest Valley Hall ialah antara venue Ga"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Ruang utamanya ialah dewan kaca berkubah"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Gabungan hijau tropika dan seni bina mod"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Dahulu dikenali sebagai Jim Thompson Cot"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Terdiri daripada tiga bangunan utama Moo"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Manakala untuk 50–100 tetamu, Starlight "
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Walaupun berfungsi hanya sebagai ruang a"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Suasana sejuk, taman berbunga dan pemand"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Untuk pasangan yang mahu rustic garden w"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Ia menampilkan dua ruang utama iaitu Gla"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Dengan rekaan kolonial dan pemandangan t"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Sama ada majlis akad nikah, resepsi keci"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Cove 55 merupakan lokasi Garden Wedding "
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Tempat ini menjadi terkenal selepas pela"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Dengan 13 villa mewah dan dewan moden Se"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "A-Park merupakan antara lokasi Garden We"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Tempat ini mempunyai taman luas, tasik k"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Pasangan boleh memilih pakej mengikut sa"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Setiap sudut di A-Park sangat fotogenik,"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Glasshouse di Seputeh KL ialah destinasi"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Venue ini mempunyai beberapa ruang seper"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Pada waktu malam, pencahayaan lembut dan"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Ia sesuai untuk majlis akad nikah, resep"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Pulai Spring Resort sudah lama menjadi p"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Resort ini boleh menampung lebih 500 tet"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Suasananya hijau dan luas, sesuai untuk "
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Kebun Rimba Janda Baik ialah antara loka"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Tiga lokasi utama boleh dipilih untuk ma"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Dengan enam buah rumah kampung yang mamp"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Tempat ini sesuai bagi pasangan yang ing"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Bagi pasangan yang mahukan majlis dalam "
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "KLGCC menyediakan pelbagai ruang terbuka"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Gabungan kemewahan moden dan keindahan a"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Terletak di tengah hutan hijau, Tiarasa "
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Upacara perkahwinan boleh diadakan di ka"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Tempat ini menawarkan penginapan mewah d"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Sangkot Place terkenal sebagai lokasi ga"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Pakej perkahwinan untuk 500 tetamu bermu"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Kelebihan utama Sangkot Place ialah suas"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Anantara Desaru Coast Resort & Villas ia"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Pasangan boleh memilih untuk melangsungk"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Kemudahan lengkap seperti restoran antar"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Dengan pemandangan laut, layanan premium"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Jardin Event Venue membawa konsep Garden"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Ruang Hillview Garden boleh memuatkan 10"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Kelebihan Jardin ialah suasana moden tet"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "The Smokehouse di Cameron Highlands memb"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Majlis boleh diadakan di taman terbuka d"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Tempat ini juga menawarkan aktiviti tamb"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Di tengah hiruk-pikuk kota, Rama V ialah"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Ruang luarannya mempunyai taman kecil un"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Dengan kapasiti 230 tetamu dan dinding k"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Walaupun ruang parkir agak terhad, makan"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Terletak kira-kira 45 minit dari Kuala L"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Majlis boleh diadakan di taman Villa 1 ("
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Suasana damai dan udara segar menjadikan"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Rowan & Parsley ialah restoran bergaya m"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Ruang dalam boleh memuatkan 96 tetamu, m"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Rowan & Parsley sesuai untuk pasangan ya"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Daripada kehijauan hutan Pahang hingga k"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Sama ada anda mahukan suasana desa tradi"
+      },
+      {
+        "width": 570,
+        "fontSize": 18,
+        "cpl": 63.33,
+        "left": 256,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "10 Lokasi Majlis Kahwin yang Popular di "
+      },
+      {
+        "width": 570,
+        "fontSize": 18,
+        "cpl": 63.33,
+        "left": 256,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "10 Dewan Kahwin Murah di Selangor & KL –"
+      },
+      {
+        "width": 570,
+        "fontSize": 18,
+        "cpl": 63.33,
+        "left": 256,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "20 Lokasi Terbaik Pre Wedding Photoshoot"
+      },
+      {
+        "width": 570,
+        "fontSize": 18,
+        "cpl": 63.33,
+        "left": 256,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Checklist Kahwin: Senarai Persediaan 12 "
+      },
+      {
+        "width": 570,
+        "fontSize": 18,
+        "cpl": 63.33,
+        "left": 256,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Bajet Kahwin 2026: Apa yang Boleh Diharg"
+      },
+      {
+        "width": 570,
+        "fontSize": 18,
+        "cpl": 63.33,
+        "left": 256,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Perkahwinan Taman Kebun yang Minimalis d"
+      },
+      {
+        "width": 570,
+        "fontSize": 18,
+        "cpl": 63.33,
+        "left": 256,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "Majlis Perkahwinan Intim Bertemakan Warn"
+      },
+      {
+        "width": 570,
+        "fontSize": 18,
+        "cpl": 63.33,
+        "left": 256,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "text": "19 Tempat Honeymoon di Malaysia yang Waj"
+      }
+    ],
+    "ui04MeasureSet": [
+      {
+        "width": 625.31,
+        "fontSize": 20,
+        "cpl": 62.53,
+        "left": 232,
+        "right": 857.31,
+        "family": "ui-sans-serif",
+        "lineHeight": "30px",
+        "sel": "p.s-deck.mt-4",
+        "text": "Jika anda mengimpikan majlis perkahwinan yang di"
+      },
+      {
+        "width": 560,
+        "fontSize": 18,
+        "cpl": 62.22,
+        "left": 249,
+        "right": 809,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p.hk-eyebrow.mb-2.5",
+        "text": "Isi Kandungan"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Jika anda mengimpikan majlis perkahwinan yang di"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Malaysia mempunyai pelbagai lokasi menarik yang "
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Berikut ialah 20 venue garden wedding paling can"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Terletak di tengah hutan hujan Bentong, The Wate"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Dikelilingi bukit menghijau dan flora tropika, v"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Pasangan boleh melangsungkan akad nikah atau res"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Villa yang tersorok di kawasan bukit ini memberi"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Hanya 50 minit dari Kuala Lumpur, Aman Rimba mem"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Dengan enam villa yang boleh memuatkan hingga 40"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Pengalaman perkahwinan di sini terasa seperti be"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Terkenal selepas menjadi lokasi perkahwinan peny"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Pasangan boleh memilih lokasi seperti Keshar Riv"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Forest Valley Hall ialah antara venue Garden Wed"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Ruang utamanya ialah dewan kaca berkubah tinggi "
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Gabungan hijau tropika dan seni bina moden menja"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Dahulu dikenali sebagai Jim Thompson Cottage, Su"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Terdiri daripada tiga bangunan utama Moonlight B"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Manakala untuk 50–100 tetamu, Starlight Rooms ju"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Walaupun berfungsi hanya sebagai ruang acara, pi"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Suasana sejuk, taman berbunga dan pemandangan hi"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Untuk pasangan yang mahu rustic garden wedding d"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Ia menampilkan dua ruang utama iaitu Glass House"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Dengan rekaan kolonial dan pemandangan tasik yan"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Sama ada majlis akad nikah, resepsi kecil atau R"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Cove 55 merupakan lokasi Garden Wedding paling e"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Tempat ini menjadi terkenal selepas pelakon Henr"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Dengan 13 villa mewah dan dewan moden Sera Hall "
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "A-Park merupakan antara lokasi Garden Wedding ya"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Tempat ini mempunyai taman luas, tasik kecil dan"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Pasangan boleh memilih pakej mengikut saiz tetam"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Setiap sudut di A-Park sangat fotogenik, menjadi"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Glasshouse di Seputeh KL ialah destinasi popular"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Venue ini mempunyai beberapa ruang seperti Grand"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Pada waktu malam, pencahayaan lembut dan hiasan "
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Ia sesuai untuk majlis akad nikah, resepsi hingg"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Pulai Spring Resort sudah lama menjadi pilihan p"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Resort ini boleh menampung lebih 500 tetamu deng"
+      },
+      {
+        "width": 594,
+        "fontSize": 18,
+        "cpl": 66,
+        "left": 232,
+        "right": 826,
+        "family": "Georgia",
+        "lineHeight": "30.6px",
+        "sel": "p",
+        "text": "Suasananya hijau dan luas, sesuai untuk majlis b"
+      }
+    ],
+    "h1": [
+      "20 Venue Garden Wedding Paling Cantik di Malaysia"
+    ],
+    "h2Count": 21,
+    "h3Count": 0,
+    "imgCount": 51,
+    "linkCount": 71,
+    "trueCpl": 71.18,
+    "avgAdvanceEm": 0.46359,
+    "buildId": "chunks",
+    "title": "20 Venue Garden Wedding Paling Cantik di Malaysia | HelloKahwin"
+  }
+]
