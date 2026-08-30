@@ -720,7 +720,16 @@ async function runUrls(urls, { json, quiet }) {
 async function selftest() {
   const fails = [];
   const ok = [];
-  const assert = (cond, msg) => (cond ? ok.push(msg) : fails.push(msg));
+  // A failed count that does not say WHAT it counted cannot be acted on from a
+  // CI log. The first Linux run of this suite failed one assertion by exactly
+  // one violation and named nothing; `evidence` is why the second did not.
+  const assert = (cond, msg, evidence) =>
+    cond ? ok.push(msg) : fails.push(msg + (evidence ? `\n          ${evidence}` : ''));
+  const listing = (row, check) =>
+    (row?.violations ?? [])
+      .filter((v) => v.check === check)
+      .map((v) => `${v.selector} :: ${v.detail}`)
+      .join('\n          ') || '(none)';
 
   const server = await startFixtureServer(false);
   const base = `http://127.0.0.1:${server.address().port}`;
@@ -855,6 +864,7 @@ async function selftest() {
     assert(
       n('viewport-overflow') === (w >= DESKTOP_BREAKPOINT ? 2 : 1),
       `discriminator @${w}: viewport-overflow = ${w >= DESKTOP_BREAKPOINT ? 2 : 1} (E always; F the contained rail only at desktop) — got ${n('viewport-overflow')}`,
+      listing(row, 'viewport-overflow'),
     );
     assert(
       n('image-upscale') === 1,

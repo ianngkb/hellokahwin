@@ -81,10 +81,19 @@ jobs:
       # Needs outbound access to images.hellokahwin.com: one of the assertions
       # is that all 13 homepage images DECODE, which is what proves the
       # naturalWidth-0 exclusion is not quietly hiding a real defect.
+      # `set -o pipefail` is load-bearing, not tidiness. Without it the step's
+      # exit status is `tee`'s, which is always 0, and this job reported SUCCESS
+      # on its very first run while the gate printed `UILINT EXIT: 1` and one
+      # assertion failed. A blocking check that cannot fail is worse than none:
+      # it is a green tick that means nothing, which is the exact shape of the
+      # problem this whole item exists to fix.
       - name: Does the gate fire on known-bad and clear on known-good?
         env:
           UI_GATE_CHROME: ${{ steps.chrome.outputs.path }}
-        run: node scripts/ui-layout-gate.mjs --selftest | tee gate.log
+        shell: bash
+        run: |
+          set -o pipefail
+          node scripts/ui-layout-gate.mjs --selftest | tee gate.log
 
       - name: Summary
         if: always()
@@ -118,7 +127,9 @@ jobs:
       - name: Gate every public template at 390/768/1024/1440
         env:
           UI_GATE_CHROME: ${{ steps.chrome.outputs.path }}
+        shell: bash
         run: |
+          set -o pipefail
           node scripts/ui-layout-gate.mjs \
             --base "${{ github.event.inputs.base_url || 'https://hellokahwin.com' }}" \
             --json gate.json | tee gate.log
