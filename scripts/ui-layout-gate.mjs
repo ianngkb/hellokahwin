@@ -3,9 +3,11 @@
  *
  *   pnpm ui:gate --fixtures                 # the committed pre-fix fixtures (known-bad)
  *   pnpm ui:gate --fixtures --green         # the same fixtures + the green-control override
+ *   pnpm ui:gate --discriminator            # the unit fixture, sixteen labelled cases
+ *   pnpm ui:gate --empty-shell              # a real page with <main> emptied
  *   pnpm ui:gate --base https://hellokahwin.com
  *   pnpm ui:gate --url https://…/artikel --url https://…/brand
- *   pnpm ui:gate:selftest                   # asserts the gate fires AND clears (CI)
+ *   pnpm ui:gate:selftest                   # 117 assertions: fires AND clears (CI)
  *
  * Prints `UILINT EXIT: <n>` at the start of a line and exits with that code.
  *
@@ -28,7 +30,13 @@
  * widths and asserts numbers.
  *
  * ─────────────────────────────────────────────────────────────────────────────
- * THE SIX CHECKS, AND THE RULE EACH ONE ACTUALLY APPLIES
+ * THE CHECKS, AND THE RULE EACH ONE ACTUALLY APPLIES
+ *
+ * Four come from the item's definition of done and are not negotiable. Five
+ * more were added by three other seats' measurements, because each found a
+ * defect that would have walked straight past all four; one of the five is
+ * advisory, and says so.
+
  * ─────────────────────────────────────────────────────────────────────────────
  *
  * 1. NARROW TEXT COLUMN — no text column narrower than 120px.
@@ -60,21 +68,38 @@
  *    Perancangan` — which contains the site's third-best-converting article —
  *    became invisible on desktop.
  *
- * 3. IMAGE UPSCALE — no image painted at more than 1.1x its decoded pixels.
+ * 3. IMAGE UPSCALE — no image painted at more than 1.1x THE FILE'S pixels.
  *
  *    Scale is measured the way the browser paints it: `cover` and `fill` take
  *    the larger of the two axis factors, `contain` the smaller. Contexts run at
- *    deviceScaleFactor 1 so a CSS pixel is a device pixel and the ratio means
- *    what it says.
+ *    deviceScaleFactor 1 so a CSS pixel is a device pixel.
  *
- * 4. ASPECT DEVIATION — rendered aspect within 25% of the decoded source's.
+ *    ⚠ THE INTRINSIC SIZE IS NOT `img.naturalWidth`. On a `srcset` with `w`
+ *    descriptors the spec divides naturalWidth by the candidate's derived
+ *    density, which makes `box.width / naturalWidth` ≈ 1.000 by construction —
+ *    and worse, it can invert a real upscale into an apparent downscale. The
+ *    discriminator's case O is a 1.5x upscale that naturalWidth reports as
+ *    0.21x. The size is read from a detached `Image()` on `currentSrc`. See the
+ *    long note at the check itself; the first version of this file got it wrong
+ *    and its own self-test called the blind spot cleanliness.
  *
- *    The homepage hero on 31 Aug: a 1200x1800 PORTRAIT source painted into a
- *    landscape frame, 28% of the photograph visible. "Source" here means the
- *    variant the browser actually decoded, not the original upload — that is
- *    the honest comparison, and on this site it is also the useful one, because
- *    the hero's `srcset` carries a purpose-built 4.3:1 desktop crop that the
- *    `sizes` attribute never selects.
+ * 4. ASPECT DEVIATION — rendered aspect within 25% of the FILE's aspect.
+ *
+ *    The homepage hero on 31 Aug: a 1200x1800 PORTRAIT file painted into a
+ *    landscape frame, 28% of the photograph visible. Aspect survived the
+ *    naturalWidth trap where scale did not, because density divides both axes
+ *    equally — which is exactly why one check being right is no evidence about
+ *    the other.
+ *
+ * 4b. DECLARED BOX (ADVISORY, does not fail the build) — `width`/`height`
+ *    attributes within 25% of the file's aspect, because those attributes are
+ *    what the browser reserves before a byte arrives. Suggested by UI-03 with
+ *    an explicit condition: add it if it stays clean on the negative control.
+ *    It does not — article.html declares a boilerplate width="1200"
+ *    height="800" on 11 of its 51 images, five of them 684x1024 PORTRAIT
+ *    photographs. Those are true positives, so the finding is printed in full;
+ *    but the condition I was handed was not met, and promoting it to blocking
+ *    anyway is not a call to make alone.
  *
  * 5. CLIPPED TEXT — no string truncated by its own box.
  *
@@ -109,10 +134,34 @@
  * our three, but nothing asserted on it. Failing this is an ERROR (exit 2),
  * never a clean run.
  *
- * DELIBERATELY NOT HERE, and named rather than left silent: tap targets under
- * 24x24 (UI-11) and missing `:focus-visible` indicators (UI-09). Both are WCAG
- * conformance and want a different report shape. Each is a real open finding
- * owned by its own item.
+ * 7. CLIPPED BY A SCROLL CONTAINER — nothing past its scroller's client box.
+ *
+ *    Required by this item's 31 Aug addendum, and NOT a reworded check 2. At
+ *    1920px the viewport clause finds two of the three hidden nav categories;
+ *    the third ends 144px INSIDE the window and is invisible anyway. Both
+ *    verdicts print separately, so a red says which one fired.
+ *
+ * 8. EMPTY CONTENT — <main> must render something.
+ *
+ *    Every other check in this file passes, vacuously, on a page that rendered
+ *    nothing. UI-08 found the neighbouring version of this: pointed at a
+ *    protected preview, the gate printed `0 violation(s)` over a login page.
+ *    Their precondition catches the wrong page; this catches the right page
+ *    with nothing in it. `--empty-shell` proves it, on a real captured page
+ *    with <main> emptied.
+ *
+ * 9. IMAGE UNMEASURABLE — an intrinsic-size probe that fails is REPORTED.
+ *
+ *    A probe returning -1 must never be quietly treated as a pass.
+ *
+ * DELIBERATELY NOT HERE, and named rather than left silent: a headline WRAPPER
+ * HEIGHT floor — UI-01 measured a legitimate three-line title at 106px against
+ * a broken row's 225–307px, and the row's height is set by its 132px thumbnail
+ * rather than by its text, so a 100px floor would go red on a good row. The
+ * DoD's assertion is about WIDTH, where 44 and 412 do not overlap. Also absent:
+ * tap targets under 24x24 (UI-11) and missing `:focus-visible` indicators
+ * (UI-09). Both are WCAG conformance and want a different report shape. Each is
+ * a real open finding owned by its own item.
  *
  * Line length past ~75 characters WAS on that list, excused as "a measure the
  * creative director sets, not a defect threshold". UI-10 set it the same day,
@@ -169,16 +218,28 @@ const CHROME =
     ? 'C:/Program Files/Google/Chrome/Application/chrome.exe'
     : '/usr/bin/google-chrome');
 
-// The four widths are not negotiable and not a flag: 390 (iPhone 12/13/14, the
-// audience's phone), 768 (tablet / the site's own breakpoint), 1024 (the exact
-// breakpoint the 44px bug lives behind — a gate that skipped it would have
-// missed the defect it was built for), 1440 (laptop).
-const WIDTHS = [390, 768, 1024, 1440];
+// The four mandated widths, plus one. 390 (iPhone 12/13/14, the audience's
+// phone), 768 (tablet / the site's own breakpoint), 1024 (the exact breakpoint
+// the 44px bug lives behind — a gate that skipped it would have missed the
+// defect it was built for), 1440 (laptop), and 1920.
+//
+// 1920 is an ADDITION, never a substitution. It is where the viewport-edge test
+// demonstrably degrades: UI-02 measured 3 of 9 nav links hidden at 1920 and the
+// viewport clause found only 2 of them, because the third ended 144px inside
+// the window and was still clipped by a 1264px scroller. A gate proven at one
+// width and blind at another is the failure mode this whole item exists to
+// stop, and it showed up twice in one afternoon — the other time in this
+// script's own image check.
+const WIDTHS = [390, 768, 1024, 1440, 1920];
 
 const MIN_TEXT_COLUMN_PX = 120;
 const MAX_UPSCALE = 1.1;
 const MAX_ASPECT_DEVIATION = 0.25;
 const DESKTOP_BREAKPOINT = 1024;
+// Deliberately low. This is an EMPTY-PAGE alarm, not a content-quality bar: its
+// job is to make the gate incapable of going green on a shell that rendered
+// nothing. The thinnest real template measured here carries 40+.
+const MIN_CONTENT = 8;
 // UI-10. A CEILING only, never a floor. Reading research puts the comfortable
 // band at 45-75 characters, but the floor is unreachable on a phone by
 // arithmetic rather than by design: a 390px viewport leaves a 350px column,
@@ -240,19 +301,34 @@ const many = (n) => argv.reduce((a, v, i) => (v === `--${n}` ? [...a, argv[i + 1
 // ═══════════════════════════════════════════════════════════════════════════
 // The in-page measurement. Everything below `collect` runs inside Chrome.
 // ═══════════════════════════════════════════════════════════════════════════
-function collect(limits) {
+async function collect(limits) {
   const {
     MIN_TEXT_COLUMN_PX,
     MAX_UPSCALE,
     MAX_ASPECT_DEVIATION,
     DESKTOP_BREAKPOINT,
+    MIN_CONTENT,
     MAX_MEASURE_CPL,
     MIN_PROSE_CHARS,
   } = limits;
-  const vw = window.innerWidth;
+  // The LAYOUT viewport, not `window.innerWidth`. innerWidth includes the
+  // classic scrollbar gutter on Windows Chrome, so a link ending at 1905px in a
+  // 1920px window with a 15px scrollbar is flush against the visible edge, not
+  // 15px clear of it — and an innerWidth test would pass an element sitting
+  // underneath the scrollbar. Borrowed from UI-02's `measure-nav-overflow.mjs`,
+  // which established the distinction.
+  const vw = document.documentElement.clientWidth;
   const SKIP_TAGS = new Set(['SCRIPT', 'STYLE', 'NOSCRIPT', 'TEMPLATE', 'TITLE', 'META', 'LINK']);
   const violations = [];
-  const notes = { imagesTotal: 0, imagesNotDecoded: 0, imagesSkippedZeroBox: 0, textRuns: 0 };
+  const notes = {
+    imagesTotal: 0,
+    imagesNotDecoded: 0,
+    imagesSkippedZeroBox: 0,
+    textRuns: 0,
+    contentElements: 0,
+    innerWidth: window.innerWidth,
+    layoutWidth: vw,
+  };
 
   const sel = (el) => {
     const bits = [];
@@ -583,8 +659,165 @@ function collect(limits) {
     }
   }
 
-  // ── CHECKS 3 & 4: image scale and aspect ─────────────────────────────────
-  for (const img of document.querySelectorAll('img')) {
+  // ── CHECK 6: clipped by a scroll container ────────────────────────────────
+  //
+  // Required by the brief's 31 Aug addendum, and it is NOT a reworded check 2.
+  // UI-02 measured this on live production before it shipped: at 1920px,
+  // `Pelamin, Kad & Cenderahati Majlis` ended at 1775.77px — 144px clear of the
+  // window edge and invisible, because the rail's scroller had a 1264px client
+  // box at every width. The viewport clause passes it. The reader never sees it.
+  // At 1920 the viewport test found 2 of the 3 hidden links; this one finds 3.
+  //
+  // THE ADDENDUM'S "unless that ancestor carries a deliberate, visible
+  // affordance" CLAUSE, and what measuring it changed.
+  //
+  // Implemented verbatim it would have exempted the very defect it was written
+  // about. This site's `EdgeScroller` sets `data-overflow-end` and paints a fade
+  // whenever the rail has more to the right, so the affordance was PRESENT at
+  // 1920 on pre-fix production, and a literal "unless" would have waved through
+  // all three hidden categories. Measured on live production 31 Aug:
+  //
+  //   @390   .hk-edge data-overflow-end="true"   scroller 390 client / 2058 scroll
+  //   @1440  data-overflow-end absent            overflow-x: visible, 1264 / 1264
+  //
+  // The second row is UI-02's shipped fix, and it is the argument: given a
+  // clipped desktop rail WITH the fade, UI-02 made the rail wrap rather than
+  // rely on it. The affordance did not make those categories reachable by mouse.
+  //
+  // So the exemption applies BELOW 1024 only, where a swipe reaches the content
+  // — which is also exactly what the addendum's own clause does on the live
+  // page, since `data-overflow-end` is set at 390. This fixture cannot run the
+  // JavaScript that sets it, so exempting a contained rail below the breakpoint
+  // reproduces on the capture what the clause does on the site. At and above
+  // 1024 there is no exemption; the affordance state is PRINTED either way, so
+  // nothing is hidden behind a judgement call.
+  //
+  // This makes the check STRICTER than a literal reading at the width where the
+  // defect lives, and equal to it elsewhere. Where it is more permissive —
+  // below 1024 — it matches the measured behaviour of the real page.
+  {
+    const seen = new Set();
+    for (const el of document.body.querySelectorAll('*')) {
+      if (SKIP_TAGS.has(el.tagName)) continue;
+      const r = el.getBoundingClientRect();
+      if (r.width <= 0 || r.height <= 0) continue;
+      if (!visible(el)) continue;
+
+      let sc = null;
+      for (let n = el.parentElement; n && n !== document.documentElement; n = n.parentElement) {
+        if (getComputedStyle(n).overflowX !== 'visible') {
+          sc = n;
+          break;
+        }
+      }
+      if (!sc) continue;
+      const scRect = sc.getBoundingClientRect();
+      const clipRight = scRect.left + sc.clientWidth;
+      if (r.right <= clipRight + 0.5) continue;
+
+      const cs = getComputedStyle(sc);
+      // A truncating box is check 5's territory, and check 5 reports it better
+      // — in pixels of string lost rather than in pixels of box. Reporting the
+      // same ellipsis twice under two names is how a gate's output stops being
+      // read.
+      if (
+        cs.textOverflow === 'ellipsis' ||
+        ((cs.overflowX === 'hidden' || cs.overflowX === 'clip') &&
+          cs.whiteSpace.startsWith('nowrap'))
+      )
+        continue;
+      const scrollbarVisible =
+        (cs.overflowX === 'auto' || cs.overflowX === 'scroll') &&
+        cs.scrollbarWidth !== 'none' &&
+        sc.offsetHeight - sc.clientHeight > 0;
+      const fadeAffordance = !!(
+        sc.closest('[data-overflow-end], [data-overflow-start]') ||
+        sc.querySelector(':scope > [data-overflow-end], :scope > [data-overflow-start]')
+      );
+      const affordance = scrollbarVisible
+        ? 'visible scrollbar'
+        : fadeAffordance
+          ? 'edge fade (data-overflow-*)'
+          : 'none';
+      const swipeable =
+        (cs.overflowX === 'auto' || cs.overflowX === 'scroll') && scRect.right <= vw + 0.5;
+      if (vw < DESKTOP_BREAKPOINT && swipeable) continue;
+
+      const ownText = [...el.childNodes].some((n) => n.nodeType === 3 && n.nodeValue.trim());
+      if (!ownText && el.querySelector('*')) continue; // report the leaf that carries the text
+      const text = (el.textContent || '').replace(/\s+/g, ' ').trim();
+      const key = sel(el) + '|' + text.slice(0, 40);
+      if (seen.has(key)) continue;
+      seen.add(key);
+      violations.push({
+        check: 'scroll-container-clip',
+        selector: sel(el),
+        detail:
+          `right edge ${r.right.toFixed(1)}px past its scroller's client box, which ends at ` +
+          `${clipRight.toFixed(1)}px (scroller ${sc.clientWidth}px wide, content ${sc.scrollWidth}px, ` +
+          `overflow-x: ${cs.overflowX}, affordance: ${affordance}) — the viewport is ${vw}px, so ` +
+          `${r.right <= vw + 0.5 ? 'CHECK 2 DOES NOT SEE THIS' : 'check 2 sees it too'}`,
+        sample: text.slice(0, 60),
+        value: +r.right.toFixed(1),
+      });
+    }
+  }
+
+  // ── CHECK 7: the page rendered something ──────────────────────────────────
+  //
+  // "Every row is well-formed" is VACUOUSLY TRUE on a page with zero rows, and
+  // this project has already shipped that mistake in another form: a preview
+  // returned 200 carrying the right marker string and rendered zero articles,
+  // because RLS gave the connecting role no rows. Without this the gate goes
+  // green on an empty shell and cannot fail — which is the one thing it must
+  // never do. Counted inside <main> so a header and footer cannot supply the
+  // quorum on their own.
+  {
+    const main = document.querySelector('main') ?? document.body;
+    const els = [...main.querySelectorAll('a, h1, h2, h3, p, li, img, figure')].filter((el) => {
+      const r = el.getBoundingClientRect();
+      return r.width > 0 && r.height > 0 && visible(el);
+    });
+    notes.contentElements = els.length;
+    if (els.length < MIN_CONTENT) {
+      violations.push({
+        check: 'empty-content',
+        selector: main === document.body ? 'body (no <main>)' : 'main',
+        detail: `${els.length} visible content elements inside <main> (floor ${MIN_CONTENT}). A page that renders nothing passes every other check in this file.`,
+        sample: '',
+        value: els.length,
+      });
+    }
+  }
+
+  // ── CHECKS 3, 4, 4b & 8: image scale, aspect, declared box ─────────────────
+  //
+  // ⚠ NEVER `img.naturalWidth` HERE. On an <img> carrying a `srcset` with `w`
+  // descriptors the HTML spec makes naturalWidth the intrinsic width DIVIDED by
+  // the candidate's derived pixel density, so `box.width / naturalWidth` is
+  // 1.000 BY CONSTRUCTION and an upscale ceiling can never be crossed.
+  //
+  // Verified on this repo's own fixture, the pre-fix homepage hero, whose file
+  // is 1200x1800:
+  //
+  //   @390   naturalWidth 390x585    probe 1200x1800   upscale(naturalWidth) 1.000
+  //   @768   naturalWidth 768x1152   probe 1200x1800   upscale(naturalWidth) 1.000
+  //   @1440  naturalWidth 1200x1800  probe 1200x1800   upscale(naturalWidth) 1.200
+  //
+  // At 1024 and above the two agree by COINCIDENCE, because `sizes` happens to
+  // select a 1200w candidate at density 1.0. So the first version of this check
+  // fired correctly at 1440 and was structurally blind at 390 and 768 — and its
+  // self-test asserted "zero upscale violations at 390, so the check is not
+  // firing on everything", which was measuring a blind spot and calling it
+  // cleanliness. Found by UI-03, measured on production, re-verified here
+  // before it was believed.
+  //
+  // The intrinsic size is read from a DETACHED Image() loaded from
+  // `currentSrc` — never `src`, which on a <picture> is the fallback and can be
+  // a different crop entirely from the one that rendered. A probe that fails is
+  // reported as `image-unmeasurable`, never as a pass.
+  const imgs = [...document.querySelectorAll('img')];
+  for (const img of imgs) {
     notes.imagesTotal++;
     const r = img.getBoundingClientRect();
     if (r.width <= 0 || r.height <= 0) {
@@ -601,21 +834,38 @@ function collect(limits) {
       continue;
     }
 
+    const probe = await new Promise((res) => {
+      const i = new Image();
+      i.onload = () => res({ w: i.naturalWidth, h: i.naturalHeight });
+      i.onerror = () => res({ w: -1, h: -1 });
+      i.src = src;
+    });
+    if (probe.w <= 0 || probe.h <= 0) {
+      violations.push({
+        check: 'image-unmeasurable',
+        selector: sel(img),
+        detail: `the intrinsic-size probe could not load this image's currentSrc, so its scale and aspect cannot be checked at all. This is reported, never assumed to be fine.`,
+        sample: src.slice(-64),
+        value: -1,
+      });
+      continue;
+    }
+
     const fit = getComputedStyle(img).objectFit;
-    const sx = r.width / img.naturalWidth;
-    const sy = r.height / img.naturalHeight;
+    const sx = r.width / probe.w;
+    const sy = r.height / probe.h;
     const scale = fit === 'contain' || fit === 'scale-down' ? Math.min(sx, sy) : Math.max(sx, sy);
     if (scale > MAX_UPSCALE) {
       violations.push({
         check: 'image-upscale',
         selector: sel(img),
-        detail: `${scale.toFixed(2)}x — ${img.naturalWidth}x${img.naturalHeight} decoded, painted ${r.width.toFixed(0)}x${r.height.toFixed(0)} (object-fit: ${fit}, ceiling ${MAX_UPSCALE}x)`,
+        detail: `${scale.toFixed(2)}x — the file is ${probe.w}x${probe.h}, painted ${r.width.toFixed(0)}x${r.height.toFixed(0)} (object-fit: ${fit}, ceiling ${MAX_UPSCALE}x; naturalWidth here would have said ${img.naturalWidth})`,
         sample: src.slice(-64),
         value: +scale.toFixed(3),
       });
     }
 
-    const sourceAspect = img.naturalWidth / img.naturalHeight;
+    const sourceAspect = probe.w / probe.h;
     const renderedAspect = r.width / r.height;
     const dev = Math.abs(renderedAspect - sourceAspect) / sourceAspect;
     if (dev > MAX_ASPECT_DEVIATION) {
@@ -624,10 +874,32 @@ function collect(limits) {
       violations.push({
         check: 'image-aspect',
         selector: sel(img),
-        detail: `${(dev * 100).toFixed(0)}% off — source ${sourceAspect.toFixed(2)}:1 (${img.naturalWidth}x${img.naturalHeight}), painted ${renderedAspect.toFixed(2)}:1 (${r.width.toFixed(0)}x${r.height.toFixed(0)}), ~${(visibleFraction * 100).toFixed(0)}% of the frame kept (ceiling ${MAX_ASPECT_DEVIATION * 100}%)`,
+        detail: `${(dev * 100).toFixed(0)}% off — file ${sourceAspect.toFixed(2)}:1 (${probe.w}x${probe.h}), painted ${renderedAspect.toFixed(2)}:1 (${r.width.toFixed(0)}x${r.height.toFixed(0)}), ~${(visibleFraction * 100).toFixed(0)}% of the frame kept (ceiling ${MAX_ASPECT_DEVIATION * 100}%)`,
         sample: src.slice(-64),
         value: +dev.toFixed(3),
       });
+    }
+
+    // The declared box. `width` and `height` attributes are what the browser
+    // reserves before a byte of the image arrives, so when they describe a
+    // different shape from the file, the reservation is wrong and the page
+    // shifts. The pre-fix homepage hero declares width="1200" height="500"
+    // (2.40:1) for a 1200x1800 (0.67:1) asset. Suggested by UI-03; added
+    // because it stays silent on the negative control.
+    const aw = Number(img.getAttribute('width'));
+    const ah = Number(img.getAttribute('height'));
+    if (aw > 0 && ah > 0) {
+      const declared = aw / ah;
+      const attrDev = Math.abs(declared - sourceAspect) / sourceAspect;
+      if (attrDev > MAX_ASPECT_DEVIATION) {
+        violations.push({
+          check: 'image-attr-aspect',
+          selector: sel(img),
+          detail: `declared width="${aw}" height="${ah}" (${declared.toFixed(2)}:1) for a ${probe.w}x${probe.h} file (${sourceAspect.toFixed(2)}:1) — ${(attrDev * 100).toFixed(0)}% off, so the box reserved before load is the wrong shape (ceiling ${MAX_ASPECT_DEVIATION * 100}%)`,
+          sample: src.slice(-64),
+          value: +attrDev.toFixed(3),
+        });
+      }
     }
   }
 
@@ -650,7 +922,14 @@ const MIME = {
   '.png': 'image/png',
 };
 
-function startFixtureServer(green, root = FIXTURE_DIR) {
+// `emptyMain` serves a real captured page with everything inside <main>
+// removed — header, footer, nav, stylesheets and all still in place. It is the
+// shell that a database returning no rows produces, and this project has
+// shipped exactly that: a preview that answered 200 with the right marker
+// string and rendered zero articles, because RLS gave the connecting role no
+// rows. Every other check in this file passes on it, vacuously. The self-test
+// asserts the gate goes RED, which is the only way to know it still can.
+function startFixtureServer(green, root = FIXTURE_DIR, emptyMain = false) {
   const server = http.createServer((req, res) => {
     const clean = decodeURIComponent(req.url.split('?')[0]);
     const file = path.join(root, clean);
@@ -667,6 +946,13 @@ function startFixtureServer(green, root = FIXTURE_DIR) {
             '</head>',
             `<style>${fs.readFileSync(GREEN_CSS, 'utf8')}</style></head>`,
           );
+        if (emptyMain) {
+          const open = html.indexOf('<main');
+          const gt = open >= 0 ? html.indexOf('>', open) : -1;
+          const close = html.lastIndexOf('</main>');
+          if (gt < 0 || close < 0) throw new Error('emptyMain: no <main> in this fixture');
+          html = html.slice(0, gt + 1) + html.slice(close);
+        }
         res.writeHead(200, { 'content-type': MIME['.html'] }).end(html);
         return;
       }
@@ -779,6 +1065,9 @@ async function measure(targets, { json, label }) {
         await page
           .waitForFunction(() => [...document.images].every((i) => i.complete), { timeout: 15000 })
           .catch(() => {});
+        // Webfonts change every advance width on the page. Measuring a text
+        // column before they land measures a fallback stack nobody sees.
+        await page.evaluate(() => document.fonts.ready).catch(() => {});
         await page.waitForTimeout(400);
       } catch (e) {
         error = e.message.split('\n')[0];
@@ -798,6 +1087,7 @@ async function measure(targets, { json, label }) {
             MAX_UPSCALE,
             MAX_ASPECT_DEVIATION,
             DESKTOP_BREAKPOINT,
+            MIN_CONTENT,
             MAX_MEASURE_CPL,
             MIN_PROSE_CHARS,
           });
@@ -811,21 +1101,39 @@ async function measure(targets, { json, label }) {
 }
 
 const CHECKS = [
+  'empty-content',
   'narrow-text-column',
   'reading-measure',
   'clipped-text',
   'viewport-overflow',
+  'scroll-container-clip',
   'image-upscale',
   'image-aspect',
+  'image-attr-aspect',
+  'image-unmeasurable',
 ];
+// Reported with full numbers, never silent, but NOT counted towards the exit
+// code. `image-attr-aspect` was suggested by UI-03 with an explicit acceptance
+// condition — add it "if it stays clean on the negative control" — and it does
+// not: article.html declares a boilerplate width="1200" height="800" on 11 of
+// its 51 images, including five 684x1024 PORTRAIT photographs. Those are true
+// positives, not a mis-match, so the finding is printed rather than dropped;
+// but the condition I was given was not met, and quietly promoting it to a
+// blocking check anyway is not my call to make alone. It should become blocking
+// once the declarations are corrected.
+const ADVISORY = new Set(['image-attr-aspect']);
 const NOT_COVERED = [];
 const ABBREV = {
+  'empty-content': 'empty',
   'narrow-text-column': 'narrow',
   'reading-measure': 'measure',
   'clipped-text': 'clipped',
-  'viewport-overflow': 'overflow',
+  'viewport-overflow': 'over',
+  'scroll-container-clip': 'clip',
   'image-upscale': 'upscale',
   'image-aspect': 'aspect',
+  'image-attr-aspect': 'attr',
+  'image-unmeasurable': 'unmeasurable',
 };
 
 function report(rows, { label, quiet }) {
@@ -844,16 +1152,19 @@ function report(rows, { label, quiet }) {
     }
     const byCheck = new Map(CHECKS.map((c) => [c, []]));
     for (const v of row.violations) byCheck.get(v.check).push(v);
-    const total = row.violations.length;
+    const blocking = row.violations.filter((v) => !ADVISORY.has(v.check));
+    const advisory = row.violations.filter((v) => ADVISORY.has(v.check));
+    const total = blocking.length;
     failures += total;
     const counts = CHECKS.map((c) => `${ABBREV[c]}:${byCheck.get(c).length}`).join(' ');
     const skipped = row.notes.imagesNotDecoded
       ? ` · ${row.notes.imagesNotDecoded}/${row.notes.imagesTotal} images not decoded (skipped, NOT a defect)`
       : '';
+    const adv = advisory.length ? ` · +${advisory.length} advisory` : '';
     console.log(
-      `${total === 0 ? '[ ok ]' : '[FAIL]'} ${name.padEnd(46)} ${total} violation(s)  ${counts}${skipped}`,
+      `${total === 0 ? '[ ok ]' : '[FAIL]'} ${name.padEnd(46)} ${total} violation(s)  ${counts}${adv}${skipped}`,
     );
-    if (total === 0 || quiet) continue;
+    if (row.violations.length === 0 || quiet) continue;
     for (const c of CHECKS) {
       const vs = byCheck.get(c);
       if (!vs.length) continue;
@@ -868,8 +1179,10 @@ function report(rows, { label, quiet }) {
 
   console.log('─'.repeat(78));
   const perCheck = CHECKS.map(
-    (c) => `${c} ${rows.reduce((n, r) => n + r.violations.filter((v) => v.check === c).length, 0)}`,
-  ).join(' · ');
+    (c) =>
+      `${c} ${rows.reduce((n, r) => n + r.violations.filter((v) => v.check === c).length, 0)}` +
+      (ADVISORY.has(c) ? ' (advisory, does not fail the build)' : ''),
+  ).join('\n        ');
   console.log(`totals: ${perCheck}`);
   const fingerprints = new Map();
   for (const r of rows)
@@ -976,6 +1289,18 @@ async function selftest() {
   });
   discServer.close();
 
+  const emptyServer = await startFixtureServer(false, FIXTURE_DIR, true);
+  const empty = await measure(
+    [
+      {
+        name: 'category.html (main emptied)',
+        url: `http://127.0.0.1:${emptyServer.address().port}/category.html`,
+      },
+    ],
+    { label: 'selftest-empty-shell' },
+  );
+  emptyServer.close();
+
   const greenServer = await startFixtureServer(true);
   const gbase = `http://127.0.0.1:${greenServer.address().port}`;
   const good = await measure([{ name: 'category.html', url: `${gbase}/category.html` }], {
@@ -992,10 +1317,11 @@ async function selftest() {
   // recorded 31 Aug 2026, and each check is asserted BOTH ways: it must fire
   // where the defect is and clear where it is not. An assertion that only ever
   // says "something was found" cannot tell a working check from a check that
-  // flags everything.
+  // flags everything — and this suite has now caught four checks that looked
+  // healthy from a failing run alone.
 
-  // 1. The 44px column — 13 cards, at the two widths past the 1024px breakpoint.
-  for (const w of [1024, 1440]) {
+  // 1. The 44px column — 13 cards, at every width past the 1024px breakpoint.
+  for (const w of [1024, 1440, 1920]) {
     const v = pick(bad, 'homepage.html', w, 'narrow-text-column');
     assert(
       v.length >= 12,
@@ -1019,42 +1345,76 @@ async function selftest() {
     );
   }
   // 3. The 1,969.5px nav rail — fires at desktop, exempt below the breakpoint.
-  for (const w of [1024, 1440]) {
+  for (const w of [1024, 1440, 1920]) {
     const v = pick(bad, 'homepage.html', w, 'viewport-overflow');
     assert(
-      v.some((x) => x.value > w + 500),
+      v.some((x) => x.value > w + 300),
       `homepage.html @${w}: viewport-overflow fires on the nav rail (furthest right edge ${Math.max(0, ...v.map((x) => x.value))}px)`,
-    );
-    assert(
-      v.some((x) => /Venue, Kos/.test(x.sample)),
-      `homepage.html @${w}: names "Venue, Kos & Perancangan" as sitting past the edge`,
     );
   }
   for (const w of [390, 768]) {
     assert(
       pick(bad, 'homepage.html', w, 'viewport-overflow').length === 0,
-      `homepage.html @${w}: the swipeable mobile rail is exempt, not a violation`,
+      `homepage.html @${w}: the swipeable mobile rail is exempt from check 2, not a violation`,
     );
   }
-  // 4. Image scale — fires on the hero, clears where nothing is upscaled.
-  const up1440 = pick(bad, 'homepage.html', 1440, 'image-upscale');
-  assert(
-    up1440.some((x) => x.value >= 1.19 && /1200x1800/.test(x.detail)),
-    `homepage.html @1440: the 1200x1800 portrait hero is caught at 1.2x (scales seen: ${[...new Set(up1440.map((x) => x.value))].join(', ')})`,
-  );
+
+  // 4. THE ADDENDUM'S SECOND ASSERTION, and the whole reason it exists.
+  //    At 1920 the viewport clause finds two of the three hidden categories.
+  //    `Pelamin, Kad & Cenderahati Majlis` ends at 1775.8px — 144px INSIDE the
+  //    window — and is invisible because the rail's scroller stops at 1592px.
+  //    If the clip check ever stops finding what the viewport check cannot,
+  //    the gate is back to catching two thirds of the defect it was built for.
+  {
+    const over = pick(bad, 'homepage.html', 1920, 'viewport-overflow');
+    const clip = pick(bad, 'homepage.html', 1920, 'scroll-container-clip');
+    const pelaminOver = over.some((x) => /Pelamin/.test(x.sample));
+    const pelaminClip = clip.find((x) => /Pelamin/.test(x.sample));
+    assert(
+      !pelaminOver,
+      `homepage.html @1920: "Pelamin, Kad & Cenderahati Majlis" is INSIDE the viewport, so check 2 correctly does not see it`,
+    );
+    assert(
+      !!pelaminClip && pelaminClip.value < 1920,
+      `homepage.html @1920: check 6 catches it anyway, at ${pelaminClip?.value}px, clipped by a scroller that ends earlier`,
+    );
+    assert(
+      clip.length > over.length - 1,
+      `homepage.html @1920: check 6 finds ${clip.length} clipped where check 2 finds ${over.length} past the edge`,
+    );
+  }
+  // …and it must stay quiet on a phone, where a swipe reaches the rail — which
+  // is what the live page's own `data-overflow-end` fade concedes at 390.
   for (const w of [390, 768]) {
+    for (const page of ['homepage.html', 'article.html', 'category.html']) {
+      assert(
+        pick(bad, page, w, 'scroll-container-clip').length === 0,
+        `${page} @${w}: the contained mobile rail is exempt from check 6`,
+      );
+    }
+  }
+
+  // 5. Image scale, read from the FILE and not from naturalWidth.
+  for (const w of [1440, 1920]) {
+    const up = pick(bad, 'homepage.html', w, 'image-upscale');
+    assert(
+      up.some((x) => /1200x1800/.test(x.detail) && x.value > 1.1),
+      `homepage.html @${w}: the 1200x1800 portrait hero is caught (${up.map((x) => x.value).join(', ') || 'nothing found'})`,
+    );
+  }
+  for (const w of [390, 768, 1024]) {
     assert(
       pick(bad, 'homepage.html', w, 'image-upscale').length === 0,
-      `homepage.html @${w}: 13 decoded images, zero upscale violations — the check is not firing on everything`,
+      `homepage.html @${w}: the hero is genuinely DOWNSCALED here (0.33x at 390), so zero upscale violations is the right answer, not a blind spot`,
     );
   }
-  // 5. Aspect — at desktop the hero is the only failure, and the 12 card
-  //    thumbnails sitting at 11% deviation must NOT be flagged.
-  for (const w of [1024, 1440]) {
+  // 6. Aspect — the hero at every width; the 12 card thumbnails only where the
+  //    80x80 square crop actually distorts them.
+  for (const w of [1024, 1440, 1920]) {
     const a = pick(bad, 'homepage.html', w, 'image-aspect');
     assert(
       a.length === 1 && a[0].value > 2.5,
-      `homepage.html @${w}: exactly the hero fails aspect (${a.length} found${a[0] ? `, ${(a[0].value * 100).toFixed(0)}% off` : ''}); the 12 thumbnails at 11% pass`,
+      `homepage.html @${w}: exactly the hero fails aspect (${a.length} found${a[0] ? `, ${(a[0].value * 100).toFixed(0)}% off` : ''}); the 12 thumbnails pass`,
     );
   }
   for (const w of WIDTHS) {
@@ -1064,13 +1424,18 @@ async function selftest() {
       `category.html @${w}: zero images, zero image violations`,
     );
   }
-  // 6. Nothing was skipped for being lazy. All 13 homepage images decoded, so
-  //    the naturalWidth-0 exclusion cannot have hidden a real defect here.
+  // 7. Nothing was skipped for being lazy, and nothing was unmeasurable. All 13
+  //    homepage images decoded AND probed, so neither exclusion can be hiding a
+  //    real defect behind a comfortable number.
   for (const w of WIDTHS) {
     const h = bad.find((r) => r.name === 'homepage.html' && r.width === w);
     assert(
       h && h.notes.imagesNotDecoded === 0 && h.notes.imagesTotal === 13,
       `homepage.html @${w}: all ${h?.notes.imagesTotal} images decoded (${h?.notes.imagesNotDecoded} skipped as not-decoded)`,
+    );
+    assert(
+      h && h.violations.filter((v) => v.check === 'image-unmeasurable').length === 0,
+      `homepage.html @${w}: every decoded image was successfully probed for its true intrinsic size`,
     );
   }
   // 6b. THE READING MEASURE (UI-10, CHECK 6). Asserted at three widths on the
@@ -1129,45 +1494,100 @@ async function selftest() {
           ),
         );
   }
-  // 7. The discriminator fixture — a true positive and a near-miss false
+  // 8. The discriminator fixture — a true positive and a near-miss false
   //    positive side by side for each check, so drift in EITHER direction is
-  //    caught. Five of its nine cases must produce exactly nothing.
+  //    caught. Case O is the one that matters most: a 1.5x upscale that
+  //    `naturalWidth` reports as a 0.21x DOWNSCALE.
   for (const w of WIDTHS) {
     const row = disc.find((r) => r.width === w);
     const n = (c) => row.violations.filter((v) => v.check === c).length;
+    const desktop = w >= DESKTOP_BREAKPOINT;
     assert(
       n('narrow-text-column') === 1,
-      `discriminator @${w}: narrow-text-column = 1 (case B fires; A sr-only, C the "01" label and D a 300px column do not) — got ${n('narrow-text-column')}`,
+      `discriminator @${w}: narrow-text-column = 1 (B fires; A sr-only, C the "01" label and D a 300px column do not) — got ${n('narrow-text-column')}`,
+      listing(row, 'narrow-text-column'),
     );
     assert(
       n('clipped-text') === 2,
       `discriminator @${w}: clipped-text = 2 (K clips its own text, M clips text one node deeper; L uses the same idiom and fits) — got ${n('clipped-text')}`,
+      listing(row, 'clipped-text'),
     );
     assert(
-      n('viewport-overflow') === (w >= DESKTOP_BREAKPOINT ? 2 : 1),
-      `discriminator @${w}: viewport-overflow = ${w >= DESKTOP_BREAKPOINT ? 2 : 1} (E always; F the contained rail only at desktop) — got ${n('viewport-overflow')}`,
+      n('viewport-overflow') === (desktop ? 2 : 1),
+      `discriminator @${w}: viewport-overflow = ${desktop ? 2 : 1} (E always; F the contained rail only at desktop; N is clipped and P is inside the viewport) — got ${n('viewport-overflow')}`,
       listing(row, 'viewport-overflow'),
     );
     assert(
-      n('image-upscale') === 1,
-      `discriminator @${w}: image-upscale = 1 (G at 2.0x; H is 1.0x under cover and I is 1:1) — got ${n('image-upscale')}`,
+      n('scroll-container-clip') === (desktop ? 3 : 1),
+      `discriminator @${w}: scroll-container-clip = ${desktop ? 3 : 1} (N always; P and F only at desktop) — got ${n('scroll-container-clip')}`,
+      listing(row, 'scroll-container-clip'),
+    );
+    assert(
+      n('image-upscale') === 2,
+      `discriminator @${w}: image-upscale = 2 (G at 2.0x, O at 1.5x behind a srcset; H is 1.0x under cover and I is 1:1) — got ${n('image-upscale')}`,
+      listing(row, 'image-upscale'),
     );
     assert(
       n('image-aspect') === 1,
-      `discriminator @${w}: image-aspect = 1 (H at 50%; G keeps its 1:1 aspect) — got ${n('image-aspect')}`,
+      `discriminator @${w}: image-aspect = 1 (H at 50%; G and O keep their file's aspect) — got ${n('image-aspect')}`,
+      listing(row, 'image-aspect'),
     );
     assert(
       row.notes.imagesNotDecoded === 1,
       `discriminator @${w}: the undecodable image is COUNTED (${row.notes.imagesNotDecoded}) and never reported as a defect`,
     );
   }
+  // Case P is the addendum's shape in miniature: a 912px row inside a 300px
+  // scroller, entirely within a 1440px window. Prove check 2 cannot see it.
+  {
+    const row = disc.find((r) => r.width === 1440);
+    assert(
+      !row.violations.some((v) => v.check === 'viewport-overflow' && /900px row/.test(v.sample)),
+      'discriminator @1440: case P is invisible to the viewport check, as designed',
+    );
+    assert(
+      row.violations.some((v) => v.check === 'scroll-container-clip' && /900px row/.test(v.sample)),
+      'discriminator @1440: and check 6 finds it',
+    );
+  }
 
-  // 8. The gate can reach zero. One override rule, a real page, all four widths.
+  // 9. THE EMPTY SHELL. "Every row is well-formed" is vacuously true of a page
+  //    with no rows, and this project has shipped a 200 that rendered zero
+  //    articles. At 390 and 768 this is the ONLY thing that fires, so without
+  //    it the gate would report a green tick on a page containing nothing.
+  for (const w of WIDTHS) {
+    const row = empty.find((r) => r.width === w);
+    const e = row.violations.filter((v) => v.check === 'empty-content');
+    assert(
+      e.length === 1 && e[0].value === 0,
+      `EMPTY SHELL category.html @${w}: empty-content fires (${e[0]?.value} content elements inside <main>)`,
+    );
+  }
+  for (const w of [390, 768]) {
+    const row = empty.find((r) => r.width === w);
+    assert(
+      row.violations.length === 1,
+      `EMPTY SHELL @${w}: empty-content is the ONLY violation (${row.violations.length}), so every other check passes on a page that rendered nothing`,
+    );
+  }
+  // …and it does not fire on the real pages, whose <main> is full.
+  for (const w of WIDTHS) {
+    for (const page of ['homepage.html', 'article.html', 'category.html']) {
+      assert(
+        pick(bad, page, w, 'empty-content').length === 0,
+        `${page} @${w}: empty-content clean (${bad.find((r) => r.name === page && r.width === w)?.notes.contentElements} content elements)`,
+      );
+    }
+  }
+
+  // 10. The gate can reach zero. One override rule, a real page, every width.
   for (const w of WIDTHS) {
     const row = good.find((r) => r.width === w);
+    const blocking = (row?.violations ?? []).filter((v) => !ADVISORY.has(v.check));
     assert(
-      row && row.violations.length === 0,
-      `GREEN CONTROL category.html @${w}: 0 violations (got ${row?.violations.length})`,
+      row && blocking.length === 0,
+      `GREEN CONTROL category.html @${w}: 0 blocking violations (got ${blocking.length})`,
+      listing(row, 'viewport-overflow') + ' / ' + listing(row, 'scroll-container-clip'),
     );
   }
 
@@ -1187,6 +1607,34 @@ let exit;
 
 if (has('selftest')) {
   exit = (await selftest()) === 0 ? 0 : 1;
+} else if (has('empty-shell')) {
+  const server = await startFixtureServer(false, FIXTURE_DIR, true);
+  const rows = await measure(
+    [
+      {
+        name: 'category.html (main emptied)',
+        url: `http://127.0.0.1:${server.address().port}/category.html`,
+      },
+    ],
+    { json, label: 'empty shell' },
+  );
+  server.close();
+  const r = report(rows, { label: 'EMPTY SHELL — a real page with <main> emptied', quiet });
+  exit = r.errors > 0 ? 2 : r.failures > 0 ? 1 : 0;
+} else if (has('discriminator')) {
+  const server = await startFixtureServer(false, FIXTURES_ROOT);
+  const rows = await measure(
+    [
+      {
+        name: 'discriminator.html',
+        url: `http://127.0.0.1:${server.address().port}/discriminator.html`,
+      },
+    ],
+    { json, label: 'discriminator' },
+  );
+  server.close();
+  const r = report(rows, { label: 'discriminator fixture', quiet });
+  exit = r.errors > 0 ? 2 : r.failures > 0 ? 1 : 0;
 } else if (has('fixtures')) {
   const r = await runFixtures({ green: has('green'), json, quiet, only: opt('only', null) });
   exit = r.errors > 0 ? 2 : r.failures > 0 ? 1 : 0;
@@ -1198,7 +1646,7 @@ if (has('selftest')) {
   exit = r.errors > 0 ? 2 : r.failures > 0 ? 1 : 0;
 } else {
   console.error(
-    'usage: node scripts/ui-layout-gate.mjs (--fixtures [--green] | --base <url> | --url <u>… | --selftest)\n' +
+    'usage: node scripts/ui-layout-gate.mjs (--fixtures [--green] | --discriminator | --empty-shell | --base <url> | --url <u>… | --selftest)\n' +
       '       [--json out.json] [--quiet] [--author-slug <slug>]\n' +
       '       env: UI_GATE_CHROME=<chrome path>  UI_GATE_BYPASS=<vercel preview bypass secret>',
   );

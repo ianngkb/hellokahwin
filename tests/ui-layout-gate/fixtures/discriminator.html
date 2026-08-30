@@ -13,9 +13,14 @@
       check that quietly started flagging EVERYTHING would still look right.
 
       This file puts a true positive and a near-miss false positive side by side
-      for each of the five checks, so the self-test can assert an exact count and
-      catch either kind of drift. Fourteen cases; seven of them must produce exactly
-      nothing.
+      for each check, so the self-test can assert an exact count and catch drift
+      in EITHER direction. Sixteen labelled cases; six of them — A, C, D, I, J
+      and L — must produce exactly nothing.
+
+      Case O is the one to read first. It is a 1.5x upscale that `naturalWidth`
+      reports as a 0.21x downscale, and it exists because the gate's own upscale
+      check was structurally blind at two of its five widths before UI-03
+      measured the trap on production.
 
       Cases E and F below are why the 1024px breakpoint is in the overflow rule:
       the same markup is a legitimate swipeable rail on a phone and lost
@@ -70,6 +75,15 @@
       .clipbox > div {
         width: 2000px;
         background: #efe;
+      }
+      .deskrail {
+        overflow-x: auto;
+        width: 300px;
+        scrollbar-width: none;
+      }
+      .deskrail > div {
+        width: 900px;
+        background: #eef;
       }
       .past-edge {
         position: absolute;
@@ -174,6 +188,37 @@
          Truncation is only a defect when it actually truncates. -->
     <section data-case="L">
       <p class="truncate">HANTARAN</p>
+    </section>
+
+    <!-- O · MUST FIRE (image-upscale, 1.5x) AND IS INVISIBLE TO naturalWidth.
+         A 200x100 file offered as the only srcset candidate with sizes=100vw,
+         painted 300px wide — a 1.5x upscale. The browser derives the density
+         from `sizes`, so `naturalWidth` reports the RESOLVED WIDTH (390 at 390,
+         1440 at 1440) and box/naturalWidth reads 0.77 and 0.21: the upscale
+         does not merely hide, it inverts into an apparent downscale. This is the
+         commonest real-world upscale there is: a srcset with no candidate big
+         enough for the slot. Reading the intrinsic size from a detached Image()
+         on currentSrc is the only way it shows up. -->
+    <section data-case="O">
+      <img
+        alt=""
+        style="width: 300px; height: 150px; object-fit: cover"
+        sizes="100vw"
+        srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAABkCAIAAABM5OhcAAABG0lEQVR4nO3SQQkAIADAQGMbwhBGtYRDkIMLsMfGXBuuG88L+JKxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLxAEC1jQBPfiFqAAAAABJRU5ErkJggg== 200w"
+        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAABkCAIAAABM5OhcAAABG0lEQVR4nO3SQQkAIADAQGMbwhBGtYRDkIMLsMfGXBuuG88L+JKxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLhLFIGIuEsUgYi4SxSBiLxAEC1jQBPfiFqAAAAABJRU5ErkJggg=="
+      />
+    </section>
+
+    <!-- P · MUST FIRE (scroll-container-clip) at 1024/1440/1920 and NOT below.
+         A 900px row inside a 300px scroller with no scrollbar and no fade. The
+         row's right edge is 912px — well INSIDE every desktop viewport, so
+         check 2 never sees it, and on a laptop no swipe reaches it. This is the
+         shape of the defect UI-02 measured at 1920px, where `Pelamin, Kad &
+         Cenderahati Majlis` ended 144px clear of the window edge and was still
+         invisible. Below 1024 a swipe reaches it, exactly as the live page's
+         own `data-overflow-end` fade concedes, so it is exempt there. -->
+    <section data-case="P">
+      <div class="deskrail"><div>P · 900px row inside a 300px scroller, no affordance</div></div>
     </section>
 
     <!-- N · MUST NOT FIRE (viewport-overflow) at any width. A 2000px box inside

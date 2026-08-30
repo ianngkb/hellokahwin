@@ -5,7 +5,7 @@ Everything here exists to answer one question about `scripts/ui-layout-gate.mjs`
 only ever run green proves nothing at all.
 
 ```
-pnpm ui:gate:selftest        # 72 assertions: each check fires AND clears
+pnpm ui:gate:selftest        # assertions that each check fires AND clears
 pnpm ui:gate:fixtures        # the pre-fix capture; exits 1, as it must
 pnpm ui:gate --base https://hellokahwin.com
 UI_GATE_BYPASS=<secret> pnpm ui:gate --base <a preview *.vercel.app>
