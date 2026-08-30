@@ -431,6 +431,29 @@ minute to relaunch; the prompts will otherwise recur indefinitely.
   turn it off; anything that measures a rendered page copies that. This is the
   same lesson as the FCP-vs-`x-vercel-cache` rule one line of reasoning up: a
   number without the state it was taken in is not a measurement.
+- **⚠ `img.naturalWidth` IS NOT THE IMAGE FILE'S WIDTH ON THIS SITE. IT IS THE
+  FILE DIVIDED BY THE BROWSER'S DERIVED PIXEL DENSITY, SO ANY `rendered /
+  naturalWidth` RATIO IS 1.000 BY CONSTRUCTION.** Found by UI-03 on production
+  and re-verified by UI-06 against the committed pre-fix fixture, whose hero
+  file is 1200x1800: `naturalWidth` reports **390x585 at a 390px viewport**,
+  768x1152 at 768, and the true size only at 1024 and above, where `sizes`
+  happens to resolve to density 1.0. **A gate tested only at desktop therefore
+  looks like it works and is blind at every other width** — UI-06's upscale
+  check was, at two of five, while its own self-test asserted the blind spot as
+  proof of correctness. It also inverts: a real 1.5x upscale reads as 0.21x.
+  Read the intrinsic size from a detached `Image()` on `currentSrc` (never
+  `src` — on a `<picture>` that is the fallback crop), and report a failed probe
+  instead of passing it. Aspect ratios are unaffected, because density divides
+  both axes equally, which is precisely why one image check being correct says
+  nothing about another. Working implementations:
+  `scripts/measure-hero.mjs` and `scripts/ui-layout-gate.mjs`.
+- **⚠ `window.innerWidth` INCLUDES THE SCROLLBAR GUTTER. MEASURE AGAINST
+  `document.documentElement.clientWidth`, AND WAIT ON `document.fonts.ready`.**
+  Established by UI-02's `scripts/measure-nav-overflow.mjs` and adopted by UI-06
+  a day later, after writing `innerWidth` with the correct answer already
+  committed to `master` one directory away. A link ending at 1905px in a 1920px
+  window with a 15px scrollbar is under the scrollbar, not clear of it; and a
+  text column measured before the webfont lands is a fallback stack nobody sees.
 - **⚠ A GATE YOU HAVE ONLY SEEN FAIL IS HALF-PROVEN, AND A GREEN TICK IS NOT
   EVIDENCE THAT ONE RAN.** Also UI-06. A check that flags EVERYTHING fails on a
   known-bad input and looks identical in the log, so every threshold needs a

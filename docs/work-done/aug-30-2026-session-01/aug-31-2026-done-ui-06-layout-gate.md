@@ -273,6 +273,146 @@ reason to move the 1.1× or 25% thresholds**, which are the item's DoD.
 
 ---
 
+## Corrections after shipping — three of them, and the gate was wrong twice
+
+Three measurements arrived from other seats after PRs #19 and #21 merged. Each
+was re-verified here before being acted on; two of the three found the gate
+wrong. PR [#30](https://github.com/ianngkb/hellokahwin/pull/30), merged
+`af7d21f`.
+
+### 1. The upscale check could not fire at 390 or 768 — `img.naturalWidth` is not the file
+
+UI-03 measured it on production; I re-verified it on this repo's own fixture,
+whose hero file is **1200 x 1800**:
+
+| viewport | `img.naturalWidth` | detached probe on `currentSrc` | ratio from naturalWidth |
+|---|---|---|---|
+| 390 | **390 x 585** | 1200 x 1800 | **1.000** |
+| 768 | **768 x 1152** | 1200 x 1800 | **1.000** |
+| 1024 | 1200 x 1800 | 1200 x 1800 | 0.853 |
+| 1440 | 1200 x 1800 | 1200 x 1800 | 1.200 |
+| 1920 | 1200 x 1800 | 1200 x 1800 | 1.600 |
+
+On a `srcset` carrying `w` descriptors the spec divides `naturalWidth` by the
+candidate's derived pixel density, so `box.width / naturalWidth` is **1.000 by
+construction**. At 1024 and above the two columns agree **by coincidence** —
+`sizes` happens to resolve to 1200px and the chosen candidate is 1200w, so the
+density is 1.0.
+
+**So the check fired correctly at 1440 and was structurally incapable of firing
+at 390 and 768** — and this item's own self-test asserted, in these words,
+*"homepage.html @390: 13 decoded images, zero upscale violations — the check is
+not firing on everything"*. That assertion measured a blind spot and called it
+cleanliness. It is the single worst thing in the first version of this gate,
+because it is a proof of discrimination that was itself undiscriminating.
+
+The intrinsic size now comes from a detached `Image()` loaded from
+`currentSrc` — never `src`, which on a `<picture>` is the fallback and can be a
+different crop from the one that rendered. A probe that fails is reported as
+`image-unmeasurable`; it is never a pass.
+
+**It cut both ways, which is the part that would not have been guessed.** The 25
+"1.13x thumbnail upscales" this gate reported on live production were the same
+artefact and are gone. And the trap does not merely hide an upscale, it
+**inverts** it: `discriminator.html` case O is a 200x100 file painted 300px wide
+— a real **1.5x upscale** that `naturalWidth` reports as **0.21x**, an apparent
+downscale, at 1440.
+
+### 2. The nav check was finding two of the three hidden categories
+
+The brief gained a dated addendum after I was handed it, written by this seat
+while shipping UI-02. Its measurement, reproduced on my known-bad input at the
+1920px width it added:
+
+| verdict | catches |
+|---|---|
+| `viewport-overflow` (the DoD clause) | **2** — `Venue, Kos & Perancangan` at 1993.9px, `Sebelum Nikah…` at 2305.5px |
+| `scroll-container-clip` (the addendum) | **3** — those two, **plus `Pelamin, Kad & Cenderahati Majlis` at 1775.8px** |
+
+`Pelamin` ends **144.2px inside** a 1920px window and is invisible anyway,
+because the rail's scroller client box ends at **1592.0px**. The addendum
+measured 1775.77px and a 1264px scroller with a different script; the two agree
+to a rounding. **1920 is added as a fifth width, never a substitution for one of
+the four.**
+
+**The addendum's "unless that ancestor carries a deliberate, visible affordance"
+clause is implemented, but not literally, and the argument is measured.** This
+site's `EdgeScroller` sets `data-overflow-end` and paints a fade whenever the
+rail has more to the right, so a literal reading would have exempted the exact
+defect the addendum was written about. On live production, 31 Ogos:
+
+| viewport | `.hk-edge` | scroller |
+|---|---|---|
+| 390 | `data-overflow-end="true"` | 390 client / 2058 scroll, `overflow-x: auto` |
+| 1440 | absent | 1264 / 1264, **`overflow-x: visible`** |
+
+The second row is UI-02's shipped fix, and it is the argument: handed a clipped
+desktop rail *with* the fade, UI-02 made the rail wrap rather than rely on it.
+So the exemption applies **below 1024 only**, where a swipe reaches the content —
+which is also exactly what the addendum's own clause does on the live page,
+since the attribute is set at 390. The capture cannot run the JavaScript that
+sets it, so exempting a contained rail below the breakpoint reproduces on the
+fixture what the clause does on the site. **The affordance state is printed
+either way**, so nothing hides behind a judgement call.
+
+### 3. The gate could not fail on a page that rendered nothing
+
+`--empty-shell` serves a real captured page with everything inside `<main>`
+removed — header, footer, nav and stylesheets intact. At **390 and 768,
+`empty-content` is the only violation produced**, which is the measurement
+proving every other check in the file passes on a page containing nothing.
+
+### What was NOT added, and why
+
+- **No headline-height floor.** UI-01 measured a legitimate three-line title at
+  **106px** against a broken row's 225–307px, and the row's height is set by its
+  **132px** thumbnail rather than by its text (`align-items: start`), so a 100px
+  floor would go red on a good row. The DoD's assertion is about **width**,
+  where 44 and 412 do not overlap with a wide margin either side.
+- **`image-attr-aspect` is ADVISORY and prints as such in the totals.** UI-03
+  suggested it with an explicit acceptance condition — add it if it stays clean
+  on the negative control — and it does not. `article.html` declares a
+  boilerplate `width="1200" height="800"` on **11 of its 51 images**, five of
+  them **684 x 1024 portrait** photographs, so the box reserved before load is
+  125% wrong. Those are true positives and they are printed in full, but the
+  condition I was handed was not met and promoting the check to blocking anyway
+  is not a call to make alone. **It should become blocking once the declarations
+  are corrected** — that is a finding for a new item, not a threshold to move.
+- **No advisory 0.15 aspect band.** The DoD's 25% is the binding number and a
+  second threshold with no failure semantics adds noise, not signal.
+
+### Two other seats' work went into the same file, and none of it was dropped
+
+The merge was resolved as a union, verified by running both suites: UI-10's
+`reading-measure` check with its 15 assertions still fires 3x on the pre-fix
+article at 768 and 1440 and stays silent at 390 and 1024; UI-08's origin and
+`<html lang="ms">` precondition — which stops the gate reporting a clean run
+over somebody else's login page — is intact, along with `UI_GATE_BYPASS`.
+**Self-test: 59 assertions at first ship, 132 now**, green on Linux in CI
+([run 33331247381](https://github.com/ianngkb/hellokahwin/actions/runs/33331247381)).
+
+One line was deleted rather than merged: this file's "deliberately not here"
+list had excused line length as *"a measure the creative director sets, not a
+defect threshold"*. UI-10 set it the same day, which turned the excuse into a
+gap, and it is now CHECK 6.
+
+### What the gate says about production after all of it
+
+`pnpm ui:gate --base https://hellokahwin.com`, 30 page × width runs:
+
+| check | count |
+|---|---|
+| empty-content, narrow-text-column, clipped-text, viewport-overflow, scroll-container-clip, image-unmeasurable | **0** |
+| image-upscale | **1** |
+| image-aspect | 34 |
+| image-attr-aspect | 63 *(advisory)* |
+
+The 25 upscale violations reported before were the `naturalWidth` artefact. What
+remains is the card-thumbnail geometry finding already on the board and the
+declared-box advisory above.
+
+---
+
 ## Retrospective
 
 ### 1. What did we learn that is not written down?
@@ -284,6 +424,14 @@ that flags *everything* also fails on known-bad, and it looks identical in the
 log. What separates a working check from a broken one is a **paired** assertion:
 fires here, clears there, on inputs that differ in exactly the thing being
 tested. The self-test is 59 of those pairs, and building it changed two checks.
+
+**A COMFORTABLE number is as suspect as a zero, and harder to notice.** The
+zero was caught within hours. The `1.000` was not: `box.width / naturalWidth`
+returned exactly 1.000 at 390 and 768 and looked like a clean page, and the
+self-test then *asserted* that zero as proof the check discriminated. A number
+that sits precisely on the boundary of "nothing to see" deserves the same
+suspicion as an absence — and `1.000` to three decimal places, at two widths, on
+thirteen images, was a value produced by arithmetic rather than by the page.
 
 **A zero is a claim about your condition until it has been run against a
 positive somebody else measured by hand.** The clipped-text check returned
@@ -323,6 +471,15 @@ and the prose is only the pointer to it.
 
 ### 3. What did we do twice that we should never repeat?
 
+**Trusted a browser API to mean what its name says, twice in one file.**
+`naturalWidth` is not the natural width of the file, and `innerWidth` is not the
+width available for layout — both were wrong here for the same reason, that the
+name describes the intent and the spec describes something narrower. The second
+one was already written down in `scripts/measure-nav-overflow.mjs`, in this
+repo, on `master`, when I wrote `window.innerWidth`. Reading the neighbouring
+rig before writing a new one would have cost ten minutes.
+
+
 **Ran the live gate four times without being able to tell a code change from a
 flaky check.** Three of those runs are now unattributable: I did not record what
 was deployed when they ran, so their numbers cannot be tied to a build and are
@@ -358,6 +515,20 @@ text column.** Screen-reader-only text hides through `clip-path: inset(50%)` in
 a 1×1 box, which no `display`/`visibility`/`opacity` test sees. That is exactly
 the noise that gets a gate switched off in its first week. **The threshold was
 not touched; the visibility test was.**
+
+**An upscale check that could not detect an upscale at two of its five
+widths, and a self-test that certified the blind spot as proof of correctness.**
+Caught by UI-03 measuring `naturalWidth` against a detached probe on production,
+relayed, and re-verified here on a fixture whose answer was already known. This
+is the most serious near-miss in the item: not a check that was noisy or a check
+that was silent, but a check that was silent *and had a green assertion saying
+its silence was meaningful*. Nothing inside this item would have found it,
+because every input it had agreed with itself.
+
+**A nav check that found two of the three hidden categories, and looked red
+either way.** Caught by the brief's own dated addendum — which I only saw
+because I was told to re-read a document I had already read. Two of three still
+shows up as a failure, so there was no signal to notice.
 
 **A provenance claim that would have been false on anyone else's machine.**
 `core.autocrlf` is on, and git would have rewritten LF to CRLF in every captured
