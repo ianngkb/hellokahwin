@@ -34,6 +34,48 @@
   --font-now-alt: var(--font-geist);
   --font-poppins: var(--font-geist);
 }
+
+/* ── Masthead category rail — UI-02 ──────────────────────────────────────
+   The layout values the rail is built from, named so the question "why does
+   the rail hold nine items on one line here and two lines there" has a token
+   to argue with instead of a Tailwind class to hunt down.
+
+   ON :root, NOT `.hk-public`. <InspireNavMenu> renders in two places — the
+   public masthead and the admin navigation preview — and only the first gets
+   the `.hk-public` wrapper. DES-12 lost a wordmark to exactly this: a token
+   defined only on the surfaces DES-08 had migrated, so `/brand` resolved
+   `--fs-wordmark` to nothing and rendered the mark 0×0. Rail tokens are
+   global for the same reason.
+
+   --navrail-measure — 80rem/1280px, the width DES-08 gave the rail
+   (`max-w-7xl`). It is kept, not widened: widening it was DES-08's attempt to
+   make nine pillars fit on one line, and the navbar's own comment recorded
+   that it "does not buy all of it". Wrapping is what makes the width stop
+   mattering, so the rail can go back to sharing the page's measure.
+
+   --navrail-item-pad — 0.75rem/12px, down from DES-08's 16px. Measured, live
+   production, 1920px, `scripts/measure-nav-overflow.mjs`: the nine items
+   carry 1,649.53px of text between them; at 16px of inline padding each the
+   row is 1,969.53px, at 12px it is 1,897.53px. 72px is one wrapped row's
+   worth of packing at 1152–1279px. The target stays ≥141px wide and 44px
+   tall, so nothing gets harder to hit.
+
+   --navrail-target — 44px. The floor UX-01 set for the rail when it became
+   the site's only navigation on a phone. Do not trade it back for a tighter
+   masthead. ── */
+:root {
+  --navrail-measure: 80rem;
+  --navrail-gutter: 0.5rem;
+  --navrail-item-pad: 0.75rem;
+  --navrail-item-gap-x: 0.25rem;
+  --navrail-item-gap-y: 0.5rem;
+  --navrail-target: 2.75rem;
+}
+@media (min-width: 1024px) {
+  :root {
+    --navrail-gutter: 1rem;
+  }
+}
 /* 1280px: clears all standard tablets (iPad Air 1180px, iPad Pro 11" 1194px).
    No min-height gate (kept the legacy `tall-desktop` name): the two-column
    sidebar layout — and its inline contact form — should appear on any
@@ -2184,6 +2226,85 @@
   .hk-edge::after {
     transition: none;
   }
+}
+/* `staticFrom="lg"` — the scroller stops being a scroller at 1024px, so the
+   cue that says "there is more this way" must stop too, at the same pixel.
+   `content: none` rather than `opacity: 0` so nothing paints and nothing is
+   one JS tick away from painting. See `.hk-navrail` below for why. */
+@media (min-width: 1024px) {
+  .hk-edge[data-static='lg']::before,
+  .hk-edge[data-static='lg']::after {
+    content: none;
+  }
+}
+
+/* ── Masthead category rail — UI-02 ──────────────────────────────────────
+   THE DEFECT THIS REPLACES, measured on live production 2026-08-31 with
+   `scripts/measure-nav-overflow.mjs` at deviceScaleFactor 1:
+
+     viewport 1280 — 3 of 9 items' right edge past the viewport (max 1985.53)
+     viewport 1440 — 3 of 9                                     (max 2065.53)
+     viewport 1920 — 2 of 9                                     (max 2305.53)
+
+   and worse than the raw right-edges suggest: the scroller's own client box
+   was 1264px at ALL THREE widths, so at 1920px items 7, 8 and 9 were clipped
+   by a container the reader cannot see, with only a 3rem gradient and a
+   chevron glyph as the entire advertisement that they existed. One of them,
+   `Venue, Kos & Perancangan`, holds `checklist-kahwin` — 6.58% CTR, third
+   best on the site.
+
+   WHY WRAP AND NOT A "LAGI" MENU. The DoD allowed either: everything fits, or
+   a deliberate visible keyboard-operable overflow affordance. An overflow
+   menu keeps a second tier of categories — which is the defect, not the fix,
+   since the category that was hidden is the one that converts. Wrapping puts
+   all nine on the page at equal weight, needs no JavaScript, survives an
+   admin renaming a category to something longer (the failure mode is one more
+   row, not a vanished link), and is keyboard-operable because it is nine
+   plain links in source order with nothing to open.
+
+   WHY THE PHONE STILL SCROLLS. Below 1024px the rail keeps the horizontal
+   scroller and its edge cues. Nine wrapped rows of 44px is not a masthead,
+   it is a menu page, and UX-01 chose a one-swipe rail over a hamburger
+   deliberately for an audience on low-end Android. The breakpoint is `lg`,
+   the same one the rail already switches interaction model at.
+   ── */
+.hk-navrail {
+  margin-inline: auto;
+  max-width: var(--navrail-measure);
+  padding-inline: var(--navrail-gutter);
+}
+.hk-navrail-items {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--navrail-item-gap-x);
+  row-gap: var(--navrail-item-gap-y);
+}
+.hk-navrail-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-height: var(--navrail-target);
+  padding-inline: var(--navrail-item-pad);
+  padding-block: 0.5rem;
+  /* Narrower than Tailwind's `transition-colors`, which the anchor also
+     carries and which lists `outline-color` among its properties. Measured:
+     with that list in force the focus ring FADES IN over the transition, and
+     a computed read taken on the same frame as `.focus()` returned
+     `oklab(0.19 … / 0.5)` — the ring half-drawn. A focus indicator that
+     animates is a focus indicator that is not yet there, so outline-color is
+     dropped from the list and the ring lands on the first frame. Unlayered,
+     so it wins the tie with the utility in `@layer utilities`. */
+  transition-property: color, background-color;
+}
+/* Focus is part of the component, not a later pass. Chrome's default ring is
+   an auto-colour outline that lands on a 1px hairline of warm paper here; an
+   explicit 2px ink ring at 2px offset is measurable and does not depend on
+   the UA. Ink on paper is the same pairing the rail's active state uses —
+   17.8:1, and the ring's own 3:1 non-text floor (WCAG 1.4.11) is met with a
+   great deal to spare. */
+.hk-navrail-item:focus-visible {
+  outline: 2px solid var(--foreground);
+  outline-offset: 2px;
 }
 
 /* Flat chip — the only filter affordance. No pill, no shadow: a hairline

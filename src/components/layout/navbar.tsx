@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { Search } from 'lucide-react';
 import { getMastheadCategories } from '@/lib/services/inspire-nav';
-import { InspireNavMenu, type MenuCategory } from '@/components/inspire/inspire-nav-menu';
-import { EdgeScroller } from '@/components/layout/edge-scroller';
+import { type MenuCategory } from '@/components/inspire/inspire-nav-menu';
+import { CategoryRail } from '@/components/layout/category-rail';
 import { withDeadline } from '@/lib/api/timeout';
 import { SiteWordmark } from '@/components/brand/site-wordmark';
 
@@ -12,10 +12,10 @@ import { SiteWordmark } from '@/components/brand/site-wordmark';
  * A magazine masthead, not an app bar: the wordmark is centred — the real
  * DES-13 outlined mark (`<SiteWordmark>`), not typeset text, fluid-sized off
  * `--fs-wordmark` (18px floor at 360px, DES-12) — sitting between two
- * hairlines, with the category rail on the line below. On mobile that rail
- * scrolls horizontally
- * (no hamburger, no overlay) so the whole taxonomy stays one thumb-swipe away
- * — the audience is mostly low-end Android and a menu sheet is a tap tax.
+ * hairlines, with the category rail on the line below. Below 1024px that rail
+ * scrolls horizontally (no hamburger, no overlay) so the whole taxonomy stays
+ * one thumb-swipe away — the audience is mostly low-end Android and a menu
+ * sheet is a tap tax. At and above 1024px it wraps instead (UI-02).
  *
  * The rail uses the admin-managed navigation (inspire_nav_items) and falls
  * back to top-level categories with published articles. It is the ONLY
@@ -23,13 +23,11 @@ import { SiteWordmark } from '@/components/brand/site-wordmark';
  * differently-sourced rail 200px below this one, and the two disagreed about
  * what the site's pillars were. That rail is gone; do not reintroduce one.
  *
- * The rail is wrapped in <EdgeScroller> because it hides its scrollbar and
- * genuinely does overflow: nine pillars measure 1986px against a 1136px
- * viewport at 1400px, so without an edge cue three of them were invisible and
- * unadvertised. The container is max-w-7xl rather than the masthead's
- * max-w-6xl for the same reason — it buys 128px of the rail back. It does not
- * buy all of it; the rail still scrolls, which is why the cue is the fix and
- * the width is only a help.
+ * The rail itself is <CategoryRail>, which is where its behaviour and the
+ * UI-02 measurements are documented. It lives in its own file because the
+ * `/admin/design-system` reference page renders the SAME component — a
+ * reference page that re-declares the container by hand agrees with the
+ * masthead exactly once, on the day it is written.
  *
  * SOFT-FAIL, DELIBERATELY. This component sits in the public layout, so it
  * renders on every public page — an unhandled throw here does not lose the
@@ -74,15 +72,7 @@ export async function Navbar() {
         </div>
       </div>
 
-      {categories.length > 0 && (
-        <div className="mx-auto max-w-7xl px-2 lg:px-4">
-          <EdgeScroller>
-            <div className="flex min-w-max justify-start lg:justify-center">
-              <InspireNavMenu menuCategories={categories} align="center" ariaLabel="Kategori" />
-            </div>
-          </EdgeScroller>
-        </div>
-      )}
+      <CategoryRail categories={categories} />
     </header>
   );
 }
