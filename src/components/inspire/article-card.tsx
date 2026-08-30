@@ -75,8 +75,20 @@ export function ArticleCard({
         )}
       </div>
       <div className="mt-3">
+        {/*
+          UI-07: this label wraps; it must never truncate. `truncate` hid 10px of
+          "Hantaran & Mas Kahwin" in the 171px two-up column at 390px, and the two
+          longest live category names lose 81px at 1024 and 17px at 1440 in the
+          four-up column too — the defect only looked mobile-only because no
+          article in the current grid carries them. Wrapping is the only fix that
+          holds at every width: the longest live label needs 301px, the widest
+          card column is 284px, and the label may not shrink below 11px or hide.
+          `wrap-anywhere` breaks a pathological single token instead of
+          overflowing the grid — the longest live token is 123px, so it is a
+          guard, not a behaviour anyone sees today.
+        */}
         {categories[0] && (
-          <p className="hk-eyebrow truncate">
+          <p className="hk-eyebrow wrap-anywhere">
             <Link
               href={`/artikel/${categories[0].slug}`}
               className="hover:text-foreground relative z-[2] transition-colors"
