@@ -270,6 +270,39 @@
   }
 }
 
+/* ── pillar list link (UI-05 — the pillar hub's article row) ─────── */
+/* A pillar hub (`components/inspire/pillar-body.tsx`) lists its articles as
+   bare links under a cluster heading — no thumbnail, no meta line, no grid.
+   It is NOT a `.s-row`, so `.s-row .t` — a DESCENDANT selector — never
+   matched those links, and every pillar article title fell through to
+   inherited body sans. Measured on production 2026-08-31 at 390px:
+   `-apple-system` / 400 / 17.04px / letter-spacing normal, against
+   `Bodoni Moda` / 600 / 15px / −0.27px for a grid list row. The class was
+   on the element the whole time; nothing in the codebase styled it.
+
+   Widening `.s-row .t` to a bare `.t` would fix the pillar and silently
+   restyle every other consumer of that class, so this is its own name.
+
+   Family, weight and letter-spacing match `.hk-card-title` deliberately:
+   one article title has one identity wherever it appears on the site.
+   Weight 400 rather than `.s-row .t`'s 600 is a decision, not a slip — a
+   pillar page is a map of a topic, not a feed, so its rows sit lighter and
+   larger than a grid row's. Sizes mirror `.s-row .t`'s own shape: a literal
+   below the desktop breakpoint, the `--fs-h3` token at and above it. */
+.s-pillar-link {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.012em;
+  font-size: 17px;
+  line-height: 1.3;
+}
+@media (min-width: 1024px) {
+  .s-pillar-link {
+    font-size: var(--fs-h3);
+    line-height: 1.3;
+  }
+}
+
 /* ── no-image list row (§8 .s-imgless) ───────────────────────────── */
 .s-imgless {
   border: 1px solid var(--boundary);
