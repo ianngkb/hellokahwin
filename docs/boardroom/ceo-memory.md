@@ -4,17 +4,104 @@ The CEO's living knowledge of the product and company. Read this at the start
 of every meeting/session; update it whenever reality changes. Facts only —
 opinions and plans belong in meeting minutes and the decision log.
 
-_Last updated: 2026-08-28 (SEO-08 — `/garden-wedding/` is a MALAY page drawing
-English-loanword queries, not an English page; the rewrite option is dead on
-zero Malay volume; the headline is now quoted ex-quarantine and the site's real
-CTR/position is 2.21% at 9.98, not 1.75% at 16.72. Earlier:
-2026-08-27, SEO-04 — nikahsatu.com is the VENUE OPERATOR's own
-site, not a beatable DR 14 competitor; the SERP-ownership rule's worked example
-was wrong and is corrected; venue pages parked at the sourcing gate. Earlier
-same day, SEO-05 — a cached `generateMetadata` failure can put the ROOT DEFAULT
-`<title>` on an article page; SEO-05's first "39 of 69" was wrong and is
-corrected to 3, with UX-01's counter-evidence; the averaged-position rule is
-finally written down)._
+_Last updated: 2026-08-30 (Sprint 04 planning — **SERP SHAPE, not position,
+decides whether we are clickable**: an AI Overview costs ~15× CTR at comparable
+positions, and the image pack is controlled for; the 🔴 cached-`<title>` defect is
+CLOSED on six live fetches, five cold; the garden-wedding credit figure was WRONG
+(≈9 uncredited, not 27) and the credit label is ENGLISH in four casings including a
+live `sOURCE:` typo; `sprint-NN.json` has been abandoned mid-sprint for three
+sprints; the CTR metric is now SPLIT by query intent. Earlier:
+2026-08-28 (SEO-08 — `/garden-wedding/` is a MALAY page drawing English-loanword
+queries, not an English page; the rewrite option is dead on zero Malay volume; the
+headline is now quoted ex-quarantine and the site’s real CTR/position is 2.21% at
+9.98, not 1.75% at 16.72). Earlier: 2026-08-27, SEO-04 — nikahsatu.com is the VENUE
+OPERATOR’s own site, not a beatable DR 14 competitor; the SERP-ownership rule’s
+worked example was wrong and is corrected; venue pages parked at the sourcing gate)._
+
+## OPEN ITEMS FOUND 30 Aug 2026 — all owned in Sprint 04
+
+- **🟠 IMAGE CREDIT LABELS ARE ENGLISH AND INCONSISTENTLY CASED ON LIVE MALAY
+  PAGES.** On `/artikel/idea-dan-nasihat/garden-wedding` alone — the page drawing
+  **28% of all site impressions** — the label appears as `Source:` ×22, `source:`
+  ×6, **`sOURCE:` ×6** and `SOURCE:` ×6. **40 credits across 49 photos.** Two
+  defects: the label is **English on a Malay reader page** (the same shape as the
+  `## SOURCE NOTES` block in the DoD standard’s failure mode 5 — English scaffolding
+  surviving a conversion onto a page readers see), and **`sOURCE:` renders live, six
+  times**. Confirmed on 3 of 30 further articles sampled: `dewan-kahwin` 14 labels
+  across three casings, `hantaran-tunang` 12, `pelamin-kahwin-dewan` 8.
+  **Owner: RIGHTS-01, Sprint 04.** Decision 163.
+- **✅ CORRECTION — the carried-forward figure “27 of 48 garden-wedding images carry
+  NO CREDIT” IS WRONG. It is roughly 9 of 49.** And the CEO’s own first check was
+  also wrong: grepping the live page for `Kredit` returned **zero**, which would have
+  read as *worse* than reported. The credits exist under an English label.
+  **When a check returns a surprising ABSENCE, verify the check first** — this is the
+  tenth instance of that shape and the first caught by the rule itself.
+- **🟠 `sprint-NN.json` — the file the /hellokahwin skill calls “the contract” — is
+  ABANDONED MID-SPRINT, and has been for three sprints.** `sprint-03.json` reads
+  `state: in_progress` with **24 of 26 items `todo`**; the tracker reads `done`,
+  **107/115**. `/endsprint` writes a separate `-retro.json` and never reconciles the
+  contract file — same for sprints 01 and 02. **A reader opening `sprint-03.json`
+  would conclude nothing shipped.** The failure mode that hid it is that **header
+  totals can agree while items disagree**. **Owner: PLAT-15, Sprint 04.** Decision 164.
+- **🟠 STRUCTURAL, STILL UNGUARDED: `hellokahwin` (docs) and `hellokahwin-site` are
+  the SAME REPO** — same remote, same root commit `3a1fbe09` — kept apart only by the
+  convention that nobody merges `feat/command-centre-dashboard`. One `git checkout
+  master` in the docs tree swaps the company record for the site source. **Owner:
+  RISK-09, Sprint 04**, and the deliverable is a git hook, not a README paragraph.
+- **✅ RESOLVED: the hazard branch `feat/des-05-design-system-reference` is GONE.**
+  `git ls-remote --heads origin` returns no match, 30 Aug. Sprint 03 carried it
+  forward as a live branch that would clobber shipped work if merged.
+- **🟠 THE `jangan-guna` COUNT OF 307 IS STALE AND UNVERIFIED.** Garden-wedding now
+  shows **zero**. **⚠ OWNER DECISION 30 Aug: these are NOT being stripped — the owner
+  will OBTAIN PERMISSION** (*“photographers have good relationships with us”*).
+  RIGHTS-02 flips from clearance to **enumeration**: a census grouped by photographer,
+  which is the unit the owner negotiates in. **Nothing is deleted and nobody is
+  contacted by us** — approaching photographers is carve-out 3 and the owner has taken
+  it. **Until permission lands these images are live without documented rights; the
+  owner made that call explicitly. The CEO asks whether it happened at Sprint 05
+  planning.** Decision 161.
+
+## ⚠ THE SINGLE MOST IMPORTANT THING KNOWN ABOUT THIS SITE’S TRAFFIC (30 Aug 2026)
+
+**Ranking well is not the same as being clickable, and which of the two you get is
+decided by SERP SHAPE — specifically whether Google prints an AI Overview.**
+Established by three `serp-overview` pulls (Ahrefs, country `my`, 30 Aug), the third
+run specifically to try to break the pattern the first two suggested. Decision 156.
+
+| Query | Our position | Our CTR | Image pack | **AI Overview** | PAA |
+|---|---|---|---|---|---|
+| `doa pengantin baru rumi` | 3.7 | **9.52%** | Yes (18) | **No** | No |
+| `mas kahwin johor` | 6.3 | **0.64%** | Yes (9) | **Yes — pos 3** | Yes — pos 4 |
+| `walimatul urus` | 10.0 | **0.83%** | Yes | **Yes — pos 1** | Yes — pos 5 |
+
+**All three carry an image pack, so the image pack is NOT the discriminator.** The AI
+Overview is, and it tracks intent:
+
+- A query wanting a **NUMBER** (`mas kahwin johor` → RM22.50) or a **DEFINITION**
+  (`walimatul urus`) is answered above us. On `walimatul urus` the AI Overview sits
+  at position **1**, with Dewan Bahasa dan Pustaka at organic 2 and Wikipedia at 6.
+- A query wanting a **DOCUMENT THE READER TAKES AWAY** — the full text of a prayer,
+  to recite at a ceremony — cannot be, carries no AI Overview, and earns a normal CTR.
+
+**The test is not topic. It is whether a two-sentence answer satisfies the searcher.**
+If it does, Google supplies it and we lose. If they need the whole artefact, the blue
+link survives.
+
+**This is the mechanism behind decision 67** — recorded 24 Aug as an unexplained
+observation: *“we have proven we can get indexed and have not proven we can earn a
+click.”* **Consequence: impression growth in the number/definition cluster will not
+reach decision 7’s 1,500-click target, however well those pages rank.**
+
+⚠ **Every prior content-selection rule this company has — volume, parent topic,
+SERP ownership, Jaccard overlap — measures COMPETITORS. None of them measures
+whether Google answers the question itself**, which on this evidence is worth more
+than all of them: a 15× CTR difference at comparable positions. SEO-11 turns this
+into a census; SEO-12 turns it into a runnable gate.
+
+**✅ The CTR metric is SPLIT from Sprint 04 on (owner decision 159):** report CTR
+separately for document-intent and number/definition queries. A single sitewide CTR
+averages a 9.52% query and a 0.64% query into a number that recommends nothing, and
+it hid this for a week.
 
 ## The product
 
@@ -799,8 +886,17 @@ personas and reported them as landed.
   purge-on-revalidate. Decision taken: purge the edge during ingest. **Blocked
   only on a Vercel API token from the owner.** Interim rule: publish, wait five
   minutes, then invite the crawl.
-- **🔴 OPEN AND UNFIXED — a CACHED METADATA FAILURE puts the root layout's
-  default `<title>` on an article page.** Found 26 Aug 2026 by SEO-05, which
+- **✅ CLOSED 30 Aug 2026 — was: a CACHED METADATA FAILURE puts the root
+  layout’s default `<title>` on an article page.** **Disproved by six live
+  fetches on 30 Aug, FIVE OF THEM COLD** (`X-Vercel-Cache: MISS`, `Age: 0`) — the
+  exact condition CONT-05 and CONT-07 established as the trigger — every one
+  returning its correct title (`mas-kahwin-johor`, `mas-kahwin-perak`,
+  `mas-kahwin-kelantan-terengganu`, `hantaran-tunang-3-balas-5`,
+  `hantaran-kahwin-5-balas-7` cold; `walimatul-urus` on a HIT).
+  **SEO-07’s `generateMetadata` fix holds under the condition that used to break
+  it.** Decision 157. The history below is retained because the diagnosis took
+  four agents and three withdrawn measurements, and the SHAPE of that argument is
+  worth more than the defect was. Original finding, 26 Aug 2026 by SEO-05: Found 26 Aug 2026 by SEO-05, which
   went looking for a stale `meta_title` FIELD and found the field was almost
   never the problem. An affected page serves
   `HelloKahwin — Idea & Panduan Perkahwinan Malaysia` as its `<title>` and the
