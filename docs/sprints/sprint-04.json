@@ -18,7 +18,7 @@
   "items": [
     {
       "id": "UI-04",
-      "track": "ui",
+      "track": "design",
       "points": 8,
       "state": "todo",
       "owner": "product-designer",
@@ -35,7 +35,7 @@
     },
     {
       "id": "UI-01",
-      "track": "ui",
+      "track": "design",
       "points": 3,
       "state": "todo",
       "owner": "creative-director",
@@ -52,7 +52,7 @@
     },
     {
       "id": "UI-02",
-      "track": "ui",
+      "track": "design",
       "points": 3,
       "state": "todo",
       "owner": "design-systems-engineer",
@@ -68,7 +68,7 @@
     },
     {
       "id": "UI-03",
-      "track": "ui",
+      "track": "design",
       "points": 5,
       "state": "todo",
       "owner": "creative-director",
@@ -84,7 +84,7 @@
     },
     {
       "id": "UI-05",
-      "track": "ui",
+      "track": "design",
       "points": 5,
       "state": "todo",
       "owner": "product-designer",
@@ -100,7 +100,7 @@
     },
     {
       "id": "UI-06",
-      "track": "ui",
+      "track": "design",
       "points": 8,
       "state": "todo",
       "owner": "design-systems-engineer",
@@ -183,7 +183,7 @@
     },
     {
       "id": "RIGHTS-01",
-      "track": "rights",
+      "track": "content",
       "points": 3,
       "state": "todo",
       "owner": "BMAD",
