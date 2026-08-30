@@ -5,6 +5,22 @@
  * Measures, per URL: full scroll height, image count, article-link count,
  * per-link tap-target height, headline wrap line count, and the longest
  * rendered Malay headline. Writes a full-page screenshot.
+ *
+ * ⚠ THE `imgRendered` FIELD IS WRONG ON ANY `srcset` IMAGE, AND KNOWINGLY SO.
+ * It reports `img.naturalWidth`, which on an element carrying a `srcset` with
+ * `w` descriptors returns the intrinsic width DIVIDED by the pixel density the
+ * browser derived from `sizes` - even when the image is fully loaded. Measured
+ * live: `sizes="176px"` on a genuinely 1200px asset reports 176, because
+ * 1200 / (1200/176) = 176.
+ *
+ * Left in place rather than deleted because this file is the record of what was
+ * run, but DO NOT quote that field, and do not copy this pattern. Read intrinsic
+ * size from a detached `Image()` on `currentSrc` - see `dims.mjs`, which does.
+ * Any upscale check written as `boxWidth / img.naturalWidth` returns ~1.0 by
+ * construction and can never fire.
+ *
+ * Every other field here - scroll height, tap targets, wrap counts, overflow -
+ * is read from geometry and is sound.
  */
 import { chromium } from 'playwright-core';
 

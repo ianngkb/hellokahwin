@@ -9,6 +9,18 @@
 
 ## What was done
 
+### The route taken, stated first and on its own
+
+UI-05's DoD is **imagery or rationale**. **I took the rationale route:** category pages
+that currently carry no photography — the seven pillar hubs — **stay text-only**, by a
+decision argued on the merits and agreed with the `creative-director`, who agreed *that
+decision*, not a typography fix. The rejected option was thumbnails on pillar rows.
+
+**The typography and empty-state work in this entry does NOT satisfy the DoD and is not
+offered as satisfying it.** It is separate work that rode in the same item; it is sized
+and justified in "Scope: what rode in this item and why" below. If the imagery-or-rationale
+decision were removed from this entry, the item would not be done.
+
 ### The premise was wrong, and correcting it is most of the value
 
 UI-05 was raised from one measurement: `/artikel/hantaran-mas-kahwin` renders zero
@@ -129,6 +141,53 @@ a link labelled **"Semua artikel"** (already live in the footer, so not new copy
 state a fact and promise nothing, and they reuse the construction of the approved sibling
 `"Kategori ini masih kosong."`
 
+### UI-03's rules landed after the decision — re-measured, and they strengthen it
+
+UI-03 shipped `docs/design/hero-image-rules.md` on 31 Ogos 2026, after this decision was
+taken. Its rules are binding on me. I re-measured against them rather than assuming the
+decision survived. **They close the imagery route considerably harder than my own argument
+did.**
+
+- **R2** makes `low`/`high`/`original` ineligible for any shaped slot. A thumbnail box is a
+  shaped slot, so the only legal source is a named landscape crop.
+- **R1** requires the box within 15% of the asset aspect. The pipeline defines exactly
+  **four** crop targets and **none is square**. Against the 80×80 mobile box:
+  `crop-4x5-mobile-cover` 25%, `crop-4x3-article-card` 33%, `crop-16x9-og` 90%,
+  `crop-4.3x1-desktop-hero` 252% — **all fail**. So the honest statement is not "expensive";
+  it is that **the box has no legal source and I may not create one**, because adding a
+  `CROP_TARGETS` entry changes `GEOMETRY_VERSION` and re-queues every live cover through
+  Rekognition + R2 — an owner-level AWS cost.
+- Reshaping the box to 16:9 *would* be legal, so I measured that cost too. **`crop-16x9-og`
+  across all 38 hantaran covers: 11,958,290 B (11.40 MB)**, mean 307 KB, range 142–425 KB,
+  **0 missing** — so coverage was never the blocker. That is **5.6×** the `low` figure I had
+  already rejected and **971×** the current page.
+
+**Two seats found the same pipeline hole from opposite ends.** My §3.3 reached it from the
+thumbnail side; UI-03 §5 reached it from the hero side and states it better: *"The pipeline
+generates two families of derivative, and neither one can serve a hero. There is no
+aspect-correct, quality-reduced derivative anywhere in it."*
+
+**One thing nobody should conclude:** that UI-03 landing satisfies this item's reversal
+condition 2. UI-03 §5 requests a quality-reduced 1200×630 crop at 80–120 KB — across 38
+covers, still 3.0–4.6 MB, worse than the 2.02 MB already rejected. A pillar thumbnail needs
+an asset ~160–360px *wide*. **Different asks, different slots.** The spec's §8 is updated
+to say so explicitly.
+
+**On the coverage question the CEO assigned me:** UI-03's 13/13 verification was the
+homepage covers. I measured the category-page set separately — all 38 hantaran covers have
+all the named crops, 0 missing. Coverage is fine; bytes and aspect are the blockers.
+
+### Scope: what rode in this item and why, sized
+
+| Work | Points (of 5) | Why it is here |
+|---|---|---|
+| **The imagery-or-rationale decision, its evidence and the state set** | ~3 | **This is the DoD.** Nothing else in the item satisfies it. |
+| The empty-cluster row and the empty-pillar state | ~1 | The `creative-director` ruled these in scope, overruling my assumption that they were out: if the answer is "typography carries these pages", the typography has to hold the page, and the empty cluster is the state that most makes a text-only pillar look unfinished. Shipping the rationale while leaving it broken would approve an argument disproved in the same breath. |
+| The `.s-pillar-link` typography fix | ~1 | A defect in the same file, on the same seven pages, found while specifying. Genuinely trivial to carry (one class, one component), and leaving 67 links in the wrong typeface while committing a rationale that says typography carries these pages was the worse option. **Named here rather than absorbed silently.** |
+
+If the CEO would rather the typography fix had been its own item, it is cleanly separable
+in the record: commit `02c7d77`, the `.s-pillar-link` class and its two call sites.
+
 ## Ship state
 
 **Commit:** `02c7d77` — *UI-05: give the pillar hubs the typography and the states they were missing* (merged via `c1632d1`)
@@ -209,6 +268,8 @@ specification.
 | **"akan datang tidak lama lagi" is still live** on 4 empty clusters. DES-03 §7.2 C says its approved copy "already replaced production's undatable line". It did not. DES-07 escalated exactly this and it was never answered. **Note the state distinction**: §7.2 C's copy is for a *fully empty category*, not an empty cluster inside a populated pillar, so it is not a drop-in substitute. | `managing-editor` |
 | **A class used with no matching CSS rule should fail a build.** `.t` on pillar links matched nothing for the life of DES-08 and no check saw it. This is the same shape as UI-06's rendered-layout gate and belongs with it. | `design-systems-engineer`, UI-06 |
 | **Every category thumbnail on the 37 grid pages serves `low` (q30)** into a 176px/80px slot with no correctly-sized derivative in the pipeline. Real, measured, and larger than this item. | `creative-director`, with UI-03's pipeline finding |
+| **The `.s-row` thumbnails on the 37 grid category pages violate UI-03's R1 and R2.** Measured on `/artikel/idea-dan-nasihat` with intrinsic read from a detached `Image()`: at 390px, **5 of 5 fail R1** (deviation 33–50%); at 1920px, **3 of 5 fail** (one portrait 1200×1800 cover deviates **100%** in the 176×132 box); **5 of 5 fail R2** at both widths, all serving `low.webp`, with `width`/`height` attributes reading `176x132` regardless of the asset. The lead `.s-card` passes R1 (no fixed aspect) but fails R2 and R6. **Outside UI-05's DoD — that covers the 7 zero-image pages, not the 37 — so raised, not absorbed.** | proposed to the CEO as a new item |
+| **The `garden-wedding` article cover** — UI-03 measured `box 768x320 / boxAR 2.400 / low.webp / intrinsic 1024x683 / assetAR 1.499 / deviation 60.1% / attrs "1200x500"` at `artikel/[category]/[slug]/page.tsx:1036`, and explicitly declined to widen its item to cover it. It is on the **article** page, not the category page, so it is outside UI-05's DoD too. Same root cause as UI-03 and as the row above: `low` in a shaped box plus `width`/`height` describing neither box nor asset. **I did not absorb it.** My own rig timed out on that URL and I did not reproduce UI-03's exact figures, so I am passing their numbers through attributed to them rather than restating them as mine. | proposed to the CEO as a new item |
 | Three files fail `prettier --check` on `master` and were already failing at base `105e79d`: `src/app/(public)/brand/brand.css`, `src/app/(public)/brand/page.tsx`, `src/components/brand/brand-assets.ts`. Not from this item. `pnpm lint` keeps failing for everyone until someone formats them. | unassigned |
 
 ---
@@ -246,6 +307,8 @@ with photographs of buildings; none of that is visible one article at a time.
 | `docs/work-done/.../aug-31-2026-ui-04-EVIDENCE/README.md` | The same trap, written next to the harness people actually reuse for this site | product-designer — **DONE** |
 | `docs/design/ui-05-imej-hab-pilar.html` | The decision, the state set, the reversal conditions, and the corrected numbers with the error recorded in place | product-designer — **DONE** |
 | `docs/work-done/README.md` | This entry in the index | product-designer — **DONE** |
+| The spec, both evidence READMEs, and `harness/walk390.mjs` | **The `naturalWidth` correction.** The wrong reason ("mid-decode") removed from all three documents, replaced with the srcset-density mechanism and the live re-test that proves it; the committed rig that uses the bad method carries the warning at the exact field | product-designer — **DONE** |
+| UI-06's gate | **`boxWidth / img.naturalWidth` returns ≈1.0 by construction on any `srcset` image and can never fire.** An upscale gate built that way is green forever. Read intrinsic size from a detached `Image()` on `currentSrc` | `design-systems-engineer` — handed over, and UI-03 issued the same instruction independently |
 | UI-06's gate | **A class used with no matching CSS rule fails the build.** `.t` matched nothing for the life of DES-08 and every check passed | `design-systems-engineer` — handed over, not done here |
 
 **On form.** Sprint 03's finding was that prose rules do not fire and scripts do. The
@@ -264,11 +327,20 @@ was the same bug reproducing. **A measurement repeated with the same method is o
 measurement.** What broke it was a *different* method (`querySelectorAll`) run by a
 *different* agent.
 
-**And a near-repeat of a trap the audit had already recorded:** I read `naturalWidth` while
-images were still decoding and got `176x88` for assets that are really `1200x800`. §3 of
-the UI audit withdrew a finding for exactly this. I caught it because the numbers were
-absurd for a 55 KB file, but I should have reached for `onload` first — the trap was
-written down and I still walked into it once.
+**And a wrong number I explained wrongly, then had to correct twice.** I read
+`naturalWidth` on live page elements and got `176x88` for assets that are really
+`1200x800`. I attributed it to reading mid-decode, wrote that reason into the spec and two
+READMEs, and shipped it. **The reason was wrong.** UI-03 found the real one — on an element
+carrying a `srcset` with `w` descriptors, `naturalWidth` returns intrinsic width *divided
+by the density derived from `sizes`* — and I re-tested it here rather than adopting it on
+trust: with every image reporting `complete: true` three seconds past decode, `sizes="176px"`
+on a 1200px asset still reports 176, because 1200 ÷ (1200÷176) = 176.
+
+My conclusion and my measurements were right either way, because `dims.mjs` loads assets by
+URL with no `srcset`. **But a reader following my stated reason would have waited for decode
+and got wrong numbers forever.** Getting the reason wrong was worse than getting the number
+wrong, and it is the second time in this item that a plausible explanation survived because
+nothing tested it.
 
 ### 4. What did we nearly ship, and what caught it?
 
@@ -283,6 +355,16 @@ That is worth naming precisely: the check that worked was **an agent contradicti
 spec they were handed**. Had they built to my number without comment, the document would
 have shipped with inflated evidence supporting a correct conclusion, which is the most
 corrosive kind of error because nothing downstream would ever surface it.
+
+**And a second one, caught by UI-03 rather than by me: a wrong *reason* published in three
+files.** "Reading `naturalWidth` mid-decode returns nonsense" is false — it returns the
+divided value whether or not decode has finished. That sentence was committed to the spec
+and two evidence READMEs before UI-03's rules doc exposed it. **A wrong explanation attached
+to a right number is the hardest kind of error to catch**, because the number checks out and
+nobody re-examines the sentence next to it. What caught it was another seat writing down the
+mechanism, and what confirmed it was re-running the test with `complete: true` asserted.
+All three files are corrected, and the committed rig that uses the bad method
+(`walk390.mjs`) now carries the warning at the exact field that would repeat it.
 
 **And one I caught myself:** an argument resting on UI-03's "rendered aspect within 15% of
 source" rule to condemn 80px thumbnails. That rule was written for a full-bleed hero at

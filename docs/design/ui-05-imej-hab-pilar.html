@@ -513,9 +513,31 @@ is not a fix for the complaint that the site looks bad.</p>
 
 <h3>3.4 Aspect: the sources do not agree with the slot</h3>
 
-<p>True intrinsic dimensions of all 38 covers, read after full decode (a
-<code>naturalWidth</code> read mid-decode returns nonsense — this is the trap §3 of the
-audit records, and my first pass fell into it):</p>
+<p>True intrinsic dimensions of all 38 covers, read from a <strong>detached
+<code>Image()</code></strong> on the asset URL:</p>
+
+<div class="note flag">
+<span class="lbl">An explanation in an earlier draft of this document was wrong</span>
+<p>My first pass read <code>img.naturalWidth</code> off the live page elements and got
+<code>176&times;88</code> for assets that are genuinely <code>1200&times;800</code>. I
+attributed that to reading mid-decode. <strong>That reason was wrong</strong>, and UI-03
+found the real one: on an element carrying a <code>srcset</code> with <code>w</code>
+descriptors, <code>naturalWidth</code> returns the intrinsic width <strong>divided by the
+pixel density the browser derived from <code>sizes</code></strong>.</p>
+<p>I re-tested rather than adopting the correction on trust. On the live grid page, with
+every image reporting <code>complete: true</code> and three seconds past decode:
+<code>sizes="176px"</code> against a 1200px asset gives a density of 1200 &divide; 176 =
+<strong>6.818</strong>, and 1200 &divide; 6.818 = <strong>176</strong>. The number I saw,
+exactly. A detached <code>Image()</code> on the same <code>currentSrc</code> returns
+1200&times;800.</p>
+<p><strong>Why the wrong reason mattered more than the wrong number:</strong> the
+conclusion (use a detached <code>Image</code>) and the measurements were right either way,
+because <code>dims.mjs</code> always loaded assets by URL with no <code>srcset</code>. But
+a reader following my stated reason would have <em>waited for decode</em> and still got
+wrong numbers forever. <strong>Any upscale check written as
+<code>boxWidth / img.naturalWidth</code> returns about 1.0 by construction and can never
+fire</strong> — a direct instruction to UI-06's gate.</p>
+</div>
 
 <div class="scroll"><table>
 <thead><tr><th class="n">Count</th><th>Intrinsic</th><th class="n">Aspect</th><th>Against the 1:1 mobile slot</th><th>Against the 4:3 desktop slot</th></tr></thead>
@@ -600,6 +622,75 @@ information, and it slows the scan, because the eye stops on each photograph.</p
 <p>Neither number decides anything on its own. They are here because "images make it
 longer" is an assertion until it has a figure.</p>
 </section>
+
+
+<h3>3.8 UI-03's rules landed after this decision, and they make the case stronger, not weaker</h3>
+
+<p>UI-03 shipped <code>docs/design/hero-image-rules.md</code> on 31 Ogos 2026, after the
+decision above was taken. Its rules are binding. <strong>They do not reverse this
+decision; they close the imagery route considerably harder than my own argument did.</strong>
+Re-measured against them rather than assumed.</p>
+
+<p><strong>R2 forbids the asset the current thumbnails use.</strong> <code>low</code>,
+<code>high</code> and <code>original</code> are never eligible for a shaped slot, because
+all three preserve the source aspect. A pillar thumbnail box is a shaped slot. So the only
+legal source is a <em>named landscape crop</em>.</p>
+
+<p><strong>R1 makes the mobile thumbnail box unfillable.</strong> The pipeline defines
+exactly four crop targets, and none is square. Against the 80&times;80 mobile box
+(aspect 1.000) that UI-05 would have needed:</p>
+
+<div class="scroll"><table>
+<thead><tr><th>Crop target</th><th class="n">Aspect</th><th class="n">Output</th><th class="n">Deviation from a 1:1 box</th><th>R1 (≤15%)</th></tr></thead>
+<tbody>
+<tr><td><code>crop-4x5-mobile-cover</code></td><td class="n">0.800</td><td class="n">1920×2400</td><td class="n">25%</td><td class="c">FAIL</td></tr>
+<tr><td><code>crop-4x3-article-card</code></td><td class="n">1.333</td><td class="n">1600×1200</td><td class="n">33%</td><td class="c">FAIL</td></tr>
+<tr><td><code>crop-16x9-og</code></td><td class="n">1.905</td><td class="n">1200×630</td><td class="n">90%</td><td class="c">FAIL</td></tr>
+<tr><td><code>crop-4.3x1-desktop-hero</code></td><td class="n">3.520</td><td class="n">2464×700</td><td class="n">252%</td><td class="c">FAIL</td></tr>
+</tbody></table></div>
+
+<p>Under R1 there is <strong>no legal source for a square thumbnail at all</strong>, and
+creating one is forbidden: adding a <code>CROP_TARGETS</code> entry changes
+<code>GEOMETRY_VERSION</code> and re-queues every live cover through Rekognition and R2,
+which is an unauthorised AWS cost and therefore an owner decision. So the honest statement
+is not "expensive" — it is that <strong>the box does not exist and I may not create it</strong>.</p>
+
+<p><strong>Reshaping the box to a legal aspect does not rescue it either.</strong> A 16:9
+thumbnail would sit at 0% deviation against <code>crop-16x9-og</code>, which is the
+smallest named landscape crop. I measured that crop across all 38 hantaran covers by HTTP:</p>
+
+<div class="statgrid">
+  <div class="stat"><span class="lab">crop-16x9-og, all 38</span><span class="big flag">11.40 MB</span>
+    <span class="sub">0 missing — coverage is not the blocker</span></div>
+  <div class="stat"><span class="lab">Mean / range</span><span class="big">307 KB</span>
+    <span class="sub">142–425 KB per asset</span></div>
+  <div class="stat"><span class="lab">vs <code>low</code> (2.02 MB)</span><span class="big flag">5.6×</span>
+    <span class="sub">and <code>low</code> is now illegal under R2</span></div>
+  <div class="stat"><span class="lab">vs the page today</span><span class="big flag">971×</span>
+    <span class="sub">12,308 B → 11,958,290 B</span></div>
+</div>
+
+<div class="note ok">
+<span class="lbl">Two seats found the same pipeline hole from opposite ends</span>
+<p>§3.3 above reached this independently from the thumbnail side. UI-03 §5 reached it from
+the hero side and states it more sharply: <em>"The pipeline generates two families of
+derivative, and neither one can serve a hero. There is no aspect-correct, quality-reduced
+derivative anywhere in it."</em> Quality-graded assets follow the source aspect;
+aspect-correct assets exist at exactly one quality — full. <strong>The empty cell is the
+whole problem</strong>, and it is now recorded twice, from two directions, by two seats
+that did not coordinate.</p>
+</div>
+
+<div class="note flag">
+<span class="lbl">Do NOT read "UI-03 landed" as "UI-05's reversal condition 2 is met"</span>
+<p>UI-03 §5 requests a quality-reduced landscape crop — a q30–q50
+<code>crop-16x9-og</code>, estimated at <strong>80–120 KB</strong>. Across 38 covers that
+is <strong>3.0–4.6 MB</strong>, still worse than the 2.02 MB this document already
+rejected. <strong>UI-03's pipeline request and UI-05's reversal condition 2 are different
+asks for different slots.</strong> UI-03 needs a 1200×630 asset made lighter; a pillar
+thumbnail needs an asset roughly 160–360px <em>wide</em>. Granting UI-03's request would
+not make a 38-thumbnail pillar grid viable. §8 stands unchanged.</p>
+</div>
 
 <!-- ===================================================================== -->
 <section id="s4">
@@ -1006,6 +1097,57 @@ here rather than quietly benefiting the conclusion.</strong></p>
 <p>The fix: pillar links get their own class, <code>.s-pillar-link</code>, with stated
 values rather than a borrowed descendant selector.</p>
 
+<div class="note">
+<span class="lbl">The rule, in the creative director's corrected wording</span>
+<p>Their first statement of it — <em>"one article title must have one identity across the
+site"</em> — implied that the pillar link should also match <code>.s-row .t</code>'s weight
+of 600. They withdrew that phrasing as sloppy. <strong>The rule they actually hold, and
+the one to record: TYPEFACE is identity and never varies by context; SIZE and WEIGHT are
+hierarchy and vary with what else is in the row.</strong> The bug found here was serif to
+sans, which is an identity change. 400 against 600 is not.</p>
+<p><strong>The evidence that settles it.</strong> There are five <code>className="t"</code>
+call sites in the codebase: the two in <code>pillar-body.tsx</code>, and three others —
+<code>artikel/[category]/page.tsx:790</code>,
+<code>artikel/[category]/[slug]/page.tsx:1214</code>, and <code>page.tsx:297</code>. Every
+one of those three sits directly beside a 176px <code>&lt;img&gt;</code> inside the
+<code>.s-row</code> thumbnail grid. So 15px/600 is not the list-row identity site-wide —
+it is <strong>the with-a-photograph setting, three call sites for three</strong>. It exists
+so the text holds its own against a picture at the same optical level, and because Bodoni
+Moda's stems need the extra weight to survive at 15px. <strong>The pillar is the only
+<code>.t</code> call site in the codebase with no image in its row</strong>, so matching it
+would import a setting along with none of its reasons.</p>
+<p><strong>17px, and why not 15px.</strong> On a pillar the title is the entire basis for
+the click — no thumbnail, no excerpt, no deck — and these are long descriptive Malay
+titles where the discriminating fact sits after the colon ("Hantaran tunang untuk lelaki:
+apa yang dibalas dan harganya"). The reader is parsing a phrase, not scanning a label.
+17px is the site's reading size and says <em>read this</em>; 15px says <em>scan this</em>.</p>
+<p><strong>400, and why not 600.</strong> On a pillar the cluster <code>h2</code>
+(<code>.s-h2</code>, serif 600) sits directly above its links with a hairline between,
+repeating down the page. Weight separation between heading and entry is doing structural
+work: it is what makes the page read as a map with sections rather than one undifferentiated
+stack. At 600 the h2 would have to carry that on size alone. On a grid category page the h2
+is nowhere near the rows, so the constraint does not exist there. And 38 consecutive
+semibold didone lines on the hantaran pillar is a wall; 400 gives the stack air.</p>
+<p><strong>Recorded explicitly as deliberate</strong>, so the next reader does not
+mistake it for the same class of bug: a pillar map row is lighter and larger than a grid
+list row, because it carries no photograph, because it is the whole click decision, and
+because it must stay visually subordinate to a cluster heading 20px above it. The three
+other <code>.t</code> call sites are correct as they stand — this was a pillar-only fix.</p>
+<p><code>.s-row .t</code>'s <code>-0.018em</code> tracking is compensation for heavier
+stems and does not transfer; <code>.s-pillar-link</code> takes <code>-0.012em</code>,
+matching <code>.hk-card-title</code>, the system's already-tuned 400-weight serif setting.</p>
+</div>
+
+<div class="note flag">
+<span class="lbl">The premise this type spec rests on, stated so it is checkable</span>
+<p>The 17px/400 argument rests on the pillar row containing <strong>no photograph</strong>.
+That premise is only true because of the decision in §2. <strong>If imagery is ever added
+to pillar rows, this type spec must be re-derived, not carried over</strong> — the row
+would then be the with-a-photograph case, and 15px/600 would become the correct setting.
+The order matters and it was followed here: imagery was decided first, and the type was set
+against a row whose contents were already settled.</p>
+</div>
+
 <div class="note ok">
 <span class="lbl">Shipped and verified live &mdash; 31 Ogos 2026</span>
 <p>PR <a href="https://github.com/ianngkb/hellokahwin/pull/18">#18</a>, merged to
@@ -1090,15 +1232,22 @@ one here would be right to ignore it.</p>
 <li><strong>A curated or commissioned cover set that shares one register across a whole
 pillar</strong> — one light, one distance to subject, one palette — with no duplicate
 photographs and no page illustrated by a building it does not depict.</li>
-<li><strong>A derivative sized for the slot exists in the pipeline</strong> — roughly
-160–360px wide, not a 1200px q30 asset serving an 80px box.</li>
+<li><strong>A derivative sized AND shaped for the slot exists in the pipeline.</strong>
+Roughly 160–360px wide, at a quality tier below full, and at an aspect within 15% of the
+box (UI-03 R1) — not a 1200px asset serving an 80px box, and not <code>low</code>,
+<code>high</code> or <code>original</code>, which UI-03 R2 makes ineligible for any shaped
+slot. <strong>This is not the same ask as UI-03 §5's</strong>, which is a quality-reduced
+1200×630 crop for a hero; see §3.8.</li>
 <li><strong>The empty-cluster problem is solved for photography</strong>, or the pillar in
 question has no empty clusters. A grid still cannot render a promise.</li>
 </ol>
 </div>
 
-<p>Two things that do <em>not</em> reverse it: more time, and UI-03 landing on its own.
-UI-03 fixes quality and aspect. <strong>It does not fix the office block.</strong></p>
+<p>Three things that do <em>not</em> reverse it. <strong>More time</strong>, which
+changes no number here. <strong>UI-03 landing</strong> — it has now landed, and §3.8 shows
+it closes the imagery route harder rather than opening it. And <strong>granting UI-03 §5's
+pipeline request</strong>, which is a different derivative for a different slot. None of
+them fixes the office block, and condition 1 is the one that was decisive.</p>
 
 <h3>How to re-run every measurement in this document</h3>
 <ol class="fn">
@@ -1111,10 +1260,13 @@ UI-03 fixes quality and aspect. <strong>It does not fix the office block.</stron
 <code>images.hellokahwin.com</code>. The rig at <code>scripts/measure-page.mjs</code>
 cannot measure image weight — cross-origin resources report 0 bytes without
 <code>Timing-Allow-Origin</code>.</li>
-<li><strong>Intrinsic dimensions.</strong> Load each asset in a real browser and read
-<code>naturalWidth</code> <em>after</em> <code>onload</code>. Reading it during decode
-returns small wrong numbers, which is how the audit's withdrawn lazy-loading finding
-happened and how this document's first pass went wrong.</li>
+<li><strong>Intrinsic dimensions — never <code>img.naturalWidth</code> on a page
+element.</strong> On an element carrying a <code>srcset</code> with <code>w</code>
+descriptors it returns intrinsic width <strong>divided by the density derived from
+<code>sizes</code></strong>, so it is wrong even when the image is fully loaded. Read from
+a <strong>detached <code>Image()</code> on <code>currentSrc</code></strong>. Verified here:
+<code>sizes="176px"</code> on a 1200px asset reports 176, because 1200 &divide; (1200
+&divide; 176) = 176.</li>
 <li><strong>Never count a plain-text phrase with a grep over the served HTML.</strong>
 A Next.js document carries the page twice &mdash; rendered HTML plus the RSC flight
 payload &mdash; so an unanchored text pattern returns exactly double. Count in the DOM
