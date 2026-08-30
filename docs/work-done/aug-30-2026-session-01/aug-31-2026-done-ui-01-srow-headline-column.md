@@ -456,20 +456,30 @@ Two things about that check that a hook author needs, both verified here:
   commits early, and the first one teaches everyone `--no-verify`, after which it
   protects nothing. It must report "you deleted N heading-shaped lines, confirm
   that was deliberate."
-- **The regex dialect is a silent trap, and it is the worse failure.**
-  `grep -c '^-#\+ '` is BRE and correct. The same string under `grep -E` returns
-  **0** — it matches nothing and reports clean:
+- **The regex dialect was a silent trap, and it has been removed rather than
+  documented.** `\+` is BRE-only and `+` is ERE-only, so either spelling reports
+  a confident **0** under the other engine — a check that matches nothing and
+  prints clean on every commit forever. `##*` is one-or-more `#` in every
+  dialect, because `*` means the same thing in all of them. Measured on a
+  six-line sample carrying four heading-shaped deletions and one `+## added`
+  that must not count:
 
-```
-printf -- '-### h\n' | grep -c   '^-#\+ '   ->  1    correct (BRE)
-printf -- '-### h\n' | grep -Ec  '^-#\+ '   ->  0    WRONG, and silently so
-printf -- '-### h\n' | grep -Ec  '^-#+ '    ->  1    correct (ERE)
-```
+| pattern | BRE | ERE | rg |
+|---|---|---|---|
+| `^-#\+ ` | 4 | **0** | **0** |
+| `^-#+ ` | **0** | 4 | 4 |
+| **`^-##* `** | **4** | **4** | **4** |
 
-  A hook author reaching for `grep -E` or `rg` needs `'^-#+ '`. A check that
-  silently matches nothing is worse than no check, because it is reported as a
-  pass — which is this document's own §5.10 one level down: the instrument's
-  output became a claim nobody measured.
+  **Use `git show <sha> -- <file> \| grep -c '^-##* '`.** Verdicts against the
+  real commits are unchanged under it in both engines — `01c70a2` → 1, all
+  others 0. Fixed by UI-03 in `cfb1e43`; the reasoning is theirs and it is
+  right: *a check whose correctness depends on which engine runs it is not a
+  check*, and documenting the dialect in a comment leaves the failure available
+  to everyone who does not read the comment — which is the population the hook
+  exists for. Nine characters beat a paragraph.
+
+  The flag-not-verdict requirement above is **not** removed by this: `-# shell
+  comment` still matches `^-##* `, verified.
 
 Owner of the check: UI-03; it lands in `scripts/git-hooks/`, behind the same
 install RISK-09 is waiting on. **That is now three things blocked on one
