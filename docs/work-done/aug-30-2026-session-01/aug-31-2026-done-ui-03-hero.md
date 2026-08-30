@@ -411,14 +411,51 @@ because there is no knowledge to acquire that would prevent it.
 be purely additive should delete no headings:
 
 ```
-git show <sha> -- <file> | grep -c '^-## '
+git show <sha> -- <file> | grep -c '^-#\+ '        # BRE; use '^-#+ ' with grep -E or rg
 ```
 
 Run against the two commits that used the same anchor: **`0f59dc7` → 0,
-`01c70a2` → 1.** It separates them exactly, costs nothing, and would have caught
-this before it was pushed. Worth a `pre-commit` line for `docs/plans/**` the next
-time anyone is in `scripts/git-hooks/` — which is the same place RISK-09's
-uninstalled guard lives.
+`01c70a2` → 1.** Worth a `pre-commit` line for `docs/plans/**` the next time
+anyone is in `scripts/git-hooks/` — the same place RISK-09's uninstalled guard
+lives, so two things now wait on that one install.
+
+⚠ **I first wrote this as `'^-## '`, and UI-01 found the hole before anyone
+installed it. That narrow form has the exact failure shape this entire sprint is
+about.** After the `-` it demands `#`, `#`, space — so a deleted `-### 5.9 …` has
+`#` in the third position and never matches. Proven on known input rather than
+argued:
+
+```
+$ printf -- '-### 5.9 heading
+-## 6. Something
+-#### deep
+' | grep -c '^-## '
+1        <- only the ## one
+$ printf -- '-### 5.9 heading
+-## 6. Something
+-#### deep
+' | grep -c '^-#\+ '
+3        <- all three
+```
+
+**And that is the gap that matters for this very file: §5.8, §5.9 and §5.10 are
+all `###`** (lines 905, 973, 1006). My check caught the one heading I happened to
+delete and would have been blind to all three sections this sprint added —
+including the two carrying the joint lessons. **A check that passes its own test
+and is blind where it matters is the defect this sprint exists to stop, and I
+shipped one while writing the lesson about it.** I proved the regex on the line I
+knew had failed and never on a line I knew should match — which is the brief's
+own rule, quoted by me to UI-01 hours earlier.
+
+Verdicts are unchanged under the corrected regex (`01c70a2` → 1, everything else
+0), so no finding moves; the hole was closed before the hook shipped, not after.
+
+**A non-zero result is a FLAG, not a verdict** (UI-01's note, and it is
+necessary rather than merely nice). A legitimate rename or removal trips it, and
+so does a deleted shell comment inside a fenced code block — `-# foo` matches too,
+verified. So the hook must say *"you deleted N heading-shaped lines, confirm that
+was deliberate"* and never refuse. A gate that blocks legitimate work teaches
+everyone to reach for `--no-verify`, and then it protects nothing.
 
 **Why it belongs in this entry and not in the doctrine:** UI-01's judgement, and
 it is right — §5.10 does not need a monument to its own first casualty. But the
@@ -474,7 +511,7 @@ structural diff, the page renders.
 | (a)–(c) | **Binding spec** — inherited by UI-05 rather than re-decided | `docs/design/hero-image-rules.md` | creative-director | ✅ **created** |
 | (c) | **Costed pipeline request** — owner decision, AWS spend | spec §5 + Follow-up 1 | ceo-hellokahwin | ⏳ **raised** |
 | (e) | **Install the guard that already exists** — the single highest-leverage action available from this item | `aug-31-2026-done-risk-09-boundary-guard.md` → `scripts/git-hooks/install-hooks.sh` | ceo-hellokahwin (green-light) → design-systems-engineer | ⏳ **raised, and it is a decision not a build** |
-| (h) | **A runnable check** — `git show <sha> -- <file> \| grep -c '^-## '` must be 0 on an additive commit; proposed as a `pre-commit` line for `docs/plans/**` | `scripts/git-hooks/` (site repo) | design-systems-engineer | ⏳ **proposed, with the check written and demonstrated 0 vs 1** |
+| (h) | **A runnable check** — `git show <sha> -- <file> \| grep -c '^-#\+ '` should be 0 on an additive commit, reported as a FLAG not a refusal; proposed as a `pre-commit` line for `docs/plans/**` | `scripts/git-hooks/` (site repo) | design-systems-engineer | ⏳ **proposed; first draft used `'^-## '` and was blind to `###` — hole found by UI-01 and closed before shipping** |
 | (f) | **Doctrine §5.8 closing paragraph** — address by identity, never by position | `docs/plans/aug-23-2026-session-01/aug-23-2026-production-doctrine.md` | creative-director | ✅ **edited** |
 
 **Deliberately NOT prose.** Sprint 03's central finding is that prose rules do
