@@ -391,6 +391,7 @@ Rendering gives you more to be wrong about.
 | `docs/plans/aug-30-2026-session-01/aug-31-2026-audit-ui-desktop-mobile.md` | §0's "it needs a human or an agent with a working browser" resolved in place, and §4's three possibilities closed with the answer | product-designer — **DONE**, see §0 and §4 of that file |
 | `docs/work-done/README.md` | This entry in the index | product-designer — **DONE** |
 | UI-06's gate | Thresholds and an exit code on top of `audit.mjs` | `design-systems-engineer` — handed over, not done here |
+| `skillcentral/skills/startsprint/SKILL.md` (buddy) | **`sprint add --title` mangles any argument starting with `/`.** Run from Git Bash, `--title "/artikel card labels…"` was stored as `C:/Program Files/Git/artikel card labels…` — MSYS path conversion, silent, and it landed on the board that way. Re-running `add` from PowerShell fixed it (`add` upserts). The fix is `MSYS_NO_PATHCONV=1`, or PowerShell, in the skill's own example block | **NOT DONE BY ME, deliberately** — that file is open in PLAT-15's hands right now (`git status` in buddy shows it modified alongside `scripts/sprint.ts` and `sprint-cli.ts`). Editing it would be a second writer in a shared checkout, which is the exact hazard RISK-09 is in this sprint to close. **Handed to `BMAD`/PLAT-15** |
 
 ### 3. What did we do twice that we should never repeat?
 
@@ -399,6 +400,11 @@ measuring — twice** (the gold standfirst, the white figcaption). Both times th
 picture was persuasive and wrong. The order that works is measure → then look at
 the picture to understand *why*; the order that wastes a cycle is look → measure
 → withdraw.
+
+**And a small one that cost a round trip: pasting a leading-slash URL path into a
+shell argument.** `sprint add --title "/artikel …"` from Git Bash silently became
+`C:/Program Files/Git/artikel …` and reached the board. Caught by reading the
+board back after writing to it — which is the only reason it was caught at all.
 
 **And, at the company level, this is the second sprint running in which the
 central failure is a computed value nobody looked at.** Sprint 03's retro said
