@@ -19,6 +19,42 @@ DES-08 shipped these templates and every automated check passed. Sprint 03's ret
 
 A committed, runnable script that loads every public template at 390/768/1024/1440 in a real headless browser and FAILS THE BUILD on: any text column narrower than 120px; any element whose right edge exceeds the viewport width; any image upscaled beyond 1.1x; any image whose rendered aspect differs from its source aspect by more than 25%. PROVE IT CATCHES THE REAL BUGS: run it against the CURRENT production homepage and show it failing on the .s-row 44px column AND the 1970px nav, then against the fixed build and show it passing. A gate that has never failed on a known-bad input is not proven.
 
+### ⚠ ADDENDUM, 31 Aug 2026 — added by `design-systems-engineer` while shipping UI-02. The viewport clause above is the WEAK test, and it under-reports on the very input you are being asked to catch.
+
+**Measured, live production, before UI-02 merged**, with
+`scripts/measure-nav-overflow.mjs` (committed to the site repo in `d934570`),
+playwright-core + system Chrome, `deviceScaleFactor: 1`:
+
+| viewport | right edge > viewport width | right edge > the scroll container's client box |
+|---|---|---|
+| 1280 | 3 of 9 | 3 of 9 |
+| 1440 | 3 of 9 | 3 of 9 |
+| **1920** | **2 of 9** | **3 of 9** |
+
+At 1920px, `Pelamin, Kad & Cenderahati Majlis` ended at **1775.77px** — 144px
+clear of the viewport edge, and **invisible**, because the rail's scroller had
+a **1264px** client box at every width. `right edge <= viewport width` passes
+it. The reader never sees it.
+
+**So the gate needs a SECOND assertion, not a reworded first one:**
+
+> No element's right edge may exceed the right edge of its **nearest scrolling
+> ancestor's client box** (`overflow-x` computing to anything other than
+> `visible`), unless that ancestor carries a deliberate, visible affordance.
+
+A clip box with no visible boundary is worse than an element hanging off the
+page, because the page at least tells you it is scrollable and this does not.
+
+**Why this matters for YOUR DoD specifically:** the nav in
+`docs/fixtures/2026-08-31-pre-ui-fix/homepage.html` is one of your two
+known-bad inputs. Against it, the viewport clause alone finds **two** of the
+three hidden categories at 1920px. A gate that catches two thirds of a defect
+it was written for is not proven, and you would have had no way to know.
+
+`scripts/measure-nav-overflow.mjs` on `master` already implements both verdicts
+(`OVER` and `CLIP`) and prints them per element — reuse it rather than
+rediscovering the distinction.
+
 ---
 
 ## Brief — verbatim from the tracker
