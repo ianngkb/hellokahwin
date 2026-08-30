@@ -1,0 +1,176 @@
+{
+  "homepage": {
+    "390": [],
+    "768": [],
+    "1024": [],
+    "1440": []
+  },
+  "article": {
+    "390": [
+      {
+        "kind": "ellipsis-x",
+        "sel": "span.text-foreground.max-w-[200px]",
+        "clientWidth": 200,
+        "scrollWidth": 332,
+        "overflowPx": 132,
+        "clientHeight": 20,
+        "scrollHeight": 20,
+        "fontSize": "14px",
+        "full": "20 Venue Garden Wedding Paling Cantik di Malaysia"
+      }
+    ],
+    "768": [
+      {
+        "kind": "ellipsis-x",
+        "sel": "span.text-foreground.max-w-[200px]",
+        "clientWidth": 200,
+        "scrollWidth": 332,
+        "overflowPx": 132,
+        "clientHeight": 20,
+        "scrollHeight": 20,
+        "fontSize": "14px",
+        "full": "20 Venue Garden Wedding Paling Cantik di Malaysia"
+      }
+    ],
+    "1024": [
+      {
+        "kind": "ellipsis-x",
+        "sel": "span.text-foreground.max-w-[200px]",
+        "clientWidth": 200,
+        "scrollWidth": 332,
+        "overflowPx": 132,
+        "clientHeight": 20,
+        "scrollHeight": 20,
+        "fontSize": "14px",
+        "full": "20 Venue Garden Wedding Paling Cantik di Malaysia"
+      }
+    ],
+    "1440": [
+      {
+        "kind": "ellipsis-x",
+        "sel": "span.text-foreground.max-w-[200px]",
+        "clientWidth": 200,
+        "scrollWidth": 332,
+        "overflowPx": 132,
+        "clientHeight": 20,
+        "scrollHeight": 20,
+        "fontSize": "14px",
+        "full": "20 Venue Garden Wedding Paling Cantik di Malaysia"
+      }
+    ]
+  },
+  "category": {
+    "390": [],
+    "768": [],
+    "1024": [],
+    "1440": []
+  },
+  "artikel-index": {
+    "390": [
+      {
+        "kind": "ellipsis-x",
+        "sel": "h1.sr-only",
+        "clientWidth": 1,
+        "scrollWidth": 174,
+        "overflowPx": 173,
+        "clientHeight": 1,
+        "scrollHeight": 109,
+        "fontSize": "30px",
+        "full": "Artikel Perkahwinan HelloKahwin"
+      }
+    ],
+    "768": [
+      {
+        "kind": "ellipsis-x",
+        "sel": "h1.sr-only",
+        "clientWidth": 1,
+        "scrollWidth": 232,
+        "overflowPx": 231,
+        "clientHeight": 1,
+        "scrollHeight": 145,
+        "fontSize": "40px",
+        "full": "Artikel Perkahwinan HelloKahwin"
+      }
+    ],
+    "1024": [
+      {
+        "kind": "ellipsis-x",
+        "sel": "h1.sr-only",
+        "clientWidth": 1,
+        "scrollWidth": 232,
+        "overflowPx": 231,
+        "clientHeight": 1,
+        "scrollHeight": 145,
+        "fontSize": "40px",
+        "full": "Artikel Perkahwinan HelloKahwin"
+      }
+    ],
+    "1440": [
+      {
+        "kind": "ellipsis-x",
+        "sel": "h1.sr-only",
+        "clientWidth": 1,
+        "scrollWidth": 232,
+        "overflowPx": 231,
+        "clientHeight": 1,
+        "scrollHeight": 145,
+        "fontSize": "40px",
+        "full": "Artikel Perkahwinan HelloKahwin"
+      }
+    ]
+  },
+  "dewan-kahwin": {
+    "390": [
+      {
+        "kind": "ellipsis-x",
+        "sel": "span.text-foreground.max-w-[200px]",
+        "clientWidth": 200,
+        "scrollWidth": 503,
+        "overflowPx": 303,
+        "clientHeight": 20,
+        "scrollHeight": 20,
+        "fontSize": "14px",
+        "full": "10 Dewan Kahwin Murah di Selangor & KL – Sesuai untuk Bajet Bawah RM5,"
+      }
+    ],
+    "768": [
+      {
+        "kind": "ellipsis-x",
+        "sel": "span.text-foreground.max-w-[200px]",
+        "clientWidth": 200,
+        "scrollWidth": 503,
+        "overflowPx": 303,
+        "clientHeight": 20,
+        "scrollHeight": 20,
+        "fontSize": "14px",
+        "full": "10 Dewan Kahwin Murah di Selangor & KL – Sesuai untuk Bajet Bawah RM5,"
+      }
+    ],
+    "1024": [
+      {
+        "kind": "ellipsis-x",
+        "sel": "span.text-foreground.max-w-[200px]",
+        "clientWidth": 200,
+        "scrollWidth": 503,
+        "overflowPx": 303,
+        "clientHeight": 20,
+        "scrollHeight": 20,
+        "fontSize": "14px",
+        "full": "10 Dewan Kahwin Murah di Selangor & KL – Sesuai untuk Bajet Bawah RM5,"
+      }
+    ],
+    "1440": [
+      {
+        "kind": "ellipsis-x",
+        "sel": "span.text-foreground.max-w-[200px]",
+        "clientWidth": 200,
+        "scrollWidth": 503,
+        "overflowPx": 303,
+        "clientHeight": 20,
+        "scrollHeight": 20,
+        "fontSize": "14px",
+        "full": "10 Dewan Kahwin Murah di Selangor & KL – Sesuai untuk Bajet Bawah RM5,"
+      }
+    ]
+  }
+}

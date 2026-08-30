@@ -1,0 +1,86 @@
+{
+  "homepage": {
+    "390": [],
+    "1440": []
+  },
+  "article": {
+    "390": [
+      {
+        "sel": "figcaption.absolute.inset-x-0.bottom-0",
+        "ratio": 1.2,
+        "required": 4.5,
+        "fontSize": "12px",
+        "weight": "400",
+        "color": "rgb(255, 255, 255)",
+        "bg": "rgb(237, 234, 225)",
+        "text": "SOURCE: The Waterway Villa"
+      },
+      {
+        "sel": "a.transition-opacity.hover:opacity-80",
+        "ratio": 1.2,
+        "required": 4.5,
+        "fontSize": "17px",
+        "weight": "400",
+        "color": "rgb(255, 255, 255)",
+        "bg": "rgb(237, 234, 225)",
+        "text": "source: 12 Affordable Wedding Venues in KL & Selangor"
+      }
+    ],
+    "1440": [
+      {
+        "sel": "figcaption.absolute.inset-x-0.bottom-0",
+        "ratio": 1.2,
+        "required": 4.5,
+        "fontSize": "12px",
+        "weight": "400",
+        "color": "rgb(255, 255, 255)",
+        "bg": "rgb(237, 234, 225)",
+        "text": "SOURCE: The Waterway Villa"
+      },
+      {
+        "sel": "a.transition-opacity.hover:opacity-80",
+        "ratio": 1.2,
+        "required": 4.5,
+        "fontSize": "17px",
+        "weight": "400",
+        "color": "rgb(255, 255, 255)",
+        "bg": "rgb(237, 234, 225)",
+        "text": "source: 12 Affordable Wedding Venues in KL & Selangor"
+      }
+    ]
+  },
+  "category": {
+    "390": [],
+    "1440": []
+  },
+  "artikel-index": {
+    "390": [],
+    "1440": []
+  },
+  "dewan-kahwin": {
+    "390": [
+      {
+        "sel": "figcaption.absolute.inset-x-0.bottom-0",
+        "ratio": 1.2,
+        "required": 4.5,
+        "fontSize": "12px",
+        "weight": "400",
+        "color": "rgb(255, 255, 255)",
+        "bg": "rgb(237, 234, 225)",
+        "text": "source: perbadanan putrajaya"
+      }
+    ],
+    "1440": [
+      {
+        "sel": "figcaption.absolute.inset-x-0.bottom-0",
+        "ratio": 1.2,
+        "required": 4.5,
+        "fontSize": "12px",
+        "weight": "400",
+        "color": "rgb(255, 255, 255)",
+        "bg": "rgb(237, 234, 225)",
+        "text": "source: perbadanan putrajaya"
+      }
+    ]
+  }
+}

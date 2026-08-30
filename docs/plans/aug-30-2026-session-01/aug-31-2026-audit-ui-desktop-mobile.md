@@ -32,6 +32,16 @@ Three attempts, all failed:
 `matchMedia('(max-width:1023px)').matches` returned **false** throughout. **Every
 rendered measurement in this document is desktop at 1920px.**
 
+> **RESOLVED 31 Ogos 2026 by UI-04.** A real viewport was obtained — Playwright
+> 1.58.2 driving chromium-1208, one browser context per width. `innerWidth` and
+> `outerWidth` both report the requested width and `matchMedia` flips correctly at
+> every breakpoint; the assertion table is in
+> [`../../work-done/aug-30-2026-session-01/aug-31-2026-done-ui-04-rendered-audit.md`](../../work-done/aug-30-2026-session-01/aug-31-2026-done-ui-04-rendered-audit.md).
+> The browser extension cannot resize a viewport. A headless browser can, and
+> Playwright plus four Chromium builds were already installed on this machine
+> throughout. **The harness is committed at
+> `docs/work-done/aug-30-2026-session-01/aug-31-2026-ui-04-EVIDENCE/harness/`.**
+
 A review that had skipped that check would have "reviewed mobile" at 1920px and
 reported it as mobile. **Mobile in §4 is STATIC ANALYSIS of the CSS — real
 evidence about what the code does, but not a rendered check.** It needs a human
@@ -205,6 +215,25 @@ the code.** Three possibilities, and I am not guessing between them:
    overflow, a font-loading shift, a tap-target problem, a real-device bug.
 3. The complaint is about **art direction** rather than layout — the hero crop,
    the plain category pages — which applies at every width.
+
+> **ANSWERED 31 Ogos 2026 by UI-04, rendered at 390 / 768 / 1024 / 1440.**
+>
+> **Possibility 1 is the main answer, with possibility 3 alongside it.** There is
+> **one** mobile-only defect and it is 10 pixels wide: on `/artikel` at 390px the
+> card category label box computes to 171px against 181px of text, so 9 of 11
+> labels clip mid-word. Nothing else fails only on mobile. Horizontal overflow is
+> **0px at all four widths on all six templates**, WCAG AA contrast has **zero**
+> failures, and `.s-row` renders correctly at 390 (`80px 256px`) and 768
+> (`80px 610px`).
+>
+> **Possibility 2 is closed.** Three further defects were found that this static
+> pass could not see, but none of them is mobile-only: an attribution link fixed
+> at 200px hiding up to 60% of its text, the search field with no visible focus
+> indicator and no accessible name, and 104 characters per line in the article
+> body at 1440. They are on the board as UI-07 … UI-11.
+>
+> **One correction to §1 that UI-01 needs:** the `.s-row` defect starts at
+> **1024**, not 1920. A fix verified only on a wide desktop leaves 1024 broken.
 
 **UI-04 resolves this with a real device, and the owner's own screenshots would
 settle it in seconds.**
