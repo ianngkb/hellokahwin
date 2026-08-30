@@ -479,6 +479,65 @@ What was proposed and what happened to it:
   `sOURCE:` on the page carrying 28% of site impressions is a brand defect on our
   most-seen asset.
 
+## 6a. ⚠ A CORRECTION TO THIS PROPOSAL, FOUND AFTER IT WAS WRITTEN
+
+**RIGHTS-02 was scoped to produce a per-photographer worklist. That worklist
+already exists, and it has been blocked for five days on exactly the decision the
+owner made in this meeting.**
+
+`docs/plans/aug-23-2026-session-01/aug-25-2026-rights-risk-and-request-list.md` —
+381 lines, written by `managing-editor` on 25 Aug, status **BLOCKED — owner
+decision on outbound contact**. It already contains:
+
+- **The real count: 281 `jangan-guna`** (269 `IN-` prefixed plus 12 others) — so
+  even the 307 figure I called stale was already superseded, by five days.
+- **Ten Real Wedding studios named**, each already credited by studio name in the
+  post bodies (`Jurugambar: Ameir Fikri`, `Jurugambar: Whitenery.co`).
+- A **ranked rights-risk list** — Getty/iStock (1 file), a press photograph (1
+  file), 401 Real Wedding photographs across 14 live articles, 269 `IN-` vendor
+  images, 64 orphans.
+- **Two ready email templates**, BM primary and EN.
+- **§3.4, four decisions the owner was asked to take** — and the owner has just
+  effectively taken two of them.
+
+Its own recommendation matches the owner's instinct almost word for word:
+*"Exposure is low and we should not spend money on it… the 269 vendor images stay
+and are left alone. Nothing here justifies a clearance budget, a rights
+coordinator, or a lawyer."*
+
+### The error, stated plainly
+
+**I built this backlog from the sprint files, the retro and `ceo-memory.md`, and
+missed a finished plan sitting in `docs/plans/`.** Decision 94 recorded exactly
+this lesson three days ago — for `ceo-memory.md`. **The same lesson applies to
+`docs/plans/README.md`, and I did not generalise it.** A plan marked **BLOCKED is
+finished work waiting on a decision**, which makes the blocked rows the single
+highest-value thing to read at planning time — and I found it only because I went
+to update the index at the very end of the meeting.
+
+### What changes
+
+RIGHTS-02 stays at **5 points and is not cut** — the work changes rather than
+shrinks. The census half is largely pre-done; the freed effort goes into the
+actions §3.4 lists that nobody has taken:
+
+1. **Refresh the census** against live state — the numbers have moved again.
+2. **Two deletes.** ⚠ **The owner's relationship argument does NOT cover these.**
+   The Getty/iStock image and the press photograph belong to **institutions**, not
+   to photographers who know us. Those come down, with UNDO pushed first.
+3. **Run the attachment-page check** — free, one minute, changes the denominator
+   by 64.
+4. **Hand the owner the ten template B letters populated and ready to send**, plus
+   template A for candidates 1–3. **We prepare; they send.**
+
+**A second blocked plan is also unblocked by implication:**
+`aug-25-2026-enforcing-credit-everywhere.md`, status *BLOCKED — CEO decision on
+the four to five days of engineering*. **That is my decision and I am taking it
+now: not this sprint.** RIGHTS-01 fixes the label defect for 3 points; a four-to-
+five-day engineering programme to enforce credit on every path is a Sprint 05
+question once RIGHTS-02 has told us how many assets actually need it. Recorded so
+it stops sitting in the index as though someone else owes an answer.
+
 ## 7. Metrics and review
 
 - **Primary:** clicks/28d — 99 today. The 22 Sept checkpoint is 150.

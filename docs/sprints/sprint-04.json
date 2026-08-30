@@ -23,7 +23,11 @@
       "state": "todo",
       "owner": "BMAD",
       "title": "Guard the shared-repo hazard - one git checkout swaps the company record for the site source",
-      "flags": ["carried-forward-sprint-03", "structural-hazard", "no-guard-exists"],
+      "flags": [
+        "carried-forward-sprint-03",
+        "structural-hazard",
+        "no-guard-exists"
+      ],
       "why": "hellokahwin (docs) and hellokahwin-site are the SAME repo - same remote, same root commit 3a1fbe09 - kept apart only by the convention that nobody merges feat/command-centre-dashboard. A single `git checkout master` in the docs directory would swap the company record for the site source. Carried forward from Sprint 03 as a STRUCTURAL hazard with no guard. Prose in a README is exactly the form Sprint 03 proved does not fire.",
       "dod": "A git hook (pre-checkout or post-checkout), COMMITTED AND INSTALLED IN BOTH TREES, that refuses or loudly warns on a branch switch across the docs/site boundary. Verified by running the switch in a THROWAWAY CLONE and quoting the literal refusal text, PLUS a negative control showing an ordinary in-space switch still succeeds. Both sides quoted. A gate, not a paragraph.",
       "brief": "Do not implement this as documentation. The deliverable is an executable guard. Test it in a throwaway clone, never in either live tree - the hazard being guarded against is exactly the operation under test.",
@@ -36,7 +40,11 @@
       "state": "todo",
       "owner": "head-of-seo-content",
       "title": "SERP-shape census - classify every ranking query and compute the click ceiling per cluster",
-      "flags": ["strategic-core", "blocks-CONT-13", "new-this-sprint"],
+      "flags": [
+        "strategic-core",
+        "blocks-CONT-13",
+        "new-this-sprint"
+      ],
       "why": "The board meeting tested THREE queries and found a 15x CTR split on AI Overview presence. That is an anecdote until it is a census. This item produces the number that governs all future content selection, and it populates the split CTR metric the owner approved on 30 Aug. It is also the input that chooses CONT-13's targets - the CEO deliberately does NOT choose them, because a target list picked from three SERP checks is the precise-wrong-finding shape that has cost this company before.",
       "dod": "A committed CSV at docs/work-done/aug-30-2026-session-01/serp-shape-census.csv, one row per query with >=20 impressions in the last 28d, carrying: query, impressions, our position, actual CTR, ai_overview present (bool), ai_overview position, PAA present, image_pack present, expected CTR at that position, ratio actual/expected. PLUS a written rule stating the impression threshold above which an AI-Overview'd query is not worth a new page. VERIFY THE PATTERN BEFORE TRUSTING IT: hand-check one row against the raw serp-overview response and quote both, before trusting the other 200 rows.",
       "brief": "Use Ahrefs serp-overview (country my) for SERP features and GSC for our own performance - never Ahrefs for our traffic (decision 91: Ahrefs reported 9 organic keywords against GSC's 2,869 impressions the same day). Expected-CTR-by-position must cite its source curve. Report queries where actual EXCEEDS expected too; those are as informative as the failures.",
@@ -49,7 +57,10 @@
       "state": "todo",
       "owner": "head-of-seo-content",
       "title": "Make the SERP-shape test a pre-flight GATE, not prose",
-      "flags": ["gate-not-prose", "new-this-sprint"],
+      "flags": [
+        "gate-not-prose",
+        "new-this-sprint"
+      ],
       "why": "Sprint 03's central finding: PROSE RULES DO NOT FIRE, GATES AND SCRIPTS DO. 'Resolve the operator before you rank a competitor' sat in this same persona's ethos section as prose and did not fire, costing SEO-04 a second park. This item writes the SERP-shape lesson in the only form that fires - a runnable script wired into a pre-flight checklist.",
       "dod": "A RUNNABLE SCRIPT (check-serp-shape.py or equivalent), committed, that takes a candidate keyword and EXITS NON-ZERO when the SERP carries an AI Overview answering the query. Demonstrated by running it against `mas kahwin johor` (MUST fail) and `doa pengantin baru rumi` (MUST pass), with both exit codes quoted. Wired into head-of-seo-content's PRE-FLIGHT CHECKLIST in the persona file - the same place the 'resolve the operator' rule was moved to when prose failed.",
       "brief": "The two named test cases are a regression suite, not an illustration. If the script cannot distinguish them it is not done. Print `SERPSHAPE EXIT: <n>` at the start of a line so the watcher's milestone convention applies.",
@@ -62,7 +73,12 @@
       "state": "todo",
       "owner": "writer-inspirasi-vendor-venue",
       "title": "The document-intent bet - six articles for queries that still have a click in them",
-      "flags": ["strategic-core", "GATED-on-SEO-11", "SECOND-GATE-religious-accuracy", "points-provisional"],
+      "flags": [
+        "strategic-core",
+        "GATED-on-SEO-11",
+        "SECOND-GATE-religious-accuracy",
+        "points-provisional"
+      ],
       "why": "Three of the site's four best-converting queries are already document-intent: idea goodies kahwin 10.53%, doa pengantin baru rumi 9.52%, hantaran kahwin 5 balas 7 4.76%. This is not a new audience - it is noticing which existing pages work and building deliberately in that shape. A query has document intent when the searcher needs to TAKE A TEXT AWAY and a two-sentence answer does not satisfy them.",
       "dod": "Six articles LIVE IN PRODUCTION, each returning 200 ON FIRST REQUEST. Sitemap count rises 103 -> 109, quoted before and after. THE COMPLETE ARTEFACT IS ON EACH PAGE - verified by fetching the live URL and quoting the full text, not by the writer asserting it; for a doa that means Arabic, rumi AND Malay meaning all present in the fetched HTML. Every target carries its SEO-12 gate result showing no AI Overview at selection time. Every religious text carries its authority and date checked, verified by editorial-verification-lead. All copy passes /humanizer before the write. UNDO committed and pushed BEFORE any production write, naming exact slugs. Evidence in docs/work-done/aug-30-2026-session-01/ with live links.",
       "brief": "COMPLETENESS IS THE PRODUCT. An article that summarises the artefact is competing with the AI Overview on its own ground and will lose. Candidate families for SEO-11 to CONFIRM OR KILL (these are hypotheses, not a target list): doa dan ucapan; skrip pengacara majlis; kata-kata dan teks ucapan; senarai dan checklist; teks kad jemputan.",
@@ -77,7 +93,10 @@
       "state": "todo",
       "owner": "writer-inspirasi-vendor-venue",
       "title": "Re-angle the hantaran-kahwin legacy seed toward definition and money",
-      "flags": ["open-in-ceo-memory", "assigned-to-CONT-12-and-never-done"],
+      "flags": [
+        "open-in-ceo-memory",
+        "assigned-to-CONT-12-and-never-done"
+      ],
       "why": "The one C2.1 boundary left OPEN in ceo-memory.md. Decision 120 assigned this to CONT-12; CONT-12 closed without doing it. The seed's own SERP is half money (Shopee, duit hantaran hak siapa, wang hantaran, Loanstreet) and its PAA asks 'Apakah maksud hantaran kahwin?' while the live page centres on '20 Idea Hantaran Kahwin Lelaki & Perempuan' - the job topics 2 and 3 now do. Changes one body, not the count. This is also a sub-commitment that evaporated inside a closed item, which is the exact failure shape decision 89 named.",
       "dod": "The live page's <h1>, title and opening 200 words centre on WHAT HANTARAN KAHWIN MEANS AND WHAT IT COSTS, not on '20 Idea'. Verified by fetching the live URL PAST THE 300s EDGE TTL - quote the SECOND request, per Stage 7 - and pasting BOTH the before and after strings. UNDO committed and pushed BEFORE the UPDATE runs.",
       "brief": "One body, not the count. Do not create a new article and do not merge anything - CONT-10 settled C2.1 as DO-NOT-MERGE on SERP evidence. Copy passes /humanizer before the write.",
@@ -90,7 +109,9 @@
       "state": "todo",
       "owner": "BMAD",
       "title": "watch-agent.sh wakes on every curl line via its ^HTTP/ milestone",
-      "flags": ["carried-forward-sprint-03"],
+      "flags": [
+        "carried-forward-sprint-03"
+      ],
       "why": "Every DoD on this team demands curl verification, and the ^HTTP/ milestone fires on all of it. SEO-09 and RISK-08 each tripped it 3+ times on ordinary work and NEVER ONCE on a completion. A watcher that fires on text an agent happens to produce is noise, and noise is how a real signal gets ignored.",
       "dod": "`bash watch-agent.sh --self-test` exits 0, with the eight real false-wake lines PLUS AT LEAST THREE REAL curl OUTPUT LINES in the must-not-fire set, and the ten real outcomes still in the must-fire set. The self-test IS the deliverable; a fix without a failing-then-passing test is not done. Quote the self-test output before and after.",
       "brief": "DO NOT SIMPLY DELETE THE PATTERN. The self-test deliberately asserts HTTP/2 200 and HTTP/1.1 502 MUST fire, because in Sprint 02 a deploy returning those WAS the outcome. Make it context-aware, not absent.",
@@ -103,7 +124,10 @@
       "state": "todo",
       "owner": "BMAD",
       "title": "Per-item state-transition log with a waiting_on_ceo state",
-      "flags": ["carried-forward-sprint-03", "owner-requested"],
+      "flags": [
+        "carried-forward-sprint-03",
+        "owner-requested"
+      ],
       "why": "Filed at the OWNER'S REQUEST after they asked why Sprint 03 took 25h 39m of elapsed time to do 6h 56m of work. We can see WHEN work stopped and never WHY - Sprint 03's idle had to be reconstructed from completion timestamps plus one person's memory of the incidents, which a CEO reading it in three sprints could not do. 73% of Sprint 03 was idle and the two largest gaps were both the CEO: once by not watching, once by not deciding. waiting_on_ceo exists to make that visible as a number instead of an anecdote.",
       "dod": "Every sprint item records its state transitions with timestamps and a reason, including a distinct waiting_on_ceo state. Demonstrated by BACK-FILLING at least one real Sprint 03 gap (DES-08's 10h 05m review wait) and showing the query that returns it. The output must let a reader who was not there answer 'why did this item stop' without asking anyone.",
       "brief": "Use klToday()/klWallClock for any date column - buddy runs on Asia/Kuala_Lumpur and toISOString() is the UTC day, which is yesterday for eight hours out of every twenty-four.",
@@ -116,7 +140,10 @@
       "state": "todo",
       "owner": "BMAD",
       "title": "sprint-NN.json and the tracker diverge - and the JSON is supposed to be the contract",
-      "flags": ["found-in-board-meeting-30-aug", "affects-sprints-01-02-03"],
+      "flags": [
+        "found-in-board-meeting-30-aug",
+        "affects-sprints-01-02-03"
+      ],
       "why": "Found during Sprint 04 planning. sprint-03.json reads state:in_progress with 24 of 26 items todo, while the tracker reads done, 107/115. /endsprint writes a SEPARATE -retro.json and never reconciles the contract file. Same for sprints 01 and 02. The /hellokahwin skill calls sprint-NN.json 'the contract: /startsprint executes it, the dashboard reads it, /endsprint writes the retro into it' - and it is abandoned mid-sprint every time. A reader opening sprint-03.json would conclude nothing shipped.",
       "dod": "Running /endsprint on a closed sprint leaves sprint-NN.json with state:'done' and EVERY item's state matching the tracker. Demonstrated by BACK-FILLING sprints 01-03, showing a diff of sprint-03.json before and after, PLUS a query proving the JSON now agrees with the tracker ITEM FOR ITEM - not just on the header totals.",
       "brief": "The header agreeing while items disagree is the failure mode that hid this for three sprints. Compare item-for-item.",
@@ -129,7 +156,10 @@
       "state": "todo",
       "owner": "BMAD",
       "title": "Name collision - two creative-director personas, dispatch can resolve the wrong one",
-      "flags": ["carried-forward-sprint-03", "ceo-withdrew-own-cut"],
+      "flags": [
+        "carried-forward-sprint-03",
+        "ceo-withdrew-own-cut"
+      ],
       "why": "skillcentral/agents/Marketing/creative-director.md (social video, another workstream) and .../projects/hellokahwin/Design/creative-director.md (ours) share a name. Dispatching `creative-director` could resolve to the wrong persona and put a video specialist on wedding site design. The CEO proposed cutting this and WITHDREW THE CUT: the workaround is 'remember to always type the full path', and Sprint 03's central finding is that prose rules do not fire. Two points to make the trap structurally impossible beats a rule the CEO has to remember.",
       "dod": "Dispatching the bare name `creative-director` either resolves unambiguously to the intended persona or FAILS LOUDLY naming both candidates. Demonstrated by running the ambiguous dispatch and quoting what happens, plus a negative control showing the intended persona still dispatches correctly. Renaming is acceptable; silent precedence is not.",
       "brief": "Check whether other names collide across skillcentral/agents/ while you are in there, and report the list even if you only fix this one.",
@@ -142,7 +172,10 @@
       "state": "todo",
       "owner": "BMAD",
       "title": "Image credit labels are English and inconsistently cased on live Malay pages",
-      "flags": ["found-in-board-meeting-30-aug", "on-highest-impression-page"],
+      "flags": [
+        "found-in-board-meeting-30-aug",
+        "on-highest-impression-page"
+      ],
       "why": "On /artikel/idea-dan-nasihat/garden-wedding alone - the page drawing 28% of all site impressions - the credit label appears as `Source:` x22, `source:` x6, `sOURCE:` x6 and `SOURCE:` x6. Two defects nobody had recorded: the label is ENGLISH on a Malay reader page (the same shape as the `## SOURCE NOTES` block in the DoD standard's failure mode 5 - English scaffolding surviving a conversion onto a page readers see), and `sOURCE:` is a visible typo rendering live six times. Confirmed on 3 of 30 further articles sampled: dewan-kahwin 14 labels across three casings, hantaran-tunang 12, pelamin-kahwin-dewan 8.",
       "dod": "ONE Malay label, ONE casing, sitewide. `sOURCE:` returns ZERO across all 86 article URLs. Verified by a COMMITTED SCRIPT that sweeps the sitemap and reports label variants - run it BEFORE and AFTER and paste both counts. Uncredited images are reported as a count WITH THEIR SLUGS and either credited or listed for a decision; they are NOT silently left out.",
       "brief": "NOTE THE CORRECTED BASELINE: Sprint 03 carried forward '27 of 48 garden-wedding images carry NO CREDIT'. That figure is STALE - there are ~40 credits across 49 photos, so roughly 9 uncredited. The CEO's first check grepped for 'Kredit' and returned zero, which would have read as WORSE; the credits exist under an English label. Verify your own pattern before trusting an absence. Coordinate with RIGHTS-02 so that when permission lands the credit format is already correct.",
@@ -154,13 +187,19 @@
       "points": 5,
       "state": "todo",
       "owner": "BMAD",
-      "title": "jangan-guna assets - enumerate them into a permissions worklist the owner can act on",
-      "flags": ["carried-forward-sprint-03", "RE-SCOPED-BY-OWNER-30-aug", "no-longer-a-clearance"],
-      "why": "OWNER DECISION, 30 Aug: 'I will obtain permissions to use it, just take it, photographers have good relationships with us.' The item flips from REMOVAL to ENUMERATION. This is strictly better than deletion - it keeps images on pages that are ranking, and it uses an asset the company has that no engineering substitutes for. But the owner cannot approach photographers about a set nobody has enumerated, so the deliverable is the list that makes their commitment executable.",
-      "dod": "A census across ALL 86 article URLs stating the REAL CURRENT COUNT - the 307 figure is stale and unverified, and garden-wedding now shows zero, so the first honest output is how many there actually are. GROUPED BY PHOTOGRAPHER OR SOURCE, because that is the unit the owner negotiates in; a flat list of 300 filenames is not actionable. Per group: source, the article URLs it appears on, image count, live asset paths. Delivered as a COMMITTED TABLE at docs/work-done/aug-30-2026-session-01/aug-30-2026-done-jangan-guna-permissions-worklist.md and OPENED FOR THE OWNER - this document exists to be taken to real people.",
-      "brief": "NOTHING IS DELETED AND NOBODY IS CONTACTED. Approaching photographers is an outward-facing commitment in the company's name - carve-out 3 - and the owner has explicitly taken it themselves. Attribution for these assets is handled under RIGHTS-01's single Malay label.",
+      "title": "jangan-guna assets - execute the request list that has been blocked since 25 Aug",
+      "flags": [
+        "carried-forward-sprint-03",
+        "RE-SCOPED-BY-OWNER-30-aug",
+        "PRIOR-WORK-EXISTS-found-after-proposal",
+        "no-longer-a-clearance"
+      ],
+      "why": "OWNER DECISION 30 Aug: \"I will obtain permissions to use it, just take it, photographers have good relationships with us.\" THEN, AFTER the proposal was written, the CEO found that THE WORKLIST THIS ITEM WAS SCOPED TO PRODUCE ALREADY EXISTS: docs/plans/aug-23-2026-session-01/aug-25-2026-rights-risk-and-request-list.md, 381 lines, written by managing-editor on 25 Aug, BLOCKED FOR FIVE DAYS on \"owner decision on outbound contact\" - which is exactly the decision the owner made today. It already carries: the real count (281 jangan-guna: 269 IN- plus 12 others, NOT 307), ten Real Wedding studios named and credited by studio name in the post bodies, a ranked rights-risk list, consolidated request lists, and two ready email templates (BM primary, EN). Its own recommendation matches the owner's instinct: exposure is low, do not spend money, the 269 vendor images stay and are left alone. So this item is no longer a census. IT IS EXECUTION OF A PLAN THAT HAS BEEN WAITING.",
+      "dod": "(1) REFRESH the existing census against live state - the numbers have moved (307 was already wrong at 281; garden-wedding now shows zero) - and state the current figure with its command. (2) TWO DELETES, which the owner's relationship argument does NOT cover: the Getty/iStock image and the press photograph, whose rights holders are INSTITUTIONS not photographers we know. UNDO committed and pushed BEFORE the delete. (3) RUN THE ATTACHMENT-PAGE CHECK - free, one minute, and it changes the denominator by 64. (4) HAND THE OWNER the ten template B letters populated and ready to send, plus template A for candidates 1-3, as a single committed document, OPENED FOR THEM. NOTHING IS SENT BY US. Evidence in docs/work-done/aug-30-2026-session-01/.",
+      "brief": "READ THE EXISTING PLAN FIRST: docs/plans/aug-23-2026-session-01/aug-25-2026-rights-risk-and-request-list.md and aug-25-2026-enforcing-credit-everywhere.md. Do NOT redo its analysis - refresh it and execute the four decisions in its section 3.4. Approaching photographers remains carve-out 3 and the owner has taken it; we prepare, they send. Coordinate with RIGHTS-01 so the credit format is correct when permission lands.",
       "risk_accepted_by_owner": "Until permission is actually obtained these images remain live without documented rights. The owner made that call explicitly and named the mitigation (existing photographer relationships). It is their decision and is not re-litigated; it is recorded so a later meeting can ask whether the permissions were obtained, rather than discovering the question was never tracked. Follow-up owner: the CEO, at Sprint 05 planning.",
-      "evidence": null
+      "evidence": null,
+      "ceo_error_note": "THE CEO BUILT THIS SPRINT'S BACKLOG FROM THE SPRINT FILES, THE RETRO AND ceo-memory.md, AND MISSED A FINISHED PLAN SITTING IN docs/plans/ THAT HAD ALREADY DONE THE WORK. Decision 94 recorded exactly this lesson for ceo-memory.md three days ago. The same lesson now applies to docs/plans/README.md: A PLAN MARKED BLOCKED IS FINISHED WORK WAITING ON A DECISION, and the planning pass must read the blocked rows before sizing anything. Found only because the CEO went to update the plans index at the very end of the meeting."
     }
   ],
   "out_of_scope": [
