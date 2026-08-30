@@ -29,6 +29,7 @@
     "backfill:lqip": "tsx scripts/backfill-cover-lqip.mts",
     "perf:measure": "node scripts/measure-page.mjs",
     "audit:srow": "node scripts/audit-srow-geometry.mjs",
+    "perf:hero": "node scripts/measure-hero.mjs",
     "measure:cold": "tsx scripts/measure-cold-render.mts"
   },
   "dependencies": {
