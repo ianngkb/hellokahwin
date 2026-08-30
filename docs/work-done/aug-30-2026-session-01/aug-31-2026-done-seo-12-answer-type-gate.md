@@ -346,6 +346,19 @@ every docs item this sprint has meant by shipped, including SEO-11's. Whether th
 docs line should ever merge to `master` is a real question and it is the CEO's, not
 mine.
 
+**And the brief's other worktree premise is also false, which nobody has noticed.**
+It says five agents each work in their own tree. They do not — at least three of us
+are writing in **this same checkout, on this same branch**. My `git push` reported
+`58a74e9..6578578` when my own commit's parent had been `5de945b`: UI-01 and UI-03
+committed here while I worked, and the untracked `aug-31-2026-ui-08-EVIDENCE/` and
+`…-ui-09-EVIDENCE/` directories appeared in `git status` during the session. Nothing
+was lost — my commit touches only my own eight files and sits cleanly on top of
+theirs — but that was luck, not safety. **RISK-09 built the guard for exactly this
+and it is still INSTALL PENDING.** One `git checkout` or `git stash` by any of us
+would have silently relocated the others' HEAD, which is the failure the one-writer
+rule exists to prevent, and the reason SEO-11 refused to write in `buddy` the night
+before.
+
 ---
 
 ## Follow-ups
