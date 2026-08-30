@@ -14,6 +14,36 @@
  *
  * Exits 1 when any standalone target is under --min in either dimension, so
  * this can be a CI gate. `--no-gate` prints the same report and exits 0.
+ * Exits 2 when it could not measure the site it was pointed at — see the
+ * precondition below. A rig that cannot tell those two apart is worse than no
+ * rig, because "0 failing targets" and "I never saw the site" look identical.
+ *
+ * ─────────────────────────────────────────────────────────────────────────────
+ * MEASURING A PROTECTED PREVIEW, AND THE PRECONDITION THAT MAKES IT SAFE
+ * ─────────────────────────────────────────────────────────────────────────────
+ *
+ * Vercel preview deployments sit behind SSO. Pointed at one, this rig used to
+ * enumerate the targets on **vercel.com's login page**, find none under 24px,
+ * and exit 0 — a well-formed, entirely fictional green run. THREE items walked
+ * into that wall on the same day: UI-08 found a page with nothing wrong with
+ * it, UI-09 found an `<input>` that was Vercel's login field, and UI-11 got a
+ * clean sweep off five 200s that were all the same login page. UI-08 wrote the
+ * lesson down before UI-11 hit it. Prose did not fire. So it is code now:
+ *
+ *   PRECONDITION, run on every page before a single target is measured —
+ *     1. the final URL's origin is the origin that was requested, and
+ *     2. `<html lang>` is `ms` (every public template sets it; Vercel's login
+ *        page is `en-US`).
+ *   Either one failing is an ERROR and exit 2. Never a clean run.
+ *
+ * To measure a protected preview legitimately, pass the protection-bypass
+ * secret — vault key `vercelbypass.hellokahwin`, never inlined here:
+ *
+ *   VERCEL_PROTECTION_BYPASS=$(pwsh -NoProfile -c "& '…/vault.ps1' get vercelbypass.hellokahwin") \
+ *     node scripts/audit-tap-targets.mjs https://<preview>.vercel.app
+ *
+ * A legitimately bypassed preview passes both markers, so the precondition
+ * rejects the protection wall without rejecting previews.
  *
  * ─────────────────────────────────────────────────────────────────────────────
  * WHAT IT MEASURES
@@ -258,8 +288,11 @@ const ENUMERATE = (min) => {
   };
 };
 
+const BYPASS = process.env.VERCEL_PROTECTION_BYPASS || '';
+
 const browser = await chromium.launch({ executablePath: CHROME, headless: true });
 const report = [];
+const blocked = [];
 
 for (const url of urls) {
   for (const width of widths) {
@@ -269,6 +302,14 @@ for (const url of urls) {
       deviceScaleFactor: 1,
       isMobile: mobile,
       hasTouch: mobile,
+      ...(BYPASS
+        ? {
+            extraHTTPHeaders: {
+              'x-vercel-protection-bypass': BYPASS,
+              'x-vercel-set-bypass-cookie': 'true',
+            },
+          }
+        : {}),
       ...(mobile
         ? {
             userAgent:
@@ -282,6 +323,39 @@ for (const url of urls) {
     // they land measures a fallback stack nobody sees.
     await page.evaluate(() => document.fonts.ready);
     await page.waitForTimeout(400);
+
+    // PRECONDITION — prove this is the site before measuring it. See the
+    // header. Without this, a protected preview yields a confident 0.
+    const landed = await page.evaluate(() => ({
+      href: location.href,
+      origin: location.origin,
+      lang: document.documentElement.lang,
+      nextError: document.documentElement.id === '__next_error__',
+      title: document.title.slice(0, 60),
+    }));
+    const wantOrigin = new URL(url).origin;
+    // `lang="ms"` is set by every public TEMPLATE. Next's own error page (404,
+    // 500) is rendered by a different root and carries no `lang` at all — it is
+    // still our page, and it still has tap targets worth auditing, so it is
+    // admitted on `#__next_error__` instead. That marker is only trustworthy
+    // BECAUSE the origin check above already ran: a cross-origin wall cannot
+    // reach this line.
+    const isOurs = landed.origin === wantOrigin && (landed.lang === 'ms' || landed.nextError);
+    if (!isOurs) {
+      blocked.push({
+        url,
+        width,
+        why:
+          landed.origin !== wantOrigin
+            ? `asked ${wantOrigin}, landed on ${landed.origin}`
+            : `<html lang="${landed.lang}"> and no #__next_error__ — expected "ms"`,
+        landedOn: landed.href,
+        title: landed.title,
+      });
+      await ctx.close();
+      continue;
+    }
+
     const result = await page.evaluate(ENUMERATE, MIN);
     report.push({ url, width, ...result });
     await ctx.close();
@@ -289,6 +363,23 @@ for (const url of urls) {
 }
 
 await browser.close();
+
+if (blocked.length > 0) {
+  console.error(
+    `\nERROR — NOT THIS SITE. ${blocked.length} of ${urls.length * widths.length} page loads did ` +
+      `not reach the site they asked for, so nothing was measured for them.\n` +
+      (BYPASS
+        ? '  A bypass secret WAS supplied and it did not work — check it is current.\n'
+        : '  No VERCEL_PROTECTION_BYPASS was set. If this is a protected preview, pass the\n' +
+          '  vault secret `vercelbypass.hellokahwin` in that variable and re-run.\n'),
+  );
+  for (const b of blocked) {
+    console.error(`  ${b.url} @ ${b.width}px — ${b.why}\n     landed on: ${b.landedOn}`);
+    console.error(`     title: ${JSON.stringify(b.title)}`);
+  }
+  console.error('');
+  process.exit(2);
+}
 
 if (flag('json')) {
   console.log(JSON.stringify({ min: MIN, widths, report }, null, 2));
