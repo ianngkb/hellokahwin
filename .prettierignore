@@ -42,3 +42,12 @@ src/lib/db/migrations
 #
 # So the record is ignored, and the gate is green for the reason it should be.
 docs/work-done
+
+# ── A FIXTURE IS INPUT TO A MEASUREMENT, NOT SOURCE ───────────────────────
+#
+# `tests/ui-layout-gate/fixtures/` holds production HTML captured while it was
+# broken, the CSS and fonts that make its 44px column exist at all, and a
+# hand-built page whose cases the self-test asserts exact counts against.
+# Reformatting any of it changes what the gate measures — the same reason
+# `docs/work-done` is ignored above, one step earlier in the pipeline.
+tests/ui-layout-gate/fixtures
