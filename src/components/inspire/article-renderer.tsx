@@ -637,10 +637,18 @@ function renderHtmlParts(
             className="absolute inset-x-0 bottom-0 rounded-b-md bg-gradient-to-t from-black/70 to-transparent px-3 pt-10 pb-3 text-xs text-white italic"
             style={{ textShadow: 'var(--text-shadow-scrim)', fontFamily: 'var(--font-now-alt)' }}
           >
+            {/* UI-11: `hk-tap-flow`, not `hk-tap`. This credit is a standalone
+                target (it measured 443-647 x 20 at 768) but it wraps and it
+                ends in an ↗. As `inline-flex` the icon became a second flex
+                item and jumped to the right edge, vertically centred against
+                the whole wrapped block — measured at 390, x=115 → x=317.
+                `inline-block` gives the anchor a box without taking its
+                contents out of inline flow. All three caption credits in this
+                file use it for the same reason. */}
             {safeHref(part.captionUrl) ? (
               <a
                 href={safeHref(part.captionUrl)!}
-                className="transition-opacity hover:opacity-80"
+                className="hk-tap-flow transition-opacity hover:opacity-80"
                 style={{ color: 'white' }}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -737,7 +745,7 @@ function GalleryImage({
         {safeHref(img.captionUrl) ? (
           <a
             href={safeHref(img.captionUrl)!}
-            className="transition-opacity hover:opacity-80"
+            className="hk-tap-flow transition-opacity hover:opacity-80"
             style={{ color: 'white' }}
             target="_blank"
             rel="noopener noreferrer"
@@ -951,7 +959,7 @@ export function ArticleRenderer({
                 {safeHref(captionUrl) ? (
                   <a
                     href={safeHref(captionUrl)!}
-                    className="transition-opacity hover:opacity-80"
+                    className="hk-tap-flow transition-opacity hover:opacity-80"
                     style={{ color: 'white' }}
                     target="_blank"
                     rel="noopener noreferrer"
