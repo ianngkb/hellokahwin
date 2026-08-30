@@ -624,15 +624,41 @@ the census shows position explains a large share of its own three-query example
 (5.3x between its anchors from the curve alone) and that intent explains the rest.
 
 **`.claude/agents/head-of-seo-content.md` — PRE-FLIGHT #1** — and this one I did
-**not** make, deliberately. The file lives in `~/Documents/Code/buddy`
-(`skillcentral/agents/projects/hellokahwin/Marketing/head-of-seo-content.md`), whose
-tree is currently **dirty** — `packages/db/src/index.ts`, `scripts/sprint.ts` and an
-untracked `skillcentral/agents/Marketing/` are modified by another agent working this
-sprint. Writing there would violate the one-writer rule I was given and could move
-another agent's HEAD. **The exact replacement text is in
-`docs/plans/aug-30-2026-session-01/aug-31-2026-patch-preflight-1.md`**, and it needs
-the buddy checkout's writer plus `install.sh` plus the deploy diff, per the persona's
-own four-step rule: correct → committed → PUSHED → deployed.
+**not** make, deliberately. The file lives in `~/Documents/Code/buddy` at
+`skillcentral/agents/projects/hellokahwin/Marketing/head-of-seo-content.md`, and that
+tree has another agent writing in it throughout this sprint. Writing there would
+violate the one-writer rule I was given and could move another agent's HEAD with no
+error and no signal.
+
+Its working tree was dirty at every point I checked, though **the specific files
+changed between checks** — `packages/db/src/index.ts` and `scripts/sprint.ts` at
+00:50, then `skillcentral/agents/projects/hellokahwin/Design/creative-director.md` at
+01:45, with `skillcentral/agents/Marketing/` untracked throughout. Treat any file list
+here as a snapshot; **the durable fact is that the tree has a live writer, not which
+files it had open.**
+
+**The exact replacement text is in
+`docs/plans/aug-30-2026-session-01/aug-31-2026-patch-preflight-1.md`** (committed and
+pushed in this commit). Landing it takes all four steps of the persona's own rule —
+correct → committed → **PUSHED** → **deployed**:
+
+1. Apply the patch text to the buddy source file above, from the buddy checkout.
+2. Commit **and push** it. `git status` reads clean while a commit sits unpushed;
+   the count that shows it is `git rev-list --count @{u}..HEAD`.
+3. Run **`skillcentral/install.sh`** from the buddy checkout. `.claude/agents/` is a
+   plain copy and is git-ignored, so neither `git status` nor the unpushed count will
+   ever tell you the deploy landed.
+4. Hand over the diff that proves it, `tr` included — without it CRLF makes every
+   line read as changed and you learn nothing:
+
+```
+diff <(tr -d '\r' < skillcentral/agents/projects/hellokahwin/Marketing/head-of-seo-content.md) \
+     <(tr -d '\r' < <repo>/.claude/agents/head-of-seo-content.md)
+```
+
+Verified 31 Aug 2026 01:45: buddy source and the deployed copy are currently
+**byte-identical**, so step 3 is not optional — editing the source alone changes
+nothing that the next seat loads.
 
 PRE-FLIGHT #1 currently instructs the next occupant of this seat to reject targets
 on AI Overview presence. On this census that rule would have killed

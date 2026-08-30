@@ -7,21 +7,41 @@ in `~/Documents/Code/buddy`, then deployed to `.claude/agents/head-of-seo-conten
 
 ## Why this is a patch file and not an edit
 
-The `buddy` tree was **dirty** when SEO-11 ran, with another agent's work in progress
-(`packages/db/src/index.ts`, `packages/db/src/repositories/sprint-cli.ts`,
-`scripts/sprint.ts` modified, `skillcentral/agents/Marketing/` untracked). One writer
-per checkout: a commit there could have relocated another agent's HEAD with no error
+The `buddy` tree had another agent writing in it throughout this sprint, and SEO-11
+was instructed to write only in `~/Documents/Code/hellokahwin/hellokahwin`. One
+writer per checkout: a commit there could relocate another agent's HEAD with no error
 and no signal. So the text is written here and handed over.
 
-**This is not done until all four steps are done:** correct → committed → **PUSHED**
-→ **deployed**. `.claude/agents/` is git-ignored and holds a plain copy, so neither
-`git status` nor `git rev-list --count @{u}..HEAD` will tell you the deploy landed.
-Run `install.sh`, then hand over:
+The tree was dirty at every check, though the files changed between them —
+`packages/db/src/index.ts`, `packages/db/src/repositories/sprint-cli.ts` and
+`scripts/sprint.ts` at 00:50; `skillcentral/agents/projects/hellokahwin/Design/creative-director.md`
+at 01:45; `skillcentral/agents/Marketing/` untracked throughout. **The durable fact
+is the live writer, not the file list.**
+
+## How to land it — all four steps, two of which fail silently
+
+Correct → committed → **PUSHED** → **deployed**.
+
+1. Apply the replacement text below to the target file named above.
+2. Commit **and push**. `git status` reads clean while a commit sits unpushed; the
+   count that shows it is `git rev-list --count @{u}..HEAD`.
+3. Run **`skillcentral/install.sh`** from the buddy checkout. `.claude/agents/` holds
+   a plain copy and is git-ignored, so neither `git status` nor the unpushed count
+   will ever reveal that the deploy did not land.
+4. Hand over the diff that proves it:
 
 ```
 diff <(tr -d '\r' < skillcentral/agents/projects/hellokahwin/Marketing/head-of-seo-content.md) \
      <(tr -d '\r' < <repo>/.claude/agents/head-of-seo-content.md)
 ```
+
+The `tr` is not optional — without it CRLF makes every line read as changed and you
+learn nothing. Grep the deployed file for the new rule rather than trusting a line
+count.
+
+**Verified 31 Aug 2026 01:45:** the buddy source and the deployed copy are currently
+byte-identical, so step 3 is load-bearing. Editing the source alone changes nothing
+that the next occupant of the seat loads.
 
 ## Why it must change
 
