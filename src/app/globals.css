@@ -2483,15 +2483,75 @@
 /* The ported `.inspire-prose` sets 14px/1.5. That fails the spec's own
    legibility budget for this audience (16px minimum, line-height >= 1.45)
    and reads as a UI, not an article. Inside the public shell the body
-   becomes a proper serif reading column. */
+   becomes a proper serif reading column.
+
+   ── UI-10, 31 Ogos 2026: the measure ────────────────────────────────────
+   This block used to hardcode `1.0625rem` (17px) at every viewport. Nothing
+   capped the column, so the body simply took whatever the grid gave it.
+   Measured on production at an asserted `innerWidth`, the body paragraph was
+   350px at 390, 704px at 768, 632px at 1024, 888px at 1440 and 1144px at
+   1920 — all at 17px, which by the DoD formula `width / (font-size x 0.5)`
+   is 41, 83, 74, 104 and 135 characters per line. The comfortable band is
+   45–75. Three of those five viewports were outside it and the widest was
+   nearly double the top of it.
+
+   The fix is BOTH halves the DoD offered, and each does a distinct job:
+
+     1. `max-width: var(--measure-prose)` — 33em, i.e. exactly 66 characters
+        by the DoD formula, at any type size (see the derivation in
+        tokens.css). This is what stops the column running away above 1024.
+        It is INERT on phones by construction: 33em at 17px is 561px and the
+        390px article cell is 350px, so the cap can never touch a phone and
+        the mobile measure cannot regress.
+
+     2. `font-size: var(--fs-body)` — the fluid token DES-03 already
+        published, `clamp(1.0625rem, 1.0286rem + 0.1506vw, 1.125rem)`,
+        17px → 18px at 1024. The prose was the only surface on the site
+        ignoring it. Without this the cap alone would hold the measure at 66
+        but shrink the desktop column to 561px, 46.8% of the 1200px shell —
+        a mean, under-designed column. At 18px the same 66 characters occupy
+        594px, 49.5% of the shell. The type size is what buys the column its
+        width back, and taking the SYSTEM's number rather than a new one is
+        what keeps every heading ratio intact: h2 26 / body 18 = 1.44x,
+        h3 21 / body 18 = 1.167x, exactly as DES-03 scaled them.
+
+   Resulting characters per line, measured in Chromium at asserted widths:
+   390 → 41.1 (unchanged) · 768 → 66.0 · 1024 → 66.0 · 1440 → 66.0 ·
+   1920 → 66.0. One number from 768 up, because a cap in `em` is a constant
+   in characters. If you change the type scale, this measure does not move.
+
+   `line-height: 1.7` is left hardcoded ON PURPOSE. `.hk` steps `--lh-body`
+   1.65 → 1.70 at 1024; adopting the token would drop mobile leading from
+   1.7 to 1.65. That may well be right at a 41-character measure, but it is
+   not this item's DoD and it is not measured here. Leave it. ─────────── */
 .hk-public .inspire-prose,
 .hk-public .inspire-prose p,
 .hk-public .inspire-prose span,
 .hk-public .inspire-prose a,
 .hk-public .inspire-prose li {
   font-family: var(--font-serif);
-  font-size: 1.0625rem; /* 17px */
+  font-size: var(--fs-body); /* 17px → 18px at 1024, DES-03's own clamp */
   line-height: 1.7;
+}
+.hk-public .inspire-prose {
+  max-width: var(--measure-prose);
+}
+
+/* The rest of the reading column takes the same cap. `.inspire-prose` is only
+   the body; the share rule above it and the pillar link below it are siblings
+   inside the same `<article>`, and capping the body alone left them spanning
+   the full 888px grid track above a 594px column — measured at 1440 on
+   31 Ogos 2026, and visible in
+   `…-ui-10-EVIDENCE/screens/compose-after-1440px.png` before this rule.
+   Capping the cell instead of the grid TRACK is deliberate: the track stays
+   `1fr`, so the sidebar keeps its right edge at the shell and the slack falls
+   between the two columns rather than off the end of the row.
+   `em` here resolves against `<article>`'s own font-size, which it inherits
+   from `.hk` as `var(--fs-body)` — the same value `.inspire-prose` sets on
+   itself, so both caps compute to the identical px at every width. If anything
+   ever sets a different font-size on `<article>`, these two part company. */
+.hk-public .inspire-editorial .grid > article {
+  max-width: var(--measure-prose);
 }
 .hk-public .inspire-prose p {
   margin-bottom: 1.15em;

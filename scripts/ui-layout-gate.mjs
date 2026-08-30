@@ -28,7 +28,7 @@
  * widths and asserts numbers.
  *
  * ─────────────────────────────────────────────────────────────────────────────
- * THE FOUR CHECKS, AND THE RULE EACH ONE ACTUALLY APPLIES
+ * THE SIX CHECKS, AND THE RULE EACH ONE ACTUALLY APPLIES
  * ─────────────────────────────────────────────────────────────────────────────
  *
  * 1. NARROW TEXT COLUMN — no text column narrower than 120px.
@@ -85,6 +85,21 @@
  *    `white-space: nowrap`) so that clipping wrappers and deliberate vertical
  *    line-clamps stay out of it.
  *
+ * 6. READING MEASURE — no column of continuous prose past 75 characters.
+ *
+ *    Counted with the DoD's own formula, `width / (font-size * 0.5)`, on the
+ *    BLOCK the text is laid out in, and only for a run of >= 80 characters that
+ *    occupies >= 2 line boxes. A CEILING with no floor: 45 is the bottom of the
+ *    comfortable band but a 390px phone leaves a 350px column, about 41
+ *    characters, which no cap can widen — a floor would fire on every mobile
+ *    page and be switched off within a week. Columns too narrow are check 1's.
+ *
+ *    On the committed fixtures the pre-fix article fires 3x at 768 and 3x at
+ *    1440 (the body at 888px/17px = 104.5) and is silent at 390 and at 1024,
+ *    where 632px/17px = 74.4 sits under the ceiling. homepage.html and
+ *    category.html are silent at all four widths: cards and labels are not
+ *    prose.
+ *
  * THE PRECONDITION, added by UI-08: every target must prove it IS this site
  * before a single check runs — same final origin as the URL we asked for, and
  * <html lang="ms">. Pointed at a protected Vercel preview, this gate used to
@@ -95,10 +110,13 @@
  * never a clean run.
  *
  * DELIBERATELY NOT HERE, and named rather than left silent: tap targets under
- * 24x24 (UI-11), missing `:focus-visible` indicators (UI-09) and line length
- * past ~75 characters (UI-10). The first two are WCAG conformance and want a
- * different report shape; the third is a measure the creative director sets,
- * not a defect threshold. Each is a real open finding owned by its own item.
+ * 24x24 (UI-11) and missing `:focus-visible` indicators (UI-09). Both are WCAG
+ * conformance and want a different report shape. Each is a real open finding
+ * owned by its own item.
+ *
+ * Line length past ~75 characters WAS on that list, excused as "a measure the
+ * creative director sets, not a defect threshold". UI-10 set it the same day,
+ * which turned the excuse into a gap. It is now CHECK 6.
  *
  * ─────────────────────────────────────────────────────────────────────────────
  * WHAT THIS GATE WILL NOT REPORT, BECAUSE MEASUREMENT KILLED IT FIRST
@@ -161,6 +179,25 @@ const MIN_TEXT_COLUMN_PX = 120;
 const MAX_UPSCALE = 1.1;
 const MAX_ASPECT_DEVIATION = 0.25;
 const DESKTOP_BREAKPOINT = 1024;
+// UI-10. A CEILING only, never a floor. Reading research puts the comfortable
+// band at 45-75 characters, but the floor is unreachable on a phone by
+// arithmetic rather than by design: a 390px viewport leaves a 350px column,
+// which at any legible type size is about 41 characters. A floor here would
+// fire on every mobile page on the site and be switched off within a week.
+// Columns too NARROW to read are already caught by `narrow-text-column`.
+// Characters are counted with the DoD's own formula, `width / (font-size *
+// 0.5)`. That 0.5em is an assumption: measured through canvas `measureText`
+// over 6,000 characters of the garden-wedding article's own Malay prose in its
+// own rendered face on 31 Ogos 2026, the true average advance is 0.4636em, so
+// this formula UNDER-reports by about 8% — 75 by the formula is 81 in fact.
+// The threshold stays at the DoD's number and the bias is stated rather than
+// silently corrected, because the DoD is the contract; the design target
+// `--measure-prose` sits at 66, which is where the headroom comes from.
+const MAX_MEASURE_CPL = 75;
+// Below this many characters a wrapped run is a headline, a label or a caption,
+// not continuous prose, and its column width is a composition decision rather
+// than a reading measure.
+const MIN_PROSE_CHARS = 80;
 // Every public template on this site renders <html lang="ms">. Used as an
 // identity marker, not a content check — see "IS THIS EVEN OUR PAGE?" below.
 const SITE_LANG = 'ms';
@@ -204,7 +241,14 @@ const many = (n) => argv.reduce((a, v, i) => (v === `--${n}` ? [...a, argv[i + 1
 // The in-page measurement. Everything below `collect` runs inside Chrome.
 // ═══════════════════════════════════════════════════════════════════════════
 function collect(limits) {
-  const { MIN_TEXT_COLUMN_PX, MAX_UPSCALE, MAX_ASPECT_DEVIATION, DESKTOP_BREAKPOINT } = limits;
+  const {
+    MIN_TEXT_COLUMN_PX,
+    MAX_UPSCALE,
+    MAX_ASPECT_DEVIATION,
+    DESKTOP_BREAKPOINT,
+    MAX_MEASURE_CPL,
+    MIN_PROSE_CHARS,
+  } = limits;
   const vw = window.innerWidth;
   const SKIP_TAGS = new Set(['SCRIPT', 'STYLE', 'NOSCRIPT', 'TEMPLATE', 'TITLE', 'META', 'LINK']);
   const violations = [];
@@ -393,6 +437,62 @@ function collect(limits) {
     }
   }
 
+  // ── CHECK 6: reading measure ─────────────────────────────────────────────
+  // UI-10. This gate's header used to name line length as DELIBERATELY NOT
+  // HERE, on the ground that it is "a measure the creative director sets, not a
+  // defect threshold". That was true on the morning of 31 Ogos 2026 and false
+  // by that evening: the creative director set it the same day, so the band
+  // stopped being an opinion and became a number a check can hold.
+  //
+  // What it would have caught: the article body ran 888px at 17px at 1440 and
+  // 1144px at 1920 — 104 and 135 characters per line against a 45-75 band —
+  // through four shipped items that week, because nothing on the page is
+  // broken, clipped, overflowing or upscaled. Every other check in this file
+  // looks for a BREAKAGE. This one looks for a page working exactly as built
+  // and still hard to read, which is the whole class of defect a structural
+  // gate cannot see.
+  //
+  // Measured on the BLOCK the text is laid out in, not on the text run: the
+  // column constrains every line in it, so a run that happens to end early
+  // still belongs to a 104-character column. That is also why two line boxes
+  // are enough — wrapping is the proof that the column, not the sentence, set
+  // the line.
+  {
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    const seen = new Set();
+    for (let t = walker.nextNode(); t; t = walker.nextNode()) {
+      const text = t.nodeValue.replace(/\s+/g, ' ').trim();
+      if (text.length < MIN_PROSE_CHARS) continue;
+      const parent = t.parentElement;
+      if (!parent || SKIP_TAGS.has(parent.tagName)) continue;
+      if (!visible(parent)) continue;
+
+      const range = document.createRange();
+      range.selectNodeContents(t);
+      const rects = [...range.getClientRects()].filter((r) => r.width > 0 && r.height > 0);
+      if (rects.length === 0) continue;
+      if (new Set(rects.map((r) => Math.round(r.top))).size < 2) continue;
+
+      const box = blockContainer(parent);
+      const width = contentWidth(box);
+      const fontSize = parseFloat(getComputedStyle(parent).fontSize);
+      if (!(fontSize > 0)) continue;
+      const cpl = width / (fontSize * 0.5);
+      if (cpl <= MAX_MEASURE_CPL) continue;
+
+      const key = sel(box);
+      if (seen.has(key)) continue;
+      seen.add(key);
+      violations.push({
+        check: 'reading-measure',
+        selector: sel(box),
+        detail: `${cpl.toFixed(1)} characters per line — ${width.toFixed(0)}px column at ${fontSize.toFixed(1)}px (ceiling ${MAX_MEASURE_CPL})`,
+        sample: text.slice(0, 60),
+        value: +cpl.toFixed(1),
+      });
+    }
+  }
+
   // ── CHECK 2: viewport overflow ───────────────────────────────────────────
   {
     const offenders = [];
@@ -564,6 +664,20 @@ async function measure(targets, { json, label }) {
       const ctx = await browser.newContext({
         viewport: { width, height: 900 },
         deviceScaleFactor: 1, // CSS px == device px, so upscale ratios mean what they say
+        // A Vercel PREVIEW deployment is behind team SSO: an unauthenticated
+        // GET is a 302 to vercel.com/sso-api and the gate would measure the
+        // login page, which has no `.s-row`, no article body and no images —
+        // i.e. it reports a clean run over nothing. UI-10 hit exactly that, and
+        // only noticed because `.inspire-prose` came back null. Without this
+        // the gate can only run AFTER a deploy reaches production, which is the
+        // wrong side of the ship. Secret from the vault key
+        // `vercelbypass.hellokahwin`; it never reaches a command line.
+        extraHTTPHeaders: process.env.UI_GATE_BYPASS
+          ? {
+              'x-vercel-protection-bypass': process.env.UI_GATE_BYPASS,
+              'x-vercel-set-bypass-cookie': 'true',
+            }
+          : {},
       });
       const page = await ctx.newPage();
       let error = null;
@@ -591,6 +705,15 @@ async function measure(targets, { json, label }) {
         // public template on this site sets it; the login page is `en-US`).
         // A legitimate preview deployment passes both, so this rejects the
         // protection wall without rejecting previews.
+        //
+        // UI-10 arrived at the same wall from the other side, half an hour
+        // apart, and this is UI-08's version because two markers beat one. What
+        // survives from UI-10's is the way THROUGH rather than the detection:
+        // `UI_GATE_BYPASS` above sends Vercel's protection-bypass secret (vault
+        // key `vercelbypass.hellokahwin`), so a protected preview can actually
+        // be gated BEFORE it ships instead of only being recognised as
+        // ungateable. Detection without a way past it still leaves this gate
+        // running only on the far side of a deploy.
         if (!error) {
           const id = await page.evaluate(() => ({
             origin: location.origin,
@@ -648,6 +771,8 @@ async function measure(targets, { json, label }) {
             MAX_UPSCALE,
             MAX_ASPECT_DEVIATION,
             DESKTOP_BREAKPOINT,
+            MAX_MEASURE_CPL,
+            MIN_PROSE_CHARS,
           });
       rows.push({ ...t, width, ...result, error, provenance });
       await ctx.close();
@@ -660,6 +785,7 @@ async function measure(targets, { json, label }) {
 
 const CHECKS = [
   'narrow-text-column',
+  'reading-measure',
   'clipped-text',
   'viewport-overflow',
   'image-upscale',
@@ -668,6 +794,7 @@ const CHECKS = [
 const NOT_COVERED = [];
 const ABBREV = {
   'narrow-text-column': 'narrow',
+  'reading-measure': 'measure',
   'clipped-text': 'clipped',
   'viewport-overflow': 'overflow',
   'image-upscale': 'upscale',
@@ -919,6 +1046,62 @@ async function selftest() {
       `homepage.html @${w}: all ${h?.notes.imagesTotal} images decoded (${h?.notes.imagesNotDecoded} skipped as not-decoded)`,
     );
   }
+  // 6b. THE READING MEASURE (UI-10, CHECK 6). Asserted at three widths on the
+  //     same file, because the whole point of this check is that the SAME
+  //     markup passes at one viewport and fails at another — the defect is the
+  //     column, not the content. On the pre-fix article the body ran 350px at
+  //     390 (41 cpl), 704px at 768 (83), 632px at 1024 (74) and 888px at 1440
+  //     (104). So it must fire at 768 and 1440, and stay silent at 390 and at
+  //     1024 — 74.4 is under the 75 ceiling, and a check that flagged it
+  //     anyway would be a check with no threshold.
+  {
+    const at1440 = pick(bad, 'article.html', 1440, 'reading-measure');
+    assert(
+      at1440.length >= 1,
+      `article.html @1440: reading-measure FIRES (got ${at1440.length})`,
+      listing(
+        bad.find((r) => r.name === 'article.html' && r.width === 1440),
+        'reading-measure',
+      ),
+    );
+    assert(
+      at1440.some((v) => Math.abs(v.value - 104.5) < 1),
+      `article.html @1440: the 888px/17px body column is among them at ~104.5 cpl (values seen: ${[
+        ...new Set(at1440.map((v) => v.value)),
+      ].join(', ')})`,
+    );
+    const at768 = pick(bad, 'article.html', 768, 'reading-measure');
+    assert(at768.length >= 1, `article.html @768: reading-measure FIRES (got ${at768.length})`);
+    assert(
+      pick(bad, 'article.html', 390, 'reading-measure').length === 0,
+      'article.html @390: reading-measure CLEAN — a 350px phone column is ~41 cpl and no cap can widen it',
+      listing(
+        bad.find((r) => r.name === 'article.html' && r.width === 390),
+        'reading-measure',
+      ),
+    );
+    assert(
+      pick(bad, 'article.html', 1024, 'reading-measure').length === 0,
+      'article.html @1024: reading-measure CLEAN — 632px/17px is 74.4 cpl, under the 75 ceiling',
+      listing(
+        bad.find((r) => r.name === 'article.html' && r.width === 1024),
+        'reading-measure',
+      ),
+    );
+    // The negative control by TEMPLATE, not by width: pages of cards and
+    // labels must never register a reading measure at all, or the check is
+    // really just "this box is wide".
+    for (const w of WIDTHS)
+      for (const f of ['homepage.html', 'category.html'])
+        assert(
+          pick(bad, f, w, 'reading-measure').length === 0,
+          `${f} @${w}: reading-measure CLEAN — cards and labels are not continuous prose`,
+          listing(
+            bad.find((r) => r.name === f && r.width === w),
+            'reading-measure',
+          ),
+        );
+  }
   // 7. The discriminator fixture — a true positive and a near-miss false
   //    positive side by side for each check, so drift in EITHER direction is
   //    caught. Five of its nine cases must produce exactly nothing.
@@ -989,7 +1172,8 @@ if (has('selftest')) {
 } else {
   console.error(
     'usage: node scripts/ui-layout-gate.mjs (--fixtures [--green] | --base <url> | --url <u>… | --selftest)\n' +
-      '       [--json out.json] [--quiet] [--author-slug <slug>]',
+      '       [--json out.json] [--quiet] [--author-slug <slug>]\n' +
+      '       env: UI_GATE_CHROME=<chrome path>  UI_GATE_BYPASS=<vercel preview bypass secret>',
   );
   console.log('UILINT EXIT: 2');
   process.exit(2);

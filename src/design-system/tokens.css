@@ -112,6 +112,35 @@
   --fs-label: var(--t-label);
   --lh-body: 1.65; /* 1.7 at and above 1024px — see components.css .dk */
 
+  /* ── the reading measure — UI-10, 31 Ogos 2026 ──────────────────────────
+     The cap on any column of continuous prose. It is stated in `em`, and
+     that unit is the decision, not an accident:
+
+       characters-per-line = column width / (font-size x 0.5)      [the DoD]
+                           = (N x font-size) / (font-size x 0.5)
+                           = 2N,  for a column of N em.
+
+     So `33em` IS `66 characters`, at every viewport, at every type size, in
+     every face — the value cannot drift when the type scale or the typeface
+     changes, because font-size cancels out. To retarget the measure, halve
+     the character count you want and write it here. That is the whole rule.
+
+     NOT `ch`, which the older `.s-*` primitives use (`.s-body: 68ch`,
+     `.s-deck: 58ch`, `.s-h1: 24ch`). `1ch` is the advance of the ZERO glyph,
+     which is face-specific: measured on production 31 Ogos 2026, `1ch` is
+     0.6138em in Georgia (the face `.serif-editorial` actually resolves on
+     article pages) and ~0.539em in Geist. The same `68ch` therefore means 83
+     characters on an article page and 73 on a `.s-body` — a rule that
+     silently changes meaning when the face does. `em` does not.
+
+     Why 66 and not 75, the top of the comfortable band: the DoD's 0.5em is
+     an assumption about average advance width. Measured on this article's
+     own Malay prose in its own rendered face — 6,000 characters through
+     canvas `measureText` — the true average is 0.4636em, so the real line
+     holds 33 / 0.4636 = 71.2 characters. 66 by the formula is 71 in fact;
+     targeting 75 by the formula would have shipped 81 in fact. ───────── */
+  --measure-prose: 33em;
+
   /* the two faces the spec licenses, and where each may appear (§2.1, 2.4).
      Bodoni Moda is a DIFFERENT cut at each surface — opsz 6 for the
      wordmark, opsz 11 PINNED for the h1 — see the DES-13 finding quoted in
