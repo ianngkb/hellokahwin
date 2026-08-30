@@ -1,4 +1,7 @@
-# UI-12 — card thumbnails carried 25 upscale and 31 aspect violations
+# UI-12 — every fixed-aspect image slot was fed the photographer's aspect ratio
+
+_Tracker title: "card thumbnails carry 25 upscale and 31 aspect violations". Both
+numbers were superseded mid-item; see Outcome._
 
 **Sprint 04 · 5 points · owner `creative-director` · 31 Ogos 2026**
 **Branch:** `ianng89/ui12-thumb-geometry`
@@ -9,20 +12,40 @@
 
 ## Outcome — read this first
 
-**`image-upscale` 25 → 0. `image-aspect` 31 → 4. The gate does not exit 0, and the
-DoD is therefore NOT fully met.** The four survivors are one article at four
-widths, they have one named cause, and clearing them requires an image derivative
-that does not exist. That is the brief's STOP-AND-REPORT gate and it is reported
-in §4 with the count and the price. **I am not narrowing the DoD to match what I
-achieved.**
+**The gate this item is measured by changed while the item was in flight, so the
+tracker's numbers no longer exist.** `767515e` — "the upscale check was blind at
+two of its widths" — landed on `master` and rewrote the check to read intrinsics
+from a detached `Image()`. Both baselines, because quoting only the convenient one
+would be the whole problem:
 
 ```
-BEFORE (production, 31 Ogos 2026)
+BEFORE, the gate as it stood when UI-12 was scoped (superseded)
 totals: narrow-text-column 0 · clipped-text 0 · viewport-overflow 0 · image-upscale 25 · image-aspect 31
 
-AFTER  (production, 31 Ogos 2026)
+BEFORE, master's gate, same production site, 31 Ogos 2026 — the honest baseline
+totals: empty-content 0 · narrow-text-column 0 · reading-measure 0 · clipped-text 0
+        viewport-overflow 0 · scroll-container-clip 0
+        image-upscale 0 · image-aspect 37
+        image-attr-aspect 73 (advisory, does not fail the build) · image-unmeasurable 0
+
+AFTER, master's gate, production
 totals: PENDING-DEPLOY
 ```
+
+**`image-upscale` was already 0 before this item touched anything.** All 25 were
+the old check's artefact and UI-06's own fix cleared them. **I am not claiming
+them.** The number UI-12 moves is `image-aspect`, **37 → 5**.
+
+**The DoD is therefore met for `image-upscale` (by someone else) and NOT met for
+`image-aspect`.** The five survivors are one article at five widths, they have one
+named cause, and clearing them needs an image derivative that does not exist —
+the brief's STOP-AND-REPORT gate, reported in §4 with the count and the price.
+**I am not narrowing the DoD to match what I achieved.**
+
+**Sizing, since the standing rule asks.** As scoped this was 5 points. Delivered:
+six changes across twelve files, a new shared module, two design documents and a
+re-baselining. Call it 8. The residual — 86 derivatives plus an ingest change plus
+a backfill — is its own item and should be sized as one, not absorbed here.
 
 ---
 
@@ -30,15 +53,17 @@ totals: PENDING-DEPLOY
 
 The tracker scoped this to "the 12 `.s-row` CARD THUMBNAILS". It was that, and
 three other slots with the same cause, which the gate reported in the same run and
-nobody had attributed:
+nobody had attributed. All 37 `image-aspect` violations, at 390 / 768 / 1024 /
+1440 / 1920:
 
-| Where                                       | upscale | aspect |
-| ------------------------------------------- | ------: | -----: |
-| homepage `.s-row` thumbnails (12 rows)       |  **22** | **26** |
-| catalogue `/artikel` featured lead plate     |       0 |  **3** |
-| article cover figure (`.inspire-editorial`)  |   **2** |  **2** |
-| article in-body prose image @768             |   **1** |      0 |
-| **total**                                    |  **25** | **31** |
+| Where                                                    | fails  |
+| -------------------------------------------------------- | -----: |
+| `.s-row` mobile square, 11 landscape covers @390 + @768   | **22** |
+| `.s-row`, the one portrait cover, all five widths         |  **5** |
+| catalogue `/artikel` lead plate @768/1024/1440/1920       |  **4** |
+| article cover figure `2.4/1` — `garden-wedding` ×3 widths |  **3** |
+| article cover figure `2.4/1` — longest-title ×3 widths    |  **3** |
+| **total**                                                 | **37** |
 
 Every one of them has the same root, and it is one sentence:
 
@@ -75,8 +100,15 @@ Two consequences, both load-bearing:
   cover`'s taller axis as a **1.13× "upscale"** on eleven rows that are in fact
   downscaling by 6×.
 
-**So 22 of the 25 upscale violations were never upscales.** Deleting one untrue
-`srcset` cleared all 25 without touching a single image file.
+**So 22 of the 25 upscale violations were never upscales.**
+
+⚠ **And this is where I was about to take credit for someone else's fix.** The
+conclusion I drew — *delete the untrue `srcset` and all 25 clear without touching
+an image* — is correct arithmetic and a dead claim. UI-06 reached the same
+diagnosis an hour earlier and fixed the **gate** instead, which is the better fix,
+so the 25 were gone before UI-12 changed anything. The `srcset` still goes, on
+grounds that never depended on the gate (§3 S1). **The analysis survives; the
+number does not, and the number is what a changelog would have quoted.**
 
 ## 3. What shipped
 
@@ -107,9 +139,11 @@ Specified in `docs/design/card-thumbnail-image-rules.md` §3, built by
 - **S5 — the article cover figure's invented `lg:aspect-[2.4/1]` is gone**, along
   with a `width={1200} height={500}` that described a 2.4 ratio no asset has.
 - **S6 — in-body prose images never paint above their intrinsic width.**
-  `h-auto w-full … lg:w-auto` → `h-auto w-auto max-w-full`. The one image that
-  fired is genuinely **628×786** and `w-full` painted it 704×881 at a 768px
-  viewport.
+  `h-auto w-full … lg:w-auto` → `h-auto w-auto max-w-full`. The image that fired on
+  the tracker's baseline is genuinely **628×786** and `w-full` painted it 704×881
+  at a 768px viewport. **It no longer fires:** UI-10's reading-measure cap landed
+  on `master` in between and narrowed the prose column. This ships as hardening
+  (T3), not as a live fix, and is not counted in the 37.
 
 ### R8 eligibility, and a second class-G cover
 
@@ -137,7 +171,7 @@ code as such.
 
 ## 4. STOP AND REPORT — the brief's gate fired
 
-**The 4 surviving `image-aspect` violations are one article at four widths and
+**The 5 surviving `image-aspect` violations are one article at five widths and
 cannot be cleared with any asset that exists.**
 
 ```
@@ -165,7 +199,7 @@ measured **12 of the 86 published articles** as portrait or near-portrait (0.667
 **The cheapest correctly-shaped asset in existence is 224 KB, for a thumbnail that
 is 80 × 60 CSS pixels — 4.1× the file it fetches today.** Across the twelve
 homepage rows the 4:3 substitution costs **+8.2 MB** (0.6 MB → 8.8 MB), on cheap
-Android over Malaysian mobile data, to clear four gate points. I am not buying a
+Android over Malaysian mobile data, to clear five gate points. I am not buying a
 number with a reader's bandwidth.
 
 ### What the pipeline must produce — measured, not estimated
@@ -223,7 +257,7 @@ for another sprint."**
 
 Fair, and the numbers in it are right. Two answers.
 
-**It clears exactly the same four fewer violations than 4:3 does, at the price of a
+**It clears exactly the same five fewer violations than 4:3 does, at the price of a
 second shape change.** 3:2 is `low`'s modal aspect, so it is green *because eleven
 of today's twelve covers came off a 3:2 sensor*, and it is red for the same
 portrait article either way. When the 528px rendition lands the box must become
@@ -237,7 +271,7 @@ every width is the correct treatment for a repeated element in an editorial inde
 and 1:1 is the social-feed shape, which is the register this site is trying not to
 be in.
 
-**"You are leaving four known violations on production."** Yes, deliberately, and
+**"You are leaving five known violations on production."** Yes, deliberately, and
 they are legible: one article, one cause, one named file, one costed unblock. A
 gate reading 4 with a written reason is worth more than a gate reading 0 because
 someone spent 8.2 MB. That inversion is what UI-06 exists to prevent.
@@ -271,30 +305,45 @@ crop review is not a formality; it produced a finding the numbers could not.**
 
 **What we learned that is not written down.**
 
-1. **UI-03 §7 told UI-06 not to read `img.naturalWidth`, and UI-06 reads it.** The
-   consequence is not recorded anywhere: on a `srcset` image `image-upscale` is
-   really a `sizes`-accuracy audit, and an aspect mismatch leaks into it through
-   `object-fit: cover`. It is why 22 of 25 "upscale" violations were not upscales.
-   **Owner: UI-06.** The fix is the one UI-03 already specified — read intrinsics
-   from a detached `Image()` on `currentSrc` — and report both figures so the check
-   means its name. Raised, not done: the brief forbids me touching that file, and
-   rightly.
+1. **THE BIGGEST LESSON IS NOT ABOUT IMAGES. Two agents solved the same problem
+   in parallel, an hour apart, and neither knew.** UI-06 and I both read UI-03 §7,
+   both worked out that `naturalWidth` is density-divided, and both acted — UI-06
+   by fixing the gate, me by writing a spec whose headline claim was that deleting
+   a `srcset` would clear 25 violations. Its fix made my claim false before I
+   finished writing it. Nothing in this company's process would have told either
+   of us. **Owner: the sprint process, not an item.** The cheapest fix is a rule
+   with teeth rather than prose: **re-run the gate against `origin/master`'s copy
+   of it, not the worktree's, immediately before quoting any before/after number** —
+   a worktree cut at sprint start is measuring with a tool that six concurrent
+   agents are actively changing. I caught this only because I ran
+   `git diff origin/master -- scripts/` on a hunch while waiting for a build.
 
-2. **The gate's `TEMPLATES` manifest carries ONE instance per template, so a
-   per-article defect is invisible to it.** The article cover figure is
-   `aspect-[3/2]` fed `low`: green on `garden-wedding` (source 1.4993) and 125% off
-   on any of the 12 portrait-source articles. The gate samples one of 86. This is
-   the brief's own warning — "a 5-page sample disproved an agent's count until the
-   CEO noticed the sample was drawn entirely from the affected subset" — reappearing
-   inside the tool built to prevent it. **Owner: UI-06.** Fix: a second article
-   entry in the manifest, chosen adversarially (a portrait-source cover).
+2. **The gate's `TEMPLATES` manifest samples one article of 86, so a per-article
+   defect is invisible to it.** The article cover figure is `aspect-[3/2]` fed
+   `low`: green on `garden-wedding` (source 1.4993) and 125% off on any of the 12
+   portrait-source articles. Master has since added a **second** article instance
+   ("longest title on the site") — which is why the baseline is 37 and not 31 — but
+   both instances have a 1.500 cover, so the blind spot is unchanged: **two samples
+   drawn from the same subset are still one sample.** This is the brief's own
+   warning, inside the tool built to prevent it. **Owner: UI-06.** Fix: a third
+   entry chosen adversarially — an article whose cover source is portrait.
 
-3. **The gate is not deterministic against a live CDN.** Three production runs
-   inside ~90 minutes returned `clipped-text` 2 / 0 / 0 and `image-upscale`
-   25 / 25 / 24. A ±1 wobble on a pass/fail gate means an item can be "fixed" by
-   re-running it. **Owner: UI-06.** Fix, and prefer it to prose: the gate already
-   collects `imagesNotDecoded` and `imagesSkippedZeroBox` — print them in the
-   totals line so a moved number is attributable.
+3. **The gate is not deterministic against a live CDN.** Runs inside ~90 minutes
+   returned `clipped-text` 2 / 0 / 0 and `image-upscale` 25 / 25 / 24 — and the
+   `clipped-text` case was a live `p.hk-eyebrow.truncate` needing 181px in a 171px
+   box, marginal by 10px and therefore sensitive to font-loading state. A ±1 wobble
+   on a pass/fail gate means an item can be "fixed" by re-running it. **Owner:
+   UI-06.** Fix, and prefer it to prose: the gate already collects
+   `imagesNotDecoded` and `imagesSkippedZeroBox` — print them in the totals line so
+   a number that moves is attributable.
+
+4. **`image-attr-aspect` reports 73 advisories and they are one bug.**
+   `parseImageDims` reads an image's intrinsic size from a `-WxH/` segment in its
+   URL and **falls back to a hardcoded `1200 × 800`** when there is none, so every
+   in-body image without that segment declares a 1.5 ratio it does not have — 11 on
+   `garden-wedding` alone. That is UI-03 R6, at scale, and it shares a root with
+   this item's R4 problem: **the pipeline does not record image dimensions
+   anywhere it can be read at render time.** One fix closes both.
 
 **What we did twice.** I derived the `naturalWidth` density arithmetic by hand
 before finding UI-03 §7 had already written it — §7 is at the bottom of a long
