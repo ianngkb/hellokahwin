@@ -1773,6 +1773,54 @@
   animation: inspire-fade-in var(--duration-fast) var(--ease-out);
 }
 
+/* ── UI-09: the article search field's focus indicator ──────────────────────
+   DES-06 §8 specifies "a 2px ring in --ring at full opacity with a 2px
+   offset". The field shipped instead with Tailwind's `focus:ring-ring/30`,
+   and the reason that reads as no ring at all is arithmetic rather than
+   taste. `--ring` on the public surface is oklch(0.19 0.004 85), which is
+   rgb(22,20,18) — the same ink the page is set in, 17.7:1 against the paper.
+   At 30% alpha over --background rgb(252,251,250) it composites to
+   rgb(182,181,180):
+
+     measured on production, 31 Ogos 2026, Chrome 1x, canvas-resolved:
+       ring/30 composited   rgb(182,181,180)   1.98:1   FAIL  (SC 1.4.11: 3:1)
+       ring at full opacity rgb(22,20,18)     17.70:1   PASS
+
+   The ratio is computed from a canvas read-back, not from parsing
+   getComputedStyle: every token here is authored in oklch(), Chrome hands
+   those back as oklab()/lab(), and an rgb() parser pointed at one of those
+   reports confident garbage rather than failing.
+
+   :focus-visible, not :focus — a pointer click should not leave a ring on the
+   field. Chrome matches :focus-visible on text inputs whatever the modality,
+   so a reader who tabs here and a reader who taps here both see it; the
+   distinction matters for the buttons this rule does not cover.
+
+   The outline is NOT transitioned. `transition-shadow` was on the old field,
+   and a ring that fades in over 150ms is a ring that is absent on the frame
+   the reader's eye arrives — the same reason UI-02 kept outline-color out of
+   the nav rail's transition list. */
+.hk-search-input:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* The RESTING boundary, which is a second 1.4.11 problem and not the one
+   UI-09's definition of done names. Flagged here rather than left silent
+   because `--border-strong` exists in this stylesheet for precisely this
+   ("form-control boundaries — ≥3:1 (WCAG 1.4.11)", line ~254) and the chip
+   below already uses it for the same reason. The search field was the one
+   form control still drawn in `--border`:
+
+     --border         oklch(0.885 0.003 85) = rgb(226,225,222) -> 1.29:1  FAIL
+     --border-strong  oklch(0.66  0.004 85) = rgb(174,172,169) -> 3.01:1  PASS
+
+   A one-token correction, using a token the system already had, rather than a
+   new value invented for this field. */
+.hk-search-input {
+  border-color: var(--border-strong);
+}
+
 /* ── Wedding Checklist — Playful Streak gamification (CL-3.8) ──────────────
    Confetti rise, streak-chip bounce, count-up pop, milestone medallion draw.
    All suppressed under prefers-reduced-motion (handled in the component; these
