@@ -57,7 +57,22 @@ export interface BreadcrumbItem {
   href?: string;
 }
 
-/** Truncates at the container edge; never wraps to a second line — spec §8. */
+/**
+ * Spec §8 says "truncates at the container edge, never wraps to a second line",
+ * but every crumb §5 and §7 draw ends in a CATEGORY ("Hantaran & Mas Kahwin").
+ * The spec never drew the state the site actually ships: a final crumb that is
+ * the article's own <h1>. `.s-crumb` has always been `flex-wrap: wrap` with no
+ * truncation, so the docstring that used to sit here asserted a behaviour the
+ * component did not have — UI-08, 31 Ogos 2026.
+ *
+ * Measured (UI-04 rendered audit, production, four widths): the public
+ * `Breadcrumbs` used a fixed `max-w-[200px] truncate` and hid 132px (40%) of
+ * the article title and 303px (60%) of the /dewan-kahwin one — identically at
+ * 390, 768, 1024 and 1440. That is not "the container edge"; at 1440 the
+ * column offered 888px. UI-08 removed the fixed box. Long-label state is on
+ * the reference page below the short one; whether §8 should keep the
+ * never-wrap rule for article-length crumbs is the Creative Director's call.
+ */
 export function Breadcrumb({ items }: { items: BreadcrumbItem[] }) {
   return (
     <nav className="s-crumb" aria-label="Lokasi anda">

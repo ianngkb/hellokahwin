@@ -8,6 +8,7 @@ import { getMastheadCategories } from '@/lib/services/inspire-nav';
 import { CategoryRail } from '@/components/layout/category-rail';
 import type { MenuCategory } from '@/components/inspire/inspire-nav-menu';
 import { ConsoleBreadcrumb } from '@/components/console/console-breadcrumb';
+import { Breadcrumbs as PublicBreadcrumbs } from '@/components/common/breadcrumbs';
 import { PageHeader } from '@/components/layout/page-header';
 import '@/design-system/tokens.css';
 import '@/design-system/components.css';
@@ -543,10 +544,61 @@ export default async function DesignSystemPage({
             {/* Breadcrumb */}
             <div className="pt-4">
               <Label muted className="mb-2 block">
-                Breadcrumb — .s-crumb
+                Breadcrumb — .s-crumb — short final crumb (the only case §5/§7 draw)
               </Label>
               <Breadcrumb
                 items={[{ label: 'Artikel', href: '#' }, { label: 'Hantaran & Mas Kahwin' }]}
+              />
+            </div>
+
+            {/*
+              UI-08 (31 Ogos 2026). Two things this block exists to stop
+              happening again.
+
+              1. The state nobody drew. Every crumb in the DES-03 spec ends in a
+                 short CATEGORY, so the long final crumb — an article's own <h1>
+                 — was never on this page and never reviewed. The 200px box that
+                 hid 60% of /dewan-kahwin's crumb survived because nothing here
+                 rendered a title long enough to expose it. Long labels now
+                 render at every width this page is opened at.
+
+              2. The reference page showed a component the site does not use.
+                 `.s-crumb` above is the design-system breadcrumb; the public
+                 pages render `components/common/breadcrumbs.tsx`, styled with
+                 Tailwind utilities, which is where the fixed box actually
+                 lived. Both are shown, side by side, until they are one
+                 component. Reconciling them is a follow-up item, not UI-08.
+            */}
+            <div className="pt-4">
+              <Label muted className="mb-2 block">
+                Breadcrumb — .s-crumb — long final crumb (wraps; never truncated)
+              </Label>
+              <Breadcrumb
+                items={[
+                  { label: 'Artikel', href: '#' },
+                  { label: 'Idea & Nasihat', href: '#' },
+                  {
+                    label:
+                      '10 Dewan Kahwin Murah di Selangor & KL – Sesuai untuk Bajet Bawah RM5,000',
+                  },
+                ]}
+              />
+            </div>
+
+            <div className="pt-4">
+              <Label muted className="mb-2 block">
+                Breadcrumb — components/common/breadcrumbs.tsx — what public pages actually render,
+                long final crumb
+              </Label>
+              <PublicBreadcrumbs
+                items={[
+                  { label: 'Artikel', href: '#' },
+                  { label: 'Idea & Nasihat', href: '#' },
+                  {
+                    label:
+                      '10 Dewan Kahwin Murah di Selangor & KL – Sesuai untuk Bajet Bawah RM5,000',
+                  },
+                ]}
               />
             </div>
 
