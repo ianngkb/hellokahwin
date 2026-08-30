@@ -1210,6 +1210,11 @@
 .inspire-prose nav.article-toc ul li + li {
   margin-top: 0.375rem;
 }
+/* UI-11: every contents entry is a standalone target, so it carries the
+   `.hk-tap` box here rather than as a class on the component — the anchors are
+   generated in a loop and a rule cannot be forgotten on one of them. `display`
+   must be restated because `.hk-tap` and this rule are both single-class
+   selectors inside `.inspire-prose …`, and this one wins on specificity. */
 .inspire-prose nav.article-toc a {
   font-family: var(--font-geist);
   font-size: 0.8125rem;
@@ -1217,6 +1222,9 @@
   line-height: 1.45;
   color: var(--foreground);
   text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-min, 24px);
 }
 .inspire-prose nav.article-toc ul a {
   font-size: 0.75rem;
@@ -1773,6 +1781,59 @@
   animation: inspire-fade-in var(--duration-fast) var(--ease-out);
 }
 
+/* ── UI-09: the article search field's focus indicator ──────────────────────
+   DES-06 §8 specifies "a 2px ring in --ring at full opacity with a 2px
+   offset". The field shipped instead with Tailwind's `focus:ring-ring/30`,
+   and the reason that reads as no ring at all is arithmetic rather than
+   taste. `--ring` on the public surface is oklch(0.19 0.004 85), which is
+   rgb(22,20,18) — the same ink the page is set in, 17.7:1 against the paper.
+   At 30% alpha over --background rgb(252,251,250) it composites to
+   rgb(182,181,180):
+
+     measured on production, 31 Ogos 2026, Chrome 1x, canvas-resolved:
+       ring/30 composited   rgb(182,181,180)   1.98:1   FAIL  (SC 1.4.11: 3:1)
+       ring at full opacity rgb(22,20,18)     17.70:1   PASS
+
+   The ratio is computed from a canvas read-back, not from parsing
+   getComputedStyle: every token here is authored in oklch(), Chrome hands
+   those back as oklab()/lab(), and an rgb() parser pointed at one of those
+   reports confident garbage rather than failing.
+
+   :focus-visible, not :focus — a pointer click should not leave a ring on the
+   field. Chrome matches :focus-visible on text inputs whatever the modality,
+   so a reader who tabs here and a reader who taps here both see it; the
+   distinction matters for the buttons this rule does not cover.
+
+   The outline is NOT transitioned. `transition-shadow` was on the old field,
+   and a ring that fades in over 150ms is a ring that is absent on the frame
+   the reader's eye arrives — the same reason UI-02 kept outline-color out of
+   the nav rail's transition list. */
+.hk-search-input:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* The RESTING boundary, which is a second 1.4.11 problem and not the one
+   UI-09's definition of done names. Flagged here rather than left silent
+   because `--border-strong` exists in this stylesheet for precisely this
+   ("form-control boundaries — ≥3:1 (WCAG 1.4.11)", line ~254) and the chip
+   below already uses it for the same reason. The search field was the one
+   form control still drawn in `--border`. Both values below are canvas
+   read-backs off the rendered field, not arithmetic on the token — the first
+   draft of this comment estimated rgb(226,225,222) and rgb(174,172,169) and
+   was wrong about both:
+
+     --border         rendered rgb(218,217,215) -> 1.36:1  FAIL
+     --border-strong  rendered rgb(147,146,143) -> 3.01:1  PASS
+     ...over --background rgb(252,251,250), measured 31 Ogos 2026 at
+     390/768/1024/1440 by scripts/measure-search-a11y.mjs
+
+   A one-token correction, using a token the system already had, rather than a
+   new value invented for this field. */
+.hk-search-input {
+  border-color: var(--border-strong);
+}
+
 /* ── Wedding Checklist — Playful Streak gamification (CL-3.8) ──────────────
    Confetti rise, streak-chip bounce, count-up pop, milestone medallion draw.
    All suppressed under prefers-reduced-motion (handled in the component; these
@@ -2121,6 +2182,60 @@
   color: var(--muted-foreground);
 }
 
+/* ── Standalone tap targets — UI-11 ─────────────────────────────────────
+   WCAG 2.5.8 Target Size (Minimum), AA. Put one of these on any target that
+   is NOT an inline link inside a sentence: a breadcrumb, a footer link, a
+   contents entry, a card's category label, a credit. An inline link inside a
+   sentence is exempt under 2.5.8 and must NOT get one — `pelamin` mid-paragraph
+   would grow the line box it sits in and wreck the reading rhythm to fix
+   nothing.
+
+   WHY min-height AND NOT padding, AND NOT AN ::after HIT-AREA EXTENDER:
+   the box that matters is `getBoundingClientRect()` on the anchor itself.
+   Vertical padding on a `display: inline` box does not grow that box — the
+   painted background moves, the measured height does not — so a padded inline
+   link still measures 15.4px. An absolutely-positioned `::after` enlarges the
+   hit area but likewise not the measured box. `scripts/audit-tap-targets.mjs`
+   is deliberately strict about this and would still call both a failure.
+   `inline-flex` gives the anchor a real box, which is the whole point.
+
+   The token fallback is not laziness: `@/design-system/tokens.css` is imported
+   by `(public)/layout.tsx` only, and Breadcrumbs also renders on the admin
+   draft-preview surface, which never loads it. Without the fallback a target
+   on that surface would silently lose its floor.
+
+   TWO VARIANTS. Same floor; they differ in what they must not break.
+     .hk-tap       — the default. Text-only label, may wrap, optically centred.
+                     `inline-flex` is shrink-to-fit, so it still wraps inside
+                     its column exactly where the inline anchor did.
+     .hk-tap-flow  — a label whose content must keep flowing INLINE, because
+                     something trails it that belongs after the last word.
+                     Measured on the figure-caption credits at 390: as
+                     `inline-flex`, the trailing ↗ became a second flex item
+                     and jumped from x=115 (after the last word of a wrapped
+                     three-line credit) to x=317, hard right and vertically
+                     centred against the whole block. `inline-block` gives the
+                     anchor a real box for `min-height` while leaving its
+                     contents in normal inline flow, so the icon stays put.
+                     The 24px floor then sits under a single line rather than
+                     around it, which is invisible inside a bottom-anchored
+                     scrim and is the trade this variant is making.           */
+.hk-tap {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-min, 24px);
+}
+/* There was a third, `.hk-tap-line` — a block with a 24px line box, for a
+   single-line label that had to ellipsis. Its only consumer was the card's
+   category label, and UI-07 landed first with the finding that that label must
+   WRAP and never truncate. A design system that keeps a variant nothing
+   consumes is the drift this system exists to prevent, so it was removed
+   rather than left standing for a future component to find and misuse. */
+.hk-tap-flow {
+  display: inline-block;
+  min-height: var(--tap-min, 24px);
+}
+
 /* Ink button — the single filled action in the system. */
 .hk-btn {
   display: inline-flex;
@@ -2368,15 +2483,75 @@
 /* The ported `.inspire-prose` sets 14px/1.5. That fails the spec's own
    legibility budget for this audience (16px minimum, line-height >= 1.45)
    and reads as a UI, not an article. Inside the public shell the body
-   becomes a proper serif reading column. */
+   becomes a proper serif reading column.
+
+   ── UI-10, 31 Ogos 2026: the measure ────────────────────────────────────
+   This block used to hardcode `1.0625rem` (17px) at every viewport. Nothing
+   capped the column, so the body simply took whatever the grid gave it.
+   Measured on production at an asserted `innerWidth`, the body paragraph was
+   350px at 390, 704px at 768, 632px at 1024, 888px at 1440 and 1144px at
+   1920 — all at 17px, which by the DoD formula `width / (font-size x 0.5)`
+   is 41, 83, 74, 104 and 135 characters per line. The comfortable band is
+   45–75. Three of those five viewports were outside it and the widest was
+   nearly double the top of it.
+
+   The fix is BOTH halves the DoD offered, and each does a distinct job:
+
+     1. `max-width: var(--measure-prose)` — 33em, i.e. exactly 66 characters
+        by the DoD formula, at any type size (see the derivation in
+        tokens.css). This is what stops the column running away above 1024.
+        It is INERT on phones by construction: 33em at 17px is 561px and the
+        390px article cell is 350px, so the cap can never touch a phone and
+        the mobile measure cannot regress.
+
+     2. `font-size: var(--fs-body)` — the fluid token DES-03 already
+        published, `clamp(1.0625rem, 1.0286rem + 0.1506vw, 1.125rem)`,
+        17px → 18px at 1024. The prose was the only surface on the site
+        ignoring it. Without this the cap alone would hold the measure at 66
+        but shrink the desktop column to 561px, 46.8% of the 1200px shell —
+        a mean, under-designed column. At 18px the same 66 characters occupy
+        594px, 49.5% of the shell. The type size is what buys the column its
+        width back, and taking the SYSTEM's number rather than a new one is
+        what keeps every heading ratio intact: h2 26 / body 18 = 1.44x,
+        h3 21 / body 18 = 1.167x, exactly as DES-03 scaled them.
+
+   Resulting characters per line, measured in Chromium at asserted widths:
+   390 → 41.1 (unchanged) · 768 → 66.0 · 1024 → 66.0 · 1440 → 66.0 ·
+   1920 → 66.0. One number from 768 up, because a cap in `em` is a constant
+   in characters. If you change the type scale, this measure does not move.
+
+   `line-height: 1.7` is left hardcoded ON PURPOSE. `.hk` steps `--lh-body`
+   1.65 → 1.70 at 1024; adopting the token would drop mobile leading from
+   1.7 to 1.65. That may well be right at a 41-character measure, but it is
+   not this item's DoD and it is not measured here. Leave it. ─────────── */
 .hk-public .inspire-prose,
 .hk-public .inspire-prose p,
 .hk-public .inspire-prose span,
 .hk-public .inspire-prose a,
 .hk-public .inspire-prose li {
   font-family: var(--font-serif);
-  font-size: 1.0625rem; /* 17px */
+  font-size: var(--fs-body); /* 17px → 18px at 1024, DES-03's own clamp */
   line-height: 1.7;
+}
+.hk-public .inspire-prose {
+  max-width: var(--measure-prose);
+}
+
+/* The rest of the reading column takes the same cap. `.inspire-prose` is only
+   the body; the share rule above it and the pillar link below it are siblings
+   inside the same `<article>`, and capping the body alone left them spanning
+   the full 888px grid track above a 594px column — measured at 1440 on
+   31 Ogos 2026, and visible in
+   `…-ui-10-EVIDENCE/screens/compose-after-1440px.png` before this rule.
+   Capping the cell instead of the grid TRACK is deliberate: the track stays
+   `1fr`, so the sidebar keeps its right edge at the shell and the slack falls
+   between the two columns rather than off the end of the row.
+   `em` here resolves against `<article>`'s own font-size, which it inherits
+   from `.hk` as `var(--fs-body)` — the same value `.inspire-prose` sets on
+   itself, so both caps compute to the identical px at every width. If anything
+   ever sets a different font-size on `<article>`, these two part company. */
+.hk-public .inspire-editorial .grid > article {
+  max-width: var(--measure-prose);
 }
 .hk-public .inspire-prose p {
   margin-bottom: 1.15em;

@@ -17,10 +17,23 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
           return (
-            <li key={index} className="flex min-w-0 items-center gap-1">
-              {index > 0 && <ChevronRight className="size-3.5 shrink-0" aria-hidden="true" />}
+            // `items-start`, not `items-center`: the final crumb now wraps (UI-08),
+            // and a chevron centred on a two-line block belongs to neither line.
+            // The chevron sits in an `h-5` box instead — 20px is the `text-sm`
+            // line-height this <ol> sets, so the icon lands on the optical centre
+            // of the FIRST line and single-line crumbs render identically to
+            // before. Derived from the type scale, not nudged by eye.
+            <li key={index} className="flex min-w-0 items-start gap-1">
+              {index > 0 && (
+                <span className="flex h-5 shrink-0 items-center" aria-hidden="true">
+                  <ChevronRight className="size-3.5" />
+                </span>
+              )}
               {item.href && !isLast ? (
-                <Link href={item.href} className="hover:text-foreground transition-colors">
+                // `hk-tap` — a breadcrumb is a standalone target, not a link in
+                // a sentence, so WCAG 2.5.8's inline exception does not cover
+                // it. At 14px/20px these measured 40x20, 39.7x20 and 35.6x17.
+                <Link href={item.href} className="hk-tap hover:text-foreground transition-colors">
                   {item.label}
                 </Link>
               ) : (

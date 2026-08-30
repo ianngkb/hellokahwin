@@ -32,9 +32,11 @@
  * ─────────────────────────────────────────────────────────────────────────────
  * THE CHECKS, AND THE RULE EACH ONE ACTUALLY APPLIES
  *
- * Four come from the item's definition of done and are not negotiable. Three
- * more were added because a defect measured somewhere else on the same day
- * would have walked straight past all four; one is advisory, and says so.
+ * Four come from the item's definition of done and are not negotiable. Five
+ * more were added by three other seats' measurements, because each found a
+ * defect that would have walked straight past all four; one of the five is
+ * advisory, and says so.
+
  * ─────────────────────────────────────────────────────────────────────────────
  *
  * 1. NARROW TEXT COLUMN — no text column narrower than 120px.
@@ -108,35 +110,62 @@
  *    `white-space: nowrap`) so that clipping wrappers and deliberate vertical
  *    line-clamps stay out of it.
  *
- * 6. CLIPPED BY A SCROLL CONTAINER — nothing past its scroller's client box.
+ * 6. READING MEASURE — no column of continuous prose past 75 characters.
  *
- *    Required by the brief's 31 Aug addendum, and NOT a reworded check 2. At
+ *    Counted with the DoD's own formula, `width / (font-size * 0.5)`, on the
+ *    BLOCK the text is laid out in, and only for a run of >= 80 characters that
+ *    occupies >= 2 line boxes. A CEILING with no floor: 45 is the bottom of the
+ *    comfortable band but a 390px phone leaves a 350px column, about 41
+ *    characters, which no cap can widen — a floor would fire on every mobile
+ *    page and be switched off within a week. Columns too narrow are check 1's.
+ *
+ *    On the committed fixtures the pre-fix article fires 3x at 768 and 3x at
+ *    1440 (the body at 888px/17px = 104.5) and is silent at 390 and at 1024,
+ *    where 632px/17px = 74.4 sits under the ceiling. homepage.html and
+ *    category.html are silent at all four widths: cards and labels are not
+ *    prose.
+ *
+ * THE PRECONDITION, added by UI-08: every target must prove it IS this site
+ * before a single check runs — same final origin as the URL we asked for, and
+ * <html lang="ms">. Pointed at a protected Vercel preview, this gate used to
+ * print `0 violation(s)` at three widths over vercel.com's login page: a
+ * well-formed 200 with no clipped text, no narrow columns and no images. The
+ * fingerprint below already showed eight Vercel-hashed stylesheets instead of
+ * our three, but nothing asserted on it. Failing this is an ERROR (exit 2),
+ * never a clean run.
+ *
+ * 7. CLIPPED BY A SCROLL CONTAINER — nothing past its scroller's client box.
+ *
+ *    Required by this item's 31 Aug addendum, and NOT a reworded check 2. At
  *    1920px the viewport clause finds two of the three hidden nav categories;
  *    the third ends 144px INSIDE the window and is invisible anyway. Both
  *    verdicts print separately, so a red says which one fired.
  *
- * 7. EMPTY CONTENT — <main> must render something.
+ * 8. EMPTY CONTENT — <main> must render something.
  *
  *    Every other check in this file passes, vacuously, on a page that rendered
- *    nothing, and this project has already shipped a 200 that carried the right
- *    marker string and zero articles because RLS gave the role no rows. Without
- *    this the gate cannot fail on the worst outcome there is. `--empty-shell`
- *    proves it, on a real captured page with <main> emptied.
+ *    nothing. UI-08 found the neighbouring version of this: pointed at a
+ *    protected preview, the gate printed `0 violation(s)` over a login page.
+ *    Their precondition catches the wrong page; this catches the right page
+ *    with nothing in it. `--empty-shell` proves it, on a real captured page
+ *    with <main> emptied.
  *
- * 8. IMAGE UNMEASURABLE — an intrinsic-size probe that fails is REPORTED.
+ * 9. IMAGE UNMEASURABLE — an intrinsic-size probe that fails is REPORTED.
  *
  *    A probe returning -1 must never be quietly treated as a pass.
  *
  * DELIBERATELY NOT HERE, and named rather than left silent: a headline WRAPPER
  * HEIGHT floor — UI-01 measured a legitimate three-line title at 106px against
  * a broken row's 225–307px, and the row's height is set by its 132px thumbnail
- * rather than by the text, so a 100px height rule would go red on a good row.
- * The DoD's assertion is about WIDTH, where 44 and 412 do not overlap. Also
- * absent: tap targets under
- * 24x24 (UI-11), missing `:focus-visible` indicators (UI-09) and line length
- * past ~75 characters (UI-10). The first two are WCAG conformance and want a
- * different report shape; the third is a measure the creative director sets,
- * not a defect threshold. Each is a real open finding owned by its own item.
+ * rather than by its text, so a 100px floor would go red on a good row. The
+ * DoD's assertion is about WIDTH, where 44 and 412 do not overlap. Also absent:
+ * tap targets under 24x24 (UI-11) and missing `:focus-visible` indicators
+ * (UI-09). Both are WCAG conformance and want a different report shape. Each is
+ * a real open finding owned by its own item.
+ *
+ * Line length past ~75 characters WAS on that list, excused as "a measure the
+ * creative director sets, not a defect threshold". UI-10 set it the same day,
+ * which turned the excuse into a gap. It is now CHECK 6.
  *
  * ─────────────────────────────────────────────────────────────────────────────
  * WHAT THIS GATE WILL NOT REPORT, BECAUSE MEASUREMENT KILLED IT FIRST
@@ -211,6 +240,28 @@ const DESKTOP_BREAKPOINT = 1024;
 // job is to make the gate incapable of going green on a shell that rendered
 // nothing. The thinnest real template measured here carries 40+.
 const MIN_CONTENT = 8;
+// UI-10. A CEILING only, never a floor. Reading research puts the comfortable
+// band at 45-75 characters, but the floor is unreachable on a phone by
+// arithmetic rather than by design: a 390px viewport leaves a 350px column,
+// which at any legible type size is about 41 characters. A floor here would
+// fire on every mobile page on the site and be switched off within a week.
+// Columns too NARROW to read are already caught by `narrow-text-column`.
+// Characters are counted with the DoD's own formula, `width / (font-size *
+// 0.5)`. That 0.5em is an assumption: measured through canvas `measureText`
+// over 6,000 characters of the garden-wedding article's own Malay prose in its
+// own rendered face on 31 Ogos 2026, the true average advance is 0.4636em, so
+// this formula UNDER-reports by about 8% — 75 by the formula is 81 in fact.
+// The threshold stays at the DoD's number and the bias is stated rather than
+// silently corrected, because the DoD is the contract; the design target
+// `--measure-prose` sits at 66, which is where the headroom comes from.
+const MAX_MEASURE_CPL = 75;
+// Below this many characters a wrapped run is a headline, a label or a caption,
+// not continuous prose, and its column width is a composition decision rather
+// than a reading measure.
+const MIN_PROSE_CHARS = 80;
+// Every public template on this site renders <html lang="ms">. Used as an
+// identity marker, not a content check — see "IS THIS EVEN OUR PAGE?" below.
+const SITE_LANG = 'ms';
 
 // ── the public template manifest ────────────────────────────────────────────
 // Every public template, with a real instance of each. Slugs are checked into
@@ -221,6 +272,23 @@ const TEMPLATES = [
   { template: 'catalogue index', path: '/artikel' },
   { template: 'category archive', path: '/artikel/hantaran-mas-kahwin' },
   { template: 'article', path: '/artikel/idea-dan-nasihat/garden-wedding' },
+  // One instance per template is not a manifest, it is a sample — UI-08.
+  // The defect UI-08 fixed was CONTENT-LENGTH DEPENDENT: the same breadcrumb
+  // component hid 132px of the title above and 303px of another article's,
+  // and no structural difference between the two pages existed to find. A
+  // template's worst case lives in its longest string, so the article
+  // template carries a second, deliberately extreme instance.
+  //
+  // Chosen by measurement, not by eye: every one of the 86 article URLs in
+  // sitemap.xml was fetched on 31 Ogos 2026 and its <h1> counted. This is the
+  // longest at 95 characters; garden-wedding above is 48, so the manifest had
+  // been exercising roughly half the string the template must survive.
+  // Re-measure when the corpus grows — the command is in this item's
+  // work-done entry, and a stale "longest" silently becomes an ordinary one.
+  {
+    template: 'article (longest title on the site, 95 chars)',
+    path: '/artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik',
+  },
   { template: 'tag archive', path: '/artikel/tag/hantaran' },
   { template: 'brand page', path: '/brand' },
 ];
@@ -234,8 +302,15 @@ const many = (n) => argv.reduce((a, v, i) => (v === `--${n}` ? [...a, argv[i + 1
 // The in-page measurement. Everything below `collect` runs inside Chrome.
 // ═══════════════════════════════════════════════════════════════════════════
 async function collect(limits) {
-  const { MIN_TEXT_COLUMN_PX, MAX_UPSCALE, MAX_ASPECT_DEVIATION, DESKTOP_BREAKPOINT, MIN_CONTENT } =
-    limits;
+  const {
+    MIN_TEXT_COLUMN_PX,
+    MAX_UPSCALE,
+    MAX_ASPECT_DEVIATION,
+    DESKTOP_BREAKPOINT,
+    MIN_CONTENT,
+    MAX_MEASURE_CPL,
+    MIN_PROSE_CHARS,
+  } = limits;
   // The LAYOUT viewport, not `window.innerWidth`. innerWidth includes the
   // classic scrollbar gutter on Windows Chrome, so a link ending at 1905px in a
   // 1920px window with a 15px scrollbar is flush against the visible edge, not
@@ -266,7 +341,34 @@ async function collect(limits) {
       bits.unshift(s);
       n = n.parentElement;
     }
-    return bits.join(' > ');
+    // ── WHAT IS THIS ELEMENT, not just where does it sit ────────────────────
+    // Added by UI-08, 31 Ogos 2026. A class path is a location. It says
+    // nothing about what the thing IS, and every report this gate writes was
+    // read by somebody who then had to guess.
+    //
+    // UI-04's audit reported this exact defect as "the source-attribution
+    // link" from a path that read
+    //   nav.mb-6 > ol.text-muted-foreground > li.flex > span.text-foreground
+    // — which is a breadcrumb's current-page label: no href, no <a>
+    // ancestor, aria-current="page", text identical to the page's own <h1>.
+    // The phrase then travelled into the tracker's DoD and into UI-08's brief,
+    // carrying a rights argument that did not apply, and three documents
+    // repeated it because each quoted the one before. Had the report said
+    // "not a link, aria-current=page" nobody could have written that sentence.
+    //
+    // So every violation now carries the attributes that answer "what is it":
+    // whether it is a link and to where, and the ARIA that names its role.
+    const a = el.closest && el.closest('a');
+    const attr = (k) => (el.getAttribute && el.getAttribute(k)) || null;
+    const id = [
+      el.tagName.toLowerCase(),
+      a ? `link → ${a.getAttribute('href')}` : 'not a link',
+      attr('role') && `role="${attr('role')}"`,
+      attr('aria-current') && `aria-current="${attr('aria-current')}"`,
+      attr('aria-label') && `aria-label="${attr('aria-label')}"`,
+      el.tagName === 'IMG' && `alt=${JSON.stringify(attr('alt') ?? null)}`,
+    ].filter(Boolean);
+    return `${bits.join(' > ')}  ⟨${id.join(' · ')}⟩`;
   };
 
   // Visually-hidden text is NOT a layout defect, and it does not announce
@@ -435,6 +537,62 @@ async function collect(limits) {
       };
       byKey.set(key, v);
       violations.push(v);
+    }
+  }
+
+  // ── CHECK 6: reading measure ─────────────────────────────────────────────
+  // UI-10. This gate's header used to name line length as DELIBERATELY NOT
+  // HERE, on the ground that it is "a measure the creative director sets, not a
+  // defect threshold". That was true on the morning of 31 Ogos 2026 and false
+  // by that evening: the creative director set it the same day, so the band
+  // stopped being an opinion and became a number a check can hold.
+  //
+  // What it would have caught: the article body ran 888px at 17px at 1440 and
+  // 1144px at 1920 — 104 and 135 characters per line against a 45-75 band —
+  // through four shipped items that week, because nothing on the page is
+  // broken, clipped, overflowing or upscaled. Every other check in this file
+  // looks for a BREAKAGE. This one looks for a page working exactly as built
+  // and still hard to read, which is the whole class of defect a structural
+  // gate cannot see.
+  //
+  // Measured on the BLOCK the text is laid out in, not on the text run: the
+  // column constrains every line in it, so a run that happens to end early
+  // still belongs to a 104-character column. That is also why two line boxes
+  // are enough — wrapping is the proof that the column, not the sentence, set
+  // the line.
+  {
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    const seen = new Set();
+    for (let t = walker.nextNode(); t; t = walker.nextNode()) {
+      const text = t.nodeValue.replace(/\s+/g, ' ').trim();
+      if (text.length < MIN_PROSE_CHARS) continue;
+      const parent = t.parentElement;
+      if (!parent || SKIP_TAGS.has(parent.tagName)) continue;
+      if (!visible(parent)) continue;
+
+      const range = document.createRange();
+      range.selectNodeContents(t);
+      const rects = [...range.getClientRects()].filter((r) => r.width > 0 && r.height > 0);
+      if (rects.length === 0) continue;
+      if (new Set(rects.map((r) => Math.round(r.top))).size < 2) continue;
+
+      const box = blockContainer(parent);
+      const width = contentWidth(box);
+      const fontSize = parseFloat(getComputedStyle(parent).fontSize);
+      if (!(fontSize > 0)) continue;
+      const cpl = width / (fontSize * 0.5);
+      if (cpl <= MAX_MEASURE_CPL) continue;
+
+      const key = sel(box);
+      if (seen.has(key)) continue;
+      seen.add(key);
+      violations.push({
+        check: 'reading-measure',
+        selector: sel(box),
+        detail: `${cpl.toFixed(1)} characters per line — ${width.toFixed(0)}px column at ${fontSize.toFixed(1)}px (ceiling ${MAX_MEASURE_CPL})`,
+        sample: text.slice(0, 60),
+        value: +cpl.toFixed(1),
+      });
     }
   }
 
@@ -819,6 +977,20 @@ async function measure(targets, { json, label }) {
       const ctx = await browser.newContext({
         viewport: { width, height: 900 },
         deviceScaleFactor: 1, // CSS px == device px, so upscale ratios mean what they say
+        // A Vercel PREVIEW deployment is behind team SSO: an unauthenticated
+        // GET is a 302 to vercel.com/sso-api and the gate would measure the
+        // login page, which has no `.s-row`, no article body and no images —
+        // i.e. it reports a clean run over nothing. UI-10 hit exactly that, and
+        // only noticed because `.inspire-prose` came back null. Without this
+        // the gate can only run AFTER a deploy reaches production, which is the
+        // wrong side of the ship. Secret from the vault key
+        // `vercelbypass.hellokahwin`; it never reaches a command line.
+        extraHTTPHeaders: process.env.UI_GATE_BYPASS
+          ? {
+              'x-vercel-protection-bypass': process.env.UI_GATE_BYPASS,
+              'x-vercel-set-bypass-cookie': 'true',
+            }
+          : {},
       });
       const page = await ctx.newPage();
       let error = null;
@@ -826,6 +998,47 @@ async function measure(targets, { json, label }) {
       try {
         const resp = await page.goto(t.url, { waitUntil: 'load', timeout: 60000 });
         if (resp && resp.status() >= 400) error = `HTTP ${resp.status()}`;
+        // ── IS THIS EVEN OUR PAGE? ──────────────────────────────────────────
+        // Added by UI-08, 31 Ogos 2026, after this gate was pointed at a Vercel
+        // PREVIEW deployment and printed `0 violation(s)` at three widths. The
+        // preview has deployment protection on: every request 302s to
+        // vercel.com/login, which answers 200 with a valid, well-formed HTML
+        // document containing no clipped text, no narrow columns and no
+        // images. A green run over somebody else's login page.
+        //
+        // The sprint's own standing rule is "A STATUS CODE IS NOT EVIDENCE",
+        // and this gate was the thing enforcing it everywhere except on
+        // itself. The build fingerprint below already showed the tell — eight
+        // stylesheets with Vercel's hash format instead of our three — but
+        // nothing ASSERTED on it, and a number nobody compares is decoration.
+        //
+        // Two independent markers, both cheap, both absent from any foreign
+        // document: the final origin must be the origin we asked for (the
+        // login redirect leaves it), and <html lang> must be `ms` (every
+        // public template on this site sets it; the login page is `en-US`).
+        // A legitimate preview deployment passes both, so this rejects the
+        // protection wall without rejecting previews.
+        //
+        // UI-10 arrived at the same wall from the other side, half an hour
+        // apart, and this is UI-08's version because two markers beat one. What
+        // survives from UI-10's is the way THROUGH rather than the detection:
+        // `UI_GATE_BYPASS` above sends Vercel's protection-bypass secret (vault
+        // key `vercelbypass.hellokahwin`), so a protected preview can actually
+        // be gated BEFORE it ships instead of only being recognised as
+        // ungateable. Detection without a way past it still leaves this gate
+        // running only on the far side of a deploy.
+        if (!error) {
+          const id = await page.evaluate(() => ({
+            origin: location.origin,
+            href: location.href,
+            lang: document.documentElement.lang,
+          }));
+          const want = new URL(t.url).origin;
+          if (id.origin !== want)
+            error = `NOT THIS SITE — asked ${want}, got ${id.origin} (${id.href})`;
+          else if (id.lang !== SITE_LANG)
+            error = `NOT THIS SITE — <html lang="${id.lang}">, expected "${SITE_LANG}"`;
+        }
         // Provenance, because a layout result belongs to a BUILD, not to a URL.
         // Two runs 12 minutes apart on 31 Aug 2026 disagreed about the nav on
         // three pages; the reason was a deploy landing mid-run and the edge
@@ -875,6 +1088,8 @@ async function measure(targets, { json, label }) {
             MAX_ASPECT_DEVIATION,
             DESKTOP_BREAKPOINT,
             MIN_CONTENT,
+            MAX_MEASURE_CPL,
+            MIN_PROSE_CHARS,
           });
       rows.push({ ...t, width, ...result, error, provenance });
       await ctx.close();
@@ -888,6 +1103,7 @@ async function measure(targets, { json, label }) {
 const CHECKS = [
   'empty-content',
   'narrow-text-column',
+  'reading-measure',
   'clipped-text',
   'viewport-overflow',
   'scroll-container-clip',
@@ -910,6 +1126,7 @@ const NOT_COVERED = [];
 const ABBREV = {
   'empty-content': 'empty',
   'narrow-text-column': 'narrow',
+  'reading-measure': 'measure',
   'clipped-text': 'clipped',
   'viewport-overflow': 'over',
   'scroll-container-clip': 'clip',
@@ -1221,7 +1438,62 @@ async function selftest() {
       `homepage.html @${w}: every decoded image was successfully probed for its true intrinsic size`,
     );
   }
-
+  // 6b. THE READING MEASURE (UI-10, CHECK 6). Asserted at three widths on the
+  //     same file, because the whole point of this check is that the SAME
+  //     markup passes at one viewport and fails at another — the defect is the
+  //     column, not the content. On the pre-fix article the body ran 350px at
+  //     390 (41 cpl), 704px at 768 (83), 632px at 1024 (74) and 888px at 1440
+  //     (104). So it must fire at 768 and 1440, and stay silent at 390 and at
+  //     1024 — 74.4 is under the 75 ceiling, and a check that flagged it
+  //     anyway would be a check with no threshold.
+  {
+    const at1440 = pick(bad, 'article.html', 1440, 'reading-measure');
+    assert(
+      at1440.length >= 1,
+      `article.html @1440: reading-measure FIRES (got ${at1440.length})`,
+      listing(
+        bad.find((r) => r.name === 'article.html' && r.width === 1440),
+        'reading-measure',
+      ),
+    );
+    assert(
+      at1440.some((v) => Math.abs(v.value - 104.5) < 1),
+      `article.html @1440: the 888px/17px body column is among them at ~104.5 cpl (values seen: ${[
+        ...new Set(at1440.map((v) => v.value)),
+      ].join(', ')})`,
+    );
+    const at768 = pick(bad, 'article.html', 768, 'reading-measure');
+    assert(at768.length >= 1, `article.html @768: reading-measure FIRES (got ${at768.length})`);
+    assert(
+      pick(bad, 'article.html', 390, 'reading-measure').length === 0,
+      'article.html @390: reading-measure CLEAN — a 350px phone column is ~41 cpl and no cap can widen it',
+      listing(
+        bad.find((r) => r.name === 'article.html' && r.width === 390),
+        'reading-measure',
+      ),
+    );
+    assert(
+      pick(bad, 'article.html', 1024, 'reading-measure').length === 0,
+      'article.html @1024: reading-measure CLEAN — 632px/17px is 74.4 cpl, under the 75 ceiling',
+      listing(
+        bad.find((r) => r.name === 'article.html' && r.width === 1024),
+        'reading-measure',
+      ),
+    );
+    // The negative control by TEMPLATE, not by width: pages of cards and
+    // labels must never register a reading measure at all, or the check is
+    // really just "this box is wide".
+    for (const w of WIDTHS)
+      for (const f of ['homepage.html', 'category.html'])
+        assert(
+          pick(bad, f, w, 'reading-measure').length === 0,
+          `${f} @${w}: reading-measure CLEAN — cards and labels are not continuous prose`,
+          listing(
+            bad.find((r) => r.name === f && r.width === w),
+            'reading-measure',
+          ),
+        );
+  }
   // 8. The discriminator fixture — a true positive and a near-miss false
   //    positive side by side for each check, so drift in EITHER direction is
   //    caught. Case O is the one that matters most: a 1.5x upscale that
@@ -1375,7 +1647,8 @@ if (has('selftest')) {
 } else {
   console.error(
     'usage: node scripts/ui-layout-gate.mjs (--fixtures [--green] | --discriminator | --empty-shell | --base <url> | --url <u>… | --selftest)\n' +
-      '       [--json out.json] [--quiet] [--author-slug <slug>]',
+      '       [--json out.json] [--quiet] [--author-slug <slug>]\n' +
+      '       env: UI_GATE_CHROME=<chrome path>  UI_GATE_BYPASS=<vercel preview bypass secret>',
   );
   console.log('UILINT EXIT: 2');
   process.exit(2);

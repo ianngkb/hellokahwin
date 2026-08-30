@@ -6,3 +6,4 @@ export * from './controls';
 export * from './feedback';
 export * from './chrome';
 export * from './content';
+export * from './target-probe';

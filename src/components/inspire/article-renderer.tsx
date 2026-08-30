@@ -637,10 +637,18 @@ function renderHtmlParts(
             className="absolute inset-x-0 bottom-0 rounded-b-md bg-gradient-to-t from-black/70 to-transparent px-3 pt-10 pb-3 text-xs text-white italic"
             style={{ textShadow: 'var(--text-shadow-scrim)', fontFamily: 'var(--font-now-alt)' }}
           >
+            {/* UI-11: `hk-tap-flow`, not `hk-tap`. This credit is a standalone
+                target (it measured 443-647 x 20 at 768) but it wraps and it
+                ends in an ↗. As `inline-flex` the icon became a second flex
+                item and jumped to the right edge, vertically centred against
+                the whole wrapped block — measured at 390, x=115 → x=317.
+                `inline-block` gives the anchor a box without taking its
+                contents out of inline flow. All three caption credits in this
+                file use it for the same reason. */}
             {safeHref(part.captionUrl) ? (
               <a
                 href={safeHref(part.captionUrl)!}
-                className="transition-opacity hover:opacity-80"
+                className="hk-tap-flow transition-opacity hover:opacity-80"
                 style={{ color: 'white' }}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -737,7 +745,7 @@ function GalleryImage({
         {safeHref(img.captionUrl) ? (
           <a
             href={safeHref(img.captionUrl)!}
-            className="transition-opacity hover:opacity-80"
+            className="hk-tap-flow transition-opacity hover:opacity-80"
             style={{ color: 'white' }}
             target="_blank"
             rel="noopener noreferrer"
@@ -951,7 +959,7 @@ export function ArticleRenderer({
                 {safeHref(captionUrl) ? (
                   <a
                     href={safeHref(captionUrl)!}
-                    className="transition-opacity hover:opacity-80"
+                    className="hk-tap-flow transition-opacity hover:opacity-80"
                     style={{ color: 'white' }}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -1084,12 +1092,21 @@ export function ArticleRenderer({
   }
 
   return (
-    // `inspire-prose` and `max-w-none` only: the `prose*` variants that used to
-    // sit alongside them were inert, because @tailwindcss/typography is not
-    // installed and deliberately stays uninstalled. What they claimed to do is
-    // already done by hand in globals.css - heading tracking, paragraph
-    // leading and `img { border-radius }` all live under `.inspire-prose`.
-    <div className="inspire-prose max-w-none">
+    // `inspire-prose` only: the `prose*` variants that used to sit alongside it
+    // were inert, because @tailwindcss/typography is not installed and
+    // deliberately stays uninstalled. What they claimed to do is already done
+    // by hand in globals.css - heading tracking, paragraph leading and
+    // `img { border-radius }` all live under `.inspire-prose`.
+    //
+    // `max-w-none` was removed by UI-10 (31 Ogos 2026). It was defensive cover
+    // for a @tailwindcss/typography `max-width` that is not installed and never
+    // was, and it now directly contradicts the reading measure that
+    // `.hk-public .inspire-prose { max-width: var(--measure-prose) }` sets.
+    // The measure rule wins today only because it is unlayered and Tailwind's
+    // utilities sit in `@layer utilities` - a cascade accident, not a
+    // decision. Do not put it back: it re-opens the 104-characters-per-line
+    // body this item closed.
+    <div className="inspire-prose">
       {toc}
       {allElements}
     </div>
@@ -1184,8 +1201,12 @@ function renderOriginal(
   inlineBanner?: React.ReactNode,
   toc?: React.ReactNode,
 ): React.ReactNode {
-  // Same as the wrapper above: the `prose*` classes here matched nothing.
-  const wrapperClassName = 'inspire-prose max-w-none';
+  // Same as the wrapper above: the `prose*` classes here matched nothing, and
+  // `max-w-none` came off in UI-10 for the same reason it did there — it
+  // cancels the reading measure. This is the banner/split path, so it must
+  // carry the identical class list or the same article renders at two
+  // different measures depending on whether an inline ad was injected.
+  const wrapperClassName = 'inspire-prose';
 
   // One assigner per ATTEMPT, shared across that attempt's halves: the banner
   // path sanitises the article in two passes, and restarting the counter at
