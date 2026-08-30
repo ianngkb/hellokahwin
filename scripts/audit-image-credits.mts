@@ -178,6 +178,35 @@ async function auditPage(url: string): Promise<PageResult> {
   return r;
 }
 
+/**
+ * A short fingerprint of the deployment being swept, from the content-hashed
+ * `/_next/static/chunks/*.js` filenames the base URL serves.
+ *
+ * It exists because this sweep twice measured a server that was NOT the build
+ * under test: once because a local sitemap emits `http://localhost:3200/…` URLs
+ * and the fetches followed them to another session's dev server, and once
+ * because `next start` died with EADDRINUSE while the PREVIOUS build's process
+ * kept answering on the port. Both runs produced a confident, wrong number, and
+ * neither looked wrong.
+ *
+ * Printing this makes "is this the same code I just built?" checkable by
+ * comparing two runs, instead of assumed.
+ */
+async function buildFingerprint(baseUrl: string): Promise<string> {
+  try {
+    const html = await (await fetch(baseUrl)).text();
+    const chunks = [...html.matchAll(/\/_next\/static\/chunks\/([A-Za-z0-9_-]+)\.js/g)]
+      .map((m) => m[1])
+      .sort();
+    if (!chunks.length) return 'unknown (no hashed chunks in the response)';
+    let h = 0;
+    for (const ch of chunks.join(',')) h = (Math.imul(h, 31) + ch.charCodeAt(0)) | 0;
+    return `${(h >>> 0).toString(16).padStart(8, '0')} (${chunks.length} chunks)`;
+  } catch {
+    return 'unknown';
+  }
+}
+
 async function mapLimit<T, R>(items: T[], limit: number, fn: (t: T) => Promise<R>): Promise<R[]> {
   const out: R[] = new Array(items.length);
   let next = 0;
@@ -202,12 +231,28 @@ async function main() {
     process.exit(1);
   }
   const xml = await sitemap.text();
-  const all = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].trim());
+  // The sitemap emits ABSOLUTE urls built from the deployment's configured site
+  // URL, which is not necessarily the host we were asked to sweep — a local
+  // build serves a sitemap full of `http://localhost:3200/…`. Re-home every path
+  // onto `baseUrl` or `--base-url` silently audits a different server: this
+  // check first "passed" against a stale dev server another session had running
+  // on 3200, having never touched the build under test.
+  const all = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => {
+    const raw = m[1].trim();
+    try {
+      return `${baseUrl}${new URL(raw).pathname}`.replace(/\/$/, '');
+    } catch {
+      return `${baseUrl}${raw.startsWith('/') ? raw : `/${raw}`}`;
+    }
+  });
   // An article is /artikel/<category>/<slug> — two segments. One segment is a
   // category index and carries no article images.
   const articles = all.filter((u) => /\/artikel\/[^/]+\/[^/]+$/.test(u));
 
-  console.log(`sweeping ${articles.length} article URLs at ${baseUrl}\n`);
+  console.log(
+    `sweeping ${articles.length} article URLs at ${baseUrl}\n` +
+      `build fingerprint: ${await buildFingerprint(baseUrl)}\n`,
+  );
 
   const results = await mapLimit(articles, concurrency, auditPage);
 

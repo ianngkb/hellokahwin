@@ -161,3 +161,29 @@ export function normaliseCaptionLabel(raw: string | null | undefined): string | 
 export function hasCanonicalCreditLabel(text: string): boolean {
   return new RegExp(`^${CREDIT_LABEL}: \\S`).test(text);
 }
+
+/**
+ * Relabel credits that were imported as ordinary body PARAGRAPHS rather than
+ * figure captions.
+ *
+ * Four credits on `/artikel/hantaran-mas-kahwin/hantaran-tunang` render as
+ * `<p>source: kek hantaran kahwin</p>` immediately after an image, never
+ * reaching the figcaption path. They survived a fix that only touched captions,
+ * and the local sweep caught them at 4 remaining against 174 correct.
+ *
+ * Deliberately narrow, because this operates on arbitrary article HTML: it
+ * rewrites a `<p>` ONLY when the paragraph's entire content is a recognised
+ * label, a colon and a name, with no nested markup. A paragraph that merely
+ * begins with one of those words is left alone, and so is the body's
+ * `Lokasi:` / `Jurugambar:` vendor block, whose labels are not in the strip
+ * list at all.
+ */
+export function normaliseCreditParagraphs(html: string): string {
+  return html.replace(
+    /<p>([\p{L}]+)\s*:\s*([^<>]+?)\s*<\/p>/gu,
+    (whole, word: string, owner: string) =>
+      KNOWN_LABEL_WORDS.has(word.toLowerCase()) && owner
+        ? `<p>${CREDIT_LABEL}: ${owner.replace(/\s+/g, ' ')}</p>`
+        : whole,
+  );
+}

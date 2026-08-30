@@ -4,6 +4,7 @@ import {
   formatCreditLabel,
   normaliseCaptionLabel,
   hasCanonicalCreditLabel,
+  normaliseCreditParagraphs,
 } from '../image-credit-label';
 
 /** U+00A0 — the separator the live data actually carries on some credits. */
@@ -150,5 +151,55 @@ describe('hasCanonicalCreditLabel', () => {
     for (const raw of ['Source: A', 'sOURCE: B', 'image: c', 'Plain Name']) {
       expect(hasCanonicalCreditLabel(formatCreditLabel(raw)!)).toBe(true);
     }
+  });
+});
+
+describe('normaliseCreditParagraphs — credits imported as body paragraphs', () => {
+  // The four on /artikel/hantaran-mas-kahwin/hantaran-tunang, which render as
+  // paragraphs after an image and never reach the figcaption path.
+  it('relabels a paragraph that is entirely a credit', () => {
+    expect(normaliseCreditParagraphs('<p>source: kek hantaran kahwin</p>')).toBe(
+      '<p>Kredit: kek hantaran kahwin</p>',
+    );
+  });
+
+  it('relabels several in one document and leaves the rest untouched', () => {
+    const html =
+      '<div><p>source: tips persediaan kahwin</p><p>Salah satu hantaran tunang yang hampir wajib.</p>' +
+      '<p>image: hantaran coklat</p></div>';
+    expect(normaliseCreditParagraphs(html)).toBe(
+      '<div><p>Kredit: tips persediaan kahwin</p><p>Salah satu hantaran tunang yang hampir wajib.</p>' +
+        '<p>Kredit: hantaran coklat</p></div>',
+    );
+  });
+
+  it('leaves the body vendor block alone', () => {
+    const html = '<p><strong>Kredit Vendor</strong></p><p>Lokasi: Amankila, Bali</p>';
+    expect(normaliseCreditParagraphs(html)).toBe(html);
+  });
+
+  it('never touches `Jurugambar:` or `Sumber:`', () => {
+    const html = '<p>Jurugambar: Ameir Fikri</p><p>Sumber: seksyen 2 Enakmen</p>';
+    expect(normaliseCreditParagraphs(html)).toBe(html);
+  });
+
+  it('leaves a prose paragraph that merely begins with a label word', () => {
+    const html = '<p>Foto yang bagus datang daripada cahaya, bukan kamera mahal.</p>';
+    expect(normaliseCreditParagraphs(html)).toBe(html);
+  });
+
+  it('does not rewrite a paragraph containing nested markup', () => {
+    const html = '<p>source: <a href="https://example.com">Petals</a></p>';
+    expect(normaliseCreditParagraphs(html)).toBe(html);
+  });
+
+  it('is idempotent', () => {
+    const once = normaliseCreditParagraphs('<p>SOURCE: petals</p>');
+    expect(once).toBe('<p>Kredit: petals</p>');
+    expect(normaliseCreditParagraphs(once)).toBe(once);
+  });
+
+  it('leaves a label-only paragraph alone rather than emitting a bare label', () => {
+    expect(normaliseCreditParagraphs('<p>source:</p>')).toBe('<p>source:</p>');
   });
 });

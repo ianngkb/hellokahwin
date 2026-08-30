@@ -17,7 +17,7 @@ import { getArticleVariantUrl } from '@/lib/storage/article-image-variant';
 // Duplicating a security check is how one copy quietly stops matching the
 // other, so there is exactly one.
 import { safeHref } from '@/lib/utils/safe-href';
-import { normaliseCaptionLabel } from '@/lib/inspire/image-credit-label';
+import { normaliseCaptionLabel, normaliseCreditParagraphs } from '@/lib/inspire/image-credit-label';
 import {
   extractHeadings,
   createHeadingIdAssigner,
@@ -349,7 +349,10 @@ function parseImageDims(src: string): { width: number; height: number } {
   return { width: FALLBACK_IMG_WIDTH, height: FALLBACK_IMG_HEIGHT };
 }
 
-function splitHtmlByImages(html: string): HtmlPart[] {
+function splitHtmlByImages(rawHtml: string): HtmlPart[] {
+  // RIGHTS-01: some imported credits are body paragraphs rather than figure
+  // captions, so they never reach the figcaption path below.
+  const html = normaliseCreditParagraphs(rawHtml);
   const parts: HtmlPart[] = [];
   const imgRegex = /<img\s+[^>]*src="([^"]*)"[^>]*>/gi;
   let lastIndex = 0;
