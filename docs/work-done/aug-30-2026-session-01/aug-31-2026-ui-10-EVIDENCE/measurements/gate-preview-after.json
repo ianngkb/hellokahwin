@@ -1,0 +1,1015 @@
+{
+ "label": "https://hellokahwin-k4l3dje41-thewednotebook.vercel.app",
+ "rows": [
+  {
+   "name": "homepage /",
+   "url": "https://hellokahwin-k4l3dje41-thewednotebook.vercel.app/",
+   "width": 390,
+   "vw": 390,
+   "violations": [
+    {
+     "check": "image-aspect",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "34% off — source 1.50:1 (176x117), painted 1.00:1 (80x80), ~66% of the frame kept (ceiling 25%)",
+     "sample": "80683875-images-s-rombongan-hantaran-jalan-azlan-dupree/low.webp",
+     "value": 0.335
+    },
+    {
+     "check": "image-aspect",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "50% off — source 0.67:1 (176x264), painted 1.00:1 (80x80), ~67% of the frame kept (ceiling 25%)",
+     "sample": "/1787780709236-images-s-dulang-buah-hantaran-mohd-hasan/low.webp",
+     "value": 0.5
+    },
+    {
+     "check": "image-aspect",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "34% off — source 1.50:1 (176x117), painted 1.00:1 (80x80), ~66% of the frame kept (ceiling 25%)",
+     "sample": "7-images-s-dulang-kek-coklat-buah-hantaran-azlan-dupree/low.webp",
+     "value": 0.335
+    },
+    {
+     "check": "image-aspect",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "34% off — source 1.50:1 (176x117), painted 1.00:1 (80x80), ~66% of the frame kept (ceiling 25%)",
+     "sample": "9-images-s-tujuh-dulang-hantaran-rombongan-azlan-dupree/low.webp",
+     "value": 0.335
+    },
+    {
+     "check": "image-aspect",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "34% off — source 1.50:1 (176x117), painted 1.00:1 (80x80), ~66% of the frame kept (ceiling 25%)",
+     "sample": "2165-images-s-serah-dulang-hantaran-lelaki-azlan-dupree/low.webp",
+     "value": 0.335
+    },
+    {
+     "check": "image-aspect",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "34% off — source 1.50:1 (176x117), painted 1.00:1 (80x80), ~66% of the frame kept (ceiling 25%)",
+     "sample": "9-images-s-bawa-dulang-hantaran-naik-rumah-azlan-dupree/low.webp",
+     "value": 0.335
+    },
+    {
+     "check": "image-aspect",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "34% off — source 1.50:1 (176x117), painted 1.00:1 (80x80), ~66% of the frame kept (ceiling 25%)",
+     "sample": "09633-images-s-dulang-terbuka-gubahan-merah-phalinn-ooi/low.webp",
+     "value": 0.335
+    },
+    {
+     "check": "image-aspect",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "34% off — source 1.50:1 (176x117), painted 1.00:1 (80x80), ~66% of the frame kept (ceiling 25%)",
+     "sample": "4276-images-s-hantaran-sangkar-buah-ringkas-phalinn-ooi/low.webp",
+     "value": 0.335
+    },
+    {
+     "check": "image-aspect",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "34% off — source 1.50:1 (176x117), painted 1.00:1 (80x80), ~66% of the frame kept (ceiling 25%)",
+     "sample": "780661260-images-s-dulang-hantaran-bersusun-phalinn-ooi/low.webp",
+     "value": 0.335
+    },
+    {
+     "check": "image-aspect",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "34% off — source 1.50:1 (176x117), painted 1.00:1 (80x80), ~66% of the frame kept (ceiling 25%)",
+     "sample": "7780629329-images-s-tepak-sirih-emas-dulang-phalinn-ooi/low.webp",
+     "value": 0.335
+    },
+    {
+     "check": "image-aspect",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "34% off — source 1.50:1 (176x117), painted 1.00:1 (80x80), ~66% of the frame kept (ceiling 25%)",
+     "sample": "87780605155-images-s-hantaran-quran-sejadah-phalinn-ooi/low.webp",
+     "value": 0.335
+    },
+    {
+     "check": "image-aspect",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "34% off — source 1.50:1 (176x117), painted 1.00:1 (80x80), ~66% of the frame kept (ceiling 25%)",
+     "sample": "2-images-s-hantaran-berbalut-organza-bincang-mohd-nasir/low.webp",
+     "value": 0.335
+    }
+   ],
+   "notes": {
+    "imagesTotal": 13,
+    "imagesNotDecoded": 0,
+    "imagesSkippedZeroBox": 0,
+    "textRuns": 46
+   },
+   "documentScrollWidth": 390,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::w5wc9-1788117095532-b816e4c4e164",
+    "cache": "PRERENDER",
+    "age": "0",
+    "css": [
+     "dd80923f73924abc.css",
+     "cfbafd4fd91349ad.css",
+     "0b7b6677a7ad9134.css"
+    ]
+   }
+  },
+  {
+   "name": "homepage /",
+   "url": "https://hellokahwin-k4l3dje41-thewednotebook.vercel.app/",
+   "width": 768,
+   "vw": 768,
+   "violations": [
+    {
+     "check": "image-aspect",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "34% off — source 1.50:1 (176x117), painted 1.00:1 (80x80), ~66% of the frame kept (ceiling 25%)",
+     "sample": "80683875-images-s-rombongan-hantaran-jalan-azlan-dupree/low.webp",
+     "value": 0.335
+    },
+    {
+     "check": "image-aspect",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "50% off — source 0.67:1 (176x264), painted 1.00:1 (80x80), ~67% of the frame kept (ceiling 25%)",
+     "sample": "/1787780709236-images-s-dulang-buah-hantaran-mohd-hasan/low.webp",
+     "value": 0.5
+    },
+    {
+     "check": "image-aspect",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "34% off — source 1.50:1 (176x117), painted 1.00:1 (80x80), ~66% of the frame kept (ceiling 25%)",
+     "sample": "7-images-s-dulang-kek-coklat-buah-hantaran-azlan-dupree/low.webp",
+     "value": 0.335
+    },
+    {
+     "check": "image-aspect",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "34% off — source 1.50:1 (176x117), painted 1.00:1 (80x80), ~66% of the frame kept (ceiling 25%)",
+     "sample": "9-images-s-tujuh-dulang-hantaran-rombongan-azlan-dupree/low.webp",
+     "value": 0.335
+    },
+    {
+     "check": "image-aspect",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "34% off — source 1.50:1 (176x117), painted 1.00:1 (80x80), ~66% of the frame kept (ceiling 25%)",
+     "sample": "2165-images-s-serah-dulang-hantaran-lelaki-azlan-dupree/low.webp",
+     "value": 0.335
+    },
+    {
+     "check": "image-aspect",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "34% off — source 1.50:1 (176x117), painted 1.00:1 (80x80), ~66% of the frame kept (ceiling 25%)",
+     "sample": "9-images-s-bawa-dulang-hantaran-naik-rumah-azlan-dupree/low.webp",
+     "value": 0.335
+    },
+    {
+     "check": "image-aspect",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "34% off — source 1.50:1 (176x117), painted 1.00:1 (80x80), ~66% of the frame kept (ceiling 25%)",
+     "sample": "09633-images-s-dulang-terbuka-gubahan-merah-phalinn-ooi/low.webp",
+     "value": 0.335
+    },
+    {
+     "check": "image-aspect",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "34% off — source 1.50:1 (176x117), painted 1.00:1 (80x80), ~66% of the frame kept (ceiling 25%)",
+     "sample": "4276-images-s-hantaran-sangkar-buah-ringkas-phalinn-ooi/low.webp",
+     "value": 0.335
+    },
+    {
+     "check": "image-aspect",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "34% off — source 1.50:1 (176x117), painted 1.00:1 (80x80), ~66% of the frame kept (ceiling 25%)",
+     "sample": "780661260-images-s-dulang-hantaran-bersusun-phalinn-ooi/low.webp",
+     "value": 0.335
+    },
+    {
+     "check": "image-aspect",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "34% off — source 1.50:1 (176x117), painted 1.00:1 (80x80), ~66% of the frame kept (ceiling 25%)",
+     "sample": "7780629329-images-s-tepak-sirih-emas-dulang-phalinn-ooi/low.webp",
+     "value": 0.335
+    },
+    {
+     "check": "image-aspect",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "34% off — source 1.50:1 (176x117), painted 1.00:1 (80x80), ~66% of the frame kept (ceiling 25%)",
+     "sample": "87780605155-images-s-hantaran-quran-sejadah-phalinn-ooi/low.webp",
+     "value": 0.335
+    },
+    {
+     "check": "image-aspect",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "34% off — source 1.50:1 (176x117), painted 1.00:1 (80x80), ~66% of the frame kept (ceiling 25%)",
+     "sample": "2-images-s-hantaran-berbalut-organza-bincang-mohd-nasir/low.webp",
+     "value": 0.335
+    }
+   ],
+   "notes": {
+    "imagesTotal": 13,
+    "imagesNotDecoded": 0,
+    "imagesSkippedZeroBox": 0,
+    "textRuns": 47
+   },
+   "documentScrollWidth": 768,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::8dzcq-1788117097835-230f61804b33",
+    "cache": "HIT",
+    "age": "1",
+    "css": [
+     "dd80923f73924abc.css",
+     "cfbafd4fd91349ad.css",
+     "0b7b6677a7ad9134.css"
+    ]
+   }
+  },
+  {
+   "name": "homepage /",
+   "url": "https://hellokahwin-k4l3dje41-thewednotebook.vercel.app/",
+   "width": 1024,
+   "vw": 1024,
+   "violations": [
+    {
+     "check": "image-upscale",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "1.13x — 176x117 decoded, painted 176x132 (object-fit: cover, ceiling 1.1x)",
+     "sample": "80683875-images-s-rombongan-hantaran-jalan-azlan-dupree/low.webp",
+     "value": 1.128
+    },
+    {
+     "check": "image-aspect",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "100% off — source 0.67:1 (176x264), painted 1.33:1 (176x132), ~50% of the frame kept (ceiling 25%)",
+     "sample": "/1787780709236-images-s-dulang-buah-hantaran-mohd-hasan/low.webp",
+     "value": 1
+    },
+    {
+     "check": "image-upscale",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "1.13x — 176x117 decoded, painted 176x132 (object-fit: cover, ceiling 1.1x)",
+     "sample": "7-images-s-dulang-kek-coklat-buah-hantaran-azlan-dupree/low.webp",
+     "value": 1.128
+    },
+    {
+     "check": "image-upscale",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "1.13x — 176x117 decoded, painted 176x132 (object-fit: cover, ceiling 1.1x)",
+     "sample": "9-images-s-tujuh-dulang-hantaran-rombongan-azlan-dupree/low.webp",
+     "value": 1.128
+    },
+    {
+     "check": "image-upscale",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "1.13x — 176x117 decoded, painted 176x132 (object-fit: cover, ceiling 1.1x)",
+     "sample": "2165-images-s-serah-dulang-hantaran-lelaki-azlan-dupree/low.webp",
+     "value": 1.128
+    },
+    {
+     "check": "image-upscale",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "1.13x — 176x117 decoded, painted 176x132 (object-fit: cover, ceiling 1.1x)",
+     "sample": "9-images-s-bawa-dulang-hantaran-naik-rumah-azlan-dupree/low.webp",
+     "value": 1.128
+    },
+    {
+     "check": "image-upscale",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "1.13x — 176x117 decoded, painted 176x132 (object-fit: cover, ceiling 1.1x)",
+     "sample": "09633-images-s-dulang-terbuka-gubahan-merah-phalinn-ooi/low.webp",
+     "value": 1.128
+    },
+    {
+     "check": "image-upscale",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "1.13x — 176x117 decoded, painted 176x132 (object-fit: cover, ceiling 1.1x)",
+     "sample": "4276-images-s-hantaran-sangkar-buah-ringkas-phalinn-ooi/low.webp",
+     "value": 1.128
+    },
+    {
+     "check": "image-upscale",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "1.13x — 176x117 decoded, painted 176x132 (object-fit: cover, ceiling 1.1x)",
+     "sample": "780661260-images-s-dulang-hantaran-bersusun-phalinn-ooi/low.webp",
+     "value": 1.128
+    },
+    {
+     "check": "image-upscale",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "1.13x — 176x117 decoded, painted 176x132 (object-fit: cover, ceiling 1.1x)",
+     "sample": "7780629329-images-s-tepak-sirih-emas-dulang-phalinn-ooi/low.webp",
+     "value": 1.128
+    },
+    {
+     "check": "image-upscale",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "1.13x — 176x117 decoded, painted 176x132 (object-fit: cover, ceiling 1.1x)",
+     "sample": "87780605155-images-s-hantaran-quran-sejadah-phalinn-ooi/low.webp",
+     "value": 1.128
+    },
+    {
+     "check": "image-upscale",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "1.13x — 176x117 decoded, painted 176x132 (object-fit: cover, ceiling 1.1x)",
+     "sample": "2-images-s-hantaran-berbalut-organza-bincang-mohd-nasir/low.webp",
+     "value": 1.128
+    }
+   ],
+   "notes": {
+    "imagesTotal": 13,
+    "imagesNotDecoded": 0,
+    "imagesSkippedZeroBox": 0,
+    "textRuns": 59
+   },
+   "documentScrollWidth": 1024,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::l6qfh-1788117099374-3e64787a5d50",
+    "cache": "HIT",
+    "age": "3",
+    "css": [
+     "dd80923f73924abc.css",
+     "cfbafd4fd91349ad.css",
+     "0b7b6677a7ad9134.css"
+    ]
+   }
+  },
+  {
+   "name": "homepage /",
+   "url": "https://hellokahwin-k4l3dje41-thewednotebook.vercel.app/",
+   "width": 1440,
+   "vw": 1440,
+   "violations": [
+    {
+     "check": "image-upscale",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "1.13x — 176x117 decoded, painted 176x132 (object-fit: cover, ceiling 1.1x)",
+     "sample": "80683875-images-s-rombongan-hantaran-jalan-azlan-dupree/low.webp",
+     "value": 1.128
+    },
+    {
+     "check": "image-aspect",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "100% off — source 0.67:1 (176x264), painted 1.33:1 (176x132), ~50% of the frame kept (ceiling 25%)",
+     "sample": "/1787780709236-images-s-dulang-buah-hantaran-mohd-hasan/low.webp",
+     "value": 1
+    },
+    {
+     "check": "image-upscale",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "1.13x — 176x117 decoded, painted 176x132 (object-fit: cover, ceiling 1.1x)",
+     "sample": "7-images-s-dulang-kek-coklat-buah-hantaran-azlan-dupree/low.webp",
+     "value": 1.128
+    },
+    {
+     "check": "image-upscale",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "1.13x — 176x117 decoded, painted 176x132 (object-fit: cover, ceiling 1.1x)",
+     "sample": "9-images-s-tujuh-dulang-hantaran-rombongan-azlan-dupree/low.webp",
+     "value": 1.128
+    },
+    {
+     "check": "image-upscale",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "1.13x — 176x117 decoded, painted 176x132 (object-fit: cover, ceiling 1.1x)",
+     "sample": "2165-images-s-serah-dulang-hantaran-lelaki-azlan-dupree/low.webp",
+     "value": 1.128
+    },
+    {
+     "check": "image-upscale",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "1.13x — 176x117 decoded, painted 176x132 (object-fit: cover, ceiling 1.1x)",
+     "sample": "9-images-s-bawa-dulang-hantaran-naik-rumah-azlan-dupree/low.webp",
+     "value": 1.128
+    },
+    {
+     "check": "image-upscale",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "1.13x — 176x117 decoded, painted 176x132 (object-fit: cover, ceiling 1.1x)",
+     "sample": "09633-images-s-dulang-terbuka-gubahan-merah-phalinn-ooi/low.webp",
+     "value": 1.128
+    },
+    {
+     "check": "image-upscale",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "1.13x — 176x117 decoded, painted 176x132 (object-fit: cover, ceiling 1.1x)",
+     "sample": "4276-images-s-hantaran-sangkar-buah-ringkas-phalinn-ooi/low.webp",
+     "value": 1.128
+    },
+    {
+     "check": "image-upscale",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "1.13x — 176x117 decoded, painted 176x132 (object-fit: cover, ceiling 1.1x)",
+     "sample": "780661260-images-s-dulang-hantaran-bersusun-phalinn-ooi/low.webp",
+     "value": 1.128
+    },
+    {
+     "check": "image-upscale",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "1.13x — 176x117 decoded, painted 176x132 (object-fit: cover, ceiling 1.1x)",
+     "sample": "7780629329-images-s-tepak-sirih-emas-dulang-phalinn-ooi/low.webp",
+     "value": 1.128
+    },
+    {
+     "check": "image-upscale",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "1.13x — 176x117 decoded, painted 176x132 (object-fit: cover, ceiling 1.1x)",
+     "sample": "87780605155-images-s-hantaran-quran-sejadah-phalinn-ooi/low.webp",
+     "value": 1.128
+    },
+    {
+     "check": "image-upscale",
+     "selector": "section.s-pad.mx-auto.max-w-3xl > div > a.s-row > img",
+     "detail": "1.13x — 176x117 decoded, painted 176x132 (object-fit: cover, ceiling 1.1x)",
+     "sample": "2-images-s-hantaran-berbalut-organza-bincang-mohd-nasir/low.webp",
+     "value": 1.128
+    }
+   ],
+   "notes": {
+    "imagesTotal": 13,
+    "imagesNotDecoded": 0,
+    "imagesSkippedZeroBox": 0,
+    "textRuns": 59
+   },
+   "documentScrollWidth": 1440,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::snf4t-1788117101325-3a1a7b7eff4b",
+    "cache": "HIT",
+    "age": "5",
+    "css": [
+     "dd80923f73924abc.css",
+     "cfbafd4fd91349ad.css",
+     "0b7b6677a7ad9134.css"
+    ]
+   }
+  },
+  {
+   "name": "catalogue index /artikel",
+   "url": "https://hellokahwin-k4l3dje41-thewednotebook.vercel.app/artikel",
+   "width": 390,
+   "vw": 390,
+   "violations": [],
+   "notes": {
+    "imagesTotal": 12,
+    "imagesNotDecoded": 0,
+    "imagesSkippedZeroBox": 0,
+    "textRuns": 86
+   },
+   "documentScrollWidth": 390,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::cw7xj-1788117102850-6290c1b9143d",
+    "cache": "PRERENDER",
+    "age": "0",
+    "css": [
+     "dd80923f73924abc.css",
+     "cfbafd4fd91349ad.css"
+    ]
+   }
+  },
+  {
+   "name": "catalogue index /artikel",
+   "url": "https://hellokahwin-k4l3dje41-thewednotebook.vercel.app/artikel",
+   "width": 768,
+   "vw": 768,
+   "violations": [
+    {
+     "check": "image-aspect",
+     "selector": "div.mb-12.lg:mb-16 > a.group.block > div.bg-muted.relative.aspect-[4/3] > img.object-cover.transition-transform.duration-700",
+     "detail": "33% off — source 1.33:1 (1600x1200), painted 1.78:1 (736x414), ~75% of the frame kept (ceiling 25%)",
+     "sample": "zlan-dupree/crop-4x3-article-card.webp?v=0.6867_0.4980-g48c0b959",
+     "value": 0.333
+    }
+   ],
+   "notes": {
+    "imagesTotal": 12,
+    "imagesNotDecoded": 0,
+    "imagesSkippedZeroBox": 0,
+    "textRuns": 87
+   },
+   "documentScrollWidth": 768,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::jcphf-1788117105481-b07e4087ad72",
+    "cache": "HIT",
+    "age": "2",
+    "css": [
+     "dd80923f73924abc.css",
+     "cfbafd4fd91349ad.css"
+    ]
+   }
+  },
+  {
+   "name": "catalogue index /artikel",
+   "url": "https://hellokahwin-k4l3dje41-thewednotebook.vercel.app/artikel",
+   "width": 1024,
+   "vw": 1024,
+   "violations": [
+    {
+     "check": "image-aspect",
+     "selector": "div.mb-12.lg:mb-16 > a.group.block > div.bg-muted.relative.aspect-[4/3] > img.object-cover.transition-transform.duration-700",
+     "detail": "80% off — source 1.33:1 (1600x1200), painted 2.40:1 (976x407), ~56% of the frame kept (ceiling 25%)",
+     "sample": "zlan-dupree/crop-4x3-article-card.webp?v=0.6867_0.4980-g48c0b959",
+     "value": 0.8
+    }
+   ],
+   "notes": {
+    "imagesTotal": 12,
+    "imagesNotDecoded": 0,
+    "imagesSkippedZeroBox": 0,
+    "textRuns": 87
+   },
+   "documentScrollWidth": 1024,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::n86pb-1788117107718-8107e03f87a2",
+    "cache": "HIT",
+    "age": "4",
+    "css": [
+     "dd80923f73924abc.css",
+     "cfbafd4fd91349ad.css"
+    ]
+   }
+  },
+  {
+   "name": "catalogue index /artikel",
+   "url": "https://hellokahwin-k4l3dje41-thewednotebook.vercel.app/artikel",
+   "width": 1440,
+   "vw": 1440,
+   "violations": [
+    {
+     "check": "image-aspect",
+     "selector": "div.mb-12.lg:mb-16 > a.group.block > div.bg-muted.relative.aspect-[4/3] > img.object-cover.transition-transform.duration-700",
+     "detail": "80% off — source 1.33:1 (1600x1200), painted 2.40:1 (1232x513), ~56% of the frame kept (ceiling 25%)",
+     "sample": "zlan-dupree/crop-4x3-article-card.webp?v=0.6867_0.4980-g48c0b959",
+     "value": 0.8
+    }
+   ],
+   "notes": {
+    "imagesTotal": 12,
+    "imagesNotDecoded": 0,
+    "imagesSkippedZeroBox": 0,
+    "textRuns": 87
+   },
+   "documentScrollWidth": 1440,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sgk49-1788117109894-a875f6c64b52",
+    "cache": "HIT",
+    "age": "6",
+    "css": [
+     "dd80923f73924abc.css",
+     "cfbafd4fd91349ad.css"
+    ]
+   }
+  },
+  {
+   "name": "category archive /artikel/hantaran-mas-kahwin",
+   "url": "https://hellokahwin-k4l3dje41-thewednotebook.vercel.app/artikel/hantaran-mas-kahwin",
+   "width": 390,
+   "vw": 390,
+   "violations": [],
+   "notes": {
+    "imagesTotal": 0,
+    "imagesNotDecoded": 0,
+    "imagesSkippedZeroBox": 0,
+    "textRuns": 66
+   },
+   "documentScrollWidth": 390,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::ds6g2-1788117111976-75ace7625734",
+    "cache": "MISS",
+    "age": "0",
+    "css": [
+     "dd80923f73924abc.css",
+     "cfbafd4fd91349ad.css",
+     "0b7b6677a7ad9134.css"
+    ]
+   }
+  },
+  {
+   "name": "category archive /artikel/hantaran-mas-kahwin",
+   "url": "https://hellokahwin-k4l3dje41-thewednotebook.vercel.app/artikel/hantaran-mas-kahwin",
+   "width": 768,
+   "vw": 768,
+   "violations": [],
+   "notes": {
+    "imagesTotal": 0,
+    "imagesNotDecoded": 0,
+    "imagesSkippedZeroBox": 0,
+    "textRuns": 67
+   },
+   "documentScrollWidth": 768,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::qfhgk-1788117113323-433e1455fe0c",
+    "cache": "HIT",
+    "age": "1",
+    "css": [
+     "dd80923f73924abc.css",
+     "cfbafd4fd91349ad.css",
+     "0b7b6677a7ad9134.css"
+    ]
+   }
+  },
+  {
+   "name": "category archive /artikel/hantaran-mas-kahwin",
+   "url": "https://hellokahwin-k4l3dje41-thewednotebook.vercel.app/artikel/hantaran-mas-kahwin",
+   "width": 1024,
+   "vw": 1024,
+   "violations": [],
+   "notes": {
+    "imagesTotal": 0,
+    "imagesNotDecoded": 0,
+    "imagesSkippedZeroBox": 0,
+    "textRuns": 67
+   },
+   "documentScrollWidth": 1024,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::h5qzz-1788117114501-9b80ec87f339",
+    "cache": "HIT",
+    "age": "2",
+    "css": [
+     "dd80923f73924abc.css",
+     "cfbafd4fd91349ad.css",
+     "0b7b6677a7ad9134.css"
+    ]
+   }
+  },
+  {
+   "name": "category archive /artikel/hantaran-mas-kahwin",
+   "url": "https://hellokahwin-k4l3dje41-thewednotebook.vercel.app/artikel/hantaran-mas-kahwin",
+   "width": 1440,
+   "vw": 1440,
+   "violations": [],
+   "notes": {
+    "imagesTotal": 0,
+    "imagesNotDecoded": 0,
+    "imagesSkippedZeroBox": 0,
+    "textRuns": 67
+   },
+   "documentScrollWidth": 1440,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::9nwlc-1788117115694-a1389d7d271f",
+    "cache": "HIT",
+    "age": "3",
+    "css": [
+     "dd80923f73924abc.css",
+     "cfbafd4fd91349ad.css",
+     "0b7b6677a7ad9134.css"
+    ]
+   }
+  },
+  {
+   "name": "article /artikel/idea-dan-nasihat/garden-wedding",
+   "url": "https://hellokahwin-k4l3dje41-thewednotebook.vercel.app/artikel/idea-dan-nasihat/garden-wedding",
+   "width": 390,
+   "vw": 390,
+   "violations": [],
+   "notes": {
+    "imagesTotal": 51,
+    "imagesNotDecoded": 0,
+    "imagesSkippedZeroBox": 0,
+    "textRuns": 210
+   },
+   "documentScrollWidth": 390,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::8v42m-1788117117018-0c5be183abac",
+    "cache": "MISS",
+    "age": "0",
+    "css": [
+     "dd80923f73924abc.css",
+     "cfbafd4fd91349ad.css",
+     "0b7b6677a7ad9134.css"
+    ]
+   }
+  },
+  {
+   "name": "article /artikel/idea-dan-nasihat/garden-wedding",
+   "url": "https://hellokahwin-k4l3dje41-thewednotebook.vercel.app/artikel/idea-dan-nasihat/garden-wedding",
+   "width": 768,
+   "vw": 768,
+   "violations": [],
+   "notes": {
+    "imagesTotal": 51,
+    "imagesNotDecoded": 0,
+    "imagesSkippedZeroBox": 0,
+    "textRuns": 211
+   },
+   "documentScrollWidth": 768,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::zwxtd-1788117120782-083c153a0ba5",
+    "cache": "HIT",
+    "age": "3",
+    "css": [
+     "dd80923f73924abc.css",
+     "cfbafd4fd91349ad.css",
+     "0b7b6677a7ad9134.css"
+    ]
+   }
+  },
+  {
+   "name": "article /artikel/idea-dan-nasihat/garden-wedding",
+   "url": "https://hellokahwin-k4l3dje41-thewednotebook.vercel.app/artikel/idea-dan-nasihat/garden-wedding",
+   "width": 1024,
+   "vw": 1024,
+   "violations": [
+    {
+     "check": "image-upscale",
+     "selector": "div.inspire-editorial > figure.mt-6.mb-10.max-w-3xl > div.bg-muted.relative.aspect-[3/2] > img.absolute.inset-0.h-full",
+     "detail": "1.17x — 655x437 decoded, painted 768x320 (object-fit: cover, ceiling 1.1x)",
+     "sample": "lokahwin.com/inspire/garden-wedding/1787397040017-cover/low.webp",
+     "value": 1.173
+    },
+    {
+     "check": "image-aspect",
+     "selector": "div.inspire-editorial > figure.mt-6.mb-10.max-w-3xl > div.bg-muted.relative.aspect-[3/2] > img.absolute.inset-0.h-full",
+     "detail": "60% off — source 1.50:1 (655x437), painted 2.40:1 (768x320), ~62% of the frame kept (ceiling 25%)",
+     "sample": "lokahwin.com/inspire/garden-wedding/1787397040017-cover/low.webp",
+     "value": 0.601
+    }
+   ],
+   "notes": {
+    "imagesTotal": 51,
+    "imagesNotDecoded": 0,
+    "imagesSkippedZeroBox": 1,
+    "textRuns": 212
+   },
+   "documentScrollWidth": 1024,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::26825-1788117125205-2b21a913e7f5",
+    "cache": "HIT",
+    "age": "8",
+    "css": [
+     "dd80923f73924abc.css",
+     "cfbafd4fd91349ad.css",
+     "0b7b6677a7ad9134.css"
+    ]
+   }
+  },
+  {
+   "name": "article /artikel/idea-dan-nasihat/garden-wedding",
+   "url": "https://hellokahwin-k4l3dje41-thewednotebook.vercel.app/artikel/idea-dan-nasihat/garden-wedding",
+   "width": 1440,
+   "vw": 1440,
+   "violations": [
+    {
+     "check": "image-upscale",
+     "selector": "div.inspire-editorial > figure.mt-6.mb-10.max-w-3xl > div.bg-muted.relative.aspect-[3/2] > img.absolute.inset-0.h-full",
+     "detail": "1.17x — 655x437 decoded, painted 768x320 (object-fit: cover, ceiling 1.1x)",
+     "sample": "lokahwin.com/inspire/garden-wedding/1787397040017-cover/low.webp",
+     "value": 1.173
+    },
+    {
+     "check": "image-aspect",
+     "selector": "div.inspire-editorial > figure.mt-6.mb-10.max-w-3xl > div.bg-muted.relative.aspect-[3/2] > img.absolute.inset-0.h-full",
+     "detail": "60% off — source 1.50:1 (655x437), painted 2.40:1 (768x320), ~62% of the frame kept (ceiling 25%)",
+     "sample": "lokahwin.com/inspire/garden-wedding/1787397040017-cover/low.webp",
+     "value": 0.601
+    }
+   ],
+   "notes": {
+    "imagesTotal": 51,
+    "imagesNotDecoded": 0,
+    "imagesSkippedZeroBox": 1,
+    "textRuns": 212
+   },
+   "documentScrollWidth": 1440,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::htqxb-1788117159539-27da64944dae",
+    "cache": "HIT",
+    "age": "42",
+    "css": [
+     "dd80923f73924abc.css",
+     "cfbafd4fd91349ad.css",
+     "0b7b6677a7ad9134.css"
+    ]
+   }
+  },
+  {
+   "name": "tag archive /artikel/tag/hantaran",
+   "url": "https://hellokahwin-k4l3dje41-thewednotebook.vercel.app/artikel/tag/hantaran",
+   "width": 390,
+   "vw": 390,
+   "violations": [],
+   "notes": {
+    "imagesTotal": 6,
+    "imagesNotDecoded": 0,
+    "imagesSkippedZeroBox": 0,
+    "textRuns": 33
+   },
+   "documentScrollWidth": 390,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::c8r67-1788117194031-52ebfec0eda4",
+    "cache": "MISS",
+    "age": "0",
+    "css": [
+     "dd80923f73924abc.css",
+     "cfbafd4fd91349ad.css"
+    ]
+   }
+  },
+  {
+   "name": "tag archive /artikel/tag/hantaran",
+   "url": "https://hellokahwin-k4l3dje41-thewednotebook.vercel.app/artikel/tag/hantaran",
+   "width": 768,
+   "vw": 768,
+   "violations": [],
+   "notes": {
+    "imagesTotal": 6,
+    "imagesNotDecoded": 0,
+    "imagesSkippedZeroBox": 0,
+    "textRuns": 34
+   },
+   "documentScrollWidth": 768,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::cn747-1788117196448-b63a0ec75a1c",
+    "cache": "HIT",
+    "age": "2",
+    "css": [
+     "dd80923f73924abc.css",
+     "cfbafd4fd91349ad.css"
+    ]
+   }
+  },
+  {
+   "name": "tag archive /artikel/tag/hantaran",
+   "url": "https://hellokahwin-k4l3dje41-thewednotebook.vercel.app/artikel/tag/hantaran",
+   "width": 1024,
+   "vw": 1024,
+   "violations": [],
+   "notes": {
+    "imagesTotal": 6,
+    "imagesNotDecoded": 0,
+    "imagesSkippedZeroBox": 0,
+    "textRuns": 34
+   },
+   "documentScrollWidth": 1024,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::bztxm-1788117197773-ec6412705b59",
+    "cache": "HIT",
+    "age": "3",
+    "css": [
+     "dd80923f73924abc.css",
+     "cfbafd4fd91349ad.css"
+    ]
+   }
+  },
+  {
+   "name": "tag archive /artikel/tag/hantaran",
+   "url": "https://hellokahwin-k4l3dje41-thewednotebook.vercel.app/artikel/tag/hantaran",
+   "width": 1440,
+   "vw": 1440,
+   "violations": [],
+   "notes": {
+    "imagesTotal": 6,
+    "imagesNotDecoded": 0,
+    "imagesSkippedZeroBox": 0,
+    "textRuns": 34
+   },
+   "documentScrollWidth": 1440,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::5q9b4-1788117200156-2a2e0900fce2",
+    "cache": "HIT",
+    "age": "6",
+    "css": [
+     "dd80923f73924abc.css",
+     "cfbafd4fd91349ad.css"
+    ]
+   }
+  },
+  {
+   "name": "brand page /brand",
+   "url": "https://hellokahwin-k4l3dje41-thewednotebook.vercel.app/brand",
+   "width": 390,
+   "vw": 390,
+   "violations": [],
+   "notes": {
+    "imagesTotal": 6,
+    "imagesNotDecoded": 0,
+    "imagesSkippedZeroBox": 0,
+    "textRuns": 108
+   },
+   "documentScrollWidth": 390,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::gdkwj-1788117201682-34178908c97a",
+    "cache": "PRERENDER",
+    "age": "0",
+    "css": [
+     "dd80923f73924abc.css",
+     "cfbafd4fd91349ad.css",
+     "67fff3a667e4db3b.css"
+    ]
+   }
+  },
+  {
+   "name": "brand page /brand",
+   "url": "https://hellokahwin-k4l3dje41-thewednotebook.vercel.app/brand",
+   "width": 768,
+   "vw": 768,
+   "violations": [],
+   "notes": {
+    "imagesTotal": 6,
+    "imagesNotDecoded": 0,
+    "imagesSkippedZeroBox": 0,
+    "textRuns": 109
+   },
+   "documentScrollWidth": 768,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::w2kv8-1788117204585-271673d35253",
+    "cache": "HIT",
+    "age": "2",
+    "css": [
+     "dd80923f73924abc.css",
+     "cfbafd4fd91349ad.css",
+     "67fff3a667e4db3b.css"
+    ]
+   }
+  },
+  {
+   "name": "brand page /brand",
+   "url": "https://hellokahwin-k4l3dje41-thewednotebook.vercel.app/brand",
+   "width": 1024,
+   "vw": 1024,
+   "violations": [],
+   "notes": {
+    "imagesTotal": 6,
+    "imagesNotDecoded": 0,
+    "imagesSkippedZeroBox": 0,
+    "textRuns": 109
+   },
+   "documentScrollWidth": 1024,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::rbtdg-1788117205866-ad408a318c77",
+    "cache": "HIT",
+    "age": "3",
+    "css": [
+     "dd80923f73924abc.css",
+     "cfbafd4fd91349ad.css",
+     "67fff3a667e4db3b.css"
+    ]
+   }
+  },
+  {
+   "name": "brand page /brand",
+   "url": "https://hellokahwin-k4l3dje41-thewednotebook.vercel.app/brand",
+   "width": 1440,
+   "vw": 1440,
+   "violations": [],
+   "notes": {
+    "imagesTotal": 6,
+    "imagesNotDecoded": 0,
+    "imagesSkippedZeroBox": 0,
+    "textRuns": 109
+   },
+   "documentScrollWidth": 1440,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::pc8nn-1788117207089-66c52eb45055",
+    "cache": "HIT",
+    "age": "5",
+    "css": [
+     "dd80923f73924abc.css",
+     "cfbafd4fd91349ad.css",
+     "67fff3a667e4db3b.css"
+    ]
+   }
+  }
+ ]
+}

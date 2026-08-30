@@ -40,6 +40,21 @@ for (const path of PATHS) {
         kredit: (document.body.innerText.match(/Kredit:/g) || []).length,
         // the DoD measurement
         found: !!el,
+        // IDENTITY, not just geometry. This harness measures an element by
+        // selector, and a selector says only where a thing sits. UI-04 measured
+        // this same box and reported it as "the source-attribution link"; the
+        // phrase reached three more documents before anyone read the DOM. A rig
+        // that reports a number without reporting WHAT it measured is how that
+        // happens, so these five fields are non-optional here — UI-08.
+        identity: {
+          tag: el ? el.tagName.toLowerCase() : null,
+          isLink: el ? !!el.closest('a') : null,
+          href: el && el.closest('a') ? el.closest('a').getAttribute('href') : null,
+          ariaCurrent: el ? el.getAttribute('aria-current') : null,
+          ariaLabel: el ? el.getAttribute('aria-label') : null,
+          role: el ? el.getAttribute('role') : null,
+          equalsPageH1: el ? el.textContent.trim() === (document.querySelector('h1') || {}).textContent?.trim() : null,
+        },
         text: el ? el.textContent.trim() : null,
         clientWidth: el ? el.clientWidth : null,
         scrollWidth: el ? el.scrollWidth : null,
@@ -76,6 +91,12 @@ for (const path of PATHS) {
     );
     console.log(`      innerWidth=${r.innerWidth} mm(width:${w}px)=${r.mmExact} status=${resp.status()} final=${p.url()}`);
     console.log(`      control: h1="${String(r.h1).slice(0,46)}" imgs=${r.imgs} links=${r.links} crumbLi=${r.crumbLis} Kredit:x${r.kredit} otherEllipsisClipped=${r.otherClipped}`);
+    const idy = r.identity;
+    console.log(
+      `      IS: <${idy.tag}> ${idy.isLink ? `link → ${idy.href}` : 'NOT a link'}` +
+      `${idy.role ? ` role="${idy.role}"` : ''}${idy.ariaCurrent ? ` aria-current="${idy.ariaCurrent}"` : ''}` +
+      `${idy.ariaLabel ? ` aria-label="${idy.ariaLabel}"` : ''}  text===page <h1>: ${idy.equalsPageH1}`
+    );
     console.log(`      crumb  = ${JSON.stringify(r.text)}`);
     console.log(`      jsonLd = ${JSON.stringify(r.jsonLdLast)}  match=${r.text === r.jsonLdLast}`);
     await c.close();

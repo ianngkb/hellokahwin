@@ -20,7 +20,7 @@ and `matchMedia('(width: Npx)')` asserted **inside the page** at each width:
 The box never grew. At 1440 the column offers 888px and 60% of the crumb was
 still discarded.
 
-### The element is not what the ticket says it is
+### FINDING UI-08-F1 — the element is not what the ticket says it is, and RIGHTS-01 should not be re-opened over it
 
 The tracker calls this "the source-attribution link" and argues the fix on
 rights grounds — RIGHTS-01 had just standardised every credit to `Kredit:`, so a
@@ -32,10 +32,33 @@ nav[aria-label="Breadcrumb"] > ol > li > span[aria-current="page"]
 href: null · no <a> ancestor · text === the page's own <h1>
 ```
 
-The credits RIGHTS-01 shipped are present and untouched on both pages — **21
-`Kredit:` on the article, 7 on `/dewan-kahwin`**, before and after. The
-mislabel originates in UI-04's rendered audit §5 and propagated from there into
-the tracker's DoD and into this item's brief.
+It is rendered by **`src/components/common/breadcrumbs.tsx`**, the shared
+`Breadcrumbs` component used by `/artikel/[category]/[slug]`,
+`/artikel/[category]`, `/artikel/tag/[slug]` and `/artikel/author/[slug]`. Its
+`identity` is recorded on every one of the 8 measured rows in
+`measurements/dod-after-production.json` and printed by the harness as:
+
+```
+IS: <span> NOT a link aria-current="page"  text===page <h1>: true
+```
+
+**The rights framing in the DoD's prose does not apply to this element. The
+measurable clause does.** Nothing here touches an image credit, and
+**RIGHTS-01 should not be re-opened over this item.** The credits it shipped
+are present and untouched on both pages, counted in the rendered DOM before
+and after the fix:
+
+| Page | `Kredit:` before | `Kredit:` after |
+|---|---|---|
+| `/artikel/idea-dan-nasihat/garden-wedding` | **21** | **21** |
+| `/dewan-kahwin` | **7** | **7** |
+
+(Counted via `document.body.innerText.match(/Kredit:/g)` at all four widths;
+`identify-before-production.json` and `dod-after-production.json`.)
+
+The mislabel originates in UI-04's rendered audit §5 and propagated from there
+into the tracker's DoD and into this item's brief — three documents, each
+quoting the one before it, none reading the DOM.
 
 The DoD's **measurable clause** is unaffected and unambiguous — `scrollWidth <=
 clientWidth` at four widths on two URLs, with 200/332/503 pinning exactly this
@@ -93,10 +116,14 @@ Retrospective.
 - `9302658` Merge pull request #20 — [PR #20](https://github.com/ianngkb/hellokahwin/pull/20)
 - `a06a009` UI-08 follow-through: the wrap state finished, and the gate stopped passing on somebody else's login page
 - `8100908` Merge pull request #25 — [PR #25](https://github.com/ianngkb/hellokahwin/pull/25)
+- `6aa2786` UI-08 retro: the layout gate now reports WHAT an element is, not only where it sits
+- `be0b1f0` Merge pull request #28 — [PR #28](https://github.com/ianngkb/hellokahwin/pull/28)
 
 **On `origin/master`:** yes — both PRs merged with merge commits, not squashes.
-**Deployed:** Vercel Production `6170154301`, sha `8100908`, state `success`,
-2026-08-30T19:03:51Z (the UI-08 fix itself went out with `9302658` earlier).
+**Deployed:** Vercel Production `6170357455`, sha `be0b1f0`, state `success` —
+the latest of three. The UI-08 fix itself went out with `9302658`, the
+follow-through with `8100908` (deployment `6170154301`), and the retrospective's
+gate change with `be0b1f0`.
 **Still uncommitted in the tree:** none.
 
 ```
@@ -180,10 +207,50 @@ two targets both before and after. They belong to the open image items.
 
 | # | What | Owner |
 |---|---|---|
-| 1 | **DES-03 §8 says the breadcrumb "truncates at the container edge, never wraps to a second line".** Every §5/§7 drawing ends in a short category; the article-title crumb was never drawn. At 390 the `/dewan-kahwin` crumb needs 503px, so "show it in full" and "never wraps" cannot both hold — the DoD won and it wraps. Whether §8 keeps the never-wrap rule for article-length crumbs needs a deliberate decision, in `docs/design/des-03-spesifikasi.html` and the table row in `docs/design/des-03-evidence/tpl/08-components.html`. | `creative-director` |
+| 1 | **DES-03 §8's never-wrap rule now disagrees with what ships.** A yes/no decision, drafted below so it is not a fresh drafting job. Files: `docs/design/des-03-spesifikasi.html` and the table row in `docs/design/des-03-evidence/tpl/08-components.html`. **Not edited by me — the creative-director's file and the owner's call.** | `creative-director` |
 | 2 | **Two breadcrumbs.** `.s-crumb` (design system, on the reference page) and `components/common/breadcrumbs.tsx` (Tailwind, on every public page). One component, one style, one place to change. | `design-systems-engineer` |
 | 3 | **UI-04 §5 mislabels this element** as "the source-attribution link". The audit is the source the tracker quotes; correcting it stops the mislabel being re-imported. | `product-designer` (owns UI-04's entry) |
 | 4 | **Re-measure the gate's "longest title" instance when the corpus grows.** A stale "longest" silently becomes an ordinary one. Command is in the Retrospective. | `design-systems-engineer` |
+
+### Follow-up 1, drafted — the proposed DES-03 §8 amendment
+
+Ready to accept or reject as written. **I have not applied it.**
+
+`docs/design/des-03-evidence/tpl/08-components.html`, the §8 component table —
+one row changes:
+
+```diff
+-<tr><td><strong>Breadcrumb</strong></td><td class="k">.s-crumb</td>
+-    <td>Truncates at the container edge, never wraps to a second line</td>
+-    <td>&sect;5.1&ndash;5.2</td></tr>
++<tr><td><strong>Breadcrumb</strong></td><td class="k">.s-crumb</td>
++    <td>Wraps at the container edge; never truncated. Intermediate crumbs are
++        category-length and fit on one line at every width; the FINAL crumb is
++        the page's own title and wraps to a second line below 768px — measured
++        503px against a 390px viewport on the longest live title. A crumb is a
++        location, and half a location is not a shorter location, it is a wrong
++        one.</td>
++    <td>&sect;5.1&ndash;5.2</td></tr>
+```
+
+`docs/design/des-03-spesifikasi.html` carries the same sentence; the same
+replacement applies wherever the §8 row is mirrored.
+
+**The case for accepting:** the never-wrap rule was written against §5/§7
+drawings that end in `Hantaran & Mas Kahwin`, a category. The state the site
+actually ships — a final crumb that is the article's `<h1>` — was never drawn,
+so the rule was never a decision about it. At 390px the longest live crumb
+needs 503px in a 358px column: "never wraps" and "never truncated" cannot both
+hold, and truncating is the option that discards information the reader came
+for.
+
+**The case for rejecting:** a two-line breadcrumb is a heavier top-of-page than
+DES-03 drew, on the width where vertical space is scarcest. If that is the
+call, the alternative that does **not** re-introduce this defect is to shorten
+the DATA, not the box — a separate short `breadcrumbLabel` per article, wired
+into `Breadcrumbs` and into `BreadcrumbJsonLd` together so the visible crumb and
+the structured data never disagree. That is a content field and a schema change,
+which is a new item, not a CSS revert.
 
 ---
 
@@ -315,10 +382,33 @@ argument that does not apply to a breadcrumb. Nobody checked; the phrase was
 just quoted forward. Had I fixed "the attribution link" I would have gone
 looking at `Kredit:`, which RIGHTS-01 had just made correct.
 
-**Form of the fix:** a checklist item in the document that governs what an entry
-must contain. Owner: me. File: `docs/work-done/README.md`. **Made in this
-change** — see the new bullet under "Code work is not done until it is
-deployed".
+**Which documents must change, and who owns each edit:**
+
+| Document | Edit | Owner | State |
+|---|---|---|---|
+| `scripts/ui-layout-gate.mjs` | Every violation carries the attributes that answer *what is it* — tag, link-and-to-where, `role`, `aria-current`, `aria-label`, `alt`. One edit point (`sel()`), so all five checks get it. | `design-systems-engineer` | **Shipped**, PR #28 |
+| `…/aug-31-2026-ui-08-EVIDENCE/harness/dod.mjs` | Same guarantee, non-optional, in this item's reusable harness: prints `IS: …` on every measured row. | `design-systems-engineer` | **Shipped** |
+| `docs/work-done/README.md` | "Name the element by what the RENDERED page calls it, not by what the ticket calls it" — with this item as the case study. | `design-systems-engineer` | **Shipped** |
+| `…/aug-31-2026-done-ui-04-rendered-audit.md` §5 | **This is where the mislabel was authored.** §5 is headed "the source-attribution link"; the element is a breadcrumb. Correcting it stops the phrase being re-imported by anything that quotes the audit — which is what the tracker's DoD and this item's brief both did. | `product-designer` | **Open — not mine to edit** |
+| `docs/design/des-03-spesifikasi.html` + `…/tpl/08-components.html` §8 | The never-wrap rule. Diff-ready clause drafted above. | `creative-director` | **Open — not mine to edit** |
+
+**Form of the fix: a script, not a sentence.** The prose rule in
+`docs/work-done/README.md` is the weakest of the three and is there only
+because a person still writes the entry. The load-bearing change is that the
+gate can no longer produce the report that started this. On the committed
+pre-fix fixtures — which still carry the original defect — the same finding
+now prints:
+
+```
+clipped-text ×1
+  132px of text hidden — needs 332px, box is 200px (40% of the string)
+    nav.mb-6 > … > span.text-foreground.max-w-[200px].truncate
+      ⟨span · not a link · aria-current="page"⟩
+```
+
+Nobody reading that line writes "the source-attribution link". That is the
+counterfactual, run against the actual bytes that produced the original
+mistake, rather than an assertion that next time we will read more carefully.
 
 ### What we did twice
 
