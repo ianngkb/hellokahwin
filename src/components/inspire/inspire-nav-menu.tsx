@@ -101,12 +101,18 @@ export function InspireNavMenu({
   }, []);
 
   return (
-    /* Every anchor in here carries `min-h-11` (44px) deliberately. The rail is
+    /* Every anchor in here is `.hk-navrail-item`, which is where the rail's
+       geometry now lives — `--navrail-target` (44px), `--navrail-item-pad` and
+       the focus ring, all in globals.css. The 44px is deliberate: the rail is
        set in 11px type, which on its own gives a 32.5px target — measured, at
        390px — and 44px is the floor the rest of the design system already
        meets. This is the site's only navigation on a phone once an article
        stops hiding the header, so the targets have to be thumb-sized. Do not
-       trade the min-height back for a tighter masthead. */
+       trade the min-height back for a tighter masthead.
+
+       `.hk-navrail-items` wraps (UI-02). Below `lg` the navbar keeps it on one
+       line inside a scroller; at `lg` and up it is allowed to run to a second
+       row so that no category is ever off-screen. */
     <nav
       aria-label={ariaLabel}
       className=""
@@ -114,7 +120,7 @@ export function InspireNavMenu({
       onKeyDown={handleKeyDown}
     >
       <div
-        className={`flex flex-wrap gap-x-1 gap-y-2 text-[11px] ${
+        className={`hk-navrail-items text-[11px] ${
           align === 'end' ? 'justify-end' : align === 'start' ? 'justify-start' : 'justify-center'
         }`}
       >
@@ -128,7 +134,7 @@ export function InspireNavMenu({
               <Link
                 key={cat.slug}
                 href={cat.url!}
-                className="text-muted-foreground hover:text-foreground inline-flex min-h-11 items-center px-4 py-2 text-[length:inherit] font-medium tracking-[1.1px] uppercase transition-colors"
+                className="hk-navrail-item text-muted-foreground hover:text-foreground text-[length:inherit] font-medium tracking-[1.1px] uppercase transition-colors"
               >
                 {cat.name}
               </Link>
@@ -144,7 +150,7 @@ export function InspireNavMenu({
             >
               <Link
                 href={cat.url ?? `/artikel/${cat.slug}`}
-                className={`inline-flex min-h-11 items-center gap-1 px-4 py-2 text-[length:inherit] font-medium tracking-[1.1px] uppercase transition-colors ${
+                className={`hk-navrail-item text-[length:inherit] font-medium tracking-[1.1px] uppercase transition-colors ${
                   isActive
                     ? 'text-foreground inspire-nav-item-active'
                     : 'text-muted-foreground hover:text-foreground'
