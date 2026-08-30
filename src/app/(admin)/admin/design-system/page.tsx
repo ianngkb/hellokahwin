@@ -588,6 +588,7 @@ export default async function DesignSystemPage({
                   meta="Fotografi & Videografi"
                   imageSrc={placeholderImg('80×80')}
                   imageAlt="Rombongan hantaran berjalan di tepi jalan sambil memegang dulang"
+                  index={2}
                 />
                 <ListRow
                   href="#"
@@ -596,6 +597,7 @@ export default async function DesignSystemPage({
                   meta="Hantaran & Mas Kahwin"
                   imageSrc={placeholderImg('80×80')}
                   imageAlt="Dulang terbuka dengan gubahan bunga merah dan renda putih"
+                  index={3}
                 />
                 <ListRow
                   href="#"
@@ -609,7 +611,10 @@ export default async function DesignSystemPage({
                 The fourth row has no cover — <code>.s-imgless</code>, spec §6.3/§8: the figure is
                 removed entirely rather than rendered broken or as a grey promise. Titles are the
                 real 95-character longest and ~47-character shortest of the 86-title corpus, per
-                DES-07&rsquo;s definition of done.
+                DES-07&rsquo;s definition of done. <code>index</code> is a required prop (UI-01):
+                the card is 01, so these rows are 2&ndash;4. <code>.s-row</code> reserves a 44px
+                desktop track for it, and a row that omits it puts its headline in that track rather
+                than losing it.
               </p>
             </div>
 
