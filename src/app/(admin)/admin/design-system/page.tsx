@@ -2,6 +2,11 @@ import type { CSSProperties } from 'react';
 import Link from 'next/link';
 import { Bodoni_Moda } from 'next/font/google';
 import { requireAdminSection } from '@/lib/auth/admin';
+import { PillarBody } from '@/components/inspire/pillar-body';
+import type { PillarView } from '@/lib/inspire/pillar-queries';
+import { getMastheadCategories } from '@/lib/services/inspire-nav';
+import { CategoryRail } from '@/components/layout/category-rail';
+import type { MenuCategory } from '@/components/inspire/inspire-nav-menu';
 import { ConsoleBreadcrumb } from '@/components/console/console-breadcrumb';
 import { PageHeader } from '@/components/layout/page-header';
 import '@/design-system/tokens.css';
@@ -124,6 +129,55 @@ const NAV_ITEMS = [
   { label: 'Venue, Kos & Perancangan', href: '#' },
 ];
 
+/* UI-05 — a fixture, not a mock: the real `PillarBody` is rendered from it
+   below, so this entry cannot drift from the seven live pillar hubs. Shaped
+   after `sebelum-nikah`, which is what makes it a useful test — one populated
+   cluster, one empty one, and a title long enough to wrap. */
+const PILLAR_DEMO: PillarView = {
+  totalArticles: 3,
+  unclustered: [],
+  clusters: [
+    {
+      id: 'demo-taaruf',
+      name: 'Jodoh, taaruf & istikharah',
+      slug: 'jodoh-taaruf-istikharah',
+      entityPhrase: 'jodoh, taaruf dan istikharah',
+      pillarCode: null,
+      articles: [
+        {
+          id: 'demo-a1',
+          title: 'Taaruf Maksud: Apa Itu Taaruf dan Apa Bezanya dengan Bercinta Sebelum Nikah',
+          slug: 'taaruf-maksud',
+          categorySlug: 'jodoh-taaruf-istikharah',
+          publishedAt: null,
+        },
+        {
+          id: 'demo-a2',
+          title: 'Solat istikharah jodoh: cara, bacaan dan apa yang berlaku selepas',
+          slug: 'solat-istikharah-jodoh',
+          categorySlug: 'jodoh-taaruf-istikharah',
+          publishedAt: null,
+        },
+        {
+          id: 'demo-a3',
+          title: 'Kursus kahwin: kos',
+          slug: 'kursus-kahwin-kos',
+          categorySlug: 'kursus-kahwin-saringan-pra-nikah',
+          publishedAt: null,
+        },
+      ],
+    },
+    {
+      id: 'demo-merisik',
+      name: 'Merisik & meminang',
+      slug: 'merisik-meminang',
+      entityPhrase: 'merisik',
+      pillarCode: null,
+      articles: [],
+    },
+  ],
+};
+
 export default async function DesignSystemPage({
   searchParams,
 }: {
@@ -136,6 +190,17 @@ export default async function DesignSystemPage({
   // This is what makes "Load /design-system in both themes" reproducible
   // without inventing the toggle DES-03 §12 explicitly rules out.
   const { theme } = await searchParams;
+
+  // The rail in §07 renders the SAME <CategoryRail> the public masthead
+  // renders, fed by the SAME query — so this page cannot show a rail the site
+  // does not have. Soft-fail for the same reason the masthead soft-fails: a DB
+  // blip must cost this section, not the page.
+  let railCategories: MenuCategory[] = [];
+  try {
+    railCategories = await getMastheadCategories();
+  } catch {
+    railCategories = [];
+  }
   const dark = theme === 'dark';
   const rootClass = `hk s-pad ${bodoniModa.variable} ${dark ? 'hk-dark' : ''}`;
 
@@ -574,6 +639,7 @@ export default async function DesignSystemPage({
                   meta="Fotografi & Videografi"
                   imageSrc={placeholderImg('80×80')}
                   imageAlt="Rombongan hantaran berjalan di tepi jalan sambil memegang dulang"
+                  index={2}
                 />
                 <ListRow
                   href="#"
@@ -582,6 +648,7 @@ export default async function DesignSystemPage({
                   meta="Hantaran & Mas Kahwin"
                   imageSrc={placeholderImg('80×80')}
                   imageAlt="Dulang terbuka dengan gubahan bunga merah dan renda putih"
+                  index={3}
                 />
                 <ListRow
                   href="#"
@@ -595,7 +662,53 @@ export default async function DesignSystemPage({
                 The fourth row has no cover — <code>.s-imgless</code>, spec §6.3/§8: the figure is
                 removed entirely rather than rendered broken or as a grey promise. Titles are the
                 real 95-character longest and ~47-character shortest of the 86-title corpus, per
-                DES-07&rsquo;s definition of done.
+                DES-07&rsquo;s definition of done. <code>index</code> is a required prop (UI-01):
+                the card is 01, so these rows are 2&ndash;4. <code>.s-row</code> reserves a 44px
+                desktop track for it, and a row that omits it puts its headline in that track rather
+                than losing it.
+              </p>
+            </div>
+
+            {/* Pillar list — the OTHER article-row shape (UI-05) */}
+            <div className="pt-8">
+              <Label muted className="mb-2 block">
+                Pillar list — .s-pillar-link — populated cluster, then an empty one
+              </Label>
+              <PillarBody view={PILLAR_DEMO} intro={null} />
+              <p className="text-muted-foreground mt-2 max-w-[74ch] text-xs">
+                The real <code>PillarBody</code>, rendered from a fixture — not a copy of it — so
+                this entry cannot drift from the seven pillar hubs. A pillar row is deliberately{' '}
+                <strong>lighter and larger</strong> than the <code>.s-row</code> above it (400/17px
+                vs 600/15px at 390px, both Bodoni Moda at <code>−0.012em</code>/
+                <code>−0.018em</code>
+                ): a pillar is a map of a topic, not a feed. Until UI-05 these links carried{' '}
+                <code>.t</code>, which only ever existed as <code>.s-row .t</code> — a descendant
+                selector that never matched here — so they rendered in body sans at 17.04px, proved
+                by <code>getComputedStyle</code> on production.
+              </p>
+              <p className="text-muted-foreground mt-2 max-w-[74ch] text-xs">
+                The empty cluster keeps its heading (hiding it would make the pillar look complete
+                when it is not) and now opens on the same <code>--rule</code> and the same 20px of
+                air as a populated one, with its promise line on a link row&rsquo;s 13px rhythm. The
+                rule is structural: it says &ldquo;the cluster body starts here&rdquo;, which is not
+                conditional on there being links.
+              </p>
+            </div>
+
+            {/* Empty pillar — the P6 state, and the soft-fail shape */}
+            <div className="pt-8">
+              <Label muted className="mb-2 block">
+                Empty pillar — .s-empty + .s-btn link — UI-05 P6
+              </Label>
+              <PillarBody view={{ clusters: [], unclustered: [], totalArticles: 0 }} intro={null} />
+              <p className="text-muted-foreground mt-2 max-w-[74ch] text-xs">
+                A pillar with no clusters and no unclustered articles. This is also exactly what the
+                route renders when <code>getPillarView</code> fails or blows its 3s deadline — the
+                error is swallowed and <code>view</code> stays empty — so the soft-fail path and the
+                genuinely-empty path get the same designed exit rather than a blank{' '}
+                <code>&lt;div&gt;</code>. The way out is a real <code>&lt;Link&gt;</code> wearing{' '}
+                <code>.s-btn</code>, not a <code>Button</code>: <code>EmptyState</code>&rsquo;s{' '}
+                <code>action</code> takes an <code>onClick</code>, and this renders on the server.
               </p>
             </div>
 
@@ -861,9 +974,84 @@ export default async function DesignSystemPage({
           </p>
         </section>
 
-        {/* ── 07 SCOPE ───────────────────────────────────────────────── */}
+        {/* ── 07 MASTHEAD CATEGORY RAIL ──────────────────────────────── */}
+        <section className="flex flex-col gap-6">
+          <SectionHead
+            n="07"
+            title="Masthead category rail"
+            note="UI-02 — the real component, not a copy of it"
+          />
+          <p className="text-muted-foreground max-w-[74ch] text-sm">
+            Everything below is <code>&lt;CategoryRail&gt;</code> rendered from{' '}
+            <code>getMastheadCategories()</code> — the same component and the same query the public
+            masthead uses. Resize this window: at and above 1024px the rail wraps to as many rows as
+            it needs and never scrolls; below 1024px it becomes a horizontal scroller with the{' '}
+            <code>.hk-edge</code> cues, which is what a phone gets. {railCategories.length}{' '}
+            categories are live right now.
+          </p>
+          <div className="hk-public border" style={{ borderColor: 'var(--border)' }}>
+            <CategoryRail categories={railCategories} />
+          </div>
+          <div className="overflow-x-auto border">
+            <table className="w-full text-sm">
+              <thead className="bg-muted/40">
+                <tr>
+                  <th className="p-2 text-left font-mono text-[11px] uppercase">Token</th>
+                  <th className="p-2 text-right font-mono text-[11px] uppercase">Value</th>
+                  <th className="p-2 text-left font-mono text-[11px] uppercase">Decides</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  [
+                    '--navrail-measure',
+                    '80rem / 1280px',
+                    'How wide the rail is allowed to be. Kept, not widened: widening it was the DES-08 attempt to fit nine pillars on one line, and it did not.',
+                  ],
+                  [
+                    '--navrail-gutter',
+                    '0.5rem → 1rem at 1024px',
+                    'Inline padding on the rail container.',
+                  ],
+                  [
+                    '--navrail-item-pad',
+                    '0.75rem / 12px',
+                    'Inline padding per link. 16px → 12px takes the nine live labels from 1,969.53px of row to 1,897.53px — measured, not estimated.',
+                  ],
+                  ['--navrail-item-gap-x', '0.25rem / 4px', 'Link to link across a row.'],
+                  ['--navrail-item-gap-y', '0.5rem / 8px', 'Row to row once the rail wraps.'],
+                  [
+                    '--navrail-target',
+                    '2.75rem / 44px',
+                    'Minimum height of every link. The rail is set in 11px type, which alone gives a 32.5px target; this is the site’s only navigation on a phone.',
+                  ],
+                ].map(([tok, val, job]) => (
+                  <tr key={tok} className="border-t">
+                    <td className="p-2 font-mono text-[11px] whitespace-nowrap">{tok}</td>
+                    <td className="p-2 text-right font-mono text-[11px] tabular-nums whitespace-nowrap">
+                      {val}
+                    </td>
+                    <td className="p-2 text-sm">{job}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="text-muted-foreground max-w-[74ch] text-xs">
+            <strong>Measured, live production, 31 Aug 2026, before UI-02</strong> (
+            <code>node scripts/measure-nav-overflow.mjs https://hellokahwin.com/</code>): the rail
+            was 1,970px of content in a 1,264px scroller at 1280px, 1440px <em>and</em> 1920px of
+            viewport — three of nine links past the viewport edge at 1280/1440, two at 1920, and
+            three clipped by the scroller at every width. The focus ring here is{' '}
+            <code>var(--foreground)</code> at 2px with a 2px offset, 17.81:1 on the public paper,
+            and <code>outline-color</code> is deliberately excluded from the item&rsquo;s transition
+            list so the ring lands on the first frame rather than fading in.
+          </p>
+        </section>
+
+        {/* ── 08 SCOPE ───────────────────────────────────────────────── */}
         <section className="flex flex-col gap-4">
-          <SectionHead n="07" title="Not yet here, and why" />
+          <SectionHead n="08" title="Not yet here, and why" />
           <ul className="text-muted-foreground max-w-[74ch] list-disc space-y-2 pl-5 text-sm">
             <li>
               <strong>Search panel, results, pagination and filter mechanisms</strong> — DES-06
