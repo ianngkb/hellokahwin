@@ -186,7 +186,7 @@
       "id": "PLAT-15",
       "track": "platform",
       "points": 2,
-      "state": "in_progress",
+      "state": "done",
       "owner": "BMAD",
       "title": "sprint-NN.json and the tracker diverge - and the JSON is supposed to be the contract",
       "flags": [
@@ -196,7 +196,15 @@
       "why": "Found during Sprint 04 planning. sprint-03.json reads state:in_progress with 24 of 26 items todo, while the tracker reads done, 107/115. /endsprint writes a SEPARATE -retro.json and never reconciles the contract file. Same for sprints 01 and 02. The /hellokahwin skill calls sprint-NN.json 'the contract: /startsprint executes it, the dashboard reads it, /endsprint writes the retro into it' - and it is abandoned mid-sprint every time. A reader opening sprint-03.json would conclude nothing shipped.",
       "dod": "Running /endsprint on a closed sprint leaves sprint-NN.json with state:'done' and EVERY item's state matching the tracker. Demonstrated by BACK-FILLING sprints 01-03, showing a diff of sprint-03.json before and after, PLUS a query proving the JSON now agrees with the tracker ITEM FOR ITEM - not just on the header totals.",
       "brief": "The header agreeing while items disagree is the failure mode that hid this for three sprints. Compare item-for-item.",
-      "evidence": []
+      "evidence": [
+        {
+          "at": "2026-08-30T18:00:56.143Z",
+          "link": "https://github.com/ianng89/buddy/commit/c6cba4a",
+          "actor": "SYSTEM",
+          "claim": "sprint-NN.json now agrees with the tracker ITEM FOR ITEM for all four sprints, and the mechanism is closed by a gate that exits non-zero rather than a paragraph",
+          "proof": "BEFORE (sprint reconcile N --check, run before any change): sprint 01 4 of 14 items disagreed + 3 header fields; sprint 02 20 of 20 + 4; sprint 03 23 of 26 + 4; sprint 04 10 of 11 + 2. sprint-03.json read state=in_progress with 24 of 26 items todo against a tracker reading done 107/115. AFTER: all four reconciled, and proved by an INDEPENDENT verifier that queries PostgREST directly and reimplements the comparison so a bug in the reconciler cannot make it pass - 'sprint 01 file 14/tracker 14 AGREES; sprint 02 20/19 AGREES (SEO-04 in the PLAT-10 departures ledger); sprint 03 26/26 AGREES; sprint 04 16/16 AGREES. 76 file items compared. 0 disagreements. EXIT=0'. The as-scoped record survived byte-identical: 71 items x 10 fields (track, points, owner, title, why, dod, brief, flags, spec, spec_status) checked against HEAD, lost:none altered:none. NEW: 'sprint reconcile N [--file F] [--check]' writes the tracker back into the file (the direction import never had); --check writes nothing and exits 1 on disagreement, wired into /endsprint as new Step 4a. Two gates added to 'sprint import', both replacing prose that had already failed: it now REFUSES to carry a stale file header over a running sprint (the 28 Aug Sprint 03 accident, still fully reproducible today - tested), and validates the whole file before writing any of it (tracks/states/DoD reported all at once, nothing written on failure - Sprint 04's rejected 'ui' and 'rights' tracks). Negative control: after both refusals the sprint was untouched (state=in_progress startedAt=2026-08-31 itemCount=16) and a valid import ran clean, 0 created 16 updated. 231 tests pass (sprint-cli.test.ts 30 to 42), tsc clean on @buddy/db AND scripts/sprint.ts, eslint clean. SHIPPED: buddy c6cba4a on origin/main; hellokahwin 5bdb19c on origin/feat/command-centre-dashboard; skills live via ~/.claude/skills symlinks (verified through the symlink)."
+        }
+      ]
     },
     {
       "id": "RIGHTS-01",
@@ -334,7 +342,7 @@
     "note": "state, started_at, ended_at, retro and every item's state and evidence are the TRACKER's. points, track, owner, title, why, dod and brief are left AS SCOPED so /endsprint can still measure sizing accuracy against them.",
     "tracker_velocity": {
       "planned": 64,
-      "completed": 8,
+      "completed": 10,
       "parked": 0,
       "moved_out": 0
     },
