@@ -64,3 +64,40 @@ Android Chrome user-agent. **Chromium is not iOS Safari.** One finding below
 (the search input's 14px font size triggering iOS focus-zoom) is a *measured CSS
 value* plus documented iOS behaviour — it is not a rendered iOS observation, and
 it is labelled that way wherever it appears.
+
+## ⚠ Never count a plain-text phrase by grepping the served HTML
+
+Added 31 Ogos 2026 by UI-05, which got a number wrong this way.
+
+**A Next.js App Router document contains the page TWICE** — once as rendered
+HTML, and again as the serialised RSC flight payload inside `<script>`. Any
+**plain-text** pattern grepped over that document returns exactly **double**.
+
+UI-05 reported *"eight empty clusters across four pillars"* from:
+
+```
+grep -o 'akan datang tidak lama lagi' page.html | wc -l
+```
+
+The real figure is **four across three**. It read as plausible, and it survived
+being run a second time — because running the same wrong method twice agrees
+with itself. It was caught only when a different agent counted it a different
+way.
+
+Patterns anchored to **unescaped attribute syntax** do survive, because the
+flight payload writes quotes as `\"`. Verified against the DOM rather than
+assumed — grep and `querySelectorAll` agree exactly on all three:
+
+| Pattern | Safe? | Why |
+|---|---|---|
+| `<img` | ✅ | Tag syntax; the payload serialises the tag name as `"img"` |
+| `id="cluster-` | ✅ | Unescaped attribute quote |
+| `href="/artikel/…"` | ✅ | Unescaped attribute quote |
+| any bare phrase of page copy | ❌ | **Appears in both copies** |
+
+"Some text patterns are safe and some are not" is not a rule anyone applies
+correctly under pressure. **Count in the DOM** — this harness already gives you
+a browser, so use `querySelectorAll` rather than `grep`.
+
+A worked example that also asserts its result:
+[`../aug-31-2026-ui-05-EVIDENCE/harness/census-category-images.mjs`](../aug-31-2026-ui-05-EVIDENCE/harness/census-category-images.mjs)

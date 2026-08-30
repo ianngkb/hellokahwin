@@ -1,0 +1,1132 @@
+<title>Imej pada Hab Pilar</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<style>
+/* ============================================================
+   DOCUMENT ZONE — drafting-paper register, identical to DES-06
+   so the two documents read as one set. Deliberately NOT the
+   site's palette: annotation must never be mistaken for spec.
+   ============================================================ */
+:root{
+  --paper:#e9ecef; --sheet:#f7f8fa; --ink:#15181c; --ink-soft:#525d68;
+  --ink-faint:#5c6670; --rule:#c4cbd2; --rule-soft:#d8dde2;
+  --blue:#1b5a84; --blue-wash:#dde8f0; --flag:#9d2f28; --flag-wash:#f2e2e0;
+  --ok:#2a6349; --ok-wash:#dfeae4;
+  --shadow:0 1px 2px rgba(21,24,28,.06),0 8px 24px rgba(21,24,28,.06);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121519; --sheet:#1a1e23; --ink:#e7eaed; --ink-soft:#9aa4ae;
+    --ink-faint:#78828c; --rule:#2c333a; --rule-soft:#242a30;
+    --blue:#78b6dd; --blue-wash:#17262f; --flag:#e2938c; --flag-wash:#2b1c1b;
+    --ok:#82c5a3; --ok-wash:#17251e;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121519; --sheet:#1a1e23; --ink:#e7eaed; --ink-soft:#9aa4ae;
+  --ink-faint:#78828c; --rule:#2c333a; --rule-soft:#242a30;
+  --blue:#78b6dd; --blue-wash:#17262f; --flag:#e2938c; --flag-wash:#2b1c1b;
+  --ok:#82c5a3; --ok-wash:#17251e;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:15px; line-height:1.6; -webkit-font-smoothing:antialiased;
+}
+a{color:var(--blue)}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px 96px}
+
+.mast{padding:56px 0 32px;border-bottom:2px solid var(--ink)}
+.kicker{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--blue);margin:0 0 14px}
+h1{font-family:"IBM Plex Sans Condensed",system-ui,sans-serif;font-weight:700;
+  font-size:clamp(2.1rem,6vw,3.4rem);line-height:1.03;letter-spacing:-.02em;
+  margin:0 0 18px;text-wrap:balance;max-width:18ch}
+.standfirst{font-size:1.0625rem;color:var(--ink-soft);max-width:62ch;margin:0}
+.meta{display:flex;flex-wrap:wrap;gap:6px 22px;margin-top:26px;
+  font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-faint)}
+.meta b{color:var(--ink-soft);font-weight:500}
+
+section{padding-top:56px}
+h2{font-family:"IBM Plex Sans Condensed",system-ui,sans-serif;font-weight:700;
+  font-size:1.7rem;letter-spacing:-.012em;margin:0 0 6px;padding-bottom:10px;
+  border-bottom:1px solid var(--rule);text-wrap:balance}
+h2 .num{font-family:"IBM Plex Mono",monospace;font-size:.72em;color:var(--blue);
+  font-weight:400;margin-right:.7em;letter-spacing:0}
+h3{font-family:"IBM Plex Sans Condensed",system-ui,sans-serif;font-weight:600;
+  font-size:1.18rem;margin:34px 0 8px;letter-spacing:-.008em}
+h4{font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:11px;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);margin:26px 0 8px}
+p{margin:0 0 14px;max-width:70ch}
+ul,ol{margin:0 0 14px;padding-left:1.15rem;max-width:70ch}
+li{margin-bottom:6px}
+code{font-family:"IBM Plex Mono",monospace;font-size:.88em;background:var(--sheet);
+  border:1px solid var(--rule-soft);border-radius:3px;padding:.1em .34em}
+strong{font-weight:600}
+
+.note{border-left:3px solid var(--blue);background:var(--blue-wash);padding:14px 16px;
+  margin:18px 0;border-radius:0 4px 4px 0;max-width:74ch}
+.note.flag{border-left-color:var(--flag);background:var(--flag-wash)}
+.note.ok{border-left-color:var(--ok);background:var(--ok-wash)}
+.note p:last-child{margin-bottom:0}
+.note .lbl{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.16em;
+  text-transform:uppercase;display:block;margin-bottom:6px;color:var(--blue);font-weight:500}
+.note.flag .lbl{color:var(--flag)}
+.note.ok .lbl{color:var(--ok)}
+
+.scroll{overflow-x:auto;margin:18px 0;border:1px solid var(--rule);border-radius:5px;background:var(--sheet)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:520px}
+th,td{text-align:left;padding:9px 13px;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+th{font-family:"IBM Plex Sans Condensed",sans-serif;font-weight:600;font-size:12px;
+  letter-spacing:.03em;text-transform:uppercase;color:var(--ink-soft);
+  border-bottom:1px solid var(--rule);white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.hi td{background:var(--flag-wash)}
+tr.good td{background:var(--ok-wash)}
+td.c{text-align:center;font-family:"IBM Plex Mono",monospace;font-size:12px}
+
+.state{display:grid;gap:26px;padding:30px 0;border-bottom:1px solid var(--rule-soft);
+  grid-template-columns:1fr;align-items:start}
+.state>*{min-width:0}
+@media (min-width:900px){
+  .state{grid-template-columns:392px 1fr;gap:38px}
+  .state .ann{position:sticky;top:20px}
+}
+.state:last-of-type{border-bottom:0}
+.sid{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;
+  color:#e9ecef;background:var(--blue);padding:2px 7px;border-radius:3px;
+  display:inline-block;margin-bottom:8px;font-weight:500}
+.sid.flag{background:var(--flag)}
+.sid.ok{background:var(--ok)}
+kbd{font-family:"IBM Plex Mono",monospace;font-size:.86em;background:var(--sheet);
+  border:1px solid var(--rule);border-bottom-width:2px;border-radius:4px;
+  padding:.08em .38em;white-space:nowrap}
+.ann h3{margin-top:0}
+.ann dl{margin:0;font-size:14px}
+.ann dt{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-faint);margin-top:14px}
+.ann dd{margin:2px 0 0}
+.ann dd:first-of-type{margin-top:2px}
+
+.rig{width:100%;max-width:392px}
+.rigcap{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink-faint);
+  letter-spacing:.1em;text-transform:uppercase;margin:0 0 7px;display:flex;
+  justify-content:space-between;gap:10px}
+.frame{width:360px;max-width:100%;border:1px solid var(--rule);border-radius:6px;
+  overflow:hidden;box-shadow:var(--shadow);background:#fcfbfa}
+.rail{width:360px;max-width:100%;margin:0 0 8px;position:relative;height:22px}
+.rail .bar{position:absolute;left:0;right:0;top:9px;height:1px;background:var(--blue)}
+.rail .tick{position:absolute;top:4px;width:1px;height:11px;background:var(--blue)}
+.rail .lab{position:absolute;top:-3px;font-family:"IBM Plex Mono",monospace;font-size:10px;
+  color:var(--blue);background:var(--paper);padding:0 5px}
+
+/* ============================================================
+   SCREEN ZONE — production tokens, read out of the served
+   stylesheet chunks/655cb3c3fa9beb33.css on 28 Ogos 2026,
+   deploy dpl_CV6piQmHcTjeP1p5nSmH3tffd4MS. The public surface
+   ships light only and ships NO webfont: every serif below is
+   Georgia, which is what production actually renders.
+   ============================================================ */
+.hk{
+  --bg:#fcfbfa; --fg:#151412; --mut:#595855; --bd:#dad9d7; --bds:#93928f;
+  --sub:#f1f0ee; --raised:#eeedeb;
+  background:var(--bg);color:var(--fg);
+  font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  font-size:14px;line-height:1.5
+}
+.hk *{box-sizing:border-box}
+.hk .serif{font-family:Georgia,"Times New Roman",Times,serif;font-weight:400;letter-spacing:-.018em;line-height:1.08}
+.hk .eyebrow{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--mut);line-height:1.4}
+.hk .hd{height:56px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 16px;border-bottom:1px solid var(--bd)}
+.hk .wordmark{font-family:Georgia,serif;font-size:19px;letter-spacing:.22em;
+  text-transform:uppercase;line-height:1}
+.hk .icon{width:44px;height:44px;display:flex;align-items:center;justify-content:center;
+  margin-right:-10px;color:var(--mut)}
+.hk .icon svg{width:17px;height:17px}
+.hk .rail2{display:flex;gap:16px;padding:0 16px;border-bottom:1px solid var(--bd);
+  overflow:hidden;white-space:nowrap;color:var(--mut);font-size:11px;
+  letter-spacing:.13em;text-transform:uppercase;font-weight:600;position:relative}
+.hk .rail2 span{display:flex;align-items:center;min-height:44px}
+.hk .rail2 span.on{color:var(--fg);box-shadow:inset 0 -2px 0 var(--fg)}
+.hk .fade{position:absolute;right:0;top:0;bottom:0;width:38px;
+  background:linear-gradient(to left,#fcfbfa 40%,rgba(252,251,250,0))}
+.hk .body{padding:16px}
+.hk .crumb{font-size:12px;color:var(--mut);padding:12px 16px 0;line-height:1.5}
+.hk .crumb b{color:var(--fg);font-weight:500}
+.hk .cut{display:inline-block;max-width:200px;overflow:hidden;text-overflow:ellipsis;
+  white-space:nowrap;vertical-align:bottom}
+.hk h5{font-family:Georgia,serif;font-weight:400;font-size:26px;line-height:1.08;
+  letter-spacing:-.022em;margin:0}
+.hk .deck{font-family:Georgia,serif;color:var(--mut);font-size:17px;line-height:1.55;margin:8px 0 0}
+.hk .img{aspect-ratio:4/3;background:var(--sub);width:100%;display:block}
+.hk .img.wide{aspect-ratio:16/9}
+.hk .thumb{width:80px;height:80px;flex:0 0 80px;background:var(--sub);display:block}
+.hk .card .t{font-family:Georgia,serif;font-size:19px;line-height:1.26;letter-spacing:-.012em;
+  display:block;margin-top:8px}
+.hk .row{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--bd);
+  min-height:44px;align-items:flex-start}
+.hk .row .t{font-family:Georgia,serif;font-size:15px;line-height:1.26;letter-spacing:-.012em;display:block}
+.hk .row .c{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);
+  margin-top:5px;display:block;font-weight:600}
+.hk .list{border-top:1px solid var(--bd)}
+.hk .list a{display:block;padding:14px 0;border-bottom:1px solid var(--bd);
+  text-decoration:none;color:inherit;font-family:Georgia,serif;font-size:15px;
+  line-height:1.3;min-height:44px}
+.hk .btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;
+  padding:0 24px;border:1px solid var(--fg);background:var(--fg);color:var(--bg);
+  font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  text-decoration:none;border-radius:0}
+.hk .btn.ghost{background:transparent;color:var(--fg);border-color:var(--bds)}
+.hk .chip{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;
+  border:1px solid var(--bds);font-size:11px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--mut);white-space:nowrap}
+.hk .chip.on{color:var(--fg);border-color:var(--fg)}
+.hk .chips{display:flex;flex-wrap:wrap;gap:8px}
+.hk .quiet{color:var(--mut);font-size:13px;line-height:1.5}
+.hk .rule{display:flex;align-items:center;gap:12px;padding:16px 0 8px}
+.hk .rule::before,.hk .rule::after{content:"";flex:1;height:1px;background:var(--bd)}
+.hk .hr{height:1px;background:var(--bd);margin:16px 0}
+.hk .skel{background:var(--sub);border-radius:0;display:block}
+.hk .prog{height:2px;background:var(--sub);position:relative;overflow:hidden}
+.hk .prog i{position:absolute;left:0;top:0;bottom:0;width:38%;background:var(--fg)}
+.hk .pend{opacity:.45}
+.hk .fld{display:flex;align-items:center;height:44px;padding:0 14px;border:1px solid var(--bd);
+  color:var(--mut);font-size:14px;background:var(--bg);gap:9px}
+.hk .empty{border:1px dashed var(--bds);padding:14px;background:var(--bg)}
+.hk .empty .h{font-family:Georgia,serif;font-size:17px;line-height:1.3;margin:0 0 6px;display:block;color:var(--fg)}
+.hk .toc{border:1px solid var(--bd);background:var(--sub);padding:4px 14px}
+.hk .toc a{display:flex;align-items:center;min-height:44px;font-size:13px;color:var(--fg);
+  text-decoration:none;border-bottom:1px solid var(--bd)}
+.hk .toc a:last-child{border-bottom:0}
+.hk .prose{font-family:Georgia,serif;font-size:17px;line-height:1.7}
+.hk .prose p{margin:0 0 14px}
+.hk .sticky{border-top:1px solid var(--bd);display:flex;gap:12px;padding:8px 16px;
+  align-items:center;background:var(--bg)}
+.hk .ph{background:var(--sub);display:flex;align-items:center;justify-content:center;
+  color:var(--bds);font-family:Georgia,serif;font-size:12px;letter-spacing:.22em;
+  text-transform:uppercase}
+.hk .foot{border-top:1px solid var(--bd);padding:24px 16px;text-align:center}
+.hk .blank{height:200px;background:#fff;display:flex;align-items:center;justify-content:center;
+  color:#cfcecc;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em}
+
+.fn{font-size:13.5px;color:var(--ink-soft)}
+.fn li{margin-bottom:10px}
+.toc-nav{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--rule)}
+.toc-nav ul{display:flex;gap:0;list-style:none;margin:0 auto;padding:0 20px;overflow-x:auto;
+  max-width:1180px;scrollbar-width:none}
+.toc-nav ul::-webkit-scrollbar{display:none}
+.toc-nav a{display:block;padding:11px 14px 10px;font-family:"IBM Plex Mono",monospace;
+  font-size:11px;letter-spacing:.09em;text-transform:uppercase;text-decoration:none;
+  color:var(--ink-soft);white-space:nowrap;border-bottom:2px solid transparent}
+.toc-nav a:hover{color:var(--ink);border-bottom-color:var(--blue)}
+
+/* Below 420px a 360px artboard cannot sit inside the 20px page gutters.
+   It is NOT scaled and NOT allowed to shrink: a drawing narrower than
+   360px would be a different measurement from the one it claims to be.
+   The artboard keeps its exact width and scrolls inside its own rail. */
+@media (max-width:419px){
+  .rig{margin-left:-20px;margin-right:-20px;max-width:none;width:auto;overflow-x:auto;
+       scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .rig::-webkit-scrollbar{display:none}
+  .rigcap{padding:0 20px}
+  .rail{margin-left:20px}
+  .frame{width:360px;max-width:none;min-width:360px;border-radius:0;margin:0}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<style>
+/* UI-05 deviates from DES-07 in ONE value: the artboard is 390px, not 360px.
+   Every measurement in this document was taken at 390 against live production
+   (playwright-core + installed Chrome, 31 Ogos 2026), and a drawing at a width
+   the numbers were not taken at is a different measurement wearing the same
+   caption. The pillar hub is a single column with no horizontal constraint, so
+   360px renders the same composition with 30px less measure. */
+.frame{width:390px}
+.rail{width:390px}
+.rig{max-width:422px}
+@media (min-width:900px){ .state{grid-template-columns:422px 1fr} }
+@media (max-width:449px){
+  .rig{margin-left:-20px;margin-right:-20px;max-width:none;width:auto;overflow-x:auto}
+  .frame{width:390px;max-width:none;min-width:390px;border-radius:0;margin:0}
+  .rail{margin-left:20px}
+  .rigcap{padding:0 20px}
+}
+.verdict{display:grid;gap:14px;margin:22px 0}
+@media (min-width:760px){.verdict{grid-template-columns:1fr 1fr}}
+.vbox{border:1px solid var(--rule);border-radius:5px;padding:16px 18px;background:var(--sheet)}
+.vbox h4{margin-top:0}
+.vbox p:last-child{margin-bottom:0}
+.vbox.no{border-color:var(--flag)}
+.vbox.yes{border-color:var(--ok)}
+.big{font-family:"IBM Plex Mono",monospace;font-size:26px;line-height:1.1;
+  letter-spacing:-.02em;display:block;margin:2px 0 4px}
+.big.flag{color:var(--flag)} .big.ok{color:var(--ok)} .big.blue{color:var(--blue)}
+.statgrid{display:grid;gap:12px;margin:20px 0;grid-template-columns:repeat(auto-fit,minmax(168px,1fr))}
+.stat{border:1px solid var(--rule);border-radius:5px;padding:13px 15px;background:var(--sheet)}
+.stat .lab{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-faint);display:block}
+.stat .sub{font-size:12px;color:var(--ink-soft);display:block}
+.hk .promise{color:#595855;font-size:13px;line-height:1.5}
+.hk .pillarlink{display:block;padding:13px 0;border-bottom:1px solid var(--bd);
+  text-decoration:none;color:inherit;font-family:Georgia,serif;font-size:17px;
+  line-height:1.3;letter-spacing:-.012em}
+.hk .pillarlink.old{font-family:ui-sans-serif,system-ui,sans-serif;font-size:17px;
+  line-height:1.65;letter-spacing:normal;border-bottom:1px solid var(--bd)}
+.hk .clus{font-family:Georgia,serif;font-size:22px;line-height:1.12;letter-spacing:-.02em;
+  margin:0 0 0}
+.hk .clusbody{margin-top:20px;border-top:1px solid var(--bd)}
+.hk .sect{margin-bottom:56px}
+.rejected{border-left:3px solid var(--ink-faint);padding:2px 0 2px 16px;margin:18px 0;max-width:74ch}
+.rejected .lbl{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-faint);display:block;margin-bottom:5px}
+</style>
+
+<div class="toc-nav"><ul>
+<li><a href="#s1">1 · Premis</a></li>
+<li><a href="#s2">2 · Keputusan</a></li>
+<li><a href="#s3">3 · Bukti</a></li>
+<li><a href="#s4">4 · Persetujuan CD</a></li>
+<li><a href="#s5">5 · Set keadaan</a></li>
+<li><a href="#s6">6 · Yang dihantar</a></li>
+<li><a href="#s7">7 · Luar skop</a></li>
+<li><a href="#s8">8 · Syarat pembalikan</a></li>
+</ul></div>
+
+<div class="wrap">
+
+<header class="mast">
+  <p class="kicker">Sprint 04 · UI-05 · Track design</p>
+  <h1>Hab pilar kekal tanpa imej</h1>
+  <p class="standfirst">Tujuh daripada 44 halaman kategori tidak memaparkan sebarang
+  gambar. Ketujuh-tujuhnya ialah <em>hab pilar</em> — templat yang berbeza sama sekali.
+  Dokumen ini merekodkan keputusan untuk mengekalkannya tanpa imej, sebab yang boleh
+  dipertahankan dengan ukuran, syarat yang membalikkannya, dan set keadaan penuh bagi
+  templat itu.</p>
+  <div class="meta">
+    <span><b>Tarikh</b> 31 Ogos 2026</span>
+    <span><b>Pemilik</b> product-designer</span>
+    <span><b>Dipersetujui</b> creative-director</span>
+    <span><b>Diukur pada</b> hellokahwin.com langsung</span>
+    <span><b>Lebar</b> 390px, Chrome + playwright-core</span>
+  </div>
+</header>
+
+<!-- ===================================================================== -->
+<section id="s1">
+<h2><span class="num">1</span>The premise in the ticket is wrong, and the correction narrows the question</h2>
+
+<p>UI-05 was written from one measurement: <code>/artikel/hantaran-mas-kahwin</code>
+renders zero images. That measurement is correct. The generalisation drawn from it —
+"category pages render zero images" — is not.</p>
+
+<p>I fetched <strong>all 44 live category URLs</strong> on 31 Ogos 2026 and counted
+<code>&lt;img&gt;</code> in the served HTML.</p>
+
+<div class="statgrid">
+  <div class="stat"><span class="lab">URLs fetched</span><span class="big blue">44</span>
+    <span class="sub">every category in the nav and the <code>/artikel</code> index</span></div>
+  <div class="stat"><span class="lab">Already carry photography</span><span class="big ok">37</span>
+    <span class="sub">1–15 images each</span></div>
+  <div class="stat"><span class="lab">Render zero images</span><span class="big flag">7</span>
+    <span class="sub">all seven are pillar hubs</span></div>
+</div>
+
+<div class="note ok">
+<span class="lbl">The check was verified before the absence was believed</span>
+<p>A grep returning zero is a claim about the regex. I enumerated every tag on the
+pillar page instead of testing for the one I expected: <code>56 &lt;a&gt;</code>,
+<code>34 &lt;script&gt;</code>, <code>30 &lt;div&gt;</code>, <code>13 &lt;svg&gt;</code>,
+<code>5 &lt;h2&gt;</code>, <strong><code>0 &lt;img&gt;</code></strong>,
+<code>0 &lt;picture&gt;</code>. A case-insensitive search for <code>img</code> returns
+exactly two hits, both <code>role="img"</code> on the wordmark SVG. The absence is real.</p>
+</div>
+
+<p>The seven zero-image pages are not category listings that lost their pictures. They
+are <strong>pillar hubs</strong>, which render through
+<code>src/components/inspire/pillar-body.tsx</code> — a different component, reached by a
+different branch (<code>if (category.isPillar)</code>), fed by a different query
+(<code>getPillarView</code>) whose row type <code>PillarClusterArticle</code> carries
+<strong>no image field at all</strong>. The other 37 render through
+<code>CategoryCard</code> / <code>CategoryRow</code> in the same route file, and both of
+those already emit <code>&lt;img&gt;</code> with <code>srcset</code>.</p>
+
+<h3>The seven, with their real content</h3>
+<div class="scroll"><table>
+<thead><tr><th>Pillar hub</th><th class="n">Article links</th><th class="n">Clusters</th><th class="n">Empty clusters</th><th>h1 as rendered</th></tr></thead>
+<tbody>
+<tr><td><code>busana-pengantin</code></td><td class="n">3</td><td class="n">2</td><td class="n">0</td><td>Busana &amp; Penampilan Pengantin</td></tr>
+<tr><td><code>sebelum-nikah</code></td><td class="n">3</td><td class="n">5</td><td class="n">2</td><td>Sebelum Nikah: Jodoh, Merisik &amp; Tunang</td></tr>
+<tr><td><code>nikah-undang-undang</code></td><td class="n">5</td><td class="n">4</td><td class="n">1</td><td>Nikah &amp; Undang-undang</td></tr>
+<tr><td><code>ucapan-doa</code></td><td class="n">5</td><td class="n">4</td><td class="n">0</td><td>Ucapan, Doa &amp; Adab Majlis</td></tr>
+<tr><td><code>venue-perancangan</code></td><td class="n">6</td><td class="n">2</td><td class="n">0</td><td>Venue, Kos &amp; Perancangan</td></tr>
+<tr><td><code>pelamin-kad-cenderahati</code></td><td class="n">7</td><td class="n">4</td><td class="n">1</td><td>Pelamin, Kad &amp; Cenderahati Majlis</td></tr>
+<tr class="hi"><td><code>hantaran-mas-kahwin</code></td><td class="n">38</td><td class="n">5</td><td class="n">0</td><td>Hantaran &amp; Mas Kahwin</td></tr>
+</tbody></table></div>
+
+<p><strong>Six of the seven carry between three and seven articles.</strong> Only
+<code>hantaran-mas-kahwin</code> is large enough that a grid treatment is even a
+question. That fact does most of the work below, and the ticket could not have known it
+because it looked at the one page where it is least true.</p>
+
+<div class="note flag">
+<span class="lbl">What this means for the item</span>
+<p>UI-05's DoD says "category pages carry imagery … or a written rationale for why they
+stay text-only." <strong>37 of 44 category pages already carry imagery.</strong> The
+decision this document records is therefore narrower than the DoD's wording assumed: it
+is about the seven pillar hubs, and nothing in it changes the 37 grid pages.</p>
+</div>
+</section>
+
+<!-- ===================================================================== -->
+<section id="s2">
+<h2><span class="num">2</span>The decision</h2>
+
+<div class="verdict">
+  <div class="vbox yes">
+    <h4>Decided</h4>
+    <p><strong>The seven pillar hubs stay text-only.</strong> No thumbnail grid, no
+    per-row thumbnail, no lead card. The cluster map is carried by typography.</p>
+    <p>Agreed by the creative director on 31 Ogos 2026 after reviewing the rendered
+    evidence (§4).</p>
+  </div>
+  <div class="vbox no">
+    <h4>Rejected: thumbnails on pillar rows</h4>
+    <p>Rejected not on taste but on the asset library, measured: at the real 80px mobile
+    treatment the covers do not form a set, two pairs are the same photograph, and the
+    four highest-value pages are illustrated with buildings.</p>
+  </div>
+</div>
+
+<div class="note">
+<span class="lbl">The reason, in one sentence</span>
+<p><strong>The asset library cannot support a thumbnail treatment on these pages
+today.</strong> This is not a claim that topic hubs should never carry photography — that
+would be a taste claim, and the creative director declined to make it. It is a claim
+about these assets, at this quality, in this slot. §8 states what reverses it.</p>
+</div>
+
+<div class="rejected">
+<span class="lbl">Rejected argument — recorded so it is not made later</span>
+<p><strong>"Do it for consistency: 37 of 44 category pages have images, so the pillars
+are the odd ones out."</strong> Consistency of template is not a virtue when the pages do
+different jobs. The 37 are the browse surface — reverse-chronological listings of what
+exists. A pillar is a <em>map of a topic</em> that deliberately renders sections which do
+not exist yet (eight of them are live right now). Making the map look like the listing
+would destroy the distinction the pillar architecture exists to draw.</p>
+</div>
+
+<div class="rejected">
+<span class="lbl">Rejected argument — and this one is explicitly forbidden</span>
+<p><strong>Any SEO justification.</strong> Decision 86 measured these pages at ~16
+impressions and zero clicks. Nothing in this document is argued from traffic, and nothing
+in it should be scored on traffic later. This is a brand and credibility decision.</p>
+</div>
+</section>
+
+<!-- ===================================================================== -->
+<section id="s3">
+<h2><span class="num">3</span>The evidence</h2>
+
+<h3>3.1 The covers do not form a set — and this is the decisive one</h3>
+
+<p>I rendered all 38 <code>hantaran-mas-kahwin</code> cover images at the exact treatment
+a pillar row would use — 80&times;80, <code>object-fit: cover</code> — and looked at the
+sheet. Evidence:
+<code>aug-31-2026-ui-05-EVIDENCE/F-contact-sheet-80px.png</code>.</p>
+
+<div class="scroll"><table>
+<thead><tr><th>What the sheet shows</th><th>Instances</th></tr></thead>
+<tbody>
+<tr class="hi"><td><strong>Exact duplicate photographs</strong></td><td><code>dulang-hantaran</code> = <code>tempat-beli-hantaran</code> (fruit tray, white dove, orange cone); <code>hantaran-tempah-atau-buat-sendiri</code> = <code>nisbah-hantaran</code> (turquoise gubahan, red rose on pink tulle)</td></tr>
+<tr class="hi"><td><strong>Highest-value pages illustrated with architecture</strong></td><td><code>mas-kahwin-perak</code> (white low-rise block across water, hazy), <code>mas-kahwin-sabah-sarawak</code> (terracotta shophouse with a black car), <code>mas-kahwin-pahang-negeri-sembilan</code> (blue-tiled signboard), <code>cincin-tunang</code> (red "KEDAI EMAS" shopfront), <code>mas-kahwin-johor</code> (men in hi-vis carrying kompang)</td></tr>
+<tr><td>Monochrome against 37 colour</td><td><code>hantaran-kahwin-5-balas-7</code></td></tr>
+<tr><td>Group / crowd shots that turn to mush at 80px</td><td>roughly a third of the sheet</td></tr>
+<tr><td>Incompatible registers tiled together</td><td>styled still-life on white; dark jewel-toned product close-up; flash-lit interior documentary; daylit exterior architecture; one monochrome</td></tr>
+</tbody></table></div>
+
+<p>The creative director's reading of the same sheet, which is the part that is their
+remit and not mine: a thumbnail grid works when the images share a register — one light,
+one distance to subject, one palette — and this sheet has at least four incompatible
+registers six-across, so it reads as a scraped image search. And it destroys the palette:
+the ground is <code>#edeae1</code> and the system runs near-monochrome on a single bronze
+accent, <code>#725825</code>; the sheet introduces saturated turquoise, hot pink, magenta,
+lime and orange at 80px intervals.</p>
+
+<div class="note flag">
+<span class="lbl">The rule a thumbnail grid breaks</span>
+<p>A cover must depict its subject. Inside an article a weak cover is one image beside
+1,500 words that do the depicting. <strong>In a thumbnail grid the image <em>is</em> the
+entry</strong> — nothing else carries it. So the grid promotes precisely the covers that
+fail that rule into the position where the failure is most visible, and it does it to the
+state-rate pages, which are the most-searched content on the site. An office block cannot
+represent "mas kahwin Perak" when it is the only thing in the slot.</p>
+</div>
+
+<h3>3.2 The byte cost is 173&times;, and it buys nothing a reader asked for</h3>
+
+<div class="statgrid">
+  <div class="stat"><span class="lab">Pillar page today</span><span class="big ok">12,308 B</span>
+    <span class="sub">brotli, live, <code>x-vercel-cache</code> recorded</span></div>
+  <div class="stat"><span class="lab">The 38 cover assets</span><span class="big flag">2,123,006 B</span>
+    <span class="sub">measured individually against R2</span></div>
+  <div class="stat"><span class="lab">Increase</span><span class="big flag">173&times;</span>
+    <span class="sub">to render 80px thumbnails</span></div>
+  <div class="stat"><span class="lab">Per-asset range</span><span class="big">18–252 KB</span>
+    <span class="sub">mean 55 KB</span></div>
+</div>
+
+<div class="note">
+<span class="lbl">Stated honestly, because the audit killed a finding for getting this wrong</span>
+<p><code>loading="lazy"</code> means these do not all download on arrival. <strong>Lazy
+loading defers the cost; it does not avoid it.</strong> A reader who scans the whole
+map — which is the entire purpose of a pillar page — pays all 2.02 MB. Quoting the full
+figure as an <em>initial</em> payload would be the same error §3 of the UI audit withdrew
+a finding for.</p>
+</div>
+
+<h3>3.3 There is no correctly-sized derivative in existence</h3>
+
+<p>From <code>src/lib/storage/image-variants.ts</code>, the pipeline generates exactly
+two presets:</p>
+
+<div class="scroll"><table>
+<thead><tr><th>Variant</th><th>Quality</th><th class="n">Max width</th><th>Measured size</th><th>Fits an 80px slot?</th></tr></thead>
+<tbody>
+<tr><td><code>low</code></td><td>q30</td><td class="n">1200px</td><td>18–252 KB</td><td>No — 15&times; oversized, and q30</td></tr>
+<tr><td><code>high</code></td><td>q80</td><td class="n">2400px</td><td>—</td><td>No — 30&times; oversized</td></tr>
+<tr><td><code>crop-4x3-article-card</code></td><td>full</td><td class="n">—</td><td class="n">552,098–923,392 B</td><td>No — worse than either</td></tr>
+</tbody></table></div>
+
+<p>So a 176px desktop slot and an 80px mobile slot have <strong>nothing to serve but a
+1200px asset at q30</strong>. That is already true of the 37 grid pages — every category
+thumbnail on the site today serves <code>low</code>. Adding 38 more instances of a defect
+is not a fix for the complaint that the site looks bad.</p>
+
+<h3>3.4 Aspect: the sources do not agree with the slot</h3>
+
+<p>True intrinsic dimensions of all 38 covers, read after full decode (a
+<code>naturalWidth</code> read mid-decode returns nonsense — this is the trap §3 of the
+audit records, and my first pass fell into it):</p>
+
+<div class="scroll"><table>
+<thead><tr><th class="n">Count</th><th>Intrinsic</th><th class="n">Aspect</th><th>Against the 1:1 mobile slot</th><th>Against the 4:3 desktop slot</th></tr></thead>
+<tbody>
+<tr><td class="n">24</td><td>1200×800</td><td class="n">1.50</td><td>33% off</td><td>11% off</td></tr>
+<tr><td class="n">4</td><td>1200×900</td><td class="n">1.33</td><td>33% off</td><td>match</td></tr>
+<tr class="hi"><td class="n">5</td><td>1200×1800</td><td class="n">0.67</td><td>49% off</td><td>98% off</td></tr>
+<tr class="hi"><td class="n">4</td><td>1200×1600 / 1604</td><td class="n">0.75</td><td>33% off</td><td>77% off</td></tr>
+<tr><td class="n">1</td><td>1200×849</td><td class="n">1.41</td><td>29% off</td><td>6% off</td></tr>
+</tbody></table></div>
+
+<div class="note">
+<span class="lbl">Which rules I assumed, because UI-03 has not landed</span>
+<p>UI-03 is <code>in_progress</code> with zero evidence claimed as of 31 Ogos 2026, so its
+aspect and quality rules do not exist yet. I assumed the three stated in its own DoD:
+<strong>rendered aspect within 15% of source</strong>, <strong>upscale ≤ 1.1&times;</strong>,
+<strong>served variant is not <code>low</code></strong>. Under those rules, 0 of 38 covers
+pass in the mobile slot and 9 of 38 fail the desktop slot outright.</p>
+<p>I record one caveat against my own argument: UI-03's 15% rule was written for a
+full-bleed hero at 1905px, where a 72% centre-crop destroys the photograph. It is not
+obviously the right rule for an 80px thumbnail, where a square crop is a legitimate
+editorial device. <strong>I am not resting the decision on that rule</strong> — §3.1 and
+§3.3 carry it. This table is here so the numbers are on the record, not because a
+percentage settles a design question.</p>
+</div>
+
+<h3>3.5 The pillar renders empty sections on purpose, and a photograph cannot render a promise</h3>
+
+<p>Four empty clusters are live right now across three pillars, each rendering
+<em>"Artikel untuk … akan datang tidak lama lagi."</em> That is deliberate, documented in
+<code>pillar-body.tsx</code>: the pillar is the map, and a cluster with nothing under it
+yet is information for a reader and a commitment for the editorial team. Hiding it would
+make the pillar look complete when it is not.</p>
+
+<p>A thumbnail grid has exactly two options for such a section, and both are worse than
+text: drop it (destroying the map, which is the architecture's entire purpose) or render a
+placeholder box (which reads as a broken image). <strong>On <code>sebelum-nikah</code>,
+two of five clusters are empty and the whole pillar holds three articles.</strong> A grid
+there would be three photographs and two grey rectangles.</p>
+
+<div class="note flag">
+<span class="lbl">A number in an earlier draft of this document was wrong, and how it was caught</span>
+<p>This section first claimed <strong>eight</strong> empty clusters across four pillars.
+The real figure is <strong>four across three</strong>. The error: I counted the plain-text
+phrase <em>&ldquo;akan datang tidak lama lagi&rdquo;</em> with a grep over the served
+HTML, and <strong>a Next.js document contains the page twice</strong> &mdash; once as
+rendered HTML and again as the serialised RSC flight payload in a
+<code>&lt;script&gt;</code>. Every promise line was counted twice.</p>
+<p>Caught by the design-systems-engineer&rsquo;s independent count during the build, then
+settled by reading <code>document.querySelectorAll</code> in a real browser instead of
+grepping text. <strong>The rest of the census survives</strong>, and the reason is
+specific rather than lucky: <code>&lt;img</code>, <code>id="cluster-</code> and
+<code>href="&hellip;"</code> are anchored to unescaped attribute syntax, which the flight
+payload writes as <code>\"</code>. Verified against the DOM &mdash; grep and
+<code>querySelectorAll</code> agree exactly on all three. Only the unanchored plain-text
+pattern was vulnerable.</p>
+</div>
+
+<h3>3.6 The reader's task is named-entity lookup, and the title carries the entity</h3>
+
+<p>The real titles on <code>hantaran-mas-kahwin</code>, rendered live, discriminate on
+facts no photograph can show:</p>
+<ul>
+<li>Mas kahwin Johor 2026: RM22.50 dan asal usul angkanya</li>
+<li>Mas kahwin Sabah dan Sarawak 2026: tiada kadar tetap</li>
+<li>Mas kahwin Perak 2026: tiada kadar minimum ditetapkan</li>
+<li>Hantaran tunang 3 balas 5: apa yang dibawa dan dibalas</li>
+<li>Hantaran kahwin 5 balas 7: isi dua belas dulang itu</li>
+</ul>
+<p>Eleven of the 38 are state-by-state rate pages whose entire value is a number and a
+state name. A thumbnail adds 80px of visual noise per row and zero discriminating
+information, and it slows the scan, because the eye stops on each photograph.</p>
+
+<h3>3.7 Scroll cost, measured on the live templates</h3>
+<div class="scroll"><table>
+<thead><tr><th>Measured at 390px</th><th class="n">Per row</th><th class="n">Full page</th><th class="n">Screens</th></tr></thead>
+<tbody>
+<tr><td>Pillar text row (<code>hantaran-mas-kahwin</code>, 38 links)</td><td class="n">83px</td><td class="n">4,654px</td><td class="n">5.5</td></tr>
+<tr><td>Grid row with thumbnail (<code>idea-dan-nasihat</code>, 15 links)</td><td class="n">109–111px</td><td class="n">3,001px</td><td class="n">3.6</td></tr>
+<tr class="hi"><td><strong>Difference per row</strong></td><td class="n"><strong>+34%</strong></td><td class="n">+1,064px over 38 rows</td><td class="n">—</td></tr>
+</tbody></table></div>
+<p>Neither number decides anything on its own. They are here because "images make it
+longer" is an assertion until it has a figure.</p>
+</section>
+
+<!-- ===================================================================== -->
+<section id="s4">
+<h2><span class="num">4</span>What the creative director agreed, and what they overruled</h2>
+
+<p>The DoD requires this decision to be <em>agreed with the creative director</em>. It was
+put to them as a genuine question with the evidence attached and an explicit invitation to
+reject it. Their review went to source and came back with a defect neither of us was
+looking for (§6.2).</p>
+
+<div class="scroll"><table>
+<thead><tr><th>Question put</th><th>Answer</th></tr></thead>
+<tbody>
+<tr class="good"><td>Do the seven pillar hubs stay text-only?</td><td><strong>Yes</strong> — with the rationale recorded as <em>conditional</em>, not permanent. A blanket "topic hubs never carry images" was explicitly declined as indefensible.</td></tr>
+<tr><td>Should the pillar top carry a single editorial plate?</td><td><strong>Yes, and not in UI-05.</strong> Blocked on UI-03: the only variant available is <code>low</code> (q30, ≤1200px), and a plate needs ~780px at 390px&times;2 DPR and ~1400px+ at desktop, which 1200px cannot cover inside a 1.1&times; upscale rule. Raised as its own item, dependent on UI-03. Direction recorded in §7 so it is not relitigated.</td></tr>
+<tr class="good"><td>Is the empty-cluster state in scope for UI-05?</td><td><strong>Yes — overruling my assumption that it was out.</strong> Reason given: if UI-05's answer is "these pages carry typography instead of imagery", then the typography has to hold the page. Shipping the rationale while leaving that state broken would be approving an argument disproved in the same breath.</td></tr>
+</tbody></table></div>
+
+<div class="note ok">
+<span class="lbl">Recorded because it is the strongest objection to the decision</span>
+<p>The creative director put the objection to their own answer on the record: <em>"You are
+declining imagery on browse pages while citing photograph-led publications as the register.
+You have talked yourself into defending the cheaper option."</em> Their answer: the seven
+pillars are not the browse surface — <code>/artikel</code> and the 37 grid categories are,
+and those already carry photography. What is being declined is 38 uncurated assets at q30
+in a six-wide grid on the page that establishes topical authority; and the plate in §7 is
+the opposite of settling for less.</p>
+</div>
+
+<p>Contrast was measured off rendered pixels rather than computed style, because every
+token is <code>oklch()</code> and Chrome returns <code>lab()</code>. Everything in this set
+passes AA comfortably: promise line and deck <code>#4a443c</code> on <code>#edeae1</code>
+at <strong>8.00:1</strong>; headings and links <code>#16130f</code> at
+<strong>15.39:1</strong>; grid meta <code>#5a5348</code> at <strong>6.31:1</strong>; the
+bronze eyebrow <code>#725825</code> at <strong>5.56:1</strong>. <strong>There is no
+contrast defect in this set — the empty-cluster problem is spacing, not colour.</strong></p>
+</section>
+
+<!-- ===================================================================== -->
+<section id="s5">
+<h2><span class="num">5</span>The pillar hub, every state</h2>
+
+<p>A specification that shows only the happy path is not finished, and the missing states
+get invented by whoever builds it. All eight states below are drawn at 390px. Where a
+state exists in production today its drawing is marked <span class="sid ok">LIVE</span>;
+where it is specified but absent it is marked <span class="sid flag">MISSING</span>.</p>
+
+<!-- P1 -->
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>P1 · Default</span><span>390px</span></p>
+    <div class="frame"><div class="hk">
+      <div class="hd"><span class="wordmark">Hellokahwin</span><span class="icon">&#9906;</span></div>
+      <div class="rail2"><span class="on">Idea dan nasihat</span><span>Real wedding</span><div class="fade"></div></div>
+      <div class="crumb">Utama &rsaquo; Artikel &rsaquo; <b>Hantaran &amp; Mas Kahwin</b></div>
+      <div class="body">
+        <div class="eyebrow" style="color:#725825">Panduan</div>
+        <h5 style="margin-top:10px">Hantaran &amp; Mas Kahwin</h5>
+        <p class="deck">Hantaran, mas kahwin dan dulang — bahagian paling Melayu dalam sesebuah perkahwinan.</p>
+        <div class="hr" style="margin:22px 0"></div>
+        <div class="clus">Hantaran kahwin</div>
+        <div class="clusbody">
+          <a class="pillarlink" href="#">Persiapan hantaran kahwin: jadual lapan minggu</a>
+          <a class="pillarlink" href="#">Tempat beli barang hantaran: lima jenis kedai</a>
+          <a class="pillarlink" href="#">Hantaran untuk lelaki: senarai barang dan kos 2026</a>
+        </div>
+      </div>
+    </div></div>
+  </div>
+  <div class="ann">
+    <span class="sid ok">P1 · LIVE</span>
+    <h3>Default — a populated cluster</h3>
+    <p>Eyebrow → h1 → deck → rule → clusters. Each cluster is a
+    <code>&lt;section aria-labelledby&gt;</code> with an <code>h2</code>, then a
+    <code>border-top</code> rule, then link rows separated by hairlines.</p>
+    <dl>
+      <dt>Row height</dt><dd>83px measured live (13px padding, 3 lines max)</dd>
+      <dt>Tap target</dt><dd>83px — comfortably over the 44px minimum</dd>
+      <dt>Heading order</dt><dd>h1 once, h2 per cluster. No skipped levels.</dd>
+      <dt>Order</dt><dd>Non-empty clusters first, empty ones sink. Stable sort, editorial order kept within each group.</dd>
+    </dl>
+  </div>
+</div>
+
+<!-- P2 -->
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>P2 · Empty cluster — today</span><span>390px</span></p>
+    <div class="frame"><div class="hk"><div class="body">
+      <div class="clus">Hantaran kahwin</div>
+      <div class="clusbody">
+        <a class="pillarlink" href="#">Persiapan hantaran kahwin: jadual lapan minggu</a>
+      </div>
+      <div style="height:56px"></div>
+      <div class="clus">Merisik &amp; meminang</div>
+      <p class="promise" style="margin-top:16px">Artikel untuk merisik akan datang tidak lama lagi.</p>
+      <div style="height:56px"></div>
+      <div class="clus" style="line-height:1.12">Adat perkahwinan<br>Melayu &amp; mandi bunga</div>
+      <p class="promise" style="margin-top:16px">Artikel untuk mandi bunga akan datang tidak lama lagi.</p>
+      <div style="height:70px"></div>
+    </div></div></div>
+  </div>
+  <div class="ann">
+    <span class="sid flag">P2 · LIVE, AND DEFECTIVE</span>
+    <h3>Empty cluster as it renders today</h3>
+    <p>A populated cluster gets <code>marginTop: 20</code> plus
+    <code>border-top: 1px solid var(--rule)</code>. An empty one gets <code>mt-4</code>
+    (16px) and <strong>no rule at all</strong>. So the empty state gives its heading
+    <em>less</em> air than a populated one and drops the element that says "the cluster
+    body starts here". The promise reads as a subtitle bolted to the h2.</p>
+    <p><code>sebelum-nikah</code> ends on two consecutive promises and then a large empty
+    band into the footer.</p>
+  </div>
+</div>
+
+<!-- P3 -->
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>P3 · Empty cluster — specified</span><span>390px</span></p>
+    <div class="frame"><div class="hk"><div class="body">
+      <div class="clus">Merisik &amp; meminang</div>
+      <div class="clusbody">
+        <p class="promise" style="margin:0;padding:13px 0;border-bottom:1px solid var(--bd)">Artikel untuk merisik akan datang tidak lama lagi.</p>
+      </div>
+      <div style="height:56px"></div>
+      <div class="clus" style="line-height:1.12">Adat perkahwinan<br>Melayu &amp; mandi bunga</div>
+      <div class="clusbody">
+        <p class="promise" style="margin:0;padding:13px 0;border-bottom:1px solid var(--bd)">Artikel untuk mandi bunga akan datang tidak lama lagi.</p>
+      </div>
+    </div></div></div>
+  </div>
+  <div class="ann">
+    <span class="sid">P3 · SPECIFIED — ships in UI-05</span>
+    <h3>Empty cluster, fixed</h3>
+    <ol>
+      <li>Same <code>marginTop: 20</code> and <code>border-top: 1px solid var(--rule)</code>
+      as a populated cluster. <strong>The rule is structural and must not be conditional on
+      there being links.</strong></li>
+      <li>The promise line sits on a link row's rhythm — <code>padding: 13px 0</code> — so
+      an empty cluster occupies exactly one row height. The map then reads as a map with
+      one blank line, not a heading that trailed off.</li>
+      <li>Closed with <code>border-bottom: 1px solid var(--hair)</code>, matching a link
+      row. Today it just stops.</li>
+      <li>Colour unchanged — 8.00:1, nothing to fix.</li>
+    </ol>
+    <p>Empty clusters keep rendering and keep sinking below populated ones. This is
+    <strong>not</strong> a request to hide or merge them.</p>
+  </div>
+</div>
+
+<!-- P4 -->
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>P4 · Longest plausible headline</span><span>390px</span></p>
+    <div class="frame"><div class="hk"><div class="body">
+      <div class="clus">Hantaran tunang</div>
+      <div class="clusbody">
+        <a class="pillarlink" href="#">Hantaran Tunang Lelaki &amp; Perempuan – Barang Apa Patut Ada Dalam Dulang?</a>
+        <a class="pillarlink" href="#">Berapa dulang hantaran tunang, dan siapa yang tentukan</a>
+      </div>
+    </div></div></div>
+  </div>
+  <div class="ann">
+    <span class="sid ok">P4 · LIVE</span>
+    <h3>The longest real title in the corpus</h3>
+    <p>Not a placeholder. Measured as the longest rendered title on the live pillar:
+    <strong>70 characters</strong>, wrapping to <strong>3 lines</strong> at 390px. Every
+    one of the 38 links wraps to 3 lines or fewer.</p>
+    <dl>
+      <dt>Constraint</dt><dd>No truncation, no <code>line-clamp</code>. A Malay compound
+      that runs long must wrap, not be cut — the entity is often at the end of the title
+      ("… ikut negeri", "… tanpa jatuh air muka").</dd>
+      <dt>Overflow</dt><dd><code>scrollWidth === 390</code> on all seven pillars. No
+      horizontal scroll at any width tested.</dd>
+    </dl>
+  </div>
+</div>
+
+<!-- P5 -->
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>P5 · Thin pillar</span><span>390px</span></p>
+    <div class="frame"><div class="hk"><div class="body">
+      <div class="eyebrow" style="color:#725825">Panduan</div>
+      <h5 style="margin-top:10px">Sebelum Nikah: Jodoh, Merisik &amp; Tunang</h5>
+      <div class="hr" style="margin:20px 0"></div>
+      <div class="clus">Pertunangan</div>
+      <div class="clusbody">
+        <a class="pillarlink" href="#">Doa Majlis Pertunangan: Apa yang Sebenarnya Dibaca, dan Apa yang Tidak</a>
+      </div>
+      <div style="height:44px"></div>
+      <div class="clus">Merisik &amp; meminang</div>
+      <div class="clusbody"><p class="promise" style="margin:0;padding:13px 0;border-bottom:1px solid var(--bd)">Artikel untuk merisik akan datang tidak lama lagi.</p></div>
+      <div style="height:44px"></div>
+      <div class="clus">Jodoh &amp; istikharah</div>
+      <div class="clusbody"><p class="promise" style="margin:0;padding:13px 0;border-bottom:1px solid var(--bd)">Artikel untuk istikharah akan datang tidak lama lagi.</p></div>
+    </div></div></div>
+  </div>
+  <div class="ann">
+    <span class="sid ok">P5 · LIVE — 3 articles, 2 empty clusters</span>
+    <h3>Thin pillar</h3>
+    <p><strong>This is the state that decides the whole item.</strong> <code>sebelum-nikah</code>
+    holds three articles across five clusters, two of which are empty. With text rows the
+    page reads as "the map so far". With a photo grid it would be three photographs and
+    two grey rectangles, and it would advertise its own emptiness. The drawing shows one
+    populated cluster and both empty ones; the two clusters not drawn are populated.</p>
+    <dl>
+      <dt>Not specified here</dt><dd>Hiding empty clusters on thin pillars. Rejected —
+      it would make a two-item pillar look complete, which is the opposite of what the
+      map is for.</dd>
+    </dl>
+  </div>
+</div>
+
+<!-- P6 -->
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>P6 · Empty pillar</span><span>390px</span></p>
+    <div class="frame"><div class="hk"><div class="body">
+      <div class="eyebrow" style="color:#725825">Panduan</div>
+      <h5 style="margin-top:10px">Ucapan, Doa &amp; Adab Majlis</h5>
+      <p class="deck">Ucapan dan doa untuk setiap bahagian majlis.</p>
+      <div class="hr" style="margin:22px 0"></div>
+      <div class="empty">
+        <span class="h">Panduan ini masih kosong.</span>
+        <p class="quiet" style="margin:0 0 12px">Belum ada artikel di bawah topik ini.</p>
+        <a class="btn ghost" href="#">Semua artikel</a>
+      </div>
+    </div></div></div>
+  </div>
+  <div class="ann">
+    <span class="sid flag">P6 · MISSING — does not exist today</span>
+    <h3>Empty pillar — no clusters, no articles</h3>
+    <p>When <code>clusters</code> and <code>unclustered</code> are both empty,
+    <code>PillarBody</code> today renders the intro and then an <strong>empty
+    <code>&lt;div&gt;</code></strong>. No message, no exit, nothing. The page just stops.</p>
+    <p>This is not hypothetical — it is the exact shape the error state in P7 renders,
+    which is how a transient fault becomes a blank page.</p>
+    <dl>
+      <dt>Specified</dt><dd>Reuse the design system's existing <code>EmptyState</code> (server-safe when no <code>onClick</code> is passed, which is how <code>EmptyCategoryState</code> already renders in the grid route). Heading <em>"Panduan ini masih kosong."</em>, body <em>"Belum ada artikel di bawah topik ini."</em>, and one route out labelled <em>"Semua artikel"</em> to <code>/artikel</code>. No new component.</dd>
+      <dt>Not a dark pattern</dt><dd>The exit is a real link. Nothing here manufactures
+      urgency or makes leaving harder than arriving.</dd>
+    </dl>
+  </div>
+</div>
+
+<!-- P7 -->
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>P7 · Error / DB blip</span><span>390px</span></p>
+    <div class="frame"><div class="hk"><div class="body">
+      <div class="eyebrow" style="color:#725825">Panduan</div>
+      <h5 style="margin-top:10px">Hantaran &amp; Mas Kahwin</h5>
+      <p class="deck">Hantaran, mas kahwin dan dulang — bahagian paling Melayu dalam sesebuah perkahwinan.</p>
+      <div class="hr" style="margin:22px 0"></div>
+      <div class="blank">RENDERS NOTHING · CACHED FOREVER</div>
+    </div></div></div>
+  </div>
+  <div class="ann">
+    <span class="sid flag">P7 · MISSING — and it can stick</span>
+    <h3>The 3-second deadline is missed</h3>
+    <p><code>getPillarView</code> is wrapped in <code>withDeadline(…, 3_000)</code>. On a
+    miss the catch block logs and leaves <code>view</code> at its initialiser —
+    <code>{ clusters: [], unclustered: [], totalArticles: 0 }</code> — and the page then
+    renders <strong>successfully</strong>, with nothing in it.</p>
+    <p><strong>The route declares <code>export const revalidate = false</code>.</strong>
+    Because the render does not throw, Next has a valid page to cache, and it caches it
+    indefinitely. A single DB blip during the render that populates the ISR entry pins an
+    empty pillar until <code>revalidateTag('articles')</code> or
+    <code>revalidateTag('inspire-categories')</code> fires from an admin write. There is
+    no time-based revalidation to heal it.</p>
+    <dl>
+      <dt>Scope</dt><dd><strong>Out of scope for UI-05, raised as its own item.</strong>
+      This is a caching and reliability defect, not a design one, and it deserves its own
+      sizing. Shipping P6's empty state does mitigate it — a blank page becomes a page
+      that says something — but the mitigation is not the fix.</dd>
+      <dt>The fix, for whoever takes it</dt><dd>Do not cache a soft-failed render. Either
+      re-throw after logging so Next does not persist the entry, or set a short
+      revalidate window on the degraded path.</dd>
+    </dl>
+  </div>
+</div>
+
+<!-- P8 -->
+<div class="state">
+  <div class="rig">
+    <p class="rigcap"><span>P8 · Lain-lain + loading</span><span>390px</span></p>
+    <div class="frame"><div class="hk"><div class="body">
+      <div class="clus">Lain-lain</div>
+      <div class="clusbody">
+        <a class="pillarlink" href="#">Bolehkah mas kahwin melebihi kadar minimum negeri?</a>
+      </div>
+      <div style="height:40px"></div>
+      <p class="rigcap" style="margin:0 0 8px">Loading — server-rendered, no skeleton</p>
+      <div class="prog"><i></i></div>
+      <div style="height:10px"></div>
+      <p class="quiet" style="margin:0">The page is streamed complete. There is no
+      client-side fetch on this route, so there is no skeleton state to design.</p>
+    </div></div></div>
+  </div>
+  <div class="ann">
+    <span class="sid ok">P8 · LIVE</span>
+    <h3>Unclustered articles, and the absence of a loading state</h3>
+    <p><strong>Lain-lain.</strong> Published articles sitting under the pillar but in none
+    of its clusters render in a "Lain-lain" section, so nothing under a pillar is orphaned.
+    Renders last, after every cluster.</p>
+    <p><strong>Loading is deliberately not designed, and that is a decision, not an
+    omission.</strong> The route is a server component with no client fetch; the reader
+    receives complete HTML. A skeleton would be a lie about where the latency is. The
+    latency that does exist is CDN cache state, which no skeleton reaches.</p>
+    <dl>
+      <dt>Offline / slow</dt><dd>No specific treatment. The page is 12,308 bytes with no
+      images and no blocking webfont on this route; there is nothing to degrade
+      progressively.</dd>
+    </dl>
+  </div>
+</div>
+
+<h3>Keyboard, focus and screen reader — specified, not audited afterwards</h3>
+<div class="scroll"><table>
+<thead><tr><th>Concern</th><th>Specified behaviour</th><th>State today</th></tr></thead>
+<tbody>
+<tr><td>Focus order</td><td>Breadcrumb → h1 region → each cluster's links in DOM order. DOM order already matches visual order; nothing is repositioned by CSS.</td><td class="c">OK</td></tr>
+<tr><td>Cluster landmarks</td><td>Each cluster is <code>&lt;section aria-labelledby="cluster-{id}"&gt;</code> so a screen-reader user can jump between topics by region.</td><td class="c">OK</td></tr>
+<tr><td>Heading outline</td><td>h1 = pillar name, h2 = each cluster, no skipped levels, exactly one h1.</td><td class="c">OK</td></tr>
+<tr><td>Tap targets</td><td>≥44px. Measured 83px on populated rows; the P3 empty row is 13+13+~20 = ~46px, which clears it.</td><td class="c">OK</td></tr>
+<tr><td>Link text</td><td>The full article title is the link text. No "read more", no bare anchors, nothing that needs surrounding context to make sense out of a links list.</td><td class="c">OK</td></tr>
+<tr><td>Empty-cluster announcement</td><td>The promise line is a plain <code>&lt;p&gt;</code> inside the cluster's section, so it is announced with the heading that labels it. <strong>It must not become <code>aria-hidden</code> decoration</strong> — for a screen-reader user it is the only thing distinguishing "empty" from "broken".</td><td class="c">OK</td></tr>
+<tr><td>Reduced motion</td><td>Nothing on this route animates.</td><td class="c">OK</td></tr>
+</tbody></table></div>
+</section>
+
+<!-- ===================================================================== -->
+<section id="s6">
+<h2><span class="num">6</span>What ships in UI-05</h2>
+
+<p>Two changes to <code>src/components/inspire/pillar-body.tsx</code> and one to
+<code>src/design-system/components.css</code>. Both exist for the same reason: if the
+answer to "imagery or not" is <em>typography carries these pages</em>, the typography has
+to actually hold the page.</p>
+
+<h3>6.1 The empty-cluster row — see P2 &rarr; P3</h3>
+<p>Specified in full in P3. Structural rule top and bottom, one row height, colour
+unchanged. <strong>The copy is not touched</strong>, and that is a decision rather than an
+oversight &mdash; see the note.</p>
+
+<div class="note flag">
+<span class="lbl">An open question from DES-07 that nobody closed, found while specifying this row</span>
+<p>The eight live empty clusters read <em>&ldquo;Artikel untuk &hellip; akan datang tidak
+lama lagi.&rdquo;</em> DES-03 &sect;7.2 C records that the approved copy for an empty
+surface is <em>&ldquo;Kategori ini masih kosong.&rdquo; plus a way out</em>, and says in
+its own words that this <strong>&ldquo;already replaced production&rsquo;s undatable
+&lsquo;akan datang tidak lama lagi&rsquo; line&rdquo;</strong>. It did not. The line is
+still live after DES-08.</p>
+<p>DES-07 escalated exactly this and routed it away from design: <em>&ldquo;whether the
+shipped &lsquo;akan datang tidak lama lagi&rsquo; lines should be corrected now rather
+than waiting for DES-08, since one of them is currently untrue on a category with 14
+published articles.&rdquo;</em> That question was never answered.</p>
+<p><strong>I am not answering it here either, and the reason is not deference.</strong>
+&sect;7.2 C&rsquo;s approved copy is for a <em>fully empty category</em> &mdash; state P6
+&mdash; and an empty cluster inside a populated pillar is a different state that the copy
+does not cover. Substituting it would be wrong, not just out of turn. Raised as a
+follow-up owned by the <code>managing-editor</code>, with the state distinction stated so
+whoever takes it is not solving the wrong one.</p>
+</div>
+
+<h3>6.2 The article title on a pillar page is not styled at all</h3>
+
+<div class="note flag">
+<span class="lbl">Found during the creative director's review; verified independently before it was believed</span>
+<p><code>PillarBody</code> puts <code>className="t"</code> on every article link. <strong>The
+only <code>.t</code> rules in the entire codebase are <code>.s-row .t</code></strong> —
+descendant selectors at <code>components.css:233</code> and <code>:249</code> — and
+<code>pillar-body.tsx</code> contains no <code>s-row</code> anywhere. On pillar pages
+<code>.t</code> matches nothing and the links fall through to inherited body sans.</p>
+</div>
+
+<p>Proved on the live artefact at both breakpoints, reading computed style rather than
+trusting the source:</p>
+
+<div class="scroll"><table>
+<thead><tr><th>Element</th><th>Width</th><th>font-family</th><th class="n">size</th><th class="n">weight</th><th class="n">tracking</th></tr></thead>
+<tbody>
+<tr class="hi"><td>Pillar link <code>a.t</code></td><td>390px</td><td><code>-apple-system</code></td><td class="n">17.04px</td><td class="n">400</td><td class="n">normal</td></tr>
+<tr><td>Grid row title <code>.s-row h2.t</code></td><td>390px</td><td><code>Bodoni Moda</code></td><td class="n">15px</td><td class="n">600</td><td class="n">−0.27px</td></tr>
+<tr class="hi"><td>Pillar link <code>a.t</code></td><td>1280px</td><td><code>-apple-system</code></td><td class="n">18px</td><td class="n">400</td><td class="n">normal</td></tr>
+<tr><td>Grid row title <code>.s-row h2.t</code></td><td>1280px</td><td><code>Bodoni Moda</code></td><td class="n">21px</td><td class="n">600</td><td class="n">−0.378px</td></tr>
+<tr><td>Grid card title <code>.s-card h2</code></td><td>both</td><td><code>Bodoni Moda</code></td><td class="n">19px</td><td class="n">400</td><td class="n">−0.342px</td></tr>
+</tbody></table></div>
+
+<p><strong>Same class name, two typographic identities, decided by which page you found
+the article on.</strong> "Hantaran Tunang Lelaki &amp; Perempuan – Barang Apa Patut Ada
+Dalam Dulang?" is serif on the grid page and sans on the pillar page.</p>
+
+<div class="note">
+<span class="lbl">Why this matters to the decision, and not just to the codebase</span>
+<p>Part of why the pillar list reads as an undifferentiated wall is that it was never
+rendering its own specification. The photography-versus-text comparison in §3 was made
+against text that had lost its weight, size and typeface. <strong>The image arguments
+stand on their own — but the comparison was unfair to the text, and that is recorded
+here rather than quietly benefiting the conclusion.</strong></p>
+</div>
+
+<p>The fix: pillar links get their own class, <code>.s-pillar-link</code>, with stated
+values rather than a borrowed descendant selector.</p>
+
+<div class="note ok">
+<span class="lbl">Shipped and verified live &mdash; 31 Ogos 2026</span>
+<p>PR <a href="https://github.com/ianngkb/hellokahwin/pull/18">#18</a>, merged to
+<code>master</code> at <code>d4cefed</code>, deployment <code>6169816759</code> Production
+success. Measured by me on the live URLs after deploy, independently of the engineer&rsquo;s
+own report:</p>
+<div class="scroll"><table>
+<thead><tr><th>Check</th><th>Before</th><th>After</th></tr></thead>
+<tbody>
+<tr><td>Pillar link at 390px</td><td><code>-apple-system</code> 17.04px / 400 / normal</td><td><code>Bodoni Moda</code> 17px / 400 / &minus;0.204px</td></tr>
+<tr><td>Pillar link at 1280px</td><td><code>-apple-system</code> 18px / 400</td><td><code>Bodoni Moda</code> 21px (<code>--fs-h3</code>) / 400</td></tr>
+<tr><td>Links still carrying the dead <code>.t</code></td><td>67</td><td class="c">0</td></tr>
+<tr><td>Empty-cluster wrapper</td><td><code>border-top: none</code>, <code>margin-top: 0</code></td><td><code>border-top: 1px</code>, <code>margin-top: 20px</code></td></tr>
+<tr><td>Promise line</td><td>no padding, no bottom rule</td><td><code>padding 13px/13px</code>, <code>border-bottom 1px</code></td></tr>
+<tr class="good"><td><strong><code>&lt;img&gt;</code> on all seven pillar hubs</strong></td><td class="c">0</td><td class="c"><strong>0</strong></td></tr>
+<tr><td>Grid pages <code>idea-dan-nasihat</code> / <code>real-wedding</code></td><td>15 / 14 images</td><td>15 / 14 images, unchanged</td></tr>
+</tbody></table></div>
+<p>The <code>&lt;img&gt;</code> row is the one that matters most: this item&rsquo;s decision
+is that these pages carry no photography, so a pillar hub gaining an image would mean the
+build had contradicted the specification.</p>
+</div>
+
+<h3>6.3 The empty-pillar state — see P6</h3>
+<p>A pillar with no clusters and no articles currently renders an empty
+<code>&lt;div&gt;</code>. P6 specifies the block that replaces it. This is a missing state,
+not a restyle, and it is in scope because a state set with a hole in it is not delivered.</p>
+
+<div class="note ok">
+<span class="lbl">No audience-facing copy change</span>
+<p>The empty-cluster restyle changes spacing and rules only. P6's two new strings passed <code>/humanizer</code> before being written here. The draft was heading <em>"Panduan ini belum bermula."</em> / body <em>"Kami sedang menyiapkan artikel untuk topik ini. Sementara itu, lihat artikel lain."</em> and it failed on two counts: <em>"Kami sedang menyiapkan"</em> is the same undatable promise in different words, asserting activity a reader cannot verify and that may not be true; and <em>"Sementara itu"</em> is filler that exists only to attach to that promise. The shipped strings state a fact and promise nothing, and they reuse the construction of the approved sibling <em>"Kategori ini masih kosong."</em> The link label <em>"Semua artikel"</em> is already live in the footer, so it is not new copy.</p>
+</div>
+</section>
+
+<!-- ===================================================================== -->
+<section id="s7">
+<h2><span class="num">7</span>Explicitly out of scope, so nobody has to guess</h2>
+
+<div class="scroll"><table>
+<thead><tr><th>Not in UI-05</th><th>Why, and where it goes</th></tr></thead>
+<tbody>
+<tr><td>The 37 grid category pages</td><td>They already carry photography. Nothing in this document changes them.</td></tr>
+<tr><td>A lead editorial plate at the pillar top</td><td>The creative director wants one. Blocked on UI-03 — the only variant is <code>low</code> (q30, ≤1200px) and a plate needs ~780px at 390&times;2 DPR and ~1400px+ at desktop. New item, dependent on UI-03. Direction below.</td></tr>
+<tr><td>Caching a soft-failed pillar render (P7)</td><td>Reliability defect, not a design one. New item.</td></tr>
+<tr><td>The <code>low</code>-only thumbnail pipeline on the 37 grid pages</td><td>Real, measured, and larger than this item. Belongs with UI-03's pipeline finding.</td></tr>
+<tr><td>Re-shooting or re-selecting the 38 covers</td><td>Editorial and budget work. §8 names it as the reversal condition.</td></tr>
+<tr><td>Hiding or merging empty clusters</td><td>Rejected on the merits — see P5.</td></tr>
+</tbody></table></div>
+
+<h3>Direction for the plate item, recorded so it is not relitigated</h3>
+<ul>
+<li><strong>Placement: eyebrow → h1 → deck → plate → clusters.</strong> Not above the h1.
+The reader task is named-entity lookup, and putting the image first pushes the two things
+that confirm they are in the right place below the fold at 390px.</li>
+<li><strong>Aspect: 3:2 below 768px, 2:1 at 768px and above.</strong> 3:2 is the native
+aspect of 24 of the 38 covers, so mobile crops nothing. At a 768px column a 3:2 is 512px
+tall and pushes the first cluster heading off-screen; 2:1 gives 384px.</li>
+<li><strong>No caption.</strong> A caption makes it a figure and invites reading it as an
+article lead image.</li>
+<li><strong>No-plate is the default state, not a fallback.</strong> Today's page is that
+state and it must stay valid, because six of the seven pillars may never get a select the
+creative director will sign off.</li>
+<li><strong>Per-pillar editorial select, never a template default.</strong> On
+<code>hantaran-mas-kahwin</code> the shortlist is <code>hantaran-tema-warna</code> or
+<code>hantaran-kahwin</code>. On <code>ucapan-doa</code> there is no candidate yet, and a
+template must not default something decorative into that slot.</li>
+<li>Portrait sources (9 of 38): <code>object-fit: cover</code>,
+<code>object-position: center</code>, crop accepted.</li>
+</ul>
+</section>
+
+<!-- ===================================================================== -->
+<section id="s8">
+<h2><span class="num">8</span>What reverses this decision</h2>
+
+<p>The rationale is <strong>conditional</strong>. It is recorded this way deliberately: a
+blanket "topic hubs never carry images" is not defensible, and a future reader who finds
+one here would be right to ignore it.</p>
+
+<div class="note ok">
+<span class="lbl">Ship imagery on pillar hubs when all three are true</span>
+<ol>
+<li><strong>A curated or commissioned cover set that shares one register across a whole
+pillar</strong> — one light, one distance to subject, one palette — with no duplicate
+photographs and no page illustrated by a building it does not depict.</li>
+<li><strong>A derivative sized for the slot exists in the pipeline</strong> — roughly
+160–360px wide, not a 1200px q30 asset serving an 80px box.</li>
+<li><strong>The empty-cluster problem is solved for photography</strong>, or the pillar in
+question has no empty clusters. A grid still cannot render a promise.</li>
+</ol>
+</div>
+
+<p>Two things that do <em>not</em> reverse it: more time, and UI-03 landing on its own.
+UI-03 fixes quality and aspect. <strong>It does not fix the office block.</strong></p>
+
+<h3>How to re-run every measurement in this document</h3>
+<ol class="fn">
+<li><strong>The 44-URL census.</strong> Fetch each <code>/artikel/{slug}</code> and count
+<code>&lt;img</code>, <code>class="s-row"</code>, <code>class="s-card"</code>,
+<code>id="cluster-</code>. Pillars are the rows with <code>cluster-</code> and zero
+<code>s-row</code>.</li>
+<li><strong>The byte figures.</strong> Page transfer with
+<code>curl -H 'Accept-Encoding: br'</code>; asset bytes individually against
+<code>images.hellokahwin.com</code>. The rig at <code>scripts/measure-page.mjs</code>
+cannot measure image weight — cross-origin resources report 0 bytes without
+<code>Timing-Allow-Origin</code>.</li>
+<li><strong>Intrinsic dimensions.</strong> Load each asset in a real browser and read
+<code>naturalWidth</code> <em>after</em> <code>onload</code>. Reading it during decode
+returns small wrong numbers, which is how the audit's withdrawn lazy-loading finding
+happened and how this document's first pass went wrong.</li>
+<li><strong>Never count a plain-text phrase with a grep over the served HTML.</strong>
+A Next.js document carries the page twice &mdash; rendered HTML plus the RSC flight
+payload &mdash; so an unanchored text pattern returns exactly double. Count in the DOM
+with <code>querySelectorAll</code>, or anchor the pattern to unescaped attribute syntax
+(<code>&lt;img</code>, <code>id="cluster-</code>), which the flight payload escapes and
+therefore cannot match.</li>
+<li><strong>Computed typography.</strong> <code>getComputedStyle</code> at 390 and 1280 on
+the live pages, not on local CSS.</li>
+<li><strong>Contrast.</strong> Sample rendered pixels off a canvas. Every token is
+<code>oklch()</code>; Chrome returns <code>lab()</code> and an rgb parser reports confident
+garbage.</li>
+</ol>
+</section>
+
+</div>
