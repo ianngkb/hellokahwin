@@ -83,6 +83,15 @@
  *    `white-space: nowrap`) so that clipping wrappers and deliberate vertical
  *    line-clamps stay out of it.
  *
+ * THE PRECONDITION, added by UI-08: every target must prove it IS this site
+ * before a single check runs — same final origin as the URL we asked for, and
+ * <html lang="ms">. Pointed at a protected Vercel preview, this gate used to
+ * print `0 violation(s)` at three widths over vercel.com's login page: a
+ * well-formed 200 with no clipped text, no narrow columns and no images. The
+ * fingerprint below already showed eight Vercel-hashed stylesheets instead of
+ * our three, but nothing asserted on it. Failing this is an ERROR (exit 2),
+ * never a clean run.
+ *
  * DELIBERATELY NOT HERE, and named rather than left silent: tap targets under
  * 24x24 (UI-11), missing `:focus-visible` indicators (UI-09) and line length
  * past ~75 characters (UI-10). The first two are WCAG conformance and want a
@@ -150,6 +159,9 @@ const MIN_TEXT_COLUMN_PX = 120;
 const MAX_UPSCALE = 1.1;
 const MAX_ASPECT_DEVIATION = 0.25;
 const DESKTOP_BREAKPOINT = 1024;
+// Every public template on this site renders <html lang="ms">. Used as an
+// identity marker, not a content check — see "IS THIS EVEN OUR PAGE?" below.
+const SITE_LANG = 'ms';
 
 // ── the public template manifest ────────────────────────────────────────────
 // Every public template, with a real instance of each. Slugs are checked into
@@ -160,6 +172,23 @@ const TEMPLATES = [
   { template: 'catalogue index', path: '/artikel' },
   { template: 'category archive', path: '/artikel/hantaran-mas-kahwin' },
   { template: 'article', path: '/artikel/idea-dan-nasihat/garden-wedding' },
+  // One instance per template is not a manifest, it is a sample — UI-08.
+  // The defect UI-08 fixed was CONTENT-LENGTH DEPENDENT: the same breadcrumb
+  // component hid 132px of the title above and 303px of another article's,
+  // and no structural difference between the two pages existed to find. A
+  // template's worst case lives in its longest string, so the article
+  // template carries a second, deliberately extreme instance.
+  //
+  // Chosen by measurement, not by eye: every one of the 86 article URLs in
+  // sitemap.xml was fetched on 31 Ogos 2026 and its <h1> counted. This is the
+  // longest at 95 characters; garden-wedding above is 48, so the manifest had
+  // been exercising roughly half the string the template must survive.
+  // Re-measure when the corpus grows — the command is in this item's
+  // work-done entry, and a stale "longest" silently becomes an ordinary one.
+  {
+    template: 'article (longest title on the site, 95 chars)',
+    path: '/artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik',
+  },
   { template: 'tag archive', path: '/artikel/tag/hantaran' },
   { template: 'brand page', path: '/brand' },
 ];
@@ -531,6 +560,38 @@ async function measure(targets, { json, label }) {
       try {
         const resp = await page.goto(t.url, { waitUntil: 'load', timeout: 60000 });
         if (resp && resp.status() >= 400) error = `HTTP ${resp.status()}`;
+        // ── IS THIS EVEN OUR PAGE? ──────────────────────────────────────────
+        // Added by UI-08, 31 Ogos 2026, after this gate was pointed at a Vercel
+        // PREVIEW deployment and printed `0 violation(s)` at three widths. The
+        // preview has deployment protection on: every request 302s to
+        // vercel.com/login, which answers 200 with a valid, well-formed HTML
+        // document containing no clipped text, no narrow columns and no
+        // images. A green run over somebody else's login page.
+        //
+        // The sprint's own standing rule is "A STATUS CODE IS NOT EVIDENCE",
+        // and this gate was the thing enforcing it everywhere except on
+        // itself. The build fingerprint below already showed the tell — eight
+        // stylesheets with Vercel's hash format instead of our three — but
+        // nothing ASSERTED on it, and a number nobody compares is decoration.
+        //
+        // Two independent markers, both cheap, both absent from any foreign
+        // document: the final origin must be the origin we asked for (the
+        // login redirect leaves it), and <html lang> must be `ms` (every
+        // public template on this site sets it; the login page is `en-US`).
+        // A legitimate preview deployment passes both, so this rejects the
+        // protection wall without rejecting previews.
+        if (!error) {
+          const id = await page.evaluate(() => ({
+            origin: location.origin,
+            href: location.href,
+            lang: document.documentElement.lang,
+          }));
+          const want = new URL(t.url).origin;
+          if (id.origin !== want)
+            error = `NOT THIS SITE — asked ${want}, got ${id.origin} (${id.href})`;
+          else if (id.lang !== SITE_LANG)
+            error = `NOT THIS SITE — <html lang="${id.lang}">, expected "${SITE_LANG}"`;
+        }
         // Provenance, because a layout result belongs to a BUILD, not to a URL.
         // Two runs 12 minutes apart on 31 Aug 2026 disagreed about the nav on
         // three pages; the reason was a deploy landing mid-run and the edge
