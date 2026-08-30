@@ -1,0 +1,52 @@
+########## REFUSAL (docs -> site) ##########
+$ git rev-parse --abbrev-ref HEAD; git rev-parse --short HEAD
+hk-docs
+ab89692
+$ ls -d docs/boardroom
+docs/boardroom
+$ git checkout hk-site
+Switched to branch 'hk-site'
+
+==============================================================================
+  REFUSED: this checkout crosses the hellokahwin docs/site boundary.
+==============================================================================
+
+  from: docs space   ab89692
+  to:   site space   105e79d  (hk-site)
+
+  hellokahwin (docs) and hellokahwin-site are the SAME repository - same
+  remote, same root commit 3a1fbe09 - kept apart only by convention. This
+  switch replaces the contents of this working tree with the other space.
+
+  RESTORED. You are back on hk-docs at ab89692.
+  Nothing was lost. Work in the other tree instead:
+    docs -> ~/Documents/Code/hellokahwin/hellokahwin
+    site -> ~/Documents/Code/hellokahwin-site
+
+  If you truly mean to cross the boundary in THIS tree:
+    HK_GIT_SPACE_GUARD=off git checkout hk-site
+==============================================================================
+
+$ echo $?  ->  1
+$ git rev-parse --abbrev-ref HEAD; ls -d docs/boardroom; ls -d src
+hk-docs
+docs/boardroom
+ls: cannot access 'src': No such file or directory
+
+########## NEGATIVE CONTROL (docs -> docs, in-space) ##########
+$ git checkout hk-docs2
+Switched to branch 'hk-docs2'
+exit code: 0
+$ git rev-parse --abbrev-ref HEAD; ls -d docs/boardroom
+hk-docs2
+docs/boardroom
+
+########## NEGATIVE CONTROL (site -> site, in-space) ##########
+$ HK_GIT_SPACE_GUARD=off git checkout hk-site   # get into site space deliberately
+Switched to branch 'hk-site'
+$ git checkout hk-site2
+Switched to branch 'hk-site2'
+exit code: 0
+$ git rev-parse --abbrev-ref HEAD; ls -d src
+hk-site2
+src

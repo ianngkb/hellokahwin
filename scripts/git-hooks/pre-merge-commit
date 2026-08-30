@@ -1,0 +1,61 @@
+#!/bin/sh
+#
+# HelloKahwin shared-repo boundary guard - merge side  (RISK-09)
+#
+# The tracker's own words: hellokahwin (docs) and hellokahwin-site are "kept
+# apart only by the convention that nobody merges feat/command-centre-dashboard".
+# post-checkout guards the checkout path; this guards the merge path.
+#
+# Fires before the merge commit is written, so `git merge --abort` still works.
+# Note: git does NOT run this hook for a fast-forward merge, and a cross-space
+# merge can never be a fast-forward, so the case that matters is covered.
+#
+# Deliberate override:  HK_GIT_SPACE_GUARD=off git merge <ref>
+
+set -u
+
+case "${HK_GIT_SPACE_GUARD:-}" in
+  off|OFF|0) exit 0 ;;
+esac
+
+[ -f "$(git rev-parse --git-path MERGE_HEAD)" ] || exit 0
+
+hk_space() {
+  if git cat-file -e "$1:next.config.ts" 2>/dev/null; then
+    echo site
+  elif git cat-file -e "$1:docs/boardroom" 2>/dev/null \
+    || git cat-file -e "$1:frontend" 2>/dev/null; then
+    echo docs
+  else
+    echo unknown
+  fi
+}
+
+ours=$(git rev-parse HEAD 2>/dev/null) || exit 0
+theirs=$(head -n 1 "$(git rev-parse --git-path MERGE_HEAD)")
+
+from_space=$(hk_space "$ours")
+to_space=$(hk_space "$theirs")
+
+[ "$from_space" != "unknown" ] && [ "$to_space" != "unknown" ] || exit 0
+[ "$from_space" != "$to_space" ] || exit 0
+
+echo "" >&2
+echo "==============================================================================" >&2
+echo "  REFUSED: this merge crosses the hellokahwin docs/site boundary." >&2
+echo "==============================================================================" >&2
+echo "" >&2
+echo "  ours:   $from_space space   $(git rev-parse --short "$ours")  ($(git rev-parse --abbrev-ref HEAD))" >&2
+echo "  theirs: $to_space space   $(git rev-parse --short "$theirs")" >&2
+echo "" >&2
+echo "  Merging these two histories collapses the company record and the site" >&2
+echo "  source into one branch. That is the hazard RISK-09 exists to stop." >&2
+echo "" >&2
+echo "  No commit was made. Undo the merge with:" >&2
+echo "    git merge --abort" >&2
+echo "" >&2
+echo "  If you truly mean it:  HK_GIT_SPACE_GUARD=off git merge <ref>" >&2
+echo "==============================================================================" >&2
+echo "" >&2
+
+exit 1

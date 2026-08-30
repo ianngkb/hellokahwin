@@ -1,0 +1,52 @@
+== building throwaway clone at C:/Users/IANNG~1/AppData/Local/Temp/claude/C--Users-Ian-Ng-Documents-Code-hellokahwin-hellokahwin/479d8921-6007-458c-9930-b5a45518cf06/scratchpad/risk09-verify
+== fixture
+  root commit : 3a1fbe091d17c3d1cce106901ec8666712e74e28
+  hk-docs     : 49e50a7
+  hk-site     : 105e79d
+
+== case 0  the hazard, UNGUARDED (no hooks installed)
+  PASS  unguarded cross-space checkout succeeds (0)
+  PASS  company record was replaced by site source - hazard confirmed
+
+== case 0b  installing from a CRLF-mangled source
+  PASS  CRLF source really has carriage returns (105) - fixture is valid
+  PASS  installed hook has zero carriage returns (0)
+  PASS  guard installed from CRLF source still refuses (1)
+
+== installing guard
+  === C:/Users/IANNG~1/AppData/Local/Temp/claude/C--Users-Ian-Ng-Documents-Code-hellokahwin-hellokahwin/479d8921-6007-458c-9930-b5a45518cf06/scratchpad/risk09-verify
+      hooks dir: C:/Users/Ian Ng/AppData/Local/Temp/claude/C--Users-Ian-Ng-Documents-Code-hellokahwin-hellokahwin/479d8921-6007-458c-9930-b5a45518cf06/scratchpad/risk09-verify/.git/hooks
+      post-checkout: installed
+      pre-merge-commit: installed
+      pre-commit: installed
+  PASS  install-hooks.sh --check reports clean (0)
+
+== refusals
+  PASS  docs->site checkout exits non-zero (1)
+  PASS  docs->site left HEAD on the docs branch (hk-docs)
+  PASS  docs/boardroom still on disk - tree restored
+  PASS  untracked work survived the refusal
+  PASS  detached-HEAD cross-space checkout exits non-zero (1)
+  PASS  detached-HEAD refusal restored the branch (hk-docs)
+  PASS  site->docs checkout exits non-zero (1)
+  PASS  site->docs left HEAD on the site branch (hk-site)
+
+== negative controls  (ordinary work must not be impeded)
+  PASS  site->site checkout succeeds (0)
+  PASS    landed on hk-site2 (hk-site2)
+  PASS  docs->docs checkout succeeds (0)
+  PASS    landed on hk-docs2 (hk-docs2)
+  PASS  in-space 'git checkout -b' succeeds (0)
+  PASS  file checkout 'git checkout -- README.md' succeeds (0)
+  PASS    README.md restored (0)
+warning: in the working copy of 'RISK09-ORDINARY.txt', LF will be replaced by CRLF the next time Git touches it
+  PASS    probe file is actually staged (guards the test itself) (1)
+  PASS  ordinary (non-merge) commit succeeds - pre-commit stays silent (0)
+
+== merge path
+  PASS  cross-space merge conflicts (8 paths) - pre-merge-commit is never reached
+  PASS  resolved cross-space merge commit is refused (1)
+
+==============================================
+  RISK-09 guard: 25 passed, 0 failed
+==============================================

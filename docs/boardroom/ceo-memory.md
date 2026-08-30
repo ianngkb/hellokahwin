@@ -43,11 +43,24 @@ worked example was wrong and is corrected; venue pages parked at the sourcing ga
   contract file — same for sprints 01 and 02. **A reader opening `sprint-03.json`
   would conclude nothing shipped.** The failure mode that hid it is that **header
   totals can agree while items disagree**. **Owner: PLAT-15, Sprint 04.** Decision 164.
-- **🟠 STRUCTURAL, STILL UNGUARDED: `hellokahwin` (docs) and `hellokahwin-site` are
-  the SAME REPO** — same remote, same root commit `3a1fbe09` — kept apart only by the
-  convention that nobody merges `feat/command-centre-dashboard`. One `git checkout
-  master` in the docs tree swaps the company record for the site source. **Owner:
-  RISK-09, Sprint 04**, and the deliverable is a git hook, not a README paragraph.
+- **🟠 STRUCTURAL: `hellokahwin` (docs) and `hellokahwin-site` are the SAME REPO** —
+  same remote, same root commit `3a1fbe09` — kept apart only by the convention that
+  nobody merges `feat/command-centre-dashboard`. One `git checkout master` in the docs
+  tree swaps the company record for the site source. **RISK-09 (Sprint 04) built the
+  guard and proved it: 22/22 cases in a throwaway clone, refusals and negative
+  controls both.** It lives in `scripts/git-hooks/` and it is an executable, not a
+  paragraph. **⚠ IT IS NOT YET INSTALLED — the CEO deferred installation because six
+  agents were running `git checkout` in site worktrees mid-sprint.** Until it is, the
+  hazard is exactly as unguarded as it was.
+  - **Install (needs the CEO's green-light):** `scripts/git-hooks/install-hooks.sh`
+  - **Is it installed? Do not guess — this exits 1 when it is not:**
+    `scripts/git-hooks/install-hooks.sh --check`
+  - **Still open after install:** the hooks are committed on
+    `feat/command-centre-dashboard` only. A fresh clone of the site repo has no
+    `scripts/git-hooks/` to install from. Needs a small PR onto `master`.
+  - **Do not classify a branch by its name.** `docs/plat-10-11-12` is *site* source
+    and `feat/command-centre-dashboard` is *docs*. The guard reads tree content
+    (`next.config.ts`) and so must any check written later.
 - **✅ RESOLVED: the hazard branch `feat/des-05-design-system-reference` is GONE.**
   `git ls-remote --heads origin` returns no match, 30 Aug. Sprint 03 carried it
   forward as a live branch that would clobber shipped work if merged.
