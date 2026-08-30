@@ -1,0 +1,18 @@
+
+artikel index @390  https://hellokahwin.com/artikel  [HTTP 200]
+  ok    viewport asserted: innerWidth 390, matchMedia(width: 390px) true
+  ok    found 11 card eyebrows (44 one-segment /artikel destinations on the page)
+  FAIL  RENDERED: 9 of 11 clipped — e.g. 171px box / 181px text, 10px hidden :: "Hantaran & Mas Kahwin"
+  FAIL  WORST CASE: longest candidate "Ulang tahun perkahwinan, pantun & adab tetamu" (377px nowrap) in 2 distinct column(s) [358px, 171px] — 2 clipped — 18px hidden in the 358px column
+  ok    NOT SHRUNK: 0 label(s) below 11px (smallest 11px)
+  ok    NOT HIDDEN: 0 label(s) with a zero box
+
+tag archive @390  https://hellokahwin.com/artikel/tag/hantaran  [HTTP 200]
+  ok    viewport asserted: innerWidth 390, matchMedia(width: 390px) true
+  ok    found 6 card eyebrows (9 one-segment /artikel destinations on the page)
+  FAIL  RENDERED: 6 of 6 clipped — e.g. 171px box / 181px text, 10px hidden :: "Hantaran & Mas Kahwin"
+  FAIL  WORST CASE: longest candidate "Sebelum Nikah: Jodoh, Merisik & Tunang" (301px nowrap) in 1 distinct column(s) [171px] — 1 clipped — 130px hidden in the 171px column
+  ok    NOT SHRUNK: 0 label(s) below 11px (smallest 11px)
+  ok    NOT HIDDEN: 0 label(s) with a zero box
+
+negative control ok — truncation re-applied, gate went red on 4 assertion(s).

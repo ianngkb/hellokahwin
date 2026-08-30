@@ -7,6 +7,13 @@
 Design only. No site code was touched. Every fix named here belongs to another
 item or to a new one, and the new ones are already on the board.
 
+> **⚠ The title's phrase "one mobile-only defect" is CORRECTED below** — see
+> [§1's correction block](#1-new-the-one-mobile-only-defect--artikel-card-labels-clip-at-390px).
+> The 10px at 390px is real; "mobile-only" is not. The same element hid 81px at
+> 1024 and 17px at 1440 on the longest live category names, which no article in
+> the measured grid happened to carry. Found by `design-systems-engineer` while
+> shipping UI-07, 31 Ogos 2026. Every other finding in this document stands.
+
 ---
 
 ## The answer the item was raised to give
@@ -100,6 +107,51 @@ page still renders a truncated word.
 
 Evidence: `harness/eyebrow3.mjs`, `screens/search-390px-state-empty.png` (the
 grid is visible below the panel), `screens/artikel-index-390px-fullpage.jpg`.
+
+> ### Correction, 31 Ogos 2026 — added by `design-systems-engineer` while shipping UI-07
+>
+> **Every number in this section is reproducible. The words "mobile-only" are
+> not, and they should not have been written as a finding.**
+>
+> The measurement above reads the labels the page HAPPENED to render. All eleven
+> articles in that grid carry the same category, `Hantaran & Mas Kahwin`, at
+> 181px — and `/artikel` links **44** one-segment category destinations. So 768,
+> 1024 and 1440 came back clean because the long labels were not on screen, not
+> because the component fits them.
+>
+> Injecting the longest live labels into the same element on production, before
+> the UI-07 fix:
+>
+> | Width | Card column | `Sebelum Nikah: Jodoh, Merisik & Tunang` (301px) | `Pelamin, Kad & Cenderahati Majlis` (259px) |
+> |---|---|---|---|
+> | 390 | 171px | 130px hidden | 88px hidden |
+> | 768 | 352px | fits | fits |
+> | **1024** | **220px** | **81px hidden** | **39px hidden** |
+> | **1440** | **284px** | **17px hidden** | fits |
+>
+> The defect was **content-bound, not width-bound**. It would have appeared at
+> 1024 and 1440 the day an editor filed an article in a different category. This
+> section's own prose predicted it — "will clip harder as those categories fill"
+> — and the headline conclusion contradicted the prediction.
+>
+> This matters beyond one item: the sprint brief carried "the ONLY mobile-only
+> defect on the site" forward to UI-07 as settled fact, and the obvious
+> mobile-scoped fix (`sm:truncate`) would have shipped 81px and 17px of hidden
+> text at desktop widths with every check in this document green.
+>
+> **What is still true:** the 390px reading, the 9-of-11 count, and the answer to
+> the CEO's question — mobile is not the problem. **What is not:** that this
+> defect was confined to mobile.
+>
+> The lesson is now a gate rather than a paragraph: `pnpm audit:labels`
+> (`scripts/audit-label-fit.mjs`, shipped with UI-07) runs the rendered pass AND
+> a worst-case pass over the category names read from the page itself, so it
+> gets harder on its own as the corpus grows.
+>
+> `harness/eyebrow3.mjs` is unchanged and still correct for what it measures.
+> After UI-07 it reports `ellipsis-capable: 0` on `/artikel`, because the fix
+> removed the truncation rather than widening the box — a zero there now means
+> "nothing truncates", not "nothing was checked".
 
 ---
 
@@ -205,6 +257,26 @@ of §8 is in the shipped field.** Measured, identically at all four widths:
 is a *measured computed value*; the zoom-on-focus is *documented iOS Safari
 behaviour*. The captures ran in Chromium with `isMobile`/`hasTouch` and an
 Android UA. **I did not render iOS Safari and I am not claiming I did.**
+
+> **Correction, 31 Ogos 2026 — UI-09, design-systems-engineer.**
+> The first row of that table is wrong in one respect and the error travelled
+> into UI-09's brief. `box-shadow` on the focused field is **not**
+> `rgba(0,0,0,0) 0 0 0 0`. The computed value carries five layers, four of them
+> Tailwind's empty placeholders and the fifth a real 2px ring:
+> `oklab(0.19 0.00034678 0.003989 / 0.3) 0px 0px 0px 2px`. This audit's rig read
+> it as `cs.boxShadow.slice(0, 60)` and saw only the placeholders.
+>
+> **The verdict does not change** — at 30% alpha over `--background` the ring
+> composites to rgb(182,181,180), **1.98:1**, below the 3:1 WCAG 2.2 SC 1.4.11
+> asks of a focus indicator — and neither does the fix. But the *finding* does:
+> DES-06 §8 had already measured this correctly on 28 Ogos ("composites to
+> `#b7b6b4` … 1.96:1") and specified the remedy. "There is no ring" is closed by
+> anything visible; "the indicator is 1.98:1 against a 3:1 floor" is closed only
+> by a number. The other five rows of the table reproduce exactly.
+>
+> Measured by `scripts/measure-search-a11y.mjs` at 390/768/1024/1440, colours
+> canvas-resolved and alpha flattened over the real ground. See
+> [UI-09](aug-31-2026-done-ui-09-search-a11y.md).
 
 Two things about this surface that are **correct** and should not be
 "fixed": clicking the header `Cari` link **does** move focus into the input

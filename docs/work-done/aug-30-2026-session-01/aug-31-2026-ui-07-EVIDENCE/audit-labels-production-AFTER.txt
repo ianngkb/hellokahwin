@@ -1,0 +1,66 @@
+
+artikel index @390  https://hellokahwin.com/artikel  [HTTP 200]
+  ok    viewport asserted: innerWidth 390, matchMedia(width: 390px) true
+  ok    found 11 card eyebrows (44 one-segment /artikel destinations on the page)
+  ok    RENDERED: 0 of 11 clipped
+  ok    WORST CASE: longest candidate "Ulang tahun perkahwinan, pantun & adab tetamu" (377px nowrap) in 2 distinct column(s) [358px, 171px] — 0 clipped
+  ok    NOT SHRUNK: 0 label(s) below 11px (smallest 11px)
+  ok    NOT HIDDEN: 0 label(s) with a zero box
+
+artikel index @768  https://hellokahwin.com/artikel  [HTTP 200]
+  ok    viewport asserted: innerWidth 768, matchMedia(width: 768px) true
+  ok    found 11 card eyebrows (44 one-segment /artikel destinations on the page)
+  ok    RENDERED: 0 of 11 clipped
+  ok    WORST CASE: longest candidate "Ulang tahun perkahwinan, pantun & adab tetamu" (377px nowrap) in 2 distinct column(s) [352px, 360px] — 0 clipped
+  ok    NOT SHRUNK: 0 label(s) below 11px (smallest 11px)
+  ok    NOT HIDDEN: 0 label(s) with a zero box
+
+artikel index @1024  https://hellokahwin.com/artikel  [HTTP 200]
+  ok    viewport asserted: innerWidth 1024, matchMedia(width: 1024px) true
+  ok    found 11 card eyebrows (44 one-segment /artikel destinations on the page)
+  ok    RENDERED: 0 of 11 clipped
+  ok    WORST CASE: longest candidate "Ulang tahun perkahwinan, pantun & adab tetamu" (377px nowrap) in 2 distinct column(s) [464px, 220px] — 0 clipped
+  ok    NOT SHRUNK: 0 label(s) below 11px (smallest 11px)
+  ok    NOT HIDDEN: 0 label(s) with a zero box
+
+artikel index @1440  https://hellokahwin.com/artikel  [HTTP 200]
+  ok    viewport asserted: innerWidth 1440, matchMedia(width: 1440px) true
+  ok    found 11 card eyebrows (44 one-segment /artikel destinations on the page)
+  ok    RENDERED: 0 of 11 clipped
+  ok    WORST CASE: longest candidate "Ulang tahun perkahwinan, pantun & adab tetamu" (377px nowrap) in 2 distinct column(s) [592px, 284px] — 0 clipped
+  ok    NOT SHRUNK: 0 label(s) below 11px (smallest 11px)
+  ok    NOT HIDDEN: 0 label(s) with a zero box
+
+tag archive @390  https://hellokahwin.com/artikel/tag/hantaran  [HTTP 200]
+  ok    viewport asserted: innerWidth 390, matchMedia(width: 390px) true
+  ok    found 6 card eyebrows (9 one-segment /artikel destinations on the page)
+  ok    RENDERED: 0 of 6 clipped
+  ok    WORST CASE: longest candidate "Sebelum Nikah: Jodoh, Merisik & Tunang" (301px nowrap) in 1 distinct column(s) [171px] — 0 clipped
+  ok    NOT SHRUNK: 0 label(s) below 11px (smallest 11px)
+  ok    NOT HIDDEN: 0 label(s) with a zero box
+
+tag archive @768  https://hellokahwin.com/artikel/tag/hantaran  [HTTP 200]
+  ok    viewport asserted: innerWidth 768, matchMedia(width: 768px) true
+  ok    found 6 card eyebrows (9 one-segment /artikel destinations on the page)
+  ok    RENDERED: 0 of 6 clipped
+  ok    WORST CASE: longest candidate "Sebelum Nikah: Jodoh, Merisik & Tunang" (301px nowrap) in 1 distinct column(s) [360px] — 0 clipped
+  ok    NOT SHRUNK: 0 label(s) below 11px (smallest 11px)
+  ok    NOT HIDDEN: 0 label(s) with a zero box
+
+tag archive @1024  https://hellokahwin.com/artikel/tag/hantaran  [HTTP 200]
+  ok    viewport asserted: innerWidth 1024, matchMedia(width: 1024px) true
+  ok    found 6 card eyebrows (9 one-segment /artikel destinations on the page)
+  ok    RENDERED: 0 of 6 clipped
+  ok    WORST CASE: longest candidate "Sebelum Nikah: Jodoh, Merisik & Tunang" (301px nowrap) in 1 distinct column(s) [220px] — 0 clipped
+  ok    NOT SHRUNK: 0 label(s) below 11px (smallest 11px)
+  ok    NOT HIDDEN: 0 label(s) with a zero box
+
+tag archive @1440  https://hellokahwin.com/artikel/tag/hantaran  [HTTP 200]
+  ok    viewport asserted: innerWidth 1440, matchMedia(width: 1440px) true
+  ok    found 6 card eyebrows (9 one-segment /artikel destinations on the page)
+  ok    RENDERED: 0 of 6 clipped
+  ok    WORST CASE: longest candidate "Sebelum Nikah: Jodoh, Merisik & Tunang" (301px nowrap) in 1 distinct column(s) [284px] — 0 clipped
+  ok    NOT SHRUNK: 0 label(s) below 11px (smallest 11px)
+  ok    NOT HIDDEN: 0 label(s) with a zero box
+
+all label-fit assertions passed.
