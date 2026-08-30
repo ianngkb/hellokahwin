@@ -23,7 +23,25 @@ import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
  * changes when a nav item's accordion opens below it, not only when the window
  * resizes.
  */
-export function EdgeScroller({ children }: { children: ReactNode }) {
+export function EdgeScroller({
+  children,
+  staticFrom,
+}: {
+  children: ReactNode;
+  /**
+   * Above this breakpoint the content no longer overflows — it wraps — so the
+   * scroller stops scrolling and the edge cues stop painting (`.hk-edge
+   * [data-static]` in globals.css, matched at the same 1024px).
+   *
+   * `overflow: visible` there is not cosmetic. `overflow-x: auto` forces
+   * `overflow-y` to `auto` as well, which makes this element a clip box for
+   * the category dropdowns positioned inside it — measured on live production
+   * 2026-08-31, where the desktop dropdown's 44px rows extended past a 60px
+   * clip and the scroller silently grew a vertical scroll. Wrapping removes
+   * the need for the clip, so the clip goes.
+   */
+  staticFrom?: 'lg';
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const [edges, setEdges] = useState({ start: false, end: false });
 
@@ -58,6 +76,7 @@ export function EdgeScroller({ children }: { children: ReactNode }) {
        same edges, or the affordance does not line up with what it is hiding. */
     <div
       className="hk-edge relative -mx-2"
+      data-static={staticFrom}
       data-overflow-start={edges.start || undefined}
       data-overflow-end={edges.end || undefined}
     >
@@ -67,7 +86,9 @@ export function EdgeScroller({ children }: { children: ReactNode }) {
           belongs on the <nav> InspireNavMenu renders, which is what it labels. */}
       <div
         ref={ref}
-        className="overflow-x-auto px-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className={`overflow-x-auto px-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
+          staticFrom === 'lg' ? 'lg:overflow-visible' : ''
+        }`}
       >
         {children}
       </div>

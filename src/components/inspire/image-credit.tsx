@@ -1,4 +1,5 @@
 import { safeHref } from '@/lib/utils/safe-href';
+import { formatCreditLabel } from '@/lib/inspire/image-credit-label';
 
 /**
  * The visible credit for an image — owner-level requirement, board 23 Aug 2026:
@@ -27,7 +28,10 @@ export function ImageCredit({
   creditUrl?: string | null;
   className?: string;
 }) {
-  const text = credit?.trim();
+  // RIGHTS-01: the cover credit gets the same one label and one casing as every
+  // in-body credit. `media.credit` is free text an editor typed, so it is
+  // normalised here rather than trusted.
+  const text = formatCreditLabel(credit);
   if (!text) return null;
 
   const href = creditUrl ? safeHref(creditUrl) : null;

@@ -448,7 +448,7 @@ export default async function HomePage() {
             Terkini
           </h2>
           <div>
-            {rest.map((article) => {
+            {rest.map((article, i) => {
               const cover = resolveCoverSource(
                 article.coverImageVariants as Record<string, { url: string }> | null,
                 article.coverImageSmartCrops,
@@ -461,6 +461,14 @@ export default async function HomePage() {
                   className={cover ? 's-row' : 's-imgless'}
                   style={{ textDecoration: 'none', color: 'inherit' }}
                 >
+                  {/* UI-01: the rank number `.s-row` reserves a 44px desktop track
+                      for. DES-08 built this row without it, so grid auto-placement
+                      put the headline wrapper in the number's track — 44px wide and
+                      225-307px tall on all twelve production rows. Format matches
+                      the two call sites that already work (CategoryRow and the
+                      article related list): zero-padded two-digit, tabular figures.
+                      `.s-idx` is display:none below 1024px, so mobile is untouched. */}
+                  <span className="s-idx">{String(i + 1).padStart(2, '0')}</span>
                   {cover && (
                     // eslint-disable-next-line @next/next/no-img-element -- see hero note above
                     <img
