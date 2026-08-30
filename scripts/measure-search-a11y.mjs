@@ -177,7 +177,7 @@ function installHelpers() {
     /* The search field, found structurally: every <input> inside #cari.
      Enumerated rather than looked up by selector, so a markup change shows
      up as a different count instead of as a silent null. */
-      inputs() {
+    inputs() {
       /* Scoped to #cari and NEVER falling back to the document: the fallback
          is what let this rig measure a Vercel SSO form's password field. */
       const anchor = document.getElementById('cari');
