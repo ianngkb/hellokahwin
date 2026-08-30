@@ -6,7 +6,7 @@ import { db } from '@/lib/db/drizzle';
 import { articles, inspireCategories } from '@/lib/db/schema/articles';
 import { media } from '@/lib/db/schema/media';
 import { resolveCoverSource } from '@/lib/storage/responsive-cover';
-import { getSmartCropUrl } from '@/lib/storage/smart-crop-url';
+import { getSmartCropRef, type SmartCropRef } from '@/lib/storage/smart-crop-url';
 import '@/design-system/tokens.css';
 import '@/design-system/components.css';
 
@@ -39,29 +39,56 @@ export const revalidate = 1800;
 const HERO_INELIGIBLE_SLUGS = new Set<string>(['persiapan-hantaran-kahwin']);
 
 /**
- * UI-03 / `docs/design/hero-image-rules.md` R8 — the SECOND hero-eligibility
- * gate, and unlike the slug list above it is fully automatic.
+ * UI-03 / `docs/design/hero-image-rules.md` R8 — the automatic hero-eligibility
+ * gates, alongside the hand-curated slug list above.
  *
- * R2: `low`, `high` and `original` preserve the SOURCE aspect ratio, and this
- * corpus's sources are frequently portrait (the current hero's is 1200×1800).
- * A portrait asset can never fill a landscape hero box correctly at any
- * quality, so those three variants are never hero-eligible — only a named
- * landscape crop target may fill a lead plate.
+ * (b) BOTH hero crops must exist. `resolveCoverSource()` falls back to
+ * `low`/`coverImageUrl` when a smart crop is missing, which is right for a
+ * 176px row and wrong for a full-bleed plate — it is exactly how a 0.667
+ * portrait ended up stretched across a 2.40 box on production. Per R2, `low`,
+ * `high` and `original` all preserve the SOURCE aspect ratio, so none of them
+ * can fill a landscape hero at any quality. Only a named landscape crop may.
  *
- * `resolveCoverSource()` falls back to `low`/`coverImageUrl` when a smart crop
- * is missing, which is right for a 176px row and wrong for a full-bleed plate:
- * it is exactly how a 0.667 portrait ended up stretched across a 2.40 box on
- * production. So an article missing EITHER hero crop is skipped for hero
- * placement, the same way a class-G frame is skipped above. It still displays
- * normally in "Terkini", where no landscape box exists to be wrong about.
- *
- * All 13 current homepage covers carry both crops (verified by HTTP HEAD,
- * 31 Ogos 2026), so this gate does not fire today. It is a guard.
+ * `getSmartCropRef` (not `getSmartCropUrl`) because R4 and R6 need each crop's
+ * REAL stored width and height, and a crop whose dimensions were never recorded
+ * cannot state them. Same rule as (c): unknown is ineligible, never a nominal
+ * value asserted in its place.
  */
-function resolveHeroCrops(smartCrops: unknown): { desktop: string; og: string } | null {
-  const desktop = getSmartCropUrl(smartCrops, 'crop-4.3x1-desktop-hero');
-  const og = getSmartCropUrl(smartCrops, 'crop-16x9-og');
+function resolveHeroCrops(smartCrops: unknown): { desktop: SmartCropRef; og: SmartCropRef } | null {
+  const desktop = getSmartCropRef(smartCrops, 'crop-4.3x1-desktop-hero');
+  const og = getSmartCropRef(smartCrops, 'crop-16x9-og');
   return desktop && og ? { desktop, og } : null;
+}
+
+/**
+ * R8(c) — and this is the rule the whole item turns on.
+ *
+ * Having the right-shaped crop is not the same as having a landscape
+ * PHOTOGRAPH. `computeCropWindow` is width-constrained, so a 3.52:1 window on a
+ * 2:3 portrait source keeps `(w / 3.52) / h` = **18.9% of the source height**.
+ * That produces a band: correctly proportioned, sharp, and depicting nothing.
+ * On a 1.5 landscape source the same window keeps 42.6% and yields a real
+ * frame. Same pipeline, same target — the difference is the source.
+ *
+ * Selection is `publishedAt desc` with no orientation predicate, so before this
+ * gate existed the single portrait photograph in the set won the largest slot
+ * on the site by recency accident. Measured on production 31 Ogos 2026 across
+ * the full 20-article buffer: 18 landscape sources (AR 1.414–1.500) and 2
+ * portrait (AR 0.667) — and one of the two portraits was the live hero.
+ *
+ * Fixing only the crop would therefore have shipped a sharp, correctly
+ * proportioned photograph of nothing.
+ *
+ * ⚠️ `width`/`height` are nullable, and UNKNOWN COUNTS AS INELIGIBLE. Defaulting
+ * unknown to eligible is precisely how this defect shipped. Verified populated
+ * 20/20 on production before relying on them — a joinable row with null
+ * dimensions would be a proxy, not a measurement.
+ */
+const HERO_MIN_SOURCE_ASPECT = 1.15;
+
+function isSourceLandscape(width: number | null, height: number | null): boolean {
+  if (!width || !height) return false;
+  return width / height >= HERO_MIN_SOURCE_ASPECT;
 }
 
 export const metadata: Metadata = {
@@ -107,6 +134,13 @@ const getHomeData = unstable_cache(
         // this pattern exists to prevent (25 Aug 2026, 8 uncredited covers).
         coverCredit: media.credit,
         coverCreditUrl: media.creditUrl,
+        // UI-03 R8(c) — the SOURCE photograph's orientation. Free: this rides
+        // the `media` leftJoin the credit already needs, so no new query and no
+        // new join. Nullable `integer` columns; null means unknown, and unknown
+        // is NOT hero-eligible (see `isSourceLandscape`). Verified populated
+        // 20/20 across the whole homepage buffer on production 31 Ogos 2026.
+        coverWidth: media.width,
+        coverHeight: media.height,
       })
       .from(articles)
       .innerJoin(inspireCategories, eq(articles.primaryCategoryId, inspireCategories.id))
@@ -118,7 +152,15 @@ const getHomeData = unstable_cache(
 
     return { latestArticles };
   },
-  ['hk-home-v3'],
+  // ⚠️ BUMPED v3 → v4 BY UI-03, AND IT IS NOT COSMETIC. This select gained
+  // `coverWidth`/`coverHeight`, and the Vercel Data Cache persists an
+  // `unstable_cache` entry ACROSS deployments — the key is the only thing that
+  // scopes it. Ship a wider query under the old key and the first readers after
+  // deploy get the previously-cached rows, which have no width or height; R8(c)
+  // then reads undefined, scores every article ineligible, and the homepage
+  // serves the "Tiada gambar" no-hero plate until the 600s revalidate expires.
+  // Any future change to the SHAPE of this select must bump this again.
+  ['hk-home-v4'],
   // Tagged, not just time-boxed: every admin write path and the scheduled-
   // publish cron fire `revalidateTag('articles')`. `revalidatePath` does NOT
   // invalidate an `unstable_cache` entry, so without these tags a publish (or
@@ -129,10 +171,13 @@ const getHomeData = unstable_cache(
 
 export default async function HomePage() {
   const { latestArticles } = await getHomeData();
-  // Both hero gates, in one pass: the hand-curated class-G slug list and R8's
-  // automatic "has both landscape crops" test.
+  // All three R8 gates in one pass: (a) the hand-curated class-G slug list,
+  // (b) both hero crops exist, (c) the SOURCE photograph is landscape.
   const heroIndex = latestArticles.findIndex(
-    (a) => !HERO_INELIGIBLE_SLUGS.has(a.slug) && resolveHeroCrops(a.coverImageSmartCrops) !== null,
+    (a) =>
+      !HERO_INELIGIBLE_SLUGS.has(a.slug) &&
+      resolveHeroCrops(a.coverImageSmartCrops) !== null &&
+      isSourceLandscape(a.coverWidth, a.coverHeight),
   );
   // R8's failure mode, made explicit: if NOTHING in the 20-article buffer is
   // hero-eligible, the lead story still runs — it holds the page's one <h1> —
@@ -162,10 +207,32 @@ export default async function HomePage() {
   // `crop-4.3x1-desktop-hero.webp` at 768×1024 @2). Art direction across
   // breakpoints is `<picture>` + `<source media>`, and only that — R3.
   //
-  // The price, stated: mobile's LCP image goes 54 KB → 224 KB, +170 KB. That is
-  // what R2 costs on a site whose audience is on cheap Android, and it is why
-  // §3 of the spec files `crop-40x21-hero-sm` (~1170px, ~150 KB) as a costed
-  // pipeline follow-up rather than pretending the current sizes are right.
+  // THE PRICE, STATED, AND IT IS NOT SMALL. Measured across all 13 homepage
+  // covers on 31 Ogos 2026 — not off the old hero, whose small files were a
+  // SYMPTOM of the defect (a blurry 19% sliver of a portrait compresses well):
+  //
+  //   crop-16x9-og              278–425 KB (median ~318)  ← mobile/tablet band
+  //   crop-4.3x1-desktop-hero   535–916 KB (median ~624)  ← desktop band
+  //
+  // Mobile's LCP image goes from 54 KB (`low.webp`, wrong shape) to ~425 KB for
+  // the article that now holds the hero: about +371 KB. The desktop asset sits
+  // behind `<source media="(min-width: 1024px)">`, so phones never fetch it.
+  // That regression is accepted with open eyes, not buried — the DoD forbids
+  // `low`, and these are the only aspect-correct assets that exist.
+  //
+  // WHY THEY ARE THE ONLY ONES, which is the real pipeline finding: this
+  // pipeline produces two families and neither can serve a hero.
+  //   `low`/`high`/`original` — quality-graded, but follow the SOURCE aspect.
+  //   the smart crops         — aspect-correct, but exist at ONE quality: full.
+  // There is no aspect-correct, quality-reduced derivative anywhere in it.
+  // DES-08 met the same matrix, chose bytes over shape, and that is how a
+  // portrait ended up in a landscape box; UI-03 chooses shape over bytes
+  // because the DoD says so. Neither choice is right — the missing cell is.
+  // The ask is a q30–q50 variant of the LANDSCAPE CROPS (a q30 `crop-16x9-og`
+  // at 1200×630 should land near 80–120 KB, comparable to `low`'s 54 KB and
+  // correctly shaped), not merely a smaller crop. It is not free: adding a
+  // target changes `GEOMETRY_VERSION` and re-queues every live cover through
+  // Rekognition + R2, an AWS-cost decision that belongs to the owner.
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com';
 
@@ -226,14 +293,18 @@ export default async function HomePage() {
                 {heroCrops ? (
                   <picture>
                     {/* R4: every `w` descriptor states the asset's REAL
-                        intrinsic width. This crop was declared `1600w` and is
-                        genuinely 2464w — a 54% understatement that corrupted
-                        every selection decision the browser made. One
-                        candidate per band, because these are two different
-                        photographs and `srcset` chooses a SIZE, not a CROP. */}
+                        intrinsic width — read from the stored crop, never
+                        asserted. This crop was declared `1600w` and is
+                        genuinely ~2464w: a 54% understatement that corrupted
+                        every selection decision the browser made. It is also
+                        not a constant — 2463 on 12 of the homepage's 20
+                        articles, 2464 on the other 8, because a crop target is
+                        a ceiling and the window rounds. One candidate per band,
+                        because these are two different photographs and `srcset`
+                        chooses a SIZE, not a CROP. */}
                     <source
                       media="(min-width: 1024px)"
-                      srcSet={`${heroCrops.desktop} 2464w`}
+                      srcSet={`${heroCrops.desktop.url} ${heroCrops.desktop.width}w`}
                       sizes="100vw"
                     />
                     {/* No eslint-disable needed here: `@next/next/no-img-element`
@@ -242,16 +313,19 @@ export default async function HomePage() {
                         art-direction API. `images.unoptimized` is set anyway,
                         so next/image was never resizing these. */}
                     <img
-                      src={heroCrops.og}
-                      srcSet={`${heroCrops.og} 1200w`}
+                      src={heroCrops.og.url}
+                      srcSet={`${heroCrops.og.url} ${heroCrops.og.width}w`}
                       sizes="100vw"
                       alt={hero.title}
-                      /* R6: the DEFAULT source's real intrinsic dimensions.
-                         These read 1200×500 before — an aspect of 2.4 that
-                         described neither asset in the srcset, so the browser
-                         reserved the wrong box and the page shifted. */
-                      width={1200}
-                      height={630}
+                      /* R6: the DEFAULT source's real intrinsic dimensions,
+                         from the same stored record as the descriptor so the
+                         two can never disagree. These read 1200×500 before — an
+                         aspect of 2.4 that described neither asset in the
+                         srcset, so the browser reserved the wrong box and the
+                         page shifted. (This crop is a uniform 1200×630 across
+                         all 20 articles today; nothing guarantees it stays.) */
+                      width={heroCrops.og.width}
+                      height={heroCrops.og.height}
                       fetchPriority="high"
                       decoding="async"
                       className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
@@ -356,7 +430,7 @@ export default async function HomePage() {
                   style={{ textDecoration: 'none', color: 'inherit' }}
                 >
                   {cover && (
-                    // eslint-disable-next-line @next/next/no-img-element -- `images.unoptimized` is set, so next/image never resizes these; it would only add a wrapper. (The hero's <img> needs no disable — it is inside a <picture>.)
+                    // eslint-disable-next-line @next/next/no-img-element -- see hero note above
                     <img
                       src={cover.src}
                       srcSet={cover.srcSet}
