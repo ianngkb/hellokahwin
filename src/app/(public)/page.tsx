@@ -6,7 +6,7 @@ import { db } from '@/lib/db/drizzle';
 import { articles, inspireCategories } from '@/lib/db/schema/articles';
 import { media } from '@/lib/db/schema/media';
 import { resolveCoverSource } from '@/lib/storage/responsive-cover';
-import { getSmartCropRef, type SmartCropRef } from '@/lib/storage/smart-crop-url';
+import { isHeroFrameEligible, resolveHeroCrops } from '@/lib/inspire/hero-frame';
 import '@/design-system/tokens.css';
 import '@/design-system/components.css';
 
@@ -39,74 +39,22 @@ export const revalidate = 1800;
 const HERO_INELIGIBLE_SLUGS = new Set<string>(['persiapan-hantaran-kahwin']);
 
 /**
- * UI-03 / `docs/design/hero-image-rules.md` R8 — the automatic hero-eligibility
- * gates, alongside the hand-curated slug list above.
+ * UI-03 R8's automatic hero-eligibility gates — `resolveHeroCrops` (R8b) and
+ * `isHeroFrameEligible` / `HERO_ASPECT` / `MIN_RETAINED_FRAME` (R8c) — now live
+ * in `src/lib/inspire/hero-frame.ts`, because UI-12 S4 gave them a SECOND
+ * caller: `/artikel`'s featured lead plate, which carried the identical
+ * selection defect (recency order, no orientation predicate). Lifted verbatim;
+ * the homepage's hero selection is unchanged by the move, and the same 20-row
+ * buffer, the same three gates and the same order still decide it. The
+ * reasoning, the measured corpus counts and the null-is-ineligible rule are all
+ * in that module — do not restate them here and do not re-derive the threshold.
  *
- * (b) BOTH hero crops must exist. `resolveCoverSource()` falls back to
- * `low`/`coverImageUrl` when a smart crop is missing, which is right for a
- * 176px row and wrong for a full-bleed plate — it is exactly how a 0.667
- * portrait ended up stretched across a 2.40 box on production. Per R2, `low`,
- * `high` and `original` all preserve the SOURCE aspect ratio, so none of them
- * can fill a landscape hero at any quality. Only a named landscape crop may.
- *
- * `getSmartCropRef` (not `getSmartCropUrl`) because R4 and R6 need each crop's
- * REAL stored width and height, and a crop whose dimensions were never recorded
- * cannot state them. Same rule as (c): unknown is ineligible, never a nominal
- * value asserted in its place.
+ * ⚠️ `HERO_ASPECT` there is tied to `lg:aspect-[88/25]` below, and now also
+ * to the `/artikel` lead plate's own copy of that class. Three places, one
+ * number; Tailwind needs the literal at each call site so they cannot be shared.
  */
-function resolveHeroCrops(smartCrops: unknown): { desktop: SmartCropRef; og: SmartCropRef } | null {
-  const desktop = getSmartCropRef(smartCrops, 'crop-4.3x1-desktop-hero');
-  const og = getSmartCropRef(smartCrops, 'crop-16x9-og');
-  return desktop && og ? { desktop, og } : null;
-}
-
-/**
- * R8(c) — RETAINED FRAME. This is the rule the whole item turns on.
- *
- * Having the right-shaped crop is not the same as having the right PHOTOGRAPH.
- * The hero target is wider than every source in this corpus, so
- * `computeCropWindow` always takes the width-constrained branch, and the
- * surviving fraction of the source's height is exactly
- * `sourceAspect / HERO_ASPECT`. Measured:
- *
- *   source 1.500 (12 of 13 covers) → 42.6% retained → a photograph
- *   source 0.667 (the one that shipped) → 18.9% retained → a texture
- *   threshold 1.16 → 33.0% retained → the line
- *
- * Below roughly a third of the frame a crop stops reading as a photograph of
- * its subject. That 33% is the Creative Director's judgement, owned as
- * judgement — a defensible line, not a derived constant. Everything else here
- * IS derived, which is the point: expressed as a bare `>= 1.15` the test hides
- * its own reasoning and rots the moment the plate's aspect changes.
- *
- * Selection is `publishedAt desc` with no orientation predicate, so before this
- * gate the portrait photograph in the set won the largest slot on the site by
- * recency accident. Fixing only the crop would have shipped a sharp, correctly
- * proportioned photograph of nothing.
- *
- * Corpus, verified against production 31 Ogos 2026 (86 published articles):
- *   0.667 ×6 · 0.748 ×1 · 0.750 ×4 · 0.753 ×1   → 12 disqualified
- *   1.333 ×10 · 1.339 ×1 · 1.414 ×1 · 1.494 ×1 · 1.500 ×33 · 1.504 ×2 → 48 pass
- * 4:3 (1.333) retains 37.9% and passes, so this is not merely a 3:2 filter, and
- * the lowest passing value sits well clear of the 1.16 boundary — no marginal
- * cases.
- *
- * ⚠️ NULLABLE, AND UNKNOWN COUNTS AS INELIGIBLE. Defaulting unknown to eligible
- * is precisely how this defect shipped. Verified by querying production, not by
- * reading code: **60 of 86 articles have width/height populated; 26 are null.**
- * Within the 20-article homepage buffer it is 20/20 with zero nulls — but note
- * WHY that is safe. The 26 nulls are ranks 58–86 by recency, the oldest tail,
- * every one of them; the buffer never reaches them. That is a data fact about
- * where the nulls sit, not a property of this rule. If the buffer ever deepens
- * past ~57 articles, this starts excluding real candidates.
- */
-const HERO_ASPECT = 88 / 25; // 3.520 — MUST stay in sync with `lg:aspect-[88/25]` below.
-const MIN_RETAINED_FRAME = 0.33; // A hero crop must keep a third of the source frame.
-
-function isHeroFrameEligible(width: number | null, height: number | null): boolean {
-  if (width == null || height == null || height <= 0) return false;
-  return width / height / HERO_ASPECT >= MIN_RETAINED_FRAME;
-}
+// (No declarations follow: the block above is a signpost to the module that now
+// owns them, left here because this is where a reader goes looking for them.)
 
 export const metadata: Metadata = {
   title: 'HelloKahwin — Idea & Panduan Perkahwinan Malaysia',
@@ -471,10 +419,17 @@ export default async function HomePage() {
                   <span className="s-idx">{String(i + 1).padStart(2, '0')}</span>
                   {cover && (
                     // eslint-disable-next-line @next/next/no-img-element -- see hero note above
+                    /* UI-12 S1/S2. No `srcSet` (the `1200w` descriptor was
+                       asserted, not read — see responsive-cover.ts) and no
+                       `sizes` (inert without a srcset, and it read like a
+                       geometry declaration for a slot that is 80px wide on a
+                       phone). `width`/`height` stay 176×132 = 1.33333, the same
+                       ratio `.s-row img` sets in both bands; R6 is satisfied by
+                       the CSS box, which is fixed in both axes and reserves the
+                       layout itself, and these attributes cannot disagree with
+                       it. */
                     <img
                       src={cover.src}
-                      srcSet={cover.srcSet}
-                      sizes="176px"
                       width={176}
                       height={132}
                       loading="lazy"

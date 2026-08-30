@@ -611,13 +611,40 @@ function renderHtmlParts(
           key={`${keyPrefix}-${i}`}
           className="group relative my-6 lg:mx-auto lg:w-fit lg:max-w-[680px]"
         >
+          {/* ── UI-12 S6: NEVER PAINT AN IMAGE ABOVE ITS INTRINSIC WIDTH ────
+              `w-full` on an in-body image is an instruction to upscale anything
+              narrower than the prose column. `w-auto max-w-full` is the same
+              layout for everything wider and correct for everything narrower.
+
+              Measured on production 31 Ogos 2026:
+              `…-IN-GardenWedding-JardinEventVenue-4/high.webp` is genuinely
+              628 × 786 (read from a detached `Image()` on `currentSrc`, per
+              hero-rules §7 — `naturalWidth` lies on a `srcset` element). At a
+              768px viewport the prose column is 704px and `w-full` painted it
+              704 × 881: a 1.12× upscale of a photograph that does not have the
+              pixels.
+
+              `lg:w-auto` was already doing the right thing at ≥1024px — which
+              is exactly why this same element measured green there and red at
+              768. This extends the behaviour it already had down to the two
+              bands below it rather than inventing one.
+
+              ⚠️ NOT `parseImageDims`. That helper reads the intrinsic from a
+              `-WxH/` segment in the URL and falls back to a hardcoded
+              1200 × 800 when there is none — and the one image that actually
+              fires this check has no such segment, so a `maxWidth` derived from
+              it would be the fallback constant and would not fix the defect.
+              The CSS form needs no dimensions at all.
+
+              Three call sites in this file share this reasoning: here, the
+              uncredited `<div>` variant below, and the `figure` block. */}
           <Image
             src={getArticleVariantUrl(part.src, 'high')}
             alt={part.alt}
             width={part.width}
             height={part.height}
             sizes="(max-width: 768px) 100vw, 680px"
-            className="h-auto w-full rounded-md lg:w-auto"
+            className="h-auto w-auto max-w-full rounded-md"
           />
           {articleId && (
             <MoodboardSaveButton
@@ -660,13 +687,15 @@ function renderHtmlParts(
           key={`${keyPrefix}-${i}`}
           className="group relative lg:mx-auto lg:w-fit lg:max-w-[680px]"
         >
+          {/* UI-12 S6 — `w-auto max-w-full`, not `w-full … lg:w-auto`. Same
+              measured defect and same reasoning as the credited figure above. */}
           <Image
             src={getArticleVariantUrl(part.src, 'high')}
             alt={part.alt}
             width={part.width}
             height={part.height}
             sizes="(max-width: 768px) 100vw, 680px"
-            className="h-auto w-full rounded-md lg:w-auto"
+            className="h-auto w-auto max-w-full rounded-md"
           />
           {articleId && (
             <MoodboardSaveButton
@@ -918,13 +947,19 @@ export function ArticleRenderer({
             key={`figure-${partIndex}`}
             className="group relative my-6 lg:mx-auto lg:w-fit lg:max-w-[680px]"
           >
+            {/* UI-12 S6 — `w-auto max-w-full`, not `w-full … lg:w-auto`. Same
+                measured defect and same reasoning as the credited figure above.
+                Note this site DOES call `parseImageDims`, for `width`/`height`;
+                that is the CLS reservation and it is a separate concern from the
+                paint width. S6 deliberately does not route through it — its
+                1200 × 800 fallback is wrong for exactly the image that fires. */}
             <Image
               src={getArticleVariantUrl(src, 'high')}
               alt={alt}
               width={figureDims.width}
               height={figureDims.height}
               sizes="(max-width: 768px) 100vw, 680px"
-              className="h-auto w-full rounded-md lg:w-auto"
+              className="h-auto w-auto max-w-full rounded-md"
             />
             {articleId && (
               <MoodboardSaveButton

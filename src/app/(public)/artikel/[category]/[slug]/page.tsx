@@ -769,12 +769,18 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
         article.coverImageUrl,
       )
     : null;
+  // UI-12 S1: `imageSrcSet`/`imageSizes` are gone with the `srcSet` the figure
+  // no longer carries. A preload whose candidate list differs from the rendered
+  // element's is not a preload — the browser resolves the hint against the hint's
+  // own srcset/sizes and fetches a second file at high priority. Now there is one
+  // URL in both places and nothing to keep in step. It is also the byte fix:
+  // `sizes` resolved to 768px here, so every DPR ≥ 1.33 display was selecting the
+  // `1600w` candidate and preloading 488–946 KB of `crop-4x3-article-card`; this
+  // preloads `low` at 36–80 KB (measured, 31 Ogos 2026).
   if (coverPreload) {
     ReactDOM.preload(coverPreload.src, {
       as: 'image',
       fetchPriority: 'high',
-      imageSrcSet: coverPreload.srcSet,
-      imageSizes: '(min-width: 1024px) 768px, 100vw',
     });
   }
 
@@ -1032,8 +1038,24 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
                   className="mx-auto mt-6 mb-10 max-w-3xl"
                   style={{ margin: '24px auto 40px' }}
                 >
+                  {/* UI-12 S5 — `lg:aspect-[2.4/1]` deleted. 2.4:1 matched no
+                      derivative this pipeline produces: `CROP_TARGETS` yields
+                      exactly four aspects — 0.800, 1.333, 1.905, 3.520 — and
+                      nothing yields 2.4. Per hero-rules R1, if no derivative
+                      matches the box you want you do not have that box; 2.4:1
+                      was drawn, not derived, and no asset on this site can fill
+                      it. Measured on production 31 Ogos 2026: a 2.400 box fed
+                      `low` at 1.4993 is 60% off and reports a 1.17× upscale —
+                      4 gate failures.
+
+                      `aspect-[3/2]` at every width. With S1 landed the served
+                      asset is `low` at its true intrinsic, measured
+                      1024 × 683 = 1.4993 against a 1.5 box: a 0.05% deviation.
+                      Retained frame in a 3:2 box is 100% from a 1.500 source,
+                      88.9% from 1.333, 44.5% from 0.667 — all clear of the 33%
+                      floor, so this box needs no eligibility predicate. */}
                   <div
-                    className="bg-muted relative aspect-[3/2] w-full overflow-hidden lg:aspect-[2.4/1]"
+                    className="bg-muted relative aspect-[3/2] w-full overflow-hidden"
                     style={
                       article.coverImageLqip
                         ? {
@@ -1045,13 +1067,19 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
                     }
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element -- see responsive-cover.ts */}
+                    {/* UI-12 S1/S5: no `srcSet`, no `sizes` (inert without one).
+                        `width`/`height` were 1200×500 — an aspect of 2.4 that
+                        described no asset in the pipeline, so the browser
+                        reserved a box nothing could fill and the page shifted.
+                        That is the same R6 defect UI-03 found on the homepage
+                        hero, still live here. 1200×800 = 1.500 is `low`'s modal
+                        intrinsic across the corpus and matches the 3:2 box the
+                        element actually renders into. */}
                     <img
                       src={cover.src}
-                      srcSet={cover.srcSet}
-                      sizes="(min-width: 1024px) 768px, 100vw"
                       alt={article.title}
                       width={1200}
-                      height={500}
+                      height={800}
                       fetchPriority="high"
                       decoding="async"
                       className="absolute inset-0 h-full w-full object-cover"
@@ -1199,10 +1227,11 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
                       <span className="s-idx">{String(i + 1).padStart(2, '0')}</span>
                       {cover && (
                         // eslint-disable-next-line @next/next/no-img-element -- see responsive-cover.ts
+                        /* UI-12 S1/S2: no `srcSet`, no `sizes`. 176×132 =
+                           1.33333 is the ratio `.s-row img` now sets in both
+                           bands (80×60 below 1024px). */
                         <img
                           src={cover.src}
-                          srcSet={cover.srcSet}
-                          sizes="176px"
                           alt=""
                           width={176}
                           height={132}

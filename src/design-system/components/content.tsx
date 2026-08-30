@@ -62,8 +62,10 @@ export interface ListRowProps {
   headingLevel: HeadingLevel;
 }
 
-/** A catalogue/homepage list row — 80px thumb on phone, 176×132 + index
- * number on desktop. Falls back to `.s-imgless` when the item has no cover
+/** A catalogue/homepage list row — 80 × 60 thumb on phone, 176 × 132 + index
+ * number on desktop. Both are 1.33333: UI-12 S2 took the mobile box off 80 × 80,
+ * so the same photograph is no longer two different shapes on two devices.
+ * Falls back to `.s-imgless` when the item has no cover
  * (spec §6.3/§8): no broken `<img>`, no grey placeholder promising a
  * photograph that never arrives. */
 export function ListRow({

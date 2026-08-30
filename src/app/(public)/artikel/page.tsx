@@ -1,13 +1,14 @@
 import { Fragment } from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import Image from 'next/image';
 import { eq, desc, count, sql, inArray } from 'drizzle-orm';
 import { unstable_cache } from 'next/cache';
 import { db } from '@/lib/db/drizzle';
 import { articles, inspireCategories, articleCategories } from '@/lib/db/schema/articles';
+import { media } from '@/lib/db/schema/media';
 import { ArticleCard } from '@/components/inspire/article-card';
-import { getSmartCropUrl } from '@/lib/storage/smart-crop-url';
+import { getSmartCropRef } from '@/lib/storage/smart-crop-url';
+import { isHeroFrameEligible, resolveHeroCrops } from '@/lib/inspire/hero-frame';
 import { flattenCategoriesByArticleCount } from '@/lib/inspire/category-tree';
 import { InspireArticleSearch } from '@/components/inspire/inspire-article-search';
 
@@ -64,9 +65,19 @@ const getInspireHomeData = unstable_cache(
           publishedAt: articles.publishedAt,
           categoryName: inspireCategories.name,
           categorySlug: inspireCategories.slug,
+          // UI-12 S4 / hero-rules R8(c) — the SOURCE photograph's shape, which
+          // is what decides whether an article may hold the lead plate. Same
+          // exact-match join the homepage uses (media.url == coverImageUrl).
+          // Nullable `integer` columns: null means unknown, and unknown is NOT
+          // eligible. Measured against production 31 Ogos 2026 — 60 of 86
+          // articles populated, 26 null, and all 26 sit at ranks 58–86 by
+          // recency, which this 12-row buffer never reaches.
+          coverWidth: media.width,
+          coverHeight: media.height,
         })
         .from(articles)
         .innerJoin(inspireCategories, eq(articles.primaryCategoryId, inspireCategories.id))
+        .leftJoin(media, eq(media.url, articles.coverImageUrl))
         .where(eq(articles.status, 'published'))
         .orderBy(desc(articles.publishedAt))
         .limit(12),
@@ -121,7 +132,16 @@ const getInspireHomeData = unstable_cache(
 
     return { latestArticles: articlesWithCategories, allCategories };
   },
-  ['inspire-home'],
+  // ⚠️ BUMPED BY UI-12 S4, AND IT IS NOT COSMETIC — the same trap the homepage
+  // documents at `hk-home-v4`. This select gained `coverWidth`/`coverHeight`,
+  // and the Vercel Data Cache persists an `unstable_cache` entry ACROSS
+  // deployments: the key is the only thing that scopes it. Ship a wider query
+  // under the old key and the first readers after deploy get the previously
+  // cached rows, which carry no width or height; R8(c) then scores every
+  // article ineligible and the lead plate silently degrades to the no-`<source>`
+  // 40/21 band for up to 600s. Any future change to the SHAPE of this select
+  // must bump this again.
+  ['inspire-home-v2'],
   // See the home page: `revalidatePath('/artikel')` does not evict an
   // `unstable_cache` entry — only the tag does.
   { tags: ['articles', 'inspire-categories'], revalidate: 600 },
@@ -137,8 +157,73 @@ export default async function InspireHomePage() {
   // WordPress taxonomy, where nearly all the depth sits one level down.
   const bottomCategories = flattenCategoriesByArticleCount(allCategories);
 
-  const featured = latestArticles.slice(0, 3);
-  const latest = latestArticles.slice(3);
+  // ── UI-12 S4 — R8 ELIGIBILITY FOR THE LEAD PLATE ────────────────────────
+  // This plate carries `priority` and is the first photograph a reader sees on
+  // /artikel: a hero slot in every sense that matters, and
+  // `docs/design/hero-image-rules.md` is binding on "every future full-bleed
+  // hero slot". It was `latestArticles[0]` — recency order with no orientation
+  // predicate, byte for byte the selection defect UI-03 found on the homepage
+  // hero, in a second place.
+  //
+  // The predicate is `resolveHeroCrops` (R8b: both hero crops exist, with their
+  // dimensions RECORDED — a crop whose width was never stored cannot state it)
+  // AND `isHeroFrameEligible` (R8c: the SOURCE photograph retains ≥33% of its
+  // height in a 3.520 box). Both come from `@/lib/inspire/hero-frame`, the same
+  // definitions the homepage uses — not a second copy, which would be free to
+  // drift while every check stayed green.
+  //
+  // ⚠️ OPEN FINDING — `HERO_INELIGIBLE_SLUGS` is deliberately NOT applied here,
+  // and it has a measured consequence. UI-12 §3 S4 asks for "the first
+  // hero-frame-eligible article", which is R8(c) plus R8(b); R8(a) is the
+  // homepage's hand-curated class-G slug list, and extending a curated
+  // editorial exclusion to a second surface is the Creative Director's call,
+  // not the builder's.
+  //
+  // Measured against production data on a local build, 31 Ogos 2026: without
+  // R8(a) this plate selects `persiapan-hantaran-kahwin` — the single article
+  // that list exists to keep OUT of a large frame (a wide procession shot, 13
+  // people across a street, DES-02's exact failure mode). Its geometry is fine
+  // (it passes R8(b) and R8(c) and the gate is green on it); its SUBJECT is the
+  // reason it was excluded from the homepage hero.
+  //
+  // Raised, not absorbed. Applying R8(a) here is one clause on the predicate
+  // below; it is not applied unless the Creative Director says so.
+  //
+  // Skipped articles are not dropped — they fall into the supporting-card
+  // positions in order, so the newest article stays at the top of the page and
+  // simply stops holding a plate its photograph cannot fill.
+  const leadIndex = latestArticles.findIndex(
+    (a) =>
+      resolveHeroCrops(a.coverImageSmartCrops) !== null &&
+      isHeroFrameEligible(a.coverWidth, a.coverHeight),
+  );
+  const ordered =
+    leadIndex > 0
+      ? [latestArticles[leadIndex], ...latestArticles.filter((_, i) => i !== leadIndex)]
+      : latestArticles;
+
+  const featured = ordered.slice(0, 3);
+  const latest = ordered.slice(3);
+
+  // The two-band assets for the plate, resolved once. `leadCrops` is non-null
+  // only when the article ACTUALLY passed R8 — `leadIndex >= 0` — so the
+  // desktop `<source>` and the `lg:aspect-[88/25]` box appear together or not
+  // at all, and a portrait source can never reach the 3.520 band.
+  const leadArticle = featured[0] ?? null;
+  const leadCrops =
+    leadIndex >= 0 && leadArticle ? resolveHeroCrops(leadArticle.coverImageSmartCrops) : null;
+  // R4/R6: the fallback `<img>`'s real intrinsic dimensions, read from the
+  // stored crop rather than copied from `CROP_TARGETS` — a target is a CEILING
+  // (`fit:'inside', withoutEnlargement:true`), so the delivered file is whatever
+  // the crop window rounded to. Measured 1200 × 630 = 1.90476 across the corpus
+  // today; nothing guarantees it stays uniform, which is why it is read.
+  //
+  // Resolved independently of `leadCrops` so the no-eligible-article path still
+  // has a correctly-shaped band: 40/21 retains 35.0% even from the corpus's
+  // worst source (0.667) and therefore needs no predicate of its own.
+  const leadOg = leadArticle
+    ? getSmartCropRef(leadArticle.coverImageSmartCrops, 'crop-16x9-og')
+    : null;
 
   return (
     <div>
@@ -163,35 +248,112 @@ export default async function InspireHomePage() {
                     href={`/artikel/${featured[0].categorySlug}/${featured[0].slug}`}
                     className="group block"
                   >
-                    <div className="bg-muted relative aspect-[4/3] w-full overflow-hidden sm:aspect-[16/9] lg:aspect-[2.4/1]">
-                      {featured[0].coverImageUrl ? (
-                        <Image
-                          src={
-                            getSmartCropUrl(
-                              featured[0].coverImageSmartCrops,
-                              'crop-4x3-article-card',
-                            ) ??
-                            (
-                              featured[0].coverImageVariants as Record<
-                                string,
-                                { url: string }
-                              > | null
-                            )?.high?.url ??
-                            featured[0].coverImageUrl
-                          }
-                          alt={featured[0].title}
-                          fill
-                          sizes="100vw"
-                          className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
-                          priority
-                          {...(featured[0].coverImageLqip
-                            ? {
-                                placeholder: 'blur' as const,
-                                blurDataURL: featured[0].coverImageLqip,
-                              }
-                            : {})}
-                        />
+                    {/* ── UI-12 S4 — the lead plate inherits UI-03 §3 ────────
+                        R1: the box follows the asset, never the reverse. Two
+                        bands, monotonic, each box aspect equal to the served
+                        asset's intrinsic aspect — so deviation is ~0.0% rather
+                        than merely inside R1's 15%:
+
+                          <1024px  40/21 = 1.90476  ← crop-16x9-og  1200×630
+                                                      = 1.90476 → 0.000%
+                          ≥1024px  88/25 = 3.52000  ← crop-4.3x1-desktop-hero
+                                                      2463×700 = 3.51857 → 0.041%
+
+                        `aspect-[4/3] sm:aspect-[16/9] lg:aspect-[2.4/1]` is
+                        gone. 2.4:1 matched NO derivative this pipeline
+                        produces — `CROP_TARGETS` yields exactly 0.800, 1.333,
+                        1.905 and 3.520 — so per R1 it was a box the site did
+                        not have. It was fed `crop-4x3-article-card` (1.333):
+                        33% off at 16/9 and 80% off at 2.4/1, three gate
+                        failures. A third band would also make the plate shape
+                        non-monotonic, so `sm:` goes as well.
+
+                        Box widths and upscale, measured: 358 @390 (0.30×),
+                        736 @768 (0.61×), 976 @1024 (0.40×), 1232 @1440
+                        (0.50×). It never upscales.
+
+                        BYTES: this is a saving. Mobile's LCP image moves from
+                        `crop-4x3-article-card` (488–946 KB across all twelve
+                        homepage covers) to `crop-16x9-og` (278–425 KB), and the
+                        heavy desktop file sits behind
+                        `<source media="(min-width: 1024px)">` so no phone ever
+                        fetches it. The plate also shortens from 269px to 188px
+                        at 390px wide, handing 81px back to the headline.
+
+                        ⚠️ `lg:aspect-[88/25]` is the same number as
+                        `HERO_ASPECT` in `@/lib/inspire/hero-frame`, which
+                        derives the R8(c) threshold this plate is selected by.
+                        Tailwind needs the literal here so they cannot share one
+                        constant: change this and you MUST change that, or the
+                        plate widens while the threshold stays put and portrait
+                        sources creep back in with every check still green. */}
+                    <div
+                      className={
+                        leadCrops
+                          ? 'bg-muted relative aspect-[40/21] w-full overflow-hidden bg-cover bg-center lg:aspect-[88/25]'
+                          : 'bg-muted relative aspect-[40/21] w-full overflow-hidden bg-cover bg-center'
+                      }
+                      style={
+                        featured[0].coverImageLqip
+                          ? { backgroundImage: `url(${featured[0].coverImageLqip})` }
+                          : undefined
+                      }
+                    >
+                      {leadOg ? (
+                        <picture>
+                          {/* R3: one crop per band, expressed as `<source
+                              media>`. Never as a `srcset` width candidate —
+                              these are two differently-shaped photographs, and
+                              `srcset` chooses a SIZE. R4: the `w` descriptor is
+                              the crop's REAL stored width, so it cannot be the
+                              54% understatement UI-03 found.
+
+                              Rendered only when the article passed R8: without
+                              `leadCrops` the plate is the 40/21 band alone at
+                              every width, which retains 35.0% even from the
+                              corpus's worst source (0.667). Never degrade to a
+                              portrait in a landscape box. */}
+                          {leadCrops && (
+                            <source
+                              media="(min-width: 1024px)"
+                              srcSet={`${leadCrops.desktop.url} ${leadCrops.desktop.width}w`}
+                              sizes="100vw"
+                            />
+                          )}
+                          {/* No eslint-disable needed: `@next/next/no-img-element`
+                              does not fire on an `<img>` inside a `<picture>`,
+                              which is the one thing next/image cannot express —
+                              it has no art-direction API. `images.unoptimized`
+                              is set in next.config.ts anyway, so next/image was
+                              never resizing these.
+
+                              `fetchPriority="high"` replaces the `priority` prop
+                              this element lost with next/image. Same effect on
+                              the LCP candidate, stated on the element the
+                              browser actually fetches. The LQIP now paints as
+                              the wrapper's `background-image` rather than
+                              next/image's `placeholder="blur"`, because a plain
+                              `<img>` has no blur API — same asset, same moment,
+                              same mechanism the homepage hero already uses. */}
+                          <img
+                            src={leadOg.url}
+                            srcSet={`${leadOg.url} ${leadOg.width}w`}
+                            sizes="100vw"
+                            alt={featured[0].title}
+                            width={leadOg.width}
+                            height={leadOg.height}
+                            fetchPriority="high"
+                            decoding="async"
+                            className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                          />
+                        </picture>
                       ) : (
+                        /* R2: `low`, `high` and `original` all preserve the
+                           SOURCE aspect, so none of them may fill this plate at
+                           any quality — an article with no recorded
+                           `crop-16x9-og` gets the empty state, not a
+                           wrongly-shaped photograph. Same rule the homepage hero
+                           already enforces. */
                         <div className="flex h-full items-center justify-center">
                           <span className="hk-meta">Tiada gambar</span>
                         </div>

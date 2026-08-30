@@ -672,7 +672,8 @@ export default async function DesignSystemPage({
             {/* Card + list rows — the "awkward pair" DoD, real title extremes */}
             <div className="pt-8">
               <Label muted className="mb-2 block">
-                Card (.s-card) leading list rows (.s-row) — real 95-char / 47-char title extremes
+                Card (.s-card) leading list rows (.s-row) — real 95-char / 47-char title extremes,
+                4:3 thumbnails at every width
               </Label>
               <Card
                 href="#"
@@ -689,7 +690,7 @@ export default async function DesignSystemPage({
                   headingLevel="h2"
                   title="20 Lokasi Terbaik Pre Wedding Photoshoot di Malaysia – Dari Alam Semula Jadi Hingga Urban City!"
                   meta="Fotografi & Videografi"
-                  imageSrc={placeholderImg('80×80')}
+                  imageSrc={placeholderImg('80×60')}
                   imageAlt="Rombongan hantaran berjalan di tepi jalan sambil memegang dulang"
                   index={2}
                 />
@@ -698,7 +699,7 @@ export default async function DesignSystemPage({
                   headingLevel="h2"
                   title="Tempat beli barang hantaran: lima jenis kedai"
                   meta="Hantaran & Mas Kahwin"
-                  imageSrc={placeholderImg('80×80')}
+                  imageSrc={placeholderImg('80×60')}
                   imageAlt="Dulang terbuka dengan gubahan bunga merah dan renda putih"
                   index={3}
                 />
@@ -718,6 +719,19 @@ export default async function DesignSystemPage({
                 the card is 01, so these rows are 2&ndash;4. <code>.s-row</code> reserves a 44px
                 desktop track for it, and a row that omits it puts its headline in that track rather
                 than losing it.
+              </p>
+              <p className="text-muted-foreground mt-2 max-w-[74ch] text-xs">
+                UI-12 S2: the thumbnail is{' '}
+                <strong>80&times;60 on a phone and 176&times;132 on desktop</strong> &mdash; both
+                1.33333, one landscape shape at every width. It was 80&times;80 = 1.000 below
+                1024px, which meant the same photograph was two different shapes on two devices, and
+                1:1 is the social-feed register this site is trying not to be in. Measured on
+                production 31 Ogos 2026, a 1.000 box fed the <code>low</code>
+                variant these rows are served deviates <strong>33.5%</strong> on the eleven 3:2
+                covers and <strong>50%</strong> on the one 2:3 cover; a 4:3 box deviates 11.1% and
+                0.0% respectively, both inside hero-rules R1&rsquo;s 15%. 4:3 rather than 3:2
+                because it is the aspect of <code>crop-4x3-article-card</code>, where this slot goes
+                the day a small rendition of it exists &mdash; one shape change, not two.
               </p>
             </div>
 
@@ -994,8 +1008,8 @@ export default async function DesignSystemPage({
                   ['.s-chip', '44px', 'Category chips'],
                   [
                     '.s-row',
-                    '80px phone / 132px desktop',
-                    'The entire row is the tap target, not just the title',
+                    '89–92px phone / 173px desktop',
+                    'The entire row is the tap target. Measured on a local production build of the twelve homepage rows, 31 Ogos 2026 — 92px at 390px, 89px at 768px, 173px at 1024/1440. UI-12 S2 took the thumbnail to 80×60, so the phone height is now set by the text block, not by the image',
                   ],
                   [
                     'Breadcrumb link',
