@@ -14,7 +14,7 @@
 
       This file puts a true positive and a near-miss false positive side by side
       for each of the five checks, so the self-test can assert an exact count and
-      catch either kind of drift. Thirteen cases; six of them must produce exactly
+      catch either kind of drift. Fourteen cases; seven of them must produce exactly
       nothing.
 
       Cases E and F below are why the 1024px breakpoint is in the overflow rule:
@@ -62,6 +62,14 @@
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+      }
+      .clipbox {
+        width: 120px;
+        overflow: hidden;
+      }
+      .clipbox > div {
+        width: 2000px;
+        background: #efe;
       }
       .past-edge {
         position: absolute;
@@ -166,6 +174,19 @@
          Truncation is only a defect when it actually truncates. -->
     <section data-case="L">
       <p class="truncate">HANTARAN</p>
+    </section>
+
+    <!-- N · MUST NOT FIRE (viewport-overflow) at any width. A 2000px box inside
+         a 120px `overflow: hidden` parent: its right edge is far past every
+         viewport and NONE of it is painted there. The first version of the
+         overflow check called this a violation, conflating "clipped" with
+         "past the edge" — two different defects with two different fixes.
+         Losing text this way is check 5's job, in pixels lost. CI caught it on
+         Linux, where a wider system font pushed an inline <a> inside a clipping
+         box 30px past a 390px viewport; the same element fitted on Windows and
+         the bug passed locally. -->
+    <section data-case="N">
+      <div class="clipbox"><div>N · 2000px inside a 120px clipping box</div></div>
     </section>
 
     <!-- J · MUST NOT FIRE, and must be COUNTED. An image that never decodes
