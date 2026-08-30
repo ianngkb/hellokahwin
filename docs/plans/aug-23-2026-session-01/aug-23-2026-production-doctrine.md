@@ -1063,6 +1063,8 @@ were caught, one by a Design Systems Engineer's report and two by a peer who
 checked. **Both agents caught these voluntarily, before any audit.** That habit
 is the control, and it is worth more than either item shipped.
 
+## 6. What this doctrine asks for
+
 Nothing new. It asks for the same four decisions already open, and it explains
 what each one costs if it stays open.
 
