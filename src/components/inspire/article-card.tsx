@@ -88,19 +88,35 @@ export function ArticleCard({
           guard, not a behaviour anyone sees today.
         */}
         {categories[0] && (
+          // UI-11: the label is a standalone target and measured 181.2 x 15.
+          // `hk-tap` and not the truncating variant, because UI-07 landed first
+          // and its finding stands: this label WRAPS and must never truncate.
+          // `inline-flex` is shrink-to-fit, so it wraps inside the column like
+          // the inline anchor it replaces, and `overflow-wrap` inherits from
+          // the `wrap-anywhere` on the <p> above it.
           <p className="hk-eyebrow wrap-anywhere">
             <Link
               href={`/artikel/${categories[0].slug}`}
-              className="hover:text-foreground relative z-[2] transition-colors"
+              className="hk-tap hover:text-foreground relative z-[2] transition-colors"
             >
               {categories[0].name}
             </Link>
           </p>
         )}
-        <h3 className="hk-card-title mt-1.5 line-clamp-3 text-[1.0625rem] lg:text-[1.125rem]">
+        {/* UI-11: `line-clamp-3` moved from the <h3> on to the <a>. The anchor
+            is the target, and an inline anchor's box comes from font metrics —
+            22px at this size — so a short title that fits on ONE line measured
+            466 x 22 and 533 x 22 at 1440 (it wraps at 390 and passes there).
+            The clamp sets `display: -webkit-box`, which gives the anchor a real
+            box that `min-h-[var(--tap-min)]` can raise, and clamping is
+            unchanged because the anchor is now the clamped box. Doing this the
+            other way round — leaving the clamp on the <h3> and making the
+            anchor inline-block — breaks the clamp: the -webkit-box would see
+            one atomic item instead of three line boxes. */}
+        <h3 className="hk-card-title mt-1.5 text-[1.0625rem] lg:text-[1.125rem]">
           <Link
             href={href}
-            className="decoration-border-strong underline-offset-[0.2em] hover:underline"
+            className="decoration-border-strong line-clamp-3 min-h-[var(--tap-min)] underline-offset-[0.2em] hover:underline"
           >
             {title}
           </Link>

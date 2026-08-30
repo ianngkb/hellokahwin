@@ -30,6 +30,7 @@
     "perf:measure": "node scripts/measure-page.mjs",
     "audit:srow": "node scripts/audit-srow-geometry.mjs",
     "audit:labels": "node scripts/audit-label-fit.mjs",
+    "audit:taps": "node scripts/audit-tap-targets.mjs",
     "perf:hero": "node scripts/measure-hero.mjs",
     "ui:gate": "node scripts/ui-layout-gate.mjs",
     "ui:gate:fixtures": "node scripts/ui-layout-gate.mjs --fixtures",

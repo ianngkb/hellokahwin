@@ -15,13 +15,21 @@ Requires `playwright-core` and the installed Chrome. Override the browser with
 `UI_GATE_CHROME=/path/to/chrome`.
 
 A Vercel **preview** deployment is behind team SSO and answers an
-unauthenticated request with a 302 to `vercel.com/sso-api`. Without a bypass the
-gate measures the login page and reports a clean run over nothing, so it now
-treats an off-origin redirect as an ERROR and takes the bypass secret from
-`UI_GATE_BYPASS` (vault key `vercelbypass.hellokahwin`, injected by
-`vault.ps1 run … -EnvVar UI_GATE_BYPASS`, never on a command line). UI-10 added
-this because without it the gate can only be run after a deploy has already
-reached production — the wrong side of the ship.
+unauthenticated request with a 302 to Vercel's login, which is a perfectly
+well-formed 200 with no clipped text, no narrow columns and no images — a green
+run over somebody else's page. Two items hit that wall from opposite sides on
+31 Ogos 2026 and both halves are in the gate:
+
+- **Detection** (UI-08) — the identity precondition in `measure()`. Every target
+  must prove it is this site before a single check runs: the final origin must
+  match the origin requested, and `<html lang>` must be `ms`. Failing either is
+  an ERROR and exit 2, never a clean run.
+- **The way through** (UI-10) — `UI_GATE_BYPASS` sends Vercel's
+  protection-bypass secret (vault key `vercelbypass.hellokahwin`, injected with
+  `vault.ps1 run … -EnvVar UI_GATE_BYPASS`, so it never reaches a command line).
+  Without it the gate can only run after a deploy has already reached
+  production, which is the wrong side of the ship: detection alone tells you the
+  preview is ungateable, it does not let you gate it.
 
 ---
 
@@ -70,9 +78,16 @@ The production capture proves the gate catches two real defects. It cannot prove
 the gate stays honest as it is edited, because every check there fires on the
 same page: a check that quietly began flagging _everything_ would still look
 right. This fixture puts a true positive next to a plausible false positive for
-each of the four checks. Nine labelled cases; **five must produce exactly
+each of four of the six checks. Nine labelled cases; **five must produce exactly
 nothing**, including the `h1.sr-only` pattern that was the gate's first real
 false positive, found on its first run against production.
+
+`reading-measure` (check 6, UI-10) has no discriminator case and does not need
+one: its near-miss is a WIDTH, not a markup pattern, so it is disciplined on the
+production capture instead. The same `article.html` fires at 768 and 1440 and
+stays silent at 390 and at 1024, where 632px at 17px is 74.4 characters — just
+under the 75 ceiling. A check that flagged 74.4 anyway would be a check with no
+threshold, and that assertion is what proves it has one.
 
 ## `fixtures/green-control.css` — proof the gate can reach zero
 

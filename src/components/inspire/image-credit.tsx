@@ -39,9 +39,12 @@ export function ImageCredit({
   return (
     <p className={className ?? 'text-muted-foreground mt-2 text-xs'}>
       {href ? (
+        // `hk-tap` — UI-11. The whole credit string, "Kredit:" included, is
+        // inside this anchor, so it is a standalone target and not a link in a
+        // sentence; it measured 15.4-15.6px tall wherever it renders.
         <a
           href={href}
-          className="underline underline-offset-2 transition-opacity hover:opacity-80"
+          className="hk-tap underline underline-offset-2 transition-opacity hover:opacity-80"
           target="_blank"
           rel="noopener noreferrer"
         >
