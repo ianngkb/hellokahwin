@@ -133,7 +133,28 @@
   align-items: baseline;
 }
 
-/* ── typography primitives ───────────────────────────────────────── */
+/* ── typography primitives ───────────────────────────────────────────
+ * ⚠ THE `ch` VALUES BELOW ARE NOT PORTABLE ACROSS FACES. UI-10, 31 Ogos 2026.
+ *
+ * `.s-h1: 24ch`, `.s-deck: 58ch` and `.s-body: 68ch` each read as a character
+ * count, and each is one only for the face it happens to render in. `1ch` is
+ * the advance width of the ZERO glyph, not of an average letter, and it varies
+ * enormously: MEASURED on production, `1ch` is 0.6138em in Georgia (whose zero
+ * is a wide old-style figure) and about 0.539em in Geist.
+ *
+ * By the DoD's own formula `width / (font-size x 0.5)`, that makes `68ch`
+ * worth 73 characters in Geist and 83 in Georgia — the SAME token, an
+ * eight-character difference, decided by whichever face wins the cascade at
+ * that node. `.serif-editorial` (globals.css) swaps `--font-serif` to Georgia
+ * on every article page, so this is a live divergence, not a hypothetical.
+ *
+ * Nothing below is changed here: these are max-widths on headings and decks,
+ * where a few characters either way is a composition choice rather than a
+ * reading defect, and rewriting them is not UI-10's DoD. But a NEW cap on
+ * continuous prose must not use `ch` — see `--measure-prose` in tokens.css,
+ * which is stated in `em` precisely so that characters-per-line = 2 x the em
+ * value by construction, in any face. If you add a measure, add it there.
+ * ─────────────────────────────────────────────────────────────────── */
 .s-label {
   font-size: var(--fs-label);
   line-height: 1.2;
@@ -404,7 +425,7 @@
   padding: 11px 12px;
   line-height: 1;
   white-space: nowrap;
-  min-height: 44px; /* target size, spec §10.2 */
+  min-height: var(--tap-comfortable); /* target size, spec §10.2 */
   display: inline-flex;
   align-items: center;
   gap: 7px;
@@ -428,7 +449,7 @@
 
 /* ── button (§8 .s-btn) ───────────────────────────────────────────── */
 .s-btn {
-  min-height: 44px; /* target size, spec §10.2 */
+  min-height: var(--tap-comfortable); /* target size, spec §10.2 */
   display: inline-flex;
   align-items: center;
   padding: 0 18px;

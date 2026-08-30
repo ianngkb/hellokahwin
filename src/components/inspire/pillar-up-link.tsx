@@ -22,8 +22,14 @@ export function PillarUpLinkBlock({ link }: { link: PillarUpLink | null }) {
       className="border-border bg-muted/30 mt-12 rounded-lg border p-5"
     >
       <p className="hk-eyebrow">Sebahagian daripada panduan</p>
+      {/* `hk-tap` on both — UI-11. This block is navigation under its own
+          eyebrow, not a sentence: the pillar anchor measured 185.8 x 21 and the
+          em dash between the two links is a separator, not prose around them. */}
       <p className="mt-2 text-base">
-        <Link href={`/artikel/${link.slug}`} className="font-medium underline underline-offset-4">
+        <Link
+          href={`/artikel/${link.slug}`}
+          className="hk-tap font-medium underline underline-offset-4"
+        >
           {link.anchor}
         </Link>
         {link.cluster && (
@@ -31,7 +37,7 @@ export function PillarUpLinkBlock({ link }: { link: PillarUpLink | null }) {
             {' — '}
             <Link
               href={`/artikel/${link.slug}#cluster-${link.cluster.id}`}
-              className="underline underline-offset-4"
+              className="hk-tap underline underline-offset-4"
             >
               {link.cluster.anchor}
             </Link>

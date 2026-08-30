@@ -968,7 +968,26 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
               Order is the composition: eyebrow, headline, deck, then the
               Rekod panel — "the reader searching mas kahwin Perak has the
               answer before the photograph loads" — and the figure after it. */}
-          <header className="mx-auto max-w-3xl pt-4">
+          {/* UI-10, 31 Ogos 2026 — `mx-auto` came off this header and off the
+              cover figure below it. It centred a 768px block inside the 1200px
+              shell while the body column below it starts at the grid's left
+              edge, so at 1440 the headline began 216px to the RIGHT of its own
+              first paragraph (measured: header left 336, body left 120), and at
+              1920 the offset was 344px. It was survivable while the body ran
+              888px wide and nearly reached the headline's right edge; once
+              UI-10 capped the body at the reading measure (594px) the two
+              blocks no longer shared an edge OR a right margin, and the page
+              read as two unrelated columns. See
+              `…-ui-10-EVIDENCE/screens/compose-after-1440px.png`.
+
+              Left-aligning is a no-op below 768 (the cell is narrower than
+              768px there) and strictly better at every width above it, so it is
+              unconditional rather than an `lg:` variant. The stack now hangs
+              off ONE left edge — eyebrow, headline, deck, Rekod, cover, body —
+              with a ragged right: the headline may run wider than the reading
+              column, and the photograph wider still. That is the composition,
+              not an oversight. */}
+          <header className="max-w-3xl pt-4">
             <span className="s-label" style={{ color: 'var(--accent)' }}>
               {article.categoryName ?? 'Tiada kategori'}
             </span>
@@ -1035,8 +1054,15 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
               if (!cover) return null;
               return (
                 <figure
-                  className="mx-auto mt-6 mb-10 max-w-3xl"
-                  style={{ margin: '24px auto 40px' }}
+                  className="mt-6 mb-10 max-w-3xl"
+                  // `margin: '24px auto 40px'` until UI-10. The inline `auto`
+                  // beat the class, so dropping `mx-auto` above without also
+                  // changing this line would have left the figure centred and
+                  // the header alone on the new left edge — the exact
+                  // half-fixed state that reads as a bug. Written long-hand so
+                  // the horizontal margin is a value, not an `auto` waiting to
+                  // re-centre it.
+                  style={{ marginTop: 24, marginBottom: 40, marginLeft: 0, marginRight: 0 }}
                 >
                   {/* UI-12 S5 — `lg:aspect-[2.4/1]` deleted. 2.4:1 matched no
                       derivative this pipeline produces: `CROP_TARGETS` yields

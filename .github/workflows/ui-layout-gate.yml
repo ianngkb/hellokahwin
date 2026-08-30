@@ -1,7 +1,9 @@
 name: UI layout gate
 
-# The rendered-layout gate. See `scripts/ui-layout-gate.mjs` for the four checks
-# and the reasoning behind each threshold.
+# The rendered-layout gate. See `scripts/ui-layout-gate.mjs` for the six checks
+# and the reasoning behind each threshold. (Six since UI-10 added the reading
+# measure on 31 Ogos 2026; the file's own header is the list that is kept
+# current.)
 #
 # WHY THIS EXISTS. On 31 Aug 2026 every one of the twelve cards on the front page
 # rendered its headline in a 44-pixel column, and every automated check this repo
@@ -20,7 +22,7 @@ name: UI layout gate
 #               nobody has seen fail is not a gate, and a gate that has quietly
 #               started passing everything looks exactly like a healthy one.
 #
-#   production  Scheduled and manual, never blocking a PR. Runs the four checks
+#   production  Scheduled and manual, never blocking a PR. Runs the six checks
 #               against the four widths of every public template on the live
 #               site and files a loud issue when they fail. It is deliberately
 #               NOT a required check: six agents were merging in parallel when
@@ -81,10 +83,19 @@ jobs:
       # Needs outbound access to images.hellokahwin.com: one of the assertions
       # is that all 13 homepage images DECODE, which is what proves the
       # naturalWidth-0 exclusion is not quietly hiding a real defect.
+      # `set -o pipefail` is load-bearing, not tidiness. Without it the step's
+      # exit status is `tee`'s, which is always 0, and this job reported SUCCESS
+      # on its very first run while the gate printed `UILINT EXIT: 1` and one
+      # assertion failed. A blocking check that cannot fail is worse than none:
+      # it is a green tick that means nothing, which is the exact shape of the
+      # problem this whole item exists to fix.
       - name: Does the gate fire on known-bad and clear on known-good?
         env:
           UI_GATE_CHROME: ${{ steps.chrome.outputs.path }}
-        run: node scripts/ui-layout-gate.mjs --selftest | tee gate.log
+        shell: bash
+        run: |
+          set -o pipefail
+          node scripts/ui-layout-gate.mjs --selftest | tee gate.log
 
       - name: Summary
         if: always()
@@ -118,7 +129,9 @@ jobs:
       - name: Gate every public template at 390/768/1024/1440
         env:
           UI_GATE_CHROME: ${{ steps.chrome.outputs.path }}
+        shell: bash
         run: |
+          set -o pipefail
           node scripts/ui-layout-gate.mjs \
             --base "${{ github.event.inputs.base_url || 'https://hellokahwin.com' }}" \
             --json gate.json | tee gate.log

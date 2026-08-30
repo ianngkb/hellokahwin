@@ -29,6 +29,7 @@ import {
   OfflineState,
   PageErrorState,
   RekodPanel,
+  TargetProbe,
   Wordmark,
 } from '@/design-system/components';
 import {
@@ -1004,17 +1005,31 @@ export default async function DesignSystemPage({
               </thead>
               <tbody>
                 {[
-                  ['.s-btn', '44px', 'Muat lagi, Cuba semula, Laman utama, search entry'],
-                  ['.s-chip', '44px', 'Category chips'],
+                  [
+                    '.s-btn',
+                    'var(--tap-comfortable)',
+                    'Muat lagi, Cuba semula, Laman utama, search entry',
+                  ],
+                  ['.s-chip', 'var(--tap-comfortable)', 'Category chips'],
                   [
                     '.s-row',
                     '89–92px phone / 173px desktop',
                     'The entire row is the tap target. Measured on a local production build of the twelve homepage rows, 31 Ogos 2026 — 92px at 390px, 89px at 768px, 173px at 1024/1440. UI-12 S2 took the thumbnail to 80×60, so the phone height is now set by the text block, not by the image',
                   ],
                   [
-                    'Breadcrumb link',
-                    '20px text, 44px hit slop',
-                    'Text stays 14px; the hit area is padded, not the type grown',
+                    '.hk-navrail-item',
+                    'var(--tap-comfortable)',
+                    'Masthead categories — 44px at every width, UI-02',
+                  ],
+                  [
+                    '.hk-tap / -line / -flow',
+                    'var(--tap-min)',
+                    'Breadcrumb, footer link, contents entry, card label, credit — UI-11',
+                  ],
+                  [
+                    'Search field (/artikel#cari)',
+                    '46px',
+                    'UI-09. 16px type is the constraint, not the target: iOS Safari zooms a field under 16px on focus, and mobile is 79% of clicks. 16px line-height 24 + 10px padding + 1px border = 46px, over the 44 floor without a fixed height that would clip enlarged type',
                   ],
                 ].map((row, i) => (
                   <tr key={i} className="border-t">
@@ -1031,12 +1046,79 @@ export default async function DesignSystemPage({
               </tbody>
             </table>
           </div>
+          {/* ── UI-11: the three target utilities, measured live ─────────
+              This block replaced a table row that read "Breadcrumb link —
+              20px text, 44px hit slop". There was no hit slop. The shipped
+              breadcrumb measured 40 × 20, and the page had been asserting
+              otherwise for as long as it existed, because a number typed into
+              a table cannot be wrong out loud. Every specimen below is now
+              measured by TargetProbe at render time. */}
+          <div className="flex flex-col gap-5 border p-5">
+            <div className="flex flex-col gap-1">
+              <h3 className="text-sm font-semibold">
+                Standalone targets — the WCAG 2.5.8 (AA) floor
+              </h3>
+              <p className="text-muted-foreground max-w-[74ch] text-xs">
+                Two tokens, and a rule for choosing: <code>--tap-comfortable</code> (44px, WCAG
+                2.5.5 AAA and spec §10.2) for a control the reader is <em>meant</em> to hit;{' '}
+                <code>--tap-min</code> (24px, the 2.5.8 AA floor) for a secondary standalone link in
+                running chrome. A breadcrumb row forced to 44px would triple the height of the
+                colophon to fix a hit area that 24px already fixes. An inline link inside a sentence
+                — <code>pelamin</code> mid-paragraph — is exempt under 2.5.8 and takes neither.
+              </p>
+            </div>
+            <div className="flex flex-col gap-4">
+              <TargetProbe label=".hk-tap — default, may wrap">
+                <a href="#tap-specimen" className="hk-tap text-sm underline">
+                  Utama
+                </a>
+              </TargetProbe>
+              <TargetProbe label=".hk-tap — wrapping in a 171px card column">
+                <a href="#tap-specimen" className="hk-eyebrow hk-tap wrap-anywhere max-w-[171px]">
+                  Sebelum Nikah: Jodoh, Merisik &amp; Tunang
+                </a>
+              </TargetProbe>
+              <TargetProbe label=".hk-tap-flow — content keeps flowing inline">
+                <a href="#tap-specimen" className="hk-tap-flow text-xs underline">
+                  Kredit: mohd hasan / Pexels ↗
+                </a>
+              </TargetProbe>
+              <TargetProbe label="untreated inline link — the state UI-11 found" min={24}>
+                <a href="#tap-specimen" className="hk-eyebrow">
+                  Laman Utama
+                </a>
+              </TargetProbe>
+            </div>
+            <p className="text-muted-foreground max-w-[74ch] text-xs">
+              The last specimen is deliberately left untreated and is expected to fail: it is the
+              15.4px footer link as it shipped, kept here so the difference is visible rather than
+              described. The machine check over the real site is{' '}
+              <code>pnpm audit:taps &lt;url&gt;</code> (<code>scripts/audit-tap-targets.mjs</code>),
+              which exits 1 on any standalone target under the floor.
+            </p>
+          </div>
           <p className="text-muted-foreground max-w-[74ch] text-xs">
             Tab through the buttons and chips in §04 above — the ring is <code>var(--focus)</code>{' '}
             at full opacity (15.39:1 light / 15.65:1 dark), replacing the shipped{' '}
             <code>ring-ring/30</code> at 1.95:1 that DES-07 flagged. Exactly one{' '}
             <code>aria-live=&quot;polite&quot;</code> region per page, reused by the loading bar at
             ≥3s, a <em>Muat lagi</em> result count, and a retry outcome — not built three times.
+          </p>
+          <p className="text-muted-foreground max-w-[74ch] text-xs">
+            <strong>
+              UI-09, 31 Ogos 2026 — the same defect, found shipped on the public site.
+            </strong>{' '}
+            DES-07 flagged <code>ring-ring/30</code> inside this module; the article search field on{' '}
+            <code>/artikel#cari</code> was still painting it. Measured on production at 390 / 768 /
+            1024 / 1440, canvas-resolved rather than parsed from <code>getComputedStyle</code>{' '}
+            (every token here is <code>oklch()</code>, which Chrome returns as <code>oklab()</code>
+            ): the ring composited to <code>rgb(182,181,180)</code> over{' '}
+            <code>rgb(252,251,250)</code> — <strong>1.98:1</strong>, against the 3:1 that WCAG 2.2
+            SC 1.4.11 asks of an indicator. It is now <code>outline: 2px solid var(--ring)</code> at{' '}
+            <code>outline-offset: 2px</code> on <code>:focus-visible</code>, the same shape the
+            masthead rail uses, at <strong>17.7:1</strong>. The lesson worth keeping is that a ring
+            can be present, correctly sized, and still not be an indicator — “is there a box-shadow”
+            was never the test; the flattened ratio is.
           </p>
         </section>
 

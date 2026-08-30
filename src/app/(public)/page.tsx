@@ -320,11 +320,15 @@ export default async function HomePage() {
                     printed "Kredit: Kredit: …" on every credited hero. */}
                 {hero.coverCredit &&
                   (hero.coverCreditUrl ? (
+                    // UI-11: `hk-tap` replaces `inline-block`. An atomic inline
+                    // is not "a link in a sentence" under WCAG 2.5.8 — it has
+                    // its own box — so this credit needed a 24px floor, not an
+                    // exemption. It measured 236.9 x 15.6.
                     <a
                       href={hero.coverCreditUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="s-cred mt-3 inline-block"
+                      className="s-cred hk-tap mt-3"
                     >
                       {hero.coverCredit}
                     </a>
