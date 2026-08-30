@@ -241,6 +241,21 @@ Seen firing at all four widths on the protected preview
 **not** firing on production, and the 59-case fixture self-test still passes.
 Owner: `design-systems-engineer`. File: `scripts/ui-layout-gate.mjs`. **Done.**
 
+**The preview was measurable all along, and I did not know it.** The protection
+bypass secret is in the token vault as `vercelbypass.hellokahwin`, set as an
+`x-vercel-protection-bypass` header; UI-09 hit the same wall the same day and
+recorded it. I merged to `master` and verified on production instead, which is
+what DONE MEANS SHIPPED requires anyway — but "I could not verify before
+merging" was not true, and the honest version is that I did not look for the
+secret. The gate hole is unaffected: it is exactly the rig that has *not* been
+given the header that gets a well-formed, entirely fictional green run.
+
+The two markers the gate now asserts survive a legitimate bypassed preview, so
+this rejects the protection wall without rejecting previews — the wall is what
+UI-09 and UI-08 both walked into from opposite directions on the same day, one
+by finding an `<input>` that was Vercel's login field, one by finding a page
+with nothing wrong with it.
+
 ### One instance per template is a sample, not a manifest
 
 This defect was **content-length dependent**. The same component, on two pages
