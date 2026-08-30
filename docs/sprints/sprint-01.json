@@ -30,7 +30,14 @@
       "why": "Supabase nyidzlupgmyyazhyykuk has pitr_enabled=false, zero platform backups, and pg_dump 16.15 refuses PostgreSQL 17.6. Every write in the last two days was unrecoverable.",
       "dod": "A dump exists in R2 (hellokahwin-assets), has been RESTORED into a throwaway database and verified by row count, runs on a schedule, and fails loudly. Plus the actual price of Supabase PITR as a number.",
       "brief": "docs/plans/aug-23-2026-session-01/aug-24-2026-brief-r2-database-backup.md",
-      "evidence": [],
+      "evidence": [
+        {
+          "claim": "Production has a verified restore path, a daily backup on a schedule registered on the default branch, and an alarm proven to fire and reach a person.",
+          "proof": "R2 object CONFIRMED BY CEO: HEAD db-backups/2026/08/25/hellokahwin-20260825T161107Z.dump -> 200, 497489 bytes. Restore: 18 tables vs 18, every row count matching (articles 56/56, media 747/747, legacy_image_redirects 1639/1639). Workflows on master, both active: db-backup.yml, db-backup-verify.yml. Alarm proven by induced break - run 32873378190 failure 16:40:36Z, run 32873495210 success 16:41:48Z after revert. Failure surfaces as a FILED GITHUB ISSUE, ten seconds from failure: #3 'backup is stale or missing', #1 'backup failed'. PITR priced at $125/month minimum and settled against.",
+          "link": "https://github.com/ianngkb/hellokahwin/issues/1",
+          "verified_by_ceo": "Checked the R2 object, gh workflow list, gh run list and gh issue list myself. THIS ITEM WAS REOPENED once after the agent marked it done with the schedule still on a feature branch; it finished the merge and proved both halves. Issue #1 was NOT a test - it was a genuine CI failure catching the brief's own pg_dump 16 vs server 17 bug, so the alarm caught a real defect before it was ever tested deliberately. RECORDED GAP, in the agent's own words: 'no unattended cron fire has been observed yet... I would rather hand you that gap than round it up.' Next natural fire 18:17 UTC. Accepted as done: registered and dispatching on the default branch is as verifiable as it gets before the clock arrives."
+        }
+      ],
       "handle": "term_08095dc5",
       "result": "LIVE. Dump in R2 (4 objects, newest db-backups/2026/08/25/hellokahwin-20260825T163938Z.dump, 502,159 bytes), RESTORED into a throwaway PostgreSQL 17.6 cluster and verified: 18/18 tables, every row count matching (articles 56, inspire_categories 57, media 747, media_article_usage 718 at dump time), and MD5 digests over every article body (27708377d4dd2a9f67730bcfa347ad0c) and every media key (6569f77b1049684c449d20aa8c0296e5) identical on both sides. Restored a second time from the object downloaded back out of R2. Tooling: EDB PostgreSQL 17.6 binaries zip (exact match to production); Docker engine returning 500 so the Supabase CLI route was unavailable; scoop only offers 18.3. SCHEDULE IS LIVE: PR #2 merged 2026-08-25T16:38:58Z as eebca16; both workflows registered active on master (342250539 db-backup.yml, 342253077 db-backup-verify.yml); real dispatched runs on master 32873254079 and 32873257728 both succeeded; next scheduled fire 18:17 UTC daily. ALARM PROVEN BY DELIBERATE BREAK: commit 4d7fbcd set MAX_AGE_HOURS=-1, run 32873378190 failed on \"age: 0h (threshold -1h)\" and auto-filed issue #3 at 16:40:46Z; reverted in 18a23d1 and run 32873495210 passed at \"age: 0h (threshold 26h)\". No production data touched, no R2 object altered. Retention: daily 30d + monthly 12mo = 42 objects, $0.00/month (0.21% of R2 free tier). PITR: $100/month per 7 days, org is on Free so Pro ($25/month) is required first = $125/month minimum.",
       "blocked_on_owner": null,
@@ -97,6 +104,12 @@
       "dod": "Open buddy.ian.ng/sprints and see all 13 Sprint 01 items grouped by track. Move one item's state in the UI and show `sprint get` returning the new state from the CLI. Move one via the CLI and show the UI reflecting it. Both directions quoted literally. Schema additive only; no existing buddy route disturbed.",
       "brief": "docs/plans/aug-23-2026-session-01/aug-25-2026-plan-sprint-tracker-on-buddy.md",
       "evidence": [
+        {
+          "claim": "The sprint tracker board is built on buddy: /sprints route, two additive tables, a guarded repository, and a `sprint` CLI sharing the same repository functions. Both directions of the DoD proven.",
+          "proof": "Commits a38b74d and cfa8ea9 on feat/plat-01-sprint-tracker - 3,343 insertions across 25 files: supabase/migrations/20260825120000_sprint_tracker.sql (189), packages/db/src/repositories/sprints.ts (551), sprints.test.ts (531), scripts/sprint.ts (365), apps/web/app/(app)/sprints/. Log at logs/2026-08-25-plat-01-sprint-tracker-board.md sections 'Direction 1 - move an item in the UI, read it from the CLI' and 'Direction 2 - move an item via the CLI, see the UI reflect it'.",
+          "link": "buddy.ian.ng/sprints (auth-gated)",
+          "verified_by_ceo": "Confirmed the commits and the file inventory myself via git show --stat, and read the DoD section for both directions rather than trusting the summary. THE PRE-DoD GATE I SET WAS ANSWERED AND SHARPENED: SUPABASE_SECRET_KEY is present and targets production, checked twice independently - but the agent narrowed its own migration comment to say what was NOT confirmed, namely that the plaintext behind it is a valid current key (the API returns ciphertext and it was deliberately never decrypted). 'The key exists' and 'the key works' are different claims and it said so. FINDING: all 39 Vercel env vars on buddy-web target production only - no preview target - so every preview deployment has no Supabase credentials and /sprints will fail there, as will every route touching Supabase. Pre-existing, correctly not blocking a production-scoped DoD."
+        },
         {
           "at": "2026-08-26T00:59:10.765Z",
           "link": null,
@@ -230,7 +243,14 @@
       "why": "Sitemap is 73 URLs; Google has seen almost none of the new ones. Post-migration consolidation is still in flight, so old URLs still carry the impressions.",
       "dod": "Sitemap resubmitted, indexing requested where it helps, and a GSC baseline captured for all 28 articles so Sprint 02 has something to score against. The report must union old and new URLs.",
       "brief": null,
-      "evidence": [],
+      "evidence": [
+        {
+          "claim": "GSC baseline captured for all 28 articles. 8 indexed, 19 discovered-but-never-crawled, 1 unknown to Google. Impressions zero on every canonical URL.",
+          "proof": "docs/plans/aug-23-2026-session-01/aug-25-2026-baseline-seo-01-gsc-indexing.md. All 28 return 200, none carries a robots meta tag - nothing is blocked, the constraint is crawl scheduling alone. Sitemap independently confirmed by CEO: Valid, 73 URLs, last downloaded 2026-08-25 15:58, after the articles published.",
+          "link": null,
+          "verified_by_ceo": "Read the log and confirmed the sitemap state via the gsc MCP myself. Manual indexing requests were NOT performed - my decision, not an oversight: the agent hit a two-browser picker and the browser path buys little when Google discovers via sitemap. Stated openly in the report rather than left as a silent gap. TWO CORRECTIONS TO THE RECORD came out of this and I have applied both to ceo-memory.md: (1) the union rule I wrote was WRONG - it compared one old URL to a different old URL; a re-parented article has THREE addresses and the canonical one had 0 impressions then and 0 now. (2) 'Consolidation still in flight' understated it - the legacy root was last crawled 24 July, four days BEFORE the migration, so Google does not yet know the 308 exists."
+        }
+      ],
       "handle": "term_d35503f6"
     },
     {
@@ -270,6 +290,12 @@
       "brief": null,
       "evidence": [
         {
+          "claim": "The kursus kahwin fee table is researched and drafted for all fourteen jurisdictions, ready to swap into the live article.",
+          "proof": "docs/plans/aug-23-2026-session-01/drafts/kursus-kahwin-yuran-section.html (8146 bytes, TipTap HTML - the shape the site actually stores), plus -section.md, -SWAP-INSTRUCTIONS.md and -SOURCES.md. Fourteen rows: thirteen states plus Wilayah Persekutuan. One state authority notice, nine from SPPIM (JAKIM's own live system), FOUR DATED NEGATIVES from the authority's own portal. No aggregator contributed a figure. Penang stated as RM100 now and RM120 from 1 September 2026, in both the opening paragraph and the table cell.",
+          "link": null,
+          "verified_by_ceo": "Read the log and confirmed the file inventory. The four dated negatives are the part that matters - authorities publishing nothing, recorded as such with the date, rather than filled with a plausible number. It also delivered in TipTap HTML rather than markdown, having noticed the ingest path for this legacy article takes HTML. NOT INGESTED - production write gated on RISK-01. Six days to the Penang change."
+        },
+        {
           "at": "2026-08-25T18:06:18.790Z",
           "link": "https://hellokahwin.com/artikel/idea-dan-nasihat/kursus-kahwin",
           "actor": "SYSTEM",
@@ -291,6 +317,12 @@
       "dod": "Three URLs under /artikel/hantaran-mas-kahwin/ each return 200 on FIRST request; each renders a credit line quoted from live HTML; each og:image contains no kad-tajuk path; sitemap count rises by 3. Plus the Stage 9 retrospective in the work-done log.",
       "brief": null,
       "evidence": [
+        {
+          "claim": "Three C2.3 articles written to the full standard, ingest-ready, held at the production gate.",
+          "proof": "docs/plans/aug-23-2026-session-01/drafts/ingest/ - C2-3-A1-dulang-hantaran.md (2113w), C2-3-A2-gubahan-hantaran.md (1956w), C2-3-A3-sirih-junjung.md (1862w). Each: pillar P2, cluster C2.3, 4 images, 0 IMEJ markers, 0 text-card PNGs.",
+          "link": null,
+          "verified_by_ceo": "Counted images, markers and png references myself with grep over the three files. Strategically well placed: P2 is the ONLY cluster Google has crawled (SEO-01 finding), so these land on the one pillar with an existing crawl path rather than joining the 20 articles waiting to be discovered. NOT PUBLISHED - gate holds."
+        },
         {
           "at": "2026-08-25T18:06:15.385Z",
           "link": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/sirih-junjung",
@@ -343,6 +375,12 @@
       "brief": null,
       "evidence": [
         {
+          "claim": "Two P3 articles written to the full standard, ingest-ready, held at the production gate.",
+          "proof": "P3-A4-walimatul-urus.md (P3 C3.3, 2239 words) and P3-A5-skrip-pengacara-majlis-perkahwinan.md (P3 C3.4, 2585 words). Each: 0 IMEJ markers, 6 images including cover, cover licenseClass S with a photograph.",
+          "link": null,
+          "verified_by_ceo": "I counted markers, images and cover licence class myself with grep over the drafts. Six images each against a P3 pillar averaging 1.3 - the enrichment target hit at authoring time rather than retrofitted. NOT YET PUBLISHED: correctly held, RISK-01 is open."
+        },
+        {
           "at": "2026-08-25T18:06:17.162Z",
           "link": "https://hellokahwin.com/artikel/ucapan-doa/walimatul-urus",
           "actor": "SYSTEM",
@@ -365,7 +403,14 @@
       "why": "Thirteen legacy articles belong in existing clusters, but re-parenting changes their URLs (/artikel/{categorySlug}/{slug}) - a migration with thirteen redirects while Google is still consolidating the 21 Aug one.",
       "dod": "A written migration plan with the redirect map and a recommended date. NOTHING EXECUTED.",
       "brief": null,
-      "evidence": [],
+      "evidence": [
+        {
+          "claim": "The re-parenting plan is written, and it disproved the brief's premise on both counts.",
+          "proof": "docs/plans/aug-23-2026-session-01/aug-25-2026-plan-cont-04-legacy-reparenting.md. (1) ZERO redirects needed - the article route resolves by slug alone and self-heals to the canonical category (artikel/[category]/[slug]/page.tsx:545); the redirects table holds 0 rows. Proved live: /artikel/real-wedding/mas-kahwin-ikut-negeri, a category that never held it, 308s to canonical. (2) The real cost is INDEX CHURN, not redirect risk - re-parenting mid-consolidation gives an article a third URL, and GSC shows mas-kahwin-ikut-negeri accumulating impressions across all three addresses.",
+          "link": null,
+          "verified_by_ceo": "Read the plan and the work-done log. It also split the batch rather than accepting it whole and dropped garden-wedding outright (English page, English queries, position 36.5 - an editorial decision, not a re-parent). NOTHING EXECUTED, as the DoD required."
+        }
+      ],
       "handle": "term_5fb2d22f"
     }
   ],
