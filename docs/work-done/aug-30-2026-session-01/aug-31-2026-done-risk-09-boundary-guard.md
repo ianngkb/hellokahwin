@@ -58,7 +58,7 @@ Executables in `scripts/git-hooks/`, plus a runbook:
 | `pre-commit` | refuses the commit that completes a **conflicted** cross-space merge |
 | `pre-merge-commit` | refuses the commit that completes a **clean** cross-space merge |
 | `install-hooks.sh` | installs into named trees; `--check` audits and exits 1 if the guard is missing |
-| `verify-guard.sh` | builds a throwaway clone, reproduces the hazard, runs 25 cases |
+| `verify-guard.sh` | builds a throwaway clone, reproduces the hazard, runs 27 cases |
 | `.gitattributes` | pins these files to LF; the repo runs `core.autocrlf=true` |
 | `README.md` | the runbook |
 
@@ -173,7 +173,7 @@ src
 It passing the negative control is what proves the classifier reads content and
 not the branch name.
 
-## Evidence — the full harness, 25 of 25
+## Evidence — the full harness, 27 of 27
 
 ```
 == case 0  the hazard, UNGUARDED (no hooks installed)
@@ -183,6 +183,9 @@ not the branch name.
   PASS  CRLF source really has carriage returns (105) - fixture is valid
   PASS  installed hook has zero carriage returns (0)
   PASS  guard installed from CRLF source still refuses (1)
+== case 0c  a target path containing a space
+  PASS  spaced path resolved to a real tree
+  PASS  guard installs into a path with a space (0)
 == refusals
   PASS  docs->site checkout exits non-zero (1)
   PASS  docs->site left HEAD on the docs branch (hk-docs)
@@ -202,7 +205,7 @@ not the branch name.
   PASS  cross-space merge conflicts (8 paths) - pre-merge-commit is never reached
   PASS  resolved cross-space merge commit is refused (1)
 ==============================================
-  RISK-09 guard: 25 passed, 0 failed
+  RISK-09 guard: 27 passed, 0 failed
 ==============================================
 ```
 
@@ -343,6 +346,27 @@ line as rendered showed nothing wrong. **A defence you have not executed is not 
 defence**; the fix is now case 0b in the harness, which builds a genuinely
 CRLF-mangled source, asserts the fixture really has 105 carriage returns before
 trusting the result, and then proves the installed guard still refuses.
+
+**An installer that could not install — and an exit code that hid it.** The very
+last check before reporting done was to run the green-light command itself,
+`install-hooks.sh --check` with no arguments. It printed:
+
+```
+=== /c/Users/Ian
+    MISSING tree - skipped
+=== Ng/Documents/Code/hellokahwin/hellokahwin
+    MISSING tree - skipped
+```
+
+The default paths contain a space — `Ian Ng` — and the script carried targets in
+a space-joined string, so `for tree in $TARGETS` split two paths into four broken
+halves. **Every earlier test passed because the harness always passed the target
+as one quoted argument; only the no-argument default was broken, and that is
+exactly the form the CEO would have run.** Worse, the failure still exits 1,
+which reads as a correct "the guard is not installed" answer. Had I checked the
+exit code alone, this ships. Targets now live in the positional parameters, and
+case 0c asserts on the *output* for a path containing a space — not on the exit
+code, because the exit code was right for the wrong reason.
 
 **And the claim that motivated all of it was wrong on this platform.** I wrote,
 in three files, that a CRLF hook "silently does nothing". Then I tested it:

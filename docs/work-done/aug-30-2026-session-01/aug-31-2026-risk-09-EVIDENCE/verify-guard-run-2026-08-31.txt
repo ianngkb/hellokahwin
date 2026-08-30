@@ -1,7 +1,7 @@
 == building throwaway clone at C:/Users/IANNG~1/AppData/Local/Temp/claude/C--Users-Ian-Ng-Documents-Code-hellokahwin-hellokahwin/479d8921-6007-458c-9930-b5a45518cf06/scratchpad/risk09-verify
 == fixture
   root commit : 3a1fbe091d17c3d1cce106901ec8666712e74e28
-  hk-docs     : 49e50a7
+  hk-docs     : a0f7e64
   hk-site     : 105e79d
 
 == case 0  the hazard, UNGUARDED (no hooks installed)
@@ -12,6 +12,10 @@
   PASS  CRLF source really has carriage returns (105) - fixture is valid
   PASS  installed hook has zero carriage returns (0)
   PASS  guard installed from CRLF source still refuses (1)
+
+== case 0c  a target path containing a space
+  PASS  spaced path resolved to a real tree
+  PASS  guard installs into a path with a space (0)
 
 == installing guard
   === C:/Users/IANNG~1/AppData/Local/Temp/claude/C--Users-Ian-Ng-Documents-Code-hellokahwin-hellokahwin/479d8921-6007-458c-9930-b5a45518cf06/scratchpad/risk09-verify
@@ -48,5 +52,5 @@ warning: in the working copy of 'RISK09-ORDINARY.txt', LF will be replaced by CR
   PASS  resolved cross-space merge commit is refused (1)
 
 ==============================================
-  RISK-09 guard: 25 passed, 0 failed
+  RISK-09 guard: 27 passed, 0 failed
 ==============================================

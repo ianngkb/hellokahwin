@@ -109,6 +109,27 @@ rm -rf "$CRLFDIR"
 rm -f "$CLONE/.git/hooks/post-checkout" "$CLONE/.git/hooks/pre-merge-commit" "$CLONE/.git/hooks/pre-commit"
 echo ""
 
+# ------------------------------------------- paths containing spaces ---------
+# The real install paths contain a space ("Ian Ng"). A space-joined target string
+# splits them into broken half-paths, every tree reports "MISSING tree - skipped",
+# and the script still exits 1 - which reads exactly like a correct "not
+# installed" answer. Assert on the OUTPUT, not just the exit code.
+echo "== case 0c  a target path containing a space"
+spacedir="$SCRATCH/risk09 spaced tree"
+rm -rf "$spacedir"; mkdir -p "$spacedir"
+( cd "$spacedir" && git init --quiet . )
+out=$("$SRC_DIR/install-hooks.sh" --check "$spacedir" 2>&1)
+case "$out" in
+  *"MISSING tree"*) bad "spaced path was split into broken half-paths" ;;
+  *"NOT INSTALLED"*) ok "spaced path resolved to a real tree" ;;
+  *) bad "unexpected output for a spaced path: $out" ;;
+esac
+"$SRC_DIR/install-hooks.sh" "$spacedir" >/dev/null 2>&1
+"$SRC_DIR/install-hooks.sh" --check "$spacedir" >/dev/null 2>&1
+check "guard installs into a path with a space" "$?" "0"
+rm -rf "$spacedir"
+echo ""
+
 # ------------------------------------------------------- install -------------
 echo "== installing guard"
 "$SRC_DIR/install-hooks.sh" "$CLONE" | sed 's/^/  /'

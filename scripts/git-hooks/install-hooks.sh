@@ -20,23 +20,32 @@ set -u
 SRC_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 HOOKS="post-checkout pre-merge-commit pre-commit"
 
+# Targets are carried in the positional parameters, NOT in a space-joined string.
+# The default paths contain a space ("Ian Ng"), so `for t in $TARGETS` splits them
+# into four broken half-paths and every tree reports "MISSING tree - skipped".
+# That still exits 1, which looks like a correct "not installed" answer, so the
+# bug survives a casual check. Do not reintroduce it.
 CHECK_ONLY=0
-TARGETS=""
-for arg in "$@"; do
+had_targets=0
+argc=$#
+i=0
+while [ "$i" -lt "$argc" ]; do
+  arg=$1; shift
   case "$arg" in
     --check) CHECK_ONLY=1 ;;
     -*) echo "unknown option: $arg" >&2; exit 2 ;;
-    *)  TARGETS="$TARGETS $arg" ;;
+    *)  set -- "$@" "$arg"; had_targets=1 ;;
   esac
+  i=$((i + 1))
 done
 
-if [ -z "$TARGETS" ]; then
-  TARGETS="$HOME/Documents/Code/hellokahwin/hellokahwin $HOME/Documents/Code/hellokahwin-site"
+if [ "$had_targets" -eq 0 ]; then
+  set -- "$HOME/Documents/Code/hellokahwin/hellokahwin" "$HOME/Documents/Code/hellokahwin-site"
 fi
 
 rc=0
 
-for tree in $TARGETS; do
+for tree in "$@"; do
   echo "=== $tree"
   if [ ! -d "$tree" ]; then
     echo "    MISSING tree - skipped"; rc=1; continue

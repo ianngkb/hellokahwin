@@ -34,7 +34,7 @@ scripts/git-hooks/verify-guard.sh <scratch-dir> --fresh
 
 Builds a throwaway clone — never a live tree — reproduces the hazard, installs
 the guard, and asserts both the refusals and the negative controls. Exit 0 means
-all cases behaved as specified. 25 cases as of 31 Aug 2026.
+all cases behaved as specified. 27 cases as of 31 Aug 2026.
 
 ## Line endings
 
