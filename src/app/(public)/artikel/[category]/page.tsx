@@ -730,16 +730,10 @@ function CategoryCard({ article }: { article: CategoryArticle }) {
       <figure style={{ margin: 0 }}>
         {cover && (
           // eslint-disable-next-line @next/next/no-img-element -- see responsive-cover.ts
-          <img
-            src={cover.src}
-            srcSet={cover.srcSet}
-            sizes="(min-width: 1024px) 400px, 100vw"
-            alt=""
-            width={800}
-            height={600}
-            loading="lazy"
-            decoding="async"
-          />
+          /* UI-12 S1: `srcSet` gone (its `1200w` descriptor was a constant, not
+             a measurement — measured 17.2% wrong on `garden-wedding`), and
+             `sizes` with it, because `sizes` without a `srcset` is inert. */
+          <img src={cover.src} alt="" width={800} height={600} loading="lazy" decoding="async" />
         )}
         <figcaption style={{ paddingTop: 10, display: 'flex', flexDirection: 'column', gap: 6 }}>
           <h2 className="s-h3" style={{ fontSize: 19 }}>
@@ -775,16 +769,10 @@ function CategoryRow({ article, index }: { article: CategoryArticle; index: numb
         /* Before the text in source order; `.s-row img` takes `order:3` at
            desktop, which is where the spec puts the thumbnail. */
         // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={cover.src}
-          srcSet={cover.srcSet}
-          sizes="176px"
-          alt=""
-          width={176}
-          height={132}
-          loading="lazy"
-          decoding="async"
-        />
+        /* UI-12 S1/S2: no `srcSet`, no `sizes`. 176×132 = 1.33333 is the ratio
+           `.s-row img` now sets in BOTH bands (80×60 below 1024px), so the
+           attributes and the CSS box state the same shape. */
+        <img src={cover.src} alt="" width={176} height={132} loading="lazy" decoding="async" />
       )}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
         <h2 className="t">{article.title}</h2>

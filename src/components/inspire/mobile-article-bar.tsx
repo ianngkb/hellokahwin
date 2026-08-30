@@ -120,8 +120,23 @@ export function MobileArticleBar({ nextArticle, galleryImages }: MobileArticleBa
             className="hover:bg-accent flex min-h-11 min-w-0 flex-1 items-center gap-3 px-1 transition-colors"
             tabIndex={visible ? undefined : -1}
           >
+            {/* UI-12 S3 — 44 × 33 = 1.33333, not `size-11`'s 44 × 44 = 1.000.
+                THIS IS HARDENING, NOT A LIVE VIOLATION. Measured on production
+                31 Ogos 2026 the probed article's thumbnail was 1.333 against a
+                1.000 box: 25.0% deviation, which is EXACTLY
+                `scripts/ui-layout-gate.mjs`'s ceiling and therefore does not
+                fire. It fires the moment the next article's cover is 3:2
+                (33.5%) — which is eleven of the twelve covers on the homepage
+                right now. One cover away from red.
+
+                `sizes="44px"` is KEPT: this is a real `<Image fill>`, so the
+                attribute is live here, unlike the `.s-row` `<img>`s S1 stripped
+                it from. 44px is still the box's WIDTH; only the height moves.
+                The tap target is the whole `<Link>` row, which keeps
+                `min-h-11`, so shrinking the thumbnail by 11px does not touch
+                the 44px minimum. */}
             {nextArticle.thumbnailUrl && (
-              <span className="bg-muted relative size-11 shrink-0 overflow-hidden">
+              <span className="bg-muted relative h-[33px] w-11 shrink-0 overflow-hidden">
                 <Image
                   src={nextArticle.thumbnailUrl}
                   alt=""

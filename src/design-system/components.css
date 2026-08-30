@@ -274,9 +274,31 @@
   padding: 14px 0;
   border-bottom: 1px solid var(--hair);
 }
+/* UI-12 S2 — 4:3 at EVERY width. 80/60 and 176/132 are both 1.33333, so the
+   same photograph is now the same shape on a phone and on a desktop. It was
+   two shapes: this box was 80×80 = 1.000 below 1024px and 176×132 = 1.333
+   above it, and nobody had named that.
+
+   Measured on production 31 Ogos 2026 (`scripts/ui-layout-gate.mjs`): against
+   the `low.webp` these rows are fed, a 1.000 box deviates 33.5% on the eleven
+   3:2 covers and 50% on the one 2:3 cover — 24 `image-aspect` failures at
+   `<1024px` alone. A 4:3 box deviates 11.1% from 1.500 and 0.0% from 1.333,
+   both inside hero-rules R1's 15%, which is stricter than the gate's 25%.
+
+   4:3 and not 3:2, although 3:2 is `low`'s modal aspect and would clear more
+   violations today: 4:3 is the aspect of `crop-4x3-article-card`, which is the
+   asset this slot moves to the day a small rendition of it exists (UI-12 §4).
+   3:2 is green only because eleven of twelve current covers came off a 3:2
+   sensor, and it would have to be re-shaped later — one visible shape change
+   instead of two.
+
+   `object-fit: cover` and `display: block` are unchanged, and the mobile grid
+   track stays `80px minmax(0, 1fr)`. Only the thumbnail's HEIGHT moves, so the
+   row's mobile height is now set by the text block rather than by the image —
+   correct for a list whose content is the headline. */
 .s-row img {
   width: 80px;
-  height: 80px;
+  height: 60px;
   object-fit: cover;
   display: block;
 }
@@ -291,6 +313,8 @@
     gap: 28px;
     padding: 20px 0;
   }
+  /* Unchanged by UI-12 S2 — 176/132 was already 1.33333. The mobile box moved
+     up to meet it, not the other way round. */
   .s-row img {
     width: 176px;
     height: 132px;
