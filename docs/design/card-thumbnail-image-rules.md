@@ -307,6 +307,30 @@ they break.
 Retained frame at each band, from the modal 1.500 source: **78.7%** at 1.905,
 **42.6%** at 3.520. Both clear the 33% floor.
 
+**S4c — R6 is stated PER BAND: every `<source>` carries its own `width` and
+`height`.** A `<picture>` whose `<source>` omits them makes the browser reserve
+the _fallback_ `<img>`'s aspect — 1.905 — and then reflow to 3.520 when the source
+resolves at ≥1024px. That is a layout shift on the largest element of two
+templates, and on `/artikel` it is the LCP element. R6's stated purpose is
+verbatim _"the browser reserves the wrong box and the page shifts"_; this is that
+sentence applied to the band the box actually uses.
+
+Measured: the gate's advisory `image-attr-aspect` reported **6 rows** for the two
+`<picture>` plates at 1024/1440/1920 — declared `1200×630` while the `<source>`
+swaps in `2463×700`. **Three of them were introduced by S4**, which is why this is
+not deferred: the same test that produced R8(d) produces this. A check being
+advisory means nobody would ever notice — which is the argument _for_ fixing it
+now, not against.
+
+The `<source>`'s `width`/`height` and its `w` descriptor must both come from the
+same `getSmartCropRef` lookup, never from `CROP_TARGETS`, so a future retarget
+moves them together. The `<img>` keeps `crop-16x9-og`'s own real dimensions: two
+bands, two truths.
+
+This corrects UI-03's shipped hero markup as well as `/artikel`'s. That is
+deliberate — `hero-image-rules.md` is this author's document and R6 is its rule;
+fixing one plate and leaving the other would make the second a puzzle.
+
 ### S5 — `src/app/(public)/artikel/[category]/[slug]/page.tsx`: delete the 2.4:1 box
 
 Line ~1036: `className="bg-muted relative aspect-[3/2] w-full overflow-hidden lg:aspect-[2.4/1]"`
