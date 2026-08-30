@@ -445,10 +445,35 @@ space, and `-### 5.9 …` has `#` in the third position. The doctrine's §5.8,
 miss the deletion of every section this sprint added, including the two carrying
 our joint lessons. **Use `grep -c '^-#\+ '`.** Re-running every commit either of
 us made under the wider form changes no verdict; it only closes the hole before
-the hook ships. Note also that a non-zero result is a flag, not a verdict — a
-legitimate rename will trip it, and a hook that refuses rather than asks will
-teach everyone to pass `--no-verify`. Owner of the check: UI-03; it lands in
-`scripts/git-hooks/`, behind the same install RISK-09 is waiting on.
+the hook ships. **Closed by UI-03 in `2114d3d`.**
+
+Two things about that check that a hook author needs, both verified here:
+
+- **A non-zero result is a flag, not a verdict.** Legitimate section renames trip
+  it, and so does a deleted shell comment inside a fenced code block —
+  `-# this is a shell comment` matches `^-#\+ ` (a shebang does not, there being
+  no space after `#!`). A hook that *refuses* on this will fire on innocent
+  commits early, and the first one teaches everyone `--no-verify`, after which it
+  protects nothing. It must report "you deleted N heading-shaped lines, confirm
+  that was deliberate."
+- **The regex dialect is a silent trap, and it is the worse failure.**
+  `grep -c '^-#\+ '` is BRE and correct. The same string under `grep -E` returns
+  **0** — it matches nothing and reports clean:
+
+```
+printf -- '-### h\n' | grep -c   '^-#\+ '   ->  1    correct (BRE)
+printf -- '-### h\n' | grep -Ec  '^-#\+ '   ->  0    WRONG, and silently so
+printf -- '-### h\n' | grep -Ec  '^-#+ '    ->  1    correct (ERE)
+```
+
+  A hook author reaching for `grep -E` or `rg` needs `'^-#+ '`. A check that
+  silently matches nothing is worse than no check, because it is reported as a
+  pass — which is this document's own §5.10 one level down: the instrument's
+  output became a claim nobody measured.
+
+Owner of the check: UI-03; it lands in `scripts/git-hooks/`, behind the same
+install RISK-09 is waiting on. **That is now three things blocked on one
+uninstalled hook directory.**
 
 My own five docs commits score 0 under both regexes.
 
