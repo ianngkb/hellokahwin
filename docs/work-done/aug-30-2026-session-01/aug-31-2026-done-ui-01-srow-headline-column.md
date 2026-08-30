@@ -339,9 +339,10 @@ and no prose, which is the ratio it is asking the next person to reach for.
 | `scripts/audit-srow-geometry.mjs` (new) | The gate: rendered geometry, a negative control, LAYOUT/CONTENT split, refuses to run below 1024px | design-systems-engineer | **DONE**, shipped in `9e81bc8` |
 | `docs/plans/aug-30-2026-session-01/aug-31-2026-dispatch-map.md` | A second "rule this produces": **a brief may not assert file isolation** — it is measurable, so measure it and name the shared paths and line ranges | creative-director | **DONE**, this session |
 | `docs/plans/aug-23-2026-session-01/aug-23-2026-production-doctrine.md` | New **§5.9 "Address by identity, never by position"** — the one lesson behind three of this sprint's silent defects | creative-director (UI-01) + UI-03, jointly | **DONE**, shipped in `0f59dc7` |
+| `docs/plans/aug-23-2026-session-01/aug-23-2026-production-doctrine.md` | New **§5.10 "Nothing here measures the REPORT, and the report is what the owner reads"** — plus restoring the `## 6` heading its insertion deleted | creative-director (UI-01) + UI-03, jointly | **DONE**, `01c70a2` and `8a1ca60` |
 | Sprint backlog | An item to convert the three hand-rolled `.s-row` call sites to `ListRow` | ceo-hellokahwin to schedule, design-systems-engineer to build | **FILED as `DES-14`** — follow-up 1 |
 
-Four of the six edits are code, a script, or a tracker item. That is deliberate: **Sprint 03's
+Four of the seven edits are code, a script, or a tracker item. That is deliberate: **Sprint 03's
 central finding is that prose rules do not fire and gates and scripts do.** The
 one lesson that could only be prose — the dispatch map's isolation rule — is
 written as a command to run, not as an exhortation to be careful.
@@ -410,6 +411,27 @@ a teammate hands you a fact with numbers attached, the numbers are evidence for
 *their* claim, not for the inference you are about to build on it. I verified
 the retraction from my own captures rather than adopting the correction, which
 is the only reason the table above is measured rather than relayed.
+
+**This is now [production doctrine §5.10, "Nothing here measures the REPORT, and
+the report is what the owner reads"](../../plans/aug-23-2026-session-01/aug-23-2026-production-doctrine.md),
+written jointly with UI-03 and shipped in `01c70a2`.** Read it rather than this
+section: it tabulates all three false claims with the basis each was asserted
+on, records that I adopted two and repeated one to the owner, and states plainly
+that neither reached a tracker entry only by luck. It is deliberately prose and
+says so — nothing mechanical can read a paragraph and ask whether its author ran
+the command. The nearest control is the reviewing half, a second agent refusing
+to adopt a numbered claim without re-deriving it.
+
+**A postscript that belongs here rather than in the doctrine.** Reading §5.10
+end to end before pointing at it, I found that inserting it had deleted the
+`## 6. What this doctrine asks for` heading, orphaning section 6's four open
+decisions inside §5.10 — so "it asks for the same four decisions already open"
+read as a statement about §5.10. Restored in `8a1ca60`. **The section arguing
+that every instrument we own points at the artefact and none at the write-up
+damaged the artefact it was added to**, and nothing in either repo checks
+heading levels. Not irony worth enjoying — just the ordinary way this fails, and
+the reason "read it end to end before citing it" earned its keep twice in one
+afternoon.
 
 **(e) Believing a red build was ours.** `pnpm build` failed at "Generating static
 pages" on `ECONNREFUSED 127.0.0.1:5433`. It was the local WSL Postgres cluster,
