@@ -347,7 +347,7 @@
   padding: 11px 12px;
   line-height: 1;
   white-space: nowrap;
-  min-height: 44px; /* target size, spec §10.2 */
+  min-height: var(--tap-comfortable); /* target size, spec §10.2 */
   display: inline-flex;
   align-items: center;
   gap: 7px;
@@ -371,7 +371,7 @@
 
 /* ── button (§8 .s-btn) ───────────────────────────────────────────── */
 .s-btn {
-  min-height: 44px; /* target size, spec §10.2 */
+  min-height: var(--tap-comfortable); /* target size, spec §10.2 */
   display: inline-flex;
   align-items: center;
   padding: 0 18px;

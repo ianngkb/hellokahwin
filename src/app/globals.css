@@ -1210,6 +1210,11 @@
 .inspire-prose nav.article-toc ul li + li {
   margin-top: 0.375rem;
 }
+/* UI-11: every contents entry is a standalone target, so it carries the
+   `.hk-tap` box here rather than as a class on the component — the anchors are
+   generated in a loop and a rule cannot be forgotten on one of them. `display`
+   must be restated because `.hk-tap` and this rule are both single-class
+   selectors inside `.inspire-prose …`, and this one wins on specificity. */
 .inspire-prose nav.article-toc a {
   font-family: var(--font-geist);
   font-size: 0.8125rem;
@@ -1217,6 +1222,9 @@
   line-height: 1.45;
   color: var(--foreground);
   text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-min, 24px);
 }
 .inspire-prose nav.article-toc ul a {
   font-size: 0.75rem;
@@ -2119,6 +2127,62 @@
   font-size: 0.75rem;
   letter-spacing: 0.02em;
   color: var(--muted-foreground);
+}
+
+/* ── Standalone tap targets — UI-11 ─────────────────────────────────────
+   WCAG 2.5.8 Target Size (Minimum), AA. Put one of these on any target that
+   is NOT an inline link inside a sentence: a breadcrumb, a footer link, a
+   contents entry, a card's category label, a credit. An inline link inside a
+   sentence is exempt under 2.5.8 and must NOT get one — `pelamin` mid-paragraph
+   would grow the line box it sits in and wreck the reading rhythm to fix
+   nothing.
+
+   WHY min-height AND NOT padding, AND NOT AN ::after HIT-AREA EXTENDER:
+   the box that matters is `getBoundingClientRect()` on the anchor itself.
+   Vertical padding on a `display: inline` box does not grow that box — the
+   painted background moves, the measured height does not — so a padded inline
+   link still measures 15.4px. An absolutely-positioned `::after` enlarges the
+   hit area but likewise not the measured box. `scripts/audit-tap-targets.mjs`
+   is deliberately strict about this and would still call both a failure.
+   `inline-flex` gives the anchor a real box, which is the whole point.
+
+   The token fallback is not laziness: `@/design-system/tokens.css` is imported
+   by `(public)/layout.tsx` only, and Breadcrumbs also renders on the admin
+   draft-preview surface, which never loads it. Without the fallback a target
+   on that surface would silently lose its floor.
+
+   THREE VARIANTS. Same floor; they differ in what they must not break.
+     .hk-tap       — the default. Text-only label, may wrap, optically centred.
+     .hk-tap-line  — a single-line label that must ellipsis. `text-overflow`
+                     needs a block container, which a flex container is not,
+                     so this one is a block and the 24px LINE BOX does the
+                     work instead of `align-items`. Use it only where the
+                     label truncates.
+     .hk-tap-flow  — a label whose content must keep flowing INLINE, because
+                     something trails it that belongs after the last word.
+                     Measured on the figure-caption credits at 390: as
+                     `inline-flex`, the trailing ↗ became a second flex item
+                     and jumped from x=115 (after the last word of a wrapped
+                     three-line credit) to x=317, hard right and vertically
+                     centred against the whole block. `inline-block` gives the
+                     anchor a real box for `min-height` while leaving its
+                     contents in normal inline flow, so the icon stays put.
+                     The 24px floor then sits under a single line rather than
+                     around it, which is invisible inside a bottom-anchored
+                     scrim and is the trade this variant is making.           */
+.hk-tap {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-min, 24px);
+}
+.hk-tap-line {
+  display: block;
+  min-height: var(--tap-min, 24px);
+  line-height: var(--tap-min, 24px);
+}
+.hk-tap-flow {
+  display: inline-block;
+  min-height: var(--tap-min, 24px);
 }
 
 /* Ink button — the single filled action in the system. */

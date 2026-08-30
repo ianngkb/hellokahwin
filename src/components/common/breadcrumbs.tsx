@@ -20,7 +20,10 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
             <li key={index} className="flex items-center gap-1">
               {index > 0 && <ChevronRight className="size-3.5 shrink-0" aria-hidden="true" />}
               {item.href && !isLast ? (
-                <Link href={item.href} className="hover:text-foreground transition-colors">
+                // `hk-tap` — a breadcrumb is a standalone target, not a link in
+                // a sentence, so WCAG 2.5.8's inline exception does not cover
+                // it. At 14px/20px these measured 40x20, 39.7x20 and 35.6x17.
+                <Link href={item.href} className="hk-tap hover:text-foreground transition-colors">
                   {item.label}
                 </Link>
               ) : (

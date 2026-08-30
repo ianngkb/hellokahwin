@@ -26,6 +26,7 @@ import {
   OfflineState,
   PageErrorState,
   RekodPanel,
+  TargetProbe,
   Wordmark,
 } from '@/design-system/components';
 import {
@@ -844,17 +845,26 @@ export default async function DesignSystemPage({
               </thead>
               <tbody>
                 {[
-                  ['.s-btn', '44px', 'Muat lagi, Cuba semula, Laman utama, search entry'],
-                  ['.s-chip', '44px', 'Category chips'],
+                  [
+                    '.s-btn',
+                    'var(--tap-comfortable)',
+                    'Muat lagi, Cuba semula, Laman utama, search entry',
+                  ],
+                  ['.s-chip', 'var(--tap-comfortable)', 'Category chips'],
                   [
                     '.s-row',
                     '80px phone / 132px desktop',
                     'The entire row is the tap target, not just the title',
                   ],
                   [
-                    'Breadcrumb link',
-                    '20px text, 44px hit slop',
-                    'Text stays 14px; the hit area is padded, not the type grown',
+                    '.hk-navrail-item',
+                    'var(--tap-comfortable)',
+                    'Masthead categories — 44px at every width, UI-02',
+                  ],
+                  [
+                    '.hk-tap / -line / -flow',
+                    'var(--tap-min)',
+                    'Breadcrumb, footer link, contents entry, card label, credit — UI-11',
                   ],
                 ].map((row, i) => (
                   <tr key={i} className="border-t">
@@ -870,6 +880,60 @@ export default async function DesignSystemPage({
                 ))}
               </tbody>
             </table>
+          </div>
+          {/* ── UI-11: the three target utilities, measured live ─────────
+              This block replaced a table row that read "Breadcrumb link —
+              20px text, 44px hit slop". There was no hit slop. The shipped
+              breadcrumb measured 40 × 20, and the page had been asserting
+              otherwise for as long as it existed, because a number typed into
+              a table cannot be wrong out loud. Every specimen below is now
+              measured by TargetProbe at render time. */}
+          <div className="flex flex-col gap-5 border p-5">
+            <div className="flex flex-col gap-1">
+              <h3 className="text-sm font-semibold">
+                Standalone targets — the WCAG 2.5.8 (AA) floor
+              </h3>
+              <p className="text-muted-foreground max-w-[74ch] text-xs">
+                Two tokens, and a rule for choosing: <code>--tap-comfortable</code> (44px, WCAG
+                2.5.5 AAA and spec §10.2) for a control the reader is <em>meant</em> to hit;{' '}
+                <code>--tap-min</code> (24px, the 2.5.8 AA floor) for a secondary standalone link in
+                running chrome. A breadcrumb row forced to 44px would triple the height of the
+                colophon to fix a hit area that 24px already fixes. An inline link inside a sentence
+                — <code>pelamin</code> mid-paragraph — is exempt under 2.5.8 and takes neither.
+              </p>
+            </div>
+            <div className="flex flex-col gap-4">
+              <TargetProbe label=".hk-tap — default, may wrap">
+                <a href="#tap-specimen" className="hk-tap text-sm underline">
+                  Utama
+                </a>
+              </TargetProbe>
+              <TargetProbe label=".hk-tap-line — single line, must ellipsis">
+                <a
+                  href="#tap-specimen"
+                  className="hk-eyebrow hk-tap-line block max-w-[171px] truncate"
+                >
+                  Hantaran &amp; Mas Kahwin
+                </a>
+              </TargetProbe>
+              <TargetProbe label=".hk-tap-flow — content keeps flowing inline">
+                <a href="#tap-specimen" className="hk-tap-flow text-xs underline">
+                  Kredit: mohd hasan / Pexels ↗
+                </a>
+              </TargetProbe>
+              <TargetProbe label="untreated inline link — the state UI-11 found" min={24}>
+                <a href="#tap-specimen" className="hk-eyebrow">
+                  Laman Utama
+                </a>
+              </TargetProbe>
+            </div>
+            <p className="text-muted-foreground max-w-[74ch] text-xs">
+              The last specimen is deliberately left untreated and is expected to fail: it is the
+              15.4px footer link as it shipped, kept here so the difference is visible rather than
+              described. The machine check over the real site is{' '}
+              <code>pnpm audit:taps &lt;url&gt;</code> (<code>scripts/audit-tap-targets.mjs</code>),
+              which exits 1 on any standalone target under the floor.
+            </p>
           </div>
           <p className="text-muted-foreground max-w-[74ch] text-xs">
             Tab through the buttons and chips in §04 above — the ring is <code>var(--focus)</code>{' '}

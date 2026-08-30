@@ -66,9 +66,13 @@ export function ArticleSidebar({
               {categories.map((cat, i) => (
                 <span key={cat.slug}>
                   {i > 0 && ', '}
+                  {/* `hk-tap` — UI-11. The `Venue` category link measured
+                      35.6 x 17. With two or more categories a ", " separator
+                      does sit on the same line, but a comma is punctuation
+                      between targets, not a sentence around one. */}
                   <Link
                     href={`/artikel/${cat.slug}`}
-                    className="hover:text-foreground transition-colors"
+                    className="hk-tap hover:text-foreground transition-colors"
                   >
                     {cat.name}
                   </Link>
@@ -97,7 +101,7 @@ export function ArticleSidebar({
           {authorSlug ? (
             <Link
               href={authorArchivePath(authorSlug)}
-              className="hover:text-foreground transition-colors"
+              className="hk-tap hover:text-foreground transition-colors"
             >
               {authorName}
             </Link>

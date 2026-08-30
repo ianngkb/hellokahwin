@@ -149,6 +149,30 @@
   --sp-9: var(--hk-space-10); /* section-to-section, desktop. masthead to content */
   --sp-10: var(--hk-space-11); /* last block to the footer rule. nothing else */
 
+  /* ── target size — the two floors a pointer target may be built to.
+     UI-11. These are NOT spacing: a gap is how far apart two things sit,
+     a target is how much of the display accepts a tap, and conflating them
+     is how `--sp-6` ends up as a min-height because it happens to be 24.
+
+     --tap-min is WCAG 2.5.8 Target Size (Minimum), AA: 24 x 24 CSS px for
+     any target that is not an inline link inside a sentence. It is a FLOOR,
+     not a size — nothing should be built down to it on purpose.
+
+     --tap-comfortable is WCAG 2.5.5 (AAA) and spec §10.2, and is what the
+     nav rail, `.s-btn` and `.s-chip` are already built to. It was two
+     hard-coded `min-height: 44px` literals in components.css until UI-11;
+     the number was right and the fact that it was a literal is why nothing
+     else in the system inherited it.
+
+     Which to reach for: a control the reader is meant to hit — a button, a
+     chip, a nav item, a search field — gets --tap-comfortable. A secondary
+     standalone link in running chrome — a breadcrumb, a footer link, a
+     contents entry, a credit — gets --tap-min, because forcing 44px on a
+     footer row of 11px small-caps would triple the height of the colophon
+     to fix a hit area that 24px already fixes. ── */
+  --tap-min: 24px;
+  --tap-comfortable: 44px;
+
   /* ── breakpoints — named per spec §4.2. CSS custom properties cannot
      drive an @media condition, so these are the documented constants
      components.css's media queries must match by hand; drift between the
