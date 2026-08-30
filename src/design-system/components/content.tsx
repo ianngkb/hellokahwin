@@ -47,7 +47,18 @@ export interface ListRowProps {
   meta: ReactNode;
   imageSrc?: string;
   imageAlt?: string;
-  index?: number;
+  /* UI-01: required, not optional. `.s-row` reserves a 44px desktop track for
+     this number; a row that omits it does not lose the track, it puts the
+     headline in it (44px wide, 225-307px tall — measured on production
+     31 Ogos 2026). A prose rule did not stop that happening; `tsc` does.
+
+     Rendered zero-padded by the component, not by the caller. `.s-idx` sets
+     `font-variant-numeric: tabular-nums` so the numbers form a straight left
+     edge down the list; unpadded, that edge breaks exactly where a 12-item
+     list crosses 9 → 10, which is the homepage. DES-03's drawings (05-pages
+     H1 and K1) are `01`/`02`/`03`. Padding here means no caller can get it
+     wrong. */
+  index: number;
   headingLevel: HeadingLevel;
 }
 
@@ -67,7 +78,7 @@ export function ListRow({
   if (!imageSrc) {
     return (
       <a href={href} className="s-imgless" style={{ textDecoration: 'none', color: 'inherit' }}>
-        {index !== undefined && <span className="s-idx">{index}</span>}
+        <span className="s-idx">{String(index).padStart(2, '0')}</span>
         <Heading as={headingLevel} variant="row">
           {title}
         </Heading>
@@ -77,7 +88,7 @@ export function ListRow({
   }
   return (
     <a href={href} className="s-row" style={{ textDecoration: 'none', color: 'inherit' }}>
-      {index !== undefined && <span className="s-idx">{index}</span>}
+      <span className="s-idx">{String(index).padStart(2, '0')}</span>
       {/* eslint-disable-next-line @next/next/no-img-element -- design-system demo; real pages use next/image */}
       <img src={imageSrc} alt={imageAlt ?? ''} />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
