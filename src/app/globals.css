@@ -1810,10 +1810,15 @@
    because `--border-strong` exists in this stylesheet for precisely this
    ("form-control boundaries — ≥3:1 (WCAG 1.4.11)", line ~254) and the chip
    below already uses it for the same reason. The search field was the one
-   form control still drawn in `--border`:
+   form control still drawn in `--border`. Both values below are canvas
+   read-backs off the rendered field, not arithmetic on the token — the first
+   draft of this comment estimated rgb(226,225,222) and rgb(174,172,169) and
+   was wrong about both:
 
-     --border         oklch(0.885 0.003 85) = rgb(226,225,222) -> 1.29:1  FAIL
-     --border-strong  oklch(0.66  0.004 85) = rgb(174,172,169) -> 3.01:1  PASS
+     --border         rendered rgb(218,217,215) -> 1.36:1  FAIL
+     --border-strong  rendered rgb(147,146,143) -> 3.01:1  PASS
+     ...over --background rgb(252,251,250), measured 31 Ogos 2026 at
+     390/768/1024/1440 by scripts/measure-search-a11y.mjs
 
    A one-token correction, using a token the system already had, rather than a
    new value invented for this field. */

@@ -177,10 +177,12 @@ function installHelpers() {
     /* The search field, found structurally: every <input> inside #cari.
      Enumerated rather than looked up by selector, so a markup change shows
      up as a different count instead of as a silent null. */
-    inputs() {
+      inputs() {
+      /* Scoped to #cari and NEVER falling back to the document: the fallback
+         is what let this rig measure a Vercel SSO form's password field. */
       const anchor = document.getElementById('cari');
-      const scope = anchor || document.body;
-      return Array.from(scope.querySelectorAll('input'));
+      if (!anchor) return [];
+      return Array.from(anchor.querySelectorAll('input'));
     },
     input() {
       return this.inputs()[0] || null;
@@ -282,6 +284,13 @@ async function tabToInput(page, cap = 80) {
   return { reached: false, presses: cap, startedAt: start };
 }
 
+/* Vercel deployment protection sits in front of preview URLs and answers a
+   302 to an SSO page, which is a page with an <input> on it — so a rig that
+   hunts for "the first input" measures Vercel's login form and reports
+   numbers. The bypass secret is read from the environment, never from argv,
+   so it stays out of shell history; production needs none of this. */
+const BYPASS = process.env.VERCEL_AUTOMATION_BYPASS_SECRET || null;
+
 const browser = await chromium.launch({ executablePath: CHROME, headless: true });
 const report = [];
 
@@ -294,6 +303,12 @@ for (const width of widths) {
     deviceScaleFactor: 1,
     userAgent: isPhone
       ? 'Mozilla/5.0 (Linux; Android 14; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Mobile Safari/537.36'
+      : undefined,
+    extraHTTPHeaders: BYPASS
+      ? {
+          'x-vercel-protection-bypass': BYPASS,
+          'x-vercel-set-bypass-cookie': 'true',
+        }
       : undefined,
   });
   await ctx.addInitScript(installHelpers);
@@ -309,6 +324,30 @@ for (const width of widths) {
 
   const row = { width, url, status: resp ? resp.status() : null };
   row.viewport = await page.evaluate(() => window.__ui09.viewport());
+
+  /* Refuse to measure anything that is not the search surface. An auth wall,
+     an error boundary and the real page can all end up with an <input> on
+     them; the first version of this rig fell back to `document.body` when
+     `#cari` was missing and happily measured Vercel's SSO form. Quote
+     something only the real page has, and stop if it is not there. */
+  row.identity = await page.evaluate(() => ({
+    hasCariAnchor: !!document.getElementById('cari'),
+    finalUrl: location.href,
+    title: document.title,
+    articleLinks: Array.from(document.querySelectorAll('a')).filter((a) =>
+      /^\/artikel\/[^/]+\/[^/]+/.test(a.getAttribute('href') || ''),
+    ).length,
+  }));
+  if (!row.identity.hasCariAnchor) {
+    console.error(
+      `
+STOP at ${width}px: no #cari on ${row.identity.finalUrl} ` +
+        `(HTTP ${row.status}, title "${row.identity.title}", ` +
+        `${row.identity.articleLinks} article links). This is not the search ` +
+        `surface — refusing to measure it.`,
+    );
+    process.exit(2);
+  }
 
   /* ── 3. Live regions BEFORE anything is typed ────────────────────── */
   row.liveRegionsAtFirstRender = await page.evaluate(() => window.__ui09.liveRegions());
