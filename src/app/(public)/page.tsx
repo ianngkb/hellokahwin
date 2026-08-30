@@ -6,11 +6,7 @@ import { db } from '@/lib/db/drizzle';
 import { articles, inspireCategories } from '@/lib/db/schema/articles';
 import { media } from '@/lib/db/schema/media';
 import { resolveCoverSource } from '@/lib/storage/responsive-cover';
-import {
-  HERO_INELIGIBLE_SLUGS,
-  isHeroFrameEligible,
-  resolveHeroCrops,
-} from '@/lib/inspire/hero-frame';
+import { pickHeroIndex, resolveHeroCrops } from '@/lib/inspire/hero-frame';
 import '@/design-system/tokens.css';
 import '@/design-system/components.css';
 
@@ -122,12 +118,13 @@ export default async function HomePage() {
   const { latestArticles } = await getHomeData();
   // All three R8 gates in one pass: (a) the hand-curated class-G slug list,
   // (b) both hero crops exist, (c) the SOURCE photograph is landscape.
-  const heroIndex = latestArticles.findIndex(
-    (a) =>
-      !HERO_INELIGIBLE_SLUGS.has(a.slug) &&
-      resolveHeroCrops(a.coverImageSmartCrops) !== null &&
-      isHeroFrameEligible(a.coverWidth, a.coverHeight),
-  );
+  //
+  // UI-12: this is now `pickHeroIndex` in `@/lib/inspire/hero-frame` rather than
+  // an inline predicate, because `/artikel`'s lead plate must know which article
+  // the front page is holding so it does not lead with the same photograph. It
+  // learns that by running THIS function over its own list — not by reading this
+  // page's query. Same gates, same order, same result; behaviour here unchanged.
+  const heroIndex = pickHeroIndex(latestArticles);
   // R8's failure mode, made explicit: if NOTHING in the 20-article buffer is
   // hero-eligible, the lead story still runs — it holds the page's one <h1> —
   // but with the "Tiada gambar" plate instead of a photograph in the wrong

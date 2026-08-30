@@ -8,11 +8,7 @@ import { articles, inspireCategories, articleCategories } from '@/lib/db/schema/
 import { media } from '@/lib/db/schema/media';
 import { ArticleCard } from '@/components/inspire/article-card';
 import { getSmartCropRef } from '@/lib/storage/smart-crop-url';
-import {
-  HERO_INELIGIBLE_SLUGS,
-  isHeroFrameEligible,
-  resolveHeroCrops,
-} from '@/lib/inspire/hero-frame';
+import { pickHeroIndex, resolveHeroCrops } from '@/lib/inspire/hero-frame';
 import { flattenCategoriesByArticleCount } from '@/lib/inspire/category-tree';
 import { InspireArticleSearch } from '@/components/inspire/inspire-article-search';
 
@@ -194,16 +190,25 @@ export default async function InspireHomePage() {
   // That review also found `hantaran-kahwin-bajet` failing the same way and NOT
   // on the list — see the note above `HERO_INELIGIBLE_SLUGS` in
   // `@/lib/inspire/hero-frame`, which is the more important half of this change.
-  // All three R8 gates in one pass, in the same order and from the same module
-  // the homepage uses: (a) the hand-curated class-G slug list, (b) both hero
-  // crops exist with their dimensions recorded, (c) the SOURCE photograph
-  // retains >= 33% of its height in a 3.520 box.
-  const leadIndex = latestArticles.findIndex(
-    (a) =>
-      !HERO_INELIGIBLE_SLUGS.has(a.slug) &&
-      resolveHeroCrops(a.coverImageSmartCrops) !== null &&
-      isHeroFrameEligible(a.coverWidth, a.coverHeight),
-  );
+  // THE SECTION FRONT DOES NOT LEAD WITH THE PHOTOGRAPH THE FRONT PAGE IS
+  // LEADING WITH. `/artikel` is one click from `/` via "Lihat semua artikel";
+  // an identical plate, same crop, same painted size, one click apart does not
+  // read as art direction — it reads as a page that failed to load.
+  //
+  // Two calls, one definition. The first learns what the homepage is holding by
+  // running the SAME selection over THIS page's list — deliberately not by
+  // reading the homepage's query, because two queries independently computing
+  // "the hero" is the defect the deleted homepage category rail is a monument
+  // to. The second takes the next eligible article after it. Both lists are
+  // `publishedAt desc` over published articles, so the first call names the
+  // front page's pick without either page depending on the other; see the
+  // warning on `pickHeroIndex` about what breaks if an ordering changes.
+  //
+  // This costs a reader arriving cold from search nothing: they get the next
+  // article down, and this plate is an EDITORIAL slot that already skips
+  // articles for three other reasons, not a chronological one.
+  const frontPageIndex = pickHeroIndex(latestArticles);
+  const leadIndex = pickHeroIndex(latestArticles, frontPageIndex + 1);
   const ordered =
     leadIndex > 0
       ? [latestArticles[leadIndex], ...latestArticles.filter((_, i) => i !== leadIndex)]

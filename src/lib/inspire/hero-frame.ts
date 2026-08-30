@@ -163,3 +163,64 @@ export function resolveHeroCrops(
   const og = getSmartCropRef(smartCrops, 'crop-16x9-og');
   return desktop && og ? { desktop, og } : null;
 }
+
+/**
+ * The minimum an article must expose to be judged for a hero slot. Deliberately
+ * structural rather than a route's row type: the homepage selects from a
+ * 20-article buffer and `/artikel` from a 12-article one, and neither should
+ * have to hand the other its query shape to share a rule.
+ */
+export interface HeroCandidate {
+  slug: string;
+  coverImageSmartCrops: unknown;
+  coverWidth: number | null;
+  coverHeight: number | null;
+}
+
+/**
+ * ── THE ONE DEFINITION OF "WHICH ARTICLE HOLDS A PLATE" ──────────────────
+ *
+ * All three R8 gates, in order: (a) the hand-curated class-G slug list,
+ * (b) both hero crops exist with their dimensions recorded, (c) the SOURCE
+ * photograph retains at least `MIN_RETAINED_FRAME` of its height in a
+ * `HERO_ASPECT` box. Returns -1 when nothing qualifies, which both callers
+ * render as the no-photograph plate rather than degrading to a wrong shape.
+ *
+ * `fromIndex` exists for ONE reason, and it is editorial, not mechanical:
+ *
+ *   **A section front does not lead with the photograph the front page is
+ *   leading with.**
+ *
+ * `/artikel` is one click from `/` via "Lihat semua artikel". Landing on the
+ * same photograph in the same 88/25 crop at the same painted size does not read
+ * as art direction — it reads as a page that failed to load. So `/artikel` calls
+ * this twice: once from 0 to learn what the front page is holding, then again
+ * from the next position to take the following eligible article. It costs a
+ * cold reader arriving from search nothing — they get the next article down,
+ * and the plate is an EDITORIAL slot that already skips articles for three
+ * other reasons, not a chronological one.
+ *
+ * ⚠️ THIS DEPENDS ON BOTH SURFACES ORDERING BY `publishedAt desc`, and on
+ * nothing else. `/artikel` does not read the homepage's query — deliberately.
+ * Two queries independently computing "the hero" is the defect the deleted
+ * homepage category rail is a monument to: it was built from a different query
+ * than the masthead's and the two disagreed, on production, for weeks. Instead
+ * both surfaces run THIS function over their own list, and because the lists are
+ * the same articles in the same order, the second surface can name the first
+ * one's pick without asking it.
+ *
+ * **If you change the ordering of either query, this de-duplication silently
+ * stops working** — `/artikel` would skip an article the homepage never chose,
+ * and both plates would still look fine. Change them together, or replace this
+ * with an explicit shared selection.
+ */
+export function pickHeroIndex(articles: readonly HeroCandidate[], fromIndex = 0): number {
+  for (let i = Math.max(0, fromIndex); i < articles.length; i++) {
+    const a = articles[i];
+    if (HERO_INELIGIBLE_SLUGS.has(a.slug)) continue;
+    if (resolveHeroCrops(a.coverImageSmartCrops) === null) continue;
+    if (!isHeroFrameEligible(a.coverWidth, a.coverHeight)) continue;
+    return i;
+  }
+  return -1;
+}
