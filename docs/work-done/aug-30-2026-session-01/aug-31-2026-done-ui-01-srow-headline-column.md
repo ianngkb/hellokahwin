@@ -144,7 +144,28 @@ $ ranks -> 01 02 03 04 05 06 07 08 09 10 11 12
 ```
 
 The pattern was proved on the article page (returns 1) before the homepage count
-was believed. `ui03-hero-91` independently reproduced the same result and found
+was believed.
+
+**One difference between the two screenshots is NOT this item's, and a reader
+comparing them will spot it.** UI-03 shipped an hour later and changed hero
+eligibility, which moved one article out of the Terkini list. Measured from my
+own captures — the pre-deploy title list (01:47, before any UI deploy) against
+live production after all five of the sprint's items:
+
+| Row | Before | After |
+|---|---|---|
+| 1 | Persiapan hantaran kahwin: jadual lapan minggu | **identical** |
+| 2 | Adat hantaran kahwin ikut keluarga: bila dua senarai berbeza | Tempat beli barang hantaran: lima jenis kedai |
+| 3–12 | — | **identical** |
+
+**It is a row-2 swap, and rows 1 and 3–12 are unchanged.** My before/after pair
+is therefore a clean single-variable comparison of the geometry; nothing in it
+depends on which articles are in the list. I record this because it was
+predicted twice, by UI-03 and by me, as a *row-1* change — and it was not.
+Neither of us measured it until after both items had shipped. The prediction was
+harmless because the gate's CONTENT assertion does not care which articles are
+present, but a prediction repeated twice and never checked is exactly the shape
+this sprint keeps finding. `ui03-hero-91` independently reproduced the same result and found
 that **`grep -c 's-idx'` returns 1 on this page** — the HTML is a single line, so
 `-c` counts lines, not occurrences. `grep -o … | wc -l` is the form that answers
 the question.
@@ -369,7 +390,28 @@ text, and the measurement that all twelve production titles render two lines —
 none of which was known before, and the last of which is what made shipping safe.
 The threshold did not move.
 
-**(d) Believing a red build was ours.** `pnpm build` failed at "Generating static
+**(d) Adopting a teammate's confident claim because it arrived with numbers.**
+UI-03 told me twice that their change would put a different article at **rank
+01**, and I repeated it — in a message back to them and in my report — without
+measuring it. It was a **row-2** swap; row 1 never changed. They also diagnosed
+my local 500 as a Supabase pooler-port problem and I endorsed the underlying
+finding as "still true"; both ports in fact work, and they retracted it after
+testing. Neither claim reached this entry, the PR or the tracker, so nothing
+shipped wrong — but only because these were claims *about* the work rather than
+defects *in* it, and nothing measured them.
+
+The asymmetry is the lesson, and it is mine as much as theirs: across one
+afternoon we jointly refused `grep -c`, `img.naturalWidth`, a 200 status code, a
+20-of-20 sample and a lazy-loading `naturalWidth: 0` — and then traded
+unmeasured assertions about ports and row positions at full confidence. **Rigour
+applied to the artefact under test but not to the claims made around it is
+rigour with a hole in it exactly where the reports go.** The specific form: when
+a teammate hands you a fact with numbers attached, the numbers are evidence for
+*their* claim, not for the inference you are about to build on it. I verified
+the retraction from my own captures rather than adopting the correction, which
+is the only reason the table above is measured rather than relayed.
+
+**(e) Believing a red build was ours.** `pnpm build` failed at "Generating static
 pages" on `ECONNREFUSED 127.0.0.1:5433`. It was the local WSL Postgres cluster,
 `Stopped` after idling — not the code, which had already compiled successfully.
 `pnpm lint`'s red was similarly not ours, and that one was *verified* rather than
