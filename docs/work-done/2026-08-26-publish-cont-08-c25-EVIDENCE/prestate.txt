@@ -1,0 +1,7 @@
+=== PRE-WRITE STATE, production, 2026-08-26T15:29:09.924Z ===
+articles total 61 | published 61 | media 884 | inspire_tags 76 | jsonb_typeof(content) [{"t":"object","n":61}]
+target slugs already present: NONE — all eight are new inserts
+published per top-level category: busana-pengantin=3 hantaran-mas-kahwin=13 idea-dan-nasihat=10 nikah-undang-undang=4 pelamin-kad-cenderahati=3 real-wedding=6 sebelum-nikah=3 ucapan-doa=5 uncategorized=0 venue-perancangan=4
+tag slugs: PRE-EXISTING (never delete on undo): hantaran, dulang-hantaran, adat-perkahwinan, bertunang
+tag slugs: WILL BE NEW (safe to delete on undo): nisbah-hantaran, hantaran-kahwin-5-balas-7, hantaran-tunang-3-balas-5, hantaran-tunang, bilangan-dulang-hantaran, duit-hantaran-kahwin, duit-hantaran, mas-kahwin, wang-hantaran, jumlah-duit-hantaran, merisik, adat-hantaran, hantaran-wajib-atau-adat, hukum-hantaran
+published_at of linked live articles (must be unchanged after the run): apa-itu-mas-kahwin=2026-08-24T15:46:11.393Z cincin-tunang=2026-08-25T10:45:29.956Z dulang-hantaran=2026-08-25T17:54:58.021Z gubahan-hantaran=2026-08-25T17:55:20.340Z hantaran-kahwin=2025-11-23T22:26:36.000Z hantaran-tunang=2026-01-11T23:59:36.000Z mas-kahwin-ikut-negeri=2025-11-23T21:56:36.000Z sirih-junjung=2026-08-25T17:55:49.122Z

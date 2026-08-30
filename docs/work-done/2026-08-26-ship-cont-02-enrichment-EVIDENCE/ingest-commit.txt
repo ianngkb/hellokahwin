@@ -1,0 +1,714 @@
+
+===== [1/23] ingest\C4-1-A1-baju-pengantin-sewa-atau-beli.md =====
+File:   C4-1-A1-baju-pengantin-sewa-atau-beli.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Busana & Penampilan Pengantin (P4)
+Cluster: Baju pengantin: nikah, sanding & songket (C4.1)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  3, every one credited
+  ../images/S-pengantin-bertudung-manik-azman-aziz.jpg  →  "Kredit: Azman Aziz / Pexels" [S] Azman Aziz
+  ../images/S-pengantin-melayu-pelamin-fyruz-alqadiri.jpg  →  "Kredit: Fyruz Alqadiri (CC BY-SA 4.0)" [S] Fyruz Alqadiri
+  ../images/S-pengantin-lelaki-penang-sheba.jpg  →  "Kredit: Sheba_Also (CC BY-SA 2.0)" [S] Sheba_Also
+Tags:    baju pengantin, sewa baju pengantin, kos kahwin, busana pengantin
+Links:   1 internal, all resolved
+URL:     /artikel/busana-pengantin/baju-pengantin-sewa-atau-beli
+  uploaded ../images/S-pengantin-bertudung-manik-azman-aziz.jpg (+4 crops)
+  uploaded ../images/S-pengantin-melayu-pelamin-fyruz-alqadiri.jpg (+4 crops)
+  uploaded ../images/S-pengantin-lelaki-penang-sheba.jpg (+4 crops)
+
+Done. /artikel/busana-pengantin/baju-pengantin-sewa-atau-beli (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/busana-pengantin/baju-pengantin-sewa-atau-beli
+  /artikel/busana-pengantin
+  /sitemap.xml
+
+===== [2/23] ingest\C4-2-A1-inai-tangan-pengantin.md =====
+File:   C4-2-A1-inai-tangan-pengantin.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Busana & Penampilan Pengantin (P4)
+Cluster: Inai, solekan & aksesori pengantin (C4.2)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  4, every one credited
+  ../images/S-inai-tangan-pengantin-azman-aziz.jpg  →  "Kredit: Azman Aziz / Pexels" [S] Azman Aziz
+  ../images/S-kuku-berinai-pengantin-azman-aziz.jpg  →  "Kredit: Azman Aziz / Pexels" [S] Azman Aziz
+  ../images/S-pengantin-bertudung-manik-azman-aziz.jpg  →  "Kredit: Azman Aziz / Pexels" [S] Azman Aziz
+  ../images/S-pasangan-baju-oren-azman-aziz.jpg  →  "Kredit: Azman Aziz / Pexels" [S] Azman Aziz
+Tags:    inai, inai tangan, inai pengantin, penampilan pengantin
+Links:   0 internal, all resolved
+URL:     /artikel/busana-pengantin/inai-tangan-pengantin
+  uploaded ../images/S-inai-tangan-pengantin-azman-aziz.jpg (+4 crops)
+  uploaded ../images/S-kuku-berinai-pengantin-azman-aziz.jpg (+4 crops)
+  uploaded ../images/S-pengantin-bertudung-manik-azman-aziz.jpg (+4 crops)
+  uploaded ../images/S-pasangan-baju-oren-azman-aziz.jpg (+4 crops)
+
+Done. /artikel/busana-pengantin/inai-tangan-pengantin (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/busana-pengantin/inai-tangan-pengantin
+  /artikel/busana-pengantin
+  /sitemap.xml
+
+===== [3/23] ingest\C4-1-A2-songket-tenunan-tangan-atau-cetak.md =====
+File:   C4-1-A2-songket-tenunan-tangan-atau-cetak.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Busana & Penampilan Pengantin (P4)
+Cluster: Baju pengantin: nikah, sanding & songket (C4.1)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  5, every one credited
+  ../images/S-pengantin-pelamin-bunga-mohd-hasan.jpg  →  "Kredit: mohd hasan / Pexels" [S] mohd hasan
+  ../images/S-menenun-songket-kelantan-1899-skeat.png  →  "Kredit: Walter William Skeat (CC0)" [S] Museum of Archaeology and Anthropology, University of Cambridge
+  ../images/S-menenun-songket-alor-setar-british-official.png  →  "Kredit: British Official Photograph (CC0)" [S] British Official Photograph
+  ../images/S-menenun-songket-palembang-swarabakti.jpg  →  "Kredit: Swarabakti (CC BY-SA 4.0)" [S] Swarabakti
+  ../images/S-songket-limar-terengganu-daderot.jpg  →  "Kredit: Daderot (domain awam)" [S] Daderot
+Tags:    kain songket, baju pengantin songket, songket Terengganu, busana pengantin
+Links:   1 internal, all resolved
+URL:     /artikel/busana-pengantin/songket-tenunan-tangan-atau-cetak
+  uploaded ../images/S-pengantin-pelamin-bunga-mohd-hasan.jpg (+4 crops)
+  uploaded ../images/S-menenun-songket-kelantan-1899-skeat.png (+4 crops)
+  uploaded ../images/S-menenun-songket-alor-setar-british-official.png (+4 crops)
+  uploaded ../images/S-menenun-songket-palembang-swarabakti.jpg (+4 crops)
+  uploaded ../images/S-songket-limar-terengganu-daderot.jpg (+4 crops)
+
+Done. /artikel/busana-pengantin/songket-tenunan-tangan-atau-cetak (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/busana-pengantin/songket-tenunan-tangan-atau-cetak
+  /artikel/busana-pengantin
+  /sitemap.xml
+
+===== [4/23] ingest\A3-mas-kahwin-johor.md =====
+File:   A3-mas-kahwin-johor.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Hantaran & Mas Kahwin (P2)
+Cluster: Mas kahwin ikut negeri (C2.4)
+Status:  published
+Author:  ai · review_status pending_review
+Images:  4, every one credited
+  ../images/S-kompang-gendang-johor-stress043.jpg  →  "Kredit: Stress 043 (CC BY-SA 4.0)" [S] Stress 043
+  ../images/S-dulang-hantaran-masjid-mylifestory.jpg  →  "Kredit: MyLifeStory (CC BY 2.0)" [S] MyLifeStory
+  ../images/S-akad-ijab-qabul-mylifestory.jpg  →  "Kredit: MyLifeStory (CC BY 2.0)" [S] MyLifeStory
+  ../images/S-maij-ledang-johor-chongkian.jpg  →  "Kredit: Chongkian (CC BY-SA 4.0)" [S] Chongkian
+Tags:    (none)
+Links:   0 internal, all resolved
+URL:     /artikel/hantaran-mas-kahwin/mas-kahwin-johor
+  uploaded ../images/S-kompang-gendang-johor-stress043.jpg (+4 crops)
+  uploaded ../images/S-dulang-hantaran-masjid-mylifestory.jpg (+4 crops)
+  uploaded ../images/S-akad-ijab-qabul-mylifestory.jpg (+4 crops)
+  uploaded ../images/S-maij-ledang-johor-chongkian.jpg (+4 crops)
+
+Done. /artikel/hantaran-mas-kahwin/mas-kahwin-johor (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/hantaran-mas-kahwin/mas-kahwin-johor
+  /artikel/hantaran-mas-kahwin
+  /sitemap.xml
+
+===== [5/23] ingest\A4-mas-kahwin-kelantan-terengganu.md =====
+File:   A4-mas-kahwin-kelantan-terengganu.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Hantaran & Mas Kahwin (P2)
+Cluster: Mas kahwin ikut negeri (C2.4)
+Status:  published
+Author:  ai · review_status pending_review
+Images:  4, every one credited
+  ../images/S-arak-pengantin-kelantan-malexi.jpg  →  "Kredit: Malexi (CC BY-SA 3.0)" [S] Malexi
+  ../images/S-kenduri-khemah-terengganu-irwandy.jpg  →  "Kredit: Irwandy Mazwir (CC BY 2.0)" [S] Irwandy Mazwir
+  ../images/S-bangunan-maik-kelantan-masmy86.jpg  →  "Kredit: Masmy 86 (CC BY-SA 4.0)" [S] Masmy 86
+  ../images/S-tok-kadi-baca-khutbah-mylifestory.jpg  →  "Kredit: MyLifeStory (CC BY 2.0)" [S] MyLifeStory
+Tags:    (none)
+Links:   0 internal, all resolved
+URL:     /artikel/hantaran-mas-kahwin/mas-kahwin-kelantan-terengganu
+  uploaded ../images/S-arak-pengantin-kelantan-malexi.jpg (+4 crops)
+  uploaded ../images/S-kenduri-khemah-terengganu-irwandy.jpg (+4 crops)
+  uploaded ../images/S-bangunan-maik-kelantan-masmy86.jpg (+4 crops)
+  uploaded ../images/S-tok-kadi-baca-khutbah-mylifestory.jpg (+4 crops)
+
+Done. /artikel/hantaran-mas-kahwin/mas-kahwin-kelantan-terengganu (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/hantaran-mas-kahwin/mas-kahwin-kelantan-terengganu
+  /artikel/hantaran-mas-kahwin
+  /sitemap.xml
+
+===== [6/23] ingest\A6-mas-kahwin-pahang-negeri-sembilan.md =====
+File:   A6-mas-kahwin-pahang-negeri-sembilan.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Hantaran & Mas Kahwin (P2)
+Cluster: Mas kahwin ikut negeri (C2.4)
+Status:  published
+Author:  ai · review_status pending_review
+Images:  5, every one credited
+  ../images/S-pasangan-pelamin-bunga-duduk-mohd-hasan.jpg  →  "Kredit: mohd hasan / Pexels" [S] mohd hasan
+  ../images/S-pejabat-agama-cameron-highlands-gula-kapas.jpg  →  "Kredit: Gula Kapas (CC BY 3.0)" [S] Gula Kapas
+  ../images/S-rumah-gadang-negeri-sembilan-adhmi.jpg  →  "Kredit: Adhmi (CC BY-SA 4.0)" [S] Adhmi
+  ../images/S-balai-seri-andika-rembau-ayyand.jpg  →  "Kredit: AyyanD (CC BY-SA 4.0)" [S] AyyanD
+  ../images/S-serah-hantaran-akad-mylifestory.jpg  →  "Kredit: MyLifeStory (CC BY 2.0)" [S] MyLifeStory
+Tags:    (none)
+Links:   0 internal, all resolved
+URL:     /artikel/hantaran-mas-kahwin/mas-kahwin-pahang-negeri-sembilan
+  uploaded ../images/S-pasangan-pelamin-bunga-duduk-mohd-hasan.jpg (+4 crops)
+  uploaded ../images/S-pejabat-agama-cameron-highlands-gula-kapas.jpg (+4 crops)
+  uploaded ../images/S-rumah-gadang-negeri-sembilan-adhmi.jpg (+4 crops)
+  uploaded ../images/S-balai-seri-andika-rembau-ayyand.jpg (+4 crops)
+  uploaded ../images/S-serah-hantaran-akad-mylifestory.jpg (+4 crops)
+
+Done. /artikel/hantaran-mas-kahwin/mas-kahwin-pahang-negeri-sembilan (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/hantaran-mas-kahwin/mas-kahwin-pahang-negeri-sembilan
+  /artikel/hantaran-mas-kahwin
+  /sitemap.xml
+
+===== [7/23] ingest\A5-mas-kahwin-perak.md =====
+File:   A5-mas-kahwin-perak.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Hantaran & Mas Kahwin (P2)
+Cluster: Mas kahwin ikut negeri (C2.4)
+Status:  published
+Author:  ai · review_status pending_review
+Images:  4, every one credited
+  ../images/S-muzik-tradisional-kenduri-malexi.jpg  →  "Kredit: Malexi (CC BY-SA 3.0)" [S] Malexi
+  ../images/S-maipk-perak-chongkian.jpg  →  "Kredit: Chongkian (CC BY-SA 4.0)" [S] Chongkian
+  ../images/S-wali-saksi-tok-kadi-mylifestory.jpg  →  "Kredit: MyLifeStory (CC BY 2.0)" [S] MyLifeStory
+  ../images/S-dewan-orang-ramai-perak-wiki-farazi.jpg  →  "Kredit: Wiki Farazi (CC0)" [S] Wiki Farazi
+Tags:    (none)
+Links:   0 internal, all resolved
+URL:     /artikel/hantaran-mas-kahwin/mas-kahwin-perak
+  uploaded ../images/S-muzik-tradisional-kenduri-malexi.jpg (+4 crops)
+  uploaded ../images/S-maipk-perak-chongkian.jpg (+4 crops)
+  uploaded ../images/S-wali-saksi-tok-kadi-mylifestory.jpg (+4 crops)
+  uploaded ../images/S-dewan-orang-ramai-perak-wiki-farazi.jpg (+4 crops)
+
+Done. /artikel/hantaran-mas-kahwin/mas-kahwin-perak (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/hantaran-mas-kahwin/mas-kahwin-perak
+  /artikel/hantaran-mas-kahwin
+  /sitemap.xml
+
+===== [8/23] ingest\A7-mas-kahwin-sabah-sarawak.md =====
+File:   A7-mas-kahwin-sabah-sarawak.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Hantaran & Mas Kahwin (P2)
+Cluster: Mas kahwin ikut negeri (C2.4)
+Status:  published
+Author:  ai · review_status pending_review
+Images:  4, every one credited
+  ../images/S-pasangan-baju-oren-azman-aziz.jpg  →  "Kredit: Azman Aziz / Pexels" [S] Azman Aziz
+  ../images/S-mahkamah-syariah-keningau-sabah-aranas.jpg  →  "Kredit: CEphoto, Uwe Aranas (CC BY-SA 3.0)" [S] CEphoto, Uwe Aranas
+  ../images/S-dulang-hantaran-masjid-mylifestory.jpg  →  "Kredit: MyLifeStory (CC BY 2.0)" [S] MyLifeStory
+  ../images/S-serah-hantaran-akad-mylifestory.jpg  →  "Kredit: MyLifeStory (CC BY 2.0)" [S] MyLifeStory
+Tags:    (none)
+Links:   0 internal, all resolved
+URL:     /artikel/hantaran-mas-kahwin/mas-kahwin-sabah-sarawak
+  uploaded ../images/S-pasangan-baju-oren-azman-aziz.jpg (+4 crops)
+  uploaded ../images/S-mahkamah-syariah-keningau-sabah-aranas.jpg (+4 crops)
+  uploaded ../images/S-dulang-hantaran-masjid-mylifestory.jpg (+4 crops)
+  uploaded ../images/S-serah-hantaran-akad-mylifestory.jpg (+4 crops)
+
+Done. /artikel/hantaran-mas-kahwin/mas-kahwin-sabah-sarawak (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/hantaran-mas-kahwin/mas-kahwin-sabah-sarawak
+  /artikel/hantaran-mas-kahwin
+  /sitemap.xml
+
+===== [9/23] borang-nikah.md =====
+File:   borang-nikah.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Nikah & Undang-undang (P1)
+Cluster: Borang & pendaftaran nikah (C1.1)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  4, every one credited
+  images/S-selepas-akad-raja-abd-kadir.jpg  →  "Kredit: raja abd kadir (CC BY 3.0)" [S] raja abd kadir
+  images/S-papan-tanda-jawi-kuala-lumpur-aranas.jpg  →  "Kredit: CEphoto, Uwe Aranas (CC BY-SA 4.0)" [S] CEphoto, Uwe Aranas
+  images/S-wali-saksi-tok-kadi-mylifestory.jpg  →  "Kredit: MyLifeStory (CC BY 2.0)" [S] MyLifeStory
+  images/S-kaunter-utc-keramat-angys.jpg  →  "Kredit: *angys* (CC BY-SA 4.0)" [S] *angys*
+Tags:    borang nikah, pendaftaran nikah, kebenaran berkahwin, sppim, e-munakahat
+Links:   2 internal, all resolved
+URL:     /artikel/nikah-undang-undang/borang-nikah
+  uploaded images/S-selepas-akad-raja-abd-kadir.jpg (+4 crops)
+  uploaded images/S-papan-tanda-jawi-kuala-lumpur-aranas.jpg (+4 crops)
+  uploaded images/S-wali-saksi-tok-kadi-mylifestory.jpg (+4 crops)
+  uploaded images/S-kaunter-utc-keramat-angys.jpg (+4 crops)
+
+Done. /artikel/nikah-undang-undang/borang-nikah (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/nikah-undang-undang/borang-nikah
+  /artikel/nikah-undang-undang
+  /sitemap.xml
+
+===== [10/23] lafaz-taklik.md =====
+File:   lafaz-taklik.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Nikah & Undang-undang (P1)
+Cluster: Rukun, syarat & sah nikah (C1.2)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  4, every one credited
+  images/S-lelaki-menadah-doa-ahmad-ali-karim.jpg  →  "Kredit: Ahmad Ali Karim (CC0)" [S] Ahmad Ali Karim
+  images/S-akad-ijab-qabul-mylifestory.jpg  →  "Kredit: MyLifeStory (CC BY 2.0)" [S] MyLifeStory
+  images/S-tok-kadi-baca-khutbah-mylifestory.jpg  →  "Kredit: MyLifeStory (CC BY 2.0)" [S] MyLifeStory
+  images/S-selepas-akad-raja-abd-kadir.jpg  →  "Kredit: raja abd kadir (CC BY 3.0)" [S] raja abd kadir
+Tags:    lafaz taklik, taklik nikah, akad nikah, mahkamah syariah, undang-undang keluarga islam
+Links:   0 internal, all resolved
+URL:     /artikel/nikah-undang-undang/lafaz-taklik
+  uploaded images/S-lelaki-menadah-doa-ahmad-ali-karim.jpg (+4 crops)
+  uploaded images/S-akad-ijab-qabul-mylifestory.jpg (+4 crops)
+  uploaded images/S-tok-kadi-baca-khutbah-mylifestory.jpg (+4 crops)
+  uploaded images/S-selepas-akad-raja-abd-kadir.jpg (+4 crops)
+
+Done. /artikel/nikah-undang-undang/lafaz-taklik (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/nikah-undang-undang/lafaz-taklik
+  /artikel/nikah-undang-undang
+  /sitemap.xml
+
+===== [11/23] rukun-nikah.md =====
+File:   rukun-nikah.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Nikah & Undang-undang (P1)
+Cluster: Rukun, syarat & sah nikah (C1.2)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  5, every one credited
+  images/S-akad-nikah-masjid-azlan-dupree.jpg  →  "Kredit: Azlan DuPree (CC BY 2.0)" [S] Azlan DuPree
+  images/S-akad-ijab-qabul-mylifestory.jpg  →  "Kredit: MyLifeStory (CC BY 2.0)" [S] MyLifeStory
+  images/S-wali-saksi-tok-kadi-mylifestory.jpg  →  "Kredit: MyLifeStory (CC BY 2.0)" [S] MyLifeStory
+  images/S-akad-tok-kadi-raja-abd-kadir.jpg  →  "Kredit: raja abd kadir (CC BY 3.0)" [S] raja abd kadir
+  images/S-pengantin-selepas-akad-azlan-dupree.jpg  →  "Kredit: Azlan DuPree (CC BY 2.0)" [S] Azlan DuPree
+Tags:    rukun nikah, akad nikah, wali nikah, saksi nikah, undang-undang keluarga islam
+Links:   1 internal, all resolved
+URL:     /artikel/nikah-undang-undang/rukun-nikah
+  uploaded images/S-akad-nikah-masjid-azlan-dupree.jpg (+4 crops)
+  uploaded images/S-akad-ijab-qabul-mylifestory.jpg (+4 crops)
+  uploaded images/S-wali-saksi-tok-kadi-mylifestory.jpg (+4 crops)
+  uploaded images/S-akad-tok-kadi-raja-abd-kadir.jpg (+4 crops)
+  uploaded images/S-pengantin-selepas-akad-azlan-dupree.jpg (+4 crops)
+
+Done. /artikel/nikah-undang-undang/rukun-nikah (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/nikah-undang-undang/rukun-nikah
+  /artikel/nikah-undang-undang
+  /sitemap.xml
+
+===== [12/23] syarat-sah-nikah.md =====
+File:   syarat-sah-nikah.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Nikah & Undang-undang (P1)
+Cluster: Rukun, syarat & sah nikah (C1.2)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  5, every one credited
+  images/S-akad-tok-kadi-raja-abd-kadir.jpg  →  "Kredit: raja abd kadir (CC BY 3.0)" [S] raja abd kadir
+  images/S-akad-nikah-masjid-azlan-dupree.jpg  →  "Kredit: Azlan DuPree (CC BY 2.0)" [S] Azlan DuPree
+  images/S-tok-kadi-baca-khutbah-mylifestory.jpg  →  "Kredit: MyLifeStory (CC BY 2.0)" [S] MyLifeStory
+  images/S-wali-saksi-tok-kadi-mylifestory.jpg  →  "Kredit: MyLifeStory (CC BY 2.0)" [S] MyLifeStory
+  images/S-pengantin-selepas-akad-azlan-dupree.jpg  →  "Kredit: Azlan DuPree (CC BY 2.0)" [S] Azlan DuPree
+Tags:    syarat sah nikah, rukun nikah, wali nikah, pendaftaran nikah, undang-undang keluarga islam
+Links:   1 internal, all resolved
+URL:     /artikel/nikah-undang-undang/syarat-sah-nikah
+  uploaded images/S-akad-tok-kadi-raja-abd-kadir.jpg (+4 crops)
+  uploaded images/S-akad-nikah-masjid-azlan-dupree.jpg (+4 crops)
+  uploaded images/S-tok-kadi-baca-khutbah-mylifestory.jpg (+4 crops)
+  uploaded images/S-wali-saksi-tok-kadi-mylifestory.jpg (+4 crops)
+  uploaded images/S-pengantin-selepas-akad-azlan-dupree.jpg (+4 crops)
+
+Done. /artikel/nikah-undang-undang/syarat-sah-nikah (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/nikah-undang-undang/syarat-sah-nikah
+  /artikel/nikah-undang-undang
+  /sitemap.xml
+
+===== [13/23] ingest\C5-2-A1-contoh-kad-jemputan-kahwin.md =====
+File:   C5-2-A1-contoh-kad-jemputan-kahwin.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Pelamin, Kad & Cenderahati Majlis (P5)
+Cluster: Kad kahwin & jemputan (C5.2)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  4, every one credited
+  ../images/S-keluarga-payung-kuning-mohd-hasan.jpg  →  "Kredit: mohd hasan / Pexels" [S] mohd hasan
+  ../images/S-kad-jemputan-tangan-sham-hardy.jpg  →  "Kredit: Sham Hardy (CC BY-SA 2.0)" [S] Sham Hardy
+  ../images/S-bunga-pahar-kerusi-pengantin-giselleai.jpg  →  "Kredit: Giselleai (CC BY 2.0)" [S] Giselleai
+  ../images/S-tetamu-tiba-majlis-ahmad-ali-karim.jpg  →  "Kredit: Ahmad Ali Karim (CC0)" [S] Ahmad Ali Karim
+Tags:    kad jemputan kahwin, kad kahwin, perancangan majlis, jemputan
+Links:   1 internal, all resolved
+URL:     /artikel/pelamin-kad-cenderahati/contoh-kad-jemputan-kahwin
+  uploaded ../images/S-keluarga-payung-kuning-mohd-hasan.jpg (+4 crops)
+  uploaded ../images/S-kad-jemputan-tangan-sham-hardy.jpg (+4 crops)
+  uploaded ../images/S-bunga-pahar-kerusi-pengantin-giselleai.jpg (+4 crops)
+  uploaded ../images/S-tetamu-tiba-majlis-ahmad-ali-karim.jpg (+4 crops)
+
+Done. /artikel/pelamin-kad-cenderahati/contoh-kad-jemputan-kahwin (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/pelamin-kad-cenderahati/contoh-kad-jemputan-kahwin
+  /artikel/pelamin-kad-cenderahati
+  /sitemap.xml
+
+===== [14/23] ingest\P7-A1-cincin-tunang.md =====
+File:   P7-A1-cincin-tunang.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Sebelum Nikah: Jodoh, Merisik & Tunang (P7)
+Cluster: Cincin tunang, nikah & merisik (C7.3)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  5, every one credited
+  ../images/S-kuku-berinai-pengantin-azman-aziz.jpg  →  "Kredit: Azman Aziz / Pexels" [S] Azman Aziz
+  ../images/S-cincin-tunang-dulang-mohd-nasir.jpg  →  "Kredit: Mohd Nasir Mat Noor (CC BY 2.0)" [S] Mohd Nasir Mat Noor
+  ../images/S-cincin-perak-dalam-kotak-netha-hussain.jpg  →  "Kredit: Netha Hussain (CC BY-SA 4.0)" [S] Netha Hussain
+  ../images/S-cincin-tunang-kotak-mohd-nasir.jpg  →  "Kredit: Mohd Nasir Mat Noor (CC BY 2.0)" [S] Mohd Nasir Mat Noor
+  ../images/S-kedai-emas-johor-bahru-chongkian.jpg  →  "Kredit: Chongkian (CC BY-SA 4.0)" [S] Chongkian
+Tags:    cincin tunang, cincin nikah, cincin merisik, adat pertunangan, hukum emas lelaki
+Links:   2 internal, all resolved
+URL:     /artikel/sebelum-nikah/cincin-tunang
+  uploaded ../images/S-kuku-berinai-pengantin-azman-aziz.jpg (+4 crops)
+  uploaded ../images/S-cincin-tunang-dulang-mohd-nasir.jpg (+4 crops)
+  uploaded ../images/S-cincin-perak-dalam-kotak-netha-hussain.jpg (+4 crops)
+  uploaded ../images/S-cincin-tunang-kotak-mohd-nasir.jpg (+4 crops)
+  uploaded ../images/S-kedai-emas-johor-bahru-chongkian.jpg (+4 crops)
+
+Done. /artikel/sebelum-nikah/cincin-tunang (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/sebelum-nikah/cincin-tunang
+  /artikel/sebelum-nikah
+  /sitemap.xml
+
+===== [15/23] ingest\P7-A3-doa-majlis-pertunangan.md =====
+File:   P7-A3-doa-majlis-pertunangan.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Sebelum Nikah: Jodoh, Merisik & Tunang (P7)
+Cluster: Majlis pertunangan & doa (C7.4)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  5, every one credited
+  ../images/S-lelaki-menadah-doa-ahmad-ali-karim.jpg  →  "Kredit: Ahmad Ali Karim (CC0)" [S] Ahmad Ali Karim
+  ../images/S-majlis-doa-selamat-ahmad-ali-karim.jpg  →  "Kredit: Ahmad Ali Karim (CC0)" [S] Ahmad Ali Karim
+  ../images/S-pengantin-pelamin-bunga-mohd-hasan.jpg  →  "Kredit: mohd hasan / Pexels" [S] mohd hasan
+  ../images/S-cincin-tunang-dulang-mohd-nasir.jpg  →  "Kredit: Mohd Nasir Mat Noor (CC BY 2.0)" [S] Mohd Nasir Mat Noor
+  ../images/S-cincin-tunang-kotak-mohd-nasir.jpg  →  "Kredit: Mohd Nasir Mat Noor (CC BY 2.0)" [S] Mohd Nasir Mat Noor
+Tags:    doa majlis pertunangan, majlis pertunangan, adab berdoa, bertunang, putus tunang
+Links:   0 internal, all resolved
+URL:     /artikel/sebelum-nikah/doa-majlis-pertunangan
+  uploaded ../images/S-lelaki-menadah-doa-ahmad-ali-karim.jpg (+4 crops)
+  uploaded ../images/S-majlis-doa-selamat-ahmad-ali-karim.jpg (+4 crops)
+  uploaded ../images/S-pengantin-pelamin-bunga-mohd-hasan.jpg (+4 crops)
+  uploaded ../images/S-cincin-tunang-dulang-mohd-nasir.jpg (+4 crops)
+  uploaded ../images/S-cincin-tunang-kotak-mohd-nasir.jpg (+4 crops)
+
+Done. /artikel/sebelum-nikah/doa-majlis-pertunangan (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/sebelum-nikah/doa-majlis-pertunangan
+  /artikel/sebelum-nikah
+  /sitemap.xml
+
+===== [16/23] ingest\P7-A2-taaruf-maksud.md =====
+File:   P7-A2-taaruf-maksud.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Sebelum Nikah: Jodoh, Merisik & Tunang (P7)
+Cluster: Jodoh, taaruf & istikharah jodoh (C7.1)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  4, every one credited
+  ../images/S-pasangan-baju-oren-azman-aziz.jpg  →  "Kredit: Azman Aziz / Pexels" [S] Azman Aziz
+  ../images/S-keluarga-payung-kuning-mohd-hasan.jpg  →  "Kredit: mohd hasan / Pexels" [S] mohd hasan
+  ../images/S-lelaki-menadah-doa-ahmad-ali-karim.jpg  →  "Kredit: Ahmad Ali Karim (CC0)" [S] Ahmad Ali Karim
+  ../images/S-jemaah-doa-masjid-ahmad-ali-karim.jpg  →  "Kredit: Ahmad Ali Karim (CC0)" [S] Ahmad Ali Karim
+Tags:    taaruf, maksud taaruf, doa jodoh, istikharah jodoh, khalwat
+Links:   1 internal, all resolved
+URL:     /artikel/sebelum-nikah/taaruf-maksud
+  uploaded ../images/S-pasangan-baju-oren-azman-aziz.jpg (+4 crops)
+  uploaded ../images/S-keluarga-payung-kuning-mohd-hasan.jpg (+4 crops)
+  uploaded ../images/S-lelaki-menadah-doa-ahmad-ali-karim.jpg (+4 crops)
+  uploaded ../images/S-jemaah-doa-masjid-ahmad-ali-karim.jpg (+4 crops)
+
+Done. /artikel/sebelum-nikah/taaruf-maksud (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/sebelum-nikah/taaruf-maksud
+  /artikel/sebelum-nikah
+  /sitemap.xml
+
+===== [17/23] ingest\P3-A3-doa-majlis-perkahwinan.md =====
+File:   P3-A3-doa-majlis-perkahwinan.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Ucapan, Doa & Adab Majlis (P3)
+Cluster: Doa perkahwinan (C3.2)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  5, every one credited
+  ../images/S-jemaah-doa-masjid-ahmad-ali-karim.jpg  →  "Kredit: Ahmad Ali Karim (CC0)" [S] Ahmad Ali Karim
+  ../images/S-majlis-doa-selamat-ahmad-ali-karim.jpg  →  "Kredit: Ahmad Ali Karim (CC0)" [S] Ahmad Ali Karim
+  ../images/S-bunga-manggar-tetamu-ayyand.jpg  →  "Kredit: AyyanD (CC BY-SA 4.0)" [S] AyyanD
+  ../images/S-khutbah-masjid-jamek-kuala-lumpur-taufik.jpg  →  "Kredit: Taufik (CC0)" [S] Taufik
+  ../images/S-jamuan-kenduri-raja-abd-kadir.jpg  →  "Kredit: raja abd kadir (CC BY 3.0)" [S] raja abd kadir
+Tags:    doa majlis perkahwinan, aturcara majlis, pembaca doa, adab majlis
+Links:   0 internal, all resolved
+URL:     /artikel/ucapan-doa/doa-majlis-perkahwinan
+  uploaded ../images/S-jemaah-doa-masjid-ahmad-ali-karim.jpg (+4 crops)
+  uploaded ../images/S-majlis-doa-selamat-ahmad-ali-karim.jpg (+4 crops)
+  uploaded ../images/S-bunga-manggar-tetamu-ayyand.jpg (+4 crops)
+  uploaded ../images/S-khutbah-masjid-jamek-kuala-lumpur-taufik.jpg (+4 crops)
+  uploaded ../images/S-jamuan-kenduri-raja-abd-kadir.jpg (+4 crops)
+
+Done. /artikel/ucapan-doa/doa-majlis-perkahwinan (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/ucapan-doa/doa-majlis-perkahwinan
+  /artikel/ucapan-doa
+  /sitemap.xml
+
+===== [18/23] ingest\P3-A2-doa-pengantin-baru.md =====
+File:   P3-A2-doa-pengantin-baru.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Ucapan, Doa & Adab Majlis (P3)
+Cluster: Doa perkahwinan (C3.2)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  4, every one credited
+  ../images/S-bacaan-doa-qari-ahmad-ali-karim.jpg  →  "Kredit: Ahmad Ali Karim (CC0)" [S] Ahmad Ali Karim
+  ../images/S-lelaki-menadah-doa-ahmad-ali-karim.jpg  →  "Kredit: Ahmad Ali Karim (CC0)" [S] Ahmad Ali Karim
+  ../images/S-majlis-doa-selamat-ahmad-ali-karim.jpg  →  "Kredit: Ahmad Ali Karim (CC0)" [S] Ahmad Ali Karim
+  ../images/S-bacaan-yasin-terengganu-akramgl1479.jpg  →  "Kredit: Akramgl1479 (CC BY-SA 4.0)" [S] Akramgl1479
+Tags:    doa pengantin baru, doa perkahwinan, akad nikah, adab majlis
+Links:   0 internal, all resolved
+URL:     /artikel/ucapan-doa/doa-pengantin-baru
+  uploaded ../images/S-bacaan-doa-qari-ahmad-ali-karim.jpg (+4 crops)
+  uploaded ../images/S-lelaki-menadah-doa-ahmad-ali-karim.jpg (+4 crops)
+  uploaded ../images/S-majlis-doa-selamat-ahmad-ali-karim.jpg (+4 crops)
+  uploaded ../images/S-bacaan-yasin-terengganu-akramgl1479.jpg (+4 crops)
+
+Done. /artikel/ucapan-doa/doa-pengantin-baru (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/ucapan-doa/doa-pengantin-baru
+  /artikel/ucapan-doa
+  /sitemap.xml
+
+===== [19/23] ingest\P3-A1-ucapan-pengantin-baru.md =====
+File:   P3-A1-ucapan-pengantin-baru.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Ucapan, Doa & Adab Majlis (P3)
+Cluster: Ucapan pengantin baru (C3.1)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  5, every one credited
+  ../images/S-tetamu-tiba-majlis-ahmad-ali-karim.jpg  →  "Kredit: Ahmad Ali Karim (CC0)" [S] Ahmad Ali Karim
+  ../images/S-bunga-manggar-tetamu-ayyand.jpg  →  "Kredit: AyyanD (CC BY-SA 4.0)" [S] AyyanD
+  ../images/S-kad-jemputan-tangan-sham-hardy.jpg  →  "Kredit: Sham Hardy (CC BY-SA 2.0)" [S] Sham Hardy
+  ../images/S-silat-sambut-pengantin-zharif-hussein.jpg  →  "Kredit: zharif hussein (CC BY 2.0)" [S] zharif hussein
+  ../images/S-keluarga-payung-kuning-mohd-hasan.jpg  →  "Kredit: mohd hasan / Pexels" [S] mohd hasan
+Tags:    ucapan pengantin baru, doa pengantin baru, adab tetamu majlis, jemputan kahwin
+Links:   0 internal, all resolved
+URL:     /artikel/ucapan-doa/ucapan-pengantin-baru
+  uploaded ../images/S-tetamu-tiba-majlis-ahmad-ali-karim.jpg (+4 crops)
+  uploaded ../images/S-bunga-manggar-tetamu-ayyand.jpg (+4 crops)
+  uploaded ../images/S-kad-jemputan-tangan-sham-hardy.jpg (+4 crops)
+  uploaded ../images/S-silat-sambut-pengantin-zharif-hussein.jpg (+4 crops)
+  uploaded ../images/S-keluarga-payung-kuning-mohd-hasan.jpg (+4 crops)
+
+Done. /artikel/ucapan-doa/ucapan-pengantin-baru (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/ucapan-doa/ucapan-pengantin-baru
+  /artikel/ucapan-doa
+  /sitemap.xml
+
+===== [20/23] C6-2-A4-bajet-kahwin.md =====
+File:   C6-2-A4-bajet-kahwin.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Venue, Kos & Perancangan (P6)
+Cluster: Kos, bajet & checklist perkahwinan (C6.2)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  5, every one credited
+  images/S-keluarga-payung-kuning-mohd-hasan.jpg  →  "Kredit: mohd hasan / Pexels" [S] mohd hasan
+  images/S-dewan-awam-renggam-chongkian.jpg  →  "Kredit: Chongkian (CC BY-SA 4.0)" [S] Chongkian
+  images/S-hidangan-kenduri-nasi-ayam-wiki-farazi.jpg  →  "Kredit: Wiki Farazi (CC0)" [S] Wiki Farazi
+  images/S-kenduri-khemah-terengganu-irwandy.jpg  →  "Kredit: Irwandy Mazwir (CC BY 2.0)" [S] Irwandy Mazwir
+  images/S-pasangan-dan-keluarga-pelamin-mohd-hasan.jpg  →  "Kredit: mohd hasan / Pexels" [S] mohd hasan
+Tags:    bajet kahwin, kos kahwin, perancangan majlis, sewa dewan
+Links:   3 internal, all resolved
+URL:     /artikel/venue-perancangan/bajet-kahwin
+  uploaded images/S-keluarga-payung-kuning-mohd-hasan.jpg (+4 crops)
+  uploaded images/S-dewan-awam-renggam-chongkian.jpg (+4 crops)
+  uploaded images/S-hidangan-kenduri-nasi-ayam-wiki-farazi.jpg (+4 crops)
+  uploaded images/S-kenduri-khemah-terengganu-irwandy.jpg (+4 crops)
+  uploaded images/S-pasangan-dan-keluarga-pelamin-mohd-hasan.jpg (+4 crops)
+
+Done. /artikel/venue-perancangan/bajet-kahwin (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/venue-perancangan/bajet-kahwin
+  /artikel/venue-perancangan
+  /sitemap.xml
+
+===== [21/23] C6-2-A2-checklist-kahwin.md =====
+File:   C6-2-A2-checklist-kahwin.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Venue, Kos & Perancangan (P6)
+Cluster: Kos, bajet & checklist perkahwinan (C6.2)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  5, every one credited
+  images/S-kompang-gendang-johor-stress043.jpg  →  "Kredit: Stress 043 (CC BY-SA 4.0)" [S] Stress 043
+  images/S-dewan-awam-renggam-chongkian.jpg  →  "Kredit: Chongkian (CC BY-SA 4.0)" [S] Chongkian
+  images/S-hidangan-kenduri-nasi-ayam-wiki-farazi.jpg  →  "Kredit: Wiki Farazi (CC0)" [S] Wiki Farazi
+  images/S-kad-jemputan-tangan-sham-hardy.jpg  →  "Kredit: Sham Hardy (CC BY-SA 2.0)" [S] Sham Hardy
+  images/S-kenduri-khemah-terengganu-irwandy.jpg  →  "Kredit: Irwandy Mazwir (CC BY 2.0)" [S] Irwandy Mazwir
+Tags:    checklist kahwin, persediaan kahwin, perancangan majlis, kos kahwin
+Links:   3 internal, all resolved
+URL:     /artikel/venue-perancangan/checklist-kahwin
+  uploaded images/S-kompang-gendang-johor-stress043.jpg (+4 crops)
+  uploaded images/S-dewan-awam-renggam-chongkian.jpg (+4 crops)
+  uploaded images/S-hidangan-kenduri-nasi-ayam-wiki-farazi.jpg (+4 crops)
+  uploaded images/S-kad-jemputan-tangan-sham-hardy.jpg (+4 crops)
+  uploaded images/S-kenduri-khemah-terengganu-irwandy.jpg (+4 crops)
+
+Done. /artikel/venue-perancangan/checklist-kahwin (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/venue-perancangan/checklist-kahwin
+  /artikel/venue-perancangan
+  /sitemap.xml
+
+===== [22/23] C6-2-A1-harga-sewa-dewan-kahwin.md =====
+File:   C6-2-A1-harga-sewa-dewan-kahwin.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Venue, Kos & Perancangan (P6)
+Cluster: Kos, bajet & checklist perkahwinan (C6.2)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  5, every one credited
+  images/S-jamuan-kenduri-raja-abd-kadir.jpg  →  "Kredit: raja abd kadir (CC BY 3.0)" [S] raja abd kadir
+  images/S-dewan-awam-renggam-chongkian.jpg  →  "Kredit: Chongkian (CC BY-SA 4.0)" [S] Chongkian
+  images/S-dewan-majlis-daerah-labis-chongkian.jpg  →  "Kredit: Chongkian (CC BY-SA 4.0)" [S] Chongkian
+  images/S-dewan-orang-ramai-perak-wiki-farazi.jpg  →  "Kredit: Wiki Farazi (CC0)" [S] Wiki Farazi
+  images/S-kenduri-khemah-terengganu-irwandy.jpg  →  "Kredit: Irwandy Mazwir (CC BY 2.0)" [S] Irwandy Mazwir
+Tags:    sewa dewan, kos kahwin, dewan kahwin, perancangan majlis
+Links:   2 internal, all resolved
+URL:     /artikel/venue-perancangan/harga-sewa-dewan-kahwin
+  uploaded images/S-jamuan-kenduri-raja-abd-kadir.jpg (+4 crops)
+  uploaded images/S-dewan-awam-renggam-chongkian.jpg (+4 crops)
+  uploaded images/S-dewan-majlis-daerah-labis-chongkian.jpg (+4 crops)
+  uploaded images/S-dewan-orang-ramai-perak-wiki-farazi.jpg (+4 crops)
+  uploaded images/S-kenduri-khemah-terengganu-irwandy.jpg (+4 crops)
+
+Done. /artikel/venue-perancangan/harga-sewa-dewan-kahwin (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/venue-perancangan/harga-sewa-dewan-kahwin
+  /artikel/venue-perancangan
+  /sitemap.xml
+
+===== [23/23] C6-2-A3-pakej-dewan-kahwin.md =====
+File:   C6-2-A3-pakej-dewan-kahwin.md
+Target: aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres
+Mode:   COMMIT (will write)
+
+Pillar:  Venue, Kos & Perancangan (P6)
+Cluster: Kos, bajet & checklist perkahwinan (C6.2)
+Status:  published
+Author:  ai_assisted · review_status pending_review
+Images:  5, every one credited
+  images/S-pasangan-dan-keluarga-pelamin-mohd-hasan.jpg  →  "Kredit: mohd hasan / Pexels" [S] mohd hasan
+  images/S-dewan-majlis-daerah-labis-chongkian.jpg  →  "Kredit: Chongkian (CC BY-SA 4.0)" [S] Chongkian
+  images/S-hidangan-kenduri-nasi-ayam-wiki-farazi.jpg  →  "Kredit: Wiki Farazi (CC0)" [S] Wiki Farazi
+  images/S-hidangan-bufet-pulau-pinang-ciksitimelati.jpg  →  "Kredit: CikSitiMelati (CC BY-SA 4.0)" [S] CikSitiMelati
+  images/S-hidangan-kenduri-sup-roti-wiki-farazi.jpg  →  "Kredit: Wiki Farazi (CC0)" [S] Wiki Farazi
+Tags:    pakej dewan kahwin, sewa dewan, kos kahwin, perancangan majlis
+Links:   2 internal, all resolved
+URL:     /artikel/venue-perancangan/pakej-dewan-kahwin
+  uploaded images/S-pasangan-dan-keluarga-pelamin-mohd-hasan.jpg (+4 crops)
+  uploaded images/S-dewan-majlis-daerah-labis-chongkian.jpg (+4 crops)
+  uploaded images/S-hidangan-kenduri-nasi-ayam-wiki-farazi.jpg (+4 crops)
+  uploaded images/S-hidangan-bufet-pulau-pinang-ciksitimelati.jpg (+4 crops)
+  uploaded images/S-hidangan-kenduri-sup-roti-wiki-farazi.jpg (+4 crops)
+
+Done. /artikel/venue-perancangan/pakej-dewan-kahwin (published)
+It will appear on the pillar page under its cluster with no further action.
+Content caches dropped and the Vercel edge purged — the article is visible on the
+site now. Purged (HTTP 200 in 1 request(s)):
+  /artikel/venue-perancangan/pakej-dewan-kahwin
+  /artikel/venue-perancangan
+  /sitemap.xml
+
+==== 23 files, 0 failure(s), mode=commit ====

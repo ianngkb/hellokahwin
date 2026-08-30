@@ -1,0 +1,30 @@
+
+== ship-check: PLAT-06 in C:/Users/IANNG~1/AppData/Local/Temp/claude/C--Users-Ian-Ng-Documents-Code-buddy/cec124fe-e251-44a1-b6d7-10fcc990bb4e/scratchpad/plat06/work ==
+
+  ✓ pass  fetched origin — the refs below are current
+  ·       default branch: origin/main
+  ·       branch under test: feat/plat-06-spaces
+  ·       merge style on origin/main: 0 squash-shaped '(#NN)' commits, 0 'Merge pull request' commits
+  ✓ pass  working tree clean (git status --porcelain is empty)
+  ✗ FAIL  6 unpushed commit(s) on feat/plat-06-spaces — present here, absent from origin/feat/plat-06-spaces:
+            d81d0a7 PLAT-06: page tree, breadcrumbs, Referenced by (6/6)
+            864d5d8 PLAT-06: page tree, breadcrumbs, Referenced by (5/6)
+            e8afdf3 PLAT-06: page tree, breadcrumbs, Referenced by (4/6)
+            99dd084 PLAT-06: page tree, breadcrumbs, Referenced by (3/6)
+            dd57df7 PLAT-06: page tree, breadcrumbs, Referenced by (2/6)
+            0e6a2fd PLAT-06: page tree, breadcrumbs, Referenced by (1/6)
+  ·       7 commit(s) ahead of origin/main — CONTEXT ONLY, not evidence either way. A squash-merged branch is ahead forever.
+
+  -- positive evidence on origin/main --
+  ✗ FAIL  origin/main:spaces.ts DOES NOT EXIST. This file was named as something the work added; it is not on the default branch.
+  ·       no commit on origin/main mentions 'PLAT-06' (weak signal on its own — commit messages are a convention, not a guarantee)
+  ·       gh found no merged PR matching 'PLAT-06' (it may have shipped without one)
+  ✗ FAIL  NO POSITIVE EVIDENCE OF ANY KIND. Nothing shows this item's content on origin/main. Pass --path <a file the work added> and re-run. Not proven is not the same as proven false, and neither one is 'done'.
+
+  -- the user-visible surface, as asserted by the operator --
+  ·       buddy.ian.ng/docs shows the page tree and breadcrumbs
+  ·       This script did not verify that sentence and cannot. On an auth-gated app a status code proves nothing: /sprints, /docs and /definitely-not-a-real-route all return the same 307. Quote content only the real page contains, and show a negative control that lacks it.
+
+== REFUSED: PLAT-06 is NOT proven shipped. 3 check(s) failed. ==
+   Do not run `sprint set-state PLAT-06 done`. Fix what failed, then re-run this.
+

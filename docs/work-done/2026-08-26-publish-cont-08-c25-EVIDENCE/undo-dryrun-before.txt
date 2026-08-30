@@ -1,0 +1,4 @@
+BEFORE  articles=61 media=884 inspire_tags=76
+would delete: 0 articles (none), 0 media rows, up to 14 tags
+
+DRY RUN — pass --yes-really to delete.

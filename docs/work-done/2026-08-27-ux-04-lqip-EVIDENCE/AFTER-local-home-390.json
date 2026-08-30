@@ -1,0 +1,816 @@
+### AFTER-local-home-390 :: http://localhost:3287/ :: mode=warm :: vp={"width":390,"height":844}
+{
+  "ttfbMs": 6,
+  "domContentLoadedMs": 14,
+  "loadMs": 27,
+  "htmlTransferBytes": 300,
+  "htmlEncodedBytes": 11683,
+  "fcpMs": 52,
+  "fpMs": 52,
+  "resources": {
+    "img": {
+      "count": 15,
+      "transferBytes": 300,
+      "encodedBytes": 769,
+      "decodedBytes": 769,
+      "files": [
+        {
+          "url": "/favicon.png",
+          "transfer": 300,
+          "encoded": 769,
+          "decoded": 769,
+          "durMs": 2
+        },
+        {
+          "url": "local://gubahan-dulang-hantaran-2026/images/01-dulang-hantaran.jpg",
+          "transfer": 0,
+          "encoded": 0,
+          "decoded": 0,
+          "durMs": 0
+        },
+        {
+          "url": "https://images.hellokahwin.com/inspire/hadiah-untuk-pengantin/1787395639270-cover/crop-4x3-article-card.webp?v=0.0733_0.1706-g48c0b959",
+          "transfer": 0,
+          "encoded": 0,
+          "decoded": 0,
+          "durMs": 0
+        },
+        {
+          "url": "https://images.hellokahwin.com/inspire/tempat-honeymoon-di-malaysia/1787395659226-cover/crop-4x3-article-card.webp?v=0.3750_0.7440-g48c0b959",
+          "transfer": 0,
+          "encoded": 0,
+          "decoded": 0,
+          "durMs": 0
+        },
+        {
+          "url": "local://gubahan-dulang-hantaran-2026/images/01-dulang-hantaran.jpg",
+          "transfer": 0,
+          "encoded": 0,
+          "decoded": 0,
+          "durMs": 0
+        },
+        {
+          "url": "local://gubahan-dulang-hantaran-2026/images/01-dulang-hantaran.jpg",
+          "transfer": 0,
+          "encoded": 0,
+          "decoded": 0,
+          "durMs": 0
+        },
+        {
+          "url": "https://images.hellokahwin.com/inspire/wedding-planner-terbaik-di-malaysia/1787395692821-cover/crop-4x3-article-card.webp?v=0.7813_0.4992-g48c0b959",
+          "transfer": 0,
+          "encoded": 0,
+          "decoded": 0,
+          "durMs": 0
+        },
+        {
+          "url": "https://images.hellokahwin.com/inspire/goodies-kahwin/1787395718040-cover/crop-4x3-article-card.webp?v=0.3733_0.1860-g48c0b959",
+          "transfer": 0,
+          "encoded": 0,
+          "decoded": 0,
+          "durMs": 0
+        },
+        {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-tunang/1787395743620-cover/crop-4x3-article-card.webp?v=0.1868_0.8516-g48c0b959",
+          "transfer": 0,
+          "encoded": 0,
+          "decoded": 0,
+          "durMs": 0
+        },
+        {
+          "url": "https://images.hellokahwin.com/inspire/perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan/1787395766407-cover/crop-4x3-article-card.webp?v=0.5001_0.8458-g48c0b959",
+          "transfer": 0,
+          "encoded": 0,
+          "decoded": 0,
+          "durMs": 0
+        },
+        {
+          "url": "https://images.hellokahwin.com/inspire/jw-marriott-kuala-lumpur/1787395895924-cover/crop-4x3-article-card.webp?v=0.3734_0.7738-g48c0b959",
+          "transfer": 0,
+          "encoded": 0,
+          "decoded": 0,
+          "durMs": 0
+        },
+        {
+          "url": "https://images.hellokahwin.com/inspire/perkahwinan-taman-kebun-yang-minimalis-di-hulu-langat/1787395973700-cover/crop-4x3-article-card.webp?v=0.5934_0.1500-g48c0b959",
+          "transfer": 0,
+          "encoded": 0,
+          "decoded": 0,
+          "durMs": 0
+        },
+        {
+          "url": "https://images.hellokahwin.com/inspire/perkahwinan-indah-di-laman-fajar-menyinsing-port-dickson/1787396030245-cover/crop-4x3-article-card.webp?v=0.5001_0.3719-g48c0b959",
+          "transfer": 0,
+          "encoded": 0,
+          "decoded": 0,
+          "durMs": 0
+        },
+        {
+          "url": "https://images.hellokahwin.com/inspire/perkahwinan-romantis-di-jen-shangri-la-puteri-harbour/1787396127546-cover/crop-4x3-article-card.webp?v=0.2494_0.5894-g48c0b959",
+          "transfer": 0,
+          "encoded": 0,
+          "decoded": 0,
+          "durMs": 0
+        },
+        {
+          "url": "local://gubahan-dulang-hantaran-2026/images/01-dulang-hantaran.jpg",
+          "transfer": 0,
+          "encoded": 0,
+          "decoded": 0,
+          "durMs": 0
+        }
+      ]
+    },
+    "css": {
+      "count": 1,
+      "transferBytes": 0,
+      "encodedBytes": 25186,
+      "decodedBytes": 138937,
+      "files": [
+        {
+          "url": "/_next/static/chunks/bd2660a67ad32a5f.css",
+          "transfer": 0,
+          "encoded": 25186,
+          "decoded": 138937,
+          "durMs": 0
+        }
+      ]
+    },
+    "js": {
+      "count": 14,
+      "transferBytes": 0,
+      "encodedBytes": 161314,
+      "decodedBytes": 531366,
+      "files": [
+        {
+          "url": "/_next/static/chunks/f43f9ade0fb08333.js",
+          "transfer": 0,
+          "encoded": 63653,
+          "decoded": 202015,
+          "durMs": 0
+        },
+        {
+          "url": "/_next/static/chunks/bf3f9027fdb27d86.js",
+          "transfer": 0,
+          "encoded": 22874,
+          "decoded": 84826,
+          "durMs": 0
+        },
+        {
+          "url": "/_next/static/chunks/bf7f92268f2236dc.js",
+          "transfer": 0,
+          "encoded": 12121,
+          "decoded": 38722,
+          "durMs": 0
+        },
+        {
+          "url": "/_next/static/chunks/370f5fe096c75dbe.js",
+          "transfer": 0,
+          "encoded": 11065,
+          "decoded": 41101,
+          "durMs": 0
+        },
+        {
+          "url": "/_next/static/chunks/fd12c992f3d4eb43.js",
+          "transfer": 0,
+          "encoded": 10800,
+          "decoded": 29997,
+          "durMs": 0
+        },
+        {
+          "url": "/_next/static/chunks/939b826e656fef53.js",
+          "transfer": 0,
+          "encoded": 8638,
+          "decoded": 27555,
+          "durMs": 0
+        },
+        {
+          "url": "/_next/static/chunks/15280248b9342101.js",
+          "transfer": 0,
+          "encoded": 7484,
+          "decoded": 30779,
+          "durMs": 0
+        },
+        {
+          "url": "/_next/static/chunks/ca7038941adadd71.js",
+          "transfer": 0,
+          "encoded": 7338,
+          "decoded": 33792,
+          "durMs": 0
+        },
+        {
+          "url": "/_next/static/chunks/59f01bd0a8b2738f.js",
+          "transfer": 0,
+          "encoded": 5376,
+          "decoded": 14133,
+          "durMs": 0
+        },
+        {
+          "url": "/_next/static/chunks/177432e967d3e654.js",
+          "transfer": 0,
+          "encoded": 5336,
+          "decoded": 14326,
+          "durMs": 0
+        },
+        {
+          "url": "/_next/static/chunks/turbopack-54d990d1f8865b6e.js",
+          "transfer": 0,
+          "encoded": 4033,
+          "decoded": 10269,
+          "durMs": 0
+        },
+        {
+          "url": "/_next/static/chunks/a79e5344c1f9c53f.js",
+          "transfer": 0,
+          "encoded": 1138,
+          "decoded": 2393,
+          "durMs": 0
+        },
+        {
+          "url": "/_next/static/chunks/ec94f037c9dba929.js",
+          "transfer": 0,
+          "encoded": 770,
+          "decoded": 770,
+          "durMs": 0
+        },
+        {
+          "url": "/_next/static/chunks/393e2623a55124f3.js",
+          "transfer": 0,
+          "encoded": 688,
+          "decoded": 688,
+          "durMs": 0
+        }
+      ]
+    },
+    "other": {
+      "count": 48,
+      "transferBytes": 58873,
+      "encodedBytes": 96469,
+      "decodedBytes": 399420,
+      "files": [
+        {
+          "url": "/artikel/idea-dan-nasihat/tempat-honeymoon-di-malaysia?_rsc=1yjlp",
+          "transfer": 0,
+          "encoded": 17164,
+          "decoded": 75735,
+          "durMs": 0
+        },
+        {
+          "url": "/artikel/idea-dan-nasihat/tempat-honeymoon-di-malaysia?_rsc=1yjlp",
+          "transfer": 17464,
+          "encoded": 17164,
+          "decoded": 75735,
+          "durMs": 53
+        },
+        {
+          "url": "/artikel/idea-dan-nasihat/hadiah-untuk-pengantin?_rsc=1yjlp",
+          "transfer": 0,
+          "encoded": 9156,
+          "decoded": 42385,
+          "durMs": 16
+        },
+        {
+          "url": "/artikel/idea-dan-nasihat/hadiah-untuk-pengantin?_rsc=1yjlp",
+          "transfer": 9456,
+          "encoded": 9156,
+          "decoded": 42385,
+          "durMs": 37
+        },
+        {
+          "url": "/artikel/hantaran-mas-kahwin/gubahan-dulang-hantaran-2026?_rsc=1yjlp",
+          "transfer": 0,
+          "encoded": 5534,
+          "decoded": 26362,
+          "durMs": 1
+        },
+        {
+          "url": "/artikel/hantaran-mas-kahwin/gubahan-dulang-hantaran-2026?_rsc=1yjlp",
+          "transfer": 5834,
+          "encoded": 5534,
+          "decoded": 26362,
+          "durMs": 27
+        },
+        {
+          "url": "/?_rsc=efdse",
+          "transfer": 0,
+          "encoded": 4849,
+          "decoded": 24772,
+          "durMs": 1
+        },
+        {
+          "url": "/?_rsc=efdse",
+          "transfer": 5149,
+          "encoded": 4849,
+          "decoded": 24772,
+          "durMs": 29
+        },
+        {
+          "url": "/artikel/idea-dan-nasihat/tempat-honeymoon-di-malaysia?_rsc=1jqh5",
+          "transfer": 0,
+          "encoded": 1522,
+          "decoded": 4448,
+          "durMs": 1
+        },
+        {
+          "url": "/artikel/idea-dan-nasihat/tempat-honeymoon-di-malaysia?_rsc=1jqh5",
+          "transfer": 1822,
+          "encoded": 1522,
+          "decoded": 4448,
+          "durMs": 18
+        },
+        {
+          "url": "/artikel/idea-dan-nasihat/tempat-honeymoon-di-malaysia?_rsc=1pn8p",
+          "transfer": 0,
+          "encoded": 1051,
+          "decoded": 3453,
+          "durMs": 1
+        },
+        {
+          "url": "/artikel/idea-dan-nasihat/tempat-honeymoon-di-malaysia?_rsc=1pn8p",
+          "transfer": 1351,
+          "encoded": 1051,
+          "decoded": 3453,
+          "durMs": 18
+        },
+        {
+          "url": "/artikel/idea-dan-nasihat/hadiah-untuk-pengantin?_rsc=1pn8p",
+          "transfer": 0,
+          "encoded": 1049,
+          "decoded": 3428,
+          "durMs": 1
+        },
+        {
+          "url": "/artikel/idea-dan-nasihat/hadiah-untuk-pengantin?_rsc=1pn8p",
+          "transfer": 1349,
+          "encoded": 1049,
+          "decoded": 3428,
+          "durMs": 51
+        },
+        {
+          "url": "/artikel/hantaran-mas-kahwin/gubahan-dulang-hantaran-2026?_rsc=1pn8p",
+          "transfer": 0,
+          "encoded": 989,
+          "decoded": 3391,
+          "durMs": 20
+        },
+        {
+          "url": "/artikel/hantaran-mas-kahwin/gubahan-dulang-hantaran-2026?_rsc=1pn8p",
+          "transfer": 1289,
+          "encoded": 989,
+          "decoded": 3391,
+          "durMs": 42
+        },
+        {
+          "url": "/artikel/perancangan?_rsc=p37cr",
+          "transfer": 1233,
+          "encoded": 933,
+          "decoded": 2211,
+          "durMs": 51
+        },
+        {
+          "url": "/artikel/hantaran-mas-kahwin?_rsc=p37cr",
+          "transfer": 1232,
+          "encoded": 932,
+          "decoded": 2223,
+          "durMs": 32
+        },
+        {
+          "url": "/artikel/idea-dan-nasihat?_rsc=p37cr",
+          "transfer": 1228,
+          "encoded": 928,
+          "decoded": 2187,
+          "durMs": 39
+        },
+        {
+          "url": "/artikel/real-wedding?_rsc=p37cr",
+          "transfer": 1223,
+          "encoded": 923,
+          "decoded": 2155,
+          "durMs": 51
+        },
+        {
+          "url": "/artikel/idea-dan-nasihat/tempat-honeymoon-di-malaysia?_rsc=nn07o",
+          "transfer": 0,
+          "encoded": 823,
+          "decoded": 1881,
+          "durMs": 2
+        },
+        {
+          "url": "/artikel/idea-dan-nasihat/tempat-honeymoon-di-malaysia?_rsc=nn07o",
+          "transfer": 1123,
+          "encoded": 823,
+          "decoded": 1881,
+          "durMs": 18
+        },
+        {
+          "url": "/?_rsc=1pn8p",
+          "transfer": 0,
+          "encoded": 700,
+          "decoded": 1930,
+          "durMs": 0
+        },
+        {
+          "url": "/?_rsc=1pn8p",
+          "transfer": 1000,
+          "encoded": 700,
+          "decoded": 1930,
+          "durMs": 26
+        },
+        {
+          "url": "/artikel/idea-dan-nasihat/tempat-honeymoon-di-malaysia?_rsc=1r34m",
+          "transfer": 0,
+          "encoded": 470,
+          "decoded": 1305,
+          "durMs": 0
+        },
+        {
+          "url": "/artikel/idea-dan-nasihat/tempat-honeymoon-di-malaysia?_rsc=1r34m",
+          "transfer": 770,
+          "encoded": 470,
+          "decoded": 1305,
+          "durMs": 17
+        },
+        {
+          "url": "/artikel/idea-dan-nasihat/hadiah-untuk-pengantin?_rsc=1r34m",
+          "transfer": 0,
+          "encoded": 467,
+          "decoded": 1287,
+          "durMs": 1
+        },
+        {
+          "url": "/artikel/idea-dan-nasihat/hadiah-untuk-pengantin?_rsc=1r34m",
+          "transfer": 767,
+          "encoded": 467,
+          "decoded": 1287,
+          "durMs": 17
+        },
+        {
+          "url": "/artikel/hantaran-mas-kahwin/gubahan-dulang-hantaran-2026?_rsc=1r34m",
+          "transfer": 0,
+          "encoded": 379,
+          "decoded": 1023,
+          "durMs": 1
+        },
+        {
+          "url": "/artikel/hantaran-mas-kahwin/gubahan-dulang-hantaran-2026?_rsc=1r34m",
+          "transfer": 679,
+          "encoded": 379,
+          "decoded": 1023,
+          "durMs": 18
+        },
+        {
+          "url": "/artikel/idea-dan-nasihat/tempat-honeymoon-di-malaysia?_rsc=ukkfj",
+          "transfer": 0,
+          "encoded": 266,
+          "decoded": 434,
+          "durMs": 1
+        },
+        {
+          "url": "/artikel/idea-dan-nasihat/tempat-honeymoon-di-malaysia?_rsc=ouamj",
+          "transfer": 0,
+          "encoded": 266,
+          "decoded": 434,
+          "durMs": 0
+        },
+        {
+          "url": "/artikel/idea-dan-nasihat/tempat-honeymoon-di-malaysia?_rsc=1609f",
+          "transfer": 0,
+          "encoded": 266,
+          "decoded": 434,
+          "durMs": 0
+        },
+        {
+          "url": "/artikel/idea-dan-nasihat/hadiah-untuk-pengantin?_rsc=1609f",
+          "transfer": 0,
+          "encoded": 266,
+          "decoded": 434,
+          "durMs": 1
+        },
+        {
+          "url": "/artikel/idea-dan-nasihat/tempat-honeymoon-di-malaysia?_rsc=ukkfj",
+          "transfer": 566,
+          "encoded": 266,
+          "decoded": 434,
+          "durMs": 37
+        },
+        {
+          "url": "/artikel/idea-dan-nasihat/tempat-honeymoon-di-malaysia?_rsc=1609f",
+          "transfer": 566,
+          "encoded": 266,
+          "decoded": 434,
+          "durMs": 38
+        },
+        {
+          "url": "/artikel/idea-dan-nasihat/tempat-honeymoon-di-malaysia?_rsc=ouamj",
+          "transfer": 566,
+          "encoded": 266,
+          "decoded": 434,
+          "durMs": 38
+        },
+        {
+          "url": "/artikel/idea-dan-nasihat/hadiah-untuk-pengantin?_rsc=1609f",
+          "transfer": 566,
+          "encoded": 266,
+          "decoded": 434,
+          "durMs": 51
+        },
+        {
+          "url": "/artikel/hantaran-mas-kahwin/gubahan-dulang-hantaran-2026?_rsc=ouamj",
+          "transfer": 0,
+          "encoded": 266,
+          "decoded": 434,
+          "durMs": 14
+        },
+        {
+          "url": "/artikel/hantaran-mas-kahwin/gubahan-dulang-hantaran-2026?_rsc=1609f",
+          "transfer": 0,
+          "encoded": 266,
+          "decoded": 434,
+          "durMs": 14
+        },
+        {
+          "url": "/artikel/hantaran-mas-kahwin/gubahan-dulang-hantaran-2026?_rsc=ouamj",
+          "transfer": 566,
+          "encoded": 266,
+          "decoded": 434,
+          "durMs": 26
+        },
+        {
+          "url": "/artikel/hantaran-mas-kahwin/gubahan-dulang-hantaran-2026?_rsc=1609f",
+          "transfer": 566,
+          "encoded": 266,
+          "decoded": 434,
+          "durMs": 26
+        },
+        {
+          "url": "/?_rsc=1r34m",
+          "transfer": 0,
+          "encoded": 247,
+          "decoded": 477,
+          "durMs": 1
+        },
+        {
+          "url": "/?_rsc=1r34m",
+          "transfer": 547,
+          "encoded": 247,
+          "decoded": 477,
+          "durMs": 18
+        },
+        {
+          "url": "/artikel/hantaran-mas-kahwin?_rsc=1r34m",
+          "transfer": 494,
+          "encoded": 194,
+          "decoded": 425,
+          "durMs": 15
+        },
+        {
+          "url": "/artikel/idea-dan-nasihat?_rsc=1r34m",
+          "transfer": 491,
+          "encoded": 191,
+          "decoded": 422,
+          "durMs": 19
+        },
+        {
+          "url": "/artikel/perancangan?_rsc=1r34m",
+          "transfer": 488,
+          "encoded": 188,
+          "decoded": 417,
+          "durMs": 19
+        },
+        {
+          "url": "/artikel/real-wedding?_rsc=1r34m",
+          "transfer": 488,
+          "encoded": 188,
+          "decoded": 418,
+          "durMs": 17
+        }
+      ]
+    }
+  },
+  "images": [
+    {
+      "src": "local://gubahan-dulang-hantaran-2026/./images/01-dulang-hantaran.jpg",
+      "loading": null,
+      "fetchpriority": null,
+      "naturalWidth": 0,
+      "naturalHeight": 0,
+      "complete": true,
+      "hasBlurPlaceholder": false,
+      "backgroundImageHead": "none",
+      "plateBg": "lab(94.7924 0.079751 1.13992)",
+      "plateClass": "bg-muted relative aspect-[4/3] w-full overflow-hidden sm:aspect-[16/9] lg:aspect",
+      "rect": {
+        "top": 126,
+        "w": 390,
+        "h": 293
+      }
+    },
+    {
+      "src": "https://images.hellokahwin.com/inspire/hadiah-untuk-pengantin/1787395639270-cover/crop-4x3-article-card.webp?v=0.0733_0.",
+      "loading": null,
+      "fetchpriority": null,
+      "naturalWidth": 907,
+      "naturalHeight": 680,
+      "complete": true,
+      "hasBlurPlaceholder": false,
+      "backgroundImageHead": "none",
+      "plateBg": "lab(94.7924 0.079751 1.13992)",
+      "plateClass": "bg-muted relative aspect-[4/3] overflow-hidden",
+      "rect": {
+        "top": 811,
+        "w": 171,
+        "h": 128
+      }
+    },
+    {
+      "src": "https://images.hellokahwin.com/inspire/tempat-honeymoon-di-malaysia/1787395659226-cover/crop-4x3-article-card.webp?v=0.3",
+      "loading": null,
+      "fetchpriority": null,
+      "naturalWidth": 1600,
+      "naturalHeight": 1200,
+      "complete": true,
+      "hasBlurPlaceholder": false,
+      "backgroundImageHead": "none",
+      "plateBg": "lab(94.7924 0.079751 1.13992)",
+      "plateClass": "bg-muted relative aspect-[4/3] overflow-hidden",
+      "rect": {
+        "top": 811,
+        "w": 171,
+        "h": 128
+      }
+    },
+    {
+      "src": "https://images.hellokahwin.com/inspire/wedding-planner-terbaik-di-malaysia/1787395692821-cover/crop-4x3-article-card.web",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "naturalWidth": 667,
+      "naturalHeight": 500,
+      "complete": true,
+      "hasBlurPlaceholder": false,
+      "backgroundImageHead": "none",
+      "plateBg": "lab(94.7924 0.079751 1.13992)",
+      "plateClass": "bg-muted relative aspect-[4/3] overflow-hidden",
+      "rect": {
+        "top": 1077,
+        "w": 171,
+        "h": 128
+      }
+    },
+    {
+      "src": "https://images.hellokahwin.com/inspire/goodies-kahwin/1787395718040-cover/crop-4x3-article-card.webp?v=0.3733_0.1860-g48",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "naturalWidth": 1365,
+      "naturalHeight": 1024,
+      "complete": true,
+      "hasBlurPlaceholder": false,
+      "backgroundImageHead": "none",
+      "plateBg": "lab(94.7924 0.079751 1.13992)",
+      "plateClass": "bg-muted relative aspect-[4/3] overflow-hidden",
+      "rect": {
+        "top": 1077,
+        "w": 171,
+        "h": 128
+      }
+    },
+    {
+      "src": "https://images.hellokahwin.com/inspire/hantaran-tunang/1787395743620-cover/crop-4x3-article-card.webp?v=0.1868_0.8516-g4",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "naturalWidth": 889,
+      "naturalHeight": 667,
+      "complete": true,
+      "hasBlurPlaceholder": false,
+      "backgroundImageHead": "none",
+      "plateBg": "lab(94.7924 0.079751 1.13992)",
+      "plateClass": "bg-muted relative aspect-[4/3] overflow-hidden",
+      "rect": {
+        "top": 1343,
+        "w": 171,
+        "h": 128
+      }
+    },
+    {
+      "src": "https://images.hellokahwin.com/inspire/perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan/17873957",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "naturalWidth": 1600,
+      "naturalHeight": 1200,
+      "complete": true,
+      "hasBlurPlaceholder": false,
+      "backgroundImageHead": "none",
+      "plateBg": "lab(94.7924 0.079751 1.13992)",
+      "plateClass": "bg-muted relative aspect-[4/3] overflow-hidden",
+      "rect": {
+        "top": 1343,
+        "w": 171,
+        "h": 128
+      }
+    },
+    {
+      "src": "https://images.hellokahwin.com/inspire/jw-marriott-kuala-lumpur/1787395895924-cover/crop-4x3-article-card.webp?v=0.3734_",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "naturalWidth": 1600,
+      "naturalHeight": 1200,
+      "complete": true,
+      "hasBlurPlaceholder": false,
+      "backgroundImageHead": "none",
+      "plateBg": "lab(94.7924 0.079751 1.13992)",
+      "plateClass": "bg-muted relative aspect-[4/3] overflow-hidden",
+      "rect": {
+        "top": 1609,
+        "w": 171,
+        "h": 128
+      }
+    },
+    {
+      "src": "https://images.hellokahwin.com/inspire/perkahwinan-taman-kebun-yang-minimalis-di-hulu-langat/1787395973700-cover/crop-4x",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "naturalWidth": 1600,
+      "naturalHeight": 1200,
+      "complete": true,
+      "hasBlurPlaceholder": false,
+      "backgroundImageHead": "none",
+      "plateBg": "lab(94.7924 0.079751 1.13992)",
+      "plateClass": "bg-muted relative aspect-[4/3] overflow-hidden",
+      "rect": {
+        "top": 1609,
+        "w": 171,
+        "h": 128
+      }
+    },
+    {
+      "src": "https://images.hellokahwin.com/inspire/perkahwinan-indah-di-laman-fajar-menyinsing-port-dickson/1787396030245-cover/crop",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "naturalWidth": 1600,
+      "naturalHeight": 1200,
+      "complete": true,
+      "hasBlurPlaceholder": false,
+      "backgroundImageHead": "none",
+      "plateBg": "lab(94.7924 0.079751 1.13992)",
+      "plateClass": "bg-muted relative aspect-[4/3] overflow-hidden",
+      "rect": {
+        "top": 1875,
+        "w": 171,
+        "h": 128
+      }
+    },
+    {
+      "src": "https://images.hellokahwin.com/inspire/perkahwinan-romantis-di-jen-shangri-la-puteri-harbour/1787396127546-cover/crop-4x",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "naturalWidth": 908,
+      "naturalHeight": 681,
+      "complete": true,
+      "hasBlurPlaceholder": false,
+      "backgroundImageHead": "none",
+      "plateBg": "lab(94.7924 0.079751 1.13992)",
+      "plateClass": "bg-muted relative aspect-[4/3] overflow-hidden",
+      "rect": {
+        "top": 1875,
+        "w": 171,
+        "h": 128
+      }
+    },
+    {
+      "src": "https://images.hellokahwin.com/inspire/yasaka-shrine/1787396198396-cover/crop-4x3-article-card.webp?v=0.5313_0.6208-g48c",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "naturalWidth": 0,
+      "naturalHeight": 0,
+      "complete": false,
+      "hasBlurPlaceholder": true,
+      "backgroundImageHead": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://w",
+      "plateBg": "lab(94.7924 0.079751 1.13992)",
+      "plateClass": "bg-muted relative aspect-[4/3] overflow-hidden",
+      "rect": {
+        "top": 2141,
+        "w": 171,
+        "h": 128
+      }
+    },
+    {
+      "src": "https://images.hellokahwin.com/inspire/amankila-bali/1787396256716-cover/crop-4x3-article-card.webp?v=0.4673_0.5872-g48c",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "naturalWidth": 0,
+      "naturalHeight": 0,
+      "complete": false,
+      "hasBlurPlaceholder": true,
+      "backgroundImageHead": "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://w",
+      "plateBg": "lab(94.7924 0.079751 1.13992)",
+      "plateClass": "bg-muted relative aspect-[4/3] overflow-hidden",
+      "rect": {
+        "top": 2141,
+        "w": 171,
+        "h": 128
+      }
+    }
+  ],
+  "imgCount": 13,
+  "imgsWithBlur": 2,
+  "imgsLazy": 10
+}

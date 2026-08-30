@@ -1,0 +1,11 @@
+run  cache        age   ttfb  docEnd    fcp   jsEnc  url
+  0 HIT             12     14     110    264  166414  /artikel/hantaran-mas-kahwin/duit-hantaran-kahwin
+  1 HIT             18     14      92    192  166414  /artikel/hantaran-mas-kahwin/duit-hantaran-kahwin
+  2 HIT             19     15      90    172  166414  /artikel/hantaran-mas-kahwin/duit-hantaran-kahwin
+  3 HIT             21     13      90    224  166414  /artikel/hantaran-mas-kahwin/duit-hantaran-kahwin
+  4 HIT             22     16     481    592  166414  /artikel/hantaran-mas-kahwin/duit-hantaran-kahwin
+  0 PRERENDER        0     26     609    684  166414  /
+  1 HIT              2     14      97    184  166414  /
+  2 HIT              4     14      95    172  166414  /
+  3 HIT              5     14      87    172  166414  /
+  4 HIT              7     15     343    452  166414  /

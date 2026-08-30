@@ -1,0 +1,11 @@
+BLUR  mobile-cover  crop-4x3-article-card.webp                   Duit hantaran kahwin: beza dengan mas ka
+BLUR  other         crop-4.3x1-desktop-hero.webp                 Duit hantaran kahwin: beza dengan mas ka
+FLAT  figure        high.webp                                    Pengantin lelaki berbaju melayu putih da
+FLAT  figure        high.webp                                    Tok kadi berbaju melayu, seorang lelaki 
+BLUR  article       crop-4x3-article-card.webp                   Hantaran wajib atau adat: mana yang bole
+BLUR  article       crop-4x3-article-card.webp                   Adat hantaran berbeza negeri: bila dua k
+BLUR  article       crop-4x3-article-card.webp                   Cara tetapkan jumlah duit hantaran tanpa
+BLUR  article       crop-4x3-article-card.webp                   Bilangan dulang hantaran ganjil: adat, a
+BLUR  article       crop-4x3-article-card.webp                   Hantaran tunang 3 balas 5: apa yang diba
+BLUR  article       crop-4x3-article-card.webp                   Hantaran kahwin 5 balas 7: isi dua belas
+FLAT  other         low.webp                                     (no alt)

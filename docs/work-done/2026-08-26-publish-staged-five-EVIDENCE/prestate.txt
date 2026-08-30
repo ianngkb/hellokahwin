@@ -1,0 +1,42 @@
+=== PRE-WRITE STATE, production, 2026-08-25T17:51:43.464Z ===
+articles total            56
+articles published        56
+media total               757
+inspire_tags total        65
+jsonb_typeof(content)     [{"t":"object","n":56}]
+
+target slugs already in articles: NONE — all five are new inserts
+
+published per top-level category:
+  busana-pengantin             3   Busana & Penampilan Pengantin
+  hantaran-mas-kahwin          8   Hantaran & Mas Kahwin
+  idea-dan-nasihat            10   Idea dan nasihat
+  nikah-undang-undang          4   Nikah & Undang-undang
+  pelamin-kad-cenderahati      3   Pelamin, Kad & Cenderahati Majlis
+  real-wedding                 6   Real Wedding
+  sebelum-nikah                3   Sebelum Nikah: Jodoh, Merisik & Tunang
+  ucapan-doa                   3   Ucapan, Doa & Adab Majlis
+  uncategorized                0   Uncategorized
+  venue-perancangan            4   Venue, Kos & Perancangan
+
+tag slugs this batch needs — PRE-EXISTING ones must NOT be deleted on undo:
+  WILL BE NEW   dulang-hantaran
+  WILL BE NEW   hantaran
+  WILL BE NEW   gubahan-hantaran
+  WILL BE NEW   persiapan-kahwin
+  PRE-EXISTING  bajet-kahwin
+  WILL BE NEW   sirih-junjung
+  PRE-EXISTING  adat-perkahwinan
+  WILL BE NEW   walimatul-urus
+  PRE-EXISTING  adab-tetamu-majlis
+  PRE-EXISTING  jemputan-kahwin
+  WILL BE NEW   kenduri-kahwin
+  WILL BE NEW   skrip-pengacara-majlis-perkahwinan
+  WILL BE NEW   aturcara-majlis-perkahwinan
+  WILL BE NEW   teks-pengacara-majlis
+  WILL BE NEW   protokol-majlis
+
+new tags this run will create: 11
+
+kursus-kahwin row: id=1c2e96ae-340f-4226-bb32-363da8cbe3d0 shape=object content bytes=23655 updated_at=2026-08-25T09:25:56.828Z
+  snapshot of the exact before-state: .tmp-ops/pub5/kursus.BEFORE.json (26840 bytes)

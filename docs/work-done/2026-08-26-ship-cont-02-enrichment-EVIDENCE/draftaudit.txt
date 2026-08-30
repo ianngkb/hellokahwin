@@ -1,0 +1,45 @@
+published articles      61
+with a draft to compare 33
+drafts read             33  (20 file(s) skipped: not article files)
+
+SLUG                                   LIVE  DRAFT  MISSING  EXTRA
+------------------------------------------------------------------------
+baju-pengantin-sewa-atau-beli          3     3      0        0
+inai-tangan-pengantin                  4     4      0        0
+songket-tenunan-tangan-atau-cetak      5     5      0        0
+apa-itu-mas-kahwin                     4     4      0        0
+dulang-hantaran                        4     4      0        0
+gubahan-hantaran                       4     4      0        0
+mas-kahwin-ikut-negeri                 4     4      0        0
+mas-kahwin-johor                       4     4      0        0
+mas-kahwin-kelantan-terengganu         4     4      0        0
+mas-kahwin-melebihi-kadar-minimum      4     4      0        0
+mas-kahwin-pahang-negeri-sembilan      5     5      0        0
+mas-kahwin-perak                       4     4      0        0
+mas-kahwin-sabah-sarawak               4     4      0        0
+sirih-junjung                          4     4      0        0
+borang-nikah                           4     4      0        0
+lafaz-taklik                           4     4      0        0
+rukun-nikah                            5     5      0        0
+syarat-sah-nikah                       5     5      0        0
+bunga-telur                            3     3      0        0
+contoh-kad-jemputan-kahwin             4     4      0        0
+pelamin                                3     3      0        0
+cincin-tunang                          5     5      0        0
+doa-majlis-pertunangan                 5     5      0        0
+taaruf-maksud                          4     4      0        0
+doa-majlis-perkahwinan                 5     5      0        0
+doa-pengantin-baru                     4     4      0        0
+skrip-pengacara-majlis-perkahwinan     6     6      0        0
+ucapan-pengantin-baru                  5     5      0        0
+walimatul-urus                         6     6      0        0
+bajet-kahwin                           5     5      0        0
+checklist-kahwin                       5     5      0        0
+harga-sewa-dewan-kahwin                5     5      0        0
+pakej-dewan-kahwin                     5     5      0        0
+
+published articles with no draft here: 28 (lokasi-pre-wedding-photoshoot-terbaik, amankila-bali, grand-hyatt-kuala-lumpur, goodies-kahwin, hantaran-kahwin, …)
+drafts with no published article:     0
+
+PASS — every published article serves every image its draft declares.
+exit=0

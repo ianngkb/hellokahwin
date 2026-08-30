@@ -1,0 +1,21 @@
+URL:              https://hellokahwin.com/artikel/hantaran-mas-kahwin
+LABEL:            P2 pillar — REQUEST #1 after the purge
+AT (UTC):         2026-08-25T17:57:08.304Z   (+10s after last write)
+STATUS:           200      HDR x-vercel-cache: REVALIDATED   HDR age: 0
+BODY BYTES:       44463
+ROBOTS META:      (none)
+NOINDEX ANYWHERE IN BODY: false
+PROBE "dulang-hantaran": 3 occurrence(s)
+PROBE "gubahan-hantaran": 2 occurrence(s)
+PROBE "sirih-junjung": 2 occurrence(s)
+
+URL:              https://hellokahwin.com/artikel/ucapan-doa
+LABEL:            P3 pillar — REQUEST #1 after the purge
+AT (UTC):         2026-08-25T17:57:12.869Z   (+14s after last write)
+STATUS:           200      HDR x-vercel-cache: REVALIDATED   HDR age: 0
+BODY BYTES:       39806
+ROBOTS META:      (none)
+NOINDEX ANYWHERE IN BODY: false
+PROBE "walimatul-urus": 2 occurrence(s)
+PROBE "skrip-pengacara-majlis-perkahwinan": 2 occurrence(s)
+

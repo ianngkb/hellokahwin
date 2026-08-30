@@ -1,0 +1,13 @@
+URL:              https://hellokahwin.com/artikel/idea-dan-nasihat/kursus-kahwin
+LABEL:            kursus-kahwin — REQUEST #1 after the swap
+AT (UTC):         2026-08-25T17:58:23.395Z   (+8s after last write)
+STATUS:           200      HDR x-vercel-cache: MISS   HDR age: 0
+BODY BYTES:       144270
+ROBOTS META:      (none)
+NOINDEX ANYWHERE IN BODY: false
+PROBE "Bayaran Yuran": 2 occurrence(s)
+PROBE "RM180": 6 occurrence(s)
+PROBE "1 September 2026": 2 occurrence(s)
+PROBE "KISWA": 4 occurrence(s)
+PROBE "Tiada kadar tersiar": 6 occurrence(s)
+

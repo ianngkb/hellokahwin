@@ -1,0 +1,4 @@
+rendered <img> currentSrc crop : crop-4x3-article-card.webp
+mobile preload crop            : crop-4x3-article-card.webp
+MATCH: true
+distinct COVER crops actually fetched at 390px: ["crop-4x3-article-card.webp","crop-4.3x1-desktop-hero.webp"]

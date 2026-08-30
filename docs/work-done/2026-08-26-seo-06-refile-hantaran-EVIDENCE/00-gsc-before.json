@@ -1,0 +1,27 @@
+{
+  "source": "GSC MCP (mcp__gsc), property https://hellokahwin.com/, queried 2026-08-26 ~14:45 UTC, data_state=all, window 2026-07-29..2026-08-26 (28d)",
+  "pages_report_filter_page_contains_/hantaran-": [
+    {"page": "/artikel/hiasan-dekorasi/hantaran-kahwin", "clicks": 0, "impressions": 4, "position": 6.5},
+    {"page": "/artikel/hiasan-dekorasi/hantaran-tunang", "clicks": 0, "impressions": 58, "position": 10.3},
+    {"page": "/artikel/hantaran-mas-kahwin", "clicks": 0, "impressions": 6, "position": 9.7}
+  ],
+  "page_query_breakdown": {
+    "/artikel/hiasan-dekorasi/hantaran-kahwin": {"totals": {"clicks": 0, "impressions": 1}, "note": "query-level rows exclude anonymised queries, which is why 1 < 4", "rows": [{"query": "hantaran kahwin untuk lelaki", "impressions": 1, "position": 8}]},
+    "/artikel/hiasan-dekorasi/hantaran-tunang": {"totals": {"clicks": 0, "impressions": 21}, "top_rows": [
+      {"query": "dulang hantaran tunang", "impressions": 4, "position": 10.2},
+      {"query": "hantaran tunang untuk perempuan", "impressions": 3, "position": 9},
+      {"query": "hantaran tunang", "impressions": 2, "position": 13.5},
+      {"query": "hantaran tunang lelaki", "impressions": 1, "position": 2},
+      {"query": "hantaran pertunangan dari pihak lelaki", "impressions": 1, "position": 8}
+    ]}
+  },
+  "url_inspection_before": {
+    "/artikel/hiasan-dekorasi/hantaran-kahwin": {"coverage": "Submitted and indexed", "last_crawled": "2026-08-23 06:51", "google_canonical": "self", "referring_urls": ["/artikel/idea-dan-nasihat"], "rich_results": ["Breadcrumbs"]},
+    "/artikel/hiasan-dekorasi/hantaran-tunang": {"coverage": "Submitted and indexed", "last_crawled": "2026-08-23 07:11", "google_canonical": "self", "referring_urls": ["/artikel/idea-dan-nasihat"], "rich_results": ["Breadcrumbs"]}
+  },
+  "url_inspection_after_move_2026-08-26T14:49Z": {
+    "/artikel/hantaran-mas-kahwin/hantaran-kahwin": "URL is unknown to Google",
+    "/artikel/hantaran-mas-kahwin/hantaran-tunang": "Discovered - currently not indexed"
+  },
+  "sitemap_resubmitted": "2026-08-26 14:49 UTC via GSC API, status Pending processing"
+}

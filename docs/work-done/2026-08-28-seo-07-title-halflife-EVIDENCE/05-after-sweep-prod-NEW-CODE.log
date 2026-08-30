@@ -1,0 +1,241 @@
+
+> hellokahwin@0.1.0 audit:titles C:\Users\Ian Ng\orca\workspaces\hellokahwin-site\seo07-title-halflife
+> tsx scripts/audit-rendered-titles.mts "--out" ".\\_bmad-output\\after-titles.json"
+
+# rendered-title sweep
+# base=https://hellokahwin.com urls=103 sequential delay=300ms bust=false
+# started=2026-08-28T03:59:14.015Z
+
+ok     1/103 [200 HIT age=161 104ms] 
+       <title> HelloKahwin — Idea & Panduan Perkahwinan Malaysia | HelloKahwin
+slug   2/103 [200 PRERENDER age=0 557ms] /artikel
+       <title> Artikel | HelloKahwin
+ok     3/103 [200 MISS age=0 958ms] /artikel/idea-dan-nasihat
+       <title> Idea dan nasihat | Inspire | HelloKahwin
+ok     4/103 [200 MISS age=0 353ms] /artikel/hiasan-dekorasi
+       <title> Hiasan & Dekorasi | Inspire | HelloKahwin
+ok     5/103 [200 MISS age=0 560ms] /artikel/real-wedding
+       <title> Real Wedding | Inspire | HelloKahwin
+ok     6/103 [200 MISS age=0 353ms] /artikel/moden-kontemporari
+       <title> Moden Kontemporari | Inspire | HelloKahwin
+ok     7/103 [200 MISS age=0 322ms] /artikel/pantai-santai
+       <title> Pantai Santai | Inspire | HelloKahwin
+ok     8/103 [200 MISS age=0 357ms] /artikel/glamor-eksklusif
+       <title> Glamor Eksklusif | Inspire | HelloKahwin
+ok     9/103 [200 MISS age=0 1087ms] /artikel/fotografi-videografi
+       <title> Fotografi & Videografi | Inspire | HelloKahwin
+ok    10/103 [200 MISS age=0 377ms] /artikel/minimalis-mewah
+       <title> Minimalis Mewah | Inspire | HelloKahwin
+ok    11/103 [200 MISS age=0 346ms] /artikel/nikah-undang-undang
+       <title> Nikah & Undang-undang | Inspire | HelloKahwin
+ok    12/103 [200 MISS age=0 338ms] /artikel/hantaran-mas-kahwin
+       <title> Hantaran & Mas Kahwin | Inspire | HelloKahwin
+ok    13/103 [200 MISS age=0 334ms] /artikel/ucapan-doa
+       <title> Ucapan, Doa & Adab Majlis | Inspire | HelloKahwin
+ok    14/103 [200 MISS age=0 323ms] /artikel/busana-pengantin
+       <title> Busana & Penampilan Pengantin | Inspire | HelloKahwin
+ok    15/103 [200 MISS age=0 314ms] /artikel/pelamin-kad-cenderahati
+       <title> Pelamin, Kad & Cenderahati Majlis | Inspire | HelloKahwin
+ok    16/103 [200 MISS age=0 354ms] /artikel/venue-perancangan
+       <title> Venue, Kos & Perancangan | Inspire | HelloKahwin
+ok    17/103 [200 MISS age=0 332ms] /artikel/sebelum-nikah
+       <title> Sebelum Nikah: Jodoh, Merisik & Tunang | Inspire | HelloKahwin
+slug  18/103 [200 MISS age=0 4880ms] /artikel/hantaran-mas-kahwin/hantaran-tunang
+       <title> Hantaran tunang | HelloKahwin
+ok    19/103 [200 MISS age=0 3011ms] /artikel/busana-pengantin/baju-pengantin-sewa-atau-beli
+       <title> Baju pengantin: sewa atau beli, dan kos sebenar 2026 | HelloKahwin
+ok    20/103 [200 MISS age=0 3032ms] /artikel/glamor-eksklusif/amankila-bali
+       <title> Majlis Perkahwinan Mewah dan Berkonsep Organik di Amankila, Bali | HelloKahwin
+slug  21/103 [200 MISS age=0 6119ms] /artikel/hantaran-mas-kahwin/mas-kahwin-sabah-sarawak
+       <title> Mas kahwin sabah sarawak | HelloKahwin
+ok    22/103 [200 MISS age=0 2998ms] /artikel/venue-perancangan/checklist-kahwin
+       <title> Checklist Kahwin: Senarai Persediaan 12 Bulan Sebelum Majlis, Ikut Urutan | HelloKahwin
+ok    23/103 [200 MISS age=0 2887ms] /artikel/glamor-eksklusif/grand-hyatt-kuala-lumpur
+       <title> Majlis Perkahwinan Putih Bergaya di Grand Hyatt Kuala Lumpur | HelloKahwin
+ok    24/103 [200 MISS age=0 2763ms] /artikel/venue-perancangan/pakej-dewan-kahwin
+       <title> Pakej Dewan Kahwin: Apa yang Termasuk, dan Apa yang Selalu Tak Termasuk | HelloKahwin
+ok    25/103 [200 HIT age=129 55ms] /artikel/ucapan-doa/ucapan-pengantin-baru
+       <title> Ucapan pengantin baru: apa yang ditulis ikut siapa dia | HelloKahwin
+ok    26/103 [200 MISS age=0 2959ms] /artikel/hantaran-mas-kahwin/mas-kahwin-pahang-negeri-sembilan
+       <title> Mas kahwin Pahang dan Negeri Sembilan 2026: kadar rasmi | HelloKahwin
+ok    27/103 [200 MISS age=0 2894ms] /artikel/real-wedding/villa-warisan
+       <title> Villa Warisan: Majlis Perkahwinan Tradisional di Lokasi Bernuansa Kayu dan Penuh Nilai Warisan | HelloKahwin
+ok    28/103 [200 MISS age=0 2879ms] /artikel/moden-kontemporari/marriott-putrajaya
+       <title> Tema Perkahwinan Monokrom yang Bergaya di Marriott Putrajaya | HelloKahwin
+ok    29/103 [200 MISS age=0 3208ms] /artikel/idea-dan-nasihat/cara-buat-kad-kahwin-digital
+       <title> Cara Buat Kad Kahwin Digital Sendiri – Lengkap Dengan Contoh & Template Percuma | HelloKahwin
+ok    30/103 [200 MISS age=0 2945ms] /artikel/ucapan-doa/doa-majlis-perkahwinan
+       <title> Doa majlis perkahwinan: struktur, tempoh dan siapa baca | HelloKahwin
+ok    31/103 [200 MISS age=0 2968ms] /artikel/venue-perancangan/harga-sewa-dewan-kahwin
+       <title> Harga Sewa Dewan Kahwin 2026: Kadar Rasmi Majlis Perbandaran, Bukan Anggaran | HelloKahwin
+ok    32/103 [200 MISS age=0 2998ms] /artikel/real-wedding/cheong-fatt-tze-mansion
+       <title> Perkahwinan Pelbagai Budaya di Cheong Fatt Tze Mansion, Ikon Bersejarah Pulau Pinang | HelloKahwin
+ok    33/103 [200 HIT age=148 59ms] /artikel/real-wedding/sentosa-janda-baik
+       <title> Majlis Perkahwinan Penuh Nilai Budaya di Sentosa, Janda Baik dengan Inspirasi Warisan Diraja | HelloKahwin
+ok    34/103 [200 MISS age=0 3240ms] /artikel/idea-dan-nasihat/pelamin-kahwin-dewan
+       <title> 10 Jenis Venue Dewan Kahwin yang Sesuai untuk Pelamin Gaya Moden | HelloKahwin
+ok    35/103 [200 MISS age=0 2983ms] /artikel/hantaran-mas-kahwin/hantaran-kahwin-5-balas-7
+       <title> Hantaran kahwin 5 balas 7: isi dua belas dulang itu | HelloKahwin
+ok    36/103 [200 MISS age=0 3019ms] /artikel/hantaran-mas-kahwin/nisbah-hantaran
+       <title> Nisbah hantaran: maksud dulang berbalas dan asal usulnya | HelloKahwin
+ok    37/103 [200 MISS age=0 3101ms] /artikel/busana-pengantin/inai-tangan-pengantin
+       <title> Inai tangan pengantin: mana selamat, berapa lama tahan | HelloKahwin
+ok    38/103 [200 MISS age=0 3192ms] /artikel/hantaran-mas-kahwin/hantaran-tunang-3-balas-5
+       <title> Hantaran tunang 3 balas 5: apa yang dibawa dan dibalas | HelloKahwin
+ok    39/103 [200 MISS age=0 2803ms] /artikel/minimalis-mewah/the-danna-langkawi
+       <title> Majlis Perkahwinan Intim Bertemakan Warna Pastel Tropika di The Danna Langkawi | HelloKahwin
+slug  40/103 [200 HIT age=223 55ms] /artikel/hantaran-mas-kahwin/barang-hantaran-perempuan
+       <title> Barang hantaran perempuan | HelloKahwin
+ok    41/103 [200 HIT age=218 49ms] /artikel/hantaran-mas-kahwin/hantaran-tunang-untuk-lelaki
+       <title> Hantaran tunang untuk lelaki: apa yang dibalas dan harganya | HelloKahwin
+ok    42/103 [200 MISS age=0 2917ms] /artikel/hantaran-mas-kahwin/bilangan-dulang-hantaran-ganjil
+       <title> Bilangan dulang hantaran ganjil: adat, atau boleh genap? | HelloKahwin
+ok    43/103 [200 MISS age=0 2958ms] /artikel/hantaran-mas-kahwin/cara-tetapkan-duit-hantaran
+       <title> Cara tetapkan jumlah duit hantaran tanpa jatuh air muka | HelloKahwin
+ok    44/103 [200 MISS age=0 3031ms] /artikel/hantaran-mas-kahwin/duit-hantaran-kahwin
+       <title> Duit hantaran kahwin: beza dengan mas kahwin dan hak siapa | HelloKahwin
+ok    45/103 [200 MISS age=0 3067ms] /artikel/sebelum-nikah/doa-majlis-pertunangan
+       <title> Doa Majlis Pertunangan: Apa yang Sebenarnya Dibaca, dan Apa yang Tidak | HelloKahwin
+ok    46/103 [200 MISS age=0 3081ms] /artikel/idea-dan-nasihat/dewan-kahwin
+       <title> Dewan Kahwin KL & Selangor 2026 Bawah RM5,000 | HelloKahwin
+ok    47/103 [200 HIT age=230 46ms] /artikel/real-wedding/perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan
+       <title> Perkahwinan di Ruma Hotel Kuala Lumpur Dengan Sentuhan Warisan Peranakan | HelloKahwin
+ok    48/103 [200 MISS age=0 3544ms] /artikel/idea-dan-nasihat/tempat-honeymoon-di-malaysia
+       <title> 19 Tempat Honeymoon Terbaik di Malaysia 2026 | HelloKahwin
+ok    49/103 [200 MISS age=0 2798ms] /artikel/moden-kontemporari/jw-marriott-kuala-lumpur
+       <title> Perkahwinan Kontemporari Bertema Chinoiserie di JW Marriott Kuala Lumpur | HelloKahwin
+ok    50/103 [200 MISS age=0 3561ms] /artikel/moden-kontemporari/perkahwinan-romantis-di-jen-shangri-la-puteri-harbour
+       <title> Perkahwinan Romantis di JEN Shangri-La, Puteri Harbour | HelloKahwin
+ok    51/103 [200 MISS age=0 2976ms] /artikel/hantaran-mas-kahwin/hantaran-coklat
+       <title> Hantaran coklat: cara ia tahan sepanjang petang yang panas | HelloKahwin
+ok    52/103 [200 MISS age=0 2974ms] /artikel/hantaran-mas-kahwin/gubahan-hantaran-simple
+       <title> Gubahan hantaran simple tapi cantik: 6 gaya dan harganya | HelloKahwin
+ok    53/103 [200 MISS age=0 2978ms] /artikel/hantaran-mas-kahwin/hantaran-tunang-simple
+       <title> Hantaran tunang simple: contoh lapan dulang dan kosnya | HelloKahwin
+ok    54/103 [200 MISS age=0 2929ms] /artikel/hantaran-mas-kahwin/hantaran-tema-warna
+       <title> Tema warna hantaran: cara padankan tanpa beli dua kali | HelloKahwin
+ok    55/103 [200 MISS age=0 2926ms] /artikel/nikah-undang-undang/lafaz-taklik
+       <title> Lafaz Taklik: Apa Suami Baca Selepas Akad, dan Apa Ertinya | HelloKahwin
+ok    56/103 [200 MISS age=0 2929ms] /artikel/hantaran-mas-kahwin/hantaran-tempah-atau-buat-sendiri
+       <title> Hantaran: tempah atau buat sendiri? Kos sebenar 7 dulang | HelloKahwin
+ok    57/103 [200 MISS age=0 1150ms] /artikel/hantaran-mas-kahwin/hidden-hantaran
+       <title> Hidden hantaran: maksud, sebab ia popular dan cara buat | HelloKahwin
+ok    58/103 [200 MISS age=0 3225ms] /artikel/hantaran-mas-kahwin/gubahan-hantaran
+       <title> Gubahan hantaran: cara susun dan cara baca sebut harga | HelloKahwin
+ok    59/103 [200 MISS age=0 2966ms] /artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri
+       <title> Mas kahwin ikut negeri 2026: RM22.50 ke RM300 | HelloKahwin
+ok    60/103 [200 MISS age=0 2950ms] /artikel/hantaran-mas-kahwin/mas-kahwin-perak
+       <title> Mas kahwin Perak 2026: tiada kadar minimum ditetapkan | HelloKahwin
+ok    61/103 [200 MISS age=0 3097ms] /artikel/idea-dan-nasihat/majlis-kahwin
+       <title> 10 Lokasi Majlis Kahwin yang Popular di Shah Alam | HelloKahwin
+ok    62/103 [200 HIT age=271 45ms] /artikel/busana-pengantin/songket-tenunan-tangan-atau-cetak
+       <title> Kain songket tenunan tangan atau cetak: beza dan harga | HelloKahwin
+ok    63/103 [200 MISS age=0 3150ms] /artikel/pelamin-kad-cenderahati/pelamin
+       <title> Pelamin 2026: jenis, saiz dan apa yang menentukan harga | HelloKahwin
+ok    64/103 [200 MISS age=0 3127ms] /artikel/idea-dan-nasihat/hadiah-untuk-pengantin
+       <title> Hadiah untuk Pengantin Sesuai untuk Semua Bajet – 17 Pilihan | HelloKahwin
+ok    65/103 [200 MISS age=0 3092ms] /artikel/sebelum-nikah/taaruf-maksud
+       <title> Taaruf Maksud: Apa Itu Taaruf dan Apa Bezanya dengan Bercinta | HelloKahwin
+ok    66/103 [200 MISS age=0 2992ms] /artikel/hantaran-mas-kahwin/mas-kahwin-melebihi-kadar-minimum
+       <title> Bolehkah mas kahwin melebihi kadar minimum negeri? | HelloKahwin
+ok    67/103 [200 MISS age=0 2913ms] /artikel/hantaran-mas-kahwin/mas-kahwin-johor
+       <title> Mas kahwin Johor 2026: RM22.50 dan asal usul angkanya | HelloKahwin
+ok    68/103 [200 MISS age=0 2959ms] /artikel/nikah-undang-undang/syarat-sah-nikah
+       <title> Syarat Sah Nikah: Senarai Penuh Ikut Setiap Pihak | HelloKahwin
+ok    69/103 [200 MISS age=0 3082ms] /artikel/ucapan-doa/walimatul-urus
+       <title> Walimatul urus: maksud, hukum dan adab jemputan | HelloKahwin
+ok    70/103 [200 MISS age=0 2939ms] /artikel/hantaran-mas-kahwin/dulang-hantaran
+       <title> Dulang hantaran: jenis, saiz dan kos beli atau sewa | HelloKahwin
+ok    71/103 [200 MISS age=0 2943ms] /artikel/hantaran-mas-kahwin/hantaran-untuk-lelaki
+       <title> Hantaran untuk lelaki: senarai barang dan kos 2026 | HelloKahwin
+ok    72/103 [200 MISS age=0 2908ms] /artikel/hantaran-mas-kahwin/hantaran-kahwin-bajet
+       <title> Hantaran kahwin bajet: kos sebenar 12 dulang, 2026 | HelloKahwin
+ok    73/103 [200 MISS age=0 3310ms] /artikel/ucapan-doa/skrip-pengacara-majlis-perkahwinan
+       <title> Skrip pengacara majlis perkahwinan: susunan dan lafaz | HelloKahwin
+slug  74/103 [200 MISS age=0 5698ms] /artikel/hantaran-mas-kahwin/barang-hantaran-berguna
+       <title> Barang hantaran berguna | HelloKahwin
+ok    75/103 [200 MISS age=0 3277ms] /artikel/hantaran-mas-kahwin/adat-hantaran-ikut-keluarga
+       <title> Adat hantaran ikut keluarga: bila dua senarai berbeza | HelloKahwin
+ok    76/103 [200 MISS age=0 1121ms] /artikel/hantaran-mas-kahwin/berapa-dulang-hantaran-tunang
+       <title> Berapa dulang hantaran tunang, dan siapa yang tentukan | HelloKahwin
+ok    77/103 [200 MISS age=0 1012ms] /artikel/hantaran-mas-kahwin/hantaran-tunang-untuk-perempuan
+       <title> Hantaran tunang untuk perempuan: apa yang dibawa masuk | HelloKahwin
+slug  78/103 [200 MISS age=0 5888ms] /artikel/hantaran-mas-kahwin/tempat-beli-hantaran
+       <title> Tempat beli hantaran | HelloKahwin
+ok    79/103 [200 MISS age=0 3239ms] /artikel/hantaran-mas-kahwin/persiapan-hantaran-kahwin
+       <title> Persiapan hantaran kahwin: jadual lapan minggu | HelloKahwin
+ok    80/103 [200 MISS age=0 3229ms] /artikel/hantaran-mas-kahwin/barang-hantaran-tunang
+       <title> Barang hantaran tunang: disimpan, dipulang atau dibawa ke nikah | HelloKahwin
+ok    81/103 [200 MISS age=0 2991ms] /artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat
+       <title> Hantaran wajib atau adat: mana yang boleh ditolak | HelloKahwin
+ok    82/103 [200 MISS age=0 3009ms] /artikel/hantaran-mas-kahwin/adat-hantaran-berbeza-negeri
+       <title> Adat hantaran berbeza negeri: bila dua keluarga tak sama | HelloKahwin
+ok    83/103 [200 MISS age=0 2949ms] /artikel/hantaran-mas-kahwin/sirih-junjung
+       <title> Sirih junjung: maksud, cara dibuat dan harganya 2026 | HelloKahwin
+ok    84/103 [200 MISS age=0 3161ms] /artikel/pelamin-kad-cenderahati/bunga-telur
+       <title> Bunga telur: maksud, beza dengan bunga pahar, dan kos | HelloKahwin
+ok    85/103 [200 MISS age=0 3149ms] /artikel/pelamin-kad-cenderahati/contoh-kad-jemputan-kahwin
+       <title> Contoh kad jemputan kahwin: susunan, ayat dan silap biasa | HelloKahwin
+ok    86/103 [200 MISS age=0 3137ms] /artikel/sebelum-nikah/cincin-tunang
+       <title> Cincin Tunang, Nikah dan Merisik: Tiga Cincin, Siapa Beri yang Mana | HelloKahwin
+ok    87/103 [200 MISS age=0 3015ms] /artikel/ucapan-doa/doa-pengantin-baru
+       <title> Doa pengantin baru: lafaz penuh, rumi dan maksudnya | HelloKahwin
+ok    88/103 [200 MISS age=0 3016ms] /artikel/venue-perancangan/bajet-kahwin
+       <title> Bajet Kahwin 2026: Apa yang Boleh Diharga Tepat, dan Apa yang Tidak | HelloKahwin
+ok    89/103 [200 MISS age=0 2969ms] /artikel/nikah-undang-undang/rukun-nikah
+       <title> Rukun Nikah: 5 Rukun dan Apa Yang Membatalkannya | HelloKahwin
+ok    90/103 [200 MISS age=0 3177ms] /artikel/nikah-undang-undang/borang-nikah
+       <title> Borang Nikah: Borang Mana, Isi Apa, Hantar Ke Mana | HelloKahwin
+ok    91/103 [200 MISS age=0 2964ms] /artikel/hantaran-mas-kahwin/apa-itu-mas-kahwin
+       <title> Maksud mas kahwin: hak isteri dan beza dengan hantaran | HelloKahwin
+ok    92/103 [200 MISS age=0 2992ms] /artikel/hantaran-mas-kahwin/mas-kahwin-kelantan-terengganu
+       <title> Mas kahwin Kelantan dan Terengganu 2026: tiada kadar tetap | HelloKahwin
+ok    93/103 [200 MISS age=0 3155ms] /artikel/idea-dan-nasihat/wedding-planner-terbaik-di-malaysia
+       <title> 14 Wedding Planner Terbaik di Malaysia Pilihan Pengantin Tahun Ini | HelloKahwin
+ok    94/103 [200 MISS age=0 3214ms] /artikel/hiasan-dekorasi/goodies-kahwin
+       <title> 20+ Idea Goodies Kahwin & Doorgift Murah 2026 | HelloKahwin
+ok    95/103 [200 MISS age=0 3158ms] /artikel/real-wedding/perkahwinan-taman-kebun-yang-minimalis-di-hulu-langat
+       <title> Perkahwinan Taman Kebun yang Minimalis di Hulu Langat | HelloKahwin
+ok    96/103 [200 MISS age=0 3106ms] /artikel/pantai-santai/perkahwinan-indah-di-laman-fajar-menyinsing-port-dickson
+       <title> Perkahwinan Indah di Laman Fajar Menyinsing, Port Dickson | HelloKahwin
+ok    97/103 [200 MISS age=0 2942ms] /artikel/real-wedding/yasaka-shrine
+       <title> Perkahwinan Jepun di Yasaka Shrine & Majlis Resepsi Bertemakan Sakura di Sodoh Higashiyama | HelloKahwin
+ok    98/103 [200 MISS age=0 3499ms] /artikel/idea-dan-nasihat/kursus-kahwin
+       <title> Kursus Kahwin 2026: Syarat, Daftar & Tempat | HelloKahwin
+ok    99/103 [200 MISS age=0 3223ms] /artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik
+       <title> 20 Lokasi Terbaik Pre Wedding Photoshoot di Malaysia – Dari Alam Semula Jadi Hingga Urban City! | HelloKahwin
+ok   100/103 [200 MISS age=0 2969ms] /artikel/hantaran-mas-kahwin/hantaran-kahwin
+       <title> Hantaran Kahwin Lengkap Untuk Lelaki dan Perempuan – Panduan & Tips Bajet Terkini | HelloKahwin
+ok   101/103 [200 MISS age=0 3211ms] /artikel/idea-dan-nasihat/sewa-dewan-kahwin
+       <title> Checklist Sewa Dewan Kahwin: Apa yang Perlu Ditanya Sebelum Bayar Deposit | HelloKahwin
+ok   102/103 [200 MISS age=0 2887ms] /artikel/moden-kontemporari/sime-darby-convention-centre
+       <title> Majlis Perkahwinan Mewah dengan Sentuhan Warna Lembut di Sime Darby Convention Centre | HelloKahwin
+ok   103/103 [200 MISS age=0 3425ms] /artikel/idea-dan-nasihat/garden-wedding
+       <title> 20 Venue Garden Wedding Paling Cantik di Malaysia | HelloKahwin
+
+# ── SUMMARY ────────────────────────────────────────────────
+# finished=2026-08-28T04:04:02.213Z
+# ALL sitemap URLs: 103
+#   article-title : 97
+#   slug-title    : 6   <- degraded: both DB reads missed
+#   site-default  : 0   <- serves NO article title
+#   not-found     : 0
+#   no-title      : 0
+#   error         : 0
+# article pages only: 86
+#   article-title : 81
+#   slug-title    : 5   <- degraded: both DB reads missed
+#   site-default  : 0   <- serves NO article title
+#   not-found     : 0
+#   no-title      : 0
+#   error         : 0
+#
+# degraded to the slug (tier 3 — both DB reads missed their deadline):
+#   https://hellokahwin.com/artikel  <title> Artikel | HelloKahwin
+#   https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang  <title> Hantaran tunang | HelloKahwin
+#   https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-sabah-sarawak  <title> Mas kahwin sabah sarawak | HelloKahwin
+#   https://hellokahwin.com/artikel/hantaran-mas-kahwin/barang-hantaran-perempuan  <title> Barang hantaran perempuan | HelloKahwin
+#   https://hellokahwin.com/artikel/hantaran-mas-kahwin/barang-hantaran-berguna  <title> Barang hantaran berguna | HelloKahwin
+#   https://hellokahwin.com/artikel/hantaran-mas-kahwin/tempat-beli-hantaran  <title> Tempat beli hantaran | HelloKahwin
+#
+# rows written to .\\_bmad-output\\after-titles.json
