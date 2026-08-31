@@ -132,10 +132,16 @@ carries, and the owner's permissions do not cover it.
 | **CONT-15** | 5 | `creative-director` | Portrait covers, 12 of 86. **Substitution route forbidden** (+8.2 MB, priced by UI-12) |
 
 **Why DES-17 is its own line rather than folded into UI-13:** Sprint 04's central
-finding. The parts of DES-03 written as *enforceable rules* (hero eligibility,
-R8a/R8b/R8c) shipped exactly; the parts written as *prose and a drawing* — this
+finding. The parts of DES-03 written as *enforceable rules* (hero eligibility by
+cover class, §5.3) shipped exactly; the parts written as *prose and a drawing* — this
 rule, the rail, the TOC — did not ship at all. Same spec, same author, same sprint.
 **Write it in the form that fires, before anyone tries to build it.**
+
+> **Corrected by DES-17, 01 Sept 2026.** This passage originally read "(hero
+> eligibility, R8a/R8b/R8c)". `grep -c 'R8a' docs/design/des-03-spesifikasi.html`
+> returns **0** — R8a/R8b/R8c are the 31 Aug spec-vs-build audit's labels for the
+> shipped code symbols, not rule ids in DES-03. The finding itself stands; only the
+> example was misattributed.
 
 ### Technical SEO — 8 pt
 
