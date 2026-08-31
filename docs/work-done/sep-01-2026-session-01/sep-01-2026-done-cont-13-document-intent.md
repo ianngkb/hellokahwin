@@ -257,6 +257,30 @@ is a parent topic any live HelloKahwin article targets.
 
 ---
 
+## The doa selamat transcription, checked by diff rather than by eye
+
+`doa-selamat-majlis` reproduces JAKIM's Malay translation in full, and a page
+whose whole value is a complete quoted text has one obvious failure mode:
+transcription drift. So the quote was not proofread, it was diffed.
+
+The article's quoted block was extracted, the PDF's pp. 26-28 were extracted
+independently, both reduced to word sequences, and the two compared:
+
+```
+PDF words: 398   article words: 398
+IDENTICAL word-for-word across pp.26-28
+```
+
+**One character was deliberately changed and it is the only one.** JAKIM's p.27
+reads `kesakitan—sama ada yang nyata mahupun yang tersembunyi`; that em dash is a
+PDF line-break artefact, and it is set as a comma. Nothing else is altered,
+nothing summarised, nothing reordered. The change is disclosed to
+`editorial-verification-lead` in the sign-off request.
+
+This is worth keeping as a method. A 398-word religious text cannot be checked
+reliably by reading it twice, and "I proofread it" is the same shape as
+"I understand the cause" — an assertion where a test was available.
+
 ## The sibling check, run late and worth running
 
 Rule 4 was applied on `parent_topic`, which is the field that defines it. But the
