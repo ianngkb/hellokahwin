@@ -285,8 +285,17 @@ echo ""
 echo "== case 0d  a clone installs into itself with no arguments (RISK-10)"
 selfclone="$SCRATCH/risk10-selfinstall"
 rm -rf "$selfclone"
-git clone --quiet "$REPO" "$selfclone" >/dev/null 2>&1
-if [ -d "$selfclone/.git" ] && [ -f "$selfclone/scripts/git-hooks/install-hooks.sh" ]; then
+# core.longpaths: without it this clone fails its checkout on Windows with
+# "Filename too long" under docs/work-done/.../EVIDENCE/, and the FIRST version
+# of this case then reported "master is missing the guard" - a confident and
+# completely wrong answer about a repo that had it. Report what actually
+# happened instead: a failed clone is a broken fixture, not a missing guard.
+clone_out=$(git clone -c core.longpaths=true --quiet "$REPO" "$selfclone" 2>&1); clone_rc=$?
+if [ "$clone_rc" -ne 0 ] || [ ! -d "$selfclone/.git" ]; then
+  bad "could not clone the source repo - fixture broken, NOT a verdict on the guard: $clone_out"
+elif [ ! -f "$selfclone/scripts/git-hooks/install-hooks.sh" ]; then
+  bad "the clone checked out but carries no scripts/git-hooks/ - this branch is missing the guard"
+else
   ok "clone of the source repo carries scripts/git-hooks/ (the fresh-clone path exists)"
   out=$(HOME="$selfclone/no-such-home" sh "$selfclone/scripts/git-hooks/install-hooks.sh" 2>&1); rc=$?
   check "  no-argument install succeeds with no known trees on the machine" "$rc" "0"
@@ -298,8 +307,6 @@ if [ -d "$selfclone/.git" ] && [ -f "$selfclone/scripts/git-hooks/install-hooks.
   esac
   [ -f "$selfclone/.git/hooks/post-checkout" ] && ok "  post-checkout landed in the clone's own hooks dir" \
                                                || bad "  clone has no post-checkout installed"
-else
-  bad "clone of the source repo has no scripts/git-hooks/ - master is missing the guard"
 fi
 rm -rf "$selfclone"
 echo ""
