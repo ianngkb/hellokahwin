@@ -1,0 +1,26 @@
+== building throwaway clone at C:/Users/IANNG~1/AppData/Local/Temp/claude/C--Users-Ian-Ng-orca-workspaces-hellokahwin-site-risk10-hooks/45b9ac87-18c9-4e7f-81e8-762777b551b8/scratchpad/risk10/onespace-scratch/risk09-verify
+== fixture resolution  (by tree content; no branch name is trusted)
+  PASS  hk_space() extracted verbatim from post-checkout (3 cat-file probes)
+  only one space in the local refs (docs=0 site=2)
+  fetching the upstream once: C:/Users/IANNG~1/AppData/Local/Temp/claude/C--Users-Ian-Ng-orca-workspaces-hellokahwin-site-risk10-hooks/45b9ac87-18c9-4e7f-81e8-762777b551b8/scratchpad/risk10/onlysite.git
+
+==============================================================================
+  FIXTURE UNAVAILABLE - NO CASE WAS RUN. This is not a pass.
+==============================================================================
+  This harness needs one docs-space commit AND one site-space commit.
+  It classifies by tree content (next.config.ts / docs/boardroom /
+  frontend), never by branch name.
+
+  searched     : refs/remotes/gh/*, refs/remotes/src/*, refs/remotes/up/*
+  source repo  : /tmp/claude/C--Users-Ian-Ng-orca-workspaces-hellokahwin-site-risk10-hooks/45b9ac87-18c9-4e7f-81e8-762777b551b8/scratchpad/risk10/onespace
+  found        : docs=0  site=3  of 3 refs
+
+    site     refs/remotes/gh/ianng89/risk10-hooks
+    site     refs/remotes/src/ianng89/risk10-hooks
+    site     refs/remotes/up/ianng89/risk10-hooks
+
+  Fix: bring a ref from the missing space into the source repo, then
+  re-run with --fresh:
+    git -C '/tmp/claude/C--Users-Ian-Ng-orca-workspaces-hellokahwin-site-risk10-hooks/45b9ac87-18c9-4e7f-81e8-762777b551b8/scratchpad/risk10/onespace' fetch origin '+refs/heads/*:refs/remotes/origin/*'
+==============================================================================
+EXIT: 2

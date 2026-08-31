@@ -1,0 +1,78 @@
+== building throwaway clone at C:/Users/IANNG~1/AppData/Local/Temp/claude/C--Users-Ian-Ng-orca-workspaces-hellokahwin-site-risk10-hooks/45b9ac87-18c9-4e7f-81e8-762777b551b8/scratchpad/risk10/drift/risk09-verify
+== fixture resolution  (by tree content; no branch name is trusted)
+  PASS  hk_space() extracted verbatim from post-checkout (3 cat-file probes)
+  refs classified : 73   docs=8  site=65
+  docs fixture    : e7f0ebc  <- refs/remotes/gh/feat/command-centre-dashboard
+  site fixture    : 55e53c7  <- refs/remotes/gh/master
+  docs control    : 96771ab  <- refs/remotes/gh/feat/cont-07-hantaran  as feat/risk10-docs-probe
+  site control    : b937ca7  <- refs/remotes/gh/docs/plat-10-11-12  as docs/risk10-site-probe
+  PASS  docs fixture classifies docs (docs)
+  PASS  site fixture classifies site (site)
+  PASS  branch NAMED docs/risk10-site-probe classifies (site)
+  PASS  branch NAMED feat/risk10-docs-probe classifies (docs)
+
+== fixture
+  root commit : 3a1fbe091d17c3d1cce106901ec8666712e74e28
+  hk-docs     : e7f0ebc
+  hk-site     : 55e53c7
+
+== case 0  the hazard, UNGUARDED (no hooks installed)
+  PASS  unguarded cross-space checkout succeeds (0)
+  PASS  company record was replaced by site source - hazard confirmed
+
+== case 0b  installing from a CRLF-mangled source
+  PASS  CRLF source really has carriage returns (105) - fixture is valid
+  PASS  installed hook has zero carriage returns (0)
+  PASS  guard installed from CRLF source still refuses (1)
+
+== case 0c  a target path containing a space
+  PASS  spaced path resolved to a real tree
+  PASS  guard installs into a path with a space (0)
+
+== case 0d  a clone installs into itself with no arguments (RISK-10)
+  PASS  clone of the source repo carries scripts/git-hooks/ (the fresh-clone path exists)
+  PASS    no-argument install succeeds with no known trees on the machine (0)
+  PASS    no-argument --check exits 0 afterwards (0)
+  PASS    --check named no missing tree
+  PASS    post-checkout landed in the clone's own hooks dir
+
+== case 0e  the guard is identical on both lines of this repo (RISK-10)
+  FAIL    verify-guard.sh: site 65754da0aec37c3e09b697f6e66374712a487300 != docs afbaafae699e05c8d6c892b9b57060c9ca5ff03a - the two copies have drifted
+
+== installing guard
+  === C:/Users/IANNG~1/AppData/Local/Temp/claude/C--Users-Ian-Ng-orca-workspaces-hellokahwin-site-risk10-hooks/45b9ac87-18c9-4e7f-81e8-762777b551b8/scratchpad/risk10/drift/risk09-verify
+      hooks dir: C:/Users/Ian Ng/AppData/Local/Temp/claude/C--Users-Ian-Ng-orca-workspaces-hellokahwin-site-risk10-hooks/45b9ac87-18c9-4e7f-81e8-762777b551b8/scratchpad/risk10/drift/risk09-verify/.git/hooks
+      post-checkout: installed
+      pre-merge-commit: installed
+      pre-commit: installed
+  PASS  install-hooks.sh --check reports clean (0)
+
+== refusals
+  PASS  docs->site checkout exits non-zero (1)
+  PASS  docs->site left HEAD on the docs branch (hk-docs)
+  PASS  docs/boardroom still on disk - tree restored
+  PASS  untracked work survived the refusal
+  PASS  detached-HEAD cross-space checkout exits non-zero (1)
+  PASS  detached-HEAD refusal restored the branch (hk-docs)
+  PASS  site->docs checkout exits non-zero (1)
+  PASS  site->docs left HEAD on the site branch (hk-site)
+
+== negative controls  (ordinary work must not be impeded)
+  PASS  site->site checkout succeeds (target is NAMED docs/) (0)
+  PASS    landed on docs/risk10-site-probe (docs/risk10-site-probe)
+  PASS  docs->docs checkout succeeds (target is NAMED feat/) (0)
+  PASS    landed on feat/risk10-docs-probe (feat/risk10-docs-probe)
+  PASS  in-space 'git checkout -b' succeeds (0)
+  PASS  file checkout 'git checkout -- README.md' succeeds (0)
+  PASS    README.md restored (0)
+warning: in the working copy of 'RISK09-ORDINARY.txt', LF will be replaced by CRLF the next time Git touches it
+  PASS    probe file is actually staged (guards the test itself) (1)
+  PASS  ordinary (non-merge) commit succeeds - pre-commit stays silent (0)
+
+== merge path
+  PASS  cross-space merge conflicts (9 paths) - pre-merge-commit is never reached
+  PASS  resolved cross-space merge commit is refused (1)
+
+==============================================
+  RISK-09/10 guard: 37 passed, 1 failed
+==============================================

@@ -1,0 +1,299 @@
+
+############################################################
+## 0. clone the site repo fresh from GitHub
+############################################################
+$ git clone -c core.longpaths=true https://github.com/ianngkb/hellokahwin.git risk10-freshclone
+EXIT CODE: 0
+$ git rev-parse --abbrev-ref HEAD
+master
+EXIT CODE: 0
+$ git log --oneline -1
+55e53c7 Merge pull request #39 from ianngkb/ianng89/risk10-hooks
+EXIT CODE: 0
+$ git rev-list --max-parents=0 HEAD
+3a1fbe091d17c3d1cce106901ec8666712e74e28
+EXIT CODE: 0
+$ ls -d src next.config.ts
+next.config.ts
+src
+EXIT CODE: 0
+$ ls docs/boardroom
+ls: cannot access 'docs/boardroom': No such file or directory
+EXIT CODE: 2
+
+############################################################
+## 1. the DoD measurement: scripts/git-hooks on origin/master
+############################################################
+$ git ls-tree -r --name-only origin/master -- scripts/git-hooks
+scripts/git-hooks/.gitattributes
+scripts/git-hooks/README.md
+scripts/git-hooks/install-hooks.sh
+scripts/git-hooks/post-checkout
+scripts/git-hooks/pre-commit
+scripts/git-hooks/pre-merge-commit
+scripts/git-hooks/verify-guard.sh
+EXIT CODE: 0
+$ git ls-tree -r --name-only origin/master -- scripts/git-hooks | wc -l
+7
+$ ls -l scripts/git-hooks
+total 52
+-rwxr-xr-x 1 Ian Ng 197121  6108 Sep  1 02:19 install-hooks.sh
+-rwxr-xr-x 1 Ian Ng 197121  4441 Sep  1 02:19 post-checkout
+-rwxr-xr-x 1 Ian Ng 197121  2525 Sep  1 02:19 pre-commit
+-rwxr-xr-x 1 Ian Ng 197121  2212 Sep  1 02:19 pre-merge-commit
+-rw-r--r-- 1 Ian Ng 197121  6702 Sep  1 02:19 README.md
+-rwxr-xr-x 1 Ian Ng 197121 20209 Sep  1 02:19 verify-guard.sh
+EXIT CODE: 0
+
+############################################################
+## 2. the documented install command, BEFORE
+############################################################
+$ scripts/git-hooks/install-hooks.sh --check
+=== C:/Users/Ian Ng/AppData/Local/Temp/claude/C--Users-Ian-Ng-orca-workspaces-hellokahwin-site-risk10-hooks/45b9ac87-18c9-4e7f-81e8-762777b551b8/scratchpad/risk10/risk10-freshclone
+    hooks dir: C:/Users/Ian Ng/AppData/Local/Temp/claude/C--Users-Ian-Ng-orca-workspaces-hellokahwin-site-risk10-hooks/45b9ac87-18c9-4e7f-81e8-762777b551b8/scratchpad/risk10/risk10-freshclone/.git/hooks
+    post-checkout: NOT INSTALLED
+    pre-merge-commit: NOT INSTALLED
+    pre-commit: NOT INSTALLED
+=== /c/Users/Ian Ng/Documents/Code/hellokahwin/hellokahwin
+    hooks dir: C:/Users/Ian Ng/Documents/Code/hellokahwin/hellokahwin/.git/hooks
+    post-checkout: up to date
+    pre-merge-commit: up to date
+    pre-commit: up to date
+=== /c/Users/Ian Ng/Documents/Code/hellokahwin-site
+    hooks dir: C:/Users/Ian Ng/Documents/Code/hellokahwin-site/.git/hooks
+    post-checkout: up to date
+    pre-merge-commit: up to date
+    pre-commit: up to date
+
+RISK-09 guard is not fully installed. Fix with:
+  /tmp/claude/C--Users-Ian-Ng-orca-workspaces-hellokahwin-site-risk10-hooks/45b9ac87-18c9-4e7f-81e8-762777b551b8/scratchpad/risk10/risk10-freshclone/scripts/git-hooks/install-hooks.sh
+EXIT CODE: 1
+
+############################################################
+## 3. the documented install command
+############################################################
+$ scripts/git-hooks/install-hooks.sh
+=== C:/Users/Ian Ng/AppData/Local/Temp/claude/C--Users-Ian-Ng-orca-workspaces-hellokahwin-site-risk10-hooks/45b9ac87-18c9-4e7f-81e8-762777b551b8/scratchpad/risk10/risk10-freshclone
+    hooks dir: C:/Users/Ian Ng/AppData/Local/Temp/claude/C--Users-Ian-Ng-orca-workspaces-hellokahwin-site-risk10-hooks/45b9ac87-18c9-4e7f-81e8-762777b551b8/scratchpad/risk10/risk10-freshclone/.git/hooks
+    post-checkout: installed
+    pre-merge-commit: installed
+    pre-commit: installed
+=== /c/Users/Ian Ng/Documents/Code/hellokahwin/hellokahwin
+    hooks dir: C:/Users/Ian Ng/Documents/Code/hellokahwin/hellokahwin/.git/hooks
+    post-checkout: up to date
+    pre-merge-commit: up to date
+    pre-commit: up to date
+=== /c/Users/Ian Ng/Documents/Code/hellokahwin-site
+    hooks dir: C:/Users/Ian Ng/Documents/Code/hellokahwin-site/.git/hooks
+    post-checkout: up to date
+    pre-merge-commit: up to date
+    pre-commit: up to date
+EXIT CODE: 0
+
+############################################################
+## 4. the documented install command, AFTER  (this is the DoD gate)
+############################################################
+$ scripts/git-hooks/install-hooks.sh --check
+=== C:/Users/Ian Ng/AppData/Local/Temp/claude/C--Users-Ian-Ng-orca-workspaces-hellokahwin-site-risk10-hooks/45b9ac87-18c9-4e7f-81e8-762777b551b8/scratchpad/risk10/risk10-freshclone
+    hooks dir: C:/Users/Ian Ng/AppData/Local/Temp/claude/C--Users-Ian-Ng-orca-workspaces-hellokahwin-site-risk10-hooks/45b9ac87-18c9-4e7f-81e8-762777b551b8/scratchpad/risk10/risk10-freshclone/.git/hooks
+    post-checkout: up to date
+    pre-merge-commit: up to date
+    pre-commit: up to date
+=== /c/Users/Ian Ng/Documents/Code/hellokahwin/hellokahwin
+    hooks dir: C:/Users/Ian Ng/Documents/Code/hellokahwin/hellokahwin/.git/hooks
+    post-checkout: up to date
+    pre-merge-commit: up to date
+    pre-commit: up to date
+=== /c/Users/Ian Ng/Documents/Code/hellokahwin-site
+    hooks dir: C:/Users/Ian Ng/Documents/Code/hellokahwin-site/.git/hooks
+    post-checkout: up to date
+    pre-merge-commit: up to date
+    pre-commit: up to date
+EXIT CODE: 0
+
+############################################################
+## 5. REFUSAL: a cross-space checkout in this fresh clone
+############################################################
+$ git rev-parse --short HEAD; ls -d next.config.ts; ls -d docs/boardroom
+55e53c7
+next.config.ts
+ls: cannot access 'docs/boardroom': No such file or directory
+EXIT CODE: 2
+$ git checkout origin/feat/command-centre-dashboard
+Note: switching to 'origin/feat/command-centre-dashboard'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+HEAD is now at e15635d RISK-10: bring case 0e across, so the drift check exists on both lines
+
+==============================================================================
+  REFUSED: this checkout crosses the hellokahwin docs/site boundary.
+==============================================================================
+
+  from: site space   55e53c7
+  to:   docs space   e15635d  (e15635d)
+
+  hellokahwin (docs) and hellokahwin-site are the SAME repository - same
+  remote, same root commit 3a1fbe09 - kept apart only by convention. This
+  switch replaces the contents of this working tree with the other space.
+
+  RESTORED. You are back on master at 55e53c7.
+  Nothing was lost. Work in the other tree instead:
+    docs -> ~/Documents/Code/hellokahwin/hellokahwin
+    site -> ~/Documents/Code/hellokahwin-site
+
+  If you truly mean to cross the boundary in THIS tree:
+    HK_GIT_SPACE_GUARD=off git checkout e15635d
+==============================================================================
+
+EXIT CODE: 1
+$ git rev-parse --abbrev-ref HEAD; git rev-parse --short HEAD
+master
+55e53c7
+EXIT CODE: 0
+$ ls -d next.config.ts src; ls -d docs/boardroom
+next.config.ts
+src
+ls: cannot access 'docs/boardroom': No such file or directory
+EXIT CODE: 2
+
+############################################################
+## 6. NEGATIVE CONTROL: an in-space checkout in the same clone
+############################################################
+## origin/docs/plat-10-11-12 is SITE source with a docs/ name - the
+## strongest available proof the guard reads content and not the name.
+$ git checkout origin/docs/plat-10-11-12
+Note: switching to 'origin/docs/plat-10-11-12'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+HEAD is now at b937ca7 docs(plat-10/11/12): three tools that lied, and what each one was lying about
+EXIT CODE: 0
+$ git rev-parse --short HEAD; ls -d next.config.ts src
+b937ca7
+next.config.ts
+src
+EXIT CODE: 0
+$ git checkout master
+Your branch is up to date with 'origin/master'.
+Previous HEAD position was b937ca7 docs(plat-10/11/12): three tools that lied, and what each one was lying about
+Switched to branch 'master'
+EXIT CODE: 0
+$ git rev-parse --abbrev-ref HEAD; git rev-parse --short HEAD
+master
+55e53c7
+EXIT CODE: 0
+
+############################################################
+## 7. the full harness, run from the fresh clone
+############################################################
+$ scripts/git-hooks/verify-guard.sh 'C:/Users/IANNG~1/AppData/Local/Temp/claude/C--Users-Ian-Ng-orca-workspaces-hellokahwin-site-risk10-hooks/45b9ac87-18c9-4e7f-81e8-762777b551b8/scratchpad/risk10/fresh-harness' --fresh
+== building throwaway clone at C:/Users/IANNG~1/AppData/Local/Temp/claude/C--Users-Ian-Ng-orca-workspaces-hellokahwin-site-risk10-hooks/45b9ac87-18c9-4e7f-81e8-762777b551b8/scratchpad/risk10/fresh-harness/risk09-verify
+== fixture resolution  (by tree content; no branch name is trusted)
+  PASS  hk_space() extracted verbatim from post-checkout (3 cat-file probes)
+  refs classified : 40   docs=9  site=31
+  docs fixture    : e15635d  <- refs/remotes/gh/feat/command-centre-dashboard
+  site fixture    : 55e53c7  <- refs/remotes/gh/master
+  docs control    : 96771ab  <- refs/remotes/gh/feat/cont-07-hantaran  as feat/risk10-docs-probe
+  site control    : b937ca7  <- refs/remotes/gh/docs/plat-10-11-12  as docs/risk10-site-probe
+  PASS  docs fixture classifies docs (docs)
+  PASS  site fixture classifies site (site)
+  PASS  branch NAMED docs/risk10-site-probe classifies (site)
+  PASS  branch NAMED feat/risk10-docs-probe classifies (docs)
+
+== fixture
+  root commit : 3a1fbe091d17c3d1cce106901ec8666712e74e28
+  hk-docs     : e15635d
+  hk-site     : 55e53c7
+
+== case 0  the hazard, UNGUARDED (no hooks installed)
+  PASS  unguarded cross-space checkout succeeds (0)
+  PASS  company record was replaced by site source - hazard confirmed
+
+== case 0b  installing from a CRLF-mangled source
+  PASS  CRLF source really has carriage returns (105) - fixture is valid
+  PASS  installed hook has zero carriage returns (0)
+  PASS  guard installed from CRLF source still refuses (1)
+
+== case 0c  a target path containing a space
+  PASS  spaced path resolved to a real tree
+  PASS  guard installs into a path with a space (0)
+
+== case 0d  a clone installs into itself with no arguments (RISK-10)
+  PASS  clone of the source repo carries scripts/git-hooks/ (the fresh-clone path exists)
+  PASS    no-argument install succeeds with no known trees on the machine (0)
+  PASS    no-argument --check exits 0 afterwards (0)
+  PASS    --check named no missing tree
+  PASS    post-checkout landed in the clone's own hooks dir
+
+== case 0e  the guard is identical on both lines of this repo (RISK-10)
+  PASS  all 7 guard files are the same blob on refs/remotes/gh/master and refs/remotes/gh/feat/command-centre-dashboard
+
+== installing guard
+  === C:/Users/IANNG~1/AppData/Local/Temp/claude/C--Users-Ian-Ng-orca-workspaces-hellokahwin-site-risk10-hooks/45b9ac87-18c9-4e7f-81e8-762777b551b8/scratchpad/risk10/fresh-harness/risk09-verify
+      hooks dir: C:/Users/Ian Ng/AppData/Local/Temp/claude/C--Users-Ian-Ng-orca-workspaces-hellokahwin-site-risk10-hooks/45b9ac87-18c9-4e7f-81e8-762777b551b8/scratchpad/risk10/fresh-harness/risk09-verify/.git/hooks
+      post-checkout: installed
+      pre-merge-commit: installed
+      pre-commit: installed
+  PASS  install-hooks.sh --check reports clean (0)
+
+== refusals
+  PASS  docs->site checkout exits non-zero (1)
+  PASS  docs->site left HEAD on the docs branch (hk-docs)
+  PASS  docs/boardroom still on disk - tree restored
+  PASS  untracked work survived the refusal
+  PASS  detached-HEAD cross-space checkout exits non-zero (1)
+  PASS  detached-HEAD refusal restored the branch (hk-docs)
+  PASS  site->docs checkout exits non-zero (1)
+  PASS  site->docs left HEAD on the site branch (hk-site)
+
+== negative controls  (ordinary work must not be impeded)
+  PASS  site->site checkout succeeds (target is NAMED docs/) (0)
+  PASS    landed on docs/risk10-site-probe (docs/risk10-site-probe)
+  PASS  docs->docs checkout succeeds (target is NAMED feat/) (0)
+  PASS    landed on feat/risk10-docs-probe (feat/risk10-docs-probe)
+  PASS  in-space 'git checkout -b' succeeds (0)
+  PASS  file checkout 'git checkout -- README.md' succeeds (0)
+  PASS    README.md restored (0)
+warning: in the working copy of 'RISK09-ORDINARY.txt', LF will be replaced by CRLF the next time Git touches it
+  PASS    probe file is actually staged (guards the test itself) (1)
+  PASS  ordinary (non-merge) commit succeeds - pre-commit stays silent (0)
+
+== merge path
+  PASS  cross-space merge conflicts (8 paths) - pre-merge-commit is never reached
+  PASS  resolved cross-space merge commit is refused (1)
+
+==============================================
+  RISK-09/10 guard: 38 passed, 0 failed
+==============================================
+EXIT CODE: 0
+
+############################################################
+## DONE
+############################################################
