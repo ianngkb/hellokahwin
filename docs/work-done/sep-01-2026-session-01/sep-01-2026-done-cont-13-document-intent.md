@@ -796,6 +796,33 @@ comforting zero over a phrase that is still in the document.
 `check-source-currency.py` carries a matching note saying it counts nothing on
 rendered pages and must state a denominator if it ever does.
 
+**A second explanation, offered for the leftover delta, also failed the check.**
+The verification seat re-measured, reproduced the table, accepted both
+corrections, and attributed one remaining gap - its `munkar` 41/20/9 against my
+45/22/10 - to having measured a copy saved before the final republish. Counted on
+three captures of that page:
+
+| capture | bytes | full | server | visible |
+|---|---|---|---|---|
+| live now | 116,540 | 45 | 22 | 10 |
+| my final-sweep copy | 116,540 | 45 | 22 | 10 |
+| my earlier mid-batch copy | **130,268** | 45 | 22 | 10 |
+
+The byte counts differ by nearly 14 KB, so those really are different versions of
+the page, and `munkar` is 45/22/10 on all three including one saved before the
+final republish. **Page version is not the cause.** The deltas (4 full, 2 server,
+1 visible) are about what dropping one region would produce, and the FAQ JSON-LD
+sits before `self.__next_f` where it would count in both - but that is a
+hypothesis and it is labelled as one, which is the whole point.
+
+**Twice in one exchange, a confident causal explanation stood in for the
+measurement that would settle it.** First a denominator explanation applied to
+five rows when two had other causes; then a page-version explanation for the
+remainder. Neither survived a check that cost one command. Recorded because it is
+the same shape this company already tabulates, and because it happened in the
+seat whose job is to catch it - which is evidence the shape is structural rather
+than a matter of care.
+
 **No substance moved.** Every finding is on its page; both seats' numbers were
 correct for the document each measured.
 
