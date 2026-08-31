@@ -37,9 +37,20 @@ articles in sitemap: 88
 FAQ CENSUS EXIT: 0 — every article is present or a reasoned not-applicable
 ```
 
-**192 emitted questions became 327.** The corpus moved twice while the item ran —
-85 in the brief, 86 when I measured, 88 by the after-run — which is why the
-number now comes out of a command rather than out of a document.
+**192 emitted questions became 327.** The corpus moved four times while the item
+ran — 85 in the brief, 86 when I measured, 88 at the after-run, 89 twenty minutes
+later, 90 by 19:06 — which is why the number now comes out of a command rather
+than out of a document.
+
+> **⚠ EVERY COUNT IN THIS DOCUMENT IS A SNAPSHOT, INCLUDING THE ONE ABOVE.**
+> Successive runs after the deploy: `88 / 74 / 327` at 18:27:39Z, `89 / 75 / 331`
+> at 18:48:27Z and 18:53:34Z, `90 / 76 / 335` at 19:06:32Z and 19:08:56Z.
+>
+> **Read the invariant, not the count:** `absent 0`, `invalid 0`,
+> `fetch-failed 0`, `FAQ CENSUS EXIT: 0` on every run since the deploy, while
+> `present` tracked the sitemap upward on its own. A document that pins a number
+> here would be stale within the hour, which is the exact failure this item was
+> dispatched to fix. Run the census.
 
 The arithmetic closes exactly, which is how I know nothing was quietly lost in a
 moving corpus:
