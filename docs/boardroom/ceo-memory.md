@@ -73,6 +73,39 @@ three sprints; the CTR metric is SPLIT). Earlier: 2026-08-28 (SEO-08 —
   only because the fix was run against the failing case before being trusted.
   **Use `scripts/measure/count-in-html.sh`** — it refuses the combination, escapes
   the pattern instead, and warns inline on any zero. Decision 182.
+- **⚠ A DoD THAT NAMES "THE OPENING N WORDS" HAS NO WINDOW UNTIL A SCRIPT
+  DEFINES ONE.** CONT-14, 01 Sept 2026, same family as the grep defect above. On
+  an article page the **rail and the table of contents sit between the `<h1>` and
+  the first paragraph**, so strip-tags-and-take-200-words spends ~90 of the 200
+  on *"Rekod Kategori Penulis Bacaan Disemak Kongsi artikel ini Isi Kandungan
+  …"* plus every heading, then reports term counts about the furniture. On
+  `hantaran-kahwin` the naive window **ended inside the TOC**: a page whose first
+  paragraph answers its head question measured as a page with no opening at all.
+  **And the first fix was wrong too**, which is the half worth keeping. It cut
+  the flattened text from `Rekod` to the first `?` after `Isi Kandungan` — which
+  lands on the FIRST of eleven TOC entries. Run against the very page it was
+  written for, it still spent 60 words on the TOC. Caught only by running it.
+  **Use `scripts/measure/opening-200.sh <url|file> [--words N] [term …]`** — it
+  takes the DOM containers (`<h1>`, `p.s-deck`, `div.inspire-prose` with every
+  `<nav>` removed) instead of pattern-matching the furniture, prints the window
+  for quoting, and warns on any zero. **Quote the window; the term counts exist
+  to make a change visible, not to prove one.** Owner: `writer-inspirasi-vendor-
+  venue`, who wrote it.
+- **⚠ A BRIEF BUILT ON AN OPEN LINE MUST FIRST READ THE REST OF ITS OWN
+  SECTION.** CONT-14's brief said "Decision 120 assigned this to CONT-12 and
+  CONT-12 closed without doing it". CONT-12 had done it, and **this file said so
+  five lines above the OPEN bullet the brief was written from**. The open bullet
+  was never struck when the work landed, so it kept reading as a live instruction
+  for four days and became a sprint item.
+  Same shape as the writer-side rule *"an upstream DECISION that names your topic
+  ages exactly like a brief does"*, seen from the planning end: **a stale OPEN
+  line is more dangerous than a stale brief, because it is what briefs are
+  written from.** The check costs one read. Before an item is written from a ⚠
+  bullet, scan the same section for a later ✅ or 🟢 line naming the same slug
+  or decision number; if one exists the item is a VERIFY, not a DO, and it should
+  say so. **And when work lands against an open bullet, the seat that lands it
+  strikes the bullet in the same commit** — leaving the green line somewhere else
+  in the file is exactly what produced this. Owner: `ceo-hellokahwin`.
 
 ## OPEN ITEMS FOUND 30 Aug 2026 — all owned in Sprint 04 (RESOLVED unless marked)
 
@@ -865,16 +898,68 @@ personas and reported them as landed.
     prints the groom question and the bride question side by side.
     Evidence: `docs/work-done/aug-28-2026-session-01/aug-28-2026-done-cont-10-c21-serp-decision.md`
     and its `…-EVIDENCE/` directory. Decisions 118–120.
-  - **⚠ ONE C2.1 BOUNDARY IS OPEN AND IS AN EDITORIAL JOB, NOT A MERGE.** The
+  - **🟢 THE LAST C2.1 BOUNDARY IS CLOSED — CONT-14, 01 Sept 2026, on a
+    fresh SERP measurement.** It was an editorial job, not a merge, and it
+    stayed one. The
     legacy seed `hantaran-kahwin` against `barang-hantaran-perempuan` reads
     **Jaccard 40%** (25% with the constants removed) — level with the
     within-article baseline. It is not a duplicate: the seed's SERP is half
     money (Shopee, *duit hantaran hak siapa*, *wang hantaran*, Loanstreet) and
     its PAA asks *Apakah maksud hantaran kahwin?* and *Apakah mas kahwin dan
-    hantaran di Kelantan?*, while the live page centres on "20 Idea Hantaran
-    Kahwin Lelaki & Perempuan" — the job topics 2 and 3 now do. **CONT-12
-    action: re-angle the seed toward definition and money.** One body, not the
-    count. **And the bride angle is the least contested asset in the cluster** —
+    hantaran di Kelantan?*, while the live page then centred on "20 Idea Hantaran
+    Kahwin Lelaki & Perempuan" — the job topics 2 and 3 now do. **Decision 120's
+    action was: re-angle the seed toward definition and money.** One body, not
+    the count.
+    **⚠ AND THE BRIEF'S PREMISE WAS WRONG — corrected here at source, because
+    the evidence wins.** CONT-14's brief opens "Decision 120 assigned this to
+    CONT-12 and CONT-12 closed without doing it". CONT-12 DID do it, and this
+    same file said so five lines above this bullet. The seed went from the
+    20-item idea list to a definitional head on 28 Aug (`updated_at`
+    `2026-08-28 06:33:50+00`, 57 nodes, 22 internal links). **What survived was
+    the MONEY half, and only that half.** Measured on the live HTML before
+    CONT-14 touched it, with `scripts/measure/opening-200.sh`: in the first 200
+    reader-facing words, `duit hantaran` ×1 and `kos` ×1 — both inside the
+    deck's list of what was coming rather than in an answer — `RM` ×0, and no
+    sentence answering a money question until node 39 of 57. Definition was
+    centred; money was named. So the bullet was stale rather than the work
+    undone, and reading a green line five lines up would have caught it before
+    the item was written.
+    **THE MEASUREMENT THAT CLOSED IT, run 01 Sept 2026 before anything was
+    rewritten** (Ahrefs SERP overview, `country=my`, `hantaran kahwin`; raw JSON
+    in `docs/work-done/sep-01-2026-session-01/sep-01-2026-cont-14-EVIDENCE/`):
+    the seed's SERP **is still half money on the day of the rewrite** — 4 of the
+    8 organic results are money pages (Shopee `hantaran murah`, Mingguan Wanita
+    *duit hantaran hak siapa* DR 100, mhf.org.sg *wang hantaran*, Loanstreet
+    *panduan duit hantaran dan mas kahwin* DR 50) and the other 4 are idea
+    listicles. **Not one definitional page ranks organically**, yet **3 of
+    Google's 4 PAA questions are definitional or money** (*Apakah maksud
+    hantaran kahwin?*, *Apakah maksud mas kahwin?*, *Apakah mas kahwin dan
+    hantaran di Kelantan?*), and Google answers them itself in an AI Overview
+    citing baitulmuslim's *apa itu mas kahwin dan apa itu wang hantaran* and
+    mhf's *wang hantaran* — two pages that do not rank. That gap is the seed's
+    slot. Corroborated by Ahrefs `volume` (12-month average, field named per the
+    house rule): `maksud hantaran kahwin` 50 and `duit hantaran` 300 BOTH carry
+    `parent_topic` **`mas kahwin`** — the index puts the definitional query and
+    the money query under one head, which is the page this now is.
+    **What CONT-14 changed, and it is one row.** `title`/`meta_title`/`<h1>`
+    from *"Hantaran kahwin: maksud, adat dan beza dengan mas kahwin"* to
+    *"Hantaran kahwin: maksud, adat dan wang yang terlibat"*; the opening
+    rebuilt so definition and money both sit inside the first 200 words; two
+    money children linked above the fold. **The word count is a weak proxy and
+    is reported as one:** `wang`/`kos`/`bayaran`/`perbelanjaan` in that window
+    went **7 to 11**, which understates it. The real change is that before, all
+    7 sat inside the deck's list of upcoming topics or inside the Kamus Dewan
+    gloss of *hantaran*; after, the opening names the three sums, separates
+    them, and says which one is obligatory. Read the opening, not the count.
+    **Slug unchanged, no new URL, no redirect added, and the sitemap `<loc>` set
+    is byte-identical at 103 before and after** (`diff` of the sorted sets is
+    empty, which is stronger than the counts matching). Undo written, pushed AND
+    RUN against the live row before the write.
+    **The head keeps only what no sibling can own.** `duit-hantaran-kahwin`
+    still owns *hak siapa* and the Selangor ketetapan, `apa-itu-mas-kahwin` the
+    definition, `cara-tetapkan-duit-hantaran` the negotiation,
+    `mas-kahwin-ikut-negeri` the rates. The head names the three sums, says
+    which one is obligatory, and routes. **No ringgit figure was added to it.** **And the bride angle is the least contested asset in the cluster** —
     `hantaran untuk lelaki` (18 Aug) carries FOUR dedicated groom-only pages in
     its top 10 (motherhood 3, Zalora 6, ecentral 8, thekenduri 10);
     `barang hantaran perempuan` (5 Aug) returned six organic results and NOT ONE
