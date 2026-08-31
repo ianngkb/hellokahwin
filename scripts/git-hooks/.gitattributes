@@ -1,0 +1,9 @@
+# RISK-09 hooks are shell scripts and this repo has core.autocrlf=true with no
+# repo-wide .gitattributes, so a checkout would otherwise write them with CRLF.
+#
+# Measured 31 Aug 2026: a CRLF hook still fires under Git for Windows - the
+# bundled sh tolerates the carriage return. This line is portability insurance,
+# not a fix for an observed break here. On Linux and macOS a shebang ending in
+# CR fails with "bad interpreter", which would leave a guard that is present,
+# executable and does nothing. Not verified on this machine.
+* text eol=lf
