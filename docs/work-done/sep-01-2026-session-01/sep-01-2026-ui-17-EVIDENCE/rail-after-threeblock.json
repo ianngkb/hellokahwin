@@ -1,0 +1,2466 @@
+{
+ "rows": [
+  {
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/duit-hantaran-kahwin",
+   "width": 390,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::qh5jn-1788203777199-ab13e2403def",
+    "cache": "HIT",
+    "age": "9",
+    "css": [
+     "8e7508183b8deda1.css",
+     "19b83a0982f1e330.css",
+     "93b060e57eb15691.css"
+    ]
+   },
+   "bodyH2": 7,
+   "layoutViewport": 390,
+   "innerWidth": 390,
+   "counts": {
+    "rail": 1,
+    "rekod": 1,
+    "toc": 1,
+    "sumber": 1,
+    "h1": 1
+   },
+   "toc_relocation": {
+    "inRail": 1,
+    "anywhere": 1
+   },
+   "rail": {
+    "left": 20,
+    "right": 370,
+    "top": 550,
+    "width": 350,
+    "height": 1426,
+    "display": "flex",
+    "innerWidth": 350,
+    "tag": "aside",
+    "cls": "hk-rail"
+   },
+   "bodyCol": {
+    "left": 20,
+    "right": 370,
+    "top": 2374,
+    "width": 350,
+    "height": 8669,
+    "display": "block",
+    "innerWidth": 350,
+    "tag": "div",
+    "cls": "hk-article-body"
+   },
+   "prose": {
+    "left": 20,
+    "right": 370,
+    "top": 2484,
+    "width": 350,
+    "height": 8428,
+    "display": "block",
+    "innerWidth": 350,
+    "tag": "div",
+    "cls": "inspire-prose"
+   },
+   "rekod": {
+    "left": 20,
+    "right": 370,
+    "top": 550,
+    "width": 350,
+    "height": 226,
+    "display": "block",
+    "innerWidth": 350,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "toc": {
+    "left": 20,
+    "right": 370,
+    "top": 832,
+    "width": 350,
+    "height": 415,
+    "display": "block",
+    "innerWidth": 350,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "sumber": {
+    "left": 20,
+    "right": 370,
+    "top": 1303,
+    "width": 350,
+    "height": 348,
+    "display": "block",
+    "innerWidth": 350,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "measure": {
+    "widthPx": 350,
+    "fontSizePx": 17.0449,
+    "cpl": 41.1,
+    "sampleChars": 417
+   },
+   "candidates": [
+    {
+     "how": "aside",
+     "left": 20,
+     "right": 370,
+     "top": 550,
+     "width": 350,
+     "height": 1426,
+     "display": "flex",
+     "innerWidth": 350,
+     "tag": "aside",
+     "cls": "hk-rail"
+    },
+    {
+     "how": "aside",
+     "left": 20,
+     "right": 370,
+     "top": 1707,
+     "width": 350,
+     "height": 268,
+     "display": "block",
+     "innerWidth": 350,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 20,
+     "right": 370,
+     "top": 1707,
+     "width": 350,
+     "height": 268,
+     "display": "block",
+     "innerWidth": 350,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".s-rekod",
+     "left": 20,
+     "right": 370,
+     "top": 550,
+     "width": 350,
+     "height": 226,
+     "display": "block",
+     "innerWidth": 350,
+     "tag": "div",
+     "cls": "s-rekod"
+    },
+    {
+     "how": "[data-hk-rail]",
+     "left": 20,
+     "right": 370,
+     "top": 550,
+     "width": 350,
+     "height": 1426,
+     "display": "flex",
+     "innerWidth": 350,
+     "tag": "aside",
+     "cls": "hk-rail"
+    }
+   ]
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/duit-hantaran-kahwin",
+   "width": 768,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::k4vqp-1788203777894-91e7438cb06d",
+    "cache": "HIT",
+    "age": "10",
+    "css": [
+     "8e7508183b8deda1.css",
+     "19b83a0982f1e330.css",
+     "93b060e57eb15691.css"
+    ]
+   },
+   "bodyH2": 7,
+   "layoutViewport": 768,
+   "innerWidth": 768,
+   "counts": {
+    "rail": 1,
+    "rekod": 1,
+    "toc": 1,
+    "sumber": 1,
+    "h1": 1
+   },
+   "toc_relocation": {
+    "inRail": 1,
+    "anywhere": 1
+   },
+   "rail": {
+    "left": 32,
+    "right": 736,
+    "top": 444,
+    "width": 704,
+    "height": 1301,
+    "display": "flex",
+    "innerWidth": 704,
+    "tag": "aside",
+    "cls": "hk-rail"
+   },
+   "bodyCol": {
+    "left": 32,
+    "right": 736,
+    "top": 2331,
+    "width": 704,
+    "height": 6381,
+    "display": "block",
+    "innerWidth": 704,
+    "tag": "div",
+    "cls": "hk-article-body"
+   },
+   "prose": {
+    "left": 32,
+    "right": 613.27,
+    "top": 2441,
+    "width": 581.27,
+    "height": 6140,
+    "display": "block",
+    "innerWidth": 581.27,
+    "tag": "div",
+    "cls": "inspire-prose"
+   },
+   "rekod": {
+    "left": 32,
+    "right": 736,
+    "top": 444,
+    "width": 704,
+    "height": 227,
+    "display": "block",
+    "innerWidth": 704,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "toc": {
+    "left": 32,
+    "right": 736,
+    "top": 727,
+    "width": 704,
+    "height": 426,
+    "display": "block",
+    "innerWidth": 704,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "sumber": {
+    "left": 32,
+    "right": 736,
+    "top": 1209,
+    "width": 704,
+    "height": 267,
+    "display": "block",
+    "innerWidth": 704,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "measure": {
+    "widthPx": 581.27,
+    "fontSizePx": 17.6142,
+    "cpl": 66,
+    "sampleChars": 417
+   },
+   "candidates": [
+    {
+     "how": "aside",
+     "left": 32,
+     "right": 736,
+     "top": 444,
+     "width": 704,
+     "height": 1301,
+     "display": "flex",
+     "innerWidth": 704,
+     "tag": "aside",
+     "cls": "hk-rail"
+    },
+    {
+     "how": "aside",
+     "left": 32,
+     "right": 736,
+     "top": 1532,
+     "width": 704,
+     "height": 213,
+     "display": "block",
+     "innerWidth": 704,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 32,
+     "right": 736,
+     "top": 1532,
+     "width": 704,
+     "height": 213,
+     "display": "block",
+     "innerWidth": 704,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".s-rekod",
+     "left": 32,
+     "right": 736,
+     "top": 444,
+     "width": 704,
+     "height": 227,
+     "display": "block",
+     "innerWidth": 704,
+     "tag": "div",
+     "cls": "s-rekod"
+    },
+    {
+     "how": "[data-hk-rail]",
+     "left": 32,
+     "right": 736,
+     "top": 444,
+     "width": 704,
+     "height": 1301,
+     "display": "flex",
+     "innerWidth": 704,
+     "tag": "aside",
+     "cls": "hk-rail"
+    }
+   ]
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/duit-hantaran-kahwin",
+   "width": 1024,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::8k2vf-1788203778578-e2b1d847b6d5",
+    "cache": "HIT",
+    "age": "10",
+    "css": [
+     "8e7508183b8deda1.css",
+     "19b83a0982f1e330.css",
+     "93b060e57eb15691.css"
+    ]
+   },
+   "bodyH2": 7,
+   "layoutViewport": 1024,
+   "innerWidth": 1024,
+   "counts": {
+    "rail": 1,
+    "rekod": 1,
+    "toc": 1,
+    "sumber": 1,
+    "h1": 1
+   },
+   "toc_relocation": {
+    "inRail": 1,
+    "anywhere": 1
+   },
+   "rail": {
+    "left": 684,
+    "right": 984,
+    "top": 318,
+    "width": 300,
+    "height": 1591,
+    "display": "flex",
+    "innerWidth": 300,
+    "tag": "aside",
+    "cls": "hk-rail"
+   },
+   "bodyCol": {
+    "left": 40,
+    "right": 620,
+    "top": 1154,
+    "width": 580,
+    "height": 6589,
+    "display": "block",
+    "innerWidth": 580,
+    "tag": "div",
+    "cls": "hk-article-body"
+   },
+   "prose": {
+    "left": 40,
+    "right": 620,
+    "top": 1264,
+    "width": 580,
+    "height": 6348,
+    "display": "block",
+    "innerWidth": 580,
+    "tag": "div",
+    "cls": "inspire-prose"
+   },
+   "rekod": {
+    "left": 684,
+    "right": 984,
+    "top": 318,
+    "width": 300,
+    "height": 232,
+    "display": "block",
+    "innerWidth": 268,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "toc": {
+    "left": 684,
+    "right": 984,
+    "top": 606,
+    "width": 300,
+    "height": 493,
+    "display": "block",
+    "innerWidth": 268,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "sumber": {
+    "left": 684,
+    "right": 984,
+    "top": 1154,
+    "width": 300,
+    "height": 429,
+    "display": "block",
+    "innerWidth": 268,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "measure": {
+    "widthPx": 580,
+    "fontSizePx": 17.9997,
+    "cpl": 64.4,
+    "sampleChars": 417
+   },
+   "candidates": [
+    {
+     "how": "aside",
+     "left": 684,
+     "right": 984,
+     "top": 318,
+     "width": 300,
+     "height": 1591,
+     "display": "flex",
+     "innerWidth": 300,
+     "tag": "aside",
+     "cls": "hk-rail"
+    },
+    {
+     "how": "aside",
+     "left": 700,
+     "right": 968,
+     "top": 1640,
+     "width": 268,
+     "height": 269,
+     "display": "block",
+     "innerWidth": 268,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 700,
+     "right": 968,
+     "top": 1640,
+     "width": 268,
+     "height": 269,
+     "display": "block",
+     "innerWidth": 268,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".s-rekod",
+     "left": 700,
+     "right": 968,
+     "top": 318,
+     "width": 268,
+     "height": 232,
+     "display": "block",
+     "innerWidth": 268,
+     "tag": "div",
+     "cls": "s-rekod"
+    },
+    {
+     "how": "[data-hk-rail]",
+     "left": 684,
+     "right": 984,
+     "top": 318,
+     "width": 300,
+     "height": 1591,
+     "display": "flex",
+     "innerWidth": 300,
+     "tag": "aside",
+     "cls": "hk-rail"
+    }
+   ]
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/duit-hantaran-kahwin",
+   "width": 1440,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::qbdqh-1788203779303-c45df8b8bfd6",
+    "cache": "HIT",
+    "age": "11",
+    "css": [
+     "8e7508183b8deda1.css",
+     "19b83a0982f1e330.css",
+     "93b060e57eb15691.css"
+    ]
+   },
+   "bodyH2": 7,
+   "layoutViewport": 1440,
+   "innerWidth": 1440,
+   "counts": {
+    "rail": 1,
+    "rekod": 1,
+    "toc": 1,
+    "sumber": 1,
+    "h1": 1
+   },
+   "toc_relocation": {
+    "inRail": 1,
+    "anywhere": 1
+   },
+   "rail": {
+    "left": 940,
+    "right": 1240,
+    "top": 266,
+    "width": 300,
+    "height": 1591,
+    "display": "flex",
+    "innerWidth": 300,
+    "tag": "aside",
+    "cls": "hk-rail"
+   },
+   "bodyCol": {
+    "left": 120,
+    "right": 876,
+    "top": 1169,
+    "width": 756,
+    "height": 6528,
+    "display": "block",
+    "innerWidth": 756,
+    "tag": "div",
+    "cls": "hk-article-body"
+   },
+   "prose": {
+    "left": 120,
+    "right": 714,
+    "top": 1279,
+    "width": 594,
+    "height": 6287,
+    "display": "block",
+    "innerWidth": 594,
+    "tag": "div",
+    "cls": "inspire-prose"
+   },
+   "rekod": {
+    "left": 940,
+    "right": 1240,
+    "top": 266,
+    "width": 300,
+    "height": 232,
+    "display": "block",
+    "innerWidth": 268,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "toc": {
+    "left": 940,
+    "right": 1240,
+    "top": 554,
+    "width": 300,
+    "height": 493,
+    "display": "block",
+    "innerWidth": 268,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "sumber": {
+    "left": 940,
+    "right": 1240,
+    "top": 1102,
+    "width": 300,
+    "height": 429,
+    "display": "block",
+    "innerWidth": 268,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "measure": {
+    "widthPx": 594,
+    "fontSizePx": 18,
+    "cpl": 66,
+    "sampleChars": 417
+   },
+   "candidates": [
+    {
+     "how": "aside",
+     "left": 940,
+     "right": 1240,
+     "top": 266,
+     "width": 300,
+     "height": 1591,
+     "display": "flex",
+     "innerWidth": 300,
+     "tag": "aside",
+     "cls": "hk-rail"
+    },
+    {
+     "how": "aside",
+     "left": 956,
+     "right": 1224,
+     "top": 1588,
+     "width": 268,
+     "height": 269,
+     "display": "block",
+     "innerWidth": 268,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 956,
+     "right": 1224,
+     "top": 1588,
+     "width": 268,
+     "height": 269,
+     "display": "block",
+     "innerWidth": 268,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".s-rekod",
+     "left": 956,
+     "right": 1224,
+     "top": 266,
+     "width": 268,
+     "height": 232,
+     "display": "block",
+     "innerWidth": 268,
+     "tag": "div",
+     "cls": "s-rekod"
+    },
+    {
+     "how": "[data-hk-rail]",
+     "left": 940,
+     "right": 1240,
+     "top": 266,
+     "width": 300,
+     "height": 1591,
+     "display": "flex",
+     "innerWidth": 300,
+     "tag": "aside",
+     "cls": "hk-rail"
+    }
+   ]
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/duit-hantaran-kahwin",
+   "width": 1920,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::8s8kr-1788203780027-0cffb67640e9",
+    "cache": "HIT",
+    "age": "12",
+    "css": [
+     "8e7508183b8deda1.css",
+     "19b83a0982f1e330.css",
+     "93b060e57eb15691.css"
+    ]
+   },
+   "bodyH2": 7,
+   "layoutViewport": 1920,
+   "innerWidth": 1920,
+   "counts": {
+    "rail": 1,
+    "rekod": 1,
+    "toc": 1,
+    "sumber": 1,
+    "h1": 1
+   },
+   "toc_relocation": {
+    "inRail": 1,
+    "anywhere": 1
+   },
+   "rail": {
+    "left": 1052,
+    "right": 1352,
+    "top": 266,
+    "width": 300,
+    "height": 1591,
+    "display": "flex",
+    "innerWidth": 300,
+    "tag": "aside",
+    "cls": "hk-rail"
+   },
+   "bodyCol": {
+    "left": 232,
+    "right": 988,
+    "top": 1169,
+    "width": 756,
+    "height": 6528,
+    "display": "block",
+    "innerWidth": 756,
+    "tag": "div",
+    "cls": "hk-article-body"
+   },
+   "prose": {
+    "left": 232,
+    "right": 826,
+    "top": 1279,
+    "width": 594,
+    "height": 6287,
+    "display": "block",
+    "innerWidth": 594,
+    "tag": "div",
+    "cls": "inspire-prose"
+   },
+   "rekod": {
+    "left": 1052,
+    "right": 1352,
+    "top": 266,
+    "width": 300,
+    "height": 232,
+    "display": "block",
+    "innerWidth": 268,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "toc": {
+    "left": 1052,
+    "right": 1352,
+    "top": 554,
+    "width": 300,
+    "height": 493,
+    "display": "block",
+    "innerWidth": 268,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "sumber": {
+    "left": 1052,
+    "right": 1352,
+    "top": 1102,
+    "width": 300,
+    "height": 429,
+    "display": "block",
+    "innerWidth": 268,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "measure": {
+    "widthPx": 594,
+    "fontSizePx": 18,
+    "cpl": 66,
+    "sampleChars": 417
+   },
+   "candidates": [
+    {
+     "how": "aside",
+     "left": 1052,
+     "right": 1352,
+     "top": 266,
+     "width": 300,
+     "height": 1591,
+     "display": "flex",
+     "innerWidth": 300,
+     "tag": "aside",
+     "cls": "hk-rail"
+    },
+    {
+     "how": "aside",
+     "left": 1068,
+     "right": 1336,
+     "top": 1588,
+     "width": 268,
+     "height": 269,
+     "display": "block",
+     "innerWidth": 268,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 1068,
+     "right": 1336,
+     "top": 1588,
+     "width": 268,
+     "height": 269,
+     "display": "block",
+     "innerWidth": 268,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".s-rekod",
+     "left": 1068,
+     "right": 1336,
+     "top": 266,
+     "width": 268,
+     "height": 232,
+     "display": "block",
+     "innerWidth": 268,
+     "tag": "div",
+     "cls": "s-rekod"
+    },
+    {
+     "how": "[data-hk-rail]",
+     "left": 1052,
+     "right": 1352,
+     "top": 266,
+     "width": 300,
+     "height": 1591,
+     "display": "flex",
+     "innerWidth": 300,
+     "tag": "aside",
+     "cls": "hk-rail"
+    }
+   ]
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/ucapan-doa/doa-pengantin-baru",
+   "width": 390,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::4glmb-1788203780753-7f9cf5f34a4b",
+    "cache": "HIT",
+    "age": "11",
+    "css": [
+     "8e7508183b8deda1.css",
+     "19b83a0982f1e330.css",
+     "93b060e57eb15691.css"
+    ]
+   },
+   "bodyH2": 8,
+   "layoutViewport": 390,
+   "innerWidth": 390,
+   "counts": {
+    "rail": 1,
+    "rekod": 1,
+    "toc": 1,
+    "sumber": 1,
+    "h1": 1
+   },
+   "toc_relocation": {
+    "inRail": 1,
+    "anywhere": 1
+   },
+   "rail": {
+    "left": 20,
+    "right": 370,
+    "top": 523,
+    "width": 350,
+    "height": 1514,
+    "display": "flex",
+    "innerWidth": 350,
+    "tag": "aside",
+    "cls": "hk-rail"
+   },
+   "bodyCol": {
+    "left": 20,
+    "right": 370,
+    "top": 2435,
+    "width": 350,
+    "height": 10162,
+    "display": "block",
+    "innerWidth": 350,
+    "tag": "div",
+    "cls": "hk-article-body"
+   },
+   "prose": {
+    "left": 20,
+    "right": 370,
+    "top": 2545,
+    "width": 350,
+    "height": 9895,
+    "display": "block",
+    "innerWidth": 350,
+    "tag": "div",
+    "cls": "inspire-prose"
+   },
+   "rekod": {
+    "left": 20,
+    "right": 370,
+    "top": 523,
+    "width": 350,
+    "height": 226,
+    "display": "block",
+    "innerWidth": 350,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "toc": {
+    "left": 20,
+    "right": 370,
+    "top": 805,
+    "width": 350,
+    "height": 486,
+    "display": "block",
+    "innerWidth": 350,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "sumber": {
+    "left": 20,
+    "right": 370,
+    "top": 1347,
+    "width": 350,
+    "height": 389,
+    "display": "block",
+    "innerWidth": 350,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "measure": {
+    "widthPx": 350,
+    "fontSizePx": 17.0449,
+    "cpl": 41.1,
+    "sampleChars": 396
+   },
+   "candidates": [
+    {
+     "how": "aside",
+     "left": 20,
+     "right": 370,
+     "top": 523,
+     "width": 350,
+     "height": 1514,
+     "display": "flex",
+     "innerWidth": 350,
+     "tag": "aside",
+     "cls": "hk-rail"
+    },
+    {
+     "how": "aside",
+     "left": 20,
+     "right": 370,
+     "top": 1792,
+     "width": 350,
+     "height": 244,
+     "display": "block",
+     "innerWidth": 350,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 20,
+     "right": 370,
+     "top": 1792,
+     "width": 350,
+     "height": 244,
+     "display": "block",
+     "innerWidth": 350,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".s-rekod",
+     "left": 20,
+     "right": 370,
+     "top": 523,
+     "width": 350,
+     "height": 226,
+     "display": "block",
+     "innerWidth": 350,
+     "tag": "div",
+     "cls": "s-rekod"
+    },
+    {
+     "how": "[data-hk-rail]",
+     "left": 20,
+     "right": 370,
+     "top": 523,
+     "width": 350,
+     "height": 1514,
+     "display": "flex",
+     "innerWidth": 350,
+     "tag": "aside",
+     "cls": "hk-rail"
+    }
+   ]
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/ucapan-doa/doa-pengantin-baru",
+   "width": 768,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::xr226-1788203781454-b5c2fa7bb93d",
+    "cache": "HIT",
+    "age": "11",
+    "css": [
+     "8e7508183b8deda1.css",
+     "19b83a0982f1e330.css",
+     "93b060e57eb15691.css"
+    ]
+   },
+   "bodyH2": 8,
+   "layoutViewport": 768,
+   "innerWidth": 768,
+   "counts": {
+    "rail": 1,
+    "rekod": 1,
+    "toc": 1,
+    "sumber": 1,
+    "h1": 1
+   },
+   "toc_relocation": {
+    "inRail": 1,
+    "anywhere": 1
+   },
+   "rail": {
+    "left": 32,
+    "right": 736,
+    "top": 415,
+    "width": 704,
+    "height": 1374,
+    "display": "flex",
+    "innerWidth": 704,
+    "tag": "aside",
+    "cls": "hk-rail"
+   },
+   "bodyCol": {
+    "left": 32,
+    "right": 736,
+    "top": 2376,
+    "width": 704,
+    "height": 7310,
+    "display": "block",
+    "innerWidth": 704,
+    "tag": "div",
+    "cls": "hk-article-body"
+   },
+   "prose": {
+    "left": 32,
+    "right": 613.27,
+    "top": 2486,
+    "width": 581.27,
+    "height": 7070,
+    "display": "block",
+    "innerWidth": 581.27,
+    "tag": "div",
+    "cls": "inspire-prose"
+   },
+   "rekod": {
+    "left": 32,
+    "right": 736,
+    "top": 415,
+    "width": 704,
+    "height": 227,
+    "display": "block",
+    "innerWidth": 704,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "toc": {
+    "left": 32,
+    "right": 736,
+    "top": 698,
+    "width": 704,
+    "height": 499,
+    "display": "block",
+    "innerWidth": 704,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "sumber": {
+    "left": 32,
+    "right": 736,
+    "top": 1254,
+    "width": 704,
+    "height": 267,
+    "display": "block",
+    "innerWidth": 704,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "measure": {
+    "widthPx": 581.27,
+    "fontSizePx": 17.6142,
+    "cpl": 66,
+    "sampleChars": 396
+   },
+   "candidates": [
+    {
+     "how": "aside",
+     "left": 32,
+     "right": 736,
+     "top": 415,
+     "width": 704,
+     "height": 1374,
+     "display": "flex",
+     "innerWidth": 704,
+     "tag": "aside",
+     "cls": "hk-rail"
+    },
+    {
+     "how": "aside",
+     "left": 32,
+     "right": 736,
+     "top": 1577,
+     "width": 704,
+     "height": 213,
+     "display": "block",
+     "innerWidth": 704,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 32,
+     "right": 736,
+     "top": 1577,
+     "width": 704,
+     "height": 213,
+     "display": "block",
+     "innerWidth": 704,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".s-rekod",
+     "left": 32,
+     "right": 736,
+     "top": 415,
+     "width": 704,
+     "height": 227,
+     "display": "block",
+     "innerWidth": 704,
+     "tag": "div",
+     "cls": "s-rekod"
+    },
+    {
+     "how": "[data-hk-rail]",
+     "left": 32,
+     "right": 736,
+     "top": 415,
+     "width": 704,
+     "height": 1374,
+     "display": "flex",
+     "innerWidth": 704,
+     "tag": "aside",
+     "cls": "hk-rail"
+    }
+   ]
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/ucapan-doa/doa-pengantin-baru",
+   "width": 1024,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::m68gb-1788203782575-822d8f2e1b36",
+    "cache": "HIT",
+    "age": "13",
+    "css": [
+     "8e7508183b8deda1.css",
+     "19b83a0982f1e330.css",
+     "93b060e57eb15691.css"
+    ]
+   },
+   "bodyH2": 8,
+   "layoutViewport": 1024,
+   "innerWidth": 1024,
+   "counts": {
+    "rail": 1,
+    "rekod": 1,
+    "toc": 1,
+    "sumber": 1,
+    "h1": 1
+   },
+   "toc_relocation": {
+    "inRail": 1,
+    "anywhere": 1
+   },
+   "rail": {
+    "left": 684,
+    "right": 984,
+    "top": 318,
+    "width": 300,
+    "height": 1708,
+    "display": "flex",
+    "innerWidth": 300,
+    "tag": "aside",
+    "cls": "hk-rail"
+   },
+   "bodyCol": {
+    "left": 40,
+    "right": 620,
+    "top": 1073,
+    "width": 580,
+    "height": 7555,
+    "display": "block",
+    "innerWidth": 580,
+    "tag": "div",
+    "cls": "hk-article-body"
+   },
+   "prose": {
+    "left": 40,
+    "right": 620,
+    "top": 1183,
+    "width": 580,
+    "height": 7314,
+    "display": "block",
+    "innerWidth": 580,
+    "tag": "div",
+    "cls": "inspire-prose"
+   },
+   "rekod": {
+    "left": 684,
+    "right": 984,
+    "top": 318,
+    "width": 300,
+    "height": 232,
+    "display": "block",
+    "innerWidth": 268,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "toc": {
+    "left": 684,
+    "right": 984,
+    "top": 606,
+    "width": 300,
+    "height": 570,
+    "display": "block",
+    "innerWidth": 268,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "sumber": {
+    "left": 684,
+    "right": 984,
+    "top": 1231,
+    "width": 300,
+    "height": 470,
+    "display": "block",
+    "innerWidth": 268,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "measure": {
+    "widthPx": 580,
+    "fontSizePx": 17.9997,
+    "cpl": 64.4,
+    "sampleChars": 396
+   },
+   "candidates": [
+    {
+     "how": "aside",
+     "left": 684,
+     "right": 984,
+     "top": 318,
+     "width": 300,
+     "height": 1708,
+     "display": "flex",
+     "innerWidth": 300,
+     "tag": "aside",
+     "cls": "hk-rail"
+    },
+    {
+     "how": "aside",
+     "left": 700,
+     "right": 968,
+     "top": 1757,
+     "width": 268,
+     "height": 269,
+     "display": "block",
+     "innerWidth": 268,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 700,
+     "right": 968,
+     "top": 1757,
+     "width": 268,
+     "height": 269,
+     "display": "block",
+     "innerWidth": 268,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".s-rekod",
+     "left": 700,
+     "right": 968,
+     "top": 318,
+     "width": 268,
+     "height": 232,
+     "display": "block",
+     "innerWidth": 268,
+     "tag": "div",
+     "cls": "s-rekod"
+    },
+    {
+     "how": "[data-hk-rail]",
+     "left": 684,
+     "right": 984,
+     "top": 318,
+     "width": 300,
+     "height": 1708,
+     "display": "flex",
+     "innerWidth": 300,
+     "tag": "aside",
+     "cls": "hk-rail"
+    }
+   ]
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/ucapan-doa/doa-pengantin-baru",
+   "width": 1440,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::l6886-1788203783317-4491f75ab66a",
+    "cache": "HIT",
+    "age": "13",
+    "css": [
+     "8e7508183b8deda1.css",
+     "19b83a0982f1e330.css",
+     "93b060e57eb15691.css"
+    ]
+   },
+   "bodyH2": 8,
+   "layoutViewport": 1440,
+   "innerWidth": 1440,
+   "counts": {
+    "rail": 1,
+    "rekod": 1,
+    "toc": 1,
+    "sumber": 1,
+    "h1": 1
+   },
+   "toc_relocation": {
+    "inRail": 1,
+    "anywhere": 1
+   },
+   "rail": {
+    "left": 940,
+    "right": 1240,
+    "top": 266,
+    "width": 300,
+    "height": 1708,
+    "display": "flex",
+    "innerWidth": 300,
+    "tag": "aside",
+    "cls": "hk-rail"
+   },
+   "bodyCol": {
+    "left": 120,
+    "right": 876,
+    "top": 1139,
+    "width": 756,
+    "height": 7373,
+    "display": "block",
+    "innerWidth": 756,
+    "tag": "div",
+    "cls": "hk-article-body"
+   },
+   "prose": {
+    "left": 120,
+    "right": 714,
+    "top": 1249,
+    "width": 594,
+    "height": 7132,
+    "display": "block",
+    "innerWidth": 594,
+    "tag": "div",
+    "cls": "inspire-prose"
+   },
+   "rekod": {
+    "left": 940,
+    "right": 1240,
+    "top": 266,
+    "width": 300,
+    "height": 232,
+    "display": "block",
+    "innerWidth": 268,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "toc": {
+    "left": 940,
+    "right": 1240,
+    "top": 554,
+    "width": 300,
+    "height": 570,
+    "display": "block",
+    "innerWidth": 268,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "sumber": {
+    "left": 940,
+    "right": 1240,
+    "top": 1179,
+    "width": 300,
+    "height": 470,
+    "display": "block",
+    "innerWidth": 268,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "measure": {
+    "widthPx": 594,
+    "fontSizePx": 18,
+    "cpl": 66,
+    "sampleChars": 396
+   },
+   "candidates": [
+    {
+     "how": "aside",
+     "left": 940,
+     "right": 1240,
+     "top": 266,
+     "width": 300,
+     "height": 1708,
+     "display": "flex",
+     "innerWidth": 300,
+     "tag": "aside",
+     "cls": "hk-rail"
+    },
+    {
+     "how": "aside",
+     "left": 956,
+     "right": 1224,
+     "top": 1705,
+     "width": 268,
+     "height": 269,
+     "display": "block",
+     "innerWidth": 268,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 956,
+     "right": 1224,
+     "top": 1705,
+     "width": 268,
+     "height": 269,
+     "display": "block",
+     "innerWidth": 268,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".s-rekod",
+     "left": 956,
+     "right": 1224,
+     "top": 266,
+     "width": 268,
+     "height": 232,
+     "display": "block",
+     "innerWidth": 268,
+     "tag": "div",
+     "cls": "s-rekod"
+    },
+    {
+     "how": "[data-hk-rail]",
+     "left": 940,
+     "right": 1240,
+     "top": 266,
+     "width": 300,
+     "height": 1708,
+     "display": "flex",
+     "innerWidth": 300,
+     "tag": "aside",
+     "cls": "hk-rail"
+    }
+   ]
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/ucapan-doa/doa-pengantin-baru",
+   "width": 1920,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::g8lgp-1788203784320-34e71bcb70bd",
+    "cache": "HIT",
+    "age": "14",
+    "css": [
+     "8e7508183b8deda1.css",
+     "19b83a0982f1e330.css",
+     "93b060e57eb15691.css"
+    ]
+   },
+   "bodyH2": 8,
+   "layoutViewport": 1920,
+   "innerWidth": 1920,
+   "counts": {
+    "rail": 1,
+    "rekod": 1,
+    "toc": 1,
+    "sumber": 1,
+    "h1": 1
+   },
+   "toc_relocation": {
+    "inRail": 1,
+    "anywhere": 1
+   },
+   "rail": {
+    "left": 1052,
+    "right": 1352,
+    "top": 266,
+    "width": 300,
+    "height": 1708,
+    "display": "flex",
+    "innerWidth": 300,
+    "tag": "aside",
+    "cls": "hk-rail"
+   },
+   "bodyCol": {
+    "left": 232,
+    "right": 988,
+    "top": 1139,
+    "width": 756,
+    "height": 7373,
+    "display": "block",
+    "innerWidth": 756,
+    "tag": "div",
+    "cls": "hk-article-body"
+   },
+   "prose": {
+    "left": 232,
+    "right": 826,
+    "top": 1249,
+    "width": 594,
+    "height": 7132,
+    "display": "block",
+    "innerWidth": 594,
+    "tag": "div",
+    "cls": "inspire-prose"
+   },
+   "rekod": {
+    "left": 1052,
+    "right": 1352,
+    "top": 266,
+    "width": 300,
+    "height": 232,
+    "display": "block",
+    "innerWidth": 268,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "toc": {
+    "left": 1052,
+    "right": 1352,
+    "top": 554,
+    "width": 300,
+    "height": 570,
+    "display": "block",
+    "innerWidth": 268,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "sumber": {
+    "left": 1052,
+    "right": 1352,
+    "top": 1179,
+    "width": 300,
+    "height": 470,
+    "display": "block",
+    "innerWidth": 268,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "measure": {
+    "widthPx": 594,
+    "fontSizePx": 18,
+    "cpl": 66,
+    "sampleChars": 396
+   },
+   "candidates": [
+    {
+     "how": "aside",
+     "left": 1052,
+     "right": 1352,
+     "top": 266,
+     "width": 300,
+     "height": 1708,
+     "display": "flex",
+     "innerWidth": 300,
+     "tag": "aside",
+     "cls": "hk-rail"
+    },
+    {
+     "how": "aside",
+     "left": 1068,
+     "right": 1336,
+     "top": 1705,
+     "width": 268,
+     "height": 269,
+     "display": "block",
+     "innerWidth": 268,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 1068,
+     "right": 1336,
+     "top": 1705,
+     "width": 268,
+     "height": 269,
+     "display": "block",
+     "innerWidth": 268,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".s-rekod",
+     "left": 1068,
+     "right": 1336,
+     "top": 266,
+     "width": 268,
+     "height": 232,
+     "display": "block",
+     "innerWidth": 268,
+     "tag": "div",
+     "cls": "s-rekod"
+    },
+    {
+     "how": "[data-hk-rail]",
+     "left": 1052,
+     "right": 1352,
+     "top": 266,
+     "width": 300,
+     "height": 1708,
+     "display": "flex",
+     "innerWidth": 300,
+     "tag": "aside",
+     "cls": "hk-rail"
+    }
+   ]
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/cara-tetapkan-duit-hantaran",
+   "width": 390,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::9njdt-1788203785056-60df3cd2b0b7",
+    "cache": "HIT",
+    "age": "16",
+    "css": [
+     "8e7508183b8deda1.css",
+     "19b83a0982f1e330.css",
+     "93b060e57eb15691.css"
+    ]
+   },
+   "bodyH2": 6,
+   "layoutViewport": 390,
+   "innerWidth": 390,
+   "counts": {
+    "rail": 1,
+    "rekod": 1,
+    "toc": 1,
+    "sumber": 1,
+    "h1": 1
+   },
+   "toc_relocation": {
+    "inRail": 1,
+    "anywhere": 1
+   },
+   "rail": {
+    "left": 20,
+    "right": 370,
+    "top": 550,
+    "width": 350,
+    "height": 1150,
+    "display": "flex",
+    "innerWidth": 350,
+    "tag": "aside",
+    "cls": "hk-rail"
+   },
+   "bodyCol": {
+    "left": 20,
+    "right": 370,
+    "top": 2098,
+    "width": 350,
+    "height": 7654,
+    "display": "block",
+    "innerWidth": 350,
+    "tag": "div",
+    "cls": "hk-article-body"
+   },
+   "prose": {
+    "left": 20,
+    "right": 370,
+    "top": 2208,
+    "width": 350,
+    "height": 7413,
+    "display": "block",
+    "innerWidth": 350,
+    "tag": "div",
+    "cls": "inspire-prose"
+   },
+   "rekod": {
+    "left": 20,
+    "right": 370,
+    "top": 550,
+    "width": 350,
+    "height": 226,
+    "display": "block",
+    "innerWidth": 350,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "toc": {
+    "left": 20,
+    "right": 370,
+    "top": 832,
+    "width": 350,
+    "height": 379,
+    "display": "block",
+    "innerWidth": 350,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "sumber": {
+    "left": 20,
+    "right": 370,
+    "top": 1267,
+    "width": 350,
+    "height": 108,
+    "display": "block",
+    "innerWidth": 350,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "measure": {
+    "widthPx": 350,
+    "fontSizePx": 17.0449,
+    "cpl": 41.1,
+    "sampleChars": 394
+   },
+   "candidates": [
+    {
+     "how": "aside",
+     "left": 20,
+     "right": 370,
+     "top": 550,
+     "width": 350,
+     "height": 1150,
+     "display": "flex",
+     "innerWidth": 350,
+     "tag": "aside",
+     "cls": "hk-rail"
+    },
+    {
+     "how": "aside",
+     "left": 20,
+     "right": 370,
+     "top": 1431,
+     "width": 350,
+     "height": 268,
+     "display": "block",
+     "innerWidth": 350,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 20,
+     "right": 370,
+     "top": 1431,
+     "width": 350,
+     "height": 268,
+     "display": "block",
+     "innerWidth": 350,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".s-rekod",
+     "left": 20,
+     "right": 370,
+     "top": 550,
+     "width": 350,
+     "height": 226,
+     "display": "block",
+     "innerWidth": 350,
+     "tag": "div",
+     "cls": "s-rekod"
+    },
+    {
+     "how": "[data-hk-rail]",
+     "left": 20,
+     "right": 370,
+     "top": 550,
+     "width": 350,
+     "height": 1150,
+     "display": "flex",
+     "innerWidth": 350,
+     "tag": "aside",
+     "cls": "hk-rail"
+    }
+   ]
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/cara-tetapkan-duit-hantaran",
+   "width": 768,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::4glmb-1788203786007-353e3942bd2d",
+    "cache": "HIT",
+    "age": "17",
+    "css": [
+     "8e7508183b8deda1.css",
+     "19b83a0982f1e330.css",
+     "93b060e57eb15691.css"
+    ]
+   },
+   "bodyH2": 6,
+   "layoutViewport": 768,
+   "innerWidth": 768,
+   "counts": {
+    "rail": 1,
+    "rekod": 1,
+    "toc": 1,
+    "sumber": 1,
+    "h1": 1
+   },
+   "toc_relocation": {
+    "inRail": 1,
+    "anywhere": 1
+   },
+   "rail": {
+    "left": 32,
+    "right": 736,
+    "top": 415,
+    "width": 704,
+    "height": 1085,
+    "display": "flex",
+    "innerWidth": 704,
+    "tag": "aside",
+    "cls": "hk-rail"
+   },
+   "bodyCol": {
+    "left": 32,
+    "right": 736,
+    "top": 2086,
+    "width": 704,
+    "height": 5398,
+    "display": "block",
+    "innerWidth": 704,
+    "tag": "div",
+    "cls": "hk-article-body"
+   },
+   "prose": {
+    "left": 32,
+    "right": 613.27,
+    "top": 2196,
+    "width": 581.27,
+    "height": 5157,
+    "display": "block",
+    "innerWidth": 581.27,
+    "tag": "div",
+    "cls": "inspire-prose"
+   },
+   "rekod": {
+    "left": 32,
+    "right": 736,
+    "top": 415,
+    "width": 704,
+    "height": 227,
+    "display": "block",
+    "innerWidth": 704,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "toc": {
+    "left": 32,
+    "right": 736,
+    "top": 698,
+    "width": 704,
+    "height": 389,
+    "display": "block",
+    "innerWidth": 704,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "sumber": {
+    "left": 32,
+    "right": 736,
+    "top": 1143,
+    "width": 704,
+    "height": 88,
+    "display": "block",
+    "innerWidth": 704,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "measure": {
+    "widthPx": 581.27,
+    "fontSizePx": 17.6142,
+    "cpl": 66,
+    "sampleChars": 394
+   },
+   "candidates": [
+    {
+     "how": "aside",
+     "left": 32,
+     "right": 736,
+     "top": 415,
+     "width": 704,
+     "height": 1085,
+     "display": "flex",
+     "innerWidth": 704,
+     "tag": "aside",
+     "cls": "hk-rail"
+    },
+    {
+     "how": "aside",
+     "left": 32,
+     "right": 736,
+     "top": 1287,
+     "width": 704,
+     "height": 213,
+     "display": "block",
+     "innerWidth": 704,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 32,
+     "right": 736,
+     "top": 1287,
+     "width": 704,
+     "height": 213,
+     "display": "block",
+     "innerWidth": 704,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".s-rekod",
+     "left": 32,
+     "right": 736,
+     "top": 415,
+     "width": 704,
+     "height": 227,
+     "display": "block",
+     "innerWidth": 704,
+     "tag": "div",
+     "cls": "s-rekod"
+    },
+    {
+     "how": "[data-hk-rail]",
+     "left": 32,
+     "right": 736,
+     "top": 415,
+     "width": 704,
+     "height": 1085,
+     "display": "flex",
+     "innerWidth": 704,
+     "tag": "aside",
+     "cls": "hk-rail"
+    }
+   ]
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/cara-tetapkan-duit-hantaran",
+   "width": 1024,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::fhxmc-1788203786731-cabcad09a0fc",
+    "cache": "HIT",
+    "age": "18",
+    "css": [
+     "8e7508183b8deda1.css",
+     "19b83a0982f1e330.css",
+     "93b060e57eb15691.css"
+    ]
+   },
+   "bodyH2": 6,
+   "layoutViewport": 1024,
+   "innerWidth": 1024,
+   "counts": {
+    "rail": 1,
+    "rekod": 1,
+    "toc": 1,
+    "sumber": 1,
+    "h1": 1
+   },
+   "toc_relocation": {
+    "inRail": 1,
+    "anywhere": 1
+   },
+   "rail": {
+    "left": 684,
+    "right": 984,
+    "top": 318,
+    "width": 300,
+    "height": 1268,
+    "display": "flex",
+    "innerWidth": 300,
+    "tag": "aside",
+    "cls": "hk-rail"
+   },
+   "bodyCol": {
+    "left": 40,
+    "right": 620,
+    "top": 1103,
+    "width": 580,
+    "height": 5557,
+    "display": "block",
+    "innerWidth": 580,
+    "tag": "div",
+    "cls": "hk-article-body"
+   },
+   "prose": {
+    "left": 40,
+    "right": 620,
+    "top": 1213,
+    "width": 580,
+    "height": 5316,
+    "display": "block",
+    "innerWidth": 580,
+    "tag": "div",
+    "cls": "inspire-prose"
+   },
+   "rekod": {
+    "left": 684,
+    "right": 984,
+    "top": 318,
+    "width": 300,
+    "height": 232,
+    "display": "block",
+    "innerWidth": 268,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "toc": {
+    "left": 684,
+    "right": 984,
+    "top": 606,
+    "width": 300,
+    "height": 471,
+    "display": "block",
+    "innerWidth": 268,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "sumber": {
+    "left": 684,
+    "right": 984,
+    "top": 1133,
+    "width": 300,
+    "height": 129,
+    "display": "block",
+    "innerWidth": 268,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "measure": {
+    "widthPx": 580,
+    "fontSizePx": 17.9997,
+    "cpl": 64.4,
+    "sampleChars": 394
+   },
+   "candidates": [
+    {
+     "how": "aside",
+     "left": 684,
+     "right": 984,
+     "top": 318,
+     "width": 300,
+     "height": 1268,
+     "display": "flex",
+     "innerWidth": 300,
+     "tag": "aside",
+     "cls": "hk-rail"
+    },
+    {
+     "how": "aside",
+     "left": 700,
+     "right": 968,
+     "top": 1318,
+     "width": 268,
+     "height": 269,
+     "display": "block",
+     "innerWidth": 268,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 700,
+     "right": 968,
+     "top": 1318,
+     "width": 268,
+     "height": 269,
+     "display": "block",
+     "innerWidth": 268,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".s-rekod",
+     "left": 700,
+     "right": 968,
+     "top": 318,
+     "width": 268,
+     "height": 232,
+     "display": "block",
+     "innerWidth": 268,
+     "tag": "div",
+     "cls": "s-rekod"
+    },
+    {
+     "how": "[data-hk-rail]",
+     "left": 684,
+     "right": 984,
+     "top": 318,
+     "width": 300,
+     "height": 1268,
+     "display": "flex",
+     "innerWidth": 300,
+     "tag": "aside",
+     "cls": "hk-rail"
+    }
+   ]
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/cara-tetapkan-duit-hantaran",
+   "width": 1440,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::glvc9-1788203787542-3fd73f52a2d2",
+    "cache": "HIT",
+    "age": "19",
+    "css": [
+     "8e7508183b8deda1.css",
+     "19b83a0982f1e330.css",
+     "93b060e57eb15691.css"
+    ]
+   },
+   "bodyH2": 6,
+   "layoutViewport": 1440,
+   "innerWidth": 1440,
+   "counts": {
+    "rail": 1,
+    "rekod": 1,
+    "toc": 1,
+    "sumber": 1,
+    "h1": 1
+   },
+   "toc_relocation": {
+    "inRail": 1,
+    "anywhere": 1
+   },
+   "rail": {
+    "left": 940,
+    "right": 1240,
+    "top": 266,
+    "width": 300,
+    "height": 1268,
+    "display": "flex",
+    "innerWidth": 300,
+    "tag": "aside",
+    "cls": "hk-rail"
+   },
+   "bodyCol": {
+    "left": 120,
+    "right": 876,
+    "top": 1139,
+    "width": 756,
+    "height": 5495,
+    "display": "block",
+    "innerWidth": 756,
+    "tag": "div",
+    "cls": "hk-article-body"
+   },
+   "prose": {
+    "left": 120,
+    "right": 714,
+    "top": 1249,
+    "width": 594,
+    "height": 5255,
+    "display": "block",
+    "innerWidth": 594,
+    "tag": "div",
+    "cls": "inspire-prose"
+   },
+   "rekod": {
+    "left": 940,
+    "right": 1240,
+    "top": 266,
+    "width": 300,
+    "height": 232,
+    "display": "block",
+    "innerWidth": 268,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "toc": {
+    "left": 940,
+    "right": 1240,
+    "top": 554,
+    "width": 300,
+    "height": 471,
+    "display": "block",
+    "innerWidth": 268,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "sumber": {
+    "left": 940,
+    "right": 1240,
+    "top": 1081,
+    "width": 300,
+    "height": 129,
+    "display": "block",
+    "innerWidth": 268,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "measure": {
+    "widthPx": 594,
+    "fontSizePx": 18,
+    "cpl": 66,
+    "sampleChars": 394
+   },
+   "candidates": [
+    {
+     "how": "aside",
+     "left": 940,
+     "right": 1240,
+     "top": 266,
+     "width": 300,
+     "height": 1268,
+     "display": "flex",
+     "innerWidth": 300,
+     "tag": "aside",
+     "cls": "hk-rail"
+    },
+    {
+     "how": "aside",
+     "left": 956,
+     "right": 1224,
+     "top": 1266,
+     "width": 268,
+     "height": 269,
+     "display": "block",
+     "innerWidth": 268,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 956,
+     "right": 1224,
+     "top": 1266,
+     "width": 268,
+     "height": 269,
+     "display": "block",
+     "innerWidth": 268,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".s-rekod",
+     "left": 956,
+     "right": 1224,
+     "top": 266,
+     "width": 268,
+     "height": 232,
+     "display": "block",
+     "innerWidth": 268,
+     "tag": "div",
+     "cls": "s-rekod"
+    },
+    {
+     "how": "[data-hk-rail]",
+     "left": 940,
+     "right": 1240,
+     "top": 266,
+     "width": 300,
+     "height": 1268,
+     "display": "flex",
+     "innerWidth": 300,
+     "tag": "aside",
+     "cls": "hk-rail"
+    }
+   ]
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/cara-tetapkan-duit-hantaran",
+   "width": 1920,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::nkr88-1788203788349-326d9c22c2cd",
+    "cache": "HIT",
+    "age": "19",
+    "css": [
+     "8e7508183b8deda1.css",
+     "19b83a0982f1e330.css",
+     "93b060e57eb15691.css"
+    ]
+   },
+   "bodyH2": 6,
+   "layoutViewport": 1920,
+   "innerWidth": 1920,
+   "counts": {
+    "rail": 1,
+    "rekod": 1,
+    "toc": 1,
+    "sumber": 1,
+    "h1": 1
+   },
+   "toc_relocation": {
+    "inRail": 1,
+    "anywhere": 1
+   },
+   "rail": {
+    "left": 1052,
+    "right": 1352,
+    "top": 266,
+    "width": 300,
+    "height": 1268,
+    "display": "flex",
+    "innerWidth": 300,
+    "tag": "aside",
+    "cls": "hk-rail"
+   },
+   "bodyCol": {
+    "left": 232,
+    "right": 988,
+    "top": 1139,
+    "width": 756,
+    "height": 5495,
+    "display": "block",
+    "innerWidth": 756,
+    "tag": "div",
+    "cls": "hk-article-body"
+   },
+   "prose": {
+    "left": 232,
+    "right": 826,
+    "top": 1249,
+    "width": 594,
+    "height": 5255,
+    "display": "block",
+    "innerWidth": 594,
+    "tag": "div",
+    "cls": "inspire-prose"
+   },
+   "rekod": {
+    "left": 1052,
+    "right": 1352,
+    "top": 266,
+    "width": 300,
+    "height": 232,
+    "display": "block",
+    "innerWidth": 268,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "toc": {
+    "left": 1052,
+    "right": 1352,
+    "top": 554,
+    "width": 300,
+    "height": 471,
+    "display": "block",
+    "innerWidth": 268,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "sumber": {
+    "left": 1052,
+    "right": 1352,
+    "top": 1081,
+    "width": 300,
+    "height": 129,
+    "display": "block",
+    "innerWidth": 268,
+    "tag": "div",
+    "cls": "hk-rail-block"
+   },
+   "measure": {
+    "widthPx": 594,
+    "fontSizePx": 18,
+    "cpl": 66,
+    "sampleChars": 394
+   },
+   "candidates": [
+    {
+     "how": "aside",
+     "left": 1052,
+     "right": 1352,
+     "top": 266,
+     "width": 300,
+     "height": 1268,
+     "display": "flex",
+     "innerWidth": 300,
+     "tag": "aside",
+     "cls": "hk-rail"
+    },
+    {
+     "how": "aside",
+     "left": 1068,
+     "right": 1336,
+     "top": 1266,
+     "width": 268,
+     "height": 269,
+     "display": "block",
+     "innerWidth": 268,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 1068,
+     "right": 1336,
+     "top": 1266,
+     "width": 268,
+     "height": 269,
+     "display": "block",
+     "innerWidth": 268,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".s-rekod",
+     "left": 1068,
+     "right": 1336,
+     "top": 266,
+     "width": 268,
+     "height": 232,
+     "display": "block",
+     "innerWidth": 268,
+     "tag": "div",
+     "cls": "s-rekod"
+    },
+    {
+     "how": "[data-hk-rail]",
+     "left": 1052,
+     "right": 1352,
+     "top": 266,
+     "width": 300,
+     "height": 1268,
+     "display": "flex",
+     "innerWidth": 300,
+     "tag": "aside",
+     "cls": "hk-rail"
+    }
+   ]
+  }
+ ],
+ "fail": [],
+ "observed": []
+}

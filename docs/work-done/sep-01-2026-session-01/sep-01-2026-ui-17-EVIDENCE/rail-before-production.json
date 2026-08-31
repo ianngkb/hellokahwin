@@ -1,0 +1,2103 @@
+{
+ "rows": [
+  {
+   "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding",
+   "width": 390,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::xmf5x-1788198799269-8c3aa3934852",
+    "cache": "HIT",
+    "age": "8",
+    "css": [
+     "d0eb02e81ca49aac.css",
+     "19b83a0982f1e330.css",
+     "eaa300a9560545ab.css"
+    ]
+   },
+   "layoutViewport": 390,
+   "innerWidth": 390,
+   "counts": {
+    "rail": 0,
+    "rekod": 1,
+    "toc": 0,
+    "sumber": 0,
+    "h1": 1
+   },
+   "rail": null,
+   "bodyCol": {
+    "left": 20,
+    "right": 370,
+    "top": 1049,
+    "width": 350,
+    "height": 16449,
+    "display": "block",
+    "innerWidth": 350,
+    "tag": "article",
+    "cls": ""
+   },
+   "prose": {
+    "left": 20,
+    "right": 370,
+    "top": 1159,
+    "width": 350,
+    "height": 16182,
+    "display": "block",
+    "innerWidth": 350,
+    "tag": "div",
+    "cls": "inspire-prose"
+   },
+   "rekod": {
+    "left": 20,
+    "right": 370,
+    "top": 472,
+    "width": 350,
+    "height": 226,
+    "display": "block",
+    "innerWidth": 350,
+    "tag": "div",
+    "cls": "s-rekod mt-5"
+   },
+   "toc": null,
+   "sumber": null,
+   "measure": {
+    "widthPx": 350,
+    "fontSizePx": 17.0449,
+    "cpl": 41.1,
+    "sampleChars": 328
+   },
+   "candidates": [
+    {
+     "how": "aside",
+     "left": 0,
+     "right": 0,
+     "top": 0,
+     "width": 0,
+     "height": 0,
+     "display": "block",
+     "innerWidth": 0,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": "aside",
+     "left": 20,
+     "right": 370,
+     "top": 17563,
+     "width": 350,
+     "height": 147,
+     "display": "block",
+     "innerWidth": 350,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 0,
+     "right": 0,
+     "top": 0,
+     "width": 0,
+     "height": 0,
+     "display": "block",
+     "innerWidth": 0,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 20,
+     "right": 370,
+     "top": 17563,
+     "width": 350,
+     "height": 147,
+     "display": "block",
+     "innerWidth": 350,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".s-rekod",
+     "left": 20,
+     "right": 370,
+     "top": 472,
+     "width": 350,
+     "height": 226,
+     "display": "block",
+     "innerWidth": 350,
+     "tag": "div",
+     "cls": "s-rekod mt-5"
+    }
+   ]
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding",
+   "width": 768,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::5cz5c-1788198800670-01a2b36fe007",
+    "cache": "HIT",
+    "age": "9",
+    "css": [
+     "d0eb02e81ca49aac.css",
+     "19b83a0982f1e330.css",
+     "eaa300a9560545ab.css"
+    ]
+   },
+   "layoutViewport": 768,
+   "innerWidth": 768,
+   "counts": {
+    "rail": 0,
+    "rekod": 1,
+    "toc": 0,
+    "sumber": 0,
+    "h1": 1
+   },
+   "rail": null,
+   "bodyCol": {
+    "left": 32,
+    "right": 613.27,
+    "top": 1204,
+    "width": 581.27,
+    "height": 12632,
+    "display": "block",
+    "innerWidth": 581.27,
+    "tag": "article",
+    "cls": ""
+   },
+   "prose": {
+    "left": 32,
+    "right": 613.27,
+    "top": 1314,
+    "width": 581.27,
+    "height": 12391,
+    "display": "block",
+    "innerWidth": 581.27,
+    "tag": "div",
+    "cls": "inspire-prose"
+   },
+   "rekod": {
+    "left": 32,
+    "right": 736,
+    "top": 390,
+    "width": 704,
+    "height": 227,
+    "display": "block",
+    "innerWidth": 704,
+    "tag": "div",
+    "cls": "s-rekod mt-5"
+   },
+   "toc": null,
+   "sumber": null,
+   "measure": {
+    "widthPx": 581.27,
+    "fontSizePx": 17.6142,
+    "cpl": 66,
+    "sampleChars": 328
+   },
+   "candidates": [
+    {
+     "how": "aside",
+     "left": 0,
+     "right": 0,
+     "top": 0,
+     "width": 0,
+     "height": 0,
+     "display": "block",
+     "innerWidth": 0,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": "aside",
+     "left": 32,
+     "right": 736,
+     "top": 13901,
+     "width": 704,
+     "height": 147,
+     "display": "block",
+     "innerWidth": 704,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 0,
+     "right": 0,
+     "top": 0,
+     "width": 0,
+     "height": 0,
+     "display": "block",
+     "innerWidth": 0,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 32,
+     "right": 736,
+     "top": 13901,
+     "width": 704,
+     "height": 147,
+     "display": "block",
+     "innerWidth": 704,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".s-rekod",
+     "left": 32,
+     "right": 736,
+     "top": 390,
+     "width": 704,
+     "height": 227,
+     "display": "block",
+     "innerWidth": 704,
+     "tag": "div",
+     "cls": "s-rekod mt-5"
+    }
+   ]
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding",
+   "width": 1024,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::7t82s-1788198801380-2729e9fb758c",
+    "cache": "HIT",
+    "age": "10",
+    "css": [
+     "d0eb02e81ca49aac.css",
+     "19b83a0982f1e330.css",
+     "eaa300a9560545ab.css"
+    ]
+   },
+   "layoutViewport": 1024,
+   "innerWidth": 1024,
+   "counts": {
+    "rail": 0,
+    "rekod": 1,
+    "toc": 0,
+    "sumber": 0,
+    "h1": 1
+   },
+   "rail": null,
+   "bodyCol": {
+    "left": 40,
+    "right": 633.98,
+    "top": 1420,
+    "width": 593.98,
+    "height": 12837,
+    "display": "block",
+    "innerWidth": 593.98,
+    "tag": "article",
+    "cls": ""
+   },
+   "prose": {
+    "left": 40,
+    "right": 633.98,
+    "top": 1530,
+    "width": 593.98,
+    "height": 12596,
+    "display": "block",
+    "innerWidth": 593.98,
+    "tag": "div",
+    "cls": "inspire-prose"
+   },
+   "rekod": {
+    "left": 40,
+    "right": 808,
+    "top": 560,
+    "width": 768,
+    "height": 232,
+    "display": "block",
+    "innerWidth": 768,
+    "tag": "div",
+    "cls": "s-rekod mt-5"
+   },
+   "toc": null,
+   "sumber": null,
+   "measure": {
+    "widthPx": 593.98,
+    "fontSizePx": 17.9997,
+    "cpl": 66,
+    "sampleChars": 328
+   },
+   "candidates": [
+    {
+     "how": "aside",
+     "left": 704,
+     "right": 984,
+     "top": 1420,
+     "width": 280,
+     "height": 172,
+     "display": "block",
+     "innerWidth": 280,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": "aside",
+     "left": 0,
+     "right": 0,
+     "top": 0,
+     "width": 0,
+     "height": 0,
+     "display": "block",
+     "innerWidth": 0,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 704,
+     "right": 984,
+     "top": 1420,
+     "width": 280,
+     "height": 172,
+     "display": "block",
+     "innerWidth": 280,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 0,
+     "right": 0,
+     "top": 0,
+     "width": 0,
+     "height": 0,
+     "display": "block",
+     "innerWidth": 0,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".s-rekod",
+     "left": 40,
+     "right": 808,
+     "top": 560,
+     "width": 768,
+     "height": 232,
+     "display": "block",
+     "innerWidth": 768,
+     "tag": "div",
+     "cls": "s-rekod mt-5"
+    }
+   ]
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding",
+   "width": 1440,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::5nx9q-1788198802116-e97e6269aedc",
+    "cache": "HIT",
+    "age": "10",
+    "css": [
+     "d0eb02e81ca49aac.css",
+     "19b83a0982f1e330.css",
+     "eaa300a9560545ab.css"
+    ]
+   },
+   "layoutViewport": 1440,
+   "innerWidth": 1440,
+   "counts": {
+    "rail": 0,
+    "rekod": 1,
+    "toc": 0,
+    "sumber": 0,
+    "h1": 1
+   },
+   "rail": null,
+   "bodyCol": {
+    "left": 120,
+    "right": 714,
+    "top": 1368,
+    "width": 594,
+    "height": 12837,
+    "display": "block",
+    "innerWidth": 594,
+    "tag": "article",
+    "cls": ""
+   },
+   "prose": {
+    "left": 120,
+    "right": 714,
+    "top": 1478,
+    "width": 594,
+    "height": 12596,
+    "display": "block",
+    "innerWidth": 594,
+    "tag": "div",
+    "cls": "inspire-prose"
+   },
+   "rekod": {
+    "left": 120,
+    "right": 888,
+    "top": 508,
+    "width": 768,
+    "height": 232,
+    "display": "block",
+    "innerWidth": 768,
+    "tag": "div",
+    "cls": "s-rekod mt-5"
+   },
+   "toc": null,
+   "sumber": null,
+   "measure": {
+    "widthPx": 594,
+    "fontSizePx": 18,
+    "cpl": 66,
+    "sampleChars": 328
+   },
+   "candidates": [
+    {
+     "how": "aside",
+     "left": 1040,
+     "right": 1320,
+     "top": 1368,
+     "width": 280,
+     "height": 172,
+     "display": "block",
+     "innerWidth": 280,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": "aside",
+     "left": 0,
+     "right": 0,
+     "top": 0,
+     "width": 0,
+     "height": 0,
+     "display": "block",
+     "innerWidth": 0,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 1040,
+     "right": 1320,
+     "top": 1368,
+     "width": 280,
+     "height": 172,
+     "display": "block",
+     "innerWidth": 280,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 0,
+     "right": 0,
+     "top": 0,
+     "width": 0,
+     "height": 0,
+     "display": "block",
+     "innerWidth": 0,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".s-rekod",
+     "left": 120,
+     "right": 888,
+     "top": 508,
+     "width": 768,
+     "height": 232,
+     "display": "block",
+     "innerWidth": 768,
+     "tag": "div",
+     "cls": "s-rekod mt-5"
+    }
+   ]
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding",
+   "width": 1920,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::sfggw-1788198802888-f9a2d6c50c13",
+    "cache": "HIT",
+    "age": "11",
+    "css": [
+     "d0eb02e81ca49aac.css",
+     "19b83a0982f1e330.css",
+     "eaa300a9560545ab.css"
+    ]
+   },
+   "layoutViewport": 1920,
+   "innerWidth": 1920,
+   "counts": {
+    "rail": 0,
+    "rekod": 1,
+    "toc": 0,
+    "sumber": 0,
+    "h1": 1
+   },
+   "rail": null,
+   "bodyCol": {
+    "left": 232,
+    "right": 826,
+    "top": 1368,
+    "width": 594,
+    "height": 12837,
+    "display": "block",
+    "innerWidth": 594,
+    "tag": "article",
+    "cls": ""
+   },
+   "prose": {
+    "left": 232,
+    "right": 826,
+    "top": 1478,
+    "width": 594,
+    "height": 12596,
+    "display": "block",
+    "innerWidth": 594,
+    "tag": "div",
+    "cls": "inspire-prose"
+   },
+   "rekod": {
+    "left": 232,
+    "right": 1000,
+    "top": 508,
+    "width": 768,
+    "height": 232,
+    "display": "block",
+    "innerWidth": 768,
+    "tag": "div",
+    "cls": "s-rekod mt-5"
+   },
+   "toc": null,
+   "sumber": null,
+   "measure": {
+    "widthPx": 594,
+    "fontSizePx": 18,
+    "cpl": 66,
+    "sampleChars": 328
+   },
+   "candidates": [
+    {
+     "how": "aside",
+     "left": 1408,
+     "right": 1688,
+     "top": 1368,
+     "width": 280,
+     "height": 172,
+     "display": "block",
+     "innerWidth": 280,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": "aside",
+     "left": 0,
+     "right": 0,
+     "top": 0,
+     "width": 0,
+     "height": 0,
+     "display": "block",
+     "innerWidth": 0,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 1408,
+     "right": 1688,
+     "top": 1368,
+     "width": 280,
+     "height": 172,
+     "display": "block",
+     "innerWidth": 280,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 0,
+     "right": 0,
+     "top": 0,
+     "width": 0,
+     "height": 0,
+     "display": "block",
+     "innerWidth": 0,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".s-rekod",
+     "left": 232,
+     "right": 1000,
+     "top": 508,
+     "width": 768,
+     "height": 232,
+     "display": "block",
+     "innerWidth": 768,
+     "tag": "div",
+     "cls": "s-rekod mt-5"
+    }
+   ]
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri",
+   "width": 390,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::s6n5b-1788198803634-1ce5608a0cbb",
+    "cache": "HIT",
+    "age": "13",
+    "css": [
+     "d0eb02e81ca49aac.css",
+     "19b83a0982f1e330.css",
+     "eaa300a9560545ab.css"
+    ]
+   },
+   "layoutViewport": 390,
+   "innerWidth": 390,
+   "counts": {
+    "rail": 0,
+    "rekod": 1,
+    "toc": 0,
+    "sumber": 0,
+    "h1": 1
+   },
+   "rail": null,
+   "bodyCol": {
+    "left": 20,
+    "right": 370,
+    "top": 988,
+    "width": 350,
+    "height": 14417,
+    "display": "block",
+    "innerWidth": 350,
+    "tag": "article",
+    "cls": ""
+   },
+   "prose": {
+    "left": 20,
+    "right": 370,
+    "top": 1098,
+    "width": 350,
+    "height": 14150,
+    "display": "block",
+    "innerWidth": 350,
+    "tag": "div",
+    "cls": "inspire-prose"
+   },
+   "rekod": {
+    "left": 20,
+    "right": 370,
+    "top": 364,
+    "width": 350,
+    "height": 226,
+    "display": "block",
+    "innerWidth": 350,
+    "tag": "div",
+    "cls": "s-rekod mt-5"
+   },
+   "toc": null,
+   "sumber": null,
+   "measure": {
+    "widthPx": 350,
+    "fontSizePx": 17.0449,
+    "cpl": 41.1,
+    "sampleChars": 438
+   },
+   "candidates": [
+    {
+     "how": "aside",
+     "left": 0,
+     "right": 0,
+     "top": 0,
+     "width": 0,
+     "height": 0,
+     "display": "block",
+     "innerWidth": 0,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": "aside",
+     "left": 20,
+     "right": 370,
+     "top": 15470,
+     "width": 350,
+     "height": 171,
+     "display": "block",
+     "innerWidth": 350,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 0,
+     "right": 0,
+     "top": 0,
+     "width": 0,
+     "height": 0,
+     "display": "block",
+     "innerWidth": 0,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 20,
+     "right": 370,
+     "top": 15470,
+     "width": 350,
+     "height": 171,
+     "display": "block",
+     "innerWidth": 350,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".s-rekod",
+     "left": 20,
+     "right": 370,
+     "top": 364,
+     "width": 350,
+     "height": 226,
+     "display": "block",
+     "innerWidth": 350,
+     "tag": "div",
+     "cls": "s-rekod mt-5"
+    }
+   ]
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri",
+   "width": 768,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::9njdt-1788198804823-f06defd78b53",
+    "cache": "HIT",
+    "age": "15",
+    "css": [
+     "d0eb02e81ca49aac.css",
+     "19b83a0982f1e330.css",
+     "eaa300a9560545ab.css"
+    ]
+   },
+   "layoutViewport": 768,
+   "innerWidth": 768,
+   "counts": {
+    "rail": 0,
+    "rekod": 1,
+    "toc": 0,
+    "sumber": 0,
+    "h1": 1
+   },
+   "rail": null,
+   "bodyCol": {
+    "left": 32,
+    "right": 613.27,
+    "top": 1117,
+    "width": 581.27,
+    "height": 11655,
+    "display": "block",
+    "innerWidth": 581.27,
+    "tag": "article",
+    "cls": ""
+   },
+   "prose": {
+    "left": 32,
+    "right": 613.27,
+    "top": 1227,
+    "width": 581.27,
+    "height": 11414,
+    "display": "block",
+    "innerWidth": 581.27,
+    "tag": "div",
+    "cls": "inspire-prose"
+   },
+   "rekod": {
+    "left": 32,
+    "right": 736,
+    "top": 304,
+    "width": 704,
+    "height": 227,
+    "display": "block",
+    "innerWidth": 704,
+    "tag": "div",
+    "cls": "s-rekod mt-5"
+   },
+   "toc": null,
+   "sumber": null,
+   "measure": {
+    "widthPx": 581.27,
+    "fontSizePx": 17.6142,
+    "cpl": 66,
+    "sampleChars": 438
+   },
+   "candidates": [
+    {
+     "how": "aside",
+     "left": 0,
+     "right": 0,
+     "top": 0,
+     "width": 0,
+     "height": 0,
+     "display": "block",
+     "innerWidth": 0,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": "aside",
+     "left": 32,
+     "right": 736,
+     "top": 12837,
+     "width": 704,
+     "height": 147,
+     "display": "block",
+     "innerWidth": 704,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 0,
+     "right": 0,
+     "top": 0,
+     "width": 0,
+     "height": 0,
+     "display": "block",
+     "innerWidth": 0,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 32,
+     "right": 736,
+     "top": 12837,
+     "width": 704,
+     "height": 147,
+     "display": "block",
+     "innerWidth": 704,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".s-rekod",
+     "left": 32,
+     "right": 736,
+     "top": 304,
+     "width": 704,
+     "height": 227,
+     "display": "block",
+     "innerWidth": 704,
+     "tag": "div",
+     "cls": "s-rekod mt-5"
+    }
+   ]
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri",
+   "width": 1024,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::bjh4l-1788198805966-357cd949b361",
+    "cache": "HIT",
+    "age": "16",
+    "css": [
+     "d0eb02e81ca49aac.css",
+     "19b83a0982f1e330.css",
+     "eaa300a9560545ab.css"
+    ]
+   },
+   "layoutViewport": 1024,
+   "innerWidth": 1024,
+   "counts": {
+    "rail": 0,
+    "rekod": 1,
+    "toc": 0,
+    "sumber": 0,
+    "h1": 1
+   },
+   "rail": null,
+   "bodyCol": {
+    "left": 40,
+    "right": 633.98,
+    "top": 1330,
+    "width": 593.98,
+    "height": 11487,
+    "display": "block",
+    "innerWidth": 593.98,
+    "tag": "article",
+    "cls": ""
+   },
+   "prose": {
+    "left": 40,
+    "right": 633.98,
+    "top": 1440,
+    "width": 593.98,
+    "height": 11246,
+    "display": "block",
+    "innerWidth": 593.98,
+    "tag": "div",
+    "cls": "inspire-prose"
+   },
+   "rekod": {
+    "left": 40,
+    "right": 808,
+    "top": 470,
+    "width": 768,
+    "height": 232,
+    "display": "block",
+    "innerWidth": 768,
+    "tag": "div",
+    "cls": "s-rekod mt-5"
+   },
+   "toc": null,
+   "sumber": null,
+   "measure": {
+    "widthPx": 593.98,
+    "fontSizePx": 17.9997,
+    "cpl": 66,
+    "sampleChars": 438
+   },
+   "candidates": [
+    {
+     "how": "aside",
+     "left": 704,
+     "right": 984,
+     "top": 1330,
+     "width": 280,
+     "height": 172,
+     "display": "block",
+     "innerWidth": 280,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": "aside",
+     "left": 0,
+     "right": 0,
+     "top": 0,
+     "width": 0,
+     "height": 0,
+     "display": "block",
+     "innerWidth": 0,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 704,
+     "right": 984,
+     "top": 1330,
+     "width": 280,
+     "height": 172,
+     "display": "block",
+     "innerWidth": 280,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 0,
+     "right": 0,
+     "top": 0,
+     "width": 0,
+     "height": 0,
+     "display": "block",
+     "innerWidth": 0,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".s-rekod",
+     "left": 40,
+     "right": 808,
+     "top": 470,
+     "width": 768,
+     "height": 232,
+     "display": "block",
+     "innerWidth": 768,
+     "tag": "div",
+     "cls": "s-rekod mt-5"
+    }
+   ]
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri",
+   "width": 1440,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::gt754-1788198806739-dc8b3348cc4b",
+    "cache": "HIT",
+    "age": "16",
+    "css": [
+     "d0eb02e81ca49aac.css",
+     "19b83a0982f1e330.css",
+     "eaa300a9560545ab.css"
+    ]
+   },
+   "layoutViewport": 1440,
+   "innerWidth": 1440,
+   "counts": {
+    "rail": 0,
+    "rekod": 1,
+    "toc": 0,
+    "sumber": 0,
+    "h1": 1
+   },
+   "rail": null,
+   "bodyCol": {
+    "left": 120,
+    "right": 714,
+    "top": 1278,
+    "width": 594,
+    "height": 11883,
+    "display": "block",
+    "innerWidth": 594,
+    "tag": "article",
+    "cls": ""
+   },
+   "prose": {
+    "left": 120,
+    "right": 714,
+    "top": 1388,
+    "width": 594,
+    "height": 11642,
+    "display": "block",
+    "innerWidth": 594,
+    "tag": "div",
+    "cls": "inspire-prose"
+   },
+   "rekod": {
+    "left": 120,
+    "right": 888,
+    "top": 418,
+    "width": 768,
+    "height": 232,
+    "display": "block",
+    "innerWidth": 768,
+    "tag": "div",
+    "cls": "s-rekod mt-5"
+   },
+   "toc": null,
+   "sumber": null,
+   "measure": {
+    "widthPx": 594,
+    "fontSizePx": 18,
+    "cpl": 66,
+    "sampleChars": 438
+   },
+   "candidates": [
+    {
+     "how": "aside",
+     "left": 1040,
+     "right": 1320,
+     "top": 1278,
+     "width": 280,
+     "height": 172,
+     "display": "block",
+     "innerWidth": 280,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": "aside",
+     "left": 0,
+     "right": 0,
+     "top": 0,
+     "width": 0,
+     "height": 0,
+     "display": "block",
+     "innerWidth": 0,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 1040,
+     "right": 1320,
+     "top": 1278,
+     "width": 280,
+     "height": 172,
+     "display": "block",
+     "innerWidth": 280,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 0,
+     "right": 0,
+     "top": 0,
+     "width": 0,
+     "height": 0,
+     "display": "block",
+     "innerWidth": 0,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".s-rekod",
+     "left": 120,
+     "right": 888,
+     "top": 418,
+     "width": 768,
+     "height": 232,
+     "display": "block",
+     "innerWidth": 768,
+     "tag": "div",
+     "cls": "s-rekod mt-5"
+    }
+   ]
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri",
+   "width": 1920,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::klx8c-1788198807508-4b7c62aba1de",
+    "cache": "HIT",
+    "age": "17",
+    "css": [
+     "d0eb02e81ca49aac.css",
+     "19b83a0982f1e330.css",
+     "eaa300a9560545ab.css"
+    ]
+   },
+   "layoutViewport": 1920,
+   "innerWidth": 1920,
+   "counts": {
+    "rail": 0,
+    "rekod": 1,
+    "toc": 0,
+    "sumber": 0,
+    "h1": 1
+   },
+   "rail": null,
+   "bodyCol": {
+    "left": 232,
+    "right": 826,
+    "top": 1278,
+    "width": 594,
+    "height": 11883,
+    "display": "block",
+    "innerWidth": 594,
+    "tag": "article",
+    "cls": ""
+   },
+   "prose": {
+    "left": 232,
+    "right": 826,
+    "top": 1388,
+    "width": 594,
+    "height": 11642,
+    "display": "block",
+    "innerWidth": 594,
+    "tag": "div",
+    "cls": "inspire-prose"
+   },
+   "rekod": {
+    "left": 232,
+    "right": 1000,
+    "top": 418,
+    "width": 768,
+    "height": 232,
+    "display": "block",
+    "innerWidth": 768,
+    "tag": "div",
+    "cls": "s-rekod mt-5"
+   },
+   "toc": null,
+   "sumber": null,
+   "measure": {
+    "widthPx": 594,
+    "fontSizePx": 18,
+    "cpl": 66,
+    "sampleChars": 438
+   },
+   "candidates": [
+    {
+     "how": "aside",
+     "left": 1408,
+     "right": 1688,
+     "top": 1278,
+     "width": 280,
+     "height": 172,
+     "display": "block",
+     "innerWidth": 280,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": "aside",
+     "left": 0,
+     "right": 0,
+     "top": 0,
+     "width": 0,
+     "height": 0,
+     "display": "block",
+     "innerWidth": 0,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 1408,
+     "right": 1688,
+     "top": 1278,
+     "width": 280,
+     "height": 172,
+     "display": "block",
+     "innerWidth": 280,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 0,
+     "right": 0,
+     "top": 0,
+     "width": 0,
+     "height": 0,
+     "display": "block",
+     "innerWidth": 0,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".s-rekod",
+     "left": 232,
+     "right": 1000,
+     "top": 418,
+     "width": 768,
+     "height": 232,
+     "display": "block",
+     "innerWidth": 768,
+     "tag": "div",
+     "cls": "s-rekod mt-5"
+    }
+   ]
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik",
+   "width": 390,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::gjhwx-1788198808379-952b207c4fbe",
+    "cache": "HIT",
+    "age": "17",
+    "css": [
+     "d0eb02e81ca49aac.css",
+     "19b83a0982f1e330.css",
+     "eaa300a9560545ab.css"
+    ]
+   },
+   "layoutViewport": 390,
+   "innerWidth": 390,
+   "counts": {
+    "rail": 0,
+    "rekod": 1,
+    "toc": 0,
+    "sumber": 0,
+    "h1": 1
+   },
+   "rail": null,
+   "bodyCol": {
+    "left": 20,
+    "right": 370,
+    "top": 1139,
+    "width": 350,
+    "height": 12937,
+    "display": "block",
+    "innerWidth": 350,
+    "tag": "article",
+    "cls": ""
+   },
+   "prose": {
+    "left": 20,
+    "right": 370,
+    "top": 1249,
+    "width": 350,
+    "height": 12808,
+    "display": "block",
+    "innerWidth": 350,
+    "tag": "div",
+    "cls": "inspire-prose"
+   },
+   "rekod": {
+    "left": 20,
+    "right": 370,
+    "top": 563,
+    "width": 350,
+    "height": 226,
+    "display": "block",
+    "innerWidth": 350,
+    "tag": "div",
+    "cls": "s-rekod mt-5"
+   },
+   "toc": null,
+   "sumber": null,
+   "measure": {
+    "widthPx": 350,
+    "fontSizePx": 17.0449,
+    "cpl": 41.1,
+    "sampleChars": 454
+   },
+   "candidates": [
+    {
+     "how": "aside",
+     "left": 0,
+     "right": 0,
+     "top": 0,
+     "width": 0,
+     "height": 0,
+     "display": "block",
+     "innerWidth": 0,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": "aside",
+     "left": 20,
+     "right": 370,
+     "top": 14141,
+     "width": 350,
+     "height": 147,
+     "display": "block",
+     "innerWidth": 350,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 0,
+     "right": 0,
+     "top": 0,
+     "width": 0,
+     "height": 0,
+     "display": "block",
+     "innerWidth": 0,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 20,
+     "right": 370,
+     "top": 14141,
+     "width": 350,
+     "height": 147,
+     "display": "block",
+     "innerWidth": 350,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".s-rekod",
+     "left": 20,
+     "right": 370,
+     "top": 563,
+     "width": 350,
+     "height": 226,
+     "display": "block",
+     "innerWidth": 350,
+     "tag": "div",
+     "cls": "s-rekod mt-5"
+    }
+   ]
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik",
+   "width": 768,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::8dgft-1788198809233-8ec285ad054f",
+    "cache": "HIT",
+    "age": "18",
+    "css": [
+     "d0eb02e81ca49aac.css",
+     "19b83a0982f1e330.css",
+     "eaa300a9560545ab.css"
+    ]
+   },
+   "layoutViewport": 768,
+   "innerWidth": 768,
+   "counts": {
+    "rail": 0,
+    "rekod": 1,
+    "toc": 0,
+    "sumber": 0,
+    "h1": 1
+   },
+   "rail": null,
+   "bodyCol": {
+    "left": 32,
+    "right": 613.27,
+    "top": 1317,
+    "width": 581.27,
+    "height": 10046,
+    "display": "block",
+    "innerWidth": 581.27,
+    "tag": "article",
+    "cls": ""
+   },
+   "prose": {
+    "left": 32,
+    "right": 613.27,
+    "top": 1427,
+    "width": 581.27,
+    "height": 9916,
+    "display": "block",
+    "innerWidth": 581.27,
+    "tag": "div",
+    "cls": "inspire-prose"
+   },
+   "rekod": {
+    "left": 32,
+    "right": 736,
+    "top": 503,
+    "width": 704,
+    "height": 227,
+    "display": "block",
+    "innerWidth": 704,
+    "tag": "div",
+    "cls": "s-rekod mt-5"
+   },
+   "toc": null,
+   "sumber": null,
+   "measure": {
+    "widthPx": 581.27,
+    "fontSizePx": 17.6142,
+    "cpl": 66,
+    "sampleChars": 454
+   },
+   "candidates": [
+    {
+     "how": "aside",
+     "left": 0,
+     "right": 0,
+     "top": 0,
+     "width": 0,
+     "height": 0,
+     "display": "block",
+     "innerWidth": 0,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": "aside",
+     "left": 32,
+     "right": 736,
+     "top": 11428,
+     "width": 704,
+     "height": 147,
+     "display": "block",
+     "innerWidth": 704,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 0,
+     "right": 0,
+     "top": 0,
+     "width": 0,
+     "height": 0,
+     "display": "block",
+     "innerWidth": 0,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 32,
+     "right": 736,
+     "top": 11428,
+     "width": 704,
+     "height": 147,
+     "display": "block",
+     "innerWidth": 704,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".s-rekod",
+     "left": 32,
+     "right": 736,
+     "top": 503,
+     "width": 704,
+     "height": 227,
+     "display": "block",
+     "innerWidth": 704,
+     "tag": "div",
+     "cls": "s-rekod mt-5"
+    }
+   ]
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik",
+   "width": 1024,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::vxlrf-1788198810396-9ba043066aee",
+    "cache": "HIT",
+    "age": "19",
+    "css": [
+     "d0eb02e81ca49aac.css",
+     "19b83a0982f1e330.css",
+     "eaa300a9560545ab.css"
+    ]
+   },
+   "layoutViewport": 1024,
+   "innerWidth": 1024,
+   "counts": {
+    "rail": 0,
+    "rekod": 1,
+    "toc": 0,
+    "sumber": 0,
+    "h1": 1
+   },
+   "rail": null,
+   "bodyCol": {
+    "left": 40,
+    "right": 633.98,
+    "top": 1522,
+    "width": 593.98,
+    "height": 10212,
+    "display": "block",
+    "innerWidth": 593.98,
+    "tag": "article",
+    "cls": ""
+   },
+   "prose": {
+    "left": 40,
+    "right": 633.98,
+    "top": 1632,
+    "width": 593.98,
+    "height": 10081,
+    "display": "block",
+    "innerWidth": 593.98,
+    "tag": "div",
+    "cls": "inspire-prose"
+   },
+   "rekod": {
+    "left": 40,
+    "right": 808,
+    "top": 661,
+    "width": 768,
+    "height": 232,
+    "display": "block",
+    "innerWidth": 768,
+    "tag": "div",
+    "cls": "s-rekod mt-5"
+   },
+   "toc": null,
+   "sumber": null,
+   "measure": {
+    "widthPx": 593.98,
+    "fontSizePx": 17.9997,
+    "cpl": 66,
+    "sampleChars": 454
+   },
+   "candidates": [
+    {
+     "how": "aside",
+     "left": 704,
+     "right": 984,
+     "top": 1522,
+     "width": 280,
+     "height": 148,
+     "display": "block",
+     "innerWidth": 280,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": "aside",
+     "left": 0,
+     "right": 0,
+     "top": 0,
+     "width": 0,
+     "height": 0,
+     "display": "block",
+     "innerWidth": 0,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 704,
+     "right": 984,
+     "top": 1522,
+     "width": 280,
+     "height": 148,
+     "display": "block",
+     "innerWidth": 280,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 0,
+     "right": 0,
+     "top": 0,
+     "width": 0,
+     "height": 0,
+     "display": "block",
+     "innerWidth": 0,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".s-rekod",
+     "left": 40,
+     "right": 808,
+     "top": 661,
+     "width": 768,
+     "height": 232,
+     "display": "block",
+     "innerWidth": 768,
+     "tag": "div",
+     "cls": "s-rekod mt-5"
+    }
+   ]
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik",
+   "width": 1440,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::bm7ww-1788198811116-eb6c988e7e60",
+    "cache": "HIT",
+    "age": "20",
+    "css": [
+     "d0eb02e81ca49aac.css",
+     "19b83a0982f1e330.css",
+     "eaa300a9560545ab.css"
+    ]
+   },
+   "layoutViewport": 1440,
+   "innerWidth": 1440,
+   "counts": {
+    "rail": 0,
+    "rekod": 1,
+    "toc": 0,
+    "sumber": 0,
+    "h1": 1
+   },
+   "rail": null,
+   "bodyCol": {
+    "left": 120,
+    "right": 714,
+    "top": 1470,
+    "width": 594,
+    "height": 10212,
+    "display": "block",
+    "innerWidth": 594,
+    "tag": "article",
+    "cls": ""
+   },
+   "prose": {
+    "left": 120,
+    "right": 714,
+    "top": 1580,
+    "width": 594,
+    "height": 10081,
+    "display": "block",
+    "innerWidth": 594,
+    "tag": "div",
+    "cls": "inspire-prose"
+   },
+   "rekod": {
+    "left": 120,
+    "right": 888,
+    "top": 609,
+    "width": 768,
+    "height": 232,
+    "display": "block",
+    "innerWidth": 768,
+    "tag": "div",
+    "cls": "s-rekod mt-5"
+   },
+   "toc": null,
+   "sumber": null,
+   "measure": {
+    "widthPx": 594,
+    "fontSizePx": 18,
+    "cpl": 66,
+    "sampleChars": 454
+   },
+   "candidates": [
+    {
+     "how": "aside",
+     "left": 1040,
+     "right": 1320,
+     "top": 1470,
+     "width": 280,
+     "height": 148,
+     "display": "block",
+     "innerWidth": 280,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": "aside",
+     "left": 0,
+     "right": 0,
+     "top": 0,
+     "width": 0,
+     "height": 0,
+     "display": "block",
+     "innerWidth": 0,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 1040,
+     "right": 1320,
+     "top": 1470,
+     "width": 280,
+     "height": 148,
+     "display": "block",
+     "innerWidth": 280,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 0,
+     "right": 0,
+     "top": 0,
+     "width": 0,
+     "height": 0,
+     "display": "block",
+     "innerWidth": 0,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".s-rekod",
+     "left": 120,
+     "right": 888,
+     "top": 609,
+     "width": 768,
+     "height": 232,
+     "display": "block",
+     "innerWidth": 768,
+     "tag": "div",
+     "cls": "s-rekod mt-5"
+    }
+   ]
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik",
+   "width": 1920,
+   "error": null,
+   "provenance": {
+    "status": 200,
+    "vercelId": "sin1::sin1::rpnqd-1788198811834-8310a513e870",
+    "cache": "HIT",
+    "age": "20",
+    "css": [
+     "d0eb02e81ca49aac.css",
+     "19b83a0982f1e330.css",
+     "eaa300a9560545ab.css"
+    ]
+   },
+   "layoutViewport": 1920,
+   "innerWidth": 1920,
+   "counts": {
+    "rail": 0,
+    "rekod": 1,
+    "toc": 0,
+    "sumber": 0,
+    "h1": 1
+   },
+   "rail": null,
+   "bodyCol": {
+    "left": 232,
+    "right": 826,
+    "top": 1470,
+    "width": 594,
+    "height": 10212,
+    "display": "block",
+    "innerWidth": 594,
+    "tag": "article",
+    "cls": ""
+   },
+   "prose": {
+    "left": 232,
+    "right": 826,
+    "top": 1580,
+    "width": 594,
+    "height": 10081,
+    "display": "block",
+    "innerWidth": 594,
+    "tag": "div",
+    "cls": "inspire-prose"
+   },
+   "rekod": {
+    "left": 232,
+    "right": 1000,
+    "top": 609,
+    "width": 768,
+    "height": 232,
+    "display": "block",
+    "innerWidth": 768,
+    "tag": "div",
+    "cls": "s-rekod mt-5"
+   },
+   "toc": null,
+   "sumber": null,
+   "measure": {
+    "widthPx": 594,
+    "fontSizePx": 18,
+    "cpl": 66,
+    "sampleChars": 454
+   },
+   "candidates": [
+    {
+     "how": "aside",
+     "left": 1408,
+     "right": 1688,
+     "top": 1470,
+     "width": 280,
+     "height": 148,
+     "display": "block",
+     "innerWidth": 280,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": "aside",
+     "left": 0,
+     "right": 0,
+     "top": 0,
+     "width": 0,
+     "height": 0,
+     "display": "block",
+     "innerWidth": 0,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 1408,
+     "right": 1688,
+     "top": 1470,
+     "width": 280,
+     "height": 148,
+     "display": "block",
+     "innerWidth": 280,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".inspire-sidebar",
+     "left": 0,
+     "right": 0,
+     "top": 0,
+     "width": 0,
+     "height": 0,
+     "display": "block",
+     "innerWidth": 0,
+     "tag": "aside",
+     "cls": "inspire-sidebar space-y-6"
+    },
+    {
+     "how": ".s-rekod",
+     "left": 232,
+     "right": 1000,
+     "top": 609,
+     "width": 768,
+     "height": 232,
+     "display": "block",
+     "innerWidth": 768,
+     "tag": "div",
+     "cls": "s-rekod mt-5"
+    }
+   ]
+  }
+ ],
+ "fail": [
+  {
+   "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding",
+   "width": 390,
+   "code": "R3-block-missing",
+   "msg": "rail blocks absent: toc, sumber (present: rekod)"
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding",
+   "width": 768,
+   "code": "R4-not-full-width",
+   "msg": "rekod.width 704 vs body column 581.27 at 768px"
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding",
+   "width": 768,
+   "code": "R3-block-missing",
+   "msg": "rail blocks absent: toc, sumber (present: rekod)"
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding",
+   "width": 1024,
+   "code": "R1-no-rail",
+   "msg": "no [data-hk-rail] at 1024px"
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding",
+   "width": 1024,
+   "code": "R3-block-missing",
+   "msg": "rail blocks absent: toc, sumber (present: rekod)"
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding",
+   "width": 1440,
+   "code": "R1-no-rail",
+   "msg": "no [data-hk-rail] at 1440px"
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding",
+   "width": 1440,
+   "code": "R3-block-missing",
+   "msg": "rail blocks absent: toc, sumber (present: rekod)"
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding",
+   "width": 1920,
+   "code": "R1-no-rail",
+   "msg": "no [data-hk-rail] at 1920px"
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding",
+   "width": 1920,
+   "code": "R3-block-missing",
+   "msg": "rail blocks absent: toc, sumber (present: rekod)"
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri",
+   "width": 390,
+   "code": "R3-block-missing",
+   "msg": "rail blocks absent: toc, sumber (present: rekod)"
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri",
+   "width": 768,
+   "code": "R4-not-full-width",
+   "msg": "rekod.width 704 vs body column 581.27 at 768px"
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri",
+   "width": 768,
+   "code": "R3-block-missing",
+   "msg": "rail blocks absent: toc, sumber (present: rekod)"
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri",
+   "width": 1024,
+   "code": "R1-no-rail",
+   "msg": "no [data-hk-rail] at 1024px"
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri",
+   "width": 1024,
+   "code": "R3-block-missing",
+   "msg": "rail blocks absent: toc, sumber (present: rekod)"
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri",
+   "width": 1440,
+   "code": "R1-no-rail",
+   "msg": "no [data-hk-rail] at 1440px"
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri",
+   "width": 1440,
+   "code": "R3-block-missing",
+   "msg": "rail blocks absent: toc, sumber (present: rekod)"
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri",
+   "width": 1920,
+   "code": "R1-no-rail",
+   "msg": "no [data-hk-rail] at 1920px"
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri",
+   "width": 1920,
+   "code": "R3-block-missing",
+   "msg": "rail blocks absent: toc, sumber (present: rekod)"
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik",
+   "width": 390,
+   "code": "R3-block-missing",
+   "msg": "rail blocks absent: toc, sumber (present: rekod)"
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik",
+   "width": 768,
+   "code": "R4-not-full-width",
+   "msg": "rekod.width 704 vs body column 581.27 at 768px"
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik",
+   "width": 768,
+   "code": "R3-block-missing",
+   "msg": "rail blocks absent: toc, sumber (present: rekod)"
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik",
+   "width": 1024,
+   "code": "R1-no-rail",
+   "msg": "no [data-hk-rail] at 1024px"
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik",
+   "width": 1024,
+   "code": "R3-block-missing",
+   "msg": "rail blocks absent: toc, sumber (present: rekod)"
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik",
+   "width": 1440,
+   "code": "R1-no-rail",
+   "msg": "no [data-hk-rail] at 1440px"
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik",
+   "width": 1440,
+   "code": "R3-block-missing",
+   "msg": "rail blocks absent: toc, sumber (present: rekod)"
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik",
+   "width": 1920,
+   "code": "R1-no-rail",
+   "msg": "no [data-hk-rail] at 1920px"
+  },
+  {
+   "url": "https://hellokahwin.com/artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik",
+   "width": 1920,
+   "code": "R3-block-missing",
+   "msg": "rail blocks absent: toc, sumber (present: rekod)"
+  }
+ ]
+}
