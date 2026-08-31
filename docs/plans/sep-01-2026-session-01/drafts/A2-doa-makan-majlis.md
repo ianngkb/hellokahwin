@@ -11,7 +11,8 @@ excerpt: >-
   dengan sumber setiap satu.
 author: editorial@hellokahwin.com
 authorship: ai_assisted
-status: draft
+status: published
+publishedAt: 2026-09-01T12:00:00Z
 tags:
   - doa makan majlis
   - doa sebelum makan
