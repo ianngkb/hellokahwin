@@ -20,6 +20,28 @@ interface TocEntry {
   children: ArticleHeading[];
 }
 
+/**
+ * Does this article get a contents list at all? — UI-17.
+ *
+ * Exported so the floor lives in ONE place. UI-17's rail has to know the
+ * answer BEFORE it renders: a slot whose component returns null still leaves
+ * the rail's wrapper `<div>` behind, and a wrapper in a flex column with
+ * `gap: var(--sp-9)` contributes 56px of dead space between Rekod and Sumber
+ * while measuring 0px tall. That shipped to a preview and was caught only
+ * because `measure-article-rail.mjs` records block HEIGHT — `toc h0` on
+ * mas-kahwin-ikut-negeri, an article with zero `<h2>`, at all five widths. A
+ * React element is truthy even when it renders nothing, so
+ * `{toc && <div>{toc}</div>}` cannot see it.
+ *
+ * The caller could have counted `<h2>`s itself. That would be a SECOND
+ * definition of the floor, in another file, free to drift from
+ * `TOC_MIN_HEADINGS` the day somebody changes it — and it has already moved
+ * once, from four to two.
+ */
+export function hasArticleToc(headings: ArticleHeading[]): boolean {
+  return groupHeadings(headings).length >= TOC_MIN_HEADINGS;
+}
+
 /** Group `<h3>`s under the `<h2>` they follow. Orphan `<h3>`s are dropped. */
 function groupHeadings(headings: ArticleHeading[]): TocEntry[] {
   const entries: TocEntry[] = [];
@@ -109,7 +131,7 @@ export function ArticleToc({
   labelledBy?: string;
 }) {
   const entries = groupHeadings(headings);
-  if (entries.length < TOC_MIN_HEADINGS) return null;
+  if (!hasArticleToc(headings)) return null;
 
   // The box chrome is an INLINE-CALLOUT treatment: bordered card, centred,
   // capped at the 680px reading measure. Inside a 268px rail column that is a

@@ -3,6 +3,8 @@
  *
  *   pnpm ui:gate --fixtures                 # the committed pre-fix fixtures (known-bad)
  *   pnpm ui:gate --fixtures --green         # the same fixtures + the green-control override
+ *   pnpm ui:gate --pre-rail                 # UI-17's known-bad: the collapsed rail
+ *   pnpm ui:gate --pre-rail --green         # the same page, panel moved right: check 10 clears
  *   pnpm ui:gate --discriminator            # the unit fixture, sixteen labelled cases
  *   pnpm ui:gate --empty-shell              # a real page with <main> emptied
  *   pnpm ui:gate --base https://hellokahwin.com
@@ -210,7 +212,16 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 const REPO = path.resolve(HERE, '..');
 const FIXTURES_ROOT = path.join(REPO, 'tests', 'ui-layout-gate', 'fixtures');
 const FIXTURE_DIR = path.join(FIXTURES_ROOT, '2026-08-31-pre-ui-fix');
+// UI-17's negative control, captured from production 01 Sep 2026 before the
+// rail shipped: `/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri`, the
+// article DES-03 §5.1 itself drew. It carries the collapsed composition — the
+// Rekod panel at the body column's own left edge, no `[data-hk-rail]` anywhere,
+// and a NARROWER 280px sidebar further right, which is what makes it a real
+// known-bad input rather than a page that simply has no rail. sha256 and
+// provenance in the fixture README.
+const PRE_RAIL_DIR = path.join(FIXTURES_ROOT, '2026-09-01-pre-rail');
 const GREEN_CSS = path.join(FIXTURES_ROOT, 'green-control.css');
+const RAIL_GREEN_CSS = path.join(FIXTURES_ROOT, 'rail-green-control.css');
 
 const CHROME =
   process.env.UI_GATE_CHROME ??
@@ -790,6 +801,91 @@ async function collect(limits) {
     }
   }
 
+  // ── CHECK 10: the article rail has not collapsed to the body's left edge ──
+  //
+  // UI-17. DES-03 §5.1 draws a 300px rail to the RIGHT of the article body and
+  // states it in words: "On desktop the panel is the 300 px rail; on a phone it
+  // is a full-width block in the same place in the reading order."
+  //
+  // WHY THIS IS CHECK 10 AND NOT A GREP. The markup was never missing. The
+  // committed pre-rail fixture serves `<aside>` twice and `Rekod` on the page,
+  // and a structural check finds both and calls the page healthy. What was
+  // wrong is which COLUMN the panel is in, and a column is a computed value
+  // that does not exist until CSS is applied at >= 1024px in a real browser.
+  // Measured on production 01 Sep 2026 at 1440: body 120..714, Rekod 120..888
+  // — the same left edge, i.e. the phone treatment, at every desktop width, on
+  // all three sampled articles.
+  //
+  // THE RULE. At >= 1024px, if a rail exists it must begin at or after the
+  // right edge of the body column. `>=` and not `>`: a zero-gap layout is
+  // visually correct and a 1px overlap is not, so the boundary is where the
+  // boxes actually touch. The measured gap is printed either way.
+  //
+  // WHY THE ABSENCE OF A RAIL IS NOT REPORTED HERE. `[data-hk-rail]` does not
+  // exist on the pre-rail fixture at all, and a "rail missing" verdict from
+  // this file would fire on every page that legitimately has no rail — the
+  // homepage, the catalogue, `/brand`. Presence is UI-17's own item-level
+  // assertion in `scripts/measure-article-rail.mjs` (check R1), which runs
+  // against the article template specifically. This check answers the narrower
+  // question the gate can ask of ANY page: *if* there is a rail, is it in the
+  // right column. That keeps it silent on four of the seven templates and
+  // meaningful on the article.
+  //
+  // THE NEGATIVE CONTROL IS THE COLLAPSED CASE, NOT THE ABSENT ONE. So the
+  // check ALSO fires on the shape the defect actually had: a `.s-rekod` panel
+  // sharing the body column's left edge while a narrower sidebar column exists
+  // further right. That is what `2026-09-01-pre-rail/article.html` carries, and
+  // it is what makes this check fail on a known-bad input rather than only on
+  // a hypothetical one.
+  {
+    const RAIL_MIN_VW = 1024;
+    if (vw >= RAIL_MIN_VW) {
+      const rail = document.querySelector('[data-hk-rail]');
+      const bodyCol =
+        document.querySelector('[data-hk-body-col]') ??
+        document.querySelector('.inspire-prose')?.closest('article');
+      const rekod = document.querySelector('[data-hk-rail-block="rekod"], .s-rekod');
+
+      if (bodyCol) {
+        const b = bodyCol.getBoundingClientRect();
+
+        if (rail) {
+          const r = rail.getBoundingClientRect();
+          notes.railGap = +(r.left - b.right).toFixed(1);
+          if (r.left < b.right - 0.5) {
+            violations.push({
+              check: 'rail-collapsed',
+              selector: sel(rail),
+              detail:
+                `rail.left ${r.left.toFixed(1)}px is LEFT of body.right ${b.right.toFixed(1)}px ` +
+                `(gap ${(r.left - b.right).toFixed(1)}px) at ${vw}px — DES-03 §5.1 puts the rail ` +
+                `to the right of the body column, not stacked on it`,
+              sample: (rail.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 60),
+              value: +(r.left - b.right).toFixed(1),
+            });
+          }
+        } else if (rekod) {
+          // No rail element, but the record panel is on the page. This is the
+          // pre-fix shape exactly: the panel rendered at the body's own left
+          // edge with nothing to its right.
+          const k = rekod.getBoundingClientRect();
+          if (Math.abs(k.left - b.left) <= 1 && k.width > 0) {
+            violations.push({
+              check: 'rail-collapsed',
+              selector: sel(rekod),
+              detail:
+                `the Rekod panel starts at ${k.left.toFixed(1)}px, the SAME left edge as the body ` +
+                `column (${b.left.toFixed(1)}px), and no [data-hk-rail] exists at ${vw}px — the ` +
+                `desktop composition is the mobile composition. DES-03 §5.1.`,
+              sample: (rekod.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 60),
+              value: +k.left.toFixed(1),
+            });
+          }
+        }
+      }
+    }
+  }
+
   // ── CHECKS 3, 4, 4b & 8: image scale, aspect, declared box ─────────────────
   //
   // ⚠ NEVER `img.naturalWidth` HERE. On an <img> carrying a `srcset` with `w`
@@ -929,7 +1025,7 @@ const MIME = {
 // string and rendered zero articles, because RLS gave the connecting role no
 // rows. Every other check in this file passes on it, vacuously. The self-test
 // asserts the gate goes RED, which is the only way to know it still can.
-function startFixtureServer(green, root = FIXTURE_DIR, emptyMain = false) {
+function startFixtureServer(green, root = FIXTURE_DIR, emptyMain = false, greenCss = GREEN_CSS) {
   const server = http.createServer((req, res) => {
     const clean = decodeURIComponent(req.url.split('?')[0]);
     const file = path.join(root, clean);
@@ -944,7 +1040,7 @@ function startFixtureServer(green, root = FIXTURE_DIR, emptyMain = false) {
         if (green)
           html = html.replace(
             '</head>',
-            `<style>${fs.readFileSync(GREEN_CSS, 'utf8')}</style></head>`,
+            `<style>${fs.readFileSync(greenCss, 'utf8')}</style></head>`,
           );
         if (emptyMain) {
           const open = html.indexOf('<main');
@@ -1102,6 +1198,7 @@ async function measure(targets, { json, label }) {
 
 const CHECKS = [
   'empty-content',
+  'rail-collapsed',
   'narrow-text-column',
   'reading-measure',
   'clipped-text',
@@ -1125,6 +1222,7 @@ const ADVISORY = new Set(['image-attr-aspect']);
 const NOT_COVERED = [];
 const ABBREV = {
   'empty-content': 'empty',
+  'rail-collapsed': 'rail',
   'narrow-text-column': 'narrow',
   'reading-measure': 'measure',
   'clipped-text': 'clipped',
@@ -1300,6 +1398,34 @@ async function selftest() {
     { label: 'selftest-empty-shell' },
   );
   emptyServer.close();
+
+  // UI-17's pair. Measured BOTH ways from the same page: the capture as taken
+  // (check 10 must fire) and the same capture with one stylesheet that moves
+  // the panel clear of the body column and changes nothing else (check 10 must
+  // clear). A check seen only failing has not been shown to discriminate.
+  const railBadServer = await startFixtureServer(false, PRE_RAIL_DIR, false, RAIL_GREEN_CSS);
+  const railBad = await measure(
+    [
+      {
+        name: 'pre-rail/article.html',
+        url: `http://127.0.0.1:${railBadServer.address().port}/article.html`,
+      },
+    ],
+    { label: 'selftest-pre-rail' },
+  );
+  railBadServer.close();
+
+  const railGoodServer = await startFixtureServer(true, PRE_RAIL_DIR, false, RAIL_GREEN_CSS);
+  const railGood = await measure(
+    [
+      {
+        name: 'pre-rail/article.html',
+        url: `http://127.0.0.1:${railGoodServer.address().port}/article.html`,
+      },
+    ],
+    { label: 'selftest-pre-rail-green' },
+  );
+  railGoodServer.close();
 
   const greenServer = await startFixtureServer(true);
   const gbase = `http://127.0.0.1:${greenServer.address().port}`;
@@ -1494,6 +1620,59 @@ async function selftest() {
           ),
         );
   }
+  // 7b. CHECK 10, `rail-collapsed` — UI-17. Asserted BOTH ways on the SAME
+  //     page, which is the only form of this assertion worth having.
+  //
+  //     The defect is a computed column, not a missing element: the fixture
+  //     serves `<aside>` and `Rekod` exactly as production did, so every
+  //     structural check on the page is green while the composition is wrong.
+  //
+  //     Silent below 1024 by design and asserted silent, because below the
+  //     breakpoint the stacked composition IS the specification — "on a phone
+  //     it is a full-width block in the same place in the reading order". A
+  //     check that fired at 390 would be reporting the spec as a defect.
+  for (const w of [1024, 1440, 1920]) {
+    const bad10 = pick(railBad, 'pre-rail/article.html', w, 'rail-collapsed');
+    assert(
+      bad10.length === 1,
+      `pre-rail/article.html @${w}: rail-collapsed FIRES once (the Rekod panel at the body column's own left edge) — got ${bad10.length}`,
+      listing(
+        railBad.find((r) => r.name === 'pre-rail/article.html' && r.width === w),
+        'rail-collapsed',
+      ),
+    );
+    assert(
+      pick(railGood, 'pre-rail/article.html', w, 'rail-collapsed').length === 0,
+      `pre-rail/article.html @${w} + GREEN: rail-collapsed CLEARS — same DOM, same fonts, panel moved clear of the body column and nothing else changed`,
+      listing(
+        railGood.find((r) => r.name === 'pre-rail/article.html' && r.width === w),
+        'rail-collapsed',
+      ),
+    );
+  }
+  for (const w of [390, 768]) {
+    assert(
+      pick(railBad, 'pre-rail/article.html', w, 'rail-collapsed').length === 0,
+      `pre-rail/article.html @${w}: rail-collapsed SILENT below the 1024 breakpoint — a stacked block is the specification there, not a defect`,
+      listing(
+        railBad.find((r) => r.name === 'pre-rail/article.html' && r.width === w),
+        'rail-collapsed',
+      ),
+    );
+  }
+  // And silent on every template that legitimately has no rail, at every
+  // width. Without this the check could be "any page with a .s-rekod is bad".
+  for (const w of WIDTHS)
+    for (const f of ['homepage.html', 'category.html', 'article.html'])
+      assert(
+        pick(bad, f, w, 'rail-collapsed').length === 0,
+        `${f} @${w}: rail-collapsed CLEAN — the 31 Aug capture has no [data-hk-rail] and no .s-rekod sharing a body column's edge`,
+        listing(
+          bad.find((r) => r.name === f && r.width === w),
+          'rail-collapsed',
+        ),
+      );
+
   // 8. The discriminator fixture — a true positive and a near-miss false
   //    positive side by side for each check, so drift in EITHER direction is
   //    caught. Case O is the one that matters most: a 1.5x upscale that
@@ -1635,6 +1814,19 @@ if (has('selftest')) {
   server.close();
   const r = report(rows, { label: 'discriminator fixture', quiet });
   exit = r.errors > 0 ? 2 : r.failures > 0 ? 1 : 0;
+} else if (has('pre-rail')) {
+  const green = has('green');
+  const server = await startFixtureServer(green, PRE_RAIL_DIR, false, RAIL_GREEN_CSS);
+  const rows = await measure(
+    [{ name: 'article.html', url: `http://127.0.0.1:${server.address().port}/article.html` }],
+    { json, label: 'pre-rail' },
+  );
+  server.close();
+  const r = report(rows, {
+    label: `pre-rail fixture 2026-09-01${green ? ' + GREEN CONTROL' : ' (known-bad: rail collapsed)'}`,
+    quiet,
+  });
+  exit = r.errors > 0 ? 2 : r.failures > 0 ? 1 : 0;
 } else if (has('fixtures')) {
   const r = await runFixtures({ green: has('green'), json, quiet, only: opt('only', null) });
   exit = r.errors > 0 ? 2 : r.failures > 0 ? 1 : 0;
@@ -1646,7 +1838,7 @@ if (has('selftest')) {
   exit = r.errors > 0 ? 2 : r.failures > 0 ? 1 : 0;
 } else {
   console.error(
-    'usage: node scripts/ui-layout-gate.mjs (--fixtures [--green] | --discriminator | --empty-shell | --base <url> | --url <u>… | --selftest)\n' +
+    'usage: node scripts/ui-layout-gate.mjs (--fixtures [--green] | --pre-rail | --discriminator | --empty-shell | --base <url> | --url <u>… | --selftest)\n' +
       '       [--json out.json] [--quiet] [--author-slug <slug>]\n' +
       '       env: UI_GATE_CHROME=<chrome path>  UI_GATE_BYPASS=<vercel preview bypass secret>',
   );

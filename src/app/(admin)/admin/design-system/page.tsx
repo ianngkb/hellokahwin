@@ -10,6 +10,7 @@ import type { MenuCategory } from '@/components/inspire/inspire-nav-menu';
 import { ConsoleBreadcrumb } from '@/components/console/console-breadcrumb';
 import { Breadcrumbs as PublicBreadcrumbs } from '@/components/common/breadcrumbs';
 import { ArticleToc, TOC_MIN_HEADINGS } from '@/components/inspire/article-toc';
+import { ArticleRail, RAIL_TOC_HEADING_ID } from '@/design-system/components/article-rail';
 import { extractHeadings, type ArticleHeading } from '@/lib/inspire/heading-anchors';
 import { PageHeader } from '@/components/layout/page-header';
 import '@/design-system/tokens.css';
@@ -736,6 +737,99 @@ export default async function DesignSystemPage({
               </div>
             </div>
 
+            {/*
+              The article rail — UI-17 (01 Sept 2026), DES-03 §5.1.
+
+              WHY THE WHOLE RAIL IS HERE AND NOT JUST ITS THREE PARTS. Rekod,
+              the contents list and Sumber each render correctly on their own —
+              they did on production for weeks — and the page was still wrong,
+              because what was broken was the COLUMN they sat in. A reference
+              page that showed the three blocks separately would have shown
+              three healthy components and told you nothing about the defect
+              this component exists to fix.
+
+              So this renders the container at its real 300px, and the label
+              below each block carries the measurement rather than a claim. A
+              rail child lays out in 268px — 300 less `--sp-4` each side — and
+              that is the width UI-18's 24px tap floor has to hold at, not 300.
+
+              This surface is `(admin)`: no `.hk-public`, no `.inspire-prose`.
+              That is deliberate and it is the same trap DES-12 fell into with a
+              0x0 wordmark — a component whose styling lives under an ancestor
+              selector arrives in the rail unstyled. If `.hk-rail` or
+              `nav.article-toc` is ever re-scoped, this block loses its rules
+              HERE, on the page people open to check taste, before an article
+              ever ships.
+
+              Three states, two of which nobody asks for: the full rail, the
+              rail with no contents list (52 of 86 articles carry no `Sumber:`
+              citation and an article under the heading floor gets no list —
+              both blocks are optional and the rail must not leave a heading
+              over nothing), and the rail carrying only Rekod.
+            */}
+            <div className="pt-8" style={{ maxWidth: 300 }}>
+              <Label muted className="mb-2 block">
+                Article rail — design-system/components/article-rail.tsx — 300px column, 268px
+                inner. Rekod, Dalam artikel ini, Sumber, in that order.
+              </Label>
+              <ArticleRail
+                rekod={
+                  <RekodPanel
+                    fields={[
+                      { label: 'Kategori', value: 'Hantaran & Mas Kahwin' },
+                      { label: 'Penulis', value: 'Sidang Pengarang' },
+                      { label: 'Bacaan', value: '8 minit' },
+                      { label: 'Disemak', value: '28 Ogos 2026', accent: true },
+                    ]}
+                  />
+                }
+                toc={<ArticleToc headings={TOC_DEMO_FLAT} labelledBy={RAIL_TOC_HEADING_ID} />}
+                sources={[
+                  {
+                    text: 'Warta Kerajaan Negeri Selangor, Jil. 63 No. 3, 4hb Februari 2010, Sel. P.U. 3',
+                  },
+                  { text: 'Kenyataan JAWI, 14 Ogos 2023' },
+                  { text: 'Enakmen Undang-Undang Keluarga Islam negeri' },
+                ]}
+              />
+            </div>
+
+            <div className="pt-8" style={{ maxWidth: 300 }}>
+              <Label muted className="mb-2 block">
+                The same rail on an article with no citations and too few headings — both optional
+                blocks absent. No heading may be left standing over nothing.
+              </Label>
+              <ArticleRail
+                rekod={
+                  <RekodPanel
+                    fields={[
+                      { label: 'Kategori', value: 'Idea & Nasihat' },
+                      { label: 'Disemak', value: '28 Ogos 2026', accent: true },
+                    ]}
+                  />
+                }
+                toc={
+                  <ArticleToc headings={TOC_DEMO_BELOW_FLOOR} labelledBy={RAIL_TOC_HEADING_ID} />
+                }
+                sources={[]}
+              />
+            </div>
+
+            <div className="pt-8" style={{ maxWidth: 300 }}>
+              <Label muted className="mb-2 block">
+                A source line long enough to wrap — 190 characters is the longest standalone
+                citation measured across the corpus on 01 Sept 2026, and it must wrap in 268px
+                rather than clip.
+              </Label>
+              <ArticleRail
+                sources={[
+                  {
+                    text: 'Ahmad Haziq Haikal Kamal dan Miszairi Sitiris, Universiti Islam Antarabangsa Malaysia, Kanun 34(1), 2022, halaman 141 hingga 166, disemak 26 Ogos 2026',
+                  },
+                ]}
+              />
+            </div>
+
             {/* Data table */}
             <div className="pt-8">
               <Label muted className="mb-2 block">
@@ -861,10 +955,11 @@ export default async function DesignSystemPage({
                 down only where q50 misses a <strong>46,080&nbsp;B</strong> ceiling. That ceiling is
                 DES-03 &sect;6.2&rsquo;s own card figure, applied to a box 21% larger in area, so it
                 is strictly tighter than DES-03 asks. Measured across all 86 published covers on 01
-                September 2026: <strong>min 7,636&nbsp;B, median 17,664&nbsp;B, max
-                44,898&nbsp;B</strong>, none over the ceiling. Exactly one photograph &mdash;
-                handwoven songket, close to worst-case entropy for a block encoder &mdash; steps to
-                q46; the other 85 stay at q50.
+                September 2026:{' '}
+                <strong>min 7,636&nbsp;B, median 17,664&nbsp;B, max 44,898&nbsp;B</strong>, none
+                over the ceiling. Exactly one photograph &mdash; handwoven songket, close to
+                worst-case entropy for a block encoder &mdash; steps to q46; the other 85 stay at
+                q50.
               </p>
               <p className="text-muted-foreground mt-2 max-w-[74ch] text-xs">
                 It is a byte <em>saving</em>, which is why it could ship at all.{' '}
