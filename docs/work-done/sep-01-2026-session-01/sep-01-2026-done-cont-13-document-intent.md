@@ -257,6 +257,38 @@ is a parent topic any live HelloKahwin article targets.
 
 ---
 
+## Image rights, checked against the register rather than against the draft
+
+Twelve images across the four articles. Every one is an existing library asset
+with a row in `docs/asset-register/asset-register.csv`, and the five fields that
+matter were **copied out of the register, not retyped** — the persona rule that
+exists because a hand-written `creditUrl` once went wrong by one digit.
+
+Checked mechanically rather than by eye, comparing each draft's front matter
+against the register row for the same filename:
+
+```
+12 images, 4 articles
+credit / creditUrl / licensorName / licenseClass — verbatim match on all 12
+status_guna = boleh-guna on all 12
+TOTAL MISMATCHES: 0
+```
+
+Nothing in this batch is a new acquisition, so no new asset-register rows were
+appended and the cross-worktree id check was not needed. The alt text was
+written from each register row's `perihal_ms`, which describes what is actually
+in the frame, rather than from memory of the photograph.
+
+On the covers: three of the four depict their article's subject directly — a
+qari reading the doa, a kenduri jamuan mid-meal, a qari at a majlis doa selamat.
+**The fourth is the honest weak one and it ships with this note.**
+`ucapan-ulang-tahun-perkahwinan` is about anniversary wishes and the library has
+no photograph of a married couple some years on; the cover used is a couple
+portrait from a wedding day. It is correct in subject (a married couple), sharp,
+well separated and 5472×3648, and it is still a wedding-day picture on an
+anniversary page. It goes on the cover upgrade list rather than being passed off
+as right.
+
 ## The doa selamat transcription, checked by diff rather than by eye
 
 `doa-selamat-majlis` reproduces JAKIM's Malay translation in full, and a page
