@@ -45,6 +45,26 @@ const FAQ_BLOCK_HEADING = /^soalan\s+lazim\s*:?$/i;
 const QUESTION = /\?$/;
 
 /**
+ * Does this article open a Q&A block with a `Soalan lazim` HEADING?
+ *
+ * Exported because two SEO-13 scripts needed to ask it and both first answered
+ * it themselves, with `/soalan\s+lazim/i` over `JSON.stringify(content)`. That
+ * predicate reported `bajet-kahwin` and `checklist-kahwin` as already carrying a
+ * block, and the write script skipped them. Neither has one. Both quote the
+ * Jabatan Agama Islam Selangor **soalan lazim page** as a source, in prose:
+ *
+ *   "mengikut soalan lazim rasmi Jabatan Agama Islam Selangor"
+ *
+ * A string test over serialised JSON cannot tell a heading from a citation, and
+ * it silently dropped two articles from a coverage job whose entire deliverable
+ * is a coverage count. Ask the document, not the string — and ask it here,
+ * once, rather than in each caller.
+ */
+export function hasFaqBlockHeading(content: unknown): boolean {
+  return flattenBlocks(content).some((b) => b.level > 0 && FAQ_BLOCK_HEADING.test(b.text));
+}
+
+/**
  * How many questions a block needs before we describe the page as an FAQ.
  *
  * The style guide asks writers for 3 to 5 and the live corpus runs 3 to 5, so
@@ -98,18 +118,48 @@ function flattenBlocks(content: unknown): { level: number; text: string }[] {
 }
 
 /**
+ * How much of an article has to be question-shaped before the WHOLE body counts
+ * as the Q&A section — see `extractFaqEntries`.
+ *
+ * Three quarters, and the number is picked to be well clear of the only article
+ * that meets it. `apa-itu-mas-kahwin` is 7 questions out of 8 headings (0.875);
+ * the next-densest article in the 86-article corpus is 0. There is no article
+ * anywhere near the line, which is the state a threshold should be in.
+ */
+const WHOLE_BODY_QUESTION_SHARE = 0.75;
+
+/**
  * The question/answer pairs of an article's Soalan lazim block, in order.
- * Empty for an article that has no block — two of the census's 31 do not.
+ * Empty for an article that has neither a block nor a question-shaped body.
  *
  * The block runs from its heading to the next heading at or above the same
  * level. Inside it, a heading exactly one level deeper opens a question;
  * anything deeper than that is sub-structure inside an answer and contributes
  * no text, because a heading is not prose we can quote as an answer.
+ *
+ * ── WHEN THERE IS NO BLOCK ────────────────────────────────────────────────
+ * SEO-13 (01 September 2026) found one live article that IS an FAQ and was
+ * emitting nothing: `/artikel/hantaran-mas-kahwin/apa-itu-mas-kahwin`, whose
+ * entire body is eight `<h3>` headings, seven of them questions, each followed
+ * by its answer. It has no `Soalan lazim` heading because it does not need one
+ * — there is no non-FAQ part to separate the block from.
+ *
+ * So when no block exists, the body itself is considered, and ONLY on a test
+ * strict enough that a normal article cannot pass it by accident: at the
+ * article's shallowest heading level, at least `WHOLE_BODY_QUESTION_SHARE` of
+ * the headings must be phrased as questions. A guide with two question-shaped
+ * H2s among fourteen is not an FAQ and does not qualify; a page that is nothing
+ * but questions is one.
+ *
+ * The share is measured at the SHALLOWEST level rather than over all headings
+ * because deeper headings are sub-structure. Counting them would let a single
+ * long sub-divided answer sink an article that genuinely is a Q&A, and would let
+ * an article with many question-shaped H4s inside one ordinary H2 float up.
  */
 export function extractFaqEntries(content: unknown): FaqEntry[] {
   const blocks = flattenBlocks(content);
   const start = blocks.findIndex((b) => b.level > 0 && FAQ_BLOCK_HEADING.test(b.text));
-  if (start === -1) return [];
+  if (start === -1) return extractWholeBodyFaq(blocks);
 
   const blockLevel = blocks[start].level;
   const entries: FaqEntry[] = [];
@@ -128,6 +178,50 @@ export function extractFaqEntries(content: unknown): FaqEntry[] {
       flush();
       // A sub-heading that is not a question closes the previous answer and
       // opens nothing, so its prose is never attributed to another question.
+      if (QUESTION.test(block.text)) question = block.text;
+      continue;
+    }
+    if (block.level > 0) continue;
+    if (question) answer.push(block.text);
+  }
+  flush();
+
+  return entries;
+}
+
+/**
+ * An article whose whole body is a Q&A, read as one block. Empty unless the
+ * shallowest heading level is overwhelmingly question-shaped.
+ *
+ * Headings at the shallowest level that are NOT questions still close the
+ * previous answer — exactly as inside a real block — so `Beza mas kahwin,
+ * hantaran dan duit hantaran` cannot have its prose attributed to the question
+ * above it. Deeper headings contribute no text.
+ */
+function extractWholeBodyFaq(blocks: { level: number; text: string }[]): FaqEntry[] {
+  const headings = blocks.filter((b) => b.level > 0);
+  if (headings.length === 0) return [];
+
+  const topLevel = Math.min(...headings.map((b) => b.level));
+  const top = headings.filter((b) => b.level === topLevel);
+  const questions = top.filter((b) => QUESTION.test(b.text));
+
+  if (questions.length < FAQ_MIN_QUESTIONS) return [];
+  if (questions.length / top.length < WHOLE_BODY_QUESTION_SHARE) return [];
+
+  const entries: FaqEntry[] = [];
+  let question: string | null = null;
+  let answer: string[] = [];
+
+  const flush = () => {
+    if (question && answer.length > 0) entries.push({ question, answer: answer.join(' ') });
+    question = null;
+    answer = [];
+  };
+
+  for (const block of blocks) {
+    if (block.level === topLevel) {
+      flush();
       if (QUESTION.test(block.text)) question = block.text;
       continue;
     }

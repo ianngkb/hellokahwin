@@ -1,0 +1,1368 @@
+{
+  "base": "https://hellokahwin.com",
+  "at": "2026-08-31T17:43:33.943Z",
+  "rows": [
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang",
+      "slug": "hantaran-tunang",
+      "jsonLdBlocks": 2,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 25,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/busana-pengantin/baju-pengantin-sewa-atau-beli",
+      "slug": "baju-pengantin-sewa-atau-beli",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 16,
+      "questionHeadings": 7,
+      "questionHeadingText": [
+        "Berapa harga sewa baju pengantin?",
+        "Berapa harga kalau beli?",
+        "Berapa pasang baju yang sebenarnya diperlukan?",
+        "Berapa harga sewa baju pengantin sepasang?",
+        "Lebih murah sewa atau beli baju pengantin?",
+        "Berapa lama sebelum majlis perlu tempah baju pengantin?",
+        "Adakah aksesori termasuk dalam harga sewa?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/glamor-eksklusif/amankila-bali",
+      "slug": "amankila-bali",
+      "jsonLdBlocks": 2,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 2,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-kahwin",
+      "slug": "hantaran-kahwin",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 20,
+      "questionHeadings": 6,
+      "questionHeadingText": [
+        "Apa maksud hantaran kahwin?",
+        "Hantaran wajib atau adat?",
+        "Apakah contoh dulang hantaran kahwin yang menarik?",
+        "Apakah maksud mas kahwin?",
+        "Bilakah hantaran diserahkan?",
+        "Apa beza hantaran kahwin dengan hantaran tunang?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-sabah-sarawak",
+      "slug": "mas-kahwin-sabah-sarawak",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 18,
+      "questionHeadings": 6,
+      "questionHeadingText": [
+        "Berapa kadar mas kahwin di Sabah dan di Sarawak?",
+        "Adakah kadar mas kahwin janda berbeza di Sabah dan Sarawak?",
+        "Berapa jumlah mas kahwin yang biasa di Sabah dan Sarawak?",
+        "Kadar negeri mana yang terpakai jika pasangan lain negeri?",
+        "Adakah mas kahwin sama dengan mahar?",
+        "Bolehkah mas kahwin melebihi kadar minimum negeri?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/venue-perancangan/checklist-kahwin",
+      "slug": "checklist-kahwin",
+      "jsonLdBlocks": 2,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 17,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/glamor-eksklusif/grand-hyatt-kuala-lumpur",
+      "slug": "grand-hyatt-kuala-lumpur",
+      "jsonLdBlocks": 2,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 2,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/venue-perancangan/pakej-dewan-kahwin",
+      "slug": "pakej-dewan-kahwin",
+      "jsonLdBlocks": 2,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 15,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/ucapan-doa/ucapan-pengantin-baru",
+      "slug": "ucapan-pengantin-baru",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 5,
+      "headings": 29,
+      "questionHeadings": 5,
+      "questionHeadingText": [
+        "Apakah contoh ucapan klasik untuk pengantin baru?",
+        "Bolehkah ucapan ditulis dalam bahasa Melayu sahaja?",
+        "Apa hukumnya kalau tidak hadir majlis yang dijemput?",
+        "Ucapan untuk pengantin lelaki dan perempuan perlu berbeza?",
+        "Berapa lama patut bercakap kalau dijemput ke pentas?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-pahang-negeri-sembilan",
+      "slug": "mas-kahwin-pahang-negeri-sembilan",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 22,
+      "questionHeadings": 11,
+      "questionHeadingText": [
+        "Berapa kadar mas kahwin di Pahang?",
+        "Berapa kadar mas kahwin di Negeri Sembilan?",
+        "Mengapa kadar janda lebih rendah?",
+        "Apa itu adat perpatih?",
+        "Apa yang berubah dalam perkahwinan adat perpatih?",
+        "Bolehkah pasangan sesuku berkahwin?",
+        "Adakah kadar mas kahwin di Pahang berbeza untuk janda?",
+        "Bila kadar RM100 di Pahang mula berkuat kuasa?",
+        "Di mana kadar mas kahwin Negeri Sembilan diterbitkan?",
+        "Bolehkah mas kahwin melebihi kadar minimum?",
+        "Bolehkah mas kahwin melebihi kadar minimum negeri?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/real-wedding/villa-warisan",
+      "slug": "villa-warisan",
+      "jsonLdBlocks": 2,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 6,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/moden-kontemporari/marriott-putrajaya",
+      "slug": "marriott-putrajaya",
+      "jsonLdBlocks": 2,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 4,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/cara-buat-kad-kahwin-digital",
+      "slug": "cara-buat-kad-kahwin-digital",
+      "jsonLdBlocks": 2,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 11,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/ucapan-doa/doa-majlis-perkahwinan",
+      "slug": "doa-majlis-perkahwinan",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 5,
+      "headings": 24,
+      "questionHeadings": 8,
+      "questionHeadingText": [
+        "Berapa lama doa patut dibaca?",
+        "Bila doa dibaca dalam aturcara majlis?",
+        "Adakah garis panduan ini terpakai untuk kenduri di rumah?",
+        "Berapa minit doa majlis perkahwinan patut dibaca?",
+        "Bolehkah doa majlis dibaca sepenuhnya dalam bahasa Melayu?",
+        "Perlukah al-Fatihah dibaca sebelum doa?",
+        "Bolehkah wanita membaca doa di majlis perkahwinan?",
+        "Di mana teks penuh doa kenduri kahwin JAKIM boleh didapati?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/venue-perancangan/harga-sewa-dewan-kahwin",
+      "slug": "harga-sewa-dewan-kahwin",
+      "jsonLdBlocks": 2,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 18,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/real-wedding/cheong-fatt-tze-mansion",
+      "slug": "cheong-fatt-tze-mansion",
+      "jsonLdBlocks": 2,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 6,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/real-wedding/sentosa-janda-baik",
+      "slug": "sentosa-janda-baik",
+      "jsonLdBlocks": 2,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 6,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/pelamin-kahwin-dewan",
+      "slug": "pelamin-kahwin-dewan",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 13,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-kahwin-5-balas-7",
+      "slug": "hantaran-kahwin-5-balas-7",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 20,
+      "questionHeadings": 6,
+      "questionHeadingText": [
+        "Kenapa 5 balas 7 yang paling kerap dipilih?",
+        "Adakah 5 balas 7 bermaksud pihak perempuan membelanjakan lebih?",
+        "Bolehkah pihak lelaki bawa 5 dulang dan pihak perempuan balas 5?",
+        "Adakah mas kahwin salah satu daripada lima dulang?",
+        "Perlukah kedua-dua pihak bawa sirih junjung?",
+        "Bilangan dulang hantaran ganjil: adat, atau boleh genap?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/nisbah-hantaran",
+      "slug": "nisbah-hantaran",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 21,
+      "questionHeadings": 9,
+      "questionHeadingText": [
+        "Apa maksud nisbah hantaran?",
+        "Kenapa pihak perempuan membalas lebih banyak?",
+        "Dari mana datangnya adat nisbah dulang?",
+        "Siapa yang menetapkan nisbah?",
+        "Adakah nisbah hantaran wajib dalam Islam?",
+        "Bolehkah nisbah hantaran sama, contohnya 5 balas 5?",
+        "Nisbah untuk majlis pertunangan dan majlis nikah, sama atau berbeza?",
+        "Adakah dulang sirih junjung dikira dalam nisbah?",
+        "Bilangan dulang hantaran ganjil: adat, atau boleh genap?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/busana-pengantin/inai-tangan-pengantin",
+      "slug": "inai-tangan-pengantin",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 19,
+      "questionHeadings": 5,
+      "questionHeadingText": [
+        "Berapa lama inai bertahan?",
+        "Berapa lama inai bertahan di tangan?",
+        "Adakah inai hitam berbahaya?",
+        "Bolehkah pengantin lelaki berinai?",
+        "Berapa hari sebelum majlis patut berinai?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang-3-balas-5",
+      "slug": "hantaran-tunang-3-balas-5",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 20,
+      "questionHeadings": 7,
+      "questionHeadingText": [
+        "Kenapa hantaran tunang lebih kecil daripada hantaran nikah?",
+        "Kalau pertunangan putus, hantaran itu milik siapa?",
+        "Bolehkah hantaran tunang 3 balas 3?",
+        "Adakah cincin tunang dikira sebagai satu daripada tiga dulang?",
+        "Perlukah pihak perempuan balas dengan cincin juga?",
+        "Boleh terus bawa hantaran nikah pada hari bertunang?",
+        "Bilangan dulang hantaran ganjil: adat, atau boleh genap?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/minimalis-mewah/the-danna-langkawi",
+      "slug": "the-danna-langkawi",
+      "jsonLdBlocks": 2,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 0,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/barang-hantaran-perempuan",
+      "slug": "barang-hantaran-perempuan",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 24,
+      "questionHeadings": 4,
+      "questionHeadingText": [
+        "Berapa dulang hantaran untuk perempuan yang biasa?",
+        "Adakah barang kemas mesti ada dalam hantaran?",
+        "Bolehkah cincin tunang dikira sebagai satu dulang?",
+        "Berapa lama sebelum majlis barang ini perlu dibeli?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang-untuk-lelaki",
+      "slug": "hantaran-tunang-untuk-lelaki",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 19,
+      "questionHeadings": 5,
+      "questionHeadingText": [
+        "Perlukah pihak perempuan membalas dengan cincin juga?",
+        "Bolehkah dulang lelaki diisi barang yang sama dengan dulang perempuan?",
+        "Adakah duit hantaran diletakkan dalam dulang lelaki?",
+        "Perlukah barang hantaran tunang berjenama?",
+        "Hantaran Tunang Lelaki & Perempuan – Barang Apa Patut Ada Dalam Dulang?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/bilangan-dulang-hantaran-ganjil",
+      "slug": "bilangan-dulang-hantaran-ganjil",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 19,
+      "questionHeadings": 6,
+      "questionHeadingText": [
+        "Adakah bilangan dulang hantaran wajib ganjil?",
+        "Dari mana datangnya adat ganjil?",
+        "Bolehkah hantaran 4 balas 6?",
+        "Adakah bilangan ganjil ada dalam Islam?",
+        "Kenapa balasan pihak perempuan lebih dua dulang?",
+        "Bilangan dulang tunang dan nikah perlu ganjil kedua-duanya?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/cara-tetapkan-duit-hantaran",
+      "slug": "cara-tetapkan-duit-hantaran",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 19,
+      "questionHeadings": 5,
+      "questionHeadingText": [
+        "Berapa jumlah duit hantaran yang biasa?",
+        "Perlukah duit hantaran dibayar penuh pada hari bertunang?",
+        "Bolehkah duit hantaran dibuat sifar?",
+        "Duit hantaran dan mas kahwin, mana satu dibincang dahulu?",
+        "Bilangan dulang hantaran ganjil: adat, atau boleh genap?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/duit-hantaran-kahwin",
+      "slug": "duit-hantaran-kahwin",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 20,
+      "questionHeadings": 9,
+      "questionHeadingText": [
+        "Apa itu duit hantaran?",
+        "Apa beza duit hantaran dengan mas kahwin?",
+        "Duit hantaran hak siapa?",
+        "Wang sumbangan tetamu pula hak siapa?",
+        "Adakah duit hantaran wajib?",
+        "Bolehkah isteri menuntut duit hantaran daripada ibu bapanya?",
+        "Bolehkah suami minta balik duit hantaran selepas bercerai?",
+        "Adakah duit hantaran direkodkan dalam sijil nikah?",
+        "Bilangan dulang hantaran ganjil: adat, atau boleh genap?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/sebelum-nikah/doa-majlis-pertunangan",
+      "slug": "doa-majlis-pertunangan",
+      "jsonLdBlocks": 2,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 18,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/dewan-kahwin",
+      "slug": "dewan-kahwin",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 13,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/real-wedding/perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan",
+      "slug": "perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan",
+      "jsonLdBlocks": 2,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 6,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/tempat-honeymoon-di-malaysia",
+      "slug": "tempat-honeymoon-di-malaysia",
+      "jsonLdBlocks": 2,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 28,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/moden-kontemporari/jw-marriott-kuala-lumpur",
+      "slug": "jw-marriott-kuala-lumpur",
+      "jsonLdBlocks": 2,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 4,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/moden-kontemporari/perkahwinan-romantis-di-jen-shangri-la-puteri-harbour",
+      "slug": "perkahwinan-romantis-di-jen-shangri-la-puteri-harbour",
+      "jsonLdBlocks": 2,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 4,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-coklat",
+      "slug": "hantaran-coklat",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 22,
+      "questionHeadings": 7,
+      "questionHeadingText": [
+        "Kenapa coklat cair di petang majlis?",
+        "Coklat mana yang tahan?",
+        "Berapa harga gubahan hantaran coklat?",
+        "Coklat jenis apa yang paling sesuai untuk hantaran?",
+        "Bolehkah hantaran coklat disimpan dalam peti sejuk?",
+        "Berapa lama coklat tahan di bawah khemah?",
+        "Adakah kek hantaran lebih selamat daripada coklat?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/gubahan-hantaran-simple",
+      "slug": "gubahan-hantaran-simple",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 24,
+      "questionHeadings": 6,
+      "questionHeadingText": [
+        "Apa maksud gubahan simple?",
+        "Gaya mana untuk isi mana?",
+        "Gaya gubahan hantaran mana yang paling murah?",
+        "Adakah gubahan simple sesuai untuk majlis nikah, bukan tunang sahaja?",
+        "Bolehkah bunga tiruan dan bunga segar dicampur?",
+        "Berapa lama masa menggubah tujuh dulang bergaya simple?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang-simple",
+      "slug": "hantaran-tunang-simple",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 3,
+      "headings": 18,
+      "questionHeadings": 4,
+      "questionHeadingText": [
+        "Adakah hantaran murah nampak murah?",
+        "Bolehkah barang hantaran dibeli beransur?",
+        "Kalau bilangan dulangnya lima, bukan lapan?",
+        "Hantaran Tunang Lelaki & Perempuan – Barang Apa Patut Ada Dalam Dulang?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tema-warna",
+      "slug": "hantaran-tema-warna",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 22,
+      "questionHeadings": 7,
+      "questionHeadingText": [
+        "Dari mana tema warna datang?",
+        "Apa yang dibeli ikut warna?",
+        "Apa yang kekal neutral?",
+        "Perlukah hantaran pihak lelaki dan pihak perempuan satu warna?",
+        "Berapa kos menukar tema warna dari tunang ke nikah?",
+        "Warna alas mana yang paling selamat?",
+        "Patutkah hantaran ikut warna pelamin?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/nikah-undang-undang/lafaz-taklik",
+      "slug": "lafaz-taklik",
+      "jsonLdBlocks": 2,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 16,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tempah-atau-buat-sendiri",
+      "slug": "hantaran-tempah-atau-buat-sendiri",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 20,
+      "questionHeadings": 5,
+      "questionHeadingText": [
+        "Barang mana patut ditempah, barang mana patut dibuat sendiri?",
+        "Lebih murah tempah atau buat sendiri hantaran?",
+        "Adakah set siap gubah termasuk isi hantaran?",
+        "Bila patut menempah gubahan hantaran?",
+        "Berapa lama masa buat sendiri tujuh dulang?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hidden-hantaran",
+      "slug": "hidden-hantaran",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 25,
+      "questionHeadings": 9,
+      "questionHeadingText": [
+        "Apa itu hidden hantaran?",
+        "Dari mana konsep ini datang?",
+        "Apa yang diletakkan di dalam, dan siapa yang tahu?",
+        "Bila hidden hantaran sesuai, dan bila tidak?",
+        "Berapa kos hidden hantaran?",
+        "Adakah hidden hantaran menyalahi adat?",
+        "Perlukah semua dulang ditutup?",
+        "Berapa harga kotak hidden hantaran?",
+        "Bolehkah hidden hantaran digunakan untuk majlis tunang?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/gubahan-hantaran",
+      "slug": "gubahan-hantaran",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 21,
+      "questionHeadings": 4,
+      "questionHeadingText": [
+        "Berapa kos gubahan hantaran untuk tujuh dulang?",
+        "Lebih murah gubah sendiri atau tempah?",
+        "Bila gubahan perlu disiapkan?",
+        "Adakah gubahan wajib dalam hantaran?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri",
+      "slug": "mas-kahwin-ikut-negeri",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 5,
+      "headings": 19,
+      "questionHeadings": 7,
+      "questionHeadingText": [
+        "Siapa yang menetapkan kadar mas kahwin?",
+        "Adakah kadar mas kahwin berbeza antara anak dara dan janda?",
+        "Berapa kadar mas kahwin di Kedah dan di Melaka?",
+        "Adakah angka RM22.50 bagi Johor masih terpakai?",
+        "Bolehkah mas kahwin dibayar secara hutang?",
+        "Adakah mas kahwin sama dengan duit hantaran?",
+        "Bolehkah mas kahwin melebihi kadar minimum negeri?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-perak",
+      "slug": "mas-kahwin-perak",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 5,
+      "headings": 19,
+      "questionHeadings": 10,
+      "questionHeadingText": [
+        "Berapa kadar mas kahwin di Perak?",
+        "Apa yang tercatat dalam warta Perak Pk. P.U. 30?",
+        "Dari mana datangnya kadar mas kahwin Perak yang beredar?",
+        "Siapa yang menentukan jumlah mas kahwin di Perak?",
+        "Adakah kadar mas kahwin di Perak berbeza bagi janda?",
+        "Bolehkah mas kahwin di Perak dibayar secara hutang?",
+        "Siapa yang boleh mengesahkan kadar mas kahwin di Perak?",
+        "Mengapa kadar mas kahwin berbeza antara negeri?",
+        "Adakah mas kahwin sama dengan duit hantaran?",
+        "Bolehkah mas kahwin melebihi kadar minimum negeri?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/majlis-kahwin",
+      "slug": "majlis-kahwin",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 18,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/busana-pengantin/songket-tenunan-tangan-atau-cetak",
+      "slug": "songket-tenunan-tangan-atau-cetak",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 17,
+      "questionHeadings": 6,
+      "questionHeadingText": [
+        "Berapa harga songket tenunan tangan?",
+        "Kenapa jurang harganya sebesar itu?",
+        "Berapa harga kain songket asli?",
+        "Bagaimana membezakan songket tenunan tangan daripada cetak?",
+        "Adakah songket Terengganu berbeza daripada songket lain?",
+        "Perlukah baju sanding menggunakan songket?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/pelamin-kad-cenderahati/pelamin",
+      "slug": "pelamin",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 29,
+      "questionHeadings": 4,
+      "questionHeadingText": [
+        "Berapa lama sebelum majlis pelamin perlu ditempah?",
+        "Adakah pelamin termasuk dalam sewa dewan?",
+        "Apa beza pelamin dan singgahsana?",
+        "Berapa saiz pelamin yang sesuai untuk dewan?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/hadiah-untuk-pengantin",
+      "slug": "hadiah-untuk-pengantin",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 21,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/sebelum-nikah/taaruf-maksud",
+      "slug": "taaruf-maksud",
+      "jsonLdBlocks": 2,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 18,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-melebihi-kadar-minimum",
+      "slug": "mas-kahwin-melebihi-kadar-minimum",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 17,
+      "questionHeadings": 8,
+      "questionHeadingText": [
+        "Adakah negeri menetapkan had maksimum mas kahwin?",
+        "Siapa yang menentukan jumlah sebenar?",
+        "Bagaimana dua keluarga menetapkan jumlah?",
+        "Apa yang direkodkan oleh Pendaftar Nikah?",
+        "Adakah wang hantaran dikira sebagai mas kahwin?",
+        "Adakah mas kahwin yang lebih tinggi lebih baik?",
+        "Bolehkah kadar mas kahwin sesebuah negeri berubah?",
+        "Bolehkah mas kahwin diberi dalam bentuk emas atau barang?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-johor",
+      "slug": "mas-kahwin-johor",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 3,
+      "headings": 16,
+      "questionHeadings": 7,
+      "questionHeadingText": [
+        "Berapa kadar mas kahwin di Johor?",
+        "Dari mana datangnya angka RM22.50?",
+        "Adakah RM22.50 masih terpakai hari ini?",
+        "Adakah Johor menetapkan kadar berbeza bagi janda?",
+        "Adakah RM22.50 kadar minimum atau kadar tetap?",
+        "Berapa bayaran Kad Perakuan Nikah di Johor?",
+        "Bolehkah mas kahwin melebihi kadar minimum negeri?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/nikah-undang-undang/syarat-sah-nikah",
+      "slug": "syarat-sah-nikah",
+      "jsonLdBlocks": 2,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 18,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/ucapan-doa/walimatul-urus",
+      "slug": "walimatul-urus",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 5,
+      "headings": 23,
+      "questionHeadings": 8,
+      "questionHeadingText": [
+        "Apa hukum mengadakan walimah?",
+        "Perlukah anda hadir kalau dijemput?",
+        "Walimatul urus atau kesyukuran perkahwinan?",
+        "Apa maksud walimatul urus dalam bahasa Melayu?",
+        "Wajibkah menghadiri majlis walimatul urus?",
+        "Perlukah hadir jika dijemput dalam kumpulan WhatsApp?",
+        "Adakah bersanding satu tuntutan agama?",
+        "Siapa yang bertanggungjawab mengadakan walimah?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/dulang-hantaran",
+      "slug": "dulang-hantaran",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 26,
+      "questionHeadings": 4,
+      "questionHeadingText": [
+        "Adakah dulang hantaran perlu sama jenis semuanya?",
+        "Berapa lama sebelum majlis dulang perlu ditempah?",
+        "Bolehkah dulang lama digunakan semula?",
+        "Apa beza dulang hantaran dengan pahar?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-untuk-lelaki",
+      "slug": "hantaran-untuk-lelaki",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 24,
+      "questionHeadings": 4,
+      "questionHeadingText": [
+        "Berapa dulang hantaran untuk lelaki yang biasa?",
+        "Perlukah hantaran untuk lelaki lebih tinggi nilainya?",
+        "Adakah Al-Quran dan sejadah wajib dalam hantaran?",
+        "Bolehkah barang terpakai dijadikan hantaran?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-kahwin-bajet",
+      "slug": "hantaran-kahwin-bajet",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 20,
+      "questionHeadings": 4,
+      "questionHeadingText": [
+        "Berapa bajet hantaran yang biasa di Malaysia?",
+        "Bahagian mana daripada bajet yang paling mudah dikurangkan?",
+        "Bolehkah hantaran dikurangkan kepada tiga dulang?",
+        "Perlukah semua dulang dibeli baharu?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/ucapan-doa/skrip-pengacara-majlis-perkahwinan",
+      "slug": "skrip-pengacara-majlis-perkahwinan",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 5,
+      "headings": 23,
+      "questionHeadings": 5,
+      "questionHeadingText": [
+        "Ada tak skrip pengacara majlis perkahwinan yang rasmi?",
+        "Berapa lama bacaan doa patut mengambil masa?",
+        "Bagaimana menyebut nama tok kadi dalam skrip?",
+        "Bolehkah majlis perkahwinan berjalan tanpa pengacara?",
+        "Apa yang perlu ada dalam teks pengacara?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/barang-hantaran-berguna",
+      "slug": "barang-hantaran-berguna",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 22,
+      "questionHeadings": 4,
+      "questionHeadingText": [
+        "Adakah hantaran dianggap membazir?",
+        "Bolehkah barang hantaran diberikan kepada orang lain?",
+        "Barang mana yang paling selamat dipilih?",
+        "Perlukah tepak sirih dimasukkan dalam hantaran?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/adat-hantaran-ikut-keluarga",
+      "slug": "adat-hantaran-ikut-keluarga",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 19,
+      "questionHeadings": 4,
+      "questionHeadingText": [
+        "Adat siapa yang diikut kalau dua keluarga berbeza negeri?",
+        "Perlukah senarai hantaran ditulis dan dipersetujui?",
+        "Adakah barang adat lama seperti bunga rampai masih perlu?",
+        "Apa yang perlu dibuat kalau dua senarai berbeza jauh?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/berapa-dulang-hantaran-tunang",
+      "slug": "berapa-dulang-hantaran-tunang",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 20,
+      "questionHeadings": 5,
+      "questionHeadingText": [
+        "Adakah cincin dikira sebagai satu daripada tiga dulang?",
+        "Perlukah bilangan dulang tunang dan nikah sama?",
+        "Siapa yang membayar dulang balasan?",
+        "Bolehkah bilangan dulang diubah selepas dipersetujui?",
+        "Hantaran Tunang Lelaki & Perempuan – Barang Apa Patut Ada Dalam Dulang?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang-untuk-perempuan",
+      "slug": "hantaran-tunang-untuk-perempuan",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 19,
+      "questionHeadings": 5,
+      "questionHeadingText": [
+        "Bolehkah hantaran tunang untuk perempuan tanpa cincin?",
+        "Perlukah kain pasang belum jahit, atau baju siap?",
+        "Adakah barang hantaran perlu barang baharu?",
+        "Siapa yang menyimpan barang hantaran ini selepas majlis?",
+        "Hantaran Tunang Lelaki & Perempuan – Barang Apa Patut Ada Dalam Dulang?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/tempat-beli-hantaran",
+      "slug": "tempat-beli-hantaran",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 22,
+      "questionHeadings": 4,
+      "questionHeadingText": [
+        "Di mana tempat paling murah beli barang hantaran?",
+        "Bolehkah semua barang hantaran dibeli di satu tempat?",
+        "Adakah selamat membeli barang hantaran dalam talian?",
+        "Bila dulang sewa perlu ditempah?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/persiapan-hantaran-kahwin",
+      "slug": "persiapan-hantaran-kahwin",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 23,
+      "questionHeadings": 4,
+      "questionHeadingText": [
+        "Berapa lama sebelum majlis hantaran perlu mula disiapkan?",
+        "Bila gubahan hantaran perlu ditempah?",
+        "Bila dulang sewa perlu ditempah?",
+        "Barang mana yang tidak boleh disiapkan awal?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/barang-hantaran-tunang",
+      "slug": "barang-hantaran-tunang",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 3,
+      "headings": 18,
+      "questionHeadings": 4,
+      "questionHeadingText": [
+        "Perlukah gubahan bunga dipulangkan?",
+        "Bolehkah barang hantaran diberikan kepada orang lain?",
+        "Perlukah senarai barang hantaran direkodkan?",
+        "Hantaran Tunang Lelaki & Perempuan – Barang Apa Patut Ada Dalam Dulang?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat",
+      "slug": "hantaran-wajib-atau-adat",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 5,
+      "headings": 21,
+      "questionHeadings": 6,
+      "questionHeadingText": [
+        "Adakah hantaran wajib dalam Islam?",
+        "Bolehkah nikah tanpa duit hantaran langsung?",
+        "Adakah bilangan dulang ganjil hukum atau adat?",
+        "Adakah sirih junjung wajib dalam hantaran?",
+        "Siapa yang boleh menjawab kalau keluarga tidak setuju dengan artikel ini?",
+        "Bilangan dulang hantaran ganjil: adat, atau boleh genap?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/adat-hantaran-berbeza-negeri",
+      "slug": "adat-hantaran-berbeza-negeri",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 19,
+      "questionHeadings": 5,
+      "questionHeadingText": [
+        "Adat negeri mana yang diikut, pihak lelaki atau pihak perempuan?",
+        "Kalau nikah di Selangor tetapi keluarga dari negeri lain, adakah fatwa Selangor terpakai?",
+        "Adakah hantaran di Sabah dan Sarawak berbeza daripada Semenanjung?",
+        "Bolehkah dua keluarga guna adat yang berbeza dalam satu perkahwinan?",
+        "Bilangan dulang hantaran ganjil: adat, atau boleh genap?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/sirih-junjung",
+      "slug": "sirih-junjung",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 21,
+      "questionHeadings": 4,
+      "questionHeadingText": [
+        "Adakah sirih junjung wajib dalam majlis kahwin?",
+        "Berapa helai daun sirih diperlukan?",
+        "Berapa sirih junjung diperlukan dalam satu majlis?",
+        "Apa beza sirih junjung dengan tepak sirih?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/pelamin-kad-cenderahati/bunga-telur",
+      "slug": "bunga-telur",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 22,
+      "questionHeadings": 4,
+      "questionHeadingText": [
+        "Adakah bunga telur wajib dalam majlis kahwin Melayu?",
+        "Bolehkah telur digantikan dengan gula-gula?",
+        "Apa beza bunga telur dan doorgift biasa?",
+        "Berapa lama sebelum majlis bunga telur perlu ditempah?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/pelamin-kad-cenderahati/contoh-kad-jemputan-kahwin",
+      "slug": "contoh-kad-jemputan-kahwin",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 23,
+      "questionHeadings": 4,
+      "questionHeadingText": [
+        "Berapa lama sebelum majlis kad perlu dihantar?",
+        "Perlukah nombor telefon dicetak pada kad?",
+        "Bolehkah bismillah dicetak pada kad kahwin?",
+        "Adakah kad digital cukup, tanpa kad cetak?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/sebelum-nikah/cincin-tunang",
+      "slug": "cincin-tunang",
+      "jsonLdBlocks": 2,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 14,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/ucapan-doa/doa-pengantin-baru",
+      "slug": "doa-pengantin-baru",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 17,
+      "questionHeadings": 4,
+      "questionHeadingText": [
+        "Apakah doa selamat untuk pengantin baru?",
+        "Bolehkah doa dibaca dalam bahasa Melayu sahaja?",
+        "Adakah doa pengantin perlu dibaca oleh imam?",
+        "Bila masanya doa ini dibaca kepada pengantin?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/venue-perancangan/bajet-kahwin",
+      "slug": "bajet-kahwin",
+      "jsonLdBlocks": 2,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 15,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/nikah-undang-undang/rukun-nikah",
+      "slug": "rukun-nikah",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 16,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/nikah-undang-undang/borang-nikah",
+      "slug": "borang-nikah",
+      "jsonLdBlocks": 2,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 20,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/apa-itu-mas-kahwin",
+      "slug": "apa-itu-mas-kahwin",
+      "jsonLdBlocks": 2,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 15,
+      "questionHeadings": 8,
+      "questionHeadingText": [
+        "Kenapa mas kahwin wajib, dan siapa pemiliknya?",
+        "Apakah fungsi mas kahwin?",
+        "Perlukah mas kahwin dalam bentuk wang?",
+        "Apa beza mas kahwin tunai dan mas kahwin hutang?",
+        "Bila mas kahwin diserahkan?",
+        "Jika mas kahwin tidak dijelaskan?",
+        "Bagaimana jika keluarga anda buat cara berbeza?",
+        "Bolehkah mas kahwin melebihi kadar minimum negeri?"
+      ],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-kelantan-terengganu",
+      "slug": "mas-kahwin-kelantan-terengganu",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 4,
+      "headings": 20,
+      "questionHeadings": 9,
+      "questionHeadingText": [
+        "Berapa kadar mas kahwin di Terengganu?",
+        "Berapa kadar mas kahwin di Kelantan?",
+        "Adakah Kelantan mengira wang hantaran sebagai mas kahwin?",
+        "Apa maksudnya apabila negeri tidak menetapkan kadar?",
+        "Adakah mas kahwin tetap wajib jika tiada kadar minimum?",
+        "Betulkah angka mas kahwin Terengganu yang beredar itu?",
+        "Berapa jumlah lazim diberi di Kelantan dan Terengganu?",
+        "Adakah kadar berbeza bagi janda di Kelantan atau Terengganu?",
+        "Bolehkah mas kahwin melebihi kadar minimum negeri?"
+      ],
+      "reason": null,
+      "state": "present"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/wedding-planner-terbaik-di-malaysia",
+      "slug": "wedding-planner-terbaik-di-malaysia",
+      "jsonLdBlocks": 2,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 23,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/hiasan-dekorasi/goodies-kahwin",
+      "slug": "goodies-kahwin",
+      "jsonLdBlocks": 2,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 29,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/real-wedding/perkahwinan-taman-kebun-yang-minimalis-di-hulu-langat",
+      "slug": "perkahwinan-taman-kebun-yang-minimalis-di-hulu-langat",
+      "jsonLdBlocks": 2,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 6,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/pantai-santai/perkahwinan-indah-di-laman-fajar-menyinsing-port-dickson",
+      "slug": "perkahwinan-indah-di-laman-fajar-menyinsing-port-dickson",
+      "jsonLdBlocks": 2,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 0,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/real-wedding/yasaka-shrine",
+      "slug": "yasaka-shrine",
+      "jsonLdBlocks": 2,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 6,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/kursus-kahwin",
+      "slug": "kursus-kahwin",
+      "jsonLdBlocks": 2,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 22,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik",
+      "slug": "lokasi-pre-wedding-photoshoot-terbaik",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 21,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/sewa-dewan-kahwin",
+      "slug": "sewa-dewan-kahwin",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 20,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/moden-kontemporari/sime-darby-convention-centre",
+      "slug": "sime-darby-convention-centre",
+      "jsonLdBlocks": 2,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 4,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    },
+    {
+      "url": "https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding",
+      "slug": "garden-wedding",
+      "jsonLdBlocks": 3,
+      "brokenBlocks": [],
+      "faqQuestions": 0,
+      "headings": 23,
+      "questionHeadings": 0,
+      "questionHeadingText": [],
+      "reason": null,
+      "state": "absent"
+    }
+  ]
+}

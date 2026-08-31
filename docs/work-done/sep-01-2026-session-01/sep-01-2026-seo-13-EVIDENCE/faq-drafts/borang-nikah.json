@@ -1,0 +1,31 @@
+{
+  "slug": "borang-nikah",
+  "headingLevel": 2,
+  "entries": [
+    {
+      "question": "Borang nikah yang mana saya isi sendiri?",
+      "answer": "Borang Permohonan Untuk Kebenaran Berkahwin. Lelaki mengisi satu, perempuan mengisi satu, dan kedua-duanya dihantar kepada Pendaftar bagi kariah masjid tempat pihak perempuan bermastautin. Di Perak ia dikenali sebagai Borang 1 di bawah Pk. P.U. 30. Yang selebihnya, iaitu kebenaran berkahwin, catatan daftar, perakuan nikah dan kad nikah, dikeluarkan oleh pejabat.",
+      "support": "'Borang yang anda cari hampir pasti Borang Permohonan Untuk Kebenaran Berkahwin. Lelaki mengisi satu, perempuan mengisi satu, dan kedua-duanya dihantar kepada Pendaftar bagi kariah masjid tempat pihak perempuan bermastautin. Yang selebihnya (kebenaran, catatan daftar, perakuan nikah, kad nikah) dikeluarkan oleh pejabat, bukan diisi oleh anda.'; jadual Perak: 'Borang 1 | Permohonan Untuk Kebenaran Berkahwin | 16 | RM1.00'; 'Anda mengisi Borang 1.'"
+    },
+    {
+      "question": "Berapa hari sebelum akad borang perlu dihantar?",
+      "answer": "Sekurang-kurangnya tujuh hari di Perak dan Selangor. Perak mencetaknya terus atas borang, dan seksyen 16(3) Enakmen Selangor 2003 meletakkannya dalam enakmen, dengan kelonggaran di tangan Pendaftar. Pulau Pinang menetapkan tempoh di kedua-dua hujung: seawal 90 hari, dan selewat-lewatnya 14 hari bagi warganegara atau 21 hari bagi warganegara asing.",
+      "support": "'Perak mencetak peringatannya terus atas borang: Permohonan ini hendaklah dikemukakan kepada Pendaftar sekurang-kurangnya 7 hari dari tarikh perkahwinan.'; 'Seksyen 16(3) Enakmen... Selangor 2003: permohonan tiap-tiap satu pihak hendaklah disampaikan kepada Pendaftar sekurang-kurangnya tujuh hari sebelum tarikh yang dicadangkan, tetapi Pendaftar boleh membenarkan masa yang lebih singkat'; 'Menurut e-Munakahat... borang boleh diisi seawal 90 hari dari tarikh akad nikah, dan selewat-lewatnya 14 hari bagi warganegara Malaysia atau 21 hari bagi warganegara asing.'"
+    },
+    {
+      "question": "Berapa bayaran urusan nikah di Pulau Pinang?",
+      "answer": "RM75.00 bagi pasangan yang melangsungkan akad dalam negeri, dan Pulau Pinang memecahkannya: RM5.00 surat kebenaran berkahwin, RM10.00 sijil nikah dan RM60.00 kad nikah pintar. Permohonan kebenaran untuk akad di luar negeri itu RM5.00, dan bayaran saguhati akad nikah RM250.00 dibayar pada hari majlis. Ujian saringan HIV percuma di Klinik Kesihatan Kerajaan.",
+      "support": "'Pulau Pinang menyenaraikan RM75.00 bagi pasangan yang melangsungkan akad nikah dalam negeri, dan memecahkannya: RM5.00 surat kebenaran berkahwin, RM10.00 sijil nikah, RM60.00 kad nikah pintar. Bagi permohonan kebenaran berkahwin untuk akad di luar Pulau Pinang, RM5.00. Bayaran saguhati akad nikah RM250.00 dibayar pada hari majlis akad nikah. Ujian saringan HIV pula percuma, dan borangnya percuma, tetapi hanya di Klinik Kesihatan Kerajaan.'"
+    },
+    {
+      "question": "Adakah semua negeri menggunakan SPPIM?",
+      "answer": "Tidak. Dalam berita bertarikh 24 April 2026, JAKIM melaporkan Kelantan, Pahang, Pulau Pinang, Sabah dan Sarawak masih menggunakan sistem aplikasi kendiri masing-masing. Pulau Pinang menggunakan e-Munakahat, dan Sabah menghalakan pemohon ke Portal ePerkahwinan JHEAINS. Kalau anda di salah satu negeri itu, portal negeri anda yang betul, bukan SPPIM.",
+      "support": "'Dalam satu berita bertarikh 24 April 2026, JAKIM melaporkan pembentangan kertas cadangan pelaksanaan SPPIM di Kelantan, Pahang, Pulau Pinang, Sabah dan Sarawak. Menurut berita itu, kelima-lima negeri berkenaan masih menggunakan sistem aplikasi kendiri masing-masing.'; 'kalau anda di salah satu daripada lima negeri itu, portal negeri anda yang betul, bukan SPPIM. Pulau Pinang menggunakan e-Munakahat. Sabah menghalakan pemohon ke Portal ePerkahwinan JHEAINS.'"
+    },
+    {
+      "question": "Ke mana borang dihantar jika pengantin lelaki dan perempuan berlainan negeri?",
+      "answer": "Kepada Pendaftar bagi kariah masjid tempat pihak perempuan bermastautin, mengikut seksyen 16(1) Enakmen Selangor 2003. Seksyen 16(2) menghendaki permohonan pihak lelaki disertakan kenyataan daripada Pendaftar kariah masjidnya sendiri, atau daripada pihak berkuasa yang hak bagi negerinya. Jadi pihak lelaki dapatkan surat itu dahulu, kemudian bawa ke pejabat pihak perempuan.",
+      "support": "'Seksyen 16(1): permohonan dihantar kepada Pendaftar bagi kariah masjid tempat pihak perempuan bermastautin'; 'Seksyen 16(2): kalau pihak lelaki bermastautin di kariah masjid berlainan, atau di mana-mana negeri lain, permohonannya hendaklah mengandungi atau disertai kenyataan daripada Pendaftar kariah masjidnya sendiri, atau daripada pihak berkuasa yang hak bagi negeri itu'; 'Jadi urutannya: pihak lelaki dapatkan surat kebenaran daripada pejabat agama negerinya, bawa ke pejabat pihak perempuan.'"
+    }
+  ]
+}
