@@ -39,3 +39,46 @@ The N=4 fixture failed, and the floor became `min(4, K, N − cap + 1)`.
 
 A rule is not written until a case it should reject has actually been rejected
 and a case it should accept has actually been accepted.
+
+## The third clause, which cost a false green the next hour (UI-13, 01 Sept 2026)
+
+All six fixtures above exercise a VERDICT. None exercises an ERROR, and
+`check-h6.sh` promises three exit codes, not two — `3` is "could not fetch, or
+usage error. NOT a verdict about the page."
+
+It could not deliver that. `fetch()` is called only inside a command
+substitution, so it runs in a subshell and `die`'s `exit 3` killed the subshell
+alone; the parent read an empty description and carried on over an empty file.
+On the first live run of UI-13 the sitemap fetch failed on this machine's known
+TCP stall, and the script printed a verdict anyway:
+
+```
+corpus:                                    <- silently blank
+H6.3  FLOOR       pass — 2 distinct categories, floor min(4,K,N-cap+1)=1
+corpus: 0 published articles across 1 categories
+        H6 IS NOT SATISFIABLE at N=13. H6.5's fallback applies: ...
+```
+
+Both lines false, and **both lenient in the same direction**. An empty corpus
+makes `K=1`, which drags H6.3's floor from 4 to 1, so H6.3 reported PASS on a
+two-category homepage — near enough the exact page the rule exists to reject.
+And the satisfiability line inverted: it blamed a corpus of 89 articles for a
+build defect and pointed at H6.5's truncation ladder, which is the instruction
+to ship a SHORTER homepage rather than a fixed one.
+
+Fixed in `check-h6.sh` (`fetch` returns 3; the caller dies in the parent; a
+corpus that parses to zero article URLs is also exit 3, because `printf '%s\n'
+""` emits one line and `wc -l` therefore reports `1` for the empty case and
+cannot detect it). Proved against the failing case, and the four controls now
+run on every push from the blocking `ui-layout-gate` CI job rather than living
+here as prose.
+
+So the sentence above is one clause short. It should read:
+
+> A rule is not written until a case it should reject has actually been
+> rejected, a case it should accept has actually been accepted, **and a case it
+> cannot judge has actually been refused.**
+
+An error path that has never been executed is not an error path. It is a
+comment, and this one was silently lenient — which is the only kind that
+survives, because the loud kind gets fixed the first time anyone runs it.

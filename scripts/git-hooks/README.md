@@ -89,11 +89,11 @@ not claimed as observed.
 
 ## What each hook does
 
-| Hook | Fires on | Does |
-|---|---|---|
-| `post-checkout` | branch/commit switch across the boundary | prints the refusal, **switches back**, exits 1 |
-| `pre-commit` | committing a **conflicted** cross-space merge | refuses; no commit is made |
-| `pre-merge-commit` | committing a clean cross-space merge | refuses; no commit is made |
+| Hook               | Fires on                                      | Does                                           |
+| ------------------ | --------------------------------------------- | ---------------------------------------------- |
+| `post-checkout`    | branch/commit switch across the boundary      | prints the refusal, **switches back**, exits 1 |
+| `pre-commit`       | committing a **conflicted** cross-space merge | refuses; no commit is made                     |
+| `pre-merge-commit` | committing a clean cross-space merge          | refuses; no commit is made                     |
 
 `pre-commit` is the one that matters for merges. Git runs `pre-merge-commit`
 only when a merge auto-resolves, and a docs/site merge never does — **8
@@ -108,9 +108,9 @@ On an ordinary commit `pre-commit` exits immediately and prints nothing.
 
 Any name-based rule is wrong on day one in this repo:
 
-| Branch | Space |
-|---|---|
-| `docs/plat-10-11-12` | **site** |
+| Branch                          | Space    |
+| ------------------------------- | -------- |
+| `docs/plat-10-11-12`            | **site** |
 | `feat/command-centre-dashboard` | **docs** |
 
 The rule the hooks use, against the commit's tree:
@@ -121,6 +121,40 @@ The rule the hooks use, against the commit's tree:
 
 Failing open on `unknown` is deliberate. A guard that fires on commits it does
 not understand is a guard people delete.
+
+## `docs/` IS NOT THE DOCS SPACE — the path map, measured (UI-13, 01 Sept 2026)
+
+The rule above classifies a **commit** by its tree. It says nothing about which
+**paths** belong to which line, and the short version people write down —
+_"anything under `docs/` goes to the docs line"_ — is wrong. It was written into
+a sprint brief on 01 Sept after two incidents the same day, and following it
+literally reproduces the first of them: CONT-14 pushed its paper trail to a
+branch nobody reads.
+
+Counted the same afternoon: **412 files under `docs/` on `master`**, 1,025 on
+`feat/command-centre-dashboard`. Every item that shipped on 01 Sept — PLAT-19
+(`0a46c9d`), DES-18 (`c56e46d`), SEO-13 (`82ca795`) — put its `docs/work-done/`
+entry on **master**, beside the code it documents.
+
+| Path                                     | Line          | Why                                                                                              |
+| ---------------------------------------- | ------------- | ------------------------------------------------------------------------------------------------ |
+| `src/`, `scripts/`, `tests/`, `.github/` | **master**    | the site                                                                                         |
+| `docs/work-done/**`                      | **master**    | the record of a change, next to the change; a reviewer reading the diff must be able to reach it |
+| `docs/design/*.md` (component rules)     | **master**    | read while editing the component                                                                 |
+| `docs/design/des-*` (the specs)          | **docs line** | the company record                                                                               |
+| `docs/plans/**` (briefs, sprint plans)   | **docs line** | the company record                                                                               |
+| `docs/fixtures/**`                       | **docs line** | authored beside the spec that needs them                                                         |
+
+The two are not symmetrical and that is the point: **`master` carries the record
+of the site, the docs line carries the record of the company.** A test fixture a
+CI job must reach belongs under `tests/` on master, not under `docs/fixtures/` —
+a blocking job cannot check out two branches to find its own inputs.
+
+**Neither the hooks nor any script enforces this.** The hooks guard the boundary
+that is unrecoverable (a cross-space merge or checkout, which collapses the two
+records into one branch); a paper trail on the wrong line is recoverable by a
+cherry-pick, and a guard that fires on every commit touching `docs/` is a guard
+people delete. This table is the enforcement, so keep it correct.
 
 ## Deliberate override
 
