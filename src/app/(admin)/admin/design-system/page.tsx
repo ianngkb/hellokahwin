@@ -10,7 +10,7 @@ import type { MenuCategory } from '@/components/inspire/inspire-nav-menu';
 import { ConsoleBreadcrumb } from '@/components/console/console-breadcrumb';
 import { Breadcrumbs as PublicBreadcrumbs } from '@/components/common/breadcrumbs';
 import { ArticleToc, TOC_MIN_HEADINGS } from '@/components/inspire/article-toc';
-import { ArticleRail } from '@/design-system/components/article-rail';
+import { ArticleRail, RAIL_TOC_HEADING_ID } from '@/design-system/components/article-rail';
 import { extractHeadings, type ArticleHeading } from '@/lib/inspire/heading-anchors';
 import { PageHeader } from '@/components/layout/page-header';
 import '@/design-system/tokens.css';
@@ -783,7 +783,7 @@ export default async function DesignSystemPage({
                     ]}
                   />
                 }
-                toc={<ArticleToc headings={TOC_DEMO_FLAT} variant="rail" />}
+                toc={<ArticleToc headings={TOC_DEMO_FLAT} labelledBy={RAIL_TOC_HEADING_ID} />}
                 sources={[
                   {
                     text: 'Warta Kerajaan Negeri Selangor, Jil. 63 No. 3, 4hb Februari 2010, Sel. P.U. 3',
@@ -808,7 +808,9 @@ export default async function DesignSystemPage({
                     ]}
                   />
                 }
-                toc={<ArticleToc headings={TOC_DEMO_BELOW_FLOOR} variant="rail" />}
+                toc={
+                  <ArticleToc headings={TOC_DEMO_BELOW_FLOOR} labelledBy={RAIL_TOC_HEADING_ID} />
+                }
                 sources={[]}
               />
             </div>

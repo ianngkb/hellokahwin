@@ -641,13 +641,18 @@
   padding-left: var(--sp-4);
   padding-right: var(--sp-4);
 }
+/* The rail's own section heading — `Sumber`, and the contents list's
+   `Dalam artikel ini`, which the rail renders because `<ArticleToc
+   labelledBy>` drops the component's own. Same 2px rule, same padding and same
+   muted ink as the `Rekod` panel above them, so the three blocks read as one
+   component rather than three that happened to stack.
+
+   `.hk-rail-block .hk-eyebrow` is kept beside it: if the contents list is ever
+   mounted here WITHOUT `labelledBy` — a preview surface, some future caller —
+   its own eyebrow still picks up the rail's treatment instead of arriving
+   unstyled. That is the DES-12 shape, a 0x0 wordmark from a token scoped to
+   one surface, and it costs one selector to rule out. */
 .hk-rail-heading,
-/* UI-18's `<ArticleToc variant="rail">` brings its own
-   `<p class="hk-eyebrow">Dalam artikel ini</p>` and its production gate reads
-   the label out of that element, so the rail styles it in place rather than
-   replacing it with a heading of its own. Same 2px rule, same padding, same
-   muted ink as `Rekod` and `Sumber` above and below it — the three blocks read
-   as one component, and the label markup stays UI-18's to change. */
 .hk-rail-block .hk-eyebrow {
   color: var(--fg-muted);
   border-top: 2px solid var(--fg);

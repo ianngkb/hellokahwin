@@ -35,19 +35,22 @@ import type { ArticleSource } from '@/lib/inspire/article-sources';
  *
  * `rekod`   — UI-17. The record panel, which already existed and already
  *             rendered; it was in the wrong COLUMN, not missing.
- * `toc`     — UI-18's `<ArticleToc variant="rail">`, which brings its own
- *             `nav`, `aria-label` and `Dalam artikel ini` label. The rail
- *             renders NO heading of its own for it.
+ * `toc`     — UI-18's `<ArticleToc labelledBy={RAIL_TOC_HEADING_ID}>`. The
+ *             component keeps its `<nav class="article-toc">` and its links;
+ *             the prop makes it drop its own heading, `aria-label` and box
+ *             chrome, and this container supplies the heading instead.
  *
- *             The contract first agreed with UI-18 on 01 Sep 2026 gave the
- *             heading to this component, on the argument that a single mount
- *             is the only place that can guarantee exactly one instance. That
- *             was right about mounting and wrong about ownership: the
- *             component already renders §5.1's exact string, and UI-18's
- *             production gate reads the label out of `.hk-eyebrow` rather
- *             than comparing it to a string of its own. Taking the heading
- *             would have doubled the words on screen and turned that gate red
- *             on a correct article. Corrected before either shipped.
+ *             Settled the long way round, which is worth recording because
+ *             the intermediate position looked finished and was wrong. The
+ *             contract first gave the heading to this container; then, on
+ *             finding that the component already rendered §5.1's exact string
+ *             and that UI-18's gate read the label out of `.hk-eyebrow`, it
+ *             was handed back; then UI-18 shipped `labelledBy` together with
+ *             a gate that resolves the name through `aria-label` ->
+ *             `aria-labelledby` -> `.hk-eyebrow` and a `bad-toc-two-headings`
+ *             fixture, which makes container-owned both safe AND checkable.
+ *             That version is on master. Two props doing one job is the
+ *             drift; one of them had to go, and it was not the tested one.
  * `sumber`  — UI-17. Rendered from the article's own `Sumber:` citations and
  *             from nothing else; see `@/lib/inspire/article-sources`. Absent
  *             on the 52 of 86 articles that carry no citation, because an
@@ -72,6 +75,15 @@ import type { ArticleSource } from '@/lib/inspire/article-sources';
  * capped at the viewport and the last block in it fell below that edge on a
  * normal laptop with no way to scroll to it.
  */
+/**
+ * The id the rail's contents heading carries, and the value callers pass to
+ * `<ArticleToc labelledBy>`. Exported rather than written twice: the two must
+ * be the same string or the landmark loses its accessible name, and
+ * `audit-article-toc.mjs` fails a page whose `aria-labelledby` points at an id
+ * that is not in the document — which is exactly what a typo produces.
+ */
+export const RAIL_TOC_HEADING_ID = 'hk-rail-toc-heading';
+
 export interface ArticleRailProps {
   rekod?: ReactNode;
   /** UI-18's contents list. Null renders no heading and no wrapper. */
@@ -94,15 +106,31 @@ export function ArticleRail({ rekod, toc, sources, extra }: ArticleRailProps) {
         </div>
       )}
 
-      {/* No heading here, deliberately. `<ArticleToc variant="rail">` renders
-          its own `nav.article-toc`, its own `aria-label` and its own
-          `<p class="hk-eyebrow">Dalam artikel ini</p>` — DES-03 §5.1's exact
-          string — and `scripts/audit-article-toc.mjs` reads all three off
-          production. A heading here as well would render the same words twice,
-          one above the other. The rail contributes the rule above the label
-          (`.hk-rail-block .hk-eyebrow`) and nothing else. */}
+      {/* The heading is the CONTAINER's, and `<ArticleToc labelledBy>` is how
+          UI-18 shipped that contract: set the prop and the component drops its
+          own heading, its own `aria-label` and its own box chrome, so exactly
+          one of the two renders the words and the landmark keeps an accessible
+          name. `audit-article-toc.mjs` resolves that name through
+          `aria-label` -> `aria-labelledby` -> `.hk-eyebrow`, and carries a
+          `bad-toc-two-headings` fixture for the case where both render one.
+
+          The `<nav>` stays UI-18's. Wrapping their nav in a nav of ours would
+          nest two landmarks, and this item's own relocation check (R7) keys on
+          `nav.article-toc` INSIDE `[data-hk-rail]` — a bare `<ol>` handed up
+          would leave that assertion matching nothing and green for the wrong
+          reason. So the rail contributes a heading and a wrapper `<div>`, and
+          nothing that is itself a landmark.
+
+          `<h2>`, not a styled `<span>`: a contents list is navigable structure
+          and a screen-reader user needs to reach it. `.s-label` gives it the
+          same small-caps as `Rekod` and `Sumber`; the uppercase on screen is a
+          `text-transform`, so the accessible name stays `Dalam artikel ini` in
+          sentence case rather than being shouted. */}
       {toc && (
         <div data-hk-rail-block="toc" className="hk-rail-block">
+          <h2 id={RAIL_TOC_HEADING_ID} className="s-label hk-rail-heading">
+            Dalam artikel ini
+          </h2>
           {toc}
         </div>
       )}

@@ -31,7 +31,7 @@ import { buildItemListJsonLd } from '@/lib/inspire/listicle-schema';
 import { buildFaqPageJsonLd } from '@/lib/inspire/faq-schema';
 import type { GalleryImage } from '@/components/inspire/article-renderer';
 import { ArticleSidebar } from '@/components/inspire/article-sidebar';
-import { ArticleRail } from '@/design-system/components/article-rail';
+import { ArticleRail, RAIL_TOC_HEADING_ID } from '@/design-system/components/article-rail';
 import { RekodPanel } from '@/design-system/components/content';
 import {
   ARTICLE_PAGE_CACHE_KEY,
@@ -1101,21 +1101,21 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
                 />
               }
               toc={
-                /* UI-18's component, `variant="rail"` — same nav, same
-                 `aria-label`, same `Dalam artikel ini` label, without the
-                 inline callout's border, fill, radius and
-                 `lg:max-w-[680px]`, which render as a card inside a card in a
-                 300px column. Built from `article.content`, the same input
-                 `ArticleRenderer` feeds `injectHeadingIds()`, so every
-                 `href="#…"` resolves to a heading that exists — see
-                 `lib/inspire/heading-anchors.ts`. It returns null below
-                 `TOC_MIN_HEADINGS`, which is why the rail's slot is optional.
+                /* UI-18's component, with `labelledBy` set so it drops its
+                 own heading, its own `aria-label` and the inline callout's
+                 border, fill, radius and `lg:max-w-[680px]` — a card inside a
+                 card in a 300px column. It keeps its `<nav class="article-toc">`
+                 and its links; the rail renders the heading it points at.
 
-                 UI-18 merged first (PR #38) and did NOT relocate the list, so
-                 the relocation lands here: `showToc={false}` below is what
-                 stops the page carrying two. */
+                 Built from `article.content`, the same input `ArticleRenderer`
+                 feeds `injectHeadingIds()`, so every `href="#…"` resolves to a
+                 heading that exists — see `lib/inspire/heading-anchors.ts`.
+
+                 UI-18 merged the component and the prop but did NOT relocate
+                 the list, so the relocation lands here: `showToc={false}` below
+                 is what stops the page carrying two. */
                 hasArticleToc(articleHeadings) ? (
-                  <ArticleToc headings={articleHeadings} variant="rail" />
+                  <ArticleToc headings={articleHeadings} labelledBy={RAIL_TOC_HEADING_ID} />
                 ) : null
               }
               sources={sourceCensus.sources}
