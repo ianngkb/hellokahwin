@@ -698,6 +698,45 @@ one feel reasonable.
 extraction artefact goes to the verification seat BEFORE it is changed, not
 disclosed after. That check costs them half a minute and it is what they are for.
 
+### Caught before drafting against removed after publishing, and why the two must not be added together
+
+**Seven defects were stopped by the two gates. Three never reached a draft, one
+reached a draft and not production, and FOUR were live and had to be removed.**
+Collapsing those into a single count makes the expensive path look like the cheap
+one, and the entire argument for sourcing before drafting rests on the gap.
+
+| defect | caught | cost |
+|---|---|---|
+| the withdrawn 2007 JAKIM edition | round 1, before a word was written | a re-pick of the source |
+| Arabic corrupted by PDF extraction | round 1, from testing extraction before drafting | a design decision, not a rewrite |
+| the *munkar* over-correction | round 1 | none |
+| `doa majlis ringkas` duplicating a live sibling | before drafting, by reading the sibling's body | a re-derived target |
+| the altered em dash | after publish | correction + republish |
+| "tidak memerlukan nas khusus" | after publish | correction + republish |
+| "tidak menjejaskan apa-apa" | after publish | correction + republish |
+| the "itu memadai" caption | after publish, and it survived one republish | a second correction + a window where readers saw it |
+
+**Verified rather than asserted, because I first wrote this up as "four defects
+taken off live pages" and that was wrong.** The three round-1 items never
+appeared in a draft at all: A2's very first commit, `936aa5d`, already carries
+*"boleh diamalkan namun tidak boleh beriktikad"* beside the *munkar* verdict, so
+there was never a live over-correction to remove; and the first drafts contain
+zero corrupted `الله` renderings. `editorial-verification-lead` caught the
+conflation in my close-out and it is right.
+
+**The four that were live were all on one page**, `doa-selamat-majlis`, which is
+also the one article that shipped on a round-1 clearance while its round-2
+confirmation was outstanding. That is not a coincidence and it is the finding:
+**the page that skipped a verification round is the page that carried every live
+defect in the batch.** Five other articles waited for a full clearance and none
+of them needed a correction after publishing.
+
+**And it says something about how gates should be priced.** Sourcing before
+drafting cost a day of elapsed time and removed three defects for free. Shipping
+ahead of a clearance saved a few minutes and cost two republishes, a second
+correction, and a window in which readers saw an unattributed ruling. The cheap
+gate is the one that runs early.
+
 ### What did we nearly ship, and what caught it
 
 **A withdrawn 2007 government rule, presented as current.** Caught by
