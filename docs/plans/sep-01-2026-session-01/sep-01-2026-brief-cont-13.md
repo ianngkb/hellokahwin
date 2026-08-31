@@ -109,9 +109,15 @@ one was right. Put it in your log where it will be read.
 
 Print, at the start of a line, exactly:
 
-```
-ITEM EXIT: 0
-```
+Print your completion sentinel as the FIRST THING ON A LINE, in the form
+`ITEM` then a space then `EXIT:` then a space then your exit code — e.g. exit code zero.
+Nothing else on that line.
+
+> ⚠ This is deliberately NOT written out literally here. The watcher matches that
+> exact line anchored to the start of a line, and on 01 Sept 2026 the wave-1 brief
+> printed it verbatim in a code fence — so CONT-16 and SEO-13 tripped their own
+> watchers within 90 seconds of dispatch, both still WORKING, simply by displaying
+> their brief. Filed with the captured lines as evidence on PLAT-13.
 
 `ITEM EXIT: <n>` is the ONLY string that means this ITEM is done. Gates you run may
 print their own `NAME EXIT: n` lines — those are that gate's outcome, not yours, and
