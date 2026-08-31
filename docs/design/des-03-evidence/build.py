@@ -51,6 +51,63 @@ def data_uri(name, variant):
     return cache[key]
 
 
+# --------------------------------------------------------------------------
+# CROSS-REFERENCE GATE. Added by DES-17, 01 September 2026.
+#
+# WHY THIS EXISTS. §5.3 shipped the sentence "the diversity rule — see H6 in
+# §7". No rule H6 existed. It survived a full sprint, a two-way cross-check
+# against DES-07, and a spec-versus-build audit, because a cross-reference
+# written as prose is invisible to every check anyone was running. Sprint 04's
+# finding, restated: the parts of DES-03 written as enforceable constraints
+# shipped and the parts written as prose did not. A retrospective that names
+# that lesson and changes nothing is the same failure one level up, so the
+# lesson is a gate: THE DOCUMENT CANNOT BE REBUILT WITH A CROSS-REFERENCE THAT
+# DOES NOT RESOLVE.
+#
+# Two checks, because either alone is defeatable:
+#   1. Every href="#x" has a matching id="x". Catches a link to a target that
+#      was renamed or never written.
+#   2. No bare prose cross-reference. "see H6 in §7" must be a link. Check 1
+#      cannot see a reference that is not a link, which is exactly how the
+#      original defect hid.
+#
+# Base64 image payload is stripped before scanning. A bare \bH6\b matches the
+# embedded WebP data three times, and that false positive is half the reason
+# nobody noticed the reference was dangling.
+# --------------------------------------------------------------------------
+BARE_REF = re.compile(r"\bsee\s+([A-Z]\d[a-z]?)\b", re.I)
+
+
+def check_cross_references(html):
+    prose = re.sub(r'src="data:[^"]*"', 'src="data:"', html)
+
+    ids = set(re.findall(r'\bid="([^"]+)"', prose))
+    refs = sorted({r for r in re.findall(r'href="#([^"]+)"', prose)})
+    dangling = [r for r in refs if r not in ids]
+    if dangling:
+        raise SystemExit(
+            "DANGLING ANCHOR: href points at an id that does not exist: %s\n"
+            "  Define the target, or fix the reference. Do not ship the link."
+            % dangling)
+
+    bare = []
+    for m in BARE_REF.finditer(prose):
+        window = prose[max(0, m.start() - 80):m.start()]
+        if '<a href="#' not in window:
+            line = prose.count("\n", 0, m.start()) + 1
+            bare.append("line %d: %s" % (line, prose[m.start():m.start() + 60]
+                                         .replace("\n", " ")))
+    if bare:
+        raise SystemExit(
+            "BARE CROSS-REFERENCE: a rule or state id is named in prose without "
+            "a link to it.\n  This is the DES-17 defect verbatim. Wrap it in "
+            '<a href="#id">, so the anchor check above can prove the target '
+            "exists:\n    %s" % "\n    ".join(bare))
+
+    print("cross-references: %d internal links, all resolve; "
+          "%d anchors defined; no bare id references" % (len(refs), len(ids)))
+
+
 def main():
     parts = sorted(glob.glob(os.path.join(TPL, "*.html")))
     if not parts:
@@ -68,6 +125,8 @@ def main():
     leftovers = re.findall(r"\{\{[^}]+\}\}", html)
     if leftovers:
         raise SystemExit("unsubstituted tokens remain: %s" % sorted(set(leftovers)))
+
+    check_cross_references(html)
 
     with open(OUT, "w", encoding="utf-8") as f:
         f.write(html)

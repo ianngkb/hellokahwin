@@ -437,9 +437,12 @@
   <h3>5.3 &nbsp;Homepage &mdash; one hero, then the record of what is new</h3>
   <p class="note">Measured on the live homepage today: <strong>thirteen items, all thirteen
   from Hantaran &amp; Mas Kahwin</strong>, with the same 21-character eyebrow printed
-  thirteen times. The specified homepage carries the diversity rule &mdash; see H6 in
-  &sect;7 &mdash; and the drawing below shows it: the hero, then rows that name different
-  categories.</p>
+  thirteen times, and the same thirteen items are still there on 01&nbsp;September&nbsp;2026.
+  The specified homepage carries the diversity rule &mdash;
+  <strong><a href="#h6">H6, defined in &sect;7.5</a></strong>, which caps any one category at
+  <span class="m">ceil(N/3)</span> of the set, forbids two consecutive items from the same
+  category, and is evaluated by <span class="m">scripts/measure/check-h6.sh</span> rather than
+  by reading. The drawing below shows it: the hero, then rows that name different categories.</p>
 
   <div class="rulebox flag">
     <p class="eyebrow">The hero drawn here is not the hero production runs, and that is the point</p>
@@ -449,7 +452,7 @@
     the next eligible article instead. This is the inventory constraint doing its job in
     public rather than being discovered during the build: <strong>the homepage hero is
     selected from articles whose cover is class&nbsp;O or class&nbsp;P, and if none is
-    available the homepage runs H3's no-hero variant rather than enlarging a frame that
+    available the homepage runs <a href="#s7-5">H3</a>'s no-hero variant rather than enlarging a frame that
     cannot take it.</strong> Cover class becomes an editorial selection input, not a
     rendering detail, and that is a change <span class="m">managing-editor</span> needs to
     know about.</p>
