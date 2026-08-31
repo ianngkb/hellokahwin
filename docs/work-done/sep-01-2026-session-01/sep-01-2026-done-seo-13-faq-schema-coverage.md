@@ -520,6 +520,19 @@ problem. The validator script took a `--delay` flag instead, which is a setting
 rather than a structure, and a setting does not protect you from starting the
 program twice.
 
+**And one near-miss on the docs line itself, recorded because it would have hurt
+somebody else rather than me.** I amended this log and `git push -f` to
+`feat/command-centre-dashboard` — a branch roughly ten concurrent agents commit
+to. It was safe only by luck of timing: the reflog shows the ref went
+`f3aa0b2 -> 35f6373 -> 2ba1751`, both of the latter mine, and the diff between
+them is exactly my own 14 added lines. Had anyone pushed in the ninety seconds
+between, their commit would be gone and `git status` would have read clean for
+them afterwards.
+
+**On a shared branch, amend-and-force is never worth the tidier history.** Append
+a commit. The correction to this very paragraph was pushed as a new commit for
+that reason.
+
 ### What we nearly shipped, and what caught it
 
 **Nearly wrote 24 blocks and left 2 articles behind**, per the above. The count
