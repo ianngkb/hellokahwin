@@ -26,6 +26,7 @@ import {
 } from '@/components/inspire/article-renderer';
 import { extractHeadings } from '@/lib/inspire/heading-anchors';
 import { extractSources } from '@/lib/inspire/article-sources';
+import { ArticleToc } from '@/components/inspire/article-toc';
 import { buildItemListJsonLd } from '@/lib/inspire/listicle-schema';
 import { buildFaqPageJsonLd } from '@/lib/inspire/faq-schema';
 import type { GalleryImage } from '@/components/inspire/article-renderer';
@@ -1091,6 +1092,22 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
                   ]}
                 />
               }
+              toc={
+                /* UI-18's component, `variant="rail"` — same nav, same
+                 `aria-label`, same `Dalam artikel ini` label, without the
+                 inline callout's border, fill, radius and
+                 `lg:max-w-[680px]`, which render as a card inside a card in a
+                 300px column. Built from `article.content`, the same input
+                 `ArticleRenderer` feeds `injectHeadingIds()`, so every
+                 `href="#…"` resolves to a heading that exists — see
+                 `lib/inspire/heading-anchors.ts`. It returns null below
+                 `TOC_MIN_HEADINGS`, which is why the rail's slot is optional.
+
+                 UI-18 merged first (PR #38) and did NOT relocate the list, so
+                 the relocation lands here: `showToc={false}` below is what
+                 stops the page carrying two. */
+                <ArticleToc headings={extractHeadings(article.content)} variant="rail" />
+              }
               sources={sourceCensus.sources}
               extra={
                 <ArticleSidebar
@@ -1223,7 +1240,7 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
                   </span>
                   <WhatsAppShare title={article.title} url={canonicalUrl} />
                 </div>
-                <ArticleRenderer content={renderContent} articleId={article.id} />
+                <ArticleRenderer content={renderContent} articleId={article.id} showToc={false} />
                 {/* Link back up to the pillar. Inside <article> and immediately
                   after the body, so it reads as part of the piece rather than
                   as chrome, and so it sits above the fold of the related block. */}

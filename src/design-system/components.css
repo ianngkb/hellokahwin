@@ -641,7 +641,14 @@
   padding-left: var(--sp-4);
   padding-right: var(--sp-4);
 }
-.hk-rail-heading {
+.hk-rail-heading,
+/* UI-18's `<ArticleToc variant="rail">` brings its own
+   `<p class="hk-eyebrow">Dalam artikel ini</p>` and its production gate reads
+   the label out of that element, so the rail styles it in place rather than
+   replacing it with a heading of its own. Same 2px rule, same padding, same
+   muted ink as `Rekod` and `Sumber` above and below it — the three blocks read
+   as one component, and the label markup stays UI-18's to change. */
+.hk-rail-block .hk-eyebrow {
   color: var(--fg-muted);
   border-top: 2px solid var(--fg);
   padding-top: 12px;

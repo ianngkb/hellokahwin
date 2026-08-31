@@ -35,13 +35,19 @@ import type { ArticleSource } from '@/lib/inspire/article-sources';
  *
  * `rekod`   — UI-17. The record panel, which already existed and already
  *             rendered; it was in the wrong COLUMN, not missing.
- * `toc`     — UI-18. The table of contents. Passed in as a node; this
- *             component owns the `Dalam artikel ini` heading and the wrapper,
- *             UI-18 owns the list. Agreed with UI-18 on 01 Sep 2026: exactly
- *             one of the two may render that string, and the single-mount
- *             component is the only place that can guarantee it.
- *             **The heading renders only when `toc` is non-null** — a heading
- *             over nothing asserts a contents list the page does not have.
+ * `toc`     — UI-18's `<ArticleToc variant="rail">`, which brings its own
+ *             `nav`, `aria-label` and `Dalam artikel ini` label. The rail
+ *             renders NO heading of its own for it.
+ *
+ *             The contract first agreed with UI-18 on 01 Sep 2026 gave the
+ *             heading to this component, on the argument that a single mount
+ *             is the only place that can guarantee exactly one instance. That
+ *             was right about mounting and wrong about ownership: the
+ *             component already renders §5.1's exact string, and UI-18's
+ *             production gate reads the label out of `.hk-eyebrow` rather
+ *             than comparing it to a string of its own. Taking the heading
+ *             would have doubled the words on screen and turned that gate red
+ *             on a correct article. Corrected before either shipped.
  * `sumber`  — UI-17. Rendered from the article's own `Sumber:` citations and
  *             from nothing else; see `@/lib/inspire/article-sources`. Absent
  *             on the 52 of 86 articles that carry no citation, because an
@@ -88,18 +94,17 @@ export function ArticleRail({ rekod, toc, sources, extra }: ArticleRailProps) {
         </div>
       )}
 
+      {/* No heading here, deliberately. `<ArticleToc variant="rail">` renders
+          its own `nav.article-toc`, its own `aria-label` and its own
+          `<p class="hk-eyebrow">Dalam artikel ini</p>` — DES-03 §5.1's exact
+          string — and `scripts/audit-article-toc.mjs` reads all three off
+          production. A heading here as well would render the same words twice,
+          one above the other. The rail contributes the rule above the label
+          (`.hk-rail-block .hk-eyebrow`) and nothing else. */}
       {toc && (
-        <nav data-hk-rail-block="toc" className="hk-rail-block" aria-labelledby="hk-rail-toc-h">
-          {/* The heading is a real heading, not a styled span: a contents list
-              is a navigable landmark and a screen-reader user needs to be able
-              to jump to it. `.s-label` gives it the rail's small-caps
-              treatment; the uppercase on screen is a `text-transform`, so the
-              accessible name stays `Dalam artikel ini` in sentence case. */}
-          <h2 id="hk-rail-toc-h" className="s-label hk-rail-heading">
-            Dalam artikel ini
-          </h2>
+        <div data-hk-rail-block="toc" className="hk-rail-block">
           {toc}
-        </nav>
+        </div>
       )}
 
       {hasSources && (

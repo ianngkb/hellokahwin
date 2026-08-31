@@ -312,6 +312,12 @@ interface ArticleRendererProps {
   savedImageUrls?: string[];
   vendorCredits?: { listingId: string | null; vendorName: string }[];
   inlineBanner?: React.ReactNode;
+  /**
+   * Render the contents list inline at the top of the body. Default true.
+   * The public article template passes `false` because the rail renders it
+   * (UI-17, DES-03 §5.1) and two contents lists on one page is a defect.
+   */
+  showToc?: boolean;
 }
 
 /**
@@ -894,6 +900,7 @@ export function ArticleRenderer({
   savedImageUrls,
   vendorCredits,
   inlineBanner,
+  showToc = true,
 }: ArticleRendererProps) {
   if (!content) {
     return <p className="text-muted-foreground">No content yet.</p>;
@@ -907,7 +914,13 @@ export function ArticleRenderer({
   // in document order through the same id contract, which is what makes every
   // `href="#…"` in the TOC resolve — see `lib/inspire/heading-anchors.ts`.
   const headings = extractHeadings(content);
-  const toc = <ArticleToc headings={headings} />;
+  // `showToc` is UI-17's. The article template renders the contents list in the
+  // 300px rail (DES-03 §5.1) and passes `showToc={false}` so it is not ALSO
+  // rendered here — two contents lists on one page is the defect, not the
+  // feature. Every other consumer of this renderer (the admin draft preview,
+  // the design-system reference page) keeps the inline callout by default,
+  // because none of them has a rail to put it in.
+  const toc = showToc ? <ArticleToc headings={headings} /> : null;
 
   // If no gallery/figure blocks exist, fall back to the original single-pass approach.
   // Build a clean doc from the unwrapped nodes (sections removed) so generateHTML works.
