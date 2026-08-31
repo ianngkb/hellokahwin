@@ -1,9 +1,13 @@
 name: UI layout gate
 
-# The rendered-layout gate. See `scripts/ui-layout-gate.mjs` for the six checks
-# and the reasoning behind each threshold. (Six since UI-10 added the reading
-# measure on 31 Ogos 2026; the file's own header is the list that is kept
-# current.)
+# The rendered-layout gate. See `scripts/ui-layout-gate.mjs` for the checks and
+# the reasoning behind each threshold — the file's own header is the list that
+# is kept current, and it is eleven now: UI-10 added the reading measure on
+# 31 Ogos 2026, and UI-13 added H6 (homepage category diversity) and H6.6
+# (source order) on 01 Sept 2026. Those last two are the first checks here that
+# enforce an EDITORIAL rule rather than a rendering one, and they are here for
+# the same reason as everything else: the defect was invisible to every
+# structural check and completely obvious to a reader.
 #
 # WHY THIS EXISTS. On 31 Aug 2026 every one of the twelve cards on the front page
 # rendered its headline in a 44-pixel column, and every automated check this repo
@@ -96,6 +100,48 @@ jobs:
         run: |
           set -o pipefail
           node scripts/ui-layout-gate.mjs --selftest | tee gate.log
+
+      # UI-13. The SECOND implementation of H6 (DES-03 §7.5), over raw HTML
+      # rather than the rendered DOM. Checks 10 and 11 above are the browser's
+      # version and the self-test already asserts the two agree on the extracted
+      # sequence; this step is what stops the shell instrument itself rotting
+      # unnoticed, and it is the DoD's negative control run in CI rather than
+      # pasted into a document once.
+      #
+      # Hermetic on purpose — committed files, no network — so it belongs in the
+      # BLOCKING job. It is not a check of the live homepage; the production job
+      # below does that, through `--base`, which now carries H6 with it.
+      #
+      # A CRLF checkout would make this "bad interpreter" rather than a failure,
+      # so `scripts/**/*.sh text eol=lf` is pinned in .gitattributes.
+      - name: Does check-h6.sh reject the known-bad homepage and accept the known-good one?
+        shell: bash
+        run: |
+          set -uo pipefail
+          rc=0
+          run() { # run <expected-exit> <file>
+            bash scripts/measure/check-h6.sh "$2" > h6.out 2>&1
+            got=$?
+            if [ "$got" = "$1" ]; then
+              echo "  ok   exit $got (expected $1)  $2"
+            else
+              echo "  FAIL exit $got (expected $1)  $2"; sed 's/^/       /' h6.out; rc=1
+            fi
+          }
+          echo 'check-h6.sh — DES-03 §7.5, over raw HTML'
+          # The negative control: the CEO's 31 Aug capture of the real front
+          # page, 13 items and every one of them hantaran-mas-kahwin.
+          run 1 tests/ui-layout-gate/fixtures/2026-08-31-pre-ui-fix/homepage.html
+          # The positive control. Both H6.6 fixtures must exit 0 here: their
+          # item sets are identical and the reversal is CSS, which this script
+          # is structurally blind to. That blindness is the reason check 11
+          # exists in the browser gate, and asserting it keeps the division of
+          # labour between the two instruments honest rather than assumed.
+          run 0 tests/ui-layout-gate/fixtures/h6-order-good.html
+          run 0 tests/ui-layout-gate/fixtures/h6-order-reversed.html
+          # A fetch or usage error is exit 3 and is NOT a verdict about a page.
+          run 3 tests/ui-layout-gate/fixtures/no-such-file.html
+          exit $rc
 
       - name: Summary
         if: always()
