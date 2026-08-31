@@ -40,12 +40,23 @@ function assertUndoPushed() {
   let remote;
   try { remote = git(['rev-parse', `origin/${branch}`]); }
   catch { throw new Error(`origin/${branch} does not exist — the UNDO has not been pushed.`); }
-  const contains = execFileSync('git', ['merge-base', '--is-ancestor', head, remote], { cwd: REPO })
-    ; // throws on non-zero
+  try {
+    execFileSync('git', ['merge-base', '--is-ancestor', head, remote], { cwd: REPO, stdio: 'ignore' });
+  } catch {
+    throw new Error(
+      `HEAD ${head.slice(0, 8)} is not on origin/${branch} (which is at ${remote.slice(0, 8)}).
+` +
+      `The UNDO is committed but NOT PUSHED. Run: git push origin ${branch}`);
+  }
   console.log(`UNDO gate: ${UNDO} committed at ${head.slice(0, 8)} and present on origin/${branch}`);
 }
 
-if (!DRY) assertUndoPushed();
+if (!DRY) {
+  try { assertUndoPushed(); }
+  catch (e) { console.error(`
+REFUSING TO DELETE — ${e.message}
+`); process.exit(3); }
+}
 
 const db = sql();
 const client = s3();
