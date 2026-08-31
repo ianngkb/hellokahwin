@@ -16,7 +16,7 @@ name: UI layout gate
 # retrospective had already written down that nothing here looks at a computed
 # value. Prose in a retro did not stop it. This is the thing that looks.
 #
-# TWO JOBS, ON PURPOSE.
+# THREE JOBS, ON PURPOSE.
 #
 #   selftest    Blocking, on every push and PR. Hermetic apart from the fixture
 #               images. It does not check the site — it checks the GATE, against
@@ -26,7 +26,15 @@ name: UI layout gate
 #               nobody has seen fail is not a gate, and a gate that has quietly
 #               started passing everything looks exactly like a healthy one.
 #
-#   production  Scheduled and manual, never blocking a PR. Runs the six checks
+#   h6-selection
+#               Blocking, on every push and PR. The one job here that tests the
+#               SITE rather than an instrument, and the only one that can catch a
+#               pull request re-introducing UI-13's defect. Separate from
+#               `selftest` because that job's `npm i --no-save` leaves an
+#               npm-shaped node_modules that `pnpm install --frozen-lockfile`
+#               refuses to reuse.
+#
+#   production  Scheduled and manual, never blocking a PR. Runs every check
 #               against the four widths of every public template on the live
 #               site and files a loud issue when they fail. It is deliberately
 #               NOT a required check: six agents were merging in parallel when
@@ -153,6 +161,50 @@ jobs:
             tail -n 60 gate.log || true
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
+
+  # UI-13, and this is the job that makes the item's DoD literally true — "a
+  # future regression fails a build rather than waiting for a board meeting."
+  #
+  # The `selftest` job above gates the INSTRUMENTS. Neither of its two steps can
+  # see a regression in the thing being measured, because both are hermetic and
+  # the homepage needs a database. The THIRD implementation of H6 is
+  # `src/lib/inspire/home-selection.ts` — H6.4's rank and greedy slot fill,
+  # H6.5's relaxation ladder — and it is the only one a pull request can break.
+  # Re-narrowing the candidate pool back to a recency window is a one-word change
+  # (`.limit(20)`) that restores the exact defect this item fixed, and until this
+  # job existed nothing in CI ran a test at all: this repo has four gate
+  # workflows and no lint or test workflow.
+  #
+  # A SEPARATE JOB, not a step in `selftest`, and that is a correctness point
+  # rather than tidiness. `selftest` installs playwright-core with
+  # `npm i --no-save`, which leaves an npm-shaped `node_modules`; a later
+  # `pnpm install --frozen-lockfile` in the same job refuses to work with a
+  # modules directory another package manager created. Two jobs, two clean
+  # checkouts, and they run in parallel.
+  #
+  # SCOPED TO ONE TEST FILE ON PURPOSE. Running the whole suite would quietly
+  # make the layout gate into the repo's test job, which is a decision for
+  # whoever owns CI and not one to take sideways inside a design item. That gap
+  # is a real open finding, with its owner named in this item's work-done entry.
+  h6-selection:
+    name: H6 selection unit tests (blocking)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      # `version: 10` is not a preference: package.json carries no
+      # `packageManager` field, so `pnpm/action-setup` has nothing to resolve
+      # from and fails the step outright. Same block as `article-toc-gate.yml`,
+      # copied rather than improvised so the two cannot drift.
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - run: pnpm install --frozen-lockfile
+      - name: Does the H6 selection still hold? (H6.4 rank, H6.5 ladder, determinism)
+        run: pnpm exec vitest run src/lib/inspire/__tests__/home-selection.test.ts
 
   production:
     name: gate the live site (scheduled)
