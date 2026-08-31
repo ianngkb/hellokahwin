@@ -9,6 +9,8 @@ import { CategoryRail } from '@/components/layout/category-rail';
 import type { MenuCategory } from '@/components/inspire/inspire-nav-menu';
 import { ConsoleBreadcrumb } from '@/components/console/console-breadcrumb';
 import { Breadcrumbs as PublicBreadcrumbs } from '@/components/common/breadcrumbs';
+import { ArticleToc, TOC_MIN_HEADINGS } from '@/components/inspire/article-toc';
+import { extractHeadings, type ArticleHeading } from '@/lib/inspire/heading-anchors';
 import { PageHeader } from '@/components/layout/page-header';
 import '@/design-system/tokens.css';
 import '@/design-system/components.css';
@@ -179,6 +181,49 @@ const PILLAR_DEMO: PillarView = {
     },
   ],
 };
+
+/* UI-18 — the contents-list fixtures, and why they are Tiptap docs rather than
+   hand-written `ArticleHeading[]`.
+   An `ArticleHeading` carries an `id`, and an id typed by hand here would be an
+   id this page invented. Feeding a doc through `extractHeadings` — the same
+   call the article renderer makes — means every `href="#…"` shown below was
+   produced by the shipped slug rules, so a change to those rules shows up here
+   instead of hiding behind a literal. */
+function tocDemo(headings: [2 | 3, string][]): ArticleHeading[] {
+  return extractHeadings({
+    type: 'doc',
+    content: headings.map(([level, text]) => ({
+      type: 'heading',
+      attrs: { level },
+      content: [{ type: 'text', text }],
+    })),
+  });
+}
+
+/** The five sections DES-03 §5.1 draws in the rail, verbatim. */
+const TOC_DEMO_FLAT = tocDemo([
+  [2, 'Kadar minimum mengikut negeri'],
+  [2, 'Siapa yang menetapkan kadar'],
+  [2, 'Enam bidang kuasa tanpa kadar'],
+  [2, 'Kadar minimum ialah lantai'],
+  [2, 'Soalan lazim'],
+]);
+
+/** Nesting, plus a 96-character heading — the longest in the live corpus is
+    of that order, and at the 300px rail measure it wraps to three lines. */
+const TOC_DEMO_NESTED = tocDemo([
+  [
+    2,
+    'Berapa bilangan dulang hantaran yang sesuai untuk majlis pertunangan mengikut adat keluarga',
+  ],
+  [3, 'Dulang ganjil'],
+  [3, 'Dulang genap'],
+  [2, 'Kos setiap dulang'],
+  [2, 'Soalan lazim'],
+]);
+
+/** One `<h2>`: below the floor, and must render nothing at all. */
+const TOC_DEMO_BELOW_FLOOR = tocDemo([[2, 'Satu bahagian sahaja']]);
 
 export default async function DesignSystemPage({
   searchParams,
@@ -614,6 +659,51 @@ export default async function DesignSystemPage({
                   { label: 'Disemak', value: '28 Ogos 2026', accent: true },
                 ]}
               />
+            </div>
+
+            {/*
+              In-article contents — UI-18 (01 Sept 2026).
+
+              THE REASON IT IS ON THIS PAGE AT ALL, and not just on an article:
+              this surface is `(admin)`. It carries neither `.hk-public` nor
+              `.inspire-prose`, so what renders below is the component styled by
+              its BARE `nav.article-toc` rules alone. That is the container
+              contract with UI-17's desktop rail written as something that can
+              go wrong visibly: if anyone re-scopes those rules under
+              `.inspire-prose`, this block loses its type, its spacing and its
+              24px tap floor here, on the page people open to check taste, long
+              before the rail ships. DES-12 rendered a 0x0 wordmark from exactly
+              that mistake and nothing caught it.
+
+              Three renders, because two of them are states nobody asks for: a
+              heading long enough to wrap to three lines in a 300px rail, an
+              article whose sections nest, and one below the floor — which must
+              render NOTHING rather than an empty box.
+            */}
+            <div className="pt-8" style={{ maxWidth: 300 }}>
+              <Label muted className="mb-2 block">
+                Dalam artikel ini — components/inspire/article-toc.tsx — flat, as DES-03 §5.1 draws
+                it, at the 300px rail measure
+              </Label>
+              <ArticleToc headings={TOC_DEMO_FLAT} />
+            </div>
+
+            <div className="pt-4" style={{ maxWidth: 300 }}>
+              <Label muted className="mb-2 block">
+                Dalam artikel ini — nested h3s, and a 96-character heading that must wrap rather
+                than truncate
+              </Label>
+              <ArticleToc headings={TOC_DEMO_NESTED} />
+            </div>
+
+            <div className="pt-4" style={{ maxWidth: 300 }}>
+              <Label muted className="mb-2 block">
+                Dalam artikel ini — below the {TOC_MIN_HEADINGS}-heading floor. Renders nothing; the
+                empty frame below is this label and the rule, not the component.
+              </Label>
+              <div style={{ borderTop: '1px solid var(--rule)' }}>
+                <ArticleToc headings={TOC_DEMO_BELOW_FLOOR} />
+              </div>
             </div>
 
             {/* Data table */}
