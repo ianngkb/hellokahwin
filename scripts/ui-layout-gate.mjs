@@ -1451,7 +1451,18 @@ async function runBase(baseUrl, { json, quiet }) {
 }
 
 async function runUrls(urls, { json, quiet }) {
-  const targets = urls.map((u) => ({ name: new URL(u).pathname || u, url: u }));
+  // `--url https://…/` must gate the homepage the same way `--base` does. This
+  // is the one place a pathname test is right rather than lazy: `--base` reads
+  // `homepage: true` off the TEMPLATES manifest, but an explicit URL has no
+  // manifest entry to read, and silently skipping checks 10 and 11 here would
+  // hand back a green run over the exact page they exist for. The trailing
+  // slash is optional and a query string is ignored, because a reader debugging
+  // a cache will paste `https://hellokahwin.com/?x=1`.
+  const targets = urls.map((u) => ({
+    name: new URL(u).pathname || u,
+    url: u,
+    homepage: new URL(u).pathname === '/' || new URL(u).pathname === '',
+  }));
   const rows = await measure(targets, { json, label: 'explicit urls' });
   return { rows, ...report(rows, { label: urls.join(', '), quiet }) };
 }
