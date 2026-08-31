@@ -4,21 +4,77 @@ The CEO's living knowledge of the product and company. Read this at the start
 of every meeting/session; update it whenever reality changes. Facts only —
 opinions and plans belong in meeting minutes and the decision log.
 
-_Last updated: 2026-08-30 (Sprint 04 planning — **SERP SHAPE, not position,
-decides whether we are clickable**: an AI Overview costs ~15× CTR at comparable
-positions, and the image pack is controlled for; the 🔴 cached-`<title>` defect is
-CLOSED on six live fetches, five cold; the garden-wedding credit figure was WRONG
-(≈9 uncredited, not 27) and the credit label is ENGLISH in four casings including a
-live `sOURCE:` typo; `sprint-NN.json` has been abandoned mid-sprint for three
-sprints; the CTR metric is now SPLIT by query intent. Earlier:
-2026-08-28 (SEO-08 — `/garden-wedding/` is a MALAY page drawing English-loanword
-queries, not an English page; the rewrite option is dead on zero Malay volume; the
-headline is now quoted ex-quarantine and the site’s real CTR/position is 2.21% at
-9.98, not 1.75% at 16.72). Earlier: 2026-08-27, SEO-04 — nikahsatu.com is the VENUE
-OPERATOR’s own site, not a beatable DR 14 competitor; the SERP-ownership rule’s
-worked example was wrong and is corrected; venue pages parked at the sourcing gate)._
+_Last updated: 2026-09-01 (Sprint 05 planning — **SPRINT 04 SHIPPED 69/69 AND THE
+CLICK DID NOT MOVE**: 28d clicks 99 → 109, impressions 6,693 → 7,760, position
+12.4 → 11.8, sitewide CTR 1.48% → **1.40%**. Page-level, 7d, matched positions:
+the number/definition cluster returned **21 clicks from 3,062 impressions (0.69%)**
+while the document cluster returned **17 from 285 (5.96%)** — ~40% of the impression
+base is structurally unclickable. The FAQ-schema figure was STALE and is corrected
+to **39 of 85**; `DALAM ARTIKEL INI` is on **0 of 85**; the homepage is still
+**26 of 26 links in one category**; the photographer permissions are **OBTAINED**;
+and decision 167's two institutional deletes were **decided and never executed**.
+Earlier: 2026-08-30 (SERP SHAPE decides clickability; the cached-`<title>` defect is
+CLOSED; the garden-wedding credit figure was WRONG; `sprint-NN.json` abandoned for
+three sprints; the CTR metric is SPLIT). Earlier: 2026-08-28 (SEO-08 —
+`/garden-wedding/` is a MALAY page drawing English-loanword queries). Earlier:
+2026-08-27, SEO-04 — nikahsatu.com is the VENUE OPERATOR, not a beatable competitor)._
 
-## OPEN ITEMS FOUND 30 Aug 2026 — all owned in Sprint 04
+## OPEN ITEMS FOUND 01 Sept 2026 — all owned in Sprint 05
+
+- **🔴 DECISION 167 WAS DECIDED ON 30 AUG AND NEVER EXECUTED. The Getty/iStock file
+  and the press photograph are STILL LIVE.** RIGHTS-02 was deferred by the owner's
+  31 Aug redirect and this sub-commitment went with it — no work-done entry exists.
+  **Decision 50's pattern**: a commitment living inside a re-scoped item disappears
+  without ever being decided against. **The owner's obtained permissions (decision
+  176) do NOT reach institutions** — "photographers have good relationships with us"
+  was never an argument that reaches Getty. **Owner: RIGHTS-03, Sprint 05.** UNDO
+  pushed before the first delete. Decision 177.
+- **✅ THE PHOTOGRAPHER PERMISSIONS ARE OBTAINED** (owner, 01 Sept 2026, answering
+  decision 161's mandated follow-up). The `jangan-guna` legacy assets are licensed,
+  not at risk. **RIGHTS-02 changes purpose**: from enumeration supporting a
+  negotiation to a **record of rights held**, grouped by photographer or source.
+  Nothing is deleted by it and **nobody is contacted by us** — carve-out 3, taken by
+  the owner. Decision 176.
+- **🟠 THE HOMEPAGE STILL SHOWS ONE CATEGORY, THIRTEEN TIMES.** Measured live 01 Sept:
+  **13 distinct articles, 26 links, 26/26 `/artikel/hantaran-mas-kahwin/`.** The
+  DES-03 spec measured the same thing on 28 Aug. It never shipped because the rule it
+  points to **does not exist** — `H6` is a dangling cross-reference (its four matches
+  are three base64 fragments in embedded font data plus the reference itself; §7 is
+  the state set). **Owner: DES-17 writes the rule, UI-13 builds it, Sprint 05.**
+  Decision 179.
+- **🟠 `DALAM ARTIKEL INI` APPEARS ON 0 OF 85 LIVE ARTICLES.** Sitewide census, 01
+  Sept. The spec mentions it twice. The rail's *scaffolding* IS present — `<aside>`
+  ×2, `REKOD` ×24, `SUMBER` ×20 on the page checked — so UI-17 is a layout job, not a
+  from-scratch build; the desktop composition is currently the phone composition,
+  which is what leaves ~846px of empty margin at 1440. **Owner: UI-17 + UI-18,
+  Sprint 05.**
+- **🟠 THE FAQ-SCHEMA FIGURE WAS STALE. It is 39 of 85, not 31.** Live census 01
+  Sept: 46 present, 39 absent, 1 fetch failure. The missing set includes pages we
+  actively rank on — `dewan-kahwin` (142 impressions, 2.82%), `garden-wedding` (the
+  28%-of-impressions page), `hantaran-tunang` (291 impressions), `borang-nikah`,
+  `rukun-nikah`, `syarat-sah-nikah`. **Owner: SEO-13, Sprint 05**, with an explicit
+  prohibition on inventing questions to raise the count. Decision 180.
+- **🟠 `scripts/git-hooks` IS ON THE DOCS BRANCH ONLY — 0 files on site `master`, 7
+  on `feat/command-centre-dashboard`.** Re-verified 01 Sept. Existing checkouts are
+  guarded; a **fresh clone cannot install the guard**, and the newcomer is exactly who
+  most needs it. The open decision inside it is where `verify-guard.sh`'s docs-space
+  fixture comes from. **Owner: RISK-10, Sprint 05.**
+- **🟠 FOURTEEN STALE SITE WORKTREES ARE STANDING**, and `ui-01-ship` holds an
+  UNCOMMITTED change that would **revert UI-03's hero work**, at 79 commits behind
+  master. Left untouched deliberately at Sprint 04's close. **Owner: PLAT-19, Sprint
+  05** — two independent signals by CONTENT before any removal, never a name match.
+- **⚠ NEVER COMBINE `grep -o -i -F`. IT RETURNS ZERO.** GNU grep 3.0, this Git Bash
+  build. `grep -oiF "artikel"` returned **0** on a live page whose URL contains
+  `/artikel/`, and 0 for `REKOD`/`SUMBER` which are present **×24 and ×20** —
+  reported as an absence it would have sent UI-17 to rebuild shipped markup.
+  **⚠ THE FIRST DIAGNOSIS ("long-line HTML is classified as binary; use `-a`") WAS
+  WRONG.** `grep -oaiF` still returns 0; `-oaF` returns 89; `-oai` returns 97. It
+  **reproduces on a 23-byte file**, so size and line length are irrelevant. Caught
+  only because the fix was run against the failing case before being trusted.
+  **Use `scripts/measure/count-in-html.sh`** — it refuses the combination, escapes
+  the pattern instead, and warns inline on any zero. Decision 182.
+
+## OPEN ITEMS FOUND 30 Aug 2026 — all owned in Sprint 04 (RESOLVED unless marked)
 
 - **🟠 IMAGE CREDIT LABELS ARE ENGLISH AND INCONSISTENTLY CASED ON LIVE MALAY
   PAGES.** On `/artikel/idea-dan-nasihat/garden-wedding` alone — the page drawing
@@ -733,7 +789,14 @@ personas and reported them as landed.
 
   The original entry, kept so the correction is visible:
 
-  > **🔴 NO ARTICLE ON THE SITE EMITS `FAQPage` SCHEMA, and 31 are carrying the
+  > **✅ CORRECTED 01 Sept 2026 — THIS IS NO LONGER TRUE AND THE COUNT MOVED.**
+> Live census across every sitemap article URL: **46 articles DO emit `FAQPage`,
+> 39 do not** (1 fetch failure). SEO-10 shipped emission for part of the corpus
+> and the corpus then grew. SEO-13 (Sprint 05) closes the remaining 39. The
+> original text is kept below for the record, and it was wrong in BOTH the
+> direction ('no article') and the number ('31').
+>
+> ~~NO ARTICLE ON THE SITE EMITS `FAQPage` SCHEMA, and 31 are carrying the
   > block that was written for it.** Found by CONT-07, measured sitewide by SEO-05
   > on 26 Aug — sequential sweep of the 69 articles published at the time:
   > **31 carry a "Soalan lazim" block, 0 emit FAQPage.** What we DO emit is

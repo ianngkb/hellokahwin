@@ -1,0 +1,352 @@
+{
+  "id": 5,
+  "name": "Build where the click is",
+  "state": "planned",
+  "planned_at": "2026-09-01",
+  "started_at": null,
+  "ended_at": null,
+  "governance": "A sprint is a BODY OF WORK, not a duration. It ends when every item is done and the owner has reviewed them, however long that takes. Completeness beats fitting a point budget. Every item is presented to the owner as CLAIM + EVIDENCE + LIVE LINK. DONE MEANS SHIPPED - an item is not done until the owner can look at the result. A definition of done is never narrowed after the sprint starts; an item that turns out bigger stays open, gets parked with a reason, or carries forward. OWNER DECISION 01 Sept 2026: full scope approved, nothing cut - the FOURTH consecutive sprint in which the CEO flagged items and the owner kept every one. CONCURRENCY IS THE DEFAULT (owner directive 31 Aug): every item without a hard dependency is dispatched at once, one worktree per concurrent item; running two items in sequence is a decision that must be justified out loud naming the dependency.",
+  "points": 81,
+  "theme": "Sprint 04 was called 'Earn the click' and the click did not move: 28d CTR 1.48% -> 1.40% while position improved 12.4 -> 11.8 and impressions rose 16%. It fixed the presentation defects correctly - all 17 verified - but presentation was never what suppressed CTR. Roughly 40% of the impression base sits in a cluster that is structurally unclickable at any position: the mas kahwin state series, walimatul urus and the hantaran ratio pages returned 21 clicks from 3,062 impressions (0.69%) at position ~7 in the last 7 days, while checklist-kahwin, /dewan-kahwin/, goodies-kahwin, nisbah-hantaran and bajet-kahwin returned 17 from 285 (5.96%) at position ~7.4. So this sprint builds where the click is (CONT-13, CONT-16), builds the composition DES-03 already specified and the build never produced (DES-17, UI-13, UI-17, UI-18 - the homepage still shows one category thirteen times, and DALAM ARTIKEL INI appears on 0 of 85 articles), takes the cheapest SERP real estate available (SEO-13, 39 of 85 articles emit no FAQPage), closes the rights record now that permissions are obtained (RIGHTS-02, RIGHTS-03), and pays the platform debt that three sprints have deferred.",
+  "baseline": {
+    "source": "GSC property https://hellokahwin.com/, pulled 2026-08-31 late (28d window 2026-08-03..2026-08-30)",
+    "clicks_28d": 109,
+    "impressions_28d": 7760,
+    "ctr_28d": 0.014,
+    "position_28d": 11.8,
+    "sitemap_urls": 103,
+    "articles_live": 86,
+    "articles_with_faqpage": 46,
+    "articles_without_faqpage": 39,
+    "articles_with_in_article_toc": 0,
+    "homepage_categories_represented": 1,
+    "split_ctr_source": "SEO-11 census 2026-08-01..28: document intent 4.66% (18 queries, 236 impressions, 11 clicks); number 0.49%; definition 0.00%. Matched positions 3-11: document 4.55% vs number/definition 0.37%, 12.2x, Fisher exact p=0.00002. CAVEAT PER DECISION 171: 11 clicks carry the document arm, 6 from one query; the CI bounds the true ratio only at no less than 2.3x. SEO-14 re-runs it at close.",
+    "prior_snapshot_30_aug": "99 clicks, 6693 impressions, CTR 1.48%, position 12.4"
+  },
+  "items": [
+    {
+      "id": "CONT-13",
+      "track": "content",
+      "points": 12,
+      "state": "todo",
+      "owner": "writer-inspirasi-vendor-venue",
+      "title": "The document-intent bet - six articles for queries that still have a click in them",
+      "flags": [
+        "GATE-may-kill-this-item",
+        "religious-text-gate",
+        "census-selects-targets"
+      ],
+      "why": "The company's central measured finding. At matched positions 3-11, document-intent queries convert at 4.55% and number/definition at 0.37% - 12.2x, Fisher exact p=0.00002 (SEO-11, 84 queries). Page-level tonight, 7d: the mas kahwin state series + walimatul urus + the ratio pages carry 3,062 impressions at position ~7 and returned 21 clicks (0.69%), while checklist-kahwin, /dewan-kahwin/, goodies-kahwin, nisbah-hantaran and bajet-kahwin carry 285 impressions at position ~7.4 and returned 17 (5.96%). Same site, same design, same brand. Roughly 40% of our impression base is structurally unclickable at any position. This item is the only one in the sprint that builds where the click actually is.",
+      "dod": "SIX ARTICLES LIVE IN PRODUCTION, each returning 200 on FIRST request (not a warmed second fetch - quote the status line and X-Vercel-Cache). Sitemap <loc> count rises from 103 to 109, quoted before and after. Each article contains the COMPLETE artefact on the page - the full doa in Arabic, rumi and Malay meaning; the entire script; the whole checklist - never a summary or a partial sample with the rest implied; verified by quoting the artefact's first and last line from LIVE HTML. Each carries FAQPage schema where it has genuine Q&A. Every doa, Arabic string, transliteration and religious claim carries its NAMED AUTHORITY and the date checked, recorded per item and quoted from the live page. PRE-FLIGHT #1 (scripts/seo/check-serp-shape.py) run on every target keyword with the exit code recorded per target; a target that does not exit 0 is not written.",
+      "brief": "GATE FIRST, BEFORE ANYTHING IS WRITTEN - up to one hour. Confirm SEO-11's census (docs/work-done/aug-30-2026-session-01/serp-shape-census.csv) surfaces at least SIX document-intent targets meeting all three tests. IF FEWER THAN SIX CLEAR, STOP AND BRING IT BACK - do not pad with number or definition targets, do not fall back to more mas kahwin state pages because they are easy to write, do not lower the floor to make the count. A parked CONT-13 with a clear reason is a good outcome.\n\n*** TWO OF THE THREE TESTS IN THE SPRINT 04 BRIEF ARE SUPERSEDED. READ THIS BEFORE USING THAT DOCUMENT. ***\n(1) VOLUME: the Sprint 04 brief said '>=100 impressions/28d or >=100 monthly volume'. Decision 170 replaces it: document intent needs >=220 monthly searches (Ahrefs volume, country my), derived from a 10-clicks/month bar divided by the 4.55% the class actually achieves. Number/definition needs 2,700 and is therefore out of reach - that is the point.\n(2) THE AI OVERVIEW IS NOT A SELECTOR AND MUST NOT BE USED AS ONE. The Sprint 04 brief's test 2 said 'No AI Overview on the live SERP, verified by serp-overview'. DECISION 169 KILLED THAT. On the same 84 queries, AI Overview presence reads p=0.102 across all rows and p=0.0009 on the fresh-snapshot subset, and that subset drops the two best-converting AI-Overview'd queries we own; at 14 clicks the question is undecidable. 94% of number-intent queries carry an AIO but so do 79% of document-intent ones, so the feature sorts nothing. GATE ON intent_class, which is derived from the query string and survives every re-cut (p=0.000003-0.000025). Record the AI Overview as advisory; never select or reject on it. Note also decision 174: Ahrefs SERP snapshots go stale silently, a false feature reading on an old snapshot is unreliable, and 35 of 84 queries returned no snapshot at all.\n(3) UNCHANGED: not already owned by a sibling page on the same parent topic - rule 4 of the cluster method.\n\nRESERVED FAMILIES - do NOT take targets from 'skrip pengacara majlis' or 'teks kad jemputan'. CONT-16 owns those two and runs concurrently; taking them here starves it.\n\nSECOND GATE, NON-NEGOTIABLE (decision 162): religious text accuracy. Every doa, Arabic string, transliteration and religious claim goes through editorial-verification-lead against a NAMED PUBLISHED AUTHORITY (JAKIM, a state mufti's office, DBP, or a recognised published collection), authority and date recorded PER ITEM. If a text cannot be sourced to a named authority IT DOES NOT SHIP - the article publishes without it or does not publish. A parked doa article costs 2 points; a wrong one costs the audience.\n\nAll content passes /humanizer before it is considered done.",
+      "evidence": []
+    },
+    {
+      "id": "CONT-16",
+      "track": "content",
+      "points": 5,
+      "state": "todo",
+      "owner": "writer-adat-agama-prosedur",
+      "title": "The reserved document-intent families - skrip pengacara majlis and teks kad jemputan",
+      "flags": [
+        "GATE-may-kill-this-item",
+        "reserved-families"
+      ],
+      "why": "Two families named in CONT-13's own hypothesis list that are pure document intent by construction: an MC script and invitation-card wording are copied wholesale, and no two-sentence answer substitutes for them. We already have one live page in the script family. They are split out from CONT-13 rather than folded in so the two writers can run concurrently without competing for the same target band.",
+      "dod": "TWO ARTICLES LIVE IN PRODUCTION, each 200 on first request with the status line quoted. Sitemap count rises by 2 on top of CONT-13's 6 (103 -> 111 combined; state the combined figure and who contributed what). Each contains the COMPLETE artefact - the entire script start to finish, the full set of card wordings - quoted first and last line from live HTML. PRE-FLIGHT #1 exit code recorded per target. If either family fails the 220-volume floor (decision 170), that half STOPS and reports rather than substituting a different family.",
+      "brief": "Targets come from SEO-11's census, not from a hunch. Same PRE-FLIGHT #1 gate and the same decision 169/170 corrections that CONT-13's brief spells out in full - read that item's brief before selecting. Religious content in a majlis script (doa pembuka, selawat) falls under decision 162's authority gate exactly as CONT-13's does. /humanizer before done.",
+      "evidence": []
+    },
+    {
+      "id": "CONT-14",
+      "track": "content",
+      "points": 3,
+      "state": "todo",
+      "owner": "writer-inspirasi-vendor-venue",
+      "title": "Re-angle the hantaran-kahwin legacy seed toward definition and money",
+      "flags": [],
+      "why": "The one C2.1 boundary left OPEN in ceo-memory.md. Decision 120 assigned this to CONT-12 and CONT-12 closed without doing it - a sub-commitment that evaporated inside a closing item, which is the same pattern as RIGHTS-03 in this sprint. Changes one body, not the count.",
+      "dod": "The live page's <h1>, <title> and opening 200 words centre on definition and money, quoted from live HTML before and after. No new URL is created and no redirect is added - the sitemap count is unchanged at whatever CONT-13/16 leave it, stated explicitly. The C2.1 boundary line in ceo-memory.md is closed with the measurement that closed it, or is left open with a stated reason.",
+      "brief": "Read the C2.1 boundary section of docs/boardroom/ceo-memory.md first - the decision was deliberately left undecided pending a SERP check, so run that check before rewriting anything. /humanizer before done.",
+      "evidence": []
+    },
+    {
+      "id": "DES-17",
+      "track": "design",
+      "points": 3,
+      "state": "todo",
+      "owner": "product-designer",
+      "title": "WRITE the homepage diversity rule - H6 does not exist and never has",
+      "flags": [
+        "BLOCKS-UI-13",
+        "artefact-defect-not-build-defect"
+      ],
+      "why": "DES-03 section 5.3 says, verbatim, 'thirteen items, all thirteen from Hantaran & Mas Kahwin... The specified homepage carries the diversity rule - see H6 in section 7.' H6 IS A DANGLING CROSS-REFERENCE: the four \\bH6\\b matches in the spec are three base64 fragments inside embedded font data plus the reference itself, and section 7 is about the state set ('diversity' appears 0 times in it, 'categor' 0 times). So the rule was asserted, drawn, and never written - and no builder could have implemented it. This is a defect in the artefact, not in the build, and it is why UI-13 cannot start without it.",
+      "dod": "A rule numbered H6 exists in DES-03 section 7, written as an ENFORCEABLE CONSTRAINT a script can evaluate - a stated maximum share or maximum run-length per category across the homepage set, with the tie-break and the fallback when the corpus cannot satisfy it. The spec's section 5.3 cross-reference resolves: grep for the rule id returns the rule, and a stated negative control (a rule id that does not exist) returns nothing. The rule is stated in terms UI-13 can test WITHOUT re-reading prose - if UI-13 has to interpret it, it is not written yet.",
+      "brief": "This is 3 points because it is writing, not building - but it BLOCKS UI-13 and must land first. Sprint 04's central finding is the reason this item exists as its own line: the parts of DES-03 written as enforceable rules (hero eligibility, R8a/R8b/R8c) shipped exactly; the parts written as prose and a drawing (this rule, the rail, the TOC) did not ship at all. Same spec, same author, same sprint. Write it in the form that fires. Also FIX the dangling reference itself rather than leaving a second one.",
+      "evidence": []
+    },
+    {
+      "id": "UI-13",
+      "track": "design",
+      "points": 5,
+      "state": "todo",
+      "owner": "creative-director",
+      "title": "Build the homepage diversity rule - the front page still shows one category thirteen times",
+      "flags": [
+        "BLOCKED-on-DES-17",
+        "enumerate-do-not-assume"
+      ],
+      "why": "MEASURED LIVE ON PRODUCTION 01 Sept 2026, not carried forward: the homepage links 13 distinct articles across 26 links and ALL 26 are /artikel/hantaran-mas-kahwin/. The DES-03 spec measured this same condition on 28 August. Two sprints and four days later it is unchanged, because the rule it pointed to was never written (DES-17). This is the single most visible half of the owner's 'it does not look premium' complaint - a magazine front page that runs one section thirteen times does not read as a publication.",
+      "dod": "The live homepage satisfies DES-17's H6 rule, verified by a COMMITTED SCRIPT that fetches https://hellokahwin.com/ and ENUMERATES the category segment of every article link (grep -oE '/artikel/[a-z0-9-]+/' | sort | uniq -c) rather than testing for an assumed class - the pre-fix baseline of 26/26 hantaran-mas-kahwin and the post-fix distribution are both pasted. The script exits non-zero when the rule is violated and is wired into the UI-06 layout gate so a future regression fails a build rather than waiting for a board meeting. A negative control is shown: the script run against the pre-fix HTML (committed as a fixture) exits non-zero.",
+      "brief": "DO NOT test for .hk-eyebrow. UI-07 REMOVED that class and a selector matching it now matches zero elements - a check that would pass forever. That exact vacuous selector nearly got accepted on 31 Aug. Enumerate what IS there. Blocked on DES-17: do not invent the rule yourself, and if DES-17's rule turns out unbuildable, say so and hand it back rather than substituting your own.",
+      "evidence": []
+    },
+    {
+      "id": "UI-17",
+      "track": "design",
+      "points": 8,
+      "state": "todo",
+      "owner": "design-systems-engineer",
+      "title": "Build the 300px desktop right rail that DES-03 section 5.1 specifies and production does not have",
+      "flags": [
+        "computed-values-not-markup",
+        "coordinate-with-UI-18"
+      ],
+      "why": "DES-03 section 5.1 draws a 300px right rail beside the article body carrying REKOD, then DALAM ARTIKEL INI, then SUMBER, and says in words: 'On desktop the panel is the 300 px rail; on a phone it is a full-width block in the same place in the reading order.' Measured on live production at 1440px (31 Aug): article body at left 120 width 594; REKOD at left 120 - the SAME left edge as the body, i.e. the phone treatment; SUMBER at left 665 top 4558, far down the page. The desktop composition IS the mobile composition, which is what leaves ~846px of empty margin at 1440 and makes the page read as a centred blog post rather than a designed publication. The scaffolding is partly there - the server HTML carries <aside> x2, REKOD x24 and SUMBER x20 - so this is a layout job, not a from-scratch build.",
+      "dod": "At 1440px on live production, on at least three article URLs of different lengths: the rail renders at the specified width to the RIGHT of the body, with REKOD, DALAM ARTIKEL INI and SUMBER in that order inside it, proved by COMPUTED getBoundingClientRect values (rail.left > body.right) captured on a real rendered viewport, not by the presence of markup. At 390px the same three blocks render full-width in the same reading order, proved the same way. Body measure stays within UI-10's 45-75 characters per line at 1024/1440/1920 - state the figure at each. The UI-06 layout gate carries a case that fails when the rail collapses to the body's left edge, with a committed pre-fix fixture as the negative control.",
+      "brief": "A STATUS CODE AND THE PRESENCE OF MARKUP PROVE NOTHING HERE - the markup is already present and the layout is still wrong. The observable is a computed geometry relationship. Coordinate with UI-18: it builds the TOC that goes INSIDE this rail, so agree the container contract up front and say in your log which of you owns the container. Depends on UI-18 only for content, not for layout - build the rail to accept an empty TOC slot so neither blocks the other.",
+      "evidence": []
+    },
+    {
+      "id": "UI-18",
+      "track": "design",
+      "points": 5,
+      "state": "todo",
+      "owner": "design-systems-engineer",
+      "title": "The in-article table of contents - DALAM ARTIKEL INI appears on 0 of 85 live articles",
+      "flags": [
+        "corpus-is-moving",
+        "coordinate-with-UI-17"
+      ],
+      "why": "CENSUS RUN LIVE 01 Sept 2026 across every article URL in the sitemap: 85 articles fetched, and 'DALAM ARTIKEL INI' appears on ZERO of them. The DES-03 spec mentions it twice. It is the second half of the composition the spec drew and the build never produced. It also has a reader argument independent of the design one: our best-converting pages are long documents (a full doa, a whole checklist) and a long document without a table of contents is harder to use than one with it.",
+      "dod": "A generated table of contents renders on every article carrying two or more h2 headings, with each entry linking to a working in-page anchor - verified by a committed script that walks the sitemap, counts articles with >=2 h2, and asserts the TOC is present on all of them and absent on the rest, pasting the before (0 of 85) and after counts. Every TOC link resolves to an id that exists in the same document - the script checks the anchor targets, not just the link text. Tap targets meet UI-11's 24px floor (the in-article TOC was explicitly named in UI-11's scope). The article corpus count is re-measured at run time rather than assuming 85 - CONT-13 and CONT-16 are adding eight articles in this same sprint.",
+      "brief": "The corpus is MOVING this sprint - do not hardcode 85. Re-derive from the sitemap when you run, and say what number you got. Coordinate with UI-17 on the rail container. UX-02 shipped heading anchors in an earlier sprint (branch feat/ux-02-heading-anchors) - check whether the ids you need already exist before generating new ones.",
+      "evidence": []
+    },
+    {
+      "id": "DES-18",
+      "track": "design",
+      "points": 5,
+      "state": "todo",
+      "owner": "design-systems-engineer",
+      "title": "The mid-size image variant - the missing rung between 60KB and 900KB",
+      "flags": [
+        "GATE-first",
+        "unblocks-CONT-15"
+      ],
+      "why": "Carried from Sprint 04's retro as the third of three composition tracks. The pipeline has no variant between the 60KB thumbnail and the 900KB full frame, and that gap is what forced every frame small - it is the constraint behind DES-03 section 6's 'three frame classes and their byte ceilings'. It is also what makes CONT-15 expensive: UI-12 priced substituting an existing crop at +8.2MB across the homepage, which is only true because the only larger option is the 900KB one.",
+      "dod": "A mid-size variant exists in the image pipeline with a stated pixel dimension and byte ceiling, generated for every cover in the corpus, and is SERVED to at least one real surface on live production - proved by fetching that surface and quoting the variant URL and its Content-Length from the response headers. Total bytes for the homepage above the fold measured before and after, both figures pasted; the after figure must not exceed the before figure by more than a stated budget agreed in the log. UI-06's aspect and upscale gate still passes at 0 violations after the change.",
+      "brief": "GATE FIRST, up to 30 minutes: re-test whether DES-03 section 6's byte ceilings are still binding now that every cover is confirmed to carry 1600x1200 and 1920x2400 crops. The CEO flagged on 31 Aug that this had NOT been tested. If the ceilings are no longer binding the item may be much smaller than 5 points - say so rather than building to a constraint that has lapsed. If they ARE binding, the ceiling is the design input and you build to it.",
+      "evidence": []
+    },
+    {
+      "id": "CONT-15",
+      "track": "design",
+      "points": 5,
+      "state": "todo",
+      "owner": "creative-director",
+      "title": "Portrait article covers have no thumbnail-sized landscape crop - 12 of 86 articles",
+      "flags": [
+        "DEPENDS-on-DES-18",
+        "substitution-route-forbidden"
+      ],
+      "why": "The one documented, accepted exception at Sprint 04's close. UI-12 fixed 25 upscale and 31 aspect violations and left exactly one: a portrait cover no existing crop can fix without spending 4.2x the bytes on an 80x60 thumbnail. The agent refused and the CEO verified its costing independently. 12 of 86 articles reproduce the same shape.",
+      "dod": "Every article cover satisfies UI-06's aspect and upscale rules at thumbnail size on live production - the gate reports 0 violations sitewide, with the pre-fix count pasted beside it. DO NOT solve it by substituting an existing crop: UI-12 priced that at +8.2MB across the homepage and that route is FORBIDDEN here. The byte cost of whatever route is taken is measured and stated per affected article. The affected article count is re-derived at run time, not taken as 12.",
+      "brief": "Depends on DES-18 for the likely route - a mid-size variant is what makes a real landscape crop affordable. If DES-18's gate finds the byte ceilings have lapsed, this item gets easier; if DES-18 stalls, say so and hold rather than reaching for the forbidden substitution. Read UI-12's work-done entry and its costing before proposing anything - the refusal in it was correct and its arithmetic is the baseline.",
+      "evidence": []
+    },
+    {
+      "id": "SEO-13",
+      "track": "seo",
+      "points": 5,
+      "state": "todo",
+      "owner": "head-of-seo-content",
+      "title": "39 of 85 live articles emit no FAQPage schema",
+      "flags": [
+        "do-not-fabricate",
+        "corpus-is-moving"
+      ],
+      "why": "CENSUS RUN LIVE 01 Sept 2026 across every article in the sitemap: 46 carry FAQPage, 39 do not, 1 failed to fetch. ceo-memory.md carried '31 articles emitting no FAQ schema' - THAT FIGURE WAS STALE and the corpus has grown since it was written. The missing set includes pages we actively rank on: /idea-dan-nasihat/dewan-kahwin (142 impressions, 2.82% - one of our better converters), /idea-dan-nasihat/garden-wedding (the 28%-of-impressions page), /hantaran-mas-kahwin/hantaran-tunang (291 impressions), /nikah-undang-undang/borang-nikah, rukun-nikah, syarat-sah-nikah. On a site whose measured problem is losing SERP real estate to answers printed above us, giving Google structured Q&A on pages we already rank on is the cheapest square metre available.",
+      "dod": "Every article with genuine question-and-answer content emits valid FAQPage JSON-LD on live production. The count is proved by a COMMITTED SCRIPT that walks the sitemap and reports present/absent/not-applicable per URL - before (46/39) and after both pasted. Validity is checked, not assumed: every emitted block parses as JSON and passes Google's Rich Results structured-data test (or schema.org validation) with the result quoted for at least five URLs including the three highest-impression ones. Articles with NO genuine Q&A are recorded as not-applicable WITH THEIR SLUGS and a one-line reason - they are not padded with invented questions to make a number.",
+      "brief": "DO NOT INVENT QUESTIONS TO RAISE THE COUNT. A fabricated FAQ block is a structured-data violation and on a site whose whole claim is that its numbers carry sources it is the worst kind of shortcut. If an article genuinely has no Q&A, that is a legitimate not-applicable and the count lands where it lands. Branch feat/seo10-faq-schema exists from an earlier sprint - read what SEO-10 already built before writing new emission code; this may be a coverage job rather than a build job. The corpus is MOVING (CONT-13/16 add 8 articles) - re-derive at run time.",
+      "evidence": []
+    },
+    {
+      "id": "SEO-14",
+      "track": "seo",
+      "points": 3,
+      "state": "todo",
+      "owner": "head-of-seo-content",
+      "title": "Re-run the SERP-shape census at sprint close - decision 171 requires it before 12x is treated as a constant",
+      "flags": [
+        "runs-at-sprint-close",
+        "scores-the-sprint-bet"
+      ],
+      "why": "Decision 171 recorded the caveat that must travel with the split-CTR figure: eleven clicks carry the document arm, six of them from one query, and the confidence intervals bound the true ratio only at NO LESS THAN 2.3x. The 12.2x number governs every content-selection decision this company now makes, and it rests on 14 clicks in the matched band. This sprint adds eight document-intent articles - which is exactly the intervention that should move it, and therefore exactly the condition under which re-measuring is worth something.",
+      "dod": "The census is re-run over the sprint-close window and the CSV re-issued, with the ratio, the n, the Fisher exact p and the confidence interval all restated. THE FROZEN CLASSIFIER IS NOT QUIETLY EDITED: serp-shape-census.py's intent_of is deliberately frozen so the committed CSV reproduces byte-for-byte - import the gate's classifier and re-issue, per the comment in the file, and state which classifier produced which figure. Every SERP row carries its serp_update_date and the RANGE is reported, never a remembered summary (decision 174). The finding ships with its value under at least two re-cuts of the data. If the ratio has moved, say by how much and whether CONT-13's articles are inside or outside the window.",
+      "brief": "RUNS AT SPRINT CLOSE, not at the start - it needs CONT-13 and CONT-16 live and long enough to have data, and it is the item that scores this sprint's central bet. If the new articles are too fresh to have meaningful impressions, SAY SO and report the census without them rather than reading noise as a result. Uncrawled and year-stamped queries are written 'unknown', never 'false' (decision 173).",
+      "evidence": []
+    },
+    {
+      "id": "RIGHTS-03",
+      "track": "risk",
+      "points": 2,
+      "state": "todo",
+      "owner": "managing-editor",
+      "title": "The two INSTITUTIONAL images decided down on 30 Aug and never taken down",
+      "flags": [
+        "production-delete-UNDO-first",
+        "decided-30-Aug-never-executed"
+      ],
+      "why": "DECIDED AND NEVER EXECUTED, found in this meeting's open-assignment audit. Decision 167 ruled: 'the Getty/iStock image and the press photograph belong to INSTITUTIONS, not to photographers who know us. Photographers have good relationships with us is not an argument that reaches Getty. Those two come down, with UNDO pushed first.' RIGHTS-02 was then deferred by the owner's 31 Aug redirect and THIS SUB-COMMITMENT WENT WITH IT - no work-done entry exists. This is decision 50's exact pattern: a commitment living inside a re-scoped item disappears without ever being decided against. It is two files and it is the only genuine legal exposure the company carries; the owner's 01 Sept confirmation that photographer permissions are obtained does not reach these two.",
+      "dod": "Both images are absent from live production - fetch each hosting page and show the asset URL returns 404 or the page no longer references it, quoted from the live response, with a negative control (a retained image on the same page still resolving 200). A precise UNDO exists and was PUSHED BEFORE the delete, naming the exact asset paths and rows, and is linked from the work-done entry. The two source pages still render correctly with no broken-image placeholder and no layout collapse, checked at 390 and 1440. Reversibility is exercised, not asserted: state the exact command that would restore them.",
+      "brief": "RECORD THE UNDO AND PUSH IT BEFORE THE FIRST DELETE - that is the standing rule for any production write and it is what makes this reversible in fact rather than in principle. This is two files; if the count on inspection is not two, STOP and report the real number rather than deleting whatever you find. Identify them from the 25 Aug rights plan (docs/plans/aug-23-2026-session-01/aug-25-2026-rights-risk-and-request-list.md), which already names them: Getty/iStock 1 file, a press photograph 1 file.",
+      "evidence": []
+    },
+    {
+      "id": "RIGHTS-02",
+      "track": "risk",
+      "points": 5,
+      "state": "todo",
+      "owner": "managing-editor",
+      "title": "The photographer-grouped asset census - now documenting rights we HOLD",
+      "flags": [
+        "owner-permissions-obtained-01-Sept",
+        "no-outbound-contact",
+        "plan-already-exists-refresh-it"
+      ],
+      "why": "OWNER CONFIRMED 01 Sept 2026: the photographer permissions have been obtained. That changes this item's purpose. Planned on 30 Aug as enumeration to support a negotiation the owner was about to run, it becomes a RECORD of rights the company now holds - which is a stronger deliverable and a different document. The 25 Aug rights plan already holds the raw material: 281 jangan-guna assets (269 IN- plus 12 others), ten named Real Wedding studios each already credited by studio name in post bodies, a ranked rights-risk list, and two ready email templates. Do not rebuild what that plan already did.",
+      "dod": "A census across all live article URLs, GROUPED BY PHOTOGRAPHER OR SOURCE - because that is the unit rights are held in - with a per-group count and the article slugs each group appears on. Every group is marked with its rights state: covered by the owner's obtained permissions, institutional (RIGHTS-03's two), or unknown-and-named. The count is re-derived at run time, not taken from the 25 Aug figure of 281 or the superseded 307 - state what you got and how it differs. Any group whose rights state cannot be determined is listed as unknown WITH ITS SLUGS rather than assumed covered. Committed as a file a reader who was not here can act on, and its index row added to docs/plans/README.md.",
+      "brief": "READ docs/plans/aug-23-2026-session-01/aug-25-2026-rights-risk-and-request-list.md FIRST - 381 lines, and Sprint 04 scoped this item to produce a worklist that already existed in it. Refresh it; do not re-derive it. NOBODY IS CONTACTED BY US: approaching photographers is an outward-facing commitment in the company's name and the owner has taken it - your output is a record, not an outreach. Nothing is deleted by this item; deletion is RIGHTS-03's two files only.",
+      "evidence": []
+    },
+    {
+      "id": "RISK-10",
+      "track": "risk",
+      "points": 2,
+      "state": "todo",
+      "owner": "BMAD",
+      "title": "The boundary guard cannot be installed from a fresh clone of the site repo",
+      "flags": [
+        "fresh-clone-is-the-test",
+        "open-decision-inside-it"
+      ],
+      "why": "RE-MEASURED 01 Sept 2026 rather than carried: git ls-tree origin/master -- scripts/git-hooks returns 0 files; the same path on origin/feat/command-centre-dashboard returns 7. So the documented install path names a script that does not exist on the branch a clone lands on. RISK-09's guard is real and installed across 15 existing site trees, but it is unreachable for anyone starting fresh - and the hazard it guards (one git checkout swapping the company record for the site source, same repo, same root commit 3a1fbe09) is exactly what a newcomer is most likely to trigger.",
+      "dod": "From a THROWAWAY FRESH CLONE of the site repo at master, the documented install command runs and succeeds, and scripts/git-hooks/install-hooks.sh --check exits 0 - transcript pasted from the throwaway clone, not from an existing tree. The guard then REFUSES a cross-space checkout in that clone and PERMITS an in-space one, both quoted (RISK-09's 22-case harness is the model - refusals and negative controls both). git ls-tree -r --name-only origin/master -- scripts/git-hooks returns a non-zero file count, pasted.",
+      "brief": "The blocker is not the copy - it is a decision RISK-09 deliberately left open: where verify-guard.sh's docs-space FIXTURE comes from when the docs branch is not checked out. Read 'The remaining gap' in the RISK-09 work-done entry (docs/work-done/aug-30-2026-session-01/aug-31-2026-done-risk-09-boundary-guard.md) - the step-by-step is there. Decide the fixture question explicitly and write down what you decided; do not ship a script that silently skips its own check when the fixture is missing. DO NOT CLASSIFY A BRANCH BY ITS NAME: docs/plat-10-11-12 is site source and feat/command-centre-dashboard is docs. The guard reads tree content (next.config.ts) and so must anything you write.",
+      "evidence": []
+    },
+    {
+      "id": "PLAT-13",
+      "track": "platform",
+      "points": 3,
+      "state": "todo",
+      "owner": "BMAD",
+      "title": "watch-agent cannot distinguish 'the item finished' from 'a tool the item ran finished'",
+      "flags": [
+        "prove-offline-with-self-test"
+      ],
+      "why": "Carried forward and getting worse with every gate the company ships. The watcher wakes the CEO on outcome-shaped milestones, but this sprint adds at least four new scripts that print exit codes and HTTP statuses (UI-13's enumerator, UI-18's TOC census, SEO-13's schema sweep, RISK-10's guard harness). PLAT-07 already fixed one generation of this - the watcher used to fire on the word 'refusing:' in ordinary prose, on a stack trace the agent then resolved, and on the exit code of a probe working as designed: three false wakes in one day and never once on a completion. A watcher that fires on text an agent happens to type is noise, and noise is how a real signal gets ignored.",
+      "dod": "The watcher distinguishes an ITEM's completion from a TOOL's, proved by the self-test rather than by reasoning: bash watch-agent.sh --self-test exits 0, and the suite is EXTENDED with the new false-wake cases this sprint's scripts produce (a nested script printing its own 'EXIT: 0', a curl status line inside a sweep, a gate reporting non-zero as its designed outcome) alongside the ten real outcomes that must still fire. Both halves are asserted - the run exits non-zero if either the false cases wake it or the real cases do not. The new cases are REAL LINES captured from this sprint's runs, not invented ones.",
+      "brief": "The convention is the contract: a script whose finish should wake the CEO prints 'NAME EXIT: <n>' at the START of a line, and a bare 'exit code 1' in prose deliberately wakes nobody. If the fix is to tighten the matcher, prove it offline with --self-test BEFORE trusting it - that harness exists precisely because reasoning about this matcher has been wrong before. Capture the new false-wake lines from actual Sprint 05 terminal output; the eight cases already in the suite are real lines and that is what makes them worth anything.",
+      "evidence": []
+    },
+    {
+      "id": "PLAT-14",
+      "track": "platform",
+      "points": 3,
+      "state": "todo",
+      "owner": "BMAD",
+      "title": "Per-item state-transition log with a waiting_on_ceo state",
+      "flags": [
+        "needs-a-migration",
+        "KL-clock-not-UTC",
+        "owner-requested-twice"
+      ],
+      "why": "FILED AT THE OWNER'S REQUEST IN SPRINT 03 AND STILL NOT DONE - deferred twice. Sprint 04's idle was only 7% so the pressure came off, which the retro named as exactly how this gets deferred again. The measurement it would provide is the one the company cannot currently take: Sprint 03 ran 6h56m active against 25h39m elapsed, and the two largest gaps were both the CEO - DES-08 waited 10h05m at a review gate the CEO itself demanded. Without a waiting_on_ceo state, CEO latency is invisible in every velocity figure we quote.",
+      "dod": "Each sprint item carries a timestamped transition history including a distinct waiting_on_ceo state, readable from the tracker for any item by a stated command. A report over Sprint 05 prints, per item, time in each state and the total time in waiting_on_ceo, and the sprint-level total is quoted in the /endsprint retro. Proved on real Sprint 05 data, not on a fixture - at least one item must show a non-zero waiting_on_ceo interval, and if none does that is stated as the finding. The state is added to the tracker's allowed set deliberately (the item-state constraint in packages/db/src/repositories/sprints.ts plus the DB CHECK), not smuggled in as free text.",
+      "brief": "Item states are constrained to todo, in_progress, blocked, done, parked at both the repository layer and the DB CHECK - adding one is a code change PLUS a migration, and that is a deliberate decision to take at implementation time, not at 01:00 during a dispatch. Decide whether waiting_on_ceo is a new STATE or an attribute of blocked, and write down why. buddy's date columns are KL calendar days - use klToday()/klWallClock, never toISOString(), or every overnight transition is stamped yesterday.",
+      "evidence": []
+    },
+    {
+      "id": "PLAT-17",
+      "track": "platform",
+      "points": 2,
+      "state": "todo",
+      "owner": "BMAD",
+      "title": "The creative-director name collision - a bare agent name resolves to the wrong persona",
+      "flags": [
+        "prose-rule-does-not-fire",
+        "coordinate-with-PLAT-18"
+      ],
+      "why": "The bare name creative-director resolves to a social-VIDEO persona in a fresh worktree, because a fresh worktree has no .claude/agents/ and the name falls through to the global org chart. On 31 Aug a video producer was ONE DISPATCH from a CSS grid bug. The workaround used all sprint - hand-copying six personas into eleven worktrees - is not durable, and this sprint dispatches into a comparable number of trees. The CEO withdrew its own proposed cut of this item in Sprint 04 planning on the grounds that 'always type the full path' is a PROSE RULE, and Sprint 03's central finding is that prose rules do not fire. Two points to make a trap structurally impossible beats a rule the CEO has to remember.",
+      "dod": "Dispatching by the bare name creative-director into a FRESH worktree resolves the HelloKahwin design persona, or fails loudly - it never silently resolves the video persona. Proved in a throwaway worktree: run the resolution, grep the loaded persona's description, and paste it; then show the negative control (the video persona is reachable under a distinct unambiguous name and still resolves correctly for its own use). Not proved by reading configuration - by dispatching and reading back which persona loaded.",
+      "brief": "This item was RECOVERED after being destroyed by a key collision - which is PLAT-18's defect, in this sprint. Coordinate: if PLAT-18 lands first the recovery risk is gone. Renaming a persona has blast radius across every brief that names it - grep for the bare name across skillcentral/ and the hellokahwin docs before choosing a rename over a scoping fix, and state what you found.",
+      "evidence": []
+    },
+    {
+      "id": "PLAT-18",
+      "track": "platform",
+      "points": 3,
+      "state": "todo",
+      "owner": "BMAD",
+      "title": "Item keys are unique per scope only, so a colliding add silently OVERWRITES",
+      "flags": [
+        "extends-PLAT-15",
+        "destroyed-PLAT-16"
+      ],
+      "why": "This is what destroyed PLAT-16 in Sprint 04 - an item was silently overwritten by a colliding add and had to be recovered. A tracker that loses a planned item without an error is worse than one that refuses it, because the loss is invisible until someone happens to look for the item. It compounds directly with PLAT-15's finding from the same sprint: reconcile was overwriting file entries wherever the tracker held fewer, losing seven records outright including three emptied entirely, and its author's own diagnosis was that the check had EXCLUDED evidence as 'tracker-owned' - an assumption, not a measurement.",
+      "dod": "An add whose key collides with an existing item is REFUSED with a message naming the collision - it never overwrites. Proved by three regression tests in the same suite PLAT-15 added: a colliding add is rejected, a non-colliding add succeeds, and an existing item's fields survive a rejected add byte-for-byte. The tests run in CI, not only locally - paste the CI run. A preservation check asserts no existing item's evidence is lost by any write path, which is the specific failure PLAT-15 found and fixed for reconcile and which this item extends to add.",
+      "brief": "Read PLAT-15's work-done entry first - it fixed this exact SHAPE on a different write path, added three regression tests and a preservation check, and its diagnosis is the most useful thing written about this tracker. Extend that work rather than starting beside it. Doppler in a worktree needs --scope: doppler run --scope 'C:/Users/Ian Ng/Documents/Code/buddy' --project buddy --config dev -- <cmd>.",
+      "evidence": []
+    },
+    {
+      "id": "PLAT-19",
+      "track": "platform",
+      "points": 2,
+      "state": "todo",
+      "owner": "BMAD",
+      "title": "Fourteen stale site worktrees are still standing, one holding a change that would REVERT shipped work",
+      "flags": [
+        "destructive-two-signals-required"
+      ],
+      "why": "MEASURED 01 Sept 2026: git worktree list in hellokahwin-site shows the main checkout plus FOURTEEN orca worktrees from Sprint 04 and earlier. One of them, ui-01-ship, holds an UNCOMMITTED change that would revert UI-03's hero work and its HEAD is 79 commits behind master. It was left untouched deliberately at sprint close rather than reset. Every one of these is a live checkout of a repo whose central hazard is that a checkout in the wrong tree swaps the company record for the site source.",
+      "dod": "Every worktree whose work is provably shipped is removed, and the count of remaining trees is stated with a one-line reason for each survivor. 'Provably shipped' means TWO INDEPENDENT SIGNALS per tree before removal - the branch's content is an ancestor of origin/master AND a second reading - never a name match. The ui-01-ship change is DISCARDED, not merged, and the discard is recorded with what was discarded and why (it would revert UI-03). A negative control is shown: at least one tree that was NOT removed, with the signal that stopped it.",
+      "brief": "TWO INDEPENDENT SIGNALS BEFORE ANY DESTRUCTIVE REMOVAL - this is the standing rule and the reason is on the record: in Sprint 03 a grep for 'RISK-07' against a tree named 'risk07' returned nothing on a case mismatch and would have deleted worktrees whose work was fully shipped. Sprint 04 also found three trees showing commits ahead of their own branch ref that were all ancestors of origin/master by CONTENT - merge commits pulling master in, the mirror of the squash-merge trap. Test by content, never by ref position or name. If a tree is ambiguous, LEAVE IT and say so; an extra worktree costs disk, a wrong removal costs work.",
+      "evidence": []
+    }
+  ],
+  "out_of_scope": [
+    "SEO-04 (venue entity pages) stays PARKED for the third time. Nothing has changed in the DIAGNOSIS - nikahsatu.com is still the venue OPERATOR, not a beatable competitor. The standing rule is that an item handed back after a park must show what changed in the diagnosis, not in the method; reviving it by changing the method again is forbidden.",
+    "Expanding the /dewan-kahwin/ directory, even though it converts at 5.49% and is one of the best-performing pages on the site. That is SEO-04 wearing a different hat, and it would re-enter through the same sourcing gate that correctly killed it twice.",
+    "A sitewide title rewrite. Our titles DO hand the answer over ('Mas kahwin Johor 2026: RM22.50 dan asal usul angkanya'), and it remains an untested hypothesis. Rewriting 86 titles on a theory is how a sprint gets spent on a guess.",
+    "Chasing more mas kahwin state pages. Decision 170 prices them out: number intent needs 2,700 monthly searches and the whole series sits at 350-1,000. The EXISTING pages stay - they hold the cluster's topical authority and cost nothing.",
+    "Re-opening the art direction (DES-01/02/03). The 31 Aug audit made this the SMALLEST of the three tracks, not the largest: we do not need a new direction, we need the composition the existing spec already drew. Re-deciding waits until the site implements the one it has.",
+    "BUILDING search. DES-06 designed it in Sprint 03 and measured that existing search returns zero results for 84.3% of real arrival queries covering 70.9% of a month's impressions. Still unsized, still deliberately not smuggled in.",
+    "The full 'enforce credit on every ingest path' programme (aug-25-2026-enforcing-credit-everywhere.md, 4-5 days of engineering). Decision 168 said it becomes a Sprint 05 question ONCE RIGHTS-02 has sized it - and RIGHTS-02 runs in THIS sprint, so it is a Sprint 06 question. Recorded so it stops reading in the index as though someone else owes an answer.",
+    "dewan komuniti setiawangsa - CLOSED per decision 89, not deferred.",
+    "RISK-02 password rotation - parked, unchanged revisit trigger: IF THE TRANSCRIPT IS EVER SHARED OR EXPORTED.",
+    "hellokahwin PR #4 (the preview banner) stays OPEN and owner-only - merging it deploys the live public site."
+  ],
+  "predictions": [
+    "CLICKS: 150-200/28d by 22 Sept is reached WITHOUT CONT-13 needing to land, on the existing document-intent pages alone. At 109 on 30 Aug with daily clicks running 12-19, decision 96's prediction of a MISS is already scored wrong for the second time.",
+    "SITEWIDE CTR KEEPS FALLING while impressions climb, because the mas kahwin cluster is still indexing out and is structurally capped. This is expected and is NOT a failure signal - it is why decision 159 split the metric. Judge the sprint on the DOCUMENT-INTENT arm and on clicks, not on sitewide CTR.",
+    "CONT-13 + CONT-16's eight articles reach positions 4-10 within the sprint window and earn a CTR in the document band (>=2.3x the number/definition arm, per decision 171's conservative bound). FALSIFIER: if they reach 4-10 and still earn under 1%, the intent mechanism is wrong and SEO-11's whole selection rule needs re-deriving.",
+    "SEO-13's FAQPage coverage does NOT move clicks measurably inside this sprint. It is a SERP-real-estate bet with a long lag; recorded now so a later meeting does not score it as a failure at four weeks.",
+    "UI-13/UI-17/UI-18 move NO metric this sprint. Like Sprint 03's redesign and Sprint 04's UI track, this is a brand and credibility bet - the front page of the company runs one section thirteen times and the desktop article page is the mobile article page. Recorded so it is not scored on traffic.",
+    "FALSIFIER FOR THE WHOLE SPRINT THESIS: if sitewide CTR RISES without CONT-13/CONT-16 having shipped, the SERP-shape mechanism is wrong."
+  ],
+  "metrics_change": "Unchanged from Sprint 04: CTR is reported SPLIT by intent class (decision 159), populated by scripts/seo/serp-shape-census.py's intent_class column rather than by CEO judgement (decision 171). Clicks/28d remains the north star. NEW THIS SPRINT: SEO-14 re-runs the census at close and restates the ratio with its n, its Fisher exact p and its confidence interval, because 12.2x currently rests on 14 clicks in the matched band and governs every content-selection decision the company makes.",
+  "retro": null
+}
