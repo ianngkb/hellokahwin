@@ -436,6 +436,65 @@ of this is a measurement of the rail** and it must not be quoted as one.
   had a contents list. It was two articles of generation and it is done.
 - *"You should merge second."* I had already merged first, four hours earlier.
 
+## 6c. The `<nav>` question, settled by counting render sites
+
+UI-17 asked for the bare `<ol>`: *"I supply the `<nav>`, the `aria-labelledby`
+and the heading."* I am holding the `<nav>`, and the reason is a count rather
+than a preference.
+
+`ArticleRenderer` — and therefore `ArticleToc` — renders on **four** surfaces.
+Exactly one of them gets the rail:
+
+| surface | rail? |
+|---|---|
+| `src/app/(public)/artikel/[category]/[slug]/page.tsx` | **yes** |
+| `src/app/(admin-preview)/admin/inspire/[article-id]/preview/page.tsx` | no |
+| `src/app/(print)/admin/inspire/[article-id]/pdf/page.tsx` | no |
+| `src/app/(public)/draft/[token]/page.tsx` | no — and this one is **public**, the link an editor sends a client |
+
+Plus `/admin/design-system`. If the component hands over a bare `<ol>` and
+`article-toc` moves onto the rail's `<nav>`, then on those three surfaces the
+contents list has **no landmark, no accessible name, and no `article-toc`
+class** — so `nav.article-toc a` in `globals.css` matches nothing and the list
+renders as body copy, in the PDF and in the draft a client opens. That is
+DES-12's 0×0 wordmark and UI-02's admin nav preview for the third time, and it is
+the specific mistake this component's dual-selector CSS was written to prevent.
+
+Keeping the `<nav>` costs UI-17 nothing they asked for: `labelledBy` already
+points the landmark at their heading, so they own the visible string and the
+accessible name either way, and their gate's `nav.article-toc` inside
+`[data-hk-rail]` finds my nav inside their wrapper. It also avoids nesting two
+`nav` landmarks if either of us forgets.
+
+**If they overrule this, it is buildable but it is not free:** the class moves to
+their `<nav>`, and the three non-rail surfaces need a landmark and a name from
+somewhere else. That is a separate item, not a line in their wiring commit.
+
+## 6d. The undo, because the rename is provisional
+
+The owner's re-scope arrived **truncated**. Its surviving fragment reads *"…st
+rename to match a spec that may itself be wrong"* — most plausibly *"must NOT
+just rename"*. The rename to `Dalam artikel ini` is therefore provisional until
+the full text arrives, and it is live on 68 articles.
+
+`tests/article-toc/UNDO-label-rename.sh` (PR #50, merged `3020408`). Two files,
+four lines. **Run for real against the working tree before it was committed, not
+described:** it applied, `vitest` on the component suite came back **8 passed**
+with the label reverted, and `audit-article-toc.mjs --selftest` stayed **11/11**
+— which is the executable proof of the owner's directive that `.article-toc` is
+the signal and never a label string, since the gate does not move when the string
+does. Then reverted.
+
+**There is no production write to undo.** Not one database row was touched by
+this item: the label is a string literal in a React component, the ids are
+derived at render time by `heading-anchors.ts`, and everything shipped is
+read-only against the corpus. The undo is a code change plus a deploy.
+
+**Reverting PR #38 would be the wrong undo**, and the script says so. That PR
+also lowered `TOC_MIN_HEADINGS` from 4 to 2 — the DoD's number, and what puts a
+contents list on `goodies-kahwin` and `tempat-honeymoon-di-malaysia` — and
+shipped the gate, the CI job and the reference-page entries.
+
 ## 7. Not in scope, raised rather than absorbed
 
 **21 of 86 articles carry zero `<h2>`, and 7 of them are a real defect.** Fourteen
@@ -570,6 +629,26 @@ a sprint item, a board memory entry and two briefs before anyone enumerated. The
 gate this item ships never tests for a string: it prints the label it reads out of
 the DOM and the heading census of every article it finds without one, so the same
 mistake produces a *different-looking* number instead of a matching zero.
+
+**The third thing we nearly shipped, and it was found by coordination rather
+than by testing.**
+
+My own gate scoped `nav.article-toc` to inside `.inspire-prose`. UI-17's rail
+sits outside it. **The morning the relocation deployed, TOCLINT would have
+reported `MISSING contents list` on all 68 eligible articles at once — a
+sitewide red run on a completely correct change.** That is worse than a gate that
+misses a defect: a false red is what teaches a team to stop reading gates, and it
+would have arrived on the day someone else's correct work landed, pointing at
+them.
+
+Neither sabotage found it, because sabotage tests the checks you thought of
+against the world you assumed. It was found by another seat describing a change
+they had not made yet. **The generalisable rule, and it is now in the file as a
+comment beside the lookup: a gate asserts what the DoD says, at the scope the DoD
+says it. The DoD said a contents list renders on the article. It never said which
+box, and neither should the check.** Three paired fixtures now hold that —
+`ok-toc-in-rail` must be clean, `bad-toc-duplicated` and `bad-toc-two-headings`
+must fire.
 
 **What we nearly shipped, and what caught it.**
 
