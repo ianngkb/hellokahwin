@@ -208,12 +208,18 @@ It also unblocks `doa pengantin baru rumi`, the best-converting query the compan
 owns. **That page is not in CONT-13's scope and was not touched.** Recorded here
 as now-unblocked for a future item.
 
-**A numbering discrepancy, recorded rather than quietly resolved.** The
-verification lead cites this ruling as "board decisions 182 and 183". In
-`docs/boardroom/decision-log.md`, 182 is the `grep -o -i -F` finding and 183 is
-the fourth-consecutive-sprint entry. Nothing has been renumbered here and no
-decision number is cited on any page; this log records the ratification by date
-and route. A real number needs assigning so the two records agree.
+**The decision numbers are 184 and 185, and the discrepancy is resolved.**
+184 is this ratification; 185 is the workflow edits. It was worth raising:
+`editorial-verification-lead` had first drafted them as 182/183, hit a collision
+with two existing entries in the same 2026-09-01 section, renumbered to 184/185,
+and then kept quoting the pre-renumber figures - in four places in its own log,
+all now corrected. `decision-log.md` runs 175 to 185 with no duplicates.
+
+**The generalisable bit is not the numbers.** Refusing to cite a number I could
+not verify, and recording the ratification by date and route instead, is what
+surfaced a live error in another seat's log. The cost of that refusal was one
+sentence; the cost of repeating the number would have been two records that
+disagree and no way to tell which is right.
 
 ---
 
@@ -588,7 +594,60 @@ Run against the case that produced it and three controls:
 the gate against the article it was written for rather than by reading it back -
 the same rule the ingest fix was written under, applied to the fix itself.
 
-**A third document changed in this item, owned by `editorial-verification-lead`
+**A THIRD DOCUMENT, AND IT CAME OUT OF A DEFECT I SHIPPED:
+`scripts/seo/check-retraction.py`. I own it. IT IS DONE.**
+
+`editorial-verification-lead` required three sentences removed from a live
+article. My republish removed all three from the BODY and left a fourth standing
+in an image CAPTION. The lead found it by re-fetching the page and grepping for
+the RETRACTED phrase rather than for the corrected paragraph, and wrote the rule
+into the workflow document. **A workflow rule is prose, and prose does not fire**,
+so it is now a gate:
+
+    python scripts/seo/check-retraction.py <url|file> \\
+        --gone "the retracted phrase" --present "a phrase that must be there"
+
+| exit | meaning |
+|---|---|
+| 0 | PASS - every retracted phrase absent everywhere, controls found |
+| 1 | **FAIL** - a retracted phrase survives, and the gate says WHERE |
+| 2 | MISSING - a control phrase is not on the page |
+| 3 | **UNUSABLE** - no control, or the control itself is absent |
+
+Three design decisions, each of them a company failure encoded:
+
+*It reads the WHOLE document and names the surface.* Body prose, image captions
+and JSON-LD update through different paths. `data-caption` and `figcaption` are
+searched explicitly, and so is every `application/ld+json` block, because a
+retracted claim sitting in `FAQPage` structured data can still be served by
+Google as our answer after the visible text is fixed. Saying *found in: image
+captions* is the difference between a finding and a fact about 122 KB.
+
+*It greps for what should be GONE, never for what should be there.* Finding the
+corrected paragraph proves the correction landed. It does not prove the old one
+left. Those are different claims and this batch proved they can diverge.
+
+*It REFUSES to report an absence without a confirmed presence.* No `--present`
+control, or a control that is itself missing, returns **exit 3, not 0**. The
+company has twelve tabulated cases of a zero that meant nothing; a gate whose
+whole output is zeros has no business returning a comforting one.
+
+Run against the real failing page, not a mock. The saved copy of
+`doa-selamat-majlis` taken between the two republishes still carries the caption:
+
+```
+  SURVIVES x2   yang dibaca ialah doa umum
+               found in: body text, image captions
+  SURVIVES x2   itu memadai
+               found in: body text, image captions
+RETRACTION EXIT: 1
+```
+
+The same command against production now returns `RETRACTION EXIT: 0` with both
+controls confirmed present. The four-case selftest (failing page, fixed page, no
+control, broken control) is green.
+
+**A FOURTH document changed in this item, owned by `editorial-verification-lead`
 and already written:** `docs/plans/aug-23-2026-session-01/aug-23-2026-workflow-content-production.md`
 now carries *"Arabic in a Malaysian government PDF is never quotable from text
 extraction — and reading by word coordinate does not fix it"*, with the four
@@ -664,6 +723,14 @@ millions of readers to stop reciting something their own authority permits.
 of `/artikel/sebelum-nikah/doa-majlis-pertunangan`, clause number by clause
 number. Caught by reading the live sibling's **body**, not its title. The title
 says "pertunangan" and gives no hint that the JAKIM guideline lives inside it.
+
+**One of these did not merely nearly ship - IT WAS LIVE, and filing it under
+"nearly" would be the wrong drawer.** The corrected body went to production in
+one republish and the caption went in the next, so for the window between them
+`doa-selamat-majlis` carried an unattributed sufficiency ruling in our own voice
+("dan itu memadai") beside three paragraphs that had just retracted it. It is
+gone now and verified gone across body, captions and JSON-LD. The gate that came
+out of it is above.
 
 **An unsourced claim about what people actually do.** `doa-selamat-majlis` said
 that what is read at a household kenduri is *doa umum*. Nobody verified that,

@@ -1,11 +1,23 @@
 # CONT-13 — religious-text verification (board decision 162, second gate)
 
 **Seat:** `editorial-verification-lead` · **Date all sources checked: 1 September 2026**
-**Item closed by the writer at four articles of six.** Two are parked, unwritten,
-and everything the next writer needs to draft them is in section 4 of this log.
+**Item closed at six of six. All six are live and all six are cleared.** Every
+URL below was fetched live on 1 Sep 2026, and all six returned 200 on the final
+check. Nothing here is from memory or from an earlier pass.
 
-Every URL below was fetched live on 1 Sep 2026. Nothing here is from memory or
-from an earlier pass.
+**Three outcomes, kept distinct — they are not interchangeable:**
+
+| State | Which | Meaning |
+|---|---|---|
+| **Shipped** | the six in section 1 | Written, verified, live. |
+| **Dropped, never written** | `doa majlis ringkas`, `doa kesyukuran` | No authority publishes the text, so the article was never drafted. Under decision 162 the outcome is *not published* — **not** "published without the text". Replaced against the same keyword gate by `lafaz akad nikah` and `doa jodoh`. |
+| **Banked, unwritten** | `doa istikharah jodoh` | Fully sourced (section 5), cut from scope before drafting. Ready to write; nobody should re-derive it. |
+
+⚠ **An earlier revision of this header said "closed at four of six, two parked".
+That was written before the batch finished and was wrong. Nothing is parked.**
+Corrected on the writer's flag — he declined to edit the document himself
+because it is this seat's, which is the right instinct and is why the error was
+caught rather than silently patched.
 
 ---
 
@@ -64,6 +76,23 @@ Verbatim from `doa-penutup-majlis`:
 It names us as producer, names DBP's pedoman as the method, states why, and sits
 separately from the Arabic's own authority line. **Use it as the template for
 every future doa page.**
+
+**The corrections and kills survived into production.** Counted on the live
+pages, in the server-rendered HTML only:
+
+| Finding | Live evidence |
+|---|---|
+| Surah al-Asr is amalan sahabat, not a nas | `amalan sahabat` ×4, `sunnah Nabi` ×6 on `doa-penutup-majlis` |
+| The school doa sebelum makan is graded *munkar* | `munkar` ×9 on `doa-makan-majlis`, with the *"boleh diamalkan"* half alongside it |
+| The Yusuf-and-Zulaikha doa is ruled against | `Yusuf dan Zulaikha` ×4 on `ucapan-ulang-tahun-perkahwinan` |
+| Al-Kafi #1686 — *"aku terima"* alone does not marry you | in the article title, its own H2, and the opening paragraph of `lafaz-akad-nikah` |
+
+⚠ **Counting method matters and these numbers are not portable.** A raw string
+count over the whole HTML of a Next.js page double-counts, because the RSC
+flight payload repeats the body. The writer reported ×10 and ×2 where this seat
+counts ×4 and ×1 — **neither is wrong; they count different things.** Any count
+quoted as evidence must state whether it covers the server HTML only or the full
+document, and none of these should be read as a measure of prominence.
 
 **Placement condition on `lafaz akad nikah`: TRUE on the live page, measured.**
 `rukun-nikah` links out to the new page and does **not** restate the ijab/qabul
