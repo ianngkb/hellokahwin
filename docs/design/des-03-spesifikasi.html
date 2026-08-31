@@ -1545,13 +1545,57 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--doc-accent);outline
   the real DES-02 corpus, re-encoded WebP at the quality named. Every ceiling is set against
   the <strong>worst</strong> file in the corpus, not the median, so a new photograph that
   lands inside the existing spread does not blow the budget.</p>
+
+  <p class="note"><strong>&#9888; CORRECTED, DES-18 (01 September 2026). The
+  &ldquo;Measured max&rdquo; column was measured on the wrong corpus, and one derivative is
+  over its ceiling.</strong> The second figure in each cell, where present, is the
+  re-measurement.</p>
+
+  <p class="note">The eleven photographs this table was generated from are DES-02&rsquo;s
+  sample, not the site&rsquo;s covers. Re-run with <em>this document&rsquo;s own encoder</em>
+  &mdash; <span class="m">derivatives.py</span>, PIL LANCZOS + <span class="m">method=6</span>,
+  unmodified &mdash; against all <strong>86 published covers</strong> on production:</p>
+
+  <div class="tw">
+    <table class="d">
+      <thead><tr><th>Corpus</th><th class="n">n</th><th class="n">min</th><th class="n">median</th><th class="n">max</th><th>vs the 46,080&nbsp;B ceiling</th></tr></thead>
+      <tbody>
+        <tr><td>DES-02&rsquo;s eleven photographs</td><td class="n">11</td><td class="n">8,324&nbsp;B</td><td class="n">25,500&nbsp;B</td><td class="n">37,708&nbsp;B</td><td class="pass">within budget &mdash; reproduces this table exactly</td></tr>
+        <tr><td>the 86 live <span class="m">crop-4x3-article-card</span> covers</td><td class="n">86</td><td class="n">9,518&nbsp;B</td><td class="n">21,344&nbsp;B</td><td class="n">53,606&nbsp;B</td><td class="fail">OVER by 16.3% &mdash; 1 file</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="note">The offending photograph is
+  <span class="m">songket-tenunan-tangan-atau-cetak</span>: handwoven songket is close to
+  worst-case entropy for a block encoder, and nothing like it was in the eleven. That the
+  eleven reproduce <strong>37,708&nbsp;B to the byte</strong> is what makes this a finding
+  about the corpus rather than about the instrument.</p>
+
+  <p class="note"><strong>&sect;6.2 flagged this itself and was not read as flagging it.</strong>
+  <span class="m">derivatives.py</span> ends with: <em>&ldquo;the sources are already
+  downsampled copies (800&times;600 and 900&times;1200) &hellip; A re-encode from the
+  1920&times;2400 original will differ; the ceilings are what the DSE must hit, not these
+  numbers.&rdquo;</em> The verdict column said <span class="m">within budget</span> anyway, and
+  a verdict outlives a caveat. <strong>The ceilings stand; the &ldquo;Measured max&rdquo;
+  column never had the standing to confirm them.</strong></p>
+
+  <p class="note">DES-18 built to the ceiling rather than to the measurement, and made it
+  executable rather than asserted: <span class="m">crop-4x3-article-card-sm</span> is
+  528&times;396 &mdash; a box 21% larger in area, held to this same 46,080&nbsp;B figure
+  &mdash; encoded at q50 and stepped down through a quality ladder on any file that misses.
+  Shipped 01 September 2026 across all 86 covers: <strong>min 7,636&nbsp;B, median
+  17,664&nbsp;B, max 44,898&nbsp;B, none over the ceiling</strong>. Exactly one file steps a
+  rung, and it is the songket. See
+  <span class="m">src/lib/storage/midsize-cover.ts</span> on the site&rsquo;s
+  <span class="m">master</span>.</p>
   <div class="tw">
     <table class="d">
       <thead><tr><th>Derivative</th><th class="n">Box</th><th class="n">Quality</th><th class="n">Ceiling</th><th class="n">Measured max</th><th>Verdict</th></tr></thead>
       <tbody>
         <tr><td class="k">crop-4x5-mobile-cover-sm</td><td class="n">720&times;900</td><td class="n">q74</td><td class="n">122,880&nbsp;B</td><td class="n">67,624&nbsp;B</td><td class="pass">within budget</td></tr>
         <tr><td class="k">crop-3x2-column-md</td><td class="n">760&times;507</td><td class="n">q74</td><td class="n">112,640&nbsp;B</td><td class="n">62,808&nbsp;B</td><td class="pass">within budget</td></tr>
-        <tr><td class="k">crop-4x3-card-sm</td><td class="n">480&times;360</td><td class="n">q72</td><td class="n">46,080&nbsp;B</td><td class="n">37,708&nbsp;B</td><td class="pass">within budget</td></tr>
+        <tr><td class="k">crop-4x3-card-sm</td><td class="n">480&times;360</td><td class="n">q72</td><td class="n">46,080&nbsp;B</td><td class="n">37,708&nbsp;B <span class="m">/ 53,606&nbsp;B</span></td><td class="fail">OVER on the live corpus &mdash; see the correction below</td></tr>
         <tr><td class="k">crop-1x1-row-sm</td><td class="n">160&times;160</td><td class="n">q72</td><td class="n">12,288&nbsp;B</td><td class="n">6,340&nbsp;B</td><td class="pass">within budget</td></tr>
       </tbody>
     </table>
