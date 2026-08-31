@@ -59,6 +59,49 @@ describe('ArticleToc', () => {
     expect(html).not.toContain('Isi Kandungan');
   });
 
+  it('hands the heading to the container when labelledBy is set, and only then', () => {
+    // The half-done relocation this pair exists to make impossible: the rail
+    // renders `Dalam artikel ini` as an `.s-label`, and the component keeps its
+    // own eyebrow too, so 68 live articles stack two headings.
+    const inline = render(h2s(3));
+    expect(inline).toContain('hk-eyebrow');
+    expect(inline).toContain('aria-label="Dalam artikel ini"');
+    expect(inline).not.toContain('aria-labelledby');
+
+    const inRail = renderToStaticMarkup(
+      <ArticleToc headings={extractHeadings(doc(h2s(3)))} labelledBy="rail-toc-heading" />,
+    );
+    expect(inRail).not.toContain('hk-eyebrow');
+    expect(inRail).not.toContain('Dalam artikel ini');
+    // `aria-label` would OVERRIDE the container's heading as the landmark's
+    // accessible name. It has to be absent, not merely accompanied.
+    expect(inRail).not.toContain('aria-label=');
+    expect(inRail).toContain('aria-labelledby="rail-toc-heading"');
+  });
+
+  it('drops the inline-callout box in the rail, and keeps article-toc as the signal', () => {
+    // `lg:max-w-[680px]` is the reading measure; inside a 268px column it is a
+    // card in a card fighting the column's width. `article-toc` stays on both,
+    // because it is the signal every gate keys on and a label string is not.
+    const inline = render(h2s(3));
+    const inRail = renderToStaticMarkup(
+      <ArticleToc headings={extractHeadings(doc(h2s(3)))} labelledBy="rail-toc-heading" />,
+    );
+    for (const cls of [
+      'border',
+      'bg-muted/40',
+      'rounded-md',
+      'px-4',
+      'py-3.5',
+      'my-8',
+      'lg:max-w-[680px]',
+    ]) {
+      expect(inline).toContain(cls);
+      expect(inRail).not.toContain(cls);
+    }
+    expect(inRail).toContain('class="article-toc"');
+  });
+
   it('links every h2 to the id that heading will carry in the body', () => {
     const headings = extractHeadings(
       doc([
