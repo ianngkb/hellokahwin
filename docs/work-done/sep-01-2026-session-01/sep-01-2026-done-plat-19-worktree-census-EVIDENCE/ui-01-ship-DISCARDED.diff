@@ -1,0 +1,49 @@
+diff --git a/src/app/(public)/page.tsx b/src/app/(public)/page.tsx
+index a132d85..977b0a8 100644
+--- a/src/app/(public)/page.tsx
++++ b/src/app/(public)/page.tsx
+@@ -267,7 +267,7 @@ export default async function HomePage() {
+             Terkini
+           </h2>
+           <div>
+-            {rest.map((article) => {
++            {rest.map((article, i) => {
+               const cover = resolveCoverSource(
+                 article.coverImageVariants as Record<string, { url: string }> | null,
+                 article.coverImageSmartCrops,
+@@ -280,6 +280,35 @@ export default async function HomePage() {
+                   className={cover ? 's-row' : 's-imgless'}
+                   style={{ textDecoration: 'none', color: 'inherit' }}
+                 >
++                  {/* UI-01. This span is not decoration — it is the first grid
++                      cell, and WITHOUT IT THIS WHOLE LIST IS BROKEN ON DESKTOP.
++                      `.s-row`'s >=1024px rule declares THREE tracks
++                      (44px minmax(0,1fr) 176px) and the image takes `order:3`,
++                      so with only two children CSS Grid auto-places the
++                      headline wrapper into the 44px RANK-NUMBER track. Measured
++                      on live production 2026-08-31, all 12 rows: headline
++                      column 44px wide and 225-307px tall, one word per line,
++                      clipped by the thumbnail. The article and catalogue
++                      templates always passed the number, which is why the same
++                      component rendered correctly there and only the front page
++                      was broken.
++
++                      The numbering starts at 01 here, NOT at 02 as the
++                      catalogue's `leadIsCard ? i + 2` does, and the difference
++                      is deliberate. The catalogue's number is an absolute
++                      position in a paginated set that continues past this page
++                      (page 2 starts at 13). This is an unpaginated twelve-item
++                      block under its own `Terkini` h2 and a 2px rule; the set
++                      the reader can see IS the set, so it starts where the set
++                      starts. Same component, same visual device, a call-site
++                      value — exactly like `headingLevel` two lines below.
++
++                      Mobile is untouched: `.s-idx` is `display:none` below
++                      1024px, which removes it from the grid entirely, so the
++                      base two-track rule still gets two children. The committed
++                      rig asserts that at 390px so it cannot silently change:
++                      docs/work-done/2026-08-31-ui-01-s-row-EVIDENCE/measure-s-row.mjs */}
++                  <span className="s-idx">{String(i + 1).padStart(2, '0')}</span>
+                   {cover && (
+                     // eslint-disable-next-line @next/next/no-img-element -- see hero note above
+                     <img

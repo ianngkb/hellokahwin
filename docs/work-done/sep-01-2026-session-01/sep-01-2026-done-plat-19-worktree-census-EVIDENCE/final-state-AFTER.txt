@@ -1,0 +1,34 @@
+PLAT-19 final state, 2026-08-31 18:23 UTC
+
+=== git worktree list (AFTER) ===
+C:/Users/Ian Ng/Documents/Code/hellokahwin-site                            72f9735 [master]
+C:/Users/Ian Ng/orca/workspaces/hellokahwin-site/des18-midsize             72f9735 [ianng89/des18-midsize]
+C:/Users/Ian Ng/orca/workspaces/hellokahwin-site/pillars-ingest-redirects  06a377b [ianng89/pillars-ingest-redirects]
+C:/Users/Ian Ng/orca/workspaces/hellokahwin-site/risk10-hooks              00a4a14 [ianng89/risk10-hooks]
+C:/Users/Ian Ng/orca/workspaces/hellokahwin-site/seo13-faq                 e04e7da [ianng89/seo13-faq]
+C:/Users/Ian Ng/orca/workspaces/hellokahwin-site/ui17-rail                 72f9735 [ianng89/ui17-rail]
+C:/Users/Ian Ng/orca/workspaces/hellokahwin-site/ui18-toc                  686e886 [ianng89/ui18-toc]
+
+=== orca worktree list, hellokahwin-site only (AFTER) ===
+des18-midsize
+pillars-ingest-redirects
+risk10-hooks
+seo13-faq
+ui17-rail
+ui18-toc
+
+=== --verify-gone over the 13 removed trees ===
+NOT-GONE      C:/Users/Ian Ng/orca/workspaces/hellokahwin-site/rights01-credits  registered=NO on_disk=YES residual_entries=0
+GONE          C:/Users/Ian Ng/orca/workspaces/hellokahwin-site/ui-01-ship
+NOT-GONE      C:/Users/Ian Ng/orca/workspaces/hellokahwin-site/ui01-srow  registered=NO on_disk=YES residual_entries=0
+NOT-GONE      C:/Users/Ian Ng/orca/workspaces/hellokahwin-site/ui02-nav  registered=NO on_disk=YES residual_entries=0
+NOT-GONE      C:/Users/Ian Ng/orca/workspaces/hellokahwin-site/ui03-hero  registered=NO on_disk=YES residual_entries=0
+NOT-GONE      C:/Users/Ian Ng/orca/workspaces/hellokahwin-site/ui05-category-images  registered=NO on_disk=YES residual_entries=0
+NOT-GONE      C:/Users/Ian Ng/orca/workspaces/hellokahwin-site/ui06-layout-gate  registered=NO on_disk=YES residual_entries=0
+NOT-GONE      C:/Users/Ian Ng/orca/workspaces/hellokahwin-site/ui07-label-clip  registered=NO on_disk=YES residual_entries=0
+NOT-GONE      C:/Users/Ian Ng/orca/workspaces/hellokahwin-site/ui08-attrib-link  registered=NO on_disk=YES residual_entries=0
+NOT-GONE      C:/Users/Ian Ng/orca/workspaces/hellokahwin-site/ui09-search-a11y  registered=NO on_disk=YES residual_entries=0
+NOT-GONE      C:/Users/Ian Ng/orca/workspaces/hellokahwin-site/ui10-measure  registered=NO on_disk=YES residual_entries=0
+NOT-GONE      C:/Users/Ian Ng/orca/workspaces/hellokahwin-site/ui11-tap-targets  registered=NO on_disk=YES residual_entries=0
+NOT-GONE      C:/Users/Ian Ng/orca/workspaces/hellokahwin-site/ui12-thumb-geometry  registered=NO on_disk=YES residual_entries=0
+verify-gone exit: 1
