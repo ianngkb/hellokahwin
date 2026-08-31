@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { eq, desc } from 'drizzle-orm';
+import { eq, desc, asc } from 'drizzle-orm';
 import { unstable_cache } from 'next/cache';
 import { db } from '@/lib/db/drizzle';
 import { articles, inspireCategories } from '@/lib/db/schema/articles';
 import { media } from '@/lib/db/schema/media';
 import { resolveRowThumbSource } from '@/lib/storage/responsive-cover';
-import { pickHeroIndex, resolveHeroCrops } from '@/lib/inspire/hero-frame';
+import { resolveHeroCrops } from '@/lib/inspire/hero-frame';
+import { selectHomeSet } from '@/lib/inspire/home-selection';
 import '@/design-system/tokens.css';
 import '@/design-system/components.css';
 
@@ -22,10 +23,16 @@ export const revalidate = 1800;
  * this page. UI-12 S4 gave them a SECOND
  * caller: `/artikel`'s featured lead plate, which carried the identical
  * selection defect (recency order, no orientation predicate). Lifted verbatim;
- * the homepage's hero selection is unchanged by the move, and the same 20-row
- * buffer, the same three gates and the same order still decide it. The
- * reasoning, the measured corpus counts and the null-is-ineligible rule are all
- * in that module — do not restate them here and do not re-derive the threshold.
+ * the homepage's hero selection was unchanged by the move, and the same three
+ * gates in the same order still decide it. The reasoning, the measured corpus
+ * counts and the null-is-ineligible rule are all in that module — do not
+ * restate them here and do not re-derive the threshold.
+ *
+ * ⚠️ UI-13 CHANGED WHAT THEY ARE RUN OVER, NOT WHAT THEY DO. The 20-row buffer
+ * is gone (see the query below): H6 needs the published corpus, so slot 1 is
+ * now the highest-RANKED hero-eligible article under DES-03 §7.5 H6.4 rather
+ * than the first eligible row of a recency window. Same predicate, same order
+ * of gates, and on today's corpus the same article.
  *
  * ⚠️ `HERO_ASPECT` there is tied to `lg:aspect-[88/25]` below, and now also
  * to the `/artikel` lead plate's own copy of that class. Three places, one
@@ -81,9 +88,19 @@ const getHomeData = unstable_cache(
         // `media` leftJoin the credit already needs, so no new query and no new
         // join. Nullable `integer` columns; null means unknown, and unknown is
         // NOT hero-eligible (see `isHeroFrameEligible`). Verified by querying
-        // production 31 Ogos 2026: 60 of 86 articles populated, 26 null — but
-        // 20/20 within this 20-article buffer, because every null sits in the
-        // oldest tail (ranks 58–86) that the buffer never reaches.
+        // production 31 Ogos 2026: 60 of 86 articles populated, 26 null, every
+        // null in the oldest tail (ranks 58–86).
+        //
+        // ⚠️ UI-13 — THE POOL NOW REACHES THAT TAIL. `hero-frame.ts` warns that
+        // "if either buffer ever deepens past ~57 articles this starts
+        // excluding real candidates, and the fix then is to backfill
+        // `media.width`/`height`, not to loosen the rule." This pool is the
+        // whole corpus, so it has. Re-measured on production 01 Sept 2026:
+        // 26 of 90 rows are null, at recency ranks 62-90. They are
+        // hero-INELIGIBLE and nothing more — H6 asks only for their category,
+        // so they remain fully selectable as items, and the hero is decided
+        // long before rank 62. The backfill is still the fix if it ever
+        // matters; nothing here loosens R8(c).
         coverWidth: media.width,
         coverHeight: media.height,
       })
@@ -91,9 +108,39 @@ const getHomeData = unstable_cache(
       .innerJoin(inspireCategories, eq(articles.primaryCategoryId, inspireCategories.id))
       .leftJoin(media, eq(media.url, articles.coverImageUrl))
       .where(eq(articles.status, 'published'))
-      .orderBy(desc(articles.publishedAt))
-      .limit(20); // buffer above the 13 displayed, so skipping an ineligible
-    // hero candidate doesn't also shrink the "Terkini" list beneath it.
+      // ⚠️ UI-13 — `.limit(20)` IS GONE, AND ITS REMOVAL IS HALF OF H6.
+      //
+      // DES-03 §7.5 H6.1 lets a candidate pool contribute at most
+      // `min(count_in_pool(c), cap)` items per category. Measured on production
+      // 01 Sept 2026: ranks 1–13 by `publishedAt` were TWO categories — 10
+      // `hantaran-mas-kahwin` + 3 `ucapan-doa` — so a 20-row buffer's capacity
+      // at cap 5 was 8 against a required 13. A PERFECT H6.4 implementation
+      // over that buffer still falls through H6.5 to truncation, and the
+      // visible result is a SHORTER homepage rather than a fixed one — which
+      // `check-h6.sh` would pass, because an 8-item page can satisfy H6 at N=8.
+      // H6.5's satisfiability test is written over `published(x)`, not over
+      // `buffered(x)`: a recency window cannot even be asked the question the
+      // fallback ladder depends on.
+      //
+      // AND RANKS 14-20 WOULD NOT HAVE RESCUED IT. Measured against production
+      // on 01 Sept 2026 (`scripts/measure/measure-h6-pool.mjs`): ranks 14-20
+      // are SEVEN MORE `hantaran-mas-kahwin` and add ZERO new categories, so
+      // the 20-row buffer's capacity was 9, not 13. The old shape did not merely
+      // lack a guarantee; it failed on the corpus it was running against.
+      //
+      // So the pool is the published corpus. Measured the same day: 90 rows,
+      // and the serialized entry is 230,176 B (224.8 KiB) against the 20-row
+      // entry's 55,842 B — 4.12x, and two orders of magnitude inside Vercel's
+      // Data Cache per-entry ceiling. 43% of those bytes are
+      // `cover_image_smart_crops`. If that stops being true, the shape to take
+      // is a light ranking query over the corpus plus a hydrate query for the
+      // chosen ids — not a narrower pool, which is the defect this replaces.
+      //
+      // The secondary tiebreak is for reproducibility, not for selection:
+      // `selectHomeSet` re-ranks in JS (H6.4), so SQL order decides nothing
+      // here, but 24 of these rows share one `publishedAt` and an unordered tie
+      // makes the cached payload's bytes differ run to run for no reason.
+      .orderBy(desc(articles.publishedAt), asc(articles.slug));
 
     return { latestArticles };
   },
@@ -105,7 +152,17 @@ const getHomeData = unstable_cache(
   // then reads undefined, scores every article ineligible, and the homepage
   // serves the "Tiada gambar" no-hero plate until the 600s revalidate expires.
   // Any future change to the SHAPE of this select must bump this again.
-  ['hk-home-v4'],
+  //
+  // ⚠️ BUMPED v4 → v5 BY UI-13. The columns did not change; the ROW COUNT did,
+  // from a 20-row recency window to the whole published corpus, and that is a
+  // shape change by the rule above. Ship it under `hk-home-v4` and the first
+  // readers after deploy get the previously-cached 20 rows: `selectHomeSet`
+  // then runs H6 over a pool whose capacity at cap 5 is 8 against a required
+  // 13, falls through H6.5 to truncation, and serves a SHORT homepage that
+  // `check-h6.sh` reports as passing — the failure is invisible to the gate and
+  // sits there until the 600s revalidate expires. A stale-pool bug is exactly
+  // as real as a stale-column bug and considerably harder to see.
+  ['hk-home-v5'],
   // Tagged, not just time-boxed: every admin write path and the scheduled-
   // publish cron fire `revalidateTag('articles')`. `revalidatePath` does NOT
   // invalidate an `unstable_cache` entry, so without these tags a publish (or
@@ -116,26 +173,41 @@ const getHomeData = unstable_cache(
 
 export default async function HomePage() {
   const { latestArticles } = await getHomeData();
-  // All three R8 gates in one pass: (a) the hand-curated class-G slug list,
-  // (b) both hero crops exist, (c) the SOURCE photograph is landscape.
+
+  // ── UI-13 — H6, DES-03 §7.5. THE ORDER BELOW IS THE RULE'S OUTPUT ────────
   //
-  // UI-12: this is now `pickHeroIndex` in `@/lib/inspire/hero-frame` rather than
-  // an inline predicate, because `/artikel`'s lead plate must know which article
-  // the front page is holding so it does not lead with the same photograph. It
-  // learns that by running THIS function over its own list — not by reading this
-  // page's query. Same gates, same order, same result; behaviour here unchanged.
-  const heroIndex = pickHeroIndex(latestArticles);
-  // R8's failure mode, made explicit: if NOTHING in the 20-article buffer is
-  // hero-eligible, the lead story still runs — it holds the page's one <h1> —
-  // but with the "Tiada gambar" plate instead of a photograph in the wrong
-  // shape. A broken plate is worse than no plate.
-  const hero = heroIndex >= 0 ? latestArticles[heroIndex] : (latestArticles[0] ?? null);
-  const heroCrops = hero && heroIndex >= 0 ? resolveHeroCrops(hero.coverImageSmartCrops) : null;
-  // Exclude exactly the article rendered above, and only when one is. The old
-  // `filter((_, i) => i !== heroIndex)` kept every article when `heroIndex` was
-  // -1 while still rendering `latestArticles[0]` as the hero, printing it twice.
-  const heroId = hero?.id;
-  const rest = latestArticles.filter((a) => a.id !== heroId).slice(0, 12);
+  // `selectHomeSet` implements H6.4's rank + greedy slot fill and H6.5's
+  // relaxation ladder over the published corpus. It returns 13 items in the
+  // order they must appear, `items[0]` being H6.4's slot 1 — the hero.
+  //
+  // ⚠️ H6.6: "DOM order is the order", and it is also tab order and the order a
+  // screen reader announces. Render `items` in the order returned. No `order`,
+  // no `grid-auto-flow: dense`, no `*-reverse` on the container that holds
+  // them. `scripts/ui-layout-gate.mjs` asserts this from computed boxes, so a
+  // violation fails there rather than here.
+  //
+  // The three R8 hero gates are NOT re-implemented here and were not moved:
+  // `selectHomeSet` runs `pickHeroIndex` over the rank order for slot 1, which
+  // is the same one definition `/artikel`'s lead plate uses.
+  const homeSet = selectHomeSet(latestArticles);
+  const hero = homeSet.items[0] ?? null;
+  // R8's failure mode, made explicit and now reported by the selection rather
+  // than recomputed: if NOTHING in the corpus is hero-eligible, the lead story
+  // still runs — it holds the page's one <h1> — but with the "Tiada gambar"
+  // plate instead of a photograph in the wrong shape. A broken plate is worse
+  // than no plate.
+  //
+  // ⚠️ DES-03's H-namespace table calls that case H3, "the no-hero variant …
+  // the homepage opens on rows rather than enlarging a frame §6 disqualifies",
+  // and H6.5(4) sends N < 4 to the same variant. H3 has no markup anywhere in
+  // DES-03 — §5.3 rules that it exists and draws only H1 — and with no hero
+  // headline the page has no h1, which §9.1 assigns to the hero. So H3 is
+  // COMPUTED here (`homeSet.variant`) and NOT rendered: raised to the Creative
+  // Director as an unspecified clause rather than invented. Neither branch is
+  // reachable on today's corpus (48 of 89 covers pass R8; capacity 47 vs 13).
+  const heroCrops =
+    hero && homeSet.heroEligible ? resolveHeroCrops(hero.coverImageSmartCrops) : null;
+  const rest = homeSet.items.slice(1);
 
   // --- Hero source ----------------------------------------------------------
   // UI-03 / `docs/design/hero-image-rules.md`. This used to draw `low` (q30,
@@ -214,7 +286,10 @@ export default async function HomePage() {
       <section className="pt-6 lg:pt-10">
         {hero ? (
           <article>
-            <Link href={`/artikel/${hero.categorySlug}/${hero.slug}`} className="group block">
+            <Link
+              href={`/artikel/${hero.categorySlug ?? 'artikel'}/${hero.slug}`}
+              className="group block"
+            >
               {/* R1: the box follows the asset, never the reverse. Two bands,
                   monotonic — the plate widens as the screen widens — and each
                   box aspect is the served asset's intrinsic aspect exactly, so

@@ -1,0 +1,35 @@
+database: postgresql://***@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+
+── 1. SERIALIZED unstable_cache ENTRY ────────────────────────────
+  rows (published corpus): 90
+  hk-home-v5 (whole corpus): 230,176 B (224.8 KiB)
+  hk-home-v4 (.limit(20)):   55,842 B (54.5 KiB)
+  growth factor:             4.12x
+  vs the build note's ~1.5 MB trigger for the two-query shape: under
+  by column:
+    cover_image_lqip             15869 B  (6.9%)
+    cover_image_variants         41721 B  (18.1%)
+    cover_image_smart_crops      99524 B  (43.2%)
+    excerpt                      16052 B  (7.0%)
+
+── 2. COULD RANKS 14–20 HAVE RESCUED .limit(20)? ─────────────────
+  ranks 1–13: 13 rows, 2 categories
+    hantaran-mas-kahwin=9 ucapan-doa=4
+    capacity at cap 5 = 9, required 13 -> H6.1 NOT satisfiable
+  ranks 1–20 (the old buffer): 20 rows, 2 categories
+    hantaran-mas-kahwin=16 ucapan-doa=4
+    capacity at cap 5 = 9, required 13 -> H6.1 NOT satisfiable
+  the whole published corpus: 90 rows, 15 categories
+    hantaran-mas-kahwin=38 idea-dan-nasihat=10 ucapan-doa=9 real-wedding=6 moden-kontemporari=4 nikah-undang-undang=4 venue-perancangan=4 busana-pengantin=3 pelamin-kad-cenderahati=3 sebelum-nikah=3 glamor-eksklusif=2 fotografi-videografi=1 hiasan-dekorasi=1 minimalis-mewah=1 pantai-santai=1
+    capacity at cap 5 = 47, required 13 -> H6.1 SATISFIABLE
+  ranks 14–20 are: hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin
+  categories they ADD over ranks 1–13: (none)
+
+── 3. publishedAt TIES (why H6.4 clauses 2–4 exist) ──────────────
+  distinct timestamps: 82 over 90 rows
+    2026-08-27T00:00:00.000Z  x7
+    2026-09-01T12:00:00.000Z  x3
+
+── 4. media.width/height NULLS NOW INSIDE THE POOL ───────────────
+  null width/height: 26 of 90
+  their recency ranks: 62–90
