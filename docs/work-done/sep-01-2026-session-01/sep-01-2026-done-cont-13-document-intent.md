@@ -259,6 +259,70 @@ is a parent topic any live HelloKahwin article targets.
 
 ---
 
+## 5. WHAT IS NOT DONE, and the DoD is not rewritten to match
+
+**Four articles are live. The DoD asks for six, and the sitemap for 109. It is
+107.** That is the item's real result and it is not restated as anything else.
+
+| # | target | `volume` | state |
+|---|---|---|---|
+| 1 | `doa penutup majlis` | 1,200 | **LIVE** |
+| 2 | `doa makan majlis` | 250 | **LIVE** |
+| 3 | `ucapan ulang tahun perkahwinan` | 1,900 | **LIVE** |
+| 4 | `doa selamat majlis` | 2,200 | **LIVE** |
+| 5 | `lafaz akad nikah` | 800 | **PARKED — gate 2 incomplete** |
+| 6 | `doa jodoh` | 1,300 | **PARKED — gate 2 incomplete** |
+
+**Why they are parked and not written anyway.** Both are pure text artefacts:
+`lafaz akad nikah` is the wali's ijab and the groom's qabul, and `doa jodoh` is
+an Arabic doa with a hadith or Quranic source. Neither can be written without
+the text, and decision 162 says a text that has not been through
+`editorial-verification-lead` against a named published authority does not ship.
+The verification round on those two had not returned when this log was written.
+
+**I could have written them from what I already know, and that is exactly the
+outcome the gate exists to prevent.** This batch has three demonstrations of why:
+a doa every Malaysian recites turned out to be graded *munkar*; a widely-used
+Malaysian wedding doa turned out to be one the Mufti of Wilayah Persekutuan
+advises against; and a rumi transliteration published by that same office turned
+out to contain an error. Every one of those would have been reproduced by a
+writer working from familiarity.
+
+**One early signal on `lafaz akad nikah`, worth recording for whoever picks it
+up.** The verification seat's own note in the workflow document reports that JAIS
+Selangor's *Tatacara Pengurusan Nikah, Cerai dan Pembatalan serta Ruju' Orang
+Islam Negeri Selangor* (Dec 2024) is an 11-page scanned image with **zero
+extractable characters**, and concludes that HelloKahwin therefore has no
+state-by-state lafaz wording and must not imply that it does. That is the likely
+reason this target is hard, and it is a finding about the source landscape rather
+than about the effort.
+
+**Both targets keep their gate-1 clearance.** Volumes, parent topics, KD and
+PRE-FLIGHT #1 exit codes are all recorded in §1 and none of it needs re-running.
+What they need is the text.
+
+### The one outstanding confirmation on an article that IS live
+
+`doa-selamat-majlis` shipped on `editorial-verification-lead`'s round-1
+clearance — it named the authority, the edition, the pages and the section
+heading, quoted the opening verbatim, and gave the exact framing the page uses.
+What it has not yet returned is an explicit confirmation of the REST of the
+quote, which I extracted and sent to it. Standing in its place, and disclosed
+rather than assumed:
+
+- the article's quote is **word-for-word identical to the source across 398
+  words** (diff, not proofreading);
+- the translation's boundaries were confirmed mechanically — p.25 carries only
+  the heading and the Arabic, p.26 opens `TERJEMAHAN DOA (DI PAPARAN SKRIN)`, and
+  p.28 is the document's last page, so pp. 26-28 is the whole of it;
+- the lead's own quoted opening paragraph matches the article's first paragraph
+  exactly, which is the cross-check that we are reading the same document;
+- the page carries **no Arabic**, on the lead's explicit instruction.
+
+**It is reversible in fact, not in principle:** `doa-selamat-majlis` is named in
+the UNDO pushed before the first write, and a correction is one statement. If the
+lead comes back with a fix, it is applied or the page comes down.
+
 ## Image rights, checked against the register rather than against the draft
 
 Twelve images across the four articles. Every one is an existing library asset
