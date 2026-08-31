@@ -36,6 +36,15 @@ WHY THIS EXISTS
   finding was to turn the lesson into something that FIRES rather than something
   written down, because prose rules do not fire - this is that thing.
 
+WHAT IT COUNTS, AND WHAT IT DOES NOT
+  Nothing. This gate reads HTTP status codes and a PDF's own /CreationDate, and
+  scans LOCAL markdown for prose mentions. It deliberately does not count string
+  occurrences on a rendered page, because a Next.js response carries the same
+  sentence in the server HTML and again in the RSC flight payload, so any
+  threshold tuned on one denominator misbehaves on the other. If a future
+  version ever does count on a live page, it must state its denominator the way
+  `check-retraction.py` does.
+
 WHAT IT DOES NOT DO
   It does not judge whether a source is authoritative, and it does not read the
   claim the source is cited for.  Those stay with editorial-verification-lead.

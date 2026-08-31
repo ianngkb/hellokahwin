@@ -749,6 +749,56 @@ that way before being recorded absent, and the queries are named in §2.
 
 ---
 
+## The counting dispute, and what measuring it actually showed
+
+`editorial-verification-lead` re-ran my evidence counts independently, got
+different numbers on five phrases, and diagnosed one cause: we had counted
+different documents, mine the whole response and theirs the server HTML cut at
+`self.__next_f`. The conclusion drawn was that the multiplier "is not a clean 2x"
+so the two sets are not convertible.
+
+**I measured it rather than accepting it, and it corrects both of us.**
+
+| needle | full response | server HTML only | visible text | the lead quoted |
+|---|---|---|---|---|
+| `amalan sahabat` | 8 | 4 | 4 | 4 |
+| `sunnah Nabi` | 22 | 11 | 6 | 6 |
+| `munkar` | 45 | 22 | 10 | 9 |
+| `Yusuf dan Zulaikha` | 10 | 5 | 4 | 4 |
+| `maka tidak berlaku pernikahan tersebut` | 2 | 1 | 1 | 1 |
+
+**Full against server-only is a clean 2x in every row.** So the stated reason for
+the numbers not being convertible does not hold: those two denominators convert
+exactly. What the lead actually measured is the **third** column, visible text
+after tag-stripping, which is where the ratio really does wander, from 2x to
+4.5x. Their numbers match visible text, not the server HTML their message named.
+
+**And one row had a second cause the single diagnosis missed.** On `munkar` the
+lead compared "you: 2" against "me: 9". My 2 was never a count of `munkar` - it
+was a count of the longer phrase `adalah hadis yang munkar`. Bare `munkar` on
+that page reads 45 / 22 / 10. Those two numbers were never measuring the same
+string, so no denominator reconciles them.
+
+**This is the shape my own persona tabulates: a confirmed fault licenses
+re-checking the neighbours, never concluding about them.** One real cause was
+found, correctly, and then applied to all five rows; two of the five had a
+different or additional cause, and the ratio claim that came out of the
+generalisation is wrong.
+
+**The substantive conclusion survives intact and is the useful part.** A raw
+string count over a Next.js page is not portable evidence unless the method is
+stated, and none of these numbers measures prominence. That is now pinned in the
+code rather than in prose: `check-retraction.py` documents that its denominator
+is the ENTIRE response including the flight payload, and says why that is the
+only correct choice for a retraction - a retracted claim left in the payload or
+in `FAQPage` is still shipped, and counting visible text alone would return a
+comforting zero over a phrase that is still in the document.
+`check-source-currency.py` carries a matching note saying it counts nothing on
+rendered pages and must state a denominator if it ever does.
+
+**No substance moved.** Every finding is on its page; both seats' numbers were
+correct for the document each measured.
+
 ## A finding this item did not go looking for: `docs/` exists twice, in one repo, and the two halves never meet
 
 Reported because it decides whether anyone finds this log, not because it is

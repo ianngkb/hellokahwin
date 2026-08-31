@@ -65,6 +65,30 @@ def zones(html):
     `all` is the authority for presence/absence; the other three exist so a
     survivor is LOCATED rather than merely detected, because "it is somewhere in
     122 KB" is not an actionable finding.
+
+    THE COUNTING METHOD IS PINNED HERE ON PURPOSE, and it is `all` - the ENTIRE
+    response, including the Next.js RSC flight payload after `self.__next_f`.
+
+    A Next.js page carries the same sentence up to three times: in the
+    server-rendered HTML, again inside the flight payload, and sometimes again in
+    JSON-LD. Three different counts are therefore available for one phrase, and
+    on this corpus they diverge widely - `munkar` on `doa-makan-majlis` reads
+    **45 full / 22 server-only / 10 visible text**. None of those is wrong; they
+    answer different questions.
+
+    For a RETRACTION the question is "is it anywhere a machine could read it",
+    so the full response is the only correct denominator: a retracted claim left
+    in the flight payload is still shipped, and one left in `FAQPage` can still
+    be served by Google as our answer. Counting visible text only would return a
+    comforting zero over a phrase that is still in the document.
+
+    Corollary, and the reason this docstring exists: **a raw string count over a
+    Next.js page is not portable evidence unless the method is stated.** Two
+    seats on CONT-13 quoted counts at each other that differed by up to 4.5x and
+    both were correct for the document each had measured. Any count quoted from
+    this corpus should name its denominator, and none of them measures
+    prominence - `munkar` at 45 is not five times more prominent than
+    `Yusuf dan Zulaikha` at 10.
     """
     captions = " ".join(
         re.findall(r"<figcaption[^>]*>(.*?)</figcaption>", html, re.S)
