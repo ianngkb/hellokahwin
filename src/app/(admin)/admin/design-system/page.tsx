@@ -674,7 +674,7 @@ export default async function DesignSystemPage({
             <div className="pt-8">
               <Label muted className="mb-2 block">
                 Card (.s-card) leading list rows (.s-row) — real 95-char / 47-char title extremes,
-                4:3 thumbnails at every width
+                4:3 thumbnails at every width, fed the 528×396 mid-size rendition
               </Label>
               <Card
                 href="#"
@@ -691,7 +691,7 @@ export default async function DesignSystemPage({
                   headingLevel="h2"
                   title="20 Lokasi Terbaik Pre Wedding Photoshoot di Malaysia – Dari Alam Semula Jadi Hingga Urban City!"
                   meta="Fotografi & Videografi"
-                  imageSrc={placeholderImg('80×60')}
+                  imageSrc={placeholderImg('528×396 → 80×60 / 176×132')}
                   imageAlt="Rombongan hantaran berjalan di tepi jalan sambil memegang dulang"
                   index={2}
                 />
@@ -700,7 +700,7 @@ export default async function DesignSystemPage({
                   headingLevel="h2"
                   title="Tempat beli barang hantaran: lima jenis kedai"
                   meta="Hantaran & Mas Kahwin"
-                  imageSrc={placeholderImg('80×60')}
+                  imageSrc={placeholderImg('528×396 → 80×60 / 176×132')}
                   imageAlt="Dulang terbuka dengan gubahan bunga merah dan renda putih"
                   index={3}
                 />
@@ -733,6 +733,30 @@ export default async function DesignSystemPage({
                 0.0% respectively, both inside hero-rules R1&rsquo;s 15%. 4:3 rather than 3:2
                 because it is the aspect of <code>crop-4x3-article-card</code>, where this slot goes
                 the day a small rendition of it exists &mdash; one shape change, not two.
+              </p>
+              <p className="text-muted-foreground mt-2 max-w-[74ch] text-xs">
+                DES-18 built that rendition and this slot went there.{' '}
+                <code>crop-4x3-article-card-sm</code> is <strong>528&times;396</strong> &mdash; the
+                176px desktop slot at DPR&nbsp;3 exactly &mdash; WebP, encoded at q50 and stepped
+                down only where q50 misses a <strong>46,080&nbsp;B</strong> ceiling. That ceiling is
+                DES-03 &sect;6.2&rsquo;s own card figure, applied to a box 21% larger in area, so it
+                is strictly tighter than DES-03 asks. Measured across all 86 published covers on 01
+                September 2026: <strong>min 7,636&nbsp;B, median 17,664&nbsp;B, max
+                44,898&nbsp;B</strong>, none over the ceiling. Exactly one photograph &mdash;
+                handwoven songket, close to worst-case entropy for a block encoder &mdash; steps to
+                q46; the other 85 stay at q50.
+              </p>
+              <p className="text-muted-foreground mt-2 max-w-[74ch] text-xs">
+                It is a byte <em>saving</em>, which is why it could ship at all.{' '}
+                <code>card-thumbnail-image-rules.md</code> &sect;4 priced serving the only 4:3 asset
+                that existed &mdash; the 488&ndash;946&nbsp;KB full crop &mdash; at{' '}
+                <strong>+8.2&nbsp;MB across the homepage</strong>, and refused. The rendition
+                replaces a <code>low</code> that weighed 36,964&ndash;82,110&nbsp;B with a median
+                17,664&nbsp;B file <em>of the right shape</em>. It is a resize of a crop already
+                stored, not a re-crop: no Rekognition call, and deliberately not a{' '}
+                <code>CROP_TARGETS</code> entry, so <code>GEOMETRY_VERSION</code> does not move and
+                no live cover is re-cut. A test asserts that token still hashes to{' '}
+                <code>48c0b959</code>.
               </p>
             </div>
 
