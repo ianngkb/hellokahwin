@@ -180,7 +180,118 @@ stand alone.
 
 ## Retrospective
 
-*(completed below once the batch closes)*
+Chaired by `managing-editor`; written by me.
+
+### What did we learn that is not written down
+
+**A publishing pipeline can succeed at every step and still publish nothing, and
+the success report is what hides it.** The first ingest of this batch ran
+`--commit --publish --revalidate-url` against production. Images uploaded with
+four crops each. The origin cache dropped. The Vercel edge purged, HTTP 200, one
+request. Google was asked to re-read the sitemap and returned 204. Twenty lines
+of green. It wrote a **draft** — invisible in the sitemap, absent from the pillar
+page, unreachable by a reader — because the file's front matter said
+`status: draft` and `--publish` only *honours* a file that already asks to be
+published. The word `draft` appeared twice, once on line four and once in the
+final line, surrounded by success.
+
+This is the company's own tabulated shape — *a status code proves nothing on its
+own* — arriving in a form nobody had catalogued: not a false 200, but a genuine
+success report for the wrong outcome. It was caught by reading the last line of
+the output rather than the exit code.
+
+**Second thing, and it belongs to the verification seat as much as to mine: a
+document's SERP position measures its link equity, not whether it still applies.**
+The JAKIM PDF at position 3 for these queries is dated 3 April 2007 and its
+landing page 404s. Written from, it would have told readers the doa reader
+"seelok-eloknya seorang lelaki" — a rule the 2026 edition replaced with an
+explicit permission for women to lead at women-only majlis. Ranking is the
+signal we use to find sources and it is uncorrelated with currency.
+
+### Which document must change, and who owns the edit
+
+**`scripts/ingest-article.mts`, in the site repo. I own it. IT IS DONE** —
+PR #44, merged to `master` at `9cad4c9`.
+
+The ingest now **refuses** when `--publish` is passed and the file does not say
+`status: published`, rather than resolving the contradiction silently in the
+file's favour. Prose would not have fired here: the tool already *printed* the
+truth twice and it was still missed, which is the strongest argument available
+that this had to become an exit code.
+
+The asymmetry is deliberate and is written into the source:
+
+- `status: published` **without** `--publish` — a file asking for something the
+  operator did not authorise. Existing behaviour, correct, unchanged.
+- `--publish` **without** `status: published` — the operator authorising
+  something the file did not ask for. Nobody types `--publish` meaning "leave it
+  a draft". Refused.
+
+Run against the case that produced it and the three it must not break:
+
+| file | flag | result |
+|---|---|---|
+| `status: draft` | `--publish` | **REFUSES, process exit 1** |
+| `status: published` | `--publish` | `Status:  published` — unchanged |
+| `status: draft` | none | `Status:  draft` — staging still works |
+| `status: published` | none | the existing note — unchanged |
+
+**A second document changed in this item, owned by `editorial-verification-lead`
+and already written:** `docs/plans/aug-23-2026-session-01/aug-23-2026-workflow-content-production.md`
+now carries *"Arabic in a Malaysian government PDF is never quotable from text
+extraction — and reading by word coordinate does not fix it"*, with the four
+JAKIM PDFs tested and the failure mode of each. The existing standing rule
+(*read government PDFs by word coordinate, never `pdftotext -layout`*) is correct
+for a fee table and does not rescue Arabic, because the corruption is in the
+glyph stream rather than the ordering.
+
+### What did we do twice
+
+**Sourced a text, then checked whether it could be written.** The first target
+set was chosen entirely on keyword evidence, and only then handed to
+verification — which found that two of the six had no text in existence
+anywhere. Both targets were then re-derived from scratch, and the Ahrefs and
+SERP work for `doa pembuka majlis`, `doa majlis ringkas` and `doa kesyukuran`
+was thrown away.
+
+The fix is an ordering change and it costs nothing: for a doa, lafaz or any
+other quoted religious artefact, **ask the verification seat whether the text
+EXISTS before spending the keyword gate on it.** One question — "does a named
+Malaysian authority publish a text called X" — would have removed three targets
+from the gate before they were measured. That is now how I will run it, and it
+generalises to any article whose whole value is a document the reader takes
+away: confirm the document exists, then price the keyword.
+
+### What did we nearly ship, and what caught it
+
+**A withdrawn 2007 government rule, presented as current.** Caught by
+`editorial-verification-lead` opening the PDF's internal creation date and its
+landing page rather than trusting its SERP position.
+
+**Malformed Quranic and prophetic text.** Every JAKIM PDF in this batch corrupts
+Arabic on extraction — `الله` comes out as `للا` in one edition and `هللا` in
+another, and the 2007 file yields literal bytes. Pasting any of it would have put
+broken sacred text on a page that people screenshot and circulate. Caught because
+the verification seat tested three extraction methods instead of one and reported
+the failure rather than the output.
+
+**A doa attributed to the Prophet that its own national mufti's office grades
+`munkar`.** Nearly shipped in the ordinary direction — as the doa "everyone
+knows". Caught by asking for the grading rather than the text. And the
+over-correction was nearly shipped too: the fatwa says plainly that the doa
+*may* still be recited, and carrying only the *munkar* half would have told
+millions of readers to stop reciting something their own authority permits.
+
+**A duplicate of a live sibling.** The reframe proposed for `doa majlis ringkas`
+— *what JAKIM requires an opening doa to contain* — is already the middle third
+of `/artikel/sebelum-nikah/doa-majlis-pertunangan`, clause number by clause
+number. Caught by reading the live sibling's **body**, not its title. The title
+says "pertunangan" and gives no hint that the JAKIM guideline lives inside it.
+
+**A citation cut for being unverifiable.** Not in this batch, but the standing
+rule earned it: a negative from a summariser is a failed lookup until it has
+failed twice, by two differently-shaped questions. Both dropped targets were run
+that way before being recorded absent, and the queries are named in §2.
 
 ---
 
