@@ -1,0 +1,17 @@
+H6 — homepage category diversity (DES-03 §7.5)
+page:   docs/work-done/sep-01-2026-session-01/sep-01-2026-ui-13-EVIDENCE/homepage-PREFIX-2026-09-01.html  (57337 bytes)
+corpus: docs/work-done/sep-01-2026-session-01/sep-01-2026-ui-13-EVIDENCE/sitemap-PREFIX-2026-09-01.xml  (20669 bytes)
+
+  set:    N=13 items, 2 distinct categories, share cap ceil(N/3)=5
+  order:  ucapan-doa ucapan-doa ucapan-doa hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin
+
+  H6.1  SHARE CAP   FAIL — over ceil(N/3)=5: hantaran-mas-kahwin=10
+  H6.2  RUN CAP     FAIL — 11 adjacent same-category pairs: 1-2:ucapan-doa 2-3:ucapan-doa 4-5:hantaran-mas-kahwin 5-6:hantaran-mas-kahwin 6-7:hantaran-mas-kahwin 7-8:hantaran-mas-kahwin 8-9:hantaran-m
+  H6.3  FLOOR       FAIL — 2 distinct categories, floor min(4,K,N-cap+1)=4
+
+  corpus: 89 published articles across 15 categories
+          capacity at cap 5 = 47, required = 13
+          H6 IS SATISFIABLE at N=13. A failure above is a build defect, not a corpus limit.
+
+  VERDICT: H6 is violated.
+exit=1
