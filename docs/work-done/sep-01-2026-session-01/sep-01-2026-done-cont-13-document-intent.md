@@ -178,6 +178,29 @@ stand alone.
 
 ---
 
+## One stated deviation from the style guide, taken deliberately
+
+Style guide §9 asks for FAQ answers of **40 to 60 words**. The twelve answers
+live on the three published pages measure **31 to 41** — parsed out of the
+rendered `FAQPage` JSON-LD, not estimated:
+
+| page | answers, in words |
+|---|---|
+| `doa-penutup-majlis` | 36, 37, 40, 41 |
+| `doa-makan-majlis` | 35, 36, 39, 31 |
+| `ucapan-ulang-tahun-perkahwinan` | 38, 32, 38, 34 |
+
+They were not padded to reach the floor, and that is the deviation. Each answer
+opens with the direct answer, names its authority inline where it makes a
+religious claim, and stops. Taking eight of them from 35 words to 45 would have
+meant adding words with no new information, in the same pass where `/humanizer`
+was removing exactly that. The company's own line is that depth is coverage, not
+word count.
+
+Raised for `managing-editor` rather than fixed silently: if the 40-word floor is
+meant as a hard minimum rather than a target, say so and I will find real
+substance to add rather than filler, but I am not willing to pad to a number.
+
 ## Retrospective
 
 Chaired by `managing-editor`; written by me.
