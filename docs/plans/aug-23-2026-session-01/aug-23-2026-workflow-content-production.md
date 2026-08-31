@@ -92,6 +92,94 @@ address and facilities — never repeating vendor marketing copy as fact.
 **Gate:** anything unsourceable is flagged back to the brief owner, not
 filled in with something plausible.
 
+#### RETRIEVING TEXT FROM A GOVERNMENT PDF (CONT-13, 1 Sep 2026)
+
+Two rules, both earned by failure. They sit alongside the existing fee-column
+rule — *read government PDFs by word coordinate, never `pdftotext -layout`* —
+and they do not replace it. Word coordinate is still correct for a fee table.
+It does not rescue either case below.
+
+**1. Arabic in a Malaysian government PDF is never quotable from text
+extraction — and reading by word coordinate does not fix it.** The corruption
+is in the glyph stream, not in the ordering, so no extraction method recovers
+it. **Four JAKIM doa PDFs tested, four failures:**
+
+| File | Failure |
+|---|---|
+| `panduan-doa-rasmi.pdf` (2007) | Subsetted TrueType, `WinAnsiEncoding`, no ToUnicode map. Arabic extracts as literal bytes `0x01 0x02 0x03`. Zero recoverable across 76 pages. |
+| `GARIS_PANDUAN...JPM_1.pdf` (2025, 65 pp) | Real Unicode, visually-positioned glyph runs. `الله` extracts as `للا`. |
+| `...Pindaan2026.pdf` (28 pp) | Same. `بِسْمِ اللهِ` extracts with detached kasra and spaces injected inside `الله`. |
+| `4._DOA_MAJLIS_UMUM_3_1.pdf` | Same class. `الله` extracts as `هللا`. |
+
+**What to do instead:** take the Arabic from an HTML authority page where it is
+selectable Unicode (`muftiwp.gov.my` renders Arabic as real HTML text
+throughout; so do `muftins.gov.my` and `emusykil.muftiselangor.gov.my`), **or**
+publish the Malay translation — which extracts from these same PDFs perfectly —
+and link the PDF for the Arabic rather than reproducing it badly. Pasting
+extracted Arabic ships malformed Quranic and prophetic text; that is the exact
+failure board decision 162 exists to prevent.
+
+**2. A scanned-image government PDF is a dead end for religious or legal
+wording, and OCR is not an acceptable substitute.** If a PDF yields zero text
+and its pages are images, the document cannot source a lafaz, a doa, or a
+statutory wording. Record it as a named gap and say which document it was.
+Found on JAIS Selangor's *Tatacara Pengurusan Nikah, Cerai dan Pembatalan
+serta Ruju' Orang Islam Negeri Selangor* (Dec 2024) — 11 pages, zero
+extractable characters — which is why HelloKahwin has no state-by-state
+`lafaz akad nikah` wording and must not imply it does.
+
+#### RELIGIOUS TEXT IS SOURCED BEFORE DRAFTING, PER ITEM (board decision 162)
+
+Decision 162 lived only in the decision log and one persona until 1 Sep 2026.
+Writing it here is the point of the standards loop: **a gate that only the
+verification seat knows about is a gate the writer discovers by failing it.**
+
+- **Every doa, Arabic string, transliteration and religious claim carries a
+  NAMED PUBLISHED AUTHORITY** — JAKIM, a state mufti's office, DBP, or a
+  recognised published collection — with the authority and the date checked
+  recorded **per item, not per article**.
+- **If a text cannot be sourced to a named authority it does not ship.** The
+  article publishes without it, or the article does not publish. Those are the
+  only two outcomes.
+- **Never reconstruct, complete or "correct" a religious text from memory**, and
+  never accept one a writer reconstructed. If the source is partial, the text is
+  partial and says so.
+- **Check the Arabic, the rumi transliteration and the Malay meaning
+  separately.** They come from different places and fail independently.
+- **Source before drafting.** CONT-13 established the cost of the other order:
+  three of six planned articles lost their text at the gate and had to be
+  re-derived after the brief was set. Write around what is verified.
+
+#### TRANSLITERATION — OUR RUMI IS OURS, AND THE PAGE SAYS SO (owner ratified, 1 Sep 2026)
+
+**No Malaysian religious authority publishes a rumi transliteration.** Verified
+across JAKIM's Pindaan 2026 guideline, e-Solat's Koleksi Doa, e-Muallaf and
+every Mufti WP article consulted — all print Arabic plus a Malay meaning and no
+rumi. Every rumi ranking for these keywords is on a content farm. Since `doa
+pengantin baru rumi` is the site's best CTR (9.52%), decision 162 would
+otherwise have closed the whole family.
+
+- **HelloKahwin produces its own rumi under DBP's *Pedoman Transliterasi Huruf
+  Arab ke Huruf Rumi*** (`https://eseminar.dbp.gov.my/dokumen/arabumi.pdf`,
+  checked 1 Sep 2026). Naming the **method's** authority satisfies decision 162
+  for a transliteration.
+- **Provenance must be disclosed on the page**: a visible line saying the
+  transliteration is HelloKahwin's, produced under DBP's pedoman, named and
+  dated — while the Arabic and its Malay meaning carry **their own** named
+  authority, named separately. A reader must never be able to mistake our rumi
+  for an authority's rumi.
+- **A missing or vague disclosure line is a gate failure**, exactly like an
+  unsourced Arabic string. The verification seat blocks on it.
+- The DBP pedoman goes in the per-item authority register like any other source.
+- **This relaxes nothing about the Arabic or the meaning.** Those still need
+  their own named authority, per item.
+
+**A source's own rumi can be wrong — check it against the Arabic.** Mufti WP's
+Irsyad al-Hukum #954 prints *"ma jama'a bainakuma"* where its own Arabic reads
+`وَجَمَعَ` (*wa* jama'a). A correct Arabic line with a drifted transliteration is
+the likeliest defect in this content family and the hardest to see, which is why
+the three parts are checked separately rather than as one block.
+
 ### Stage 3 — Draft
 The writer drafts to the framework: head question answered in the first 60
 words, every sub-type of the entity gets its own heading, depth means
