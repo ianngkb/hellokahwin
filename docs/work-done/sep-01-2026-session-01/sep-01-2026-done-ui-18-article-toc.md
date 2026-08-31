@@ -495,6 +495,47 @@ also lowered `TOC_MIN_HEADINGS` from 4 to 2 — the DoD's number, and what puts 
 contents list on `goodies-kahwin` and `tempat-honeymoon-di-malaysia` — and
 shipped the gate, the CI job and the reference-page entries.
 
+## 6e. The corpus filter was right by accident — the same shape, one layer up
+
+Asked directly whether the walker's exclusion of the non-article sitemap URLs was
+deliberate or incidental. **Incidental.** The 17 it excluded on 01 Sept were the
+homepage, `/artikel` and 15 category hubs — all correctly excluded, and correctly
+excluded by luck.
+
+The filter was *three path segments under `/artikel/`*. Measured rather than
+reasoned about:
+
+```
+/artikel/tag/duit-hantaran         HTTP 200 | .inspire-prose = 0 | matches the article regex = true
+/artikel/tag/duit-hantaran-kahwin  HTTP 200 | .inspire-prose = 0 | matches the article regex = true
+```
+
+Live, linked from a production article, article-shaped, and **not in the sitemap
+today**. The day tag pages are added to the sitemap — an ordinary SEO change —
+every one is classified as an article, the `.inspire-prose` precondition fires
+`NOT AN ARTICLE BODY`, and the gate exits 2 across the whole corpus pointing at a
+change that was correct. That is the `.inspire-prose` scoping failure again, one
+layer up, found the same way: by someone asking rather than by a test.
+
+The classification is now positive and derived at run time, the way the count
+already was: **a 3-segment `/artikel/<a>/<b>` is an article iff `<a>` also appears
+in the same sitemap as a 2-segment `/artikel/<a>`.** `author` and `tag` are named
+explicitly rather than left to fall out of the rule. Anything else article-shaped
+whose first segment is not a known hub is an **error that stops the run** —
+dropping it silently would under-count the corpus, and a green run about the
+wrong set of pages is the failure this gate exists to avoid. The filter prints
+its own arithmetic on every run, so the exclusion is visible rather than
+inferred.
+
+### And the self-test was miscounting itself
+
+It printed **`0 of 11`** on a run that had just executed **fourteen** cases,
+because the total was `cases.length + 1` — a claim maintained separately from the
+run, stale the moment anyone added a case. In a self-test, of all places. It
+counts now, and was watched going red and back green by pointing one fixture's
+`aria-labelledby` at an id nothing carries: `1 of 14 case(s) failed · TOCLINT
+EXIT: 1`.
+
 ## 7. Not in scope, raised rather than absorbed
 
 **21 of 86 articles carry zero `<h2>`, and 7 of them are a real defect.** Fourteen
@@ -630,8 +671,21 @@ gate this item ships never tests for a string: it prints the label it reads out 
 the DOM and the heading census of every article it finds without one, so the same
 mistake produces a *different-looking* number instead of a matching zero.
 
-**The third thing we nearly shipped, and it was found by coordination rather
-than by testing.**
+**Two of the three things we nearly shipped were found by coordination rather
+than by testing, and they are the same mistake at two scopes.**
+
+The second was the corpus filter: `three segments under /artikel/` classified
+`/artikel/tag/<slug>` — a live 200 with no article body — as an article. Not in
+the sitemap today, so the gate was correct by luck, and would have gone red
+across the corpus on the day someone added tag pages to the sitemap.
+
+**The rule both of them break, and it is now the thing to check on any new
+filter: a scope that is correct only because of what does not exist yet is not a
+scope, it is a coincidence with a deadline.** Both were caught by another seat
+describing work they had not done yet. Neither was caught by sabotage, because
+sabotage tests the checks you thought of against the world you assumed.
+
+**The first of the two.**
 
 My own gate scoped `nav.article-toc` to inside `.inspire-prose`. UI-17's rail
 sits outside it. **The morning the relocation deployed, TOCLINT would have
