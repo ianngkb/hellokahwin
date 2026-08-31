@@ -630,6 +630,62 @@ keeps the `<h2>`-groups semantics exactly: orphan `<h3>`s are dropped before the
 count, so an article of seven `<h3>`s and no `<h2>` still scores zero. No
 conflict with `labelledBy`, which they left intact.
 
+## 6g. The rail shipped, and this is the run that closes the item
+
+UI-17 merged PR #47 (`646b030`) at 19:13:20Z. Everything below is production,
+after that deploy.
+
+```
+TOCLINT — corpus filter: 15 category hub(s) read from this sitemap; 92 article(s) kept,
+          17 URL(s) not article-shaped (home, /artikel, category hubs), 0 reserved-route
+TOCLINT — corpus re-derived from https://hellokahwin.com/sitemap.xml at run time:
+          109 URLs, of which 92 are articles
+
+articles measured                     92
+articles with >= 2 h2 (must have a TOC) 71
+articles rendering a TOC              71
+contents list placement              71 outside .inspire-prose, 0 inside
+accessible name comes from           aria-labelledby #hk-rail-toc-heading x71
+contents-list labels found           "Dalam artikel ini" x71
+total contents links checked         1057, dangling: 0
+
+VIOLATIONS: none.
+  49 x 200 MISS sin1 · 8 x 200 STALE sin1 · 35 x 200 HIT sin1
+  measured at 2026-08-31T19:24:32.922Z
+
+TOCLINT EXIT: 0
+```
+
+**71 of 71, outside the prose, 0 inside — counted, not sampled.** The two
+placement lines were added for this run and stay for every future one: a
+relocation that is 69-of-71 done violates nothing *per article* and is invisible
+in a per-article verdict, so the report says `MIXED` when both counts are
+non-zero. All 71 landmarks take their name from the rail's `<h2>`; not one
+carries a leftover `aria-label`.
+
+### The tap floor, on production, on the real rail, unclamped
+
+| width | inner box | anchors | min | max | under 24 |
+|---|---|---|---|---|---|
+| 390 | 350.00 | 90 | **24.0** | 34.8 | **0** |
+| 768 | 704.00 | 90 | **24.0** | 24.0 | **0** |
+| 1024 | 268.00 | 90 | **24.0** | 37.7 | **0** |
+| 1440 | 268.00 | 90 | **24.0** | 37.7 | **0** |
+| 1920 | 268.00 | 90 | **24.0** | 37.7 | **0** |
+
+**450 contents anchors across four articles at five widths, none under 24px**,
+`display: inline-flex` throughout. The clamped rows are withdrawn and this
+replaces them. The shape cross-checks UI-17's independently measured geometry
+without either of us having seen the other's numbers first: 24.0 max at 768 where
+the inner box is 704 and nothing wraps, 37.7 from 1024 up where it is 268 and the
+longest entries wrap to two lines.
+
+**The 318 is corrected with its reason.** Below 1024 the rail cancels its own
+16px horizontal padding so a block shares the prose's left edge — a 16px inset on
+a phone would put Rekod to the right of the headline, the two-unrelated-columns
+defect UI-10 fixed on the header. The mobile inner box is **350.00**, not 318.
+My 318 came from applying the desktop padding to the mobile case.
+
 ## 7. Not in scope, raised rather than absorbed
 
 **21 of 86 articles carry zero `<h2>`, and 7 of them are a real defect.** Fourteen
@@ -789,6 +845,19 @@ not a smaller failure than one that misses a defect; it is the one that teaches
 people the gates are noise. **All three were the same error: a selector or a
 filter that described where the author expected the thing to be, rather than what
 the rule actually says.**
+
+**And the other half of the pattern, which is a trade rather than a bug.**
+UI-17's rail gate takes a HARDCODED target list; mine derives its targets from
+the sitemap. My #51 trap — an article-shaped URL that is not an article — cannot
+reach theirs. Their failure mode is the opposite and they named it rather than
+solved it: a manifest goes stale as the corpus grows, so a new article is simply
+never checked, silently, forever. **Neither choice is safe on its own, and the
+two failures are invisible to each other:** a derived list can admit the wrong
+pages, a fixed list can omit the right ones. Ours are complementary today by
+accident, not by design. The rule worth keeping is that whichever you pick, the
+run must PRINT its own target arithmetic — mine prints the corpus filter's
+counts, theirs should print how many of the live corpus its manifest covers, so
+staleness shows up as a number rather than as silence.
 
 **The first of the two.**
 
