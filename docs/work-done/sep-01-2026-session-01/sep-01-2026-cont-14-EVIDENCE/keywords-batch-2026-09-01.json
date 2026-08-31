@@ -1,0 +1,60 @@
+{
+  "keywords": [
+    {
+      "keyword": "barang hantaran perempuan",
+      "volume": 300,
+      "parent_topic": "barang hantaran lelaki",
+      "difficulty": 0,
+      "traffic_potential": 2500
+    },
+    {
+      "keyword": "apa itu hantaran",
+      "volume": 20,
+      "parent_topic": "hantaran kahwin",
+      "difficulty": 0,
+      "traffic_potential": 600
+    },
+    {
+      "keyword": "beza mas kahwin dan hantaran",
+      "volume": 20,
+      "parent_topic": "beza mas kahwin dan hantaran",
+      "difficulty": 0,
+      "traffic_potential": 10
+    },
+    {
+      "keyword": "wang hantaran",
+      "volume": 70,
+      "parent_topic": "duit hantaran",
+      "difficulty": 0,
+      "traffic_potential": 500
+    },
+    {
+      "keyword": "duit hantaran",
+      "volume": 300,
+      "parent_topic": "mas kahwin",
+      "difficulty": 0,
+      "traffic_potential": 800
+    },
+    {
+      "keyword": "maksud hantaran kahwin",
+      "volume": 50,
+      "parent_topic": "mas kahwin",
+      "difficulty": 0,
+      "traffic_potential": 800
+    },
+    {
+      "keyword": "mas kahwin",
+      "volume": 1900,
+      "parent_topic": "mas kahwin perak",
+      "difficulty": 0,
+      "traffic_potential": 2800
+    },
+    {
+      "keyword": "hantaran kahwin",
+      "volume": 2000,
+      "parent_topic": "barang hantaran lelaki",
+      "difficulty": 0,
+      "traffic_potential": 2400
+    }
+  ]
+}
