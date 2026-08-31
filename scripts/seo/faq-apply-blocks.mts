@@ -85,7 +85,11 @@ function withFaqBlock(doc, level, entries) {
   let at = content.length;
   for (let i = content.length - 1; i >= 0; i--) {
     const n = content[i];
-    if (n?.type === 'heading' && n.attrs?.level === level && CLOSING_SECTION.test(nodeText(n).trim())) {
+    if (
+      n?.type === 'heading' &&
+      n.attrs?.level === level &&
+      CLOSING_SECTION.test(nodeText(n).trim())
+    ) {
       at = i;
     }
   }
@@ -122,7 +126,9 @@ async function main() {
 
   const [draftsDir, undoDir] = positional;
   if (!draftsDir || !undoDir) {
-    console.error('usage: pnpm exec tsx scripts/seo/faq-apply-blocks.mts <drafts-dir> <undo-dir> [--apply]');
+    console.error(
+      'usage: pnpm exec tsx scripts/seo/faq-apply-blocks.mts <drafts-dir> <undo-dir> [--apply]',
+    );
     process.exit(2);
   }
   mkdirSync(undoDir, { recursive: true });
@@ -153,7 +159,9 @@ async function main() {
   // Pass 2 — refuse to write without a complete undo set on disk.
   const missingUndo = drafts.filter((d) => !existsSync(join(undoDir, `${d.slug}.json`)));
   if (missingUndo.length > 0) {
-    console.error(`REFUSING TO WRITE — no undo record for: ${missingUndo.map((d) => d.slug).join(', ')}`);
+    console.error(
+      `REFUSING TO WRITE — no undo record for: ${missingUndo.map((d) => d.slug).join(', ')}`,
+    );
     process.exit(1);
   }
 
@@ -172,17 +180,25 @@ async function main() {
       (n) => n?.type === 'heading' && nodeText(n).trim() === FAQ_HEADING,
     );
     const followedBy = after.content[addedAt + 2 * d.entries.length + 1];
-    const label = followedBy ? `before "${nodeText(followedBy).trim().slice(0, 40)}"` : 'at the end';
+    const label = followedBy
+      ? `before "${nodeText(followedBy).trim().slice(0, 40)}"`
+      : 'at the end';
 
     if (APPLY) {
       await sql`update articles set content = ${sql.json(after)}, updated_at = now() where slug = ${d.slug}`;
-      console.log(`  wrote ${d.slug.padEnd(40)} ${d.entries.length} Q at h${d.headingLevel}, ${label}`);
+      console.log(
+        `  wrote ${d.slug.padEnd(40)} ${d.entries.length} Q at h${d.headingLevel}, ${label}`,
+      );
     } else {
-      console.log(`  dry-run ${d.slug.padEnd(38)} ${d.entries.length} Q at h${d.headingLevel}, ${label}`);
+      console.log(
+        `  dry-run ${d.slug.padEnd(38)} ${d.entries.length} Q at h${d.headingLevel}, ${label}`,
+      );
     }
   }
 
-  console.log(APPLY ? '\nWRITTEN to production.' : '\nDRY RUN — nothing written. Re-run with --apply.');
+  console.log(
+    APPLY ? '\nWRITTEN to production.' : '\nDRY RUN — nothing written. Re-run with --apply.',
+  );
   await sql.end();
 }
 

@@ -209,7 +209,9 @@ async function main() {
   const line = (r) =>
     `  ${r.state.padEnd(15)} ${r.slug ?? r.url}` +
     (r.state === 'present' ? `  (${r.faqQuestions} Q)` : '') +
-    (r.state === 'absent' ? `  (${r.questionHeadings} question headings, no committed reason)` : '') +
+    (r.state === 'absent'
+      ? `  (${r.questionHeadings} question headings, no committed reason)`
+      : '') +
     (r.state === 'not-applicable' ? `  — ${r.reason}` : '') +
     (r.state === 'invalid-json' ? `  ${r.brokenBlocks.join('; ')}` : '') +
     (r.state === 'fetch-failed' ? `  ${r.detail}` : '');
@@ -223,10 +225,16 @@ async function main() {
     }
   }
 
-  if (JSON_OUT) writeFileSync(JSON_OUT, JSON.stringify({ base: BASE, at: new Date().toISOString(), rows }, null, 2));
+  if (JSON_OUT)
+    writeFileSync(
+      JSON_OUT,
+      JSON.stringify({ base: BASE, at: new Date().toISOString(), rows }, null, 2),
+    );
 
   if (failed.length > 0) {
-    console.log(`\nCENSUS INCOMPLETE — ${failed.length} URL(s) not fetched. "Not looked at" is not "absent".`);
+    console.log(
+      `\nCENSUS INCOMPLETE — ${failed.length} URL(s) not fetched. "Not looked at" is not "absent".`,
+    );
     process.exit(2);
   }
   if (invalid.length > 0 || absent.length > 0) {

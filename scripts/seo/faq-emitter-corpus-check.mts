@@ -14,7 +14,11 @@
 
 import 'dotenv/config';
 import postgres from 'postgres';
-import { buildFaqPageJsonLd, extractFaqEntries, hasFaqBlockHeading } from '../../src/lib/inspire/faq-schema';
+import {
+  buildFaqPageJsonLd,
+  extractFaqEntries,
+  hasFaqBlockHeading,
+} from '../../src/lib/inspire/faq-schema';
 
 const sql = postgres(process.env.DATABASE_URL!, { max: 2, prepare: false, ssl: 'require' });
 

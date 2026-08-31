@@ -47,7 +47,10 @@ function outline(node, out = []) {
 const rows = await sql`select slug, title, content from articles where slug = any(${slugs})`;
 mkdirSync(outDir, { recursive: true });
 for (const r of rows) {
-  writeFileSync(join(outDir, `${r.slug}.md`), `# ${r.title}\n\n---\n\n${outline(r.content).join('\n\n')}\n`);
+  writeFileSync(
+    join(outDir, `${r.slug}.md`),
+    `# ${r.title}\n\n---\n\n${outline(r.content).join('\n\n')}\n`,
+  );
   console.log(`wrote ${r.slug}`);
 }
 await sql.end();

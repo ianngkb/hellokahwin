@@ -69,8 +69,16 @@ mkdirSync(outDir, { recursive: true });
 const index = [];
 for (const r of rows) {
   const body = outline(r.content).join('\n\n');
-  writeFileSync(join(outDir, `${r.slug}.md`), `# ${r.title}\n\ncategory: ${r.category}\nslug: ${r.slug}\n\n---\n\n${body}\n`);
-  index.push({ slug: r.slug, category: r.category, title: r.title, words: body.split(/\s+/).length });
+  writeFileSync(
+    join(outDir, `${r.slug}.md`),
+    `# ${r.title}\n\ncategory: ${r.category}\nslug: ${r.slug}\n\n---\n\n${body}\n`,
+  );
+  index.push({
+    slug: r.slug,
+    category: r.category,
+    title: r.title,
+    words: body.split(/\s+/).length,
+  });
 }
 writeFileSync(join(outDir, '_index.json'), JSON.stringify(index, null, 2));
 console.log(`dumped ${rows.length} of ${slugs.length} absent articles to ${outDir}`);

@@ -61,10 +61,41 @@ const FAQ_MIN_QUESTIONS = 2;
  * mid-sentence after a comma or a quote.
  */
 const NOT_A_PROPER_NOUN = new Set([
-  'Adakah', 'Apa', 'Apabila', 'Bagaimana', 'Bagi', 'Berapa', 'Bila', 'Bolehkah', 'Dalam',
-  'Dan', 'Di', 'Ini', 'Itu', 'Jadi', 'Jika', 'Kalau', 'Ke', 'Kemudian', 'Maksudnya',
-  'Mengikut', 'Nama', 'Namun', 'Pada', 'Perlukah', 'Sebab', 'Selepas', 'Sesuatu', 'Siapa',
-  'Tanpa', 'Tetapi', 'Tidak', 'Untuk', 'Wajibkah', 'Ya', 'Yang',
+  'Adakah',
+  'Apa',
+  'Apabila',
+  'Bagaimana',
+  'Bagi',
+  'Berapa',
+  'Bila',
+  'Bolehkah',
+  'Dalam',
+  'Dan',
+  'Di',
+  'Ini',
+  'Itu',
+  'Jadi',
+  'Jika',
+  'Kalau',
+  'Ke',
+  'Kemudian',
+  'Maksudnya',
+  'Mengikut',
+  'Nama',
+  'Namun',
+  'Pada',
+  'Perlukah',
+  'Sebab',
+  'Selepas',
+  'Sesuatu',
+  'Siapa',
+  'Tanpa',
+  'Tetapi',
+  'Tidak',
+  'Untuk',
+  'Wajibkah',
+  'Ya',
+  'Yang',
 ]);
 
 /** Trailing sentence punctuation that a greedy number match drags in. */
@@ -75,7 +106,8 @@ function tokens(text) {
   const out = new Set();
   // RM figures. The trailing trim matters: `RM4,000.` ending a sentence is
   // `RM4,000`, and without it every sentence-final price reads as unsupported.
-  for (const m of text.matchAll(/RM\s?\d[\d,.]*/gi)) out.add(trimNum(m[0].replace(/\s/g, '').toUpperCase()));
+  for (const m of text.matchAll(/RM\s?\d[\d,.]*/gi))
+    out.add(trimNum(m[0].replace(/\s/g, '').toUpperCase()));
   // Any standalone number of two digits or more (years, sections, counts).
   for (const m of text.matchAll(/(?<![\w.,])\d[\d,.]*\d(?![\w])/g)) out.add(trimNum(m[0]));
   // Capitalised words NOT explained by sentence position.
@@ -146,7 +178,9 @@ for (const file of readdirSync(draftsDir).filter((f) => f.endsWith('.json'))) {
 
   const problems = [];
   if (!Array.isArray(draft.entries) || draft.entries.length < FAQ_MIN_QUESTIONS) {
-    problems.push(`only ${draft.entries?.length ?? 0} entries — the emitter needs ${FAQ_MIN_QUESTIONS}`);
+    problems.push(
+      `only ${draft.entries?.length ?? 0} entries — the emitter needs ${FAQ_MIN_QUESTIONS}`,
+    );
   }
   if (![2, 3].includes(draft.headingLevel)) {
     problems.push(`headingLevel ${draft.headingLevel} is not 2 or 3`);
