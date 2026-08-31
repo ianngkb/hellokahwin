@@ -26,7 +26,7 @@ import {
 } from '@/components/inspire/article-renderer';
 import { extractHeadings } from '@/lib/inspire/heading-anchors';
 import { extractSources } from '@/lib/inspire/article-sources';
-import { ArticleToc } from '@/components/inspire/article-toc';
+import { ArticleToc, hasArticleToc } from '@/components/inspire/article-toc';
 import { buildItemListJsonLd } from '@/lib/inspire/listicle-schema';
 import { buildFaqPageJsonLd } from '@/lib/inspire/faq-schema';
 import type { GalleryImage } from '@/components/inspire/article-renderer';
@@ -757,6 +757,14 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
   // input the body renders, not the raw column.
   const sourceCensus = extractSources(renderContent);
 
+  // Computed once and asked about BEFORE the rail renders. `<ArticleToc>`
+  // returns null below `TOC_MIN_HEADINGS`, but a React element is truthy even
+  // when it renders nothing, so passing it unconditionally leaves an empty
+  // wrapper in the rail's flex column — measured 0px tall and still worth 56px
+  // of `gap` between Rekod and Sumber on the preview build. `hasArticleToc` is
+  // the component's OWN floor, exported rather than re-implemented here.
+  const articleHeadings = extractHeadings(article.content);
+
   const coverGalleryImage: GalleryImage | null = article.coverImageUrl
     ? {
         src: article.coverImageUrl,
@@ -1106,7 +1114,9 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
                  UI-18 merged first (PR #38) and did NOT relocate the list, so
                  the relocation lands here: `showToc={false}` below is what
                  stops the page carrying two. */
-                <ArticleToc headings={extractHeadings(article.content)} variant="rail" />
+                hasArticleToc(articleHeadings) ? (
+                  <ArticleToc headings={articleHeadings} variant="rail" />
+                ) : null
               }
               sources={sourceCensus.sources}
               extra={

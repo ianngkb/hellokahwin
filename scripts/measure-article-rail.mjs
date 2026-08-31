@@ -59,6 +59,11 @@
  *
  * At every width:
  *
+ *   R8  NOT EMPTY — a block that is present but 0px tall is an empty
+ *       wrapper, not a block, and it still costs a `gap` in the rail's flex
+ *       column. Shipped to a preview and caught only because block HEIGHT is
+ *       recorded: a React element is truthy even when it renders nothing.
+ *
  *   R6  ONE MOUNT — each block appears EXACTLY ONCE in the DOM. The article
  *       template shipped two `<h1>`s on 85 of 85 articles (DES-09 G01) by
  *       rendering a mobile block and a desktop block side by side, and the
@@ -190,7 +195,16 @@ function collect() {
   // Counted, not found-first. A responsive layout built as a mobile copy plus
   // a desktop copy renders two of everything and `querySelector` would return
   // the first one and look perfectly healthy.
-  const rekodEls = all('[data-hk-rail-block="rekod"], .s-rekod');
+  // ⚠ OUTERMOST ONLY. `[data-hk-rail-block="rekod"], .s-rekod` counted TWO on
+  // the first preview build and reported `R6-double-mount` on all three
+  // articles — a page defect that did not exist. `RekodPanel` renders
+  // `<div class="s-rekod">` INSIDE the rail's `<div data-hk-rail-block>`, so
+  // the union selector matched one nested pair twice. Same shape as the
+  // `hk-navrail-item` count that returned 10 on a rail with nine links: a
+  // selector that can match an element and its own ancestor is counting the
+  // markup, not the page. Discard any match contained by another.
+  const outermost = (els) => els.filter((el) => !els.some((o) => o !== el && o.contains(el)));
+  const rekodEls = outermost(all('[data-hk-rail-block="rekod"], .s-rekod'));
   const tocEls = all('[data-hk-rail-block="toc"]');
   const sumberEls = all('[data-hk-rail-block="sumber"]');
   const railEls = all('[data-hk-rail]');
@@ -258,6 +272,12 @@ function collect() {
     // `innerWidth` includes the scrollbar gutter and is not the layout
     // viewport. `scripts/measure-nav-overflow.mjs` had this written down on
     // master while a neighbouring item was getting it wrong.
+    // `<h2>`s in the BODY, excluding the contents list's own markup, so the
+    // TOC assertion is made against the page's real section count rather than
+    // against a tolerance.
+    bodyH2: [...(proseEl?.querySelectorAll('h2') ?? [])].filter(
+      (h) => !h.closest('nav.article-toc'),
+    ).length,
     layoutViewport: document.documentElement.clientWidth,
     innerWidth: window.innerWidth,
     counts: {
@@ -357,7 +377,14 @@ async function run() {
 
   // ── verdicts ─────────────────────────────────────────────────────────────
   const fail = [];
+  // Two sinks, deliberately. `note` is a violation and fails the run. `report`
+  // is an observation that must never be silent and must never be fatal — a
+  // finding whose cause is content rather than code. Folding the second into
+  // the first would make this instrument permanently red and therefore
+  // ignored; dropping it would hide the 52 articles that carry no sources.
+  const observed = [];
   const note = (r, code, msg) => fail.push({ url: r.url, width: r.width, code, msg });
+  const observe = (r, code, msg) => observed.push({ url: r.url, width: r.width, code, msg });
 
   for (const r of rows) {
     if (r.error) continue;
@@ -444,7 +471,11 @@ async function run() {
     // anyone having to remember the rule.
     const rel = r.toc_relocation ?? { inRail: 0, anywhere: 0 };
     if (rel.anywhere > 1)
-      note(r, 'R7-toc-duplicated', `${rel.anywhere} article-toc nodes in the DOM (expected 0 or 1)`);
+      note(
+        r,
+        'R7-toc-duplicated',
+        `${rel.anywhere} article-toc nodes in the DOM (expected 0 or 1)`,
+      );
     if (rel.anywhere > rel.inRail)
       note(
         r,
@@ -452,15 +483,57 @@ async function run() {
         `${rel.anywhere - rel.inRail} article-toc outside [data-hk-rail] (UI-18 relocation pending)`,
       );
 
+    // R8 — A BLOCK THAT RENDERS NOTHING IS NOT A BLOCK. Its wrapper still
+    // exists, still matches every presence check above, and still costs a
+    // `gap` in the rail's flex column. The first preview build shipped exactly
+    // that: `toc h0` on mas-kahwin-ikut-negeri at every width, an empty
+    // wrapper worth 56px of dead space between Rekod and Sumber, because
+    // `<ArticleToc>` returns null below its heading floor while the React
+    // ELEMENT holding it stays truthy. Presence was green; the page was wrong.
+    for (const k of ['rekod', 'toc', 'sumber']) {
+      const b = r[k];
+      if (b && b.height === 0)
+        note(r, 'R8-empty-block', `${k} is present but 0px tall — an empty wrapper, not a block`);
+    }
+
     // R3 / R5 — the order, over whichever blocks are present. A missing block
     // is reported as missing and never silently reorders the rest.
     const present = ['rekod', 'toc', 'sumber'].filter((k) => r[k]);
-    const missing = ['rekod', 'toc', 'sumber'].filter((k) => !r[k]);
-    if (missing.length)
+
+    // Each block gets the assertion its data-dependency actually allows, and
+    // none of them is silently skipped.
+    //
+    // `rekod` is unconditional — every article holds a category, an author and
+    // a reviewed date, so an absent Rekod is always a defect.
+    //
+    // `toc` is required exactly when UI-18's floor says so: two or more `<h2>`
+    // in the body. Asserted against the page's own heading count rather than
+    // tolerated, so an article that SHOULD carry a contents list and does not
+    // still fails.
+    //
+    // `sumber` cannot be asserted, and saying so is the honest half of this
+    // check. `articles` has no sources column; the block is built from the
+    // article's own `Sumber:` citations, and measured across all 86 sitemap
+    // articles on 01 Sep 2026, 34 carry one and 52 carry none. On those 52
+    // there is nothing true to put under the heading, and inventing one on a
+    // site whose whole claim is that its numbers carry sources is the worst
+    // outcome available. So its absence is REPORTED with the corpus figure
+    // every time — loud, permanent, impossible to read as "fine" — and does
+    // not fail the run. That is a CONTENT gap owned by the editorial seat, and
+    // this item's DoD is not narrowed by naming it.
+    if (!r.rekod) note(r, 'R3-rekod-missing', 'the Rekod panel is not in the rail');
+    if (!r.toc && r.bodyH2 >= 2)
       note(
         r,
-        'R3-block-missing',
-        `rail blocks absent: ${missing.join(', ')} (present: ${present.join(', ') || 'none'})`,
+        'R3-toc-missing',
+        `no contents list in the rail on an article with ${r.bodyH2} h2 (UI-18's floor is 2)`,
+      );
+    if (!r.sumber)
+      observe(
+        r,
+        'R3-sumber-absent',
+        `no Sumber block — this article carries no "Sumber:" citation. 52 of 86 articles ` +
+          `carry none (measured 01 Sep 2026); a CONTENT gap, not a layout one, never invented`,
       );
     for (let i = 1; i < present.length; i++) {
       const a = r[present[i - 1]];
@@ -537,13 +610,21 @@ async function run() {
       );
   for (const [k, v] of fp) console.log(`  ${k}\n    ${v}`);
 
+  if (observed.length) {
+    console.log(`\n${observed.length} observation(s) — reported, never fatal:`);
+    for (const f of observed)
+      console.log(
+        `  ${f.code.padEnd(28)} ${f.url.replace(/^https?:\/\/[^/]+/, '')} @${f.width}  ${f.msg}`,
+      );
+  }
+
   console.log(`\n${fail.length} violation(s)`);
   for (const f of fail)
     console.log(
       `  ${f.code.padEnd(28)} ${f.url.replace(/^https?:\/\/[^/]+/, '')} @${f.width}  ${f.msg}`,
     );
 
-  if (jsonOut) fs.writeFileSync(jsonOut, JSON.stringify({ rows, fail }, null, 1));
+  if (jsonOut) fs.writeFileSync(jsonOut, JSON.stringify({ rows, fail, observed }, null, 1));
 
   const code = hardError ? 2 : fail.length ? 1 : 0;
   console.log(`RAIL EXIT: ${code}`);
