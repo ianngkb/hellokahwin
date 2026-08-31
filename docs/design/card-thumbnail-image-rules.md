@@ -505,3 +505,46 @@ site is trying not to be in.
 they are legible: one article, one cause, one named file, one costed unblock. A
 gate that reads 5 with a written reason is worth more than a gate that reads 0
 because someone spent 8.2 MB. That is the inversion UI-06 exists to prevent.
+
+---
+
+## 6. CLOSED by DES-18, 01 September 2026 — the 528px rendition exists and ships
+
+Added by the Design Systems Engineer. §4's argument is not amended; it was right,
+and this is the unblock it costed.
+
+**`crop-4x3-article-card-sm` — 528 × 396 WebP, byte ceiling 46,080 B.** Generated
+for every published cover and served to the `.s-row` thumbnail on all three
+surfaces (homepage Terkini, `CategoryRow`, the article page's related list).
+
+**§4's prediction, against what shipped:**
+
+| | §4 predicted | measured on production |
+|---|---|---|
+| the rendition | 528 × 396 q50, 16–34 KB, median 23 KB | q50, **7,636–44,898 B, median 17,664 B** |
+| twelve homepage rows | ≈620 KB → ≈272 KB | **646,824 B → 271,764 B** |
+| the saving | "about 350 KB" | **375,060 B, −58.0%** |
+| count | 86 | **86, then 89 as three articles published mid-run** |
+| `image-aspect` | 5 → 0 | **5 → 0, `UILINT EXIT: 0`** |
+
+The row total lands within 0.3% of §4's estimate. Every one of the twelve rows is
+lighter; there is no row where this costs bytes.
+
+**One thing §4 could not have known.** A fixed q50 does not honour the ceiling on
+the real corpus. `songket-tenunan-tangan-atau-cetak` — handwoven songket, close to
+worst-case entropy for a block encoder — is 47,628 B at q50, over. It ships at q46
+and 44,898 B; the other 85 stay at q50. The ceiling is enforced by a descending
+quality ladder rather than asserted by a constant, because a corpus grows and a
+constant does not.
+
+**The same measurement corrected DES-03 §6.2 at source** (docs line, branch
+`feat/command-centre-dashboard`, commit `f3aa0b2`): its "Measured max" column was
+generated from DES-02's eleven sample photographs, not the site's covers, and the
+480 × 360 row reads "within budget" against a corpus max of 53,606 B. The ceilings
+stand; the confirmation of them did not.
+
+**What did NOT change, deliberately.** The rendition is opted into by slot class,
+not switched on globally. `.s-card` and the article cover figure keep `low`: 528px
+upscales in both, and the article cover is the LCP element on the highest-traffic
+template and wants §5's 1.500 asset in its 3:2 box. `resolveRowThumbSource` is a
+separate function from `resolveCoverSource` for exactly that reason.
