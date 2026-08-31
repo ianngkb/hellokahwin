@@ -34,7 +34,7 @@ images:
     creditUrl: https://commons.wikimedia.org/wiki/File:Majlis_Doa_Selamat_Pernikahan_Diraja_Raja_Muda_Selangor_03.jpg
     licenseClass: S
     licensorName: 'Ahmad Ali Karim'
-    placeAfter: 14
+    placeAfter: 13
   - file: images/S-tetamu-tiba-majlis-ahmad-ali-karim.jpg
     alt: "Tetamu lelaki berbaju melayu dan bersongkok berjalan masuk ke ruang majlis doa selamat, dengan seorang penyambut berdiri di tepi pintu."
     caption: "Tetamu yang mula bersurai adalah isyarat masanya. Doa penutup dibaca sebelum orang bangun, bukan selepas."
@@ -46,7 +46,7 @@ images:
 internalLinks: []
 ---
 
-Doa penutup majlis yang paling kukuh sumbernya ialah kaffarah al-majlis. Jabatan Mufti Wilayah Persekutuan menyatakan amalan membacanya di akhir majlis sabit dengan hadis yang sahih. Teks penuhnya dalam tulisan Arab, rumi dan maksudnya ada di bahagian seterusnya, dan ia pendek — satu ayat, kurang daripada sepuluh saat.
+Doa penutup majlis yang paling kukuh sumbernya ialah kaffarah al-majlis. Jabatan Mufti Wilayah Persekutuan menyatakan amalan membacanya di akhir majlis sabit dengan hadis yang sahih. Teks penuhnya dalam tulisan Arab, rumi dan maksudnya ada di bahagian seterusnya, dan ia pendek: satu ayat, kurang daripada sepuluh saat.
 
 ## Teks penuh doa penutup majlis
 
@@ -70,7 +70,7 @@ Jabatan Mufti Wilayah Persekutuan menulis kesimpulannya begini:
 
 > "Amalan membaca kaffarah al-majlis atau tasbih kaffarah di akhir majlis merupakan amalan yang telah sabit serta dituntut melalui dalil hadis yang sahih."
 
-Perhatikan dua perkataan itu: **sabit** dan **dituntut**. Jadi ia bukan sekadar dibolehkan. Ia amalan yang ada galakannya, dengan sumber yang boleh disemak, dan itu jarang berlaku bagi bacaan-bacaan majlis yang beredar di Malaysia.
+Perhatikan dua perkataan itu: sabit dan dituntut. Ia bukan sekadar dibolehkan, tetapi ada galakannya, dengan sumber yang boleh disemak. Itu jarang berlaku bagi bacaan majlis yang beredar di Malaysia.
 
 ## Surah al-Asr di hujung majlis: amalan sahabat, bukan sunnah Nabi
 
@@ -82,7 +82,7 @@ Jabatan Mufti Wilayah Persekutuan menyemaknya dalam al-Kafi Siri ke-1948, dan ja
 
 Sandarannya ialah riwayat al-Tabrani (5124) daripada Abu Madinah al-Darimi.
 
-Jadi kedudukannya begini, dan dua-dua bahagiannya penting. Membaca surah al-Asr di hujung majlis **bukan** perkara yang dilarang, kerana ia amalan sahabat. Tetapi ia juga **bukan** sunnah yang datang daripada Nabi SAW, dan menyebutnya begitu adalah menyandarkan sesuatu kepada Baginda tanpa dalil.
+Dua-dua bahagiannya penting. Membaca surah al-Asr di hujung majlis tidak dilarang, kerana ia amalan sahabat. Tetapi ia bukan sunnah yang datang daripada Nabi SAW, dan menyebutnya begitu bermakna menyandarkan sesuatu kepada Baginda tanpa dalil.
 
 Kalau anda menulis teks aturcara majlis, bezanya mudah dijaga. Sebut "bacaan surah al-Asr", bukan "sunnah Nabi membaca surah al-Asr".
 
@@ -110,7 +110,7 @@ Untuk susunan doa yang lebih lengkap sepanjang majlis, lihat [doa majlis perkahw
 
 ## Satu perkara yang kerap tersalah letak
 
-Doa *Barakallahu laka* — doa untuk pengantin baru — kadangkala dibaca sebagai doa penutup majlis. Ia bukan doa penutup. Imam al-Nawawi meletakkannya sebagai ucapan tahniah kepada pasangan yang baru berkahwin, dan tempatnya selepas akad nikah.
+Doa *Barakallahu laka*, iaitu doa untuk pengantin baru, kadangkala dibaca sebagai doa penutup majlis. Ia bukan doa penutup. Imam al-Nawawi meletakkannya sebagai ucapan tahniah kepada pasangan yang baru berkahwin, dan tempatnya selepas akad nikah.
 
 Teks penuh dan sumbernya ada dalam [doa pengantin baru](/artikel/ucapan-doa/doa-pengantin-baru).
 

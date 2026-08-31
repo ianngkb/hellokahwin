@@ -29,12 +29,12 @@ cover:
 images:
   - file: images/S-hidangan-kenduri-nasi-ayam-wiki-farazi.jpg
     alt: "Sepinggan nasi putih dengan ayam masak merah, sayur dan hirisan tembikai merah di sebelahnya, di kenduri kahwin di Pendang, Kedah."
-    caption: "Doa sebelum makan dibaca sekali, oleh seorang, dan tetamu mengaminkan. Bukan dibaca beramai-ramai sambil hidangan menyejuk."
+    caption: "Isi doa jamuan yang lazim dibaca itu baik. Yang tidak sabit ialah sandarannya kepada Nabi SAW."
     credit: 'Kredit: Wiki Farazi (CC0)'
     creditUrl: https://commons.wikimedia.org/wiki/File:Kampung_Lang_Merah,_Pendang_20240917_113850.jpg
     licenseClass: S
     licensorName: 'Wiki Farazi'
-    placeAfter: 20
+    placeAfter: 12
   - file: images/S-hidangan-bufet-pulau-pinang-ciksitimelati.jpg
     alt: "Beranda bertiang putih dengan dua barisan meja panjang dan kerusi merah serta hijau di bawah lampu berjuntai, menghadap padang hijau pada waktu senja."
     caption: "Pada majlis bufet yang tetamunya tiba berperingkat, doa jamuan biasanya dibaca sekali di awal majlis."
@@ -42,11 +42,11 @@ images:
     creditUrl: https://commons.wikimedia.org/wiki/File:Buffet_2025.jpg
     licenseClass: S
     licensorName: 'CikSitiMelati'
-    placeAfter: 40
+    placeAfter: 35
 internalLinks: []
 ---
 
-Doa jamuan majlis ada dua: satu sebelum makan, satu selepas. Yang selepas makan bersandarkan hadis daripada Nabi SAW dan tiada pertikaian padanya. Yang sebelum makan lebih rumit, kerana lafaz yang paling ramai hafal di Malaysia dinilai **munkar** oleh Jabatan Mufti Wilayah Persekutuan. Teks penuh kedua-duanya, dan apa yang patut dibaca ganti, ada di bawah.
+Doa jamuan majlis ada dua: satu sebelum makan, satu selepas. Yang selepas makan bersandarkan hadis daripada Nabi SAW dan tiada pertikaian padanya. Yang sebelum makan lebih rumit, kerana lafaz yang paling ramai hafal di Malaysia dinilai munkar oleh Jabatan Mufti Wilayah Persekutuan. Teks penuh kedua-duanya, dan apa yang patut dibaca ganti, ada di bawah.
 
 ## Doa yang kita semua hafal, dan apa gradnya
 
@@ -62,11 +62,11 @@ Jabatan Mufti Wilayah Persekutuan menyemak sanadnya dalam Irsyad al-Hadith Siri 
 
 > "Riwayat yang menyebutkan bahawa doa sebelum makan dengan lafaz (اللَّهُمَّ بَارِكْ لَنَا فِيمَا رَزَقْتَنَا، وَقِنَا عَذَابَ النَّارِ) adalah hadis yang munkar. Ini disebabkan dalam jalur periwayatan hadis tersebut terdapat perawi yang bermasalah seperti Ibn Abi al-Zu'aizi'ah dan Ibn A'bud."
 
-Sekarang bahagian yang selalu tercicir apabila orang memetik fatwa ini, dan tanpanya anda akan tersalah faham. Jabatan itu **tidak** menyuruh kita berhenti membacanya:
+Sekarang bahagian yang selalu tercicir apabila orang memetik fatwa ini, dan tanpanya anda akan tersalah faham. Jabatan itu tidak menyuruh kita berhenti membacanya:
 
 > "Oleh itu, doa ini boleh diamalkan namun tidak boleh beriktikad bahawa lafaz tersebut daripada Nabi SAW."
 
-Jadi kedudukannya jelas dan mudah dipegang. Baca kalau anda mahu — ia doa yang baik isinya, dan memohon keberkatan rezeki bukan perkara yang perlu izin. Yang tidak boleh ialah menyebutnya sebagai "doa sunnah Nabi sebelum makan".
+Kedudukannya jelas dan mudah dipegang. Baca kalau anda mahu, kerana isinya baik dan memohon keberkatan rezeki bukan perkara yang perlu izin. Yang tidak boleh ialah menyebutnya sebagai "doa sunnah Nabi sebelum makan".
 
 Bagi sesiapa yang menulis teks aturcara majlis, itu satu perubahan perkataan sahaja. Tulis "bacaan doa jamuan", bukan "doa makan yang diajar Rasulullah SAW".
 
@@ -74,7 +74,7 @@ Bagi sesiapa yang menulis teks aturcara majlis, itu satu perubahan perkataan sah
 
 Irsyad al-Hadith Siri ke-575 mengemukakan dua lafaz gantian, dan menyatakan sumber setiap satu.
 
-**Yang pertama, diajar oleh Saidina Ali RA**, dikeluarkan oleh Ibn Abi Syaibah dalam *al-Musannaf*:
+Yang pertama diajar oleh Saidina Ali RA, dikeluarkan oleh Ibn Abi Syaibah dalam *al-Musannaf*:
 
 > بِسْمِ اللَّهِ، اللَّهُمَّ بَارِكْ لَنَا فِيمَا رَزَقْتنَا
 
@@ -84,7 +84,7 @@ Irsyad al-Hadith Siri ke-575 mengemukakan dua lafaz gantian, dan menyatakan sumb
 
 Perhatikan apa yang berubah. Ia lafaz yang sama, tanpa bahagian akhir yang bermasalah sanadnya, dan dengan basmalah di hadapan.
 
-**Yang kedua, daripada Nabi SAW**, riwayat al-Tarmizi:
+Yang kedua datang daripada Nabi SAW sendiri, riwayat al-Tarmizi:
 
 > اللَّهُمَّ بَارِكْ لَنَا فِيهِ وَأَطْعِمْنَا خَيْرًا مِنْهُ
 
@@ -112,7 +112,7 @@ Pada kenduri kahwin, doa jamuan biasanya dibaca sekali di awal majlis oleh orang
 
 Pada majlis bufet yang tetamunya tiba berperingkat sepanjang petang, ia tetap dibaca sekali sahaja di awal. Tiada keperluan mengulanginya setiap kali kumpulan baharu masuk.
 
-Yang paling kerap salah ialah masanya. Doa dibaca **sebelum** hidangan dibuka, bukan selepas separuh dewan sudah mula makan. Kalau pengacara majlis tidak diberi aturcara lebih awal, itulah yang biasanya berlaku.
+Yang paling kerap salah ialah masanya. Doa dibaca sebelum hidangan dibuka, bukan selepas separuh dewan sudah mula makan. Kalau pengacara majlis tidak diberi aturcara lebih awal, itulah yang biasanya berlaku.
 
 Susunan penuh bacaan sepanjang majlis ada dalam [doa majlis perkahwinan](/artikel/ucapan-doa/doa-majlis-perkahwinan), dan kedudukannya dalam teks pengacara ada dalam [skrip pengacara majlis perkahwinan](/artikel/ucapan-doa/skrip-pengacara-majlis-perkahwinan). Untuk merancang hidangan itu sendiri, lihat [pakej dewan kahwin](/artikel/venue-perancangan/pakej-dewan-kahwin).
 

@@ -34,7 +34,7 @@ images:
     creditUrl: https://www.pexels.com/photo/smiling-family-at-a-wedding-15430837/
     licenseClass: S
     licensorName: 'mohd hasan'
-    placeAfter: 46
+    placeAfter: 9
   - file: images/S-selepas-akad-raja-abd-kadir.jpg
     alt: "Pengantin lelaki berbaju melayu putih dan bersongkok mencium dahi pengantin perempuan berbaju putih yang duduk di lantai sebaik selesai akad, disaksikan ahli keluarga."
     caption: "Doa Barakallahu laka tempatnya selepas akad nikah, bukan pada setiap ulang tahun. Ia masih boleh dibaca, tetapi sebutlah ia dengan betul."
@@ -42,7 +42,7 @@ images:
     creditUrl: https://commons.wikimedia.org/wiki/File:Kahwin_-_panoramio.jpg
     licenseClass: S
     licensorName: 'raja abd kadir'
-    placeAfter: 62
+    placeAfter: 24
 internalLinks: []
 ---
 
@@ -121,9 +121,9 @@ Riwayatnya daripada Abu Hurairah RA, riwayat Abu Daud (2130).
 
 Dua nota yang perlu dibawa bersama lafaz ini.
 
-**Pertama, kami tidak menyatakan gredannya.** Jabatan Mufti Wilayah Persekutuan menyebutnya sebagai sunnah Rasulullah SAW dan memberi nombor riwayat, tetapi tidak menyatakan gred hadis. Gredan "hasan sahih" yang beredar luas di Internet tidak datang daripada mana-mana pihak berkuasa agama Malaysia, jadi ia tidak kami ulang.
+Pertama, kami tidak menyatakan gred hadisnya. Jabatan Mufti Wilayah Persekutuan menyebutnya sebagai sunnah Rasulullah SAW dan memberi nombor riwayat, tetapi tidak menyatakan gred hadis. Gredan "hasan sahih" yang beredar luas di Internet tidak datang daripada mana-mana pihak berkuasa agama Malaysia, jadi ia tidak kami ulang.
 
-**Kedua, tempatnya selepas akad nikah**, iaitu ucapan tahniah kepada pasangan yang baru berkahwin. Membacanya pada ulang tahun kesepuluh bukan salah, tetapi sebutlah ia dengan betul: ini doa untuk pengantin, dipinjam untuk hari ini.
+Kedua, tempatnya selepas akad nikah, iaitu ucapan tahniah kepada pasangan yang baru berkahwin. Membacanya pada ulang tahun kesepuluh bukan salah, tetapi sebutlah ia dengan betul: ini doa untuk pengantin, dipinjam untuk hari ini.
 
 Teks Arab dan maksudnya di atas diambil terus daripada Irsyad al-Hukum Siri ke-954. Transliterasi rumi disediakan oleh HelloKahwin mengikut *Pedoman Transliterasi Huruf Arab ke Huruf Rumi* terbitan Dewan Bahasa dan Pustaka.
 
@@ -143,19 +143,19 @@ Jabatan itu menamakan gantian yang lebih selamat, iaitu pasangan yang kisahnya s
 
 Sebabnya bukan sekadar soal sanad. Jabatan itu turut membawa hujah al-Qurtubi terhadap "lafaz yang sukar difahami dan perkataan yang bersajak tanpa mempunyai asal dan rujukan".
 
-Jadi kalau anda menulis ucapan atau doa untuk majlis, nasihat praktikalnya satu ayat: pendek, jelas, dan jangan dibuat berirama. Doa yang cuba sedap didengar biasanya berhenti menjadi doa.
+Jadi kalau anda menulis ucapan atau doa untuk majlis, nasihat praktikalnya satu ayat: pendek, jelas, dan jangan dibuat berirama.
 
 ## Menulis ucapan yang tidak bunyi seperti kad kedai
 
 Tiga perkara membezakan ucapan yang dibaca dua kali daripada ucapan yang ditatal lalu.
 
-**Sebut satu perkara khusus.** "Terima kasih kerana tunggu saya balik dari Kuantan setiap Jumaat" lebih bermakna daripada "terima kasih untuk segalanya". Tahun yang baru berlalu ada butirannya; gunakan satu.
+Sebut satu perkara khusus. "Terima kasih kerana tunggu saya balik dari Kuantan setiap Jumaat" lebih bermakna daripada "terima kasih untuk segalanya". Tahun yang baru berlalu ada butirannya, jadi gunakan satu.
 
-**Jangan campur terlalu banyak bahasa.** Ucapan yang bertukar antara Melayu dan Inggeris dalam satu ayat kedengaran seperti kapsyen, bukan seperti orang bercakap.
+Jangan campur terlalu banyak bahasa. Ucapan yang bertukar antara Melayu dan Inggeris dalam satu ayat kedengaran seperti kapsyen, bukan seperti orang bercakap.
 
-**Pendekkan.** Ucapan tiga baris dibaca habis. Ucapan sepuluh baris dibaca separuh.
+Pendekkan. Ucapan tiga baris dibaca habis, ucapan sepuluh baris dibaca separuh.
 
-Untuk ucapan kepada pasangan yang baru berkahwin — bukan ulang tahun — lihat [ucapan pengantin baru](/artikel/ucapan-doa/ucapan-pengantin-baru). Untuk doa yang dibaca pada majlis itu sendiri, lihat [doa pengantin baru](/artikel/ucapan-doa/doa-pengantin-baru).
+Untuk ucapan kepada pasangan yang baru berkahwin, bukan ulang tahun, lihat [ucapan pengantin baru](/artikel/ucapan-doa/ucapan-pengantin-baru). Untuk doa yang dibaca pada majlis itu sendiri, lihat [doa pengantin baru](/artikel/ucapan-doa/doa-pengantin-baru).
 
 ## Soalan lazim
 
