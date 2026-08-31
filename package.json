@@ -32,6 +32,8 @@
     "audit:labels": "node scripts/audit-label-fit.mjs",
     "audit:taps": "node scripts/audit-tap-targets.mjs",
     "perf:hero": "node scripts/measure-hero.mjs",
+    "audit:toc": "node scripts/audit-article-toc.mjs",
+    "audit:toc:selftest": "node scripts/audit-article-toc.mjs --selftest",
     "ui:gate": "node scripts/ui-layout-gate.mjs",
     "ui:gate:fixtures": "node scripts/ui-layout-gate.mjs --fixtures",
     "ui:gate:selftest": "node scripts/ui-layout-gate.mjs --selftest",

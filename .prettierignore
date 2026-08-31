@@ -51,3 +51,13 @@ docs/work-done
 # Reformatting any of it changes what the gate measures — the same reason
 # `docs/work-done` is ignored above, one step earlier in the pipeline.
 tests/ui-layout-gate/fixtures
+
+# `tests/article-toc/fixtures/` is the same thing one gate later: seven captures
+# of a real production article, each differing from `ok-four-h2.html` in exactly
+# ONE feature, which is the only reason the paired self-test in
+# `scripts/audit-article-toc.mjs --selftest` proves the checks discriminate
+# rather than merely fire. Prettier reflows HTML; a reflow that moved a heading
+# out from under its link would turn a green control into a silent second
+# defect. Regenerate them with `node tests/article-toc/fixtures/make-fixtures.mjs`,
+# never by hand and never by formatter.
+tests/article-toc/fixtures

@@ -1,0 +1,181 @@
+base: origin/master = 72f973541b0eb218b23a5f251c97ff186c734bcd
+enumerated: 199 commits, 186 distinct trees
+
+worktree: C:/Users/Ian Ng/orca/workspaces/hellokahwin-site/pillars-ingest-redirects
+  branch=ianng89/pillars-ingest-redirects  head=06a377bdb36afc0e41a562e99403ca0f264c378e  tree=992a69e87a0b6291b56830d11f02654ab1af0b8a
+  SIG1 tip commit in enumerated base commit set : FAIL (hits=0)
+  SIG2 tip tree object in base tree-object set  : FAIL (hits=0)
+  GATE tracked modifications=1  untracked=6
+    MODIFIED  M .claude/settings.local.json
+    UNTRACKED .claude/agents/creative-director.md
+    UNTRACKED .claude/agents/design-systems-engineer.md
+    UNTRACKED .claude/agents/editorial-verification-lead.md
+    UNTRACKED .claude/agents/head-of-seo-content.md
+    UNTRACKED .claude/agents/managing-editor.md
+    UNTRACKED .claude/agents/product-designer.md
+  VERDICT: NOT-PROVEN - LEAVE THIS TREE
+
+worktree: C:/Users/Ian Ng/orca/workspaces/hellokahwin-site/rights01-credits
+  branch=ianng89/rights01-credits  head=0d9deb530a3edd04cdc19c980f13c2874b21c662  tree=05346ea5110411efdd3a07c43c1cfc483900a9e0
+  SIG1 tip commit in enumerated base commit set : PASS (hits=1)
+  SIG2 tip tree object in base tree-object set  : PASS (hits=1)
+  GATE tracked modifications=0  untracked=6
+    UNTRACKED .claude/agents/creative-director.md
+    UNTRACKED .claude/agents/design-systems-engineer.md
+    UNTRACKED .claude/agents/editorial-verification-lead.md
+    UNTRACKED .claude/agents/head-of-seo-content.md
+    UNTRACKED .claude/agents/managing-editor.md
+    UNTRACKED .claude/agents/product-designer.md
+  VERDICT: SHIPPED - safe to remove
+
+worktree: C:/Users/Ian Ng/orca/workspaces/hellokahwin-site/ui-01-ship
+  branch=ship/ui-01-s-row-index  head=105e79d3ec978c76ffc983bd6f9c1e514dd78e02  tree=697ee2e761f01652236419fd6eed9c5659722c4f
+  SIG1 tip commit in enumerated base commit set : PASS (hits=1)
+  SIG2 tip tree object in base tree-object set  : PASS (hits=1)
+  GATE tracked modifications=1  untracked=0
+    MODIFIED  M src/app/(public)/page.tsx
+  VERDICT: NOT-PROVEN - LEAVE THIS TREE
+
+worktree: C:/Users/Ian Ng/orca/workspaces/hellokahwin-site/ui01-srow
+  branch=ianng89/ui01-srow  head=ef1716e217645a3467db60c0e7f16c4a55ec8a69  tree=a54577ddf653ca8fc9ef38d2300dc61841eff922
+  SIG1 tip commit in enumerated base commit set : PASS (hits=1)
+  SIG2 tip tree object in base tree-object set  : PASS (hits=1)
+  GATE tracked modifications=0  untracked=6
+    UNTRACKED .claude/agents/creative-director.md
+    UNTRACKED .claude/agents/design-systems-engineer.md
+    UNTRACKED .claude/agents/editorial-verification-lead.md
+    UNTRACKED .claude/agents/head-of-seo-content.md
+    UNTRACKED .claude/agents/managing-editor.md
+    UNTRACKED .claude/agents/product-designer.md
+  VERDICT: SHIPPED - safe to remove
+
+worktree: C:/Users/Ian Ng/orca/workspaces/hellokahwin-site/ui02-nav
+  branch=ianng89/ui02-nav  head=d934570355dd46c2898e15e022659a0f637275f5  tree=8a110a4e374e22b8a4cd85850929357c1491904c
+  SIG1 tip commit in enumerated base commit set : PASS (hits=1)
+  SIG2 tip tree object in base tree-object set  : PASS (hits=1)
+  GATE tracked modifications=0  untracked=6
+    UNTRACKED .claude/agents/creative-director.md
+    UNTRACKED .claude/agents/design-systems-engineer.md
+    UNTRACKED .claude/agents/editorial-verification-lead.md
+    UNTRACKED .claude/agents/head-of-seo-content.md
+    UNTRACKED .claude/agents/managing-editor.md
+    UNTRACKED .claude/agents/product-designer.md
+  VERDICT: SHIPPED - safe to remove
+
+worktree: C:/Users/Ian Ng/orca/workspaces/hellokahwin-site/ui03-hero
+  branch=ianng89/ui03-hero  head=7a746d2d7082d0eea2166a1353d39fd5fd2e7829  tree=cced373528c00b610cf03c81bd44de2c605d06fb
+  SIG1 tip commit in enumerated base commit set : PASS (hits=1)
+  SIG2 tip tree object in base tree-object set  : PASS (hits=1)
+  GATE tracked modifications=0  untracked=6
+    UNTRACKED .claude/agents/creative-director.md
+    UNTRACKED .claude/agents/design-systems-engineer.md
+    UNTRACKED .claude/agents/editorial-verification-lead.md
+    UNTRACKED .claude/agents/head-of-seo-content.md
+    UNTRACKED .claude/agents/managing-editor.md
+    UNTRACKED .claude/agents/product-designer.md
+  VERDICT: SHIPPED - safe to remove
+
+worktree: C:/Users/Ian Ng/orca/workspaces/hellokahwin-site/ui05-category-images
+  branch=ianng89/ui05-category-images  head=c1632d12559f4f99f54c31eced7917010a9e4794  tree=6cd94753e47d82bb79228c9536aa0f9e0a5c49f9
+  SIG1 tip commit in enumerated base commit set : PASS (hits=1)
+  SIG2 tip tree object in base tree-object set  : PASS (hits=1)
+  GATE tracked modifications=0  untracked=6
+    UNTRACKED .claude/agents/creative-director.md
+    UNTRACKED .claude/agents/design-systems-engineer.md
+    UNTRACKED .claude/agents/editorial-verification-lead.md
+    UNTRACKED .claude/agents/head-of-seo-content.md
+    UNTRACKED .claude/agents/managing-editor.md
+    UNTRACKED .claude/agents/product-designer.md
+  VERDICT: SHIPPED - safe to remove
+
+worktree: C:/Users/Ian Ng/orca/workspaces/hellokahwin-site/ui06-layout-gate
+  branch=ianng89/ui06-layout-gate  head=116990b18aa432d523fc421dc6d1a0b44c8c4db6  tree=8a7d2570be30ecd7b3b1344d43081e114310a63d
+  SIG1 tip commit in enumerated base commit set : PASS (hits=1)
+  SIG2 tip tree object in base tree-object set  : PASS (hits=1)
+  GATE tracked modifications=0  untracked=6
+    UNTRACKED .claude/agents/creative-director.md
+    UNTRACKED .claude/agents/design-systems-engineer.md
+    UNTRACKED .claude/agents/editorial-verification-lead.md
+    UNTRACKED .claude/agents/head-of-seo-content.md
+    UNTRACKED .claude/agents/managing-editor.md
+    UNTRACKED .claude/agents/product-designer.md
+  VERDICT: SHIPPED - safe to remove
+
+worktree: C:/Users/Ian Ng/orca/workspaces/hellokahwin-site/ui07-label-clip
+  branch=ianng89/ui07-label-clip  head=00e726735189de6704eba00f459bb3f9ca5b27a9  tree=8214d341abb5c9339a5188fa59816cb71cd72f47
+  SIG1 tip commit in enumerated base commit set : PASS (hits=1)
+  SIG2 tip tree object in base tree-object set  : PASS (hits=1)
+  GATE tracked modifications=0  untracked=6
+    UNTRACKED .claude/agents/creative-director.md
+    UNTRACKED .claude/agents/design-systems-engineer.md
+    UNTRACKED .claude/agents/editorial-verification-lead.md
+    UNTRACKED .claude/agents/head-of-seo-content.md
+    UNTRACKED .claude/agents/managing-editor.md
+    UNTRACKED .claude/agents/product-designer.md
+  VERDICT: SHIPPED - safe to remove
+
+worktree: C:/Users/Ian Ng/orca/workspaces/hellokahwin-site/ui08-attrib-link
+  branch=ianng89/ui08-attrib-link  head=73ab99bb6009dfeb338014030f58b9c30a0db28f  tree=450feb37b8114aaed57f3baad4b2d35760ee8c1b
+  SIG1 tip commit in enumerated base commit set : PASS (hits=1)
+  SIG2 tip tree object in base tree-object set  : PASS (hits=1)
+  GATE tracked modifications=0  untracked=6
+    UNTRACKED .claude/agents/creative-director.md
+    UNTRACKED .claude/agents/design-systems-engineer.md
+    UNTRACKED .claude/agents/editorial-verification-lead.md
+    UNTRACKED .claude/agents/head-of-seo-content.md
+    UNTRACKED .claude/agents/managing-editor.md
+    UNTRACKED .claude/agents/product-designer.md
+  VERDICT: SHIPPED - safe to remove
+
+worktree: C:/Users/Ian Ng/orca/workspaces/hellokahwin-site/ui09-search-a11y
+  branch=ianng89/ui09-search-a11y  head=8b1ee876fc159e2a52554d21007d8ad901510192  tree=6333c7e241cc80e4b220371c3bb6f32468c7fe4e
+  SIG1 tip commit in enumerated base commit set : PASS (hits=1)
+  SIG2 tip tree object in base tree-object set  : PASS (hits=1)
+  GATE tracked modifications=0  untracked=6
+    UNTRACKED .claude/agents/creative-director.md
+    UNTRACKED .claude/agents/design-systems-engineer.md
+    UNTRACKED .claude/agents/editorial-verification-lead.md
+    UNTRACKED .claude/agents/head-of-seo-content.md
+    UNTRACKED .claude/agents/managing-editor.md
+    UNTRACKED .claude/agents/product-designer.md
+  VERDICT: SHIPPED - safe to remove
+
+worktree: C:/Users/Ian Ng/orca/workspaces/hellokahwin-site/ui10-measure
+  branch=ianng89/ui10-measure  head=fc9769aacc56d05977169fb7c8319210c484483f  tree=0c3e06fb78aee3d9ed0fd6205248e5fcc4ea7201
+  SIG1 tip commit in enumerated base commit set : PASS (hits=1)
+  SIG2 tip tree object in base tree-object set  : PASS (hits=1)
+  GATE tracked modifications=0  untracked=6
+    UNTRACKED .claude/agents/creative-director.md
+    UNTRACKED .claude/agents/design-systems-engineer.md
+    UNTRACKED .claude/agents/editorial-verification-lead.md
+    UNTRACKED .claude/agents/head-of-seo-content.md
+    UNTRACKED .claude/agents/managing-editor.md
+    UNTRACKED .claude/agents/product-designer.md
+  VERDICT: SHIPPED - safe to remove
+
+worktree: C:/Users/Ian Ng/orca/workspaces/hellokahwin-site/ui11-tap-targets
+  branch=ianng89/ui11-tap-targets  head=be0b1f05412c36e50e3b750ec40b1a617f0c2688  tree=c7984a7d7f867b8ec6c505765588f5a2245f53e6
+  SIG1 tip commit in enumerated base commit set : PASS (hits=1)
+  SIG2 tip tree object in base tree-object set  : PASS (hits=1)
+  GATE tracked modifications=0  untracked=6
+    UNTRACKED .claude/agents/creative-director.md
+    UNTRACKED .claude/agents/design-systems-engineer.md
+    UNTRACKED .claude/agents/editorial-verification-lead.md
+    UNTRACKED .claude/agents/head-of-seo-content.md
+    UNTRACKED .claude/agents/managing-editor.md
+    UNTRACKED .claude/agents/product-designer.md
+  VERDICT: SHIPPED - safe to remove
+
+worktree: C:/Users/Ian Ng/orca/workspaces/hellokahwin-site/ui12-thumb-geometry
+  branch=ianng89/ui12-s4c-honesty  head=96403d7d0a5d3c0c7771545f38783dc134e985ed  tree=5a2e16f8adaa8e6719e17d9e17f95cb7f11666f5
+  SIG1 tip commit in enumerated base commit set : PASS (hits=1)
+  SIG2 tip tree object in base tree-object set  : PASS (hits=1)
+  GATE tracked modifications=0  untracked=6
+    UNTRACKED .claude/agents/creative-director.md
+    UNTRACKED .claude/agents/design-systems-engineer.md
+    UNTRACKED .claude/agents/editorial-verification-lead.md
+    UNTRACKED .claude/agents/head-of-seo-content.md
+    UNTRACKED .claude/agents/managing-editor.md
+    UNTRACKED .claude/agents/product-designer.md
+  VERDICT: SHIPPED - safe to remove
+

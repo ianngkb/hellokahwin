@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { extractFaqEntries, buildFaqPageJsonLd, FAQ_MIN_QUESTIONS } from '../faq-schema';
+import {
+  extractFaqEntries,
+  buildFaqPageJsonLd,
+  hasFaqBlockHeading,
+  FAQ_MIN_QUESTIONS,
+} from '../faq-schema';
 
 /**
  * Every fixture below is the shape of a real live article, not an invented one.
@@ -236,5 +241,102 @@ describe('buildFaqPageJsonLd', () => {
 
   it('is null for an article with no block', () => {
     expect(buildFaqPageJsonLd({ content: doc(h(2, 'Ringkasnya'), p('Mula awal.')) })).toBeNull();
+  });
+});
+
+/**
+ * Shape C — SEO-13, 01 September 2026. An article that IS an FAQ and carries no
+ * `Soalan lazim` heading, because it has no non-FAQ part to separate. Shape from
+ * /artikel/hantaran-mas-kahwin/apa-itu-mas-kahwin: eight `<h3>`, seven of them
+ * questions. It emitted nothing for two sprints.
+ */
+const SHAPE_C = doc(
+  p('Mas kahwin ialah pemberian wajib daripada suami kepada isteri.'),
+  h(3, 'Kenapa mas kahwin wajib, dan siapa pemiliknya?'),
+  p('Ia wajib kerana disebut dalam al-Quran, dan pemiliknya isteri.'),
+  h(3, 'Apakah fungsi mas kahwin?'),
+  p('Ia tanda kesungguhan, dan hak yang kekal milik isteri.'),
+  h(3, 'Beza mas kahwin, hantaran dan duit hantaran'),
+  p('Tiga perkara berbeza yang kerap dicampuradukkan.'),
+  h(3, 'Perlukah mas kahwin dalam bentuk wang?'),
+  p('Tidak semestinya. Ia boleh berbentuk barang atau manfaat.'),
+);
+
+describe('an article whose whole body is a Q&A', () => {
+  it('reads every question-shaped heading when there is no Soalan lazim block', () => {
+    const entries = extractFaqEntries(SHAPE_C);
+    expect(entries.map((e) => e.question)).toEqual([
+      'Kenapa mas kahwin wajib, dan siapa pemiliknya?',
+      'Apakah fungsi mas kahwin?',
+      'Perlukah mas kahwin dalam bentuk wang?',
+    ]);
+  });
+
+  it('never attributes a non-question section to the question above it', () => {
+    const entries = extractFaqEntries(SHAPE_C);
+    expect(entries.find((e) => e.answer.includes('Tiga perkara berbeza'))).toBeUndefined();
+  });
+
+  it('leaves an ordinary guide alone — two question H2s among many is not an FAQ', () => {
+    const guide = doc(
+      h(2, 'Borang nikah bukan satu borang'),
+      p('Setiap negeri menerbitkan borangnya sendiri.'),
+      h(2, 'Bila kena hantar?'),
+      p('Tujuh hari sebelum akad di kebanyakan negeri.'),
+      h(2, 'Berapa kena bayar?'),
+      p('Fi berbeza mengikut negeri.'),
+      h(2, 'Dokumen: contoh senarai penuh'),
+      p('Kad pengenalan, surat akuan, gambar.'),
+      h(2, 'Sistem mana yang negeri anda guna'),
+      p('SPPIM di kebanyakan negeri.'),
+      h(2, 'Sumber'),
+      p('Jabatan Agama Islam negeri.'),
+    );
+    expect(extractFaqEntries(guide)).toEqual([]);
+    expect(buildFaqPageJsonLd({ content: guide })).toBeNull();
+  });
+
+  it('does not fire on a narrative feature with no headings at all', () => {
+    const feature = doc(p('Kisah cinta Leeana dan Tim bermula dengan cara yang tidak dijangka.'));
+    expect(extractFaqEntries(feature)).toEqual([]);
+  });
+
+  it('still prefers the Soalan lazim block when the article has one', () => {
+    const entries = extractFaqEntries(SHAPE_A);
+    expect(entries).toHaveLength(3);
+    expect(entries[0].question).toBe('Adakah nisbah hantaran wajib dalam Islam?');
+  });
+});
+
+describe('hasFaqBlockHeading', () => {
+  /**
+   * The literal failing case. `bajet-kahwin` and `checklist-kahwin` both quote
+   * the Jabatan Agama Islam Selangor soalan lazim PAGE as a source, in prose.
+   * A regex over the serialised document called that a block and skipped both
+   * articles in a coverage job.
+   */
+  const citesTheJaisFaqPage = doc(
+    h(2, 'Kursus pra-perkahwinan'),
+    p(
+      'Yuran Kursus Pra Perkahwinan Islam di Selangor ialah RM100 seorang, ',
+      'mengikut soalan lazim rasmi Jabatan Agama Islam Selangor.',
+    ),
+    p('(Sumber: soalan lazim Jabatan Agama Islam Selangor, jais.gov.my, disemak 25 Ogos 2026.)'),
+  );
+
+  it('does not mistake a prose citation of another site FAQ page for a block', () => {
+    expect(/soalan\s+lazim/i.test(JSON.stringify(citesTheJaisFaqPage))).toBe(true);
+    expect(hasFaqBlockHeading(citesTheJaisFaqPage)).toBe(false);
+    expect(buildFaqPageJsonLd({ content: citesTheJaisFaqPage })).toBeNull();
+  });
+
+  it('finds the heading in both live block shapes', () => {
+    expect(hasFaqBlockHeading(SHAPE_A)).toBe(true);
+    expect(hasFaqBlockHeading(SHAPE_B)).toBe(true);
+  });
+
+  it('is false for an article that is a Q&A without a block heading', () => {
+    expect(hasFaqBlockHeading(SHAPE_C)).toBe(false);
+    expect(buildFaqPageJsonLd({ content: SHAPE_C })).not.toBeNull();
   });
 });
