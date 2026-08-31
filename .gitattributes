@@ -6,3 +6,11 @@
 # those hashes would be wrong on someone else's machine — a provenance claim
 # that fails for a reason that has nothing to do with provenance.
 tests/ui-layout-gate/fixtures/** -text
+
+# UI-13. Same reasoning as `scripts/git-hooks/.gitattributes` (RISK-09), which
+# only covers its own directory: this repo has core.autocrlf=true on Windows and
+# no repo-wide rule, so a shell script committed here checks out with CRLF. The
+# UI layout gate runs `scripts/measure/check-h6.sh` on ubuntu-latest, where a
+# shebang ending in CR fails with "bad interpreter" — a blocking gate that is
+# present, executable and cannot run.
+scripts/**/*.sh text eol=lf
