@@ -81,8 +81,9 @@ I am repeating it at the top of this log because the brief was written as though
 the win were live, and an item that ends `0 absent` reads like a win unless
 somebody says otherwise. What was actually bought:
 
-- **Correct, valid structured data on 74 pages**, free per article, still read by
-  non-Google consumers.
+- **Correct, valid structured data on every article that has Q&A** (75 as this is
+  written, and the count is a command precisely so that this sentence does not go
+  stale the way `31` did), free per article, still read by non-Google consumers.
 - **120 new question-and-answer pairs of visible reader-facing content**, sourced
   from the articles' own bodies — which is the part with standing value, and it
   is content value, not schema value.
