@@ -86,3 +86,49 @@ SELECT r2_key FROM media WHERE r2_key LIKE 'inspire/doa-penutup-majlis/%'
 `<loc>` count before this write: **103**, measured 1 September 2026 by
 `curl -s https://hellokahwin.com/sitemap.xml | grep -o "<loc>" | wc -l`.
 Expected after: **109**. The undo returns it to 103.
+
+---
+
+## ADDENDUM, added 1 September 2026 AFTER the write it describes
+
+**This addendum was written after the change it covers, not before, and that is
+stated rather than tidied.** The six inserts above were all covered before the
+first ingest. A seventh production write was then required by
+`editorial-verification-lead`'s binding placement condition on `lafaz akad
+nikah`, and it is an UPDATE to an existing article rather than an insert, which
+the original undo did not contemplate.
+
+### What the seventh write did
+
+One paragraph added to `rukun-nikah`, in the `## 5. Sighah: ijab dan qabul`
+section, linking out to the new `lafaz-akad-nikah` page. Nothing removed, nothing
+reworded, and `published_at` deliberately unchanged (verified after the write:
+`datePublished":"2026-08-25` on the live page, the same value it carried before).
+
+The condition it satisfies: `rukun-nikah` must link out to `lafaz-akad-nikah` and
+must not restate the ijab/qabul wording, or the two pages cannibalise each other.
+The second half was already true and remains true.
+
+### The undo for it
+
+The article's pre-change body is the version in git at
+`docs/plans/aug-23-2026-session-01/drafts/rukun-nikah.md` as of commit `e71b3d9`,
+which is the last commit before the paragraph was added.
+
+```bash
+git show e71b3d9:docs/plans/aug-23-2026-session-01/drafts/rukun-nikah.md \
+  > /tmp/rukun-nikah-before.md
+# then re-ingest that file over the live row:
+pnpm ingest /tmp/rukun-nikah-before.md --db "$PROD" --commit --publish --update \
+  --revalidate-url https://hellokahwin.com
+```
+
+That restores the exact prior body. It is reversible without touching the
+database by hand because the article's source of truth is a file in this repo.
+
+**The added paragraph, verbatim, so a reviewer can see exactly what would go:**
+
+> Rukun ini satu-satunya yang boleh gagal pada hari majlis itu sendiri, kerana ia
+> bergantung pada apa yang disebut. Perkataan yang mesti ada di dalamnya, dan
+> tiga perkara yang orang sangka membatalkan akad tetapi tidak, diterangkan penuh
+> dalam [lafaz akad nikah](/artikel/nikah-undang-undang/lafaz-akad-nikah).
