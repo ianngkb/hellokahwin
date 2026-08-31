@@ -350,6 +350,32 @@ which proves the route builds and renders rather than throwing, and the componen
 itself is asserted by six unit tests on its rendered markup. I have not looked at
 the three specimens with my own eyes, and I am not claiming to have.
 
+### Seven minutes later the corpus was 89, and the rule still held
+
+The best evidence that the number is re-derived and not remembered is that it
+moved again while I was writing this up. Same committed script, same production,
+18:31:48 UTC:
+
+```
+TOCLINT — corpus re-derived from https://hellokahwin.com/sitemap.xml at run time:
+          106 URLs, of which 89 are articles (/artikel/<kategori>/<slug>)
+
+articles measured                       89
+articles with >= 2 h2 (must have a TOC)  68
+articles rendering a TOC                 68
+contents-list labels found              "Dalam artikel ini" x68
+total contents links checked            1026, dangling: 0
+VIOLATIONS: none.
+  79 x 200 MISS sin1 · 10 x 200 HIT sin1
+TOCLINT EXIT: 0
+```
+
+86 → 89 articles and 65 → 68 eligible, in thirty-eight minutes, with no code
+change. Three new articles arrived carrying two or more `<h2>` and each got a
+contents list without anyone touching anything. **That is the difference between
+shipping a fix to two articles and shipping a rule.** The 21 with no contents
+list are the same 21, shape for shape.
+
 ## 7. Not in scope, raised rather than absorbed
 
 **21 of 86 articles carry zero `<h2>`, and 7 of them are a real defect.** Fourteen
