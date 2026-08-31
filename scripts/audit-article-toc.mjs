@@ -1,0 +1,715 @@
+/**
+ * TOCLINT — the in-article contents gate. UI-18, 01 September 2026.
+ *
+ *   pnpm audit:toc                                   # walks https://hellokahwin.com
+ *   pnpm audit:toc --base https://hellokahwin.com
+ *   pnpm audit:toc --url https://hellokahwin.com/artikel/…/…   # one or more pages
+ *   pnpm audit:toc --json
+ *   pnpm audit:toc:selftest                          # paired fixtures, fires AND clears
+ *   pnpm audit:toc --geometry --url <article url>    # measured tap boxes, needs Chrome
+ *
+ * Prints `TOCLINT EXIT: <n>` at the start of a line and exits with that code.
+ *   0  every article obeys the rule
+ *   1  at least one article violates it
+ *   2  the run could not measure what it was pointed at (see PRECONDITION)
+ *
+ * ─────────────────────────────────────────────────────────────────────────────
+ * THE RULE
+ * ─────────────────────────────────────────────────────────────────────────────
+ *
+ * An article renders `nav.article-toc` IF AND ONLY IF its body carries two or
+ * more `<h2>`. Every `href="#…"` in that nav resolves to an element with that
+ * id in the SAME document. Both halves are asserted: a
+ * gate that only checked presence would pass a contents list whose links all
+ * 404 into the page, and a gate that only checked the anchors would pass an
+ * article that has no contents list at all.
+ *
+ * THE FLOOR IS TWO, AND THIS GATE HOLDS IT RATHER THAN FOLLOWING IT.
+ *
+ * The first draft of this script read `TOC_MIN_HEADINGS` out of
+ * `article-toc.tsx` and judged production by whatever it found. That was tidy
+ * and it was wrong: raising the constant back to four would have moved the
+ * gate's own definition of correct with it, and the run would have gone GREEN
+ * on the exact regression this item exists to prevent. A gate that reads its
+ * threshold from the thing it is auditing cannot fail. It was caught by
+ * sabotaging the constant and watching this script stay green — not by reading
+ * it.
+ *
+ * So `DOD_FLOOR` below is UI-18's definition of done, written here as a number
+ * the code cannot renegotiate. The component's constant is still read, but only
+ * to be COMPARED: if the two disagree the run stops at exit 2 and says which
+ * document decides. Narrowing the DoD now requires editing a line that says it
+ * is the DoD.
+ *
+ * ─────────────────────────────────────────────────────────────────────────────
+ * THE CORPUS IS RE-DERIVED, NEVER ASSUMED
+ * ─────────────────────────────────────────────────────────────────────────────
+ *
+ * The brief that commissioned this said "0 of 85". It was 86 the morning it was
+ * written and CONT-13/CONT-16 were adding eight more that week. Any number
+ * baked into a script about a growing corpus is a number that is wrong on a
+ * schedule. `<base>/sitemap.xml` is fetched on every run and the count is
+ * printed in the header of every report.
+ *
+ * ─────────────────────────────────────────────────────────────────────────────
+ * PRECONDITION — exit 2, never a clean run
+ * ─────────────────────────────────────────────────────────────────────────────
+ *
+ * Three items walked into the Vercel SSO login page on one day in Aug 2026,
+ * enumerated ITS elements, found nothing wrong and exited 0. So before a single
+ * article is judged:
+ *
+ *   1. the response is 200,
+ *   2. `<html lang>` is `ms` — every public template sets it; Vercel's login
+ *      page is `en-US`,
+ *   3. the document contains exactly one `.inspire-prose` — the article body.
+ *      A 200 carrying the right markers can still be a shell; a shell has no
+ *      body, and a shell must never read as "no violations".
+ *
+ * Any of those failing is an ERROR for that page and the run exits 2.
+ *
+ * ─────────────────────────────────────────────────────────────────────────────
+ * AN ABSENCE IS ALWAYS REPORTED WITH WHAT IS ACTUALLY THERE
+ * ─────────────────────────────────────────────────────────────────────────────
+ *
+ * The census this item was dispatched from tested the live corpus for the
+ * string `DALAM ARTIKEL INI`, got zero, and concluded the contents list "does
+ * not exist at all". It existed on 63 of 86 articles, labelled `Isi Kandungan`.
+ * Testing for the thing you assume is there can only ever return a number about
+ * your assumption. So this gate never prints a bare zero: every page with no
+ * contents list prints its actual heading census (`h2=0 h3=7 h4=5`) and every
+ * page WITH one prints the label the page actually carries, read out of the DOM
+ * rather than compared against a constant.
+ *
+ * ─────────────────────────────────────────────────────────────────────────────
+ * PROVENANCE
+ * ─────────────────────────────────────────────────────────────────────────────
+ *
+ * A rendered measurement belongs to a BUILD, not to a URL. `x-vercel-id`,
+ * `x-vercel-cache` and `age` are captured per page and summarised at the end.
+ * There is no flag to turn that off.
+ */
+
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { JSDOM } from 'jsdom';
+
+const HERE = path.dirname(fileURLToPath(import.meta.url));
+const REPO = path.resolve(HERE, '..');
+const TOC_SOURCE = path.join(REPO, 'src', 'components', 'inspire', 'article-toc.tsx');
+const FIXTURE_DIR = path.join(REPO, 'tests', 'article-toc', 'fixtures');
+
+const SITE_LANG = 'ms';
+const ARTICLE_URL = /^https?:\/\/[^/]+\/artikel\/[^/]+\/[^/]+$/;
+
+/**
+ * UI-18's definition of done, verbatim: "a generated table of contents renders
+ * on every article carrying TWO OR MORE h2 headings … present on all of them
+ * and absent on the rest". This number is the contract. It is not read from the
+ * component, and it is not a default that the component can override.
+ */
+const DOD_FLOOR = 2;
+
+/**
+ * Read the component's constant — not to obey it, but to check it still agrees
+ * with the DoD. Disagreement is exit 2: the gate has been pointed at a build
+ * whose rule is not the rule it was written to enforce, and a verdict from it
+ * would be about the wrong thing.
+ */
+function readComponentFloor() {
+  const rel = path.relative(REPO, TOC_SOURCE);
+  const src = fs.readFileSync(TOC_SOURCE, 'utf8');
+  const m = src.match(/export const TOC_MIN_HEADINGS\s*=\s*(\d+)/);
+  if (!m) {
+    console.error(
+      `TOCLINT: could not read TOC_MIN_HEADINGS from ${rel}. ` +
+        `The gate refuses to guess it — a floor invented here is a floor nothing enforces.\n` +
+        `TOCLINT EXIT: 2`,
+    );
+    process.exit(2);
+  }
+  const found = Number(m[1]);
+  if (found !== DOD_FLOOR) {
+    console.error(
+      `TOCLINT: FLOOR MISMATCH. ${rel} sets TOC_MIN_HEADINGS = ${found}; UI-18's definition of\n` +
+        `done fixes it at ${DOD_FLOOR} ("every article carrying two or more h2 headings").\n` +
+        `\n` +
+        `This is not a bug in the gate. Judging production by ${found} would make this script\n` +
+        `agree with whatever the component happens to say, which is how a gate that cannot\n` +
+        `fail gets written. If the floor is genuinely meant to move, the DoD moves first —\n` +
+        `bring it back to the CEO, then change DOD_FLOOR here in the same commit.\n` +
+        `TOCLINT EXIT: 2`,
+    );
+    process.exit(2);
+  }
+  return found;
+}
+
+// ── argv ─────────────────────────────────────────────────────────────────────
+
+const argv = process.argv.slice(2);
+const flag = (name) => argv.includes(`--${name}`);
+const value = (name, fallback) => {
+  const i = argv.indexOf(`--${name}`);
+  return i >= 0 && argv[i + 1] ? argv[i + 1] : fallback;
+};
+const values = (name) =>
+  argv.reduce((out, a, i) => (a === `--${name}` && argv[i + 1] ? [...out, argv[i + 1]] : out), []);
+
+const BASE = (value('base', 'https://hellokahwin.com') || '').replace(/\/$/, '');
+const AS_JSON = flag('json');
+const CONCURRENCY = Number(value('concurrency', '6'));
+const BYPASS = process.env.VERCEL_PROTECTION_BYPASS || '';
+
+// ── the analysis, on a parsed document ───────────────────────────────────────
+
+/**
+ * Judge one article document. Pure: takes HTML, returns a verdict. The live
+ * walk and the self-test fixtures both go through this, so a fixture proves
+ * something about the code that runs against production rather than about a
+ * second implementation of it.
+ */
+export function judgeArticle(html, { min, url = '(fixture)' }) {
+  const dom = new JSDOM(html);
+  const doc = dom.window.document;
+  const out = { url, errors: [], violations: [] };
+
+  const lang = doc.documentElement.getAttribute('lang');
+  if (lang !== SITE_LANG) {
+    out.errors.push(`NOT THIS SITE — <html lang="${lang}">, expected "${SITE_LANG}"`);
+    return out;
+  }
+
+  const proses = doc.querySelectorAll('.inspire-prose');
+  if (proses.length !== 1) {
+    out.errors.push(
+      `NOT AN ARTICLE BODY — found ${proses.length} .inspire-prose, expected exactly 1. ` +
+        `A 200 with no body is a shell, not a clean page.`,
+    );
+    return out;
+  }
+  const prose = proses[0];
+
+  // Every heading in the body, EXCLUDING the contents list's own markup. The
+  // TOC contains no headings today; the filter is here so that stays true if it
+  // ever grows one, rather than silently inflating the count it is judged by.
+  const bodyHeadings = [...prose.querySelectorAll('h1,h2,h3,h4,h5,h6')].filter(
+    (h) => !h.closest('nav.article-toc'),
+  );
+  const census = {};
+  for (const h of bodyHeadings) {
+    const t = h.tagName.toLowerCase();
+    census[t] = (census[t] || 0) + 1;
+  }
+  out.census = census;
+  out.h2 = census.h2 || 0;
+
+  const tocs = prose.querySelectorAll('nav.article-toc');
+  out.tocCount = tocs.length;
+  out.expectToc = out.h2 >= min;
+
+  if (tocs.length > 1) {
+    out.violations.push(`${tocs.length} contents lists in one body; expected at most 1`);
+  }
+
+  if (out.expectToc && tocs.length === 0) {
+    out.violations.push(
+      `MISSING contents list on an article with h2=${out.h2} (floor ${min}). ` +
+        `Headings actually present: ${describeCensus(census)}`,
+    );
+  }
+  if (!out.expectToc && tocs.length > 0) {
+    out.violations.push(
+      `UNEXPECTED contents list on an article with h2=${out.h2} (floor ${min}). ` +
+        `Headings actually present: ${describeCensus(census)}`,
+    );
+  }
+
+  const toc = tocs[0];
+  if (toc) {
+    // The label is read OUT of the page rather than compared against a string
+    // this file holds. What the gate asserts is that the label is not empty;
+    // what it REPORTS is the text, so a rename shows up in the report as a
+    // changed value instead of as a zero nobody can interpret.
+    const labelEl = toc.querySelector('.hk-eyebrow');
+    out.label = labelEl ? labelEl.textContent.trim() : null;
+    out.ariaLabel = toc.getAttribute('aria-label');
+    if (!out.label) out.violations.push('contents list has no visible label');
+
+    const links = [...toc.querySelectorAll('a[href]')];
+    out.links = links.length;
+    if (links.length === 0) out.violations.push('contents list renders no links');
+
+    const dangling = [];
+    const seen = new Set();
+    for (const a of links) {
+      const href = a.getAttribute('href') || '';
+      if (!href.startsWith('#')) {
+        out.violations.push(`contents entry links off-page: ${href}`);
+        continue;
+      }
+      const id = decodeURIComponent(href.slice(1));
+      if (!id) {
+        out.violations.push('contents entry links to a bare "#"');
+        continue;
+      }
+      if (seen.has(id)) out.violations.push(`contents lists #${id} twice`);
+      seen.add(id);
+      // getElementById, not [id="…"] — the resolution the browser performs when
+      // the reader clicks, on the SAME document that served the link.
+      const target = doc.getElementById(id);
+      if (!target) dangling.push(id);
+      else if (!prose.contains(target)) {
+        out.violations.push(`#${id} resolves outside the article body (${target.tagName})`);
+      }
+    }
+    if (dangling.length) {
+      out.violations.push(
+        `${dangling.length} contents link(s) resolve to no id in this document: ` +
+          dangling.map((d) => `#${d}`).join(', ') +
+          `. Ids that DO exist in the body: ` +
+          (bodyHeadings
+            .filter((h) => h.id)
+            .map((h) => `#${h.id}`)
+            .join(', ') || '(none)'),
+      );
+    }
+    out.dangling = dangling.length;
+
+    // Every top-level entry should correspond to an h2 the body carries. Not a
+    // hard violation on its own — an h2 with unsluggable text is legitimate —
+    // but reported, because a silent divergence between the two walks of the
+    // document is the exact failure `heading-anchors.ts` was written to prevent.
+    const topLinks = [...toc.querySelectorAll(':scope > ol > li > a')].length;
+    out.topLevelEntries = topLinks;
+    if (topLinks !== out.h2) {
+      out.violations.push(
+        `contents list has ${topLinks} top-level entr${topLinks === 1 ? 'y' : 'ies'} ` +
+          `but the body has ${out.h2} h2`,
+      );
+    }
+  }
+
+  return out;
+}
+
+function describeCensus(c) {
+  const keys = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].filter((k) => c[k]);
+  return keys.length ? keys.map((k) => `${k}=${c[k]}`).join(' ') : 'none';
+}
+
+// ── the live walk ────────────────────────────────────────────────────────────
+
+async function fetchPage(url) {
+  // The header ALONE. `x-vercel-set-bypass-cookie` makes the edge answer with a
+  // Set-Cookie redirect that undici follows straight into `redirect count
+  // exceeded` — measured here on 01 Sept 2026, twice, on both fetch paths.
+  const headers = BYPASS ? { 'x-vercel-protection-bypass': BYPASS } : {};
+  const r = await fetch(url, { headers, redirect: 'follow' });
+  const html = await r.text();
+  return {
+    status: r.status,
+    finalUrl: r.url,
+    html,
+    provenance: {
+      status: r.status,
+      vercelId: r.headers.get('x-vercel-id'),
+      cache: r.headers.get('x-vercel-cache'),
+      age: r.headers.get('age'),
+    },
+  };
+}
+
+/**
+ * Derive the corpus. Three things here were wrong in the first version and each
+ * of them produced a REASSURING result, which is why they are all spelled out.
+ *
+ * 1. THE BYPASS HEADER GOES ON THIS REQUEST TOO. Without it, a preview's
+ *    `/sitemap.xml` returns **HTTP 200** — from vercel.com's login page. Zero
+ *    `<loc>` elements, zero articles, and the whole run then reported
+ *    `VIOLATIONS: none. TOCLINT EXIT: 0` over a corpus of nothing. Measured on
+ *    this item's own preview, 01 Sept 2026, after the same trap had already
+ *    cost three items in August.
+ *
+ * 2. AN EMPTY CORPUS IS EXIT 2. "No article breaks the rule" and "I found no
+ *    articles" print the same line and mean opposite things.
+ *
+ * 3. THE SITEMAP'S URLs ARE NOT THE BASE'S URLs. `sitemap.ts` emits absolute
+ *    production URLs, so a preview's sitemap lists `https://hellokahwin.com/…`
+ *    — pointing this at a preview and walking those links would measure
+ *    PRODUCTION and report it as the preview's verdict. Every URL is rehosted
+ *    onto `--base`, and the rehosting is printed rather than done quietly.
+ */
+async function articleUrlsFromSitemap(base) {
+  // The header ALONE. `x-vercel-set-bypass-cookie` makes the edge answer with a
+  // Set-Cookie redirect that undici follows straight into `redirect count
+  // exceeded` — measured here on 01 Sept 2026, twice, on both fetch paths.
+  const headers = BYPASS ? { 'x-vercel-protection-bypass': BYPASS } : {};
+  const r = await fetch(`${base}/sitemap.xml`, { headers });
+  if (!r.ok) {
+    console.error(
+      `TOCLINT: ${base}/sitemap.xml returned ${r.status}. Cannot derive the corpus.\n` +
+        `TOCLINT EXIT: 2`,
+    );
+    process.exit(2);
+  }
+  const xml = await r.text();
+  const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].trim());
+  const baseOrigin = new URL(base).origin;
+  const rehosted = [];
+  const articles = [];
+  for (const loc of locs) {
+    if (!ARTICLE_URL.test(loc)) continue;
+    const u = new URL(loc);
+    if (u.origin !== baseOrigin) {
+      rehosted.push(u.origin);
+      articles.push(`${baseOrigin}${u.pathname}`);
+    } else {
+      articles.push(loc);
+    }
+  }
+  if (locs.length === 0 || articles.length === 0) {
+    console.error(
+      `TOCLINT: ${base}/sitemap.xml parsed to ${locs.length} URL(s) and ${articles.length} ` +
+        `article(s).\n` +
+        `An empty corpus is NOT a clean run. HTTP ${r.status} here means very little on its\n` +
+        `own — a Vercel preview behind SSO answers 200 with a login page, which is exactly\n` +
+        `how this check first reported "VIOLATIONS: none" over nothing at all. If this is a\n` +
+        `preview, pass VERCEL_PROTECTION_BYPASS (vault key vercelbypass.hellokahwin).\n` +
+        `TOCLINT EXIT: 2`,
+    );
+    process.exit(2);
+  }
+  if (rehosted.length) {
+    console.log(
+      `TOCLINT — ${rehosted.length} sitemap URL(s) rehosted from ` +
+        `${[...new Set(rehosted)].join(', ')} onto ${baseOrigin}: sitemap.ts emits absolute\n` +
+        `          production URLs, so walking them verbatim would have measured production ` +
+        `and called it ${baseOrigin}.`,
+    );
+  }
+  return { total: locs.length, articles };
+}
+
+async function runLive(min) {
+  const explicit = values('url');
+  let sitemapTotal = null;
+  let urls;
+  if (explicit.length) {
+    urls = explicit;
+    console.log(`TOCLINT — ${urls.length} URL(s) given explicitly, corpus not walked`);
+  } else {
+    const found = await articleUrlsFromSitemap(BASE);
+    sitemapTotal = found.total;
+    urls = found.articles;
+    console.log(
+      `TOCLINT — corpus re-derived from ${BASE}/sitemap.xml at run time: ` +
+        `${found.total} URLs, of which ${urls.length} are articles (/artikel/<kategori>/<slug>)`,
+    );
+  }
+  console.log(
+    `TOCLINT — floor ${min}, fixed here by UI-18's definition of done and confirmed to ` +
+      `match TOC_MIN_HEADINGS in src/components/inspire/article-toc.tsx\n`,
+  );
+
+  const results = [];
+  let next = 0;
+  async function worker() {
+    while (next < urls.length) {
+      const url = urls[next++];
+      try {
+        const page = await fetchPage(url);
+        if (page.status !== 200) {
+          results.push({
+            url,
+            errors: [`HTTP ${page.status}`],
+            violations: [],
+            provenance: page.provenance,
+          });
+          continue;
+        }
+        if (new URL(page.finalUrl).origin !== new URL(url).origin) {
+          results.push({
+            url,
+            errors: [`NOT THIS SITE — redirected to ${page.finalUrl}`],
+            violations: [],
+            provenance: page.provenance,
+          });
+          continue;
+        }
+        const verdict = judgeArticle(page.html, { min, url });
+        verdict.provenance = page.provenance;
+        results.push(verdict);
+      } catch (e) {
+        results.push({ url, errors: [`fetch failed: ${e.message}`], violations: [] });
+      }
+    }
+  }
+  await Promise.all(Array.from({ length: Math.max(1, CONCURRENCY) }, worker));
+  results.sort((a, b) => a.url.localeCompare(b.url));
+
+  const errored = results.filter((r) => r.errors.length);
+  const measured = results.filter((r) => !r.errors.length);
+  const withToc = measured.filter((r) => r.tocCount > 0);
+  const expected = measured.filter((r) => r.expectToc);
+  const failing = measured.filter((r) => r.violations.length);
+
+  // Enumerate, always. The label is printed as read; the heading census is
+  // printed for every page with no contents list. Neither is a bare number.
+  const labels = new Map();
+  for (const r of withToc) labels.set(r.label, (labels.get(r.label) || 0) + 1);
+
+  console.log(`articles measured                     ${measured.length}`);
+  console.log(`articles with >= ${min} h2 (must have a TOC) ${expected.length}`);
+  console.log(`articles rendering a TOC              ${withToc.length}`);
+  console.log(
+    `contents-list labels found            ` +
+      ([...labels].map(([l, n]) => `"${l}" x${n}`).join(', ') || '(none)'),
+  );
+  console.log(
+    `total contents links checked          ` +
+      withToc.reduce((n, r) => n + (r.links || 0), 0) +
+      `, dangling: ` +
+      withToc.reduce((n, r) => n + (r.dangling || 0), 0),
+  );
+
+  const noToc = measured.filter((r) => r.tocCount === 0);
+  console.log(`\narticles with NO contents list (${noToc.length}) — what IS on them:`);
+  const shapes = new Map();
+  for (const r of noToc) {
+    const k = describeCensus(r.census);
+    shapes.set(k, (shapes.get(k) || 0) + 1);
+  }
+  for (const [k, n] of [...shapes].sort((a, b) => b[1] - a[1])) console.log(`  ${n} x  ${k}`);
+
+  if (errored.length) {
+    console.log(`\nERRORS (${errored.length}) — these are not clean pages:`);
+    for (const r of errored) console.log(`  ${r.url}\n    ${r.errors.join('\n    ')}`);
+  }
+  if (failing.length) {
+    console.log(`\nVIOLATIONS (${failing.length} article(s)):`);
+    for (const r of failing) console.log(`  ${r.url}\n    ${r.violations.join('\n    ')}`);
+  } else {
+    console.log(`\nVIOLATIONS: none.`);
+  }
+
+  const prov = new Map();
+  for (const r of results) {
+    if (!r.provenance) continue;
+    const k = `${r.provenance.status} ${r.provenance.cache ?? '-'} ${(r.provenance.vercelId ?? '').split('::')[0]}`;
+    prov.set(k, (prov.get(k) || 0) + 1);
+  }
+  console.log(`\nbuild fingerprint (status / x-vercel-cache / x-vercel-id region):`);
+  for (const [k, n] of prov) console.log(`  ${n} x  ${k}`);
+  console.log(`  measured at ${new Date().toISOString()}`);
+
+  if (AS_JSON) console.log('\nJSON ' + JSON.stringify({ sitemapTotal, min, results }));
+
+  // The same guard the sitemap walk carries, restated for `--url` runs: a run
+  // that judged nothing has said nothing, and must not exit 0 saying it.
+  if (measured.length === 0) {
+    console.log(
+      `\nNOTHING MEASURED — 0 article bodies were judged. That is a statement about this run,\n` +
+        `not about the site. Read the ERRORS above before reading "VIOLATIONS: none".`,
+    );
+    console.log(`\nTOCLINT EXIT: 2`);
+    process.exit(2);
+  }
+
+  const code = errored.length ? 2 : failing.length ? 1 : 0;
+  console.log(`\nTOCLINT EXIT: ${code}`);
+  process.exit(code);
+}
+
+// ── the self-test ────────────────────────────────────────────────────────────
+
+/**
+ * PAIRED assertions. A check seen only failing is half-proven, and the missing
+ * half is the one that decides whether anyone can use it: a gate that flags
+ * everything fails on a known-bad input and looks identical in the log.
+ *
+ * Each pair below differs in EXACTLY ONE thing. `good` must come back clean;
+ * `bad` must come back dirty, and dirty for the stated reason and no other.
+ */
+function fixture(name) {
+  return fs.readFileSync(path.join(FIXTURE_DIR, name), 'utf8');
+}
+
+async function runSelftest(min) {
+  const cases = [
+    // [file, expect: 'clean' | 'violation' | 'error', substring the message must contain]
+    ['ok-four-h2.html', 'clean', null, 'four h2 and a matching contents list'],
+    [
+      'ok-below-floor-no-toc.html',
+      'clean',
+      null,
+      'one h2 and NO contents list — the absent branch',
+    ],
+    [
+      'bad-missing-toc.html',
+      'violation',
+      'MISSING contents list',
+      'four h2, contents list removed',
+    ],
+    [
+      'bad-toc-below-floor.html',
+      'violation',
+      'UNEXPECTED contents list',
+      'one h2 with a contents list',
+    ],
+    [
+      'bad-dangling-anchor.html',
+      'violation',
+      'resolve to no id in this document',
+      'one href pointing at an id nothing carries',
+    ],
+    ['bad-empty-shell.html', 'error', 'NOT AN ARTICLE BODY', 'a 200 with no article body'],
+    ['bad-wrong-site.html', 'error', 'NOT THIS SITE', 'the Vercel SSO login page'],
+  ];
+
+  let failed = 0;
+  console.log(`TOCLINT SELFTEST — floor ${min}, ${cases.length} paired cases\n`);
+  for (const [file, expect, needle, why] of cases) {
+    const v = judgeArticle(fixture(file), { min, url: file });
+    const got = v.errors.length ? 'error' : v.violations.length ? 'violation' : 'clean';
+    const msgs = [...v.errors, ...v.violations].join(' | ');
+    let ok = got === expect;
+    if (ok && needle) ok = msgs.includes(needle);
+    if (ok && expect === 'clean') ok = msgs === '';
+    if (!ok) failed++;
+    console.log(
+      `  ${ok ? 'PASS' : 'FAIL'}  ${file.padEnd(28)} expected ${expect.padEnd(9)} got ${got.padEnd(9)} — ${why}`,
+    );
+    if (!ok || process.env.TOCLINT_VERBOSE) console.log(`        ${msgs || '(no messages)'}`);
+  }
+
+  // The floor itself is paired: the SAME document is clean at floor 4 and dirty
+  // at floor 2. Without this, "the gate reads the constant" is an assertion
+  // about a regex, not about behaviour.
+  const threeH2 = fixture('ok-below-floor-no-toc.html');
+  const a = judgeArticle(threeH2, { min: 2, url: 'floor-2' });
+  const b = judgeArticle(threeH2, { min: 1, url: 'floor-1' });
+  const floorOk = a.violations.length === 0 && b.violations.length === 1;
+  if (!floorOk) failed++;
+  console.log(
+    `  ${floorOk ? 'PASS' : 'FAIL'}  ${'(floor sensitivity)'.padEnd(28)} ` +
+      `same doc: floor 2 -> ${a.violations.length} violation(s), floor 1 -> ${b.violations.length}`,
+  );
+
+  const code = failed ? 1 : 0;
+  console.log(`\n${failed} of ${cases.length + 1} case(s) failed`);
+  console.log(`TOCLINT EXIT: ${code}`);
+  process.exit(code);
+}
+
+// ── the geometry mode (tap targets, UI-11's 24px floor) ──────────────────────
+
+/**
+ * `min-height: 24px` in a stylesheet is an intention. The box that matters is
+ * `getBoundingClientRect()` on the anchor itself — vertical padding on a
+ * `display:inline` box moves the paint and not the measurement, which is how a
+ * padded link still measures 15.4px. So this mode loads real pages in real
+ * Chrome and reads the real boxes.
+ */
+async function runGeometry() {
+  const { chromium } = await import('playwright-core');
+  const CHROME =
+    process.env.UI_GATE_CHROME ??
+    (process.platform === 'win32'
+      ? 'C:/Program Files/Google/Chrome/Application/chrome.exe'
+      : '/usr/bin/google-chrome');
+  const TAP_MIN = Number(value('tap-min', '24'));
+  const widths = (value('widths', '390,1440') || '').split(',').map(Number);
+  let urls = values('url');
+  if (!urls.length) {
+    const found = await articleUrlsFromSitemap(BASE);
+    urls = found.articles.slice(0, 3);
+    console.log(`TOCLINT GEOMETRY — no --url given; taking 3 of ${found.articles.length} articles`);
+  }
+
+  const browser = await chromium.launch({ executablePath: CHROME, headless: true });
+  let failures = 0;
+  let measured = 0;
+  let blocked = 0;
+  for (const url of urls) {
+    for (const width of widths) {
+      const ctx = await browser.newContext({
+        viewport: { width, height: 900 },
+        deviceScaleFactor: 1,
+        isMobile: width < 768,
+        extraHTTPHeaders: BYPASS ? { 'x-vercel-protection-bypass': BYPASS } : {},
+      });
+      const page = await ctx.newPage();
+      const resp = await page.goto(url, { waitUntil: 'networkidle', timeout: 60000 });
+      // A webfont changes every advance width on the page; read no geometry
+      // before the faces have settled.
+      await page.evaluate(() => document.fonts.ready);
+      const guard = await page.evaluate(() => ({
+        origin: location.origin,
+        lang: document.documentElement.lang,
+      }));
+      if (guard.origin !== new URL(url).origin || guard.lang !== SITE_LANG) {
+        console.log(`  BLOCKED ${url} @${width} — origin ${guard.origin} lang ${guard.lang}`);
+        blocked++;
+        await ctx.close();
+        continue;
+      }
+      const rows = await page.evaluate(() => {
+        const out = [];
+        for (const a of document.querySelectorAll('nav.article-toc a')) {
+          const r = a.getBoundingClientRect();
+          out.push({
+            text: a.textContent.trim().slice(0, 48),
+            href: a.getAttribute('href'),
+            w: Math.round(r.width * 10) / 10,
+            h: Math.round(r.height * 10) / 10,
+            display: getComputedStyle(a).display,
+          });
+        }
+        return {
+          layoutWidth: document.documentElement.clientWidth,
+          tocs: document.querySelectorAll('nav.article-toc').length,
+          out,
+        };
+      });
+      const bad = rows.out.filter((r) => r.h < TAP_MIN);
+      failures += bad.length;
+      measured += rows.out.length;
+      const h = rows.out.map((r) => r.h);
+      console.log(
+        `  ${url} @${width} (layout ${rows.layoutWidth}) — toc=${rows.tocs} ` +
+          `anchors=${rows.out.length} height min=${h.length ? Math.min(...h) : '-'} ` +
+          `max=${h.length ? Math.max(...h) : '-'} display=${[...new Set(rows.out.map((r) => r.display))].join('/') || '-'} ` +
+          `under ${TAP_MIN}px: ${bad.length}` +
+          (resp ? ` [${resp.status()} ${resp.headers()['x-vercel-cache'] ?? '-'}]` : ''),
+      );
+      for (const b of bad) console.log(`      ${b.h}px  ${b.href}  ${b.text}`);
+      await ctx.close();
+    }
+  }
+  await browser.close();
+  console.log(`\n${measured} contents anchor(s) measured, ${failures} under ${TAP_MIN}px`);
+  // A ZERO IS A CLAIM ABOUT THE RIG, NOT ABOUT THE PAGE. "0 targets under 24px"
+  // and "I never found a contents list" print the same reassuring line and mean
+  // opposite things. Measuring nothing is exit 2, never a pass.
+  if (!measured) {
+    console.log(
+      `NOTHING MEASURED — no nav.article-toc anchor was found on any URL given. That is a\n` +
+        `statement about this run, not a clean bill of health. Point it at an article with\n` +
+        `two or more h2 (\`pnpm audit:toc\` lists which ones those are).`,
+    );
+    console.log(`TOCLINT EXIT: 2`);
+    process.exit(2);
+  }
+  const code = blocked ? 2 : failures ? 1 : 0;
+  console.log(`TOCLINT EXIT: ${code}`);
+  process.exit(code);
+}
+
+// ── entry ────────────────────────────────────────────────────────────────────
+
+const MIN = readComponentFloor();
+if (flag('selftest')) await runSelftest(MIN);
+else if (flag('geometry')) await runGeometry();
+else await runLive(MIN);

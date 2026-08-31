@@ -1,0 +1,204 @@
+name: Article TOC gate
+
+# TOCLINT — the in-article contents gate. See `scripts/audit-article-toc.mjs`
+# for the rule, the precondition and the reasoning behind each message.
+#
+# WHY THIS EXISTS. UI-18 was dispatched on a census that fetched all 85 live
+# articles, searched them for the string `DALAM ARTIKEL INI`, found zero, and
+# concluded that the in-article contents list "does not exist at all". It
+# existed on 63 of 86 — labelled `Isi Kandungan`, because `.hk-eyebrow`
+# uppercases and the source is mixed case, exactly as `REKOD` and `SUMBER` are.
+# The string test was answering a question about the searcher's assumption.
+#
+# So this gate never tests for a string. It parses the DOM, asserts a
+# RELATIONSHIP — a contents list exists if and only if the body carries two or
+# more `<h2>` — resolves every `href="#…"` against the document that served it,
+# and prints the heading census of every article it finds without one. An
+# absence here always arrives with what IS there beside it.
+#
+# TWO JOBS, ON PURPOSE — the shape `ui-layout-gate.yml` settled on:
+#
+#   selftest    Blocking, on every push and PR. Fully hermetic: seven committed
+#               captures of one real article, each differing from the green
+#               control in exactly ONE feature, plus the floor-mismatch guard.
+#               It checks the GATE, not the site. A gate nobody has watched fail
+#               is not a gate, and one that has quietly started passing
+#               everything looks exactly like a healthy one.
+#
+#   production  Scheduled and manual, never blocking a PR. Walks the live
+#               sitemap — the corpus is re-derived every run, never assumed, and
+#               it grew from 85 to 86 during the day this item was built — and
+#               files a loud issue when an article breaks the rule. Not a
+#               required check: a red gate for a defect no open PR touches stops
+#               the work that would fix it.
+#
+# A scheduled workflow only runs from the repository's DEFAULT branch. On a
+# feature branch this file is decorative. Confirm with `gh workflow list` after
+# merging.
+#
+# `jsdom` is already a devDependency (vitest runs on it), so this job needs no
+# browser and no extra install for the blocking half.
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  schedule:
+    # 01:37 UTC daily = 09:37 MYT. Half an hour after the layout gate, so the
+    # two do not file overlapping issues about the same bad deploy.
+    - cron: '37 1 * * *'
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: 'Base URL to walk (defaults to production)'
+        required: false
+        default: 'https://hellokahwin.com'
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  selftest:
+    name: TOC gate self-test (blocking)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - run: pnpm install --frozen-lockfile
+
+      # `set -o pipefail` is load-bearing, not tidiness. Without it the step's
+      # exit status is `tee`'s, which is always 0 — which is how the UI layout
+      # gate's own first run reported SUCCESS while printing `UILINT EXIT: 1`.
+      - name: Does the gate fire on each defect and clear on its partner?
+        shell: bash
+        run: |
+          set -o pipefail
+          node scripts/audit-article-toc.mjs --selftest | tee toc-selftest.log
+
+      # The floor guard, exercised rather than asserted. UI-18's DoD fixes the
+      # contents list at two headings; the first draft of the gate READ that
+      # number out of the component it was auditing, which made it incapable of
+      # noticing the floor being raised back to four. This step raises it, in a
+      # scratch copy, and requires the gate to refuse the run.
+      - name: Does the gate refuse a build whose floor is not the DoD's?
+        shell: bash
+        run: |
+          set -o pipefail
+          cp src/components/inspire/article-toc.tsx /tmp/article-toc.bak
+          sed -i 's/TOC_MIN_HEADINGS = 2/TOC_MIN_HEADINGS = 4/' src/components/inspire/article-toc.tsx
+          set +e
+          node scripts/audit-article-toc.mjs --selftest > toc-mismatch.log 2>&1
+          code=$?
+          set -e
+          cp /tmp/article-toc.bak src/components/inspire/article-toc.tsx
+          cat toc-mismatch.log
+          if [ "$code" != "2" ]; then
+            echo "FAIL: expected exit 2 on a floor mismatch, got $code."
+            echo "The gate is following the component's threshold instead of holding the DoD's."
+            exit 1
+          fi
+          grep -q 'FLOOR MISMATCH' toc-mismatch.log
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo '### Article TOC gate — self-test'
+            echo ''
+            echo '```'
+            tail -n 40 toc-selftest.log || true
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  production:
+    name: walk the live corpus (scheduled)
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - run: pnpm install --frozen-lockfile
+
+      - name: Every article in the sitemap, present-iff-two-h2 and every anchor resolved
+        shell: bash
+        run: |
+          set -o pipefail
+          node scripts/audit-article-toc.mjs \
+            --base "${{ github.event.inputs.base_url || 'https://hellokahwin.com' }}" \
+            | tee toc.log
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo '### Article TOC gate — live corpus'
+            echo ''
+            echo '```'
+            tail -n 60 toc.log || true
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: article-toc-gate
+          path: toc.log
+          if-no-files-found: warn
+
+      - name: Raise the alarm
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const url = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            let tail = '';
+            try {
+              tail = fs.readFileSync('toc.log', 'utf8').split('\n').slice(-45).join('\n');
+            } catch {}
+            const body = [
+              '**An article on the live site is breaking the contents-list rule.**',
+              '',
+              'The rule is a relationship, not a string: a contents list renders if and',
+              'only if the body carries two or more `<h2>`, and every `href="#…"` in it',
+              'resolves to an id in the same document. Exit 2 means the run could not',
+              'measure what it was pointed at — read the errors before the violations.',
+              '',
+              '```',
+              tail,
+              '```',
+              '',
+              `Run: ${url}`,
+              '',
+              'Reproduce locally:',
+              '`pnpm audit:toc --base https://hellokahwin.com`',
+            ].join('\n');
+
+            const { data: open } = await github.rest.issues.listForRepo({
+              ...context.repo, state: 'open', labels: 'article-toc-gate',
+            });
+            if (open.length > 0) {
+              await github.rest.issues.createComment({
+                ...context.repo, issue_number: open[0].number, body,
+              });
+            } else {
+              await github.rest.issues.create({
+                ...context.repo,
+                title: 'ALARM: an article on hellokahwin.com is failing the contents-list gate',
+                body,
+                labels: ['article-toc-gate'],
+              });
+            }
