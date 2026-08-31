@@ -174,7 +174,86 @@ stand alone.
 
 ## 4. What is live
 
-*(completed below once the batch closes)*
+Sitemap `<loc>` count **before: 103**, measured
+`curl -s https://hellokahwin.com/sitemap.xml | grep -o "<loc>" | wc -l`.
+Re-measured immediately before the first ingest and still 103, with the diff
+against the first snapshot showing only two rows reordered and nothing added.
+
+### First-request status lines, quoted
+
+Each URL fetched ONCE, cold, immediately after its ingest purged the edge.
+`Age: 0` on all three, and no `HIT` — a `HIT` would have meant the page was
+already warm and the measurement worthless.
+
+| URL | status line | `X-Vercel-Cache` | `Age` |
+|---|---|---|---|
+| `/artikel/ucapan-doa/doa-penutup-majlis` | `HTTP/1.1 200 OK` | `REVALIDATED` | 0 |
+| `/artikel/ucapan-doa/doa-makan-majlis` | `HTTP/1.1 200 OK` | `REVALIDATED` | 0 |
+| `/artikel/ucapan-doa/ucapan-ulang-tahun-perkahwinan` | `HTTP/1.1 200 OK` | `MISS` | 0 |
+
+A **second** fetch of each returns `HTTP/1.1 200 OK` with `X-Vercel-Cache: HIT`,
+which is the control: it proves the first fetch really was the first.
+
+### The complete artefact, quoted from LIVE HTML
+
+Counted with `bash scripts/measure/count-in-html.sh`, never with
+`grep -o -i -F`. Every count is 2 because each string appears once in the
+rendered body and once in the Next.js flight payload.
+
+| page | artefact FIRST line | artefact LAST line |
+|---|---|---|
+| `doa-penutup-majlis` | `سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ` ×2 | `وَأَتُوبُ إِلَيْكَ` ×2 |
+| `doa-makan-majlis` (4 doa, all four present) | `اللَّهُمَّ بَارِكْ لَنَا فِيمَا رَزَقْتَنَا` ×4 | `الحَمْدُ لِلَّهِ الَّذي أطْعَمَنَا وَسَقانا وَجَعَلَنا مُسْلِمِينَ` ×2 |
+| `ucapan-ulang-tahun-perkahwinan` (40 ucapan) | ucapan 1, `Terima kasih kerana bertahan dengan saya sepanjang tahun ini` ×2 | ucapan 40, `Semoga sentiasa dalam kebaikan` ×2 |
+
+The rumi and the Malay meaning are present alongside every Arabic string:
+`Subhanaka Allahumma wa bihamdika` ×2 and `Maha suci Engkau ya Allah` ×2 on the
+first page; `Alhamdulillahil lazi at'amana wa saqana wa ja'alana muslimin` ×2 and
+`menjadikan kami dalam kalangan orang Islam` ×2 on the second.
+
+### FAQPage schema
+
+Parsed out of the live HTML as JSON, not grepped for. All three emit valid
+`FAQPage` with **4 questions each**, every question ending in `?` and every
+answer visible in the body.
+
+### Reachability, and the structural comparison
+
+A status code proves nothing on its own, so the three were compared against the
+articles that were already there. On `/artikel/ucapan-doa` each of the three new
+slugs appears **exactly twice**, identical to `doa-pengantin-baru`,
+`walimatul-urus` and the five other established articles — the pillar page's
+enumeration returns eight article links, five old and three new, all at the same
+count. All three also appear on `/artikel` and on the homepage. Every internal
+link written into them resolves 200 on production.
+
+### Image credits
+
+Every image on every page renders its credit, and each was copied out of
+`docs/asset-register/asset-register.csv` rather than retyped: 3 images per page,
+9 in total, enumerated from live HTML as `Kredit: Ahmad Ali Karim` ×6,
+`Kredit: Wiki Farazi` ×2, `Kredit: raja abd kadir` ×4, `Kredit: CikSitiMelati`
+×2, `Kredit: mohd hasan` ×2, `Kredit: Azman Aziz` ×2.
+
+### Parent-topic control, run before ingest
+
+Quality-bar point 10 is defined by the Ahrefs `parent_topic` field and cannot be
+satisfied by comparing headings, so the query was run and its output is pasted
+here rather than summarised. `mcp__ahrefs__keywords-explorer-overview`,
+country `my`, 1 September 2026:
+
+| keyword | `volume` | `parent_topic` |
+|---|---|---|
+| `ucapan ulang tahun perkahwinan` | 1,900 | `ucapan ulang tahun perkahwinan` |
+| `doa selamat majlis` | 2,200 | `doa selamat` |
+| `doa jodoh` | 1,300 | `doa jodoh` |
+| `doa penutup majlis` | 1,200 | `doa penutup majlis` |
+| `lafaz akad nikah` | 800 | `lafaz akad nikah` |
+| `doa makan majlis` | 250 | `doa makan majlis` |
+
+**Six keywords, six distinct parent topics, no two shared** — and none of the six
+is a parent topic any live HelloKahwin article targets.
+
 
 ---
 
