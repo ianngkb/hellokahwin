@@ -6,6 +6,8 @@
 
 ## The headline
 
+**SIX ARTICLES LIVE IN PRODUCTION. Sitemap 103 to 109.**
+
 **Gate 1 passed with six.** Six document-intent targets clear all three tests as
 revised by decisions 169, 170 and 178, on a demand base of 9,050 monthly
 Malaysian searches.
@@ -15,7 +17,11 @@ six texts the first target set needed, `editorial-verification-lead` could sourc
 three, could source a fourth only in Malay, and found that **two do not exist at
 all**: no Malaysian religious authority publishes a doa titled *doa pembuka
 majlis ringkas* or *doa kesyukuran*. Those two targets were dropped and replaced
-against the same keyword gate rather than written from an unsourced text.
+against the same keyword gate rather than written from an unsourced text. The
+replacements, `lafaz akad nikah` and `doa jodoh`, were sourced in a second
+verification round and both shipped. The second of them ships as a **rulings**
+article rather than a doa-text article, because no authority publishes a titled
+doa jodoh either, and the rulings turned out to be the better page.
 
 **Three findings from the gate are worth more than the articles.**
 
@@ -107,6 +113,8 @@ so the articles were written around what is verified instead of the reverse.
 | `doa makan majlis` | **ships, plus the *munkar* correction** | Mufti WP Irsyad al-Hadith #575 |
 | `ucapan ulang tahun perkahwinan` | **ships, plus the Yusuf-and-Zulaikha correction** | Mufti WP Irsyad al-Hukum #954 |
 | `doa majlis ringkas` | **DROPPED — the text does not exist** | — |
+| `lafaz akad nikah` (replacement) | **ships in full; carries the batch's best finding** | Mufti WP al-Kafi #1686, #851, #1769; Irsyad al-Fatwa #697 |
+| `doa jodoh` (replacement) | **ships as RULINGS, not as a doa text** | Mufti Negeri Selangor e-Musykil; Mufti WP Irsyad al-Fatwa #269, #577 |
 | `doa kesyukuran` | **DROPPED — the text does not exist** | — |
 | `doa selamat majlis` | **ships, Malay text only, no Arabic** | JAKIM Pindaan 2026, pp. 26-28 |
 
@@ -140,6 +148,15 @@ authority and the date checked.
 | doa selepas makan | Arabic + Malay meaning | same | same | 1 Sep 2026 | *"memang terdapat hadis daripada Nabi SAW"*, Sunan al-Tarmizi |
 | *Barakallahu laka* | Arabic + Malay meaning | Mufti WP, Irsyad al-Hukum Siri ke-954, quoting al-Nawawi *Raudhah al-Talibin* 8:35 | muftiwp.gov.my/en/artikel/irsyad-fatwa/…/6579-… | 1 Sep 2026 | Riwayat Abu Daud (2130). **No grading is published by the authority and none is asserted on the page** |
 | the Yusuf-and-Zulaikha doa | ruling only | same | same | 1 Sep 2026 | *"sebaiknya memilih apa yang dipastikan dengan yakin kesahihannya"* |
+| lafaz ijab and qabul | Malay wording | Mufti WP, al-Kafi Siri ke-1686, quoting *al-Mu'tamad fi al-Fiqh al-Syafi'e* 4/53 | muftiwp.gov.my/ms/artikel/al-kafi-li-al-fatawi/4393-... | 1 Sep 2026 | fiqh formulation, not a hadith |
+| **"aku terima" alone does not marry you** | ruling, quoted whole | same, quoting *al-Fiqh al-Manhaji* 4/55-56 | same | 1 Sep 2026 | *"maka tidak berlaku pernikahan tersebut"* |
+| the akad need not be in one breath | ruling | Mufti WP, al-Kafi Siri ke-851, quoting *al-Fiqh al-Manhaji* 1/551-552 | muftiwp.gov.my/ms/artikel/al-kafi-li-al-fatawi/2677-... | 1 Sep 2026 | Syafi'i; Hanafi and Hanbali recorded as differing |
+| a mispronounced name does not invalidate | ruling | Mufti WP, Irsyad al-Fatwa Siri ke-697, quoting al-Nawawi *Minhaj al-Talibin* p.207 | muftiwp.gov.my/ms/artikel/irsyad-hukum/umum/5307-... | 1 Sep 2026 | the requirement is *ta'yin* |
+| a father may accept on his son's behalf | ruling + lafaz | Mufti WP, al-Kafi Siri ke-1769 | muftiwp.gov.my/ms/artikel/al-kafi-li-al-fatawi/4691-... | 1 Sep 2026 | |
+| praying by name for a specific person is **harus** | ruling, quoted whole | Jabatan Mufti Negeri Selangor, e-Musykil, Munakahat, 2023, id 3567 | emusykil.muftiselangor.gov.my/index.php/site/jawapan?id=3567 | 1 Sep 2026 | *"adalah diharuskan...memohon secara spesifik"* |
+| Ghafir 60 | Arabic + Malay meaning | same | same | 1 Sep 2026 | Quranic verse; clean selectable HTML |
+| bomoh and buang sial for jodoh | ruling, quoted whole | Mufti WP, Irsyad al-Fatwa Siri ke-269 | muftiwp.gov.my/ms/artikel/irsyad-hukum/umum/2768-... | 1 Sep 2026 | *"salah sama sekali"*; Muslim 5957, Ahmad 9667, al-Bukhari 2766 |
+| jodoh is takdir and effort is still required | ruling | Mufti WP, Irsyad al-Fatwa Siri ke-577 | muftiwp.gov.my/ms/artikel/irsyad-hukum/umum/4827-... | 1 Sep 2026 | al-Bukhari 3208; Muslim 2435 on Khadijah RA |
 | JAKIM guideline clauses 6.3, 9.2, 6.2 (vi), 7.2 | rules only | JAKIM, *Garis Panduan dan Himpunan Doa bagi Majlis Rasmi dan Separuh Rasmi*, Pindaan 2026, published 12 Mac 2026 | islam.gov.my/ms/garis-panduan/4994-… | 1 Sep 2026 | n/a |
 
 **No Arabic anywhere in this batch was extracted from a JAKIM PDF.** All of it
@@ -148,7 +165,7 @@ retrospective.
 
 ---
 
-## 3. The transliteration question — ESCALATED, and stated on every page
+## 3. The transliteration question — RATIFIED, and stated on every page
 
 No named Malaysian authority publishes a rumi transliteration of these doa.
 Every rumi ranking for these terms sits on a content farm. Read strictly, the
@@ -166,9 +183,37 @@ under a stated assumption:
 
 That is a named published authority for the **method**, disclosed where the
 reader can see it, and more honest than any competitor on these SERPs. **It is a
-standards decision, not a per-article one, and it is escalated to the CEO.** If
-he reverses it the fix is one line per doa and the Arabic plus Malay meaning
-stand alone.
+standards decision, not a per-article one.**
+
+**RATIFIED BY THE OWNER, 1 September 2026**, routed through the team lead, with
+three binding conditions. All four rumi-carrying pages meet them:
+
+1. **A visible on-page line naming the pedoman AND dating it**, saying the
+   transliteration is HelloKahwin's. Quoted from live HTML on all four pages:
+   `disediakan oleh HelloKahwin mengikut` x2,
+   `Pedoman Transliterasi Huruf Arab ke Huruf Rumi` x4,
+   `disemak 1 September 2026` x8, `transliterasi kami sendiri` x2.
+2. **The Arabic and the meaning keep their own named authority, credited
+   separately** in the sentence immediately before the DBP line, never merged
+   into one credit, so a reader cannot mistake our rumi for an authority's.
+3. **DBP is in the per-item authority register**, with its own entry in every
+   `Sumber` block stating it is the authority for the METHOD and that the
+   transliteration is ours rather than DBP's.
+
+`editorial-verification-lead` now treats a missing or vague disclosure line as a
+gate failure, so the three already-published pages were re-ingested to carry the
+dated form rather than left on the earlier wording.
+
+It also unblocks `doa pengantin baru rumi`, the best-converting query the company
+owns. **That page is not in CONT-13's scope and was not touched.** Recorded here
+as now-unblocked for a future item.
+
+**A numbering discrepancy, recorded rather than quietly resolved.** The
+verification lead cites this ruling as "board decisions 182 and 183". In
+`docs/boardroom/decision-log.md`, 182 is the `grep -o -i -F` finding and 183 is
+the fourth-consecutive-sprint entry. Nothing has been renumbered here and no
+decision number is cited on any page; this log records the ratification by date
+and route. A real number needs assigning so the two records agree.
 
 ---
 
@@ -191,6 +236,8 @@ already warm and the measurement worthless.
 | `/artikel/ucapan-doa/doa-makan-majlis` | `HTTP/1.1 200 OK` | `REVALIDATED` | 0 |
 | `/artikel/ucapan-doa/ucapan-ulang-tahun-perkahwinan` | `HTTP/1.1 200 OK` | `MISS` | 0 |
 | `/artikel/ucapan-doa/doa-selamat-majlis` | `HTTP/1.1 200 OK` | `MISS` | 0 |
+| `/artikel/nikah-undang-undang/lafaz-akad-nikah` | `HTTP/1.1 200 OK` | `MISS` | 0 |
+| `/artikel/sebelum-nikah/doa-jodoh` | `HTTP/1.1 200 OK` | `MISS` | 0 |
 
 A **second** fetch of each returns `HTTP/1.1 200 OK` with `X-Vercel-Cache: HIT`,
 which is the control: it proves the first fetch really was the first.
@@ -206,7 +253,9 @@ rendered body and once in the Next.js flight payload.
 | `doa-penutup-majlis` | `سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ` ×2 | `وَأَتُوبُ إِلَيْكَ` ×2 |
 | `doa-makan-majlis` (4 doa, all four present) | `اللَّهُمَّ بَارِكْ لَنَا فِيمَا رَزَقْتَنَا` ×4 | `الحَمْدُ لِلَّهِ الَّذي أطْعَمَنَا وَسَقانا وَجَعَلَنا مُسْلِمِينَ` ×2 |
 | `ucapan-ulang-tahun-perkahwinan` (40 ucapan) | ucapan 1, `Terima kasih kerana bertahan dengan saya sepanjang tahun ini` ×2 | ucapan 40, `Semoga sentiasa dalam kebaikan` ×2 |
-| `doa-selamat-majlis` (JAKIM's full translation, 398 words) | `Dengan nama Allah, Yang Maha Pemurah, lagi Maha Mengasihani` ×2 | `Dan segala puji bagi Allah, Tuhan sekalian alam` ×2 |
+| `doa-selamat-majlis` (JAKIM's full translation, 398 words) | `Dengan nama Allah, Yang Maha Pemurah, lagi Maha Mengasihani` x2 | `Dan segala puji bagi Allah, Tuhan sekalian alam` x2 |
+| `lafaz-akad-nikah` (the complete rulings, quoted whole) | `Ijab iaitu lafaz daripada wali pengantin perempuan dengan menyebut` x2 | `Aku terima nikah si fulanah bagi pihak anakku` x2 |
+| `doa-jodoh` (the complete rulings, quoted whole) | `adalah diharuskan untuk kita berdoa memohon kepada Allah SWT` x6 | `Perbuatan ibu saudari yang pergi menemui bomoh` x2, `adalah salah sama sekali` x2 |
 
 The rumi and the Malay meaning are present alongside every Arabic string:
 `Subhanaka Allahumma wa bihamdika` ×2 and `Maha suci Engkau ya Allah` ×2 on the
@@ -215,7 +264,7 @@ first page; `Alhamdulillahil lazi at'amana wa saqana wa ja'alana muslimin` ×2 a
 
 ### FAQPage schema
 
-Parsed out of the live HTML as JSON, not grepped for. All four emit valid
+Parsed out of the live HTML as JSON, not grepped for. All six emit valid
 `FAQPage` with **4 questions each**, every question ending in `?` and every
 answer visible in the body.
 
@@ -259,69 +308,66 @@ is a parent topic any live HelloKahwin article targets.
 
 ---
 
-## 5. WHAT IS NOT DONE, and the DoD is not rewritten to match
+## 5. THE SCOPE CUT, ON THE RECORD
 
-**Four articles are live. The DoD asks for six, and the sitemap for 109. It is
-107.** That is the item's real result and it is not restated as anything else.
+The DoD is met at six. It was not narrowed to get there, and two things were cut
+along the way that belong in the record rather than in a footnote.
 
-| # | target | `volume` | state |
-|---|---|---|---|
-| 1 | `doa penutup majlis` | 1,200 | **LIVE** |
-| 2 | `doa makan majlis` | 250 | **LIVE** |
-| 3 | `ucapan ulang tahun perkahwinan` | 1,900 | **LIVE** |
-| 4 | `doa selamat majlis` | 2,200 | **LIVE** |
-| 5 | `lafaz akad nikah` | 800 | **PARKED — gate 2 incomplete** |
-| 6 | `doa jodoh` | 1,300 | **PARKED — gate 2 incomplete** |
+### The final ledger, all six audited the same way
 
-**Why they are parked and not written anyway.** Both are pure text artefacts:
-`lafaz akad nikah` is the wali's ijab and the groom's qabul, and `doa jodoh` is
-an Arabic doa with a hadith or Quranic source. Neither can be written without
-the text, and decision 162 says a text that has not been through
-`editorial-verification-lead` against a named published authority does not ship.
-The verification round on those two had not returned when this log was written.
+Round-1 targets and round-2 replacements are listed together so they cannot blur
+into an unaudited list. Ahrefs `volume`, country `my`, 1 September 2026.
 
-**I could have written them from what I already know, and that is exactly the
-outcome the gate exists to prevent.** This batch has three demonstrations of why:
-a doa every Malaysian recites turned out to be graded *munkar*; a widely-used
-Malaysian wedding doa turned out to be one the Mufti of Wilayah Persekutuan
-advises against; and a rumi transliteration published by that same office turned
-out to contain an error. Every one of those would have been reproduced by a
-writer working from familiarity.
+| # | target | `volume` | `parent_topic` | PRE-FLIGHT #1 exit | sibling check | round |
+|---|---|---|---|---|---|---|
+| 1 | `doa selamat majlis` | 2,200 | `doa selamat` | **0** | no live page on this parent | 1 |
+| 2 | `ucapan ulang tahun perkahwinan` | 1,900 | `ucapan ulang tahun perkahwinan` | **0** | no live page on this parent; shares one lafaz with `doa-majlis-perkahwinan`, different parent, different question | 1 |
+| 3 | `doa jodoh` | 1,300 | `doa jodoh` | **0** | no live page on this parent | **2** |
+| 4 | `doa penutup majlis` | 1,200 | `doa penutup majlis` | **0** | no live page on this parent | 1 |
+| 5 | `lafaz akad nikah` | 800 | `lafaz akad nikah` | **0** | `rukun-nikah` targets `rukun nikah`; it discusses sighah but quotes no wording (`aku terima` etc. return NONE on the live page, regex proven against the lafaz page which returns 7 variants) | **2** |
+| 6 | `doa makan majlis` | 250 | `doa makan majlis` | **0** | no live page on this parent | 1 |
 
-**One early signal on `lafaz akad nikah`, worth recording for whoever picks it
-up.** The verification seat's own note in the workflow document reports that JAIS
-Selangor's *Tatacara Pengurusan Nikah, Cerai dan Pembatalan serta Ruju' Orang
-Islam Negeri Selangor* (Dec 2024) is an 11-page scanned image with **zero
-extractable characters**, and concludes that HelloKahwin therefore has no
-state-by-state lafaz wording and must not imply that it does. That is the likely
-reason this target is hard, and it is a finding about the source landscape rather
-than about the effort.
+Six distinct parent topics, no two shared. Every one at or above decision 170's
+220 floor. Every one exit 0.
 
-**Both targets keep their gate-1 clearance.** Volumes, parent topics, KD and
-PRE-FLIGHT #1 exit codes are all recorded in §1 and none of it needs re-running.
-What they need is the text.
+### What was cut, and by whom
 
-### The one outstanding confirmation on an article that IS live
+**`doa majlis ringkas` (2,800) and `doa kesyukuran` (700) were NOT PUBLISHED AT
+ALL**, and that is the honest label. Not "published without the text" - dropped.
+No Malaysian authority publishes either text. `doa majlis ringkas` had a second
+disqualification found later: the reframe proposed for it is already the middle
+third of the live `doa-majlis-pertunangan`, clause number by clause number.
 
-`doa-selamat-majlis` shipped on `editorial-verification-lead`'s round-1
-clearance — it named the authority, the edition, the pages and the section
-heading, quoted the opening verbatim, and gave the exact framing the page uses.
-What it has not yet returned is an explicit confirmation of the REST of the
-quote, which I extracted and sent to it. Standing in its place, and disclosed
-rather than assumed:
+**`doa istikharah jodoh` (500) was cut by me**, before the verification lead had
+finished sourcing it, to narrow round 2 to what the batch needed. That was my
+call and it is on the record as mine. It turned out to be fully sourced anyway:
+Mufti WP Irsyad Hukum #342, the complete three-part doa with clean selectable
+Arabic, Malay meaning per part, al-Bukhari 1166 from Jabir RA, hukum stated as
+*"sunat dengan ijma' para ulama'"*, and its own kill - the belief that the answer
+must arrive as a dream has *"tiada sandaran di dalam syarak"*. **It is banked in
+the verification lead's log and nobody should re-derive it.** With six shipped it
+was not needed; if a seventh target is ever wanted in this cluster it is the
+cheapest one on the board.
 
-- the article's quote is **word-for-word identical to the source across 398
-  words** (diff, not proofreading);
-- the translation's boundaries were confirmed mechanically — p.25 carries only
-  the heading and the Arabic, p.26 opens `TERJEMAHAN DOA (DI PAPARAN SKRIN)`, and
-  p.28 is the document's last page, so pp. 26-28 is the whole of it;
-- the lead's own quoted opening paragraph matches the article's first paragraph
-  exactly, which is the cross-check that we are reading the same document;
-- the page carries **no Arabic**, on the lead's explicit instruction.
+**The second Arabic hunt for `doa selamat majlis` was also cut by me.** The lead
+then ran it anyway with a second agent across 20+ authority domains and confirmed
+the absence: e-Muallaf serves doa as JPEGs, e-Solat's Koleksi Doa has no doa
+selamat, no state mufti carries it. So the Malay-only decision is confirmed by
+search rather than by assumption.
 
-**It is reversible in fact, not in principle:** `doa-selamat-majlis` is named in
-the UNDO pushed before the first write, and a correction is one statement. If the
-lead comes back with a fix, it is applied or the page comes down.
+### The one article that changed shape
+
+`doa jodoh` was commissioned as a doa-text article and ships as a **rulings**
+article, because no authority publishes a titled doa jodoh. The DoD's complete-
+artefact clause still binds and is met the same way: the rulings are quoted
+whole, not summarised, with first and last line verified from live HTML. The
+page carries exactly one Arabic string, Ghafir 60, and says so explicitly, so a
+reader cannot mistake it for a doa jodoh we are publishing.
+
+**It is a better page than the one commissioned.** Every content farm on that
+SERP treats "doa jodoh sebut nama" as suspect. A state mufti's office has
+answered it: *harus*. That is a correction, not a listicle, and it is the kind of
+thing only a site that checks sources can publish.
 
 ## Image rights, checked against the register rather than against the draft
 
@@ -369,11 +415,15 @@ PDF words: 398   article words: 398
 IDENTICAL word-for-word across pp.26-28
 ```
 
-**One character was deliberately changed and it is the only one.** JAKIM's p.27
-reads `kesakitan—sama ada yang nyata mahupun yang tersembunyi`; that em dash is a
-PDF line-break artefact, and it is set as a comma. Nothing else is altered,
-nothing summarised, nothing reordered. The change is disclosed to
-`editorial-verification-lead` in the sign-off request.
+**One character was changed, it was WRONG, and it is reverted.** JAKIM's p.27
+reads `kesakitan—sama ada yang nyata mahupun yang tersembunyi`. I judged that em
+dash a PDF line-break artefact and set it as a comma. It is not one: the line
+break falls between *mahupun* and *yang*, the dash sits mid-line, and it is the
+only non-ASCII punctuation character in the whole translation. JAKIM chose it.
+`editorial-verification-lead` caught it because I had declared the change, and it
+is now reverted. The re-diff after reverting reads **2,466 characters against
+2,466, character-identical**. See the retrospective for what that cost and what
+replaced my reasoning.
 
 This is worth keeping as a method. A 398-word religious text cannot be checked
 reliably by reading it twice, and "I proofread it" is the same shape as
@@ -492,7 +542,53 @@ Run against the case that produced it and the three it must not break:
 | `status: draft` | none | `Status:  draft` — staging still works |
 | `status: published` | none | the existing note — unchanged |
 
-**A second document changed in this item, owned by `editorial-verification-lead`
+**A SECOND DOCUMENT, NAMED BY THE CEO AND CHANGED: `scripts/seo/check-source-currency.py`.
+I own it. IT IS DONE.**
+
+The CEO's instruction was exact: *"the ranking PDF measures link equity, not
+currency" is exactly the prose rule that will not fire. Turn it into something
+that does.* So it is PRE-FLIGHT #2, and it exits non-zero:
+
+| exit | verdict | fires when |
+|---|---|---|
+| 0 | PASS | every cited source resolves and none is known-superseded |
+| 1 | **FAIL** | a cited source returns 404/410, **or** is in the known-superseded registry |
+| 2 | STALE | a cited PDF's own `/CreationDate` is older than three years, **or** an article names a superseded document in prose |
+| 3 | UNKNOWN | a source could not be reached. **Not a pass**, same reason as `check-serp-shape.py` |
+
+The registry is seeded with the JAKIM case and carries what actually changed
+between editions, so the next writer is told the consequence and not just the
+verdict. Adding an entry costs one line; not having one cost this item a day.
+
+**Two design decisions that are the difference between a gate people keep and a
+gate people switch off.**
+
+*It reads GET, not HEAD.* Several Malaysian government hosts answer HEAD with
+405 while serving GET perfectly. A 405 read as "gone" is exactly the false alarm
+that gets a checker disabled.
+
+*A prose mention is REVIEW, not FAIL.* Our house style cites an authority by
+title, not by link, which is how the 2007 file would have entered - so a
+URL-only gate would have missed the very case it exists for. But three articles
+in this batch name that edition **deliberately**, to warn readers that it still
+ranks. A gate that cannot tell a citation from a warning must hand that
+judgement back rather than guess it, so it quotes the line and asks.
+
+Run against the case that produced it and three controls:
+
+| case | result |
+|---|---|
+| the 2007 JAKIM URL | **FAIL, exit 1**, with the superseding edition and what changed |
+| the same document named in prose in A4 | **REVIEW**, line quoted, correctly showing it is a warning |
+| the 2026 edition that replaced it | not flagged |
+| `A5-lafaz-akad-nikah.md`, no superseded source | **PASS, exit 0** |
+
+**And it caught a bug in its own first version.** The prose scan referenced
+`prose_hits` before it was defined, and the run crashed. It was found by running
+the gate against the article it was written for rather than by reading it back -
+the same rule the ingest fix was written under, applied to the fix itself.
+
+**A third document changed in this item, owned by `editorial-verification-lead`
 and already written:** `docs/plans/aug-23-2026-session-01/aug-23-2026-workflow-content-production.md`
 now carries *"Arabic in a Malaysian government PDF is never quotable from text
 extraction — and reading by word coordinate does not fix it"*, with the four
@@ -517,6 +613,31 @@ Malaysian authority publish a text called X" — would have removed three target
 from the gate before they were measured. That is now how I will run it, and it
 generalises to any article whose whole value is a document the reader takes
 away: confirm the document exists, then price the keyword.
+
+### The correction I got wrong, and why it is the useful one
+
+I changed one character in a 2,466-character quotation of a religious text: an em
+dash in JAKIM's *"kesakitan—sama ada yang nyata mahupun yang tersembunyi"*, which
+I judged to be a PDF line-break artefact and set as a comma. **I declared it, and
+the declaration is the only reason it was checkable.**
+
+`editorial-verification-lead` pulled the raw lines and the premise was wrong. The
+line break falls between *mahupun* and *yang*, nowhere near the dash. The dash
+sits mid-line, is U+2014, and is the only non-ASCII punctuation character in the
+entire translation. JAKIM chose it. It is reverted, and the re-diff after
+reverting reads 2,466 characters against 2,466, character-identical.
+
+**The lesson is not "be careful with punctuation".** It is that I inferred a
+mechanical cause from a semantic impression - *this looks like a wrap* - without
+running the thirty-second check that would have settled it, and then acted on the
+inference inside quoted religious text, which is the one place the standing rule
+says never to reconstruct, complete or correct. The rule has no exception small
+enough to argue about, and an em dash is exactly the size of exception that makes
+one feel reasonable.
+
+**The process change, and it is the lead's:** a character that looks like an
+extraction artefact goes to the verification seat BEFORE it is changed, not
+disclosed after. That check costs them half a minute and it is what they are for.
 
 ### What did we nearly ship, and what caught it
 
@@ -543,6 +664,16 @@ millions of readers to stop reciting something their own authority permits.
 of `/artikel/sebelum-nikah/doa-majlis-pertunangan`, clause number by clause
 number. Caught by reading the live sibling's **body**, not its title. The title
 says "pertunangan" and gives no hint that the JAKIM guideline lives inside it.
+
+**An unsourced claim about what people actually do.** `doa-selamat-majlis` said
+that what is read at a household kenduri is *doa umum*. Nobody verified that,
+because it is not a claim about what authorities publish - it is ethnography, and
+we have no source for it. The verification lead caught the sentence in the body.
+**Enumerating rather than testing then found it in two more places**: the FAQ
+answer, and an image caption in the front matter, which is not body prose and
+would not appear in any body grep. All three now say what is actually evidenced -
+that nobody publishes such a text, that practice varies by family, masjid and
+state, and where to ask.
 
 **A citation cut for being unverifiable.** Not in this batch, but the standing
 rule earned it: a negative from a summariser is a failed lookup until it has

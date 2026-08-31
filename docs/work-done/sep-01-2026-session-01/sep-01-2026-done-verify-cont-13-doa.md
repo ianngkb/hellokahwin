@@ -18,7 +18,7 @@ from an earlier pass.
 | `/artikel/ucapan-doa/ucapan-ulang-tahun-perkahwinan` | ✅ clean | present, correctly worded |
 | `/artikel/ucapan-doa/doa-selamat-majlis` | ⚠ body fixed and republished; **one image caption still live with an unattributed ruling** — see section 2 | n/a (page carries no Arabic, correctly) |
 
-**The decision 182 disclosure line passes on all three pages that carry rumi.**
+**The decision 184 disclosure line passes on all three pages that carry rumi.**
 Live wording, verbatim from `doa-penutup-majlis`:
 
 > *"Transliterasi rumi pula disediakan oleh HelloKahwin mengikut Pedoman
@@ -28,7 +28,7 @@ Live wording, verbatim from `doa-penutup-majlis`:
 
 It names us as the producer, names DBP's pedoman as the method, states *why*,
 and sits separately from the Arabic's own authority line. That is exactly what
-decision 182 requires and it should be the template for every future doa page.
+decision 184 requires and it should be the template for every future doa page.
 
 **Ruling-language audit, all four pages.** I grepped each live page for
 hukum-shaped phrases in our own voice (`wajib`, `sunat`, `harus`, `memadai`,
@@ -135,7 +135,7 @@ which is the only reason it was catchable.
 | Barakallahu laka (newlyweds) | Mufti WP, **Irsyad al-Hukum #954** | `muftiwp.gov.my/en/artikel/irsyad-fatwa/irsyad-fatwa-umum-cat/6579-irsyad-al-hukum-siri-ke-954-persoalan-berkaitan-doa-yang-dibaca-ketika-majlis-perkahwinan` | Riwayat Abu Daud (2130); Nawawi, *Raudhah al-Talibin* 8:35. **No grading stated by any Malaysian authority — none may be asserted.** |
 | Yusuf-and-Zulaikha wedding doa | same | same | Ruled against: choose *"apa yang dipastikan dengan yakin kesahihannya"* |
 | Doa Selamat (Malay text) | JAKIM / JPM, **Pindaan 2026**, published 12 Mac 2026 | `islam.gov.my/ms/garis-panduan/4994-panduan-dan-himpunan-doa-2026` → the `Pindaan2026.pdf` it links, "Doa Selamat" pp.25–28 (translation pp.26–28) | n/a — official text, not hadith |
-| Rumi transliteration, all pages | **Dewan Bahasa dan Pustaka**, *Pedoman Transliterasi Huruf Arab ke Huruf Rumi* | `eseminar.dbp.gov.my/dokumen/arabumi.pdf` | Method authority only, per board decision 182 |
+| Rumi transliteration, all pages | **Dewan Bahasa dan Pustaka**, *Pedoman Transliterasi Huruf Arab ke Huruf Rumi* | `eseminar.dbp.gov.my/dokumen/arabumi.pdf` | Method authority only, per board decision 184 |
 
 **Transliteration trap, already caught and reported on the live page:** Mufti WP's
 own Irsyad al-Hukum #954 prints *"ma jama'a bainakuma"* where its own Arabic
@@ -343,7 +343,7 @@ sourcing ran first, none of that became wasted drafting.
 **Which document must change, and who owns the edit?**
 `docs/plans/aug-23-2026-session-01/aug-23-2026-workflow-content-production.md`,
 Stage 2 — **owned by this seat, and the edit is made**: the two PDF rules, the
-per-item religious-text gate from decision 162, and the decision 182
+per-item religious-text gate from decision 162, and the decision 184
 transliteration standard. Decision 162 had lived for two days in
 `docs/boardroom/decision-log.md` and one persona while the document writers
 actually follow said nothing about religious text; **a gate only the
