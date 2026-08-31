@@ -1,0 +1,18 @@
+H6 — homepage category diversity (DES-03 §7.5)
+page:   https://hellokahwin.com/  (HTTP 200, 57895 bytes)
+corpus: https://hellokahwin.com/sitemap.xml  (HTTP 200, 21231 bytes)
+
+  raw:    26 category segments before dedup (ucapan-doa=10 hantaran-mas-kahwin=10 sebelum-nikah=2 pelamin-kad-cenderahati=2 nikah-undang-undang=2)
+  set:    N=13 items, 5 distinct categories, share cap ceil(N/3)=5
+  order:  sebelum-nikah nikah-undang-undang ucapan-doa hantaran-mas-kahwin ucapan-doa hantaran-mas-kahwin ucapan-doa hantaran-mas-kahwin ucapan-doa hantaran-mas-kahwin ucapan-doa hantaran-mas-kahwin pelamin-kad-cenderahati
+
+  H6.1  SHARE CAP   pass — largest category ucapan-doa=5, cap 5
+  H6.2  RUN CAP     pass — no two consecutive items share a category
+  H6.3  FLOOR       pass — 5 distinct categories, floor min(4,K,N-cap+1)=4
+
+  corpus: 92 published articles across 15 categories
+          capacity at cap 5 = 49, required = 13
+          H6 IS SATISFIABLE at N=13. A failure above is a build defect, not a corpus limit.
+
+  VERDICT: H6 holds.
+exit=0

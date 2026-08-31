@@ -1,0 +1,22 @@
+HTTP/1.1 200 OK
+Age: 32
+Cache-Control: public, max-age=0, must-revalidate
+Content-Length: 57895
+Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com https://*.clerk.accounts.dev https://*.clerk.com https://clerk.hellokahwin.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://images.hellokahwin.com https://assets.hellokahwin.com https://hellokahwin.com https://*.clerk.com https://img.clerk.com; connect-src 'self' https://*.r2.cloudflarestorage.com https://challenges.cloudflare.com https://*.clerk.accounts.dev https://*.clerk.com https://clerk.hellokahwin.com; font-src 'self' data:; media-src 'self' https://images.hellokahwin.com https://assets.hellokahwin.com; frame-src 'self' https://challenges.cloudflare.com https://*.clerk.accounts.dev https://clerk.hellokahwin.com; worker-src 'self' blob:; child-src 'self' blob:; frame-ancestors 'none'
+Content-Type: text/html; charset=utf-8
+Date: Mon, 31 Aug 2026 20:08:20 GMT
+Etag: "c24g2alef118nl"
+Permissions-Policy: camera=(), microphone=(), geolocation=()
+Referrer-Policy: strict-origin-when-cross-origin
+Server: Vercel
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+Vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+X-Matched-Path: /
+X-Nextjs-Prerender: 1
+X-Nextjs-Stale-Time: 300
+X-Powered-By: Next.js
+X-Vercel-Cache: HIT
+X-Vercel-Id: sin1::sin1::k9vsv-1788206932386-fedc26b90ba2
+
