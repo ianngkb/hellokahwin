@@ -302,9 +302,10 @@ function describeCensus(c) {
 // ── the live walk ────────────────────────────────────────────────────────────
 
 async function fetchPage(url) {
-  const headers = BYPASS
-    ? { 'x-vercel-protection-bypass': BYPASS, 'x-vercel-set-bypass-cookie': 'true' }
-    : {};
+  // The header ALONE. `x-vercel-set-bypass-cookie` makes the edge answer with a
+  // Set-Cookie redirect that undici follows straight into `redirect count
+  // exceeded` — measured here on 01 Sept 2026, twice, on both fetch paths.
+  const headers = BYPASS ? { 'x-vercel-protection-bypass': BYPASS } : {};
   const r = await fetch(url, { headers, redirect: 'follow' });
   const html = await r.text();
   return {
@@ -320,15 +321,75 @@ async function fetchPage(url) {
   };
 }
 
+/**
+ * Derive the corpus. Three things here were wrong in the first version and each
+ * of them produced a REASSURING result, which is why they are all spelled out.
+ *
+ * 1. THE BYPASS HEADER GOES ON THIS REQUEST TOO. Without it, a preview's
+ *    `/sitemap.xml` returns **HTTP 200** — from vercel.com's login page. Zero
+ *    `<loc>` elements, zero articles, and the whole run then reported
+ *    `VIOLATIONS: none. TOCLINT EXIT: 0` over a corpus of nothing. Measured on
+ *    this item's own preview, 01 Sept 2026, after the same trap had already
+ *    cost three items in August.
+ *
+ * 2. AN EMPTY CORPUS IS EXIT 2. "No article breaks the rule" and "I found no
+ *    articles" print the same line and mean opposite things.
+ *
+ * 3. THE SITEMAP'S URLs ARE NOT THE BASE'S URLs. `sitemap.ts` emits absolute
+ *    production URLs, so a preview's sitemap lists `https://hellokahwin.com/…`
+ *    — pointing this at a preview and walking those links would measure
+ *    PRODUCTION and report it as the preview's verdict. Every URL is rehosted
+ *    onto `--base`, and the rehosting is printed rather than done quietly.
+ */
 async function articleUrlsFromSitemap(base) {
-  const r = await fetch(`${base}/sitemap.xml`);
+  // The header ALONE. `x-vercel-set-bypass-cookie` makes the edge answer with a
+  // Set-Cookie redirect that undici follows straight into `redirect count
+  // exceeded` — measured here on 01 Sept 2026, twice, on both fetch paths.
+  const headers = BYPASS ? { 'x-vercel-protection-bypass': BYPASS } : {};
+  const r = await fetch(`${base}/sitemap.xml`, { headers });
   if (!r.ok) {
-    console.error(`TOCLINT: ${base}/sitemap.xml returned ${r.status}. Cannot derive the corpus.`);
+    console.error(
+      `TOCLINT: ${base}/sitemap.xml returned ${r.status}. Cannot derive the corpus.\n` +
+        `TOCLINT EXIT: 2`,
+    );
     process.exit(2);
   }
   const xml = await r.text();
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].trim());
-  return { total: locs.length, articles: locs.filter((u) => ARTICLE_URL.test(u)) };
+  const baseOrigin = new URL(base).origin;
+  const rehosted = [];
+  const articles = [];
+  for (const loc of locs) {
+    if (!ARTICLE_URL.test(loc)) continue;
+    const u = new URL(loc);
+    if (u.origin !== baseOrigin) {
+      rehosted.push(u.origin);
+      articles.push(`${baseOrigin}${u.pathname}`);
+    } else {
+      articles.push(loc);
+    }
+  }
+  if (locs.length === 0 || articles.length === 0) {
+    console.error(
+      `TOCLINT: ${base}/sitemap.xml parsed to ${locs.length} URL(s) and ${articles.length} ` +
+        `article(s).\n` +
+        `An empty corpus is NOT a clean run. HTTP ${r.status} here means very little on its\n` +
+        `own — a Vercel preview behind SSO answers 200 with a login page, which is exactly\n` +
+        `how this check first reported "VIOLATIONS: none" over nothing at all. If this is a\n` +
+        `preview, pass VERCEL_PROTECTION_BYPASS (vault key vercelbypass.hellokahwin).\n` +
+        `TOCLINT EXIT: 2`,
+    );
+    process.exit(2);
+  }
+  if (rehosted.length) {
+    console.log(
+      `TOCLINT — ${rehosted.length} sitemap URL(s) rehosted from ` +
+        `${[...new Set(rehosted)].join(', ')} onto ${baseOrigin}: sitemap.ts emits absolute\n` +
+        `          production URLs, so walking them verbatim would have measured production ` +
+        `and called it ${baseOrigin}.`,
+    );
+  }
+  return { total: locs.length, articles };
 }
 
 async function runLive(min) {
@@ -444,6 +505,17 @@ async function runLive(min) {
   console.log(`  measured at ${new Date().toISOString()}`);
 
   if (AS_JSON) console.log('\nJSON ' + JSON.stringify({ sitemapTotal, min, results }));
+
+  // The same guard the sitemap walk carries, restated for `--url` runs: a run
+  // that judged nothing has said nothing, and must not exit 0 saying it.
+  if (measured.length === 0) {
+    console.log(
+      `\nNOTHING MEASURED — 0 article bodies were judged. That is a statement about this run,\n` +
+        `not about the site. Read the ERRORS above before reading "VIOLATIONS: none".`,
+    );
+    console.log(`\nTOCLINT EXIT: 2`);
+    process.exit(2);
+  }
 
   const code = errored.length ? 2 : failing.length ? 1 : 0;
   console.log(`\nTOCLINT EXIT: ${code}`);
