@@ -1,0 +1,267 @@
+############ TREE: pillars-ingest-redirects
+  branch=ianng89/pillars-ingest-redirects head=06a377bdb36afc0e41a562e99403ca0f264c378e
+  dirty_entries=7
+    DIRTY  M .claude/settings.local.json
+    DIRTY ?? .claude/agents/creative-director.md
+    DIRTY ?? .claude/agents/design-systems-engineer.md
+    DIRTY ?? .claude/agents/editorial-verification-lead.md
+    DIRTY ?? .claude/agents/head-of-seo-content.md
+    DIRTY ?? .claude/agents/managing-editor.md
+    DIRTY ?? .claude/agents/product-designer.md
+  sig1_tip_is_ancestor_of_origin_master=NO
+  merge_base=a9464a61be03821836daff7e8a043c68768755cb
+  commits_ahead_of_mergebase=13  commits_behind_master=121
+  sig2_patchid_not_upstream(+)=4  already_upstream(-)=9
+    UNUPSTREAMED + 79b3b14b88778c18ba5a8bf72fd8f19d537a8fd1 docs(cont-05): undo record for the five C2.2 articles, written before the first write
+    UNUPSTREAMED + 8e0f7357d26a228f0072d59fe93b5a4c6943a396 docs(cont-05): ingest transcript, proof and the generateMetadata measurement
+    UNUPSTREAMED + 06f18d54965b6c72379f49a917e39b28ac460693 docs(cont-05): undo for the five links added to the C2.2 seed article
+    UNUPSTREAMED + 06a377bdb36afc0e41a562e99403ca0f264c378e docs(cont-05): correct the meta_title mechanics, and record the FAQPage gap
+  files_branch_touched=114
+  sig3_touched_files_differing_from_master=43
+    DIFFERS .gitignore
+    DIFFERS docs/work-done/2026-08-26-publishing-gate.md
+    DIFFERS docs/work-done/2026-08-27-cont-05-seed-links-UNDO.md
+    DIFFERS docs/work-done/2026-08-27-publish-cont-05-c22-EVIDENCE/crops.mts
+    DIFFERS docs/work-done/2026-08-27-publish-cont-05-c22-EVIDENCE/heal.mts
+    DIFFERS docs/work-done/2026-08-27-publish-cont-05-c22-EVIDENCE/heal2.mts
+    DIFFERS docs/work-done/2026-08-27-publish-cont-05-c22-EVIDENCE/heal3.json
+    DIFFERS docs/work-done/2026-08-27-publish-cont-05-c22-EVIDENCE/heal3.mts
+    DIFFERS docs/work-done/2026-08-27-publish-cont-05-c22-EVIDENCE/ingest-pass1.log
+    DIFFERS docs/work-done/2026-08-27-publish-cont-05-c22-EVIDENCE/ingest-pass2.log
+    DIFFERS docs/work-done/2026-08-27-publish-cont-05-c22-EVIDENCE/prestate.json
+    DIFFERS docs/work-done/2026-08-27-publish-cont-05-c22-EVIDENCE/prestate.mjs
+    DIFFERS docs/work-done/2026-08-27-publish-cont-05-c22-EVIDENCE/prices-27-ogos-2026.json
+    DIFFERS docs/work-done/2026-08-27-publish-cont-05-c22-EVIDENCE/proof-after-repair/barang-hantaran-tunang.html
+    DIFFERS docs/work-done/2026-08-27-publish-cont-05-c22-EVIDENCE/proof-after-repair/berapa-dulang-hantaran-tunang.html
+    DIFFERS docs/work-done/2026-08-27-publish-cont-05-c22-EVIDENCE/proof-after-repair/hantaran-tunang-simple.html
+    DIFFERS docs/work-done/2026-08-27-publish-cont-05-c22-EVIDENCE/proof-after-repair/hantaran-tunang-untuk-lelaki.html
+    DIFFERS docs/work-done/2026-08-27-publish-cont-05-c22-EVIDENCE/proof-after-repair/hantaran-tunang-untuk-perempuan.html
+    DIFFERS docs/work-done/2026-08-27-publish-cont-05-c22-EVIDENCE/proof-after-repair/proof.json
+    DIFFERS docs/work-done/2026-08-27-publish-cont-05-c22-EVIDENCE/proof-cold-first-render/barang-hantaran-tunang.html
+    DIFFERS docs/work-done/2026-08-27-publish-cont-05-c22-EVIDENCE/proof-cold-first-render/berapa-dulang-hantaran-tunang.html
+    DIFFERS docs/work-done/2026-08-27-publish-cont-05-c22-EVIDENCE/proof-cold-first-render/hantaran-tunang-simple.html
+    DIFFERS docs/work-done/2026-08-27-publish-cont-05-c22-EVIDENCE/proof-cold-first-render/hantaran-tunang-untuk-lelaki.html
+    DIFFERS docs/work-done/2026-08-27-publish-cont-05-c22-EVIDENCE/proof-cold-first-render/hantaran-tunang-untuk-perempuan.html
+    DIFFERS docs/work-done/2026-08-27-publish-cont-05-c22-EVIDENCE/proof-cold-first-render/proof.json
+    DIFFERS docs/work-done/2026-08-27-publish-cont-05-c22-EVIDENCE/proof.mjs
+    DIFFERS docs/work-done/2026-08-27-publish-cont-05-c22-EVIDENCE/publishedat.json
+    DIFFERS docs/work-done/2026-08-27-publish-cont-05-c22-EVIDENCE/run-pass1.ps1
+    DIFFERS docs/work-done/2026-08-27-publish-cont-05-c22-EVIDENCE/run-pass2.ps1
+    DIFFERS docs/work-done/2026-08-27-publish-cont-05-c22-EVIDENCE/seed-hantaran-tunang-content-BEFORE.json
+    DIFFERS docs/work-done/2026-08-27-publish-cont-05-c22-EVIDENCE/sitemap-after.xml
+    DIFFERS docs/work-done/2026-08-27-publish-cont-05-c22-EVIDENCE/sitemap-before.xml
+    DIFFERS docs/work-done/2026-08-27-publish-cont-05-c22-EVIDENCE/titlecheck.json
+    DIFFERS docs/work-done/2026-08-27-publish-cont-05-c22-EVIDENCE/titlecheck.mjs
+    DIFFERS docs/work-done/2026-08-27-publish-cont-05-c22-UNDO.md
+    DIFFERS docs/work-done/2026-08-27-publish-cont-05-c22-UNDO.sql
+    DIFFERS docs/work-done/2026-08-27-publish-cont-05-c22.md
+    DIFFERS src/app/(public)/artikel/[category]/[slug]/page.tsx
+    DIFFERS src/app/globals.css
+    DIFFERS src/components/inspire/article-cover-mobile.tsx
+    DIFFERS src/components/inspire/inspire-nav-menu.tsx
+    DIFFERS src/components/inspire/mobile-article-bar.tsx
+    DIFFERS src/lib/storage/smart-crop-url.ts
+  whole_tree_files_differing_from_master=311
+############ TREE: rights01-credits
+  branch=ianng89/rights01-credits head=0d9deb530a3edd04cdc19c980f13c2874b21c662
+  dirty_entries=6
+    DIRTY ?? .claude/agents/creative-director.md
+    DIRTY ?? .claude/agents/design-systems-engineer.md
+    DIRTY ?? .claude/agents/editorial-verification-lead.md
+    DIRTY ?? .claude/agents/head-of-seo-content.md
+    DIRTY ?? .claude/agents/managing-editor.md
+    DIRTY ?? .claude/agents/product-designer.md
+  sig1_tip_is_ancestor_of_origin_master=YES
+  merge_base=0d9deb530a3edd04cdc19c980f13c2874b21c662
+  commits_ahead_of_mergebase=0  commits_behind_master=71
+  sig2_patchid_not_upstream(+)=0  already_upstream(-)=0
+  files_branch_touched=0
+  sig3_touched_files_differing_from_master=0
+  whole_tree_files_differing_from_master=66
+############ TREE: ui-01-ship
+  branch=ship/ui-01-s-row-index head=105e79d3ec978c76ffc983bd6f9c1e514dd78e02
+  dirty_entries=1
+    DIRTY  M src/app/(public)/page.tsx
+  sig1_tip_is_ancestor_of_origin_master=YES
+  merge_base=105e79d3ec978c76ffc983bd6f9c1e514dd78e02
+  commits_ahead_of_mergebase=0  commits_behind_master=79
+  sig2_patchid_not_upstream(+)=0  already_upstream(-)=0
+  files_branch_touched=0
+  sig3_touched_files_differing_from_master=0
+  whole_tree_files_differing_from_master=75
+############ TREE: ui01-srow
+  branch=ianng89/ui01-srow head=ef1716e217645a3467db60c0e7f16c4a55ec8a69
+  dirty_entries=6
+    DIRTY ?? .claude/agents/creative-director.md
+    DIRTY ?? .claude/agents/design-systems-engineer.md
+    DIRTY ?? .claude/agents/editorial-verification-lead.md
+    DIRTY ?? .claude/agents/head-of-seo-content.md
+    DIRTY ?? .claude/agents/managing-editor.md
+    DIRTY ?? .claude/agents/product-designer.md
+  sig1_tip_is_ancestor_of_origin_master=YES
+  merge_base=ef1716e217645a3467db60c0e7f16c4a55ec8a69
+  commits_ahead_of_mergebase=0  commits_behind_master=75
+  sig2_patchid_not_upstream(+)=0  already_upstream(-)=0
+  files_branch_touched=0
+  sig3_touched_files_differing_from_master=0
+  whole_tree_files_differing_from_master=69
+############ TREE: ui02-nav
+  branch=ianng89/ui02-nav head=d934570355dd46c2898e15e022659a0f637275f5
+  dirty_entries=6
+    DIRTY ?? .claude/agents/creative-director.md
+    DIRTY ?? .claude/agents/design-systems-engineer.md
+    DIRTY ?? .claude/agents/editorial-verification-lead.md
+    DIRTY ?? .claude/agents/head-of-seo-content.md
+    DIRTY ?? .claude/agents/managing-editor.md
+    DIRTY ?? .claude/agents/product-designer.md
+  sig1_tip_is_ancestor_of_origin_master=YES
+  merge_base=d934570355dd46c2898e15e022659a0f637275f5
+  commits_ahead_of_mergebase=0  commits_behind_master=78
+  sig2_patchid_not_upstream(+)=0  already_upstream(-)=0
+  files_branch_touched=0
+  sig3_touched_files_differing_from_master=0
+  whole_tree_files_differing_from_master=70
+############ TREE: ui03-hero
+  branch=ianng89/ui03-hero head=7a746d2d7082d0eea2166a1353d39fd5fd2e7829
+  dirty_entries=6
+    DIRTY ?? .claude/agents/creative-director.md
+    DIRTY ?? .claude/agents/design-systems-engineer.md
+    DIRTY ?? .claude/agents/editorial-verification-lead.md
+    DIRTY ?? .claude/agents/head-of-seo-content.md
+    DIRTY ?? .claude/agents/managing-editor.md
+    DIRTY ?? .claude/agents/product-designer.md
+  sig1_tip_is_ancestor_of_origin_master=YES
+  merge_base=7a746d2d7082d0eea2166a1353d39fd5fd2e7829
+  commits_ahead_of_mergebase=0  commits_behind_master=53
+  sig2_patchid_not_upstream(+)=0  already_upstream(-)=0
+  files_branch_touched=0
+  sig3_touched_files_differing_from_master=0
+  whole_tree_files_differing_from_master=61
+############ TREE: ui05-category-images
+  branch=ianng89/ui05-category-images head=c1632d12559f4f99f54c31eced7917010a9e4794
+  dirty_entries=6
+    DIRTY ?? .claude/agents/creative-director.md
+    DIRTY ?? .claude/agents/design-systems-engineer.md
+    DIRTY ?? .claude/agents/editorial-verification-lead.md
+    DIRTY ?? .claude/agents/head-of-seo-content.md
+    DIRTY ?? .claude/agents/managing-editor.md
+    DIRTY ?? .claude/agents/product-designer.md
+  sig1_tip_is_ancestor_of_origin_master=YES
+  merge_base=c1632d12559f4f99f54c31eced7917010a9e4794
+  commits_ahead_of_mergebase=0  commits_behind_master=57
+  sig2_patchid_not_upstream(+)=0  already_upstream(-)=0
+  files_branch_touched=0
+  sig3_touched_files_differing_from_master=0
+  whole_tree_files_differing_from_master=61
+############ TREE: ui06-layout-gate
+  branch=ianng89/ui06-layout-gate head=116990b18aa432d523fc421dc6d1a0b44c8c4db6
+  dirty_entries=6
+    DIRTY ?? .claude/agents/creative-director.md
+    DIRTY ?? .claude/agents/design-systems-engineer.md
+    DIRTY ?? .claude/agents/editorial-verification-lead.md
+    DIRTY ?? .claude/agents/head-of-seo-content.md
+    DIRTY ?? .claude/agents/managing-editor.md
+    DIRTY ?? .claude/agents/product-designer.md
+  sig1_tip_is_ancestor_of_origin_master=YES
+  merge_base=116990b18aa432d523fc421dc6d1a0b44c8c4db6
+  commits_ahead_of_mergebase=0  commits_behind_master=19
+  sig2_patchid_not_upstream(+)=0  already_upstream(-)=0
+  files_branch_touched=0
+  sig3_touched_files_differing_from_master=0
+  whole_tree_files_differing_from_master=29
+############ TREE: ui07-label-clip
+  branch=ianng89/ui07-label-clip head=00e726735189de6704eba00f459bb3f9ca5b27a9
+  dirty_entries=6
+    DIRTY ?? .claude/agents/creative-director.md
+    DIRTY ?? .claude/agents/design-systems-engineer.md
+    DIRTY ?? .claude/agents/editorial-verification-lead.md
+    DIRTY ?? .claude/agents/head-of-seo-content.md
+    DIRTY ?? .claude/agents/managing-editor.md
+    DIRTY ?? .claude/agents/product-designer.md
+  sig1_tip_is_ancestor_of_origin_master=YES
+  merge_base=00e726735189de6704eba00f459bb3f9ca5b27a9
+  commits_ahead_of_mergebase=0  commits_behind_master=57
+  sig2_patchid_not_upstream(+)=0  already_upstream(-)=0
+  files_branch_touched=0
+  sig3_touched_files_differing_from_master=0
+  whole_tree_files_differing_from_master=62
+############ TREE: ui08-attrib-link
+  branch=ianng89/ui08-attrib-link head=73ab99bb6009dfeb338014030f58b9c30a0db28f
+  dirty_entries=6
+    DIRTY ?? .claude/agents/creative-director.md
+    DIRTY ?? .claude/agents/design-systems-engineer.md
+    DIRTY ?? .claude/agents/editorial-verification-lead.md
+    DIRTY ?? .claude/agents/head-of-seo-content.md
+    DIRTY ?? .claude/agents/managing-editor.md
+    DIRTY ?? .claude/agents/product-designer.md
+  sig1_tip_is_ancestor_of_origin_master=YES
+  merge_base=73ab99bb6009dfeb338014030f58b9c30a0db28f
+  commits_ahead_of_mergebase=0  commits_behind_master=19
+  sig2_patchid_not_upstream(+)=0  already_upstream(-)=0
+  files_branch_touched=0
+  sig3_touched_files_differing_from_master=0
+  whole_tree_files_differing_from_master=31
+############ TREE: ui09-search-a11y
+  branch=ianng89/ui09-search-a11y head=8b1ee876fc159e2a52554d21007d8ad901510192
+  dirty_entries=6
+    DIRTY ?? .claude/agents/creative-director.md
+    DIRTY ?? .claude/agents/design-systems-engineer.md
+    DIRTY ?? .claude/agents/editorial-verification-lead.md
+    DIRTY ?? .claude/agents/head-of-seo-content.md
+    DIRTY ?? .claude/agents/managing-editor.md
+    DIRTY ?? .claude/agents/product-designer.md
+  sig1_tip_is_ancestor_of_origin_master=YES
+  merge_base=8b1ee876fc159e2a52554d21007d8ad901510192
+  commits_ahead_of_mergebase=0  commits_behind_master=36
+  sig2_patchid_not_upstream(+)=0  already_upstream(-)=0
+  files_branch_touched=0
+  sig3_touched_files_differing_from_master=0
+  whole_tree_files_differing_from_master=44
+############ TREE: ui10-measure
+  branch=ianng89/ui10-measure head=fc9769aacc56d05977169fb7c8319210c484483f
+  dirty_entries=6
+    DIRTY ?? .claude/agents/creative-director.md
+    DIRTY ?? .claude/agents/design-systems-engineer.md
+    DIRTY ?? .claude/agents/editorial-verification-lead.md
+    DIRTY ?? .claude/agents/head-of-seo-content.md
+    DIRTY ?? .claude/agents/managing-editor.md
+    DIRTY ?? .claude/agents/product-designer.md
+  sig1_tip_is_ancestor_of_origin_master=YES
+  merge_base=fc9769aacc56d05977169fb7c8319210c484483f
+  commits_ahead_of_mergebase=0  commits_behind_master=25
+  sig2_patchid_not_upstream(+)=0  already_upstream(-)=0
+  files_branch_touched=0
+  sig3_touched_files_differing_from_master=0
+  whole_tree_files_differing_from_master=32
+############ TREE: ui11-tap-targets
+  branch=ianng89/ui11-tap-targets head=be0b1f05412c36e50e3b750ec40b1a617f0c2688
+  dirty_entries=6
+    DIRTY ?? .claude/agents/creative-director.md
+    DIRTY ?? .claude/agents/design-systems-engineer.md
+    DIRTY ?? .claude/agents/editorial-verification-lead.md
+    DIRTY ?? .claude/agents/head-of-seo-content.md
+    DIRTY ?? .claude/agents/managing-editor.md
+    DIRTY ?? .claude/agents/product-designer.md
+  sig1_tip_is_ancestor_of_origin_master=YES
+  merge_base=be0b1f05412c36e50e3b750ec40b1a617f0c2688
+  commits_ahead_of_mergebase=0  commits_behind_master=21
+  sig2_patchid_not_upstream(+)=0  already_upstream(-)=0
+  files_branch_touched=0
+  sig3_touched_files_differing_from_master=0
+  whole_tree_files_differing_from_master=32
+############ TREE: ui12-thumb-geometry
+  branch=ianng89/ui12-s4c-honesty head=96403d7d0a5d3c0c7771545f38783dc134e985ed
+  dirty_entries=6
+    DIRTY ?? .claude/agents/creative-director.md
+    DIRTY ?? .claude/agents/design-systems-engineer.md
+    DIRTY ?? .claude/agents/editorial-verification-lead.md
+    DIRTY ?? .claude/agents/head-of-seo-content.md
+    DIRTY ?? .claude/agents/managing-editor.md
+    DIRTY ?? .claude/agents/product-designer.md
+  sig1_tip_is_ancestor_of_origin_master=YES
+  merge_base=96403d7d0a5d3c0c7771545f38783dc134e985ed
+  commits_ahead_of_mergebase=0  commits_behind_master=1
+  sig2_patchid_not_upstream(+)=0  already_upstream(-)=0
+  files_branch_touched=0
+  sig3_touched_files_differing_from_master=0
+  whole_tree_files_differing_from_master=0
