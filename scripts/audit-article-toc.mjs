@@ -205,12 +205,31 @@ export function judgeArticle(html, { min, url = '(fixture)' }) {
   out.census = census;
   out.h2 = census.h2 || 0;
 
-  const tocs = prose.querySelectorAll('nav.article-toc');
+  // ⚠ DOCUMENT-WIDE, NOT `prose.querySelectorAll`. This was scoped to
+  // `.inspire-prose` for one afternoon and it was a latent false alarm: UI-17 is
+  // relocating this same node into the 300px desktop rail, which is OUTSIDE the
+  // prose container, and on the day that lands a prose-scoped lookup would have
+  // reported `MISSING contents list` on every eligible article at once — a
+  // sitewide red run caused entirely by the gate's own assumption about where
+  // the component lives. The DoD says a contents list renders on the article. It
+  // does not say which box it renders in, and neither does this check.
+  //
+  // The counting stays exact rather than becoming loose: `.article-toc` is the
+  // signal (never a label string), exactly one per document, and the anchor
+  // targets are still required to resolve INSIDE `.inspire-prose` — the headings
+  // do not move when the nav does.
+  const tocs = doc.querySelectorAll('nav.article-toc');
   out.tocCount = tocs.length;
   out.expectToc = out.h2 >= min;
+  out.tocInProse = [...tocs].filter((t) => prose.contains(t)).length;
+  out.tocOutsideProse = tocs.length - out.tocInProse;
 
   if (tocs.length > 1) {
-    out.violations.push(`${tocs.length} contents lists in one body; expected at most 1`);
+    out.violations.push(
+      `${tocs.length} contents lists in one document (${out.tocInProse} inside .inspire-prose, ` +
+        `${out.tocOutsideProse} outside); expected at most 1. A relocation that leaves the ` +
+        `inline render in place ships both.`,
+    );
   }
 
   if (out.expectToc && tocs.length === 0) {
@@ -228,14 +247,56 @@ export function judgeArticle(html, { min, url = '(fixture)' }) {
 
   const toc = tocs[0];
   if (toc) {
-    // The label is read OUT of the page rather than compared against a string
-    // this file holds. What the gate asserts is that the label is not empty;
-    // what it REPORTS is the text, so a rename shows up in the report as a
-    // changed value instead of as a zero nobody can interpret.
-    const labelEl = toc.querySelector('.hk-eyebrow');
-    out.label = labelEl ? labelEl.textContent.trim() : null;
+    // THE LABEL IS READ OUT OF THE PAGE, NEVER COMPARED AGAINST A STRING THIS
+    // FILE HOLDS. That is the whole lesson of the census this item was
+    // dispatched from. What the gate asserts is that the landmark HAS an
+    // accessible name; what it REPORTS is the text it found and where it found
+    // it, so a rename shows up as a changed value rather than as a zero.
+    //
+    // Three sources, in the order a screen reader resolves them, because
+    // OWNERSHIP OF THE HEADING IS MOVING. Today `ArticleToc` renders its own
+    // `.hk-eyebrow` and its own `aria-label`. UI-17's rail renders the heading
+    // as a `.s-label` sibling of `Rekod` and `Sumber` and points at it with
+    // `aria-labelledby`. Both are correct; a gate that only knew the first would
+    // have failed every article the day the second shipped, and a gate that
+    // dropped the assertion to accommodate it would stop noticing an unnamed
+    // landmark altogether.
+    const labelledBy = toc.getAttribute('aria-labelledby');
+    const labelledByEl = labelledBy ? doc.getElementById(labelledBy) : null;
+    const eyebrow = toc.querySelector('.hk-eyebrow');
     out.ariaLabel = toc.getAttribute('aria-label');
-    if (!out.label) out.violations.push('contents list has no visible label');
+    if (out.ariaLabel) {
+      out.label = out.ariaLabel.trim();
+      out.labelFrom = 'aria-label';
+    } else if (labelledByEl) {
+      out.label = labelledByEl.textContent.trim();
+      out.labelFrom = `aria-labelledby #${labelledBy}`;
+    } else if (eyebrow) {
+      out.label = eyebrow.textContent.trim();
+      out.labelFrom = '.hk-eyebrow';
+    } else {
+      out.label = null;
+      out.labelFrom = null;
+    }
+    if (labelledBy && !labelledByEl) {
+      out.violations.push(
+        `contents list points aria-labelledby at #${labelledBy}, which is not in this document`,
+      );
+    }
+    if (!out.label) {
+      out.violations.push(
+        'contents list landmark has no accessible name — no aria-label, no resolvable ' +
+          'aria-labelledby, and no .hk-eyebrow inside it',
+      );
+    }
+    // Two visible headings is the failure mode of a half-done relocation: the
+    // component keeps its own eyebrow AND the rail adds one.
+    if (eyebrow && labelledByEl && !prose.contains(labelledByEl)) {
+      out.violations.push(
+        `contents list has TWO headings — its own .hk-eyebrow "${eyebrow.textContent.trim()}" ` +
+          `and the container's "${labelledByEl.textContent.trim()}". Exactly one renders it.`,
+      );
+    }
 
     const links = [...toc.querySelectorAll('a[href]')];
     out.links = links.length;
@@ -564,6 +625,24 @@ async function runSelftest(min) {
       'resolve to no id in this document',
       'one href pointing at an id nothing carries',
     ],
+    [
+      'ok-toc-in-rail.html',
+      'clean',
+      null,
+      'the SAME nav relocated OUTSIDE .inspire-prose into the rail, named by the rail heading',
+    ],
+    [
+      'bad-toc-duplicated.html',
+      'violation',
+      '2 contents lists in one document',
+      'relocated but the inline render was never deleted — production carries two',
+    ],
+    [
+      'bad-toc-two-headings.html',
+      'violation',
+      'has TWO headings',
+      'relocated but the component kept its own eyebrow — two headings stacked',
+    ],
     ['bad-empty-shell.html', 'error', 'NOT AN ARTICLE BODY', 'a 200 with no article body'],
     ['bad-wrong-site.html', 'error', 'NOT THIS SITE', 'the Vercel SSO login page'],
   ];
@@ -620,6 +699,7 @@ async function runGeometry() {
       ? 'C:/Program Files/Google/Chrome/Application/chrome.exe'
       : '/usr/bin/google-chrome');
   const TAP_MIN = Number(value('tap-min', '24'));
+  const CLAMP = value('clamp', null) ? Number(value('clamp', null)) : null;
   const widths = (value('widths', '390,1440') || '').split(',').map(Number);
   let urls = values('url');
   if (!urls.length) {
@@ -644,6 +724,21 @@ async function runGeometry() {
       const resp = await page.goto(url, { waitUntil: 'networkidle', timeout: 60000 });
       // A webfont changes every advance width on the page; read no geometry
       // before the faces have settled.
+      // `--clamp <px>` constrains the contents list to a width the SHIPPED page
+      // does not yet impose, so the 24px tap floor can be proven at the rail's
+      // inner measure before the rail exists. This is a measurement of the real
+      // node, in the real page, with the real webfonts — not a mock — but it is
+      // NOT a measurement of the rail, and nothing that comes out of it may be
+      // quoted as one. Re-run without the flag once the rail is on production
+      // and take the number the rail actually produces.
+      if (CLAMP) {
+        await page.addStyleTag({
+          content:
+            `nav.article-toc{width:${CLAMP}px!important;max-width:${CLAMP}px!important;` +
+            `margin-left:0!important;margin-right:0!important}`,
+        });
+        await page.evaluate(() => document.fonts.ready);
+      }
       await page.evaluate(() => document.fonts.ready);
       const guard = await page.evaluate(() => ({
         origin: location.origin,
@@ -681,6 +776,7 @@ async function runGeometry() {
         `  ${url} @${width} (layout ${rows.layoutWidth}) — toc=${rows.tocs} ` +
           `anchors=${rows.out.length} height min=${h.length ? Math.min(...h) : '-'} ` +
           `max=${h.length ? Math.max(...h) : '-'} display=${[...new Set(rows.out.map((r) => r.display))].join('/') || '-'} ` +
+          (CLAMP ? `CLAMPED-TO-${CLAMP}px ` : '') +
           `under ${TAP_MIN}px: ${bad.length}` +
           (resp ? ` [${resp.status()} ${resp.headers()['x-vercel-cache'] ?? '-'}]` : ''),
       );
