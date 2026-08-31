@@ -418,7 +418,8 @@ rail's heading as the landmark's accessible name.
 `--clamp <px>` measures the shipped node at a width the shipped page does not yet
 impose. On production: **268px** (the 300px column less 16px padding each side)
 gave 79 anchors across three articles, min **24.0**, max 37.7, **0 under 24**;
-**318px** gave 27 anchors, min 24.0, max 34.8, 0 under 24. The control is what
+**318px** gave 27 anchors, min 24.0, max 34.8, 0 under 24 — **but 318 is a width
+that does not occur; see §6f, it is 350.** The control is what
 makes those numbers mean anything: the same page at the same viewport
 **unclamped** reports max **24.0**, every entry on one line. The clamp really
 narrows the box, so the 37.7 is wrapping and not an artefact of the flag. **None
@@ -535,6 +536,99 @@ run, stale the moment anyone added a case. In a self-test, of all places. It
 counts now, and was watched going red and back green by pointing one fixture's
 `aria-labelledby` at an id nothing carries: `1 of 14 case(s) failed · TOCLINT
 EXIT: 1`.
+
+## 6f. The rail exists now, so the clamp is superseded — and my 318 was wrong
+
+UI-17 built the relocation and measured it. Three corrections and one
+confirmation, all against their preview `ab10b40` with the protection-bypass
+header.
+
+### The 318px row was a width that does not occur. Correction.
+
+I measured the mobile inner box at **318px** — the 350px body column less 16px of
+padding each side. That 32px came from applying the desktop rail's padding to the
+mobile case, and it was mine to check and I did not. **The rail cancels its own
+horizontal padding below 1024** so a block shares the prose's left edge, and the
+measured inner box at 390 is **350.00**. The 318 row is withdrawn, not adjusted.
+
+### And the clamp is superseded entirely, because the real thing now exists
+
+`--clamp` measured the shipped node at a width the shipped page did not impose.
+That was the right tool while the rail was hypothetical and it is the wrong one
+now. Measured on the REAL rail, no clamp, `getBoundingClientRect` on every
+contents anchor:
+
+| width | layout | anchors | min | max | under 24 |
+|---|---|---|---|---|---|
+| 390 | 390 | 63 | **24.0** | 34.8 | **0** |
+| 1024 | 1024 | 63 | **24.0** | 37.7 | **0** |
+| 1440 | 1440 | 63 | **24.0** | 37.7 | **0** |
+| 1920 | 1920 | 63 | **24.0** | 37.7 | **0** |
+
+**252 contents anchors across three articles at four widths, none under 24px**,
+`display: inline-flex` throughout. The 37.7 the real 268px column produces is the
+same figure the clamp predicted, which is a pleasant result and is not why the
+number is trustworthy — the reason is that nothing simulated it.
+
+**Still a PREVIEW, not production.** This replaces the clamped rows for the rail
+widths; it does not close the item's tap-target clause, which needs the same run
+against production once UI-17 merges.
+
+### The relocation, verified against my own fixtures rather than their report
+
+UI-17 replaced the three deletions I specified with ONE nulled variable —
+`const toc = showToc ? <ArticleToc …/> : null` — on the argument that every
+return path renders that same variable. **I doubted it in writing**, because I
+had told the team lead that `renderOriginal` takes `toc` as a parameter and could
+default or reconstruct it. Checked rather than argued: `<ArticleToc` is
+constructed **once** in that file, `renderOriginal`'s signature is
+`toc?: React.ReactNode` with **no default**, and its single call site passes the
+nulled variable through. The premise holds and their shape is better than mine —
+three deletions can be two-thirds done; one variable cannot.
+
+The fixture decided it, which is what fixtures are for. On their preview:
+
+```
+/artikel/hantaran-mas-kahwin/duit-hantaran-kahwin   navs=1  inProse=0  inRail=1
+  aria-labelledby="hk-rail-toc-heading"  aria-label=null  ownEyebrow=false  class="article-toc"
+  name resolves to: H2 "Dalam artikel ini"
+/artikel/idea-dan-nasihat/garden-wedding            navs=1  inProse=0  inRail=1
+```
+
+That is `ok-toc-in-rail` exactly, on a real build, and `bad-toc-duplicated`'s
+condition does not fire. My own walk of their preview, independently:
+**90 articles, 69 eligible, 69 rendering, 1037 links, 0 dangling,
+`TOCLINT EXIT: 0`.**
+
+### Their green preview was authenticated — checked, not assumed
+
+I found the trap where an unauthenticated preview answers `/sitemap.xml` with
+**HTTP 200 from vercel.com's login page**, so I checked theirs rather than
+trusting a plausible number. Their preview **is** protected — unauthenticated it
+returns `200 → vercel.com/login` with **0** `<loc>` elements. A 90-article result
+is therefore impossible without the bypass, and my own bypassed walk reproduces
+their 90 exactly.
+
+### `hasArticleToc` — another session edited my file, and it is right
+
+UI-17 added and exported `hasArticleToc(headings)` from `article-toc.tsx` because
+`<ArticleToc>` returning null still left their wrapper `<div>` standing, costing
+56px of gap on articles below the floor. A React element is truthy even when it
+renders nothing.
+
+```ts
+export function hasArticleToc(headings: ArticleHeading[]): boolean {
+  return groupHeadings(headings).length >= TOC_MIN_HEADINGS;
+}
+```
+
+It is not a second definition of the floor — it is **the** definition, and they
+rewired the component's own guard to call it (`if (!hasArticleToc(headings))
+return null`). One expression, one constant, both consumers. That is better than
+what I shipped, where the guard was inline and a caller had no way to ask. It
+keeps the `<h2>`-groups semantics exactly: orphan `<h3>`s are dropped before the
+count, so an article of seven `<h3>`s and no `<h2>` still scores zero. No
+conflict with `labelledBy`, which they left intact.
 
 ## 7. Not in scope, raised rather than absorbed
 
@@ -684,6 +778,17 @@ filter: a scope that is correct only because of what does not exist yet is not a
 scope, it is a coincidence with a deadline.** Both were caught by another seat
 describing work they had not done yet. Neither was caught by sabotage, because
 sabotage tests the checks you thought of against the world you assumed.
+
+**And the count for the day: THREE separate gates were wrong in a way the pages
+were not.** Mine twice — the `.inspire-prose` scoping and the article-shape
+corpus filter — and UI-17's `measure-article-rail.mjs` once, whose mount-count
+double-counted `Rekod` because `[data-hk-rail-block="rekod"], .s-rekod` matched a
+nested pair twice. Three false reds and zero real defects between them, on a day
+when every page involved was fine. A gate that is wrong about a correct page is
+not a smaller failure than one that misses a defect; it is the one that teaches
+people the gates are noise. **All three were the same error: a selector or a
+filter that described where the author expected the thing to be, rather than what
+the rule actually says.**
 
 **The first of the two.**
 
