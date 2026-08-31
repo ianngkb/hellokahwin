@@ -47,7 +47,7 @@ images:
 internalLinks: []
 ---
 
-Ada satu teks doa selamat yang diterbitkan oleh pihak berkuasa agama di Malaysia, dan hanya satu: teks JAKIM untuk majlis rasmi dan separuh rasmi kerajaan, terbitan pindaan 2026. Terjemahan penuhnya ada di bawah. Untuk kenduri doa selamat di rumah, tiada teks rasmi yang diterbitkan sesiapa, dan bahagian kedua halaman ini menerangkan apa yang sebenarnya dibaca.
+Satu teks doa selamat sahaja diterbitkan oleh pihak berkuasa agama di Malaysia. Ia teks JAKIM untuk majlis rasmi dan separuh rasmi kerajaan, terbitan pindaan 2026. Terjemahan penuhnya ada di bawah. Untuk kenduri doa selamat di rumah, tiada teks rasmi yang diterbitkan sesiapa, dan bahagian kedua halaman ini menerangkan apa yang sebenarnya dibaca.
 
 ## Teks penuh doa selamat, terbitan JAKIM 2026
 
@@ -87,7 +87,7 @@ Jadi kedudukan kami: [muat turun teks Arabnya terus daripada JAKIM](https://www.
 
 Nama dokumen itu menyatakan skopnya: *Garis Panduan dan Himpunan Doa bagi Majlis Rasmi dan Separuh Rasmi*. Isi doa di atas menunjukkannya juga. Ia memohon "keselamatan, keamanan, dan ketenteraman di tanah air kami" dan menyebut barisan pemimpin. Itu doa kebangsaan, bukan doa keluarga.
 
-Kami membawanya kerana ia satu-satunya teks doa selamat yang diterbitkan pihak berkuasa agama di Malaysia, dan kerana ia memang yang dibaca apabila majlis kahwin membawa perasmian atau tetamu jemputan rasmi. Ia bukan hukum ke atas kenduri di rumah anda dan kami tidak mengeluarkan apa-apa hukum di sini.
+Kami membawanya atas dua sebab. Ia satu-satunya teks doa selamat yang diterbitkan pihak berkuasa agama di Malaysia, dan ia memang yang dibaca apabila majlis kahwin membawa perasmian atau tetamu jemputan rasmi. Ia bukan hukum ke atas kenduri di rumah anda dan kami tidak mengeluarkan apa-apa hukum di sini.
 
 Satu amaran tentang sumber, dan ia penting kalau anda mencari sendiri. Fail JAKIM yang paling kerap muncul di kedudukan atas carian Google bertarikh 3 April 2007 dan halaman muat turunnya sudah tiada. Ia menetapkan doa tidak melebihi lima minit dan pembacanya "seelok-eloknya seorang lelaki". Edisi 2026 memendekkannya kepada dua hingga tiga minit dan membenarkan pembaca wanita bagi majlis yang hanya dihadiri wanita. Kedudukan fail lama itu dalam carian mengukur pautan masuk, bukan sama ada ia masih terpakai.
 
@@ -95,15 +95,15 @@ Satu amaran tentang sumber, dan ia penting kalau anda mencari sendiri. Fail JAKI
 
 Di kebanyakan keluarga Melayu, majlis doa selamat diadakan di rumah beberapa hari sebelum akad. Ia bukan majlis besar. Yang dijemput biasanya jiran, saudara terdekat, dan imam atau tok siak kariah.
 
-Tiada teks doa khusus untuk majlis ini yang diterbitkan oleh JAKIM, oleh mana-mana jabatan mufti, atau oleh mana-mana jabatan agama Islam negeri. Kami menyemaknya dan tidak menemuinya. Yang dibaca ialah doa umum: doa keselamatan, doa dipermudahkan urusan, doa kesejahteraan keluarga. Doa umum tidak memerlukan nas khusus, dan majlis yang tidak dibacakan doa tetap tidak menjejaskan apa-apa yang perlu disahkan, kerana tiada apa-apa untuk disahkan pada peringkat itu.
+Tiada teks doa khusus untuk majlis ini yang diterbitkan oleh JAKIM, oleh mana-mana jabatan mufti, atau oleh mana-mana jabatan agama Islam negeri. Kami menyemaknya dan tidak menemuinya. Yang dibaca ialah doa umum: doa keselamatan, doa dipermudahkan urusan, doa kesejahteraan keluarga. Doa umum tidak memerlukan nas khusus. Majlis yang tidak dibacakan doa pun tidak menjejaskan apa-apa, kerana tiada apa-apa untuk disahkan pada peringkat itu.
 
-Yang paling berguna diambil daripada garis panduan JAKIM untuk majlis di rumah bukan teks doanya, tetapi perenggan 8.1: beri pembaca doa nama orang yang diraikan, tujuan majlis dan aturcaranya lebih awal. Doa yang tersasar biasanya tersasar sebab pembacanya tidak diberitahu apa-apa sebelum dijemput ke hadapan.
+Untuk majlis di rumah, bahagian garis panduan JAKIM yang paling berguna bukan teks doanya. Ia perenggan 8.1: beri pembaca doa nama orang yang diraikan, tujuan majlis dan aturcaranya lebih awal. Doa yang tersasar biasanya tersasar sebab pembacanya tidak diberitahu apa-apa sebelum dijemput ke hadapan.
 
 Untuk susunan bacaan sepanjang majlis kahwin itu sendiri, lihat [doa majlis perkahwinan](/artikel/ucapan-doa/doa-majlis-perkahwinan). Untuk penutupnya, lihat [doa penutup majlis](/artikel/ucapan-doa/doa-penutup-majlis). Untuk perancangan majlis dari awal, lihat [checklist kahwin](/artikel/venue-perancangan/checklist-kahwin).
 
 ## Siapa membaca, dan berapa lama
 
-Perenggan 7.2 garis panduan 2026 menetapkan empat kriteria bagi pembaca doa majlis rasmi. Dia hendaklah seorang lelaki yang beragama Islam dan boleh menyebut dengan tepat dan fasih; berakhlak dan bersahsiah baik yang tidak dipertikai; mengetahui kesesuaian doa bagi majlis berkenaan; dan bagi majlis yang hanya dihadiri golongan wanita, pembaca doa boleh dilantik dalam kalangan wanita.
+Perenggan 7.2 garis panduan 2026 menetapkan empat kriteria bagi pembaca doa majlis rasmi. Dia hendaklah seorang lelaki yang beragama Islam dan boleh menyebut dengan tepat dan fasih. Dia hendaklah berakhlak dan bersahsiah baik yang tidak dipertikai. Dia mestilah mengetahui kesesuaian doa bagi majlis berkenaan. Dan bagi majlis yang hanya dihadiri golongan wanita, pembaca doa boleh dilantik dalam kalangan wanita.
 
 Perenggan 9 mengurus masanya. Doa sebaik-baiknya dibaca pada permulaan majlis, dan tempohnya antara dua hingga tiga minit.
 
