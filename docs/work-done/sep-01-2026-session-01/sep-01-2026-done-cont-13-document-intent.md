@@ -65,9 +65,9 @@ reject a target**, per decision 169. Snapshot dates are recorded per decision 17
 | 1 | `doa penutup majlis` | 1,200 | `doa penutup majlis` | 30 | 350 | **0** | absent | 2026-08-27 |
 | 2 | `doa makan majlis` | 250 | `doa makan majlis` | 0 | 50 | **0** | absent | 2026-07-16 |
 | 3 | `ucapan ulang tahun perkahwinan` | 1,900 | `ucapan ulang tahun perkahwinan` | 0 | 2,400 | **0** | **present @1** | 2026-08-10 |
-| 4 | *(pending — see §4)* | | | | | | | |
-| 5 | *(pending — see §4)* | | | | | | | |
-| 6 | *(pending — see §4)* | | | | | | | |
+| 4 | `doa selamat majlis` | 2,200 | `doa selamat` | 0 | 2,500 | **0** | absent | 2026-08-06 |
+| 5 | `lafaz akad nikah` | 800 | `lafaz akad nikah` | 43 | 1,000 | **0** | present@1 | 2026-08-27 |
+| 6 | `doa jodoh` | 1,300 | `doa jodoh` | 0 | 800 | **0** | present@1 | 2026-08-10 |
 
 None comes from `skrip pengacara majlis` or `teks kad jemputan`. Both reserved
 families were left whole for CONT-16. For the record, `teks kad jemputan` reads
@@ -108,7 +108,7 @@ so the articles were written around what is verified instead of the reverse.
 | `ucapan ulang tahun perkahwinan` | **ships, plus the Yusuf-and-Zulaikha correction** | Mufti WP Irsyad al-Hukum #954 |
 | `doa majlis ringkas` | **DROPPED — the text does not exist** | — |
 | `doa kesyukuran` | **DROPPED — the text does not exist** | — |
-| `doa selamat majlis` | see §4 | JAKIM Pindaan 2026 |
+| `doa selamat majlis` | **ships, Malay text only, no Arabic** | JAKIM Pindaan 2026, pp. 26-28 |
 
 **On the two that were dropped.** Two differently-shaped queries were run for
 each before either was recorded as absent, per the standing rule that a source's
@@ -190,6 +190,7 @@ already warm and the measurement worthless.
 | `/artikel/ucapan-doa/doa-penutup-majlis` | `HTTP/1.1 200 OK` | `REVALIDATED` | 0 |
 | `/artikel/ucapan-doa/doa-makan-majlis` | `HTTP/1.1 200 OK` | `REVALIDATED` | 0 |
 | `/artikel/ucapan-doa/ucapan-ulang-tahun-perkahwinan` | `HTTP/1.1 200 OK` | `MISS` | 0 |
+| `/artikel/ucapan-doa/doa-selamat-majlis` | `HTTP/1.1 200 OK` | `MISS` | 0 |
 
 A **second** fetch of each returns `HTTP/1.1 200 OK` with `X-Vercel-Cache: HIT`,
 which is the control: it proves the first fetch really was the first.
@@ -205,6 +206,7 @@ rendered body and once in the Next.js flight payload.
 | `doa-penutup-majlis` | `سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ` ×2 | `وَأَتُوبُ إِلَيْكَ` ×2 |
 | `doa-makan-majlis` (4 doa, all four present) | `اللَّهُمَّ بَارِكْ لَنَا فِيمَا رَزَقْتَنَا` ×4 | `الحَمْدُ لِلَّهِ الَّذي أطْعَمَنَا وَسَقانا وَجَعَلَنا مُسْلِمِينَ` ×2 |
 | `ucapan-ulang-tahun-perkahwinan` (40 ucapan) | ucapan 1, `Terima kasih kerana bertahan dengan saya sepanjang tahun ini` ×2 | ucapan 40, `Semoga sentiasa dalam kebaikan` ×2 |
+| `doa-selamat-majlis` (JAKIM's full translation, 398 words) | `Dengan nama Allah, Yang Maha Pemurah, lagi Maha Mengasihani` ×2 | `Dan segala puji bagi Allah, Tuhan sekalian alam` ×2 |
 
 The rumi and the Malay meaning are present alongside every Arabic string:
 `Subhanaka Allahumma wa bihamdika` ×2 and `Maha suci Engkau ya Allah` ×2 on the
@@ -213,7 +215,7 @@ first page; `Alhamdulillahil lazi at'amana wa saqana wa ja'alana muslimin` ×2 a
 
 ### FAQPage schema
 
-Parsed out of the live HTML as JSON, not grepped for. All three emit valid
+Parsed out of the live HTML as JSON, not grepped for. All four emit valid
 `FAQPage` with **4 questions each**, every question ending in `?` and every
 answer visible in the body.
 
