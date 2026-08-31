@@ -1,0 +1,66 @@
+#!/bin/sh
+#
+# HelloKahwin shared-repo boundary guard - conflicted-merge side  (RISK-09)
+#
+# WHY THIS EXISTS SEPARATELY FROM pre-merge-commit:
+# git runs pre-merge-commit only when a merge auto-resolves cleanly. A docs/site
+# merge NEVER auto-resolves - measured, 8 conflicted paths including
+# modify/delete on frontend/ and backend/ - so pre-merge-commit is never
+# reached. When the merge conflicts, git runs pre-commit instead at the moment
+# the resolver types `git commit`. That is the real interception point.
+#
+# On an ordinary (non-merge) commit this hook exits 0 immediately and does
+# nothing. It only speaks when MERGE_HEAD exists.
+#
+# Deliberate override:  HK_GIT_SPACE_GUARD=off git commit
+
+set -u
+
+case "${HK_GIT_SPACE_GUARD:-}" in
+  off|OFF|0) exit 0 ;;
+esac
+
+merge_head_file=$(git rev-parse --git-path MERGE_HEAD)
+[ -f "$merge_head_file" ] || exit 0   # not a merge commit - nothing to say
+
+hk_space() {
+  if git cat-file -e "$1:next.config.ts" 2>/dev/null; then
+    echo site
+  elif git cat-file -e "$1:docs/boardroom" 2>/dev/null \
+    || git cat-file -e "$1:frontend" 2>/dev/null; then
+    echo docs
+  else
+    echo unknown
+  fi
+}
+
+ours=$(git rev-parse HEAD 2>/dev/null) || exit 0
+theirs=$(head -n 1 "$merge_head_file")
+
+from_space=$(hk_space "$ours")
+to_space=$(hk_space "$theirs")
+
+[ "$from_space" != "unknown" ] && [ "$to_space" != "unknown" ] || exit 0
+[ "$from_space" != "$to_space" ] || exit 0
+
+echo "" >&2
+echo "==============================================================================" >&2
+echo "  REFUSED: this merge commit crosses the hellokahwin docs/site boundary." >&2
+echo "==============================================================================" >&2
+echo "" >&2
+echo "  ours:   $from_space space   $(git rev-parse --short "$ours")  ($(git rev-parse --abbrev-ref HEAD))" >&2
+echo "  theirs: $to_space space   $(git rev-parse --short "$theirs")" >&2
+echo "" >&2
+echo "  hellokahwin (docs) and hellokahwin-site are the SAME repository - same" >&2
+echo "  remote, same root commit 3a1fbe09. Committing this merge collapses the" >&2
+echo "  company record and the site source into one branch. It is the hazard" >&2
+echo "  RISK-09 exists to stop, and it is not recoverable by convention." >&2
+echo "" >&2
+echo "  NO COMMIT WAS MADE. Undo the merge with:" >&2
+echo "    git merge --abort" >&2
+echo "" >&2
+echo "  If you truly mean it:  HK_GIT_SPACE_GUARD=off git commit" >&2
+echo "==============================================================================" >&2
+echo "" >&2
+
+exit 1
