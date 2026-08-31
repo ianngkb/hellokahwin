@@ -1,0 +1,94 @@
+{
+  "item": "DES-18",
+  "writtenAt": "2026-08-31T18:38:10.944Z",
+  "targetDbHost": "aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres",
+  "targetBucket": "hellokahwin-images",
+  "dryRun": false,
+  "addedJsonbKey": "crop-4x3-article-card-sm",
+  "reversalSql": "UPDATE articles SET cover_image_smart_crops = cover_image_smart_crops - 'crop-4x3-article-card-sm' WHERE id IN ('c2bb79d7-df81-4da9-846e-53e909d5575c', '1d30ae81-3bf0-4a1e-a046-8389e618ce3a', '95109036-a2d3-4800-a388-cf968940a926');",
+  "r2ObjectsAdded": [
+    "inspire/doa-makan-majlis/1788200820417-images-s-jamuan-kenduri-raja-abd-kadir/crop-4x3-article-card-sm.webp",
+    "inspire/doa-penutup-majlis/1788200783475-images-s-bacaan-doa-qari-ahmad-ali-karim/crop-4x3-article-card-sm.webp",
+    "inspire/ucapan-ulang-tahun-perkahwinan/1788200842511-images-s-pasangan-baju-oren-azman-aziz/crop-4x3-article-card-sm.webp"
+  ],
+  "priorRows": [
+    {
+      "id": "c2bb79d7-df81-4da9-846e-53e909d5575c",
+      "slug": "doa-makan-majlis",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/doa-makan-majlis/1788200820417-images-s-jamuan-kenduri-raja-abd-kadir/crop-16x9-og.webp?v=0.5925_0.8107-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/doa-makan-majlis/1788200820417-images-s-jamuan-kenduri-raja-abd-kadir/crop-4x3-article-card.webp?v=0.5925_0.8107-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/doa-makan-majlis/1788200820417-images-s-jamuan-kenduri-raja-abd-kadir/crop-4x5-mobile-cover.webp?v=0.5925_0.8107-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/doa-makan-majlis/1788200820417-images-s-jamuan-kenduri-raja-abd-kadir/crop-4.3x1-desktop-hero.webp?v=0.5925_0.8107-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "1d30ae81-3bf0-4a1e-a046-8389e618ce3a",
+      "slug": "doa-penutup-majlis",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/doa-penutup-majlis/1788200783475-images-s-bacaan-doa-qari-ahmad-ali-karim/crop-16x9-og.webp?v=0.0833_0.2760-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/doa-penutup-majlis/1788200783475-images-s-bacaan-doa-qari-ahmad-ali-karim/crop-4x3-article-card.webp?v=0.0833_0.2760-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/doa-penutup-majlis/1788200783475-images-s-bacaan-doa-qari-ahmad-ali-karim/crop-4x5-mobile-cover.webp?v=0.0833_0.2760-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/doa-penutup-majlis/1788200783475-images-s-bacaan-doa-qari-ahmad-ali-karim/crop-4.3x1-desktop-hero.webp?v=0.0833_0.2760-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "95109036-a2d3-4800-a388-cf968940a926",
+      "slug": "ucapan-ulang-tahun-perkahwinan",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/ucapan-ulang-tahun-perkahwinan/1788200842511-images-s-pasangan-baju-oren-azman-aziz/crop-16x9-og.webp?v=0.0833_0.1560-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/ucapan-ulang-tahun-perkahwinan/1788200842511-images-s-pasangan-baju-oren-azman-aziz/crop-4x3-article-card.webp?v=0.0833_0.1560-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/ucapan-ulang-tahun-perkahwinan/1788200842511-images-s-pasangan-baju-oren-azman-aziz/crop-4x5-mobile-cover.webp?v=0.0833_0.1560-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/ucapan-ulang-tahun-perkahwinan/1788200842511-images-s-pasangan-baju-oren-azman-aziz/crop-4.3x1-desktop-hero.webp?v=0.0833_0.1560-g48c0b959",
+          "width": 2463,
+          "height": 700
+        }
+      }
+    }
+  ]
+}

@@ -555,6 +555,35 @@ async function main() {
     }
   }
 
+  // --publish ON A FILE THAT SAYS `status: draft` IS A CONTRADICTION, AND IT
+  // USED TO RESOLVE SILENTLY IN FAVOUR OF THE FILE.
+  //
+  // CONT-13, 1 Sept 2026. An article was ingested to production with --commit
+  // --publish --revalidate-url and every step succeeded: images uploaded, caches
+  // dropped, the Vercel edge purged, Google asked to re-read the sitemap. The
+  // run printed `Status:  draft` on line 4 of a twenty-line success report and
+  // `Done. /artikel/... (draft)` at the end, and nothing else marked it. The
+  // article was not in the sitemap, not on the pillar page, and not reachable by
+  // a reader. The operator had asked to publish; the file's YAML said draft; the
+  // tool did the file's bidding and reported success.
+  //
+  // The asymmetry is the whole point. `status: published` WITHOUT --publish is a
+  // file asking for something the operator did not authorise, and the existing
+  // note on that line handles it correctly. --publish WITHOUT `status: published`
+  // is the operator authorising something the file did not ask for, which is
+  // never intentional: nobody types --publish meaning "leave it a draft". So it
+  // is refused rather than warned about, because a warning inside a success
+  // report is exactly what did not fire the first time.
+  if (args.publish && frontMatter.status !== 'published')
+    problems.push(
+      `--publish was passed but the file says \`status: ${frontMatter.status ?? 'draft'}\`.\n` +
+        `      Nothing would reach a reader: the article is written as a draft, and the\n` +
+        `      sitemap, the pillar page and every category listing select on\n` +
+        `      status = 'published'.\n` +
+        `      Set \`status: published\` in the front matter, or drop --publish if you meant\n` +
+        `      to stage a draft.`,
+    );
+
   // The body, converted once and reused for the write. Done HERE, before the
   // refuse gate, so a `placeAfter` pointing past the end of the article is
   // caught with everything else rather than after 15 MB has gone to R2.

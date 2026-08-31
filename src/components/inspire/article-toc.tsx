@@ -20,6 +20,28 @@ interface TocEntry {
   children: ArticleHeading[];
 }
 
+/**
+ * Does this article get a contents list at all? — UI-17.
+ *
+ * Exported so the floor lives in ONE place. UI-17's rail has to know the
+ * answer BEFORE it renders: a slot whose component returns null still leaves
+ * the rail's wrapper `<div>` behind, and a wrapper in a flex column with
+ * `gap: var(--sp-9)` contributes 56px of dead space between Rekod and Sumber
+ * while measuring 0px tall. That shipped to a preview and was caught only
+ * because `measure-article-rail.mjs` records block HEIGHT — `toc h0` on
+ * mas-kahwin-ikut-negeri, an article with zero `<h2>`, at all five widths. A
+ * React element is truthy even when it renders nothing, so
+ * `{toc && <div>{toc}</div>}` cannot see it.
+ *
+ * The caller could have counted `<h2>`s itself. That would be a SECOND
+ * definition of the floor, in another file, free to drift from
+ * `TOC_MIN_HEADINGS` the day somebody changes it — and it has already moved
+ * once, from four to two.
+ */
+export function hasArticleToc(headings: ArticleHeading[]): boolean {
+  return groupHeadings(headings).length >= TOC_MIN_HEADINGS;
+}
+
 /** Group `<h3>`s under the `<h2>` they follow. Orphan `<h3>`s are dropped. */
 function groupHeadings(headings: ArticleHeading[]): TocEntry[] {
   const entries: TocEntry[] = [];
@@ -63,17 +85,67 @@ function groupHeadings(headings: ArticleHeading[]): TocEntry[] {
  * The label is `Dalam artikel ini`, from DES-03 §5.1 — the served text is
  * uppercase because `.hk-eyebrow` sets `text-transform`, exactly as `REKOD`
  * and `SUMBER` are mixed case in source. It read `Isi Kandungan` until UI-18.
+ *
+ * ─────────────────────────────────────────────────────────────────────────────
+ * `labelledBy` — THE ONE PROP, AND WHY IT IS A PROP AND NOT A SECOND COMPONENT
+ * ─────────────────────────────────────────────────────────────────────────────
+ *
+ * UI-17's rail renders `Dalam artikel ini` itself, as an `.s-label` sibling of
+ * `Rekod` and `Sumber`, so the three rail blocks read as one system. That is the
+ * right call and the heading is theirs. But it leaves a window in which BOTH
+ * render it, and a half-done relocation stacks two headings on 68 live articles.
+ *
+ * So the two shapes are one component with one switch, rather than an agreement
+ * between two files that a person has to keep:
+ *
+ *   <ArticleToc headings={…} />                      inline, today. Own heading,
+ *                                                    own aria-label, own box.
+ *   <ArticleToc headings={…} labelledBy="rail-toc" /> in the rail. NO heading, NO
+ *                                                    aria-label, NO box, NO
+ *                                                    margin — the container
+ *                                                    supplies all four, and the
+ *                                                    landmark takes its name from
+ *                                                    the container's heading id.
+ *
+ * Passing `labelledBy` is therefore the ONLY way to get the bare form, and there
+ * is no way to get the bare form without an accessible name. `aria-label` is
+ * dropped rather than kept alongside `aria-labelledby` on purpose: an
+ * `aria-label` on this element would override the container's heading as the
+ * landmark's accessible name, which is the opposite of what the rail intends.
+ *
+ * `scripts/audit-article-toc.mjs` asserts both shapes against production —
+ * `ok-toc-in-rail`, `bad-toc-duplicated` and `bad-toc-two-headings` are three
+ * captures of a real article that differ from the green control in exactly one
+ * thing each.
  */
-export function ArticleToc({ headings }: { headings: ArticleHeading[] }) {
+export function ArticleToc({
+  headings,
+  labelledBy,
+}: {
+  headings: ArticleHeading[];
+  /**
+   * Id of a heading the CONTAINER renders. Set it and this component drops its
+   * own heading, its own `aria-label` and its own box chrome. Leave it unset and
+   * nothing about the inline render changes.
+   */
+  labelledBy?: string;
+}) {
   const entries = groupHeadings(headings);
-  if (entries.length < TOC_MIN_HEADINGS) return null;
+  if (!hasArticleToc(headings)) return null;
+
+  // The box chrome is an INLINE-CALLOUT treatment: bordered card, centred,
+  // capped at the 680px reading measure. Inside a 268px rail column that is a
+  // card in a card, and `lg:max-w-[680px]` fights the column's own width.
+  const chrome = labelledBy
+    ? 'article-toc'
+    : 'article-toc border-border bg-muted/40 my-8 rounded-md border px-4 py-3.5 lg:mx-auto lg:max-w-[680px]';
 
   return (
     <nav
-      aria-label="Dalam artikel ini"
-      className="article-toc border-border bg-muted/40 my-8 rounded-md border px-4 py-3.5 lg:mx-auto lg:max-w-[680px]"
+      {...(labelledBy ? { 'aria-labelledby': labelledBy } : { 'aria-label': 'Dalam artikel ini' })}
+      className={chrome}
     >
-      <p className="hk-eyebrow mb-2.5">Dalam artikel ini</p>
+      {!labelledBy && <p className="hk-eyebrow mb-2.5">Dalam artikel ini</p>}
       <ol>
         {entries.map((entry) => (
           <li key={entry.heading.id}>

@@ -117,6 +117,41 @@ nav.innerHTML =
 belowToc.querySelector('.inspire-prose').prepend(nav);
 write('bad-toc-below-floor.html', belowToc);
 
+// ── 6, 7, 8. THE RELOCATED SHAPE, and the two ways it goes wrong ────────────
+//
+// UI-17 moves this same node into the 300px desktop rail, OUTSIDE
+// `.inspire-prose`, and renders the `Dalam artikel ini` heading itself as a
+// `.s-label` sibling of `Rekod` and `Sumber`, pointing at it with
+// `aria-labelledby`. These three exist so the gate is proven against that shape
+// BEFORE it ships, rather than going sitewide red on the morning it lands.
+const relocated = (opts = {}) => {
+  const d = parse(base);
+  const nav = d.querySelector('nav.article-toc');
+  nav.removeAttribute('aria-label');
+  if (!opts.keepOwnHeading) nav.querySelector('.hk-eyebrow').remove();
+  nav.setAttribute('aria-labelledby', 'rail-toc-heading');
+  const rail = d.createElement('aside');
+  rail.setAttribute('data-hk-rail', '');
+  rail.innerHTML =
+    `<div class="s-label">Rekod</div>` +
+    `<div class="s-label" id="rail-toc-heading">Dalam artikel ini</div>`;
+  // The inline copy is REMOVED unless we are building the double-render case.
+  const moved = opts.leaveInlineCopy ? nav.cloneNode(true) : nav;
+  if (!opts.leaveInlineCopy) nav.remove();
+  rail.appendChild(moved);
+  d.querySelector('main').appendChild(rail);
+  return d;
+};
+
+/** The target shape: one nav, in the rail, named by the rail's heading. */
+write('ok-toc-in-rail.html', relocated());
+
+/** Relocated but the inline render was never deleted. Production carries TWO. */
+write('bad-toc-duplicated.html', relocated({ leaveInlineCopy: true }));
+
+/** Relocated but the component kept its own eyebrow. Two headings, stacked. */
+write('bad-toc-two-headings.html', relocated({ keepOwnHeading: true }));
+
 // ── 6. a 200 with no article body — a shell must never read as "clean" ───────
 write('bad-empty-shell.html', page('      <div class="s-pad"><p>Ralat.</p></div>'));
 

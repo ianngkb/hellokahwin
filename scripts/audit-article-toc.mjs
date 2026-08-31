@@ -205,12 +205,31 @@ export function judgeArticle(html, { min, url = '(fixture)' }) {
   out.census = census;
   out.h2 = census.h2 || 0;
 
-  const tocs = prose.querySelectorAll('nav.article-toc');
+  // ⚠ DOCUMENT-WIDE, NOT `prose.querySelectorAll`. This was scoped to
+  // `.inspire-prose` for one afternoon and it was a latent false alarm: UI-17 is
+  // relocating this same node into the 300px desktop rail, which is OUTSIDE the
+  // prose container, and on the day that lands a prose-scoped lookup would have
+  // reported `MISSING contents list` on every eligible article at once — a
+  // sitewide red run caused entirely by the gate's own assumption about where
+  // the component lives. The DoD says a contents list renders on the article. It
+  // does not say which box it renders in, and neither does this check.
+  //
+  // The counting stays exact rather than becoming loose: `.article-toc` is the
+  // signal (never a label string), exactly one per document, and the anchor
+  // targets are still required to resolve INSIDE `.inspire-prose` — the headings
+  // do not move when the nav does.
+  const tocs = doc.querySelectorAll('nav.article-toc');
   out.tocCount = tocs.length;
   out.expectToc = out.h2 >= min;
+  out.tocInProse = [...tocs].filter((t) => prose.contains(t)).length;
+  out.tocOutsideProse = tocs.length - out.tocInProse;
 
   if (tocs.length > 1) {
-    out.violations.push(`${tocs.length} contents lists in one body; expected at most 1`);
+    out.violations.push(
+      `${tocs.length} contents lists in one document (${out.tocInProse} inside .inspire-prose, ` +
+        `${out.tocOutsideProse} outside); expected at most 1. A relocation that leaves the ` +
+        `inline render in place ships both.`,
+    );
   }
 
   if (out.expectToc && tocs.length === 0) {
@@ -228,14 +247,56 @@ export function judgeArticle(html, { min, url = '(fixture)' }) {
 
   const toc = tocs[0];
   if (toc) {
-    // The label is read OUT of the page rather than compared against a string
-    // this file holds. What the gate asserts is that the label is not empty;
-    // what it REPORTS is the text, so a rename shows up in the report as a
-    // changed value instead of as a zero nobody can interpret.
-    const labelEl = toc.querySelector('.hk-eyebrow');
-    out.label = labelEl ? labelEl.textContent.trim() : null;
+    // THE LABEL IS READ OUT OF THE PAGE, NEVER COMPARED AGAINST A STRING THIS
+    // FILE HOLDS. That is the whole lesson of the census this item was
+    // dispatched from. What the gate asserts is that the landmark HAS an
+    // accessible name; what it REPORTS is the text it found and where it found
+    // it, so a rename shows up as a changed value rather than as a zero.
+    //
+    // Three sources, in the order a screen reader resolves them, because
+    // OWNERSHIP OF THE HEADING IS MOVING. Today `ArticleToc` renders its own
+    // `.hk-eyebrow` and its own `aria-label`. UI-17's rail renders the heading
+    // as a `.s-label` sibling of `Rekod` and `Sumber` and points at it with
+    // `aria-labelledby`. Both are correct; a gate that only knew the first would
+    // have failed every article the day the second shipped, and a gate that
+    // dropped the assertion to accommodate it would stop noticing an unnamed
+    // landmark altogether.
+    const labelledBy = toc.getAttribute('aria-labelledby');
+    const labelledByEl = labelledBy ? doc.getElementById(labelledBy) : null;
+    const eyebrow = toc.querySelector('.hk-eyebrow');
     out.ariaLabel = toc.getAttribute('aria-label');
-    if (!out.label) out.violations.push('contents list has no visible label');
+    if (out.ariaLabel) {
+      out.label = out.ariaLabel.trim();
+      out.labelFrom = 'aria-label';
+    } else if (labelledByEl) {
+      out.label = labelledByEl.textContent.trim();
+      out.labelFrom = `aria-labelledby #${labelledBy}`;
+    } else if (eyebrow) {
+      out.label = eyebrow.textContent.trim();
+      out.labelFrom = '.hk-eyebrow';
+    } else {
+      out.label = null;
+      out.labelFrom = null;
+    }
+    if (labelledBy && !labelledByEl) {
+      out.violations.push(
+        `contents list points aria-labelledby at #${labelledBy}, which is not in this document`,
+      );
+    }
+    if (!out.label) {
+      out.violations.push(
+        'contents list landmark has no accessible name — no aria-label, no resolvable ' +
+          'aria-labelledby, and no .hk-eyebrow inside it',
+      );
+    }
+    // Two visible headings is the failure mode of a half-done relocation: the
+    // component keeps its own eyebrow AND the rail adds one.
+    if (eyebrow && labelledByEl && !prose.contains(labelledByEl)) {
+      out.violations.push(
+        `contents list has TWO headings — its own .hk-eyebrow "${eyebrow.textContent.trim()}" ` +
+          `and the container's "${labelledByEl.textContent.trim()}". Exactly one renders it.`,
+      );
+    }
 
     const links = [...toc.querySelectorAll('a[href]')];
     out.links = links.length;
@@ -322,6 +383,74 @@ async function fetchPage(url) {
 }
 
 /**
+ * Classify sitemap URLs. PURE, and exported, so the paired self-test exercises
+ * the SAME code the live walk uses rather than a second implementation of it.
+ * Returns `{ articles, rehosted, skipped, unknown, categoryHubs }`; the caller
+ * decides what to do about `unknown`.
+ */
+export function classifySitemap(locs, baseOrigin) {
+  // ── WHICH SITEMAP URLs ARE ARTICLES, AND WHY IT IS NOT JUST THE SHAPE ──────
+  //
+  // The first version of this filter was `three path segments under /artikel/`
+  // and nothing else. It was RIGHT on 01 Sept 2026 and it was right by accident.
+  // `/artikel/tag/duit-hantaran` is a live, linked, 200-returning page carrying
+  // ZERO `.inspire-prose`, and it matches that shape exactly — measured, not
+  // reasoned about. It is not in the sitemap today. The day somebody adds tag
+  // pages to the sitemap, which is an ordinary SEO change, every one of them
+  // would be classified as an article, the `.inspire-prose` precondition would
+  // fire `NOT AN ARTICLE BODY`, and this gate would exit 2 across the corpus and
+  // point at a change that was correct.
+  //
+  // That is the same shape as scoping the TOC lookup to `.inspire-prose`: a
+  // filter that happens to be right today because of what does not exist yet.
+  // So the classification is POSITIVE and derived from the sitemap at run time,
+  // like the count is:
+  //
+  //   a 3-segment /artikel/<a>/<b> is an ARTICLE iff `<a>` also appears in this
+  //   same sitemap as a 2-segment /artikel/<a>, i.e. it is a real category hub.
+  //
+  // `author` and `tag` are the two reserved 3-segment routes today and are named
+  // explicitly rather than left to fall out of the rule, so a reader can see
+  // what is being skipped. Anything else 3-segment that is NOT a known category
+  // is an ERROR and stops the run: silently dropping it would under-count the
+  // corpus, and an under-counted corpus is a green run about the wrong set.
+  const articles = [];
+  const rehosted = [];
+  const RESERVED_ARTIKEL_ROUTES = new Set(['author', 'tag']);
+  const categoryHubs = new Set(
+    locs
+      .map((l) => l.match(/\/artikel\/([^/]+)$/))
+      .filter(Boolean)
+      .map((m) => m[1]),
+  );
+  const skipped = { reserved: [], notArticleShaped: 0 };
+  const unknown = [];
+  for (const loc of locs) {
+    if (!ARTICLE_URL.test(loc)) {
+      skipped.notArticleShaped += 1;
+      continue;
+    }
+    const seg = new URL(loc).pathname.split('/')[2];
+    if (RESERVED_ARTIKEL_ROUTES.has(seg)) {
+      skipped.reserved.push(loc);
+      continue;
+    }
+    if (!categoryHubs.has(seg)) {
+      unknown.push(loc);
+      continue;
+    }
+    const u = new URL(loc);
+    if (u.origin !== baseOrigin) {
+      rehosted.push(u.origin);
+      articles.push(`${baseOrigin}${u.pathname}`);
+    } else {
+      articles.push(loc);
+    }
+  }
+  return { articles, rehosted, skipped, unknown, categoryHubs };
+}
+
+/**
  * Derive the corpus. Three things here were wrong in the first version and each
  * of them produced a REASSURING result, which is why they are all spelled out.
  *
@@ -357,18 +486,27 @@ async function articleUrlsFromSitemap(base) {
   const xml = await r.text();
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].trim());
   const baseOrigin = new URL(base).origin;
-  const rehosted = [];
-  const articles = [];
-  for (const loc of locs) {
-    if (!ARTICLE_URL.test(loc)) continue;
-    const u = new URL(loc);
-    if (u.origin !== baseOrigin) {
-      rehosted.push(u.origin);
-      articles.push(`${baseOrigin}${u.pathname}`);
-    } else {
-      articles.push(loc);
-    }
+  const { articles, rehosted, skipped, unknown, categoryHubs } = classifySitemap(locs, baseOrigin);
+  if (unknown.length) {
+    console.error(
+      `TOCLINT: ${unknown.length} sitemap URL(s) are shaped like an article but their first\n` +
+        `segment is not a category hub in this same sitemap, and is not a reserved route\n` +
+        `(${[...RESERVED_ARTIKEL_ROUTES].join(', ')}):\n` +
+        unknown.map((u) => `  ${u}`).join('\n') +
+        `\n\nThe run stops rather than guessing. Dropping them would under-count the corpus,\n` +
+        `and a green run about the wrong set of pages is the failure this gate exists to\n` +
+        `avoid. Either they are articles in a new category whose hub is missing from the\n` +
+        `sitemap, or they are a new reserved route that belongs in RESERVED_ARTIKEL_ROUTES.\n` +
+        `TOCLINT EXIT: 2`,
+    );
+    process.exit(2);
   }
+  console.log(
+    `TOCLINT — corpus filter: ${categoryHubs.size} category hub(s) read from this sitemap; ` +
+      `${articles.length} article(s) kept, ${skipped.notArticleShaped} URL(s) not article-shaped ` +
+      `(home, /artikel, category hubs), ${skipped.reserved.length} reserved-route URL(s) skipped` +
+      (skipped.reserved.length ? `: ${skipped.reserved.join(', ')}` : ''),
+  );
   if (locs.length === 0 || articles.length === 0) {
     console.error(
       `TOCLINT: ${base}/sitemap.xml parsed to ${locs.length} URL(s) and ${articles.length} ` +
@@ -564,12 +702,40 @@ async function runSelftest(min) {
       'resolve to no id in this document',
       'one href pointing at an id nothing carries',
     ],
+    [
+      'ok-toc-in-rail.html',
+      'clean',
+      null,
+      'the SAME nav relocated OUTSIDE .inspire-prose into the rail, named by the rail heading',
+    ],
+    [
+      'bad-toc-duplicated.html',
+      'violation',
+      '2 contents lists in one document',
+      'relocated but the inline render was never deleted — production carries two',
+    ],
+    [
+      'bad-toc-two-headings.html',
+      'violation',
+      'has TWO headings',
+      'relocated but the component kept its own eyebrow — two headings stacked',
+    ],
     ['bad-empty-shell.html', 'error', 'NOT AN ARTICLE BODY', 'a 200 with no article body'],
     ['bad-wrong-site.html', 'error', 'NOT THIS SITE', 'the Vercel SSO login page'],
   ];
 
   let failed = 0;
-  console.log(`TOCLINT SELFTEST — floor ${min}, ${cases.length} paired cases\n`);
+  // COUNTED, never `cases.length + n`. The hand-summed version was added to
+  // twice and printed "0 of 11" on a run that had just executed FOURTEEN. A
+  // total that is a separate claim from the run itself goes stale the moment
+  // anyone adds a case, and a self-test that miscounts itself is the last
+  // place that should happen.
+  let ran = 0;
+  console.log(
+    `TOCLINT SELFTEST — floor ${min}, ${cases.length} fixture case(s) plus the ` +
+      `corpus-filter and floor-sensitivity pairs
+`,
+  );
   for (const [file, expect, needle, why] of cases) {
     const v = judgeArticle(fixture(file), { min, url: file });
     const got = v.errors.length ? 'error' : v.violations.length ? 'violation' : 'clean';
@@ -577,11 +743,53 @@ async function runSelftest(min) {
     let ok = got === expect;
     if (ok && needle) ok = msgs.includes(needle);
     if (ok && expect === 'clean') ok = msgs === '';
+    ran++;
     if (!ok) failed++;
     console.log(
       `  ${ok ? 'PASS' : 'FAIL'}  ${file.padEnd(28)} expected ${expect.padEnd(9)} got ${got.padEnd(9)} — ${why}`,
     );
     if (!ok || process.env.TOCLINT_VERBOSE) console.log(`        ${msgs || '(no messages)'}`);
+  }
+
+  // ── the corpus filter, paired ──────────────────────────────────────────────
+  // The old filter was `three segments under /artikel/`. It was right on 01 Sept
+  // and right by accident: /artikel/tag/duit-hantaran is a live 200 with zero
+  // .inspire-prose and matches that shape exactly. These three cases are what
+  // stop it being right by accident again.
+  const O = 'https://hellokahwin.com';
+  const hub = `${O}/artikel/hantaran-mas-kahwin`;
+  const art = `${O}/artikel/hantaran-mas-kahwin/duit-hantaran-kahwin`;
+  const corpusCases = [
+    [
+      'a real article under a hub the sitemap also lists',
+      [O, `${O}/artikel`, hub, art],
+      (r) => r.articles.length === 1 && r.articles[0] === art && r.unknown.length === 0,
+    ],
+    [
+      'a tag page, article-SHAPED but a reserved route — kept out, and named',
+      [O, hub, art, `${O}/artikel/tag/duit-hantaran`],
+      (r) =>
+        r.articles.length === 1 &&
+        r.skipped.reserved.length === 1 &&
+        !r.articles.some((u) => u.includes('/tag/')) &&
+        r.unknown.length === 0,
+    ],
+    [
+      'an article whose category hub is MISSING — stops the run, never dropped',
+      [O, hub, art, `${O}/artikel/kategori-baharu/sesuatu`],
+      (r) => r.unknown.length === 1 && r.articles.length === 1,
+    ],
+  ];
+  for (const [why, locs, ok] of corpusCases) {
+    const r = classifySitemap(locs, O);
+    const pass = ok(r);
+    ran++;
+    if (!pass) failed++;
+    console.log(
+      `  ${pass ? 'PASS' : 'FAIL'}  ${'(corpus filter)'.padEnd(28)} ` +
+        `kept ${r.articles.length}, reserved ${r.skipped.reserved.length}, ` +
+        `unknown ${r.unknown.length} — ${why}`,
+    );
   }
 
   // The floor itself is paired: the SAME document is clean at floor 4 and dirty
@@ -591,6 +799,7 @@ async function runSelftest(min) {
   const a = judgeArticle(threeH2, { min: 2, url: 'floor-2' });
   const b = judgeArticle(threeH2, { min: 1, url: 'floor-1' });
   const floorOk = a.violations.length === 0 && b.violations.length === 1;
+  ran++;
   if (!floorOk) failed++;
   console.log(
     `  ${floorOk ? 'PASS' : 'FAIL'}  ${'(floor sensitivity)'.padEnd(28)} ` +
@@ -598,7 +807,8 @@ async function runSelftest(min) {
   );
 
   const code = failed ? 1 : 0;
-  console.log(`\n${failed} of ${cases.length + 1} case(s) failed`);
+  console.log(`
+${failed} of ${ran} case(s) failed`);
   console.log(`TOCLINT EXIT: ${code}`);
   process.exit(code);
 }
@@ -620,6 +830,7 @@ async function runGeometry() {
       ? 'C:/Program Files/Google/Chrome/Application/chrome.exe'
       : '/usr/bin/google-chrome');
   const TAP_MIN = Number(value('tap-min', '24'));
+  const CLAMP = value('clamp', null) ? Number(value('clamp', null)) : null;
   const widths = (value('widths', '390,1440') || '').split(',').map(Number);
   let urls = values('url');
   if (!urls.length) {
@@ -644,6 +855,21 @@ async function runGeometry() {
       const resp = await page.goto(url, { waitUntil: 'networkidle', timeout: 60000 });
       // A webfont changes every advance width on the page; read no geometry
       // before the faces have settled.
+      // `--clamp <px>` constrains the contents list to a width the SHIPPED page
+      // does not yet impose, so the 24px tap floor can be proven at the rail's
+      // inner measure before the rail exists. This is a measurement of the real
+      // node, in the real page, with the real webfonts — not a mock — but it is
+      // NOT a measurement of the rail, and nothing that comes out of it may be
+      // quoted as one. Re-run without the flag once the rail is on production
+      // and take the number the rail actually produces.
+      if (CLAMP) {
+        await page.addStyleTag({
+          content:
+            `nav.article-toc{width:${CLAMP}px!important;max-width:${CLAMP}px!important;` +
+            `margin-left:0!important;margin-right:0!important}`,
+        });
+        await page.evaluate(() => document.fonts.ready);
+      }
       await page.evaluate(() => document.fonts.ready);
       const guard = await page.evaluate(() => ({
         origin: location.origin,
@@ -681,6 +907,7 @@ async function runGeometry() {
         `  ${url} @${width} (layout ${rows.layoutWidth}) — toc=${rows.tocs} ` +
           `anchors=${rows.out.length} height min=${h.length ? Math.min(...h) : '-'} ` +
           `max=${h.length ? Math.max(...h) : '-'} display=${[...new Set(rows.out.map((r) => r.display))].join('/') || '-'} ` +
+          (CLAMP ? `CLAMPED-TO-${CLAMP}px ` : '') +
           `under ${TAP_MIN}px: ${bad.length}` +
           (resp ? ` [${resp.status()} ${resp.headers()['x-vercel-cache'] ?? '-'}]` : ''),
       );

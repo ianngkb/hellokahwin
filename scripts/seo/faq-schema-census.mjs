@@ -46,10 +46,13 @@
  *   node scripts/seo/faq-schema-census.mjs --base http://localhost:3200
  *   node scripts/seo/faq-schema-census.mjs --json out.json    # machine-readable
  *   node scripts/seo/faq-schema-census.mjs --verbose          # per-URL detail
+ *   node scripts/seo/faq-schema-census.mjs --selftest         # prove the shape
+ *                                                             # check can fail
  *
  * Exit codes:
  *   0  every article is `present` or a reasoned `not-applicable`
- *   1  at least one article is `absent`, or a JSON-LD block failed to parse
+ *   1  at least one article is `absent`, a JSON-LD block failed to parse, or an
+ *      `FAQPage` failed schema.org's required properties (`invalid-shape`)
  *   2  the sitemap or a page could not be fetched (the census is incomplete —
  *      distinct from a clean failure, because "not looked at" is not "absent")
  */
@@ -125,12 +128,93 @@ function headings(html) {
   );
 }
 
+/**
+ * schema.org conformance for `FAQPage`, checked here rather than only at
+ * validator.schema.org.
+ *
+ * The external validator is the authority and is still run
+ * (`faq-validate-schemaorg.mjs`), but it is a third party behind Google's
+ * infrastructure and it BLOCKS BY IP: two concurrent sweeps from this machine on
+ * 01 Sept tripped a `google.com/sorry` interstitial that outlasted the session.
+ * A validity gate that only works when someone else's service feels like
+ * answering is a gate that reports UNKNOWN on the day you need it.
+ *
+ * So the shape rules that matter for this type are asserted locally, on every
+ * run, over every URL: `mainEntity` is a non-empty array; every member is a
+ * `Question` with a non-empty `name`; every one has an `acceptedAnswer` that is
+ * an `Answer` with non-empty `text`. Those are the required properties, and a
+ * block that satisfies them is what the external validator has returned 0
+ * errors and 0 warnings on for every URL it has been reachable for.
+ */
+function faqShapeErrors(json) {
+  const errs = [];
+  const entities = json?.mainEntity;
+  if (!Array.isArray(entities) || entities.length === 0) {
+    return ['mainEntity is missing or empty'];
+  }
+  entities.forEach((q, i) => {
+    const at = `mainEntity[${i}]`;
+    if (q?.['@type'] !== 'Question') errs.push(`${at} is not a Question`);
+    if (typeof q?.name !== 'string' || q.name.trim() === '') errs.push(`${at}.name is empty`);
+    const a = q?.acceptedAnswer;
+    if (a?.['@type'] !== 'Answer') errs.push(`${at}.acceptedAnswer is not an Answer`);
+    if (typeof a?.text !== 'string' || a.text.trim() === '')
+      errs.push(`${at}.acceptedAnswer.text is empty`);
+  });
+  return errs;
+}
+
 const types = (json) => {
   const t = json?.['@type'];
   return Array.isArray(t) ? t : t ? [t] : [];
 };
 
+/**
+ * The shape check's own negative control. `--selftest` asserts that every rule
+ * FIRES on a block that breaks it and CLEARS on one that does not, because a
+ * validity gate nobody has watched fail is not a gate.
+ */
+function selftest() {
+  const ok = {
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Bolehkah nikah tanpa wali?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Tidak. Wali ialah rukun ketiga.' },
+      },
+    ],
+  };
+  const cases = [
+    ['a well-formed block', ok, 0],
+    ['mainEntity missing', { '@type': 'FAQPage' }, 1],
+    ['mainEntity empty', { '@type': 'FAQPage', mainEntity: [] }, 1],
+    ['question not a Question', { mainEntity: [{ ...ok.mainEntity[0], '@type': 'Thing' }] }, 1],
+    ['question name empty', { mainEntity: [{ ...ok.mainEntity[0], name: '   ' }] }, 1],
+    ['acceptedAnswer missing', { mainEntity: [{ '@type': 'Question', name: 'A?' }] }, 2],
+    [
+      'acceptedAnswer text empty',
+      { mainEntity: [{ ...ok.mainEntity[0], acceptedAnswer: { '@type': 'Answer', text: '' } }] },
+      1,
+    ],
+  ];
+  let failed = 0;
+  for (const [label, block, expected] of cases) {
+    const errs = faqShapeErrors(block);
+    const pass = errs.length === expected;
+    if (!pass) failed++;
+    console.log(
+      `  ${pass ? 'ok  ' : 'FAIL'} ${String(errs.length).padStart(2)} error(s), expected ${expected}  ${label}` +
+        (errs.length ? `\n         ${errs.join('; ')}` : ''),
+    );
+  }
+  console.log(failed === 0 ? '\nSELFTEST EXIT: 0' : `\nSELFTEST EXIT: 1 — ${failed} case(s) wrong`);
+  process.exit(failed === 0 ? 0 : 1);
+}
+
 async function main() {
+  if (args.includes('--selftest')) return selftest();
+
   let sitemap;
   try {
     sitemap = await get(`${BASE}/sitemap.xml`);
@@ -182,7 +266,10 @@ async function main() {
       reason: reasons[slug] ?? null,
     };
 
+    row.shapeErrors = faq ? faqShapeErrors(faq.json) : [];
+
     if (broken.length > 0) row.state = 'invalid-json';
+    else if (faq && row.shapeErrors.length > 0) row.state = 'invalid-shape';
     else if (faq) row.state = 'present';
     else if (row.questionHeadings < FAQ_MIN_QUESTIONS && row.reason) row.state = 'not-applicable';
     else row.state = 'absent';
@@ -194,7 +281,7 @@ async function main() {
   const present = by('present');
   const absent = by('absent');
   const na = by('not-applicable');
-  const invalid = by('invalid-json');
+  const invalid = [...by('invalid-json'), ...by('invalid-shape')];
   const failed = by('fetch-failed');
 
   console.log(`FAQPage census — ${BASE} — ${new Date().toISOString()}`);
@@ -202,7 +289,9 @@ async function main() {
   console.log(`  present:         ${present.length}`);
   console.log(`  absent:          ${absent.length}`);
   console.log(`  not-applicable:  ${na.length}`);
-  console.log(`  invalid-json:    ${invalid.length}`);
+  console.log(
+    `  invalid:         ${invalid.length}  (unparseable JSON, or an FAQPage that fails schema.org's required properties)`,
+  );
   console.log(`  fetch-failed:    ${failed.length}`);
   console.log(`  questions emitted: ${present.reduce((n, r) => n + r.faqQuestions, 0)}`);
 
@@ -214,6 +303,7 @@ async function main() {
       : '') +
     (r.state === 'not-applicable' ? `  — ${r.reason}` : '') +
     (r.state === 'invalid-json' ? `  ${r.brokenBlocks.join('; ')}` : '') +
+    (r.state === 'invalid-shape' ? `  ${r.shapeErrors.join('; ')}` : '') +
     (r.state === 'fetch-failed' ? `  ${r.detail}` : '');
 
   if (VERBOSE) {

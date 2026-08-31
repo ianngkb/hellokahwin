@@ -96,3 +96,58 @@ HTML. It releases `min-w-max` on the masthead rail so the category row wraps,
 and with it `category.html` goes to **0 violations at all four widths** while the
 homepage's 13 narrow columns stay red. It is a measurement control, not a
 proposed fix, and it should not be cited in a design decision.
+
+---
+
+## `fixtures/2026-09-01-pre-rail/` — the collapsed rail, frozen
+
+Captured from live production on 01 Sep 2026 by UI-17, **before** the rail
+shipped, from `/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri` — the
+article DES-03 §5.1 itself drew its frames from.
+
+| File                                       | sha256                                                             |
+| ------------------------------------------ | ------------------------------------------------------------------ |
+| `article.html`                             | `8553372a88d3b3799974de87e1166d21e271f1892573bf6ed196b1e98a4b6b98` |
+| `_next/static/chunks/19b83a0982f1e330.css` | `14485c41aaa544f5e4cb865a2ab3157007bfb81e722e5169696dcdd4547d067e` |
+| `_next/static/chunks/d0eb02e81ca49aac.css` | `b1537bfd30dc4addd53905e252405237c76f12547cc06fb4ee6b15ed5f7eb0b0` |
+| `_next/static/chunks/eaa300a9560545ab.css` | `9164011ada1836175d60505f2e3ab694e925f2dbcaad81e5393f8288deaae90f` |
+
+Fetched at `x-vercel-id sin1::sin1::xr226-1788200226176-073404b121ba`,
+`x-vercel-cache MISS`, 145,191 bytes. All four `woff2` faces are vendored and
+are byte-identical to the ones in `2026-08-31-pre-ui-fix/` — checked, not
+assumed, because a measure taken in a fallback face is a measure of a page
+nobody sees.
+
+### What makes it a real known-bad input rather than a page with no rail
+
+The distinction matters, and check 10 is built around it. This capture carries
+**the collapsed composition**, not an absent one:
+
+- `Rekod` renders at the body column's own left edge — measured 120px at 1440,
+  where the body column also starts at 120px;
+- there is no `[data-hk-rail]` anywhere in the document;
+- a **narrower 280px** sidebar column DOES exist further right, so the page is
+  not simply "one column". It had two right-hand columns of different widths,
+  and the specified one was not among them.
+
+A fixture that merely lacked a rail would make check 10 fire on the homepage,
+the catalogue and `/brand` too. This one lets the check stay silent on those
+and speak about the article.
+
+### Both directions, on the same page
+
+```
+pnpm ui:gate --pre-rail            rail-collapsed 3   (1024, 1440, 1920)
+pnpm ui:gate --pre-rail --green    rail-collapsed 0
+```
+
+`fixtures/rail-green-control.css` is the smallest edit that makes the SAME page
+pass the SAME check — it moves the panel clear of the body column and changes
+nothing else. It is **not** the fix and must not be read as one: a margin
+displaces a block, it does not create a second column. The real change is
+`.hk-article-grid`, and it is measured on the deployed build by
+`scripts/measure-article-rail.mjs`.
+
+Check 10 is also asserted SILENT at 390 and 768, where a stacked block is the
+specification rather than a defect, and silent on all three 31 Aug fixtures at
+all five widths. `pnpm ui:gate:selftest` carries all 24 assertions.
