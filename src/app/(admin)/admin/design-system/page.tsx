@@ -696,6 +696,36 @@ export default async function DesignSystemPage({
               <ArticleToc headings={TOC_DEMO_NESTED} />
             </div>
 
+            {/*
+              The RAIL form, `labelledBy` set. UI-17 owns the heading and the
+              chrome; this component hands both over and renders the list alone.
+              Shown at 268px, not 300px — the rail column is 300 and its blocks
+              carry 16px of horizontal padding each side, so the content box a
+              contents entry actually gets is 268. That is the width UI-11's 24px
+              tap floor has to hold at, and it is narrower than anything the
+              inline treatment has ever been rendered at.
+            */}
+            <div className="pt-4" style={{ maxWidth: 268 }}>
+              <Label muted className="mb-2 block">
+                Dalam artikel ini — the RAIL form (`labelledBy` set) at the 268px content box: no
+                heading, no aria-label, no box chrome. The heading below is the container&rsquo;s.
+              </Label>
+              <div
+                style={{
+                  border: '1px solid var(--rule)',
+                  padding: '12px 0',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 9,
+                }}
+              >
+                <div className="s-label" id="ds-rail-toc-heading">
+                  Dalam artikel ini
+                </div>
+                <ArticleToc headings={TOC_DEMO_NESTED} labelledBy="ds-rail-toc-heading" />
+              </div>
+            </div>
+
             <div className="pt-4" style={{ maxWidth: 300 }}>
               <Label muted className="mb-2 block">
                 Dalam artikel ini — below the {TOC_MIN_HEADINGS}-heading floor. Renders nothing; the
