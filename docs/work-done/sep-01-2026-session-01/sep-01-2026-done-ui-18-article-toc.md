@@ -308,6 +308,48 @@ runner's, not this machine's.
   touched; the three `src/app/(public)/brand/*` files it still reports were red on
   `master` before this branch existed and are untouched here.
 
+### The structural check, with a negative control
+
+A 200 proves nothing, so each of these quotes content only the real page carries:
+
+```
+/artikel/hiasan-dekorasi/goodies-kahwin            200 REVALIDATED sin1::pdh5k-1788200949113
+  body h2: 4 | nav.article-toc: 1
+  label: "Dalam artikel ini" | aria-label: "Dalam artikel ini"
+    #23-idea-doorgift-kahwin-menarik-praktikal-disukai-tetamu -> H2 "23 Idea Doorgift Kahwin Menarik, Praktikal &"
+    #hadiah-yang-wajar-dielakkan                             -> H2 "Hadiah yang Wajar Dielakkan"
+    #soalan-lazim                                            -> H2 "Soalan lazim"
+    #kesimpulan                                              -> H2 "Kesimpulan"
+
+/artikel/idea-dan-nasihat/tempat-honeymoon-di-malaysia   200 REVALIDATED sin1::kcp5l-1788200949519
+  body h2: 3 | nav.article-toc: 1
+  label: "Dalam artikel ini" | aria-label: "Dalam artikel ini"
+    #senarai-tempat-honeymoon-di-malaysia-paling-best -> H2 "Senarai Tempat Honeymoon di Malaysia Paling "
+    #soalan-lazim                                     -> H2 "Soalan lazim"
+    #kesimpulan                                       -> H2 "Kesimpulan"
+
+NEGATIVE CONTROL
+/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri  200 REVALIDATED sin1::vxlrf-1788200950038
+  body h2: 0 | nav.article-toc: 0
+  headings actually present: H3 H3 H3 H3 H3 H3 H3 H4 H4 H4 H4 H4
+```
+
+**And the caveat that goes with it, because the corpus moved underneath the
+item.** Both articles had grown by the time of this check: `goodies-kahwin` read
+`h2=3` at 17:53 and `h2=4` now, `tempat-honeymoon` read `h2=2` and reads `h2=3`.
+At 4 `<h2>`, `goodies-kahwin` would satisfy the OLD floor as well, so it is no
+longer proof on its own. `tempat-honeymoon` at 3 still is: it is above the new
+floor and below the old one, and it renders the contents list. The invariant the
+gate enforces does not depend on either article staying where it was.
+
+### What I could not verify, and why
+
+`/admin/design-system` is behind `requireAdminSection('inspire')` and I have no
+admin session. Against the local production build it answers **307 → /login**,
+which proves the route builds and renders rather than throwing, and the component
+itself is asserted by six unit tests on its rendered markup. I have not looked at
+the three specimens with my own eyes, and I am not claiming to have.
+
 ## 7. Not in scope, raised rather than absorbed
 
 **21 of 86 articles carry zero `<h2>`, and 7 of them are a real defect.** Fourteen
