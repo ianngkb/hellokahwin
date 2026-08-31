@@ -1,0 +1,40 @@
+
+UILINT — rendered-layout gate · https://hellokahwin.com/
+widths 390/768/1024/1440/1920 · chrome C:/Program Files/Google/Chrome/Application/chrome.exe
+──────────────────────────────────────────────────────────────────────────────
+[ ok ] / @390                                         0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 H6:0 H6.6:0
+[ ok ] / @768                                         0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 H6:0 H6.6:0
+[ ok ] / @1024                                        0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 H6:0 H6.6:0 · +1 advisory
+        image-attr-aspect ×1
+          declared width="1200" height="630" (1.90:1) for a 2464x700 file (3.52:1) — 46% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            a.group.block > div.bg-muted.relative.aspect-[40/21] > picture > img.absolute.inset-0.h-full  ⟨img · link → /artikel/sebelum-nikah/doa-jodoh · alt="Doa jodoh: boleh sebut nama orangnya, dan apa yang mufti kata pasal bomoh"⟩
+            "ali-karim/crop-4.3x1-desktop-hero.webp?v=0.6868_0.1500-g48c0b959"
+[ ok ] / @1440                                        0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 H6:0 H6.6:0 · +1 advisory
+        image-attr-aspect ×1
+          declared width="1200" height="630" (1.90:1) for a 2464x700 file (3.52:1) — 46% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            a.group.block > div.bg-muted.relative.aspect-[40/21] > picture > img.absolute.inset-0.h-full  ⟨img · link → /artikel/sebelum-nikah/doa-jodoh · alt="Doa jodoh: boleh sebut nama orangnya, dan apa yang mufti kata pasal bomoh"⟩
+            "ali-karim/crop-4.3x1-desktop-hero.webp?v=0.6868_0.1500-g48c0b959"
+[ ok ] / @1920                                        0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 H6:0 H6.6:0 · +1 advisory
+        image-attr-aspect ×1
+          declared width="1200" height="630" (1.90:1) for a 2464x700 file (3.52:1) — 46% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            a.group.block > div.bg-muted.relative.aspect-[40/21] > picture > img.absolute.inset-0.h-full  ⟨img · link → /artikel/sebelum-nikah/doa-jodoh · alt="Doa jodoh: boleh sebut nama orangnya, dan apa yang mufti kata pasal bomoh"⟩
+            "ali-karim/crop-4.3x1-desktop-hero.webp?v=0.6868_0.1500-g48c0b959"
+──────────────────────────────────────────────────────────────────────────────
+totals: empty-content 0
+        rail-collapsed 0
+        narrow-text-column 0
+        reading-measure 0
+        clipped-text 0
+        viewport-overflow 0
+        scroll-container-clip 0
+        image-upscale 0
+        image-aspect 0
+        image-attr-aspect 3 (advisory, does not fail the build)
+        image-unmeasurable 0
+        category-diversity 0
+        source-order 0
+build fingerprint (last width measured, per target):
+  /
+    200 HIT age=47 sin1::sin1::cxf8v-1788206947794-85f795cb0a90 css=[21fd3106af40c828.css 19b83a0982f1e330.css 93b060e57eb15691.css]
+UILINT EXIT: 0
+exit=0
