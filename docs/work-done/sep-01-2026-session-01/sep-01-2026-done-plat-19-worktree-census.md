@@ -220,8 +220,13 @@ survivors and none of the thirteen. Full output in `final-state-AFTER.txt`.
 ### One thing is not finished, and it is not a worktree
 
 Twelve **empty directory entries** remain on disk. Every file inside them is gone
-(`residual_entries=0` on all twelve, from ~250,000 files), they hold no `.git`, and
-neither git nor Orca registers them. A stray process holds each directory handle:
+(`residual_entries=0` on all twelve), they hold no `.git`, and neither git nor Orca
+registers them.
+
+I did not total the twelve before deleting them, so this log states no total. The
+one tree counted before its files went was `ui03-hero`, at **70,382**. The six
+older orphans in §7 were counted directly and that figure is still checkable on
+disk today. A stray process holds each directory handle:
 
 ```
 NOT-GONE  .../ui03-hero  registered=NO on_disk=YES residual_entries=0
