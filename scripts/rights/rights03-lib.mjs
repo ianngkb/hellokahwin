@@ -27,7 +27,11 @@ export const postgres = require('postgres');
 export const { S3Client, PutObjectCommand, DeleteObjectCommand, HeadObjectCommand, ListObjectsV2Command } =
   require('@aws-sdk/client-s3');
 
-export const sql = () => postgres(ENV.DATABASE_URL, { prepare: false, ssl: 'require' });
+// `max` matters. postgres.js refuses a statement that opens its own transaction
+// unless the pool is a single connection — connection.js:606 fires
+// UNSAFE_TRANSACTION on `result.command === 'BEGIN' && max !== 1`. The UNDO .sql
+// is one explicit begin/commit, so the restore opens the pool with max: 1.
+export const sql = (opts = {}) => postgres(ENV.DATABASE_URL, { prepare: false, ssl: 'require', ...opts });
 
 export const s3 = () => new S3Client({
   region: 'auto',

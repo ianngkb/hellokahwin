@@ -83,8 +83,15 @@ if (has('--db') || has('--all')) {
     console.log(`would run: psql "$DATABASE_URL" -f ${UNDO_SQL}`);
   } else {
     const stmts = fs.readFileSync(UNDO_SQL, 'utf8');
-    const db = sql();
-    await db.unsafe(stmts);
+    const db = sql({ max: 1 });
+    // `max: 1` + `.simple()` are BOTH required, and finding that out is the whole
+    // reason this script was exercised against production instead of reasoned
+    // about. postgres.js aborts any statement that opens its own transaction on a
+    // pooled connection — connection.js:606, `result.command === 'BEGIN' && max
+    // !== 1` -> UNSAFE_TRANSACTION — and the UNDO .sql is one explicit
+    // begin/commit. `.simple()` then lets the whole multi-statement file go in one
+    // round trip. Without both, the UNDO fails at the exact moment it is needed.
+    await db.unsafe(stmts).simple();
     await db.end();
     console.log(`ran ${path.basename(UNDO_SQL)} against production`);
   }
