@@ -72,7 +72,7 @@ at 1440 px:
 |---|---|---|
 | Article body | wide body + 300px rail | `left 120, width 594` |
 | **REKOD** | in the right rail | **`left 120`** — the *same left edge as the body*, i.e. inline, the phone treatment |
-| **DALAM ARTIKEL INI** | in the rail | **absent — 0 occurrences in the server HTML** |
+| **DALAM ARTIKEL INI** | in the rail | ~~absent — 0 occurrences in the server HTML~~ **WRONG — see the correction below the table** |
 | **SUMBER** | in the rail | `left 665, top 4558` — far down the page |
 
 **The desktop composition is the mobile composition.** The rail is what fills the
@@ -80,9 +80,44 @@ canvas and makes the page read as a designed publication rather than a centred
 blog post — and it is the thing whose absence leaves ~846 px of empty margin at
 1440.
 
-**The in-article TOC does not exist at all.** Spec mentions it twice; live HTML
-mentions it zero times. `<aside>` and `rail` markup *is* present in the page, so
+~~**The in-article TOC does not exist at all.** Spec mentions it twice; live HTML
+mentions it zero times.~~ `<aside>` and `rail` markup *is* present in the page, so
 the scaffolding partly exists and does not produce the specified layout.
+
+> ### ⚠ CORRECTION — 01 September 2026, UI-18
+>
+> **The in-article contents list existed on 63 of the 86 articles in the sitemap.**
+> It was labelled `Isi Kandungan`, not `Dalam artikel ini`, and it carried 822
+> anchors of which **none** were dangling. `.hk-eyebrow` sets
+> `text-transform: uppercase`, so the served text is uppercase while the source is
+> mixed case — the identical shape as `REKOD` and `SUMBER`, which this same audit
+> documents two sections later as the trap that nearly sent an agent on a hunt.
+> Searching the HTML for the string `DALAM ARTIKEL INI` could only ever return a
+> number about the searcher's assumption.
+>
+> What WAS wrong, and what UI-18 shipped in PR #38:
+>
+> - the component's floor was **four** `<h2>`, not two, which withheld the list
+>   from `/hiasan-dekorasi/goodies-kahwin` (3 h2) and
+>   `/idea-dan-nasihat/tempat-honeymoon-di-malaysia` (2 h2). Now **65 of 86**.
+> - the label was not the spec's. It is `Dalam artikel ini` now, in the eyebrow
+>   and on the `aria-label` landmark.
+> - nothing measured any of it. `scripts/audit-article-toc.mjs` walks the sitemap
+>   at run time and asserts the RELATIONSHIP — a contents list if and only if the
+>   body carries ≥ 2 `<h2>`, every `href="#…"` resolved against the document that
+>   served it. It never tests for a string, and every article it finds without a
+>   contents list is printed with its actual heading census beside it.
+>
+> **§2's finding about the RAIL is untouched and still stands.** The rail is
+> absent, the desktop composition is the phone composition, and that is UI-17's
+> item. `ArticleToc` now styles itself from bare `nav.article-toc` rules, so the
+> rail can render it outside `.inspire-prose` and it will arrive styled.
+>
+> Not in scope, raised here because it is the reason 21 articles still carry no
+> contents list: **7 of them use `<h3>` as their section level with no `<h2>` at
+> all** (e.g. `/hantaran-mas-kahwin/mas-kahwin-ikut-negeri`, `h3=7 h4=5`). An
+> `<h1>` followed by an `<h3>` is a skipped heading level and an accessibility
+> defect in its own right. The other 14 carry no headings at all.
 
 ---
 

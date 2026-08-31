@@ -42,12 +42,25 @@ three sprints; the CTR metric is SPLIT). Earlier: 2026-08-28 (SEO-08 —
   are three base64 fragments in embedded font data plus the reference itself; §7 is
   the state set). **Owner: DES-17 writes the rule, UI-13 builds it, Sprint 05.**
   Decision 179.
-- **🟠 `DALAM ARTIKEL INI` APPEARS ON 0 OF 85 LIVE ARTICLES.** Sitewide census, 01
-  Sept. The spec mentions it twice. The rail's *scaffolding* IS present — `<aside>`
-  ×2, `REKOD` ×24, `SUMBER` ×20 on the page checked — so UI-17 is a layout job, not a
-  from-scratch build; the desktop composition is currently the phone composition,
-  which is what leaves ~846px of empty margin at 1440. **Owner: UI-17 + UI-18,
-  Sprint 05.**
+- **✅ CORRECTED 01 Sept 2026 by UI-18 — the contents list was on 63 of 86, not 0
+  of 85. IT NOW RENDERS ON 65 OF 86, LABELLED `Dalam artikel ini`.** The census
+  searched every live article for the STRING `DALAM ARTIKEL INI`, found zero, and
+  concluded the in-article contents list "does not exist at all". It existed, on 63
+  of the 86 articles then in the sitemap, labelled `Isi Kandungan` — `.hk-eyebrow`
+  sets `text-transform: uppercase`, so the served text is uppercase and the source
+  is mixed case, exactly as `REKOD` and `SUMBER` are, which the same census had
+  already been caught by once that morning. **The string test was answering a
+  question about the searcher's assumption.** What was genuinely wrong: the
+  component's floor was FOUR `<h2>`, not two, which withheld it from two articles;
+  and the label was not the spec's. Both shipped in PR #38, with
+  `scripts/audit-article-toc.mjs` — a gate that asserts the RELATIONSHIP (a
+  contents list iff ≥ 2 h2, every `href="#…"` resolved against the document that
+  served it) rather than any string, and prints the heading census of every article
+  it finds without one. **The rail is still UI-17's job and is unaffected** — the
+  scaffolding finding (`<aside>` ×2, `REKOD` ×24, `SUMBER` ×20) stands, the desktop
+  composition is still the phone composition, and that is still ~846px of empty
+  margin at 1440. `ArticleToc` now styles itself from bare `nav.article-toc` rules
+  so the rail can render it outside `.inspire-prose`. **Owner: UI-17, Sprint 05.**
 - **🟠 THE FAQ-SCHEMA FIGURE WAS STALE. It is 39 of 85, not 31.** Live census 01
   Sept: 46 present, 39 absent, 1 fetch failure. The missing set includes pages we
   actively rank on — `dewan-kahwin` (142 impressions, 2.82%), `garden-wedding` (the

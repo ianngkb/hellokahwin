@@ -8,6 +8,23 @@
 
 CENSUS RUN LIVE 01 Sept 2026 across every article URL in the sitemap: 85 articles fetched, and 'DALAM ARTIKEL INI' appears on ZERO of them. The DES-03 spec mentions it twice. It is the second half of the composition the spec drew and the build never produced. It also has a reader argument independent of the design one: our best-converting pages are long documents (a full doa, a whole checklist) and a long document without a table of contents is harder to use than one with it.
 
+> ### ⚠ CORRECTION — 01 September 2026, on completion
+>
+> **The census's number is wrong and the conclusion drawn from it is wrong.** The
+> string `DALAM ARTIKEL INI` did appear on zero articles. The contents list it was
+> standing in for appeared on **63 of 86**, labelled `Isi Kandungan`, with 822
+> anchors and none dangling — `.hk-eyebrow` uppercases, so the source is mixed
+> case, which is the same trap this brief documents four sections later for
+> `REKOD`. Testing for the casing you assume returns a number about your
+> assumption; the fix is to enumerate what IS there.
+>
+> The DoD was met as written and was not narrowed. What was actually missing: the
+> component's floor was four `<h2>` rather than two (withholding the list from two
+> articles), and the label was not DES-03's. Production now renders it on **65 of
+> 86**, corpus re-derived at run time. Corrected at source in
+> `docs/boardroom/ceo-memory.md` and
+> `docs/plans/aug-30-2026-session-01/aug-31-2026-audit-spec-vs-build.md`.
+
 ## DEFINITION OF DONE — verbatim, and it is not narrowed
 
 A generated table of contents renders on every article carrying two or more h2 headings, with each entry linking to a working in-page anchor - verified by a committed script that walks the sitemap, counts articles with >=2 h2, and asserts the TOC is present on all of them and absent on the rest, pasting the before (0 of 85) and after counts. Every TOC link resolves to an id that exists in the same document - the script checks the anchor targets, not just the link text. Tap targets meet UI-11's 24px floor (the in-article TOC was explicitly named in UI-11's scope). The article corpus count is re-measured at run time rather than assuming 85 - CONT-13 and CONT-16 are adding eight articles in this same sprint.

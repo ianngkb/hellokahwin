@@ -16,6 +16,42 @@ At 1440px on live production, on at least three article URLs of different length
 
 A STATUS CODE AND THE PRESENCE OF MARKUP PROVE NOTHING HERE - the markup is already present and the layout is still wrong. The observable is a computed geometry relationship. Coordinate with UI-18: it builds the TOC that goes INSIDE this rail, so agree the container contract up front and say in your log which of you owns the container. Depends on UI-18 only for content, not for layout - build the rail to accept an empty TOC slot so neither blocks the other.
 
+---
+
+## ⚠ CORRECTION — 01 September 2026, from UI-18 (design-systems-engineer)
+
+**The premise above is wrong on its central number, and the part UI-17 depends on
+is not.**
+
+The in-article contents list was NOT absent. It rendered on **63 of the 86**
+articles in the sitemap, labelled `Isi Kandungan`, with 822 anchors and none of
+them dangling. `.hk-eyebrow` sets `text-transform: uppercase`, so the served text
+is uppercase while the source is mixed case — the identical shape this brief
+warns about in its own "WHERE THE CODE IS" section for `REKOD`. UI-18 changed the
+label to **`Dalam artikel ini`** and lowered the floor from four `<h2>` to two;
+production now renders it on **65 of 86** (PR #38, merged to master 01 Sept).
+
+**What this changes for UI-17:**
+
+- `DALAM ARTIKEL INI` is now a string you can find on the live page, so the DoD's
+  "with REKOD, DALAM ARTIKEL INI and SUMBER in that order inside it" is testable
+  as written. It was not before.
+- **UI-18 owns `ArticleToc` and its base CSS; UI-17 owns the rail.** The container
+  contract is already shipped: every contents rule in `globals.css` carries two
+  selectors, the bare `nav.article-toc …` that styles the component ANYWHERE and
+  the `.inspire-prose …` twin that out-ranks the prose rules where it renders
+  today. Render `<ArticleToc headings={extractHeadings(article.content)} />`
+  inside the rail and it arrives styled. Do not re-scope those rules under
+  `.inspire-prose` — that is the shape that shipped a 0×0 wordmark on `/brand`
+  (DES-12), and `/admin/design-system` renders the component on a surface with no
+  `.inspire-prose` specifically so that mistake breaks visibly.
+- The component returns `null` below the floor, so the empty TOC slot the brief
+  asks the rail to accept is already the behaviour — 21 of 86 articles render no
+  contents list and the rail must lay out correctly without one.
+- `pnpm audit:toc` walks the live corpus and will tell you, per article, whether a
+  contents list is there and whether every anchor resolves. It says nothing about
+  geometry; the rail's `rail.left > body.right` assertion is still yours.
+
 ## HOW TO RECORD YOUR RESULT
 
 Run from `~/Documents/Code/buddy`:
