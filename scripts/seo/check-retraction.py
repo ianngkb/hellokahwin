@@ -103,6 +103,26 @@ def zones(html):
 
 
 def count(hay, needle):
+    """CASE-INSENSITIVE, SUBSTRING, NO WORD BOUNDARY. Stated because a count is
+    evidence only if you know its needle, its denominator AND its matching mode.
+
+    CONT-13 spent three passes reconciling two counts of `munkar` on one page,
+    41 against 45. It was not the page version and it was not a dropped region -
+    both of those causes were NAMED before anyone measured. It was case: 41
+    exact, plus 3 `Munkar` and 1 `eMunkar`, equals 45. Two correct counts in
+    different matching modes, and neither had declared its mode.
+
+    Case-insensitive is the right choice HERE, for the same reason as the
+    denominator: a retracted sentence that survives with different
+    capitalisation is still shipped. A case-sensitive gate would under-report,
+    and it would under-report SILENTLY, which is the worse direction for a check
+    whose entire job is to find something that is still there.
+
+    No word boundary, for the same reason. On that page 5 of the 45 sat inside
+    the URL slug `apa-maksud-hadis-munkar` and 1 inside a domain name. For a
+    prominence measure those should be excluded; for a retraction they must not
+    be, because a retracted phrase living in a slug is still published.
+    """
     return hay.lower().count(needle.lower())
 
 
@@ -188,6 +208,17 @@ def selftest():
             ["Tiada mana-mana pihak berkuasa"], verbose=False)
     print("  exit %d %s" % (r, "(PASS, correct)" if r == PASS else "(WRONG)"))
     ok &= (r == PASS)
+
+    print("\nCAPITALISATION-ONLY SURVIVOR - must still be caught:")
+    caps = ('<html><body><p>Tiada mana-mana pihak berkuasa menerbitkan teks rasmi.</p>'
+            '<figure><figcaption>Di Rumah, Yang Dibaca Ialah Doa Umum.</figcaption>'
+            '</figure></body></html>')
+    fc = os.path.join(d, "caps.html")
+    io.open(fc, "w", encoding="utf-8").write(caps)
+    r = run(fc, ["yang dibaca ialah doa umum"],
+            ["Tiada mana-mana pihak berkuasa"], verbose=False)
+    print("  exit %d %s" % (r, "(FAIL, correct)" if r == FAIL else "(WRONG)"))
+    ok &= (r == FAIL)
 
     print("\nNO CONTROL - the gate must refuse rather than return a hollow pass:")
     r = run(fa, ["yang dibaca ialah doa umum"], [], verbose=False)

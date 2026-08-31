@@ -96,7 +96,7 @@ therefore not convertible. **The writer re-measured instead of accepting it, and
 two of those three claims were wrong.** Measured across three denominators on
 the saved live pages:
 
-| needle | full response | server HTML | visible text | full/server | full/visible |
+| needle (case-sensitive) | full response | server HTML | visible text | full/server | full/visible |
 |---|---|---|---|---|---|
 | `amalan sahabat` | 8 | 4 | 4 | 2.00× | 2.00× |
 | `sunnah Nabi` | 22 | 11 | 6 | 2.00× | 3.67× |
@@ -115,10 +115,39 @@ counting. **The method was misreported by its own author.**
 invalid: the writer's figure counted `adalah hadis yang munkar`; this seat's
 counted bare `munkar`. **Different strings, so no denominator reconciles them.**
 
-**The real rule, and it is broader than the original:** a count is evidence only
-if it states **both the needle and the denominator**. And none of these numbers
-measures prominence — `munkar` at 41 is not four times more prominent than
-`Yusuf dan Zulaikha` at 10; different pages, different string lengths.
+**3. A third cause surfaced on the same row, and it was neither party's
+hypothesis.** The writer counted `munkar` 45 where this seat counted 41, on a
+page that is byte-identical between them. This seat proposed *page version*; the
+writer disproved that (45 reproduces across three captures differing by 14 KB)
+and proposed a dropped region. **Both were wrong.** Measured on a freshly
+fetched copy, with no extraction at all:
+
+```
+exact  "munkar"        : 41
+case-insensitive       : 45
+   36  'munkar'
+    5  'apa-maksud-hadis-munkar'      <- URL slug
+    3  'Munkar'
+    1  'eMunkar'                      <- part of a domain name
+```
+
+**The difference is case sensitivity, exactly 4 occurrences.** Both counts are
+correct; they are different matching modes. Note also that 6 of the 45 are
+inside a URL slug and a domain name rather than prose — a further reason these
+figures cannot be read as prominence.
+
+**The real rule, broader than the original on both passes:** a count is evidence
+only if it states **the needle, the denominator, and the matching mode**. And
+none of these numbers measures prominence — `munkar` at 41 is not four times
+more prominent than `Yusuf dan Zulaikha` at 10; different pages, different
+string lengths, and some occurrences are not prose at all.
+
+⚠ **Three passes were needed to settle a trivial question, because on each pass
+a cause was named before it was measured** — twice by this seat, once by the
+writer. The measurement that finally settled it was two lines long and available
+at any point. **When a numeric discrepancy appears, measure the specific thing
+first; a causal story offered in place of that measurement is the failure, not
+the wrong story.**
 
 **The process lesson is the one this company keeps re-learning** (decisions 163
 and 182): a confirmed fault licenses re-checking the neighbours, it never

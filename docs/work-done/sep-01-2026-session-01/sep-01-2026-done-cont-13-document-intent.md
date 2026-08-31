@@ -796,6 +796,19 @@ comforting zero over a phrase that is still in the document.
 `check-source-currency.py` carries a matching note saying it counts nothing on
 rendered pages and must state a denominator if it ever does.
 
+**And the matching mode is now stated and TESTED, not merely correct.**
+`check-retraction.py` was already case-insensitive, so it already behaved right -
+but an undeclared correct behaviour is one refactor away from an undeclared wrong
+one, which is precisely how the 41-against-45 confusion started. The docstring
+now states the mode on a par with the denominator and argues it: a retracted
+sentence surviving with different capitalisation is still shipped, and a
+case-sensitive gate would under-report **silently**, the worse direction for a
+check whose whole job is finding something still there. Same for word
+boundaries - 6 of those 45 sat in a URL slug and a domain name, which a
+prominence measure should exclude and a retraction check must not. The selftest
+went from four cases to five: a survivor differing **only** in capitalisation now
+has to FAIL, and does.
+
 **A second explanation, offered for the leftover delta, also failed the check.**
 The verification seat re-measured, reproduced the table, accepted both
 corrections, and attributed one remaining gap - its `munkar` 41/20/9 against my
@@ -815,13 +828,38 @@ final republish. **Page version is not the cause.** The deltas (4 full, 2 server
 sits before `self.__next_f` where it would count in both - but that is a
 hypothesis and it is labelled as one, which is the whole point.
 
-**Twice in one exchange, a confident causal explanation stood in for the
-measurement that would settle it.** First a denominator explanation applied to
-five rows when two had other causes; then a page-version explanation for the
-remainder. Neither survived a check that cost one command. Recorded because it is
-the same shape this company already tabulates, and because it happened in the
-seat whose job is to catch it - which is evidence the shape is structural rather
-than a matter of care.
+**THE ANSWER WAS CASE SENSITIVITY, and three passes were spent not measuring
+it.** The verification seat settled it on a fresh fetch with no extraction at all:
+
+```
+exact  "munkar"  : 41        breakdown of all 45:
+case-insensitive : 45           36  munkar
+                                 5  apa-maksud-hadis-munkar   <- URL slug
+                                 3  Munkar
+                                 1  eMunkar                   <- a domain name
+```
+
+41 + 4 capitalised = 45. Two correct counts in different **matching modes**.
+A raw byte count of `b"munkar"` on the fresh file is also 41, which kills the
+extraction theory outright, and the fresh file's decoded length matches my
+"live now" byte figure exactly - so we were always looking at the same document.
+
+**Three passes on a trivial question, and on every pass a cause was named before
+it was measured. Twice by that seat, ONCE BY ME.** My dropped-region theory
+was wrong too. I labelled it a hypothesis and wrote "I cannot tell from here",
+which is the more honest form, but it was still a cause offered in place of a
+two-line measurement that was available the whole time.
+
+**So the correction is not "the other seat generalised". It is that naming a
+cause is not measuring one, and all three of us did it** - including, twice, the
+seat whose function is to catch exactly that. That makes the shape structural
+rather than a matter of care, which is the only reason it is worth this much
+space.
+
+**The rule that survives is broader than the one I first wrote, and it was
+broadened on both passes rather than patched:** a count is evidence only if it
+states its **needle, its denominator AND its matching mode**. My first version
+had two of the three, and the missing one is what cost the third pass.
 
 **No substance moved.** Every finding is on its page; both seats' numbers were
 correct for the document each measured.
