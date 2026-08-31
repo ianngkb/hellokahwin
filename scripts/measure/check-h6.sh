@@ -118,7 +118,37 @@ N="$(printf '%s\n' "$SEQ" | wc -l | tr -d ' ')"
 CAP=$(( (N + 2) / 3 ))          # ceil(N/3)
 DISTINCT="$(printf '%s\n' "$SEQ" | sort -u | wc -l | tr -d ' ')"
 
+# --- THE RAW CENSUS, UNDEDUPLICATED. UI-13's DoD names this exact command, and
+# it is not the same number as the set above: a Next.js page carries its content
+# TWICE, once as DOM and once as the RSC flight payload, so a plain-text grep
+# over the served HTML returns exactly double. Measured on the live homepage,
+# 01 Sept 2026: 26 raw segments, 13 items. That is why H6.0 deduplicates by
+# path, and why "26 of 26 are hantaran-mas-kahwin" was always a statement about
+# 13 articles.
+#
+# Printed rather than merely accounted for, because the RATIO is a diagnostic
+# nothing else here would catch: RAW = 2 x N is the healthy state, and any other
+# multiple means the page's shape changed under this script — a third copy, a
+# link rendered only on the server, a duplicate item — and the verdict below
+# deserves a second look before it is believed.
+RAWCENSUS="$(grep -oaE '/artikel/[a-z0-9-]+/[a-z0-9-]+' "$TMP" \
+            | sed 's#.*/artikel/##; s#/.*##' | sort | uniq -c | sort -rn)"
+RAWTOTAL="$(printf '%s\n' "$RAWCENSUS" | awk '{s+=$1} END {print s+0}')"
+
 echo
+echo "  raw:    $RAWTOTAL category segments before dedup ($(printf '%s\n' "$RAWCENSUS" | awk '{printf "%s%s=%d", (n++?" ":""), $2, $1}'))"
+# Two multiples are normal and neither is a finding: 2 x N is a Next.js page
+# (DOM + RSC flight payload) and 1 x N is a plain HTML file, which is what every
+# fixture in this repo is. Anything else means a third copy, a link rendered
+# only on one side, or a genuinely repeated item — a change in the page's shape
+# underneath this script, which is worth knowing before the verdict is believed.
+# Written as "not 1 and not 2" rather than "not 2" because the first draft
+# warned on all eight of its own fixtures, and a warning that fires on every
+# control is noise that teaches people to skip the line.
+if [ "$RAWTOTAL" -ne "$N" ] && [ "$RAWTOTAL" -ne $(( N * 2 )) ]; then
+  echo "          !! $RAWTOTAL is neither N ($N) nor 2 x N ($(( N * 2 ))). The page's shape changed"
+  echo "             under this script; the verdict below is worth a second look." >&2
+fi
 echo "  set:    N=$N items, $DISTINCT distinct categories, share cap ceil(N/3)=$CAP"
 echo "  order:  $(printf '%s\n' "$SEQ" | paste -sd' ' -)"
 echo
