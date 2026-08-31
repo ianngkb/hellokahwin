@@ -570,3 +570,144 @@
   padding: 4px 0 14px;
   align-items: flex-start;
 }
+
+/* ══════════════════════════════════════════════════════════════════════
+ * ARTICLE COMPOSITION — the body column and the 300px rail. DES-03 §5.1.
+ *
+ *   "On desktop the panel is the 300 px rail; on a phone it is a full-width
+ *    block in the same place in the reading order."
+ *
+ * ── WHAT WAS THERE BEFORE, MEASURED ON PRODUCTION 01 SEP 2026 ─────────
+ *
+ * The desktop composition WAS the mobile composition. At 1440px the body
+ * column ran 120..714 and the Rekod panel ran 120..888 — the SAME left edge
+ * as the body, i.e. the phone treatment, stacked. `[data-hk-rail]` did not
+ * exist at 1024, 1440 or 1920 on any of three article URLs. That is nine
+ * failures of `R1-no-rail` in `scripts/measure-article-rail.mjs`, captured
+ * before this rule existed, and it is why ~846px of the 1440px viewport was
+ * empty margin and the page read as a centred blog post.
+ *
+ * The markup was never the problem: `<aside>` was already served twice and
+ * `Rekod` on every article. Grepping for either returns a healthy number and
+ * proves nothing, because an element in the wrong COLUMN is a computed
+ * layout value that does not exist until CSS is applied at a real width.
+ *
+ * ── WHY 756 + 64 + 300 AND NOT DES-03'S TEXT COLUMN LITERALLY ─────────
+ *
+ * §5.1 draws `minmax(0,756px) 300px; gap: 64px` — 1120px of composition —
+ * and that is exactly what `max-width: 1120px` reproduces here: at any
+ * container wider than 1120 the first column computes to 756.00px and the
+ * rail to 300.00px, which is the spec's own frame, arrived at by its own
+ * arithmetic rather than by three hard-coded numbers.
+ *
+ * What is NOT taken from §5.1 is prose filling that 756px. 756px of body
+ * text at 18px is 84 characters per line by the DoD's own formula, and
+ * UI-10 capped continuous prose at `--measure-prose` (33em = 66 cpl)
+ * precisely because the uncapped column measured 104.5 cpl at 1440. Where
+ * the spec and a measurement disagree the measurement wins, and this item's
+ * own DoD says so: "Body measure stays within UI-10's 45-75 characters per
+ * line". So column 1 is 756px WIDE and the prose inside it stops at 594px,
+ * which is UI-10's stated composition — "a ragged right: the headline may
+ * run wider than the reading column, and the photograph wider still".
+ *
+ * ── WHY THE GRID IS EXPLICITLY PLACED RATHER THAN SOURCE-ORDERED ──────
+ *
+ * The reading order on a phone is eyebrow, headline, deck, REKOD, figure,
+ * body — the record above the fold, "so the reader searching mas kahwin
+ * Perak has the answer before the photograph loads". The rail therefore
+ * sits between the header and the figure in the SOURCE, which is where a
+ * phone needs it, and is lifted into column 2 spanning all three rows on
+ * desktop. One node, two positions. Rendering it twice — `lg:hidden` plus
+ * `hidden lg:block` — is how this template came to emit two `<h1>`s on 85 of
+ * 85 articles (DES-09 G01) and two `<aside>`s per page today, and
+ * `measure-article-rail.mjs` check R6 fails the build if the count is ever
+ * anything but one.
+ * ══════════════════════════════════════════════════════════════════════ */
+.hk-article-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* The rail's own rhythm. `--sp-9` between blocks is section-to-section on
+   desktop; the padding is what makes a rail child's usable width 268px, and
+   UI-18's 24px tap-target floor is verified at that number rather than at
+   300. */
+.hk-rail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-9);
+}
+.hk-rail-block {
+  padding-left: var(--sp-4);
+  padding-right: var(--sp-4);
+}
+.hk-rail-heading {
+  color: var(--fg-muted);
+  border-top: 2px solid var(--fg);
+  padding-top: 12px;
+  margin: 0 0 10px;
+}
+/* A reference list, not prose: `--fs-caption` and a hanging rule per entry,
+   the same hairline the Rekod field rows use, so the three rail blocks read
+   as one component and not three. */
+.hk-rail-sources {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.hk-rail-sources li {
+  font-size: var(--fs-caption);
+  line-height: 1.45;
+  color: var(--fg-muted);
+  padding: 9px 0;
+  border-bottom: 1px solid var(--hair);
+}
+.hk-rail-sources li:last-child {
+  border-bottom: 0;
+}
+
+/* Mobile: source order, full width, each block sharing the body column's
+   left edge. The rail's own horizontal padding is cancelled so a block still
+   lines up with the prose above and below it — a 16px inset on a phone would
+   put Rekod 16px to the right of the headline, which is the two-unrelated-
+   columns defect UI-10 fixed on the header. */
+@media (max-width: 1023.98px) {
+  .hk-article-grid > .hk-rail {
+    margin-top: var(--sp-4);
+  }
+  .hk-rail-block {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hk-article-grid {
+    /* 756 + 64 + 300 = 1120, DES-03 §5.1's own frame. Below a 1120px
+       container the first column absorbs the shortfall and the rail stays
+       at 300: at a 1024px viewport the container is 944, column 1 computes
+       to 580, and the prose measure lands at 64.4 cpl — inside the band. */
+    max-width: 1120px;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    column-gap: 64px;
+  }
+  .hk-article-grid > .hk-article-head {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .hk-article-grid > .hk-rail {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    /* Without this the rail stretches to the full height of the body column
+       and its `gap` distributes 12,000px of article between three blocks. */
+    align-self: start;
+  }
+  .hk-article-grid > .hk-article-figure {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .hk-article-grid > .hk-article-body {
+    grid-column: 1;
+    grid-row: 3;
+  }
+}

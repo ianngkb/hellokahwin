@@ -1,0 +1,44 @@
+/*
+ * GREEN CONTROL FOR CHECK 10 (`rail-collapsed`) — a test fixture, not
+ * production code, and nothing here is a proposed fix. The real fix is
+ * `.hk-article-grid` in `src/design-system/components.css`.
+ *
+ * WHY A SECOND GREEN CONTROL EXISTS AT ALL. `2026-09-01-pre-rail/article.html`
+ * fires `rail-collapsed` three times — at 1024, 1440 and 1920. That is half a
+ * proof. A check that fires on everything looks exactly the same in a log as a
+ * check that fires on the defect, and this repo has already shipped two checks
+ * that were only ever seen failing: one was reporting a screen-reader-only
+ * heading as a 1px text column, and one was calling an element its own
+ * ancestor's clip "painted past the viewport edge". Neither was visible from a
+ * failing run alone.
+ *
+ * So this file is the smallest edit that makes the SAME page pass the SAME
+ * check, and it differs from the known-bad input in exactly the one property
+ * check 10 measures: where the panel's left edge sits relative to the body
+ * column's. Nothing else about the page changes — same DOM, same fonts, same
+ * three production stylesheets, same widths.
+ *
+ * Injected by `scripts/ui-layout-gate.mjs` at serve time and ONLY under
+ * `--pre-rail --green`. The fixture HTML on disk stays byte-identical to the
+ * capture (sha256 in the fixture README).
+ *
+ * ⚠ THIS IS NOT WHAT THE FIX LOOKS LIKE, and it must not be cited as evidence
+ * that the rail works. A margin does not make a rail: it moves one block
+ * sideways and leaves the body column exactly as wide as it was, so the page
+ * under this stylesheet has a displaced panel and no second column. The real
+ * change makes the body column and the rail two cells of one grid — 756 + 64 +
+ * 300 — which is a different page and is measured on the deployed build by
+ * `scripts/measure-article-rail.mjs` (checks R1-R7), not here.
+ *
+ * What this file proves, and the only thing it proves: check 10 can reach a
+ * verdict of "not collapsed" on a real page at every width it inspects.
+ */
+@media (min-width: 1024px) {
+  /* The body column measures ~594px and starts at the container's left edge.
+     660px clears its right edge at every width the check inspects, which is
+     the condition `rail-collapsed`'s second arm tests — and only that. */
+  .s-rekod {
+    margin-left: 660px;
+    width: 300px;
+  }
+}
