@@ -228,3 +228,26 @@ Ranked exposure and the request list built on these numbers:
    after a `ditarik-balik`.
 5. **Nothing is deleted from this file.** A row for an image we no longer publish
    is the record that we once did.
+6. **A `ditarik-balik` is not finished until the CDN returns 404.** Set the
+   status, append to `log_takedown`, *and* add a machine-readable entry to
+   [`takedowns.json`](takedowns.json) in the same sitting. Then run:
+
+   ```
+   node scripts/rights/takedown-gate.mjs
+   ```
+
+   **Deleting the object is not removing the image.** RIGHTS-03, 01 Sept 2026:
+   both files were deleted from R2 and from the `media` table, both articles
+   stopped referencing them, `ListObjectsV2` returned 0 objects for both
+   prefixes — and all six URLs kept returning **HTTP 200, `cf-cache-status:
+   HIT`**, because `images.hellokahwin.com` serves `Cache-Control: public,
+   max-age=31536000, immutable`. A year of continued public delivery from a
+   bucket that no longer holds the file. Nothing in this register would have
+   noticed, which is why the check is a script and not a sentence.
+
+   The purge needs a Cloudflare token carrying **Zone → Cache Purge** on
+   `hellokahwin.com`. As of 01 Sept 2026 the company has none:
+   `cloudflare.twn` reads zones but returns `401 / 10000` on `purge_cache`, and
+   `cloudflare.hellokahwin` returns `9109 Invalid access token`. The purge
+   command is committed and waiting at
+   `scripts/rights/rights03-purge-cdn.mjs`.

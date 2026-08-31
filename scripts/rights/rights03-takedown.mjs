@@ -105,4 +105,4 @@ for (const t of targets) {
 
 await db.end();
 if (!DRY) console.log('\nrevalidate:', JSON.stringify(await revalidate()));
-console.log(DRY ? '\nDRY RUN — nothing was written. Re-run with --go.' : '\ndone. Now run: node scripts/rights/rights03-verify.mjs');
+console.log(DRY ? '\nDRY RUN — nothing was written. Re-run with --go.' : '\ndone. Now run: node scripts/rights/takedown-gate.mjs');

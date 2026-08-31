@@ -10,7 +10,7 @@ Pre-write state captured `2026-08-31T17:53:20.113Z` from the production pooler
 | Decision | 167, 30 August 2026 |
 | SQL half | [`sep-01-2026-rights-03-UNDO.sql`](sep-01-2026-rights-03-UNDO.sql) |
 | Executable | `scripts/rights/rights03-restore.mjs` |
-| Gate | `scripts/rights/rights03-verify.mjs` |
+| Gate | `scripts/rights/takedown-gate.mjs` |
 
 ## The exact command that restores them
 
@@ -114,7 +114,7 @@ more than one that re-encodes.
 
 ```
 curl -X POST -H "Authorization: Bearer $CRON_SECRET" https://hellokahwin.com/api/cron/revalidate-content
-node scripts/rights/rights03-verify.mjs --before
+node scripts/rights/takedown-gate.mjs --before
 ```
 
 `--before` is the mode that expects both images **present**. It should exit 0
