@@ -1,9 +1,13 @@
 name: UI layout gate
 
-# The rendered-layout gate. See `scripts/ui-layout-gate.mjs` for the six checks
-# and the reasoning behind each threshold. (Six since UI-10 added the reading
-# measure on 31 Ogos 2026; the file's own header is the list that is kept
-# current.)
+# The rendered-layout gate. See `scripts/ui-layout-gate.mjs` for the checks and
+# the reasoning behind each threshold — the file's own header is the list that
+# is kept current, and it is eleven now: UI-10 added the reading measure on
+# 31 Ogos 2026, and UI-13 added H6 (homepage category diversity) and H6.6
+# (source order) on 01 Sept 2026. Those last two are the first checks here that
+# enforce an EDITORIAL rule rather than a rendering one, and they are here for
+# the same reason as everything else: the defect was invisible to every
+# structural check and completely obvious to a reader.
 #
 # WHY THIS EXISTS. On 31 Aug 2026 every one of the twelve cards on the front page
 # rendered its headline in a 44-pixel column, and every automated check this repo
@@ -12,7 +16,7 @@ name: UI layout gate
 # retrospective had already written down that nothing here looks at a computed
 # value. Prose in a retro did not stop it. This is the thing that looks.
 #
-# TWO JOBS, ON PURPOSE.
+# THREE JOBS, ON PURPOSE.
 #
 #   selftest    Blocking, on every push and PR. Hermetic apart from the fixture
 #               images. It does not check the site — it checks the GATE, against
@@ -22,7 +26,15 @@ name: UI layout gate
 #               nobody has seen fail is not a gate, and a gate that has quietly
 #               started passing everything looks exactly like a healthy one.
 #
-#   production  Scheduled and manual, never blocking a PR. Runs the six checks
+#   h6-selection
+#               Blocking, on every push and PR. The one job here that tests the
+#               SITE rather than an instrument, and the only one that can catch a
+#               pull request re-introducing UI-13's defect. Separate from
+#               `selftest` because that job's `npm i --no-save` leaves an
+#               npm-shaped node_modules that `pnpm install --frozen-lockfile`
+#               refuses to reuse.
+#
+#   production  Scheduled and manual, never blocking a PR. Runs every check
 #               against the four widths of every public template on the live
 #               site and files a loud issue when they fail. It is deliberately
 #               NOT a required check: six agents were merging in parallel when
@@ -97,6 +109,73 @@ jobs:
           set -o pipefail
           node scripts/ui-layout-gate.mjs --selftest | tee gate.log
 
+      # UI-13. The SECOND implementation of H6 (DES-03 §7.5), over raw HTML
+      # rather than the rendered DOM. Checks 10 and 11 above are the browser's
+      # version and the self-test already asserts the two agree on the extracted
+      # sequence; this step is what stops the shell instrument itself rotting
+      # unnoticed, and it is the DoD's negative control run in CI rather than
+      # pasted into a document once.
+      #
+      # Hermetic on purpose — committed files, no network — so it belongs in the
+      # BLOCKING job. It is not a check of the live homepage; the production job
+      # below does that, through `--base`, which now carries H6 with it.
+      #
+      # A CRLF checkout would make this "bad interpreter" rather than a failure,
+      # so `scripts/**/*.sh text eol=lf` is pinned in .gitattributes.
+      #
+      # ⚠ `set +e` IS LOAD-BEARING AND IT IS THE FIRST LINE FOR A REASON.
+      # `shell: bash` runs `bash --noprofile --norc -e -o pipefail`, and `-e` is
+      # fatal to a suite whose FIRST control expects a non-zero exit: the shell
+      # dies inside `run` on `check-h6.sh`'s expected `1`, before `got=$?` is
+      # ever read. Measured, run 33431747618 on 31 Aug 2026 — the step printed
+      # its header line, nothing else, and exited 1. It looked like a failing
+      # negative control and it was a step that could not run at all. `set -uo
+      # pipefail` does NOT clear `-e`, which is why this reads `+e` explicitly.
+      # Locally the same script passes, because a plain `bash file.sh` has no
+      # `-e`; that difference is the whole trap.
+      #
+      # `ran` is the second half of the defence. A suite that dies early prints
+      # some passes and then stops, which reads exactly like a suite that
+      # finished — so the count is asserted at the end and the step fails if any
+      # control did not execute.
+      - name: Does check-h6.sh reject the known-bad homepage and accept the known-good one?
+        shell: bash
+        run: |
+          set +e
+          set -uo pipefail
+          rc=0
+          ran=0
+          run() { # run <expected-exit> <file>
+            bash scripts/measure/check-h6.sh "$2" > h6.out 2>&1
+            got=$?
+            ran=$((ran + 1))
+            if [ "$got" = "$1" ]; then
+              echo "  ok   exit $got (expected $1)  $2"
+            else
+              echo "  FAIL exit $got (expected $1)  $2"; sed 's/^/       /' h6.out; rc=1
+            fi
+          }
+          echo 'check-h6.sh — DES-03 §7.5, over raw HTML'
+          # The negative control: the CEO's 31 Aug capture of the real front
+          # page, 13 items and every one of them hantaran-mas-kahwin.
+          run 1 tests/ui-layout-gate/fixtures/2026-08-31-pre-ui-fix/homepage.html
+          # The positive control. Both H6.6 fixtures must exit 0 here: their
+          # item sets are identical and the reversal is CSS, which this script
+          # is structurally blind to. That blindness is the reason check 11
+          # exists in the browser gate, and asserting it keeps the division of
+          # labour between the two instruments honest rather than assumed.
+          run 0 tests/ui-layout-gate/fixtures/h6-order-good.html
+          run 0 tests/ui-layout-gate/fixtures/h6-order-reversed.html
+          # A fetch or usage error is exit 3 and is NOT a verdict about a page.
+          run 3 tests/ui-layout-gate/fixtures/no-such-file.html
+          if [ "$ran" != "4" ]; then
+            echo "  FAIL only $ran of 4 controls executed — the suite did not finish,"
+            echo "       which prints exactly like a suite that did. Check the shell flags."
+            rc=1
+          fi
+          echo "  $ran of 4 controls ran"
+          exit $rc
+
       - name: Summary
         if: always()
         run: |
@@ -107,6 +186,50 @@ jobs:
             tail -n 60 gate.log || true
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
+
+  # UI-13, and this is the job that makes the item's DoD literally true — "a
+  # future regression fails a build rather than waiting for a board meeting."
+  #
+  # The `selftest` job above gates the INSTRUMENTS. Neither of its two steps can
+  # see a regression in the thing being measured, because both are hermetic and
+  # the homepage needs a database. The THIRD implementation of H6 is
+  # `src/lib/inspire/home-selection.ts` — H6.4's rank and greedy slot fill,
+  # H6.5's relaxation ladder — and it is the only one a pull request can break.
+  # Re-narrowing the candidate pool back to a recency window is a one-word change
+  # (`.limit(20)`) that restores the exact defect this item fixed, and until this
+  # job existed nothing in CI ran a test at all: this repo has four gate
+  # workflows and no lint or test workflow.
+  #
+  # A SEPARATE JOB, not a step in `selftest`, and that is a correctness point
+  # rather than tidiness. `selftest` installs playwright-core with
+  # `npm i --no-save`, which leaves an npm-shaped `node_modules`; a later
+  # `pnpm install --frozen-lockfile` in the same job refuses to work with a
+  # modules directory another package manager created. Two jobs, two clean
+  # checkouts, and they run in parallel.
+  #
+  # SCOPED TO ONE TEST FILE ON PURPOSE. Running the whole suite would quietly
+  # make the layout gate into the repo's test job, which is a decision for
+  # whoever owns CI and not one to take sideways inside a design item. That gap
+  # is a real open finding, with its owner named in this item's work-done entry.
+  h6-selection:
+    name: H6 selection unit tests (blocking)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      # `version: 10` is not a preference: package.json carries no
+      # `packageManager` field, so `pnpm/action-setup` has nothing to resolve
+      # from and fails the step outright. Same block as `article-toc-gate.yml`,
+      # copied rather than improvised so the two cannot drift.
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - run: pnpm install --frozen-lockfile
+      - name: Does the H6 selection still hold? (H6.4 rank, H6.5 ladder, determinism)
+        run: pnpm exec vitest run src/lib/inspire/__tests__/home-selection.test.ts
 
   production:
     name: gate the live site (scheduled)

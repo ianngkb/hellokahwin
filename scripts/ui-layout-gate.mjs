@@ -6,10 +6,11 @@
  *   pnpm ui:gate --pre-rail                 # UI-17's known-bad: the collapsed rail
  *   pnpm ui:gate --pre-rail --green         # the same page, panel moved right: check 10 clears
  *   pnpm ui:gate --discriminator            # the unit fixture, sixteen labelled cases
+ *   pnpm ui:gate --h6-order                 # the H6.6 pair: one CSS property apart
  *   pnpm ui:gate --empty-shell              # a real page with <main> emptied
  *   pnpm ui:gate --base https://hellokahwin.com
  *   pnpm ui:gate --url https://…/artikel --url https://…/brand
- *   pnpm ui:gate:selftest                   # 117 assertions: fires AND clears (CI)
+ *   pnpm ui:gate:selftest                   # 192 assertions: fires AND clears (CI)
  *
  * Prints `UILINT EXIT: <n>` at the start of a line and exits with that code.
  *
@@ -37,7 +38,8 @@
  * Four come from the item's definition of done and are not negotiable. Five
  * more were added by three other seats' measurements, because each found a
  * defect that would have walked straight past all four; one of the five is
- * advisory, and says so.
+ * advisory, and says so. Two more (11 and 12) are UI-13's, and are the first
+ * here that enforce an EDITORIAL rule rather than a rendering one.
 
  * ─────────────────────────────────────────────────────────────────────────────
  *
@@ -155,6 +157,38 @@
  * 9. IMAGE UNMEASURABLE — an intrinsic-size probe that fails is REPORTED.
  *
  *    A probe returning -1 must never be quietly treated as a pass.
+ *
+ * 11. CATEGORY DIVERSITY (H6) — the homepage may not run one section over and
+ *    over. DES-03 §7.5, written by DES-17: no category past ceil(N/3) of the
+ *    items (H6.1), no two adjacent items from one category (H6.2), at least
+ *    min(4, K, N−cap+1) distinct categories (H6.3). HOMEPAGE ONLY, and told so
+ *    by the target rather than sniffed from a pathname.
+ *
+ *    This is the first check here that is not about rendering. It is here
+ *    because the failure is invisible to every structural check this company
+ *    owns and completely obvious to a reader: on 01 Sept 2026 the live front
+ *    page ran 13 articles and 10 were `hantaran-mas-kahwin`, out of a corpus of
+ *    89 across 15 categories. The DOM was valid, every link resolved, nothing
+ *    threw. The rule had existed as PROSE in the spec since 28 August and had
+ *    rejected nothing in two sprints. Prose rules do not fire.
+ *
+ *    `scripts/measure/check-h6.sh` is the same rule over raw HTML, and is the
+ *    CLI instrument. The two are deliberately separate implementations and the
+ *    self-test runs BOTH over the same committed fixture, asserting they agree
+ *    on the extracted sequence — a drift between them goes red rather than
+ *    unnoticed.
+ *
+ * 12. SOURCE ORDER (H6.6) — homepage items may not be visually reordered away
+ *    from DOM order. Asserted from computed BOXES, never from property names:
+ *    `order`, `grid-auto-flow: dense` and `*-reverse` are three spellings of
+ *    one effect and the list is not closed. DOM order is also tab order and the
+ *    order a screen reader announces, so a page that satisfies check 10 while
+ *    reading in a different sequence has satisfied nothing.
+ *
+ *    check-h6.sh CANNOT see this — it reads HTML and this is a computed value.
+ *    `tests/ui-layout-gate/fixtures/h6-order-{good,reversed}.html` are the
+ *    proof: byte-identical item sets, one CSS property apart, and the shell
+ *    script exits 0 on both.
  *
  * DELIBERATELY NOT HERE, and named rather than left silent: a headline WRAPPER
  * HEIGHT floor — UI-01 measured a legitimate three-line title at 106px against
@@ -279,7 +313,10 @@ const SITE_LANG = 'ms';
 // the repo on purpose: a manifest that discovers its own targets can silently
 // discover none and report a green run over an empty set.
 const TEMPLATES = [
-  { template: 'homepage', path: '/' },
+  // `homepage: true` turns on checks 11 & 12 (H6). It is a property of the
+  // TARGET rather than of the URL, so the fixtures can carry it too and the
+  // rule never has to guess from a pathname.
+  { template: 'homepage', path: '/', homepage: true },
   { template: 'catalogue index', path: '/artikel' },
   { template: 'category archive', path: '/artikel/hantaran-mas-kahwin' },
   { template: 'article', path: '/artikel/idea-dan-nasihat/garden-wedding' },
@@ -321,6 +358,10 @@ async function collect(limits) {
     MIN_CONTENT,
     MAX_MEASURE_CPL,
     MIN_PROSE_CHARS,
+    // UI-13. Told, not sniffed — see checks 10 & 11. Defaults false so every
+    // other template is unaffected and a caller that forgets it gets silence
+    // rather than a homepage rule applied to an article.
+    isHomepage,
   } = limits;
   // The LAYOUT viewport, not `window.innerWidth`. innerWidth includes the
   // classic scrollbar gutter on Windows Chrome, so a link ending at 1905px in a
@@ -886,6 +927,163 @@ async function collect(limits) {
     }
   }
 
+  // ── CHECKS 11 & 12: H6 — homepage category diversity, and DOM order ───────
+  //
+  // DES-03 §7.5, rule H6, written by DES-17 and executable as
+  // `scripts/measure/check-h6.sh`. That script reads raw HTML; this reads the
+  // rendered DOM, which is what H6.6 makes normative ("DOM order is the order,
+  // which is also tab order and the order a screen reader announces"). The two
+  // are deliberately separate implementations of the same clauses and the
+  // self-test runs BOTH over the same committed fixture, so a disagreement
+  // between them goes red rather than going unnoticed.
+  //
+  // Homepage only, and it is told so rather than sniffing `location.pathname`:
+  // the fixtures are served as `/homepage.html`, so a path test would encode
+  // the fixture layout into the rule.
+  //
+  // WHY THIS IS HERE AND NOT ONLY IN THE SHELL SCRIPT. On 01 Sept 2026 the live
+  // homepage ran 13 articles and 10 of them were `hantaran-mas-kahwin`, out of
+  // a corpus of 89 across 15 categories. The DES-03 spec had asserted a
+  // diversity rule since 28 August and it had never fired at anything, because
+  // it was prose. A magazine front page that runs one section thirteen times
+  // does not read as a publication, and no structural check on this repo could
+  // see it: the DOM was valid, every link resolved, nothing threw.
+  if (isHomepage) {
+    // H6.0 EXTRACTION, normative. Every article link in DOM order, deduplicated
+    // by path, first occurrence wins. An article link is exactly two path
+    // segments after /artikel/ — a one-segment link is a CATEGORY link and is
+    // never an item, which is what keeps the masthead, the breadcrumb and the
+    // footer out of the count. The category is the first of those two segments;
+    // nothing else is consulted, no data attribute and no heading text.
+    //
+    // Read through `new URL(...).pathname` rather than off the raw attribute so
+    // that an absolute href, a trailing slash and a query string all normalise
+    // to the same item. Cross-origin links can never be items.
+    const seen = new Set();
+    const items = [];
+    for (const a of document.querySelectorAll('a[href]')) {
+      let u;
+      try {
+        u = new URL(a.getAttribute('href'), location.href);
+      } catch {
+        continue;
+      }
+      if (u.origin !== location.origin) continue;
+      const m = /^\/artikel\/([a-z0-9-]+)\/([a-z0-9-]+)\/?$/.exec(u.pathname);
+      if (!m) continue;
+      const key = `/artikel/${m[1]}/${m[2]}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      items.push({ path: key, category: m[1], rect: a.getBoundingClientRect(), el: a });
+    }
+
+    notes.h6Items = items.length;
+    notes.h6Order = items.map((i) => i.category).join(' ');
+
+    const N = items.length;
+    if (N === 0) {
+      // A ZERO IS A CLAIM ABOUT THE CHECK UNTIL THE CHECK IS PROVED. Reported
+      // as a violation with the enumeration command attached, never as a
+      // silent pass — a homepage with no article links is either a real empty
+      // page (check 7 will also fire) or a broken extraction, and the two must
+      // not look alike.
+      violations.push({
+        check: 'category-diversity',
+        selector: 'a[href^="/artikel/"]',
+        detail:
+          'H6.0 EXTRACTION — zero article links matched. Enumerate what IS there before reading this as an empty homepage: [...document.querySelectorAll("a[href]")].map(a=>a.getAttribute("href"))',
+        sample: '',
+        value: 0,
+      });
+    } else {
+      const cap = Math.ceil(N / 3);
+      const count = {};
+      for (const i of items) count[i.category] = (count[i.category] ?? 0) + 1;
+      const distinct = Object.keys(count).length;
+
+      // H6.1 SHARE CAP — no category supplies more than ceil(N/3) items.
+      for (const [catg, n] of Object.entries(count).sort((a, b) => b[1] - a[1])) {
+        if (n > cap) {
+          violations.push({
+            check: 'category-diversity',
+            selector: `a[href^="/artikel/${catg}/"]`,
+            detail: `H6.1 SHARE CAP — "${catg}" supplies ${n} of ${N} homepage items, over the cap of ceil(N/3)=${cap}. Order: ${items.map((i) => i.category).join(' ')}`,
+            sample: catg,
+            value: n,
+          });
+        }
+      }
+
+      // H6.2 RUN CAP — no two consecutive items share a category.
+      const runs = [];
+      for (let i = 1; i < items.length; i++) {
+        if (items[i].category === items[i - 1].category)
+          runs.push(`${i}-${i + 1}:${items[i].category}`);
+      }
+      if (runs.length) {
+        violations.push({
+          check: 'category-diversity',
+          selector: 'homepage item set',
+          detail: `H6.2 RUN CAP — ${runs.length} adjacent same-category pair(s), maximum run length is 1: ${runs.join(' ').slice(0, 160)}`,
+          sample: runs[0],
+          value: runs.length,
+        });
+      }
+
+      // H6.3 DISTINCT FLOOR — F = min(4, K, N - cap + 1). K, the number of
+      // categories holding at least one published article, is not knowable from
+      // inside the page, so this uses the stricter reading of 4 that the shell
+      // script also uses when it is given no --corpus. The third term is what
+      // stops H6.3 contradicting H6.1 at small N: a floor above N - cap + 1
+      // would forbid any category from reaching the cap H6.1 explicitly
+      // permits. At N=4, cap=2, the floor is 3, not 4.
+      const floor = Math.max(1, Math.min(4, N - cap + 1));
+      if (distinct < floor) {
+        violations.push({
+          check: 'category-diversity',
+          selector: 'homepage item set',
+          detail: `H6.3 DISTINCT FLOOR — ${distinct} distinct categor${distinct === 1 ? 'y' : 'ies'} across ${N} items, floor min(4,K,N-cap+1)=${floor}. Present: ${Object.entries(
+            count,
+          )
+            .map(([c, n]) => `${c}=${n}`)
+            .join(' ')}`,
+          sample: Object.keys(count).join(','),
+          value: distinct,
+        });
+      }
+
+      // H6.6 SOURCE ORDER — "Homepage items may not be visually reordered away
+      // from source order — no `order`, no `grid-auto-flow: dense`, no
+      // `*-reverse` on the item container. A page that satisfies the checker
+      // while reading in a different sequence to a sighted reader has satisfied
+      // nothing."
+      //
+      // Asserted from COMPUTED BOXES, not from property names. `order`,
+      // `dense` and `row-reverse` are three spellings of one effect, the list
+      // is not closed (`direction: rtl`, absolute positioning, a negative
+      // margin), and this gate's whole reason for existing is that it reads
+      // what the browser did rather than what the CSS said. Items on the same
+      // visual line (tops within 12px) are ordered left to right, everything
+      // else top to bottom. Only the FIRST inversion is reported: after one
+      // swap every later index is off by one and a per-item report would print
+      // twelve violations for one defect.
+      const visual = items
+        .map((it, i) => ({ i, top: it.rect.top, left: it.rect.left, path: it.path }))
+        .sort((a, b) => (Math.abs(a.top - b.top) < 12 ? a.left - b.left : a.top - b.top));
+      const inversion = visual.findIndex((v, i) => v.i !== i);
+      if (inversion !== -1) {
+        const v = visual[inversion];
+        violations.push({
+          check: 'source-order',
+          selector: `a[href="${v.path}"]`,
+          detail: `H6.6 — DOM order is not reading order. Item at DOM index ${v.i} paints in visual position ${inversion} (top ${v.top.toFixed(0)}, left ${v.left.toFixed(0)}). DOM order is also tab order and the order a screen reader announces, so the diversity above has been satisfied only on paper.`,
+          sample: v.path,
+          value: Math.abs(v.i - inversion),
+        });
+      }
+    }
+  }
+
   // ── CHECKS 3, 4, 4b & 8: image scale, aspect, declared box ─────────────────
   //
   // ⚠ NEVER `img.naturalWidth` HERE. On an <img> carrying a `srcset` with `w`
@@ -1186,6 +1384,7 @@ async function measure(targets, { json, label }) {
             MIN_CONTENT,
             MAX_MEASURE_CPL,
             MIN_PROSE_CHARS,
+            isHomepage: t.homepage === true,
           });
       rows.push({ ...t, width, ...result, error, provenance });
       await ctx.close();
@@ -1208,6 +1407,12 @@ const CHECKS = [
   'image-aspect',
   'image-attr-aspect',
   'image-unmeasurable',
+  // UI-13. DES-03 §7.5 rule H6. Blocking, and deliberately so: this is the
+  // half of "it does not look premium" that a reader sees before reading a
+  // word, and the rule went two sprints without ever firing because it was
+  // prose. A prose rule does not fire.
+  'category-diversity',
+  'source-order',
 ];
 // Reported with full numbers, never silent, but NOT counted towards the exit
 // code. `image-attr-aspect` was suggested by UI-03 with an explicit acceptance
@@ -1232,6 +1437,8 @@ const ABBREV = {
   'image-aspect': 'aspect',
   'image-attr-aspect': 'attr',
   'image-unmeasurable': 'unmeasurable',
+  'category-diversity': 'H6',
+  'source-order': 'H6.6',
 };
 
 function report(rows, { label, quiet }) {
@@ -1307,7 +1514,7 @@ async function runFixtures({ green, json, quiet, only }) {
   const server = await startFixtureServer(green);
   const base = `http://127.0.0.1:${server.address().port}`;
   let targets = [
-    { name: 'homepage.html', url: `${base}/homepage.html` },
+    { name: 'homepage.html', url: `${base}/homepage.html`, homepage: true },
     { name: 'article.html', url: `${base}/article.html` },
     { name: 'category.html', url: `${base}/category.html` },
   ];
@@ -1335,13 +1542,25 @@ async function runBase(baseUrl, { json, quiet }) {
   const targets = list.map((t) => ({
     name: `${t.template} ${t.path}`,
     url: new URL(t.path, baseUrl).toString(),
+    homepage: t.homepage === true,
   }));
   const rows = await measure(targets, { json, label: baseUrl });
   return { rows, ...report(rows, { label: baseUrl, quiet }) };
 }
 
 async function runUrls(urls, { json, quiet }) {
-  const targets = urls.map((u) => ({ name: new URL(u).pathname || u, url: u }));
+  // `--url https://…/` must gate the homepage the same way `--base` does. This
+  // is the one place a pathname test is right rather than lazy: `--base` reads
+  // `homepage: true` off the TEMPLATES manifest, but an explicit URL has no
+  // manifest entry to read, and silently skipping checks 10 and 11 here would
+  // hand back a green run over the exact page they exist for. The trailing
+  // slash is optional and a query string is ignored, because a reader debugging
+  // a cache will paste `https://hellokahwin.com/?x=1`.
+  const targets = urls.map((u) => ({
+    name: new URL(u).pathname || u,
+    url: u,
+    homepage: new URL(u).pathname === '/' || new URL(u).pathname === '',
+  }));
   const rows = await measure(targets, { json, label: 'explicit urls' });
   return { rows, ...report(rows, { label: urls.join(', '), quiet }) };
 }
@@ -1372,7 +1591,7 @@ async function selftest() {
   const base = `http://127.0.0.1:${server.address().port}`;
   const bad = await measure(
     [
-      { name: 'homepage.html', url: `${base}/homepage.html` },
+      { name: 'homepage.html', url: `${base}/homepage.html`, homepage: true },
       { name: 'article.html', url: `${base}/article.html` },
       { name: 'category.html', url: `${base}/category.html` },
     ],
@@ -1426,6 +1645,19 @@ async function selftest() {
     { label: 'selftest-pre-rail-green' },
   );
   railGoodServer.close();
+  // UI-13. The H6.6 pair, served from FIXTURES_ROOT alongside the
+  // discriminator. Same 13 real article paths, same DOM order, ONE CSS
+  // property apart.
+  const h6Server = await startFixtureServer(false, FIXTURES_ROOT);
+  const h6base = `http://127.0.0.1:${h6Server.address().port}`;
+  const h6 = await measure(
+    [
+      { name: 'h6-order-good.html', url: `${h6base}/h6-order-good.html`, homepage: true },
+      { name: 'h6-order-reversed.html', url: `${h6base}/h6-order-reversed.html`, homepage: true },
+    ],
+    { label: 'selftest-h6-order' },
+  );
+  h6Server.close();
 
   const greenServer = await startFixtureServer(true);
   const gbase = `http://127.0.0.1:${greenServer.address().port}`;
@@ -1770,6 +2002,113 @@ async function selftest() {
     );
   }
 
+  // 11. H6 — DES-03 §7.5, the homepage category diversity rule (UI-13).
+  //
+  // The rule this section exists to make FIRE. It sat in the spec from 28
+  // August as prose, was cross-referenced from §5.3, and rejected nothing for
+  // two sprints, while the live front page ran thirteen articles out of one
+  // category. Asserted both ways, and asserted as THREE separate clauses:
+  // a single "H6 fired" assertion cannot tell a working rule from one clause
+  // doing all the work.
+  const H6_BAD_ORDER = new Array(13).fill('hantaran-mas-kahwin').join(' ');
+  const H6_GOOD_ORDER =
+    'hantaran-mas-kahwin idea-dan-nasihat hantaran-mas-kahwin ucapan-doa ' +
+    'hantaran-mas-kahwin real-wedding hantaran-mas-kahwin idea-dan-nasihat ' +
+    'hantaran-mas-kahwin nikah-undang-undang ucapan-doa venue-perancangan real-wedding';
+
+  for (const w of WIDTHS) {
+    const row = bad.find((r) => r.name === 'homepage.html' && r.width === w);
+    const v = pick(bad, 'homepage.html', w, 'category-diversity');
+    // CROSS-IMPLEMENTATION AGREEMENT. `scripts/measure/check-h6.sh` extracts
+    // this same sequence from the raw HTML of this same file and prints it on
+    // its `order:` line. Two independent implementations of H6.0; if they ever
+    // disagree about this fixture, one of them is wrong and this goes red.
+    assert(
+      row?.notes.h6Order === H6_BAD_ORDER,
+      `homepage.html @${w}: H6.0 extraction agrees with check-h6.sh — 13 items, all hantaran-mas-kahwin`,
+      `got: ${row?.notes.h6Order}`,
+    );
+    assert(
+      v.some((x) => x.detail.includes('H6.1 SHARE CAP') && x.value === 13),
+      `homepage.html @${w}: H6.1 fires — one category supplies 13 of 13, cap is 5`,
+      listing(row, 'category-diversity'),
+    );
+    assert(
+      v.some((x) => x.detail.includes('H6.2 RUN CAP') && x.value === 12),
+      `homepage.html @${w}: H6.2 fires — 12 adjacent same-category pairs`,
+      listing(row, 'category-diversity'),
+    );
+    assert(
+      v.some((x) => x.detail.includes('H6.3 DISTINCT FLOOR') && x.value === 1),
+      `homepage.html @${w}: H6.3 fires — 1 distinct category against a floor of 4`,
+      listing(row, 'category-diversity'),
+    );
+    // …and H6.6 stays SILENT on it. The pre-fix homepage is monotonous, not
+    // reordered, and a check that fired on both would be measuring neither.
+    assert(
+      pick(bad, 'homepage.html', w, 'source-order').length === 0,
+      `homepage.html @${w}: H6.6 CLEAN — the pre-fix page is monotonous, not visually reordered`,
+    );
+  }
+
+  // Scoped to the homepage. The check must be OFF everywhere else, or the
+  // article page's related-reading rail — which H6 explicitly does NOT govern
+  // (§7.6, "what H6 does not govern") — starts failing the build for a rule
+  // never written about it.
+  for (const w of WIDTHS) {
+    for (const page of ['article.html', 'category.html']) {
+      const row = bad.find((r) => r.name === page && r.width === w);
+      assert(
+        row?.notes.h6Order === undefined &&
+          pick(bad, page, w, 'category-diversity').length === 0 &&
+          pick(bad, page, w, 'source-order').length === 0,
+        `${page} @${w}: H6 does not run — it governs one ordered list on one page`,
+      );
+    }
+  }
+
+  // THE GOOD CONTROL. A conforming set must clear BOTH checks at every width.
+  // Without it a check that flags everything looks exactly like a working one.
+  // `hantaran-mas-kahwin` sits AT the cap of 5 in this fixture, so this also
+  // proves the cap is a ceiling and not a ban.
+  for (const w of WIDTHS) {
+    const row = h6.find((r) => r.name === 'h6-order-good.html' && r.width === w);
+    assert(
+      row?.notes.h6Order === H6_GOOD_ORDER,
+      `h6-order-good @${w}: H6.0 extracts 13 items and ignores the one-segment category links in <nav>`,
+      `got: ${row?.notes.h6Order}`,
+    );
+    assert(
+      pick(h6, 'h6-order-good.html', w, 'category-diversity').length === 0,
+      `h6-order-good @${w}: H6.1/6.2/6.3 all CLEAR — 5 at the cap, no adjacency, 6 categories`,
+      listing(row, 'category-diversity'),
+    );
+    assert(
+      pick(h6, 'h6-order-good.html', w, 'source-order').length === 0,
+      `h6-order-good @${w}: H6.6 CLEAR — DOM order is reading order`,
+      listing(row, 'source-order'),
+    );
+  }
+
+  // THE H6.6 DISCRIMINATOR. Byte-identical item set, one CSS property apart.
+  // `check-h6.sh` exits 0 on BOTH of these files — it reads HTML and this is a
+  // computed value — which is the entire reason H6.6 is asserted here and not
+  // there. Exactly one check may flip.
+  for (const w of WIDTHS) {
+    const row = h6.find((r) => r.name === 'h6-order-reversed.html' && r.width === w);
+    const so = pick(h6, 'h6-order-reversed.html', w, 'source-order');
+    assert(
+      so.length === 1 && so[0].value === 12,
+      `h6-order-reversed @${w}: H6.6 fires — column-reverse puts DOM item 12 in visual position 0`,
+      listing(row, 'source-order'),
+    );
+    assert(
+      pick(h6, 'h6-order-reversed.html', w, 'category-diversity').length === 0,
+      `h6-order-reversed @${w}: H6.1/6.2/6.3 stay CLEAR — the SET did not change, only its painting order`,
+      listing(row, 'category-diversity'),
+    );
+  }
+
   console.log('\nUILINT SELF-TEST — does the gate fire on known-bad and clear on known-good?');
   console.log('─'.repeat(78));
   for (const m of ok) console.log(`  PASS  ${m}`);
@@ -1799,6 +2138,23 @@ if (has('selftest')) {
   );
   server.close();
   const r = report(rows, { label: 'EMPTY SHELL — a real page with <main> emptied', quiet });
+  exit = r.errors > 0 ? 2 : r.failures > 0 ? 1 : 0;
+} else if (has('h6-order')) {
+  // The H6.6 pair on their own, for working on the check by hand.
+  const server = await startFixtureServer(false, FIXTURES_ROOT);
+  const b = `http://127.0.0.1:${server.address().port}`;
+  const rows = await measure(
+    [
+      { name: 'h6-order-good.html', url: `${b}/h6-order-good.html`, homepage: true },
+      { name: 'h6-order-reversed.html', url: `${b}/h6-order-reversed.html`, homepage: true },
+    ],
+    { json, label: 'h6 order pair' },
+  );
+  server.close();
+  const r = report(rows, {
+    label: 'H6 order fixtures (good must be clean; reversed must fire H6.6 only)',
+    quiet,
+  });
   exit = r.errors > 0 ? 2 : r.failures > 0 ? 1 : 0;
 } else if (has('discriminator')) {
   const server = await startFixtureServer(false, FIXTURES_ROOT);
@@ -1838,7 +2194,7 @@ if (has('selftest')) {
   exit = r.errors > 0 ? 2 : r.failures > 0 ? 1 : 0;
 } else {
   console.error(
-    'usage: node scripts/ui-layout-gate.mjs (--fixtures [--green] | --pre-rail | --discriminator | --empty-shell | --base <url> | --url <u>… | --selftest)\n' +
+    'usage: node scripts/ui-layout-gate.mjs (--fixtures [--green] | --pre-rail | --discriminator | --h6-order | --empty-shell | --base <url> | --url <u>… | --selftest)\n' +
       '       [--json out.json] [--quiet] [--author-slug <slug>]\n' +
       '       env: UI_GATE_CHROME=<chrome path>  UI_GATE_BYPASS=<vercel preview bypass secret>',
   );

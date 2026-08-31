@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>H6 order fixture — conforming</title>
+<!--
+  UI-13 fixture. The GOOD half. Both `category-diversity` and `source-order` must be silent
+  at every width. This is the gate's proof that it can reach zero on H6 —
+  without it, a check that flags everything looks exactly like a working one.
+
+  Every href below is a REAL published HelloKahwin article path, read off
+  https://hellokahwin.com/sitemap.xml on 01 September 2026. Placeholder slugs
+  would not have exercised the extraction rule, which has to ignore the
+  one-segment CATEGORY links this page carries in its <nav> exactly as the real
+  masthead does.
+
+  The item set is identical in both files of this pair and it CONFORMS to H6:
+  N=13, cap=ceil(13/3)=5, hantaran-mas-kahwin sits AT 5 (so the pair also
+  proves the cap is a ceiling and not a ban), no two adjacent items share a
+  category, 6 distinct categories against a floor of 4. Only the CSS differs.
+  One property changes between the two files and exactly one check must flip.
+-->
+<style>
+  body { margin: 0; font: 16px/1.4 system-ui, sans-serif; }
+  main { max-width: 720px; margin: 0 auto; padding: 24px; }
+  nav a { display: inline-block; margin-right: 12px; }
+  .items { display: flex; flex-direction: column; }
+  .item { display: block; padding: 14px 0; border-top: 1px solid #ddd;
+           text-decoration: none; color: #111; }
+  .t { display: block; font-size: 20px; }
+  .c { display: block; font-size: 13px; color: #666; }
+</style>
+</head>
+<body>
+  <header><a href="/">HelloKahwin</a>
+  <nav>
+    <a href="/artikel/hantaran-mas-kahwin">Hantaran Mas Kahwin</a>
+    <a href="/artikel/idea-dan-nasihat">Idea Dan Nasihat</a>
+    <a href="/artikel/nikah-undang-undang">Nikah Undang Undang</a>
+    <a href="/artikel/real-wedding">Real Wedding</a>
+    <a href="/artikel/ucapan-doa">Ucapan Doa</a>
+    <a href="/artikel/venue-perancangan">Venue Perancangan</a>
+  </nav>
+  </header>
+  <main>
+    <h1>Terkini</h1>
+    <div class="items">
+      <a class="item" href="/artikel/hantaran-mas-kahwin/adat-hantaran-berbeza-negeri"><span class="t">adat hantaran berbeza negeri</span><span class="c">hantaran-mas-kahwin</span></a>
+      <a class="item" href="/artikel/idea-dan-nasihat/cara-buat-kad-kahwin-digital"><span class="t">cara buat kad kahwin digital</span><span class="c">idea-dan-nasihat</span></a>
+      <a class="item" href="/artikel/hantaran-mas-kahwin/adat-hantaran-ikut-keluarga"><span class="t">adat hantaran ikut keluarga</span><span class="c">hantaran-mas-kahwin</span></a>
+      <a class="item" href="/artikel/ucapan-doa/doa-majlis-perkahwinan"><span class="t">doa majlis perkahwinan</span><span class="c">ucapan-doa</span></a>
+      <a class="item" href="/artikel/hantaran-mas-kahwin/apa-itu-mas-kahwin"><span class="t">apa itu mas kahwin</span><span class="c">hantaran-mas-kahwin</span></a>
+      <a class="item" href="/artikel/real-wedding/cheong-fatt-tze-mansion"><span class="t">cheong fatt tze mansion</span><span class="c">real-wedding</span></a>
+      <a class="item" href="/artikel/hantaran-mas-kahwin/barang-hantaran-berguna"><span class="t">barang hantaran berguna</span><span class="c">hantaran-mas-kahwin</span></a>
+      <a class="item" href="/artikel/idea-dan-nasihat/dewan-kahwin"><span class="t">dewan kahwin</span><span class="c">idea-dan-nasihat</span></a>
+      <a class="item" href="/artikel/hantaran-mas-kahwin/barang-hantaran-perempuan"><span class="t">barang hantaran perempuan</span><span class="c">hantaran-mas-kahwin</span></a>
+      <a class="item" href="/artikel/nikah-undang-undang/borang-nikah"><span class="t">borang nikah</span><span class="c">nikah-undang-undang</span></a>
+      <a class="item" href="/artikel/ucapan-doa/doa-makan-majlis"><span class="t">doa makan majlis</span><span class="c">ucapan-doa</span></a>
+      <a class="item" href="/artikel/venue-perancangan/bajet-kahwin"><span class="t">bajet kahwin</span><span class="c">venue-perancangan</span></a>
+      <a class="item" href="/artikel/real-wedding/perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan"><span class="t">perkahwinan di ruma hotel kuala lumpur dengan sentuhan warisan peranakan</span><span class="c">real-wedding</span></a>
+    </div>
+  </main>
+</body>
+</html>

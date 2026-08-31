@@ -1,0 +1,89 @@
+
+UILINT — rendered-layout gate · https://hellokahwin.com/
+widths 390/768/1024/1440/1920 · chrome C:/Program Files/Google/Chrome/Application/chrome.exe
+──────────────────────────────────────────────────────────────────────────────
+[FAIL] / @390                                         3 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 H6:3 H6.6:0
+        category-diversity ×3
+          H6.1 SHARE CAP — "hantaran-mas-kahwin" supplies 9 of 13 homepage items, over the cap of ceil(N/3)=5. Order: ucapan-doa ucapan-doa ucapan-doa ucapan-doa hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin
+            a[href^="/artikel/hantaran-mas-kahwin/"]
+            "hantaran-mas-kahwin"
+          H6.2 RUN CAP — 11 adjacent same-category pair(s), maximum run length is 1: 1-2:ucapan-doa 2-3:ucapan-doa 3-4:ucapan-doa 5-6:hantaran-mas-kahwin 6-7:hantaran-mas-kahwin 7-8:hantaran-mas-kahwin 8-9:hantaran-mas-kahwin 9-10:hantaran-mas-k
+            homepage item set
+            "1-2:ucapan-doa"
+          H6.3 DISTINCT FLOOR — 2 distinct categories across 13 items, floor min(4,K,N-cap+1)=4. Present: ucapan-doa=4 hantaran-mas-kahwin=9
+            homepage item set
+            "ucapan-doa,hantaran-mas-kahwin"
+[FAIL] / @768                                         3 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 H6:3 H6.6:0
+        category-diversity ×3
+          H6.1 SHARE CAP — "hantaran-mas-kahwin" supplies 9 of 13 homepage items, over the cap of ceil(N/3)=5. Order: ucapan-doa ucapan-doa ucapan-doa ucapan-doa hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin
+            a[href^="/artikel/hantaran-mas-kahwin/"]
+            "hantaran-mas-kahwin"
+          H6.2 RUN CAP — 11 adjacent same-category pair(s), maximum run length is 1: 1-2:ucapan-doa 2-3:ucapan-doa 3-4:ucapan-doa 5-6:hantaran-mas-kahwin 6-7:hantaran-mas-kahwin 7-8:hantaran-mas-kahwin 8-9:hantaran-mas-kahwin 9-10:hantaran-mas-k
+            homepage item set
+            "1-2:ucapan-doa"
+          H6.3 DISTINCT FLOOR — 2 distinct categories across 13 items, floor min(4,K,N-cap+1)=4. Present: ucapan-doa=4 hantaran-mas-kahwin=9
+            homepage item set
+            "ucapan-doa,hantaran-mas-kahwin"
+[FAIL] / @1024                                        3 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 H6:3 H6.6:0 · +1 advisory
+        image-attr-aspect ×1
+          declared width="1200" height="630" (1.90:1) for a 2464x700 file (3.52:1) — 46% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            a.group.block > div.bg-muted.relative.aspect-[40/21] > picture > img.absolute.inset-0.h-full  ⟨img · link → /artikel/ucapan-doa/doa-makan-majlis · alt="Doa makan majlis: teks penuh, dan doa yang kita semua hafal tapi gradnya munkar"⟩
+            "abd-kadir/crop-4.3x1-desktop-hero.webp?v=0.5925_0.8107-g48c0b959"
+        category-diversity ×3
+          H6.1 SHARE CAP — "hantaran-mas-kahwin" supplies 9 of 13 homepage items, over the cap of ceil(N/3)=5. Order: ucapan-doa ucapan-doa ucapan-doa ucapan-doa hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin
+            a[href^="/artikel/hantaran-mas-kahwin/"]
+            "hantaran-mas-kahwin"
+          H6.2 RUN CAP — 11 adjacent same-category pair(s), maximum run length is 1: 1-2:ucapan-doa 2-3:ucapan-doa 3-4:ucapan-doa 5-6:hantaran-mas-kahwin 6-7:hantaran-mas-kahwin 7-8:hantaran-mas-kahwin 8-9:hantaran-mas-kahwin 9-10:hantaran-mas-k
+            homepage item set
+            "1-2:ucapan-doa"
+          H6.3 DISTINCT FLOOR — 2 distinct categories across 13 items, floor min(4,K,N-cap+1)=4. Present: ucapan-doa=4 hantaran-mas-kahwin=9
+            homepage item set
+            "ucapan-doa,hantaran-mas-kahwin"
+[FAIL] / @1440                                        3 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 H6:3 H6.6:0 · +1 advisory
+        image-attr-aspect ×1
+          declared width="1200" height="630" (1.90:1) for a 2464x700 file (3.52:1) — 46% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            a.group.block > div.bg-muted.relative.aspect-[40/21] > picture > img.absolute.inset-0.h-full  ⟨img · link → /artikel/ucapan-doa/doa-makan-majlis · alt="Doa makan majlis: teks penuh, dan doa yang kita semua hafal tapi gradnya munkar"⟩
+            "abd-kadir/crop-4.3x1-desktop-hero.webp?v=0.5925_0.8107-g48c0b959"
+        category-diversity ×3
+          H6.1 SHARE CAP — "hantaran-mas-kahwin" supplies 9 of 13 homepage items, over the cap of ceil(N/3)=5. Order: ucapan-doa ucapan-doa ucapan-doa ucapan-doa hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin
+            a[href^="/artikel/hantaran-mas-kahwin/"]
+            "hantaran-mas-kahwin"
+          H6.2 RUN CAP — 11 adjacent same-category pair(s), maximum run length is 1: 1-2:ucapan-doa 2-3:ucapan-doa 3-4:ucapan-doa 5-6:hantaran-mas-kahwin 6-7:hantaran-mas-kahwin 7-8:hantaran-mas-kahwin 8-9:hantaran-mas-kahwin 9-10:hantaran-mas-k
+            homepage item set
+            "1-2:ucapan-doa"
+          H6.3 DISTINCT FLOOR — 2 distinct categories across 13 items, floor min(4,K,N-cap+1)=4. Present: ucapan-doa=4 hantaran-mas-kahwin=9
+            homepage item set
+            "ucapan-doa,hantaran-mas-kahwin"
+[FAIL] / @1920                                        3 violation(s)  empty:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 H6:3 H6.6:0 · +1 advisory
+        image-attr-aspect ×1
+          declared width="1200" height="630" (1.90:1) for a 2464x700 file (3.52:1) — 46% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            a.group.block > div.bg-muted.relative.aspect-[40/21] > picture > img.absolute.inset-0.h-full  ⟨img · link → /artikel/ucapan-doa/doa-makan-majlis · alt="Doa makan majlis: teks penuh, dan doa yang kita semua hafal tapi gradnya munkar"⟩
+            "abd-kadir/crop-4.3x1-desktop-hero.webp?v=0.5925_0.8107-g48c0b959"
+        category-diversity ×3
+          H6.1 SHARE CAP — "hantaran-mas-kahwin" supplies 9 of 13 homepage items, over the cap of ceil(N/3)=5. Order: ucapan-doa ucapan-doa ucapan-doa ucapan-doa hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin hantaran-mas-kahwin
+            a[href^="/artikel/hantaran-mas-kahwin/"]
+            "hantaran-mas-kahwin"
+          H6.2 RUN CAP — 11 adjacent same-category pair(s), maximum run length is 1: 1-2:ucapan-doa 2-3:ucapan-doa 3-4:ucapan-doa 5-6:hantaran-mas-kahwin 6-7:hantaran-mas-kahwin 7-8:hantaran-mas-kahwin 8-9:hantaran-mas-kahwin 9-10:hantaran-mas-k
+            homepage item set
+            "1-2:ucapan-doa"
+          H6.3 DISTINCT FLOOR — 2 distinct categories across 13 items, floor min(4,K,N-cap+1)=4. Present: ucapan-doa=4 hantaran-mas-kahwin=9
+            homepage item set
+            "ucapan-doa,hantaran-mas-kahwin"
+──────────────────────────────────────────────────────────────────────────────
+totals: empty-content 0
+        narrow-text-column 0
+        reading-measure 0
+        clipped-text 0
+        viewport-overflow 0
+        scroll-container-clip 0
+        image-upscale 0
+        image-aspect 0
+        image-attr-aspect 3 (advisory, does not fail the build)
+        image-unmeasurable 0
+        category-diversity 15
+        source-order 0
+build fingerprint (last width measured, per target):
+  /
+    200 HIT age=22 sin1::8s8kr-1788202674688-306f03f61a32 css=[8e7508183b8deda1.css 19b83a0982f1e330.css eaa300a9560545ab.css]
+UILINT EXIT: 1
+exit=1
