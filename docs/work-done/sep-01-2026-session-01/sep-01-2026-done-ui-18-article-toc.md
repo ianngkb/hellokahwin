@@ -835,8 +835,36 @@ scope, it is a coincidence with a deadline.** Both were caught by another seat
 describing work they had not done yet. Neither was caught by sabotage, because
 sabotage tests the checks you thought of against the world you assumed.
 
-**And the count for the day: THREE separate gates were wrong in a way the pages
-were not.** Mine twice — the `.inspire-prose` scoping and the article-shape
+**And the count for the day: FOUR separate checks were wrong in a way the pages
+were not — and the fourth was the REVIEWER'S.**
+
+The team lead audited all 92 articles independently, with curl and grep rather
+than my script, and reproduced 92 / 71 / 71 and `71 outside .inspire-prose, 0
+inside` exactly. Their one disagreement — 77 eligible against my 71 — was their
+own defect, and it is the same error a fourth time with a fourth author: they
+counted `<h2>` document-wide and subtracted only the rail's TOC heading, so every
+article carrying a rail scored two phantom headings (`Sumber` from the rail,
+`Lagi dalam …` from the footer). Measured on `mas-kahwin-ikut-negeri`:
+document-wide 2, inside `.inspire-prose` 0.
+
+**That matters more than the three before it, because the reviewer's check failed
+the same way the authors' did.** It is not carelessness by one person. It is a
+property of writing a selector from a mental model of where a thing sits, and the
+model is always a little out of date — page chrome grew `<h2>`s the day the rail
+shipped, and nobody's mental model updated. Now written into the gate's header
+(PR #55) with the two derivations named: eligibility comes from the Tiptap JSON
+and cannot see chrome; the gate counts the served DOM scoped to `.inspire-prose`;
+and `topLevelEntries !== h2` is what asserts they agree rather than trust doing
+it.
+
+**And note what caught it — not sabotage, and not a fixture.** A result that
+disagreed with a number already established, on an article whose zero-`<h2>`
+status had been measured hours earlier. That is the cheapest detector anyone used
+today, it needs no rig, and it is available to a reviewer who cannot run your
+code. **Establish the number first; then a later disagreement is a free check on
+whichever measurement is newer.**
+
+The earlier three, for the record: Mine twice — the `.inspire-prose` scoping and the article-shape
 corpus filter — and UI-17's `measure-article-rail.mjs` once, whose mount-count
 double-counted `Rekod` because `[data-hk-rail-block="rekod"], .s-rekod` matched a
 nested pair twice. Three false reds and zero real defects between them, on a day
