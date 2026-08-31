@@ -13,10 +13,22 @@ This directory is the guard. It is executable, not advisory.
 ## Install
 
 ```sh
-scripts/git-hooks/install-hooks.sh                    # the two default trees
+scripts/git-hooks/install-hooks.sh                    # the default trees
 scripts/git-hooks/install-hooks.sh /path/to/tree ...  # named trees
 scripts/git-hooks/install-hooks.sh --check            # audit only; exit 1 if missing
 ```
+
+With no arguments the default targets are:
+
+1. **the repository this script lives in** — always, so a fresh clone guards
+   itself with the command above and nothing else;
+2. `~/Documents/Code/hellokahwin/hellokahwin` and
+   `~/Documents/Code/hellokahwin-site`, **when those trees exist on the
+   machine**. Absent, they are skipped and do not fail the run; the same repo
+   under a second spelling of its path is skipped too.
+
+A tree named explicitly on the command line still fails the run when it is
+missing — that is a typo, not an absent default.
 
 Hooks live in the repository's **common** git dir, so one install per clone
 covers every `git worktree` linked to it. `--check` exits non-zero, so it works
@@ -34,7 +46,34 @@ scripts/git-hooks/verify-guard.sh <scratch-dir> --fresh
 
 Builds a throwaway clone — never a live tree — reproduces the hazard, installs
 the guard, and asserts both the refusals and the negative controls. Exit 0 means
-all cases behaved as specified. 27 cases as of 31 Aug 2026.
+all cases behaved as specified; exit 1 means a case failed; **exit 2 means the
+harness could not build a fixture and ran nothing**, which is not a pass.
+
+## Where the harness gets its fixture — decided, RISK-10, 01 Sept 2026
+
+The harness needs one commit from **each** space. RISK-09 shipped it on the docs
+branch, where a docs-space commit is always underfoot, and left open what should
+happen once these files live on `master`, which is site space. The decision:
+
+- **No branch name is ever trusted.** Names in this repo lie:
+  `docs/plat-10-11-12` is site source; `feat/command-centre-dashboard` is the
+  company record. A fixture picked by name is wrong today, on branches that
+  already exist.
+- **Every ref the clone can see is classified by tree content**, using
+  `hk_space()` **extracted verbatim with `sed`** from the shipped
+  `post-checkout`. Extracted, not retyped, so the harness cannot drift from the
+  rule the guard actually applies.
+- **A clone that carries only one space** (`--single-branch`, `--depth`) makes
+  the harness fetch the true upstream once and classify again.
+- **If a space is still missing, the harness exits 2 and runs nothing**, after
+  printing every ref it looked at and how each classified. It does not skip the
+  case and go green. A harness that passes because it could not find its own
+  fixture is worse than no harness.
+- **The two negative-control branches are created inside the throwaway clone
+  with names that contradict their content** — `docs/risk10-site-probe` holds
+  site source, `feat/risk10-docs-probe` holds the company record. A name-based
+  classifier fails those cases by construction, so the content rule is proved by
+  the harness itself rather than by any upstream branch continuing to exist.
 
 ## Line endings
 
@@ -92,6 +131,15 @@ HK_GIT_SPACE_GUARD=off git commit
 
 The escape hatch exists so the guard never becomes the obstacle that gets
 removed. It is also how the hook re-enters itself to restore the tree.
+
+## Where these files live
+
+They are committed on **both** lines of this repository — `master` (site) and
+`feat/command-centre-dashboard` (docs) — because a guard reachable from only one
+branch is not reachable from a fresh clone, which is where a newcomer starts and
+where the hazard is most likely to be triggered. When you change one, port it to
+the other in the same session; `verify-guard.sh` case 0d clones the repo it
+lives in and asserts the fresh-clone install path still works.
 
 ## If you change a hook
 

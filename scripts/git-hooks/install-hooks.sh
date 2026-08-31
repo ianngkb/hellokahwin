@@ -8,8 +8,13 @@
 #   scripts/git-hooks/install-hooks.sh /path/to/tree   # install into named trees
 #   scripts/git-hooks/install-hooks.sh --check /path   # audit named trees
 #
+# With no arguments the default targets are: the repository this script lives in
+# (always), plus `~/Documents/Code/hellokahwin/hellokahwin` and
+# `~/Documents/Code/hellokahwin-site` when those trees exist on this machine.
+#
 # Exit 0 = every named tree has the current guard installed.
 # Exit 1 = at least one tree does not (so --check is usable as a gate).
+# Exit 2 = there was no target at all, or an unknown option.
 #
 # Hooks live in the repository's COMMON git dir, so installing into a tree also
 # covers every `git worktree` linked to it - one install per clone, not per
@@ -39,8 +44,35 @@ while [ "$i" -lt "$argc" ]; do
   i=$((i + 1))
 done
 
+# RISK-10: with no arguments, the FIRST default target is the repository this
+# script lives in. RISK-09 defaulted to two hardcoded home-directory paths, which
+# is right on the machine those trees exist on and wrong everywhere else - on a
+# fresh clone the documented command installed the guard into somebody's other
+# checkouts and not into the clone the operator was standing in.
+#
+# The two well-known trees are still checked when they exist, so the fleet-wide
+# gate keeps working. A well-known tree that is NOT on this machine is skipped
+# without setting rc: it is an absent default, not a failed target. A tree named
+# explicitly on the command line still fails loudly when it is missing.
 if [ "$had_targets" -eq 0 ]; then
-  set -- "$HOME/Documents/Code/hellokahwin/hellokahwin" "$HOME/Documents/Code/hellokahwin-site"
+  self_tree=$(git -C "$SRC_DIR" rev-parse --path-format=absolute --show-toplevel 2>/dev/null || true)
+  self_common=$(git -C "$SRC_DIR" rev-parse --path-format=absolute --git-common-dir 2>/dev/null || true)
+  set --
+  [ -n "$self_tree" ] && set -- "$self_tree"
+  for known in "$HOME/Documents/Code/hellokahwin/hellokahwin" "$HOME/Documents/Code/hellokahwin-site"; do
+    [ -d "$known" ] || continue
+    known_common=$(git -C "$known" rev-parse --path-format=absolute --git-common-dir 2>/dev/null || true)
+    [ -n "$known_common" ] || continue
+    # Same repository under a different spelling of the same path - skip it.
+    [ -n "$self_common" ] && [ "$known_common" = "$self_common" ] && continue
+    set -- "$@" "$known"
+  done
+  if [ "$#" -eq 0 ]; then
+    echo "no target: $SRC_DIR is not inside a git tree, and neither default tree" >&2
+    echo "exists on this machine. Name a tree explicitly:" >&2
+    echo "  $0 /path/to/tree" >&2
+    exit 2
+  fi
 fi
 
 rc=0
