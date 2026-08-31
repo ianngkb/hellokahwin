@@ -180,6 +180,52 @@ Irsyad al-Hukum #954 prints *"ma jama'a bainakuma"* where its own Arabic reads
 the likeliest defect in this content family and the hardest to see, which is why
 the three parts are checked separately rather than as one block.
 
+#### A CLEARANCE NAMES WHAT IT COVERS (CONT-13, 1 Sep 2026)
+
+**The verification seat's failure to fix, not the writer's.** On CONT-13 the
+seat cleared a *quoted text* in round 1; the writer reasonably read that as
+clearance for the *article* and shipped. Three unattributed rulings and one
+altered character went live in the gap between those two readings.
+
+- **Every clearance states its scope explicitly** — which text, which claims, and
+  what is NOT covered. "The quote is exact" is not "the article passes".
+- **When the seat clears a text, it says in the same message whether the
+  surrounding article is cleared**, or that it has not seen it.
+- **When a page ships without an explicit article-level clearance, the seat
+  audits it live afterwards** rather than assuming the gap closed. On CONT-13
+  that audit is what found the defects.
+- The writer's conduct here was correct and is the standard: he **declared the
+  one character he changed** (which is the only reason it was catchable), said
+  plainly in his own log that he had shipped without explicit confirmation
+  rather than letting it read as confirmed, and **pushed an UNDO naming the slug
+  before the first write**, so the correction was one statement.
+
+**A published error is worse than a draft error.** When the seat finds one live,
+it says plainly how fast it must come down and supplies drop-in replacement
+text, so the fix does not wait on a second round of judgement.
+
+#### AFTER A CORRECTION, RE-CHECK THE CAPTIONS SEPARATELY (CONT-13, 1 Sep 2026)
+
+**Body text and image captions update through different paths, and a caption can
+retain retracted content after the body has been corrected.**
+
+On CONT-13 the `doa-selamat-majlis` republish removed three unattributed
+religious rulings from the body and left the fourth standing in an image
+caption — the draft had been corrected, the body had been refreshed, and the
+caption had not. **A body-text check does not see it.** It was found only
+because the live page was re-fetched a second time.
+
+- **After any correction to a live article, re-verify the captions separately
+  from the body.** Grep the live HTML for the retracted phrase, not just the
+  corrected paragraph.
+- **A correction is not shipped until the live page shows it** — in every place
+  the claim appeared, captions and structured data (`FAQPage`) included. A
+  retracted claim sitting in FAQ schema can still be surfaced by Google as our
+  answer.
+- This extends CONT-09's rule that the cover makes a factual claim too. That
+  rule covered choosing the image; this one covers what happens to its caption
+  when the article changes underneath it.
+
 ### Stage 3 — Draft
 The writer drafts to the framework: head question answered in the first 60
 words, every sub-type of the entity gets its own heading, depth means

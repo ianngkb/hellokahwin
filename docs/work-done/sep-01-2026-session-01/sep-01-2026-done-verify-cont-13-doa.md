@@ -1,0 +1,396 @@
+# CONT-13 — religious-text verification (board decision 162, second gate)
+
+**Seat:** `editorial-verification-lead` · **Date all sources checked: 1 September 2026**
+**Item closed by the writer at four articles of six.** Two are parked, unwritten,
+and everything the next writer needs to draft them is in section 4 of this log.
+
+Every URL below was fetched live on 1 Sep 2026. Nothing here is from memory or
+from an earlier pass.
+
+---
+
+## 1. What shipped, and what I verified on the live pages
+
+| Slug | Verdict | Rumi + DBP line |
+|---|---|---|
+| `/artikel/ucapan-doa/doa-penutup-majlis` | ✅ clean | present, correctly worded |
+| `/artikel/ucapan-doa/doa-makan-majlis` | ✅ clean | present, correctly worded |
+| `/artikel/ucapan-doa/ucapan-ulang-tahun-perkahwinan` | ✅ clean | present, correctly worded |
+| `/artikel/ucapan-doa/doa-selamat-majlis` | ⚠ body fixed and republished; **one image caption still live with an unattributed ruling** — see section 2 | n/a (page carries no Arabic, correctly) |
+
+**The decision 182 disclosure line passes on all three pages that carry rumi.**
+Live wording, verbatim from `doa-penutup-majlis`:
+
+> *"Transliterasi rumi pula disediakan oleh HelloKahwin mengikut Pedoman
+> Transliterasi Huruf Arab ke Huruf Rumi terbitan Dewan Bahasa dan Pustaka,
+> kerana tiada pihak berkuasa agama di Malaysia menerbitkan transliterasi rasmi
+> bagi doa ini."*
+
+It names us as the producer, names DBP's pedoman as the method, states *why*,
+and sits separately from the Arabic's own authority line. That is exactly what
+decision 182 requires and it should be the template for every future doa page.
+
+**Ruling-language audit, all four pages.** I grepped each live page for
+hukum-shaped phrases in our own voice (`wajib`, `sunat`, `harus`, `memadai`,
+`tidak memerlukan nas`, `tidak salah`, `dibenarkan`). Three pages passed: every
+hit was either attributed in the same sentence — e.g. `doa-makan-majlis`:
+*"Jabatan Mufti Wilayah Persekutuan menyatakan doa itu 'boleh diamalkan'"* — or
+was an FAQ heading phrased as a question. The fourth did not.
+
+---
+
+## 2. `doa-selamat-majlis` — four defects raised, three fixed and republished, ONE STILL LIVE IN A CAPTION
+
+**State as at the final check on 1 Sep 2026.** This section was rewritten after
+re-fetching the live page: the writer received the round-2 corrections and
+applied them while this log was being drafted. Recording the sequence honestly
+matters more than recording the first snapshot.
+
+### What was raised, and what happened
+
+| # | Defect | Live now? |
+|---|---|---|
+| 1 | JAKIM's em dash altered to a comma | ✅ **fixed** — `kesakitan—sama` is live |
+| 2 | *"Doa umum tidak memerlukan nas khusus."* (fiqh ruling, unattributed) | ✅ **removed** |
+| 3 | *"Majlis yang tidak dibacakan doa pun tidak menjejaskan apa-apa…"* (ruling on the majlis's religious status) | ✅ **removed** |
+| 4 | *"Di rumah, yang dibaca ialah doa umum, dan itu memadai."* (sufficiency ruling, image caption) | 🔴 **STILL LIVE** |
+
+The body now carries the replacement shape requested — *"Amalannya berbeza
+mengikut keluarga, masjid dan negeri, jadi rujuk pejabat agama negeri anda atau
+imam yang membaca doa"* — and the writer added a line stronger than what was
+asked for:
+
+> *"Kami tidak memberitahu anda apa yang dibaca di kenduri orang lain, kerana
+> itu soal amalan dan bukan soal teks yang diterbitkan."*
+
+The Arabic explanation was also reframed so it cannot read as criticism of
+JAKIM — *"Itu had alat kami, bukan kecacatan dokumen JAKIM"* — and the page
+citation now distinguishes the section (pp.25–28) from the translation
+(pp.26–28).
+
+### 🔴 The one that is still live
+
+The image caption on the Ahmad Ali Karim (CC0) photograph still reads:
+
+> *"Teks rasmi ini ditulis untuk majlis kerajaan. Di rumah, yang dibaca ialah
+> doa umum, dan itu memadai."*
+
+*Memadai* — sufficiency — is a hukum judgement, unattributed, in our own voice.
+**The draft has already been corrected**; `A4-doa-selamat-majlis.md` line 33 now
+reads *"…Untuk kenduri di rumah, tiada pihak berkuasa yang menerbitkan teks
+rasmi khusus."* **The fix is authored and simply has not reached production.**
+
+**Action: republish so the caption picks up the corrected draft.** No new writing
+is needed. Not an emergency takedown — the claim is mild and the body around it
+is now correct — but it is an unattributed ruling on a live page, so **within 24
+hours**.
+
+### ⚠ The systemic finding, which is worth more than the defect
+
+**The body text and the image captions updated through different paths.** The
+same republish that removed three ruling sentences from the body left the fourth
+standing in a caption. **A caption can retain retracted content after the body
+has been corrected, and a body-text check will not see it.**
+
+This compounds CONT-09's rule that the cover makes a factual claim too. It is not
+enough to verify captions at review time: **after any correction to a live
+article, the captions must be re-checked separately from the body**, because they
+may not have moved. Written into the workflow (section 7).
+
+### What to keep — this page's best work
+
+The withdrawn-2007-PDF warning is the strongest thing in the batch and survived
+the edits: that the JAKIM file ranking top of Google is dated 3 April 2007, its
+download page is gone, it sets five minutes and *"seelok-eloknya seorang
+lelaki"*, while the 2026 edition sets 2–3 minutes and permits a woman reader at
+women-only majlis — closing with *"Kedudukan fail lama itu dalam carian mengukur
+pautan masuk, bukan sama ada ia masih terpakai."* Nobody else in this market has
+written that.
+
+### On the em dash, for the record
+
+The correction stands and was right, but the reasoning is worth keeping. Raw
+lines from `Pindaan2026.pdf`, pdf index 26:
+
+```
+line 6: 'bencana, wabak, penyakit, dan kesakitan—sama ada yang nyata mahupun '
+line 7: 'yang tersembunyi. '
+```
+
+The break falls between *mahupun* and *yang*, nowhere near the dash. **U+2014 EM
+DASH**, the only non-ASCII punctuation character in the entire 2,862-character
+translation — deliberate typography, not a wrap. A character-level diff of the
+quote against the PDF returned **2,862 characters, one difference**, that one.
+The writer's extraction was otherwise exact, and **he declared the change**,
+which is the only reason it was catchable.
+
+## 3. Sourced and shipped — the per-item register for the three clean pages
+
+| Item | Authority | URL | Grading as stated |
+|---|---|---|---|
+| Kaffarah al-majlis (Arabic + Malay) | Jabatan Mufti Wilayah Persekutuan, **Al-Kafi #1948**, 2 Aug 2023 | `muftiwp.gov.my/en/artikel/al-kafi-li-al-fatawi/5708-al-kafi-1948-adakah-membaca-surah-al-asr-di-akhir-majlis-sebahagian-daripada-nas` | *"hadis yang sahih"*; al-Tarmizi (3433), also al-Baihaqi (259) |
+| Surah al-Asr at majlis end | same | same | **Not a nas** — *"tiada riwayat yang khusus… daripada Rasulullah SAW"*; amalan sahabat, al-Tabrani (5124) |
+| Doa sebelum makan (school version) | Mufti WP, **Irsyad al-Hadith #575** | `muftiwp.gov.my/ms/artikel/irsyad-al-hadith/5508-irsyad-al-hadith-siri-ke-575-adakah-doa-sebelum-dan-selepas-makan-bersumberkan-hadis-yang-sahih` | **munkar**, with *"boleh diamalkan namun tidak boleh beriktikad bahawa lafaz tersebut daripada Nabi SAW"* |
+| Doa selepas makan | same | same | Hadith from the Prophet SAW, Riwayat al-Tarmizi — **no hadith number given by the source; do not invent one** |
+| Barakallahu laka (newlyweds) | Mufti WP, **Irsyad al-Hukum #954** | `muftiwp.gov.my/en/artikel/irsyad-fatwa/irsyad-fatwa-umum-cat/6579-irsyad-al-hukum-siri-ke-954-persoalan-berkaitan-doa-yang-dibaca-ketika-majlis-perkahwinan` | Riwayat Abu Daud (2130); Nawawi, *Raudhah al-Talibin* 8:35. **No grading stated by any Malaysian authority — none may be asserted.** |
+| Yusuf-and-Zulaikha wedding doa | same | same | Ruled against: choose *"apa yang dipastikan dengan yakin kesahihannya"* |
+| Doa Selamat (Malay text) | JAKIM / JPM, **Pindaan 2026**, published 12 Mac 2026 | `islam.gov.my/ms/garis-panduan/4994-panduan-dan-himpunan-doa-2026` → the `Pindaan2026.pdf` it links, "Doa Selamat" pp.25–28 (translation pp.26–28) | n/a — official text, not hadith |
+| Rumi transliteration, all pages | **Dewan Bahasa dan Pustaka**, *Pedoman Transliterasi Huruf Arab ke Huruf Rumi* | `eseminar.dbp.gov.my/dokumen/arabumi.pdf` | Method authority only, per board decision 182 |
+
+**Transliteration trap, already caught and reported on the live page:** Mufti WP's
+own Irsyad al-Hukum #954 prints *"ma jama'a bainakuma"* where its own Arabic
+reads `وَجَمَعَ` (*wa* jama'a). A source's rumi can be wrong. Never copy one
+without checking it against the Arabic.
+
+---
+
+## 4. PARKED — everything needed to draft `lafaz akad nikah` and `doa jodoh`
+
+Both were parked correctly: they are pure text artefacts and decision 162 says
+an unsourced religious text does not ship. **Neither is blocked by sourcing —
+both are now sourced.** A writer can draft either straight from this section.
+
+### 4a. `lafaz akad nikah` (800/mo) — SOURCED, ready to draft
+
+**The authority publishes the lafaz itself, in Malay.**
+
+**PRIMARY — Mufti WP, AL-KAFI #1686**
+`muftiwp.gov.my/ms/artikel/al-kafi-li-al-fatawi/4393-al-kafi-1686-adakah-sah-nikahnya-sekiranya-tidak-bersalaman-ketika-akad-nikah`
+Verbatim:
+
+> *"Ijab iaitu lafaz daripada wali pengantin perempuan dengan menyebut 'aku
+> kahwinkan kamu' atau 'aku nikahkan kamu' dan seumpamanya."*
+> *"Qabul iaitu lafaz daripada pengantin lelaki dengan menyebut 'aku terima
+> perkahwinannya' atau 'aku terima nikahnya' atau 'aku redha dengan
+> menikahinya'."*
+> (Lihat al-Mu'tamad fi al-Fiqh al-Syafi'e, 4/53)
+
+**THE HEADLINE — the rule that invalidates.** Same article, verbatim:
+
+> *"Mestilah lafaz kahwin atau nikah di dalam ijab dan qabul itu jelas. Ini
+> seperti sekiranya wali menyatakan 'aku nikahkan kamu dengan anakku' lalu
+> dijawab oleh bakal suami 'aku terima' maka tidak berlaku pernikahan
+> tersebut."* (al-Fiqh al-Manhaji, 4/55-56)
+
+**"Aku terima" alone does not marry you** — the word *nikah* or *kahwin* must
+appear in the qabul. This was called the single most useful finding of the
+sprint. It must lead the article, not sit in a footnote.
+
+**SUPPORTING, all read live 1 Sep 2026:**
+
+- **Al-Kafi #851, akad nikah satu nafas** — `muftiwp.gov.my/ms/artikel/al-kafi-li-al-fatawi/2677-al-kafi-851-akad-nikah-satu-nafas`
+  *"tidak disyaratkan satu nafas dalam menjawab lafaz nikah. Syaratnya ialah
+  mesti berturutan."* A breath or a sneeze does not spoil it; a long gap does.
+  (al-Fiqh al-Manhaji 1/551-552). Mufti WP tells jurunikah to stop making it
+  hard: *"kami mengesyorkan kepada para imam atau jurunikah agar memudahkan
+  proses lafaz nikah ini dan tidak memberatkannya apabila telah cukup syarat."*
+  **Mazhab variance, from the article's own footnote:** Hanafi and Hanbali
+  permit a long gap if still in the same majlis.
+- **Not shaking hands does not invalidate the akad** — Al-Kafi #1686, its actual
+  question.
+- **Irsyad Hukum #697, wrong name** — `muftiwp.gov.my/ms/artikel/irsyad-hukum/umum/5307-irsyad-al-fatwa-siri-ke-697-hukum-akad-nikah-salah-sebut-nama-pengantin-atau-nama-ayah-pengantin`
+  Mispronouncing the bride's or her father's name does not invalidate; the
+  requirement is *ta'yin*. Nawawi, *Minhaj al-Talibin* p.207.
+- **Al-Kafi #1769, father as wakil** — `muftiwp.gov.my/ms/artikel/al-kafi-li-al-fatawi/4691-al-kafi-1768-hukum-ayah-pengantin-lelaki-mewakili-anaknya-ketika-akad-nikah`
+  Permissible; the wakil must say he accepts on the groom's behalf: *"Aku terima
+  nikah si fulanah bagi pihak anakku"*.
+- **Rukun count — report the variance, do not flatten it.** al-Fiqh al-Manhaji
+  4/55 counts five; Dr Muhammad Zuhaili, al-Mu'tamad 4/53 counts six by
+  splitting *al-'aqidan*. Al-Kafi #1686 prints both.
+
+**⚠ WHAT CANNOT BE SOURCED — do not imply otherwise.** There is no
+state-by-state lafaz wording available. JAKIM's *Garis Panduan Upacara Akad
+Nikah di Masjid* (2013) names lafaz as a rukun and prints **no wording**. JAIS
+Selangor's *Tatacara Pengurusan Nikah, Cerai dan Pembatalan serta Ruju' Orang
+Islam Negeri Selangor* (Dec 2024) is a **scanned-image PDF, 11 pages, zero
+extractable characters** — and OCR is not acceptable for a lafaz. Three query
+shapes run. Say the lafaz is the Syafi'i formulation as published by Mufti WP
+and that exact wording varies in practice; that is true and is all we can
+evidence.
+
+**⚠ PLACEMENT CONDITION — BINDING, and NOT YET CONFIRMED.** A new page is
+correct (this answers *what do I say and what breaks it*, not *what are the five
+rukun*), **on condition that `rukun-nikah` links out to it and stops short of
+restating the ijab/qabul wording.** I asked the writer to confirm this on the
+live pages and he closed out without answering. **Whoever builds this page must
+verify it on live `rukun-nikah` before publishing**, not merely agree to it.
+
+### 4b. `doa jodoh` (1,300/mo) — ships as a RULINGS article, not a doa-text article
+
+**No Malaysian authority publishes a titled "doa jodoh".** Do not publish one.
+
+**The one text that can ship** — Surah Ghafir 60, as quoted by Jabatan Mufti
+Negeri Selangor. Arabic is clean selectable HTML, copy-safe, verified character
+by character:
+
+```
+وَقَالَ رَبُّكُمُ ادْعُونِي أَسْتَجِبْ لَكُمْ
+```
+
+> *"Berdoalah kamu kepada-Ku nescaya Aku perkenankan doa permohonan kamu."*
+
+**THE PIECE — and it is the opposite of what we expected.** Jabatan Mufti Negeri
+Selangor, e-Musykil, kategori MUNAKAHAT, **Tahun Soalan 2023**:
+`emusykil.muftiselangor.gov.my/index.php/site/jawapan?id=3567`
+The question asked is exactly the *"doa jodoh sebut nama"* question. Verbatim:
+
+> *"adalah diharuskan untuk kita berdoa memohon kepada Allah SWT agar diberi
+> kemudahan dalam mendapatkan jodoh atau memohon secara spesifik agar orang
+> tertentu dijadikan jodoh kita."*
+
+**Harus — permissible.** Every content farm treats this as suspect; a named
+state mufti says it is allowed. That is the headline. The authority adds an
+istikharah framing in its own Malay paraphrase — present it as the authority's
+paraphrase, **not** as a quoted doa text.
+
+**THE KILL — it is bomoh and pemanis, not sebut-nama.** Mufti WP **Irsyad Hukum
+#269**: `muftiwp.gov.my/ms/artikel/irsyad-hukum/umum/2768-irsyad-al-fatwa-siri-ke-269-hukum-andartu-bertemu-bomoh-untuk-mendapatkan-jodoh`
+
+> *"Perbuatan ibu saudari yang pergi menemui bomoh semata-mata untuk membuang
+> sial bagi memudahkan mendapat jodoh adalah salah sama sekali."*
+
+Three graded hadith with numbers: Muslim (5957) — solat not accepted 40 nights,
+with Nawawi's gloss that it means no reward (*Syarh al-Nawawi 'ala Muslim*
+14/227); Ahmad (9667); al-Bukhari (2766) on the seven destroying sins. Plus
+*"tiada konsep sial di dalam Islam"* — al-Bukhari (5770), Muslim (2220), Abu
+Daud (3913), Ahmad (3031). **Report attributed. Do not restate as our own
+ruling.**
+
+**CONTEXT** — Mufti WP **Irsyad Hukum #577**:
+`muftiwp.gov.my/ms/artikel/irsyad-hukum/umum/4827-irsyad-al-fatwa-siri-ke-577-jodoh-tak-lekat-silap-siapa`
+Jodoh is takdir (al-Bukhari 3208) but striving and doa are still required;
+explicitly rejects the "career women marry late" claim; confirms a woman may
+make the first move, citing Khadijah RA (Muslim 2435).
+
+---
+
+## 5. Negatives — recorded so nobody repeats the search
+
+**No titled "doa jodoh" text from any Malaysian authority.** Queries:
+(a) `muftiwp.gov.my doa memohon dipermudahkan jodoh irsyad hukum berdoa memohon pasangan hidup` (domain-restricted);
+(b) `muftins.gov.my himpunan doa zikir "doa jodoh" OR "doa memohon jodoh" OR "doa mohon pasangan"` (4 authority domains);
+(c) the al-Furqan 74 Arabic string across 7 authority domains.
+al-Furqan 74 appears on Mufti WP only as a verse inside family-themed articles,
+never presented as a doa jodoh. Negeri Sembilan's 37-entry *Himpunan Doa dan
+Zikir* has no jodoh entry.
+
+**No state-by-state lafaz akad nikah wording.** Queries:
+(a) `lafaz akad nikah ijab qabul teks rasmi Jabatan Agama Islam Selangor JAIS manual prosedur nikah`;
+(b) `"aku nikahkan" "dikahwinkan engkau" lafaz ijab kabul teks jurunikah negeri enakmen undang-undang keluarga islam`;
+(c) the Arabic sighah strings — all domain-restricted to JAIS/JAWI/JAKIM/mufti sites.
+
+**No short "doa pembuka majlis" text, and no titled "doa kesyukuran"**, from
+round 1. Both confirmed absent with two query shapes each.
+
+**No HTML authority page carries doa selamat Arabic.** Swept 20+ authority
+domains. e-Muallaf serves doa as JPGs; e-Solat's Koleksi Doa is solat-only; no
+state mufti carries it. **Linking JAKIM's PDF is correct, not a compromise.**
+
+### Named gap — E-SMAF unreachable
+
+**`e-smaf.islam.gov.my` (JAKIM's national fatwa database) could not be reached
+on 1 Sep 2026.** DNS resolves to `150.242.181.190`; TCP connection **refused on
+both port 80 and 443**, four URL forms. **This is not a blanket block on our
+side: `www.islam.gov.my` connected from the same session in 0.04s.** What cannot
+be distinguished from here is a service that is down from one that geo-blocks
+non-Malaysian traffic — both present identically as a refused connection.
+
+**Consequence:** the national fatwa on *ilmu pengasih* as khurafat exists and is
+**uncited**, because it was not read. Anyone drafting `doa jodoh` should retry
+E-SMAF; if it answers, that fatwa strengthens the kill considerably.
+
+### Banked — `doa istikharah jodoh`, sourced and not used
+
+Cut from scope, but fully sourced so nobody re-derives it. Mufti WP **Irsyad
+Hukum #342**:
+`muftiwp.gov.my/ms/artikel/irsyad-hukum/umum/3874-irsyad-al-fatwa-siri-ke-342-adakah-disyaratkan-bermimpi-sebagai-jawapan-istikharah`
+Complete three-part doa, Arabic clean selectable HTML, Malay meaning per part,
+**al-Bukhari (1166)** from Jabir RA, hukum stated as *"sunat dengan ijma' para
+ulama'"*. Carries its own kill: the belief that the answer must arrive as a
+dream has *"tiada sandaran di dalam syarak"*.
+
+---
+
+## 6. Currency register — entries opened by CONT-13
+
+| Claim | Source | Volatility | Next check |
+|---|---|---|---|
+| JAKIM doa guideline current edition = Pindaan 2026 (12 Mac 2026) | `islam.gov.my/ms/garis-panduan` | **High** — three editions in 19 months | 1 Dec 2026 |
+| Doa duration 2–3 min; women may lead at women-only majlis | JAKIM 2026 cl. 9.2, 7.2 iv | Medium | with edition |
+| Doa sebelum makan graded *munkar* | Mufti WP Irsyad al-Hadith #575 | Low | 12 months |
+| Kaffaratul majlis *sahih*; al-Asr = amalan sahabat | Mufti WP Al-Kafi #1948 | Low | 12 months |
+| Abu Daud 2130 — **no grading published by a Malaysian authority** | Mufti WP #954 | Medium — one may appear later | 6 months |
+| *Sebut nama* in doa jodoh = **harus** | Mufti Selangor e-Musykil 3567 (2023) | Low | 12 months |
+| DBP transliteration pedoman | `eseminar.dbp.gov.my/dokumen/arabumi.pdf` | Low | 12 months |
+
+**Standing note:** the 2007 JAKIM PDF still ranks top of Google on these terms
+and its landing page is 404. **SERP position measures link equity, not
+currency.** That is the whole reason this seat exists, and it should be checked
+again whenever a doa page is refreshed.
+
+---
+
+## 7. Retrospective
+
+**What did we learn that is not written down?**
+That the *"read government PDFs by word coordinate"* rule had a silent limit. It
+fixes fee columns because the defect there is ordering; it does nothing for
+Arabic because the defect is in the glyph stream. Four JAKIM PDFs, four
+failures. Also: **sourcing before drafting is worth more than we assumed** —
+three of six planned articles lost their text at the gate, and because the
+sourcing ran first, none of that became wasted drafting.
+
+**Which document must change, and who owns the edit?**
+`docs/plans/aug-23-2026-session-01/aug-23-2026-workflow-content-production.md`,
+Stage 2 — **owned by this seat, and the edit is made**: the two PDF rules, the
+per-item religious-text gate from decision 162, and the decision 182
+transliteration standard. Decision 162 had lived for two days in
+`docs/boardroom/decision-log.md` and one persona while the document writers
+actually follow said nothing about religious text; **a gate only the
+verification seat knows about is a gate the writer discovers by failing it.**
+Logged as decisions 184 and 185.
+**Still outstanding, needs the owner's own hand:** the same two clauses belong
+in `.claude/agents/editorial-verification-lead.md`. That file is agent
+configuration, so this seat does not edit it on another agent's instruction.
+
+**What did we do twice?**
+Escalated the DBP transliteration route. Raised in round 1, carried three live
+pages and two drafts while unapproved, and had to be raised again before it was
+ruled on — then approved unchanged. **A standards question that already has live
+pages depending on it should be answered before the next article ships, not
+after.**
+
+**What did we nearly ship, and what caught it?**
+Four things; three caught before publication, one after.
+
+1. The 2007 JAKIM PDF as our primary source — a withdrawn document whose landing
+   page 404s. Caught by checking the landing page instead of trusting the file.
+2. Malformed Arabic pasted out of a JAKIM PDF. Caught by testing extraction
+   instead of assuming it worked.
+3. *"Doa sunnah Nabi sebelum makan"* — a text our own national mufti's office
+   grades **munkar**. Caught by reading the authority instead of the SERP.
+4. **Not caught before publication:** three unattributed rulings and an altered
+   em dash on `doa-selamat-majlis`, which shipped before the sign-off reached
+   the writer. Caught by auditing the live page afterwards; the writer then
+   corrected all four in the draft and republished, and **three of the four are
+   now fixed in production**. The fourth survives only in an image caption that
+   the republish did not refresh.
+
+**The lesson from (4) is process, not care.** The writer had a clearance for the
+*quote* and reasonably read it as a clearance for the *article*. He said so
+plainly in his own log rather than letting it pass as confirmed, and he pushed
+an UNDO naming the slug first — both correct. **A clearance must name what it
+covers and what it does not**, and a verification seat that clears a text should
+say in the same message whether the surrounding article is cleared. That is this
+seat's failure to fix, not the writer's.
+
+**A fifth thing, found only because the live page was re-checked twice:**
+**captions and body text update through different paths.** The republish that
+removed three ruling sentences from the body left the fourth standing in an
+image caption. A body-text check does not see it. This compounds CONT-09's rule
+that the cover makes a factual claim too, and extends it: **after any correction
+to a live article, re-check the captions separately** — they may not have moved.
+
+**Edits made in response, both in
+`docs/plans/aug-23-2026-session-01/aug-23-2026-workflow-content-production.md`
+Stage 2:** the clearance-scope rule, and the caption-path rule above.

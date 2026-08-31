@@ -126,7 +126,7 @@ Pertama, kami tidak menyatakan gred hadisnya. Jabatan Mufti Wilayah Persekutuan 
 
 Kedua, tempatnya selepas akad nikah, iaitu ucapan tahniah kepada pasangan yang baru berkahwin. Membacanya pada ulang tahun kesepuluh bukan salah, tetapi sebutlah ia dengan betul: ini doa untuk pengantin, dipinjam untuk hari ini.
 
-Teks Arab dan maksudnya di atas diambil terus daripada Irsyad al-Hukum Siri ke-954. Transliterasi rumi disediakan oleh HelloKahwin mengikut *Pedoman Transliterasi Huruf Arab ke Huruf Rumi* terbitan Dewan Bahasa dan Pustaka.
+Teks Arab dan maksudnya di atas diambil terus daripada Irsyad al-Hukum Siri ke-954. Transliterasi rumi disediakan oleh HelloKahwin mengikut *Pedoman Transliterasi Huruf Arab ke Huruf Rumi* terbitan Dewan Bahasa dan Pustaka, disemak 1 September 2026. Ia transliterasi kami sendiri, bukan transliterasi yang diterbitkan mana-mana pihak berkuasa agama.
 
 Satu perkara lagi, dan ia sebab kami tidak menyalin transliterasi sumber bulat-bulat. Artikel jabatan itu sendiri menulis rumi lafaz ini sebagai *"ma jama'a bainakuma"*, sedangkan teks Arabnya berbunyi وَجَمَعَ, iaitu *wa* jama'a. Kesilapan menaip pada transliterasi, bukan pada doanya.
 
@@ -180,6 +180,6 @@ Yang pendek. Lima ucapan terakhir dalam senarai di atas ditulis khusus untuk rua
 
 - Jabatan Mufti Wilayah Persekutuan, Irsyad al-Hukum Siri ke-954: *Persoalan Berkaitan Doa Yang Dibaca Ketika Majlis Perkahwinan*. Teks Arab, maksud, riwayat Abu Daud (2130) dan nasihat tentang lafaz Yusuf dan Zulaikha diambil terus daripada artikel ini. Disemak 1 September 2026.
 - Imam al-Nawawi, *Raudhah al-Talibin*, jilid 8 halaman 35, sebagaimana dinukilkan dalam Irsyad al-Hukum Siri ke-954. Disemak 1 September 2026.
-- Dewan Bahasa dan Pustaka, *Pedoman Transliterasi Huruf Arab ke Huruf Rumi*. Digunakan untuk menyediakan transliterasi rumi di halaman ini. Disemak 1 September 2026.
+- Dewan Bahasa dan Pustaka, *Pedoman Transliterasi Huruf Arab ke Huruf Rumi*, eseminar.dbp.gov.my. Ini pihak berkuasa bagi **kaedah** transliterasi. Transliterasi rumi di halaman ini dihasilkan oleh HelloKahwin mengikut pedoman itu, dan bukan diterbitkan oleh DBP. Disemak 1 September 2026.
 
 Empat puluh ucapan di atas ditulis oleh HelloKahwin dan bukan petikan daripada mana-mana sumber. Yang dipetik daripada pihak berkuasa hanyalah teks doa, maksudnya dan jawapan hukum, dan setiap satu dinyatakan sumbernya di tempat ia muncul.

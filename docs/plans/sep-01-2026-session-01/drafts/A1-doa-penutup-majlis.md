@@ -59,7 +59,7 @@ Inilah lafaz yang dikenali sebagai kaffarah al-majlis atau tasbih kaffarah.
 
 **Maksudnya:** "Maha suci Engkau ya Allah dan segala puji-pujian bagi-Mu. Aku bersaksi bahawa tiada tuhan melainkan Engkau dan aku memohon ampun dan taubat kepada-Mu."
 
-Teks Arab dan maksudnya di atas diambil terus daripada Jabatan Mufti Wilayah Persekutuan, al-Kafi li al-Fatawi Siri ke-1948. Transliterasi rumi pula disediakan oleh HelloKahwin mengikut *Pedoman Transliterasi Huruf Arab ke Huruf Rumi* terbitan Dewan Bahasa dan Pustaka, kerana tiada pihak berkuasa agama di Malaysia menerbitkan transliterasi rasmi bagi doa ini.
+Teks Arab dan maksudnya di atas diambil terus daripada Jabatan Mufti Wilayah Persekutuan, al-Kafi li al-Fatawi Siri ke-1948. Transliterasi rumi pula disediakan oleh HelloKahwin mengikut *Pedoman Transliterasi Huruf Arab ke Huruf Rumi* terbitan Dewan Bahasa dan Pustaka, disemak 1 September 2026. Ia transliterasi kami sendiri, bukan transliterasi yang diterbitkan mana-mana pihak berkuasa agama, kerana tiada satu pun menerbitkannya bagi doa ini.
 
 Itu satu-satunya lafaz penutup majlis yang kami temui bersandarkan hadis sahih menurut jabatan mufti. Selebihnya di halaman ini menerangkan dari mana ia datang, dan apa status bacaan lain yang biasa disertakan bersamanya.
 
@@ -137,6 +137,6 @@ Kaffarah al-majlis ialah satu ayat, kurang sepuluh saat. Bagi doa penuh pada maj
 
 - Jabatan Mufti Wilayah Persekutuan, al-Kafi li al-Fatawi Siri ke-1948: *Adakah Membaca Surah Al-'Asr Di Akhir Majlis Sebahagian Daripada Nas?*, oleh Muhammad Fuad bin Ibrahim, 2 Ogos 2023. Teks Arab, maksud dan gred hadis diambil terus daripada halaman ini. Disemak 1 September 2026.
 - Jabatan Kemajuan Islam Malaysia, *Garis Panduan dan Himpunan Doa bagi Majlis Rasmi dan Separuh Rasmi*, terbitan pindaan 2026, perenggan 6.3 dan 9.2. Disiarkan di islam.gov.my bertarikh 12 Mac 2026. Disemak 1 September 2026.
-- Dewan Bahasa dan Pustaka, *Pedoman Transliterasi Huruf Arab ke Huruf Rumi*. Digunakan untuk menyediakan transliterasi rumi di halaman ini. Disemak 1 September 2026.
+- Dewan Bahasa dan Pustaka, *Pedoman Transliterasi Huruf Arab ke Huruf Rumi*, eseminar.dbp.gov.my. Ini pihak berkuasa bagi **kaedah** transliterasi. Transliterasi rumi di halaman ini dihasilkan oleh HelloKahwin mengikut pedoman itu, dan bukan diterbitkan oleh DBP. Disemak 1 September 2026.
 
 Teks Arab dan maksud doa di halaman ini diambil daripada halaman rasmi Jabatan Mufti Wilayah Persekutuan, bukan daripada fail PDF yang tidak boleh disalin dengan tepat. Transliterasi rumi ialah kerja kami sendiri mengikut pedoman Dewan Bahasa dan Pustaka, dan kami menyatakannya supaya pembaca tahu apa yang datang daripada pihak berkuasa dan apa yang datang daripada kami.

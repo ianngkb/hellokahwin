@@ -103,7 +103,7 @@ Yang ini tiada catatan langsung. Jabatan Mufti Wilayah Persekutuan menyatakan "m
 
 **Maksudnya:** "Segala puji bagi Allah yang memberikan kami makan dan minum serta menjadikan kami dalam kalangan orang Islam."
 
-Teks Arab dan maksud bagi keempat-empat doa di halaman ini diambil terus daripada Irsyad al-Hadith Siri ke-575. Transliterasi rumi disediakan oleh HelloKahwin mengikut *Pedoman Transliterasi Huruf Arab ke Huruf Rumi* terbitan Dewan Bahasa dan Pustaka, kerana tiada pihak berkuasa agama di Malaysia menerbitkan transliterasi rasmi bagi doa-doa ini.
+Teks Arab dan maksud bagi keempat-empat doa di halaman ini diambil terus daripada Irsyad al-Hadith Siri ke-575. Transliterasi rumi disediakan oleh HelloKahwin mengikut *Pedoman Transliterasi Huruf Arab ke Huruf Rumi* terbitan Dewan Bahasa dan Pustaka, disemak 1 September 2026. Ia transliterasi kami sendiri, bukan transliterasi yang diterbitkan mana-mana pihak berkuasa agama, kerana tiada satu pun menerbitkannya bagi doa-doa ini.
 
 Satu nota tentang nombor hadis, dan ia sengaja. Jabatan mufti menyebut "Riwayat al-Tarmizi" bagi dua lafaz terakhir tanpa memberi nombor hadis. Kami tidak menambah nombor yang tidak diterbitkan oleh sumber kami.
 
@@ -138,7 +138,7 @@ Sekali sahaja, di awal majlis, sebelum hidangan dibuka. Tetamu yang tiba kemudia
 ## Sumber
 
 - Jabatan Mufti Wilayah Persekutuan, Irsyad al-Hadith Siri ke-575: *Adakah Doa Sebelum Dan Selepas Makan Bersumberkan Hadis Yang Sahih?*. Semua teks Arab, maksud dan gred hadis di halaman ini diambil terus daripada artikel ini. Disemak 1 September 2026.
-- Dewan Bahasa dan Pustaka, *Pedoman Transliterasi Huruf Arab ke Huruf Rumi*. Digunakan untuk menyediakan transliterasi rumi di halaman ini. Disemak 1 September 2026.
+- Dewan Bahasa dan Pustaka, *Pedoman Transliterasi Huruf Arab ke Huruf Rumi*, eseminar.dbp.gov.my. Ini pihak berkuasa bagi **kaedah** transliterasi. Transliterasi rumi di halaman ini dihasilkan oleh HelloKahwin mengikut pedoman itu, dan bukan diterbitkan oleh DBP. Disemak 1 September 2026.
 - Jabatan Kemajuan Islam Malaysia, *Garis Panduan dan Himpunan Doa bagi Majlis Rasmi dan Separuh Rasmi*, terbitan pindaan 2026, perenggan 6.2 (vi), bagi kenyataan tentang bahasa doa majlis rasmi. Disiarkan di islam.gov.my bertarikh 12 Mac 2026. Disemak 1 September 2026.
 
 Kami tidak menerbitkan nombor hadis yang tidak disebut oleh sumber kami, dan kami tidak menaikkan gred sesuatu riwayat melebihi apa yang dinyatakan oleh jabatan mufti. Transliterasi rumi ialah kerja kami mengikut pedoman Dewan Bahasa dan Pustaka, dan dinyatakan begitu supaya pembaca tahu apa yang datang daripada pihak berkuasa dan apa yang datang daripada kami.
