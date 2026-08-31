@@ -1,3 +1,6 @@
+import { getSmartCropRef } from './smart-crop-url';
+import { MIDSIZE_COVER } from './midsize-cover';
+
 /**
  * The cover source for every card, row and article-cover `<img>` on the public
  * site: `low` (q30, ≤1200px — `src/lib/storage/image-variants.ts`), or the raw
@@ -64,4 +67,71 @@ export function resolveCoverSource(
   if (!src) return null;
 
   return { src };
+}
+
+/**
+ * DES-18 — what the `.s-row` thumbnail loads, and ONLY the `.s-row` thumbnail.
+ *
+ * Three call sites must never disagree: the homepage "Terkini" list, the
+ * catalogue's `CategoryRow`, and the article page's related list. All three
+ * render the same component into the same box — 80×60 below 1024px, 176×132
+ * above (`src/design-system/components.css`), both exactly 1.33333.
+ *
+ * ── WHY THIS IS NOT A CHANGE TO `resolveCoverSource` ───────────────────────
+ * `resolveCoverSource` feeds FOUR differently-sized slots, and preferring a
+ * 528px file in all of them would be a regression in two:
+ *
+ *   `.s-row`   80×60 / 176×132   528px is 3.0× at DPR 3      ← this function
+ *   `.s-card`  ~328–700px wide   528px UPSCALES on desktop
+ *   article cover figure, `aspect-[3/2]`, up to 768 CSS px — 528px upscales at
+ *       DPR 1 and is the LCP element on the site's highest-traffic template;
+ *       it also wants a 1.500 asset, and this is 1.333.
+ *
+ * So the mid-size rendition is opted INTO by slot class, not switched on
+ * globally. The article cover keeps `low`, which UI-12 S1/S5 measured at a
+ * 0.05% aspect deviation in its 3:2 box — it is already right and this must not
+ * touch it.
+ *
+ * ── WHY IT IS A BYTE WIN, NOT A BYTE COST ──────────────────────────────────
+ * Measured over all 86 published covers on 01 September 2026:
+ *
+ *   low.webp                    36,964 – 82,110 B   median ~50,000
+ *   crop-4x3-article-card-sm     7,636 – 46,130 B   median  17,664
+ *
+ * The row that fetched `low` now fetches roughly a third of it AND gets the
+ * right shape. `card-thumbnail-image-rules.md` §4 priced the only 4:3 asset
+ * that existed at the time — the full 488–946 KB crop — at **+8.2 MB across the
+ * homepage**, and correctly refused to spend it.
+ *
+ * Returns the STORED intrinsic dimensions when the rendition is present, so the
+ * caller's `width`/`height` can state the file's real size instead of restating
+ * the CSS box (hero-rules R4/R6). `getSmartCropRef` returns all three or
+ * nothing, so an entry with unrecorded dimensions degrades to `low` rather than
+ * shipping an asserted number — the exact defect R4 exists to name.
+ */
+export interface RowThumbSource {
+  src: string;
+  /** Real intrinsic pixels when known; null when falling back to `low`. */
+  width: number | null;
+  height: number | null;
+}
+
+export function resolveRowThumbSource(
+  variants: Variants,
+  smartCrops: unknown,
+  fallbackUrl: string | null,
+): RowThumbSource | null {
+  const midsize = getSmartCropRef(smartCrops, MIDSIZE_COVER.NAME);
+  if (midsize) {
+    return { src: midsize.url, width: midsize.width, height: midsize.height };
+  }
+
+  // No rendition yet — a cover uploaded before DES-18's backfill, or one whose
+  // crops have not regenerated. `low` is exactly what these rows shipped
+  // before, so the fallback is the previous behaviour rather than a new one,
+  // and `width`/`height` stay null so the caller keeps the box ratio it can
+  // defend. `ImageVariantMeta` is `{ url, sizeBytes }` — there is no recorded
+  // width for `low` and there never was one to state.
+  const base = resolveCoverSource(variants, smartCrops, fallbackUrl);
+  return base ? { src: base.src, width: null, height: null } : null;
 }

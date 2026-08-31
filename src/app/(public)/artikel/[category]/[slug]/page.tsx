@@ -44,7 +44,7 @@ import {
 } from '@/lib/inspire/dynamic-blocks';
 import { MobileArticleBar } from '@/components/inspire/mobile-article-bar';
 import { PhotoGallery } from '@/components/inspire/photo-gallery';
-import { resolveCoverSource } from '@/lib/storage/responsive-cover';
+import { resolveCoverSource, resolveRowThumbSource } from '@/lib/storage/responsive-cover';
 import '@/design-system/tokens.css';
 import '@/design-system/components.css';
 import { Breadcrumbs, BreadcrumbJsonLd } from '@/components/common/breadcrumbs';
@@ -1238,7 +1238,7 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
               </h2>
               <div>
                 {relatedArticles.map((related, i) => {
-                  const cover = resolveCoverSource(
+                  const cover = resolveRowThumbSource(
                     related.coverImageVariants as Record<string, { url: string }> | null,
                     related.coverImageSmartCrops,
                     related.coverImageUrl,
@@ -1253,14 +1253,23 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
                       <span className="s-idx">{String(i + 1).padStart(2, '0')}</span>
                       {cover && (
                         // eslint-disable-next-line @next/next/no-img-element -- see responsive-cover.ts
-                        /* UI-12 S1/S2: no `srcSet`, no `sizes`. 176×132 =
-                           1.33333 is the ratio `.s-row img` now sets in both
-                           bands (80×60 below 1024px). */
+                        /* UI-12 S1/S2: still no `srcSet` and no `sizes`. The
+                           box is 176×132 on desktop and 80×60 below 1024px,
+                           both 1.33333.
+
+                           DES-18: fed `crop-4x3-article-card-sm`, 528×396 —
+                           the 4:3 asset this slot has wanted since UI-12 S2
+                           made the box 4:3 and could not serve one, because
+                           the only 4:3 file was the 488–946 KB full crop.
+                           Median 17,664 B, lighter than the `low` it replaces.
+                           `width`/`height` are the file's REAL intrinsics when
+                           the rendition is present (hero-rules R4/R6), and the
+                           box's own 176×132 when it is not. */
                         <img
                           src={cover.src}
                           alt=""
-                          width={176}
-                          height={132}
+                          width={cover.width ?? 176}
+                          height={cover.height ?? 132}
                           loading="lazy"
                           decoding="async"
                         />

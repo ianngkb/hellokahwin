@@ -10,6 +10,7 @@ import {
   extractKeyFromUrl,
 } from '@/lib/r2/client';
 import { detectFaces, detectLabels } from '@/lib/rekognition/detect';
+import { MIDSIZE_COVER, type MidsizeRendition } from './midsize-cover';
 import type { FaceBoundingBox, LabelInstance } from '@/lib/rekognition/detect';
 
 // ── Types ──────────────────────────────────────────────────────────────
@@ -450,6 +451,53 @@ function resolveR2Bucket(key: string): { bucket: string; publicUrl: string } {
 
 // ── Smart Crop Generation (I/O) ───────────────────────────────────────
 
+/**
+ * DES-18 — resize an already-cropped 4:3 buffer down to the mid-size box,
+ * stepping WebP quality until the result fits `MIDSIZE_COVER.CEILING_BYTES`.
+ *
+ * The spec, and the measurements behind every number, are in
+ * `./midsize-cover.ts`. This is only the encoder half, kept here because
+ * `sharp` already lives in this module.
+ *
+ * `fit:'inside' + withoutEnlargement` for the same reason the crop targets use
+ * it: the box is a CEILING. A source narrower than 528 yields a smaller —
+ * honest — file rather than fabricated pixels. Enumerated on 01 Sept 2026 no
+ * live cover is narrower than 667, so this never fires today; it is here so
+ * that the day one is, the stored `width` is the truth and the `.s-row`
+ * degrades instead of lying.
+ */
+export async function renderMidsizeCover(source: Buffer): Promise<MidsizeRendition> {
+  let last: MidsizeRendition | null = null;
+
+  for (const quality of MIDSIZE_COVER.QUALITY_LADDER) {
+    const { data, info } = await sharp(source)
+      .resize(MIDSIZE_COVER.WIDTH, MIDSIZE_COVER.HEIGHT, {
+        fit: 'inside',
+        withoutEnlargement: true,
+      })
+      // effort 6 matches DES-03's `derivatives.py` (`method=6`), so a byte
+      // measured here is comparable to the number in that specification rather
+      // than to a different encoder setting that happens to share a quality.
+      .webp({ quality, effort: 6 })
+      .toBuffer({ resolveWithObject: true });
+
+    last = {
+      buffer: data,
+      width: info.width,
+      height: info.height,
+      bytes: data.length,
+      quality,
+      overCeiling: data.length > MIDSIZE_COVER.CEILING_BYTES,
+    };
+    if (!last.overCeiling) return last;
+  }
+
+  // Every rung missed. Returned anyway, flagged — a silent pass here would turn
+  // the ceiling back into a hope, and the caller is the one that decides
+  // whether a q30 miss is worth failing an ingest over.
+  return last!;
+}
+
 export async function generateSmartCrops(
   originalBuffer: Buffer,
   originalKey: string,
@@ -531,6 +579,54 @@ export async function generateSmartCrops(
       width: info.width,
       height: info.height,
     };
+
+    // ── DES-18: the mid-size rendition ─────────────────────────────────────
+    // Produced HERE, inside the same loop, from the crop buffer already in
+    // memory — not in a sibling function a later caller has to remember.
+    //
+    // This is the trap it is avoiding: `processSmartCrops` REPLACES the whole
+    // `coverImageSmartCrops` object on every regenerate. A rendition written
+    // only by the backfill would be silently dropped the first time an admin
+    // moved a focal point, and the `.s-row` would fall back to `low` with no
+    // error and no visual symptom on the page that dropped it. Generating it
+    // where the crop is generated is what makes "every future cover" true
+    // rather than intended.
+    //
+    // It is deliberately NOT a `CROP_TARGETS` entry: that array is the input to
+    // `GEOMETRY_VERSION`, and adding a fifth member re-cuts all 86 live covers
+    // through Rekognition + R2. See `./midsize-cover.ts`.
+    if (target.name === MIDSIZE_COVER.SOURCE_NAME) {
+      const midsize = await renderMidsizeCover(croppedBuffer);
+      const midsizeKey = `${dirPrefix}${MIDSIZE_COVER.NAME}.webp`;
+
+      await r2.send(
+        new PutObjectCommand({
+          Bucket: bucket,
+          Key: midsizeKey,
+          Body: midsize.buffer,
+          ContentType: 'image/webp',
+          CacheControl: 'public, max-age=31536000, immutable',
+        }),
+      );
+
+      smartCrops[MIDSIZE_COVER.NAME] = {
+        url: `${publicUrl}/${midsizeKey}?v=${version}`,
+        // The ACTUAL encoded dimensions, like every other entry — `getSmartCropRef`
+        // treats an unrecorded dimension as unusable, which is what keeps an
+        // asserted intrinsic width off the `.s-row`.
+        width: midsize.width,
+        height: midsize.height,
+      };
+
+      if (midsize.overCeiling) {
+        // Loud, and not thrown: a cover 16% over budget is a byte problem, not
+        // a reason to fail an editor's upload. The backfill turns this same
+        // signal into a non-zero exit, which is where it belongs.
+        console.warn(
+          `[midsize] ${midsizeKey} is ${midsize.bytes} B at q${midsize.quality} — over the ${MIDSIZE_COVER.CEILING_BYTES} B ceiling`,
+        );
+      }
+    }
   }
 
   return smartCrops;

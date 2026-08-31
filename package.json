@@ -37,6 +37,7 @@
     "ui:gate": "node scripts/ui-layout-gate.mjs",
     "ui:gate:fixtures": "node scripts/ui-layout-gate.mjs --fixtures",
     "ui:gate:selftest": "node scripts/ui-layout-gate.mjs --selftest",
+    "backfill:midsize": "tsx scripts/backfill-midsize-cover.mts",
     "measure:cold": "tsx scripts/measure-cold-render.mts"
   },
   "dependencies": {

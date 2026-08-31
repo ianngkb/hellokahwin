@@ -15,7 +15,7 @@ import { getPillarView } from '@/lib/inspire/pillar-queries';
 import { tagEdgeResponse } from '@/lib/cache/edge-tag';
 import { categoryOwnsPublishedArticles } from '@/lib/inspire/category-indexability';
 import { categoryRobots, ROBOTS_ON_DEADLINE_MISS } from '@/lib/seo/category-robots';
-import { resolveCoverSource } from '@/lib/storage/responsive-cover';
+import { resolveCoverSource, resolveRowThumbSource } from '@/lib/storage/responsive-cover';
 import { EmptyCategoryState } from '@/design-system/components';
 import '@/design-system/tokens.css';
 import '@/design-system/components.css';
@@ -752,7 +752,7 @@ function CategoryCard({ article }: { article: CategoryArticle }) {
  * number (§5.2: "the catalogue is ordered… the number is how a reader knows
  * where they are"). */
 function CategoryRow({ article, index }: { article: CategoryArticle; index: number }) {
-  const cover = resolveCoverSource(
+  const cover = resolveRowThumbSource(
     article.coverImageVariants as Record<string, { url: string }> | null,
     article.coverImageSmartCrops,
     article.coverImageUrl,
@@ -772,7 +772,21 @@ function CategoryRow({ article, index }: { article: CategoryArticle; index: numb
         /* UI-12 S1/S2: no `srcSet`, no `sizes`. 176×132 = 1.33333 is the ratio
            `.s-row img` now sets in BOTH bands (80×60 below 1024px), so the
            attributes and the CSS box state the same shape. */
-        <img src={cover.src} alt="" width={176} height={132} loading="lazy" decoding="async" />
+        /* DES-18: the mid-size rendition, 528x396 — the 4:3 asset this slot
+           has wanted since UI-12 S2 made the box 4:3 at every width. UI-12
+           could not serve one because the only 4:3 file was the 488-946 KB
+           full crop; `crop-4x3-article-card-sm` is a median 17,664 B, lighter
+           than the `low` this row fetched before. `width`/`height` are the
+           file's REAL intrinsics when the rendition is present (hero-rules
+           R4/R6), falling back to the CSS box's own 176x132 = 1.33333. */
+        <img
+          src={cover.src}
+          alt=""
+          width={cover.width ?? 176}
+          height={cover.height ?? 132}
+          loading="lazy"
+          decoding="async"
+        />
       )}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
         <h2 className="t">{article.title}</h2>

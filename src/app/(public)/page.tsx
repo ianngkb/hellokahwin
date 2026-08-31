@@ -5,7 +5,7 @@ import { unstable_cache } from 'next/cache';
 import { db } from '@/lib/db/drizzle';
 import { articles, inspireCategories } from '@/lib/db/schema/articles';
 import { media } from '@/lib/db/schema/media';
-import { resolveCoverSource } from '@/lib/storage/responsive-cover';
+import { resolveRowThumbSource } from '@/lib/storage/responsive-cover';
 import { pickHeroIndex, resolveHeroCrops } from '@/lib/inspire/hero-frame';
 import '@/design-system/tokens.css';
 import '@/design-system/components.css';
@@ -408,7 +408,7 @@ export default async function HomePage() {
           </h2>
           <div>
             {rest.map((article, i) => {
-              const cover = resolveCoverSource(
+              const cover = resolveRowThumbSource(
                 article.coverImageVariants as Record<string, { url: string }> | null,
                 article.coverImageSmartCrops,
                 article.coverImageUrl,
@@ -439,10 +439,24 @@ export default async function HomePage() {
                        the CSS box, which is fixed in both axes and reserves the
                        layout itself, and these attributes cannot disagree with
                        it. */
+                    /* DES-18: the mid-size rendition, 528x396 — the 4:3
+                       asset this slot has wanted since UI-12 S2 made the box
+                       4:3 at every width. UI-12 could not serve one because
+                       the only 4:3 file was the 488-946 KB full crop (+8.2 MB
+                       across this page); `crop-4x3-article-card-sm` is a
+                       median 17,664 B, which is LIGHTER than the `low` this
+                       row fetched before. `resolveRowThumbSource` falls back
+                       to `low` when a cover has no rendition yet.
+
+                       `width`/`height` are the file's REAL intrinsics when the
+                       rendition is present (hero-rules R4/R6), and 176x132 —
+                       the CSS box's own ratio, which is the same 1.33333 —
+                       when it is not. Still no `srcSet` and no `sizes`
+                       (UI-12 S1): one file, one URL, nothing asserted. */
                     <img
                       src={cover.src}
-                      width={176}
-                      height={132}
+                      width={cover.width ?? 176}
+                      height={cover.height ?? 132}
                       loading="lazy"
                       decoding="async"
                       alt=""
