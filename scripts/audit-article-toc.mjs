@@ -601,6 +601,24 @@ async function runLive(min) {
   console.log(`articles measured                     ${measured.length}`);
   console.log(`articles with >= ${min} h2 (must have a TOC) ${expected.length}`);
   console.log(`articles rendering a TOC              ${withToc.length}`);
+  // WHERE the contents list renders, across the WHOLE corpus, on every run.
+  // UI-17 relocated it from `.inspire-prose` into the 300px rail; a relocation
+  // that is 69-of-71 done looks identical to one that is finished unless the
+  // placement is counted rather than sampled. Three articles agreeing proves
+  // three articles.
+  const inProse = withToc.filter((r) => r.tocInProse > 0).length;
+  const outsideProse = withToc.filter((r) => r.tocOutsideProse > 0).length;
+  const labelSources = new Map();
+  for (const r of withToc) labelSources.set(r.labelFrom, (labelSources.get(r.labelFrom) || 0) + 1);
+  console.log(
+    `contents list placement              ` +
+      `${outsideProse} outside .inspire-prose, ${inProse} inside` +
+      (inProse && outsideProse ? `  <-- MIXED: a relocation only partly done` : ``),
+  );
+  console.log(
+    `accessible name comes from           ` +
+      ([...labelSources].map(([k, n]) => `${k} x${n}`).join(', ') || '(none)'),
+  );
   console.log(
     `contents-list labels found            ` +
       ([...labels].map(([l, n]) => `"${l}" x${n}`).join(', ') || '(none)'),
