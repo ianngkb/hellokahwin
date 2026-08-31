@@ -150,6 +150,39 @@ verification seat knows about is a gate the writer discovers by failing it.**
   three of six planned articles lost their text at the gate and had to be
   re-derived after the brief was set. Write around what is verified.
 
+#### READ THE "NOBODY PUBLISHES THIS" PASSAGES FIRST AND HARDEST (CONT-13, 1 Sep 2026)
+
+**Defects appear where the writer had to generate rather than transcribe.**
+
+CONT-13 shipped six articles. Four post-publication defects, all on one article,
+and **three of the four sat in the single passage in the whole batch describing
+something no authority publishes a text for** — the household kenduri doa
+selamat. Five articles built around quoted authority texts needed no correction
+at all. With nothing to quote, the writer generated prose, and unattributed
+religious ruling entered exactly there: *"Doa umum tidak memerlukan nas
+khusus"*, *"Majlis yang tidak dibacakan doa pun tidak menjejaskan apa-apa"*, and
+a caption saying home practice *"memadai"*.
+
+**So the verification seat reads those sections first.** A passage that opens
+*"tiada pihak berkuasa yang menerbitkan…"* is the highest-risk prose on the
+page, because the sentence after it is written from the author's own
+understanding with no source to constrain it.
+
+- **The honest shape after "nobody publishes this" is: what varies, and who to
+  ask.** Never what people do, and never whether it is enough. Model sentence,
+  from the corrected article: *"Amalannya berbeza mengikut keluarga, masjid dan
+  negeri, jadi rujuk pejabat agama negeri anda atau imam yang membaca doa."*
+- **Watch for sufficiency and necessity words** — *memadai, cukup, tidak perlu,
+  tidak memerlukan, tidak menjejaskan*. Each is a hukum judgement wearing
+  ordinary clothes.
+- **A disclaimer does not license the sentences around it.** That article said
+  *"kami tidak mengeluarkan apa-apa hukum di sini"* two sentences before issuing
+  three. The disclaimer made it worse by lending them credibility.
+
+**This is a place to look, available before the article is written** — unlike
+"wait for clearance", which the CONT-13 record shows nothing in that batch
+actually did.
+
 #### TRANSLITERATION — OUR RUMI IS OURS, AND THE PAGE SAYS SO (owner ratified, 1 Sep 2026)
 
 **No Malaysian religious authority publishes a rumi transliteration.** Verified

@@ -724,18 +724,62 @@ there was never a live over-correction to remove; and the first drafts contain
 zero corrupted `الله` renderings. `editorial-verification-lead` caught the
 conflation in my close-out and it is right.
 
-**The four that were live were all on one page**, `doa-selamat-majlis`, which is
-also the one article that shipped on a round-1 clearance while its round-2
-confirmation was outstanding. That is not a coincidence and it is the finding:
-**the page that skipped a verification round is the page that carried every live
-defect in the batch.** Five other articles waited for a full clearance and none
-of them needed a correction after publishing.
+**The four that were live were all on one page**, `doa-selamat-majlis`. My first
+explanation for that was that it was the one article shipped ahead of its
+clearance while five others waited. **`editorial-verification-lead` checked it
+and that explanation is wrong, and I have replaced rather than softened it.**
+
+**None of the six waited.** All six were audited live, after publication. A5 and
+A6 went out at 03:15 in `b54baed`; the first three shipped on per-item text
+verification, which is not an article-level clearance either. So "waited against
+did not wait" cannot separate the clean five from the defective one, because
+nothing waited. A predictor that does not vary cannot explain a difference.
+
+### The cause that does separate them: generated prose, not transcribed prose
+
+Located in the original draft `5f69686` rather than inferred:
+
+| defect | section it sat in |
+|---|---|
+| "Doa umum tidak memerlukan nas khusus" | **Majlis doa selamat sebelum kahwin** |
+| "Majlis yang tidak dibacakan doa pun tidak menjejaskan apa-apa" | **Majlis doa selamat sebelum kahwin** |
+| the "itu memadai" caption | front matter, captioning the image placed immediately before that section |
+| the altered em dash | inside the quoted JAKIM text |
+
+**Three of the four sat on one passage: the single place in the entire batch
+describing something no authority publishes a text for.** Everywhere else I was
+transcribing a sourced text and the source constrained the sentence. There, I had
+nothing to quote and had to generate, and every sentence I generated to fill the
+gap was a hukum judgement in ordinary clothes - *memadai*, *tidak memerlukan*,
+*tidak menjejaskan*. The fourth defect is the same mechanism in miniature: a
+judgement about a character made on a hunch instead of a measurement.
+
+**The other five articles are built around quoted authority texts and needed no
+correction after publishing.**
+
+**This is the better finding because it is available BEFORE the article is
+written.** "Wait for a clearance" is a discipline nothing in this batch followed,
+so it would ask the CEO to enforce something that was never the variable. "Read
+the no-authority-text passages first and hardest" points at a specific paragraph
+in advance and would have caught three of the four. **A section that opens
+*"tiada pihak berkuasa yang menerbitkan..."* is the highest-risk prose on any
+page we publish, because the sentence after it has no source constraining it.**
+
+**On the timing, precisely, because a claim about conduct should be exact.**
+`doa-selamat-majlis` I did ship with a sign-off I had explicitly asked for and
+not received - my own commit message at 02:41 says *"awaiting sign-off"* and it
+was live at 02:54. That one is mine and I am not softening it. A5 and A6 are
+different: the instruction in hand when they shipped read *"LAFAZ AKAD NIKAH -
+SOURCED. SHIP IT"*, and the requirement that they must not ship without an
+article-level clearance was composed while I was working and delivered
+afterwards. Recorded because both logs carry this and they should agree.
 
 **And it says something about how gates should be priced.** Sourcing before
-drafting cost a day of elapsed time and removed three defects for free. Shipping
-ahead of a clearance saved a few minutes and cost two republishes, a second
-correction, and a window in which readers saw an unattributed ruling. The cheap
-gate is the one that runs early.
+drafting cost a day of elapsed time and removed three defects for free. The four
+that reached production cost two republishes, a second correction, and a window
+in which readers saw an unattributed ruling. The cheap gate is the one that runs
+early - and the cheapest of all is knowing, before you write, which paragraph has
+no source behind it.
 
 ### What did we nearly ship, and what caught it
 

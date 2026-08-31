@@ -472,6 +472,45 @@ ruled on — then approved unchanged. **A standards question that already has li
 pages depending on it should be answered before the next article ships, not
 after.**
 
+**Where did the defects actually cluster? — the finding for the CEO**
+
+All four post-publication defects were on **one** article, `doa-selamat-majlis`.
+The writer's account attributes that to its being the one article shipped
+without waiting for clearance, with *"the other five waiting for a full
+clearance"*. **The commit record does not support the second half, and the
+distinction matters because it changes the corrective action.**
+
+From the commits: `5f69686` 02:41 *"doa-selamat-majlis draft… awaiting
+sign-off"* → `c13997d` 02:54 *"doa-selamat-majlis live"*, thirteen minutes
+later, sign-off never delivered. That part holds. But `b54baed` 03:15 put
+`lafaz-akad-nikah` and `doa-jodoh` live too — **after** this seat had written
+that they must not ship without an explicit article-level clearance, and before
+one was given. And the first three shipped on per-item *text* verification, not
+an article-level clearance either. **No article in this batch waited for an
+article-level clearance. All six were audited live, after publication.** So
+"waited vs did not wait" does not separate the clean five from the defective
+one, because nothing waited.
+
+**What does separate them is where the prose came from.** Three of the four
+defects — *"Doa umum tidak memerlukan nas khusus"*, *"Majlis yang tidak
+dibacakan doa pun tidak menjejaskan apa-apa"*, and the *"itu memadai"* caption —
+sat in a single section, *"Majlis doa selamat sebelum kahwin"*: **the one
+passage in the whole batch describing something no authority publishes a text
+for.** With nothing to quote, the writer generated prose, and religious ruling
+language entered where judgement replaced transcription. The fourth defect, the
+altered em dash, is the same mechanism in miniature — a judgement call on a
+character, made on a hunch rather than a measurement.
+
+**The other five articles are built around quoted authority texts and needed no
+correction.** The predictor is not who waited for whom. It is: **defects appear
+where the writer had to generate rather than transcribe.**
+
+**Actionable consequence, which "wait for clearance" does not give you:** the
+verification seat should read the *no-authority-text passages first and hardest*
+— the sections that begin "nobody publishes this" are precisely where our own
+voice is most likely to turn into a ruling. That is a place to look, available
+before the article is written.
+
 **What did we nearly ship, and what caught it?**
 Four things; three caught before publication, one after.
 
