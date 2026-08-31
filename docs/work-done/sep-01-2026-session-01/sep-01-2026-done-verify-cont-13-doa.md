@@ -137,7 +137,7 @@ this market has written that.
 
 ---
 
-## 3. Sourced and shipped — the per-item register for the three clean pages
+## 3. Per-item authority register — the four `ucapan-doa` pages
 
 | Item | Authority | URL | Grading as stated |
 |---|---|---|---|
@@ -386,9 +386,10 @@ Four things; three caught before publication, one after.
 4. **Not caught before publication:** three unattributed rulings and an altered
    em dash on `doa-selamat-majlis`, which shipped before the sign-off reached
    the writer. Caught by auditing the live page afterwards; the writer then
-   corrected all four in the draft and republished, and **three of the four are
-   now fixed in production**. The fourth survives only in an image caption that
-   the republish did not refresh.
+   corrected all four and republished, and **all four are now fixed in
+   production**. The unsourced practice claim turned out to sit in three places,
+   not one — body, FAQ answer and an image caption — and he found the extra two
+   by enumerating rather than testing.
 
 **The lesson from (4) is process, not care.** The writer had a clearance for the
 *quote* and reasonably read it as a clearance for the *article*. He said so
