@@ -376,6 +376,66 @@ contents list without anyone touching anything. **That is the difference between
 shipping a fix to two articles and shipping a rule.** The 21 with no contents
 list are the same 21, shape for shape.
 
+## 6b. The UI-17 coordination, after this item had already shipped
+
+Four messages arrived from UI-17 via the team lead after PR #38 was merged and
+deployed. Three things came out of them, one of which was a defect in what I had
+already shipped.
+
+### The gate would have gone sitewide red the morning the rail lands
+
+`TOCLINT` looked for `nav.article-toc` **inside `.inspire-prose`**. UI-17 moves
+that node into the 300px rail, which is outside it. On the day the relocation
+deploys, my gate would have reported `MISSING contents list` on all 68 eligible
+articles at once — a sitewide red run caused entirely by the gate's own
+assumption about which box the component lives in. The DoD says a contents list
+renders on the article; it does not say where.
+
+Fixed in PR #45, paired rather than asserted: the lookup is document-wide,
+`.article-toc` is still the signal, exactly one per document is still required,
+and anchor targets must still resolve inside `.inspire-prose` because the
+headings do not move when the nav does. The accessible name now resolves the way
+a screen reader does — `aria-label`, then `aria-labelledby`, then the
+component's own `.hk-eyebrow` — because heading ownership is moving to the rail
+and a gate that only knew the third form would have failed every article the day
+the second shipped. Three new fixtures from the same production capture:
+`ok-toc-in-rail` (must be clean), `bad-toc-duplicated`, `bad-toc-two-headings`.
+Self-test 8 cases → 11.
+
+### The container contract is a prop, not an agreement
+
+UI-17 decided the rail renders `Dalam artikel ini` itself. That is right and the
+heading is theirs. But the label is already live on 68 articles from this item,
+so between their merge and the relocation there is a window where BOTH render it.
+PR #46 makes that unreachable: `<ArticleToc headings={…} labelledBy="…" />` drops
+the heading, the `aria-label` and the box chrome together, and passing the prop
+is the only way to get the bare form. `aria-label` is dropped rather than kept
+alongside `aria-labelledby`, because an `aria-label` here would override the
+rail's heading as the landmark's accessible name.
+
+### Tap targets at the rail's inner measure, before the rail exists
+
+`--clamp <px>` measures the shipped node at a width the shipped page does not yet
+impose. On production: **268px** (the 300px column less 16px padding each side)
+gave 79 anchors across three articles, min **24.0**, max 37.7, **0 under 24**;
+**318px** gave 27 anchors, min 24.0, max 34.8, 0 under 24. The control is what
+makes those numbers mean anything: the same page at the same viewport
+**unclamped** reports max **24.0**, every entry on one line. The clamp really
+narrows the box, so the 37.7 is wrapping and not an artefact of the flag. **None
+of this is a measurement of the rail** and it must not be quoted as one.
+
+### Two claims in those messages that were stale, and one that was wrong
+
+- *"`DALAM ARTIKEL INI` genuinely is on 0 articles."* True before 18:22 UTC. It
+  has been on the page since: **68 of 89** as I write. UI-17's fetch predates the
+  merge. The count is no longer usable as a negative control.
+- *"`mas-kahwin-ikut-negeri` has article-toc 0 — if it carries ≥ 2 h2 then
+  generation is also needed."* It carries **zero** `<h2>` (`h3=7 h4=5`), so it is
+  correctly excluded and is not a coverage gap. The three numbers the message
+  asked for, measured rather than sampled: 86 articles → 65 with ≥ 2 h2 → **63**
+  had a contents list. It was two articles of generation and it is done.
+- *"You should merge second."* I had already merged first, four hours earlier.
+
 ## 7. Not in scope, raised rather than absorbed
 
 **21 of 86 articles carry zero `<h2>`, and 7 of them are a real defect.** Fourteen
