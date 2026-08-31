@@ -122,14 +122,33 @@ jobs:
       #
       # A CRLF checkout would make this "bad interpreter" rather than a failure,
       # so `scripts/**/*.sh text eol=lf` is pinned in .gitattributes.
+      #
+      # ⚠ `set +e` IS LOAD-BEARING AND IT IS THE FIRST LINE FOR A REASON.
+      # `shell: bash` runs `bash --noprofile --norc -e -o pipefail`, and `-e` is
+      # fatal to a suite whose FIRST control expects a non-zero exit: the shell
+      # dies inside `run` on `check-h6.sh`'s expected `1`, before `got=$?` is
+      # ever read. Measured, run 33431747618 on 31 Aug 2026 — the step printed
+      # its header line, nothing else, and exited 1. It looked like a failing
+      # negative control and it was a step that could not run at all. `set -uo
+      # pipefail` does NOT clear `-e`, which is why this reads `+e` explicitly.
+      # Locally the same script passes, because a plain `bash file.sh` has no
+      # `-e`; that difference is the whole trap.
+      #
+      # `ran` is the second half of the defence. A suite that dies early prints
+      # some passes and then stops, which reads exactly like a suite that
+      # finished — so the count is asserted at the end and the step fails if any
+      # control did not execute.
       - name: Does check-h6.sh reject the known-bad homepage and accept the known-good one?
         shell: bash
         run: |
+          set +e
           set -uo pipefail
           rc=0
+          ran=0
           run() { # run <expected-exit> <file>
             bash scripts/measure/check-h6.sh "$2" > h6.out 2>&1
             got=$?
+            ran=$((ran + 1))
             if [ "$got" = "$1" ]; then
               echo "  ok   exit $got (expected $1)  $2"
             else
@@ -149,6 +168,12 @@ jobs:
           run 0 tests/ui-layout-gate/fixtures/h6-order-reversed.html
           # A fetch or usage error is exit 3 and is NOT a verdict about a page.
           run 3 tests/ui-layout-gate/fixtures/no-such-file.html
+          if [ "$ran" != "4" ]; then
+            echo "  FAIL only $ran of 4 controls executed — the suite did not finish,"
+            echo "       which prints exactly like a suite that did. Check the shell flags."
+            rc=1
+          fi
+          echo "  $ran of 4 controls ran"
           exit $rc
 
       - name: Summary
