@@ -1,0 +1,31 @@
+{
+  "slug": "dewan-kahwin",
+  "headingLevel": 2,
+  "entries": [
+    {
+      "question": "Berapa kadar sewa dewan kahwin murah di Selangor dan KL?",
+      "answer": "Dalam senarai ini, kadarnya antara RM2,500 dan RM4,000 sesebuah dewan. Dewan Warisan Kampung Melayu Subang sekitar RM2,500, Dewan Komuniti AU2 dan Pusat Komuniti PPR Pinggiran Bukit Jalil sekitar RM3,000, Dewan Kenanga MBSA sekitar RM3,800, manakala Dewan Sivik MBPJ dan Dewan MBSA Seksyen 7 sekitar RM4,000. Semuanya masih bawah RM5,000.",
+      "support": "Body: 'Harga sewaan sekitar RM2,500 sahaja' (Dewan Warisan Kampung Melayu Subang); 'Dengan kadar sewaan sekitar RM3,000' (AU2); 'Dengan harga sekitar RM3,000' (PPR Pinggiran Bukit Jalil); 'kadar sewaannya sekitar RM3,800' (Dewan Kenanga MBSA); 'Dengan sewaan sekitar RM4,000' (Dewan Sivik MBPJ); 'Dengan kadar sewaan sekitar RM4,000' (Dewan MBSA Seksyen 7); tajuk 'Sesuai untuk Bajet Bawah RM5,000'."
+    },
+    {
+      "question": "Dewan mana yang boleh menampung lebih 1,000 tetamu?",
+      "answer": "Dua dalam senarai ini. Dewan Seri Siantan Putrajaya berkeluasan 15,190 kaki persegi dan mampu menampung hingga 1,700 tetamu, lengkap dengan sistem PA, mikrofon, rostrum dan pentas mudah alih. Dewan Perdana Keramat pula dewan dua aras, utama dan galeri, yang menampung 1,000 hingga 2,000 tetamu dengan lebih 250 lot tempat letak kereta.",
+      "support": "Body: 'Dengan keluasan 15,190 kaki persegi, dewan ini mampu menampung hingga 1,700 tetamu serta dilengkapi kemudahan lengkap seperti PA system, mikrofon, rostrum dan pentas mudah alih.' dan 'Dewan dua aras ini (utama dan galeri) mampu menampung 1,000 hingga 2,000 tetamu... terdapat lebih 250 lot tempat letak kereta.'"
+    },
+    {
+      "question": "Bolehkah saya bawa katerer dan pelamin sendiri ke dewan ini?",
+      "answer": "Di Dewan Komuniti AU2 Taman Keramat, ya. Dewan itu membenarkan penyewa membawa vendor luar untuk katering, pelamin atau jurugambar pilihan sendiri. Sembilan dewan lain dalam senarai ini tidak dinyatakan syaratnya di sini, jadi tanya pihak pengurusan dewan sebelum anda kunci mana-mana vendor.",
+      "support": "Body, Dewan Komuniti AU2: 'Paling menarik, anda bebas membawa vendor luar untuk katering, pelamin atau jurugambar pilihan sendiri.' Tiada dewan lain dalam artikel menyatakan syarat vendor."
+    },
+    {
+      "question": "Ada tak dewan bajet yang dekat dengan stesen LRT?",
+      "answer": "Ada dua. Dewan Komuniti AU2 Taman Keramat hanya beberapa minit dari LRT Jelatek dan Great Eastern Mall. Dewan Perdana Keramat pula terletak di Keramat Mall, bersebelahan Pasar Datuk Keramat dan LRT Putra Dato' Keramat. Kedua-duanya memudahkan tetamu yang datang tanpa kereta.",
+      "support": "Body: 'Lokasinya juga strategik hanya beberapa minit dari LRT Jelatek dan Great Eastern Mall.' dan 'Terletak di Keramat Mall, bersebelahan Pasar Datuk Keramat dan LRT Putra Dato' Keramat, lokasinya sangat mudah diakses oleh tetamu.'"
+    },
+    {
+      "question": "Ada tak dewan yang sesuai untuk majlis sekitar 400 tetamu?",
+      "answer": "Ada. Dewan Seri Melati di Gombak menampung sekitar 370 tetamu dalam ruang 7,642 kaki persegi, lengkap dengan sistem PA, mikrofon dan pentas mudah alih, dengan akses melalui MRR2 dan Duke Highway. Dewan Warisan Kampung Melayu Subang pula 400 hingga 600 tetamu pada kadar sekitar RM2,500.",
+      "support": "Body: 'Dewan Seri Melati menawarkan suasana moden dan selesa untuk sekitar 370 tetamu. Berkeluasan 7,642 kaki persegi, dewan ini lengkap dengan PA system, mikrofon dan pentas mudah alih... akses mudah melalui MRR2 serta Duke Highway.' dan 'Kapasiti sekitar 400 hingga 600 tetamu' (Dewan Warisan Kampung Melayu Subang, 'Harga sewaan sekitar RM2,500 sahaja')."
+    }
+  ]
+}
