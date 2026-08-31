@@ -781,6 +781,46 @@ in which readers saw an unattributed ruling. The cheap gate is the one that runs
 early - and the cheapest of all is knowing, before you write, which paragraph has
 no source behind it.
 
+### The concurrency rule this item produced, and it is reusable
+
+Four corrections went in each direction between me and
+`editorial-verification-lead` over one article. Three of mine to that seat held
+on measurement; the fourth was a timing claim about my own conduct, and the way
+it resolved is the part worth keeping.
+
+That seat wrote that I had shipped three articles past a stated requirement of
+its own. For `doa-selamat-majlis` that is exactly right and I have not softened
+it. For the other two it was not: the instruction in front of me when they
+shipped read *"SHIP IT"*, and the requirement that they needed an article-level
+clearance was **composed while I was working and delivered after they were
+live**.
+
+**The seat that wrote the requirement could establish when it composed it. It
+could not establish when it was delivered - only I could see that.** So the
+attribution of fault was built on evidence the accusing seat did not have. It
+has been removed rather than softened, and the removal is recorded in that
+seat's log.
+
+Two rules came out of it, both now in
+`docs/plans/aug-23-2026-session-01/aug-23-2026-workflow-content-production.md`:
+
+1. **A condition announced concurrently with the work it governs does not govern
+   it.** If the work is already in flight, it is a request, not a gate. This is
+   the practical half of the concurrency problem the playbook already names:
+   parallel seats cannot address each other in real time, so a seat cannot
+   IMPOSE on work already moving.
+2. **Never attribute a missed condition without the delivery evidence.** The
+   seat that cannot see when its own message landed is not the seat that can say
+   it was ignored. Ask, do not infer - and it is a worse form of the
+   name-a-cause-before-measuring error, because it lands on a person rather than
+   on a number.
+
+**My half of the pair, and it is the one that would have held the page:** ask
+whether a clearance covers the ARTICLE or only the TEXT, rather than resolving an
+ambiguous one in the shipping direction. That seat's rule stops the ambiguity
+being created; mine stops it being resolved conveniently. Neither alone was
+enough, and on `doa-selamat-majlis` neither fired.
+
 ### What did we nearly ship, and what caught it
 
 **A withdrawn 2007 government rule, presented as current.** Caught by

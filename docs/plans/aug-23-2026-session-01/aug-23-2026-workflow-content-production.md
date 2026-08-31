@@ -237,6 +237,25 @@ altered character went live in the gap between those two readings.
 it says plainly how fast it must come down and supplies drop-in replacement
 text, so the fix does not wait on a second round of judgement.
 
+**A condition announced concurrently with the work it governs does not govern
+it.** On CONT-13 the verification seat wrote *"this does not ship without an
+explicit article-level clearance"* while the writer was already publishing; the
+message landed after the articles were live. The seat then reasoned as though
+the condition had been in force and attributed fault for shipping past it —
+**which it could not check, because only the writer can see when a message
+arrived.** Two consequences, and they are the practical half of Rule 7's
+concurrency problem:
+
+- **A condition on an unfinished artefact is stated before that artefact is
+  built, or it is not a condition** — it is a note arriving after the fact. If
+  the work is already in flight, say so plainly and treat it as a request, not
+  a gate.
+- **Never attribute a missed condition without the delivery evidence.** The seat
+  that cannot see when its own message landed is not the seat that can say it
+  was ignored. Ask; do not infer. Inferring fault from evidence you cannot see
+  is the same error as naming a cause before measuring it, and it is worse,
+  because it lands on a person.
+
 #### AFTER A CORRECTION, RE-CHECK THE CAPTIONS SEPARATELY (CONT-13, 1 Sep 2026)
 
 **Body text and image captions update through different paths, and a caption can

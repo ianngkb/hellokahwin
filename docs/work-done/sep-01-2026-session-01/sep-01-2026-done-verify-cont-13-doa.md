@@ -482,14 +482,27 @@ distinction matters because it changes the corrective action.**
 
 From the commits: `5f69686` 02:41 *"doa-selamat-majlis draft… awaiting
 sign-off"* → `c13997d` 02:54 *"doa-selamat-majlis live"*, thirteen minutes
-later, sign-off never delivered. That part holds. But `b54baed` 03:15 put
-`lafaz-akad-nikah` and `doa-jodoh` live too — **after** this seat had written
-that they must not ship without an explicit article-level clearance, and before
-one was given. And the first three shipped on per-item *text* verification, not
-an article-level clearance either. **No article in this batch waited for an
+later, sign-off never delivered. **That one is established and the writer does
+not dispute it.** But `b54baed` 03:15 put `lafaz-akad-nikah` and `doa-jodoh`
+live too, and the first three shipped on per-item *text* verification, which is
+not an article-level clearance either. **No article in this batch waited for an
 article-level clearance. All six were audited live, after publication.** So
 "waited vs did not wait" does not separate the clean five from the defective
 one, because nothing waited.
+
+⚠ **A claim about the writer's conduct was removed from this passage on his
+challenge, and the removal is correct.** An earlier revision said A5 and A6
+shipped *"after this seat had written that they must not ship without an
+explicit article-level clearance"*. **This seat cannot establish that.** It can
+establish when it *composed* the requirement — A5 was an untracked draft at the
+time — but not when the message was *delivered*. The writer can see that, and
+reports it arrived after `b54baed` had already gone out, meaning there was no
+stated requirement in front of him for those two. **Only one party could check
+it, and it was not this one.** The argument above never depended on it: "nothing
+waited" holds regardless of delivery order, so the clause was an unverifiable
+attribution of fault decorating a sound point. Attributing fault on evidence one
+cannot see is the same error as naming a cause before measuring it — and this
+seat would block a writer for it.
 
 **What does separate them is where the prose came from.** Three of the four
 defects — *"Doa umum tidak memerlukan nas khusus"*, *"Majlis yang tidak
