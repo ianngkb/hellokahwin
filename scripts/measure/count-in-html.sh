@@ -36,7 +36,10 @@
 #
 # Usage:
 #   count-in-html.sh <url|file> <pattern> [<pattern> ...]
-#   count-in-html.sh --enumerate <url|file> <regex>
+#   count-in-html.sh [--case-sensitive] --enumerate <url|file> <ERE>
+#
+# `--enumerate` takes an EXTENDED regex (grep -E) and is CASE-INSENSITIVE unless
+# you pass --case-sensitive. Write {0,40}, not the BRE backslashed form.
 #
 # Examples:
 #   count-in-html.sh https://hellokahwin.com/artikel/... "DALAM ARTIKEL INI" REKOD SUMBER
@@ -48,7 +51,14 @@ set -uo pipefail
 die() { echo "$*" >&2; exit 2; }
 
 ENUM=0
-if [ "${1:-}" = "--enumerate" ]; then ENUM=1; shift; fi
+ENUM_I=-i
+while :; do
+  case "${1:-}" in
+    --enumerate) ENUM=1; shift ;;
+    --case-sensitive) ENUM_I=; shift ;;
+    *) break ;;
+  esac
+done
 [ $# -ge 2 ] || die "usage: $0 [--enumerate] <url|file> <pattern> [pattern ...]"
 
 SRC="$1"; shift
@@ -66,8 +76,34 @@ fi
 
 if [ "$ENUM" = "1" ]; then
   # Enumerate what IS there, grouped, so a wrong assumption cannot hide as a zero.
+  #
+  # ⚠ CASE-INSENSITIVE BY DEFAULT — UI-17, 01 Sep 2026. This mode was `grep -oaE`
+  # with no `-i`, while the COUNTING mode below has always been `-oai`. So the one
+  # mode whose entire purpose is "enumerate what is there rather than testing for
+  # the casing you assume" was itself casing-blind, and the two modes disagreed
+  # about the same pattern on the same file:
+  #
+  #     count-in-html.sh <page> SUMBER                 ->  20
+  #     count-in-html.sh --enumerate <page> 'SUMBER:'  ->  (none)
+  #
+  # on a page carrying `Sumber:` ×1. That is this script's own headline failure,
+  # reproduced inside this script, and it reads exactly like an absence.
+  # `--case-sensitive` opts out for the rare case where the casing IS the finding.
+  #
+  # ⚠ AND THE DIALECT IS ERE, NOT BRE. `-E` was always here, but the usage block
+  # above documented `[Ss][Oo][Uu][Rr][Cc][Ee]:` — a pattern valid in BOTH dialects
+  # — so nothing ever revealed the difference. A BRE-style bound written out of the
+  # counting mode's habits is read by ERE as literal brace characters and matches
+  # nothing. Detected and named below rather than left to look like an absence.
   echo "-- enumerated variants of /$1/ --"
-  out="$(grep -oaE "$1" "$TMP" | sort | uniq -c | sort -rn)"
+  case "$1" in
+    *'\{'*)
+      echo "  !! your pattern contains a backslashed brace, which is a BRE bound." >&2
+      echo "     This mode is ERE: write {0,40}, not the backslashed form, or the" >&2
+      echo "     braces match literally and you get a confident (none)." >&2
+      ;;
+  esac
+  out="$(grep -oa $ENUM_I -E "$1" "$TMP" | sort | uniq -c | sort -rn)"
   if [ -z "$out" ]; then
     echo "  (none)  <- an empty enumeration is a claim about your REGEX until you"
     echo "           prove the regex on a line you know matches. Widen it and re-run."
