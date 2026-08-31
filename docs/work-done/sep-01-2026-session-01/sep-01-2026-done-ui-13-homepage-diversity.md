@@ -93,34 +93,51 @@ The Design Systems Engineer measured it against the production database
 (`scripts/measure/measure-h6-pool.mjs`, output committed) and the answer is
 stronger than the claim:
 
-```
-ranks 1–13:                    13 rows, 2 categories
-                               hantaran-mas-kahwin=9  ucapan-doa=4
-                               capacity at cap 5 = 9, required 13  -> NOT satisfiable
+**Measured twice, because the corpus moved under the measurement.** It went
+89 → 90 → 92 published articles during this item, as two more were published
+mid-session. The final run, at 92:
 
-ranks 1–20 (the old buffer):   20 rows, 2 categories
-                               hantaran-mas-kahwin=16 ucapan-doa=4
-                               capacity at cap 5 = 9, required 13  -> NOT satisfiable
+```
+ranks 1–13:                    13 rows, 4 categories
+                               hantaran-mas-kahwin=7 ucapan-doa=4
+                               nikah-undang-undang=1 sebelum-nikah=1
+                               capacity at cap 5 = 11, required 13 -> NOT satisfiable
+
+ranks 1–20 (the old buffer):   20 rows, 4 categories
+                               hantaran-mas-kahwin=14 ucapan-doa=4
+                               nikah-undang-undang=1 sebelum-nikah=1
+                               capacity at cap 5 = 11, required 13 -> NOT satisfiable
 
 ranks 14–20 are:               hantaran-mas-kahwin ×7
 categories they ADD over 1–13: (none)
 
-the whole published corpus:    90 rows, 15 categories
-                               capacity at cap 5 = 47, required 13 -> SATISFIABLE
+the whole published corpus:    92 rows, 15 categories
+                               capacity at cap 5 = 49, required 13 -> SATISFIABLE
 ```
 
+The first run, at 90 rows, read `hantaran-mas-kahwin=9 ucapan-doa=4` over ranks
+1–13 — **two** categories and a capacity of **9**. Both runs are recorded because
+the movement is the point: the buffer's capacity rose from 9 to 11 as articles
+published, and **13 was never reachable from it at either measurement.** A
+finding that survives its own corpus moving twice is worth more than a finding
+taken once.
+
 **H6 was not merely unguaranteed from the old buffer — it was flatly
-unsatisfiable from it.** Capacity 9 against a required 13. A perfect H6.4
+unsatisfiable from it.** Capacity 11 against a required 13, and 9 an hour
+earlier. A perfect H6.4
 implementation over `.limit(20)` would have fallen through H6.5 to step (3) and
 truncated the front page to nine or ten items, and `check-h6.sh` would have
 returned exit 0 on that shorter page, because a 9-item set satisfies H6 at N=9.
 **The item would have looked done.** That is the trap in this defect and it is
 the reason the pool is the whole corpus.
 
-The price, stated: the `unstable_cache` entry goes from **55,842 B to
-230,176 B** (4.12×, 224.8 KiB) for 90 rows — well under the ~1.5 MB at which the
+The price, stated: the `unstable_cache` entry goes from **55,612 B to
+235,542 B** (4.24×, 230.0 KiB) for 92 rows — well under the ~1.5 MB at which the
 build note called for a two-query shape, so one query it stays.
-`cover_image_smart_crops` is 43.2% of it. Cache key bumped `hk-home-v4` →
+`cover_image_smart_crops` is 43.2% of it. **That is about 2,560 B per row, which
+puts the ~1.5 MB point near 590 published articles** — the number to watch, and
+the trigger to reach for the two-query shape rather than re-deriving the
+argument. Cache key bumped `hk-home-v4` →
 `hk-home-v5`, because the Vercel Data Cache persists an entry across deployments
 and a wider query under the old key serves the previously-cached 20 rows to the
 first readers after a deploy.
@@ -273,6 +290,36 @@ here rather than smuggled in as an implementation detail.
   categories is satisfiable at N=13 and the fill reaches 12. Faithful to H6.4,
   which specifies a greedy. Recorded as a passing test.
 - **No lint or test workflow in this repo.** See the retrospective table.
+- **The empty state renders no `<h1>`, and the swap to `.s-empty` neither
+  created nor fixed that.** §9.1 assigns the homepage's h1 to the hero headline;
+  with zero published articles there is no hero, and `EmptyState`'s heading is a
+  `<span class="s-h2">`. The bespoke dashed box it replaced had the identical
+  hole. Raised by the Design Systems Engineer and it is mine, not theirs:
+  closing it means either forking a shared component or inventing a heading
+  level for a state DES-03 draws without one, and neither is a call to make
+  inside an item about category diversity. Same shelf as H3, and unreachable for
+  the same reason. Owner: creative-director.
+
+### Two rulings I made on the engineer's questions, recorded so they are not re-litigated
+
+**The empty state's copy split — it stands.** "Keep the existing copy, give it a
+real heading, invent nothing" cannot all hold literally, because a heading has to
+come from somewhere. Splitting the existing sentence at its own full stop —
+`heading="Belum ada artikel."`, `body="Kandungan akan datang tidak lama lagi —
+jumpa lagi!"` — invents no word and matches the shape `EmptyCategoryState` and
+`NotFoundState` already use. Correct call. (The heading keeps its full stop,
+which is not house style for a heading; it is not worth a deploy on a state
+nobody can reach, and it is written down here so the next person to touch this
+block fixes it in passing rather than wondering.)
+
+**Rendering the empty state before shipping it — right, and it generalises.** My
+objection to H3 was that building an unreachable variant nobody has looked at is
+how untested markup ships. That objection applies to any unreachable state,
+including the one I had just ordered built. Forcing it with `selectHomeSet([])`,
+serving it, measuring it and reverting the probe is the correct response, and the
+negative controls (`Terkini`, `Lihat semua artikel`, article links, `Tiada
+gambar`, `border-dashed` — all 0) are what make it evidence rather than a
+screenshot.
 
 ---
 
