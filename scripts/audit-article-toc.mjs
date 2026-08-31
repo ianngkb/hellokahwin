@@ -82,6 +82,42 @@
  * rather than compared against a constant.
  *
  * ─────────────────────────────────────────────────────────────────────────────
+ * WHAT COUNTS AS AN ARTICLE HEADING, AND WHY THE SERVED DOM IS NOT THE ANSWER
+ * ─────────────────────────────────────────────────────────────────────────────
+ *
+ * ⚠ DO NOT COUNT `<h2>` DOCUMENT-WIDE. Since UI-17's rail shipped, the page
+ * chrome emits `<h2>`s of its own and an article with ZERO body headings serves
+ * two of them:
+ *
+ *   <h2 class="s-label hk-rail-heading">Sumber</h2>            (the rail)
+ *   <h2 id="related-articles-heading" class="s-label">…</h2>   (the footer)
+ *
+ * Measured on `/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri`, which has
+ * `h3=7 h4=5` and no `<h2>` in its body at all: document-wide count 2, count
+ * inside `.inspire-prose` 0. A reviewer auditing this item independently counted
+ * document-wide, subtracted only the rail's TOC heading, and got 77 eligible
+ * articles against the true 71 — six phantom eligibles, every one of them an
+ * article that has a rail. Nothing was wrong with the pages.
+ *
+ * TWO DERIVATIONS EXIST AND THEY ARE NOT INTERCHANGEABLE:
+ *
+ *   ELIGIBILITY, in the component, is derived from the TIPTAP JSON —
+ *   `groupHeadings(extractHeadings(content)).length >= TOC_MIN_HEADINGS` via
+ *   `hasArticleToc()`. It counts `<h2>` GROUPS in the authored document and
+ *   drops orphan `<h3>`s before counting. It cannot see page chrome, because
+ *   page chrome is not in the article's content.
+ *
+ *   THIS GATE counts the served DOM, but SCOPED TO `.inspire-prose` and
+ *   excluding `nav.article-toc`. That is a different derivation reaching the
+ *   same number, which is the whole point of an external check — a gate that
+ *   re-used the component's own function would agree with it by construction.
+ *
+ * The two are not assumed to agree; the `topLevelEntries !== out.h2` violation
+ * further down is the assertion that they do, on every article, on every run. If
+ * page chrome ever moves inside `.inspire-prose`, that check fires rather than
+ * this file quietly counting the wrong thing.
+ *
+ * ─────────────────────────────────────────────────────────────────────────────
  * PROVENANCE
  * ─────────────────────────────────────────────────────────────────────────────
  *
