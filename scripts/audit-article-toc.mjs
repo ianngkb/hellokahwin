@@ -383,6 +383,74 @@ async function fetchPage(url) {
 }
 
 /**
+ * Classify sitemap URLs. PURE, and exported, so the paired self-test exercises
+ * the SAME code the live walk uses rather than a second implementation of it.
+ * Returns `{ articles, rehosted, skipped, unknown, categoryHubs }`; the caller
+ * decides what to do about `unknown`.
+ */
+export function classifySitemap(locs, baseOrigin) {
+  // ── WHICH SITEMAP URLs ARE ARTICLES, AND WHY IT IS NOT JUST THE SHAPE ──────
+  //
+  // The first version of this filter was `three path segments under /artikel/`
+  // and nothing else. It was RIGHT on 01 Sept 2026 and it was right by accident.
+  // `/artikel/tag/duit-hantaran` is a live, linked, 200-returning page carrying
+  // ZERO `.inspire-prose`, and it matches that shape exactly — measured, not
+  // reasoned about. It is not in the sitemap today. The day somebody adds tag
+  // pages to the sitemap, which is an ordinary SEO change, every one of them
+  // would be classified as an article, the `.inspire-prose` precondition would
+  // fire `NOT AN ARTICLE BODY`, and this gate would exit 2 across the corpus and
+  // point at a change that was correct.
+  //
+  // That is the same shape as scoping the TOC lookup to `.inspire-prose`: a
+  // filter that happens to be right today because of what does not exist yet.
+  // So the classification is POSITIVE and derived from the sitemap at run time,
+  // like the count is:
+  //
+  //   a 3-segment /artikel/<a>/<b> is an ARTICLE iff `<a>` also appears in this
+  //   same sitemap as a 2-segment /artikel/<a>, i.e. it is a real category hub.
+  //
+  // `author` and `tag` are the two reserved 3-segment routes today and are named
+  // explicitly rather than left to fall out of the rule, so a reader can see
+  // what is being skipped. Anything else 3-segment that is NOT a known category
+  // is an ERROR and stops the run: silently dropping it would under-count the
+  // corpus, and an under-counted corpus is a green run about the wrong set.
+  const articles = [];
+  const rehosted = [];
+  const RESERVED_ARTIKEL_ROUTES = new Set(['author', 'tag']);
+  const categoryHubs = new Set(
+    locs
+      .map((l) => l.match(/\/artikel\/([^/]+)$/))
+      .filter(Boolean)
+      .map((m) => m[1]),
+  );
+  const skipped = { reserved: [], notArticleShaped: 0 };
+  const unknown = [];
+  for (const loc of locs) {
+    if (!ARTICLE_URL.test(loc)) {
+      skipped.notArticleShaped += 1;
+      continue;
+    }
+    const seg = new URL(loc).pathname.split('/')[2];
+    if (RESERVED_ARTIKEL_ROUTES.has(seg)) {
+      skipped.reserved.push(loc);
+      continue;
+    }
+    if (!categoryHubs.has(seg)) {
+      unknown.push(loc);
+      continue;
+    }
+    const u = new URL(loc);
+    if (u.origin !== baseOrigin) {
+      rehosted.push(u.origin);
+      articles.push(`${baseOrigin}${u.pathname}`);
+    } else {
+      articles.push(loc);
+    }
+  }
+  return { articles, rehosted, skipped, unknown, categoryHubs };
+}
+
+/**
  * Derive the corpus. Three things here were wrong in the first version and each
  * of them produced a REASSURING result, which is why they are all spelled out.
  *
@@ -418,18 +486,27 @@ async function articleUrlsFromSitemap(base) {
   const xml = await r.text();
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].trim());
   const baseOrigin = new URL(base).origin;
-  const rehosted = [];
-  const articles = [];
-  for (const loc of locs) {
-    if (!ARTICLE_URL.test(loc)) continue;
-    const u = new URL(loc);
-    if (u.origin !== baseOrigin) {
-      rehosted.push(u.origin);
-      articles.push(`${baseOrigin}${u.pathname}`);
-    } else {
-      articles.push(loc);
-    }
+  const { articles, rehosted, skipped, unknown, categoryHubs } = classifySitemap(locs, baseOrigin);
+  if (unknown.length) {
+    console.error(
+      `TOCLINT: ${unknown.length} sitemap URL(s) are shaped like an article but their first\n` +
+        `segment is not a category hub in this same sitemap, and is not a reserved route\n` +
+        `(${[...RESERVED_ARTIKEL_ROUTES].join(', ')}):\n` +
+        unknown.map((u) => `  ${u}`).join('\n') +
+        `\n\nThe run stops rather than guessing. Dropping them would under-count the corpus,\n` +
+        `and a green run about the wrong set of pages is the failure this gate exists to\n` +
+        `avoid. Either they are articles in a new category whose hub is missing from the\n` +
+        `sitemap, or they are a new reserved route that belongs in RESERVED_ARTIKEL_ROUTES.\n` +
+        `TOCLINT EXIT: 2`,
+    );
+    process.exit(2);
   }
+  console.log(
+    `TOCLINT — corpus filter: ${categoryHubs.size} category hub(s) read from this sitemap; ` +
+      `${articles.length} article(s) kept, ${skipped.notArticleShaped} URL(s) not article-shaped ` +
+      `(home, /artikel, category hubs), ${skipped.reserved.length} reserved-route URL(s) skipped` +
+      (skipped.reserved.length ? `: ${skipped.reserved.join(', ')}` : ''),
+  );
   if (locs.length === 0 || articles.length === 0) {
     console.error(
       `TOCLINT: ${base}/sitemap.xml parsed to ${locs.length} URL(s) and ${articles.length} ` +
@@ -648,7 +725,17 @@ async function runSelftest(min) {
   ];
 
   let failed = 0;
-  console.log(`TOCLINT SELFTEST — floor ${min}, ${cases.length} paired cases\n`);
+  // COUNTED, never `cases.length + n`. The hand-summed version was added to
+  // twice and printed "0 of 11" on a run that had just executed FOURTEEN. A
+  // total that is a separate claim from the run itself goes stale the moment
+  // anyone adds a case, and a self-test that miscounts itself is the last
+  // place that should happen.
+  let ran = 0;
+  console.log(
+    `TOCLINT SELFTEST — floor ${min}, ${cases.length} fixture case(s) plus the ` +
+      `corpus-filter and floor-sensitivity pairs
+`,
+  );
   for (const [file, expect, needle, why] of cases) {
     const v = judgeArticle(fixture(file), { min, url: file });
     const got = v.errors.length ? 'error' : v.violations.length ? 'violation' : 'clean';
@@ -656,11 +743,53 @@ async function runSelftest(min) {
     let ok = got === expect;
     if (ok && needle) ok = msgs.includes(needle);
     if (ok && expect === 'clean') ok = msgs === '';
+    ran++;
     if (!ok) failed++;
     console.log(
       `  ${ok ? 'PASS' : 'FAIL'}  ${file.padEnd(28)} expected ${expect.padEnd(9)} got ${got.padEnd(9)} — ${why}`,
     );
     if (!ok || process.env.TOCLINT_VERBOSE) console.log(`        ${msgs || '(no messages)'}`);
+  }
+
+  // ── the corpus filter, paired ──────────────────────────────────────────────
+  // The old filter was `three segments under /artikel/`. It was right on 01 Sept
+  // and right by accident: /artikel/tag/duit-hantaran is a live 200 with zero
+  // .inspire-prose and matches that shape exactly. These three cases are what
+  // stop it being right by accident again.
+  const O = 'https://hellokahwin.com';
+  const hub = `${O}/artikel/hantaran-mas-kahwin`;
+  const art = `${O}/artikel/hantaran-mas-kahwin/duit-hantaran-kahwin`;
+  const corpusCases = [
+    [
+      'a real article under a hub the sitemap also lists',
+      [O, `${O}/artikel`, hub, art],
+      (r) => r.articles.length === 1 && r.articles[0] === art && r.unknown.length === 0,
+    ],
+    [
+      'a tag page, article-SHAPED but a reserved route — kept out, and named',
+      [O, hub, art, `${O}/artikel/tag/duit-hantaran`],
+      (r) =>
+        r.articles.length === 1 &&
+        r.skipped.reserved.length === 1 &&
+        !r.articles.some((u) => u.includes('/tag/')) &&
+        r.unknown.length === 0,
+    ],
+    [
+      'an article whose category hub is MISSING — stops the run, never dropped',
+      [O, hub, art, `${O}/artikel/kategori-baharu/sesuatu`],
+      (r) => r.unknown.length === 1 && r.articles.length === 1,
+    ],
+  ];
+  for (const [why, locs, ok] of corpusCases) {
+    const r = classifySitemap(locs, O);
+    const pass = ok(r);
+    ran++;
+    if (!pass) failed++;
+    console.log(
+      `  ${pass ? 'PASS' : 'FAIL'}  ${'(corpus filter)'.padEnd(28)} ` +
+        `kept ${r.articles.length}, reserved ${r.skipped.reserved.length}, ` +
+        `unknown ${r.unknown.length} — ${why}`,
+    );
   }
 
   // The floor itself is paired: the SAME document is clean at floor 4 and dirty
@@ -670,6 +799,7 @@ async function runSelftest(min) {
   const a = judgeArticle(threeH2, { min: 2, url: 'floor-2' });
   const b = judgeArticle(threeH2, { min: 1, url: 'floor-1' });
   const floorOk = a.violations.length === 0 && b.violations.length === 1;
+  ran++;
   if (!floorOk) failed++;
   console.log(
     `  ${floorOk ? 'PASS' : 'FAIL'}  ${'(floor sensitivity)'.padEnd(28)} ` +
@@ -677,7 +807,8 @@ async function runSelftest(min) {
   );
 
   const code = failed ? 1 : 0;
-  console.log(`\n${failed} of ${cases.length + 1} case(s) failed`);
+  console.log(`
+${failed} of ${ran} case(s) failed`);
   console.log(`TOCLINT EXIT: ${code}`);
   process.exit(code);
 }
