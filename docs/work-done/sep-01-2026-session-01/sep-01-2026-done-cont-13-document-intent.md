@@ -257,6 +257,38 @@ is a parent topic any live HelloKahwin article targets.
 
 ---
 
+## The sibling check, run late and worth running
+
+Rule 4 was applied on `parent_topic`, which is the field that defines it. But the
+persona's harder rule is to read the live sibling's **body**, not its title, and
+for `/artikel/ucapan-doa/doa-majlis-perkahwinan` I did that only after the first
+three were published. It should have been before. It cleared, and it also paid
+for itself twice.
+
+Fetched live and read by heading and by term:
+
+- **The apparent overlap was mostly the related-articles rail.** `penutup majlis`
+  ×4, `doa makan` ×2 and `munkar` ×2 on that page are the three new articles
+  being surfaced from it. The cluster is already knitting itself, which is the
+  outcome wanted, not a collision.
+- **One real shared string:** the sibling carries *"Lafaz Barakallahu laka, wa
+  baraka 'alaika, wa jama'a bainakuma fi khair daripada Sunan Abu Daud hadis
+  2130"* as a single line inside a four-step structure for a reception. The new
+  `ucapan-ulang-tahun-perkahwinan` carries the same lafaz with its Arabic, rumi,
+  meaning, source and two caveats, for a different question on a different parent
+  topic. Different page, and the two do not contradict: neither asserts a hadith
+  grading, which is the thing no Malaysian authority publishes.
+- **It confirmed the two drops independently.** The sibling already carries an
+  h2 *"Doa ringkas untuk majlis kecil"*, which is the `doa majlis ringkas` target
+  in everything but name; and it already states that JAKIM's 2026 collection
+  contains a doa selamat and no wedding doa, which is exactly the scope framing
+  the new `doa-selamat-majlis` is built on.
+
+**The lesson is the ordering, not the outcome.** Reading a sibling's body is
+cheap and it decided three questions here. Doing it after publishing meant that
+if it had gone the other way, the fix would have been a takedown rather than a
+choice.
+
 ## One stated deviation from the style guide, taken deliberately
 
 Style guide §9 asks for FAQ answers of **40 to 60 words**. The twelve answers
