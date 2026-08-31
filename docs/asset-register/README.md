@@ -228,3 +228,25 @@ Ranked exposure and the request list built on these numbers:
    after a `ditarik-balik`.
 5. **Nothing is deleted from this file.** A row for an image we no longer publish
    is the record that we once did.
+6. **Prove rule 1 against production, don't trust it.** Rule 1 has said "a row
+   exists before the image is attached to a draft" since 24 Ogos, and on
+   01 September 2026 the RIGHTS-02 census found **21 licensed photographs live
+   on the site with no row at all** — Azlan DuPree, Phalinn Ooi, Mohd Nasir Mat
+   Noor, Sham Hardy and Nuraishah Bazilah Affandi, two of whom appear nowhere in
+   this file in any column. Rule 1 is prose and prose does not fire. This does:
+
+   ```
+   python scripts/measure/rights-census.py --fetch --out <dir> --gate
+   ```
+
+   It fetches every live article, joins every image to this register, and
+   **exits 1** with the offending filenames and slugs when anything on the site
+   is missing from here. Run it whenever a batch of images ships, and read the
+   drift list rather than the exit code alone. Proven both ways on 01 Sept:
+   exit 1 against the 30 drifting objects, exit 0 against a five-article control
+   with none.
+
+   **When it fires, do not close it by copying the on-page credit into
+   `licensor_name`.** §2 forbids exactly that — a credit string is a claim the
+   page makes, not a grant. Open the row with `BELUM DIISI` and go to the
+   licence at origin.
