@@ -311,6 +311,29 @@ fi
 rm -rf "$selfclone"
 echo ""
 
+# ------------------------- 0e. the two copies must not drift ------------------
+# RISK-10 put this directory on master as well as on the docs branch, because a
+# guard reachable from only one branch is not reachable from a fresh clone. Two
+# copies drift. This case compares the COMMITTED blobs on the site-space ref and
+# the docs-space ref - no working tree, so no line-ending noise - and fails the
+# moment someone edits one and not the other. It is the executable form of the
+# rule; the paragraph in README.md is only there to explain it.
+echo "== case 0e  the guard is identical on both lines of this repo (RISK-10)"
+drift=0
+for f in post-checkout pre-commit pre-merge-commit install-hooks.sh verify-guard.sh README.md .gitattributes; do
+  s=$(git rev-parse "$SITE_SHA:scripts/git-hooks/$f" 2>/dev/null || echo "ABSENT")
+  d=$(git rev-parse "$DOCS_SHA:scripts/git-hooks/$f" 2>/dev/null || echo "ABSENT")
+  if [ "$s" = "ABSENT" ] || [ "$d" = "ABSENT" ]; then
+    bad "  $f: site=$s docs=$d - one line is missing the file"
+    drift=1
+  elif [ "$s" != "$d" ]; then
+    bad "  $f: site $s != docs $d - the two copies have drifted"
+    drift=1
+  fi
+done
+[ "$drift" -eq 0 ] && ok "all 7 guard files are the same blob on $SITE_REF and $DOCS_REF"
+echo ""
+
 # ------------------------------------------------------- install -------------
 echo "== installing guard"
 "$SRC_DIR/install-hooks.sh" "$CLONE" | sed 's/^/  /'
