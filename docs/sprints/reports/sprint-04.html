@@ -1,0 +1,279 @@
+<!-- Sprint 04 report - generated 31 Aug 2026 -->
+<meta charset="utf-8">
+<title>Sprint 04 &mdash; Fix what shipped</title>
+<style>
+ body{font:15px/1.6 -apple-system,Segoe UI,Roboto,sans-serif;color:#1d1b19;background:#f4f2ef;margin:0;padding:32px}
+ .wrap{max-width:940px;margin:0 auto}
+ h1{font:600 30px/1.25 Georgia,serif;margin:0 0 4px}
+ h2{font:600 19px/1.3 Georgia,serif;margin:34px 0 12px;padding-bottom:6px;border-bottom:1px solid #d8d3cc}
+ h4{font:600 12px/1 sans-serif;text-transform:uppercase;letter-spacing:.08em;color:#8a7f72;margin:12px 0 4px}
+ .sub{color:#6b625a;margin:0 0 20px}
+ .card{background:#fff;border:1px solid #e2ddd6;border-radius:6px;padding:18px 20px;margin:14px 0}
+ .item{background:#fff;border:1px solid #e2ddd6;border-radius:6px;padding:16px 18px;margin:10px 0}
+ .ihead{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;margin-bottom:2px}
+ .key{font:700 14px sans-serif;color:#1d1b19} .who{color:#8a7f72;font-size:12px}
+ .br{color:#8a7f72;font-size:12px;font-family:ui-monospace,monospace} .pr{color:#a08c6a;font-size:12px}
+ .check{background:#faf8f5;border-left:3px solid #c9b896;padding:8px 12px;margin:4px 0 0}
+ table.stats{width:100%;border-collapse:collapse;font-size:13px}
+ table.stats td,table.stats th{padding:5px 8px;border-bottom:1px solid #eee;text-align:left}
+ .num{text-align:right;font-variant-numeric:tabular-nums}
+ .fine{color:#8a7f72;font-size:12px}
+ .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0}
+ .stat{background:#fff;border:1px solid #e2ddd6;border-radius:6px;padding:12px}
+ .stat b{display:block;font:600 22px Georgia,serif}
+ .warn{background:#fff8ec;border:1px solid #e6d3a8}
+ ul{margin:6px 0 0;padding-left:20px} li{margin:4px 0}
+ code{background:#f0ece6;padding:1px 5px;border-radius:3px;font-size:12.5px}
+</style>
+<div class="wrap">
+
+<h1>Sprint 04 &mdash; Fix what shipped</h1>
+<p class="sub">The front page was broken in production. Planned 31 Aug 2026 &middot; closed 31 Aug 2026</p>
+
+<div class="grid">
+  <div class="stat"><b>69 / 69</b>points completed</div>
+  <div class="stat"><b>17</b>items, all done</div>
+  <div class="stat"><b>0</b>parked &middot; 0 moved out</div>
+  <div class="stat"><b>7%</b>idle (Sprint 03: 73%)</div>
+</div>
+
+<div class="card warn">
+  <h4>Scope grew twice, both from measurement</h4>
+  <p>Planned at <b>48&nbsp;pt / 11 items</b>. UI-04's rendered audit added UI-07&ndash;UI-11
+  (<b>+16&nbsp;pt</b>); UI-06's layout gate then found a defect on its first live run and added
+  UI-12 (<b>+5&nbsp;pt</b>). <b>48 &rarr; 64 &rarr; 69.</b> Both were surfaced as they happened.
+  No item was parked, none left the sprint, and no definition of done was narrowed &mdash; the one
+  attempt to close an item short was caught and reversed.</p>
+  <p class="fine">Deployed: hellokahwin-site <code>72f9735</code> &middot; docs <code>6b4e97e</code>
+  &middot; buddy <code>3561ec0</code>. No database migrations. No waived gates.</p>
+</div>
+
+<h2>What shipped, item by item</h2>
+    <div class="item">
+      <div class="ihead"><span class="key">UI-01</span><span class="who">creative-director</span><span class="br">ui01-srow</span><span class="pr">PR #16</span></div>
+      <h4>What changed</h4><p>The twelve articles listed on the front page were unreadable: each headline was squeezed into a 44-pixel-wide strip, one word per line, with the words running underneath the thumbnail. They now read normally across the full width.</p>
+      <h4>How to check it</h4><p class="check">Open <b>hellokahwin.com</b> on a desktop or laptop and look at the <i>Terkini</i> list. Each headline should read across in one or two lines, with its number on the left and its photo on the right.</p>
+    </div>
+    <div class="item">
+      <div class="ihead"><span class="key">UI-02</span><span class="who">design-systems-engineer</span><span class="br">ui02-nav</span><span class="pr">nav rail</span></div>
+      <h4>What changed</h4><p>Two of the nine category links in the top menu ran off the right edge of the screen and could not be reached &mdash; including <i>Venue, Kos &amp; Perancangan</i>, one of the better-performing sections.</p>
+      <h4>How to check it</h4><p class="check">Open <b>hellokahwin.com</b> and count the category links in the menu. All nine should be visible and clickable without scrolling sideways.</p>
+    </div>
+    <div class="item">
+      <div class="ihead"><span class="key">UI-03</span><span class="who">creative-director</span><span class="br">ui03-hero</span><span class="pr">PR #17</span></div>
+      <h4>What changed</h4><p>The big picture at the top of the front page was a tall photograph squashed into a wide slot, so you saw a blurry close-up of about a quarter of it. It now uses a photograph cropped for that shape, at full sharpness.</p>
+      <h4>How to check it</h4><p class="check">Open <b>hellokahwin.com</b>. The top image should look sharp and properly composed rather than zoomed-in and soft.</p>
+    </div>
+    <div class="item">
+      <div class="ihead"><span class="key">UI-04</span><span class="who">product-designer</span><span class="br">docs</span><span class="pr">audit</span></div>
+      <h4>What changed</h4><p>A full check of every page type at four screen sizes &mdash; phone, tablet, laptop, desktop &mdash; to answer whether the site was broken on phones. It is not: there was one small phone-only problem, and everything else was visible on desktop too.</p>
+      <h4>How to check it</h4><p class="check">Read the report at <code>docs/work-done/aug-30-2026-session-01/aug-31-2026-done-ui-04-rendered-audit.md</code>, with 57 screenshots beside it.</p>
+    </div>
+    <div class="item">
+      <div class="ihead"><span class="key">UI-05</span><span class="who">product-designer</span><span class="br">ui05-category-images</span><span class="pr">PR #18</span></div>
+      <h4>What changed</h4><p>The claim that category pages had no photographs turned out to be wrong for most of them: 37 of 44 already do. The seven that do not are the top-level topic hubs, and they stay text-only for now by an agreed, revisitable decision.</p>
+      <h4>How to check it</h4><p class="check">Open <b>hellokahwin.com/artikel/idea-dan-nasihat</b> &mdash; photographs. Then <b>/artikel/hantaran-mas-kahwin</b> &mdash; a topic hub, deliberately text.</p>
+    </div>
+    <div class="item">
+      <div class="ihead"><span class="key">UI-06</span><span class="who">design-systems-engineer</span><span class="br">ui06-layout-gate</span><span class="pr">PR #19, #21, #30</span></div>
+      <h4>What changed</h4><p>A new automatic check that loads the real pages in a real browser and measures them, so a broken layout like the 44-pixel headline can never reach the site unnoticed again. It found a fault on its very first run.</p>
+      <h4>How to check it</h4><p class="check">From the site repo: <code>node scripts/ui-layout-gate.mjs --selftest</code> &mdash; 132 checks pass. Then <code>--base https://hellokahwin.com</code> to check the live site.</p>
+    </div>
+    <div class="item">
+      <div class="ihead"><span class="key">UI-07</span><span class="who">design-systems-engineer</span><span class="br">ui07-label-clip</span><span class="pr">PR #22</span></div>
+      <h4>What changed</h4><p>On a phone, the small category labels above each article card were cut off mid-word &mdash; <i>Hantaran &amp; Mas Kah&hellip;</i>. They now wrap and show in full.</p>
+      <h4>How to check it</h4><p class="check">Open <b>hellokahwin.com/artikel</b> on a phone, or a narrow browser window. Every grey label above a card should read completely.</p>
+    </div>
+    <div class="item">
+      <div class="ihead"><span class="key">UI-08</span><span class="who">design-systems-engineer</span><span class="br">ui08-attrib-link</span><span class="pr">PR #25, #28</span></div>
+      <h4>What changed</h4><p>Photo credits that link to their source were being cut short, hiding up to 60% of the credit line. They now show in full at every screen size.</p>
+      <h4>How to check it</h4><p class="check">Open <b>hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding</b> and read the credits under the photographs &mdash; each should be complete.</p>
+    </div>
+    <div class="item">
+      <div class="ihead"><span class="key">UI-09</span><span class="who">design-systems-engineer</span><span class="br">ui09-search-a11y</span><span class="pr">PR #24</span></div>
+      <h4>What changed</h4><p>The search box failed our own accessibility standard: no visible outline when selected, no name for screen readers, no announcement of results, and text small enough that iPhones zoomed the page whenever you tapped it.</p>
+      <h4>How to check it</h4><p class="check">Open <b>hellokahwin.com</b>, tap <i>Cari</i>. On an iPhone the page should no longer zoom. Tab to the field with a keyboard and a clear outline should appear.</p>
+    </div>
+    <div class="item">
+      <div class="ihead"><span class="key">UI-10</span><span class="who">creative-director</span><span class="br">ui10-measure</span><span class="pr">PR #29</span></div>
+      <h4>What changed</h4><p>Article text ran about 104 characters per line on a wide screen &mdash; far past what is comfortable to read. It is now 67, and stays 67 however wide your screen is.</p>
+      <h4>How to check it</h4><p class="check">Open any article on a wide screen. Lines should feel comfortable rather than stretching across the window.</p>
+    </div>
+    <div class="item">
+      <div class="ihead"><span class="key">UI-11</span><span class="who">design-systems-engineer</span><span class="br">ui11-tap-targets</span><span class="pr">PR #26, #27</span></div>
+      <h4>What changed</h4><p>Small links &mdash; breadcrumbs, footer links, category labels &mdash; were under the minimum comfortable tap size on a phone. Standalone ones are now large enough.</p>
+      <h4>How to check it</h4><p class="check">Open the site on a phone and tap the breadcrumb links near the top and the links in the footer.</p>
+    </div>
+    <div class="item">
+      <div class="ihead"><span class="key">UI-12</span><span class="who">creative-director</span><span class="br">ui12-thumb-geometry</span><span class="pr">PR #31, #32, #33</span></div>
+      <h4>What changed</h4><p>Thumbnails across the site were being stretched or wrongly cropped &mdash; 25 stretched, 31 mis-shaped. All are fixed but one: a single tall photograph that no existing crop can fix without making the front page 8&nbsp;MB heavier. That one was deliberately left alone.</p>
+      <h4>How to check it</h4><p class="check">Run the layout gate against the live site; image stretching now reports zero. The single remaining case is written up in the item's log and filed as CONT-15.</p>
+    </div>
+    <div class="item">
+      <div class="ihead"><span class="key">RIGHTS-01</span><span class="who">managing-editor</span><span class="br">rights01-credits</span><span class="pr">PR #14</span></div>
+      <h4>What changed</h4><p>Photo credits appeared in English on Malay pages, in four different spellings, including a visible typo (<i>sOURCE:</i>) showing publicly. They are now one Malay label, <i>Kredit:</i>, everywhere.</p>
+      <h4>How to check it</h4><p class="check">Open <b>hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding</b> and read the caption under any photograph.</p>
+    </div>
+    <div class="item">
+      <div class="ihead"><span class="key">SEO-11</span><span class="who">head-of-seo-content</span><span class="br">docs</span><span class="pr">census</span></div>
+      <h4>What changed</h4><p>A study of 84 search terms to find out why the site is seen often but clicked rarely. It found the split is real and large &mdash; and corrected the board's explanation of the cause.</p>
+      <h4>How to check it</h4><p class="check">Read <code>docs/work-done/aug-30-2026-session-01/serp-shape-census.csv</code> and the report beside it.</p>
+    </div>
+    <div class="item">
+      <div class="ihead"><span class="key">SEO-12</span><span class="who">head-of-seo-content</span><span class="br">docs</span><span class="pr">gate</span></div>
+      <h4>What changed</h4><p>A check that decides whether a search term is worth writing for, based on whether Google can answer it in two sentences. Its test suite proves the board's original rule would have rejected the site's best-performing page.</p>
+      <h4>How to check it</h4><p class="check">Run <code>python scripts/seo/check-serp-shape.py --selftest</code> &mdash; all four cases pass.</p>
+    </div>
+    <div class="item">
+      <div class="ihead"><span class="key">RISK-09</span><span class="who">design-systems-engineer</span><span class="br">docs + site</span><span class="pr">hooks</span></div>
+      <h4>What changed</h4><p>The documentation and the website live in the same repository, kept apart only by habit &mdash; one wrong command could replace one with the other. A guard now blocks that and puts things back.</p>
+      <h4>How to check it</h4><p class="check">Installed in both working copies. Its refusal and its two passing controls are quoted in the item's evidence directory.</p>
+    </div>
+    <div class="item">
+      <div class="ihead"><span class="key">PLAT-15</span><span class="who">design-systems-engineer</span><span class="br">buddy + docs</span><span class="pr">reconcile</span></div>
+      <h4>What changed</h4><p>The saved record of each sprint had stopped matching reality &mdash; old sprints still read as unfinished. They now reconcile automatically. While fixing it the agent found its own first attempt had been erasing evidence, and restored what was lost.</p>
+      <h4>How to check it</h4><p class="check">Open <code>docs/sprints/sprint-03.json</code> &mdash; it now reads <i>done</i> and matches the tracker item for item.</p>
+    </div>
+
+<h2>Parked, blocked and deliberately left</h2>
+<div class="card">
+  <ul>
+    <li><b>Nothing was parked or moved out.</b> All 17 items completed.</li>
+    <li><b>One documented exception inside UI-12.</b> A single tall photograph still renders in a
+      wrongly-shaped thumbnail. Every correctly-shaped version of it is 4.2&times; the file size for
+      an 80&times;60 image &mdash; about <b>+8.2&nbsp;MB</b> across the front page on Malaysian
+      mobile data. The agent refused to spend that and the costing was independently verified.
+      Filed as <b>CONT-15</b>.</li>
+    <li><b>A stale worktree must be discarded, not merged.</b> <code>ui-01-ship</code> holds an
+      uncommitted change that would revert UI-03's work and is 79 commits behind. Left untouched.</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h2>Time, models &amp; tokens</h2>
+  <p class="sub"><b>3h 51m</b> of working time across <b>6808</b> steps, run on <b>Opus 5</b>. Each row is one stage of the work.</p>
+  <p class="fine">Measuring <b>Sprint 04 — Fix what shipped - the front page is broken in production</b> (2026-08-30 16:00Z to 2026-08-31 13:38Z), matched by TIME WINDOW and working directory only — a sprint has no branch list, so anything else running in these trees during the window is counted too.</p>
+  <div style="overflow-x:auto">
+  <table class="stats">
+    <thead><tr><th>Stage</th><th>Took</th><th>Model</th><th class=num>Steps</th><th class=num>Written</th><th class=num>Thinking</th><th class=num>Re-read</th></tr></thead>
+    <tbody>
+      <tr><td>Building &amp; conversation <span class="chip">4207 via helpers</span></td><td>3h 47m</td><td>Opus 5 <span class="chip">high</span></td><td class=num>6651</td><td class=num>2.69M</td><td class=num>869.4k</td><td class=num>1220.24M</td></tr>
+      <tr><td>Humanizer <span class="chip">157 via helpers</span></td><td>3m 51s</td><td>Opus 5 <span class="chip">high</span></td><td class=num>157</td><td class=num>10.6k</td><td class=num>1.8k</td><td class=num>17.91M</td></tr>
+    </tbody>
+    <tfoot><tr><th>Total</th><th>3h 51m</th><th></th><th class=num>6808</th><th class=num>2.71M</th><th class=num>871.2k</th><th class=num>1238.15M</th></tr></tfoot>
+  </table>
+  </div>
+  <p class="fine"><b>Reading this.</b> <em>Written</em> is new text produced &mdash; the closest thing to real effort. <em>Thinking</em> is reasoning done before answering, and is already counted inside Written. <em>Re-read</em> is previously-seen context loaded again on each step; it is large by nature, billed at a fraction of new text, and is not extra work. <em>Took</em> is working time: every stretch of real time is charged to exactly one stage, and any pause longer than 5m 00s is treated as waiting rather than working, so the rows add up to the total and an answer left open overnight does not read as an overnight task.</p>
+</div>
+
+<div class="card">
+  <h2>How this build ran</h2>
+  <p class="sub"><b>2</b> working sessions, <b>19</b> helper agents spawned, <b>3</b> skill invocations.</p>
+  <div style="overflow-x:auto">
+  <table class="stats">
+    <thead><tr><th>Session</th><th>Model</th><th>Active</th><th class=num>Steps</th><th class=num>Written</th></tr></thead>
+    <tbody>
+      <tr><td>main checkout</td><td>Opus 5</td><td>4h 08m</td><td class=num>2444</td><td class=num>2.25M</td></tr>
+      <tr><td>main checkout helper</td><td>Opus 5</td><td>4h 07m</td><td class=num>4364</td><td class=num>452.8k</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p><b>Helper agents:</b> <span class="chip">design-systems-engineer ×10</span> <span class="chip">creative-director ×5</span> <span class="chip">head-of-seo-content ×2</span> <span class="chip">managing-editor</span> <span class="chip">product-designer</span></p>
+  <p><b>Skills invoked, in order:</b></p>
+  <ol class="fine"><li><code>/humanizer</code><span class="fine"> — 17:54 UTC, in main checkout helper</span></li><li><code>/humanizer</code><span class="fine"> — 17:55 UTC, in main checkout helper</span></li><li><code>/humanizer</code><span class="fine"> — 18:05 UTC, in main checkout helper</span></li></ol>
+  <p class="fine">Sessions are the separate working copies (worktrees) that took part; helpers are short-lived agents a session spawned for one job (a review, a supervision loop). The skill list is every workflow step that ran, oldest first — a build that dragged can be traced to the step where the clock sat.</p>
+</div>
+
+
+
+<h2>Cleanup &amp; housekeeping</h2>
+<div class="card">
+  <ul>
+    <li>All three checkouts verified clean at close: <b>0 unpushed, 0 dirty</b> in hellokahwin
+      (docs), hellokahwin-site and buddy &mdash; checked individually rather than as
+      &ldquo;both repos&rdquo;.</li>
+    <li>Three site worktrees showed commits ahead of their own branch ref; all three verified
+      <b>by content</b> as ancestors of <code>origin/master</code>. They are merge commits pulling
+      master in &mdash; the mirror image of the squash-merge trap.</li>
+    <li>Twenty Orca worktrees remain on disk and are <b>not</b> yet reclaimed; cost is disk only.</li>
+    <li>Watchers dropped on completed items to stop gate output waking the session.</li>
+  </ul>
+</div>
+
+<h2>The retrospective</h2>
+<div class="card">
+  <h4>What we learned that was not written down</h4>
+  <p><b>Concurrency is the whole story.</b> Sprint 03 was 73% idle; this sprint was 7%, across 11
+  concurrent worktrees with zero collisions. The enabling insight was conceptual &mdash; <b>the
+  constraint is the checkout, not the agent</b>. The first plan serialised six design items because
+  one persona owned two of them, which would have tripled wall-clock for nothing.</p>
+  <p><b>Gates fired; prose did not &mdash; from the same document.</b> DES-03's hero-eligibility
+  rules were expressible as code and shipped exactly. Its homepage <i>diversity rule</i> and its
+  desktop rail existed only as prose and a drawing, and neither reached production. The front page
+  still shows one category thirteen times, and the spec had already measured that before the build
+  began.</p>
+
+  <h4>Which documents changed</h4>
+  <ul>
+    <li><code>skillcentral/skills/startsprint/SKILL.md</code> &mdash; <code>orca terminal send</code>
+      types but does not submit; watcher clustering and gate-output noise.</li>
+    <li><code>skillcentral/skills/endsprint/SKILL.md</code> &mdash; run-stats must take every tree,
+      not three.</li>
+    <li><b>Six commits to hire personas, authored by the hires themselves</b> &mdash;
+      design-systems-engineer (&times;3), creative-director, head-of-seo-content.</li>
+    <li><code>&hellip;/Executive/ceo-hellokahwin.md</code> &mdash; written <b>last</b>: reporting a
+      conclusion from a summary, and the verification shape that recurred ~12 times in one day.</li>
+    <li>New backlog items: CONT-15, RISK-10, PLAT-17, PLAT-18.</li>
+  </ul>
+
+  <h4>What we did twice that we should never repeat</h4>
+  <p>Checked a proxy with a pattern nobody tested &mdash; about twelve times in one day. A space in
+  the user path broke three separate commands; CRLF made two diffs report everything as changed; a
+  grep for <code>Kredit</code> returned zero on a page carrying forty credits under an English label.
+  <b>Two would have produced a false accusation against an agent that was right.</b></p>
+
+  <h4>What we nearly shipped, and what caught it</h4>
+  <ul>
+    <li><b>An agent sent to fix code that did not exist in its tree</b> &mdash; UI-01 was dispatched
+      into a worktree 42 commits behind master with zero of the target code. Caught by checking the
+      base before dispatching the rest.</li>
+    <li><b>A social-video producer nearly assigned a CSS grid bug</b> &mdash; the bare name
+      <code>creative-director</code> resolves to the wrong persona in a fresh worktree.</li>
+    <li><b>A gate that could never have been proven</b> &mdash; pre-fix production was captured as
+      committed fixtures before any fix shipped, so UI-06 could show its gate failing on a known-bad
+      input.</li>
+    <li><b>Evidence being silently destroyed</b> &mdash; PLAT-15's first reconcile overwrote seven
+      records. It found this against its own item, fixed it, added regression tests and restored
+      them.</li>
+  </ul>
+
+  <h4>Was everything shipped?</h4>
+  <p><b>Yes.</b> All 17 verified by the CEO against live production or the artefact itself, with
+  evidence recorded separately from each agent's own claim. One item's self-declared
+  &ldquo;done&rdquo; was <b>reversed</b> on verification rather than accepted.</p>
+</div>
+
+<h2>What carries forward</h2>
+<div class="card">
+  <p><b>Sprint 05's theme is already written, and it is not a new art direction.</b> Build the
+  composition DES-03 already specifies: write the missing diversity rule (it does not exist &mdash;
+  the spec's cross-reference is dangling), build the 300px desktop rail and the in-article table of
+  contents, and add the mid-size image variant that would let photographs fill a frame.</p>
+  <p class="fine">Also carried: CONT-15, RISK-10, PLAT-13, PLAT-14, PLAT-17, PLAT-18, DES-14/15/16,
+  UI-14/15/16, COPY-01, CONT-13/14, RIGHTS-02. SEO-04 stays parked &mdash; the diagnosis has not
+  changed.</p>
+</div>
+
+<h2>Footer &mdash; items, owners, evidence</h2>
+<div class="card">
+  <table class="stats">
+    <tr><th>Item</th><th>Owner</th><th>Branch / tree</th><th>Merged</th></tr>
+    <tr><td>UI-01</td><td>creative-director</td><td><code>ui01-srow</code></td><td>PR #16</td></tr><tr><td>UI-02</td><td>design-systems-engineer</td><td><code>ui02-nav</code></td><td>nav rail</td></tr><tr><td>UI-03</td><td>creative-director</td><td><code>ui03-hero</code></td><td>PR #17</td></tr><tr><td>UI-04</td><td>product-designer</td><td><code>docs</code></td><td>audit</td></tr><tr><td>UI-05</td><td>product-designer</td><td><code>ui05-category-images</code></td><td>PR #18</td></tr><tr><td>UI-06</td><td>design-systems-engineer</td><td><code>ui06-layout-gate</code></td><td>PR #19, #21, #30</td></tr><tr><td>UI-07</td><td>design-systems-engineer</td><td><code>ui07-label-clip</code></td><td>PR #22</td></tr><tr><td>UI-08</td><td>design-systems-engineer</td><td><code>ui08-attrib-link</code></td><td>PR #25, #28</td></tr><tr><td>UI-09</td><td>design-systems-engineer</td><td><code>ui09-search-a11y</code></td><td>PR #24</td></tr><tr><td>UI-10</td><td>creative-director</td><td><code>ui10-measure</code></td><td>PR #29</td></tr><tr><td>UI-11</td><td>design-systems-engineer</td><td><code>ui11-tap-targets</code></td><td>PR #26, #27</td></tr><tr><td>UI-12</td><td>creative-director</td><td><code>ui12-thumb-geometry</code></td><td>PR #31, #32, #33</td></tr><tr><td>RIGHTS-01</td><td>managing-editor</td><td><code>rights01-credits</code></td><td>PR #14</td></tr><tr><td>SEO-11</td><td>head-of-seo-content</td><td><code>docs</code></td><td>census</td></tr><tr><td>SEO-12</td><td>head-of-seo-content</td><td><code>docs</code></td><td>gate</td></tr><tr><td>RISK-09</td><td>design-systems-engineer</td><td><code>docs + site</code></td><td>hooks</td></tr><tr><td>PLAT-15</td><td>design-systems-engineer</td><td><code>buddy + docs</code></td><td>reconcile</td></tr>
+  </table>
+  <p class="fine">Full evidence per item: <code>pnpm sprint get &lt;ITEM&gt; --sprint 4</code>.
+  Work-done logs in <code>docs/work-done/aug-30-2026-session-01/</code>; briefs in
+  <code>docs/plans/aug-30-2026-session-01/</code>; retro at
+  <code>docs/sprints/sprint-04-retro.json</code>.</p>
+</div>
+
+</div>
