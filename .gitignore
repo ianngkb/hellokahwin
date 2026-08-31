@@ -88,3 +88,7 @@ cdx*.txt
 # by install.sh. Committing them would create a second source of truth that
 # silently drifts from the org chart.
 .claude/agents/
+
+# Python bytecode from scripts/seo gates
+__pycache__/
+*.pyc

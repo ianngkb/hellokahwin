@@ -1,4 +1,35 @@
 {
+ "my|aturcara majlis perkahwinan": {
+  "aio_position": 5,
+  "difficulty": 0,
+  "parent_topic": "aturcara majlis perkahwinan",
+  "serp_crawled": true,
+  "serp_features": [
+   "image",
+   "ai_overview",
+   "ai_overview_sitelink",
+   "image_th",
+   "video_th"
+  ],
+  "serp_update_date": "2026-08-28T01:50:06Z",
+  "volume": 200
+ },
+ "my|ayat kad jemputan kahwin": {
+  "aio_position": 2,
+  "difficulty": 0,
+  "parent_topic": "contoh kad jemputan kahwin",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "ai_overview_sitelink",
+   "image_th",
+   "image",
+   "question",
+   "video_th"
+  ],
+  "serp_update_date": "2026-08-24T08:16:07Z",
+  "volume": 100
+ },
  "my|berinai": {
   "aio_position": 1,
   "country": "my",
@@ -537,6 +568,43 @@
   ],
   "volume": 250
  },
+ "my|contoh kad jemputan kahwin": {
+  "aio_position": null,
+  "difficulty": 3,
+  "parent_topic": "contoh kad kahwin",
+  "serp_crawled": true,
+  "serp_features": [
+   "image",
+   "image_th",
+   "video_th",
+   "sitelink"
+  ],
+  "serp_update_date": "2026-08-18T16:40:52Z",
+  "volume": 1500
+ },
+ "my|contoh kad kahwin": {
+  "aio_position": null,
+  "difficulty": 8,
+  "parent_topic": "contoh kad kahwin",
+  "serp_crawled": true,
+  "serp_features": [
+   "image",
+   "image_th",
+   "video_th",
+   "sitelink"
+  ],
+  "serp_update_date": "2026-08-23T18:58:29Z",
+  "volume": 2400
+ },
+ "my|contoh teks kad kahwin": {
+  "aio_position": null,
+  "difficulty": null,
+  "parent_topic": null,
+  "serp_crawled": false,
+  "serp_features": [],
+  "serp_update_date": null,
+  "volume": null
+ },
  "my|doa pengantin baru rumi": {
   "aio_position": null,
   "difficulty": 0,
@@ -547,6 +615,18 @@
   ],
   "serp_update_date": "2026-08-09T16:24:33Z",
   "volume": 200
+ },
+ "my|doa penutup majlis": {
+  "aio_position": null,
+  "difficulty": 30,
+  "parent_topic": "doa penutup majlis",
+  "serp_crawled": true,
+  "serp_features": [
+   "sitelink",
+   "video_th"
+  ],
+  "serp_update_date": "2026-08-27T04:03:07Z",
+  "volume": 1200
  },
  "my|garden wedding": {
   "country": "my",
@@ -1231,6 +1311,15 @@
   ],
   "serp_update_date": "2026-07-24T01:14:05Z",
   "volume": 200
+ },
+ "my|kata kata kad jemputan": {
+  "aio_position": null,
+  "difficulty": null,
+  "parent_topic": null,
+  "serp_crawled": false,
+  "serp_features": [],
+  "serp_update_date": null,
+  "volume": null
  },
  "my|mas kahwin johor": {
   "aio_position": 3,
@@ -2325,6 +2414,437 @@
   ],
   "volume": 1500
  },
+ "my|skrip juruacara majlis perkahwinan": {
+  "aio_position": null,
+  "country": "my",
+  "difficulty": null,
+  "parent_topic": null,
+  "pulled": "2026-08-31T17:43:18Z",
+  "serp_crawled": false,
+  "serp_features": [],
+  "serp_update_date": null,
+  "siblings": [
+   {
+    "keyword": "skrip juruacara majlis perkahwinan",
+    "parent_topic": null,
+    "volume": 0
+   }
+  ],
+  "volume": 0
+ },
+ "my|skrip mc majlis perkahwinan": {
+  "aio_position": null,
+  "country": "my",
+  "difficulty": 0,
+  "parent_topic": "teks pengacara majlis perkahwinan",
+  "pulled": "2026-08-31T17:43:21Z",
+  "serp_crawled": true,
+  "serp_features": [
+   "image",
+   "video_th",
+   "question"
+  ],
+  "serp_update_date": "2026-08-18T19:59:27Z",
+  "siblings": [
+   {
+    "keyword": "skrip mc majlis perkahwinan",
+    "parent_topic": "teks pengacara majlis perkahwinan",
+    "volume": 10
+   }
+  ],
+  "volume": 10
+ },
+ "my|skrip pengacara majlis": {
+  "aio_position": null,
+  "country": "my",
+  "difficulty": 2,
+  "parent_topic": "skrip pengacara majlis",
+  "pulled": "2026-08-31T17:41:49Z",
+  "serp_crawled": true,
+  "serp_features": [
+   "question",
+   "video_th"
+  ],
+  "serp_update_date": "2026-08-26T21:13:45Z",
+  "siblings": [
+   {
+    "keyword": "skrip pengacara majlis",
+    "parent_topic": "skrip pengacara majlis",
+    "volume": 3400
+   },
+   {
+    "keyword": "skrip pengacara majlis perkahwinan",
+    "parent_topic": "skrip pengacara majlis perkahwinan",
+    "volume": 200
+   },
+   {
+    "keyword": "contoh skrip pengacara majlis",
+    "parent_topic": "skrip pengacara majlis",
+    "volume": 200
+   },
+   {
+    "keyword": "skrip pengacara majlis sekolah",
+    "parent_topic": "skrip pengacara majlis sekolah",
+    "volume": 150
+   },
+   {
+    "keyword": "skrip pengacara majlis hari guru",
+    "parent_topic": "teks mc hari guru",
+    "volume": 30
+   },
+   {
+    "keyword": "skrip pengacara majlis makan malam",
+    "parent_topic": "skrip pengacara majlis makan malam",
+    "volume": 30
+   },
+   {
+    "keyword": "skrip pengacara majlis hari raya",
+    "parent_topic": null,
+    "volume": 30
+   },
+   {
+    "keyword": "skrip pengacara majlis formal",
+    "parent_topic": "skrip pengacara majlis",
+    "volume": 30
+   },
+   {
+    "keyword": "skrip pengacara majlis perpisahan",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "skrip teks pengacara majlis",
+    "parent_topic": "skrip pengacara majlis",
+    "volume": 20
+   },
+   {
+    "keyword": "ucapan skrip pengacara majlis perkahwinan",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "skrip pengacara majlis kahwin",
+    "parent_topic": "skrip pengacara majlis perkahwinan",
+    "volume": 20
+   },
+   {
+    "keyword": "contoh skrip pengacara majlis perkahwinan",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "skrip pengacara majlis perkahwinan pdf",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "pengacara majlis skrip",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "skrip pengacara majlis sambutan hari guru",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "skrip pengacara majlis apresiasi",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "skrip pengacara majlis perkahwinan kristian",
+    "parent_topic": "skrip pengacara majlis perkahwinan kristian",
+    "volume": 10
+   },
+   {
+    "keyword": "skrip pengacara majlis penutup bulan kemerdekaan",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "contoh skrip pengacara majlis tidak formal",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "skrip pengacara majlis persaraan guru",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "skrip pengacara majlis untuk taklimat",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "skrip pengacara majlis perkahwinan iban",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "skrip pengacara majlis terima kasih",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "skrip pengacara majlis sambutan hari guru 2023",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "skrip pengacara majlis ceramah motivasi",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "skrip pengacara majlis maal hijrah",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "skrip pengacara majlis penutupan bulan kemerdekaan",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "skrip pengacara majlis penutupan hari kemerdekaan",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "skrip pengacara majlis persembahan",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "skrip pengacara majlis pelancaran",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "skrip pengacara majlis protokol",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "contoh skrip untuk pengacara majlis",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "skrip pengacara majlis bahasa inggeris",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "skrip pengacara majlis dinner",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "skrip pengacara majlis restu ilmu upsr",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "format skrip pengacara majlis",
+    "parent_topic": "skrip pengacara majlis",
+    "volume": 0
+   },
+   {
+    "keyword": "skrip pengacara majlis sambutan bulan kemerdekaan",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "skrip pengacara majlis maulidur rasul",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "skrip pengacara majlis lawatan menteri",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "contoh skrip pengacara majlis persembahan",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "skrip pengacara majlis sukan",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "skrip pengacara majlis mtq",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "skrip pengacara majlis hari anugerah cemerlang",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "skrip penutup pengacara majlis",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "skrip pengacara majlis kemerdekaan",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "contoh skrip ucapan pengacara majlis",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "contoh skrip pengacara majlis penutup",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "skrip pengacara majlis ceramah",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "skrip pengacara majlis perkahwinan di hotel",
+    "parent_topic": null,
+    "volume": 0
+   }
+  ],
+  "volume": 3400
+ },
+ "my|skrip pengacara majlis perkahwinan": {
+  "aio_position": 4,
+  "country": "my",
+  "difficulty": 0,
+  "parent_topic": "skrip pengacara majlis perkahwinan",
+  "pulled": "2026-08-31T17:41:51Z",
+  "serp_crawled": true,
+  "serp_features": [
+   "image",
+   "ai_overview"
+  ],
+  "serp_update_date": "2026-07-22T23:46:02Z",
+  "siblings": [
+   {
+    "keyword": "skrip pengacara majlis perkahwinan",
+    "parent_topic": "skrip pengacara majlis perkahwinan",
+    "volume": 200
+   },
+   {
+    "keyword": "ucapan skrip pengacara majlis perkahwinan",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "contoh skrip pengacara majlis perkahwinan",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "skrip pengacara majlis perkahwinan pdf",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "skrip pengacara majlis perkahwinan kristian",
+    "parent_topic": "skrip pengacara majlis perkahwinan kristian",
+    "volume": 10
+   },
+   {
+    "keyword": "skrip pengacara majlis perkahwinan iban",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "skrip pengacara majlis perkahwinan di hotel",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "skrip pengacara majlis perkahwinan 2021",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "skrip pengacara majlis resepsi perkahwinan",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "skrip pengacara majlis perkahwinan islam",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "skrip pengacara majlis perkahwinan diraja",
+    "parent_topic": null,
+    "volume": 0
+   }
+  ],
+  "volume": 200
+ },
+ "my|teks kad jemputan": {
+  "aio_position": null,
+  "difficulty": null,
+  "parent_topic": null,
+  "serp_crawled": false,
+  "serp_features": [],
+  "serp_update_date": null,
+  "volume": 0
+ },
+ "my|teks kad jemputan kahwin": {
+  "aio_position": null,
+  "difficulty": null,
+  "parent_topic": null,
+  "serp_crawled": false,
+  "serp_features": [],
+  "serp_update_date": null,
+  "volume": null
+ },
+ "my|teks kad kahwin": {
+  "aio_position": null,
+  "difficulty": null,
+  "parent_topic": null,
+  "serp_crawled": false,
+  "serp_features": [],
+  "serp_update_date": null,
+  "volume": 0
+ },
+ "my|teks pengacara majlis": {
+  "aio_position": null,
+  "difficulty": 2,
+  "parent_topic": "skrip pengacara majlis",
+  "serp_crawled": true,
+  "serp_features": [
+   "question",
+   "video_th"
+  ],
+  "serp_update_date": "2026-08-26T18:19:53Z",
+  "volume": 3600
+ },
+ "my|teks pengacara majlis perkahwinan": {
+  "aio_position": 3,
+  "difficulty": 23,
+  "parent_topic": "skrip pengacara majlis perkahwinan",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "ai_overview_sitelink",
+   "image_th",
+   "video_th",
+   "question"
+  ],
+  "serp_update_date": "2026-08-26T19:01:40Z",
+  "volume": 90
+ },
  "my|walimatul urus": {
   "aio_position": 1,
   "country": "my",
@@ -2887,5 +3407,14 @@
    }
   ],
   "volume": 80
+ },
+ "my|wording kad kahwin": {
+  "aio_position": null,
+  "difficulty": null,
+  "parent_topic": null,
+  "serp_crawled": false,
+  "serp_features": [],
+  "serp_update_date": null,
+  "volume": 0
  }
 }

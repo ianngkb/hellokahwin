@@ -936,6 +936,25 @@ personas and reported them as landed.
   addition: it is the only item on the 21-point quality bar that cannot be
   satisfied by reading, so a lone reviewer will approximate it unless it is
   written as a tool call.
+  **✅ CLOSED 01 Sept 2026 (CONT-16) — the tool call now exists:
+  `python scripts/seo/check-family-owned.py "<keyword>"` (PRE-FLIGHT #3).**
+  It resolves the candidate's Ahrefs `parent_topic` and asks the LIVE sitemap
+  whether a page already targets it. Exit 1 = OWNED = upgrade or merge, not a new
+  article. PRE-FLIGHT #1 now prints the command on every PASS, so the two gates
+  chain instead of relying on a writer remembering test 3.
+  **CONT-07's prediction was exactly right and it cost a whole item to prove.**
+  CONT-16 was scoped at sprint planning by reserving two keyword families and
+  budgeting 5 points to write two new articles for them. **Both were already
+  live** — `/artikel/ucapan-doa/skrip-pengacara-majlis-perkahwinan` and
+  `/artikel/pelamin-kad-cenderahati/contoh-kad-jemputan-kahwin`, the second of
+  which already carried the exact artefact the brief asked for (an H2 reading
+  "Tiga daftar ayat jemputan, dengan contoh"). The item's own `why` field says
+  "We already have one live page in the script family", so one was known and one
+  was not. Nobody ran the check because rule 4 was a sentence, not a command.
+  **RESERVING A FAMILY IS A SELECTION DECISION AND MUST PASS THE SELECTION
+  GATES.** A family named in a planning room has had *less* scrutiny than a
+  target picked from the census, not more, because reserving it also tells the
+  other writer to stay away from it.
 - **🔴 The cached-metadata / wrong-`<title>` defect** — see "OPEN AND UNFIXED"
   above under Site state. Route is on master and unblocked; needs an owner.
   **CONT-12 (28 Aug) reproduced it twice and it now has a repro, which is the

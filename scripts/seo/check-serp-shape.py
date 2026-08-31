@@ -504,6 +504,19 @@ def render(v, stream=sys.stdout):
         "unknown": "NOT A PASS. Classify it by hand, or add the marker to the "
                    "ladder and say which tier and why",
     }[v["intent"]]))
+
+    # A PASS here is HALF a selection decision. Test 3 of the gate - "not already
+    # owned by a sibling page on the same parent topic", rule 4 of the cluster
+    # method - lived only in brief prose until 01 Sept 2026, and on that day it
+    # did not fire: CONT-16 reserved two families and budgeted five points to
+    # write pages that were BOTH already live. PROSE RULES DO NOT FIRE, so the
+    # pass now hands the reader the command that does.
+    if code == PASS:
+        w("\nNOT DONE YET - this gate answers intent, not ownership. Run test 3:\n")
+        w("  python scripts/seo/check-family-owned.py \"%s\"\n" % v["query"])
+        w("  (PRE-FLIGHT #3; exit 1 = a live page already owns the parent topic,\n")
+        w("   which means UPGRADE OR MERGE, not a new article.)\n")
+
     w("SERPSHAPE EXIT: %d\n" % code)
     return code
 
