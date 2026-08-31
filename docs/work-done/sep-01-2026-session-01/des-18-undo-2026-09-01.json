@@ -1,0 +1,2335 @@
+{
+  "item": "DES-18",
+  "writtenAt": "2026-08-31T18:24:44.740Z",
+  "targetDbHost": "aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres",
+  "targetBucket": "hellokahwin-images",
+  "dryRun": false,
+  "addedJsonbKey": "crop-4x3-article-card-sm",
+  "reversalSql": "UPDATE articles SET cover_image_smart_crops = cover_image_smart_crops - 'crop-4x3-article-card-sm' WHERE id IN ('289724a6-1cb3-4aac-ab2c-f0105060044e', '38b4c9c5-60da-498a-bf75-e798e4c33909', 'b88f8cbd-772b-4b2a-9411-d79a60f94811', 'fc26f9b1-f4ba-4982-8a26-558ba74d14b8', '9f737846-4fe2-4cfd-ae61-b5823cc9935c', '81fb6171-3a13-4b11-947d-267f16bbf3c2', '8241c7cb-da66-46a0-b2e5-01f2aafbf626', '1619ee13-012c-4527-ab8d-688f7fb98b4f', '7cb87cf0-c19b-4b72-a6bf-64f50794f92a', '0bd634b3-b908-46b8-b435-7b62b29bf5e8', '0e5037cb-f040-47dc-b9f4-c03710901d30', 'ce836c00-fb6c-4875-b438-bd42216518d7', '3ac30468-9153-4225-ba5e-c94d6610fe2f', 'db9d8f9f-e981-49db-8757-4179130aaa96', '4c757ec7-83f4-4b1f-8bd2-fcfaea6b6fff', 'fdf457e4-ef04-4bdb-a6fa-1e4bf8dd47a7', 'a2844b4c-860d-4816-8c6d-7275215d2148', 'b128d56b-1deb-4ef7-ab09-6f867e38137b', '9db25887-aa58-465d-8c4b-c2f57628e714', '4d367182-1f4a-431c-8fda-a215ccd034d7', 'c0d55907-02e9-4d1a-a628-ea26e7965346', '43d1b444-57ee-48e6-9208-293783a498e1', '8e1fc65c-50df-436c-9599-b6e8dfd3a3e6', '6cfa4c79-dafd-4978-82ce-4915efe2401d', 'c7c2c850-809d-4ec9-8452-5ddc0d262bea', '4507a5bd-6d73-4a06-ae19-de7becb60e07', 'f81fc042-3c42-4fb2-9d1d-c3c508843737', '8b74288d-c09b-4cb5-8280-1ef708ea4cc4', '75767f14-da8f-41bc-854d-eedf3958ce4e', 'a4f8800a-c62c-461c-98ee-c8a8d9002fce', '2e1035a2-a811-49ac-93f3-3e0b34018142', '147cbfb2-0de5-483b-ae9c-027606424591', 'de528bb4-650a-4c19-a1fa-5770d5963d0d', '90a67a11-d6f7-42ab-bf4d-f4e012a253e9', '849688e3-b484-4a1d-b6b9-086d5d98d41a', '7a4e6c59-36b8-41e6-b438-ec618a2d3f86', 'c348bb71-6aef-4d70-a38e-ed2263f0135a', 'dd3bf19c-f43d-4907-87ee-fd8c41fc6664', '4ad52e3b-6425-434b-b646-600da1f9e5ad', 'cd4094bc-d774-43d8-80f9-a77ce1b25dba', '9ec29ad0-49df-41aa-b602-fdb153f70be0', '2124757d-652f-495a-9e2d-7f2698d0edec', '32689032-6944-4c59-8f7f-cf2463c0eb11', 'a1e95f1f-972f-4258-bb56-eeceaed09356', 'a6dab084-8ab5-44a5-a28d-a2336f4c9879', '44118ddc-6aa7-492d-833c-dce7d52723a7', 'd7ac0575-250b-4c46-9134-dc417bbe95b2', '8cf31e61-1596-481f-97af-52f41d5cf18a', '1c2e96ae-340f-4226-bb32-363da8cbe3d0', 'a6276a80-a292-45f0-947d-ee9e7ef59783', '7845a5e6-a8b1-4427-a9a4-64c627578bbe', 'c7ebfa93-67fb-4417-95ba-03e0301a6fc8', '05861c57-5651-464c-be25-2d1c3fe3cc74', 'b1484478-a5b5-44ce-85c2-10f2c2a32d0c', 'd662bad6-eab7-4d77-bcdc-abcec603a3ec', 'b62d35d0-9d88-4174-9aae-1c05ef5fac59', 'b2191993-232b-4be5-b516-d20b6cc3a3ab', '99d59b25-a0fa-4108-94b4-7ff774bb064e', 'abec9ae7-d323-4f11-9e69-17b610ae281c', 'd2df8447-d314-4699-88b8-685502e28389', '9aa11c34-4499-42b2-87e9-621b9fc5c319', '250da087-60ec-456f-bf98-f8250bddc275', '5022a2c2-ffe5-46ab-82fa-adff4df433be', '60d95438-2464-4d2a-adbe-b8a0c57ea9c4', '3e8e0403-78e1-4683-b1c8-3d7ee3f7ab37', '545d0dd9-0677-447a-89c1-b3bcd2e53b69', 'aae4e49d-1667-49be-bc91-5f3bdef16d78', 'a07dec2d-367b-4d9a-abd8-80d676ce9cf3', '969dc8e3-1715-4607-85a7-c629df148783', 'c11fcb8a-734c-4af5-9eec-0bcc02d0347a', '027e227c-1543-40ae-b937-aa80a4b806c7', '28fbd806-60db-4e53-9ece-294778438e14', '87d191f6-5552-4e39-b575-d29fa1c9ed20', 'e9beda6c-369e-40d8-922a-4f3c3281e2eb', '5741b337-6eb9-4937-bd08-95c038c25a73', '8d8e9498-a792-411d-89c5-baa4d68f1e9b', 'afe75eec-6961-41f6-ae23-cd485b75eb48', '4916bdcf-c183-473a-b96a-115d3d7d0350', '40781e50-ecfd-4b24-b513-3714269f2262', '3dcdff4c-d262-4333-8a75-4f826a207918', '664a50c2-823b-4874-93ae-96d9f6b133a3', 'bb77c483-5e41-4ba5-b665-c8d042bd3be9', '70b8f405-7a70-4285-bced-0f49d844db9d', '86a6960c-3592-4f3a-b422-da8a01b973ae', 'bb99d840-a6b5-4410-96ae-1b7488c3f8c1', '1bca2be0-c0f4-4fd3-9a99-04888ab0cebb');",
+  "r2ObjectsAdded": [
+    "inspire/adat-hantaran-berbeza-negeri/1787758615851-images-s-arak-pengantin-lelaki-payung-kuning-sham-hardy/crop-4x3-article-card-sm.webp",
+    "inspire/adat-hantaran-ikut-keluarga/1787780652248-images-s-rombongan-lelaki-bincang-hantaran-azlan-dupree/crop-4x3-article-card-sm.webp",
+    "inspire/amankila-bali/1787396256716-cover/crop-4x3-article-card-sm.webp",
+    "inspire/lafaz-taklik/1787707459685-images-s-akad-ijab-qabul-mylifestory/crop-4x3-article-card-sm.webp",
+    "inspire/bajet-kahwin/1787707751640-images-s-keluarga-payung-kuning-mohd-hasan/crop-4x3-article-card-sm.webp",
+    "inspire/baju-pengantin-sewa-atau-beli/1787707239501-images-s-pengantin-bertudung-manik-azman-aziz/crop-4x3-article-card-sm.webp",
+    "inspire/barang-hantaran-berguna/1787781777697-images-s-dulang-kek-coklat-buah-hantaran-azlan-dupree/crop-4x3-article-card-sm.webp",
+    "inspire/barang-hantaran-perempuan/1787780564669-images-s-bawa-dulang-hantaran-naik-rumah-azlan-dupree/crop-4x3-article-card-sm.webp",
+    "inspire/barang-hantaran-tunang/1787780709633-images-s-dulang-terbuka-gubahan-merah-phalinn-ooi/crop-4x3-article-card-sm.webp",
+    "inspire/berapa-dulang-hantaran-tunang/1787780661260-images-s-dulang-hantaran-bersusun-phalinn-ooi/crop-4x3-article-card-sm.webp",
+    "inspire/bilangan-dulang-hantaran-ganjil/1787758516617-images-s-bincang-hantaran-dua-keluarga-mohd-nasir/crop-4x3-article-card-sm.webp",
+    "inspire/borang-nikah/1787707437117-images-s-kaunter-utc-keramat-angys/crop-4x3-article-card-sm.webp",
+    "inspire/bunga-telur/1787657096267-images-s-bunga-telur-daun-getah-fuzuri/crop-4x3-article-card-sm.webp",
+    "inspire/cara-buat-kad-kahwin-digital/1787396529679-cover/crop-4x3-article-card-sm.webp",
+    "inspire/cara-tetapkan-duit-hantaran/1787758589083-images-s-rombongan-lelaki-bincang-hantaran-azlan-dupree/crop-4x3-article-card-sm.webp",
+    "inspire/checklist-kahwin/1787707780243-images-s-kompang-gendang-johor-stress043/crop-4x3-article-card-sm.webp",
+    "inspire/cheong-fatt-tze-mansion/1787396807270-cover/crop-4x3-article-card-sm.webp",
+    "inspire/cincin-tunang/1787707557892-images-s-cincin-tunang-kotak-mohd-nasir/crop-4x3-article-card-sm.webp",
+    "inspire/contoh-kad-jemputan-kahwin/1787657083113-images-s-kad-jemputan-tangan-sham-hardy/crop-4x3-article-card-sm.webp",
+    "inspire/dewan-kahwin/1787396554924-cover/crop-4x3-article-card-sm.webp",
+    "inspire/doa-majlis-perkahwinan/1787654634901-images-s-majlis-doa-selamat-ahmad-ali-karim/crop-4x3-article-card-sm.webp",
+    "inspire/dulang-hantaran/1787680476366-images-s-pertunangan-zeeana-mohd-nasir/crop-4x3-article-card-sm.webp",
+    "inspire/doa-pengantin-baru/1787707683563-images-s-bacaan-doa-qari-ahmad-ali-karim/crop-4x3-article-card-sm.webp",
+    "inspire/duit-hantaran-kahwin/1787758566058-images-s-akad-tok-kadi-raja-abd-kadir/crop-4x3-article-card-sm.webp",
+    "inspire/apa-itu-mas-kahwin/1787655582619-images-s-dulang-hantaran-masjid-mylifestory/crop-4x3-article-card-sm.webp",
+    "inspire/garden-wedding/1787397040017-cover/crop-4x3-article-card-sm.webp",
+    "inspire/goodies-kahwin/1787395718040-cover/crop-4x3-article-card-sm.webp",
+    "inspire/grand-hyatt-kuala-lumpur/1787396577629-cover/crop-4x3-article-card-sm.webp",
+    "inspire/gubahan-hantaran/1787680501907-images-s-serah-hantaran-akad-mylifestory/crop-4x3-article-card-sm.webp",
+    "inspire/gubahan-hantaran-simple/1787765351314-images-s-rombongan-dulang-hantaran-depan-rumah-mohd-hasan/crop-4x3-article-card-sm.webp",
+    "inspire/hadiah-untuk-pengantin/1787395639270-cover/crop-4x3-article-card-sm.webp",
+    "inspire/hantaran-coklat/1787765191937-images-s-rombongan-bawa-hantaran-terengganu-mohd-hasan/crop-4x3-article-card-sm.webp",
+    "inspire/hantaran-kahwin/1787396480698-cover/crop-4x3-article-card-sm.webp",
+    "inspire/hantaran-kahwin-5-balas-7/1787758446371-images-s-dulang-hantaran-tunang-lantai-azlan-dupree/crop-4x3-article-card-sm.webp",
+    "inspire/hantaran-kahwin-bajet/1787780589299-images-s-tujuh-dulang-hantaran-rombongan-azlan-dupree/crop-4x3-article-card-sm.webp",
+    "inspire/hantaran-tema-warna/1787765144241-images-s-kotak-hantaran-putih-tema-merah-jambu-qodak-stx/crop-4x3-article-card-sm.webp",
+    "inspire/hantaran-tempah-atau-buat-sendiri/1787765324733-images-s-gubahan-kain-hantaran-mohd-hasan/crop-4x3-article-card-sm.webp",
+    "inspire/dulang-hantaran/1787680476366-images-s-dulang-buah-hantaran-mohd-hasan/crop-4x3-article-card-sm.webp",
+    "inspire/hantaran-tunang-3-balas-5/1787758482975-images-s-cincin-tunang-dulang-mohd-nasir/crop-4x3-article-card-sm.webp",
+    "inspire/hantaran-tunang-simple/1787780684276-images-s-hantaran-sangkar-buah-ringkas-phalinn-ooi/crop-4x3-article-card-sm.webp",
+    "inspire/hantaran-tunang-untuk-lelaki/1787780605155-images-s-hantaran-quran-sejadah-phalinn-ooi/crop-4x3-article-card-sm.webp",
+    "inspire/hantaran-tunang-untuk-perempuan/1787780629329-images-s-tepak-sirih-emas-dulang-phalinn-ooi/crop-4x3-article-card-sm.webp",
+    "inspire/hantaran-untuk-lelaki/1787781752165-images-s-serah-dulang-hantaran-lelaki-azlan-dupree/crop-4x3-article-card-sm.webp",
+    "inspire/hantaran-wajib-atau-adat/1787758644455-images-s-tepak-sirih-muzium-negara-marcin-konsek/crop-4x3-article-card-sm.webp",
+    "inspire/harga-sewa-dewan-kahwin/1787707807262-images-s-dewan-majlis-daerah-labis-chongkian/crop-4x3-article-card-sm.webp",
+    "inspire/hidden-hantaran/1787765217232-images-s-hantaran-berbalut-organza-bincang-mohd-nasir/crop-4x3-article-card-sm.webp",
+    "inspire/inai-tangan-pengantin/1787707260598-images-s-inai-tangan-pengantin-azman-aziz/crop-4x3-article-card-sm.webp",
+    "inspire/jw-marriott-kuala-lumpur/1787395895924-cover/crop-4x3-article-card-sm.webp",
+    "inspire/kursus-kahwin/1787396411246-cover/crop-4x3-article-card-sm.webp",
+    "inspire/lafaz-taklik/1787707459685-images-s-lelaki-menadah-doa-ahmad-ali-karim/crop-4x3-article-card-sm.webp",
+    "inspire/lokasi-pre-wedding-photoshoot-terbaik/1787396444200-cover/crop-4x3-article-card-sm.webp",
+    "inspire/majlis-kahwin/1787397002082-cover/crop-4x3-article-card-sm.webp",
+    "inspire/marriott-putrajaya/1787397328028-cover/crop-4x3-article-card-sm.webp",
+    "inspire/mas-kahwin-ikut-negeri/1787655861515-images-s-pengantin-merah-jambu-pelamin-mohd-hasan/crop-4x3-article-card-sm.webp",
+    "inspire/mas-kahwin-johor/1787707316721-images-s-kompang-gendang-johor-stress043/crop-4x3-article-card-sm.webp",
+    "inspire/mas-kahwin-kelantan-terengganu/1787707337050-images-s-arak-pengantin-kelantan-malexi/crop-4x3-article-card-sm.webp",
+    "inspire/cincin-tunang/1787707557892-images-s-kedai-emas-johor-bahru-chongkian/crop-4x3-article-card-sm.webp",
+    "inspire/mas-kahwin-pahang-negeri-sembilan/1787707358534-images-s-pejabat-agama-cameron-highlands-gula-kapas/crop-4x3-article-card-sm.webp",
+    "inspire/mas-kahwin-perak/1787707389884-images-s-maipk-perak-chongkian/crop-4x3-article-card-sm.webp",
+    "inspire/mas-kahwin-sabah-sarawak/1787707412159-images-s-mahkamah-syariah-keningau-sabah-aranas/crop-4x3-article-card-sm.webp",
+    "inspire/nisbah-hantaran/1787758416340-images-s-gubahan-kain-hantaran-mohd-hasan/crop-4x3-article-card-sm.webp",
+    "inspire/pakej-dewan-kahwin/1787707835158-images-s-hidangan-bufet-pulau-pinang-ciksitimelati/crop-4x3-article-card-sm.webp",
+    "inspire/pelamin/1787657468167-images-s-bersanding-pelamin-mohd-hasan/crop-4x3-article-card-sm.webp",
+    "inspire/pelamin/1787657468167-images-s-pelamin-putih-shahnazshahizan/crop-4x3-article-card-sm.webp",
+    "inspire/perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan/1787395766407-cover/crop-4x3-article-card-sm.webp",
+    "inspire/perkahwinan-indah-di-laman-fajar-menyinsing-port-dickson/1787396030245-cover/crop-4x3-article-card-sm.webp",
+    "inspire/perkahwinan-romantis-di-jen-shangri-la-puteri-harbour/1787396127546-cover/crop-4x3-article-card-sm.webp",
+    "inspire/perkahwinan-taman-kebun-yang-minimalis-di-hulu-langat/1787395973700-cover/crop-4x3-article-card-sm.webp",
+    "inspire/persiapan-hantaran-kahwin/1787780683875-images-s-rombongan-hantaran-jalan-azlan-dupree/crop-4x3-article-card-sm.webp",
+    "inspire/rukun-nikah/1787707482509-images-s-akad-nikah-masjid-azlan-dupree/crop-4x3-article-card-sm.webp",
+    "inspire/sentosa-janda-baik/1787396879848-cover/crop-4x3-article-card-sm.webp",
+    "inspire/sewa-dewan-kahwin/1787396701276-cover/crop-4x3-article-card-sm.webp",
+    "inspire/sime-darby-convention-centre/1787396716550-cover/crop-4x3-article-card-sm.webp",
+    "inspire/sirih-junjung/1787680524028-images-s-sirih-junjung-mohd-nasir/crop-4x3-article-card-sm.webp",
+    "inspire/lafaz-taklik/1787707459685-images-s-tok-kadi-baca-khutbah-mylifestory/crop-4x3-article-card-sm.webp",
+    "inspire/songket-tenunan-tangan-atau-cetak/1787654687597-images-s-songket-limar-terengganu-daderot/crop-4x3-article-card-sm.webp",
+    "inspire/syarat-sah-nikah/1787707508568-images-s-akad-tok-kadi-raja-abd-kadir/crop-4x3-article-card-sm.webp",
+    "inspire/taaruf-maksud/1787707624259-images-s-pasangan-baju-oren-azman-aziz/crop-4x3-article-card-sm.webp",
+    "inspire/tempat-beli-hantaran/1787780709236-images-s-dulang-buah-hantaran-mohd-hasan/crop-4x3-article-card-sm.webp",
+    "inspire/tempat-honeymoon-di-malaysia/1787395659226-cover/crop-4x3-article-card-sm.webp",
+    "inspire/the-danna-langkawi/1787397136563-cover/crop-4x3-article-card-sm.webp",
+    "inspire/ucapan-pengantin-baru/1787707708864-images-s-tetamu-tiba-majlis-ahmad-ali-karim/crop-4x3-article-card-sm.webp",
+    "inspire/villa-warisan/1787397271336-cover/crop-4x3-article-card-sm.webp",
+    "inspire/walimatul-urus/1787680552936-images-s-jamuan-kenduri-raja-abd-kadir/crop-4x3-article-card-sm.webp",
+    "inspire/wedding-planner-terbaik-di-malaysia/1787395692821-cover/crop-4x3-article-card-sm.webp",
+    "inspire/yasaka-shrine/1787396198396-cover/crop-4x3-article-card-sm.webp"
+  ],
+  "priorRows": [
+    {
+      "id": "289724a6-1cb3-4aac-ab2c-f0105060044e",
+      "slug": "adat-hantaran-berbeza-negeri",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/adat-hantaran-berbeza-negeri/1787758615851-images-s-arak-pengantin-lelaki-payung-kuning-sham-hardy/crop-16x9-og.webp?v=0.2800_0.1560-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/adat-hantaran-berbeza-negeri/1787758615851-images-s-arak-pengantin-lelaki-payung-kuning-sham-hardy/crop-4x3-article-card.webp?v=0.2800_0.1560-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/adat-hantaran-berbeza-negeri/1787758615851-images-s-arak-pengantin-lelaki-payung-kuning-sham-hardy/crop-4x5-mobile-cover.webp?v=0.2800_0.1560-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/adat-hantaran-berbeza-negeri/1787758615851-images-s-arak-pengantin-lelaki-payung-kuning-sham-hardy/crop-4.3x1-desktop-hero.webp?v=0.2800_0.1560-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "38b4c9c5-60da-498a-bf75-e798e4c33909",
+      "slug": "adat-hantaran-ikut-keluarga",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/adat-hantaran-ikut-keluarga/1787780652248-images-s-rombongan-lelaki-bincang-hantaran-azlan-dupree/crop-16x9-og.webp?v=0.6533_0.8520-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/adat-hantaran-ikut-keluarga/1787780652248-images-s-rombongan-lelaki-bincang-hantaran-azlan-dupree/crop-4x3-article-card.webp?v=0.6533_0.8520-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/adat-hantaran-ikut-keluarga/1787780652248-images-s-rombongan-lelaki-bincang-hantaran-azlan-dupree/crop-4x5-mobile-cover.webp?v=0.6533_0.8520-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/adat-hantaran-ikut-keluarga/1787780652248-images-s-rombongan-lelaki-bincang-hantaran-azlan-dupree/crop-4.3x1-desktop-hero.webp?v=0.6533_0.8520-g48c0b959",
+          "width": 2463,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "b88f8cbd-772b-4b2a-9411-d79a60f94811",
+      "slug": "amankila-bali",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/amankila-bali/1787396256716-cover/crop-16x9-og.webp?v=0.4673_0.5872-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/amankila-bali/1787396256716-cover/crop-4x3-article-card.webp?v=0.4673_0.5872-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/amankila-bali/1787396256716-cover/crop-4x5-mobile-cover.webp?v=0.4673_0.5872-g48c0b959",
+          "width": 1367,
+          "height": 1709
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/amankila-bali/1787396256716-cover/crop-4.3x1-desktop-hero.webp?v=0.4673_0.5872-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "fc26f9b1-f4ba-4982-8a26-558ba74d14b8",
+      "slug": "apa-itu-mas-kahwin",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/lafaz-taklik/1787707459685-images-s-akad-ijab-qabul-mylifestory/crop-16x9-og.webp?v=0.8333_0.6200-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/lafaz-taklik/1787707459685-images-s-akad-ijab-qabul-mylifestory/crop-4x3-article-card.webp?v=0.8333_0.6200-g48c0b959",
+          "width": 1536,
+          "height": 1152
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/lafaz-taklik/1787707459685-images-s-akad-ijab-qabul-mylifestory/crop-4x5-mobile-cover.webp?v=0.8333_0.6200-g48c0b959",
+          "width": 1536,
+          "height": 1920
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/lafaz-taklik/1787707459685-images-s-akad-ijab-qabul-mylifestory/crop-4.3x1-desktop-hero.webp?v=0.8333_0.6200-g48c0b959",
+          "width": 1536,
+          "height": 436
+        }
+      }
+    },
+    {
+      "id": "9f737846-4fe2-4cfd-ae61-b5823cc9935c",
+      "slug": "bajet-kahwin",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/bajet-kahwin/1787707751640-images-s-keluarga-payung-kuning-mohd-hasan/crop-16x9-og.webp?v=0.1534_0.1860-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/bajet-kahwin/1787707751640-images-s-keluarga-payung-kuning-mohd-hasan/crop-4x3-article-card.webp?v=0.1534_0.1860-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/bajet-kahwin/1787707751640-images-s-keluarga-payung-kuning-mohd-hasan/crop-4x5-mobile-cover.webp?v=0.1534_0.1860-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/bajet-kahwin/1787707751640-images-s-keluarga-payung-kuning-mohd-hasan/crop-4.3x1-desktop-hero.webp?v=0.1534_0.1860-g48c0b959",
+          "width": 2463,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "81fb6171-3a13-4b11-947d-267f16bbf3c2",
+      "slug": "baju-pengantin-sewa-atau-beli",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/baju-pengantin-sewa-atau-beli/1787707239501-images-s-pengantin-bertudung-manik-azman-aziz/crop-16x9-og.webp?v=0.4350_0.2800-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/baju-pengantin-sewa-atau-beli/1787707239501-images-s-pengantin-bertudung-manik-azman-aziz/crop-4x3-article-card.webp?v=0.4350_0.2800-g48c0b959",
+          "width": 1599,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/baju-pengantin-sewa-atau-beli/1787707239501-images-s-pengantin-bertudung-manik-azman-aziz/crop-4x5-mobile-cover.webp?v=0.4350_0.2800-g48c0b959",
+          "width": 1898,
+          "height": 2373
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/baju-pengantin-sewa-atau-beli/1787707239501-images-s-pengantin-bertudung-manik-azman-aziz/crop-4.3x1-desktop-hero.webp?v=0.4350_0.2800-g48c0b959",
+          "width": 1898,
+          "height": 539
+        }
+      }
+    },
+    {
+      "id": "8241c7cb-da66-46a0-b2e5-01f2aafbf626",
+      "slug": "barang-hantaran-berguna",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/barang-hantaran-berguna/1787781777697-images-s-dulang-kek-coklat-buah-hantaran-azlan-dupree/crop-16x9-og.webp?v=0.3100_0.8520-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/barang-hantaran-berguna/1787781777697-images-s-dulang-kek-coklat-buah-hantaran-azlan-dupree/crop-4x3-article-card.webp?v=0.3100_0.8520-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/barang-hantaran-berguna/1787781777697-images-s-dulang-kek-coklat-buah-hantaran-azlan-dupree/crop-4x5-mobile-cover.webp?v=0.3100_0.8520-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/barang-hantaran-berguna/1787781777697-images-s-dulang-kek-coklat-buah-hantaran-azlan-dupree/crop-4.3x1-desktop-hero.webp?v=0.3100_0.8520-g48c0b959",
+          "width": 2463,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "1619ee13-012c-4527-ab8d-688f7fb98b4f",
+      "slug": "barang-hantaran-perempuan",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/barang-hantaran-perempuan/1787780564669-images-s-bawa-dulang-hantaran-naik-rumah-azlan-dupree/crop-16x9-og.webp?v=0.1867_0.4020-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/barang-hantaran-perempuan/1787780564669-images-s-bawa-dulang-hantaran-naik-rumah-azlan-dupree/crop-4x3-article-card.webp?v=0.1867_0.4020-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/barang-hantaran-perempuan/1787780564669-images-s-bawa-dulang-hantaran-naik-rumah-azlan-dupree/crop-4x5-mobile-cover.webp?v=0.1867_0.4020-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/barang-hantaran-perempuan/1787780564669-images-s-bawa-dulang-hantaran-naik-rumah-azlan-dupree/crop-4.3x1-desktop-hero.webp?v=0.1867_0.4020-g48c0b959",
+          "width": 2463,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "7cb87cf0-c19b-4b72-a6bf-64f50794f92a",
+      "slug": "barang-hantaran-tunang",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/barang-hantaran-tunang/1787780709633-images-s-dulang-terbuka-gubahan-merah-phalinn-ooi/crop-16x9-og.webp?v=0.3433_0.1500-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/barang-hantaran-tunang/1787780709633-images-s-dulang-terbuka-gubahan-merah-phalinn-ooi/crop-4x3-article-card.webp?v=0.3433_0.1500-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/barang-hantaran-tunang/1787780709633-images-s-dulang-terbuka-gubahan-merah-phalinn-ooi/crop-4x5-mobile-cover.webp?v=0.3433_0.1500-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/barang-hantaran-tunang/1787780709633-images-s-dulang-terbuka-gubahan-merah-phalinn-ooi/crop-4.3x1-desktop-hero.webp?v=0.3433_0.1500-g48c0b959",
+          "width": 2463,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "0bd634b3-b908-46b8-b435-7b62b29bf5e8",
+      "slug": "berapa-dulang-hantaran-tunang",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/berapa-dulang-hantaran-tunang/1787780661260-images-s-dulang-hantaran-bersusun-phalinn-ooi/crop-16x9-og.webp?v=0.3433_0.2460-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/berapa-dulang-hantaran-tunang/1787780661260-images-s-dulang-hantaran-bersusun-phalinn-ooi/crop-4x3-article-card.webp?v=0.3433_0.2460-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/berapa-dulang-hantaran-tunang/1787780661260-images-s-dulang-hantaran-bersusun-phalinn-ooi/crop-4x5-mobile-cover.webp?v=0.3433_0.2460-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/berapa-dulang-hantaran-tunang/1787780661260-images-s-dulang-hantaran-bersusun-phalinn-ooi/crop-4.3x1-desktop-hero.webp?v=0.3433_0.2460-g48c0b959",
+          "width": 2463,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "0e5037cb-f040-47dc-b9f4-c03710901d30",
+      "slug": "bilangan-dulang-hantaran-ganjil",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/bilangan-dulang-hantaran-ganjil/1787758516617-images-s-bincang-hantaran-dua-keluarga-mohd-nasir/crop-16x9-og.webp?v=0.2167_0.1860-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/bilangan-dulang-hantaran-ganjil/1787758516617-images-s-bincang-hantaran-dua-keluarga-mohd-nasir/crop-4x3-article-card.webp?v=0.2167_0.1860-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/bilangan-dulang-hantaran-ganjil/1787758516617-images-s-bincang-hantaran-dua-keluarga-mohd-nasir/crop-4x5-mobile-cover.webp?v=0.2167_0.1860-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/bilangan-dulang-hantaran-ganjil/1787758516617-images-s-bincang-hantaran-dua-keluarga-mohd-nasir/crop-4.3x1-desktop-hero.webp?v=0.2167_0.1860-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "ce836c00-fb6c-4875-b438-bd42216518d7",
+      "slug": "borang-nikah",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/borang-nikah/1787707437117-images-s-kaunter-utc-keramat-angys/crop-16x9-og.webp?v=0.9075_0.6200-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/borang-nikah/1787707437117-images-s-kaunter-utc-keramat-angys/crop-4x3-article-card.webp?v=0.9075_0.6200-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/borang-nikah/1787707437117-images-s-kaunter-utc-keramat-angys/crop-4x5-mobile-cover.webp?v=0.9075_0.6200-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/borang-nikah/1787707437117-images-s-kaunter-utc-keramat-angys/crop-4.3x1-desktop-hero.webp?v=0.9075_0.6200-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "3ac30468-9153-4225-ba5e-c94d6610fe2f",
+      "slug": "bunga-telur",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/bunga-telur/1787657096267-images-s-bunga-telur-daun-getah-fuzuri/crop-16x9-og.webp?v=0.6862_0.1852-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/bunga-telur/1787657096267-images-s-bunga-telur-daun-getah-fuzuri/crop-4x3-article-card.webp?v=0.6862_0.1852-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/bunga-telur/1787657096267-images-s-bunga-telur-daun-getah-fuzuri/crop-4x5-mobile-cover.webp?v=0.6862_0.1852-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/bunga-telur/1787657096267-images-s-bunga-telur-daun-getah-fuzuri/crop-4.3x1-desktop-hero.webp?v=0.6862_0.1852-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "db9d8f9f-e981-49db-8757-4179130aaa96",
+      "slug": "cara-buat-kad-kahwin-digital",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/cara-buat-kad-kahwin-digital/1787396529679-cover/crop-16x9-og.webp?v=0.7723_0.4374-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/cara-buat-kad-kahwin-digital/1787396529679-cover/crop-4x3-article-card.webp?v=0.7723_0.4374-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/cara-buat-kad-kahwin-digital/1787396529679-cover/crop-4x5-mobile-cover.webp?v=0.7723_0.4374-g48c0b959",
+          "width": 1707,
+          "height": 2134
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/cara-buat-kad-kahwin-digital/1787396529679-cover/crop-4.3x1-desktop-hero.webp?v=0.7723_0.4374-g48c0b959",
+          "width": 1707,
+          "height": 485
+        }
+      }
+    },
+    {
+      "id": "4c757ec7-83f4-4b1f-8bd2-fcfaea6b6fff",
+      "slug": "cara-tetapkan-duit-hantaran",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/cara-tetapkan-duit-hantaran/1787758589083-images-s-rombongan-lelaki-bincang-hantaran-azlan-dupree/crop-16x9-og.webp?v=0.6533_0.8520-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/cara-tetapkan-duit-hantaran/1787758589083-images-s-rombongan-lelaki-bincang-hantaran-azlan-dupree/crop-4x3-article-card.webp?v=0.6533_0.8520-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/cara-tetapkan-duit-hantaran/1787758589083-images-s-rombongan-lelaki-bincang-hantaran-azlan-dupree/crop-4x5-mobile-cover.webp?v=0.6533_0.8520-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/cara-tetapkan-duit-hantaran/1787758589083-images-s-rombongan-lelaki-bincang-hantaran-azlan-dupree/crop-4.3x1-desktop-hero.webp?v=0.6533_0.8520-g48c0b959",
+          "width": 2463,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "fdf457e4-ef04-4bdb-a6fa-1e4bf8dd47a7",
+      "slug": "checklist-kahwin",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/checklist-kahwin/1787707780243-images-s-kompang-gendang-johor-stress043/crop-16x9-og.webp?v=0.5285_0.3069-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/checklist-kahwin/1787707780243-images-s-kompang-gendang-johor-stress043/crop-4x3-article-card.webp?v=0.5285_0.3069-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/checklist-kahwin/1787707780243-images-s-kompang-gendang-johor-stress043/crop-4x5-mobile-cover.webp?v=0.5285_0.3069-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/checklist-kahwin/1787707780243-images-s-kompang-gendang-johor-stress043/crop-4.3x1-desktop-hero.webp?v=0.5285_0.3069-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "a2844b4c-860d-4816-8c6d-7275215d2148",
+      "slug": "cheong-fatt-tze-mansion",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/cheong-fatt-tze-mansion/1787396807270-cover/crop-16x9-og.webp?v=0.4368_0.6839-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/cheong-fatt-tze-mansion/1787396807270-cover/crop-4x3-article-card.webp?v=0.4368_0.6839-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/cheong-fatt-tze-mansion/1787396807270-cover/crop-4x5-mobile-cover.webp?v=0.4368_0.6839-g48c0b959",
+          "width": 1366,
+          "height": 1707
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/cheong-fatt-tze-mansion/1787396807270-cover/crop-4.3x1-desktop-hero.webp?v=0.4368_0.6839-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "b128d56b-1deb-4ef7-ab09-6f867e38137b",
+      "slug": "cincin-tunang",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/cincin-tunang/1787707557892-images-s-cincin-tunang-kotak-mohd-nasir/crop-16x9-og.webp?v=0.9168_0.4500-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/cincin-tunang/1787707557892-images-s-cincin-tunang-kotak-mohd-nasir/crop-4x3-article-card.webp?v=0.9168_0.4500-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/cincin-tunang/1787707557892-images-s-cincin-tunang-kotak-mohd-nasir/crop-4x5-mobile-cover.webp?v=0.9168_0.4500-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/cincin-tunang/1787707557892-images-s-cincin-tunang-kotak-mohd-nasir/crop-4.3x1-desktop-hero.webp?v=0.9168_0.4500-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "9db25887-aa58-465d-8c4b-c2f57628e714",
+      "slug": "contoh-kad-jemputan-kahwin",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/contoh-kad-jemputan-kahwin/1787657083113-images-s-kad-jemputan-tangan-sham-hardy/crop-16x9-og.webp?v=0.1660_0.3735-g48c0b959",
+          "width": 771,
+          "height": 405
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/contoh-kad-jemputan-kahwin/1787657083113-images-s-kad-jemputan-tangan-sham-hardy/crop-4x3-article-card.webp?v=0.1660_0.3735-g48c0b959",
+          "width": 771,
+          "height": 578
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/contoh-kad-jemputan-kahwin/1787657083113-images-s-kad-jemputan-tangan-sham-hardy/crop-4x5-mobile-cover.webp?v=0.1660_0.3735-g48c0b959",
+          "width": 771,
+          "height": 964
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/contoh-kad-jemputan-kahwin/1787657083113-images-s-kad-jemputan-tangan-sham-hardy/crop-4.3x1-desktop-hero.webp?v=0.1660_0.3735-g48c0b959",
+          "width": 771,
+          "height": 219
+        }
+      }
+    },
+    {
+      "id": "4d367182-1f4a-431c-8fda-a215ccd034d7",
+      "slug": "dewan-kahwin",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/dewan-kahwin/1787396554924-cover/crop-16x9-og.webp?v=0.4987_0.6560-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/dewan-kahwin/1787396554924-cover/crop-4x3-article-card.webp?v=0.4987_0.6560-g48c0b959",
+          "width": 1280,
+          "height": 960
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/dewan-kahwin/1787396554924-cover/crop-4x5-mobile-cover.webp?v=0.4987_0.6560-g48c0b959",
+          "width": 768,
+          "height": 960
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/dewan-kahwin/1787396554924-cover/crop-4.3x1-desktop-hero.webp?v=0.4987_0.6560-g48c0b959",
+          "width": 1280,
+          "height": 364
+        }
+      }
+    },
+    {
+      "id": "c0d55907-02e9-4d1a-a628-ea26e7965346",
+      "slug": "doa-majlis-perkahwinan",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/doa-majlis-perkahwinan/1787654634901-images-s-majlis-doa-selamat-ahmad-ali-karim/crop-16x9-og.webp?v=0.7168_0.3000-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/doa-majlis-perkahwinan/1787654634901-images-s-majlis-doa-selamat-ahmad-ali-karim/crop-4x3-article-card.webp?v=0.7168_0.3000-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/doa-majlis-perkahwinan/1787654634901-images-s-majlis-doa-selamat-ahmad-ali-karim/crop-4x5-mobile-cover.webp?v=0.7168_0.3000-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/doa-majlis-perkahwinan/1787654634901-images-s-majlis-doa-selamat-ahmad-ali-karim/crop-4.3x1-desktop-hero.webp?v=0.7168_0.3000-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "43d1b444-57ee-48e6-9208-293783a498e1",
+      "slug": "doa-majlis-pertunangan",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/dulang-hantaran/1787680476366-images-s-pertunangan-zeeana-mohd-nasir/crop-16x9-og.webp?v=0.5603_0.5301-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/dulang-hantaran/1787680476366-images-s-pertunangan-zeeana-mohd-nasir/crop-4x3-article-card.webp?v=0.5603_0.5301-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/dulang-hantaran/1787680476366-images-s-pertunangan-zeeana-mohd-nasir/crop-4x5-mobile-cover.webp?v=0.5603_0.5301-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/dulang-hantaran/1787680476366-images-s-pertunangan-zeeana-mohd-nasir/crop-4.3x1-desktop-hero.webp?v=0.5603_0.5301-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "8e1fc65c-50df-436c-9599-b6e8dfd3a3e6",
+      "slug": "doa-pengantin-baru",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/doa-pengantin-baru/1787707683563-images-s-bacaan-doa-qari-ahmad-ali-karim/crop-16x9-og.webp?v=0.0833_0.2760-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/doa-pengantin-baru/1787707683563-images-s-bacaan-doa-qari-ahmad-ali-karim/crop-4x3-article-card.webp?v=0.0833_0.2760-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/doa-pengantin-baru/1787707683563-images-s-bacaan-doa-qari-ahmad-ali-karim/crop-4x5-mobile-cover.webp?v=0.0833_0.2760-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/doa-pengantin-baru/1787707683563-images-s-bacaan-doa-qari-ahmad-ali-karim/crop-4.3x1-desktop-hero.webp?v=0.0833_0.2760-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "6cfa4c79-dafd-4978-82ce-4915efe2401d",
+      "slug": "duit-hantaran-kahwin",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/duit-hantaran-kahwin/1787758566058-images-s-akad-tok-kadi-raja-abd-kadir/crop-16x9-og.webp?v=0.5287_0.2187-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/duit-hantaran-kahwin/1787758566058-images-s-akad-tok-kadi-raja-abd-kadir/crop-4x3-article-card.webp?v=0.5287_0.2187-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/duit-hantaran-kahwin/1787758566058-images-s-akad-tok-kadi-raja-abd-kadir/crop-4x5-mobile-cover.webp?v=0.5287_0.2187-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/duit-hantaran-kahwin/1787758566058-images-s-akad-tok-kadi-raja-abd-kadir/crop-4.3x1-desktop-hero.webp?v=0.5287_0.2187-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "c7c2c850-809d-4ec9-8452-5ddc0d262bea",
+      "slug": "dulang-hantaran",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/apa-itu-mas-kahwin/1787655582619-images-s-dulang-hantaran-masjid-mylifestory/crop-16x9-og.webp?v=0.5933_0.5910-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/apa-itu-mas-kahwin/1787655582619-images-s-dulang-hantaran-masjid-mylifestory/crop-4x3-article-card.webp?v=0.5933_0.5910-g48c0b959",
+          "width": 1536,
+          "height": 1152
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/apa-itu-mas-kahwin/1787655582619-images-s-dulang-hantaran-masjid-mylifestory/crop-4x5-mobile-cover.webp?v=0.5933_0.5910-g48c0b959",
+          "width": 1536,
+          "height": 1920
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/apa-itu-mas-kahwin/1787655582619-images-s-dulang-hantaran-masjid-mylifestory/crop-4.3x1-desktop-hero.webp?v=0.5933_0.5910-g48c0b959",
+          "width": 1536,
+          "height": 436
+        }
+      }
+    },
+    {
+      "id": "4507a5bd-6d73-4a06-ae19-de7becb60e07",
+      "slug": "garden-wedding",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/garden-wedding/1787397040017-cover/crop-16x9-og.webp?v=0.4669_0.7796-g48c0b959",
+          "width": 1024,
+          "height": 538
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/garden-wedding/1787397040017-cover/crop-4x3-article-card.webp?v=0.4669_0.7796-g48c0b959",
+          "width": 911,
+          "height": 683
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/garden-wedding/1787397040017-cover/crop-4x5-mobile-cover.webp?v=0.4669_0.7796-g48c0b959",
+          "width": 546,
+          "height": 683
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/garden-wedding/1787397040017-cover/crop-4.3x1-desktop-hero.webp?v=0.4669_0.7796-g48c0b959",
+          "width": 1024,
+          "height": 291
+        }
+      }
+    },
+    {
+      "id": "f81fc042-3c42-4fb2-9d1d-c3c508843737",
+      "slug": "goodies-kahwin",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/goodies-kahwin/1787395718040-cover/crop-16x9-og.webp?v=0.3733_0.1860-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/goodies-kahwin/1787395718040-cover/crop-4x3-article-card.webp?v=0.3733_0.1860-g48c0b959",
+          "width": 1365,
+          "height": 1024
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/goodies-kahwin/1787395718040-cover/crop-4x5-mobile-cover.webp?v=0.3733_0.1860-g48c0b959",
+          "width": 819,
+          "height": 1024
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/goodies-kahwin/1787395718040-cover/crop-4.3x1-desktop-hero.webp?v=0.3733_0.1860-g48c0b959",
+          "width": 1536,
+          "height": 436
+        }
+      }
+    },
+    {
+      "id": "8b74288d-c09b-4cb5-8280-1ef708ea4cc4",
+      "slug": "grand-hyatt-kuala-lumpur",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/grand-hyatt-kuala-lumpur/1787396577629-cover/crop-16x9-og.webp?v=0.3114_0.6546-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/grand-hyatt-kuala-lumpur/1787396577629-cover/crop-4x3-article-card.webp?v=0.3114_0.6546-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/grand-hyatt-kuala-lumpur/1787396577629-cover/crop-4x5-mobile-cover.webp?v=0.3114_0.6546-g48c0b959",
+          "width": 1051,
+          "height": 1314
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/grand-hyatt-kuala-lumpur/1787396577629-cover/crop-4.3x1-desktop-hero.webp?v=0.3114_0.6546-g48c0b959",
+          "width": 1920,
+          "height": 545
+        }
+      }
+    },
+    {
+      "id": "75767f14-da8f-41bc-854d-eedf3958ce4e",
+      "slug": "gubahan-hantaran",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/gubahan-hantaran/1787680501907-images-s-serah-hantaran-akad-mylifestory/crop-16x9-og.webp?v=0.7162_0.1867-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/gubahan-hantaran/1787680501907-images-s-serah-hantaran-akad-mylifestory/crop-4x3-article-card.webp?v=0.7162_0.1867-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/gubahan-hantaran/1787680501907-images-s-serah-hantaran-akad-mylifestory/crop-4x5-mobile-cover.webp?v=0.7162_0.1867-g48c0b959",
+          "width": 1229,
+          "height": 1536
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/gubahan-hantaran/1787680501907-images-s-serah-hantaran-akad-mylifestory/crop-4.3x1-desktop-hero.webp?v=0.7162_0.1867-g48c0b959",
+          "width": 2048,
+          "height": 582
+        }
+      }
+    },
+    {
+      "id": "a4f8800a-c62c-461c-98ee-c8a8d9002fce",
+      "slug": "gubahan-hantaran-simple",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/gubahan-hantaran-simple/1787765351314-images-s-rombongan-dulang-hantaran-depan-rumah-mohd-hasan/crop-16x9-og.webp?v=0.1867_0.5279-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/gubahan-hantaran-simple/1787765351314-images-s-rombongan-dulang-hantaran-depan-rumah-mohd-hasan/crop-4x3-article-card.webp?v=0.1867_0.5279-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/gubahan-hantaran-simple/1787765351314-images-s-rombongan-dulang-hantaran-depan-rumah-mohd-hasan/crop-4x5-mobile-cover.webp?v=0.1867_0.5279-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/gubahan-hantaran-simple/1787765351314-images-s-rombongan-dulang-hantaran-depan-rumah-mohd-hasan/crop-4.3x1-desktop-hero.webp?v=0.1867_0.5279-g48c0b959",
+          "width": 2463,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "2e1035a2-a811-49ac-93f3-3e0b34018142",
+      "slug": "hadiah-untuk-pengantin",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/hadiah-untuk-pengantin/1787395639270-cover/crop-16x9-og.webp?v=0.0733_0.1706-g48c0b959",
+          "width": 1160,
+          "height": 609
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/hadiah-untuk-pengantin/1787395639270-cover/crop-4x3-article-card.webp?v=0.0733_0.1706-g48c0b959",
+          "width": 907,
+          "height": 680
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/hadiah-untuk-pengantin/1787395639270-cover/crop-4x5-mobile-cover.webp?v=0.0733_0.1706-g48c0b959",
+          "width": 544,
+          "height": 680
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/hadiah-untuk-pengantin/1787395639270-cover/crop-4.3x1-desktop-hero.webp?v=0.0733_0.1706-g48c0b959",
+          "width": 1160,
+          "height": 330
+        }
+      }
+    },
+    {
+      "id": "147cbfb2-0de5-483b-ae9c-027606424591",
+      "slug": "hantaran-coklat",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-coklat/1787765191937-images-s-rombongan-bawa-hantaran-terengganu-mohd-hasan/crop-16x9-og.webp?v=0.3100_0.4379-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-coklat/1787765191937-images-s-rombongan-bawa-hantaran-terengganu-mohd-hasan/crop-4x3-article-card.webp?v=0.3100_0.4379-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-coklat/1787765191937-images-s-rombongan-bawa-hantaran-terengganu-mohd-hasan/crop-4x5-mobile-cover.webp?v=0.3100_0.4379-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-coklat/1787765191937-images-s-rombongan-bawa-hantaran-terengganu-mohd-hasan/crop-4.3x1-desktop-hero.webp?v=0.3100_0.4379-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "de528bb4-650a-4c19-a1fa-5770d5963d0d",
+      "slug": "hantaran-kahwin",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-kahwin/1787396480698-cover/crop-16x9-og.webp?v=0.6872_0.6475-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-kahwin/1787396480698-cover/crop-4x3-article-card.webp?v=0.6872_0.6475-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-kahwin/1787396480698-cover/crop-4x5-mobile-cover.webp?v=0.6872_0.6475-g48c0b959",
+          "width": 1366,
+          "height": 1708
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-kahwin/1787396480698-cover/crop-4.3x1-desktop-hero.webp?v=0.6872_0.6475-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "90a67a11-d6f7-42ab-bf4d-f4e012a253e9",
+      "slug": "hantaran-kahwin-5-balas-7",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-kahwin-5-balas-7/1787758446371-images-s-dulang-hantaran-tunang-lantai-azlan-dupree/crop-16x9-og.webp?v=0.9167_0.4020-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-kahwin-5-balas-7/1787758446371-images-s-dulang-hantaran-tunang-lantai-azlan-dupree/crop-4x3-article-card.webp?v=0.9167_0.4020-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-kahwin-5-balas-7/1787758446371-images-s-dulang-hantaran-tunang-lantai-azlan-dupree/crop-4x5-mobile-cover.webp?v=0.9167_0.4020-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-kahwin-5-balas-7/1787758446371-images-s-dulang-hantaran-tunang-lantai-azlan-dupree/crop-4.3x1-desktop-hero.webp?v=0.9167_0.4020-g48c0b959",
+          "width": 2463,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "849688e3-b484-4a1d-b6b9-086d5d98d41a",
+      "slug": "hantaran-kahwin-bajet",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-kahwin-bajet/1787780589299-images-s-tujuh-dulang-hantaran-rombongan-azlan-dupree/crop-16x9-og.webp?v=0.6867_0.5280-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-kahwin-bajet/1787780589299-images-s-tujuh-dulang-hantaran-rombongan-azlan-dupree/crop-4x3-article-card.webp?v=0.6867_0.5280-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-kahwin-bajet/1787780589299-images-s-tujuh-dulang-hantaran-rombongan-azlan-dupree/crop-4x5-mobile-cover.webp?v=0.6867_0.5280-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-kahwin-bajet/1787780589299-images-s-tujuh-dulang-hantaran-rombongan-azlan-dupree/crop-4.3x1-desktop-hero.webp?v=0.6867_0.5280-g48c0b959",
+          "width": 2463,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "7a4e6c59-36b8-41e6-b438-ec618a2d3f86",
+      "slug": "hantaran-tema-warna",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-tema-warna/1787765144241-images-s-kotak-hantaran-putih-tema-merah-jambu-qodak-stx/crop-16x9-og.webp?v=0.4367_0.1500-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-tema-warna/1787765144241-images-s-kotak-hantaran-putih-tema-merah-jambu-qodak-stx/crop-4x3-article-card.webp?v=0.4367_0.1500-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-tema-warna/1787765144241-images-s-kotak-hantaran-putih-tema-merah-jambu-qodak-stx/crop-4x5-mobile-cover.webp?v=0.4367_0.1500-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-tema-warna/1787765144241-images-s-kotak-hantaran-putih-tema-merah-jambu-qodak-stx/crop-4.3x1-desktop-hero.webp?v=0.4367_0.1500-g48c0b959",
+          "width": 2463,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "c348bb71-6aef-4d70-a38e-ed2263f0135a",
+      "slug": "hantaran-tempah-atau-buat-sendiri",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-tempah-atau-buat-sendiri/1787765324733-images-s-gubahan-kain-hantaran-mohd-hasan/crop-16x9-og.webp?v=0.6224_0.4987-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-tempah-atau-buat-sendiri/1787765324733-images-s-gubahan-kain-hantaran-mohd-hasan/crop-4x3-article-card.webp?v=0.6224_0.4987-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-tempah-atau-buat-sendiri/1787765324733-images-s-gubahan-kain-hantaran-mohd-hasan/crop-4x5-mobile-cover.webp?v=0.6224_0.4987-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-tempah-atau-buat-sendiri/1787765324733-images-s-gubahan-kain-hantaran-mohd-hasan/crop-4.3x1-desktop-hero.webp?v=0.6224_0.4987-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "dd3bf19c-f43d-4907-87ee-fd8c41fc6664",
+      "slug": "hantaran-tunang",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/dulang-hantaran/1787680476366-images-s-dulang-buah-hantaran-mohd-hasan/crop-16x9-og.webp?v=0.2475_0.6561-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/dulang-hantaran/1787680476366-images-s-dulang-buah-hantaran-mohd-hasan/crop-4x3-article-card.webp?v=0.2475_0.6561-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/dulang-hantaran/1787680476366-images-s-dulang-buah-hantaran-mohd-hasan/crop-4x5-mobile-cover.webp?v=0.2475_0.6561-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/dulang-hantaran/1787680476366-images-s-dulang-buah-hantaran-mohd-hasan/crop-4.3x1-desktop-hero.webp?v=0.2475_0.6561-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "4ad52e3b-6425-434b-b646-600da1f9e5ad",
+      "slug": "hantaran-tunang-3-balas-5",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-tunang-3-balas-5/1787758482975-images-s-cincin-tunang-dulang-mohd-nasir/crop-16x9-og.webp?v=0.6224_0.0667-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-tunang-3-balas-5/1787758482975-images-s-cincin-tunang-dulang-mohd-nasir/crop-4x3-article-card.webp?v=0.6224_0.0667-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-tunang-3-balas-5/1787758482975-images-s-cincin-tunang-dulang-mohd-nasir/crop-4x5-mobile-cover.webp?v=0.6224_0.0667-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-tunang-3-balas-5/1787758482975-images-s-cincin-tunang-dulang-mohd-nasir/crop-4.3x1-desktop-hero.webp?v=0.6224_0.0667-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "cd4094bc-d774-43d8-80f9-a77ce1b25dba",
+      "slug": "hantaran-tunang-simple",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-tunang-simple/1787780684276-images-s-hantaran-sangkar-buah-ringkas-phalinn-ooi/crop-16x9-og.webp?v=0.3733_0.2460-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-tunang-simple/1787780684276-images-s-hantaran-sangkar-buah-ringkas-phalinn-ooi/crop-4x3-article-card.webp?v=0.3733_0.2460-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-tunang-simple/1787780684276-images-s-hantaran-sangkar-buah-ringkas-phalinn-ooi/crop-4x5-mobile-cover.webp?v=0.3733_0.2460-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-tunang-simple/1787780684276-images-s-hantaran-sangkar-buah-ringkas-phalinn-ooi/crop-4.3x1-desktop-hero.webp?v=0.3733_0.2460-g48c0b959",
+          "width": 2463,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "9ec29ad0-49df-41aa-b602-fdb153f70be0",
+      "slug": "hantaran-tunang-untuk-lelaki",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-tunang-untuk-lelaki/1787780605155-images-s-hantaran-quran-sejadah-phalinn-ooi/crop-16x9-og.webp?v=0.1233_0.6240-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-tunang-untuk-lelaki/1787780605155-images-s-hantaran-quran-sejadah-phalinn-ooi/crop-4x3-article-card.webp?v=0.1233_0.6240-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-tunang-untuk-lelaki/1787780605155-images-s-hantaran-quran-sejadah-phalinn-ooi/crop-4x5-mobile-cover.webp?v=0.1233_0.6240-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-tunang-untuk-lelaki/1787780605155-images-s-hantaran-quran-sejadah-phalinn-ooi/crop-4.3x1-desktop-hero.webp?v=0.1233_0.6240-g48c0b959",
+          "width": 2463,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "2124757d-652f-495a-9e2d-7f2698d0edec",
+      "slug": "hantaran-tunang-untuk-perempuan",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-tunang-untuk-perempuan/1787780629329-images-s-tepak-sirih-emas-dulang-phalinn-ooi/crop-16x9-og.webp?v=0.3100_0.3720-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-tunang-untuk-perempuan/1787780629329-images-s-tepak-sirih-emas-dulang-phalinn-ooi/crop-4x3-article-card.webp?v=0.3100_0.3720-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-tunang-untuk-perempuan/1787780629329-images-s-tepak-sirih-emas-dulang-phalinn-ooi/crop-4x5-mobile-cover.webp?v=0.3100_0.3720-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-tunang-untuk-perempuan/1787780629329-images-s-tepak-sirih-emas-dulang-phalinn-ooi/crop-4.3x1-desktop-hero.webp?v=0.3100_0.3720-g48c0b959",
+          "width": 2463,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "32689032-6944-4c59-8f7f-cf2463c0eb11",
+      "slug": "hantaran-untuk-lelaki",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-untuk-lelaki/1787781752165-images-s-serah-dulang-hantaran-lelaki-azlan-dupree/crop-16x9-og.webp?v=0.6867_0.1500-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-untuk-lelaki/1787781752165-images-s-serah-dulang-hantaran-lelaki-azlan-dupree/crop-4x3-article-card.webp?v=0.6867_0.1500-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-untuk-lelaki/1787781752165-images-s-serah-dulang-hantaran-lelaki-azlan-dupree/crop-4x5-mobile-cover.webp?v=0.6867_0.1500-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-untuk-lelaki/1787781752165-images-s-serah-dulang-hantaran-lelaki-azlan-dupree/crop-4.3x1-desktop-hero.webp?v=0.6867_0.1500-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "a1e95f1f-972f-4258-bb56-eeceaed09356",
+      "slug": "hantaran-wajib-atau-adat",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-wajib-atau-adat/1787758644455-images-s-tepak-sirih-muzium-negara-marcin-konsek/crop-16x9-og.webp?v=0.3112_0.3733-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-wajib-atau-adat/1787758644455-images-s-tepak-sirih-muzium-negara-marcin-konsek/crop-4x3-article-card.webp?v=0.3112_0.3733-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-wajib-atau-adat/1787758644455-images-s-tepak-sirih-muzium-negara-marcin-konsek/crop-4x5-mobile-cover.webp?v=0.3112_0.3733-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/hantaran-wajib-atau-adat/1787758644455-images-s-tepak-sirih-muzium-negara-marcin-konsek/crop-4.3x1-desktop-hero.webp?v=0.3112_0.3733-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "a6dab084-8ab5-44a5-a28d-a2336f4c9879",
+      "slug": "harga-sewa-dewan-kahwin",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/harga-sewa-dewan-kahwin/1787707807262-images-s-dewan-majlis-daerah-labis-chongkian/crop-16x9-og.webp?v=0.1538_0.3733-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/harga-sewa-dewan-kahwin/1787707807262-images-s-dewan-majlis-daerah-labis-chongkian/crop-4x3-article-card.webp?v=0.1538_0.3733-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/harga-sewa-dewan-kahwin/1787707807262-images-s-dewan-majlis-daerah-labis-chongkian/crop-4x5-mobile-cover.webp?v=0.1538_0.3733-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/harga-sewa-dewan-kahwin/1787707807262-images-s-dewan-majlis-daerah-labis-chongkian/crop-4.3x1-desktop-hero.webp?v=0.1538_0.3733-g48c0b959",
+          "width": 2463,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "44118ddc-6aa7-492d-833c-dce7d52723a7",
+      "slug": "hidden-hantaran",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/hidden-hantaran/1787765217232-images-s-hantaran-berbalut-organza-bincang-mohd-nasir/crop-16x9-og.webp?v=0.1500_0.8000-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/hidden-hantaran/1787765217232-images-s-hantaran-berbalut-organza-bincang-mohd-nasir/crop-4x3-article-card.webp?v=0.1500_0.8000-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/hidden-hantaran/1787765217232-images-s-hantaran-berbalut-organza-bincang-mohd-nasir/crop-4x5-mobile-cover.webp?v=0.1500_0.8000-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/hidden-hantaran/1787765217232-images-s-hantaran-berbalut-organza-bincang-mohd-nasir/crop-4.3x1-desktop-hero.webp?v=0.1500_0.8000-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "d7ac0575-250b-4c46-9134-dc417bbe95b2",
+      "slug": "inai-tangan-pengantin",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/inai-tangan-pengantin/1787707260598-images-s-inai-tangan-pengantin-azman-aziz/crop-16x9-og.webp?v=0.3434_0.4979-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/inai-tangan-pengantin/1787707260598-images-s-inai-tangan-pengantin-azman-aziz/crop-4x3-article-card.webp?v=0.3434_0.4979-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/inai-tangan-pengantin/1787707260598-images-s-inai-tangan-pengantin-azman-aziz/crop-4x5-mobile-cover.webp?v=0.3434_0.4979-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/inai-tangan-pengantin/1787707260598-images-s-inai-tangan-pengantin-azman-aziz/crop-4.3x1-desktop-hero.webp?v=0.3434_0.4979-g48c0b959",
+          "width": 2463,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "8cf31e61-1596-481f-97af-52f41d5cf18a",
+      "slug": "jw-marriott-kuala-lumpur",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/jw-marriott-kuala-lumpur/1787395895924-cover/crop-16x9-og.webp?v=0.3734_0.7738-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/jw-marriott-kuala-lumpur/1787395895924-cover/crop-4x3-article-card.webp?v=0.3734_0.7738-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/jw-marriott-kuala-lumpur/1787395895924-cover/crop-4x5-mobile-cover.webp?v=0.3734_0.7738-g48c0b959",
+          "width": 1366,
+          "height": 1707
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/jw-marriott-kuala-lumpur/1787395895924-cover/crop-4.3x1-desktop-hero.webp?v=0.3734_0.7738-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "1c2e96ae-340f-4226-bb32-363da8cbe3d0",
+      "slug": "kursus-kahwin",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/kursus-kahwin/1787396411246-cover/crop-16x9-og.webp?v=0.4671_0.4976-g48c0b959",
+          "width": 1160,
+          "height": 609
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/kursus-kahwin/1787396411246-cover/crop-4x3-article-card.webp?v=0.4671_0.4976-g48c0b959",
+          "width": 1032,
+          "height": 774
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/kursus-kahwin/1787396411246-cover/crop-4x5-mobile-cover.webp?v=0.4671_0.4976-g48c0b959",
+          "width": 619,
+          "height": 774
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/kursus-kahwin/1787396411246-cover/crop-4.3x1-desktop-hero.webp?v=0.4671_0.4976-g48c0b959",
+          "width": 1160,
+          "height": 330
+        }
+      }
+    },
+    {
+      "id": "a6276a80-a292-45f0-947d-ee9e7ef59783",
+      "slug": "lafaz-taklik",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/lafaz-taklik/1787707459685-images-s-lelaki-menadah-doa-ahmad-ali-karim/crop-16x9-og.webp?v=0.7801_0.6539-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/lafaz-taklik/1787707459685-images-s-lelaki-menadah-doa-ahmad-ali-karim/crop-4x3-article-card.webp?v=0.7801_0.6539-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/lafaz-taklik/1787707459685-images-s-lelaki-menadah-doa-ahmad-ali-karim/crop-4x5-mobile-cover.webp?v=0.7801_0.6539-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/lafaz-taklik/1787707459685-images-s-lelaki-menadah-doa-ahmad-ali-karim/crop-4.3x1-desktop-hero.webp?v=0.7801_0.6539-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "7845a5e6-a8b1-4427-a9a4-64c627578bbe",
+      "slug": "lokasi-pre-wedding-photoshoot-terbaik",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/lokasi-pre-wedding-photoshoot-terbaik/1787396444200-cover/crop-16x9-og.webp?v=0.7804_0.8516-g48c0b959",
+          "width": 1024,
+          "height": 538
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/lokasi-pre-wedding-photoshoot-terbaik/1787396444200-cover/crop-4x3-article-card.webp?v=0.7804_0.8516-g48c0b959",
+          "width": 911,
+          "height": 683
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/lokasi-pre-wedding-photoshoot-terbaik/1787396444200-cover/crop-4x5-mobile-cover.webp?v=0.7804_0.8516-g48c0b959",
+          "width": 546,
+          "height": 683
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/lokasi-pre-wedding-photoshoot-terbaik/1787396444200-cover/crop-4.3x1-desktop-hero.webp?v=0.7804_0.8516-g48c0b959",
+          "width": 1024,
+          "height": 291
+        }
+      }
+    },
+    {
+      "id": "c7ebfa93-67fb-4417-95ba-03e0301a6fc8",
+      "slug": "majlis-kahwin",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/majlis-kahwin/1787397002082-cover/crop-16x9-og.webp?v=0.6861_0.5922-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/majlis-kahwin/1787397002082-cover/crop-4x3-article-card.webp?v=0.6861_0.5922-g48c0b959",
+          "width": 1307,
+          "height": 980
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/majlis-kahwin/1787397002082-cover/crop-4x5-mobile-cover.webp?v=0.6861_0.5922-g48c0b959",
+          "width": 784,
+          "height": 980
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/majlis-kahwin/1787397002082-cover/crop-4.3x1-desktop-hero.webp?v=0.6861_0.5922-g48c0b959",
+          "width": 1307,
+          "height": 371
+        }
+      }
+    },
+    {
+      "id": "05861c57-5651-464c-be25-2d1c3fe3cc74",
+      "slug": "marriott-putrajaya",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/marriott-putrajaya/1787397328028-cover/crop-16x9-og.webp?v=0.5598_0.4990-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/marriott-putrajaya/1787397328028-cover/crop-4x3-article-card.webp?v=0.5598_0.4990-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/marriott-putrajaya/1787397328028-cover/crop-4x5-mobile-cover.webp?v=0.5598_0.4990-g48c0b959",
+          "width": 1040,
+          "height": 1300
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/marriott-putrajaya/1787397328028-cover/crop-4.3x1-desktop-hero.webp?v=0.5598_0.4990-g48c0b959",
+          "width": 1707,
+          "height": 485
+        }
+      }
+    },
+    {
+      "id": "b1484478-a5b5-44ce-85c2-10f2c2a32d0c",
+      "slug": "mas-kahwin-ikut-negeri",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/mas-kahwin-ikut-negeri/1787655861515-images-s-pengantin-merah-jambu-pelamin-mohd-hasan/crop-16x9-og.webp?v=0.8434_0.6839-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/mas-kahwin-ikut-negeri/1787655861515-images-s-pengantin-merah-jambu-pelamin-mohd-hasan/crop-4x3-article-card.webp?v=0.8434_0.6839-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/mas-kahwin-ikut-negeri/1787655861515-images-s-pengantin-merah-jambu-pelamin-mohd-hasan/crop-4x5-mobile-cover.webp?v=0.8434_0.6839-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/mas-kahwin-ikut-negeri/1787655861515-images-s-pengantin-merah-jambu-pelamin-mohd-hasan/crop-4.3x1-desktop-hero.webp?v=0.8434_0.6839-g48c0b959",
+          "width": 2463,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "d662bad6-eab7-4d77-bcdc-abcec603a3ec",
+      "slug": "mas-kahwin-johor",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/mas-kahwin-johor/1787707316721-images-s-kompang-gendang-johor-stress043/crop-16x9-og.webp?v=0.5285_0.3069-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/mas-kahwin-johor/1787707316721-images-s-kompang-gendang-johor-stress043/crop-4x3-article-card.webp?v=0.5285_0.3069-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/mas-kahwin-johor/1787707316721-images-s-kompang-gendang-johor-stress043/crop-4x5-mobile-cover.webp?v=0.5285_0.3069-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/mas-kahwin-johor/1787707316721-images-s-kompang-gendang-johor-stress043/crop-4.3x1-desktop-hero.webp?v=0.5285_0.3069-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "b62d35d0-9d88-4174-9aae-1c05ef5fac59",
+      "slug": "mas-kahwin-kelantan-terengganu",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/mas-kahwin-kelantan-terengganu/1787707337050-images-s-arak-pengantin-kelantan-malexi/crop-16x9-og.webp?v=0.0938_0.8107-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/mas-kahwin-kelantan-terengganu/1787707337050-images-s-arak-pengantin-kelantan-malexi/crop-4x3-article-card.webp?v=0.0938_0.8107-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/mas-kahwin-kelantan-terengganu/1787707337050-images-s-arak-pengantin-kelantan-malexi/crop-4x5-mobile-cover.webp?v=0.0938_0.8107-g48c0b959",
+          "width": 1536,
+          "height": 1920
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/mas-kahwin-kelantan-terengganu/1787707337050-images-s-arak-pengantin-kelantan-malexi/crop-4.3x1-desktop-hero.webp?v=0.0938_0.8107-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "b2191993-232b-4be5-b516-d20b6cc3a3ab",
+      "slug": "mas-kahwin-melebihi-kadar-minimum",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/cincin-tunang/1787707557892-images-s-kedai-emas-johor-bahru-chongkian/crop-16x9-og.webp?v=0.1666_0.6400-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/cincin-tunang/1787707557892-images-s-kedai-emas-johor-bahru-chongkian/crop-4x3-article-card.webp?v=0.1666_0.6400-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/cincin-tunang/1787707557892-images-s-kedai-emas-johor-bahru-chongkian/crop-4x5-mobile-cover.webp?v=0.1666_0.6400-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/cincin-tunang/1787707557892-images-s-kedai-emas-johor-bahru-chongkian/crop-4.3x1-desktop-hero.webp?v=0.1666_0.6400-g48c0b959",
+          "width": 1975,
+          "height": 561
+        }
+      }
+    },
+    {
+      "id": "99d59b25-a0fa-4108-94b4-7ff774bb064e",
+      "slug": "mas-kahwin-pahang-negeri-sembilan",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/mas-kahwin-pahang-negeri-sembilan/1787707358534-images-s-pejabat-agama-cameron-highlands-gula-kapas/crop-16x9-og.webp?v=0.8086_0.6200-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/mas-kahwin-pahang-negeri-sembilan/1787707358534-images-s-pejabat-agama-cameron-highlands-gula-kapas/crop-4x3-article-card.webp?v=0.8086_0.6200-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/mas-kahwin-pahang-negeri-sembilan/1787707358534-images-s-pejabat-agama-cameron-highlands-gula-kapas/crop-4x5-mobile-cover.webp?v=0.8086_0.6200-g48c0b959",
+          "width": 1712,
+          "height": 2140
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/mas-kahwin-pahang-negeri-sembilan/1787707358534-images-s-pejabat-agama-cameron-highlands-gula-kapas/crop-4.3x1-desktop-hero.webp?v=0.8086_0.6200-g48c0b959",
+          "width": 1712,
+          "height": 486
+        }
+      }
+    },
+    {
+      "id": "abec9ae7-d323-4f11-9e69-17b610ae281c",
+      "slug": "mas-kahwin-perak",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/mas-kahwin-perak/1787707389884-images-s-maipk-perak-chongkian/crop-16x9-og.webp?v=0.5625_0.2773-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/mas-kahwin-perak/1787707389884-images-s-maipk-perak-chongkian/crop-4x3-article-card.webp?v=0.5625_0.2773-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/mas-kahwin-perak/1787707389884-images-s-maipk-perak-chongkian/crop-4x5-mobile-cover.webp?v=0.5625_0.2773-g48c0b959",
+          "width": 1190,
+          "height": 1488
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/mas-kahwin-perak/1787707389884-images-s-maipk-perak-chongkian/crop-4.3x1-desktop-hero.webp?v=0.5625_0.2773-g48c0b959",
+          "width": 1984,
+          "height": 564
+        }
+      }
+    },
+    {
+      "id": "d2df8447-d314-4699-88b8-685502e28389",
+      "slug": "mas-kahwin-sabah-sarawak",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/mas-kahwin-sabah-sarawak/1787707412159-images-s-mahkamah-syariah-keningau-sabah-aranas/crop-16x9-og.webp?v=0.9168_0.5279-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/mas-kahwin-sabah-sarawak/1787707412159-images-s-mahkamah-syariah-keningau-sabah-aranas/crop-4x3-article-card.webp?v=0.9168_0.5279-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/mas-kahwin-sabah-sarawak/1787707412159-images-s-mahkamah-syariah-keningau-sabah-aranas/crop-4x5-mobile-cover.webp?v=0.9168_0.5279-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/mas-kahwin-sabah-sarawak/1787707412159-images-s-mahkamah-syariah-keningau-sabah-aranas/crop-4.3x1-desktop-hero.webp?v=0.9168_0.5279-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "9aa11c34-4499-42b2-87e9-621b9fc5c319",
+      "slug": "nisbah-hantaran",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/nisbah-hantaran/1787758416340-images-s-gubahan-kain-hantaran-mohd-hasan/crop-16x9-og.webp?v=0.6224_0.4987-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/nisbah-hantaran/1787758416340-images-s-gubahan-kain-hantaran-mohd-hasan/crop-4x3-article-card.webp?v=0.6224_0.4987-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/nisbah-hantaran/1787758416340-images-s-gubahan-kain-hantaran-mohd-hasan/crop-4x5-mobile-cover.webp?v=0.6224_0.4987-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/nisbah-hantaran/1787758416340-images-s-gubahan-kain-hantaran-mohd-hasan/crop-4.3x1-desktop-hero.webp?v=0.6224_0.4987-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "250da087-60ec-456f-bf98-f8250bddc275",
+      "slug": "pakej-dewan-kahwin",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/pakej-dewan-kahwin/1787707835158-images-s-hidangan-bufet-pulau-pinang-ciksitimelati/crop-16x9-og.webp?v=0.2475_0.5280-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/pakej-dewan-kahwin/1787707835158-images-s-hidangan-bufet-pulau-pinang-ciksitimelati/crop-4x3-article-card.webp?v=0.2475_0.5280-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/pakej-dewan-kahwin/1787707835158-images-s-hidangan-bufet-pulau-pinang-ciksitimelati/crop-4x5-mobile-cover.webp?v=0.2475_0.5280-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/pakej-dewan-kahwin/1787707835158-images-s-hidangan-bufet-pulau-pinang-ciksitimelati/crop-4.3x1-desktop-hero.webp?v=0.2475_0.5280-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "5022a2c2-ffe5-46ab-82fa-adff4df433be",
+      "slug": "pelamin",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/pelamin/1787657468167-images-s-bersanding-pelamin-mohd-hasan/crop-16x9-og.webp?v=0.9168_0.4979-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/pelamin/1787657468167-images-s-bersanding-pelamin-mohd-hasan/crop-4x3-article-card.webp?v=0.9168_0.4979-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/pelamin/1787657468167-images-s-bersanding-pelamin-mohd-hasan/crop-4x5-mobile-cover.webp?v=0.9168_0.4979-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/pelamin/1787657468167-images-s-bersanding-pelamin-mohd-hasan/crop-4.3x1-desktop-hero.webp?v=0.9168_0.4979-g48c0b959",
+          "width": 2463,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "60d95438-2464-4d2a-adbe-b8a0c57ea9c4",
+      "slug": "pelamin-kahwin-dewan",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/pelamin/1787657468167-images-s-pelamin-putih-shahnazshahizan/crop-16x9-og.webp?v=0.6225_0.5600-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/pelamin/1787657468167-images-s-pelamin-putih-shahnazshahizan/crop-4x3-article-card.webp?v=0.6225_0.5600-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/pelamin/1787657468167-images-s-pelamin-putih-shahnazshahizan/crop-4x5-mobile-cover.webp?v=0.6225_0.5600-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/pelamin/1787657468167-images-s-pelamin-putih-shahnazshahizan/crop-4.3x1-desktop-hero.webp?v=0.6225_0.5600-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "3e8e0403-78e1-4683-b1c8-3d7ee3f7ab37",
+      "slug": "perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan/1787395766407-cover/crop-16x9-og.webp?v=0.5001_0.8458-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan/1787395766407-cover/crop-4x3-article-card.webp?v=0.5001_0.8458-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan/1787395766407-cover/crop-4x5-mobile-cover.webp?v=0.5001_0.8458-g48c0b959",
+          "width": 1366,
+          "height": 1707
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan/1787395766407-cover/crop-4.3x1-desktop-hero.webp?v=0.5001_0.8458-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "545d0dd9-0677-447a-89c1-b3bcd2e53b69",
+      "slug": "perkahwinan-indah-di-laman-fajar-menyinsing-port-dickson",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/perkahwinan-indah-di-laman-fajar-menyinsing-port-dickson/1787396030245-cover/crop-16x9-og.webp?v=0.5001_0.3719-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/perkahwinan-indah-di-laman-fajar-menyinsing-port-dickson/1787396030245-cover/crop-4x3-article-card.webp?v=0.5001_0.3719-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/perkahwinan-indah-di-laman-fajar-menyinsing-port-dickson/1787396030245-cover/crop-4x5-mobile-cover.webp?v=0.5001_0.3719-g48c0b959",
+          "width": 1366,
+          "height": 1707
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/perkahwinan-indah-di-laman-fajar-menyinsing-port-dickson/1787396030245-cover/crop-4.3x1-desktop-hero.webp?v=0.5001_0.3719-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "aae4e49d-1667-49be-bc91-5f3bdef16d78",
+      "slug": "perkahwinan-romantis-di-jen-shangri-la-puteri-harbour",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/perkahwinan-romantis-di-jen-shangri-la-puteri-harbour/1787396127546-cover/crop-16x9-og.webp?v=0.2494_0.5894-g48c0b959",
+          "width": 1024,
+          "height": 538
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/perkahwinan-romantis-di-jen-shangri-la-puteri-harbour/1787396127546-cover/crop-4x3-article-card.webp?v=0.2494_0.5894-g48c0b959",
+          "width": 908,
+          "height": 681
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/perkahwinan-romantis-di-jen-shangri-la-puteri-harbour/1787396127546-cover/crop-4x5-mobile-cover.webp?v=0.2494_0.5894-g48c0b959",
+          "width": 545,
+          "height": 681
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/perkahwinan-romantis-di-jen-shangri-la-puteri-harbour/1787396127546-cover/crop-4.3x1-desktop-hero.webp?v=0.2494_0.5894-g48c0b959",
+          "width": 1024,
+          "height": 291
+        }
+      }
+    },
+    {
+      "id": "a07dec2d-367b-4d9a-abd8-80d676ce9cf3",
+      "slug": "perkahwinan-taman-kebun-yang-minimalis-di-hulu-langat",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/perkahwinan-taman-kebun-yang-minimalis-di-hulu-langat/1787395973700-cover/crop-16x9-og.webp?v=0.5934_0.1500-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/perkahwinan-taman-kebun-yang-minimalis-di-hulu-langat/1787395973700-cover/crop-4x3-article-card.webp?v=0.5934_0.1500-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/perkahwinan-taman-kebun-yang-minimalis-di-hulu-langat/1787395973700-cover/crop-4x5-mobile-cover.webp?v=0.5934_0.1500-g48c0b959",
+          "width": 1366,
+          "height": 1707
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/perkahwinan-taman-kebun-yang-minimalis-di-hulu-langat/1787395973700-cover/crop-4.3x1-desktop-hero.webp?v=0.5934_0.1500-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "969dc8e3-1715-4607-85a7-c629df148783",
+      "slug": "persiapan-hantaran-kahwin",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/persiapan-hantaran-kahwin/1787780683875-images-s-rombongan-hantaran-jalan-azlan-dupree/crop-16x9-og.webp?v=0.6867_0.4980-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/persiapan-hantaran-kahwin/1787780683875-images-s-rombongan-hantaran-jalan-azlan-dupree/crop-4x3-article-card.webp?v=0.6867_0.4980-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/persiapan-hantaran-kahwin/1787780683875-images-s-rombongan-hantaran-jalan-azlan-dupree/crop-4x5-mobile-cover.webp?v=0.6867_0.4980-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/persiapan-hantaran-kahwin/1787780683875-images-s-rombongan-hantaran-jalan-azlan-dupree/crop-4.3x1-desktop-hero.webp?v=0.6867_0.4980-g48c0b959",
+          "width": 2463,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "c11fcb8a-734c-4af5-9eec-0bcc02d0347a",
+      "slug": "rukun-nikah",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/rukun-nikah/1787707482509-images-s-akad-nikah-masjid-azlan-dupree/crop-16x9-og.webp?v=0.1867_0.5580-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/rukun-nikah/1787707482509-images-s-akad-nikah-masjid-azlan-dupree/crop-4x3-article-card.webp?v=0.1867_0.5580-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/rukun-nikah/1787707482509-images-s-akad-nikah-masjid-azlan-dupree/crop-4x5-mobile-cover.webp?v=0.1867_0.5580-g48c0b959",
+          "width": 1843,
+          "height": 2304
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/rukun-nikah/1787707482509-images-s-akad-nikah-masjid-azlan-dupree/crop-4.3x1-desktop-hero.webp?v=0.1867_0.5580-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "027e227c-1543-40ae-b937-aa80a4b806c7",
+      "slug": "sentosa-janda-baik",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/sentosa-janda-baik/1787396879848-cover/crop-16x9-og.webp?v=0.4362_0.8614-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/sentosa-janda-baik/1787396879848-cover/crop-4x3-article-card.webp?v=0.4362_0.8614-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/sentosa-janda-baik/1787396879848-cover/crop-4x5-mobile-cover.webp?v=0.4362_0.8614-g48c0b959",
+          "width": 976,
+          "height": 1220
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/sentosa-janda-baik/1787396879848-cover/crop-4.3x1-desktop-hero.webp?v=0.4362_0.8614-g48c0b959",
+          "width": 1706,
+          "height": 485
+        }
+      }
+    },
+    {
+      "id": "28fbd806-60db-4e53-9ece-294778438e14",
+      "slug": "sewa-dewan-kahwin",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/sewa-dewan-kahwin/1787396701276-cover/crop-16x9-og.webp?v=0.1875_0.5888-g48c0b959",
+          "width": 800,
+          "height": 420
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/sewa-dewan-kahwin/1787396701276-cover/crop-4x3-article-card.webp?v=0.1875_0.5888-g48c0b959",
+          "width": 667,
+          "height": 500
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/sewa-dewan-kahwin/1787396701276-cover/crop-4x5-mobile-cover.webp?v=0.1875_0.5888-g48c0b959",
+          "width": 400,
+          "height": 500
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/sewa-dewan-kahwin/1787396701276-cover/crop-4.3x1-desktop-hero.webp?v=0.1875_0.5888-g48c0b959",
+          "width": 800,
+          "height": 227
+        }
+      }
+    },
+    {
+      "id": "87d191f6-5552-4e39-b575-d29fa1c9ed20",
+      "slug": "sime-darby-convention-centre",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/sime-darby-convention-centre/1787396716550-cover/crop-16x9-og.webp?v=0.8405_0.4368-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/sime-darby-convention-centre/1787396716550-cover/crop-4x3-article-card.webp?v=0.8405_0.4368-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/sime-darby-convention-centre/1787396716550-cover/crop-4x5-mobile-cover.webp?v=0.8405_0.4368-g48c0b959",
+          "width": 1088,
+          "height": 1360
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/sime-darby-convention-centre/1787396716550-cover/crop-4.3x1-desktop-hero.webp?v=0.8405_0.4368-g48c0b959",
+          "width": 1707,
+          "height": 485
+        }
+      }
+    },
+    {
+      "id": "e9beda6c-369e-40d8-922a-4f3c3281e2eb",
+      "slug": "sirih-junjung",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/sirih-junjung/1787680524028-images-s-sirih-junjung-mohd-nasir/crop-16x9-og.webp?v=0.4667_0.2460-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/sirih-junjung/1787680524028-images-s-sirih-junjung-mohd-nasir/crop-4x3-article-card.webp?v=0.4667_0.2460-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/sirih-junjung/1787680524028-images-s-sirih-junjung-mohd-nasir/crop-4x5-mobile-cover.webp?v=0.4667_0.2460-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/sirih-junjung/1787680524028-images-s-sirih-junjung-mohd-nasir/crop-4.3x1-desktop-hero.webp?v=0.4667_0.2460-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "5741b337-6eb9-4937-bd08-95c038c25a73",
+      "slug": "skrip-pengacara-majlis-perkahwinan",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/lafaz-taklik/1787707459685-images-s-tok-kadi-baca-khutbah-mylifestory/crop-16x9-og.webp?v=0.7467_0.3000-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/lafaz-taklik/1787707459685-images-s-tok-kadi-baca-khutbah-mylifestory/crop-4x3-article-card.webp?v=0.7467_0.3000-g48c0b959",
+          "width": 1536,
+          "height": 1152
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/lafaz-taklik/1787707459685-images-s-tok-kadi-baca-khutbah-mylifestory/crop-4x5-mobile-cover.webp?v=0.7467_0.3000-g48c0b959",
+          "width": 1536,
+          "height": 1920
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/lafaz-taklik/1787707459685-images-s-tok-kadi-baca-khutbah-mylifestory/crop-4.3x1-desktop-hero.webp?v=0.7467_0.3000-g48c0b959",
+          "width": 1536,
+          "height": 436
+        }
+      }
+    },
+    {
+      "id": "8d8e9498-a792-411d-89c5-baa4d68f1e9b",
+      "slug": "songket-tenunan-tangan-atau-cetak",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/songket-tenunan-tangan-atau-cetak/1787654687597-images-s-songket-limar-terengganu-daderot/crop-16x9-og.webp?v=0.8101_0.4679-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/songket-tenunan-tangan-atau-cetak/1787654687597-images-s-songket-limar-terengganu-daderot/crop-4x3-article-card.webp?v=0.8101_0.4679-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/songket-tenunan-tangan-atau-cetak/1787654687597-images-s-songket-limar-terengganu-daderot/crop-4x5-mobile-cover.webp?v=0.8101_0.4679-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/songket-tenunan-tangan-atau-cetak/1787654687597-images-s-songket-limar-terengganu-daderot/crop-4.3x1-desktop-hero.webp?v=0.8101_0.4679-g48c0b959",
+          "width": 2463,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "afe75eec-6961-41f6-ae23-cd485b75eb48",
+      "slug": "syarat-sah-nikah",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/syarat-sah-nikah/1787707508568-images-s-akad-tok-kadi-raja-abd-kadir/crop-16x9-og.webp?v=0.5287_0.2187-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/syarat-sah-nikah/1787707508568-images-s-akad-tok-kadi-raja-abd-kadir/crop-4x3-article-card.webp?v=0.5287_0.2187-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/syarat-sah-nikah/1787707508568-images-s-akad-tok-kadi-raja-abd-kadir/crop-4x5-mobile-cover.webp?v=0.5287_0.2187-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/syarat-sah-nikah/1787707508568-images-s-akad-tok-kadi-raja-abd-kadir/crop-4.3x1-desktop-hero.webp?v=0.5287_0.2187-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "4916bdcf-c183-473a-b96a-115d3d7d0350",
+      "slug": "taaruf-maksud",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/taaruf-maksud/1787707624259-images-s-pasangan-baju-oren-azman-aziz/crop-16x9-og.webp?v=0.0833_0.1560-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/taaruf-maksud/1787707624259-images-s-pasangan-baju-oren-azman-aziz/crop-4x3-article-card.webp?v=0.0833_0.1560-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/taaruf-maksud/1787707624259-images-s-pasangan-baju-oren-azman-aziz/crop-4x5-mobile-cover.webp?v=0.0833_0.1560-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/taaruf-maksud/1787707624259-images-s-pasangan-baju-oren-azman-aziz/crop-4.3x1-desktop-hero.webp?v=0.0833_0.1560-g48c0b959",
+          "width": 2463,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "40781e50-ecfd-4b24-b513-3714269f2262",
+      "slug": "tempat-beli-hantaran",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/tempat-beli-hantaran/1787780709236-images-s-dulang-buah-hantaran-mohd-hasan/crop-16x9-og.webp?v=0.2475_0.6561-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/tempat-beli-hantaran/1787780709236-images-s-dulang-buah-hantaran-mohd-hasan/crop-4x3-article-card.webp?v=0.2475_0.6561-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/tempat-beli-hantaran/1787780709236-images-s-dulang-buah-hantaran-mohd-hasan/crop-4x5-mobile-cover.webp?v=0.2475_0.6561-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/tempat-beli-hantaran/1787780709236-images-s-dulang-buah-hantaran-mohd-hasan/crop-4.3x1-desktop-hero.webp?v=0.2475_0.6561-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "3dcdff4c-d262-4333-8a75-4f826a207918",
+      "slug": "tempat-honeymoon-di-malaysia",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/tempat-honeymoon-di-malaysia/1787395659226-cover/crop-16x9-og.webp?v=0.3750_0.7440-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/tempat-honeymoon-di-malaysia/1787395659226-cover/crop-4x3-article-card.webp?v=0.3750_0.7440-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/tempat-honeymoon-di-malaysia/1787395659226-cover/crop-4x5-mobile-cover.webp?v=0.3750_0.7440-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/tempat-honeymoon-di-malaysia/1787395659226-cover/crop-4.3x1-desktop-hero.webp?v=0.3750_0.7440-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "664a50c2-823b-4874-93ae-96d9f6b133a3",
+      "slug": "the-danna-langkawi",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/the-danna-langkawi/1787397136563-cover/crop-16x9-og.webp?v=0.4687_0.4677-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/the-danna-langkawi/1787397136563-cover/crop-4x3-article-card.webp?v=0.4687_0.4677-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/the-danna-langkawi/1787397136563-cover/crop-4x5-mobile-cover.webp?v=0.4687_0.4677-g48c0b959",
+          "width": 1016,
+          "height": 1270
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/the-danna-langkawi/1787397136563-cover/crop-4.3x1-desktop-hero.webp?v=0.4687_0.4677-g48c0b959",
+          "width": 1707,
+          "height": 485
+        }
+      }
+    },
+    {
+      "id": "bb77c483-5e41-4ba5-b665-c8d042bd3be9",
+      "slug": "ucapan-pengantin-baru",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/ucapan-pengantin-baru/1787707708864-images-s-tetamu-tiba-majlis-ahmad-ali-karim/crop-16x9-og.webp?v=0.6234_0.1860-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/ucapan-pengantin-baru/1787707708864-images-s-tetamu-tiba-majlis-ahmad-ali-karim/crop-4x3-article-card.webp?v=0.6234_0.1860-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/ucapan-pengantin-baru/1787707708864-images-s-tetamu-tiba-majlis-ahmad-ali-karim/crop-4x5-mobile-cover.webp?v=0.6234_0.1860-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/ucapan-pengantin-baru/1787707708864-images-s-tetamu-tiba-majlis-ahmad-ali-karim/crop-4.3x1-desktop-hero.webp?v=0.6234_0.1860-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "70b8f405-7a70-4285-bced-0f49d844db9d",
+      "slug": "villa-warisan",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/villa-warisan/1787397271336-cover/crop-16x9-og.webp?v=0.4688_0.6528-g48c0b959",
+          "width": 800,
+          "height": 420
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/villa-warisan/1787397271336-cover/crop-4x3-article-card.webp?v=0.4688_0.6528-g48c0b959",
+          "width": 667,
+          "height": 500
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/villa-warisan/1787397271336-cover/crop-4x5-mobile-cover.webp?v=0.4688_0.6528-g48c0b959",
+          "width": 400,
+          "height": 500
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/villa-warisan/1787397271336-cover/crop-4.3x1-desktop-hero.webp?v=0.4688_0.6528-g48c0b959",
+          "width": 800,
+          "height": 227
+        }
+      }
+    },
+    {
+      "id": "86a6960c-3592-4f3a-b422-da8a01b973ae",
+      "slug": "walimatul-urus",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/walimatul-urus/1787680552936-images-s-jamuan-kenduri-raja-abd-kadir/crop-16x9-og.webp?v=0.5925_0.8107-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/walimatul-urus/1787680552936-images-s-jamuan-kenduri-raja-abd-kadir/crop-4x3-article-card.webp?v=0.5925_0.8107-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/walimatul-urus/1787680552936-images-s-jamuan-kenduri-raja-abd-kadir/crop-4x5-mobile-cover.webp?v=0.5925_0.8107-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/walimatul-urus/1787680552936-images-s-jamuan-kenduri-raja-abd-kadir/crop-4.3x1-desktop-hero.webp?v=0.5925_0.8107-g48c0b959",
+          "width": 2464,
+          "height": 700
+        }
+      }
+    },
+    {
+      "id": "bb99d840-a6b5-4410-96ae-1b7488c3f8c1",
+      "slug": "wedding-planner-terbaik-di-malaysia",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/wedding-planner-terbaik-di-malaysia/1787395692821-cover/crop-16x9-og.webp?v=0.7813_0.4992-g48c0b959",
+          "width": 800,
+          "height": 420
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/wedding-planner-terbaik-di-malaysia/1787395692821-cover/crop-4x3-article-card.webp?v=0.7813_0.4992-g48c0b959",
+          "width": 667,
+          "height": 500
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/wedding-planner-terbaik-di-malaysia/1787395692821-cover/crop-4x5-mobile-cover.webp?v=0.7813_0.4992-g48c0b959",
+          "width": 400,
+          "height": 500
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/wedding-planner-terbaik-di-malaysia/1787395692821-cover/crop-4.3x1-desktop-hero.webp?v=0.7813_0.4992-g48c0b959",
+          "width": 800,
+          "height": 227
+        }
+      }
+    },
+    {
+      "id": "1bca2be0-c0f4-4fd3-9a99-04888ab0cebb",
+      "slug": "yasaka-shrine",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/yasaka-shrine/1787396198396-cover/crop-16x9-og.webp?v=0.5313_0.6208-g48c0b959",
+          "width": 800,
+          "height": 420
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/yasaka-shrine/1787396198396-cover/crop-4x3-article-card.webp?v=0.5313_0.6208-g48c0b959",
+          "width": 667,
+          "height": 500
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/yasaka-shrine/1787396198396-cover/crop-4x5-mobile-cover.webp?v=0.5313_0.6208-g48c0b959",
+          "width": 400,
+          "height": 500
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/yasaka-shrine/1787396198396-cover/crop-4.3x1-desktop-hero.webp?v=0.5313_0.6208-g48c0b959",
+          "width": 800,
+          "height": 227
+        }
+      }
+    }
+  ]
+}
