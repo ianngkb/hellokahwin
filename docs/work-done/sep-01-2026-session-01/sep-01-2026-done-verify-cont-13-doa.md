@@ -87,12 +87,52 @@ pages, in the server-rendered HTML only:
 | The Yusuf-and-Zulaikha doa is ruled against | `Yusuf dan Zulaikha` ×4 on `ucapan-ulang-tahun-perkahwinan` |
 | Al-Kafi #1686 — *"aku terima"* alone does not marry you | in the article title, its own H2, and the opening paragraph of `lafaz-akad-nikah` |
 
-⚠ **Counting method matters and these numbers are not portable.** A raw string
-count over the whole HTML of a Next.js page double-counts, because the RSC
-flight payload repeats the body. The writer reported ×10 and ×2 where this seat
-counts ×4 and ×1 — **neither is wrong; they count different things.** Any count
-quoted as evidence must state whether it covers the server HTML only or the full
-document, and none of these should be read as a measure of prominence.
+⚠ **Counting method matters — but the first version of this note got the reason
+wrong, and the correction is the more useful finding.**
+
+This seat originally wrote that the writer's counts and its own differed by
+denominator, that the ratio "is not a clean 2x", and that the two sets were
+therefore not convertible. **The writer re-measured instead of accepting it, and
+two of those three claims were wrong.** Measured across three denominators on
+the saved live pages:
+
+| needle | full response | server HTML | visible text | full/server | full/visible |
+|---|---|---|---|---|---|
+| `amalan sahabat` | 8 | 4 | 4 | 2.00× | 2.00× |
+| `sunnah Nabi` | 22 | 11 | 6 | 2.00× | 3.67× |
+| `munkar` | 41 | 20 | 9 | 2.05× | 4.56× |
+| `Yusuf dan Zulaikha` | 10 | 5 | 4 | 2.00× | 2.50× |
+| `maka tidak berlaku pernikahan tersebut` | 2 | 1 | 1 | 2.00× | 2.00× |
+
+**1. Full against server-only IS a clean 2× in every row.** Those two
+denominators convert exactly, so the original "not convertible" claim is false
+for the pair it named. The ratio that genuinely wanders is **full against
+visible text, 2.00×–4.56×** — and this seat's numbers were visible text
+(tag-stripped and entity-decoded), not the server HTML it described itself as
+counting. **The method was misreported by its own author.**
+
+**2. One row had a different cause entirely.** The `munkar` comparison was
+invalid: the writer's figure counted `adalah hadis yang munkar`; this seat's
+counted bare `munkar`. **Different strings, so no denominator reconciles them.**
+
+**The real rule, and it is broader than the original:** a count is evidence only
+if it states **both the needle and the denominator**. And none of these numbers
+measures prominence — `munkar` at 41 is not four times more prominent than
+`Yusuf dan Zulaikha` at 10; different pages, different string lengths.
+
+**The process lesson is the one this company keeps re-learning** (decisions 163
+and 182): a confirmed fault licenses re-checking the neighbours, it never
+licenses concluding about them. One real cause was found and then generalised
+across five rows; two rows had a different or additional cause. **The seat that
+enforces "verify the check first" failed to apply it to its own check**, and was
+caught by the writer it had been correcting.
+
+**Consequence in code, and it is correct:** for a *retraction* check the right
+denominator is the **entire response including the flight payload**, because a
+retracted claim left in the payload or in `FAQPage` is still shipped — counting
+visible text alone would return a comforting zero over a phrase still in the
+document. That is the caption/structured-data finding of section 2, expressed as
+a measurement choice rather than as prose.
 
 **Placement condition on `lafaz akad nikah`: TRUE on the live page, measured.**
 `rukun-nikah` links out to the new page and does **not** restate the ijab/qabul
@@ -427,6 +467,16 @@ an UNDO naming the slug first — both correct. **A clearance must name what it
 covers and what it does not**, and a verification seat that clears a text should
 say in the same message whether the surrounding article is cleared. That is this
 seat's failure to fix, not the writer's.
+
+**A sixth, and it is this seat's own error, caught by the writer.** A wrong
+general rule about counting on Next.js pages nearly went into this log as a
+finding: that server-vs-full counts "are not convertible". They convert at
+exactly 2×. The seat had compared two figures that were measuring **different
+strings** (`munkar` against `adalah hadis yang munkar`), inferred a denominator
+cause, generalised it across five rows, and misdescribed its own method while
+doing so. **The writer re-measured rather than accepting the correction from the
+seat that had been correcting him**, which is the behaviour this arrangement is
+supposed to produce and the reason it works. Corrected in section 1.
 
 **A fifth thing, found only because the live page was re-checked twice:**
 **captions and body text update through different paths.** The republish that
