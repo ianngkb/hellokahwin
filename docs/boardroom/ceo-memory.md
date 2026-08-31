@@ -812,6 +812,42 @@ personas and reported them as landed.
 
 ## SEO defects open on the live site (26 Aug 2026)
 
+- **🟢 SUPERSEDED 01 Sept by SEO-13 — DO NOT QUOTE A NUMBER FROM THIS SECTION.
+  RUN THE CENSUS.**
+
+  ```
+  node scripts/seo/faq-schema-census.mjs        # site repo, walks the live sitemap
+  ```
+
+  It exits **0** when every article emits `FAQPage` or is a reasoned
+  not-applicable, **1** on any absence or invalid block, **2** when a URL could
+  not be fetched — because a transient fetch failure is not an absence, and the
+  brief for SEO-13 quoted `46 / 39 / 1 failed` when the truth was `47 / 39 / 0`.
+
+  **Live at 2026-08-31T18:27:39Z, after deploy `82ca795`: 88 articles, 74 emit,
+  0 absent, 14 reasoned not-applicable, 327 questions.** SEO-13's 24 new
+  `Soalan lazim` blocks, its emitter fix for `apa-itu-mas-kahwin`, and the
+  not-applicable register are in
+  `docs/work-done/sep-01-2026-session-01/sep-01-2026-done-seo-13-faq-schema-coverage.md`.
+
+  Every hand count in this section has gone stale within days while the corpus
+  grew 69 → 85 → 86 → 88. `31` was wrong, `29` was right on the day, `46` was one
+  short. **The figure is now something you run, not something you quote.**
+
+  **The `bajet-kahwin` / `checklist-kahwin` detector bug below recurred on
+  01 Sept, on the same two slugs, from the same `/soalan lazim/i`-over-JSON
+  shortcut** — because the diagnosis lived here as a sentence rather than as a
+  function. It is now one exported `hasFaqBlockHeading()` in
+  `src/lib/inspire/faq-schema.ts` with the JAIS-citation fixture as a unit test.
+
+  **The "price FAQ at zero for Google Search" ruling below still stands and
+  SEO-13 does not change it.** SEO-13's brief was written as though the rich
+  result were live; it is not, and the item must not be booked as SERP real
+  estate. What it bought is 120 pairs of visible reader-facing content and a
+  runnable count.
+
+  The original closure, kept for the record:
+
 - **🟢 CLOSED 28 Aug by SEO-10 — every article carrying a Soalan lazim block now
   emits `FAQPage`, and the count was 29, not 31.** The emitter is
   `src/lib/inspire/faq-schema.ts`, shipped to production in `ae4a654` at
