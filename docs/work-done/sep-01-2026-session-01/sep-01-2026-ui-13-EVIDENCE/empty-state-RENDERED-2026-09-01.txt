@@ -1,0 +1,39 @@
+UI-13 — H6.5(4) `.s-empty`, RENDERED AND LOOKED AT. 01 September 2026.
+
+H6.5(4): "with zero published articles it renders `.s-empty` (§8), not the
+blank page §7.4 records shipping." The branch is unreachable on a corpus of 90,
+so it was FORCED and rendered rather than shipped unseen — the same objection
+that parked H3 applies to any state nobody has looked at.
+
+HOW: `selectHomeSet(latestArticles)` was temporarily replaced with
+`selectHomeSet([] as typeof latestArticles)`, built, served, measured, and the
+probe REVERTED. Nothing was written to any database.
+
+  probe BUILD_ID:   NvJkxXsMILfvXK9xE4o9_   (thrown away; NOT the shipped build)
+  cache state:      local `next start`, no CDN
+  http status:      200
+
+THE BLOCK, AS SERVED:
+
+  <section class="pt-6 lg:pt-10"><div class="s-pad mx-auto max-w-3xl"><div 
+  class="s-empty"><span class="s-h2">Belum ada artikel.</span><p class="s-body" 
+  style="color:var(--fg-muted);max-width:none">Kandungan akan datang tidak lama 
+  lagi — jumpa lagi!</p></div></div></section>
+
+ENUMERATED — what IS there, not a test for what was assumed:
+        1 class="s-body"
+        1 class="s-empty"
+        1 class="s-h2"
+
+NEGATIVE CONTROLS — a state is also what it does NOT contain:
+  Terkini heading      0   expected 0 (no rows)
+  Lihat semua artikel  0   expected 0
+  /artikel/x/y links   0   expected 0
+  Tiada gambar plate   0   expected 0 (no hero at all)
+  border-dashed        0   expected 0 — the bespoke sixth
+                           visual language DES-07 3.5 forbids is gone
+
+OPEN, NOT CLOSED HERE: this state renders no <h1>. §9.1 assigns the homepage's
+h1 to the hero headline and there is no hero; `.s-empty`'s heading is a
+<span class="s-h2">. That was true of the bespoke block this replaces too, so
+the swap neither creates nor fixes it. Same hole as H3. Creative Director's.

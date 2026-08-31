@@ -221,7 +221,17 @@ export interface HomeSelection<T> {
    * corpus carries a class O or class P cover; see the H3 note on `select`.
    */
   heroEligible: boolean;
-  /** H6.5(4). `'empty'` → `.s-empty`; `'h3'` → the no-hero variant; else H1. */
+  /**
+   * H6.5(4). `'empty'` → `.s-empty` (§8), which `page.tsx` renders with DES-05's
+   * `EmptyState`; `'h3'` → the no-hero variant; else H1.
+   *
+   * ⚠️ `'h3'` IS COMPUTED AND NOT RENDERED. Parked by the Creative Director on
+   * 01 September 2026 and owned by them: H3 has no markup in DES-03, and the
+   * variant needs either N < 4 or zero class-O/P covers in the whole corpus, so
+   * it is unreachable today. Building an unreachable page variant nobody can
+   * look at is how untested markup ships. `page.tsx` carries the full ruling
+   * beside the branch it would go in. Do not widen it here.
+   */
   variant: 'h1' | 'h3' | 'empty';
   /** `ceil(N/3)` at the FINAL N, which is the cap `check-h6.sh` recomputes. */
   cap: number;

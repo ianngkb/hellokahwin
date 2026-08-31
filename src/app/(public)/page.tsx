@@ -8,6 +8,7 @@ import { media } from '@/lib/db/schema/media';
 import { resolveRowThumbSource } from '@/lib/storage/responsive-cover';
 import { resolveHeroCrops } from '@/lib/inspire/hero-frame';
 import { selectHomeSet } from '@/lib/inspire/home-selection';
+import { EmptyState } from '@/design-system/components';
 import '@/design-system/tokens.css';
 import '@/design-system/components.css';
 
@@ -122,24 +123,37 @@ const getHomeData = unstable_cache(
       // `buffered(x)`: a recency window cannot even be asked the question the
       // fallback ladder depends on.
       //
-      // AND RANKS 14-20 WOULD NOT HAVE RESCUED IT. Measured against production
-      // on 01 Sept 2026 (`scripts/measure/measure-h6-pool.mjs`): ranks 14-20
-      // are SEVEN MORE `hantaran-mas-kahwin` and add ZERO new categories, so
-      // the 20-row buffer's capacity was 9, not 13. The old shape did not merely
-      // lack a guarantee; it failed on the corpus it was running against.
+      // AND RANKS 14–20 WOULD NOT HAVE RESCUED IT. Measured against production
+      // on 01 Sept 2026 (`scripts/measure/measure-h6-pool.mjs`): ranks 14–20
+      // are SEVEN MORE `hantaran-mas-kahwin` and add ZERO new categories.
       //
-      // So the pool is the published corpus. Measured the same day: 90 rows,
-      // and the serialized entry is 230,176 B (224.8 KiB) against the 20-row
-      // entry's 55,842 B — 4.12x, and two orders of magnitude inside Vercel's
-      // Data Cache per-entry ceiling. 43% of those bytes are
-      // `cover_image_smart_crops`. If that stops being true, the shape to take
-      // is a light ranking query over the corpus plus a hydrate query for the
-      // chosen ids — not a narrower pool, which is the defect this replaces.
+      // Measured TWICE that day, two hours and two publications apart — 90 rows
+      // then 92 — and the buffer's capacity was 9 then 11, against a required 13
+      // both times. The gap is structural rather than a bad afternoon: a recency
+      // window over a corpus that is 41% `hantaran-mas-kahwin` fills with
+      // `hantaran-mas-kahwin`. The old shape did not merely lack a guarantee, it
+      // failed on the corpus it was running against.
+      //
+      // So the pool is the published corpus. Serialized entry at 92 rows:
+      // 235,542 B (230.0 KiB) against the 20-row entry's 55,612 B — 4.24x, and
+      // about 2,560 B per row, so the ~1.5 MB point where the two-query shape
+      // (a light ranking query + a hydrate query for the chosen ids) would earn
+      // its keep sits near 590 articles. 43.2% of those bytes are
+      // `cover_image_smart_crops`. Re-run the script before trusting this
+      // paragraph — it is a number about a corpus, not about the table.
       //
       // The secondary tiebreak is for reproducibility, not for selection:
       // `selectHomeSet` re-ranks in JS (H6.4), so SQL order decides nothing
-      // here, but 24 of these rows share one `publishedAt` and an unordered tie
-      // makes the cached payload's bytes differ run to run for no reason.
+      // here, but rows DO share a `publishedAt` (measured: 84 distinct values
+      // over 92 rows, largest tie x7) and an unordered tie makes the cached
+      // payload's bytes differ run to run for no reason.
+      //
+      // ⚠️ NOT 24. DES-03 §7.5 says "24 articles carry one identical timestamp
+      // and 19 carry another", measured off the SITEMAP — and `sitemap.ts`
+      // builds `<lastmod>` from `updatedAt`, not `publishedAt`. Those are edit
+      // batches. H6.4 clause (1) ranks on `publishedAt`, where the largest tie
+      // is 7. The tie-break clauses are still load-bearing; the magnitude in
+      // the spec is about a different column.
       .orderBy(desc(articles.publishedAt), asc(articles.slug));
 
     return { latestArticles };
@@ -197,14 +211,27 @@ export default async function HomePage() {
   // plate instead of a photograph in the wrong shape. A broken plate is worse
   // than no plate.
   //
-  // ⚠️ DES-03's H-namespace table calls that case H3, "the no-hero variant …
-  // the homepage opens on rows rather than enlarging a frame §6 disqualifies",
-  // and H6.5(4) sends N < 4 to the same variant. H3 has no markup anywhere in
+  // ⚠️ H3 IS COMPUTED HERE AND DELIBERATELY NOT RENDERED. PARKED BY THE
+  // CREATIVE DIRECTOR, 01 SEPTEMBER 2026, AND THEY OWN IT.
+  //
+  // DES-03's H-namespace table calls that case H3, "the no-hero variant … the
+  // homepage opens on rows rather than enlarging a frame §6 disqualifies", and
+  // H6.5(4) sends N < 4 to the same variant. H3 has no markup anywhere in
   // DES-03 — §5.3 rules that it exists and draws only H1 — and with no hero
-  // headline the page has no h1, which §9.1 assigns to the hero. So H3 is
-  // COMPUTED here (`homeSet.variant`) and NOT rendered: raised to the Creative
-  // Director as an unspecified clause rather than invented. Neither branch is
-  // reachable on today's corpus (48 of 89 covers pass R8; capacity 47 vs 13).
+  // headline the page has no h1, which §9.1 assigns to the hero. UI-13 raised
+  // that rather than inventing a layout for it.
+  //
+  // The ruling: compute `homeSet.variant`, do not render H3. It needs either
+  // N < 4 or zero class-O/P covers in the WHOLE corpus, so on 90 published
+  // articles (48 hero-eligible, capacity 47 against a required 13) it is
+  // unreachable — and building an unreachable page variant nobody can look at
+  // is how untested markup ships. Recorded as an open finding in this item's
+  // work-done entry, parked with a reason.
+  //
+  // ⚠️ DO NOT QUIETLY WIDEN THIS. Rendering H3 is a Creative Director decision
+  // with a design attached, not a gap for the next reader to close. If you
+  // reach for it, the switch is one branch on `homeSet.variant` — but get the
+  // markup ruled on first, including where the page's h1 goes without a hero.
   const heroCrops =
     hero && homeSet.heroEligible ? resolveHeroCrops(hero.coverImageSmartCrops) : null;
   const rest = homeSet.items.slice(1);
@@ -439,10 +466,38 @@ export default async function HomePage() {
             </Link>
           </article>
         ) : (
-          <div className="s-pad border-border mx-4 border border-dashed p-12 text-center">
-            <p className="s-deck mx-auto">
-              Belum ada artikel. Kandungan akan datang tidak lama lagi — jumpa lagi!
-            </p>
+          /* H6.5(4), verbatim: "with zero published articles it renders
+             `.s-empty` (§8), not the blank page §7.4 records shipping." That is
+             a clause of the rule this item implements, so it is built here and
+             not left to a neighbouring one.
+
+             `EmptyState` from `@/design-system/components` IS `.s-empty` —
+             DES-05's component, already carrying five other states (E1–E5,
+             K3/K6/A4). What stood here was a bespoke `border-dashed` box: a
+             SIXTH visual language for a state DES-05 had already drawn, which
+             is the exact failure DES-07 rule 3.5 names. Nothing about the
+             component is restyled and no copy is invented — the existing Malay
+             sentence is split at its own full stop into the heading and body
+             the component asks for.
+
+             `size="h2"` because this block stands where the hero stands, the
+             page-scale slot, not a row. No `action`: the component's optional
+             one takes an `onClick`, and this is a Server Component with nothing
+             for a reader to press here.
+
+             ⚠️ THIS PAGE HAS NO h1 IN THIS STATE, and it did not before either
+             — §9.1 assigns the homepage's h1 to the hero headline and there is
+             no hero. `.s-empty`'s heading is a `<span class="s-h2">`, so the
+             swap neither creates nor fixes that. Raised alongside H3, which has
+             the same hole; not closed here, because closing it means either
+             forking a shared component or inventing a heading level for a state
+             DES-03 draws without one. */
+          <div className="s-pad mx-auto max-w-3xl">
+            <EmptyState
+              size="h2"
+              heading="Belum ada artikel."
+              body="Kandungan akan datang tidak lama lagi — jumpa lagi!"
+            />
           </div>
         )}
       </section>

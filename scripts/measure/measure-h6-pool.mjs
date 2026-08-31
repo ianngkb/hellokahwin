@@ -1,25 +1,83 @@
 #!/usr/bin/env node
 /**
- * measure-h6-pool.mjs — UI-13. The two numbers the build note asks for, taken
- * off the database rather than asserted.
+ * measure-h6-pool.mjs — is the homepage's candidate pool big enough for H6, and
+ * what does it cost to cache?
  *
- *   1. The serialized byte size of the widened `unstable_cache` entry for
- *      `hk-home-v5`, against Vercel's Data Cache per-entry ceiling.
- *   2. Whether ranks 14–20 by `publishedAt` would have rescued the old
- *      `.limit(20)` — i.e. whether the 20-row buffer could have satisfied H6.1
- *      at N=13 by accident.
+ * WHY THIS EXISTS. DES-03 §7.5 H6.1 lets a candidate pool contribute at most
+ * `min(count(c), cap)` items per category, so the SIZE of the pool decides
+ * whether H6 is satisfiable at all — independently of how well the selection is
+ * written. UI-13 found the front page failing H6 for two reasons and only one
+ * of them was the ordering; the other was `.limit(20)`, and a perfect selection
+ * over a too-narrow pool fails INVISIBLY, by truncating to a shorter homepage
+ * that `check-h6.sh` then passes at the shorter N. This script is what makes
+ * that half measurable instead of arguable.
+ *
+ *   node scripts/measure/measure-h6-pool.mjs
+ *
+ * Exit 0 with four blocks printed; exit 3 if `.env` carries no DATABASE_URL.
+ * There is no pass/fail verdict here — `check-h6.sh` is the gate, this is the
+ * instrument that says whether a failure is the build or the corpus.
+ *
+ * WHAT IT PRINTS, AND WHAT EACH NUMBER MEANS WHEN IT IS SMALL:
+ *
+ *   1. The serialized `unstable_cache` entry for `hk-home-v5`, whole corpus vs
+ *      the old 20 rows, and the per-column breakdown. Against Vercel's Data
+ *      Cache per-entry ceiling. A number in the low hundreds of KiB means the
+ *      whole-corpus pool is affordable and the two-query fallback (a light
+ *      ranking query + a hydrate query for chosen ids) is not needed.
+ *   2. Capacity — `Σ min(count(c), cap)` — for ranks 1–13, ranks 1–20 and the
+ *      whole corpus, with the categories enumerated. Capacity BELOW the
+ *      required N is the finding: it says H6 could not have been satisfied from
+ *      that pool no matter how the selection was written.
+ *   3. The real `publishedAt` tie distribution, which is what H6.4's rank
+ *      clauses (2)–(4) exist for. ⚠️ DO NOT read this off the sitemap instead:
+ *      `src/app/sitemap.ts` builds `<lastmod>` from `updatedAt`, so sitemap tie
+ *      counts measure edit batches and say nothing about `publishedAt`.
+ *   4. How many rows carry a null `media.width`/`height` and where they sit by
+ *      recency. `hero-frame.ts` R8(c) treats unknown as hero-INELIGIBLE, so a
+ *      pool deep enough to reach them starts excluding real hero candidates.
+ *
+ * ⚠️ A ZERO OR AN EMPTY CATEGORY LIST IS A CLAIM ABOUT THIS SCRIPT, NOT ABOUT
+ * THE SITE, until the query is checked. Block 2 enumerates every category it
+ * found rather than testing for ones it expects, because a count of something
+ * you assumed is there can only ever return a number about your assumption.
+ * If a block looks empty, run the SELECT below by hand before reporting it.
  *
  * READ-ONLY. Every statement here is a SELECT; there is no write path in this
  * file. It is pointed at PRODUCTION on purpose, because the local database is
- * not a copy of it — measured 01 Sept 2026, local serves 3 masthead categories
+ * NOT a copy of it — measured 01 Sept 2026, local serves 3 masthead categories
  * where production serves 9 — so a byte measurement taken locally is a
  * measurement of the wrong corpus.
- *
- *   node scripts/measure/measure-h6-pool.mjs
  *
  * DATABASE_URL comes from `.env` (the production session pooler). `.env.local`
  * overrides it in Next but is not read here; the host is printed so the reader
  * can see which database produced the numbers.
+ *
+ * ⚠️ THE SELECT BELOW MIRRORS `getHomeData` IN `src/app/(public)/page.tsx`
+ * COLUMN FOR COLUMN. Change that query and this measurement is stale — the byte
+ * size in particular is a number about a specific column list, not about the
+ * table.
+ *
+ * RUN LOG — a measurement belongs to a corpus, not to a script. The corpus
+ * moved twice while UI-13 was being built, which is itself part of the finding:
+ * these runs are two hours and two publications apart and they agree.
+ *
+ *   01 Sept 2026 (UI-13), run A · 90 published rows across 15 categories
+ *     entry 230,176 B whole corpus vs 55,842 B at 20 rows (4.12x).
+ *     Ranks 1–20 capacity 9 against a required 13.
+ *     82 distinct `publishedAt` over 90 rows, largest tie x7.
+ *     26 null `media.width`/`height` at recency ranks 62–90.
+ *
+ *   01 Sept 2026 (UI-13), run B · 92 published rows across 15 categories
+ *     entry 235,542 B vs 55,612 B (4.24x) — about 2,560 B per row, so the
+ *     ~1.5 MB point where a two-query shape earns its keep is near 590
+ *     articles. 43.2% of the bytes are `cover_image_smart_crops` in both runs.
+ *     Ranks 1–20 capacity 11 against a required 13 — STILL not satisfiable,
+ *     and ranks 14–20 STILL add zero categories (seven more
+ *     `hantaran-mas-kahwin`, which is 41% of the corpus).
+ *     84 distinct `publishedAt` over 92 rows, largest tie x7.
+ *     Output committed at docs/work-done/sep-01-2026-session-01/
+ *     sep-01-2026-ui-13-EVIDENCE/measure-h6-pool-2026-09-01.txt (run B)
  */
 import { readFileSync } from 'node:fs';
 import postgres from 'postgres';
