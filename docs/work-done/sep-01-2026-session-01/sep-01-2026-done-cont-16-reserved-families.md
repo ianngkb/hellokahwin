@@ -124,6 +124,44 @@ source: https://hellokahwin.com/artikel/pelamin-kad-cenderahati/contoh-kad-jempu
   daftar ayat                  12
 ```
 
+**And the artefact is real body text, not a heading with nothing under it.** Both
+live pages return `HTTP/1.1 200 OK`, `X-Vercel-Cache: MISS`, `Age: 0` on a first
+request. The card page's artefact block, quoted from live HTML between
+`<h2 id="tiga-daftar-ayat-jemputan-dengan-contoh">` and the next `<h2>` — 14 text
+lines, first and last:
+
+```
+first | Tiga daftar ayat jemputan, dengan contoh
+ ...  | Formal
+      | Dengan penuh kesyukuran, kami menjemput Dato' / Datin / Tuan / Puan /
+      | Encik / Cik sekeluarga ke majlis perkahwinan anakanda kami.
+      | Ringkas
+      | Dengan segala hormatnya, kami menjemput tuan dan puan sekeluarga ke
+      | majlis perkahwinan anak kami.
+      | Moden
+      | Kami menjemput anda meraikan hari perkahwinan kami bersama keluarga kami.
+ last | , iaitu kenduri perkahwinan mengikut Kamus Dewan Edisi Keempat. Ia tepat
+      | dan sesuai dicetak. Perkataan itu merujuk jamuan yang diadakan untuk
+      | memaklumkan perkahwinan kepada orang ramai.
+```
+
+**⚠ The first extraction of that block was wrong, and it was wrong in the
+flattering direction.** Searching the page for `Tiga daftar ayat jemputan` and
+slicing forward returned four lines — the heading and the three register names
+with *nothing between them* — which reads as "the page has empty headings", the
+convenient answer for an item that wanted the family to be free. It was the
+**table of contents** at byte 24,438. The body is at byte 30,514. Enumerating
+**all four** occurrences (TOC, body, and twice more inside the Next.js RSC
+payload) is what separated them. Same failure shape as the twelve the company has
+tabulated: a check that returned a number about my assumption rather than about
+the page. Recorded because it nearly became the evidence.
+
+Incidental finding for whoever owns **UI-18** ("the in-article TOC — 0 of 85"):
+this page serves a real, linked, nested TOC at byte 24,438
+(`<li><a href="#tiga-daftar-ayat-jemputan-dengan-contoh">…`). Whatever the 0-of-85
+count measured, it was not the presence of TOC markup on this URL. Not this item's
+to chase — flagged, not investigated.
+
 This is **test 3** of the selection gate — "not already owned by a sibling page on
 the same parent topic", rule 4 of the cluster method. It is stated in prose in
 CONT-13's brief, it is inherited verbatim by CONT-16, and it did not fire, because
@@ -349,6 +387,13 @@ put in an evidence field. It is already ours, and a second page there is
 cannibalisation. **The DoD's own sentence — "STOPS and reports rather than
 substituting a different family" — is what made stopping the correct answer instead
 of a failure to try harder.**
+
+And one more, smaller and closer: **"the live page has empty headings"** — a
+four-line extraction that would have made the card family look free. It was the
+table of contents. What caught it was enumerating all four occurrences of the
+heading string instead of slicing forward from the first one. A search-and-slice
+on a Next.js page reads the TOC, the body and the RSC payload as the same text,
+and only one of them is the article.
 
 ---
 
