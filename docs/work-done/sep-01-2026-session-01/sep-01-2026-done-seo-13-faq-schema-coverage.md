@@ -274,7 +274,19 @@ infrastructure:
 18:49:05 429
 ```
 
-Both sweeps died on their first URL. The block outlasted the session.
+Both sweeps died on their first URL, and the block was still in place **21
+minutes later**, polled once a minute throughout:
+
+```
+18:43:34 429   18:52:06 429   19:01:29 429
+18:49:05 429   18:54:07 429   19:04:30 429
+```
+
+**Open follow-up, and it is small:** re-run
+`node scripts/seo/faq-validate-schemaorg.mjs <census.json> --delay 9000` once,
+from an unblocked address, to take the external sample from 30 URLs to all of
+them. Nothing depends on it — the in-house conformance check now gates every
+run — so it is an audit to schedule, not a gap to close.
 
 This is the same shape as SEO-05's six-wide title sweep on 26 Aug: **a concurrent
 sweep manufactured the very contention it was trying to measure.** I have that
