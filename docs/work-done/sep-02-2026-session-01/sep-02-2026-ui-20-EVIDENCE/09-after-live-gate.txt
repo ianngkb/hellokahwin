@@ -1,0 +1,65 @@
+SOURCE: https://hellokahwin.com
+
+[PASS] 1a. /favicon.ico is a real multi-size ICO
+  GET /favicon.ico -> 200 image/vnd.microsoft.icon 15086 bytes
+    entries: 16x16@32bpp, 32x32@32bpp, 48x48@32bpp
+
+[PASS] 1b. /icon.svg is served as image/svg+xml
+  GET /icon.svg -> 200 image/svg+xml 685 bytes
+    2 glyph paths, ground #edeae1, mark #16130f
+
+[PASS] 3. apple-touch-icon is at least 180x180
+  GET /apple-icon.png -> 200 image/png 1967 bytes
+    180x180 png
+
+[PASS] 4. homepage carries icon, shortcut icon and apple-touch-icon
+  GET https://hellokahwin.com/ -> 200
+    5 icon <link> tags:
+      <link rel="shortcut icon" href="/favicon.ico"/>
+      <link rel="icon" href="/icon.svg" type="image/svg+xml"/>
+      <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" type="image/x-icon"/>
+      <link rel="icon" href="/favicon.png" sizes="48x48" type="image/png"/>
+      <link rel="apple-touch-icon" href="/apple-icon.png" sizes="180x180" type="image/png"/>
+
+[PASS] 5. no unreferenced icon asset is still served
+  GET /favicon-32.png -> 404
+    referenced by the homepage: false
+
+[PASS] 2. raster favicon is drawn from the shipped palette
+  /favicon.png 48x48: 2304 opaque px, 91 distinct colours
+    dominant           #edeae1  1935/2304 (84.0%)
+    exact #b4326e     0 px
+    pink band h270-355 s>=0.2  0 px
+    max distance off the ink..parchment ramp  1.03/255
+
+[PASS] 6. both glyphs of HK are legible and separated at 16px
+  favicon.ico 16x16 entry: 16x16
+      |                |
+      |                |
+      |                |
+      |                |
+      | ==::==  :--.-: |
+      | +#..%=  .@..*. |
+      | =#  %-   @ *   |
+      | =%::%-   @*+   |
+      | =%--%-   @#%   |
+      | =#  %-   @ %+  |
+      | +#..%=  .@.:@: |
+      | ==::==  :--:-- |
+      |                |
+      |                |
+      |                |
+      |                |
+      colmax 0.02 0.56 0.86 0.38 0.38 0.90 0.48 0.00 0.00 0.23 0.96 0.72 0.93 0.97 0.37 0.02
+      ink column groups: 1-6, 9-14
+      clear ground columns between the glyphs: 2
+      edge columns: left 0.02  right 0.02
+      H stems at columns 2 and 5, counter 3-4
+      H band rows 4-11, crossbar searched in rows 6-9
+      H crossbar (best middle row spanning the counter) 0.38   emptiest counter row 0.00
+      K right-edge swing across rows: 2 px
+      darkest rendered pixel vs ground: 11.08:1
+
+7/7 checks passed.
+FAVICON GATE EXIT: 0
+after-live gate exit: 0
