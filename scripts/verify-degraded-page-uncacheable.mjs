@@ -125,6 +125,14 @@ const routeSrc = path.join(ROOT, 'src/app/(public)/artikel/[category]/page.tsx')
 const routeSha = existsSync(routeSrc)
   ? createHash('sha256').update(readFileSync(routeSrc)).digest('hex').slice(0, 12)
   : '(missing)';
+// The route's declared ceiling, read from the route rather than restated here.
+// `next start` does NOT enforce it, which is the whole reason this has to be
+// asserted explicitly — see assertion C.
+const declaredMaxDuration = existsSync(routeSrc)
+  ? readFileSync(routeSrc, 'utf8').match(/^export const maxDuration = (\d+);$/m)
+  : null;
+const MAX_DURATION_MS = declaredMaxDuration ? Number(declaredMaxDuration[1]) * 1_000 : null;
+
 const buildId = existsSync(path.join(ROOT, '.next/BUILD_ID'))
   ? readFileSync(path.join(ROOT, '.next/BUILD_ID'), 'utf8').trim()
   : '(no .next/BUILD_ID)';
@@ -135,6 +143,9 @@ console.log(
 console.log(`route source sha  ${routeSha}   src/app/(public)/artikel/[category]/page.tsx`);
 console.log(
   `route variant     ${/readForCacheablePage/.test(existsSync(routeSrc) ? readFileSync(routeSrc, 'utf8') : '') ? 'FIXED (readForCacheablePage)' : 'PRE-FIX (soft-fail catch)'}`,
+);
+console.log(
+  `route maxDuration ${MAX_DURATION_MS === null ? '(not declared — assertion C will fail)' : `${MAX_DURATION_MS}ms`}`,
 );
 console.log(`.next/BUILD_ID    ${buildId}`);
 console.log(`base              ${BASE}`);
@@ -414,6 +425,45 @@ assert(
   recovered.empty === 0,
   `the recovered page carries NO empty-state marker (${recovered.emptyCounts.map(([n, c]) => `${n}x${c}`).join(' ')}) — so those markers really do discriminate`,
 );
+
+// ── C — THE ASSERTION THIS SCRIPT SHIPPED WITHOUT, AND SHOULD NOT HAVE ────
+//
+// `next start` does not enforce `maxDuration`. Vercel does. So a failure path
+// measured here can be one this script watched work perfectly and that
+// production will never reach — the function is killed first, and the throw,
+// the log and the error document all belong to a request that no longer
+// exists.
+//
+// That is not a hypothetical either. This script reported
+// `PLAT16 VERDICT: PASS` on a fix whose stalled request took 7,704ms against
+// a declared ceiling of 5,000ms. Every assertion above was true and the
+// conclusion drawn from them was not, because none of them knew there WAS a
+// ceiling. Reviewers found it; the instrument had no opinion.
+//
+// A LOCAL MEASUREMENT OF A FAILURE PATH IS ONLY EVIDENCE ABOUT PRODUCTION IF
+// IT FITS INSIDE THE BUDGET PRODUCTION ENFORCES. Assert the ceiling, or the
+// green tick is about the wrong machine.
+if (MAX_DURATION_MS === null) {
+  assert(
+    'C',
+    false,
+    'could not read `export const maxDuration` from the route — cannot tell whether the ' +
+      'measured failure path fits inside the ceiling Vercel enforces',
+  );
+} else {
+  const slowest = Math.max(stalled1.ms, stalled2.ms);
+  assert(
+    'C',
+    slowest < MAX_DURATION_MS,
+    slowest < MAX_DURATION_MS
+      ? `the stalled request finished in ${slowest}ms, inside the route's declared ` +
+          `maxDuration of ${MAX_DURATION_MS}ms — so the throw above is one production reaches`
+      : `the stalled request took ${slowest}ms against a declared maxDuration of ` +
+          `${MAX_DURATION_MS}ms. Vercel kills the function first, so NEITHER the throw NOR its ` +
+          'log ever runs in production and everything asserted above describes a response no ' +
+          'reader receives. `next start` does not enforce maxDuration; this line does.',
+  );
+}
 
 console.log('────────────────────────────────────────────────────────────');
 if (failures.length > 0) {
