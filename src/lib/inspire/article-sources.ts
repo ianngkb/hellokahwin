@@ -28,25 +28,41 @@ import { nodeText } from './heading-anchors';
  * those citations in the rail; it does not create them.
  *
  * ─────────────────────────────────────────────────────────────────────────────
- * THE CORPUS, MEASURED RATHER THAN ASSUMED — 01 Sep 2026
+ * THE CORPUS — RE-MEASURE IT, DO NOT READ IT HERE
  * ─────────────────────────────────────────────────────────────────────────────
  *
- * All 86 article URLs in `sitemap.xml` were fetched and counted. `Sumber:`
- * appears on **34 of 86**; **52 carry none at all**. The distribution:
+ * `pnpm ui:sources` (`scripts/audit-article-sources.mjs`) is where this number
+ * lives now. It moved out of this comment because the comment was already
+ * wrong within a day of being written.
  *
- *     citations   0   1   2   3   4   5   6   7  11
- *     articles   52  14   8   6   1   2   1   1   1
+ * On 01 Sep 2026 this file said `Sumber:` appears on **34 of 86** articles and
+ * 52 carry none. On 02 Sep 2026 the corpus was **92**, and the figure that
+ * actually matters — how many articles render a `Sumber` block in the rail —
+ * was **13 of 92**, with 79 rendering none. Neither reading was wrong when it
+ * was taken. A corpus figure in prose cannot be re-measured by the person
+ * reading it, and this one had already sent one census looking for the wrong
+ * thing.
  *
- * (Counted on the served response and halved: a Next.js page carries its markup
- * TWICE in the bytes — once in the stream, once in the flight payload — so a
- * raw text count over the response is exactly double. One of the 86 fetches
- * failed on a TCP stall and is recorded as 0; the true figure is 34 or 35.)
+ * The shape of the fact is stable and is what this file is built around: MOST
+ * articles carry no liftable citation, so on most articles the rail renders
+ * Rekod and the contents and no `Sumber` heading, because there is nothing
+ * true to put under one. An empty `Sumber` heading would assert that an
+ * article is sourced when it is not, which is worse than the absence.
+ * `scripts/ui-layout-gate.mjs` check 16 (`sumber-empty`) fails a build that
+ * prints one, against the committed fixture `2026-09-02-rail/
+ * sourced-sumber-empty.html`.
  *
- * That is the fact the `Sumber` block has to live with, and it is a CONTENT
- * gap owned by the editorial seat, not a layout gap: on 52 articles the rail
- * renders Rekod and the contents and no `Sumber` heading, because there is
- * nothing true to put under one. An empty `Sumber` heading would assert that
- * an article is sourced when it is not, which is worse than the absence.
+ * ⚠ AND THE RULE BELOW SEES HALF THE SOURCED CORPUS. Measured 02 Sep 2026,
+ * 13 articles carry a standalone `Sumber:` paragraph — which is what this
+ * function lifts — and a DISJOINT 13 carry an `<h2 id="sumber">Sumber</h2>`
+ * section in the body with a full reference list under it and NOTHING in the
+ * rail. No article uses both conventions. So 26 of 92 articles are sourced and
+ * the rail speaks for exactly half of them. Widening this function to harvest
+ * that second convention is a design decision with a real cost — those entries
+ * are full bibliographic references and a rail child lays out in 268px — and it
+ * changes what "where sources exist" means in the CEO ruling, so it is raised
+ * as a finding by UI-19 rather than taken here. `pnpm ui:sources` prints the
+ * 13 slugs.
  *
  * ─────────────────────────────────────────────────────────────────────────────
  * WHY ONLY PARAGRAPHS THAT *BEGIN* WITH `Sumber:`
