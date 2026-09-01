@@ -183,11 +183,39 @@ export function resolveRowThumbSource(
  * This is a computed condition, never a slug list: the day someone re-uploads a
  * bigger source for `yasaka-shrine`, the cap lifts by itself.
  *
- * ── FALLBACK ORDER, AND WHY `low` IS STILL LAST RATHER THAN GONE ───────────
- *   1. `crop-4x3-article-card-md`  792x594, 12,346–100,990 B  <- the rendition
- *   2. `crop-4x3-article-card`     the full crop, 111 KB–1.4 MB
- *   3. `low`                       R2-failing, and the ONLY thing that renders
+ * ── FALLBACK ORDER, AND THE 12.5x CLIFF THAT USED TO BE RUNG 2 ─────────────
+ *   1. `crop-4x3-article-card-md`  792x594,  12,346–100,990 B  <- the rendition
+ *   2. `crop-4x3-article-card-sm`  528x396,   7,636– 46,130 B  <- DES-18's rung
+ *   3. `crop-4x3-article-card`     the full crop,  111 KB–1.4 MB
+ *   4. `low`                       R2-failing, and the ONLY thing that renders
  *                                  a cover uploaded before any crop exists
+ *
+ * ⚠ **RUNG 2 IS HERE BECAUSE OF A LIVE REGRESSION, NOT BECAUSE IT IS TIDY.**
+ * The first version of this function fell straight from rung 1 to rung 3, on the
+ * reasoning that a heavy-but-correct file beats a wrongly-shaped one for the few
+ * minutes between a deploy and a backfill. Measured on production 02 September
+ * 2026, hours after this shipped: **six articles, 4,742,962 B of cover, a mean
+ * of 790 KB on the LCP element**, against 378,182 B of `low` for the same six —
+ * **12.5x heavier than the code this item replaced.** That is the +8.2 MB route
+ * `card-thumbnail-image-rules` §4 priced and refused, reached as a FALLBACK
+ * rather than chosen.
+ *
+ * Every rule stayed green while it happened, and that is the part worth keeping:
+ * the box is 4:3 and the file is 4:3 so `image-aspect` reads 0; it is a
+ * downscale so `image-upscale` reads 0; it IS a named crop so `shaped-slot-
+ * variant` passes. **A pure byte defect has no rule behind it, so no rule can
+ * see it** — which is why `scripts/audit-cover-rendition.mjs` now carries a byte
+ * ceiling as well as a URL comparison.
+ *
+ * `-sm` is only 528px, so on its own it would upscale 1.43x in this slot's 756px
+ * box. It does not, because the caller caps the figure to the asset's stored
+ * width: the plate narrows to 528 CSS px and R1, R2, R5 and R6 all stay green at
+ * **22,906 B** instead of 790,000. A narrower photograph for the minutes a cover
+ * is un-backfilled is a trade this site has already made — UI-03 §3, "a taller
+ * plate is not worth the heaviest available asset on a phone".
+ *
+ * Rung 3 survives for the one case rung 2 cannot serve: a cover carrying the
+ * full crop and neither rendition.
  *
  * Rung 2 is not decoration: a cover ingested between a deploy and a backfill
  * has the crop and not the rendition, and serving the heavy-but-correct file
@@ -219,10 +247,14 @@ export function resolveArticleCoverSource(
   smartCrops: unknown,
   fallbackUrl: string | null,
 ): ArticleCoverSource | null {
-  // Both rungs are 4:3 and both carry STORED dimensions, so either satisfies R2
-  // and R6. `getSmartCropRef` returns all three fields or nothing, which is what
-  // keeps an asserted intrinsic size out of the `width`/`height` attributes.
-  for (const name of [ARTICLE_COVER_MD.NAME, ARTICLE_COVER_MD.SOURCE_NAME]) {
+  // Every rung is 4:3 and every one carries STORED dimensions, so each satisfies
+  // R2 and R6. `getSmartCropRef` returns all three fields or nothing, which is
+  // what keeps an asserted intrinsic size out of the `width`/`height` attributes.
+  //
+  // Ordered LARGEST-THAT-IS-STILL-BUDGETED first, not simply largest. The
+  // difference is rung 2, and it is worth 768,000 bytes an article — see the
+  // note above.
+  for (const name of [ARTICLE_COVER_MD.NAME, MIDSIZE_COVER.NAME, ARTICLE_COVER_MD.SOURCE_NAME]) {
     const ref = getSmartCropRef(smartCrops, name);
     if (ref) {
       return {
