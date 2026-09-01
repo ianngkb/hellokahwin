@@ -69,8 +69,6 @@ jobs:
         with:
           node-version: '20'
       - uses: pnpm/action-setup@v4
-        with:
-          version: 10
       - run: pnpm install --frozen-lockfile
 
       # `set -o pipefail` is load-bearing, not tidiness. Without it the step's
@@ -128,8 +126,6 @@ jobs:
         with:
           node-version: '20'
       - uses: pnpm/action-setup@v4
-        with:
-          version: 10
       - run: pnpm install --frozen-lockfile
 
       - name: Every article in the sitemap, present-iff-two-h2 and every anchor resolved
