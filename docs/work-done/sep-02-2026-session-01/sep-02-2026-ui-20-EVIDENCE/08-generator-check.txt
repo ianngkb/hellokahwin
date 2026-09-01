@@ -1,0 +1,10 @@
+ok    public/icon.svg          685 bytes  sha256:ed194658558c
+ok    public/favicon.ico       15086 bytes  sha256:582da7245307
+ok    public/apple-icon.png    1967 bytes  sha256:954fd7d5d7cc
+ok    public/favicon.png       635 bytes  sha256:5dd8b9c07f55
+
+ground #edeae1 (--hk-parchment-100)   mark #16130f (--hk-ink-900)
+mark ink box 3282x1500 of 3434x1800, 2.188:1, at 0.88 of the tile
+
+GENERATE EXIT: 0
+generator --check exit: 0

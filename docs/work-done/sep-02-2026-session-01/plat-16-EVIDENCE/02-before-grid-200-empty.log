@@ -1,0 +1,38 @@
+################ SLUG=idea-dan-nasihat ################
+LOOPBACK ASSERTION OK  host=127.0.0.1 port=5433 db=hklocal
+── FINGERPRINT ─────────────────────────────────────────────
+git HEAD          9b0502b  (8 files dirty)
+route source sha  525b7817096f   src/app/(public)/artikel/[category]/page.tsx
+route variant     PRE-FIX (soft-fail catch)
+.next/BUILD_ID    0AGGUS9nU17ed809rQLK5
+base              http://127.0.0.1:3216
+target            /artikel/idea-dan-nasihat
+────────────────────────────────────────────────────────────
+SERVING BUILD OK  /_next/static/0AGGUS9nU17ed809rQLK5/_buildManifest.js -> 200
+
+── PHASE 1: articles table locked ACCESS EXCLUSIVE ─────────
+lock held; every SELECT touching `articles` now blocks.
+[stalled #1  ] HTTP 200   3075ms    36336B  pillar-emptyx0  grid-emptyx2  error-pagex0  article-hrefx0
+               Cache-Control:             private, no-cache, no-store, max-age=0, must-revalidate
+               Vercel-CDN-Cache-Control:  public, s-maxage=300, stale-while-revalidate=600
+[stalled #2  ] HTTP 200   3030ms    36379B  pillar-emptyx0  grid-emptyx2  error-pagex0  article-hrefx0
+               Cache-Control:             private, no-cache, no-store, max-age=0, must-revalidate
+               Vercel-CDN-Cache-Control:  public, s-maxage=300, stale-while-revalidate=600
+lock released (transaction rolled back).
+
+── PHASE 2: lock released, DB healthy ──────────────────────
+[recovered   ] HTTP 200     71ms    57460B  pillar-emptyx0  grid-emptyx0  error-pagex0  article-hrefx15
+               Cache-Control:             private, no-cache, no-store, max-age=0, must-revalidate
+               Vercel-CDN-Cache-Control:  public, s-maxage=300, stale-while-revalidate=600
+
+── ASSERTIONS ──────────────────────────────────────────────
+FAIL  A  a stalled content read produced HTTP 200 carrying an empty state (grid-empty) — and the response is served with Vercel-CDN-Cache-Control: public, s-maxage=300, stale-while-revalidate=600, so the edge keeps that answer
+PASS  A2  the second stalled request behaved like the first (HTTP 200 -> 200), i.e. nothing pinned a copy
+PASS  B1  the request after recovery is HTTP 200
+PASS  B2  the recovered page carries 15 /artikel/{cat}/{slug} links
+PASS  B3  the recovered page carries NO empty-state marker (pillar-emptyx0 grid-emptyx0) — so those markers really do discriminate
+────────────────────────────────────────────────────────────
+PLAT16 VERDICT: FAIL (1)
+  - A: a stalled content read produced HTTP 200 carrying an empty state (grid-empty) — and the response is served with Vercel-CDN-Cache-Control: public, s-maxage=300, stale-while-revalidate=600, so the edge keeps that answer
+PLAT16 EXIT: 1
+SCRIPT EXIT: 1

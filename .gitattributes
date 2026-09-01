@@ -14,3 +14,11 @@ tests/ui-layout-gate/fixtures/** -text
 # shebang ending in CR fails with "bad interpreter" — a blocking gate that is
 # present, executable and cannot run.
 scripts/**/*.sh text eol=lf
+
+# UI-20. `scripts/generate-brand-icons.mjs --check` is a byte comparison
+# between what the monogram + tokens generate and what is committed. With
+# core.autocrlf=true a Windows checkout would hand it an icon.svg full of CRLF
+# while the generator emits LF, and the drift gate would report the icon set
+# stale on every Windows machine for a reason that has nothing to do with the
+# icon. Same class of failure as the two rules above.
+public/icon.svg text eol=lf

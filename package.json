@@ -41,7 +41,13 @@
     "ui:rail": "node scripts/measure-article-rail.mjs",
     "backfill:midsize": "tsx scripts/backfill-midsize-cover.mts",
     "audit:rendition": "node scripts/audit-cover-rendition.mjs",
-    "measure:cold": "tsx scripts/measure-cold-render.mts"
+    "measure:cold": "tsx scripts/measure-cold-render.mts",
+    "brand:icons": "node scripts/generate-brand-icons.mjs",
+    "brand:icons:check": "node scripts/generate-brand-icons.mjs --check",
+    "audit:favicon": "node scripts/audit-favicon.mjs",
+    "audit:favicon:local": "node scripts/audit-favicon.mjs --local",
+    "audit:favicon:selftest": "node scripts/audit-favicon.mjs --selftest",
+    "verify:degraded": "node scripts/verify-degraded-page-uncacheable.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-rekognition": "^3.996.0",
@@ -119,9 +125,10 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
-      "sharp",
       "@tailwindcss/oxide",
       "esbuild",
+      "msw",
+      "sharp",
       "unrs-resolver"
     ]
   }
