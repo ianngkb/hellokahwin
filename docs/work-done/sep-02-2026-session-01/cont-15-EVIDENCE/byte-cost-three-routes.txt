@@ -1,0 +1,22 @@
+slug                                        low        -md    full 4x3   delta low->md
+apa-itu-mas-kahwin                        38670      18682      452186   -19988
+baju-pengantin-sewa-atau-beli            143496      29714      543488   -113782
+cara-buat-kad-kahwin-digital              34682      16392      447484   -18290
+contoh-kad-jemputan-kahwin                37266      19818      127646   -17448
+doa-malam-pertama                         77982      40022      824448   -37960
+doa-pembuka-majlis                        31246      15612      474964   -15634
+doa-selamat-majlis                        31246      15612      474964   -15634
+dulang-hantaran                           41276      14788      568652   -26488
+hantaran-tempah-atau-buat-sendiri         57650      28616      647354   -29034
+hantaran-tunang                           54814      26042      499856   -28772
+hantaran-tunang-3-balas-5                 76700      20900      467610   -55800
+mas-kahwin-melebihi-kadar-minimum         67770      28026      552098   -39744
+mas-kahwin-pahang-negeri-sembilan        252352      70096      948188   -182256
+nisbah-hantaran                           57650      28616      647354   -29034
+skrip-pengacara-majlis-perkahwinan        38834      13812      419774   -25022
+syarat-wali-nikah                         30604      12346      362920   -18258
+tempat-beli-hantaran                      54814      26042      499856   -28772
+
+n=17  low total 1127052 B  -md total 425136 B  full-4x3 total 8958842 B
+per article: low 66297 B -> -md 25008 B  = -41289 B
+the FORBIDDEN route (full crop) would have been 460694 B per article, 7.83179 MB across these 17

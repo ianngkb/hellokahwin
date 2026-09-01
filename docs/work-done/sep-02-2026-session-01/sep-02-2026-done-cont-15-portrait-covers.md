@@ -155,6 +155,36 @@ match what got built.
 
 ---
 
+## 4b. The byte cost per affected article, measured rather than quoted
+
+The brief asks for this number and forbids one particular way of getting it.
+All three routes, priced by `HEAD` content-length against the 17 affected covers
+on production, 02 September 2026:
+
+| route | per affected article | across the 17 |
+|---|---|---|
+| **CONT-15 as shipped** | **0 B** | **0 B** |
+| UI-16's `crop-4x3-article-card-md` (what actually shipped) | **&minus;41,289 B** | 1,127,052 &rarr; 425,136 B |
+| substituting `crop-4x3-article-card` — **the forbidden route** | **+460,694 B** | **+7.83 MB** |
+
+**CONT-15's own change is 0 B because it touches nothing that reaches a
+browser.** The PR is 19 files and **zero of them are under `src/`** — two
+scripts, two undo files, the work-done entry and its evidence, plus a
+devDependency. It cannot change a pixel, which is also why it is safe to land on
+top of UI-16's shipped direction.
+
+**The route that shipped is a byte saving, not a cost.** The 4:3 rendition is
+roughly a third of the `low` it replaced: 66,297 B &rarr; 25,008 B on average, and
+252,352 B &rarr; 70,096 B on the worst case
+(`mas-kahwin-pahang-negeri-sembilan`).
+
+**And the forbidden route re-prices at +7.83 MB**, on a corpus that has grown
+since UI-12 measured it. That independently reproduces UI-12's **+8.2 MB**
+verdict from different files and a different count, which is the strongest form
+a carried number can take: not quoted, re-derived, and it held.
+
+---
+
 ## 5. What shipped — PR #69 into `master`
 
 ### `scripts/audit-crop-depiction.mjs` — the contact sheet
