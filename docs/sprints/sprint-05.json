@@ -1,9 +1,9 @@
 {
   "id": 5,
   "name": "Build where the click is",
-  "state": "planned",
+  "state": "in_progress",
   "planned_at": "2026-09-01",
-  "started_at": null,
+  "started_at": "2026-09-01",
   "ended_at": null,
   "governance": "A sprint is a BODY OF WORK, not a duration. It ends when every item is done and the owner has reviewed them, however long that takes. Completeness beats fitting a point budget. Every item is presented to the owner as CLAIM + EVIDENCE + LIVE LINK. DONE MEANS SHIPPED - an item is not done until the owner can look at the result. A definition of done is never narrowed after the sprint starts; an item that turns out bigger stays open, gets parked with a reason, or carries forward. OWNER DECISION 01 Sept 2026: full scope approved, nothing cut - the FOURTH consecutive sprint in which the CEO flagged items and the owner kept every one. CONCURRENCY IS THE DEFAULT (owner directive 31 Aug): every item without a hard dependency is dispatched at once, one worktree per concurrent item; running two items in sequence is a decision that must be justified out loud naming the dependency.",
   "points": 81,
@@ -164,7 +164,15 @@
       "why": "The one documented, accepted exception at Sprint 04's close. UI-12 fixed 25 upscale and 31 aspect violations and left exactly one: a portrait cover no existing crop can fix without spending 4.2x the bytes on an 80x60 thumbnail. The agent refused and the CEO verified its costing independently. 12 of 86 articles reproduce the same shape.",
       "dod": "Every article cover satisfies UI-06's aspect and upscale rules at thumbnail size on live production - the gate reports 0 violations sitewide, with the pre-fix count pasted beside it. DO NOT solve it by substituting an existing crop: UI-12 priced that at +8.2MB across the homepage and that route is FORBIDDEN here. The byte cost of whatever route is taken is measured and stated per affected article. The affected article count is re-derived at run time, not taken as 12.",
       "brief": "Depends on DES-18 for the likely route - a mid-size variant is what makes a real landscape crop affordable. If DES-18's gate finds the byte ceilings have lapsed, this item gets easier; if DES-18 stalls, say so and hold rather than reaching for the forbidden substitution. Read UI-12's work-done entry and its costing before proposing anything - the refusal in it was correct and its arithmetic is the baseline.",
-      "evidence": []
+      "evidence": [
+        {
+          "at": "2026-08-31T17:31:15.648Z",
+          "link": null,
+          "actor": "SYSTEM",
+          "claim": "Parked as a DUPLICATE, not abandoned - the work runs in Sprint 05 under the same key.",
+          "proof": "CEO error at Sprint 05 planning, 01 Sept: the sprint was seeded with 'sprint import' which CREATED new rows, instead of drawing these existing backlog rows in with 'sprint plan <KEY> --sprint 5'. Item keys are unique PER SCOPE, so the backlog row and the sprint row coexist as two records of one job. The Sprint 05 row is the one to read - it carries the full DoD, the brief and the planning corrections; this row is a stub. Not merged into it, because a colliding write is exactly the defect PLAT-18 exists to fix and the CEO is not going to demonstrate it while filing it."
+        }
+      ]
     },
     {
       "id": "SEO-13",
@@ -245,7 +253,15 @@
       "why": "RE-MEASURED 01 Sept 2026 rather than carried: git ls-tree origin/master -- scripts/git-hooks returns 0 files; the same path on origin/feat/command-centre-dashboard returns 7. So the documented install path names a script that does not exist on the branch a clone lands on. RISK-09's guard is real and installed across 15 existing site trees, but it is unreachable for anyone starting fresh - and the hazard it guards (one git checkout swapping the company record for the site source, same repo, same root commit 3a1fbe09) is exactly what a newcomer is most likely to trigger.",
       "dod": "From a THROWAWAY FRESH CLONE of the site repo at master, the documented install command runs and succeeds, and scripts/git-hooks/install-hooks.sh --check exits 0 - transcript pasted from the throwaway clone, not from an existing tree. The guard then REFUSES a cross-space checkout in that clone and PERMITS an in-space one, both quoted (RISK-09's 22-case harness is the model - refusals and negative controls both). git ls-tree -r --name-only origin/master -- scripts/git-hooks returns a non-zero file count, pasted.",
       "brief": "The blocker is not the copy - it is a decision RISK-09 deliberately left open: where verify-guard.sh's docs-space FIXTURE comes from when the docs branch is not checked out. Read 'The remaining gap' in the RISK-09 work-done entry (docs/work-done/aug-30-2026-session-01/aug-31-2026-done-risk-09-boundary-guard.md) - the step-by-step is there. Decide the fixture question explicitly and write down what you decided; do not ship a script that silently skips its own check when the fixture is missing. DO NOT CLASSIFY A BRANCH BY ITS NAME: docs/plat-10-11-12 is site source and feat/command-centre-dashboard is docs. The guard reads tree content (next.config.ts) and so must anything you write.",
-      "evidence": []
+      "evidence": [
+        {
+          "at": "2026-08-31T17:30:55.236Z",
+          "link": null,
+          "actor": "SYSTEM",
+          "claim": "Parked as a DUPLICATE, not abandoned - the work runs in Sprint 05 under the same key.",
+          "proof": "CEO error at Sprint 05 planning, 01 Sept: the sprint was seeded with 'sprint import' which CREATED new rows, instead of drawing these existing backlog rows in with 'sprint plan <KEY> --sprint 5'. Item keys are unique PER SCOPE, so the backlog row and the sprint row coexist as two records of one job. The Sprint 05 row is the one to read - it carries the full DoD, the brief and the planning corrections; this row is a stub. Not merged into it, because a colliding write is exactly the defect PLAT-18 exists to fix and the CEO is not going to demonstrate it while filing it."
+        }
+      ]
     },
     {
       "id": "PLAT-13",
@@ -260,7 +276,15 @@
       "why": "Carried forward and getting worse with every gate the company ships. The watcher wakes the CEO on outcome-shaped milestones, but this sprint adds at least four new scripts that print exit codes and HTTP statuses (UI-13's enumerator, UI-18's TOC census, SEO-13's schema sweep, RISK-10's guard harness). PLAT-07 already fixed one generation of this - the watcher used to fire on the word 'refusing:' in ordinary prose, on a stack trace the agent then resolved, and on the exit code of a probe working as designed: three false wakes in one day and never once on a completion. A watcher that fires on text an agent happens to type is noise, and noise is how a real signal gets ignored.",
       "dod": "The watcher distinguishes an ITEM's completion from a TOOL's, proved by the self-test rather than by reasoning: bash watch-agent.sh --self-test exits 0, and the suite is EXTENDED with the new false-wake cases this sprint's scripts produce (a nested script printing its own 'EXIT: 0', a curl status line inside a sweep, a gate reporting non-zero as its designed outcome) alongside the ten real outcomes that must still fire. Both halves are asserted - the run exits non-zero if either the false cases wake it or the real cases do not. The new cases are REAL LINES captured from this sprint's runs, not invented ones.",
       "brief": "The convention is the contract: a script whose finish should wake the CEO prints 'NAME EXIT: <n>' at the START of a line, and a bare 'exit code 1' in prose deliberately wakes nobody. If the fix is to tighten the matcher, prove it offline with --self-test BEFORE trusting it - that harness exists precisely because reasoning about this matcher has been wrong before. Capture the new false-wake lines from actual Sprint 05 terminal output; the eight cases already in the suite are real lines and that is what makes them worth anything.",
-      "evidence": []
+      "evidence": [
+        {
+          "at": "2026-08-31T17:30:59.190Z",
+          "link": null,
+          "actor": "SYSTEM",
+          "claim": "Parked as a DUPLICATE, not abandoned - the work runs in Sprint 05 under the same key.",
+          "proof": "CEO error at Sprint 05 planning, 01 Sept: the sprint was seeded with 'sprint import' which CREATED new rows, instead of drawing these existing backlog rows in with 'sprint plan <KEY> --sprint 5'. Item keys are unique PER SCOPE, so the backlog row and the sprint row coexist as two records of one job. The Sprint 05 row is the one to read - it carries the full DoD, the brief and the planning corrections; this row is a stub. Not merged into it, because a colliding write is exactly the defect PLAT-18 exists to fix and the CEO is not going to demonstrate it while filing it."
+        }
+      ]
     },
     {
       "id": "PLAT-14",
@@ -277,7 +301,15 @@
       "why": "FILED AT THE OWNER'S REQUEST IN SPRINT 03 AND STILL NOT DONE - deferred twice. Sprint 04's idle was only 7% so the pressure came off, which the retro named as exactly how this gets deferred again. The measurement it would provide is the one the company cannot currently take: Sprint 03 ran 6h56m active against 25h39m elapsed, and the two largest gaps were both the CEO - DES-08 waited 10h05m at a review gate the CEO itself demanded. Without a waiting_on_ceo state, CEO latency is invisible in every velocity figure we quote.",
       "dod": "Each sprint item carries a timestamped transition history including a distinct waiting_on_ceo state, readable from the tracker for any item by a stated command. A report over Sprint 05 prints, per item, time in each state and the total time in waiting_on_ceo, and the sprint-level total is quoted in the /endsprint retro. Proved on real Sprint 05 data, not on a fixture - at least one item must show a non-zero waiting_on_ceo interval, and if none does that is stated as the finding. The state is added to the tracker's allowed set deliberately (the item-state constraint in packages/db/src/repositories/sprints.ts plus the DB CHECK), not smuggled in as free text.",
       "brief": "Item states are constrained to todo, in_progress, blocked, done, parked at both the repository layer and the DB CHECK - adding one is a code change PLUS a migration, and that is a deliberate decision to take at implementation time, not at 01:00 during a dispatch. Decide whether waiting_on_ceo is a new STATE or an attribute of blocked, and write down why. buddy's date columns are KL calendar days - use klToday()/klWallClock, never toISOString(), or every overnight transition is stamped yesterday.",
-      "evidence": []
+      "evidence": [
+        {
+          "at": "2026-08-31T17:31:03.219Z",
+          "link": null,
+          "actor": "SYSTEM",
+          "claim": "Parked as a DUPLICATE, not abandoned - the work runs in Sprint 05 under the same key.",
+          "proof": "CEO error at Sprint 05 planning, 01 Sept: the sprint was seeded with 'sprint import' which CREATED new rows, instead of drawing these existing backlog rows in with 'sprint plan <KEY> --sprint 5'. Item keys are unique PER SCOPE, so the backlog row and the sprint row coexist as two records of one job. The Sprint 05 row is the one to read - it carries the full DoD, the brief and the planning corrections; this row is a stub. Not merged into it, because a colliding write is exactly the defect PLAT-18 exists to fix and the CEO is not going to demonstrate it while filing it."
+        }
+      ]
     },
     {
       "id": "PLAT-17",
@@ -293,7 +325,15 @@
       "why": "The bare name creative-director resolves to a social-VIDEO persona in a fresh worktree, because a fresh worktree has no .claude/agents/ and the name falls through to the global org chart. On 31 Aug a video producer was ONE DISPATCH from a CSS grid bug. The workaround used all sprint - hand-copying six personas into eleven worktrees - is not durable, and this sprint dispatches into a comparable number of trees. The CEO withdrew its own proposed cut of this item in Sprint 04 planning on the grounds that 'always type the full path' is a PROSE RULE, and Sprint 03's central finding is that prose rules do not fire. Two points to make a trap structurally impossible beats a rule the CEO has to remember.",
       "dod": "Dispatching by the bare name creative-director into a FRESH worktree resolves the HelloKahwin design persona, or fails loudly - it never silently resolves the video persona. Proved in a throwaway worktree: run the resolution, grep the loaded persona's description, and paste it; then show the negative control (the video persona is reachable under a distinct unambiguous name and still resolves correctly for its own use). Not proved by reading configuration - by dispatching and reading back which persona loaded.",
       "brief": "This item was RECOVERED after being destroyed by a key collision - which is PLAT-18's defect, in this sprint. Coordinate: if PLAT-18 lands first the recovery risk is gone. Renaming a persona has blast radius across every brief that names it - grep for the bare name across skillcentral/ and the hellokahwin docs before choosing a rename over a scoping fix, and state what you found.",
-      "evidence": []
+      "evidence": [
+        {
+          "at": "2026-08-31T17:31:07.215Z",
+          "link": null,
+          "actor": "SYSTEM",
+          "claim": "Parked as a DUPLICATE, not abandoned - the work runs in Sprint 05 under the same key.",
+          "proof": "CEO error at Sprint 05 planning, 01 Sept: the sprint was seeded with 'sprint import' which CREATED new rows, instead of drawing these existing backlog rows in with 'sprint plan <KEY> --sprint 5'. Item keys are unique PER SCOPE, so the backlog row and the sprint row coexist as two records of one job. The Sprint 05 row is the one to read - it carries the full DoD, the brief and the planning corrections; this row is a stub. Not merged into it, because a colliding write is exactly the defect PLAT-18 exists to fix and the CEO is not going to demonstrate it while filing it."
+        }
+      ]
     },
     {
       "id": "PLAT-18",
@@ -309,7 +349,15 @@
       "why": "This is what destroyed PLAT-16 in Sprint 04 - an item was silently overwritten by a colliding add and had to be recovered. A tracker that loses a planned item without an error is worse than one that refuses it, because the loss is invisible until someone happens to look for the item. It compounds directly with PLAT-15's finding from the same sprint: reconcile was overwriting file entries wherever the tracker held fewer, losing seven records outright including three emptied entirely, and its author's own diagnosis was that the check had EXCLUDED evidence as 'tracker-owned' - an assumption, not a measurement.",
       "dod": "An add whose key collides with an existing item is REFUSED with a message naming the collision - it never overwrites. Proved by three regression tests in the same suite PLAT-15 added: a colliding add is rejected, a non-colliding add succeeds, and an existing item's fields survive a rejected add byte-for-byte. The tests run in CI, not only locally - paste the CI run. A preservation check asserts no existing item's evidence is lost by any write path, which is the specific failure PLAT-15 found and fixed for reconcile and which this item extends to add.",
       "brief": "Read PLAT-15's work-done entry first - it fixed this exact SHAPE on a different write path, added three regression tests and a preservation check, and its diagnosis is the most useful thing written about this tracker. Extend that work rather than starting beside it. Doppler in a worktree needs --scope: doppler run --scope 'C:/Users/Ian Ng/Documents/Code/buddy' --project buddy --config dev -- <cmd>.",
-      "evidence": []
+      "evidence": [
+        {
+          "at": "2026-08-31T17:31:11.313Z",
+          "link": null,
+          "actor": "SYSTEM",
+          "claim": "Parked as a DUPLICATE, not abandoned - the work runs in Sprint 05 under the same key.",
+          "proof": "CEO error at Sprint 05 planning, 01 Sept: the sprint was seeded with 'sprint import' which CREATED new rows, instead of drawing these existing backlog rows in with 'sprint plan <KEY> --sprint 5'. Item keys are unique PER SCOPE, so the backlog row and the sprint row coexist as two records of one job. The Sprint 05 row is the one to read - it carries the full DoD, the brief and the planning corrections; this row is a stub. Not merged into it, because a colliding write is exactly the defect PLAT-18 exists to fix and the CEO is not going to demonstrate it while filing it."
+        }
+      ]
     },
     {
       "id": "PLAT-19",
@@ -348,5 +396,20 @@
     "FALSIFIER FOR THE WHOLE SPRINT THESIS: if sitewide CTR RISES without CONT-13/CONT-16 having shipped, the SERP-shape mechanism is wrong."
   ],
   "metrics_change": "Unchanged from Sprint 04: CTR is reported SPLIT by intent class (decision 159), populated by scripts/seo/serp-shape-census.py's intent_class column rather than by CEO judgement (decision 171). Clicks/28d remains the north star. NEW THIS SPRINT: SEO-14 re-runs the census at close and restates the ratio with its n, its Fisher exact p and its confidence interval, because 12.2x currently rests on 14 clicks in the matched band and governs every content-selection decision the company makes.",
-  "retro": null
+  "retro": null,
+  "reconciled": {
+    "at": "2026-09-01",
+    "source": "buddy sprint tracker (public.sprints / public.sprint_items), via `sprint reconcile`",
+    "note": "state, started_at, ended_at, retro and every item's state and evidence are the TRACKER's. points, track, owner, title, why, dod and brief are left AS SCOPED so /endsprint can still measure sizing accuracy against them.",
+    "tracker_velocity": {
+      "planned": 81,
+      "completed": 0,
+      "parked": 0,
+      "moved_out": 0
+    },
+    "items_added_after_scoping": [],
+    "items_that_left_this_sprint": [],
+    "items_absent_from_tracker": [],
+    "scope_drift": []
+  }
 }
