@@ -291,9 +291,21 @@ it hid this for a week.
     2026-07-04), ported wholesale. The generic look is INHERITED, not default.
   - **The public site was already re-skinned on 27 Aug** by UX-03 (`78cd345`):
     `.hk-public`, an ink-on-paper monotone with measured contrast.
-  - **Readers download ZERO webfont bytes.** `--font-geist` resolves to a
+  - **⚠ CORRECTED 02 Sept 2026 (DES-15) — READERS DO DOWNLOAD WEBFONT BYTES. The
+    claim below is FALSE and was for an unknown period.** The homepage preloads
+    `/_next/static/media/28f82cd8566a528f-s.p.e52237d5.woff2`, **46,248 bytes**,
+    verified by the CEO with a direct fetch (HTTP 200, `content-type: font/woff2`).
+    `Bodoni` appears twice in the served public CSS. DES-15's finding: the only
+    `next/font` Bodoni_Moda declaration in the repo sits in `/admin/design-system`
+    and its own comment says it is *"scoped to this admin page only"* — **it is
+    not**; that `@font-face` ships in a chunk public pages load and paint with.
+    The CEO could not read the family name out of the compressed woff2, so which
+    face it is remains unconfirmed here; the byte count and the preload are not.
+    **Any proposal costed on "we spend no webfont budget" was costed wrong.**
+    Original claim, kept for the record:
+  - ~~**Readers download ZERO webfont bytes.** `--font-geist` resolves to a
     system stack; Geist loads via `next/font` in `(admin)/layout.tsx` only. Any
-    proposal that names a webfont is spending a budget the site does not spend.
+    proposal that names a webfont is spending a budget the site does not spend.~~
   - **`shadcn` the package ships no appearance** — 1,669 bytes of Radix
     data-attribute variants. The look lives in `cva` strings in files we own.
   - **13 of 28 `src/components/ui` files wrap a real Radix primitive**, but the
