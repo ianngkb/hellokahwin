@@ -274,6 +274,16 @@ select distinct filename, licensor_name, alt from media
 where filename like 'S-%' order by filename;
 ```
 
+**Rule 8 — The uploaded filename names the subject and the source. Never
+`cover`.** Added 01 September 2026 after the RIGHTS-02 census. Twelve live
+articles carry a cover whose R2 object is named nothing but `cover`, and for
+those twelve **the origin cannot be recovered from anything we hold** — not the
+file, not the page, not the register. One of them fronts `garden-wedding`, which
+draws 28% of site impressions. Uploaded under `S-dulang-hantaran-azlan-dupree`
+they would each have been traceable in one grep. Filenames follow the register's
+own convention (`S-<subject>-<licensor>`), and a generic name is a rights record
+thrown away at the moment it was cheapest to keep.
+
 #### Who or what is in frame: the subject decides, not a people quota
 
 The 25 Aug people rule is retired (see the top of this stage). **The subject
