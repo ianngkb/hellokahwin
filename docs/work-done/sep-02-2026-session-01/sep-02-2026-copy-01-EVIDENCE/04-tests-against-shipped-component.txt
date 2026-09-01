@@ -1,0 +1,119 @@
+[33m(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - ESM syntax in a file loaded as CommonJS (vitest.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.[39m
+
+ RUN  v4.1.11 C:/Users/Ian Ng/orca/workspaces/hellokahwin/copy01-site
+
+ ❯ src/components/inspire/__tests__/pillar-body.test.tsx (16 tests | 6 failed) 16ms
+     × sits the empty-cluster line on a link row rhythm and closes it with a hair rule 3ms
+     × no longer promises an arrival nobody can date 3ms
+     × no longer claims we have nothing on a topic the same page publishes 0ms
+     × scopes the claim to the section and hands over what the page holds 2ms
+     × never prints "0 artikel lain" 2ms
+     × names the real count when there is one 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/components/inspire/__tests__/pillar-body.test.tsx > PillarBody — populated and empty clusters (UI-05 P2/P3) > sits the empty-cluster line on a link row rhythm and closes it with a hair rule
+AssertionError: expected '<div class="mx-auto max-w-3xl"><div c…' to match /<p class="s-meta" style="padding:13…/p>
+
+- Expected:
+/<p class="s-meta" style="padding:13px 0;border-bottom:1px solid var\(--hair\)">Belum ada artikel di sini\. Halaman ini ada 2 artikel lain\.<\/p>/
+
++ Received:
+"<div class=\"mx-auto max-w-3xl\"><div class=\"mt-12 space-y-14\"><section aria-labelledby=\"cluster-c1\"><h2 id=\"cluster-c1\" class=\"s-h2\">Jodoh &amp; taaruf</h2><div style=\"margin-top:20px;border-top:1px solid var(--rule)\"><a class=\"s-pillar-link\" style=\"display:block;padding:13px 0;border-bottom:1px solid var(--hair);text-decoration:none;color:inherit\" href=\"/artikel/jodoh-taaruf-istikharah/slug-1\">Taaruf maksud</a></div></section><section aria-labelledby=\"cluster-c2\"><h2 id=\"cluster-c2\" class=\"s-h2\">Merisik</h2><div style=\"margin-top:20px;border-top:1px solid var(--rule)\"><p class=\"s-meta\" style=\"padding:13px 0;border-bottom:1px solid var(--hair)\">Artikel untuk merisik akan datang tidak lama lagi.</p></div></section><section aria-labelledby=\"cluster-lain-lain\"><h2 id=\"cluster-lain-lain\" class=\"s-h2\">Lain-lain</h2><div style=\"margin-top:20px;border-top:1px solid var(--rule)\"><a class=\"s-pillar-link\" style=\"display:block;padding:13px 0;border-bottom:1px solid var(--hair);text-decoration:none;color:inherit\" href=\"/artikel/jodoh-taaruf-istikharah/slug-9\">Lain-lain satu</a></div></section></div></div>"
+
+ ❯ src/components/inspire/__tests__/pillar-body.test.tsx:129:18
+    127|
+    128|   it('sits the empty-cluster line on a link row rhythm and closes it w…
+    129|     expect(html).toMatch(
+       |                  ^
+    130|       /<p class="s-meta" style="padding:13px 0;border-bottom:1px solid…
+    131|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  src/components/inspire/__tests__/pillar-body.test.tsx > PillarBody — empty-cluster copy (COPY-01) > no longer promises an arrival nobody can date
+AssertionError: expected '<div class="mx-auto max-w-3xl"><div c…' not to contain 'akan datang tidak lama lagi'
+
+Expected: "akan datang tidak lama lagi"
+Received: "<div class="mx-auto max-w-3xl"><div class="mt-12 space-y-14"><section aria-labelledby="cluster-c1"><h2 id="cluster-c1" class="s-h2">Jodoh, taaruf &amp; istikharah jodoh</h2><div style="margin-top:20px;border-top:1px solid var(--rule)"><a class="s-pillar-link" style="display:block;padding:13px 0;border-bottom:1px solid var(--hair);text-decoration:none;color:inherit" href="/artikel/jodoh-taaruf-istikharah/slug-1">Doa jodoh</a><a class="s-pillar-link" style="display:block;padding:13px 0;border-bottom:1px solid var(--hair);text-decoration:none;color:inherit" href="/artikel/jodoh-taaruf-istikharah/slug-2">Taaruf Maksud</a></div></section><section aria-labelledby="cluster-c2"><h2 id="cluster-c2" class="s-h2">Cincin tunang, nikah &amp; merisik</h2><div style="margin-top:20px;border-top:1px solid var(--rule)"><a class="s-pillar-link" style="display:block;padding:13px 0;border-bottom:1px solid var(--hair);text-decoration:none;color:inherit" href="/artikel/jodoh-taaruf-istikharah/slug-3">Cincin Tunang, Nikah dan Merisik: Tiga Cincin, Siapa Beri yang Mana</a></div></section><section aria-labelledby="cluster-c3"><h2 id="cluster-c3" class="s-h2">Majlis pertunangan &amp; doa</h2><div style="margin-top:20px;border-top:1px solid var(--rule)"><a class="s-pillar-link" style="display:block;padding:13px 0;border-bottom:1px solid var(--hair);text-decoration:none;color:inherit" href="/artikel/jodoh-taaruf-istikharah/slug-4">Doa Majlis Pertunangan</a></div></section><section aria-labelledby="cluster-c4"><h2 id="cluster-c4" class="s-h2">Merisik &amp; meminang</h2><div style="margin-top:20px;border-top:1px solid var(--rule)"><p class="s-meta" style="padding:13px 0;border-bottom:1px solid var(--hair)">Artikel untuk merisik akan datang tidak lama lagi.</p></div></section><section aria-labelledby="cluster-c5"><h2 id="cluster-c5" class="s-h2">Adat perkahwinan Melayu &amp; mandi bunga</h2><div style="margin-top:20px;border-top:1px solid var(--rule)"><p class="s-meta" style="padding:13px 0;border-bottom:1px solid var(--hair)">Artikel untuk mandi bunga akan datang tidak lama lagi.</p></div></section></div></div>"
+
+ ❯ src/components/inspire/__tests__/pillar-body.test.tsx:148:22
+    146|   // THE FAILING CASE. Run the fix against it, do not reason about it.
+    147|   it('no longer promises an arrival nobody can date', () => {
+    148|     expect(html).not.toContain('akan datang tidak lama lagi');
+       |                      ^
+    149|   });
+    150|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  src/components/inspire/__tests__/pillar-body.test.tsx > PillarBody — empty-cluster copy (COPY-01) > no longer claims we have nothing on a topic the same page publishes
+AssertionError: expected '<div class="mx-auto max-w-3xl"><div c…' not to match /Artikel untuk\s/
+
+- Expected:
+/Artikel untuk\s/
+
++ Received:
+"<div class=\"mx-auto max-w-3xl\"><div class=\"mt-12 space-y-14\"><section aria-labelledby=\"cluster-c1\"><h2 id=\"cluster-c1\" class=\"s-h2\">Jodoh, taaruf &amp; istikharah jodoh</h2><div style=\"margin-top:20px;border-top:1px solid var(--rule)\"><a class=\"s-pillar-link\" style=\"display:block;padding:13px 0;border-bottom:1px solid var(--hair);text-decoration:none;color:inherit\" href=\"/artikel/jodoh-taaruf-istikharah/slug-1\">Doa jodoh</a><a class=\"s-pillar-link\" style=\"display:block;padding:13px 0;border-bottom:1px solid var(--hair);text-decoration:none;color:inherit\" href=\"/artikel/jodoh-taaruf-istikharah/slug-2\">Taaruf Maksud</a></div></section><section aria-labelledby=\"cluster-c2\"><h2 id=\"cluster-c2\" class=\"s-h2\">Cincin tunang, nikah &amp; merisik</h2><div style=\"margin-top:20px;border-top:1px solid var(--rule)\"><a class=\"s-pillar-link\" style=\"display:block;padding:13px 0;border-bottom:1px solid var(--hair);text-decoration:none;color:inherit\" href=\"/artikel/jodoh-taaruf-istikharah/slug-3\">Cincin Tunang, Nikah dan Merisik: Tiga Cincin, Siapa Beri yang Mana</a></div></section><section aria-labelledby=\"cluster-c3\"><h2 id=\"cluster-c3\" class=\"s-h2\">Majlis pertunangan &amp; doa</h2><div style=\"margin-top:20px;border-top:1px solid var(--rule)\"><a class=\"s-pillar-link\" style=\"display:block;padding:13px 0;border-bottom:1px solid var(--hair);text-decoration:none;color:inherit\" href=\"/artikel/jodoh-taaruf-istikharah/slug-4\">Doa Majlis Pertunangan</a></div></section><section aria-labelledby=\"cluster-c4\"><h2 id=\"cluster-c4\" class=\"s-h2\">Merisik &amp; meminang</h2><div style=\"margin-top:20px;border-top:1px solid var(--rule)\"><p class=\"s-meta\" style=\"padding:13px 0;border-bottom:1px solid var(--hair)\">Artikel untuk merisik akan datang tidak lama lagi.</p></div></section><section aria-labelledby=\"cluster-c5\"><h2 id=\"cluster-c5\" class=\"s-h2\">Adat perkahwinan Melayu &amp; mandi bunga</h2><div style=\"margin-top:20px;border-top:1px solid var(--rule)\"><p class=\"s-meta\" style=\"padding:13px 0;border-bottom:1px solid var(--hair)\">Artikel untuk mandi bunga akan datang tidak lama lagi.</p></div></section></div></div>"
+
+ ❯ src/components/inspire/__tests__/pillar-body.test.tsx:156:22
+    154|     // phrase nor any topic-scoped claim appears in the empty-cluster …
+    155|     expect(html).toContain('Cincin Tunang, Nikah dan Merisik: Tiga Cin…
+    156|     expect(html).not.toMatch(/Artikel untuk\s/);
+       |                      ^
+    157|   });
+    158|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  src/components/inspire/__tests__/pillar-body.test.tsx > PillarBody — empty-cluster copy (COPY-01) > scopes the claim to the section and hands over what the page holds
+AssertionError: expected [] to have a length of 2 but got +0
+
+- Expected
++ Received
+
+- 2
++ 0
+
+ ❯ src/components/inspire/__tests__/pillar-body.test.tsx:161:18
+    159|   it('scopes the claim to the section and hands over what the page hol…
+    160|     const rows = html.match(/Belum ada artikel di sini\. Halaman ini a…
+    161|     expect(rows).toHaveLength(2); // the two empty clusters, and only …
+       |                  ^
+    162|   });
+    163|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  src/components/inspire/__tests__/pillar-body.test.tsx > emptyClusterCopy — the zero guard > never prints "0 artikel lain"
+TypeError: emptyClusterCopy is not a function
+ ❯ src/components/inspire/__tests__/pillar-body.test.tsx:178:12
+    176| describe('emptyClusterCopy — the zero guard', () => {
+    177|   it('never prints "0 artikel lain"', () => {
+    178|     expect(emptyClusterCopy(0)).toBe('Belum ada artikel di sini.');
+       |            ^
+    179|     const html = renderToStaticMarkup(<PillarBody view={ALL_CLUSTERS_E…
+    180|     expect(html).toContain('Belum ada artikel di sini.');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+ FAIL  src/components/inspire/__tests__/pillar-body.test.tsx > emptyClusterCopy — the zero guard > names the real count when there is one
+TypeError: emptyClusterCopy is not a function
+ ❯ src/components/inspire/__tests__/pillar-body.test.tsx:185:12
+    183|
+    184|   it('names the real count when there is one', () => {
+    185|     expect(emptyClusterCopy(1)).toBe('Belum ada artikel di sini. Halam…
+       |            ^
+    186|     expect(emptyClusterCopy(38)).toBe(
+    187|       'Belum ada artikel di sini. Halaman ini ada 38 artikel lain.',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  6 failed | 10 passed (16)
+   Start at  02:56:36
+   Duration  1.44s (transform 473ms, setup 197ms, import 517ms, tests 16ms, environment 552ms)
+

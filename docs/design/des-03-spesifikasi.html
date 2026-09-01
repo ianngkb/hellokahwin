@@ -1721,10 +1721,37 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--doc-accent);outline
 
   <!-- ============================ EMPTY CATEGORY ============================ -->
   <p class="note" style="margin-top:20px"><strong>C &mdash; a fully empty category.</strong>
-  Copy carried verbatim from DES-07 &sect;9.3/&sect;10.2, which already replaced production's
-  undatable &ldquo;akan datang tidak lama lagi&rdquo; line: <em>&ldquo;Kategori ini masih
+  Copy carried verbatim from DES-07 &sect;9.3/&sect;10.2: <em>&ldquo;Kategori ini masih
   kosong.&rdquo;</em> plus a way out. Drawn here in Warkah's own components rather than
   DES-07's, because the two documents specify different systems reaching the same words.</p>
+
+  <div class="rulebox flag">
+    <p class="eyebrow">Corrected 02 September 2026 &mdash; COPY-01</p>
+    <p class="note">This paragraph used to read &ldquo;Copy carried verbatim from DES-07
+    &sect;9.3/&sect;10.2, <strong>which already replaced production's undatable &lsquo;akan
+    datang tidak lama lagi&rsquo; line</strong>&rdquo;, and the caption below it said the copy
+    was &ldquo;replacing the shipped promise nobody can date&rdquo;. <strong>Neither was
+    true.</strong> DES-07 <em>specified</em> a replacement and escalated the decision to the
+    managing editor (&sect;11.3); nothing shipped. The line was still live on
+    <strong>4 empty clusters across 3 of 15 pillars</strong> when COPY-01 measured production
+    on 02 September 2026, after DES-08 &mdash;
+    <code>nikah-undang-undang</code>, <code>pelamin-kad-cenderahati</code> and
+    <code>sebelum-nikah</code> (two). The same sentence was repeated as fact in
+    <code>src/design-system/components/feedback.tsx</code>, which cited this section; it has
+    been corrected there too.</p>
+    <p class="note"><strong>And the state distinction this section must not be read past.</strong>
+    &sect;7.2&nbsp;C is the <em>fully empty CATEGORY</em> &mdash; nothing published under it at
+    all. An <em>empty CLUSTER inside a populated pillar</em> is a different state (DES-07
+    <strong>K4</strong>, not K3) and this copy is not a drop-in substitute for it: on
+    <code>/artikel/nikah-undang-undang</code>, which holds six published articles,
+    &ldquo;Kategori ini masih kosong&rdquo; would be false, and its way out points the reader
+    at a different category when everything they want is on the page they are already on.
+    The empty-cluster copy was decided separately under COPY-01 and is
+    <em>&ldquo;Belum ada artikel di sini. Halaman ini ada N artikel lain.&rdquo;</em> &mdash;
+    scoped to the section, not to the topic. It lives in
+    <code>src/components/inspire/pillar-body.tsx</code>. Record:
+    <code>docs/work-done/sep-02-2026-session-01/sep-02-2026-done-copy-01-empty-cluster-copy.md</code>.</p>
+  </div>
 
   <div class="rail">
     <div class="frame">
@@ -1747,7 +1774,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--doc-accent);outline
           </div>
         </div>
       </div></div>
-      <p class="fcap"><span class="id warn">K-e</span> Catalogue, empty category, 360&nbsp;px light. Copy is DES-07's K3, replacing the shipped promise nobody can date.</p>
+      <p class="fcap"><span class="id warn">K-e</span> Catalogue, empty category, 360&nbsp;px light. Copy is DES-07's K3. It is <em>not</em> the empty-cluster state (K4) &mdash; see the correction above.</p>
     </div>
 
     <div class="frame">

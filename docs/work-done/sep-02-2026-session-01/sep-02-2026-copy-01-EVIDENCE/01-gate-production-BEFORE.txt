@@ -1,0 +1,69 @@
+
+  check-empty-copy — 15 pillar pages, C:/Users/IANNG~1/AppData/Local/Temp/claude/C--Users-Ian-Ng-orca-workspaces-hellokahwin-copy01-line/1392e3da-f0cb-41dd-bee1-ec78c972e424/scratchpad/pillars-before
+
+  busana-pengantin — 2 clusters, 0 empty, 3 distinct articles
+      1. [ 2 art] Baju pengantin: nikah, sanding & songket
+      2. [ 1 art] Inai, solekan & aksesori pengantin
+  fotografi-videografi — 0 clusters, 0 empty, 0 distinct articles
+  glamor-eksklusif — 0 clusters, 0 empty, 0 distinct articles
+  hantaran-mas-kahwin — 5 clusters, 0 empty, 38 distinct articles
+      1. [ 8 art] Hantaran kahwin
+      2. [ 6 art] Hantaran tunang
+      3. [ 8 art] Gubahan & dulang hantaran
+      4. [ 8 art] Mas kahwin ikut negeri
+      5. [ 8 art] Nisbah dulang, duit hantaran & etika
+  hiasan-dekorasi — 0 clusters, 0 empty, 0 distinct articles
+  idea-dan-nasihat — 0 clusters, 0 empty, 0 distinct articles
+  minimalis-mewah — 0 clusters, 0 empty, 0 distinct articles
+  moden-kontemporari — 0 clusters, 0 empty, 0 distinct articles
+  nikah-undang-undang — 4 clusters, 1 empty, 6 distinct articles   <<< VIOLATION
+      1. [ 1 art] Borang & pendaftaran nikah
+      2. [ 4 art] Rukun, syarat & sah nikah
+      3. [ 1 art] Kursus kahwin & saringan pra-nikah
+      4. [EMPTY ] Soal-jawab hukum nikah
+             row: "Artikel untuk nikah siri akan datang tidak lama lagi."
+      !! the undatable promise "akan datang tidak lama lagi" is being served. COPY-01 replaced it on 02 Sept 2026; DES-07 §3.4 rejected it as the universal empty copy before that.
+      !! empty cluster "Soal-jawab hukum nikah" reads:
+         got  "Artikel untuk nikah siri akan datang tidak lama lagi."
+         want "Belum ada artikel di sini. Halaman ini ada 6 artikel lain."
+  pantai-santai — 0 clusters, 0 empty, 0 distinct articles
+  pelamin-kad-cenderahati — 4 clusters, 1 empty, 7 distinct articles   <<< VIOLATION
+      1. [ 2 art] Pelamin
+      2. [ 2 art] Kad kahwin & jemputan
+      3. [ 3 art] Doorgift, bunga telur & hadiah kahwin
+      4. [EMPTY ] Dekorasi, khemah & tema majlis
+             row: "Artikel untuk khemah kenduri akan datang tidak lama lagi."
+      !! the undatable promise "akan datang tidak lama lagi" is being served. COPY-01 replaced it on 02 Sept 2026; DES-07 §3.4 rejected it as the universal empty copy before that.
+      !! empty cluster "Dekorasi, khemah & tema majlis" reads:
+         got  "Artikel untuk khemah kenduri akan datang tidak lama lagi."
+         want "Belum ada artikel di sini. Halaman ini ada 7 artikel lain."
+  real-wedding — 0 clusters, 0 empty, 0 distinct articles
+  sebelum-nikah — 5 clusters, 2 empty, 4 distinct articles   <<< VIOLATION
+      1. [ 2 art] Jodoh, taaruf & istikharah jodoh
+      2. [ 1 art] Cincin tunang, nikah & merisik
+      3. [ 1 art] Majlis pertunangan & doa
+      4. [EMPTY ] Merisik & meminang
+             row: "Artikel untuk merisik akan datang tidak lama lagi."
+      5. [EMPTY ] Adat perkahwinan Melayu & mandi bunga
+             row: "Artikel untuk mandi bunga akan datang tidak lama lagi."
+      !! the undatable promise "akan datang tidak lama lagi" is being served. COPY-01 replaced it on 02 Sept 2026; DES-07 §3.4 rejected it as the universal empty copy before that.
+      !! empty cluster "Merisik & meminang" reads:
+         got  "Artikel untuk merisik akan datang tidak lama lagi."
+         want "Belum ada artikel di sini. Halaman ini ada 4 artikel lain."
+      !! empty cluster "Adat perkahwinan Melayu & mandi bunga" reads:
+         got  "Artikel untuk mandi bunga akan datang tidak lama lagi."
+         want "Belum ada artikel di sini. Halaman ini ada 4 artikel lain."
+  ucapan-doa — 4 clusters, 0 empty, 9 distinct articles
+      1. [ 1 art] Ucapan pengantin baru
+      2. [ 5 art] Doa perkahwinan
+      3. [ 2 art] Ulang tahun perkahwinan, pantun & adab tetamu
+      4. [ 1 art] Aturcara & pengacara majlis
+  venue-perancangan — 2 clusters, 0 empty, 6 distinct articles
+      1. [ 2 art] Dewan & venue majlis
+      2. [ 4 art] Kos, bajet & checklist perkahwinan
+
+  ==========================================================
+  4 empty clusters checked across 15 pillars
+  VIOLATIONS: 7 on nikah-undang-undang, pelamin-kad-cenderahati, sebelum-nikah
+  FAIL
+
