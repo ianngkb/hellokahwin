@@ -30,7 +30,7 @@ cover:
 images:
   - file: images/S-kenduri-khemah-terengganu-irwandy.jpg
     alt: "Kenduri kahwin di halaman rumah kampung di Terengganu, dengan meja panjang dan hidangan buffet di bawah khemah."
-    caption: "Kenduri kesyukuran rumah baru ialah adat, bukan tuntutan. Yang bersumber ialah empat amalan dalam senarai di bawah."
+    caption: "Kenduri kahwin di halaman rumah kampung di Terengganu. Jawapan Al-Kafi li al-Fatawi Soalan 141 tidak menyebut kenduri langsung; yang disenaraikannya ialah empat amalan di bawah."
     credit: 'Kredit: Irwandy Mazwir (CC BY 2.0)'
     creditUrl: https://www.flickr.com/photos/15468843@N00/24184916309
     licenseClass: S
@@ -97,7 +97,9 @@ Daripada Jabir bin Abdillah R.Anhuma, Nabi SAW bersabda:
 
 > إِذَا دَخَلَ الرَّجُلُ بَيْتَهُ فَذَكَرَ اللَّهَ عِنْدَ دُخُولِهِ، وَعِنْدَ طَعَامِهِ، قَالَ الشَّيْطَانُ: لَا مَبِيتَ لَكُمْ وَلَا عَشَاءَ، وَإِذَا دَخَلَ فَلَمْ يُذْكَرِ اللَّهَ عِنْدَ دُخُولِهِ قَالَ الشَّيْطَانُ: أَدْرَكْتُمُ الْمَبِيتَ
 
-**Maksudnya:** "Apabila seseorang masuk ke dalam rumah lalu dia mengingati Allah ketika masuk, dan ketika makan, maka syaitan akan berkata: 'Tidak ada tempat menginap dan tidak ada makan malam.' Tapi apabila dia tidak mengingati Allah ketika masuk, maka syaitan berkata: 'Kalian mendapatkan tempat menginap'."
+**Maksudnya:** "Apabila seseor[a]ng masuk ke dalam rumah lalu dia mengingati Allah ketika masuk, dan ketika makan, maka syaitan akan berkata: 'Tidak ada tempat menginap dan tidak ada makan malam.' Tapi apabila dia tidak mengingati Allah ketika masuk, maka syaitan berkata: 'Kalian mendapatkan tempat menginap'."
+
+(Terbitan asalnya tertulis "seseorng"; kami tandakan pembetulannya dalam kurungan segi empat.)
 
 Riwayat Muslim (2018), Abu Daud (3765) dan lain-lain.
 
@@ -119,7 +121,7 @@ Semua tulisan Arab dan maksud dalam empat bahagian ini disalin terus daripada Ja
 
 Perhatikan apa yang jabatan itu tidak sebut, kerana ia menjawab banyak soalan sekali gus.
 
-Tiada bacaan khusus untuk setiap bilik. Tiada arahan memasang apa-apa di pintu. Tiada bilangan tertentu. Tiada majlis yang wajib diadakan sebelum masuk. Kenduri kesyukuran rumah baru ialah adat yang baik dan tiada halangan padanya, tetapi ia bukan syarat masuk rumah dan jabatan itu tidak menyenaraikannya antara empat perkara yang dianjurkan.
+Tiada bacaan khusus untuk setiap bilik. Tiada arahan memasang apa-apa di pintu. Tiada bilangan tertentu. Kenduri kesyukuran rumah baru pun tidak disebut langsung dalam jawapan itu, jadi ia tidak termasuk antara empat perkara yang jabatan itu anjurkan. Jawapan itu tidak berkata apa-apa tentang kenduri, sama ada memuji atau menegah, dan kami tidak akan berkata bagi pihaknya.
 
 Bagi pengantin baru yang sedang mengira setiap ringgit selepas majlis, itu berita baik. Rumah anda tidak menunggu belanja tambahan sebelum boleh didiami.
 
@@ -139,7 +141,7 @@ Tidak. Al-Kafi li al-Fatawi Soalan 141 menjawab soalan itu secara langsung: memb
 
 ### Wajibkah mengadakan kenduri doa selamat sebelum masuk rumah baru?
 
-Tidak. Ia tidak termasuk dalam empat perkara yang dianjurkan dalam jawapan jabatan itu. Kenduri kesyukuran ialah adat yang baik, bukan syarat.
+Al-Kafi li al-Fatawi Soalan 141 tidak menyebut kenduri langsung. Yang disenaraikannya sebagai perkara yang dianjurkan ialah empat amalan di halaman ini, dan kenduri bukan salah satu daripadanya.
 
 ### Bila salam masuk rumah itu dibaca?
 
@@ -147,9 +149,10 @@ Setiap kali masuk, bukan pada hari pertama sahaja. Lafaz khusus "rumah yang tida
 
 ### Ada tak doa untuk memohon rumah diberkati?
 
-Ada, dan jabatan itu menyebutnya sebagai perkara yang "lebih baik" dilakukan: berdoa supaya rumah diberkati dan penghuninya turut diberkati. Lafaznya tidak ditetapkan, jadi ia boleh dibaca dalam bahasa Melayu.
+Ada, dan jabatan itu menyebutnya sebagai perkara yang "lebih baik" dilakukan: berdoa supaya rumah diberkati dan penghuninya turut diberkati. Lafaznya tidak ditetapkan. Tentang bahasanya, JAKIM menyatakan dalam takrif doa di perkara 4.3 *Garis Panduan dan Himpunan Doa bagi Majlis Rasmi dan Separuh Rasmi Kerajaan* terbitan 2026, disemak 2 September 2026: "Ia juga boleh dituturkan dalam pelbagai bahasa."
 
 ## Sumber
 
 - Jabatan Mufti Wilayah Persekutuan, *Al-Kafi li al-Fatawi: Soalan 141*, 4 Januari 2016 bersamaan 23 Rabiulawal 1437H, mengenai amalan-amalan memasuki rumah baru. Disemak 2 September 2026.
+- Jabatan Kemajuan Islam Malaysia, *Garis Panduan dan Himpunan Doa bagi Majlis Rasmi dan Separuh Rasmi Kerajaan*, terbitan 2026, perkara 4.3. Disemak 2 September 2026.
 - Dewan Bahasa dan Pustaka, *Pedoman Transliterasi Huruf Arab ke Huruf Rumi*, digunakan bagi semua transliterasi di halaman ini.

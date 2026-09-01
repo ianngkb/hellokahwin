@@ -71,22 +71,44 @@ Tiga bahagian, dibaca berturut-turut: basmalah, puji-pujian kepada Allah, kemudi
 
 **Maksudnya:** "Ya Allah, cucurilah selawat dan salam ke atas junjungan kami Nabi Muhammad pada golongan yang terdahulu, dan ke atas junjungan kami Nabi Muhammad pada golongan yang terkemudian, dan ke atas junjungan kami Nabi Muhammad pada setiap waktu dan ketika."
 
+Tiga baris di atas ialah **petikan**, bukan doa penuh. Pada halaman terbitan Jabatan Mufti Kerajaan Negeri Sembilan, ayat puji-pujian bersambung terus selepas *mazidah* dengan *ya Rabbana lakal hamdu kama yanbaghi li jalali wajhika*, dan selawat itu bersambung dengan *wa solli wa sallim 'ala saiyidina Muhammadin fil mala'il a'la*. Kami berhenti pada titik yang sama seperti Doa Selamat terbitan JAKIM berhenti.
+
+Satu lagi perkara pada baris selawat. Perkataan yang kami salin sebagai اللأَخِرِينَ memang tercetak begitu pada halaman Negeri Sembilan, dengan dua huruf lam berturut-turut. Bentuk yang betul ialah الآخِرِين, dan rumi kami membacanya sebagai *fil akhirin*. Kami menyalin tulisan Arab itu sebagaimana ia diterbitkan dan tidak membetulkannya secara senyap.
+
 Dari mana setiap baris itu datang, kerana ini bukan satu sumber:
 
-- Tulisan Arab basmalah, puji-pujian dan selawat di atas disalin daripada teks doa yang diterbitkan oleh **Jabatan Mufti Kerajaan Negeri Sembilan**, dalam himpunan Doa dan Zikirnya, disemak 2 September 2026.
+- Tulisan Arab basmalah, puji-pujian dan selawat di atas dipetik daripada teks doa yang diterbitkan oleh **Jabatan Mufti Kerajaan Negeri Sembilan**, dalam himpunan Doa dan Zikirnya, disemak 2 September 2026. Ia petikan, bukan doa penuh terbitan itu.
 - Maksud bagi baris puji-pujian ialah terjemahan rasmi **Jabatan Kemajuan Islam Malaysia (JAKIM)** bagi lafaz yang sama, dalam *Garis Panduan dan Himpunan Doa bagi Majlis Rasmi dan Separuh Rasmi Kerajaan*, **terbitan 2026** (terbit 12 Mac 2026), halaman 26. Doa Selamat JAKIM membuka dengan lafaz puji-pujian yang sama perkataan demi perkataan.
-- Maksud bagi basmalah dan selawat ialah terjemahan HelloKahwin.
+- Maksud bagi basmalah ialah terjemahan JAKIM bagi baris yang sama, dalam terbitan 2026 yang sama, halaman 26. Maksud bagi selawat ialah terjemahan HelloKahwin.
 - Transliterasi rumi disediakan oleh HelloKahwin mengikut *Pedoman Transliterasi Huruf Arab ke Huruf Rumi* terbitan Dewan Bahasa dan Pustaka, disemak 2 September 2026. Ia transliterasi kami sendiri, bukan terbitan mana-mana pihak berkuasa agama.
 
 Satu nota tentang kaedah, kerana ia menjelaskan kenapa tulisan Arab di atas tidak diambil terus daripada fail JAKIM. Fail PDF *Garis Panduan dan Himpunan Doa* 2026 memaparkan tulisan Arabnya dengan cara yang tidak boleh disalin tanpa merosakkan kedudukan barisnya. Huruf dan barisnya bertukar tempat apabila teks itu diekstrak. Kami menyemaknya dan tidak menyalinnya. Sebaliknya tulisan Arab di halaman ini diambil daripada pihak berkuasa Malaysia yang menerbitkannya sebagai teks yang boleh disalin, dan setiap baris dinamakan sumbernya.
 
+## Siapa yang terikat dengan garis panduan JAKIM, dan siapa yang tidak
+
+Ini perlu dijelaskan dahulu, kerana ia mengubah cara anda membaca semua yang selepas ini.
+
+*Garis Panduan dan Himpunan Doa bagi Majlis Rasmi dan Separuh Rasmi Kerajaan* terbitan 2026 menyatakan tujuannya sendiri di perkara 1: ia "disediakan sebagai panduan kepada penganjur dan pembaca doa yang terlibat dalam Majlis Rasmi dan Separuh Rasmi." Perkara 4.1 mentakrifkan Majlis Rasmi sebagai "suatu majlis yang dianjurkan oleh Kerajaan Persekutuan atau Kerajaan Negeri", dan perkara 4.2 mentakrifkan Majlis Separuh Rasmi sebagai majlis "yang dianjurkan selain dari kerajaan tetapi dihadiri oleh para pembesar atau pemimpin sama ada di peringkat negeri atau persekutuan (negara)."
+
+**Kenduri kahwin di rumah atau di dewan komuniti tidak termasuk dalam mana-mana takrif itu**, melainkan ada pembesar atau pemimpin yang hadir. Garis panduan ini bukan peraturan yang mengikat majlis anda.
+
+Kenapa ia masih berguna? Kerana ia satu-satunya dokumen rasmi Malaysia yang menyatakan secara bertulis apa yang perlu ada dalam sebuah doa majlis, dan pembaca doa yang anda jemput kemungkinan besar mengikutnya. Baca bahagian di bawah sebagai rujukan yang baik, bukan sebagai syarat sah.
+
 ## Apa yang JAKIM tetapkan mesti ada dalam mukadimah
 
-Satu ayat, dan ia mengikat semua majlis rasmi dan separuh rasmi kerajaan. *Garis Panduan dan Himpunan Doa bagi Majlis Rasmi dan Separuh Rasmi Kerajaan* terbitan 2026, perkara 6.1(i), menyatakan:
+Satu ayat, bagi majlis rasmi dan separuh rasmi kerajaan. *Garis Panduan dan Himpunan Doa bagi Majlis Rasmi dan Separuh Rasmi Kerajaan* terbitan 2026, perkara 6.1(i), menyatakan:
 
 > "Permulaan doa hendaklah mengandungi lafaz puji-pujian kepada Allah SWT dan selawat ke atas Nabi Muhammad SAW dalam Bahasa Arab dan boleh diikuti dengan doa dalam bahasa-bahasa lain."
 
-Dua perkara terkandung di situ. Pertama, puji-pujian dan selawat itu **wajib dalam bahasa Arab**, bukan pilihan. Kedua, selepas itu doa boleh diteruskan dalam bahasa Melayu, dan itulah sebabnya doa majlis di Malaysia lazimnya berbunyi Arab di pangkal dan Melayu di tengah.
+Garis panduan itu menggunakan perkataan **hendaklah**, bukan *wajib*. Bezanya bukan kecil: *hendaklah* di sini ialah kehendak pentadbiran ke atas majlis kerajaan, bukan hukum syarak.
+
+Dan perkara 6.1(i) itu tidak boleh dibaca bersendirian, kerana perkara 6.2(vi) menetapkan sesuatu yang bertentangan dengan cara ramai orang memahaminya:
+
+> "Isi kandungan doa hendaklah dibaca dalam Bahasa Arab. Terjemahan teks doa dalam Bahasa Melayu, Bahasa Inggeris dan bahasa-bahasa lain boleh disediakan dan dipaparkan di skirn, sesuai dengan hadirin dan majlis tersebut."
+
+Jadi bagi majlis yang terikat dengan garis panduan ini, **isi doa pun dibaca dalam bahasa Arab**, dan bahasa Melayu ialah terjemahan yang dipaparkan di skrin, bukan bahagian yang dituturkan. Perkara 6.1(i) membenarkan doa "dalam bahasa-bahasa lain" mengikuti mukadimah; perkara 6.2(vi) menetapkan isi kandungannya dalam bahasa Arab. Kedua-dua ayat itu ada dalam dokumen yang sama dan kami tidak akan berpura-pura ia sudah diselesaikan.
+
+Perkara 4.3 pula mentakrifkan doa dan menambah satu ayat yang melegakan bagi majlis di luar skop garis panduan ini: "Ia juga boleh dituturkan dalam pelbagai bahasa."
 
 ## Apa yang mesti ada di hujung
 
@@ -124,19 +146,19 @@ Ada satu had masa yang jarang disebut orang. Perkara 9.2:
 
 > "Tempoh masa untuk membaca doa antara 2 hingga 3 minit."
 
-Dua hingga tiga minit adalah kira-kira 300 hingga 450 patah perkataan dibaca perlahan. Kalau doa anda lebih panjang daripada itu, ia bukan doa majlis lagi.
+Itu had yang sangat pendek berbanding doa majlis yang biasa didengar di Malaysia. Angka itu daripada JAKIM; berapa patah perkataan yang muat dalam tempoh itu bergantung kepada kelajuan bacaan dan tidak dinyatakan dalam garis panduan.
 
 Perkara 9.1 pula meletakkan masanya: "Masa berdoa bagi majlis rasmi atau separuh rasmi sebaik-baiknya pada permulaan majlis tersebut." Itu sebabnya ia dipanggil doa pembuka.
 
-## Siapa yang boleh membaca doa
+## Siapa yang JAKIM syorkan membaca doa majlis kerajaan
 
-Perkara 7.2 menyenaraikan kriterianya, dan satu daripadanya kerap disalah faham. Pembaca doa hendaklah "seorang lelaki dan beragama Islam, boleh menyebut perkataan-perkataan dalam bahasanya dengan tepat, fasih dan betul", berakhlak baik, dan tahu kesesuaian doa bagi majlis itu.
+Ingat skopnya: perkara-perkara di bawah terpakai kepada majlis rasmi dan separuh rasmi kerajaan, bukan kepada kenduri kahwin.
 
-Tetapi perkara 7.2(iv) menambah pengecualian yang jelas:
+Perkara 7.2 menyenaraikan kriteria pembaca doa bagi majlis-majlis itu: hendaklah "seorang lelaki dan beragama Islam, boleh menyebut perkataan-perkataan dalam bahasanya dengan tepat, fasih dan betul", berakhlak baik, dan tahu kesesuaian doa bagi majlis itu. Perkara 7.2(iv) menambah: "Bagi majlis yang hanya dihadiri oleh golongan wanita, pembaca doa bolehlah dilantik dari kalangan wanita."
 
-> "Bagi majlis yang hanya dihadiri oleh golongan wanita, pembaca doa bolehlah dilantik dari kalangan wanita."
+Bagi majlis peringkat persekutuan yang dihadiri Seri Paduka Baginda Yang di-Pertuan Agong, garis panduan menyarankan pembaca doa ialah Sahibus Samahah Mufti, Pegawai Agama Istana Negara, Timbalan Mufti atau Imam Besar Masjid Negara.
 
-Bagi majlis peringkat persekutuan yang dihadiri Seri Paduka Baginda Yang di-Pertuan Agong, garis panduan menyarankan pembaca doa ialah Sahibus Samahah Mufti, Pegawai Agama Istana Negara, Timbalan Mufti atau Imam Besar Masjid Negara. Bagi majlis lain, termasuk majlis kahwin, sesiapa yang memenuhi kriteria 7.2 boleh dilantik.
+**Bagi kenduri kahwin, garis panduan ini tidak berkata apa-apa**, kerana kenduri kahwin di luar skopnya. Siapa yang membaca doa di majlis anda ialah keputusan keluarga dan tok imam, bukan perkara yang dokumen ini putuskan.
 
 ## Adab yang paling kerap dilanggar: jangan bersajak
 
@@ -146,17 +168,17 @@ Ini bukan soal rasa. Ia ada dalilnya, dan Jabatan Mufti Wilayah Persekutuan meny
 
 Sajak di sini bermaksud memilih perkataan supaya hujung ayat berbunyi sedap dan berirama. Jabatan itu menukilkan Ibn al-Battal: Nabi SAW melarangnya kerana ia perbuatan yang menyusahkan diri, dan kesusahan itulah yang menghalang khusyuk. Kalau irama itu datang sendiri tanpa dipaksa, ia tidak termasuk dalam larangan.
 
-Nasihat yang sama terpakai kepada doa majlis kahwin yang menyebut pasangan Nabi-nabi. Jabatan Mufti Wilayah Persekutuan tidak mengharamkannya, tetapi menyarankan: "jika ingin menambah perkataan yang disebutkan dalam soalan di atas, maka sebaiknya memilih apa yang dipastikan dengan yakin kesahihannya."
+Nasihat yang sama terpakai kepada doa majlis kahwin yang menyebut pasangan Nabi-nabi. Jabatan Mufti Wilayah Persekutuan menyatakan pendiriannya dalam dua bahagian, dan kedua-duanya perlu dibaca bersama. Bahagian pertama tegas: "doa-doa yang tidak dapat dipastikan kesahihannya dan atas tujuan untuk sengaja memanjangkannya supaya sedap di dengar hendaklah dielakkan." Bahagian kedua ialah kelonggarannya: "Walau bagaimanapun, jika mahu juga diletakkan doa seperti yang disebut di atas, maka sebaiknya disebut apa yang dipastikan dengan yakin kesahihannya dan yang diterima ulama riwayatnya... dengan syarat tidak terlalu memanjangkannya dan tidak memberat-beratkan diri."
 
 ## Soalan lazim
 
 ### Apakah doa pembuka majlis dalam bahasa Arab?
 
-Mukadimahnya sahaja yang wajib dalam bahasa Arab: puji-pujian kepada Allah dan selawat ke atas Nabi Muhammad SAW, seperti yang ditetapkan perkara 6.1(i) Garis Panduan JAKIM terbitan 2026. Teks penuh ketiga-tiga barisnya ada di bahagian pertama halaman ini. Selepas mukadimah, doa boleh diteruskan dalam bahasa Melayu.
+Mukadimahnya, iaitu puji-pujian kepada Allah dan selawat ke atas Nabi Muhammad SAW, seperti yang ditetapkan perkara 6.1(i) Garis Panduan JAKIM terbitan 2026. Teks penuh ketiga-tiga barisnya ada di bahagian pertama halaman ini. Bagi majlis kerajaan, perkara 6.2(vi) garis panduan yang sama menetapkan isi kandungan doa juga dibaca dalam bahasa Arab, dengan terjemahan Melayu dipaparkan di skrin. Garis panduan itu tidak terpakai kepada kenduri kahwin.
 
 ### Apakah teks bacaan doa majlis yang ringkas?
 
-Yang boleh diringkaskan ialah bahagian tengah, iaitu permohonan khusus bagi majlis itu. Mukadimah dan penutup kekal. Rangka paling ringkas yang masih memenuhi garis panduan ialah: basmalah, puji-pujian, selawat, satu perenggan hajat majlis dalam bahasa Melayu, ayat 201 Surah al-Baqarah, selawat, tahmid.
+Yang boleh diringkaskan ialah bahagian tengah, iaitu permohonan khusus bagi majlis itu. Mukadimah dan penutup kekal. Rangkanya: basmalah, puji-pujian, selawat, satu perenggan hajat majlis, ayat 201 Surah al-Baqarah, selawat, tahmid. Bagi majlis kerajaan, perkara 6.2(vi) menetapkan perenggan hajat itu dibaca dalam bahasa Arab dan terjemahannya dipaparkan di skrin.
 
 ### Berapa lama doa majlis patut dibaca?
 
@@ -164,7 +186,7 @@ Antara dua hingga tiga minit, mengikut perkara 9.2 Garis Panduan JAKIM terbitan 
 
 ### Bolehkah perempuan membaca doa majlis?
 
-Boleh, bagi majlis yang hanya dihadiri golongan wanita. Perkara 7.2(iv) garis panduan itu menyatakannya secara khusus. Bagi majlis campur, kriteria 7.2(i) menyebut pembaca doa hendaklah seorang lelaki.
+Garis Panduan JAKIM terbitan 2026 menjawabnya hanya untuk majlis rasmi dan separuh rasmi kerajaan. Bagi majlis-majlis itu, perkara 7.2(i) menyebut pembaca doa hendaklah seorang lelaki, dan perkara 7.2(iv) menambah bahawa bagi majlis yang hanya dihadiri golongan wanita, pembaca doa boleh dilantik dari kalangan wanita. Kenduri kahwin di luar skop dokumen itu, jadi ia tidak menjawab soalan itu untuk majlis kahwin.
 
 ### Apa beza doa pembuka majlis dengan doa selamat?
 
@@ -172,7 +194,7 @@ Doa pembuka ialah kedudukannya dalam aturcara, iaitu doa yang dibaca di permulaa
 
 ## Sumber
 
-- Jabatan Kemajuan Islam Malaysia, *Garis Panduan dan Himpunan Doa bagi Majlis Rasmi dan Separuh Rasmi Kerajaan*, terbitan 2026, terbit 12 Mac 2026. Perkara 6.1, 6.2, 6.3, 7.2, 9.1, 9.2 dan Doa Selamat halaman 25 hingga 28. Disemak 2 September 2026.
+- Jabatan Kemajuan Islam Malaysia, *Garis Panduan dan Himpunan Doa bagi Majlis Rasmi dan Separuh Rasmi Kerajaan*, terbitan 2026, terbit 12 Mac 2026. Perkara 1, 4.1, 4.2, 4.3, 6.1, 6.2, 6.3, 7.1, 7.2, 9.1, 9.2 dan Doa Selamat halaman 25 hingga 28. Disemak 2 September 2026.
 - Jabatan Mufti Kerajaan Negeri Sembilan, himpunan Doa dan Zikir, teks doa untuk pengantin. Disemak 2 September 2026.
 - Jabatan Mufti Wilayah Persekutuan, *Bayan Linnas Siri ke-168: Meraih Keberkatan Negara: Inilah Yang Kita Cita-citakan*, 24 Februari 2019. Disemak 2 September 2026.
 - Jabatan Mufti Wilayah Persekutuan, *Irsyad al-Hukum Siri ke-954: Persoalan Berkaitan Doa Yang Dibaca Ketika Majlis Perkahwinan*, 16 April 2026. Disemak 2 September 2026.

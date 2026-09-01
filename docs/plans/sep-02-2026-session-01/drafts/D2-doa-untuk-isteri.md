@@ -46,7 +46,7 @@ images:
 internalLinks: []
 ---
 
-Doa untuk isteri yang paling kukuh sumbernya ialah doa ubun-ubun: doa yang dibaca suami sambil meletakkan tangan di atas ubun-ubun isterinya, sebaik selesai akad nikah. Jabatan Mufti Wilayah Persekutuan menyatakan hukum membacanya sunat. Teks penuhnya dalam tulisan Arab, rumi dan maksudnya ada di bahagian seterusnya.
+Doa untuk isteri yang paling kukuh sumbernya ialah doa ubun-ubun: doa yang dibaca suami sambil meletakkan tangan di atas ubun-ubun isterinya, sebaik selesai akad nikah. Jabatan Mufti Wilayah Persekutuan, dalam Al-Kafi li al-Fatawi Soalan 186, menyatakan hukum membacanya sunat. Teks penuhnya dalam tulisan Arab, rumi dan maksudnya ada di bahagian seterusnya.
 
 ## Teks penuh doa ubun-ubun
 
@@ -88,7 +88,7 @@ Al-Kafi #1163 memberi konteksnya secara terus: "Ini terkenal dalam doa pengantin
 
 Boleh. Itulah persoalan yang dijawab oleh Al-Kafi #1163 dari mula, dan jawapannya berdasarkan hadis di atas: "Ini menunjukkan bahawa boleh tangan diletakkan pada ubun atau kepala."
 
-Jabatan itu menambah satu syarat yang perlu diingat di majlis: "dibolehkan meletakkan tangan pada tempat tertentu, tetapi mestilah meraikan hukum jika antara lelaki dan perempuan yang bukan mahram atau bukan suami isteri." Selepas akad, suami dan isteri bukan lagi bukan-mahram, jadi tiada halangan. Tetapi bapa saudara, abang ipar atau tetamu yang ingin mendoakan pengantin perempuan tidak boleh meletakkan tangan atas kepalanya.
+Jabatan itu menambah satu syarat, dan kami memetiknya penuh kerana ia menyebut had keizinan itu tanpa menyenaraikan sesiapa: "dibolehkan meletakkan tangan pada tempat tertentu, tetapi mestilah meraikan hukum jika antara lelaki dan perempuan yang bukan mahram atau bukan suami isteri." Suami dan isteri tidak tersentuh oleh syarat itu. Sesiapa lain yang ingin mendoakan pengantin perempuan sambil menyentuh kepalanya perlu menyemak kedudukan mahramnya sendiri; Al-Kafi #1163 tidak memutuskannya bagi mana-mana orang tertentu dan kami juga tidak.
 
 ## Doa kedua: doa keluarga yang diajar Ibn Mas'ud
 
@@ -120,7 +120,7 @@ Selepas akad, di banyak majlis di Malaysia, ada upacara suami menyentuh isteri b
 
 > "Manakala, upacara membatalkan air sembahyang bukanlah tuntutan syarak melainkan hanyalah adat semata-mata."
 
-Adat bukan bermakna dilarang. Ia bermakna tiada pahala khusus padanya dan tiada dosa meninggalkannya. Keluarga yang mahu mengekalkannya boleh mengekalkannya; keluarga yang memotongnya daripada aturcara tidak kehilangan apa-apa dari sudut agama.
+Jabatan itu tidak melarangnya. Apa yang dinyatakannya ialah upacara itu tidak dituntut oleh syarak, dan itu sahaja yang boleh dipetik daripada jawapan tersebut. Keluarga yang mahu mengekalkannya boleh mengekalkannya; keluarga yang memotongnya daripada aturcara tidak meninggalkan sebarang tuntutan syarak.
 
 ## Bila setiap doa ini dibaca
 
@@ -144,7 +144,7 @@ Suami. Hadisnya menyebut orang yang berkahwin itu sendiri yang memegang ubun-ubu
 
 ### Wajibkah membaca doa ubun-ubun selepas akad?
 
-Tidak wajib. Jabatan Mufti Wilayah Persekutuan menyebut hukumnya "sunat hukumnya mendoakan isteri yang baru dinikahi dengan doa sambil meletakkan tangan di atas ubun-ubun isteri". Sunat bermakna berpahala jika dibuat, tidak berdosa jika ditinggalkan.
+Tidak wajib. Jabatan Mufti Wilayah Persekutuan, dalam Al-Kafi li al-Fatawi Soalan 186, menyebut hukumnya "sunat hukumnya mendoakan isteri yang baru dinikahi dengan doa sambil meletakkan tangan di atas ubun-ubun isteri".
 
 ### Adakah upacara membatalkan air sembahyang itu sunnah?
 

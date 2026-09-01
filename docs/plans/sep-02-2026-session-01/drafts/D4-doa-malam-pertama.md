@@ -27,11 +27,11 @@ cover:
   licenseClass: S
   licensorName: 'Fyruz Alqadiri'
 images:
-  - file: images/S-pasangan-pelamin-bunga-duduk-mohd-hasan.jpg
-    alt: "Pasangan pengantin Melayu berbaju merah jambu terang duduk di pelamin yang dipenuhi bunga merah dan merah jambu."
+  - file: images/S-pengantin-merah-jambu-pelamin-mohd-hasan.jpg
+    alt: "Pasangan pengantin Melayu berbaju merah jambu duduk di pelamin berhias bunga; pengantin lelaki bertanjak bercorak, pengantin perempuan bertudung labuh."
     caption: "Doa ini bukan bacaan panjang. Ia satu ayat, dibaca sekali, sebelum pasangan bersama."
     credit: 'Kredit: mohd hasan / Pexels'
-    creditUrl: https://www.pexels.com/photo/beautiful-floral-engagement-ceremony-setting-indoors-37097258/
+    creditUrl: https://www.pexels.com/photo/bride-and-groom-sitting-together-15430953/
     licenseClass: S
     licensorName: 'mohd hasan'
     placeAfter: 30

@@ -20,11 +20,11 @@ tags:
   - sakinah mawaddah rahmah
   - doa pasangan
 cover:
-  file: images/S-pasangan-dan-keluarga-pelamin-mohd-hasan.jpg
-  alt: "Pasangan pengantin berbaju merah jambu terang duduk di pelamin bunga, diapit dua orang lelaki lebih tua yang berdiri di kiri dan kanan, di dalam dewan berlangsir putih."
+  file: images/S-bersanding-pelamin-mohd-hasan.jpg
+  alt: "Majlis bersanding: pengantin berbaju merah jambu duduk di pelamin di bawah gerbang bunga, dengan pengapit mengipas di sisi."
   caption: "Doa rumah tangga yang paling kerap dibaca meminta dua perkara sekali gus: pasangan dan zuriat yang menyenangkan hati."
   credit: 'Kredit: mohd hasan / Pexels'
-  creditUrl: https://www.pexels.com/photo/traditional-engagement-ceremony-with-floral-decor-37097209/
+  creditUrl: https://www.pexels.com/photo/portrait-of-newlywed-couple-15430952/
   licenseClass: S
   licensorName: 'mohd hasan'
 images:
@@ -39,7 +39,7 @@ images:
 internalLinks: []
 ---
 
-Doa keluarga bahagia yang paling kerap dibaca di Malaysia ialah ayat 74 Surah al-Furqan, dan ia meminta dua perkara dalam satu nafas: pasangan dan zuriat yang menyenangkan hati, dan diri sendiri yang layak menjadi ikutan. Teks penuhnya dalam tulisan Arab, rumi dan maksud rasminya ada di bahagian seterusnya.
+Doa rumah tangga yang Jabatan Mufti Wilayah Persekutuan pilih untuk menutup pesanan perkahwinannya ialah ayat 74 Surah al-Furqan, dan ia meminta dua perkara dalam satu nafas: pasangan dan zuriat yang menyenangkan hati, dan diri sendiri yang layak menjadi ikutan. Teks penuhnya dalam tulisan Arab, rumi dan maksud rasminya ada di bahagian seterusnya.
 
 ## Teks penuh: ayat 74 Surah al-Furqan
 
@@ -59,7 +59,7 @@ Bayan Linnas Siri ke-121 menutup keseluruhan pesanannya kepada sepasang penganti
 
 ## Kenapa ayat 21 Surah al-Rum selalu disebut bersamanya
 
-Kerana ayat itulah yang menamakan apa yang sebenarnya dicari dalam sebuah rumah tangga. Bayan Linnas Siri ke-121 membukanya begini:
+Kerana ayat itulah yang menamakan apa yang dicari dalam sebuah rumah tangga. Bayan Linnas Siri ke-121 membawanya selepas menyenaraikan tujuan perkahwinan, dengan ayat pengantar "Inilah sebahagian cita-cita dan tujuan perkahwinan itu sendiri, benarlah firman Allah SWT":
 
 > وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُمْ مِنْ أَنْفُسِكُمْ أَزْوَاجًا لِتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُمْ مَوَدَّةً وَرَحْمَةً ۚإِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِقَوْمٍ يَتَفَكَّرُونَ
 
@@ -69,7 +69,7 @@ Kerana ayat itulah yang menamakan apa yang sebenarnya dicari dalam sebuah rumah 
 
 Sumbernya sama: Jabatan Mufti Wilayah Persekutuan, Bayan Linnas Siri ke-121, disemak 2 September 2026. Rumi oleh HelloKahwin mengikut pedoman DBP.
 
-Tiga perkataan datang daripada ayat ini, dan ketiga-tiganya berlainan. Sakinah ialah ketenangan jiwa, daripada perkataan *litaskunu*, "supaya kamu merasa tenteram". Mawaddah ialah cinta dan kasih sayang, yang zahir dan dipilih. Rahmah ialah belas kasihan, yang bertahan apabila mawaddah lesu.
+Tiga perkataan datang daripada ayat ini, dan ketiga-tiganya berlainan. Bayan Linnas Siri ke-121 memberikan glosari bagi dua daripadanya ketika menyenaraikan tujuan perkahwinan: "Mencari sakinah (ketenangan jiwa)" dan "Menghasilkan mawaddah (cinta dan kasih sayang)". Bagi rahmah ia menyenaraikan "Memperoleh rahmah" tanpa glosari. Terjemahan rasmi ayat 21 Surah al-Rum yang dipetik di atas menterjemahkan pasangan *mawaddatan wa rahmah* sebagai "rasa kasih dan sayang".
 
 Ramai orang menyebut ketiga-tiganya sebagai satu ucapan. Ia sebenarnya tiga perkara yang datang pada waktu yang berlainan dalam sebuah perkahwinan.
 
@@ -123,13 +123,15 @@ Tiada waktu yang ditetapkan. Ia doa harian dan bukan doa upacara, jadi ia boleh 
 
 ### Bolehkah doa untuk rumah tangga dibaca dalam bahasa Melayu?
 
-Boleh. Ayat 74 Surah al-Furqan dibaca dalam bahasa Arab kerana ia ayat al-Quran, tetapi permohonan lain untuk rumah tangga tidak terikat kepada mana-mana bahasa.
+Ayat 74 Surah al-Furqan dibaca dalam bahasa Arab kerana ia ayat al-Quran. Bagi permohonan lain untuk rumah tangga, JAKIM menyatakan dalam takrif doa di perkara 4.3 *Garis Panduan dan Himpunan Doa bagi Majlis Rasmi dan Separuh Rasmi Kerajaan* terbitan 2026, disemak 2 September 2026: "Ia juga boleh dituturkan dalam pelbagai bahasa."
 
 ### Apa doa yang dibaca untuk pengantin baru pada hari majlis?
 
-Itu doa yang berlainan, dan lafaznya *Barakallahu laka wa baraka 'alaika wa jama'a bainakuma fi khair*. Kami huraikannya berasingan dalam [doa pengantin baru](/artikel/ucapan-doa/doa-pengantin-baru).
+Itu doa yang berlainan. Jabatan Mufti Wilayah Persekutuan, dalam *Irsyad al-Hukum Siri ke-954* bertarikh 16 April 2026, disemak 2 September 2026, membawanya sebagai بَارَكَ اللَّهُ لَكَ، وَبَارَكَ عَلَيْكَ، وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ, dinukilkan daripada Imam al-Nawawi dalam *Raudhah al-Talibin* (8:35), dengan riwayat asalnya daripada Abu Daud (2130). Maksudnya, mengikut terbitan yang sama: "Semoga Allah SWT memberkati kamu dalam keadaan senang dan susah serta menghimpun kalian berdua dalam kebaikan." Kami huraikannya berasingan dalam [doa pengantin baru](/artikel/ucapan-doa/doa-pengantin-baru).
 
 ## Sumber
 
 - Jabatan Mufti Wilayah Persekutuan, *Bayan Linnas Siri ke-121: Nikah… Mencari Sakinah Rahmah dan Mawaddah*, coretan bertarikh 7 Disember 2017. Disemak 2 September 2026.
+- Jabatan Mufti Wilayah Persekutuan, *Irsyad al-Hukum Siri ke-954: Persoalan Berkaitan Doa Yang Dibaca Ketika Majlis Perkahwinan*, 16 April 2026. Disemak 2 September 2026.
+- Jabatan Kemajuan Islam Malaysia, *Garis Panduan dan Himpunan Doa bagi Majlis Rasmi dan Separuh Rasmi Kerajaan*, terbitan 2026, perkara 4.3. Disemak 2 September 2026.
 - Dewan Bahasa dan Pustaka, *Pedoman Transliterasi Huruf Arab ke Huruf Rumi*, digunakan bagi semua transliterasi di halaman ini.

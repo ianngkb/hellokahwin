@@ -155,7 +155,7 @@ Tidak, dan riwayat Muslim menunjukkan sebaliknya lebih baik. Doa yang dibaca tan
 
 ### Bolehkah doa untuk suami dibaca dalam bahasa Melayu?
 
-Boleh. Lafaz yang diriwayatkan di halaman ini ialah lafaz yang datang daripada hadis dan ia dibaca dalam bahasa Arab, tetapi permohonan lain untuk suami tidak terikat kepada mana-mana bahasa.
+Lafaz yang diriwayatkan di halaman ini datang daripada hadis dan dibaca dalam bahasa Arab. Bagi permohonan selain lafaz yang diriwayatkan, JAKIM menyatakan dalam takrif doa di perkara 4.3 *Garis Panduan dan Himpunan Doa bagi Majlis Rasmi dan Separuh Rasmi Kerajaan* terbitan 2026, disemak 2 September 2026: "Ia juga boleh dituturkan dalam pelbagai bahasa."
 
 ## Sumber
 
@@ -163,4 +163,5 @@ Boleh. Lafaz yang diriwayatkan di halaman ini ialah lafaz yang datang daripada h
 - Jabatan Mufti Wilayah Persekutuan, *Irsyad al-Hadith Siri ke-108: Doa Seorang Sahabat Kepada Sahabatnya*. Disemak 2 September 2026.
 - Jabatan Mufti Wilayah Persekutuan, *Irsyad al-Hadith Siri ke-523: Status Hadis "Ganjaran Kepada Isteri Yang Menyediakan Makanan Buat Suami"*, 1 Julai 2021. Disemak 2 September 2026.
 - Jabatan Mufti Wilayah Persekutuan, *Al-Afkar #113: Rezeki Suami Datang Dari Redha Isteri?*, 10 Februari 2021. Disemak 2 September 2026.
+- Jabatan Kemajuan Islam Malaysia, *Garis Panduan dan Himpunan Doa bagi Majlis Rasmi dan Separuh Rasmi Kerajaan*, terbitan 2026, perkara 4.3. Disemak 2 September 2026.
 - Dewan Bahasa dan Pustaka, *Pedoman Transliterasi Huruf Arab ke Huruf Rumi*, digunakan bagi semua transliterasi di halaman ini.
