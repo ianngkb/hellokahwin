@@ -54,6 +54,12 @@ takes, and one of the two it does catch, it catches for the wrong reason.
 
 ## What shipped
 
+Re-run after merging UI-16, because neither half of the gate had been run
+against the other: **`369 passed, 0 failed`, `UILINT EXIT: 0`**
+(`07-gate-selftest-merged-with-ui16.txt`). Two items adding checks to the same
+file in the same sprint is exactly where a merge that compiles can still be
+wrong.
+
 > **They are 15 and 16, not 13 and 14.** This item built them as 13 and 14 and
 > UI-16 merged first with its own 13 and 14 — `shaped-slot-variant` and
 > `shaped-slot-dims`. Renumbered here rather than there: theirs was on `master`,
@@ -358,7 +364,7 @@ or `pnpm test`.** Left open, with this as new evidence that it is not theoretica
 | `npx eslint` on the four changed scripts | clean |
 | `npx prettier --check .` | 3 pre-existing failures, none in this diff (see finding) |
 | `pnpm ui:gate:rail` | `RAIL_FIXTURES_RC=1` — the two controls `railgone:0 sumber:0`, the two derived exactly one each, at all five widths |
-| `pnpm ui:gate:selftest` | **`314 passed, 0 failed` · `UILINT EXIT: 0`** — **99** of the 314 are UI-19's (counted, not estimated: lines naming one of the four fixtures or one of the two new checks) |
+| `pnpm ui:gate:selftest` | **`369 passed, 0 failed` · `UILINT EXIT: 0`** on the merged tree — **99** of them UI-19's (counted, not estimated: lines naming one of the four fixtures or one of the two new checks). It was `314 passed, 0 failed` before UI-16's 55 landed |
 | `pnpm ui:rail --base https://hellokahwin.com` | `RAIL EXIT: 0` — 5 articles × 5 widths, 0 violations |
 | `node scripts/capture-rail-fixture.mjs --verify` | `CAPTURE EXIT: 0` — every file re-derived SAME |
 | `pnpm ui:sources` | `SOURCES EXIT: 0`, 92 of 92 fetched |
