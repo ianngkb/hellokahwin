@@ -1,7 +1,7 @@
 # Sprint 06 — *Deepen where the click is*
 
 **Status:** **APPROVED — executing** (owner, 02 Sept 2026: *"proceed with the full scope"*)
-**Planned:** 02 September 2026 · **10 items · 52 points**
+**Planned:** 02 September 2026 · **11 items · 55 points**
 **Tracker:** imported and read back — `reconcile 6 --check` exits 0, file agrees item for item
 **Sprint file:** `docs/sprints/sprint-06.json` (as-scoped record; **the tracker is the state**)
 
@@ -74,7 +74,7 @@ concurrently.
 | **CONT-18** | 8 | `writer-adat-agama-prosedur` | Four `nikah-undang-undang` articles — lafaz taklik (position 9.0, zero clicks), rukun (22.3), syarat sah |
 | **COPY-01** | 2 | `managing-editor` | The undatable "akan datang tidak lama lagi" line |
 
-### Design — 24pt, the UI ask
+### Design — 27pt, the UI ask
 
 | Item | Pt | Owner | |
 |---|---|---|---|
@@ -83,6 +83,7 @@ concurrently.
 | **CONT-15** | 5 | `creative-director` | Portrait covers. **DES-18's mid-size variant unblocked this**; substitution route still forbidden |
 | **UI-16** | 3 | `design-systems-engineer` | `garden-wedding` cover — **confirmed still `low.webp` on 02 Sept**, on the page drawing 28% of impressions |
 | **DES-15** | 3 | `design-systems-engineer` | `s-h2`'s font-weight is dead on every public page |
+| **UI-20** | 3 | `design-systems-engineer` | **The favicon is a pink serif `H` from the retired Plum Forward palette** — not any mark in the brand registry, and `/favicon.ico`, `/icon.svg`, `/apple-icon.png` all 404. Added at the owner's request |
 
 ### SEO — 3pt · **PLATFORM — 3pt**
 
