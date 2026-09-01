@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import {
   COVER_PLATE,
@@ -110,6 +111,17 @@ describe('the plate-width expression', () => {
     }
   });
 
+  // The ceiling must actually BIND somewhere, or the previous assertion is
+  // satisfied by a rule that has no ceiling at all. Portrait narrows; the whole
+  // landscape population above the break keeps full measure.
+  it('binds below the break and does not bind above it', () => {
+    const brk = COVER_PLATE.MEASURE_PX / COVER_PLATE.HEIGHT_CEILING_PX;
+    for (const [, w, h] of CASES) {
+      const narrowed = coverPlateWidthPx(w, h) < COVER_PLATE.MEASURE_PX;
+      expect(narrowed).toBe(w / h < brk);
+    }
+  });
+
   // The break between the two constants. It has to sit in the corpus's empty
   // gap between 1.255 and 1.313, or a landscape cover narrows that the
   // specification says keeps full measure.
@@ -133,11 +145,41 @@ describe('the plate-width expression', () => {
     expect(coverPlateAspect(771, 1024)).toBe('771 / 1024');
   });
 
-  // A negative control: the fallbacks in `.hk-cover-plate` are today's geometry,
-  // so the unrecorded case must produce the box that ships right now.
-  it('the CSS fallbacks reproduce today’s plate exactly', () => {
-    expect(COVER_PLATE.MEASURE_PX).toBe(756);
-    // 3 / 2 at 756 wide is 504 tall, which is what production paints today.
-    expect(COVER_PLATE.MEASURE_PX / (3 / 2)).toBe(504);
+  // ── The fallbacks, read out of the CSS that actually ships ────────────────
+  //
+  // This assertion previously compared `COVER_PLATE.MEASURE_PX` to 756 and
+  // `756 / 1.5` to 504 and called itself "the CSS fallbacks reproduce today's
+  // plate exactly". It read no CSS, so `aspect-ratio: var(--cover-ar, 4 / 3)`
+  // would have left it green — a check that could not fail, which is worse than
+  // no check. It now parses `components.css`, which is the artefact the browser
+  // is handed.
+  //
+  // The fallback is the ENTIRE unrecorded-intrinsics state: when the resolver
+  // returns nulls the page emits neither custom property, so these two literals
+  // are the only thing standing between a cover with no measurement and a
+  // collapsed box.
+  it('the shipped .hk-cover-plate carries today’s geometry as its fallbacks', () => {
+    const css = readFileSync('src/design-system/components.css', 'utf8');
+    const rule = css.match(/\.hk-cover-plate\s*\{([\s\S]*?)\}/);
+    expect(rule, '.hk-cover-plate not found — did the class move or get renamed?').toBeTruthy();
+    const body = rule![1];
+
+    const maxW = body.match(/max-width:\s*var\(--cover-max-w,\s*(\d+)px\)/);
+    expect(maxW, 'max-width must be var(--cover-max-w, <n>px)').toBeTruthy();
+    expect(Number(maxW![1])).toBe(COVER_PLATE.MEASURE_PX);
+
+    const ar = body.match(/aspect-ratio:\s*var\(--cover-ar,\s*(\d+)\s*\/\s*(\d+)\)/);
+    expect(ar, 'aspect-ratio must be var(--cover-ar, <n> / <n>)').toBeTruthy();
+    const fallbackAspect = Number(ar![1]) / Number(ar![2]);
+    expect(fallbackAspect).toBe(1.5);
+    // 3 / 2 at the measure is 504 tall, which is what production paints today.
+    expect(COVER_PLATE.MEASURE_PX / fallbackAspect).toBe(504);
+
+    // The image rule is what makes the box a plate rather than a spacer.
+    const imgRule = css.match(/\.hk-cover-plate img\s*\{([\s\S]*?)\}/);
+    expect(imgRule, '.hk-cover-plate img not found').toBeTruthy();
+    for (const decl of ['position: absolute', 'inset: 0', 'object-fit: cover']) {
+      expect(imgRule![1]).toContain(decl);
+    }
   });
 });

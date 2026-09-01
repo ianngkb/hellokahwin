@@ -2,19 +2,42 @@
  * CONT-15 — the article cover plate's two constants.
  *
  * The plate stops being a fixed `aspect-[3/2]` box and becomes a function of
- * the file it holds. Fourteen of the ninety-two published covers are portrait
- * (0.667 ×8, 0.748 ×1, 0.750 ×4, 0.753 ×1); every one was letterboxed into 3:2,
- * keeping as little as 44.5% of the frame and failing `image-aspect` in
- * `scripts/ui-layout-gate.mjs` by up to 125% against a 25% ceiling. Measured on
- * production 02 September 2026.
+ * the file it holds. Every portrait cover was letterboxed into 3:2, keeping as
+ * little as 44.5% of the frame and failing `image-aspect` in
+ * `scripts/ui-layout-gate.mjs` by up to 125% against a 25% ceiling.
+ *
+ * ⚠️ THE CORPUS MOVED UNDER THE MEASUREMENT, so both numbers below are dated
+ * rather than reconciled — reconciling them by editing one would destroy the
+ * evidence that it moves.
+ *
+ *   creative-director, 02 Sept 2026, the specification:
+ *     92 published covers · 14 portrait (0.667 ×8, 0.748 ×1, 0.750 ×4, 0.753 ×1)
+ *     + 1 near-square at 1.255 that the ceiling narrows = 15 plates move.
+ *   backfill run, 02 Sept 2026, same day, hours later:
+ *     96 published covers · 15 portrait (0.667 ×8, 0.748 ×1, 0.750 ×5, 0.753 ×1)
+ *     + the same 1.255 = 16 plates move. The extra portrait is
+ *     `syarat-wali-nikah` (1200×1600). The corpus went 92 → 95 → 96 across
+ *     three reads inside one afternoon.
+ *
+ * Neither reading is wrong and the rule does not depend on either: a box
+ * derived from the file cannot deviate from the file, whatever the count is
+ * this hour. The counts are provenance, not inputs.
  *
  * ── WHERE EACH NUMBER COMES FROM ───────────────────────────────────────────
  *
  * `MEASURE_PX` = 756. Today's measure kept, not a new number. It is the
  * measured rendered width of the existing figure at 1440 and 1920, and it is
  * DES-03 §5.1's own frame written down in `components.css`:
- * `756 + 64 + 300 = 1120`, the `.hk-article-grid` container. Every landscape
- * cover therefore renders at exactly the width it renders at today.
+ * `756 + 64 + 300 = 1120`, the `.hk-article-grid` container.
+ *
+ * Every landscape cover therefore renders at exactly the width it renders at
+ * today, and that claim is measured rather than reasoned. Reasoning from the
+ * figure's `max-w-3xl` (768px) says the 756px cap must bind somewhere in the
+ * 768–1023px band and narrow every landscape plate by 12px. It does not: the
+ * figure's own computed width is 704px across that entire band, because the
+ * page container — not `max-w-3xl` — is what binds there. Measured in Chrome at
+ * `deviceScaleFactor: 1` on `garden-wedding` at 768/800/832/860/900/1000/1023:
+ * figure 704.0, plate 704.0, cap never binds. At 1024 both are 580.0.
  *
  * `HEIGHT_CEILING_PX` = 580. Today's 3:2 plate at full measure is 504px tall;
  * 580 gives a portrait plate 15% more presence than the landscape norm while

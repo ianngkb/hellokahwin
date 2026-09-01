@@ -1334,7 +1334,7 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
               <div>
                 {relatedArticles.map((related, i) => {
                   const cover = resolveRowThumbSource(
-                    related.coverImageVariants as Record<string, { url: string }> | null,
+                    related.coverImageVariants as CoverVariants | null,
                     related.coverImageSmartCrops,
                     related.coverImageUrl,
                   );

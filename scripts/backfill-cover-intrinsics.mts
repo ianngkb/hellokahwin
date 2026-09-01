@@ -40,7 +40,13 @@
  *
  * BEFORE the first write it dumps every affected row's PRIOR
  * `cover_image_variants` to `--undo <path>`, with the exact reversal SQL and
- * every affected row id spelled out. Recovery is either:
+ * every affected row id spelled out.
+ *
+ * The undo path is NEVER overwritten: an existing file is recovery data for a
+ * run that already happened, and the run that would clobber it is the harmless-
+ * looking `--dry-run` you do to check state afterwards. It refuses instead.
+ *
+ * Recovery is either:
  *
  *   1. the surgical reversal, which needs nothing but the undo file —
  *        UPDATE articles
@@ -60,7 +66,7 @@
  * `width` and `height` on `low`, so an interrupted run resumes and a second run
  * writes nothing.
  */
-import { writeFileSync } from 'node:fs';
+import { existsSync, writeFileSync } from 'node:fs';
 import postgres from 'postgres';
 
 type VariantEntry = { url?: unknown; width?: unknown; height?: unknown; [k: string]: unknown };
@@ -201,7 +207,30 @@ async function main() {
   for (const r of noLow) console.warn(`  NO LOW ${r.slug}`);
 
   // ── The undo dump, written BEFORE the first write ────────────────────────
-  const ids = todo.map((r) => `'${r.id}'`).join(', ');
+  //
+  // ⚠️ NEVER overwrite an existing undo file. The undo path is a COMMITTED
+  // artefact (`docs/undo/cont-15-cover-intrinsics.json`), and the second run
+  // against a completed backfill has an EMPTY `todo` — so an unguarded write
+  // would replace the only recovery data for the real run with `priorRows: []`
+  // and a `WHERE id IN ()` that is not even valid SQL. A `--dry-run` is
+  // read-only against the database and must be read-only against this file too.
+  if (existsSync(args.undo)) {
+    console.error(
+      `Refusing to run: ${args.undo} already exists. An undo file is recovery data for a run ` +
+        `that already happened; overwriting it destroys it. Choose a new --undo path.`,
+    );
+    process.exit(2);
+  }
+
+  // The surgical reversal DELETES `width`/`height`. That restores the prior
+  // state only for a row that had none — which is every row on a normal run,
+  // and NOT every row under `--force`. For a row that already carried
+  // intrinsics, deleting them lands on a third state that is neither the
+  // before nor the after, so those ids are excluded from the surgical SQL and
+  // listed separately for a wholesale restore from `priorRows`.
+  const deletable = todo.filter((r) => !hasRecordedIntrinsics(r.cover_image_variants?.low));
+  const restoreOnly = todo.filter((r) => hasRecordedIntrinsics(r.cover_image_variants?.low));
+  const ids = deletable.map((r) => `'${r.id}'`).join(', ');
   const undo = {
     item: 'CONT-15',
     writtenAt: new Date().toISOString(),
@@ -209,9 +238,12 @@ async function main() {
     dryRun: args.dryRun,
     addedJsonbKeys: ['cover_image_variants.low.width', 'cover_image_variants.low.height'],
     r2ObjectsAdded: [],
-    reversalSql:
-      `UPDATE articles SET cover_image_variants = jsonb_set(cover_image_variants, '{low}', ` +
-      `(cover_image_variants -> 'low') - 'width' - 'height') WHERE id IN (${ids});`,
+    reversalSql: ids
+      ? `UPDATE articles SET cover_image_variants = jsonb_set(cover_image_variants, '{low}', ` +
+        `(cover_image_variants -> 'low') - 'width' - 'height') WHERE id IN (${ids});`
+      : '-- no rows to reverse: this run had nothing to write.',
+    /** Ids the surgical SQL above does NOT cover — restore these from `priorRows`. */
+    restoreFromPriorRowsOnly: restoreOnly.map((r) => ({ id: r.id, slug: r.slug })),
     priorRows: todo.map((r) => ({
       id: r.id,
       slug: r.slug,
@@ -240,13 +272,33 @@ async function main() {
       if (!args.dryRun) {
         // Merge INSIDE `low`. A top-level `||` would replace the whole object
         // and drop `sizeBytes`; every other variant key is untouched.
-        await sql`
+        //
+        // ⚠️ The predicate pins the write to the EXACT file that was measured,
+        // and it is not defensive padding — this loop makes one network round
+        // trip per row and runs for minutes against a live editorial pipeline
+        // whose corpus grew twice DURING this item's own measurements. Without
+        // it, three things go wrong silently: an editor who re-generates a
+        // cover mid-run gets the OLD file's pixels merged onto the NEW `low`
+        // (the neighbouring-record defect this contract exists to prevent); a
+        // row whose variants became NULL takes `jsonb_set(NULL, …) -> NULL` and
+        // has the whole column WIPED while the log prints `wrote`; and a `low`
+        // that is a JSON scalar rather than an object fails the `||`. Matching
+        // on the url rules out all three, and a zero-row result is reported as
+        // a failure rather than counted as a write.
+        const res = await sql`
           update articles
              set cover_image_variants = jsonb_set(
                    cover_image_variants,
                    '{low}',
                    (cover_image_variants -> 'low') || ${sql.json({ width: d.w, height: d.h })}::jsonb)
-           where id = ${r.id}`;
+           where id = ${r.id}
+             and cover_image_variants -> 'low' ->> 'url' = ${url}`;
+        if (res.count !== 1) {
+          throw new Error(
+            `update matched ${res.count} row(s), not 1 — this row's low.url changed under the ` +
+              `run, so the measured pixels do not belong to the file that is there now`,
+          );
+        }
       }
 
       done++;

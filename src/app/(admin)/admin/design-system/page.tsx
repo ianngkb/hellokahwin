@@ -1493,34 +1493,42 @@ export default async function DesignSystemPage({
             its 4:3 cluster (1.313&ndash;1.344) — so the whole landscape population keeps full
             measure. The ceiling is the knob; the aspect is not.
           </p>
-          <div className="flex flex-wrap items-start gap-6">
-            {COVER_PLATE_DEMOS.map(([label, w, h]) => (
-              <figure key={label} className="m-0 flex flex-col gap-2" style={{ width: 200 }}>
-                <div
-                  className="hk-cover-plate"
-                  style={
-                    {
-                      '--cover-ar': coverPlateAspect(w, h),
-                      // Scaled to 200/756 of the real ceiling so six plates fit
-                      // side by side. The RATIO is the shipped one; only the
-                      // stage is smaller, and the table below carries the real
-                      // resolved widths.
-                      '--cover-max-w': `min(200px, calc(${
-                        (COVER_PLATE.HEIGHT_CEILING_PX * 200) / COVER_PLATE.MEASURE_PX
-                      }px * ${w} / ${h}))`,
-                    } as CSSProperties
-                  }
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element -- placeholder, no network */}
-                  <img src={placeholderImg(`${w}x${h}`)} alt="" width={w} height={h} />
-                </div>
-                <figcaption className="text-muted-foreground font-mono text-[10px] leading-snug">
-                  {label}
-                  <br />
-                  {w}&times;{h} &middot; {(w / h).toFixed(3)}
-                </figcaption>
-              </figure>
-            ))}
+          {/* TRUE SCALE. An earlier draft of this section scaled the plates to a
+            200px stage by re-deriving `--cover-max-w` against 200/756 — a second
+            implementation of the one expression the whole item insists the
+            browser compute once, sitting directly under a paragraph claiming
+            "no copy, no re-declared CSS". These are the real values from
+            `coverPlateMaxWidth`, so the widths below ARE the widths the article
+            page paints, and the row scrolls rather than lying about them. */}
+          <div className="overflow-x-auto">
+            <div className="flex w-max items-start gap-6">
+              {COVER_PLATE_DEMOS.map(([label, w, h]) => (
+                <figure key={label} className="m-0 flex flex-col gap-2">
+                  <div
+                    className="hk-cover-plate"
+                    style={
+                      {
+                        '--cover-ar': coverPlateAspect(w, h),
+                        '--cover-max-w': coverPlateMaxWidth(w, h),
+                        // The plate is `width: 100%` of its container, so give it
+                        // a container at least as wide as the measure and let
+                        // `max-width` be the only thing that decides.
+                        width: COVER_PLATE.MEASURE_PX,
+                      } as CSSProperties
+                    }
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element -- placeholder, no network */}
+                    <img src={placeholderImg(`${w}x${h}`)} alt="" width={w} height={h} />
+                  </div>
+                  <figcaption className="text-muted-foreground font-mono text-[10px] leading-snug">
+                    {label}
+                    <br />
+                    {w}&times;{h} &middot; {(w / h).toFixed(3)} &middot;{' '}
+                    {Math.round(coverPlateWidthPx(w, h))}px
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
           </div>
           <div className="overflow-x-auto border">
             <table className="w-full text-sm">
@@ -1566,17 +1574,25 @@ export default async function DesignSystemPage({
             or neither, so a half-recorded row can never put an asserted number on the page. The
             plate below is that fallback, rendered with no properties set at all.
           </p>
-          <figure className="m-0 flex flex-col gap-2" style={{ width: 200 }}>
-            <div className="hk-cover-plate" style={{ maxWidth: 200 }}>
-              {/* eslint-disable-next-line @next/next/no-img-element -- placeholder, no network */}
-              <img src={placeholderImg('fallback 3 / 2')} alt="" width={1200} height={800} />
-            </div>
-            <figcaption className="text-muted-foreground font-mono text-[10px] leading-snug">
-              no --cover-ar, no --cover-max-w
-              <br />
-              falls back to 3 / 2 at {COVER_PLATE.MEASURE_PX}px
-            </figcaption>
-          </figure>
+          {/* No inline `max-width` here either: an override would render a box
+            the fallback never produces, under a caption claiming it is the
+            fallback. The container is the measure and the CLASS decides. */}
+          <div className="overflow-x-auto">
+            <figure
+              className="m-0 flex w-max flex-col gap-2"
+              style={{ width: COVER_PLATE.MEASURE_PX }}
+            >
+              <div className="hk-cover-plate">
+                {/* eslint-disable-next-line @next/next/no-img-element -- placeholder, no network */}
+                <img src={placeholderImg('fallback 3 / 2')} alt="" width={1200} height={800} />
+              </div>
+              <figcaption className="text-muted-foreground font-mono text-[10px] leading-snug">
+                no --cover-ar, no --cover-max-w — falls back to 3 / 2 at {COVER_PLATE.MEASURE_PX}px,
+                i.e. {COVER_PLATE.MEASURE_PX}&times;
+                {COVER_PLATE.MEASURE_PX / 1.5}, which is what production paints today
+              </figcaption>
+            </figure>
+          </div>
         </section>
 
         {/* ── 09 SCOPE ───────────────────────────────────────────────── */}

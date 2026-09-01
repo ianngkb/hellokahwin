@@ -757,7 +757,7 @@ function CategoryCard({ article }: { article: CategoryArticle }) {
  * where they are"). */
 function CategoryRow({ article, index }: { article: CategoryArticle; index: number }) {
   const cover = resolveRowThumbSource(
-    article.coverImageVariants as Record<string, { url: string }> | null,
+    article.coverImageVariants as CoverVariants | null,
     article.coverImageSmartCrops,
     article.coverImageUrl,
   );
