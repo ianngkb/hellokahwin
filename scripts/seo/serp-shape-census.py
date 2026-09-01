@@ -34,6 +34,21 @@ HONESTY RULES BUILT INTO THIS SCRIPT.  DO NOT REMOVE THEM.
     the false alarms that get checkers switched off.
   * expected_ctr comes from ONE cited published curve that stops at position 10.
     Beyond position 10 this writes NA.  It never extrapolates.
+
+SEO-14, 02 September 2026 - THE RE-ISSUE, AND WHAT WAS AND WAS NOT CHANGED
+  `intent_of()` below is still FROZEN and still byte-identical, so the committed
+  aug-30 census still reproduces.  What is added is a SECOND column,
+  `intent_class_gate`, produced by importing `check-serp-shape.py`'s classifier
+  rather than by editing this one - which is what that function's own comment
+  told the next seat to do.  Every figure downstream must name which column it
+  came from; a ratio quoted without its classifier is not reproducible.
+
+    intent_class       frozen SEO-11 intent_of()      - comparison baseline
+    intent_class_gate  SEO-12 check-serp-shape.py     - the canonical classifier
+
+  `--data-state` is also new.  GSC `final` lags roughly three days, so a window
+  that reaches the last few days needs `all`, and `all` is provisional.  Whichever
+  is used is printed to stderr and belongs in the write-up.
 """
 
 import argparse
@@ -47,6 +62,30 @@ import sys
 import time
 import urllib.parse
 import urllib.request
+
+# ------------------------------------------------------- the gate's classifier
+# SEO-14.  `check-serp-shape.py` is the canonical answer-type classifier
+# (SEO-12).  Its filename is hyphenated, so it is loaded by path rather than
+# imported by name.  If it cannot be loaded the census still runs and writes
+# `intent_class_gate` as "not-loaded" - never silently as the frozen label,
+# because a column that quietly falls back to the other classifier is exactly
+# the unreproducible figure this re-issue exists to prevent.
+def _load_gate():
+    import importlib.util
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                        "check-serp-shape.py")
+    spec = importlib.util.spec_from_file_location("check_serp_shape", path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+try:
+    GATE = _load_gate()
+except Exception as _exc:                              # noqa: BLE001
+    GATE = None
+    sys.stderr.write("WARNING: could not load check-serp-shape.py (%s); "
+                     "intent_class_gate will be written 'not-loaded'\n" % _exc)
 
 # --------------------------------------------------------------- expected CTR
 # SOURCE CURVE, quoted verbatim and in full.
@@ -286,7 +325,7 @@ def intent_of(query):
     return "other"
 
 
-COLUMNS = ["query", "cluster", "intent_class", "landing_page", "impressions", "clicks", "position",
+COLUMNS = ["query", "cluster", "intent_class", "intent_class_gate", "landing_page", "impressions", "clicks", "position",
            "actual_ctr_pct", "serp_data", "ai_overview_present",
            "ai_overview_position", "paa_present", "image_pack_present",
            "expected_ctr_pct", "ratio_actual_over_expected", "serp_update_date",
@@ -302,6 +341,9 @@ def main():
     ap.add_argument("--min-impressions", type=int, default=5,
                     help="The DoD threshold is 20; 5 also fetches the extension tier.")
     ap.add_argument("--cache", default=".cache/serp")
+    ap.add_argument("--data-state", default="final", choices=["final", "all"],
+                    help="GSC dataState. `final` lags ~3 days; `all` reaches "
+                         "today but its last days are provisional.")
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
 
@@ -313,18 +355,24 @@ def main():
         token = cfg["mcpServers"]["ahrefs"]["headers"]["Authorization"]
 
     sys.stderr.write("Search Console property : %s\n" % args.site)
-    sys.stderr.write("window                  : %s to %s (dataState=final)\n"
-                     % (args.start, args.end))
+    sys.stderr.write("window                  : %s to %s (dataState=%s)\n"
+                     % (args.start, args.end, args.data_state))
     sys.stderr.write("Ahrefs country          : %s\n" % args.country)
     sys.stderr.write("expected-CTR curve      : %s\n" % CURVE_NAME)
+    sys.stderr.write("intent_class            : frozen intent_of() (SEO-11)\n")
+    sys.stderr.write("intent_class_gate       : %s\n"
+                     % ("check-serp-shape.py (SEO-12)" if GATE
+                        else "NOT LOADED - column written 'not-loaded'"))
 
     tok = gsc_access_token(cred)
     by_query = gsc_query(tok, args.site, {
         "startDate": args.start, "endDate": args.end,
-        "dimensions": ["query"], "rowLimit": 25000, "dataState": "final"})
+        "dimensions": ["query"], "rowLimit": 25000,
+        "dataState": args.data_state})
     by_qp = gsc_query(tok, args.site, {
         "startDate": args.start, "endDate": args.end,
-        "dimensions": ["query", "page"], "rowLimit": 25000, "dataState": "final"})
+        "dimensions": ["query", "page"], "rowLimit": 25000,
+        "dataState": args.data_state})
 
     top_page = {}
     for r in by_qp:
@@ -339,6 +387,30 @@ def main():
 
     os.makedirs(args.cache, exist_ok=True)
     ah = Ahrefs(token)
+
+    # The gate's stage B decides a bare term of art from its own demand family,
+    # so it needs its own Ahrefs client and its own committed sibling cache.
+    # Separate from `ah` on purpose: the two scripts keep separate caches and
+    # this one must not be able to corrupt the gate's.
+    gate_cache = GATE.load_cache() if GATE else {}
+    gate_ah = None
+    if GATE:
+        try:
+            gate_ah = GATE.Ahrefs(token)
+        except Exception as exc:                       # noqa: BLE001
+            sys.stderr.write("gate Ahrefs client unavailable (%s); stage B "
+                             "will use the committed cache only\n" % exc)
+
+    def gate_label(q):
+        if not GATE:
+            return "not-loaded"
+        try:
+            return GATE.check(q, args.country, gate_cache, gate_ah,
+                              want_advisory=False)["intent"]
+        except Exception as exc:                       # noqa: BLE001
+            sys.stderr.write("gate classify failed on %r: %s\n" % (q, exc))
+            return "not-loaded"
+
     units = 0
     out_rows = []
     for i, r in enumerate(rows, 1):
@@ -376,6 +448,7 @@ def main():
             "query": q,
             "cluster": cluster_of(q, page),
             "intent_class": intent_of(q),
+            "intent_class_gate": gate_label(q),
             "landing_page": page.replace("https://hellokahwin.com", ""),
             "impressions": r["impressions"],
             "clicks": r["clicks"],
@@ -403,6 +476,8 @@ def main():
         w.writeheader()
         for row in out_rows:
             w.writerow(row)
+    if GATE and gate_cache:
+        GATE.save_cache(gate_cache)
     sys.stderr.write("wrote %s (%d rows)\n" % (args.out, len(out_rows)))
     sys.stderr.write("ahrefs units consumed this run: %d\n" % units)
 

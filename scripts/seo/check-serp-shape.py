@@ -672,6 +672,17 @@ def validate(path, country, cache, ahrefs):
 
 
 def main():
+    # SEO-14, 02 Sept 2026.  The census carries non-Latin queries - stage T0
+    # exists precisely because it does - and on Windows `print` defaults to
+    # cp1252, so --validate died with UnicodeEncodeError on the first such row
+    # AFTER printing 18 lines of correct output.  A crash that looks like a
+    # partial result is worse than one that does not, so this is fixed here
+    # rather than left to PYTHONIOENCODING in somebody's shell.
+    for _stream in (sys.stdout, sys.stderr):
+        try:
+            _stream.reconfigure(encoding="utf-8", errors="replace")
+        except (AttributeError, ValueError):           # pragma: no cover
+            pass
     ap = argparse.ArgumentParser(
         description="PRE-FLIGHT #1 - the answer-type intent gate (SEO-12).")
     ap.add_argument("keyword", nargs="*", help="candidate keyword, in Malay")

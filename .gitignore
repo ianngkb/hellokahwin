@@ -92,3 +92,8 @@ cdx*.txt
 # Python bytecode from scripts/seo gates
 __pycache__/
 *.pyc
+
+# SERP snapshot cache written by scripts/seo/serp-shape-census.py (SEO-14, 02 Sept
+# 2026). Raw Ahrefs blobs, ~1MB per census run, regenerable at the cost of Ahrefs
+# units. The census re-reads it, so keep it locally; it must not enter git.
+.cache/

@@ -1,0 +1,67 @@
+### BEFORE — report only (exit 1 expected while anything is stale)
+project: hellokahwin  (9 agent files at source)
+  up to date : 60
+  STALE      : 21
+  absent     : 0
+    STALE  cont13-doa                         managing-editor.md             source 262 lines, deployed 232 lines
+    STALE  cont13-doa                         ceo-hellokahwin.md             source 733 lines, deployed 666 lines
+    STALE  cont13-doa                         head-of-seo-content.md         source 930 lines, deployed 822 lines
+    STALE  cont14-hantaran                    managing-editor.md             source 262 lines, deployed 232 lines
+    STALE  cont14-hantaran                    ceo-hellokahwin.md             source 733 lines, deployed 666 lines
+    STALE  cont14-hantaran                    head-of-seo-content.md         source 930 lines, deployed 822 lines
+    STALE  cont16-skrip                       managing-editor.md             source 262 lines, deployed 232 lines
+    STALE  cont16-skrip                       ceo-hellokahwin.md             source 733 lines, deployed 666 lines
+    STALE  cont16-skrip                       head-of-seo-content.md         source 930 lines, deployed 822 lines
+    STALE  cont18-nikah                       head-of-seo-content.md         source 930 lines, deployed 849 lines
+    STALE  copy01-line                        head-of-seo-content.md         source 930 lines, deployed 849 lines
+    STALE  des17-h6rule                       managing-editor.md             source 262 lines, deployed 232 lines
+    STALE  des17-h6rule                       ceo-hellokahwin.md             source 733 lines, deployed 666 lines
+    STALE  des17-h6rule                       head-of-seo-content.md         source 930 lines, deployed 822 lines
+    STALE  rights02-census                    managing-editor.md             source 262 lines, deployed 232 lines
+    STALE  rights02-census                    ceo-hellokahwin.md             source 733 lines, deployed 666 lines
+    STALE  rights02-census                    head-of-seo-content.md         source 930 lines, deployed 822 lines
+    STALE  rights03-institutional             managing-editor.md             source 262 lines, deployed 262 lines
+    STALE  rights03-institutional             ceo-hellokahwin.md             source 733 lines, deployed 666 lines
+    STALE  rights03-institutional             head-of-seo-content.md         source 930 lines, deployed 822 lines
+    STALE  seo14-census                       head-of-seo-content.md         source 930 lines, deployed 849 lines
+
+report only. re-run with --apply to sync.
+report-only exit: 1
+
+### APPLY
+project: hellokahwin  (9 agent files at source)
+  up to date : 60
+  STALE      : 21
+  absent     : 0
+    STALE  cont13-doa                         managing-editor.md             source 262 lines, deployed 232 lines
+    STALE  cont13-doa                         ceo-hellokahwin.md             source 733 lines, deployed 666 lines
+    STALE  cont13-doa                         head-of-seo-content.md         source 930 lines, deployed 822 lines
+    STALE  cont14-hantaran                    managing-editor.md             source 262 lines, deployed 232 lines
+    STALE  cont14-hantaran                    ceo-hellokahwin.md             source 733 lines, deployed 666 lines
+    STALE  cont14-hantaran                    head-of-seo-content.md         source 930 lines, deployed 822 lines
+    STALE  cont16-skrip                       managing-editor.md             source 262 lines, deployed 232 lines
+    STALE  cont16-skrip                       ceo-hellokahwin.md             source 733 lines, deployed 666 lines
+    STALE  cont16-skrip                       head-of-seo-content.md         source 930 lines, deployed 822 lines
+    STALE  cont18-nikah                       head-of-seo-content.md         source 930 lines, deployed 849 lines
+    STALE  copy01-line                        head-of-seo-content.md         source 930 lines, deployed 849 lines
+    STALE  des17-h6rule                       managing-editor.md             source 262 lines, deployed 232 lines
+    STALE  des17-h6rule                       ceo-hellokahwin.md             source 733 lines, deployed 666 lines
+    STALE  des17-h6rule                       head-of-seo-content.md         source 930 lines, deployed 822 lines
+    STALE  rights02-census                    managing-editor.md             source 262 lines, deployed 232 lines
+    STALE  rights02-census                    ceo-hellokahwin.md             source 733 lines, deployed 666 lines
+    STALE  rights02-census                    head-of-seo-content.md         source 930 lines, deployed 822 lines
+    STALE  rights03-institutional             managing-editor.md             source 262 lines, deployed 262 lines
+    STALE  rights03-institutional             ceo-hellokahwin.md             source 733 lines, deployed 666 lines
+    STALE  rights03-institutional             head-of-seo-content.md         source 930 lines, deployed 822 lines
+    STALE  seo14-census                       head-of-seo-content.md         source 930 lines, deployed 849 lines
+
+synced 21 file(s).
+post-sync verification: 21 of 21 identical to source
+apply exit: 0
+
+### AFTER — the failing case re-run against the fix
+project: hellokahwin  (9 agent files at source)
+  up to date : 81
+  STALE      : 0
+  absent     : 0
+re-check exit: 0

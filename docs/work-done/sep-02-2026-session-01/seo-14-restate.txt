@@ -1,0 +1,94 @@
+CENSUS RESTATED: docs/work-done/sep-02-2026-session-01/serp-shape-census-2026-09-02.csv (95 rows)
+band: positions 3-11, garden-wedding quarantined (decision 148)
+floor under test: 2.3x (decision 171, restated by decision 188)
+
+CLASSIFIER COVERAGE - every figure below names the column it came from
+  intent_class      frozen intent_of() (SEO-11)   {'navigational': 7, 'other': 22, 'number': 40, 'definition': 3, 'document': 23}
+                    73 of 95 rows land in a gated class; 22 do not
+  intent_class_gate check-serp-shape.py (SEO-12)  {'navigational': 11, 'unknown': 10, 'number': 40, 'definition': 4, 'document': 30}
+                    85 of 95 rows land in a gated class; 10 do not
+  the two columns disagree on 22 of 95 rows
+
+SERP SNAPSHOT PROVENANCE - computed from the data, never remembered (decision 174a)
+  rows                   : 95
+  crawled SERPs          : 56
+  serp_update_date RANGE : 2023-08-09T22:31:45Z  ..  2026-08-28T05:56:47Z
+  by month               : 2023-08 x1, 2026-07 x11, 2026-08 x44
+  not from 2026-08        : 12 of 56 - a stale `true` is reliable, a stale `false` is NOT
+  uncrawled              : 39 of 95 rows, written `unknown` and never `false` (decision 173)
+  of those, year-stamped : 17 - the standing blind spot
+
+FROZEN intent_of() - SEO-11's classifier
+----------------------------------------
+  treatment                        document              number/definition        ratio    fisher p  95% CI on the ratio (Katz)
+  all band rows                    13/302   =  4.30%    7/1213  =  0.58%     7.5x  0.0000125  3.00x - 18.5x
+  stale SERP snapshots dropped     11/261   =  4.21%    4/1103  =  0.36%    11.6x  0.0000069  3.73x - 36.2x
+  no-SERP-data rows also dropped   11/212   =  5.19%    3/744   =  0.40%    12.9x  0.0000099  3.62x - 45.7x
+
+  per-arm Wilson 95% CI - the interval SEO-11 published, and the one
+  decision 171's 2.3x floor was derived from:
+    all band rows                    document  4.30% [2.53 - 7.22]   number/def  0.58% [0.28 - 1.19]   conservative bound 2.1x
+    stale SERP snapshots dropped     document  4.21% [2.37 - 7.39]   number/def  0.36% [0.14 - 0.93]   conservative bound 2.6x
+    no-SERP-data rows also dropped   document  5.19% [2.92 - 9.05]   number/def  0.40% [0.14 - 1.18]   conservative bound 2.5x
+
+  mean position: document 6.74, number/definition 7.73 (0.99 apart) - depth does not explain the gap
+
+GATE check-serp-shape.py - SEO-12's classifier
+----------------------------------------------
+  treatment                        document              number/definition        ratio    fisher p  95% CI on the ratio (Katz)
+  all band rows                    14/360   =  3.89%    8/1332  =  0.60%     6.5x  0.0000185  2.74x - 15.3x
+  stale SERP snapshots dropped     12/313   =  3.83%    5/1222  =  0.41%     9.4x  0.0000099  3.33x - 26.4x
+  no-SERP-data rows also dropped   12/252   =  4.76%    4/863   =  0.46%    10.3x  0.0000107  3.34x - 31.6x
+
+  per-arm Wilson 95% CI - the interval SEO-11 published, and the one
+  decision 171's 2.3x floor was derived from:
+    all band rows                    document  3.89% [2.33 - 6.42]   number/def  0.60% [0.30 - 1.18]   conservative bound 2.0x
+    stale SERP snapshots dropped     document  3.83% [2.21 - 6.58]   number/def  0.41% [0.17 - 0.95]   conservative bound 2.3x
+    no-SERP-data rows also dropped   document  4.76% [2.74 - 8.14]   number/def  0.46% [0.18 - 1.19]   conservative bound 2.3x
+
+  mean position: document 7.17, number/definition 7.93 (0.76 apart) - depth does not explain the gap
+
+
+=== PRIOR CENSUS, same instrument: docs/work-done/aug-30-2026-session-01/serp-shape-census.csv (84 rows) ===
+
+SERP SNAPSHOT PROVENANCE - computed from the data, never remembered (decision 174a)
+  rows                   : 84
+  crawled SERPs          : 49
+  serp_update_date RANGE : 2023-08-09T22:31:45Z  ..  2026-08-28T05:56:47Z
+  by month               : 2023-08 x1, 2026-07 x11, 2026-08 x37
+  not from 2026-08        : 12 of 49 - a stale `true` is reliable, a stale `false` is NOT
+  uncrawled              : 35 of 84 rows, written `unknown` and never `false` (decision 173)
+  of those, year-stamped : 15 - the standing blind spot
+
+FROZEN intent_of() - SEO-11's classifier   [PRIOR CENSUS]
+---------------------------------------------------------
+  treatment                        document              number/definition        ratio    fisher p  95% CI on the ratio (Katz)
+  all band rows                    10/220   =  4.55%    3/806   =  0.37%    12.2x  0.0000267  3.39x - 44.0x
+  stale SERP snapshots dropped      8/185   =  4.32%    0/727   =  0.00%      inf  0.0000025  not computable - an arm has 0 clicks
+  no-SERP-data rows also dropped    8/151   =  5.30%    0/480   =  0.00%      inf  0.0000093  not computable - an arm has 0 clicks
+
+  per-arm Wilson 95% CI - the interval SEO-11 published, and the one
+  decision 171's 2.3x floor was derived from:
+    all band rows                    document  4.55% [2.49 - 8.16]   number/def  0.37% [0.13 - 1.09]   conservative bound 2.3x
+    stale SERP snapshots dropped     document  4.32% [2.21 - 8.30]   number/def  0.00% [0.00 - 0.53]   conservative bound 4.2x
+    no-SERP-data rows also dropped   document  5.30% [2.71 - 10.11]   number/def  0.00% [0.00 - 0.79]   conservative bound 3.4x
+
+  mean position: document 7.07, number/definition 7.64 (0.57 apart) - depth does not explain the gap
+
+
+VERDICT - THE FLOOR TEST (decision 188)
+  Two conditions, both fixed before this census was pulled:
+    1. every computable re-cut's point ratio is at or above 2.3x
+    2. the 95% Katz CI on the ratio excludes parity wherever computable
+
+  frozen intent_of()       worst re-cut 7.5x vs the 2.3x floor | 3 of 3 re-cuts computable | CI excludes parity in 3 of 3 | HOLDS
+      NOTE, not gated: SEO-11's crude bound (document Wilson-lower /
+      number Wilson-upper) is now below 2.3x on all band rows (2.1x).
+      That bound is not a CI on a ratio. The Katz CI is, and it reads 3.00x at its lower end.
+  gate classifier          worst re-cut 6.5x vs the 2.3x floor | 3 of 3 re-cuts computable | CI excludes parity in 3 of 3 | HOLDS
+      NOTE, not gated: SEO-11's crude bound (document Wilson-lower /
+      number Wilson-upper) is now below 2.3x on all band rows (2.0x).
+      That bound is not a CI on a ratio. The Katz CI is, and it reads 2.74x at its lower end.
+
+  CONT-17 MAY PROCEED - the document/number split has not collapsed.
+RESTATE EXIT: 0

@@ -1,0 +1,14 @@
+SEO-14 persona deploy proof — 02 September 2026
+source: buddy/skillcentral/agents/projects/hellokahwin/Marketing/head-of-seo-content.md
+
+=== deployed: C:/Users/Ian Ng/Documents/Code/hellokahwin/hellokahwin/.claude/agents/head-of-seo-content.md ===
+diff (CR-normalised) exit: 0   (0 = identical)
+lines: source 929  deployed 929
+grep for the two NEW rules, not a line count:
+  rule 1 (7.5x restatement)      x1
+  rule 2 (family mean position)  x1
+  PRE-FLIGHT #4 command         x1
+
+=== deployed: C:/Users/Ian Ng/.claude/agents/hellokahwin/head-of-seo-content.md ===
+ABSENT
+

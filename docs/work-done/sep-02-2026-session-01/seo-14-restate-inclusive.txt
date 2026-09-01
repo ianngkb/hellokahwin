@@ -1,0 +1,61 @@
+CENSUS RESTATED: docs/work-done/sep-02-2026-session-01/serp-shape-census-2026-09-02-inclusive.csv (134 rows)
+band: positions 3-11, garden-wedding quarantined (decision 148)
+floor under test: 2.3x (decision 171, restated by decision 188)
+
+CLASSIFIER COVERAGE - every figure below names the column it came from
+  intent_class      frozen intent_of() (SEO-11)   {'definition': 6, 'number': 50, 'other': 34, 'navigational': 8, 'document': 36}
+                    100 of 134 rows land in a gated class; 34 do not
+  intent_class_gate check-serp-shape.py (SEO-12)  {'definition': 10, 'number': 50, 'unknown': 11, 'navigational': 12, 'document': 51}
+                    123 of 134 rows land in a gated class; 11 do not
+  the two columns disagree on 36 of 134 rows
+
+SERP SNAPSHOT PROVENANCE - computed from the data, never remembered (decision 174a)
+  rows                   : 134
+  crawled SERPs          : 78
+  serp_update_date RANGE : 2023-03-17T19:38:59Z  ..  2026-08-28T05:56:47Z
+  by month               : 2023-03 x1, 2023-06 x1, 2023-08 x1, 2026-07 x17, 2026-08 x58
+  not from 2026-08        : 20 of 78 - a stale `true` is reliable, a stale `false` is NOT
+  uncrawled              : 56 of 134 rows, written `unknown` and never `false` (decision 173)
+  of those, year-stamped : 22 - the standing blind spot
+
+FROZEN intent_of() - SEO-11's classifier
+----------------------------------------
+  treatment                        document              number/definition        ratio    fisher p  95% CI on the ratio (Katz)
+  all band rows                    16/468   =  3.42%    9/2005  =  0.45%     7.6x  0.0000008  3.39x - 17.1x
+  stale SERP snapshots dropped     13/402   =  3.23%    5/1829  =  0.27%    11.8x  0.0000006  4.24x - 33.0x
+  no-SERP-data rows also dropped   12/327   =  3.67%    3/1200  =  0.25%    14.7x  0.0000019  4.17x - 51.7x
+
+  per-arm Wilson 95% CI - the interval SEO-11 published, and the one
+  decision 171's 2.3x floor was derived from:
+    all band rows                    document  3.42% [2.12 - 5.48]   number/def  0.45% [0.24 - 0.85]   conservative bound 2.5x
+    stale SERP snapshots dropped     document  3.23% [1.90 - 5.45]   number/def  0.27% [0.12 - 0.64]   conservative bound 3.0x
+    no-SERP-data rows also dropped   document  3.67% [2.11 - 6.30]   number/def  0.25% [0.09 - 0.73]   conservative bound 2.9x
+
+  mean position: document 6.93, number/definition 8.04 (1.11 apart) - depth does not explain the gap
+
+GATE check-serp-shape.py - SEO-12's classifier
+----------------------------------------------
+  treatment                        document              number/definition        ratio    fisher p  95% CI on the ratio (Katz)
+  all band rows                    18/583   =  3.09%   10/2171  =  0.46%     6.7x  0.0000009  3.11x - 14.4x
+  stale SERP snapshots dropped     15/498   =  3.01%    6/1990  =  0.30%    10.0x  0.0000005  3.90x - 25.6x
+  no-SERP-data rows also dropped   14/400   =  3.50%    4/1351  =  0.30%    11.8x  0.0000011  3.91x - 35.7x
+
+  per-arm Wilson 95% CI - the interval SEO-11 published, and the one
+  decision 171's 2.3x floor was derived from:
+    all band rows                    document  3.09% [1.96 - 4.83]   number/def  0.46% [0.25 - 0.85]   conservative bound 2.3x
+    stale SERP snapshots dropped     document  3.01% [1.83 - 4.91]   number/def  0.30% [0.14 - 0.66]   conservative bound 2.8x
+    no-SERP-data rows also dropped   document  3.50% [2.10 - 5.79]   number/def  0.30% [0.12 - 0.76]   conservative bound 2.8x
+
+  mean position: document 7.25, number/definition 8.19 (0.93 apart) - depth does not explain the gap
+
+
+VERDICT - THE FLOOR TEST (decision 188)
+  Two conditions, both fixed before this census was pulled:
+    1. every computable re-cut's point ratio is at or above 2.3x
+    2. the 95% Katz CI on the ratio excludes parity wherever computable
+
+  frozen intent_of()       worst re-cut 7.6x vs the 2.3x floor | 3 of 3 re-cuts computable | CI excludes parity in 3 of 3 | HOLDS
+  gate classifier          worst re-cut 6.7x vs the 2.3x floor | 3 of 3 re-cuts computable | CI excludes parity in 3 of 3 | HOLDS
+
+  CONT-17 MAY PROCEED - the document/number split has not collapsed.
+RESTATE EXIT: 0

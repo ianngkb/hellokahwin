@@ -1,0 +1,135 @@
+query,cluster,intent_class,intent_class_gate,landing_page,impressions,clicks,position,actual_ctr_pct,serp_data,ai_overview_present,ai_overview_position,paa_present,image_pack_present,expected_ctr_pct,ratio_actual_over_expected,serp_update_date,tier
+walimatul urus maksud,walimatul-urus,definition,definition,/artikel/ucapan-doa/walimatul-urus,236,0,8.87,0.0,yes,true,1,false,true,1.926,0.0,2026-08-05T15:01:54Z,dod
+mas kahwin johor,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-johor,214,1,6.36,0.467,yes,true,3,true,true,3.896,0.12,2026-08-09T11:35:09Z,dod
+mas kahwin perak,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-perak,199,0,8.41,0.0,yes,true,1,true,true,2.018,0.0,2026-08-20T04:52:59Z,dod
+mas kahwin kelantan,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-kelantan-terengganu,178,1,6.92,0.562,yes,true,1,false,true,3.112,0.181,2026-08-02T06:31:18Z,dod
+garden wedding,garden-wedding,other,unknown,/garden-wedding/,156,0,27.78,0.0,yes,false,,false,true,NA,NA,2026-08-26T14:26:00Z,dod
+walimatul urus,walimatul-urus,other,definition,/artikel/ucapan-doa/walimatul-urus,151,1,10.09,0.662,yes,true,1,true,true,NA,NA,2026-08-19T02:32:33Z,dod
+pusat komuniti setiawangsa,dewan-venue,navigational,navigational,/dewan-kahwin/,146,0,9.53,0.0,yes,false,,false,true,1.741,0.0,2026-07-18T13:28:17Z,dod
+maksud walimatul urus,walimatul-urus,definition,definition,/artikel/ucapan-doa/walimatul-urus,129,1,9.58,0.775,yes,true,1,false,true,1.726,0.449,2026-08-02T11:35:15Z,dod
+garden wedding malaysia,garden-wedding,other,unknown,/garden-wedding/,124,0,38.66,0.0,yes,false,,true,true,NA,NA,2026-07-23T09:45:15Z,dod
+mas kahwin terengganu,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-kelantan-terengganu,121,4,6.34,3.306,yes,true,1,false,true,3.924,0.842,2026-07-28T15:06:55Z,dod
+garden wedding kl,garden-wedding,other,unknown,/garden-wedding/,118,0,48.81,0.0,yes,false,,false,false,NA,NA,2026-08-25T06:49:34Z,dod
+garden wedding kuala lumpur,garden-wedding,other,unknown,/garden-wedding/,111,0,46.07,0.0,NO DATA,unknown,,unknown,unknown,NA,NA,,dod
+dewan komuniti setiawangsa,dewan-venue,navigational,navigational,/dewan-kahwin/,108,0,9.31,0.0,yes,false,,false,true,1.807,0.0,2026-08-13T09:21:08Z,dod
+doa pengantin baru rumi,doa-ucapan,document,document,/artikel/ucapan-doa/doa-pengantin-baru,92,8,4.26,8.696,yes,false,,false,true,6.654,1.307,2026-08-09T16:24:33Z,dod
+mas kahwin negeri sembilan,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-pahang-negeri-sembilan,88,0,10.22,0.0,yes,true,1,false,true,NA,NA,2026-08-09T23:32:48Z,dod
+mas kahwin sabah,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-sabah-sarawak,82,0,12.57,0.0,yes,true,1,true,true,NA,NA,2026-08-20T22:45:20Z,dod
+checklist kahwin,perancangan-kos,document,document,/artikel/venue-perancangan/checklist-kahwin,70,1,7.97,1.429,yes,false,,false,true,2.127,0.672,2026-08-04T11:48:31Z,dod
+mas kahwin perak 2026,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-perak,67,1,7.46,1.493,NO DATA,unknown,,unknown,unknown,2.586,0.577,,dod
+mas kahwin johor 2026,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-johor,67,0,7.25,0.0,NO DATA,unknown,,unknown,unknown,2.775,0.0,,dod
+mas kahwin pahang 2026,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-pahang-negeri-sembilan,64,0,7.8,0.0,NO DATA,unknown,,unknown,unknown,2.28,0.0,,dod
+mas kahwin kelantan 2026,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-kelantan-terengganu,58,0,7.47,0.0,NO DATA,unknown,,unknown,unknown,2.577,0.0,,dod
+mas kawin kelantan,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-kelantan-terengganu,54,0,7.06,0.0,yes,true,1,true,true,2.946,0.0,2026-08-02T06:22:18Z,dod
+mas kahwin sarawak,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-sabah-sarawak,44,0,6.82,0.0,yes,true,1,false,true,3.252,0.0,2026-07-29T21:36:08Z,dod
+mas kahwin terengganu 2026,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-kelantan-terengganu,41,0,7.9,0.0,NO DATA,unknown,,unknown,unknown,2.19,0.0,,dod
+syarat sah nikah,nikah-undang-undang,other,document,/artikel/nikah-undang-undang/syarat-sah-nikah,38,0,10.71,0.0,yes,true,1,true,true,NA,NA,2026-08-12T05:28:23Z,dod
+walimatul urus atau walimatulurus,walimatul-urus,other,unknown,/artikel/ucapan-doa/walimatul-urus,33,0,9.61,0.0,NO DATA,unknown,,unknown,unknown,1.717,0.0,,dod
+hantaran kahwin 5 balas 7,mas-kahwin,document,document,/artikel/hantaran-mas-kahwin/hantaran-kahwin-5-balas-7,32,1,3.94,3.125,yes,true,1,false,true,7.38,0.423,2026-08-02T04:58:45Z,dod
+mas kahwin melaka 2026,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri,32,0,11,0.0,NO DATA,unknown,,unknown,unknown,NA,NA,,dod
+mas kahwin sabah 2026,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-sabah-sarawak,32,0,8.09,0.0,NO DATA,unknown,,unknown,unknown,2.082,0.0,,dod
+mas kahwin negeri perak,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-perak,31,0,9.97,0.0,yes,true,1,true,true,1.609,0.0,2026-08-23T19:44:03Z,dod
+mas kahwin negeri sembilan 2026,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-pahang-negeri-sembilan,31,0,8.87,0.0,NO DATA,unknown,,unknown,unknown,1.926,0.0,,dod
+mas kahwin ikut negeri,mas-kahwin,number,number,/mas-kahwin-ikut-negeri/,29,0,14.48,0.0,yes,true,1,true,false,NA,NA,2026-08-27T05:39:43Z,dod
+mas kahwin ikut negeri 2026,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri,28,0,10.89,0.0,NO DATA,unknown,,unknown,unknown,NA,NA,,dod
+wedding garden,garden-wedding,other,unknown,/garden-wedding/,28,0,30.14,0.0,yes,false,,true,true,NA,NA,2026-08-14T03:00:08Z,dod
+hantaran tunang 3 balas 5,mas-kahwin,document,document,/artikel/hantaran-mas-kahwin/hantaran-tunang-3-balas-5,27,1,5.07,3.704,yes,true,1,false,true,5.051,0.733,2026-07-19T21:48:03Z,dod
+garden wedding in kl,garden-wedding,other,unknown,/garden-wedding/,26,0,45.35,0.0,yes,false,,true,false,NA,NA,2026-08-13T19:56:43Z,dod
+hantaran tunang untuk lelaki,mas-kahwin,other,document,/artikel/hantaran-mas-kahwin/hantaran-tunang,26,0,13.38,0.0,yes,true,1,true,true,NA,NA,2026-08-24T03:09:16Z,dod
+mas kawin perak,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-perak,26,0,10.77,0.0,yes,true,1,true,true,NA,NA,2026-08-03T20:30:27Z,dod
+hantaran tunang untuk perempuan,mas-kahwin,other,document,/artikel/hantaran-mas-kahwin/hantaran-tunang,25,1,8.88,4.0,yes,true,1,true,true,1.924,2.079,2026-08-28T05:56:47Z,dod
+outdoor wedding venue,garden-wedding,navigational,navigational,/garden-wedding/,24,0,37.54,0.0,yes,true,1,false,true,NA,NA,2026-08-02T11:22:38Z,dod
+hantaran tunang,mas-kahwin,other,document,/artikel/hantaran-mas-kahwin/hantaran-tunang,23,0,14.87,0.0,yes,true,1,true,false,NA,NA,2026-08-27T08:11:22Z,dod
+idea goodies kahwin,hiasan-dekorasi,document,document,/artikel/hiasan-dekorasi/goodies-kahwin,21,2,9.1,9.524,yes,true,1,false,false,1.87,5.093,2026-07-24T01:14:05Z,dod
+garden wedding venue kl,garden-wedding,navigational,navigational,/garden-wedding/,21,0,44.19,0.0,yes,false,,false,false,NA,NA,2026-07-27T01:15:48Z,dod
+mas kawin johor,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-johor,21,0,6.33,0.0,yes,true,2,false,false,3.938,0.0,2026-08-15T11:54:30Z,dod
+doa selepas akad nikah rumi,doa-ucapan,document,document,/artikel/ucapan-doa/doa-pengantin-baru,20,0,10.6,0.0,yes,true,1,true,true,NA,NA,2026-08-25T15:49:45Z,dod
+dulang hantaran tunang,mas-kahwin,document,document,/artikel/hantaran-mas-kahwin/hantaran-tunang,19,1,7.95,5.263,yes,true,1,true,true,2.145,2.454,2026-08-11T12:17:11Z,extension
+outdoor wedding locations,garden-wedding,other,navigational,/garden-wedding/,19,0,49.16,0.0,NO DATA,unknown,,unknown,unknown,NA,NA,,extension
+garden venue for wedding,garden-wedding,navigational,navigational,/garden-wedding/,18,0,44.94,0.0,NO DATA,unknown,,unknown,unknown,NA,NA,,extension
+hantaran tunang 5 balas 7,mas-kahwin,document,document,/artikel/hantaran-mas-kahwin/hantaran-kahwin-5-balas-7,18,0,7.83,0.0,yes,true,1,true,true,2.253,0.0,2026-08-25T02:46:06Z,extension
+maskawin setiap negeri,mas-kahwin,number,number,/mas-kahwin-ikut-negeri/,18,0,9.89,0.0,NO DATA,unknown,,unknown,unknown,1.633,0.0,,extension
+doa ubun isteri rumi,doa-ucapan,document,document,/artikel/ucapan-doa/doa-pengantin-baru,17,0,4.82,0.0,NO DATA,unknown,,unknown,unknown,5.478,0.0,,extension
+kos kahwin 2026,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/hantaran-kahwin-bajet,17,0,6.94,0.0,NO DATA,unknown,,unknown,unknown,3.084,0.0,,extension
+mas kahwin negeri kelantan,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-kelantan-terengganu,17,0,5,0.0,yes,false,,true,false,5.1,0.0,2026-08-27T00:34:36Z,extension
+mas kahwin setiap negeri 2026,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri,17,0,10.18,0.0,NO DATA,unknown,,unknown,unknown,NA,NA,,extension
+outdoor wedding places,garden-wedding,other,navigational,/garden-wedding/,17,0,47.94,0.0,NO DATA,unknown,,unknown,unknown,NA,NA,,extension
+mas kahwin negeri terengganu,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-kelantan-terengganu,14,0,5.5,0.0,NO DATA,unknown,,unknown,unknown,4.75,0.0,,extension
+doa pengantin,doa-ucapan,document,document,/artikel/ucapan-doa/doa-pengantin-baru,13,1,14.77,7.692,yes,true,1,false,true,NA,NA,2026-08-01T23:13:00Z,extension
+doa selamat untuk pengantin baru,doa-ucapan,document,document,/artikel/ucapan-doa/doa-pengantin-baru,13,0,8.54,0.0,NO DATA,unknown,,unknown,unknown,1.992,0.0,,extension
+mas kahwin perlis,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri,13,0,11.08,0.0,yes,true,1,true,true,NA,NA,2026-08-02T15:08:30Z,extension
+mahar johor,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-johor,12,0,7.83,0.0,NO DATA,unknown,,unknown,unknown,2.253,0.0,,extension
+mas kahwin sarawak 2026,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-sabah-sarawak,12,0,7.67,0.0,NO DATA,unknown,,unknown,unknown,2.397,0.0,,extension
+hantaran kahwin 3 balas 5,mas-kahwin,document,document,/artikel/hantaran-mas-kahwin/hantaran-tunang-3-balas-5,11,0,7.82,0.0,yes,true,1,false,true,2.262,0.0,2026-08-22T12:28:06Z,extension
+mas kahwin negeri perak 2026,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-perak,11,0,6.73,0.0,NO DATA,unknown,,unknown,unknown,3.378,0.0,,extension
+mas kawin sabah,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-sabah-sarawak,11,0,21.91,0.0,yes,true,1,false,true,NA,NA,2026-08-15T21:39:57Z,extension
+doa majlis pertunangan jakim,doa-ucapan,document,document,/artikel/sebelum-nikah/doa-majlis-pertunangan,10,0,10.4,0.0,yes,false,,true,false,NA,NA,2026-08-04T20:38:03Z,extension
+makna walimatul urus,walimatul-urus,other,definition,/artikel/ucapan-doa/walimatul-urus,10,0,8.9,0.0,NO DATA,unknown,,unknown,unknown,1.92,0.0,,extension
+mas kahwin kedah 2026,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri,10,0,9.9,0.0,NO DATA,unknown,,unknown,unknown,1.63,0.0,,extension
+mas kahwin kuala lumpur 2026,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri,10,0,10.5,0.0,NO DATA,unknown,,unknown,unknown,NA,NA,,extension
+dulang hantaran 5 balas 7,mas-kahwin,document,document,/artikel/hantaran-mas-kahwin/hantaran-kahwin-5-balas-7,9,1,4.89,11.111,yes,true,1,false,false,5.331,2.084,2026-08-15T00:56:05Z,extension
+hantaran lelaki 3 perempuan 5,mas-kahwin,other,document,/artikel/hantaran-mas-kahwin/hantaran-tunang-3-balas-5,9,0,3.22,0.0,NO DATA,unknown,,unknown,unknown,9.54,0.0,,extension
+hantaran tunang untuk lelaki simple,mas-kahwin,other,document,/artikel/hantaran-mas-kahwin/hantaran-tunang,9,0,10.11,0.0,yes,true,1,false,false,NA,NA,2026-07-25T22:40:47Z,extension
+lafaz taklik nikah perak,nikah-undang-undang,document,document,/artikel/nikah-undang-undang/lafaz-taklik,9,0,9.22,0.0,NO DATA,unknown,,unknown,unknown,1.834,0.0,,extension
+maksud walimatul urus dalam islam,walimatul-urus,definition,definition,/artikel/ucapan-doa/walimatul-urus,9,0,9.78,0.0,NO DATA,unknown,,unknown,unknown,1.666,0.0,,extension
+bacaan doa pengantin,doa-ucapan,document,document,/artikel/ucapan-doa/doa-pengantin-baru,8,0,9.88,0.0,NO DATA,unknown,,unknown,unknown,1.636,0.0,,extension
+garden wedding venues,garden-wedding,other,navigational,/garden-wedding/,8,0,35.75,0.0,yes,false,,false,true,NA,NA,2026-07-21T04:42:17Z,extension
+hantaran ikut negeri,mas-kahwin,other,document,/artikel/hantaran-mas-kahwin,8,0,10.25,0.0,NO DATA,unknown,,unknown,unknown,NA,NA,,extension
+hantaran kahwin lelaki dan perempuan,mas-kahwin,other,document,/artikel/hantaran-mas-kahwin/hantaran-tunang,8,0,7.5,0.0,yes,true,1,false,true,2.55,0.0,2026-07-22T01:35:52Z,extension
+majlis walimatul urus maksud,walimatul-urus,definition,definition,/artikel/ucapan-doa/walimatul-urus,8,0,8.38,0.0,NO DATA,unknown,,unknown,unknown,2.024,0.0,,extension
+mas kahwin setiap negeri,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri,8,0,17,0.0,yes,true,1,true,false,NA,NA,2026-08-11T00:28:54Z,extension
+mas kawin sarawak,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-sabah-sarawak,8,0,6.88,0.0,NO DATA,unknown,,unknown,unknown,3.168,0.0,,extension
+upah jurunikah pahang 2026,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-pahang-negeri-sembilan,8,0,11,0.0,NO DATA,unknown,,unknown,unknown,NA,NA,,extension
+waris di hari perkahwinan,lain-lain,other,unknown,/category/real-wedding/warisan-tradisi/,8,0,12.75,0.0,NO DATA,unknown,,unknown,unknown,NA,NA,,extension
+bajet kahwin 2026,perancangan-kos,number,number,/artikel/venue-perancangan/bajet-kahwin,7,1,3.57,14.286,NO DATA,unknown,,unknown,unknown,8.49,1.683,,extension
+harga sewa dewan kahwin,dewan-venue,number,number,/dewan-kahwin/,7,1,2.43,14.286,NO DATA,unknown,,unknown,unknown,15.045,0.95,,extension
+apa maksud taaruf,lain-lain,definition,definition,/artikel/sebelum-nikah/taaruf-maksud,7,0,11.86,0.0,yes,true,1,true,false,NA,NA,2026-07-16T19:55:53Z,extension
+balas dulang hantaran,mas-kahwin,document,document,/artikel/hantaran-mas-kahwin/hantaran-kahwin-5-balas-7,7,0,5.71,0.0,yes,true,1,true,true,4.603,0.0,2026-08-11T21:02:20Z,extension
+doa akad nikah,doa-ucapan,document,document,/artikel/ucapan-doa/doa-pengantin-baru,7,0,14.86,0.0,yes,true,1,true,true,NA,NA,2026-08-18T04:01:16Z,extension
+doa pengantin baru,doa-ucapan,document,document,/artikel/ucapan-doa/doa-pengantin-baru,7,0,26.29,0.0,yes,true,1,true,true,NA,NA,2026-08-23T15:58:12Z,extension
+doa pengantin baru mufti,doa-ucapan,document,document,/artikel/ucapan-doa/doa-pengantin-baru,7,0,8.71,0.0,yes,false,,false,true,1.958,0.0,2026-08-26T04:30:51Z,extension
+doa selepas nikah rumi,doa-ucapan,document,document,/artikel/ucapan-doa/doa-pengantin-baru,7,0,10,0.0,NO DATA,unknown,,unknown,unknown,1.6,0.0,,extension
+hantaran 5 balas 7,mas-kahwin,document,document,/artikel/hantaran-mas-kahwin/hantaran-kahwin-5-balas-7,7,0,3.57,0.0,yes,true,1,false,true,8.49,0.0,2026-08-25T18:53:34Z,extension
+hantaran lelaki 5 perempuan 7,mas-kahwin,other,document,/artikel/hantaran-mas-kahwin/hantaran-kahwin-5-balas-7,7,0,3.86,0.0,yes,true,1,false,true,7.62,0.0,2026-07-23T14:44:22Z,extension
+kedai barang hantaran,mas-kahwin,document,document,/artikel/hantaran-mas-kahwin/tempat-beli-hantaran,7,0,9.43,0.0,yes,false,,false,true,1.771,0.0,2023-08-09T22:31:45Z,extension
+lafaz taklik perak,nikah-undang-undang,document,document,/artikel/nikah-undang-undang/lafaz-taklik,7,0,8.71,0.0,yes,true,1,true,true,1.958,0.0,2026-08-11T19:23:12Z,extension
+mas kawin setiap negeri,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri,7,0,10.57,0.0,yes,true,1,false,true,NA,NA,2026-08-02T19:37:37Z,extension
+rukun akad nikah,nikah-undang-undang,document,document,/artikel/nikah-undang-undang/rukun-nikah,7,0,10.43,0.0,yes,true,1,true,true,NA,NA,2026-08-03T13:43:09Z,extension
+rukun nikah,nikah-undang-undang,document,document,/artikel/nikah-undang-undang/rukun-nikah,7,0,24,0.0,yes,true,1,true,true,NA,NA,2026-08-26T08:41:32Z,extension
+apa itu ta'aruf,lain-lain,definition,definition,/artikel/sebelum-nikah/taaruf-maksud,6,0,10.5,0.0,yes,false,,false,false,NA,NA,2023-06-23T19:37:05Z,extension
+barang hantaran tunang untuk lelaki,mas-kahwin,document,document,/artikel/hantaran-mas-kahwin/hantaran-tunang,6,0,8.33,0.0,yes,true,1,true,true,2.034,0.0,2026-08-18T11:12:08Z,extension
+dewan pusat komuniti setiawangsa,dewan-venue,navigational,navigational,/dewan-kahwin/,6,0,9,0.0,NO DATA,unknown,,unknown,unknown,1.9,0.0,,extension
+doa majlis pertunangan arab,doa-ucapan,document,document,/artikel/sebelum-nikah/doa-majlis-pertunangan,6,0,10.33,0.0,yes,false,,false,true,NA,NA,2026-07-21T07:42:51Z,extension
+harga hantaran kahwin 2026,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/hantaran-kahwin-bajet,6,0,5.67,0.0,NO DATA,unknown,,unknown,unknown,4.631,0.0,,extension
+kad digital,lain-lain,other,document,/artikel/idea-dan-nasihat/cara-buat-kad-kahwin-digital,6,0,77.83,0.0,yes,true,3,true,true,NA,NA,2026-08-17T08:28:55Z,extension
+kedai jual barang hantaran,mas-kahwin,document,document,/artikel/hantaran-mas-kahwin/tempat-beli-hantaran,6,0,8.83,0.0,NO DATA,unknown,,unknown,unknown,1.934,0.0,,extension
+kursus kahwin,lain-lain,document,document,/artikel/idea-dan-nasihat/kursus-kahwin,6,0,52.5,0.0,yes,false,,true,false,NA,NA,2026-08-27T07:01:44Z,extension
+mas kahwin mengikut negeri 2026,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri,6,0,11,0.0,NO DATA,unknown,,unknown,unknown,NA,NA,,extension
+mas kahwin perlis 2026,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri,6,0,10.5,0.0,NO DATA,unknown,,unknown,unknown,NA,NA,,extension
+outdoor wedding venues,garden-wedding,other,navigational,/garden-wedding/,6,0,48,0.0,yes,false,,false,true,NA,NA,2026-07-30T07:48:50Z,extension
+wang hantaran kahwin 2026,mas-kahwin,other,document,/artikel/hantaran-mas-kahwin/hantaran-kahwin-bajet,6,0,5.83,0.0,NO DATA,unknown,,unknown,unknown,4.519,0.0,,extension
+花园婚礼 马来西亚 地点,garden-wedding,other,unknown,/garden-wedding/,6,0,29.33,0.0,NO DATA,unknown,,unknown,unknown,NA,NA,,extension
+bilangan hantaran lelaki dan perempuan,mas-kahwin,other,document,/artikel/hantaran-mas-kahwin/nisbah-hantaran,5,1,8,20.0,yes,true,1,true,true,2.1,9.524,2026-08-25T11:54:37Z,extension
+doa untuk pengantin baru mufti wilayah,doa-ucapan,document,document,/artikel/ucapan-doa/doa-pengantin-baru,5,1,10,20.0,NO DATA,unknown,,unknown,unknown,1.6,12.5,,extension
+adakah hantaran wajib dalam islam,mas-kahwin,other,document,/artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat,5,0,11.4,0.0,NO DATA,unknown,,unknown,unknown,NA,NA,,extension
+beza hantaran dan mas kahwin,mas-kahwin,number,definition,/artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat,5,0,43,0.0,yes,true,1,false,true,NA,NA,2026-07-29T20:36:22Z,extension
+contoh hantaran tunang untuk lelaki,mas-kahwin,other,document,/artikel/hantaran-mas-kahwin/hantaran-tunang,5,0,15.2,0.0,yes,true,1,true,true,NA,NA,2026-08-19T22:36:07Z,extension
+dewan,dewan-venue,navigational,navigational,/dewan-kahwin/,5,0,48,0.0,yes,false,,false,true,NA,NA,2026-08-06T23:26:52Z,extension
+dulang lelaki dan perempuan,mas-kahwin,document,document,/artikel/hantaran-mas-kahwin/hantaran-tunang,5,0,8.8,0.0,NO DATA,unknown,,unknown,unknown,1.94,0.0,,extension
+hantaran 3 balas 5,mas-kahwin,document,document,/artikel/hantaran-mas-kahwin/hantaran-tunang-3-balas-5,5,0,5.4,0.0,yes,true,1,true,true,4.82,0.0,2026-08-18T14:35:02Z,extension
+hantaran 7 balas 5,mas-kahwin,document,document,/artikel/hantaran-mas-kahwin/hantaran-kahwin-5-balas-7,5,0,3.6,0.0,NO DATA,unknown,,unknown,unknown,8.4,0.0,,extension
+hantaran kahwin,hantaran,other,document,/artikel/hiasan-dekorasi/hantaran-kahwin,5,0,57.8,0.0,yes,true,1,true,true,NA,NA,2026-08-21T23:42:50Z,extension
+hantaran lelaki dan perempuan,mas-kahwin,other,document,/artikel/hantaran-mas-kahwin/hantaran-tunang,5,0,7.6,0.0,yes,true,1,true,true,2.46,0.0,2026-08-17T15:26:17Z,extension
+hukum walimatul urus,walimatul-urus,other,definition,/artikel/ucapan-doa/walimatul-urus,5,0,11.2,0.0,yes,true,1,true,false,NA,NA,2026-08-03T05:38:45Z,extension
+kedai barang kahwin murah di kl,mas-kahwin,document,number,/artikel/hantaran-mas-kahwin/tempat-beli-hantaran,5,0,9,0.0,yes,false,,false,true,1.9,0.0,2023-03-17T19:38:59Z,extension
+kelantan mas kahwin,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-kelantan-terengganu,5,0,6.8,0.0,NO DATA,unknown,,unknown,unknown,3.28,0.0,,extension
+kursus kahwin online,lain-lain,document,document,/artikel/idea-dan-nasihat/kursus-kahwin,5,0,32,0.0,yes,true,1,false,false,NA,NA,2026-08-06T17:20:51Z,extension
+mahar ikut negeri,mas-kahwin,number,number,/mas-kahwin-ikut-negeri/,5,0,10.8,0.0,NO DATA,unknown,,unknown,unknown,NA,NA,,extension
+mas kahwin negeri johor,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-johor,5,0,6,0.0,yes,true,1,true,false,4.4,0.0,2026-07-30T11:19:53Z,extension
+mas kahwin negeri pahang,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-pahang-negeri-sembilan,5,0,10.2,0.0,NO DATA,unknown,,unknown,unknown,NA,NA,,extension
+mas kahwin wilayah persekutuan 2026,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri,5,0,10,0.0,NO DATA,unknown,,unknown,unknown,1.6,0.0,,extension
+outdoor wedding,garden-wedding,other,unknown,/garden-wedding/,5,0,29.6,0.0,yes,true,1,true,false,NA,NA,2026-07-30T09:20:35Z,extension
+perak mas kahwin,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-perak,5,0,8.6,0.0,NO DATA,unknown,,unknown,unknown,1.98,0.0,,extension
+tempat honeymoon di malaysia,lain-lain,navigational,navigational,/artikel/idea-dan-nasihat/tempat-honeymoon-di-malaysia,5,0,10.4,0.0,yes,true,1,true,false,NA,NA,2026-08-24T01:03:48Z,extension
+terengganu mas kahwin,mas-kahwin,number,number,/artikel/hantaran-mas-kahwin/mas-kahwin-kelantan-terengganu,5,0,7,0.0,NO DATA,unknown,,unknown,unknown,3.0,0.0,,extension
+walimatul urus or walimatulurus,walimatul-urus,other,unknown,/artikel/ucapan-doa/walimatul-urus,5,0,8.6,0.0,NO DATA,unknown,,unknown,unknown,1.98,0.0,,extension
