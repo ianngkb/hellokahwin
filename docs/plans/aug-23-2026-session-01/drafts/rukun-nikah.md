@@ -162,6 +162,8 @@ Jadi dua saksi itu bukan sekadar hadir. Mereka menandatangani.
 
 Sighah ialah lafaz. Ijab daripada pihak wali, qabul daripada pihak lelaki. Ia rukun kelima, dan ia yang menjadikan empat rukun sebelum ini satu akad.
 
+Rukun ini satu-satunya yang boleh gagal pada hari majlis itu sendiri, kerana ia bergantung pada apa yang disebut. Perkataan yang mesti ada di dalamnya, dan tiga perkara yang orang sangka membatalkan akad tetapi tidak, diterangkan penuh dalam [lafaz akad nikah](/artikel/nikah-undang-undang/lafaz-akad-nikah).
+
 Kadar mas kahwin biasanya diserahkan pada ketika ini. Seksyen 21(1) Enakmen Selangor 2003 menyebut mas kahwin hendaklah biasanya dibayar oleh pihak lelaki atau wakilnya kepada pihak perempuan atau wakilnya di hadapan orang yang mengakadnikahkan perkahwinan itu dan sekurang-kurangnya dua orang saksi lain. Kadar minimum berbeza ikut negeri, dan enam daripada empat belas bidang kuasa tidak menetapkan satu pun. Itu diceritakan penuh dalam [mas kahwin ikut negeri](/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri).
 
 ## Kalau satu rukun tidak cukup
