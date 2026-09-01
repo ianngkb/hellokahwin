@@ -3,9 +3,10 @@
 #
 # ── WHY THIS FILE EXISTS (02 Sept 2026) ───────────────────────────────────
 #
-# Vercel rolled its default pnpm from 10.x to 11.x between 19:17 and 19:27 UTC
-# on 02 Sept 2026, mid-sprint, and every production deploy of this repo started
-# failing. Two builds ten minutes apart, same lockfile, read from the build logs:
+# ⚠ READ THE CORRECTION AT THE BOTTOM OF THIS BLOCK BEFORE QUOTING ANY OF IT.
+#
+# One production build — and so far ONLY one — was handed a pnpm 11.x builder
+# by Vercel, and failed. `0f2a4c9`, 19:27 UTC, 02 Sept 2026:
 #
 #   19:17  0129797  "Using pnpm@10.x based on project creation date"
 #                   "Ignored build scripts: msw@2.15.0"        <- a WARNING
@@ -16,6 +17,37 @@
 #                    esbuild@0.18.20, esbuild@0.25.12, esbuild@0.28.2,
 #                    msw@2.15.0, sharp@0.34.5, unrs-resolver@1.12.2"
 #                   'Command "pnpm install" exited with 1'     -> FAILURE
+#
+# ── THE CORRECTION, AND IT IS THE MORE USEFUL HALF ────────────────────────
+#
+# The first version of this comment said Vercel had "rolled its default pnpm
+# from 10.x to 11.x" and that "every production deploy of this repo started
+# failing". BOTH ARE WRONG, and this file's own author wrote them after
+# watching exactly one failure and one subsequent success.
+#
+# The pnpm version was then read out of the build log of all EIGHT most recent
+# production builds:
+#
+#   07fd6421  READY  pnpm@10.x  v10.28.0
+#   9c1ca0c2  READY  pnpm@10.x  v10.28.0   <- the deploy of THIS file
+#   5c18c742  READY  pnpm@10.x  v10.28.0
+#   0f2a4c99  ERROR  pnpm@11.x             <- the only 11.x build that exists
+#   0129797a  READY  pnpm@10.x  v10.28.0
+#   5342703c  READY  pnpm@10.x  v10.28.0
+#   59954c65  READY  pnpm@10.x  v10.28.0
+#   eaad6d33  READY  pnpm@10.x  v10.28.0
+#
+# It was not a rollout. It was ONE BUILD landing on an 11.x builder, before and
+# after which selection returned to 10.28.0. Which means:
+#
+#   **THIS FILE DID NOT UNBLOCK THE DEPLOY.** The build that carried it
+#   (`9c1ca0c2`) succeeded on pnpm 10.28.0 and would have succeeded without it.
+#   A single green deploy after a fix is not evidence the fix did anything —
+#   the variable moved back on its own.
+#
+# What this file IS, then, is the defence for the NEXT time an 11.x builder is
+# selected, which can happen on any deploy, from any branch, with no change
+# from anyone here. That part is measured (below) rather than inferred.
 #
 # THREE things changed at once, and the third is the one that bites.
 #
