@@ -1,5 +1,6 @@
+=== ui:gate:rail ===
 
-UILINT — rendered-layout gate · rail fixtures 2026-09-02 (the two -ok controls must be clean; the two derived must fire)
+UILINT — rendered-layout gate · rail fixtures 2026-09-02 (controls: railgone:0 sumber:0; derived: exactly one each)
 widths 390/768/1024/1440/1920 · chrome C:/Program Files/Google/Chrome/Application/chrome.exe
 ──────────────────────────────────────────────────────────────────────────────
 [ ok ] unsourced-ok.html @390                         0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 H6:0 H6.6:0
@@ -40,11 +41,12 @@ totals: empty-content 0
         source-order 0
 build fingerprint (last width measured, per target):
   unsourced-ok.html
-    200 - age=-  css=[21fd3106af40c828.css 19b83a0982f1e330.css 93b060e57eb15691.css]
+    200 - age=-  css=[e754448c3010263a.css 19b83a0982f1e330.css ece0345a72e045ca.css]
   unsourced-rail-absent.html
-    200 - age=-  css=[21fd3106af40c828.css 19b83a0982f1e330.css 93b060e57eb15691.css]
+    200 - age=-  css=[e754448c3010263a.css 19b83a0982f1e330.css ece0345a72e045ca.css]
   sourced-ok.html
-    200 - age=-  css=[21fd3106af40c828.css 19b83a0982f1e330.css 93b060e57eb15691.css]
+    200 - age=-  css=[e754448c3010263a.css 19b83a0982f1e330.css ece0345a72e045ca.css]
   sourced-sumber-empty.html
-    200 - age=-  css=[21fd3106af40c828.css 19b83a0982f1e330.css 93b060e57eb15691.css]
+    200 - age=-  css=[e754448c3010263a.css 19b83a0982f1e330.css ece0345a72e045ca.css]
 UILINT EXIT: 1
+RAIL_FIXTURES_RC=1

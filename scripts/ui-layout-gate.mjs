@@ -1090,14 +1090,24 @@ async function collect(limits) {
       const h = head ? head.getBoundingClientRect() : { height: 0 };
       const paintedBelow = +(b.height - h.height).toFixed(1);
       if (residue.length > 0 && paintedBelow > 1) continue;
+      // Two different defects reach this line and they do not read the same in
+      // a CI log. With a heading, the page has PRINTED a claim the article
+      // cannot support. Without one, it is an empty wrapper — still a defect,
+      // because a block in the rail's flex column costs `var(--sp-9)` of gap
+      // whether or not it renders anything, which is the 56px hole UI-17
+      // shipped to a preview — but it is not the same sentence.
+      const printed = head !== null && norm(head).length > 0;
       violations.push({
         check: 'sumber-empty',
         selector: sel(blk),
         detail:
-          `a "Sumber" heading is printed with nothing under it at ${vw}px — ` +
-          `${items.length} citation(s), ${residue.length} characters of text below the heading, ` +
-          `${paintedBelow}px painted below it. The rail must render Sumber only where the ` +
-          `article carries a source; an empty heading asserts one that does not exist`,
+          (printed
+            ? `the heading "${norm(head)}" is printed with nothing under it at ${vw}px`
+            : `an empty Sumber block with no heading at all at ${vw}px — a wrapper, not a block, ` +
+              `and it still costs a gap in the rail's flex column`) +
+          ` — ${items.length} citation(s), ${residue.length} characters below the heading, ` +
+          `${paintedBelow}px painted below it. The rail renders Sumber only where the article ` +
+          `carries a source; a heading over nothing asserts one that does not exist`,
         sample: norm(head).slice(0, 60),
         value: items.length,
       });

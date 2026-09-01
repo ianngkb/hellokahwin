@@ -1,0 +1,429 @@
+=== ui:rail production ===
+
+/artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat @390  (layout viewport 390, innerWidth 390)
+  body     left      20  right     370  width     350  top   2228  inner 350
+  rail     left      20  right     370  width     350  top    495  inner 350
+  rekod    left      20  right     370  width     350  top    495  inner 350
+  toc      left      20  right     370  width     350  top    777  inner 350
+  sumber   left      20  right     370  width     350  top   1297  inner 350
+  VERDICT rail.left 20 < body.right 370   gap -350px
+  measure 41.1 cpl  (350px / 17.0449px, longest para 422 chars)
+  counts {"rail":1,"rekod":1,"toc":1,"sumber":1,"h1":1}
+  candidates seen:
+    aside              aside.hk-rail  left 20 width 350 top 495 display flex
+    aside              aside.inspire-sidebar space-y-6  left 20 width 350 top 1561 display block
+    .inspire-sidebar   aside.inspire-sidebar space-y-6  left 20 width 350 top 1561 display block
+    .s-rekod           div.s-rekod  left 20 width 350 top 495 display block
+    [data-hk-rail]     aside.hk-rail  left 20 width 350 top 495 display flex
+
+/artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat @768  (layout viewport 768, innerWidth 768)
+  body     left      32  right     736  width     704  top   2228  inner 704
+  rail     left      32  right     736  width     704  top    444  inner 704
+  rekod    left      32  right     736  width     704  top    444  inner 704
+  toc      left      32  right     736  width     704  top    727  inner 704
+  sumber   left      32  right     736  width     704  top   1245  inner 704
+  VERDICT rail.left 32 < body.right 736   gap -704px
+  measure 66 cpl  (581.27px / 17.6142px, longest para 422 chars)
+  counts {"rail":1,"rekod":1,"toc":1,"sumber":1,"h1":1}
+  candidates seen:
+    aside              aside.hk-rail  left 32 width 704 top 444 display flex
+    aside              aside.inspire-sidebar space-y-6  left 32 width 704 top 1429 display block
+    .inspire-sidebar   aside.inspire-sidebar space-y-6  left 32 width 704 top 1429 display block
+    .s-rekod           div.s-rekod  left 32 width 704 top 444 display block
+    [data-hk-rail]     aside.hk-rail  left 32 width 704 top 444 display flex
+
+/artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat @1024  (layout viewport 1024, innerWidth 1024)
+  body     left      40  right     620  width     580  top   1103  inner 580
+  rail     left     684  right     984  width     300  top    318  inner 300
+  rekod    left     684  right     984  width     300  top    318  inner 268
+  toc      left     684  right     984  width     300  top    606  inner 268
+  sumber   left     684  right     984  width     300  top   1178  inner 268
+  VERDICT rail.left 684 >= body.right 620   gap 64px
+  measure 64.4 cpl  (580px / 17.9997px, longest para 422 chars)
+  counts {"rail":1,"rekod":1,"toc":1,"sumber":1,"h1":1}
+  candidates seen:
+    aside              aside.hk-rail  left 684 width 300 top 318 display flex
+    aside              aside.inspire-sidebar space-y-6  left 700 width 268 top 1503 display block
+    .inspire-sidebar   aside.inspire-sidebar space-y-6  left 700 width 268 top 1503 display block
+    .s-rekod           div.s-rekod  left 700 width 268 top 318 display block
+    [data-hk-rail]     aside.hk-rail  left 684 width 300 top 318 display flex
+
+/artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat @1440  (layout viewport 1440, innerWidth 1440)
+  body     left     120  right     876  width     756  top   1169  inner 756
+  rail     left     940  right    1240  width     300  top    266  inner 300
+  rekod    left     940  right    1240  width     300  top    266  inner 268
+  toc      left     940  right    1240  width     300  top    554  inner 268
+  sumber   left     940  right    1240  width     300  top   1126  inner 268
+  VERDICT rail.left 940 >= body.right 876   gap 64px
+  measure 66 cpl  (594px / 18px, longest para 422 chars)
+  counts {"rail":1,"rekod":1,"toc":1,"sumber":1,"h1":1}
+  candidates seen:
+    aside              aside.hk-rail  left 940 width 300 top 266 display flex
+    aside              aside.inspire-sidebar space-y-6  left 956 width 268 top 1451 display block
+    .inspire-sidebar   aside.inspire-sidebar space-y-6  left 956 width 268 top 1451 display block
+    .s-rekod           div.s-rekod  left 956 width 268 top 266 display block
+    [data-hk-rail]     aside.hk-rail  left 940 width 300 top 266 display flex
+
+/artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat @1920  (layout viewport 1920, innerWidth 1920)
+  body     left     232  right     988  width     756  top   1169  inner 756
+  rail     left    1052  right    1352  width     300  top    266  inner 300
+  rekod    left    1052  right    1352  width     300  top    266  inner 268
+  toc      left    1052  right    1352  width     300  top    554  inner 268
+  sumber   left    1052  right    1352  width     300  top   1126  inner 268
+  VERDICT rail.left 1052 >= body.right 988   gap 64px
+  measure 66 cpl  (594px / 18px, longest para 422 chars)
+  counts {"rail":1,"rekod":1,"toc":1,"sumber":1,"h1":1}
+  candidates seen:
+    aside              aside.hk-rail  left 1052 width 300 top 266 display flex
+    aside              aside.inspire-sidebar space-y-6  left 1068 width 268 top 1451 display block
+    .inspire-sidebar   aside.inspire-sidebar space-y-6  left 1068 width 268 top 1451 display block
+    .s-rekod           div.s-rekod  left 1068 width 268 top 266 display block
+    [data-hk-rail]     aside.hk-rail  left 1052 width 300 top 266 display flex
+
+/artikel/ucapan-doa/doa-pengantin-baru @390  (layout viewport 390, innerWidth 390)
+  body     left      20  right     370  width     350  top   2435  inner 350
+  rail     left      20  right     370  width     350  top    523  inner 350
+  rekod    left      20  right     370  width     350  top    523  inner 350
+  toc      left      20  right     370  width     350  top    805  inner 350
+  sumber   left      20  right     370  width     350  top   1347  inner 350
+  VERDICT rail.left 20 < body.right 370   gap -350px
+  measure 41.1 cpl  (350px / 17.0449px, longest para 396 chars)
+  counts {"rail":1,"rekod":1,"toc":1,"sumber":1,"h1":1}
+  candidates seen:
+    aside              aside.hk-rail  left 20 width 350 top 523 display flex
+    aside              aside.inspire-sidebar space-y-6  left 20 width 350 top 1792 display block
+    .inspire-sidebar   aside.inspire-sidebar space-y-6  left 20 width 350 top 1792 display block
+    .s-rekod           div.s-rekod  left 20 width 350 top 523 display block
+    [data-hk-rail]     aside.hk-rail  left 20 width 350 top 523 display flex
+
+/artikel/ucapan-doa/doa-pengantin-baru @768  (layout viewport 768, innerWidth 768)
+  body     left      32  right     736  width     704  top   2376  inner 704
+  rail     left      32  right     736  width     704  top    415  inner 704
+  rekod    left      32  right     736  width     704  top    415  inner 704
+  toc      left      32  right     736  width     704  top    698  inner 704
+  sumber   left      32  right     736  width     704  top   1254  inner 704
+  VERDICT rail.left 32 < body.right 736   gap -704px
+  measure 66 cpl  (581.27px / 17.6142px, longest para 396 chars)
+  counts {"rail":1,"rekod":1,"toc":1,"sumber":1,"h1":1}
+  candidates seen:
+    aside              aside.hk-rail  left 32 width 704 top 415 display flex
+    aside              aside.inspire-sidebar space-y-6  left 32 width 704 top 1577 display block
+    .inspire-sidebar   aside.inspire-sidebar space-y-6  left 32 width 704 top 1577 display block
+    .s-rekod           div.s-rekod  left 32 width 704 top 415 display block
+    [data-hk-rail]     aside.hk-rail  left 32 width 704 top 415 display flex
+
+/artikel/ucapan-doa/doa-pengantin-baru @1024  (layout viewport 1024, innerWidth 1024)
+  body     left      40  right     620  width     580  top   1073  inner 580
+  rail     left     684  right     984  width     300  top    318  inner 300
+  rekod    left     684  right     984  width     300  top    318  inner 268
+  toc      left     684  right     984  width     300  top    606  inner 268
+  sumber   left     684  right     984  width     300  top   1231  inner 268
+  VERDICT rail.left 684 >= body.right 620   gap 64px
+  measure 64.4 cpl  (580px / 17.9997px, longest para 396 chars)
+  counts {"rail":1,"rekod":1,"toc":1,"sumber":1,"h1":1}
+  candidates seen:
+    aside              aside.hk-rail  left 684 width 300 top 318 display flex
+    aside              aside.inspire-sidebar space-y-6  left 700 width 268 top 1757 display block
+    .inspire-sidebar   aside.inspire-sidebar space-y-6  left 700 width 268 top 1757 display block
+    .s-rekod           div.s-rekod  left 700 width 268 top 318 display block
+    [data-hk-rail]     aside.hk-rail  left 684 width 300 top 318 display flex
+
+/artikel/ucapan-doa/doa-pengantin-baru @1440  (layout viewport 1440, innerWidth 1440)
+  body     left     120  right     876  width     756  top   1139  inner 756
+  rail     left     940  right    1240  width     300  top    266  inner 300
+  rekod    left     940  right    1240  width     300  top    266  inner 268
+  toc      left     940  right    1240  width     300  top    554  inner 268
+  sumber   left     940  right    1240  width     300  top   1179  inner 268
+  VERDICT rail.left 940 >= body.right 876   gap 64px
+  measure 66 cpl  (594px / 18px, longest para 396 chars)
+  counts {"rail":1,"rekod":1,"toc":1,"sumber":1,"h1":1}
+  candidates seen:
+    aside              aside.hk-rail  left 940 width 300 top 266 display flex
+    aside              aside.inspire-sidebar space-y-6  left 956 width 268 top 1705 display block
+    .inspire-sidebar   aside.inspire-sidebar space-y-6  left 956 width 268 top 1705 display block
+    .s-rekod           div.s-rekod  left 956 width 268 top 266 display block
+    [data-hk-rail]     aside.hk-rail  left 940 width 300 top 266 display flex
+
+/artikel/ucapan-doa/doa-pengantin-baru @1920  (layout viewport 1920, innerWidth 1920)
+  body     left     232  right     988  width     756  top   1139  inner 756
+  rail     left    1052  right    1352  width     300  top    266  inner 300
+  rekod    left    1052  right    1352  width     300  top    266  inner 268
+  toc      left    1052  right    1352  width     300  top    554  inner 268
+  sumber   left    1052  right    1352  width     300  top   1179  inner 268
+  VERDICT rail.left 1052 >= body.right 988   gap 64px
+  measure 66 cpl  (594px / 18px, longest para 396 chars)
+  counts {"rail":1,"rekod":1,"toc":1,"sumber":1,"h1":1}
+  candidates seen:
+    aside              aside.hk-rail  left 1052 width 300 top 266 display flex
+    aside              aside.inspire-sidebar space-y-6  left 1068 width 268 top 1705 display block
+    .inspire-sidebar   aside.inspire-sidebar space-y-6  left 1068 width 268 top 1705 display block
+    .s-rekod           div.s-rekod  left 1068 width 268 top 266 display block
+    [data-hk-rail]     aside.hk-rail  left 1052 width 300 top 266 display flex
+
+/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri @390  (layout viewport 390, innerWidth 390)
+  body     left      20  right     370  width     350  top   1355  inner 350
+  rail     left      20  right     370  width     350  top    360  inner 350
+  rekod    left      20  right     370  width     350  top    360  inner 350
+  toc      — absent
+  sumber   left      20  right     370  width     350  top    642  inner 350
+  VERDICT rail.left 20 < body.right 370   gap -350px
+  measure 41.1 cpl  (350px / 17.0449px, longest para 438 chars)
+  counts {"rail":1,"rekod":1,"toc":0,"sumber":1,"h1":1}
+  candidates seen:
+    aside              aside.hk-rail  left 20 width 350 top 360 display flex
+    aside              aside.inspire-sidebar space-y-6  left 20 width 350 top 786 display block
+    .inspire-sidebar   aside.inspire-sidebar space-y-6  left 20 width 350 top 786 display block
+    .s-rekod           div.s-rekod  left 20 width 350 top 360 display block
+    [data-hk-rail]     aside.hk-rail  left 20 width 350 top 360 display flex
+
+/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri @768  (layout viewport 768, innerWidth 768)
+  body     left      32  right     736  width     704  top   1440  inner 704
+  rail     left      32  right     736  width     704  top    300  inner 704
+  rekod    left      32  right     736  width     704  top    300  inner 704
+  toc      — absent
+  sumber   left      32  right     736  width     704  top    583  inner 704
+  VERDICT rail.left 32 < body.right 736   gap -704px
+  measure 66 cpl  (581.27px / 17.6142px, longest para 438 chars)
+  counts {"rail":1,"rekod":1,"toc":0,"sumber":1,"h1":1}
+  candidates seen:
+    aside              aside.hk-rail  left 32 width 704 top 300 display flex
+    aside              aside.inspire-sidebar space-y-6  left 32 width 704 top 707 display block
+    .inspire-sidebar   aside.inspire-sidebar space-y-6  left 32 width 704 top 707 display block
+    .s-rekod           div.s-rekod  left 32 width 704 top 300 display block
+    [data-hk-rail]     aside.hk-rail  left 32 width 704 top 300 display flex
+
+/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri @1024  (layout viewport 1024, innerWidth 1024)
+  body     left      40  right     620  width     580  top    953  inner 580
+  rail     left     684  right     984  width     300  top    318  inner 300
+  rekod    left     684  right     984  width     300  top    318  inner 268
+  toc      — absent
+  sumber   left     684  right     984  width     300  top    606  inner 268
+  VERDICT rail.left 684 >= body.right 620   gap 64px
+  measure 64.4 cpl  (580px / 17.9997px, longest para 438 chars)
+  counts {"rail":1,"rekod":1,"toc":0,"sumber":1,"h1":1}
+  candidates seen:
+    aside              aside.hk-rail  left 684 width 300 top 318 display flex
+    aside              aside.inspire-sidebar space-y-6  left 700 width 268 top 750 display block
+    .inspire-sidebar   aside.inspire-sidebar space-y-6  left 700 width 268 top 750 display block
+    .s-rekod           div.s-rekod  left 700 width 268 top 318 display block
+    [data-hk-rail]     aside.hk-rail  left 684 width 300 top 318 display flex
+
+/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri @1440  (layout viewport 1440, innerWidth 1440)
+  body     left     120  right     876  width     756  top   1019  inner 756
+  rail     left     940  right    1240  width     300  top    266  inner 300
+  rekod    left     940  right    1240  width     300  top    266  inner 268
+  toc      — absent
+  sumber   left     940  right    1240  width     300  top    554  inner 268
+  VERDICT rail.left 940 >= body.right 876   gap 64px
+  measure 66 cpl  (594px / 18px, longest para 438 chars)
+  counts {"rail":1,"rekod":1,"toc":0,"sumber":1,"h1":1}
+  candidates seen:
+    aside              aside.hk-rail  left 940 width 300 top 266 display flex
+    aside              aside.inspire-sidebar space-y-6  left 956 width 268 top 698 display block
+    .inspire-sidebar   aside.inspire-sidebar space-y-6  left 956 width 268 top 698 display block
+    .s-rekod           div.s-rekod  left 956 width 268 top 266 display block
+    [data-hk-rail]     aside.hk-rail  left 940 width 300 top 266 display flex
+
+/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri @1920  (layout viewport 1920, innerWidth 1920)
+  body     left     232  right     988  width     756  top   1019  inner 756
+  rail     left    1052  right    1352  width     300  top    266  inner 300
+  rekod    left    1052  right    1352  width     300  top    266  inner 268
+  toc      — absent
+  sumber   left    1052  right    1352  width     300  top    554  inner 268
+  VERDICT rail.left 1052 >= body.right 988   gap 64px
+  measure 66 cpl  (594px / 18px, longest para 438 chars)
+  counts {"rail":1,"rekod":1,"toc":0,"sumber":1,"h1":1}
+  candidates seen:
+    aside              aside.hk-rail  left 1052 width 300 top 266 display flex
+    aside              aside.inspire-sidebar space-y-6  left 1068 width 268 top 698 display block
+    .inspire-sidebar   aside.inspire-sidebar space-y-6  left 1068 width 268 top 698 display block
+    .s-rekod           div.s-rekod  left 1068 width 268 top 266 display block
+    [data-hk-rail]     aside.hk-rail  left 1052 width 300 top 266 display flex
+
+/artikel/idea-dan-nasihat/garden-wedding @390  (layout viewport 390, innerWidth 390)
+  body     left      20  right     370  width     350  top   2328  inner 350
+  rail     left      20  right     370  width     350  top    468  inner 350
+  rekod    left      20  right     370  width     350  top    468  inner 350
+  toc      left      20  right     370  width     350  top    750  inner 350
+  sumber   — absent
+  VERDICT rail.left 20 < body.right 370   gap -350px
+  measure 41.1 cpl  (350px / 17.0449px, longest para 355 chars)
+  counts {"rail":1,"rekod":1,"toc":1,"sumber":0,"h1":1}
+  candidates seen:
+    aside              aside.hk-rail  left 20 width 350 top 468 display flex
+    aside              aside.inspire-sidebar space-y-6  left 20 width 350 top 1831 display block
+    .inspire-sidebar   aside.inspire-sidebar space-y-6  left 20 width 350 top 1831 display block
+    .s-rekod           div.s-rekod  left 20 width 350 top 468 display block
+    [data-hk-rail]     aside.hk-rail  left 20 width 350 top 468 display flex
+
+/artikel/idea-dan-nasihat/garden-wedding @768  (layout viewport 768, innerWidth 768)
+  body     left      32  right     736  width     704  top   2482  inner 704
+  rail     left      32  right     736  width     704  top    386  inner 704
+  rekod    left      32  right     736  width     704  top    386  inner 704
+  toc      left      32  right     736  width     704  top    669  inner 704
+  sumber   — absent
+  VERDICT rail.left 32 < body.right 736   gap -704px
+  measure 66 cpl  (581.27px / 17.6142px, longest para 355 chars)
+  counts {"rail":1,"rekod":1,"toc":1,"sumber":0,"h1":1}
+  candidates seen:
+    aside              aside.hk-rail  left 32 width 704 top 386 display flex
+    aside              aside.inspire-sidebar space-y-6  left 32 width 704 top 1749 display block
+    .inspire-sidebar   aside.inspire-sidebar space-y-6  left 32 width 704 top 1749 display block
+    .s-rekod           div.s-rekod  left 32 width 704 top 386 display block
+    [data-hk-rail]     aside.hk-rail  left 32 width 704 top 386 display flex
+
+/artikel/idea-dan-nasihat/garden-wedding @1024  (layout viewport 1024, innerWidth 1024)
+  body     left      40  right     620  width     580  top   1043  inner 580
+  rail     left     684  right     984  width     300  top    318  inner 300
+  rekod    left     684  right     984  width     300  top    318  inner 268
+  toc      left     684  right     984  width     300  top    606  inner 268
+  sumber   — absent
+  VERDICT rail.left 684 >= body.right 620   gap 64px
+  measure 64.4 cpl  (580px / 17.9997px, longest para 355 chars)
+  counts {"rail":1,"rekod":1,"toc":1,"sumber":0,"h1":1}
+  candidates seen:
+    aside              aside.hk-rail  left 684 width 300 top 318 display flex
+    aside              aside.inspire-sidebar space-y-6  left 700 width 268 top 1783 display block
+    .inspire-sidebar   aside.inspire-sidebar space-y-6  left 700 width 268 top 1783 display block
+    .s-rekod           div.s-rekod  left 700 width 268 top 318 display block
+    [data-hk-rail]     aside.hk-rail  left 684 width 300 top 318 display flex
+
+/artikel/idea-dan-nasihat/garden-wedding @1440  (layout viewport 1440, innerWidth 1440)
+  body     left     120  right     876  width     756  top   1109  inner 756
+  rail     left     940  right    1240  width     300  top    266  inner 300
+  rekod    left     940  right    1240  width     300  top    266  inner 268
+  toc      left     940  right    1240  width     300  top    554  inner 268
+  sumber   — absent
+  VERDICT rail.left 940 >= body.right 876   gap 64px
+  measure 66 cpl  (594px / 18px, longest para 355 chars)
+  counts {"rail":1,"rekod":1,"toc":1,"sumber":0,"h1":1}
+  candidates seen:
+    aside              aside.hk-rail  left 940 width 300 top 266 display flex
+    aside              aside.inspire-sidebar space-y-6  left 956 width 268 top 1731 display block
+    .inspire-sidebar   aside.inspire-sidebar space-y-6  left 956 width 268 top 1731 display block
+    .s-rekod           div.s-rekod  left 956 width 268 top 266 display block
+    [data-hk-rail]     aside.hk-rail  left 940 width 300 top 266 display flex
+
+/artikel/idea-dan-nasihat/garden-wedding @1920  (layout viewport 1920, innerWidth 1920)
+  body     left     232  right     988  width     756  top   1109  inner 756
+  rail     left    1052  right    1352  width     300  top    266  inner 300
+  rekod    left    1052  right    1352  width     300  top    266  inner 268
+  toc      left    1052  right    1352  width     300  top    554  inner 268
+  sumber   — absent
+  VERDICT rail.left 1052 >= body.right 988   gap 64px
+  measure 66 cpl  (594px / 18px, longest para 355 chars)
+  counts {"rail":1,"rekod":1,"toc":1,"sumber":0,"h1":1}
+  candidates seen:
+    aside              aside.hk-rail  left 1052 width 300 top 266 display flex
+    aside              aside.inspire-sidebar space-y-6  left 1068 width 268 top 1731 display block
+    .inspire-sidebar   aside.inspire-sidebar space-y-6  left 1068 width 268 top 1731 display block
+    .s-rekod           div.s-rekod  left 1068 width 268 top 266 display block
+    [data-hk-rail]     aside.hk-rail  left 1052 width 300 top 266 display flex
+
+/artikel/glamor-eksklusif/grand-hyatt-kuala-lumpur @390  (layout viewport 390, innerWidth 390)
+  body     left      20  right     370  width     350  top   1248  inner 350
+  rail     left      20  right     370  width     350  top    468  inner 350
+  rekod    left      20  right     370  width     350  top    468  inner 350
+  toc      — absent
+  sumber   — absent
+  VERDICT rail.left 20 < body.right 370   gap -350px
+  measure 41.1 cpl  (350px / 17.0449px, longest para 445 chars)
+  counts {"rail":1,"rekod":1,"toc":0,"sumber":0,"h1":1}
+  candidates seen:
+    aside              aside.hk-rail  left 20 width 350 top 468 display flex
+    aside              aside.inspire-sidebar space-y-6  left 20 width 350 top 750 display block
+    .inspire-sidebar   aside.inspire-sidebar space-y-6  left 20 width 350 top 750 display block
+    .s-rekod           div.s-rekod  left 20 width 350 top 468 display block
+    [data-hk-rail]     aside.hk-rail  left 20 width 350 top 468 display flex
+
+/artikel/glamor-eksklusif/grand-hyatt-kuala-lumpur @768  (layout viewport 768, innerWidth 768)
+  body     left      32  right     736  width     704  top   1403  inner 704
+  rail     left      32  right     736  width     704  top    386  inner 704
+  rekod    left      32  right     736  width     704  top    386  inner 704
+  toc      — absent
+  sumber   — absent
+  VERDICT rail.left 32 < body.right 736   gap -704px
+  measure 66 cpl  (581.27px / 17.6142px, longest para 445 chars)
+  counts {"rail":1,"rekod":1,"toc":0,"sumber":0,"h1":1}
+  candidates seen:
+    aside              aside.hk-rail  left 32 width 704 top 386 display flex
+    aside              aside.inspire-sidebar space-y-6  left 32 width 704 top 669 display block
+    .inspire-sidebar   aside.inspire-sidebar space-y-6  left 32 width 704 top 669 display block
+    .s-rekod           div.s-rekod  left 32 width 704 top 386 display block
+    [data-hk-rail]     aside.hk-rail  left 32 width 704 top 386 display flex
+
+/artikel/glamor-eksklusif/grand-hyatt-kuala-lumpur @1024  (layout viewport 1024, innerWidth 1024)
+  body     left      40  right     620  width     580  top   1094  inner 580
+  rail     left     684  right     984  width     300  top    318  inner 300
+  rekod    left     684  right     984  width     300  top    318  inner 268
+  toc      — absent
+  sumber   — absent
+  VERDICT rail.left 684 >= body.right 620   gap 64px
+  measure 64.4 cpl  (580px / 17.9997px, longest para 445 chars)
+  counts {"rail":1,"rekod":1,"toc":0,"sumber":0,"h1":1}
+  candidates seen:
+    aside              aside.hk-rail  left 684 width 300 top 318 display flex
+    aside              aside.inspire-sidebar space-y-6  left 700 width 268 top 606 display block
+    .inspire-sidebar   aside.inspire-sidebar space-y-6  left 700 width 268 top 606 display block
+    .s-rekod           div.s-rekod  left 700 width 268 top 318 display block
+    [data-hk-rail]     aside.hk-rail  left 684 width 300 top 318 display flex
+
+/artikel/glamor-eksklusif/grand-hyatt-kuala-lumpur @1440  (layout viewport 1440, innerWidth 1440)
+  body     left     120  right     876  width     756  top   1109  inner 756
+  rail     left     940  right    1240  width     300  top    266  inner 300
+  rekod    left     940  right    1240  width     300  top    266  inner 268
+  toc      — absent
+  sumber   — absent
+  VERDICT rail.left 940 >= body.right 876   gap 64px
+  measure 66 cpl  (594px / 18px, longest para 445 chars)
+  counts {"rail":1,"rekod":1,"toc":0,"sumber":0,"h1":1}
+  candidates seen:
+    aside              aside.hk-rail  left 940 width 300 top 266 display flex
+    aside              aside.inspire-sidebar space-y-6  left 956 width 268 top 554 display block
+    .inspire-sidebar   aside.inspire-sidebar space-y-6  left 956 width 268 top 554 display block
+    .s-rekod           div.s-rekod  left 956 width 268 top 266 display block
+    [data-hk-rail]     aside.hk-rail  left 940 width 300 top 266 display flex
+
+/artikel/glamor-eksklusif/grand-hyatt-kuala-lumpur @1920  (layout viewport 1920, innerWidth 1920)
+  body     left     232  right     988  width     756  top   1109  inner 756
+  rail     left    1052  right    1352  width     300  top    266  inner 300
+  rekod    left    1052  right    1352  width     300  top    266  inner 268
+  toc      — absent
+  sumber   — absent
+  VERDICT rail.left 1052 >= body.right 988   gap 64px
+  measure 66 cpl  (594px / 18px, longest para 445 chars)
+  counts {"rail":1,"rekod":1,"toc":0,"sumber":0,"h1":1}
+  candidates seen:
+    aside              aside.hk-rail  left 1052 width 300 top 266 display flex
+    aside              aside.inspire-sidebar space-y-6  left 1068 width 268 top 554 display block
+    .inspire-sidebar   aside.inspire-sidebar space-y-6  left 1068 width 268 top 554 display block
+    .s-rekod           div.s-rekod  left 1068 width 268 top 266 display block
+    [data-hk-rail]     aside.hk-rail  left 1052 width 300 top 266 display flex
+
+build fingerprint (per target, last width measured):
+  https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat
+    HTTP 200  x-vercel-id sin1::sin1::bvm9m-1788290475690-790877ec30a7  cache HIT  age 244  css [e754448c3010263a.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  https://hellokahwin.com/artikel/ucapan-doa/doa-pengantin-baru
+    HTTP 200  x-vercel-id sin1::sin1::xkmrw-1788290479359-76847229f010  cache HIT  age 2  css [e754448c3010263a.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri
+    HTTP 200  x-vercel-id sin1::sin1::wggtz-1788290483398-031395beed97  cache HIT  age 2  css [e754448c3010263a.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding
+    HTTP 200  x-vercel-id sin1::sin1::k6lln-1788290488156-3c904d056dc1  cache HIT  age 3  css [e754448c3010263a.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  https://hellokahwin.com/artikel/glamor-eksklusif/grand-hyatt-kuala-lumpur
+    HTTP 200  x-vercel-id sin1::sin1::vhk2j-1788290493788-0bf17559e867  cache HIT  age 4  css [e754448c3010263a.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+
+10 observation(s) — reported, never fatal:
+  R3-sumber-absent             /artikel/idea-dan-nasihat/garden-wedding @390  no Sumber block — this article carries no standalone "Sumber:" citation. Most articles carry none (79 of 92 on 02 Sep 2026; re-measure with `pnpm ui:sources`, never from this string); a CONTENT gap, not a layout one, never invented. That the heading is ABSENT rather than empty is enforced by ui-layout-gate check 14
+  R3-sumber-absent             /artikel/idea-dan-nasihat/garden-wedding @768  no Sumber block — this article carries no standalone "Sumber:" citation. Most articles carry none (79 of 92 on 02 Sep 2026; re-measure with `pnpm ui:sources`, never from this string); a CONTENT gap, not a layout one, never invented. That the heading is ABSENT rather than empty is enforced by ui-layout-gate check 14
+  R3-sumber-absent             /artikel/idea-dan-nasihat/garden-wedding @1024  no Sumber block — this article carries no standalone "Sumber:" citation. Most articles carry none (79 of 92 on 02 Sep 2026; re-measure with `pnpm ui:sources`, never from this string); a CONTENT gap, not a layout one, never invented. That the heading is ABSENT rather than empty is enforced by ui-layout-gate check 14
+  R3-sumber-absent             /artikel/idea-dan-nasihat/garden-wedding @1440  no Sumber block — this article carries no standalone "Sumber:" citation. Most articles carry none (79 of 92 on 02 Sep 2026; re-measure with `pnpm ui:sources`, never from this string); a CONTENT gap, not a layout one, never invented. That the heading is ABSENT rather than empty is enforced by ui-layout-gate check 14
+  R3-sumber-absent             /artikel/idea-dan-nasihat/garden-wedding @1920  no Sumber block — this article carries no standalone "Sumber:" citation. Most articles carry none (79 of 92 on 02 Sep 2026; re-measure with `pnpm ui:sources`, never from this string); a CONTENT gap, not a layout one, never invented. That the heading is ABSENT rather than empty is enforced by ui-layout-gate check 14
+  R3-sumber-absent             /artikel/glamor-eksklusif/grand-hyatt-kuala-lumpur @390  no Sumber block — this article carries no standalone "Sumber:" citation. Most articles carry none (79 of 92 on 02 Sep 2026; re-measure with `pnpm ui:sources`, never from this string); a CONTENT gap, not a layout one, never invented. That the heading is ABSENT rather than empty is enforced by ui-layout-gate check 14
+  R3-sumber-absent             /artikel/glamor-eksklusif/grand-hyatt-kuala-lumpur @768  no Sumber block — this article carries no standalone "Sumber:" citation. Most articles carry none (79 of 92 on 02 Sep 2026; re-measure with `pnpm ui:sources`, never from this string); a CONTENT gap, not a layout one, never invented. That the heading is ABSENT rather than empty is enforced by ui-layout-gate check 14
+  R3-sumber-absent             /artikel/glamor-eksklusif/grand-hyatt-kuala-lumpur @1024  no Sumber block — this article carries no standalone "Sumber:" citation. Most articles carry none (79 of 92 on 02 Sep 2026; re-measure with `pnpm ui:sources`, never from this string); a CONTENT gap, not a layout one, never invented. That the heading is ABSENT rather than empty is enforced by ui-layout-gate check 14
+  R3-sumber-absent             /artikel/glamor-eksklusif/grand-hyatt-kuala-lumpur @1440  no Sumber block — this article carries no standalone "Sumber:" citation. Most articles carry none (79 of 92 on 02 Sep 2026; re-measure with `pnpm ui:sources`, never from this string); a CONTENT gap, not a layout one, never invented. That the heading is ABSENT rather than empty is enforced by ui-layout-gate check 14
+  R3-sumber-absent             /artikel/glamor-eksklusif/grand-hyatt-kuala-lumpur @1920  no Sumber block — this article carries no standalone "Sumber:" citation. Most articles carry none (79 of 92 on 02 Sep 2026; re-measure with `pnpm ui:sources`, never from this string); a CONTENT gap, not a layout one, never invented. That the heading is ABSENT rather than empty is enforced by ui-layout-gate check 14
+
+0 violation(s)
+RAIL EXIT: 0
+RAIL_PROD_RC=0
