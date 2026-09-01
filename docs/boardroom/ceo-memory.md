@@ -4,22 +4,57 @@ The CEO's living knowledge of the product and company. Read this at the start
 of every meeting/session; update it whenever reality changes. Facts only —
 opinions and plans belong in meeting minutes and the decision log.
 
-_Last updated: 2026-09-01 (Sprint 05 planning — **SPRINT 04 SHIPPED 69/69 AND THE
-CLICK DID NOT MOVE**: 28d clicks 99 → 109, impressions 6,693 → 7,760, position
-12.4 → 11.8, sitewide CTR 1.48% → **1.40%**. Page-level, 7d, matched positions:
-the number/definition cluster returned **21 clicks from 3,062 impressions (0.69%)**
-while the document cluster returned **17 from 285 (5.96%)** — ~40% of the impression
-base is structurally unclickable. The FAQ-schema figure was STALE and is corrected
-to **39 of 85**; `DALAM ARTIKEL INI` is on **0 of 85**; the homepage is still
-**26 of 26 links in one category**; the photographer permissions are **OBTAINED**;
-and decision 167's two institutional deletes were **decided and never executed**.
-Earlier: 2026-08-30 (SERP SHAPE decides clickability; the cached-`<title>` defect is
-CLOSED; the garden-wedding credit figure was WRONG; `sprint-NN.json` abandoned for
-three sprints; the CTR metric is SPLIT). Earlier: 2026-08-28 (SEO-08 —
-`/garden-wedding/` is a MALAY page drawing English-loanword queries). Earlier:
-2026-08-27, SEO-04 — nikahsatu.com is the VENUE OPERATOR, not a beatable competitor)._
+_Last updated: 2026-09-02 (Sprint 06 planning — **THE STRUCTURAL FINDING: WE BUILT 39
+OF OUR 92 ARTICLES IN THE FAMILY THAT CANNOT CONVERT.** All 337 ranking queries
+classified with the committed intent gate: `doa` 221 impressions / 4.5% CTR / 100%
+document intent / **mean position 21.7**, against `mas kahwin` 1,046 impressions /
+0.6% / 0% document intent. `hantaran-mas-kahwin` holds 39 articles, `ucapan-doa` 10.
+26 document-intent queries carry impressions and ZERO clicks. Sprint 05 closed at
+45/108 having dispatched 14 of 28 items; RIGHTS-03 and decision 167 are CLOSED —
+the CDN purge landed and `TAKEDOWN-GATE EXIT: 0`. UI-15's carried '37 category
+pages' was WRONG (it is 15) and the corpus moved 86 → 92. Earlier: 2026-09-01
+(Sprint 05 planning — the click did not move; 40% of impressions structurally
+unclickable). Earlier: 2026-08-30 (SERP SHAPE decides clickability; the CTR metric
+is SPLIT). Earlier: 2026-08-27, SEO-04 — nikahsatu.com is the VENUE OPERATOR)._
 
-## OPEN ITEMS FOUND 01 Sept 2026 — all owned in Sprint 05
+## OPEN ITEMS — 02 Sept 2026
+
+- **🟠 THE PILLAR DISTRIBUTION IS UPSIDE DOWN, AND THIS IS THE COMPANY'S CENTRAL
+  CONTENT FACT.** 39 of 92 articles sit in `hantaran-mas-kahwin` — 1,046
+  impressions, **0.6% CTR, 0% document intent**. 10 sit in `ucapan-doa` — 221
+  impressions, **4.5% CTR, 100% document intent, mean position 21.7**. We built
+  hardest where the click structurally is not, and we are barely competing where
+  it is. **Owner: CONT-17 + CONT-18, Sprint 06.** Decision 187.
+- **🟠 26 DOCUMENT-INTENT QUERIES CARRY IMPRESSIONS AND ZERO CLICKS**, 184
+  impressions between them — `doa selepas akad nikah rumi` at position 10.6,
+  `doa ubun isteri rumi` at 4.7, `lafaz taklik perak` at 8.7, `rukun nikah` at
+  24.0. These are the queries the Sprint 05 thesis says we should already be
+  winning.
+- **🔴 THE 12.2× INTENT SPLIT HAS NEVER BEEN RE-MEASURED and rests on 14 clicks.**
+  Decision 171 bounds it only at ≥2.3×. **Every content decision this company
+  makes depends on it.** SEO-14 runs FIRST in Sprint 06 and is allowed to kill
+  CONT-17. Decision 188.
+- **🟠 52 OF 86 ARTICLES HAVE NO SOURCES TO LIST** — found by UI-17 in Sprint 05,
+  on a site whose competitive claim is that its numbers carry sources. **NOT a
+  layout problem.** Deliberately deferred to Sprint 07 planning as its own
+  content-integrity item rather than hidden inside the rail. Decision 190.
+- **🟠 PR #37 IS OPEN AND MUST NEVER BE MERGED.** It targets `master` (the SITE
+  space) from the docs line and carries 100 files, 51 docs-space including the
+  boardroom. The CEO's account lacks `ClosePullRequest` on `ianngkb/hellokahwin`;
+  **only the owner can close it.** Its work already shipped via 8a05951.
+- **⚠ DECISION NUMBERS COLLIDE. Agents write to the decision log during sprint
+  execution.** On 02 Sept the CEO wrote 184–191 into the log and 184/185 were
+  already taken by agents during Sprint 05. **Read the highest existing number
+  immediately before writing, not from memory of the last meeting.** Renumbered
+  to 186–193.
+- **✅ RESOLVED since 01 Sept:** decision 167's two institutional images are gone
+  (`TAKEDOWN-GATE EXIT: 0`, all six URLs 404 on two passes, retained-image control
+  still 200); the homepage diversity rule ships and `check-h6.sh` reports
+  "VERDICT: H6 holds"; the contents list is on every article with ≥2 h2; FAQ
+  coverage is 47 → 74+ with 1 absent; `scripts/git-hooks` is installable from a
+  fresh clone; 188,450 orphaned files swept.
+
+## OPEN ITEMS FOUND 01 Sept 2026 — Sprint 05 (RESOLVED unless marked)
 
 - **🔴 DECISION 167 WAS DECIDED ON 30 AUG AND NEVER EXECUTED. The Getty/iStock file
   and the press photograph are STILL LIVE.** RIGHTS-02 was deferred by the owner's
