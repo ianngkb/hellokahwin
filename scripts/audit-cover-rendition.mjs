@@ -51,6 +51,29 @@
  * backfill that half-ran, a resolver regression that changes preference order,
  * and a re-cut that moved the `?v=` token without the page following it.
  *
+ * ─────────────────────────────────────────────────────────────────────────────
+ * AND A BYTE CEILING, BECAUSE A BYTE DEFECT HAS NO RULE BEHIND IT
+ * ─────────────────────────────────────────────────────────────────────────────
+ *
+ * Hours after UI-16 shipped, six articles were re-ingested from a checkout that
+ * predates it. `processSmartCrops` REPLACES the whole `cover_image_smart_crops`
+ * object, so the `-md` key was dropped, the resolver fell through to the full
+ * `crop-4x3-article-card`, and production served **4,742,962 B of cover across
+ * six pages — a mean of 790 KB on the LCP element**, 12.5x the `low` this item
+ * replaced.
+ *
+ * NOTHING could see it. The box is 4:3 and the file is 4:3, so `image-aspect`
+ * reads 0. It is a downscale, so `image-upscale` reads 0. It is a named crop, so
+ * `shaped-slot-variant` (R2) passes. Every blocking check was structurally blind
+ * because there was no rule to break — the file was correct in every way except
+ * its weight.
+ *
+ * So this asserts a CEILING on the served cover, in bytes, read from the
+ * response rather than from the database: no cover may exceed
+ * `ARTICLE_COVER_MD.CEILING_BYTES` (103,680 B) plus the 10% slack that keeps a
+ * legitimately-heavy rendition from failing the run it just passed. A slot whose
+ * whole justification is its weight needs a check on its weight.
+ *
  * ⚠ It is deliberately NOT part of `ui-layout-gate.mjs`. That gate is offline-
  * testable against committed fixtures and takes no credentials; this needs the
  * production database URL. Merging them would put a secret in the path of the
@@ -81,6 +104,18 @@ const BASE = opt('base', 'https://hellokahwin.com');
 const LIMIT = opt('limit') ? Number(opt('limit')) : null;
 const EXPECT = opt('expect', null);
 const CONCURRENCY = 6;
+
+/**
+ * The served cover may not weigh more than this.
+ *
+ * `ARTICLE_COVER_MD.CEILING_BYTES` is 103,680 — the rendition's own budget —
+ * plus 10%. The slack is not generosity: it stops a cover that legitimately
+ * lands at the top of its ladder from failing a run it passed an hour earlier,
+ * which is how a threshold gets switched off. Restated here as a literal rather
+ * than imported, for the same reason `PREFERENCE` is: a checker that imports the
+ * number it is checking agrees with the code by construction.
+ */
+const CEILING = Number(opt('ceiling', 114048));
 
 /**
  * The preference order, restated here rather than imported.
@@ -151,6 +186,7 @@ async function main() {
   console.log(
     `expecting   ${EXPECT ? `${EXPECT}  (--expect: NEGATIVE CONTROL, this run SHOULD go red)` : PREFERENCE.join(' then ')}`,
   );
+  console.log(`byte ceiling ${CEILING} B on the served cover`);
 
   const sql = postgres(DB, { prepare: false, max: 3 });
   const rows = await sql`
@@ -172,6 +208,8 @@ async function main() {
 
   const mismatched = [];
   const unreadable = [];
+  /** What each page actually references, so the ceiling weighs the served object. */
+  const served = [];
   let checked = 0;
 
   const queue = [...rows];
@@ -203,6 +241,7 @@ async function main() {
         continue;
       }
       checked++;
+      served.push({ slug: r.slug, url: got.src });
       if (got.src !== want.url) {
         mismatched.push(
           `${r.slug}\n      db wants  ${want.name}  ${want.url}\n      page has  ${got.src}`,
@@ -219,12 +258,48 @@ async function main() {
   };
   await Promise.all(Array.from({ length: CONCURRENCY }, worker));
 
+  // The byte ceiling, measured on the object the page actually references. HEAD
+  // rather than GET: the number wanted is Content-Length, and 97 covers is
+  // ~3.3 MB of body nobody needs to download to weigh them.
+  const overweight = [];
+  const weighQueue = [...served];
+  const weigher = async () => {
+    for (;;) {
+      const item = weighQueue.shift();
+      if (!item) return;
+      try {
+        const res = await fetch(item.url, { method: 'HEAD' });
+        const len = Number(res.headers.get('content-length'));
+        if (Number.isFinite(len) && len > CEILING) {
+          overweight.push(
+            `${item.slug} — the page serves ${len} B (ceiling ${CEILING}); ${item.url}`,
+          );
+        }
+      } catch {
+        // A HEAD that fails is not evidence the object is light. Reported as
+        // unreadable rather than skipped.
+        unreadable.push(`${item.slug} — could not weigh ${item.url}`);
+      }
+    }
+  };
+  await Promise.all(Array.from({ length: CONCURRENCY }, weigher));
+
+  for (const o of overweight) console.log(`  OVERWEIGHT ${o}`);
   for (const m of mismatched) console.log(`  MISMATCH ${m}`);
   for (const u of unreadable) console.log(`  UNREADABLE ${u}`);
 
   console.log(
-    `\n${checked} checked, ${mismatched.length} mismatched, ${unreadable.length} unreadable`,
+    `\n${checked} checked, ${mismatched.length} mismatched, ${overweight.length} overweight, ${unreadable.length} unreadable`,
   );
+  if (overweight.length) {
+    console.log(
+      '\nAn overweight cover is usually the resolver falling past the renditions to the\n' +
+        'FULL crop, which is 111 KB-1.4 MB. Ingest REPLACES the whole smart-crops object,\n' +
+        'so a re-publish from a checkout without the rendition drops it. Fix:\n' +
+        '  pnpm backfill:midsize --db "<url>" --rendition crop-4x3-article-card-md --undo <path>\n' +
+        'then purge, then re-run this.',
+    );
+  }
   if (mismatched.length) {
     console.log(
       '\nA mismatch is usually the article payload cache, not the code: it is written\n' +
@@ -235,7 +310,7 @@ async function main() {
   }
   // Unreadable is never a pass. A page that could not be read is not a page
   // that agreed with the database.
-  const code = mismatched.length > 0 || unreadable.length > 0 ? 1 : 0;
+  const code = mismatched.length > 0 || overweight.length > 0 || unreadable.length > 0 ? 1 : 0;
   console.log(`RENDITION EXIT: ${code}`);
   process.exit(code);
 }

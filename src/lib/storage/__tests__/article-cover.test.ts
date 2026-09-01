@@ -12,6 +12,7 @@ import { resolveArticleCoverSource } from '../responsive-cover';
 const DIR = 'https://images.example.com/inspire/garden-wedding/1787397040017-cover';
 const lowUrl = `${DIR}/low.webp`;
 const mdUrl = `${DIR}/crop-4x3-article-card-md.webp?v=g48c0b959`;
+const smUrl = `${DIR}/crop-4x3-article-card-sm.webp?v=g48c0b959`;
 const cardUrl = `${DIR}/crop-4x3-article-card.webp?v=g48c0b959`;
 const variants = { low: { url: lowUrl } };
 
@@ -74,10 +75,37 @@ describe('resolveArticleCoverSource', () => {
     });
   });
 
-  // A cover ingested between the deploy and the backfill has the crop and not
-  // the rendition. Heavy-but-correct beats wrongly-shaped, and it beats `low`
-  // by R2 outright.
-  it('falls back to the full 4:3 crop, not to low, when the rendition is absent', () => {
+  // ── THE REGRESSION THIS TEST EXISTS FOR ──────────────────────────────────
+  //
+  // The first version of this resolver fell from the md rendition STRAIGHT to
+  // the full crop. Measured on production hours after it shipped: six articles
+  // re-ingested from a checkout without this commit lost the `-md` key (ingest
+  // REPLACES the whole crops object), landed on the full crop, and served
+  // 4,742,962 B of cover — a mean of 790 KB on the LCP element, 12.5x the
+  // `low` this item replaced. Every rule stayed green: 4:3 box, 4:3 file,
+  // downscaling, and a named crop, so aspect, upscale and R2 all read zero.
+  //
+  // `-sm` is DES-18's 528px rung and every one of those six HAD it. Preferring
+  // it costs a narrower plate for the minutes a cover is un-backfilled and
+  // saves ~768,000 bytes an article.
+  it('prefers the SMALL rendition over the full crop when md is missing', () => {
+    const got = resolveArticleCoverSource(
+      variants,
+      {
+        [MIDSIZE_COVER.NAME]: { url: smUrl, width: 528, height: 396 },
+        [ARTICLE_COVER_MD.SOURCE_NAME]: { url: cardUrl, width: 1600, height: 1200 },
+      },
+      null,
+    );
+    expect(got?.variant).toBe(MIDSIZE_COVER.NAME);
+    expect(got?.width).toBe(528);
+    expect(got?.boxAspect).toBe('4/3');
+  });
+
+  // Rung 3 survives for the one case rung 2 cannot serve: the full crop and
+  // neither rendition. Heavy-but-correct still beats wrongly-shaped, and beats
+  // `low` by R2 outright.
+  it('falls back to the full 4:3 crop, not to low, when both renditions are absent', () => {
     const got = resolveArticleCoverSource(
       variants,
       { [ARTICLE_COVER_MD.SOURCE_NAME]: { url: cardUrl, width: 911, height: 683 } },
