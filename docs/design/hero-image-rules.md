@@ -182,6 +182,60 @@ subject and starts reading as a texture — which is precisely what the 18.9%
 crop does. A defensible line, drawn by the person accountable for taste, and
 labelled as one rather than dressed up as a constant.
 
+**R9 — A value the renderer derives GEOMETRY from must be written by INGEST, not
+only by a backfill.** A value only a backfill writes decays from the moment the
+backfill ends, and it decays silently, because the fallback that replaces it is
+by design indistinguishable from the correct case.
+
+Measured, CONT-15, production, 02 Sept 2026 — this took **24 minutes**, not a
+sprint. `generateVariants` writes `ImageVariantMeta = { url, sizeBytes }`; the
+source intrinsics the cover box is derived from were written by backfill only:
+
+```
+19:08  backfill        96 of 96 recorded
+19:32  re-check        4 unrecorded — three newly published, and
+                       `syarat-wali-nikah` REGENERATED in admin: its low.url
+                       moved …558718… → …708079… and its recorded intrinsics
+                       stayed attached to the file that no longer renders
+20:18  re-check        corpus 102, SIX unrecorded
+20:23  after catch-up  102 of 102
+```
+
+So the rule is not "remember to re-run the backfill" — nobody remembers. Either
+ingest writes it, or the decay is made **visible by a standing check**:
+
+```
+pnpm audit:cover-intrinsics --db "<url>"      # exit 1 names every incomplete row
+```
+
+That check reports its two columns SEPARATELY and that separation is the whole
+design: on 02 Sept it read `low.width/height` **102/102** while
+`crop-4x3-article-card-md` read **96/102**, on the same corpus in the same
+second. One number self-maintaining, one not. A single "is the corpus healthy"
+boolean would have averaged those into a lie.
+
+> ⚠️ **A corollary that is NOT yet a rule, because it belongs to an open item.**
+> A resolver chain's FALLBACK is a weight decision, not just a correctness one.
+> Six covers missing the `-md` rung fell through to the full
+> `crop-4x3-article-card` and served **4,742,962 B** across six LCP elements —
+> `doa-pembuka-majlis` at 770,140 B, 1600×1200, painted 350.0×262.5 at a 390px
+> viewport, a **4.57×** downscale against the control's 2.26×. Every blocking
+> check is structurally blind to it: the box is 4:3, the file is 4:3, it is a
+> downscale not an upscale, and it **is** a named crop so R2 passes. Raised to
+> UI-16's owner, not fixed here.
+
+**R10 — Enumerate, then count. A count alone cannot tell a healthy corpus from a
+query that matched nothing.** CONT-15 nearly reported "UI-16's rendition is
+written by ingest and therefore self-maintaining" as independent support for a
+ruling that had already gone against it. It was **false** — a scratch script
+`continue`d past the six incomplete rows before counting them, so it manufactured
+the comfortable answer, and no assertion failed. It was caught only because the
+number was convenient, not because anything broke.
+
+A number that confirms a decision already made is the hardest kind to doubt.
+Print the rows; let the count be a consequence of the list rather than a
+substitute for it. A corpus of zero is an error, never a clean site.
+
 ---
 
 ## 2. The finding: the hero slot picked the only portrait photograph on the page
