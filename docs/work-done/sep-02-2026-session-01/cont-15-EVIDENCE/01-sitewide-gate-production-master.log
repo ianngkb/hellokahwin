@@ -1,0 +1,188 @@
+
+UILINT — rendered-layout gate · https://hellokahwin.com
+widths 390/768/1024/1440/1920 · chrome C:/Program Files/Google/Chrome/Application/chrome.exe
+──────────────────────────────────────────────────────────────────────────────
+[ ok ] homepage / @390                                0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0
+[ ok ] homepage / @768                                0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0
+[ ok ] homepage / @1024                               0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        image-attr-aspect ×1
+          declared width="1200" height="630" (1.90:1) for a 2463x700 file (3.52:1) — 46% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            a.group.block > div.bg-muted.relative.aspect-[40/21] > picture > img.absolute.inset-0.h-full  ⟨img · link → /artikel/ucapan-doa/doa-keluarga-bahagia · alt="Doa keluarga bahagia: ayat 74 al-Furqan, dan enam sebab yang disebut mufti"⟩
+            "ohd-hasan/crop-4.3x1-desktop-hero.webp?v=0.2800_0.3120-g48c0b959"
+[ ok ] homepage / @1440                               0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        image-attr-aspect ×1
+          declared width="1200" height="630" (1.90:1) for a 2463x700 file (3.52:1) — 46% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            a.group.block > div.bg-muted.relative.aspect-[40/21] > picture > img.absolute.inset-0.h-full  ⟨img · link → /artikel/ucapan-doa/doa-keluarga-bahagia · alt="Doa keluarga bahagia: ayat 74 al-Furqan, dan enam sebab yang disebut mufti"⟩
+            "ohd-hasan/crop-4.3x1-desktop-hero.webp?v=0.2800_0.3120-g48c0b959"
+[ ok ] homepage / @1920                               0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        image-attr-aspect ×1
+          declared width="1200" height="630" (1.90:1) for a 2463x700 file (3.52:1) — 46% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            a.group.block > div.bg-muted.relative.aspect-[40/21] > picture > img.absolute.inset-0.h-full  ⟨img · link → /artikel/ucapan-doa/doa-keluarga-bahagia · alt="Doa keluarga bahagia: ayat 74 al-Furqan, dan enam sebab yang disebut mufti"⟩
+            "ohd-hasan/crop-4.3x1-desktop-hero.webp?v=0.2800_0.3120-g48c0b959"
+[ ok ] catalogue index /artikel @390                  0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0
+[ ok ] catalogue index /artikel @768                  0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0
+[ ok ] catalogue index /artikel @1024                 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        image-attr-aspect ×1
+          declared width="1200" height="630" (1.90:1) for a 2463x700 file (3.52:1) — 46% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            a.group.block > div.bg-muted.relative.aspect-[40/21] > picture > img.absolute.inset-0.h-full  ⟨img · link → /artikel/ucapan-doa/doa-masuk-rumah-baru · alt="Doa masuk rumah baru: satu lafaz, dan empat amalan yang ada sumbernya"⟩
+            "ohd-hasan/crop-4.3x1-desktop-hero.webp?v=0.1534_0.1860-g48c0b959"
+[ ok ] catalogue index /artikel @1440                 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        image-attr-aspect ×1
+          declared width="1200" height="630" (1.90:1) for a 2463x700 file (3.52:1) — 46% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            a.group.block > div.bg-muted.relative.aspect-[40/21] > picture > img.absolute.inset-0.h-full  ⟨img · link → /artikel/ucapan-doa/doa-masuk-rumah-baru · alt="Doa masuk rumah baru: satu lafaz, dan empat amalan yang ada sumbernya"⟩
+            "ohd-hasan/crop-4.3x1-desktop-hero.webp?v=0.1534_0.1860-g48c0b959"
+[ ok ] catalogue index /artikel @1920                 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        image-attr-aspect ×1
+          declared width="1200" height="630" (1.90:1) for a 2463x700 file (3.52:1) — 46% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            a.group.block > div.bg-muted.relative.aspect-[40/21] > picture > img.absolute.inset-0.h-full  ⟨img · link → /artikel/ucapan-doa/doa-masuk-rumah-baru · alt="Doa masuk rumah baru: satu lafaz, dan empat amalan yang ada sumbernya"⟩
+            "ohd-hasan/crop-4.3x1-desktop-hero.webp?v=0.1534_0.1860-g48c0b959"
+[ ok ] category archive /artikel/hantaran-mas-kahwin @390 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0
+[ ok ] category archive /artikel/hantaran-mas-kahwin @768 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0
+[ ok ] category archive /artikel/hantaran-mas-kahwin @1024 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0
+[ ok ] category archive /artikel/hantaran-mas-kahwin @1440 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0
+[ ok ] category archive /artikel/hantaran-mas-kahwin @1920 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0
+[ ok ] article /artikel/idea-dan-nasihat/garden-wedding @390 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:10 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +10 advisory
+        image-attr-aspect ×10
+          declared width="1200" height="800" (1.50:1) for a 684x1024 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "garden-wedding/1787397070738-IN-GardenWedding-Cove55-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x669 file (1.17:1) — 28% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397101516-IN-GardenWedding-JardinEventVenue-1/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x743 file (1.06:1) — 42% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397102800-IN-GardenWedding-JardinEventVenue-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 628x786 file (0.80:1) — 88% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397105442-IN-GardenWedding-JardinEventVenue-4/high.webp"
+          … and 6 more
+[ ok ] article /artikel/idea-dan-nasihat/garden-wedding @768 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:10 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +10 advisory
+        image-attr-aspect ×10
+          declared width="1200" height="800" (1.50:1) for a 684x1024 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "garden-wedding/1787397070738-IN-GardenWedding-Cove55-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x669 file (1.17:1) — 28% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397101516-IN-GardenWedding-JardinEventVenue-1/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x743 file (1.06:1) — 42% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397102800-IN-GardenWedding-JardinEventVenue-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 628x786 file (0.80:1) — 88% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397105442-IN-GardenWedding-JardinEventVenue-4/high.webp"
+          … and 6 more
+[ ok ] article /artikel/idea-dan-nasihat/garden-wedding @1024 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:10 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +10 advisory
+        image-attr-aspect ×10
+          declared width="1200" height="800" (1.50:1) for a 684x1024 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "garden-wedding/1787397070738-IN-GardenWedding-Cove55-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x669 file (1.17:1) — 28% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397101516-IN-GardenWedding-JardinEventVenue-1/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x743 file (1.06:1) — 42% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397102800-IN-GardenWedding-JardinEventVenue-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 628x786 file (0.80:1) — 88% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397105442-IN-GardenWedding-JardinEventVenue-4/high.webp"
+          … and 6 more
+[ ok ] article /artikel/idea-dan-nasihat/garden-wedding @1440 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:10 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +10 advisory
+        image-attr-aspect ×10
+          declared width="1200" height="800" (1.50:1) for a 684x1024 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "garden-wedding/1787397070738-IN-GardenWedding-Cove55-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x669 file (1.17:1) — 28% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397101516-IN-GardenWedding-JardinEventVenue-1/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x743 file (1.06:1) — 42% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397102800-IN-GardenWedding-JardinEventVenue-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 628x786 file (0.80:1) — 88% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397105442-IN-GardenWedding-JardinEventVenue-4/high.webp"
+          … and 6 more
+[ ok ] article /artikel/idea-dan-nasihat/garden-wedding @1920 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:10 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +10 advisory
+        image-attr-aspect ×10
+          declared width="1200" height="800" (1.50:1) for a 684x1024 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "garden-wedding/1787397070738-IN-GardenWedding-Cove55-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x669 file (1.17:1) — 28% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397101516-IN-GardenWedding-JardinEventVenue-1/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x743 file (1.06:1) — 42% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397102800-IN-GardenWedding-JardinEventVenue-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 628x786 file (0.80:1) — 88% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397105442-IN-GardenWedding-JardinEventVenue-4/high.webp"
+          … and 6 more
+[ ok ] article (longest title on the site, 95 chars) /artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik @390 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        image-attr-aspect ×1
+          declared width="1024" height="57" (17.96:1) for a 1280x720 file (1.78:1) — 911% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "290-IN-PreWeddingPhotoshoot-TamanBotaniPerdana-1024x57/high.webp"
+[ ok ] article (longest title on the site, 95 chars) /artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik @768 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        image-attr-aspect ×1
+          declared width="1024" height="57" (17.96:1) for a 1280x720 file (1.78:1) — 911% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "290-IN-PreWeddingPhotoshoot-TamanBotaniPerdana-1024x57/high.webp"
+[ ok ] article (longest title on the site, 95 chars) /artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik @1024 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        image-attr-aspect ×1
+          declared width="1024" height="57" (17.96:1) for a 1280x720 file (1.78:1) — 911% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "290-IN-PreWeddingPhotoshoot-TamanBotaniPerdana-1024x57/high.webp"
+[ ok ] article (longest title on the site, 95 chars) /artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik @1440 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        image-attr-aspect ×1
+          declared width="1024" height="57" (17.96:1) for a 1280x720 file (1.78:1) — 911% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "290-IN-PreWeddingPhotoshoot-TamanBotaniPerdana-1024x57/high.webp"
+[ ok ] article (longest title on the site, 95 chars) /artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik @1920 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        image-attr-aspect ×1
+          declared width="1024" height="57" (17.96:1) for a 1280x720 file (1.78:1) — 911% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "290-IN-PreWeddingPhotoshoot-TamanBotaniPerdana-1024x57/high.webp"
+[ ok ] tag archive /artikel/tag/hantaran @390         0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0
+[ ok ] tag archive /artikel/tag/hantaran @768         0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0
+[ ok ] tag archive /artikel/tag/hantaran @1024        0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0
+[ ok ] tag archive /artikel/tag/hantaran @1440        0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0
+[ ok ] tag archive /artikel/tag/hantaran @1920        0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0
+[ ok ] brand page /brand @390                         0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0
+[ ok ] brand page /brand @768                         0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0
+[ ok ] brand page /brand @1024                        0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0
+[ ok ] brand page /brand @1440                        0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0
+[ ok ] brand page /brand @1920                        0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0
+──────────────────────────────────────────────────────────────────────────────
+totals: empty-content 0
+        rail-collapsed 0
+        narrow-text-column 0
+        reading-measure 0
+        clipped-text 0
+        viewport-overflow 0
+        scroll-container-clip 0
+        image-upscale 0
+        image-aspect 0
+        image-attr-aspect 61 (advisory, does not fail the build)
+        image-unmeasurable 0
+        shaped-slot-variant 0
+        shaped-slot-dims 0
+        category-diversity 0
+        source-order 0
+build fingerprint (last width measured, per target):
+  homepage /
+    200 HIT age=202 sin1::sin1::mhgz4-1788294014690-8e55bac995b1 css=[e754448c3010263a.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  catalogue index /artikel
+    200 HIT age=169 sin1::sin1::tnkwj-1788294025913-457a57b75eef css=[e754448c3010263a.css 19b83a0982f1e330.css]
+  category archive /artikel/hantaran-mas-kahwin
+    200 HIT age=8 sin1::sin1::ds6q5-1788294036119-770675a4f1d2 css=[e754448c3010263a.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  article /artikel/idea-dan-nasihat/garden-wedding
+    200 HIT age=217 sin1::sin1::rs7qh-1788294124154-1ee4991bf395 css=[e754448c3010263a.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  article (longest title on the site, 95 chars) /artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik
+    200 HIT age=151 sin1::sin1::47hgp-1788294171919-8cfc1626c448 css=[e754448c3010263a.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  tag archive /artikel/tag/hantaran
+    200 HIT age=151 sin1::sin1::gkgbf-1788294187840-7853c1a20bcb css=[e754448c3010263a.css 19b83a0982f1e330.css]
+  brand page /brand
+    200 HIT age=141 sin1::sin1::4zmbg-1788294196597-8a3987f425b9 css=[e754448c3010263a.css 19b83a0982f1e330.css 3cf6e3f3c85830ad.css]
+NOT COVERED (declared, not hidden):
+  - author archive (/artikel/author/[slug]) — no reachable instance on this site; pass --author-slug when one exists
+  - /[slug] — legacy WordPress resolver, 301s, renders no template
+UILINT EXIT: 0

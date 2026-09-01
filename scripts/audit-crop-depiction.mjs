@@ -23,18 +23,25 @@
  * 792x594 4:3 crop (UI-16). Every instrument the company owns went green:
  * `image-aspect` 0, `image-upscale` 0, `image-attr-aspect` 0 on the cover,
  * `shaped-slot-variant` 0. The gate was RIGHT — the shape defect really was
- * fixed. And of the fifteen portrait covers it re-cut, THREE stopped depicting
- * their subject:
+ * fixed. And of the seventeen portrait covers it re-cut, FOUR articles carrying
+ * THREE distinct photographs stopped depicting their subject:
  *
  *   baju-pengantin-sewa-atau-beli   an article about renting or buying the
  *                                   BAJU — the crop keeps the face and cuts
  *                                   the outfit out of frame entirely
  *   doa-selamat-majlis              an imam reading before a congregation
- *                                   becomes a macro of a lattice screen with
- *                                   the top of a songkok at the bottom edge
+ *   doa-pembuka-majlis              becomes a macro of a lattice screen with
+ *                                   the top of a songkok at the bottom edge.
+ *                                   The SAME photograph on two articles, so a
+ *                                   per-article eyeball misses the pattern and
+ *                                   a re-cut fixes both at once.
  *   hantaran-tunang-3-balas-5       a ring in a decorated box becomes an
  *                                   abstract band of gold beads; the ring is
  *                                   outside the frame
+ *
+ * `doa-pembuka-majlis` was published DURING this measurement — the corpus went
+ * 92 to 102 in the two hours CONT-15 ran — which is the whole argument for this
+ * being a command anyone can re-run rather than an inspection someone did once.
  *
  * ── THE MEASUREMENT THAT WAS SUPPOSED TO CATCH THIS, AND WHY IT DID NOT ──────
  *
@@ -44,26 +51,39 @@
  * photograph of its subject and becomes a texture. That number came from a
  * 3.52:1 hero window on a 2:3 portrait, which keeps 18.9%.
  *
- * Every one of these three crops retains **50.0%** — 0.667 / 1.333, and the whole
- * set of fifteen spans 50.0-56.4%: all clear of the floor. The floor is not
- * wrong; it is not sufficient. Retention is a
- * measure of AREA, and depiction is a question about WHERE THE SUBJECT IS. A
- * portrait photograph of a standing person, a signboard, or an object in a box
- * distributes its subject along the axis the crop cuts. Half of such a frame can
- * contain none of it, while half of a flatlay contains all of it — which is why
- * five of the same fifteen crops came out BETTER than their sources
- * (mas-kahwin-pahang-negeri-sembilan and mas-kahwin-melebihi-kadar-minimum both
- * made an unreadable signboard readable).
+ * Every one of the failures retains **50.0%** — 0.667 / 1.333 — and the whole set
+ * of seventeen spans 50.0-56.4%: all of it clear of the floor. The floor is not
+ * wrong; it is not sufficient. Retention is a measure of AREA, and depiction is
+ * a question about WHERE THE SUBJECT IS. A portrait photograph of a standing
+ * person, a signboard, or an object in a box distributes its subject along the
+ * axis the crop cuts. Half of such a frame can contain none of it, while half of
+ * a flatlay contains all of it — which is why five of the same seventeen crops
+ * came out BETTER than their sources (mas-kahwin-pahang-negeri-sembilan and
+ * mas-kahwin-melebihi-kadar-minimum both made an unreadable signboard readable).
  *
  * So no threshold on retention can decide this, and any threshold strict enough
- * to catch these three would reject the five it improved. **The check is a
- * human looking at the pictures.** What a script can do — the only thing it can
- * do — is make looking cost one command instead of an afternoon, and put the
- * source beside the crop so the question is answerable at a glance.
+ * to catch the four would reject the five it improved. **The check is a human
+ * looking at the pictures.** What a script can do — the only thing it can do —
+ * is make looking cost one command instead of an afternoon, and put the source
+ * beside the crop so the question is answerable at a glance.
  *
  * Run it whenever a crop target is added, its geometry moves, or a backfill
  * re-cuts a corpus. It prints the retained fraction next to each pair, but the
  * number is context for your eye, not a verdict.
+ *
+ * ── IT NEVER SKIPS A ROW IT HAS NOT LOOKED AT ──────────────────────────────
+ * `--portrait-only` uses `cover_image_variants.low.width/height` as a FAST PATH
+ * when that optional field is present, and falls through to decoding the file's
+ * own header when it is not. A newly ingested cover has no such record — no
+ * ingest path writes it — so filtering on the record alone would go quiet on
+ * exactly the covers nobody has checked yet, which is the failure this script
+ * exists to prevent. The run reports how many rows it had to measure.
+ *
+ * Proved red/green against that exact case rather than reasoned about: with
+ * `doa-malam-pertama`'s recorded width and height removed on production and
+ * restored immediately after, the record-only version returned **16 pairs** with
+ * that portrait cover silently absent and exit 0; this version returns **17**,
+ * includes it, and says `1 row(s) have no recorded low.width/height`.
  */
 import { writeFileSync } from 'node:fs';
 import postgres from 'postgres';
@@ -116,7 +136,27 @@ const CW = 320; // the crop cell — resized to fit, never stretched
 const PAD = 10;
 const LBL = 26;
 
+// ── SELECTION, AND THE ONE PLACE THIS SCRIPT COULD LIE ────────────────────
+//
+// `--portrait-only` needs each source's orientation. The cheap way to get it is
+// `cover_image_variants.low.width/height` — and that field is OPTIONAL. It is
+// filled by `scripts/backfill-cover-intrinsics.mts` and by nothing else: no
+// ingest path writes it, and both admin actions replace `coverImageVariants`
+// wholesale, so a newly published or re-uploaded cover has no record of its own
+// shape. Measured 02 Sept 2026, twenty minutes after that backfill completed:
+// `102 published · 6 to measure · 96 already recorded`.
+//
+// Reading the record and skipping the rows it does not cover would make this
+// script do the exact thing it exists to prevent — return a confident, quiet
+// number about photographs it never looked at, and it would go quiet precisely
+// on the NEWEST covers, which are the ones nobody has checked yet.
+//
+// So an unrecorded row is never skipped. It is carried to the fetch below,
+// where the file's own header is decoded anyway, and its orientation is decided
+// from THAT. The record is a fast path, never an authority, and the run says out
+// loud how many rows it had to measure rather than read.
 const picked = [];
+let decidedByFile = 0;
 for (const r of rows) {
   if (ONLY.length && !ONLY.includes(r.slug)) continue;
   const crop = r.cover_image_smart_crops?.[CROP];
@@ -129,12 +169,22 @@ for (const r of rows) {
     console.log(`  no low.url                    ${r.slug}`);
     continue;
   }
-  const sw = low.width ?? null;
-  const sh = low.height ?? null;
+  const sw = typeof low.width === 'number' && low.width > 0 ? low.width : null;
+  const sh = typeof low.height === 'number' && low.height > 0 ? low.height : null;
   const srcAspect = sw && sh ? sw / sh : null;
   const cropAspect = crop.width && crop.height ? crop.width / crop.height : null;
-  if (PORTRAIT_ONLY && !(srcAspect !== null && srcAspect < 1)) continue;
+  // Skip on the record ONLY when the record exists. `null` means "not yet
+  // known", which is not the same as "not portrait".
+  if (PORTRAIT_ONLY && srcAspect !== null && srcAspect >= 1) continue;
+  if (PORTRAIT_ONLY && srcAspect === null) decidedByFile++;
   picked.push({ slug: r.slug, low, crop, srcAspect, cropAspect, sw, sh });
+}
+if (decidedByFile) {
+  console.log(
+    `\n  ${decidedByFile} row(s) have no recorded low.width/height — their orientation is` +
+      `\n  decided from the file itself below, never assumed. Run` +
+      `\n  \`pnpm backfill:cover-intrinsics\` to make the fast path cover them.`,
+  );
 }
 
 if (!picked.length) {
@@ -165,6 +215,12 @@ for (const p of picked) {
   const cAspect = cropMeta.width / cropMeta.height;
   const sw = Math.max(1, Math.round(CH * sAspect));
   const cw = Math.min(CW, Math.max(1, Math.round(CH * cAspect)));
+  // The orientation gate, applied to the MEASURED aspect. A row that reached
+  // here on an absent record is decided now, from its own pixels.
+  if (PORTRAIT_ONLY && sAspect >= 1) {
+    if (p.srcAspect === null) console.log(`  landscape (measured), skipped   ${p.slug}`);
+    continue;
+  }
   cells.push({
     ...p,
     srcPng: await sharp(srcBuf).resize(sw, CH, { fit: 'fill' }).png().toBuffer(),
@@ -175,6 +231,14 @@ for (const p of picked) {
     cropDims: `${cropMeta.width}x${cropMeta.height}`,
     retained: sAspect < cAspect ? sAspect / cAspect : cAspect / sAspect,
   });
+}
+
+if (!cells.length) {
+  console.error(
+    `\nNothing to sheet AFTER measuring ${picked.length} candidate(s) — every one is` +
+      `\nlandscape. That is a claim about this filter, not about the corpus.`,
+  );
+  process.exit(1);
 }
 
 const cellW = Math.max(...cells.map((c) => c.sw + PAD + c.cw));
@@ -213,8 +277,8 @@ writeFileSync(OUT, png);
 console.log(
   `\n${cells.length} pair(s) -> ${OUT}  ${W}x${H}\n` +
     `LEFT of each pair is the source frame, RIGHT is the stored ${CROP}.\n\n` +
-    `NOW OPEN IT. The percentage is context, not a verdict: on this corpus three\n` +
-    `crops at 50.0% retention stopped depicting their subject while five others at\n` +
-    `the same 50.0% came out better than their sources. Ask of each pair only:\n` +
+    `NOW OPEN IT. The percentage is context, not a verdict: on this corpus four\n` +
+    `crops at 50.0% retention stopped depicting their subject while five others\n` +
+    `came out better than their sources at 50.0-56.3%. Ask of each pair only:\n` +
     `does the right-hand image still show what the article is about?`,
 );

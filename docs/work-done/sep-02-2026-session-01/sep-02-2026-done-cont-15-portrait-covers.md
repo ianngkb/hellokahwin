@@ -160,21 +160,26 @@ match what got built.
 ### `scripts/audit-crop-depiction.mjs` — the contact sheet
 
 UI-16's re-crop is green on every instrument this company owns. Opening the
-**fifteen** portrait covers it re-cut shows three that **no longer depict their
-subject**:
+**seventeen** portrait covers it re-cut shows **four articles, carrying three
+distinct photographs, that no longer depict their subject**:
 
 | slug | the article is about | the crop shows |
 |---|---|---|
 | `baju-pengantin-sewa-atau-beli` | renting or buying the **baju** | a beauty headshot; the garment is out of frame |
 | `doa-selamat-majlis` | the doa at a majlis | a lattice screen, with the top of a songkok at the bottom edge |
+| `doa-pembuka-majlis` | the opening doa at a majlis | **the same photograph, the same failure** — published *during* this measurement |
 | `hantaran-tunang-3-balas-5` | the 3-for-5 hantaran exchange | a band of gold beads; the ring is outside the frame |
 
-And **five came out better than their sources** —
+Two of the four share one photograph, as do two of the passes
+(`hantaran-tempah-atau-buat-sendiri` and `nisbah-hantaran`). A per-article
+eyeball misses that; a re-cut of three focal points fixes four articles.
+
+And **five came out better than their sources** at the identical retention —
 `mas-kahwin-pahang-negeri-sembilan` and `mas-kahwin-melebihi-kadar-minimum` both
 turned an unreadable signboard into a readable one, and
 `contoh-kad-jemputan-kahwin` made the Walimatul Urus card fill the frame.
 
-**Every one of the fifteen retains 50.0–56.4%** of its frame — clear of the
+**Every one of the seventeen retains 50.0–56.4%** of its frame — clear of the
 ~one-third floor UI-03 recorded and this seat's persona carried.
 
 ```
@@ -199,6 +204,27 @@ pnpm audit:crops --crop crop-4x3-article-card-md --portrait-only
 Both refusal paths were **run, not assumed**: no `--crop` exits 2; an unknown
 crop name exits 1 and says *"that is a claim about this query, not about the
 corpus — 97 published rows carry smart crops."*
+
+#### The bug this script shipped with, found by reviewing it, proved red/green
+
+`--portrait-only` first read orientation from `cover_image_variants.low.width`
+— an **optional** field that only the backfill writes and that no ingest path
+fills. A cover with no record was therefore **silently skipped**: a confident,
+quiet number about photographs it never looked at, going quiet on precisely the
+newest covers. The exact failure class this whole item is about, in the fix.
+
+Not reasoned about — constructed and run. `doa-malam-pertama`'s recorded
+dimensions were removed on production and restored immediately after
+(prior value `{"width":1200,"height":1800}`, held before the strip):
+
+```
+RED   (record-only filter)   16 pair(s) — doa-malam-pertama absent, no warning, exit 0
+GREEN (file fall-through)    17 pair(s) — "1 row(s) have no recorded low.width/height —
+                                          their orientation is decided from the file itself"
+                                          5. doa-malam-pertama  1200x1800 -> 792x594  50.0% kept
+```
+
+Confirmed restored: `published 102 · without recorded low.width 0`.
 
 ### `scripts/backfill-cover-intrinsics.mts` + two undo files
 
@@ -374,5 +400,13 @@ sprint tooling's edit, raised here rather than attempted.
   `--dry-run` that would have destroyed a committed undo artefact. Both caught by
   the adversarial pass watching each new check go red on purpose before trusting
   it.
-- **Three broken covers that every automated check called fine.** Caught only by
-  opening the PNG.
+- **Four broken covers that every automated check called fine.** Caught only by
+  opening the PNG — and the fourth, `doa-pembuka-majlis`, was published *during*
+  the measurement, which is why the deliverable is a command rather than a list.
+- **A silent skip inside the fix itself.** The first version of
+  `audit-crop-depiction.mjs` filtered `--portrait-only` on an optional database
+  field and dropped, without a word, every cover that field did not cover — the
+  same quiet-zero failure the script exists to catch. Caught by reviewing my own
+  shipment rather than by any check, and then **proved red/green against a
+  constructed failing case** instead of being reasoned about: 16 pairs before,
+  17 after, on the same database state.

@@ -1,0 +1,19 @@
+CONT-15 — red/green for the --portrait-only fall-through, 02 Sept 2026
+
+Failing case CONSTRUCTED, not reasoned about: doa-malam-pertama (1200x1800
+portrait) had its recorded low.width/height removed on production and restored
+immediately after. Prior value held before the strip:
+  {"width":1200,"height":1800}
+
+RED  — the record-only filter, as first committed:
+  16 pair(s) -> red.png
+  doa-malam-pertama ABSENT. No warning. Exit 0.
+
+GREEN — the file fall-through:
+  1 row(s) have no recorded low.width/height — their orientation is
+   5. doa-malam-pertama   1200x1800 -> 792x594   50.0% kept
+  17 pair(s) -> green.png
+
+RESTORED and confirmed:
+  NOW: {"url":"...","width":1200,"height":1800,"sizeBytes":77982}
+  published 102 - without recorded low.width 0
