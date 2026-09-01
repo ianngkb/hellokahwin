@@ -12,6 +12,32 @@
 
 components.css declares .s-h2 { font-weight: 600; letter-spacing: -0.01em }. On every public page .hk-public h1,h2,h3,h4 { font-family: var(--font-serif); letter-spacing: -.018em; font-weight: 400 } has specificity (0,1,1) and beats the bare class at (0,1,0), so neither declaration ever applies. VERIFIED on live production 31 Ogos 2026 at both breakpoints: h2.s-h2 on artikel/hantaran-mas-kahwin computes font-weight 400 and letter-spacing -0.399px at 390px, and 400 / -0.468px at 1280px - the -0.018em from the wrapper, not the -0.01em the class asks for. The specificity ladder is consistent: .s-row .t (0,2,0) > .hk-public h2 (0,1,1) > .s-h2 (0,1,0), which is why .s-row h2.t DOES render 600. Done when .s-h2 either wins its own declarations or stops making them, decided deliberately - NOTE this is a real design decision, not a cleanup: making 600 win would change every public h2 on the site. SAME CLASS AS UI-14 but a different mechanism - UI-14 catches a class matching no rule, this is a rule that matches and never wins - so a check for one will not catch the other. Found by the creative-director while correcting their own reasoning in UI-05, and verified on the live artefact before being recorded.
 
+## ⚠ CORRECTION TO THE DoD ABOVE, FROM THE EVIDENCE — design-systems-engineer, 02 Sept 2026
+
+The DoD's sentence *"making 600 win would change every public h2 on the site"* is
+wrong, and the number matters because it is the sentence that makes this a
+3-point item rather than a site-wide art-direction change.
+
+**It changes 26 elements, all `<h2>`, on the 7 pillar hubs.** Zero `.s-h2` on the
+homepage, the catalogue and article pages. Enumerated at 390px across 12
+production URLs before the fix (`/` 0, `/artikel` 0, `hantaran-mas-kahwin` 5,
+`nikah-undang-undang` 4, `sebelum-nikah` 5, `ucapan-doa` 4, `busana-pengantin` 2,
+`pelamin-kad-cenderahati` 4, `venue-perancangan` 2, `real-wedding` 0,
+`glamor-eksklusif` 0, an article page 0).
+
+The change that WOULD move every public h2 is a different one and was NOT made:
+de-specifying `.hk-public h1,h2,h3,h4` so a design-system class always wins. That
+additionally moves **27** other classed public headings (`.s-h1`, `.s-h3`,
+`.hk-display`, `.hk-eyebrow`, `.hk-card-title`) and is listed as a follow-up with
+its own owner.
+
+The DoD is otherwise met exactly as written and was not narrowed. Everything
+else in it reproduced on production: 400 / −0.399px at 390 and 400 / −0.468px at
+1280, and the (0,2,0) > (0,1,1) > (0,1,0) ladder.
+
+Full account, evidence and the three findings raised:
+`docs/work-done/sep-02-2026-session-01/sep-02-2026-done-des-15-h2-weight.md`.
+
 ## BRIEF
 
 â€”
