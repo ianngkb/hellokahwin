@@ -155,10 +155,34 @@ Each column moved **independently, only when its own cause was addressed**. A
 single "is the corpus healthy" boolean could not have produced that table, and
 would have averaged the two into a lie.
 
-`COVER-INTRINSICS EXIT: 0` is the baseline recorded with PR #71 — deliberately
-re-run **after** UI-16's fix, because the first recorded run of a gate is what
-the next reader treats as normal, and shipping a red baseline for a defect that
-is already closed teaches the wrong thing.
+…and then a **fourth** run, which is the one that matters:
+
+| Run | `low` | `md` | Exit | |
+| --- | --- | --- | --- | --- |
+| 4 · 21:00 | **96/102** | **96/102** | **1** | the same six are bare again, **both columns** |
+
+**THE BASELINE IS NOT A NUMBER. IT OSCILLATES.** `doa-masuk-rumah-baru` was
+re-ingested at `20:52:59` — *after* UI-16's fix — and came back with no `-md`
+rung, no `low.width/height`, and a **different `low.url`**
+(`…1788295962710-images-s-keluarga-payung-kuning…`). Re-read 20 seconds later:
+identical. Not a transient.
+
+This is R9 demonstrated on a stopwatch: **22 minutes from green to red**, with no
+deploy and no code change. `processSmartCrops` **replaces**
+`cover_image_smart_crops` rather than merging, and the ingest CLI runs from an
+agent's **own checkout**, so no deployed fix can prevent it. The decay is not a
+historical anecdote in this document — it happened again while this document was
+being written.
+
+**So no green baseline is recorded with PR #71, deliberately.** Cherry-picking
+the 20:38 green would have shipped a number that was already false, and taught
+the next reader that this corpus is stable. It is not. The evidence file records
+all four runs.
+
+**UI-16's PR #67 reorder is what stops this being expensive**: production at
+21:00 serves `crop-4x3-article-card-sm` (~23 KB) rather than the 770 KB full
+crop, because the fallback is now `md → sm → card → low` — largest-that-is-still-
+budgeted rather than largest. The defect recurs; its cost no longer does.
 
 ---
 

@@ -1,0 +1,1097 @@
+
+UILINT — rendered-layout gate · https://hellokahwin.com/artikel/hantaran-mas-kahwin/tempat-beli-hantaran, https://hellokahwin.com/artikel/busana-pengantin/baju-pengantin-sewa-atau-beli, https://hellokahwin.com/artikel/idea-dan-nasihat/cara-buat-kad-kahwin-digital, https://hellokahwin.com/artikel/ucapan-doa/doa-selamat-majlis, https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tempah-atau-buat-sendiri, https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang, https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-tunang-3-balas-5, https://hellokahwin.com/artikel/hantaran-mas-kahwin/nisbah-hantaran, https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-pahang-negeri-sembilan, https://hellokahwin.com/artikel/hantaran-mas-kahwin/apa-itu-mas-kahwin, https://hellokahwin.com/artikel/hantaran-mas-kahwin/dulang-hantaran, https://hellokahwin.com/artikel/hantaran-mas-kahwin/mas-kahwin-melebihi-kadar-minimum, https://hellokahwin.com/artikel/ucapan-doa/skrip-pengacara-majlis-perkahwinan, https://hellokahwin.com/artikel/pelamin-kad-cenderahati/contoh-kad-jemputan-kahwin, https://hellokahwin.com/artikel/moden-kontemporari/sime-darby-convention-centre, https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding, https://hellokahwin.com/artikel/nikah-undang-undang/syarat-wali-nikah
+widths 390/768/1024/1440/1920 · chrome C:/Program Files/Google/Chrome/Application/chrome.exe
+──────────────────────────────────────────────────────────────────────────────
+[FAIL] /artikel/hantaran-mas-kahwin/tempat-beli-hantaran @390 29 violation(s)  empty:0 rail:0 narrow:29 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        narrow-text-column ×29
+          85.8px column, 2 lines, box 86x58px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Jenis pembekal"
+          74.2px column, 3 lines, box 74x87px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Apa yang dijual"
+          85.0px column, 3 lines, box 85x87px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Contoh yang disemak"
+          83.8px column, 3 lines, box 84x87px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Julat harga tersiar"
+          … and 25 more
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1527x2264 file (0.67:1) — 122% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Sebuah dulang kaca berkaki dihias renda kedut putih dan rantai manik emas, membawa sebuah kotak hadiah kecil berbentuk hati."⟩
+            "n/1787780709236-images-s-dulang-berkaki-hiasan-farritz/high.webp"
+[FAIL] /artikel/hantaran-mas-kahwin/tempat-beli-hantaran @768 15 violation(s)  empty:0 rail:0 narrow:15 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        narrow-text-column ×15
+          100.1px column, 2 lines, box 100x60px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Jenis pembekal"
+          107.2px column, 2 lines, box 107x60px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Julat harga tersiar"
+          100.1px column, 3 lines, box 100x90px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Kedai barang kahwin"
+          107.2px column, 3 lines, box 107x90px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "RM1.50 hingga RM250.00"
+          … and 11 more
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1527x2264 file (0.67:1) — 122% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Sebuah dulang kaca berkaki dihias renda kedut putih dan rantai manik emas, membawa sebuah kotak hadiah kecil berbentuk hati."⟩
+            "n/1787780709236-images-s-dulang-berkaki-hiasan-farritz/high.webp"
+[FAIL] /artikel/hantaran-mas-kahwin/tempat-beli-hantaran @1024 15 violation(s)  empty:0 rail:0 narrow:15 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        narrow-text-column ×15
+          101.3px column, 2 lines, box 101x61px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Jenis pembekal"
+          107.8px column, 2 lines, box 108x61px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Julat harga tersiar"
+          101.3px column, 3 lines, box 101x92px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Kedai barang kahwin"
+          107.8px column, 3 lines, box 108x92px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "RM1.50 hingga RM250.00"
+          … and 11 more
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1527x2264 file (0.67:1) — 122% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Sebuah dulang kaca berkaki dihias renda kedut putih dan rantai manik emas, membawa sebuah kotak hadiah kecil berbentuk hati."⟩
+            "n/1787780709236-images-s-dulang-berkaki-hiasan-farritz/high.webp"
+[FAIL] /artikel/hantaran-mas-kahwin/tempat-beli-hantaran @1440 15 violation(s)  empty:0 rail:0 narrow:15 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        narrow-text-column ×15
+          102.5px column, 2 lines, box 103x61px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Jenis pembekal"
+          109.9px column, 2 lines, box 110x61px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Julat harga tersiar"
+          102.5px column, 3 lines, box 103x92px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Kedai barang kahwin"
+          109.9px column, 3 lines, box 110x92px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "RM1.50 hingga RM250.00"
+          … and 11 more
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1527x2264 file (0.67:1) — 122% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Sebuah dulang kaca berkaki dihias renda kedut putih dan rantai manik emas, membawa sebuah kotak hadiah kecil berbentuk hati."⟩
+            "n/1787780709236-images-s-dulang-berkaki-hiasan-farritz/high.webp"
+[FAIL] /artikel/hantaran-mas-kahwin/tempat-beli-hantaran @1920 15 violation(s)  empty:0 rail:0 narrow:15 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        narrow-text-column ×15
+          102.5px column, 2 lines, box 103x61px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Jenis pembekal"
+          109.9px column, 2 lines, box 110x61px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Julat harga tersiar"
+          102.5px column, 3 lines, box 103x92px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Kedai barang kahwin"
+          109.9px column, 3 lines, box 110x92px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "RM1.50 hingga RM250.00"
+          … and 11 more
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1527x2264 file (0.67:1) — 122% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Sebuah dulang kaca berkaki dihias renda kedut putih dan rantai manik emas, membawa sebuah kotak hadiah kecil berbentuk hati."⟩
+            "n/1787780709236-images-s-dulang-berkaki-hiasan-farritz/high.webp"
+[FAIL] /artikel/busana-pengantin/baju-pengantin-sewa-atau-beli @390 6 violation(s)  empty:0 rail:0 narrow:6 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:2 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +2 advisory
+        narrow-text-column ×6
+          105.0px column, 2 lines, box 105x58px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Julat harga tersiar"
+          105.0px column, 2 lines, box 105x58px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "RM600 – RM799"
+          105.0px column, 2 lines, box 105x58px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "RM699 – RM1,099"
+          105.0px column, 2 lines, box 105x58px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "RM600 – RM999"
+          … and 2 more
+        image-attr-aspect ×2
+          declared width="1200" height="800" (1.50:1) for a 1474x2280 file (0.65:1) — 132% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Pengantin lelaki Melayu berbaju melayu kuning terang dengan samping songket keemasan, tengkolok kuning dan beberapa rantai emas, berjalan di atas jalan kampung. Rumah, motosikal dan orang ramai kelihatan kabur di belakangnya."⟩
+            "i/1787707239501-images-s-pengantin-lelaki-penang-sheba/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Pengantin lelaki berbaju melayu merah marun bersamping songket dan bertanjak duduk di sebelah pengantin perempuan berbaju kurung merah marun bertudung, di pelamin berlatarkan bunga putih halus."⟩
+            "39501-images-s-pengantin-melayu-pelamin-fyruz-alqadiri/high.webp"
+[ ok ] /artikel/busana-pengantin/baju-pengantin-sewa-atau-beli @768 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:2 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +2 advisory
+        image-attr-aspect ×2
+          declared width="1200" height="800" (1.50:1) for a 1474x2280 file (0.65:1) — 132% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Pengantin lelaki Melayu berbaju melayu kuning terang dengan samping songket keemasan, tengkolok kuning dan beberapa rantai emas, berjalan di atas jalan kampung. Rumah, motosikal dan orang ramai kelihatan kabur di belakangnya."⟩
+            "i/1787707239501-images-s-pengantin-lelaki-penang-sheba/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Pengantin lelaki berbaju melayu merah marun bersamping songket dan bertanjak duduk di sebelah pengantin perempuan berbaju kurung merah marun bertudung, di pelamin berlatarkan bunga putih halus."⟩
+            "39501-images-s-pengantin-melayu-pelamin-fyruz-alqadiri/high.webp"
+[ ok ] /artikel/busana-pengantin/baju-pengantin-sewa-atau-beli @1024 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:2 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +2 advisory
+        image-attr-aspect ×2
+          declared width="1200" height="800" (1.50:1) for a 1474x2280 file (0.65:1) — 132% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Pengantin lelaki Melayu berbaju melayu kuning terang dengan samping songket keemasan, tengkolok kuning dan beberapa rantai emas, berjalan di atas jalan kampung. Rumah, motosikal dan orang ramai kelihatan kabur di belakangnya."⟩
+            "i/1787707239501-images-s-pengantin-lelaki-penang-sheba/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Pengantin lelaki berbaju melayu merah marun bersamping songket dan bertanjak duduk di sebelah pengantin perempuan berbaju kurung merah marun bertudung, di pelamin berlatarkan bunga putih halus."⟩
+            "39501-images-s-pengantin-melayu-pelamin-fyruz-alqadiri/high.webp"
+[ ok ] /artikel/busana-pengantin/baju-pengantin-sewa-atau-beli @1440 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:2 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +2 advisory
+        image-attr-aspect ×2
+          declared width="1200" height="800" (1.50:1) for a 1474x2280 file (0.65:1) — 132% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Pengantin lelaki Melayu berbaju melayu kuning terang dengan samping songket keemasan, tengkolok kuning dan beberapa rantai emas, berjalan di atas jalan kampung. Rumah, motosikal dan orang ramai kelihatan kabur di belakangnya."⟩
+            "i/1787707239501-images-s-pengantin-lelaki-penang-sheba/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Pengantin lelaki berbaju melayu merah marun bersamping songket dan bertanjak duduk di sebelah pengantin perempuan berbaju kurung merah marun bertudung, di pelamin berlatarkan bunga putih halus."⟩
+            "39501-images-s-pengantin-melayu-pelamin-fyruz-alqadiri/high.webp"
+[ ok ] /artikel/busana-pengantin/baju-pengantin-sewa-atau-beli @1920 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:2 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +2 advisory
+        image-attr-aspect ×2
+          declared width="1200" height="800" (1.50:1) for a 1474x2280 file (0.65:1) — 132% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Pengantin lelaki Melayu berbaju melayu kuning terang dengan samping songket keemasan, tengkolok kuning dan beberapa rantai emas, berjalan di atas jalan kampung. Rumah, motosikal dan orang ramai kelihatan kabur di belakangnya."⟩
+            "i/1787707239501-images-s-pengantin-lelaki-penang-sheba/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Pengantin lelaki berbaju melayu merah marun bersamping songket dan bertanjak duduk di sebelah pengantin perempuan berbaju kurung merah marun bertudung, di pelamin berlatarkan bunga putih halus."⟩
+            "39501-images-s-pengantin-melayu-pelamin-fyruz-alqadiri/high.webp"
+[FAIL] /artikel/idea-dan-nasihat/cara-buat-kad-kahwin-digital @390 26 violation(s)  empty:0 rail:0 narrow:26 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0
+        narrow-text-column ×26
+          107.7px column, 3 lines, box 108x87px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Kad Kahwin Biasa"
+          92.5px column, 3 lines, box 93x87px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Kad Kahwin Digital"
+          107.7px column, 2 lines, box 108x58px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Dicetak pada kertas / kad"
+          92.5px column, 6 lines, box 93x174px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Dalam bentuk link, gambar, poster, video atau microsite"
+          … and 22 more
+[ ok ] /artikel/idea-dan-nasihat/cara-buat-kad-kahwin-digital @768 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0
+[ ok ] /artikel/idea-dan-nasihat/cara-buat-kad-kahwin-digital @1024 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0
+[ ok ] /artikel/idea-dan-nasihat/cara-buat-kad-kahwin-digital @1440 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0
+[ ok ] /artikel/idea-dan-nasihat/cara-buat-kad-kahwin-digital @1920 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0
+[ ok ] /artikel/ucapan-doa/doa-selamat-majlis @390    0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1080x1080 file (1.00:1) — 50% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Kenduri kahwin di halaman rumah kampung di Terengganu, dengan meja panjang berlapik dan hidangan bufet di bawah khemah."⟩
+            "88203381951-images-s-kenduri-khemah-terengganu-irwandy/high.webp"
+[ ok ] /artikel/ucapan-doa/doa-selamat-majlis @768    0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1080x1080 file (1.00:1) — 50% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Kenduri kahwin di halaman rumah kampung di Terengganu, dengan meja panjang berlapik dan hidangan bufet di bawah khemah."⟩
+            "88203381951-images-s-kenduri-khemah-terengganu-irwandy/high.webp"
+[ ok ] /artikel/ucapan-doa/doa-selamat-majlis @1024   0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1080x1080 file (1.00:1) — 50% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Kenduri kahwin di halaman rumah kampung di Terengganu, dengan meja panjang berlapik dan hidangan bufet di bawah khemah."⟩
+            "88203381951-images-s-kenduri-khemah-terengganu-irwandy/high.webp"
+[ ok ] /artikel/ucapan-doa/doa-selamat-majlis @1440   0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1080x1080 file (1.00:1) — 50% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Kenduri kahwin di halaman rumah kampung di Terengganu, dengan meja panjang berlapik dan hidangan bufet di bawah khemah."⟩
+            "88203381951-images-s-kenduri-khemah-terengganu-irwandy/high.webp"
+[ ok ] /artikel/ucapan-doa/doa-selamat-majlis @1920   0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1080x1080 file (1.00:1) — 50% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Kenduri kahwin di halaman rumah kampung di Terengganu, dengan meja panjang berlapik dan hidangan bufet di bawah khemah."⟩
+            "88203381951-images-s-kenduri-khemah-terengganu-irwandy/high.webp"
+[FAIL] /artikel/hantaran-mas-kahwin/hantaran-tempah-atau-buat-sendiri @390 45 violation(s)  empty:0 rail:0 narrow:45 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        narrow-text-column ×45
+          68.9px column, 3 lines, box 69x87px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Apa yang dibayar"
+          94.3px column, 2 lines, box 94x58px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Kos untuk 7 dulang"
+          93.8px column, 2 lines, box 94x58px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Yang tidak termasuk"
+          88.5px column, 2 lines, box 89x58px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Beli siap gubah"
+          … and 41 more
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1536x2048 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Sirih junjung daun segar berbentuk menara, dihias bunga lily putih, carnation putih dan bunga kering perang, dengan dua ekor burung hiasan kecil bersayap biru dicucuk pada bahagian atas."⟩
+            "diri/1787765324733-images-s-sirih-junjung-salwa-hamzah/high.webp"
+[FAIL] /artikel/hantaran-mas-kahwin/hantaran-tempah-atau-buat-sendiri @768 17 violation(s)  empty:0 rail:0 narrow:17 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        narrow-text-column ×17
+          89.9px column, 2 lines, box 90x60px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Apa yang dibayar"
+          110.0px column, 2 lines, box 110x60px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Beli siap gubah"
+          89.9px column, 4 lines, box 90x120px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Dulang, alas dan bunga siap dipasang"
+          110.0px column, 2 lines, box 110x60px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Beli gubahan berisi"
+          … and 13 more
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1536x2048 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Sirih junjung daun segar berbentuk menara, dihias bunga lily putih, carnation putih dan bunga kering perang, dengan dua ekor burung hiasan kecil bersayap biru dicucuk pada bahagian atas."⟩
+            "diri/1787765324733-images-s-sirih-junjung-salwa-hamzah/high.webp"
+[FAIL] /artikel/hantaran-mas-kahwin/hantaran-tempah-atau-buat-sendiri @1024 17 violation(s)  empty:0 rail:0 narrow:17 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        narrow-text-column ×17
+          90.0px column, 2 lines, box 90x61px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Apa yang dibayar"
+          110.6px column, 2 lines, box 111x61px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Beli siap gubah"
+          90.0px column, 4 lines, box 90x122px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Dulang, alas dan bunga siap dipasang"
+          110.6px column, 2 lines, box 111x61px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Beli gubahan berisi"
+          … and 13 more
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1536x2048 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Sirih junjung daun segar berbentuk menara, dihias bunga lily putih, carnation putih dan bunga kering perang, dengan dua ekor burung hiasan kecil bersayap biru dicucuk pada bahagian atas."⟩
+            "diri/1787765324733-images-s-sirih-junjung-salwa-hamzah/high.webp"
+[FAIL] /artikel/hantaran-mas-kahwin/hantaran-tempah-atau-buat-sendiri @1440 17 violation(s)  empty:0 rail:0 narrow:17 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        narrow-text-column ×17
+          92.2px column, 2 lines, box 92x61px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Apa yang dibayar"
+          112.8px column, 2 lines, box 113x61px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Beli siap gubah"
+          92.2px column, 4 lines, box 92x122px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Dulang, alas dan bunga siap dipasang"
+          112.8px column, 2 lines, box 113x61px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Beli gubahan berisi"
+          … and 13 more
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1536x2048 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Sirih junjung daun segar berbentuk menara, dihias bunga lily putih, carnation putih dan bunga kering perang, dengan dua ekor burung hiasan kecil bersayap biru dicucuk pada bahagian atas."⟩
+            "diri/1787765324733-images-s-sirih-junjung-salwa-hamzah/high.webp"
+[FAIL] /artikel/hantaran-mas-kahwin/hantaran-tempah-atau-buat-sendiri @1920 17 violation(s)  empty:0 rail:0 narrow:17 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        narrow-text-column ×17
+          92.2px column, 2 lines, box 92x61px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Apa yang dibayar"
+          112.8px column, 2 lines, box 113x61px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Beli siap gubah"
+          92.2px column, 4 lines, box 92x122px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Dulang, alas dan bunga siap dipasang"
+          112.8px column, 2 lines, box 113x61px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Beli gubahan berisi"
+          … and 13 more
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1536x2048 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Sirih junjung daun segar berbentuk menara, dihias bunga lily putih, carnation putih dan bunga kering perang, dengan dua ekor burung hiasan kecil bersayap biru dicucuk pada bahagian atas."⟩
+            "diri/1787765324733-images-s-sirih-junjung-salwa-hamzah/high.webp"
+[ ok ] /artikel/hantaran-mas-kahwin/hantaran-tunang @390 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:12 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +12 advisory
+        image-attr-aspect ×12
+          declared width="1200" height="800" (1.50:1) for a 960x1200 file (0.80:1) — 87% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "95747566-IN_E2_80_94HantaranTunang-HantaranBakulBuah-1/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 856x960 file (0.89:1) — 68% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "95748886-IN_E2_80_94HantaranTunang-HantaranBakulBuah-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 720x803 file (0.90:1) — 67% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "/1787395750227-IN_E2_80_94HantaranTunang-KekHantaran-1/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 1080x1350 file (0.80:1) — 87% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "/1787395751431-IN_E2_80_94HantaranTunang-KekHantaran-2/high.webp"
+          … and 8 more
+[ ok ] /artikel/hantaran-mas-kahwin/hantaran-tunang @768 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:12 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +12 advisory
+        image-attr-aspect ×12
+          declared width="1200" height="800" (1.50:1) for a 960x1200 file (0.80:1) — 87% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "95747566-IN_E2_80_94HantaranTunang-HantaranBakulBuah-1/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 856x960 file (0.89:1) — 68% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "95748886-IN_E2_80_94HantaranTunang-HantaranBakulBuah-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 720x803 file (0.90:1) — 67% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "/1787395750227-IN_E2_80_94HantaranTunang-KekHantaran-1/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 1080x1350 file (0.80:1) — 87% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "/1787395751431-IN_E2_80_94HantaranTunang-KekHantaran-2/high.webp"
+          … and 8 more
+[ ok ] /artikel/hantaran-mas-kahwin/hantaran-tunang @1024 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:12 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +12 advisory
+        image-attr-aspect ×12
+          declared width="1200" height="800" (1.50:1) for a 960x1200 file (0.80:1) — 87% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "95747566-IN_E2_80_94HantaranTunang-HantaranBakulBuah-1/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 856x960 file (0.89:1) — 68% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "95748886-IN_E2_80_94HantaranTunang-HantaranBakulBuah-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 720x803 file (0.90:1) — 67% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "/1787395750227-IN_E2_80_94HantaranTunang-KekHantaran-1/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 1080x1350 file (0.80:1) — 87% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "/1787395751431-IN_E2_80_94HantaranTunang-KekHantaran-2/high.webp"
+          … and 8 more
+[ ok ] /artikel/hantaran-mas-kahwin/hantaran-tunang @1440 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:12 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +12 advisory
+        image-attr-aspect ×12
+          declared width="1200" height="800" (1.50:1) for a 960x1200 file (0.80:1) — 87% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "95747566-IN_E2_80_94HantaranTunang-HantaranBakulBuah-1/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 856x960 file (0.89:1) — 68% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "95748886-IN_E2_80_94HantaranTunang-HantaranBakulBuah-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 720x803 file (0.90:1) — 67% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "/1787395750227-IN_E2_80_94HantaranTunang-KekHantaran-1/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 1080x1350 file (0.80:1) — 87% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "/1787395751431-IN_E2_80_94HantaranTunang-KekHantaran-2/high.webp"
+          … and 8 more
+[ ok ] /artikel/hantaran-mas-kahwin/hantaran-tunang @1920 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:12 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +12 advisory
+        image-attr-aspect ×12
+          declared width="1200" height="800" (1.50:1) for a 960x1200 file (0.80:1) — 87% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "95747566-IN_E2_80_94HantaranTunang-HantaranBakulBuah-1/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 856x960 file (0.89:1) — 68% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "95748886-IN_E2_80_94HantaranTunang-HantaranBakulBuah-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 720x803 file (0.90:1) — 67% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "/1787395750227-IN_E2_80_94HantaranTunang-KekHantaran-1/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 1080x1350 file (0.80:1) — 87% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "/1787395751431-IN_E2_80_94HantaranTunang-KekHantaran-2/high.webp"
+          … and 8 more
+[FAIL] /artikel/hantaran-mas-kahwin/hantaran-tunang-3-balas-5 @390 3 violation(s)  empty:0 rail:0 narrow:3 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0
+        narrow-text-column ×3
+          101.9px column, 2 lines, box 102x58px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Isi yang lazim"
+          101.9px column, 5 lines, box 102x145px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Cincin tunang, dalam kotak di atas bantal kecil"
+          101.9px column, 3 lines, box 102x87px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Sepersalinan, atau manisan dan buah"
+[ ok ] /artikel/hantaran-mas-kahwin/hantaran-tunang-3-balas-5 @768 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0
+[ ok ] /artikel/hantaran-mas-kahwin/hantaran-tunang-3-balas-5 @1024 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0
+[ ok ] /artikel/hantaran-mas-kahwin/hantaran-tunang-3-balas-5 @1440 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0
+[ ok ] /artikel/hantaran-mas-kahwin/hantaran-tunang-3-balas-5 @1920 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0
+[FAIL] /artikel/hantaran-mas-kahwin/nisbah-hantaran @390 5 violation(s)  empty:0 rail:0 narrow:5 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        narrow-text-column ×5
+          87.9px column, 2 lines, box 88x58px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Bilangan dulang"
+          63.2px column, 2 lines, box 63x58px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "3 balas 5"
+          63.2px column, 2 lines, box 63x58px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "5 balas 7"
+          63.2px column, 2 lines, box 63x58px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "7 balas 9"
+          … and 1 more
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1536x2048 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Deretan dulang hantaran bersarung kain putih bermanik disusun memanjang di atas permaidani masjid berwarna hijau. Antaranya bantal cincin, kotak baldu biru gelap, kotak bercermin, tali leher, sepasang kasut kulit coklat dan jambangan bunga ros putih."⟩
+            "7758416340-images-s-dulang-hantaran-masjid-mylifestory/high.webp"
+[FAIL] /artikel/hantaran-mas-kahwin/nisbah-hantaran @768 1 violation(s)  empty:0 rail:0 narrow:1 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        narrow-text-column ×1
+          73.8px column, 2 lines, box 74x60px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "9 balas 11"
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1536x2048 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Deretan dulang hantaran bersarung kain putih bermanik disusun memanjang di atas permaidani masjid berwarna hijau. Antaranya bantal cincin, kotak baldu biru gelap, kotak bercermin, tali leher, sepasang kasut kulit coklat dan jambangan bunga ros putih."⟩
+            "7758416340-images-s-dulang-hantaran-masjid-mylifestory/high.webp"
+[FAIL] /artikel/hantaran-mas-kahwin/nisbah-hantaran @1024 1 violation(s)  empty:0 rail:0 narrow:1 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        narrow-text-column ×1
+          74.9px column, 2 lines, box 75x61px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "9 balas 11"
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1536x2048 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Deretan dulang hantaran bersarung kain putih bermanik disusun memanjang di atas permaidani masjid berwarna hijau. Antaranya bantal cincin, kotak baldu biru gelap, kotak bercermin, tali leher, sepasang kasut kulit coklat dan jambangan bunga ros putih."⟩
+            "7758416340-images-s-dulang-hantaran-masjid-mylifestory/high.webp"
+[FAIL] /artikel/hantaran-mas-kahwin/nisbah-hantaran @1440 1 violation(s)  empty:0 rail:0 narrow:1 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        narrow-text-column ×1
+          75.5px column, 2 lines, box 75x61px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "9 balas 11"
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1536x2048 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Deretan dulang hantaran bersarung kain putih bermanik disusun memanjang di atas permaidani masjid berwarna hijau. Antaranya bantal cincin, kotak baldu biru gelap, kotak bercermin, tali leher, sepasang kasut kulit coklat dan jambangan bunga ros putih."⟩
+            "7758416340-images-s-dulang-hantaran-masjid-mylifestory/high.webp"
+[FAIL] /artikel/hantaran-mas-kahwin/nisbah-hantaran @1920 1 violation(s)  empty:0 rail:0 narrow:1 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        narrow-text-column ×1
+          75.5px column, 2 lines, box 75x61px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "9 balas 11"
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1536x2048 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Deretan dulang hantaran bersarung kain putih bermanik disusun memanjang di atas permaidani masjid berwarna hijau. Antaranya bantal cincin, kotak baldu biru gelap, kotak bercermin, tali leher, sepasang kasut kulit coklat dan jambangan bunga ros putih."⟩
+            "7758416340-images-s-dulang-hantaran-masjid-mylifestory/high.webp"
+[FAIL] /artikel/hantaran-mas-kahwin/mas-kahwin-pahang-negeri-sembilan @390 2 violation(s)  empty:0 rail:0 narrow:2 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        narrow-text-column ×2
+          74.7px column, 2 lines, box 75x58px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Negeri Sembilan"
+          74.2px column, 4 lines, box 74x116px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "RM40 seorang, bagi 2 orang"
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1712x2288 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Papan tanda bertiang dua bersalut jubin biru dengan kubah kuning di puncak setiap tiang. Papan hijau di tengahnya bertulis dalam Jawi dan rumi “Pejabat Agama Islam Daerah Cameron Highlands, 36900 Tanah Rata, Cameron Highlands, Pahang Darul Makmur” berserta dua nombor telefon."⟩
+            "34-images-s-pejabat-agama-cameron-highlands-gula-kapas/high.webp"
+[FAIL] /artikel/hantaran-mas-kahwin/mas-kahwin-pahang-negeri-sembilan @768 2 violation(s)  empty:0 rail:0 narrow:1 measure:1 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        narrow-text-column ×1
+          97.0px column, 2 lines, box 97x60px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Negeri Sembilan"
+        reading-measure ×1
+          100.6 characters per line — 704px column at 14.0px (ceiling 75)
+            aside.hk-rail > div.hk-rail-block > ul.hk-rail-sources > li  ⟨li · not a link⟩
+            "dokumen JHEAINS "Urusan Perkahwinan, Perceraian & Rujuk"; si"
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1712x2288 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Papan tanda bertiang dua bersalut jubin biru dengan kubah kuning di puncak setiap tiang. Papan hijau di tengahnya bertulis dalam Jawi dan rumi “Pejabat Agama Islam Daerah Cameron Highlands, 36900 Tanah Rata, Cameron Highlands, Pahang Darul Makmur” berserta dua nombor telefon."⟩
+            "34-images-s-pejabat-agama-cameron-highlands-gula-kapas/high.webp"
+[FAIL] /artikel/hantaran-mas-kahwin/mas-kahwin-pahang-negeri-sembilan @1024 1 violation(s)  empty:0 rail:0 narrow:1 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        narrow-text-column ×1
+          98.0px column, 2 lines, box 98x61px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Negeri Sembilan"
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1712x2288 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Papan tanda bertiang dua bersalut jubin biru dengan kubah kuning di puncak setiap tiang. Papan hijau di tengahnya bertulis dalam Jawi dan rumi “Pejabat Agama Islam Daerah Cameron Highlands, 36900 Tanah Rata, Cameron Highlands, Pahang Darul Makmur” berserta dua nombor telefon."⟩
+            "34-images-s-pejabat-agama-cameron-highlands-gula-kapas/high.webp"
+[FAIL] /artikel/hantaran-mas-kahwin/mas-kahwin-pahang-negeri-sembilan @1440 1 violation(s)  empty:0 rail:0 narrow:1 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        narrow-text-column ×1
+          99.3px column, 2 lines, box 99x61px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Negeri Sembilan"
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1712x2288 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Papan tanda bertiang dua bersalut jubin biru dengan kubah kuning di puncak setiap tiang. Papan hijau di tengahnya bertulis dalam Jawi dan rumi “Pejabat Agama Islam Daerah Cameron Highlands, 36900 Tanah Rata, Cameron Highlands, Pahang Darul Makmur” berserta dua nombor telefon."⟩
+            "34-images-s-pejabat-agama-cameron-highlands-gula-kapas/high.webp"
+[FAIL] /artikel/hantaran-mas-kahwin/mas-kahwin-pahang-negeri-sembilan @1920 1 violation(s)  empty:0 rail:0 narrow:1 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        narrow-text-column ×1
+          99.3px column, 2 lines, box 99x61px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Negeri Sembilan"
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1712x2288 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Papan tanda bertiang dua bersalut jubin biru dengan kubah kuning di puncak setiap tiang. Papan hijau di tengahnya bertulis dalam Jawi dan rumi “Pejabat Agama Islam Daerah Cameron Highlands, 36900 Tanah Rata, Cameron Highlands, Pahang Darul Makmur” berserta dua nombor telefon."⟩
+            "34-images-s-pejabat-agama-cameron-highlands-gula-kapas/high.webp"
+[FAIL] /artikel/hantaran-mas-kahwin/apa-itu-mas-kahwin @390 13 violation(s)  empty:0 rail:0 narrow:13 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        narrow-text-column ×13
+          90.4px column, 2 lines, box 90x58px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Mas kahwin"
+          90.3px column, 2 lines, box 90x58px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Duit hantaran"
+          94.3px column, 2 lines, box 94x58px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Wajib atau adat"
+          94.3px column, 3 lines, box 94x87px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Diberi kepada siapa"
+          … and 9 more
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1536x2048 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Deretan dulang hantaran bersarung kain putih bermanik disusun memanjang di atas permaidani masjid berwarna hijau. Antaranya bantal cincin, kotak baldu biru gelap, kotak bercermin, tali leher, sepasang kasut kulit coklat dan jambangan bunga ros putih."⟩
+            "7655885049-images-s-dulang-hantaran-masjid-mylifestory/high.webp"
+[FAIL] /artikel/hantaran-mas-kahwin/apa-itu-mas-kahwin @768 10 violation(s)  empty:0 rail:0 narrow:10 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        narrow-text-column ×10
+          115.3px column, 2 lines, box 115x60px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Duit hantaran"
+          112.5px column, 2 lines, box 113x60px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Wajib atau adat"
+          112.5px column, 2 lines, box 113x60px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Diberi kepada siapa"
+          108.3px column, 2 lines, box 108x60px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Keluarga pengantin"
+          … and 6 more
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1536x2048 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Deretan dulang hantaran bersarung kain putih bermanik disusun memanjang di atas permaidani masjid berwarna hijau. Antaranya bantal cincin, kotak baldu biru gelap, kotak bercermin, tali leher, sepasang kasut kulit coklat dan jambangan bunga ros putih."⟩
+            "7655885049-images-s-dulang-hantaran-masjid-mylifestory/high.webp"
+[FAIL] /artikel/hantaran-mas-kahwin/apa-itu-mas-kahwin @1024 10 violation(s)  empty:0 rail:0 narrow:10 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        narrow-text-column ×10
+          115.3px column, 2 lines, box 115x61px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Duit hantaran"
+          113.2px column, 2 lines, box 113x61px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Wajib atau adat"
+          113.2px column, 2 lines, box 113x61px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Diberi kepada siapa"
+          109.0px column, 2 lines, box 109x61px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Keluarga pengantin"
+          … and 6 more
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1536x2048 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Deretan dulang hantaran bersarung kain putih bermanik disusun memanjang di atas permaidani masjid berwarna hijau. Antaranya bantal cincin, kotak baldu biru gelap, kotak bercermin, tali leher, sepasang kasut kulit coklat dan jambangan bunga ros putih."⟩
+            "7655885049-images-s-dulang-hantaran-masjid-mylifestory/high.webp"
+[FAIL] /artikel/hantaran-mas-kahwin/apa-itu-mas-kahwin @1440 10 violation(s)  empty:0 rail:0 narrow:10 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        narrow-text-column ×10
+          118.3px column, 2 lines, box 118x61px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Duit hantaran"
+          115.3px column, 2 lines, box 115x61px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Wajib atau adat"
+          115.3px column, 2 lines, box 115x61px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Diberi kepada siapa"
+          111.0px column, 2 lines, box 111x61px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Keluarga pengantin"
+          … and 6 more
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1536x2048 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Deretan dulang hantaran bersarung kain putih bermanik disusun memanjang di atas permaidani masjid berwarna hijau. Antaranya bantal cincin, kotak baldu biru gelap, kotak bercermin, tali leher, sepasang kasut kulit coklat dan jambangan bunga ros putih."⟩
+            "7655885049-images-s-dulang-hantaran-masjid-mylifestory/high.webp"
+[FAIL] /artikel/hantaran-mas-kahwin/apa-itu-mas-kahwin @1920 10 violation(s)  empty:0 rail:0 narrow:10 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        narrow-text-column ×10
+          118.3px column, 2 lines, box 118x61px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Duit hantaran"
+          115.3px column, 2 lines, box 115x61px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Wajib atau adat"
+          115.3px column, 2 lines, box 115x61px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Diberi kepada siapa"
+          111.0px column, 2 lines, box 111x61px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Keluarga pengantin"
+          … and 6 more
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1536x2048 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Deretan dulang hantaran bersarung kain putih bermanik disusun memanjang di atas permaidani masjid berwarna hijau. Antaranya bantal cincin, kotak baldu biru gelap, kotak bercermin, tali leher, sepasang kasut kulit coklat dan jambangan bunga ros putih."⟩
+            "7655885049-images-s-dulang-hantaran-masjid-mylifestory/high.webp"
+[FAIL] /artikel/hantaran-mas-kahwin/dulang-hantaran @390 21 violation(s)  empty:0 rail:0 narrow:21 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:3 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +3 advisory
+        narrow-text-column ×21
+          77.0px column, 3 lines, box 77x87px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Apa yang disemak"
+          84.8px column, 2 lines, box 85x58px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Dulang termurah"
+          90.2px column, 2 lines, box 90x58px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Dulang termahal"
+          86.2px column, 5 lines, box 86x145px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "JV Craft & Gifts Sdn Bhd, Setia Alam, Selangor"
+          … and 17 more
+        image-attr-aspect ×3
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Sebuah bakul rotan berisi epal merah, oren dan buah naga, dihias bunga tiruan putih dan merah jambu serta daun hijau, diletakkan di atas bingkai kayu bercat putih."⟩
+            "1787680476366-images-s-dulang-buah-hantaran-mohd-hasan/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 1527x2264 file (0.67:1) — 122% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Sebuah dulang kaca berkaki dihias renda kedut putih berbucu perak dan rantai manik emas, membawa sebuah kotak berbentuk hati berwarna merah bertali reben organza hijau, difoto di luar rumah dengan cahaya matahari menembusi daun."⟩
+            "n/1787680476366-images-s-dulang-berkaki-hiasan-farritz/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 1536x2048 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Deretan dulang hantaran bertutup kain putih berlabuci disusun memanjang di atas permaidani hijau sebuah masjid, membawa cincin, kotak baldu biru, jambangan bunga ros putih, jam tangan dan kek. Tiga perempuan berbaju kurung dan bertudung duduk di hujung deretan itu."⟩
+            "7680476366-images-s-hantaran-masjid-tetamu-mylifestory/high.webp"
+[FAIL] /artikel/hantaran-mas-kahwin/dulang-hantaran @768 20 violation(s)  empty:0 rail:0 narrow:20 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:3 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +3 advisory
+        narrow-text-column ×20
+          80.8px column, 3 lines, box 81x90px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Apa yang disemak"
+          88.5px column, 2 lines, box 89x60px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Dulang termurah"
+          96.0px column, 2 lines, box 96x60px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Dulang termahal"
+          91.1px column, 5 lines, box 91x150px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "JV Craft & Gifts Sdn Bhd, Setia Alam, Selangor"
+          … and 16 more
+        image-attr-aspect ×3
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Sebuah bakul rotan berisi epal merah, oren dan buah naga, dihias bunga tiruan putih dan merah jambu serta daun hijau, diletakkan di atas bingkai kayu bercat putih."⟩
+            "1787680476366-images-s-dulang-buah-hantaran-mohd-hasan/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 1527x2264 file (0.67:1) — 122% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Sebuah dulang kaca berkaki dihias renda kedut putih berbucu perak dan rantai manik emas, membawa sebuah kotak berbentuk hati berwarna merah bertali reben organza hijau, difoto di luar rumah dengan cahaya matahari menembusi daun."⟩
+            "n/1787680476366-images-s-dulang-berkaki-hiasan-farritz/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 1536x2048 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Deretan dulang hantaran bertutup kain putih berlabuci disusun memanjang di atas permaidani hijau sebuah masjid, membawa cincin, kotak baldu biru, jambangan bunga ros putih, jam tangan dan kek. Tiga perempuan berbaju kurung dan bertudung duduk di hujung deretan itu."⟩
+            "7680476366-images-s-hantaran-masjid-tetamu-mylifestory/high.webp"
+[FAIL] /artikel/hantaran-mas-kahwin/dulang-hantaran @1024 21 violation(s)  empty:0 rail:0 narrow:20 measure:0 clipped:0 over:0 clip:1 upscale:0 aspect:0 attr:3 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +3 advisory
+        narrow-text-column ×20
+          81.3px column, 3 lines, box 81x92px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Apa yang disemak"
+          89.5px column, 2 lines, box 90x61px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Dulang termurah"
+          95.2px column, 2 lines, box 95x61px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Dulang termahal"
+          91.0px column, 5 lines, box 91x153px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "JV Craft & Gifts Sdn Bhd, Setia Alam, Selangor"
+          … and 16 more
+        scroll-container-clip ×1
+          right edge 622.0px past its scroller's client box, which ends at 620.0px (scroller 580px wide, content 582px, overflow-x: auto, affordance: none) — the viewport is 1024px, so CHECK 2 DOES NOT SEE THIS
+            div.table-scroll-wrapper > table > colgroup > col  ⟨col · not a link⟩
+        image-attr-aspect ×3
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Sebuah bakul rotan berisi epal merah, oren dan buah naga, dihias bunga tiruan putih dan merah jambu serta daun hijau, diletakkan di atas bingkai kayu bercat putih."⟩
+            "1787680476366-images-s-dulang-buah-hantaran-mohd-hasan/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 1527x2264 file (0.67:1) — 122% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Sebuah dulang kaca berkaki dihias renda kedut putih berbucu perak dan rantai manik emas, membawa sebuah kotak berbentuk hati berwarna merah bertali reben organza hijau, difoto di luar rumah dengan cahaya matahari menembusi daun."⟩
+            "n/1787680476366-images-s-dulang-berkaki-hiasan-farritz/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 1536x2048 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Deretan dulang hantaran bertutup kain putih berlabuci disusun memanjang di atas permaidani hijau sebuah masjid, membawa cincin, kotak baldu biru, jambangan bunga ros putih, jam tangan dan kek. Tiga perempuan berbaju kurung dan bertudung duduk di hujung deretan itu."⟩
+            "7680476366-images-s-hantaran-masjid-tetamu-mylifestory/high.webp"
+[FAIL] /artikel/hantaran-mas-kahwin/dulang-hantaran @1440 20 violation(s)  empty:0 rail:0 narrow:20 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:3 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +3 advisory
+        narrow-text-column ×20
+          83.0px column, 3 lines, box 83x92px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Apa yang disemak"
+          90.8px column, 2 lines, box 91x61px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Dulang termurah"
+          99.0px column, 2 lines, box 99x61px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Dulang termahal"
+          93.8px column, 5 lines, box 94x153px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "JV Craft & Gifts Sdn Bhd, Setia Alam, Selangor"
+          … and 16 more
+        image-attr-aspect ×3
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Sebuah bakul rotan berisi epal merah, oren dan buah naga, dihias bunga tiruan putih dan merah jambu serta daun hijau, diletakkan di atas bingkai kayu bercat putih."⟩
+            "1787680476366-images-s-dulang-buah-hantaran-mohd-hasan/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 1527x2264 file (0.67:1) — 122% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Sebuah dulang kaca berkaki dihias renda kedut putih berbucu perak dan rantai manik emas, membawa sebuah kotak berbentuk hati berwarna merah bertali reben organza hijau, difoto di luar rumah dengan cahaya matahari menembusi daun."⟩
+            "n/1787680476366-images-s-dulang-berkaki-hiasan-farritz/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 1536x2048 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Deretan dulang hantaran bertutup kain putih berlabuci disusun memanjang di atas permaidani hijau sebuah masjid, membawa cincin, kotak baldu biru, jambangan bunga ros putih, jam tangan dan kek. Tiga perempuan berbaju kurung dan bertudung duduk di hujung deretan itu."⟩
+            "7680476366-images-s-hantaran-masjid-tetamu-mylifestory/high.webp"
+[FAIL] /artikel/hantaran-mas-kahwin/dulang-hantaran @1920 20 violation(s)  empty:0 rail:0 narrow:20 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:3 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +3 advisory
+        narrow-text-column ×20
+          83.0px column, 3 lines, box 83x92px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Apa yang disemak"
+          90.8px column, 2 lines, box 91x61px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Dulang termurah"
+          99.0px column, 2 lines, box 99x61px (floor 120px)
+            tbody > tr > th > p  ⟨p · not a link⟩
+            "Dulang termahal"
+          93.8px column, 5 lines, box 94x153px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "JV Craft & Gifts Sdn Bhd, Setia Alam, Selangor"
+          … and 16 more
+        image-attr-aspect ×3
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Sebuah bakul rotan berisi epal merah, oren dan buah naga, dihias bunga tiruan putih dan merah jambu serta daun hijau, diletakkan di atas bingkai kayu bercat putih."⟩
+            "1787680476366-images-s-dulang-buah-hantaran-mohd-hasan/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 1527x2264 file (0.67:1) — 122% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Sebuah dulang kaca berkaki dihias renda kedut putih berbucu perak dan rantai manik emas, membawa sebuah kotak berbentuk hati berwarna merah bertali reben organza hijau, difoto di luar rumah dengan cahaya matahari menembusi daun."⟩
+            "n/1787680476366-images-s-dulang-berkaki-hiasan-farritz/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 1536x2048 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Deretan dulang hantaran bertutup kain putih berlabuci disusun memanjang di atas permaidani hijau sebuah masjid, membawa cincin, kotak baldu biru, jambangan bunga ros putih, jam tangan dan kek. Tiga perempuan berbaju kurung dan bertudung duduk di hujung deretan itu."⟩
+            "7680476366-images-s-hantaran-masjid-tetamu-mylifestory/high.webp"
+[ ok ] /artikel/hantaran-mas-kahwin/mas-kahwin-melebihi-kadar-minimum @390 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:2 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +2 advisory
+        image-attr-aspect ×2
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Dulang hantaran berisi buah-buahan — pisang, epal merah dan hijau, anggur ungu, oren dan buah naga — disusun dalam bakul jaring keemasan. Bunga tiruan merah dan putih serta hiasan burung kecil berwarna putih melengkapkan gubahan, di atas bingkai kayu beralas kain berbulu putih."⟩
+            "1787655971879-images-s-dulang-buah-hantaran-mohd-hasan/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 1536x2048 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Tiga orang lelaki berumur duduk berbaris di dalam masjid, dilihat dari sisi. Yang paling hadapan berbaju melayu merah jambu dan bersongkok hitam memegang mikrofon; dua lagi di belakangnya berbaju biru muda dan hijau muda, juga bersongkok."⟩
+            "1787655971879-images-s-wali-saksi-tok-kadi-mylifestory/high.webp"
+[ ok ] /artikel/hantaran-mas-kahwin/mas-kahwin-melebihi-kadar-minimum @768 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:2 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +2 advisory
+        image-attr-aspect ×2
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Dulang hantaran berisi buah-buahan — pisang, epal merah dan hijau, anggur ungu, oren dan buah naga — disusun dalam bakul jaring keemasan. Bunga tiruan merah dan putih serta hiasan burung kecil berwarna putih melengkapkan gubahan, di atas bingkai kayu beralas kain berbulu putih."⟩
+            "1787655971879-images-s-dulang-buah-hantaran-mohd-hasan/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 1536x2048 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Tiga orang lelaki berumur duduk berbaris di dalam masjid, dilihat dari sisi. Yang paling hadapan berbaju melayu merah jambu dan bersongkok hitam memegang mikrofon; dua lagi di belakangnya berbaju biru muda dan hijau muda, juga bersongkok."⟩
+            "1787655971879-images-s-wali-saksi-tok-kadi-mylifestory/high.webp"
+[ ok ] /artikel/hantaran-mas-kahwin/mas-kahwin-melebihi-kadar-minimum @1024 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:2 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +2 advisory
+        image-attr-aspect ×2
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Dulang hantaran berisi buah-buahan — pisang, epal merah dan hijau, anggur ungu, oren dan buah naga — disusun dalam bakul jaring keemasan. Bunga tiruan merah dan putih serta hiasan burung kecil berwarna putih melengkapkan gubahan, di atas bingkai kayu beralas kain berbulu putih."⟩
+            "1787655971879-images-s-dulang-buah-hantaran-mohd-hasan/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 1536x2048 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Tiga orang lelaki berumur duduk berbaris di dalam masjid, dilihat dari sisi. Yang paling hadapan berbaju melayu merah jambu dan bersongkok hitam memegang mikrofon; dua lagi di belakangnya berbaju biru muda dan hijau muda, juga bersongkok."⟩
+            "1787655971879-images-s-wali-saksi-tok-kadi-mylifestory/high.webp"
+[ ok ] /artikel/hantaran-mas-kahwin/mas-kahwin-melebihi-kadar-minimum @1440 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:2 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +2 advisory
+        image-attr-aspect ×2
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Dulang hantaran berisi buah-buahan — pisang, epal merah dan hijau, anggur ungu, oren dan buah naga — disusun dalam bakul jaring keemasan. Bunga tiruan merah dan putih serta hiasan burung kecil berwarna putih melengkapkan gubahan, di atas bingkai kayu beralas kain berbulu putih."⟩
+            "1787655971879-images-s-dulang-buah-hantaran-mohd-hasan/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 1536x2048 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Tiga orang lelaki berumur duduk berbaris di dalam masjid, dilihat dari sisi. Yang paling hadapan berbaju melayu merah jambu dan bersongkok hitam memegang mikrofon; dua lagi di belakangnya berbaju biru muda dan hijau muda, juga bersongkok."⟩
+            "1787655971879-images-s-wali-saksi-tok-kadi-mylifestory/high.webp"
+[ ok ] /artikel/hantaran-mas-kahwin/mas-kahwin-melebihi-kadar-minimum @1920 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:2 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +2 advisory
+        image-attr-aspect ×2
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Dulang hantaran berisi buah-buahan — pisang, epal merah dan hijau, anggur ungu, oren dan buah naga — disusun dalam bakul jaring keemasan. Bunga tiruan merah dan putih serta hiasan burung kecil berwarna putih melengkapkan gubahan, di atas bingkai kayu beralas kain berbulu putih."⟩
+            "1787655971879-images-s-dulang-buah-hantaran-mohd-hasan/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 1536x2048 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Tiga orang lelaki berumur duduk berbaris di dalam masjid, dilihat dari sisi. Yang paling hadapan berbaju melayu merah jambu dan bersongkok hitam memegang mikrofon; dua lagi di belakangnya berbaju biru muda dan hijau muda, juga bersongkok."⟩
+            "1787655971879-images-s-wali-saksi-tok-kadi-mylifestory/high.webp"
+[FAIL] /artikel/ucapan-doa/skrip-pengacara-majlis-perkahwinan @390 12 violation(s)  empty:0 rail:0 narrow:12 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0
+        narrow-text-column ×12
+          102.9px column, 4 lines, box 103x116px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Tetamu dijemput masuk dan dijamu"
+          77.8px column, 2 lines, box 78x58px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Kebiasaan setempat"
+          102.9px column, 2 lines, box 103x58px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Ketibaan pengantin"
+          102.9px column, 4 lines, box 103x116px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Persembahan sambutan, kompang atau silat"
+          … and 8 more
+[FAIL] /artikel/ucapan-doa/skrip-pengacara-majlis-perkahwinan @768 3 violation(s)  empty:0 rail:0 narrow:3 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0
+        narrow-text-column ×3
+          116.8px column, 2 lines, box 117x60px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Kebiasaan setempat"
+          116.8px column, 3 lines, box 117x90px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Ada garis panduan JAKIM"
+          116.8px column, 2 lines, box 117x60px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Adat, tertakluk syarat"
+[FAIL] /artikel/ucapan-doa/skrip-pengacara-majlis-perkahwinan @1024 3 violation(s)  empty:0 rail:0 narrow:3 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0
+        narrow-text-column ×3
+          117.0px column, 2 lines, box 117x61px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Kebiasaan setempat"
+          117.0px column, 3 lines, box 117x92px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Ada garis panduan JAKIM"
+          117.0px column, 3 lines, box 117x92px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Adat, tertakluk syarat"
+[FAIL] /artikel/ucapan-doa/skrip-pengacara-majlis-perkahwinan @1440 3 violation(s)  empty:0 rail:0 narrow:3 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0
+        narrow-text-column ×3
+          119.7px column, 2 lines, box 120x61px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Kebiasaan setempat"
+          119.7px column, 3 lines, box 120x92px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Ada garis panduan JAKIM"
+          119.7px column, 2 lines, box 120x61px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Adat, tertakluk syarat"
+[FAIL] /artikel/ucapan-doa/skrip-pengacara-majlis-perkahwinan @1920 3 violation(s)  empty:0 rail:0 narrow:3 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0
+        narrow-text-column ×3
+          119.7px column, 2 lines, box 120x61px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Kebiasaan setempat"
+          119.7px column, 3 lines, box 120x92px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Ada garis panduan JAKIM"
+          119.7px column, 2 lines, box 120x61px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Adat, tertakluk syarat"
+[FAIL] /artikel/pelamin-kad-cenderahati/contoh-kad-jemputan-kahwin @390 5 violation(s)  empty:0 rail:0 narrow:5 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        narrow-text-column ×5
+          76.5px column, 2 lines, box 77x58px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Kuantiti minimum"
+          74.8px column, 2 lines, box 75x58px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "100 keping"
+          76.5px column, 2 lines, box 77x58px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Tempoh siap"
+          74.8px column, 3 lines, box 75x87px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "5 hingga 7 hari bekerja"
+          … and 1 more
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 771x1024 file (0.75:1) — 99% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Sekeping kad jemputan kahwin dipegang di tangan. Kad itu bertajuk Walimatul Urus dalam tulisan berbunga, dengan gambar pasangan berdiri di atas batas sawah, nama kedua-dua pengantin, dua tarikh Masihi berserta tarikh Hijrah masing-masing, dan satu doa panjang di bahagian bawah."⟩
+            "/1787707535571-images-s-kad-jemputan-tangan-sham-hardy/high.webp"
+[FAIL] /artikel/pelamin-kad-cenderahati/contoh-kad-jemputan-kahwin @768 1 violation(s)  empty:0 rail:0 narrow:1 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        narrow-text-column ×1
+          109.8px column, 2 lines, box 110x60px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Kuantiti minimum"
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 771x1024 file (0.75:1) — 99% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Sekeping kad jemputan kahwin dipegang di tangan. Kad itu bertajuk Walimatul Urus dalam tulisan berbunga, dengan gambar pasangan berdiri di atas batas sawah, nama kedua-dua pengantin, dua tarikh Masihi berserta tarikh Hijrah masing-masing, dan satu doa panjang di bahagian bawah."⟩
+            "/1787707535571-images-s-kad-jemputan-tangan-sham-hardy/high.webp"
+[FAIL] /artikel/pelamin-kad-cenderahati/contoh-kad-jemputan-kahwin @1024 1 violation(s)  empty:0 rail:0 narrow:1 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        narrow-text-column ×1
+          110.5px column, 2 lines, box 110x61px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Kuantiti minimum"
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 771x1024 file (0.75:1) — 99% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Sekeping kad jemputan kahwin dipegang di tangan. Kad itu bertajuk Walimatul Urus dalam tulisan berbunga, dengan gambar pasangan berdiri di atas batas sawah, nama kedua-dua pengantin, dua tarikh Masihi berserta tarikh Hijrah masing-masing, dan satu doa panjang di bahagian bawah."⟩
+            "/1787707535571-images-s-kad-jemputan-tangan-sham-hardy/high.webp"
+[FAIL] /artikel/pelamin-kad-cenderahati/contoh-kad-jemputan-kahwin @1440 1 violation(s)  empty:0 rail:0 narrow:1 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        narrow-text-column ×1
+          112.5px column, 2 lines, box 112x61px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Kuantiti minimum"
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 771x1024 file (0.75:1) — 99% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Sekeping kad jemputan kahwin dipegang di tangan. Kad itu bertajuk Walimatul Urus dalam tulisan berbunga, dengan gambar pasangan berdiri di atas batas sawah, nama kedua-dua pengantin, dua tarikh Masihi berserta tarikh Hijrah masing-masing, dan satu doa panjang di bahagian bawah."⟩
+            "/1787707535571-images-s-kad-jemputan-tangan-sham-hardy/high.webp"
+[FAIL] /artikel/pelamin-kad-cenderahati/contoh-kad-jemputan-kahwin @1920 1 violation(s)  empty:0 rail:0 narrow:1 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        narrow-text-column ×1
+          112.5px column, 2 lines, box 112x61px (floor 120px)
+            tbody > tr > td > p  ⟨p · not a link⟩
+            "Kuantiti minimum"
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 771x1024 file (0.75:1) — 99% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Sekeping kad jemputan kahwin dipegang di tangan. Kad itu bertajuk Walimatul Urus dalam tulisan berbunga, dengan gambar pasangan berdiri di atas batas sawah, nama kedua-dua pengantin, dua tarikh Masihi berserta tarikh Hijrah masing-masing, dan satu doa panjang di bahagian bawah."⟩
+            "/1787707535571-images-s-kad-jemputan-tangan-sham-hardy/high.webp"
+[ ok ] /artikel/moden-kontemporari/sime-darby-convention-centre @390 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:15 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +15 advisory
+        image-attr-aspect ×15
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "564-RW-WhiteneryYasminEsyraqSime-DarbyConventionCentre/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "537-RW-WhiteneryYasminEsyraqSime-DarbyConventionCentre/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "042-RW-WhiteneryYasminEsyraqSime-DarbyConventionCentre/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "732-RW-WhiteneryYasminEsyraqSime-DarbyConventionCentre/high.webp"
+          … and 11 more
+[ ok ] /artikel/moden-kontemporari/sime-darby-convention-centre @768 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:15 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +15 advisory
+        image-attr-aspect ×15
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "564-RW-WhiteneryYasminEsyraqSime-DarbyConventionCentre/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "537-RW-WhiteneryYasminEsyraqSime-DarbyConventionCentre/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "042-RW-WhiteneryYasminEsyraqSime-DarbyConventionCentre/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "732-RW-WhiteneryYasminEsyraqSime-DarbyConventionCentre/high.webp"
+          … and 11 more
+[ ok ] /artikel/moden-kontemporari/sime-darby-convention-centre @1024 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:15 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +15 advisory
+        image-attr-aspect ×15
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "564-RW-WhiteneryYasminEsyraqSime-DarbyConventionCentre/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "537-RW-WhiteneryYasminEsyraqSime-DarbyConventionCentre/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "042-RW-WhiteneryYasminEsyraqSime-DarbyConventionCentre/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "732-RW-WhiteneryYasminEsyraqSime-DarbyConventionCentre/high.webp"
+          … and 11 more
+[ ok ] /artikel/moden-kontemporari/sime-darby-convention-centre @1440 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:15 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +15 advisory
+        image-attr-aspect ×15
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "564-RW-WhiteneryYasminEsyraqSime-DarbyConventionCentre/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "537-RW-WhiteneryYasminEsyraqSime-DarbyConventionCentre/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "042-RW-WhiteneryYasminEsyraqSime-DarbyConventionCentre/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "732-RW-WhiteneryYasminEsyraqSime-DarbyConventionCentre/high.webp"
+          … and 11 more
+[ ok ] /artikel/moden-kontemporari/sime-darby-convention-centre @1920 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:15 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +15 advisory
+        image-attr-aspect ×15
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "564-RW-WhiteneryYasminEsyraqSime-DarbyConventionCentre/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "537-RW-WhiteneryYasminEsyraqSime-DarbyConventionCentre/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "042-RW-WhiteneryYasminEsyraqSime-DarbyConventionCentre/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 2400x3600 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "732-RW-WhiteneryYasminEsyraqSime-DarbyConventionCentre/high.webp"
+          … and 11 more
+[ ok ] /artikel/idea-dan-nasihat/garden-wedding @390  0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:10 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +10 advisory
+        image-attr-aspect ×10
+          declared width="1200" height="800" (1.50:1) for a 684x1024 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "garden-wedding/1787397070738-IN-GardenWedding-Cove55-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x669 file (1.17:1) — 28% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397101516-IN-GardenWedding-JardinEventVenue-1/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x743 file (1.06:1) — 42% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397102800-IN-GardenWedding-JardinEventVenue-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 628x786 file (0.80:1) — 88% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397105442-IN-GardenWedding-JardinEventVenue-4/high.webp"
+          … and 6 more
+[ ok ] /artikel/idea-dan-nasihat/garden-wedding @768  0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:10 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +10 advisory
+        image-attr-aspect ×10
+          declared width="1200" height="800" (1.50:1) for a 684x1024 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "garden-wedding/1787397070738-IN-GardenWedding-Cove55-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x669 file (1.17:1) — 28% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397101516-IN-GardenWedding-JardinEventVenue-1/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x743 file (1.06:1) — 42% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397102800-IN-GardenWedding-JardinEventVenue-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 628x786 file (0.80:1) — 88% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397105442-IN-GardenWedding-JardinEventVenue-4/high.webp"
+          … and 6 more
+[ ok ] /artikel/idea-dan-nasihat/garden-wedding @1024 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:10 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +10 advisory
+        image-attr-aspect ×10
+          declared width="1200" height="800" (1.50:1) for a 684x1024 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "garden-wedding/1787397070738-IN-GardenWedding-Cove55-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x669 file (1.17:1) — 28% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397101516-IN-GardenWedding-JardinEventVenue-1/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x743 file (1.06:1) — 42% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397102800-IN-GardenWedding-JardinEventVenue-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 628x786 file (0.80:1) — 88% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397105442-IN-GardenWedding-JardinEventVenue-4/high.webp"
+          … and 6 more
+[ ok ] /artikel/idea-dan-nasihat/garden-wedding @1440 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:10 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +10 advisory
+        image-attr-aspect ×10
+          declared width="1200" height="800" (1.50:1) for a 684x1024 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "garden-wedding/1787397070738-IN-GardenWedding-Cove55-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x669 file (1.17:1) — 28% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397101516-IN-GardenWedding-JardinEventVenue-1/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x743 file (1.06:1) — 42% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397102800-IN-GardenWedding-JardinEventVenue-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 628x786 file (0.80:1) — 88% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397105442-IN-GardenWedding-JardinEventVenue-4/high.webp"
+          … and 6 more
+[ ok ] /artikel/idea-dan-nasihat/garden-wedding @1920 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:10 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +10 advisory
+        image-attr-aspect ×10
+          declared width="1200" height="800" (1.50:1) for a 684x1024 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "garden-wedding/1787397070738-IN-GardenWedding-Cove55-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x669 file (1.17:1) — 28% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397101516-IN-GardenWedding-JardinEventVenue-1/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x743 file (1.06:1) — 42% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397102800-IN-GardenWedding-JardinEventVenue-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 628x786 file (0.80:1) — 88% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397105442-IN-GardenWedding-JardinEventVenue-4/high.webp"
+          … and 6 more
+[ ok ] /artikel/nikah-undang-undang/syarat-wali-nikah @390 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1536x2048 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Saat ijab qabul di dalam masjid: pengantin lelaki berjabat tangan dengan tok kadi yang duduk berhadapan dengannya."⟩
+            "kah/1788289708079-images-s-akad-ijab-qabul-mylifestory/high.webp"
+[FAIL] /artikel/nikah-undang-undang/syarat-wali-nikah @768 1 violation(s)  empty:0 rail:0 narrow:0 measure:1 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        reading-measure ×1
+          81.3 characters per line — 610px column at 15.0px (ceiling 75)
+            div > a.s-row > div > h3.t  ⟨h3 · link → /artikel/nikah-undang-undang/lafaz-akad-nikah⟩
+            "Lafaz akad nikah: apa yang disebut, dan satu perkataan yang "
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1536x2048 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Saat ijab qabul di dalam masjid: pengantin lelaki berjabat tangan dengan tok kadi yang duduk berhadapan dengannya."⟩
+            "kah/1788289708079-images-s-akad-ijab-qabul-mylifestory/high.webp"
+[ ok ] /artikel/nikah-undang-undang/syarat-wali-nikah @1024 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1536x2048 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Saat ijab qabul di dalam masjid: pengantin lelaki berjabat tangan dengan tok kadi yang duduk berhadapan dengannya."⟩
+            "kah/1788289708079-images-s-akad-ijab-qabul-mylifestory/high.webp"
+[ ok ] /artikel/nikah-undang-undang/syarat-wali-nikah @1440 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1536x2048 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Saat ijab qabul di dalam masjid: pengantin lelaki berjabat tangan dengan tok kadi yang duduk berhadapan dengannya."⟩
+            "kah/1788289708079-images-s-akad-ijab-qabul-mylifestory/high.webp"
+[ ok ] /artikel/nikah-undang-undang/syarat-wali-nikah @1920 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +1 advisory
+        image-attr-aspect ×1
+          declared width="1200" height="800" (1.50:1) for a 1536x2048 file (0.75:1) — 100% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt="Saat ijab qabul di dalam masjid: pengantin lelaki berjabat tangan dengan tok kadi yang duduk berhadapan dengannya."⟩
+            "kah/1788289708079-images-s-akad-ijab-qabul-mylifestory/high.webp"
+──────────────────────────────────────────────────────────────────────────────
+totals: empty-content 0
+        rail-collapsed 0
+        narrow-text-column 439
+        reading-measure 2
+        clipped-text 0
+        viewport-overflow 0
+        scroll-container-clip 1
+        image-upscale 0
+        image-aspect 0
+        image-attr-aspect 260 (advisory, does not fail the build)
+        image-unmeasurable 0
+        shaped-slot-variant 0
+        shaped-slot-dims 0
+        category-diversity 0
+        source-order 0
+build fingerprint (last width measured, per target):
+  /artikel/hantaran-mas-kahwin/tempat-beli-hantaran
+    200 STALE age=327 sin1::sin1::thvfg-1788294218295-435e1cefa450 css=[e754448c3010263a.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  /artikel/busana-pengantin/baju-pengantin-sewa-atau-beli
+    200 HIT age=84 sin1::sin1::rs7qh-1788294319667-5cb610d36944 css=[e754448c3010263a.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  /artikel/idea-dan-nasihat/cara-buat-kad-kahwin-digital
+    200 MISS age=0 sin1::sin1::jwvvt-1788294423594-e2e31e678d43 css=[e754448c3010263a.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  /artikel/ucapan-doa/doa-selamat-majlis
+    200 HIT age=68 sin1::sin1::24lxn-1788294525361-3d7f96589043 css=[e754448c3010263a.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  /artikel/hantaran-mas-kahwin/hantaran-tempah-atau-buat-sendiri
+    200 HIT age=70 sin1::sin1::jdmbx-1788294627920-22d99ab6e7f1 css=[e754448c3010263a.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  /artikel/hantaran-mas-kahwin/hantaran-tunang
+    200 HIT age=70 sin1::sin1::frd7t-1788294731185-753bf4aa1044 css=[e754448c3010263a.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  /artikel/hantaran-mas-kahwin/hantaran-tunang-3-balas-5
+    200 HIT age=69 sin1::sin1::ngjp5-1788294834072-0ab710c7f9ac css=[e754448c3010263a.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  /artikel/hantaran-mas-kahwin/nisbah-hantaran
+    200 HIT age=68 sin1::sin1::cqkgd-1788294935173-ecbd25445f11 css=[e754448c3010263a.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  /artikel/hantaran-mas-kahwin/mas-kahwin-pahang-negeri-sembilan
+    200 HIT age=168 sin1::sin1::bfsj5-1788295035768-a1b01612bbbf css=[e754448c3010263a.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  /artikel/hantaran-mas-kahwin/apa-itu-mas-kahwin
+    200 HIT age=270 sin1::sin1::mbdkh-1788295135958-5897761adabe css=[e754448c3010263a.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  /artikel/hantaran-mas-kahwin/dulang-hantaran
+    200 HIT age=68 sin1::sin1::j8p8n-1788295236761-3dd8eeb96614 css=[e754448c3010263a.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  /artikel/hantaran-mas-kahwin/mas-kahwin-melebihi-kadar-minimum
+    200 HIT age=68 sin1::sin1::j7448-1788295337457-f3fbd40cbf18 css=[e754448c3010263a.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  /artikel/ucapan-doa/skrip-pengacara-majlis-perkahwinan
+    200 HIT age=71 sin1::sin1::qvwrk-1788295440779-9bbf60cb76f5 css=[e754448c3010263a.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  /artikel/pelamin-kad-cenderahati/contoh-kad-jemputan-kahwin
+    200 HIT age=68 sin1::sin1::82m6v-1788295542436-2bd91ac0870b css=[e754448c3010263a.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  /artikel/moden-kontemporari/sime-darby-convention-centre
+    200 HIT age=5 sin1::sin1::774fg-1788295653423-014dd82f8628 css=[e754448c3010263a.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  /artikel/idea-dan-nasihat/garden-wedding
+    200 HIT age=118 sin1::sin1::rz5mh-1788295764497-fbccde1a501f css=[e754448c3010263a.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  /artikel/nikah-undang-undang/syarat-wali-nikah
+    200 HIT age=220 sin1::sin1::chj7z-1788295868038-3e16f1544a8e css=[e754448c3010263a.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+UILINT EXIT: 1
