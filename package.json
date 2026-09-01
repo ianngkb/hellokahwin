@@ -46,7 +46,9 @@
     "audit:favicon": "node scripts/audit-favicon.mjs",
     "audit:favicon:local": "node scripts/audit-favicon.mjs --local",
     "audit:favicon:selftest": "node scripts/audit-favicon.mjs --selftest",
-    "verify:degraded": "node scripts/verify-degraded-page-uncacheable.mjs"
+    "verify:degraded": "node scripts/verify-degraded-page-uncacheable.mjs",
+    "backfill:cover-intrinsics": "tsx scripts/backfill-cover-intrinsics.mts",
+    "audit:crops": "node --env-file=.env scripts/audit-crop-depiction.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-rekognition": "^3.996.0",
@@ -113,6 +115,7 @@
     "eslint-config-next": "16.1.6",
     "jsdom": "^28.0.0",
     "marked": "^18.0.10",
+    "playwright-core": "^1.62.1",
     "prettier": "^3.8.1",
     "shadcn": "^3.8.4",
     "tailwindcss": "^4",
