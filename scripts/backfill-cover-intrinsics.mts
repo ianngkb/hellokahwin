@@ -37,7 +37,8 @@
  *      declare instead of a modal guess.
  *
  * Do not read that as a plan. The next item that wants these numbers still has
- * to decide what to do with them.
+ * to decide what to do with them — and no ingest path fills them yet, so a
+ * re-uploaded cover loses them until this is re-run.
  *
  * ── WHERE THE DIMENSIONS COME FROM ─────────────────────────────────────────
  * Out of each file's OWN header, via a ranged GET of the first 4 KB. Never from

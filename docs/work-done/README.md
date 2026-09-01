@@ -48,6 +48,17 @@ able to find each of them without reading the prose around it:
    shipped and what caught it. Then the edit, made.
 4. **A gate or a script**, wherever one is possible. Prose rules do not fire.
 
+   CONT-15 is the case that proves the fourth point rather than illustrating it.
+   The rule it needed — *"a crop can break the depiction rule while every number
+   stays green; open the image"* — was **already written down, in capitals, in the
+   persona of the seat that was working**, together with the retained-frame
+   formula and a floor. Three covers shipped that do not depict their subject
+   anyway, because the rule carried a number (~one third) and the failures sit at
+   50%, so its own arithmetic said *fine* while its own instruction said *look*.
+   **A prose rule containing a number gets read as the number.** The edit that
+   worked was a script (`pnpm audit:crops`) that renders the pictures and labels
+   the percentage as context rather than a verdict.
+
 ## Which branch
 
 `docs/work-done/` is on **`master`**, beside the code it describes, and always
