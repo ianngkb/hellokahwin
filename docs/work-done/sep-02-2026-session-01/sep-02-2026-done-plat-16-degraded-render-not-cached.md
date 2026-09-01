@@ -300,6 +300,41 @@ path's shape is not sizing it.
    at HTTP 500; the module said, measured, that the string is not in the
    document. Caught in review.
 
+### The one that landed after the retrospective was written
+
+**A CI toolchain you did not pin is a dependency that can change under you for
+ONE BUILD and change back.** PLAT-16's merge deployed into a Vercel builder
+running pnpm 11.x where the merge ten minutes earlier had run 10.28.0, and
+failed. Selection returned to 10.28.0 on the very next build and has stayed
+there — see the corrected table above. The intermittency is the dangerous part:
+a permanent break gets fixed, a one-in-eight break gets called flaky.
+The failure named six packages, four of which were already allow-listed — so
+the error message pointed at a list that was correct and being ignored.
+
+It cost a third PR (#66) and it produced the same lesson this repo already has
+written down in `scripts/measure/count-in-html.sh`: **the first fix was
+confident, specific and wrong.** Moving `onlyBuiltDependencies` into
+`pnpm-workspace.yaml` was the obvious repair, it is what the docs for pnpm 10
+describe, and it fails with the BYTE-IDENTICAL error — which reads exactly like
+having changed nothing at all. The setting had also been renamed to
+`allowBuilds`, a map rather than a list, and the only place that said so was the
+file pnpm rewrote for me when I ran the fix against the failing case.
+
+**"I understand the cause" is not a test, and an unchanged error message is not
+evidence that your change did nothing.** Run it.
+
+**WHICH FILE MUST CARRY THIS, named as directed: `pnpm-workspace.yaml`.** It is
+the file anyone touching pnpm settings opens, it is where the setting now lives,
+and it now carries the whole transcript — the two build logs, the eight-build
+version table, the three-run paired test, the correction that this fix did not
+unblock the deploy, and the corepack fact that makes the obvious pin inert. A
+`docs/` note would not be read by the person editing pnpm config; this file
+cannot be missed by them. Owner of the edit: me, done in this change.
+
+Owner of the remaining decision: **platform / CEO** — pinning the pnpm version
+needs `ENABLE_EXPERIMENTAL_COREPACK` on the Vercel project, which is a change to
+the deployment target rather than to this repo.
+
 ### Open findings raised, not fixed here
 
 | Finding | Owner |
@@ -308,6 +343,7 @@ path's shape is not sizing it.
 | **`generateMetadata` and the page now resolve the SAME failure in opposite directions.** Metadata's `getCategoryArticles` fails OPEN to `index, follow` and that verdict is frozen into an `unstable_cache` entry with `revalidate: false`; the page's copy of the same read now fails CLOSED. So a hub whose count could not be established can carry a permanently cached "indexable" robots verdict derived from a read the same request refused to render on. Same family of bug as PLAT-16, different lever. | platform / CEO |
 | **Removing the cacheable 200 removes load absorption during a stall.** Every request during a DB incident is now a fresh origin render against a 5-wide pool, where before one render's 200 answered ~300s of edge traffic. The 1,500ms budget bounds each attempt; there is still no retry, backoff or circuit breaker anywhere in the read path. | platform |
 | **Both halves of the PLAT-19 / DES-18 tooling finding are CLOSED.** `docs/work-done/README.md` exists on `master` (created by UI-20, 02 Sept) and `scripts/measure/count-in-html.sh` is present. Recorded so a fifth agent does not re-report them. | CEO |
+| **Vercel's pnpm major is non-deterministic and unpinnable from this repo alone.** One build in the last eight (`0f2a4c99`) was handed `pnpm@11.x` and failed; the other seven got 10.28.0. `package.json` has no `packageManager` field, and pinning one is INERT because `ENABLE_EXPERIMENTAL_COREPACK` is not set on the Vercel project (15 keys enumerated, no corepack flag) — Vercel's own failing build log says corepack is how you select a non-default major. So the pin is a two-part change: one line here plus an env var on the deployment target. `allowBuilds` in `pnpm-workspace.yaml` makes an 11.x build SUCCEED rather than preventing one, and is verified under `npx pnpm@11` — it is a defence, not a pin. **Decision needed:** set the corepack flag and pin 10.28.0, or stay on `allowBuilds` and accept either major. | platform / CEO |
 
 ---
 
@@ -320,6 +356,145 @@ path's shape is not sizing it.
   (427 files at the start of this session) and every previous session's entries
   live there. It is not the boardroom docs line, and no PR was opened into
   `feat/command-centre-dashboard`.
+
+## Shipping it broke on something else entirely
+
+**PLAT-16 merged as `0f2a4c9` and its production deployment FAILED.** Not the
+diff — Vercel rolled its default pnpm from **10.x to 11.x between 19:17 and
+19:27 UTC**, and PLAT-16's merge was simply the first deploy to land on the far
+side of it. Two production builds ten minutes apart, same lockfile, both read
+from the Vercel build logs:
+
+| | commit | pnpm | ignored builds | result |
+| --- | --- | --- | --- | --- |
+| 19:17 | `0129797` (UI-20) | `v10.28.0` | `msw@2.15.0` — a **warning** | success |
+| 19:27 | `0f2a4c9` (PLAT-16) | `11.x` | `esbuild`x3, `msw`, `sharp`, `unrs-resolver` — **`ERR_PNPM_IGNORED_BUILDS`** | failure |
+
+The only manifest difference between those commits is one added npm script
+line; `pnpm-lock.yaml`, `.npmrc` and `vercel.json` are untouched; and
+`pnpm build` on `0f2a4c9` is exit 0 locally. Every branch in the repo was
+undeployable, not just this one.
+
+**THREE things changed at once, and the third is the one that bites.**
+
+1. pnpm 11 makes an ignored build script a HARD ERROR, not a warning.
+2. **pnpm 11 no longer reads the `pnpm` field in `package.json`** — which is
+   why `sharp`, `esbuild` and `unrs-resolver` were in the error list at all:
+   they were ALREADY allow-listed there and the allow-list stopped being read.
+3. **The setting is also RENAMED**: `onlyBuiltDependencies` (a list) became
+   `allowBuilds` (a map of package to boolean). Moving the old key into
+   `pnpm-workspace.yaml` verbatim **fails with the byte-identical error**,
+   which is indistinguishable from having changed nothing.
+
+That third one is the whole lesson, and it is the same lesson as
+`scripts/measure/count-in-html.sh`: **the first fix was confident, specific and
+wrong, and only running it against the failing case caught it.** pnpm rewrote
+`pnpm-workspace.yaml` itself and prepended `allowBuilds: { esbuild: set this to
+true or false }` — the entire answer, invisible from the error message.
+
+Verified against the failing case, three runs of one command:
+
+```
+package.json list only          npx pnpm@11 install --frozen-lockfile  ->  exit 1
+onlyBuiltDependencies in yaml   same command                           ->  exit 1
+allowBuilds in yaml             same command                           ->  exit 0
+                                "Done in 14.8s using pnpm v11.25.0"
+```
+
+and the scripts actually run — `sharp install$ node install/check.js`, three
+esbuild postinstalls `Done` — after which `require('sharp')` loads libvips
+8.17.3. `sharp` is the entry that matters: `next.config.ts` lists it in
+`serverExternalPackages` and it does the site's image processing.
+
+Shipped as **PR #66**, `9c1ca0c`, production deployment `6209298019`
+**state=success**.
+
+### ⚠ AND THEN THAT CLAIM TURNED OUT TO BE WRONG — corrected here at source
+
+The paragraphs above originally said Vercel had *"rolled its default pnpm from
+10.x to 11.x"* and that *"every branch in the repo was undeployable"*, and the
+line above reads as though PR #66 is what unblocked the deploy.
+
+**None of that is supported.** It was written after watching exactly one
+failure and one subsequent success. Challenged on it, the pnpm version was then
+read out of the build log of the eight most recent production builds:
+
+| commit | state | selected | version |
+| --- | --- | --- | --- |
+| `07fd6421` | READY | `pnpm@10.x` | v10.28.0 |
+| `9c1ca0c2` | READY | `pnpm@10.x` | v10.28.0 — **the deploy of the fix itself** |
+| `5c18c742` | READY | `pnpm@10.x` | v10.28.0 |
+| `0f2a4c99` | **ERROR** | **`pnpm@11.x`** | — the only 11.x build that exists |
+| `0129797a` | READY | `pnpm@10.x` | v10.28.0 |
+| `5342703c` | READY | `pnpm@10.x` | v10.28.0 |
+| `59954c65` | READY | `pnpm@10.x` | v10.28.0 |
+| `eaad6d33` | READY | `pnpm@10.x` | v10.28.0 |
+
+It was **not a rollout**. It was **one build** landing on an 11.x builder,
+before and after which selection returned to 10.28.0. So:
+
+- **PR #66 did not unblock anything.** The build carrying it succeeded on pnpm
+  10.28.0 and would have succeeded without it. One green deploy after a fix is
+  not evidence the fix did anything, when the variable moved back on its own.
+- The `allowBuilds` change is still **correct and worth keeping** — the local
+  three-run paired test under `npx pnpm@11` stands, and three subsequent pnpm
+  10 builds are green with it in place, so it costs nothing. It is the defence
+  for the next 11.x selection, not the cause of this green.
+- **The exposure is not closed.** Builder selection is non-deterministic and
+  can hand any deploy, from any branch, an 11.x builder with no change from
+  anyone here.
+
+This is the same error this entry's own retrospective is about, committed by
+the same author about forty minutes later: **a comfortable result taken as
+proof.** The failing run had a cause I could name; the passing run I did not
+interrogate at all. `PLAT16 VERDICT: PASS` at 28ms and "the deploy is green"
+are the same mistake in two different instruments.
+
+### The pin that was asked for, and why it is not in this change
+
+The direction was to pin `"packageManager": "pnpm@10.28.0"` — the exact version
+that succeeded — as the smallest change that reverts the variable that moved.
+The instinct is right and the exposure above is real. **But the pin is inert on
+this project as configured**, and shipping it would have looked like a fix:
+
+- Vercel's own build log says so, in the failing build: *"To use pnpm@9.x,
+  manually opt in using corepack"*. Selecting a non-default major needs corepack.
+- `ENABLE_EXPERIMENTAL_COREPACK` is **not set** on the Vercel project.
+  Enumerated rather than tested for: the project has 23 environment entries
+  across 15 unique keys — `ADMIN_EMAILS`, `CLERK_SECRET_KEY`, `CRON_SECRET`,
+  `DATABASE_URL`, `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`,
+  `NEXT_PUBLIC_R2_ASSETS_PUBLIC_URL`, `R2_ACCESS_KEY_ID`, `R2_ACCOUNT_ID`,
+  `R2_ASSETS_BUCKET_NAME`, `R2_ASSETS_PUBLIC_URL`, `R2_BUCKET_NAME`,
+  `R2_PUBLIC_URL`, `R2_SECRET_ACCESS_KEY`, `REKOGNITION_ENABLED`,
+  `WP_SOURCE_URL` — and no corepack flag among them.
+
+So the pin is a **two-part change**: one line in `package.json` plus an
+environment variable on the Vercel project. The second part is an infrastructure
+change to the deployment target, not a repo change, and it is not mine to make
+unilaterally. Raised as an open finding below with the evidence attached.
+
+## Live, on production
+
+`0f2a4c9` is an ancestor of the deployed `9c1ca0c` (`git merge-base
+--is-ancestor`, exit 0) and the deployed route source carries
+`readForCacheablePage` x4.
+
+| URL | status | pillar-empty | grid-empty | article hrefs |
+| --- | --- | --- | --- | --- |
+| `/artikel/hantaran-mas-kahwin` | 200 | 0 | 0 | **47** |
+| `/artikel/nikah-undang-undang` | 200 | 0 | 0 | **19** |
+| `/artikel/idea-dan-nasihat` | 200 | 0 | 0 | **34** |
+
+**POSITIVE CONTROL** — a zero from this checker means absence, not a broken
+check: the same `scripts/measure/count-in-html.sh` run against the same page
+returns `HelloKahwin` **x52** and `Hantaran` **x262**.
+
+**NEGATIVE CONTROL** — `/artikel/plat16-not-a-real-category` returns **404**,
+not a 200 shell.
+
+The forced-failure half cannot be run against production: it requires stalling
+the database. It is run against `next build && next start` on the same commit,
+which is what the numbers above the fold are.
 
 ## Reproducing this
 
