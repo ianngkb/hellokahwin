@@ -316,6 +316,17 @@ covers.** It needs either a table-cell exclusion with its own discriminator case
 or a mobile treatment for tables — its own item, not a sideways narrowing of
 check 1 inside a rail item.
 
+### Two items wrote `docs/work-done/README.md` in the same sprint
+
+UI-20 shipped it first and theirs is the better file — it carries the four
+things an entry has to contain, and a "where does this go" table. Mine lost the
+merge and was dropped, which is the right outcome; it is recorded here only
+because the alternative is a retrospective that claims a closure it did not
+make. The finding had been filed three times by three agents (PLAT-19, DES-18,
+and this item), which is itself the signal: **a standing rule that names a file
+nobody has created will be reported instead of followed, once per agent, until
+somebody writes the file.**
+
 ### `pnpm lint` is red on `master` today, and nothing in CI runs it
 
 Three files fail `prettier --check` on `origin/master` at `0129797`, verified by
@@ -401,7 +412,7 @@ sessions have now found a carried figure wrong.
 | `scripts/audit-article-sources.mjs` | the corpus figure gets a script instead of three prose homes | design-systems-engineer | **done** |
 | `src/lib/inspire/article-sources.ts`, `src/design-system/components/article-rail.tsx` | stale "34 of 86" / "52 of 86" replaced with a pointer to that script | design-systems-engineer | **done** |
 | `scripts/measure-article-rail.mjs` | `DEFAULT_PATHS` — the old three could not exercise R3 | design-systems-engineer | **done** |
-| `docs/work-done/README.md` | it did not exist; three agents filed the same finding | design-systems-engineer | **done** |
+| `docs/work-done/README.md` | it did not exist; three agents filed the same finding | UI-20 | **done — by UI-20, not by this item.** I wrote one too and it lost the merge, correctly: theirs is the better file. Recorded because "I closed that" and "that got closed" are different claims |
 | `.github/workflows/` — a job that runs `pnpm lint` and `pnpm test` | still absent; lint is red on master right now | design-systems-engineer | **OPEN**, second sprint, named rather than taken inside a design item |
 | `docs/design/des-03-spesifikasi.html` §5.1 (docs line) | §5.1 draws the rail's three blocks but says nothing about which are conditional; the CEO ruling that Sumber is conditional now has an executable gate and no home in the spec | creative-director | **OPEN** — the spec is docs space and not mine to edit |
 
