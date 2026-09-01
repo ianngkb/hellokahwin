@@ -6,11 +6,12 @@
  *   pnpm ui:gate --pre-rail                 # UI-17's known-bad: the collapsed rail
  *   pnpm ui:gate --pre-rail --green         # the same page, panel moved right: check 10 clears
  *   pnpm ui:gate --discriminator            # the unit fixture, sixteen labelled cases
+ *   pnpm ui:gate --shaped-slot              # UI-16's R2/R6 pair, eight labelled cases
  *   pnpm ui:gate --h6-order                 # the H6.6 pair: one CSS property apart
  *   pnpm ui:gate --empty-shell              # a real page with <main> emptied
  *   pnpm ui:gate --base https://hellokahwin.com
  *   pnpm ui:gate --url https://…/artikel --url https://…/brand
- *   pnpm ui:gate:selftest                   # 192 assertions: fires AND clears (CI)
+ *   pnpm ui:gate:selftest                   # 270 assertions: fires AND clears (CI)
  *
  * Prints `UILINT EXIT: <n>` at the start of a line and exits with that code.
  *
@@ -254,6 +255,10 @@ const FIXTURE_DIR = path.join(FIXTURES_ROOT, '2026-08-31-pre-ui-fix');
 // known-bad input rather than a page that simply has no rail. sha256 and
 // provenance in the fixture README.
 const PRE_RAIL_DIR = path.join(FIXTURES_ROOT, '2026-09-01-pre-rail');
+// UI-16's pair for checks 13 and 14. Hand-built, offline, and its three .webp
+// plates are generated solids whose DIMENSIONS are the whole point. Eight
+// labelled cases; five must produce exactly nothing.
+const SHAPED_SLOT_DIR = path.join(FIXTURES_ROOT, 'shaped-slot');
 const GREEN_CSS = path.join(FIXTURES_ROOT, 'green-control.css');
 const RAIL_GREEN_CSS = path.join(FIXTURES_ROOT, 'rail-green-control.css');
 
@@ -1195,6 +1200,112 @@ async function collect(limits) {
         });
       }
     }
+
+    // -- CHECKS 13 & 14: the SHAPED SLOT - hero-rules R2 and R6 --------------
+    //
+    // A shaped slot is one where a DESIGNER chose the box: an explicit CSS
+    // `aspect-ratio` on the image or on an ancestor within three levels. That
+    // predicate is the whole scope, and it is deliberately not "every image".
+    //
+    // WARNING. The UA stylesheet gives every `<img>` carrying width/height
+    // attributes a computed `aspect-ratio` of `auto 1200 / 800`. Treating that
+    // as a shaped box would put every image on the site in scope and make check
+    // 14 a restatement of 4b. The `auto ` prefix is the discriminator and it is
+    // load-bearing: without it this fires on the eleven in-body prose images
+    // whose declared box is 1200x800 by boilerplate, which is a real defect and
+    // is check 4b's, reported advisory there for the reason 4b records.
+    //
+    // Enumerated across the whole template manifest on production 02 Sept 2026
+    // - never assumed - the shaped slots on this site are exactly these:
+    //
+    //   homepage + catalogue lead plate   crop-16x9-og, decl 1200x630 = file  OK
+    //   ArticleCard 4:3 plate             crop-4x3-article-card; next/image
+    //                                     `fill` declares nothing at all      OK
+    //   article cover figure              `low`, decl 1200x800, file 1024x683 RED
+    //
+    // So both checks have a real green control on a real page at both of the
+    // hero's bands, and both fire on exactly one element - which is the honest
+    // size of this slot class, not a check that was pointed somewhere safe.
+    let shapedBy = null;
+    const selfAr = getComputedStyle(img).aspectRatio;
+    if (selfAr && selfAr !== 'auto' && !selfAr.startsWith('auto ')) {
+      shapedBy = { ar: selfAr, on: 'the image itself' };
+    } else {
+      let up = img.parentElement;
+      for (let hops = 0; up && hops < 3; hops++, up = up.parentElement) {
+        const ar = getComputedStyle(up).aspectRatio;
+        if (ar && ar !== 'auto' && !ar.startsWith('auto ')) {
+          shapedBy = { ar, on: sel(up) };
+          break;
+        }
+      }
+    }
+
+    if (shapedBy) {
+      // R2 - `low`, `high` and `original` are never eligible for a shaped slot,
+      // at any quality, because all three preserve the SOURCE aspect. The slot
+      // then passes or fails R1 according to which camera shot the photograph,
+      // which is not a decision anyone made. Read from `currentSrc`, so a
+      // <picture> serving an ineligible variant in ONE band is caught in that
+      // band - the gate runs five widths for exactly this reason.
+      const variantName = /\/([^/?#]+)\.(?:webp|avif|jpe?g|png)(?:[?#]|$)/i.exec(src)?.[1] ?? '';
+      if (/^(low|high|original)$/i.test(variantName)) {
+        violations.push({
+          check: 'shaped-slot-variant',
+          selector: sel(img),
+          detail: `served ${variantName} into a box shaped aspect-ratio: ${shapedBy.ar} (${shapedBy.on}) - hero-rules R2: low/high/original preserve the SOURCE aspect, so this slot's shape is decided by the photograph rather than by the design. Only a named crop may fill a shaped box.`,
+          sample: src.slice(-64),
+          value: 1,
+        });
+      }
+
+      // R6 - the declared box states the DEFAULT SOURCE's real intrinsic
+      // dimensions. Not its ratio: 4b already checks the ratio and stayed green
+      // on the article cover while it was 17.2% wrong, because 1200x800 and the
+      // delivered 1024x683 agree to two decimal places. A modal value is still
+      // an asserted one.
+      //
+      // Probed from `src`, never `currentSrc`: on a <picture> the attributes
+      // describe the fallback, which is what R6 names and what the homepage hero
+      // correctly declares (1200x630 for `crop-16x9-og` while the 2464x700
+      // desktop crop is what rendered). An element with no width/height declares
+      // nothing and cannot declare it falsely - next/image `fill` is that case.
+      const rawSrc = img.getAttribute('src');
+      if (aw > 0 && ah > 0 && rawSrc) {
+        const abs = new URL(rawSrc, location.href).href;
+        const dflt =
+          abs === src
+            ? probe
+            : await new Promise((res) => {
+                const i = new Image();
+                i.onload = () => res({ w: i.naturalWidth, h: i.naturalHeight });
+                i.onerror = () => res({ w: -1, h: -1 });
+                i.src = abs;
+              });
+        if (dflt.w <= 0 || dflt.h <= 0) {
+          // Reported, never assumed fine - the same rule check 9 applies to
+          // `currentSrc`. A probe that cannot load is not evidence of anything.
+          violations.push({
+            check: 'image-unmeasurable',
+            selector: sel(img),
+            detail: `the intrinsic-size probe could not load this image's DEFAULT src, so its declared width/height cannot be checked against the file at all.`,
+            sample: abs.slice(-64),
+            value: -1,
+          });
+        } else if (Math.abs(aw - dflt.w) > 1 || Math.abs(ah - dflt.h) > 1) {
+          violations.push({
+            check: 'shaped-slot-dims',
+            selector: sel(img),
+            detail: `declared width="${aw}" height="${ah}" for a default source that is genuinely ${dflt.w}x${dflt.h} — ${((Math.abs(aw - dflt.w) / dflt.w) * 100).toFixed(1)}% out on width, ${((Math.abs(ah - dflt.h) / dflt.h) * 100).toFixed(1)}% on height. hero-rules R6 asks for the FILE's own dimensions, not for a ratio: check 4b compares ${(aw / ah).toFixed(2)}:1 against ${(dflt.w / dflt.h).toFixed(2)}:1 and can be green while this is not.`,
+            sample: abs.slice(-64),
+            value: +Math.max(
+              Math.abs(aw - dflt.w) / dflt.w,
+              Math.abs(ah - dflt.h) / dflt.h,
+            ).toFixed(3),
+          });
+        }
+      }
+    }
   }
 
   return { vw, violations, notes, documentScrollWidth: document.documentElement.scrollWidth };
@@ -1407,6 +1518,14 @@ const CHECKS = [
   'image-aspect',
   'image-attr-aspect',
   'image-unmeasurable',
+  // UI-16. hero-rules R2 and R6, which nothing here enforced: the article cover
+  // figure served `low.webp` in a shaped box on the site's highest-traffic
+  // template while every check above it read zero, because R1 (the shape) was
+  // right to 0.05% and R2 (the variant) and R6 (the declared file) were not
+  // checked at all. Blocking, and both have a green control on a real page -
+  // see the long note at the checks themselves.
+  'shaped-slot-variant',
+  'shaped-slot-dims',
   // UI-13. DES-03 §7.5 rule H6. Blocking, and deliberately so: this is the
   // half of "it does not look premium" that a reader sees before reading a
   // word, and the rule went two sprints without ever firing because it was
@@ -1437,6 +1556,8 @@ const ABBREV = {
   'image-aspect': 'aspect',
   'image-attr-aspect': 'attr',
   'image-unmeasurable': 'unmeasurable',
+  'shaped-slot-variant': 'R2',
+  'shaped-slot-dims': 'R6',
   'category-diversity': 'H6',
   'source-order': 'H6.6',
 };
@@ -1658,6 +1779,20 @@ async function selftest() {
     { label: 'selftest-h6-order' },
   );
   h6Server.close();
+
+  // UI-16's pair for checks 13 and 14. Offline: three generated solid plates
+  // whose DIMENSIONS are the whole point, served from disk.
+  const shapedServer = await startFixtureServer(false, SHAPED_SLOT_DIR);
+  const shaped = await measure(
+    [
+      {
+        name: 'shaped-slot.html',
+        url: `http://127.0.0.1:${shapedServer.address().port}/shaped-slot.html`,
+      },
+    ],
+    { label: 'selftest-shaped-slot' },
+  );
+  shapedServer.close();
 
   const greenServer = await startFixtureServer(true);
   const gbase = `http://127.0.0.1:${greenServer.address().port}`;
@@ -2109,6 +2244,119 @@ async function selftest() {
     );
   }
 
+  // 13/14. THE SHAPED SLOT — hero-rules R2 and R6 (UI-16).
+  //
+  // Both of these fail by getting WIDER, not by going quiet: check 13's scope
+  // predicate is one string test away from "every image on the site", and check
+  // 14 is one probe away from restating check 4b. So every assertion below is a
+  // COUNT, and five of the fixture's eight cases must contribute nothing to it.
+  //
+  // The counts are width-invariant on purpose. Neither check reads a box, so a
+  // count that moved with the viewport would mean the scope predicate had
+  // started depending on layout, which is exactly the drift this catches.
+  for (const w of WIDTHS) {
+    const row = shaped.find((r) => r.width === w);
+    const n = (c) => row.violations.filter((v) => v.check === c).length;
+    const alts = (c) =>
+      row.violations
+        .filter((v) => v.check === c)
+        .map((v) => /alt="([^"]*)"/.exec(v.selector)?.[1] ?? '?')
+        .sort();
+
+    assert(
+      n('shaped-slot-variant') === 2,
+      `shaped-slot @${w}: shaped-slot-variant = 2 — A (the live defect) and H (shaped, no attributes) fire; B/C/D use named crops, and E/F/G have no designer box — got ${n('shaped-slot-variant')} [${alts('shaped-slot-variant')}]`,
+      listing(row, 'shaped-slot-variant'),
+    );
+    assert(
+      JSON.stringify(alts('shaped-slot-variant')) === JSON.stringify(['Case A', 'Case H']),
+      `shaped-slot @${w}: and they are A and H by name, not two of anything — got ${alts('shaped-slot-variant')}`,
+    );
+    assert(
+      n('shaped-slot-dims') === 2,
+      `shaped-slot @${w}: shaped-slot-dims = 2 — A (1200x800 for a 1024x683 file) and C (1200x900 for a 792x594 file); B and D declare the truth, H declares nothing — got ${n('shaped-slot-dims')} [${alts('shaped-slot-dims')}]`,
+      listing(row, 'shaped-slot-dims'),
+    );
+    assert(
+      JSON.stringify(alts('shaped-slot-dims')) === JSON.stringify(['Case A', 'Case C']),
+      `shaped-slot @${w}: and they are A and C by name — the two checks are independent, and C proves it (named crop, false size) — got ${alts('shaped-slot-dims')}`,
+    );
+
+    // THE ONE THAT MATTERS MOST. A and C are BOTH invisible to check 4b, which
+    // is the whole reason R6 needed its own check: 1200/800 vs 1024/683 and
+    // 1200/900 vs 792/594 each agree to two decimal places. If this ever goes
+    // red, 4b has widened and check 14 is no longer measuring the gap it exists
+    // for.
+    assert(
+      n('image-attr-aspect') === 0,
+      `shaped-slot @${w}: check 4b reads ZERO on this whole fixture — every declared RATIO here is correct, and A and C are still R6 defects. That gap is why check 14 exists — got ${n('image-attr-aspect')}`,
+      listing(row, 'image-attr-aspect'),
+    );
+
+    // And the fixture must not be doing anything else. A unit fixture that
+    // trips three unrelated checks cannot be asserted on exactly, and this one
+    // did until its own prose was narrowed and case G's image was positioned.
+    const other = row.violations.filter(
+      (v) => v.check !== 'shaped-slot-variant' && v.check !== 'shaped-slot-dims',
+    );
+    assert(
+      other.length === 0,
+      `shaped-slot @${w}: NOTHING else fires (${other.length}) — the fixture is about R2 and R6 and only those`,
+      other.map((v) => `${v.check} :: ${v.selector}`).join('\n          ') || '(none)',
+    );
+  }
+
+  // BOTH WAYS ON THE COMMITTED 31 AUG CAPTURES, which is where I was wrong and
+  // the fixtures corrected me. I asserted these two were CLEAN on homepage.html
+  // — assuming its lead plate already served a named crop — and the run said
+  // otherwise five times. It was right: the pre-fix homepage hero is UI-03's
+  // defect, `low.webp` (a 1200x1800 PORTRAIT source) in a 2.4:1 box declaring
+  // width="1200" height="500". So these checks reach back and catch the defect
+  // UI-03 was commissioned for, on a capture taken before either check existed.
+  //
+  // Note what check 4b saw there: 2.40:1 against 0.67:1, which it DOES report.
+  // The article cover is the case that separates them — 1.50:1 against 1.50:1,
+  // 4b green, R6 17.2% out — and it is the fixture's case A.
+  for (const w of WIDTHS) {
+    for (const f of ['homepage.html', 'article.html']) {
+      assert(
+        pick(bad, f, w, 'shaped-slot-variant').length === 1,
+        `${f} @${w}: R2 FIRES once on the 31 Aug capture — a shaped box fed \`low\`, which is UI-03's original finding caught retroactively`,
+        listing(
+          bad.find((r) => r.name === f && r.width === w),
+          'shaped-slot-variant',
+        ),
+      );
+      assert(
+        pick(bad, f, w, 'shaped-slot-dims').length === 1,
+        `${f} @${w}: R6 FIRES once on the 31 Aug capture`,
+        listing(
+          bad.find((r) => r.name === f && r.width === w),
+          'shaped-slot-dims',
+        ),
+      );
+    }
+    // THE GREEN CONTROL, and it is a real page rather than a fixture: the
+    // category archive has no shaped image slot at all, so both checks must say
+    // nothing there while the same run reports 24 narrow columns next door. A
+    // check that goes red on everything in a known-bad capture is indistinguish-
+    // able from one that works, and this is the assertion that tells them apart.
+    assert(
+      pick(bad, 'category.html', w, 'shaped-slot-variant').length === 0 &&
+        pick(bad, 'category.html', w, 'shaped-slot-dims').length === 0,
+      `category.html @${w}: R2 and R6 CLEAR on the same known-bad capture — no shaped image slot, so neither check follows the crowd`,
+      listing(
+        bad.find((r) => r.name === 'category.html' && r.width === w),
+        'shaped-slot-variant',
+      ) +
+        ' / ' +
+        listing(
+          bad.find((r) => r.name === 'category.html' && r.width === w),
+          'shaped-slot-dims',
+        ),
+    );
+  }
+
   console.log('\nUILINT SELF-TEST — does the gate fire on known-bad and clear on known-good?');
   console.log('─'.repeat(78));
   for (const m of ok) console.log(`  PASS  ${m}`);
@@ -2169,6 +2417,23 @@ if (has('selftest')) {
   );
   server.close();
   const r = report(rows, { label: 'discriminator fixture', quiet });
+  exit = r.errors > 0 ? 2 : r.failures > 0 ? 1 : 0;
+} else if (has('shaped-slot')) {
+  const server = await startFixtureServer(false, SHAPED_SLOT_DIR);
+  const rows = await measure(
+    [
+      {
+        name: 'shaped-slot.html',
+        url: `http://127.0.0.1:${server.address().port}/shaped-slot.html`,
+      },
+    ],
+    { json, label: 'shaped-slot' },
+  );
+  server.close();
+  const r = report(rows, {
+    label: 'shaped-slot fixture (R2/R6 pair: A, C and H fire; B, D, E, F, G must not)',
+    quiet,
+  });
   exit = r.errors > 0 ? 2 : r.failures > 0 ? 1 : 0;
 } else if (has('pre-rail')) {
   const green = has('green');

@@ -1,5 +1,5 @@
 import { getSmartCropRef } from './smart-crop-url';
-import { MIDSIZE_COVER } from './midsize-cover';
+import { ARTICLE_COVER_MD, MIDSIZE_COVER } from './midsize-cover';
 
 /**
  * The cover source for every card, row and article-cover `<img>` on the public
@@ -134,4 +134,108 @@ export function resolveRowThumbSource(
   // width for `low` and there never was one to state.
   const base = resolveCoverSource(variants, smartCrops, fallbackUrl);
   return base ? { src: base.src, width: null, height: null } : null;
+}
+
+/**
+ * UI-16 — what the ARTICLE COVER FIGURE loads, and only that slot.
+ *
+ * `figure.hk-article-figure` on `/artikel/[category]/[slug]`. A third resolver
+ * beside `resolveCoverSource` and `resolveRowThumbSource` for the reason DES-18
+ * gave for the second one: these are four differently-sized slots and a single
+ * preference order is a regression in at least one of them.
+ *
+ * ── THE RULE IT IMPLEMENTS ─────────────────────────────────────────────────
+ * hero-image-rules **R2** — `low`, `high` and `original` are never eligible for
+ * a shaped slot, at any quality, because they preserve the SOURCE aspect. This
+ * slot was serving `low` in an `aspect-[3/2]` box: R1 passed (measured 0.05%
+ * deviation, `low` is 1024x683 = 1.4993 on `garden-wedding`) and R2 did not,
+ * and no amount of tuning `low` could ever change that.
+ *
+ * `card-thumbnail-image-rules` T2 already named the destination — "a slot fed a
+ * source-aspect variant sets its box to 4:3 … which is where this slot is going
+ * the day a small rendition of it exists" — so the box moves once, to 4:3, and
+ * the asset becomes the 4:3 crop family. It does not move again.
+ *
+ * ⚠ This SUPERSEDES `card-thumbnail-image-rules` §6's "the article cover figure
+ * keeps `low`", which is DES-18's own paragraph and was written when the only
+ * 4:3 rendition was 528 px — a 1.43x upscale in this slot's 756 px box. The
+ * sentence was right about the asset that existed; `ARTICLE_COVER_MD` is the
+ * asset that did not.
+ *
+ * ── THE BOX FOLLOWS THE ASSET, LITERALLY ───────────────────────────────────
+ * R1's own sentence is "the box follows the asset, never the reverse", and its
+ * remedy for a box no derivative can fill is "you do not have that box". So
+ * this returns the asset's REAL width and the caller caps the figure at it.
+ * Enumerated over the 96 published covers on 02 Sept 2026, four have a
+ * `crop-4x3-article-card` only 667 px wide — their source photograph is
+ * 800x500, so a 4:3 crop of it is height-constrained and no larger 4:3 asset
+ * can exist for them:
+ *
+ *   sewa-dewan-kahwin · villa-warisan · wedding-planner-terbaik-di-malaysia
+ *   · yasaka-shrine
+ *
+ * Stretching 667 px across the 756 px box would be a 1.13x upscale and would
+ * turn R5 red on those four. Capping the box to 667 px instead keeps every rule
+ * green and costs those four articles 89 px of plate width at >= 1440. The
+ * figure is already left-aligned with a ragged right (UI-10), so a narrower
+ * photograph hangs off the same left edge as everything else in the stack.
+ *
+ * This is a computed condition, never a slug list: the day someone re-uploads a
+ * bigger source for `yasaka-shrine`, the cap lifts by itself.
+ *
+ * ── FALLBACK ORDER, AND WHY `low` IS STILL LAST RATHER THAN GONE ───────────
+ *   1. `crop-4x3-article-card-md`  792x594, 12,346–100,990 B  <- the rendition
+ *   2. `crop-4x3-article-card`     the full crop, 111 KB–1.4 MB
+ *   3. `low`                       R2-failing, and the ONLY thing that renders
+ *                                  a cover uploaded before any crop exists
+ *
+ * Rung 2 is not decoration: a cover ingested between a deploy and a backfill
+ * has the crop and not the rendition, and serving the heavy-but-correct file
+ * for a few minutes beats serving a wrongly-shaped one. Read back from the
+ * database 02 Sept 2026, 96 of 96 published covers carry rung 1 with recorded
+ * dimensions and 96 of 96 carry rung 2, so rung 3 is reachable only by a cover
+ * with no smart crops at all — which is why it is still here and why
+ * `boxAspect` moves with it. Ingest writes rung 1 for every future cover
+ * (`generateSmartCrops` loops `COVER_RENDITIONS`), so the gap does not reopen.
+ */
+export interface ArticleCoverSource {
+  src: string;
+  /** Real intrinsic pixels. Null only on the `low` fallback, which has none recorded. */
+  width: number | null;
+  height: number | null;
+  /**
+   * The box this asset may be painted into. `4/3` for the crop family; `3/2`
+   * for the `low` fallback, whose modal source aspect is 1.500 — the shape
+   * UI-12 S5 measured at a 0.05% deviation. Returned rather than assumed so the
+   * caller cannot pair a 4:3 box with a source-aspect file.
+   */
+  boxAspect: '4/3' | '3/2';
+  /** The variant name, for logs and for the audit script. Never used for layout. */
+  variant: string;
+}
+
+export function resolveArticleCoverSource(
+  variants: Variants,
+  smartCrops: unknown,
+  fallbackUrl: string | null,
+): ArticleCoverSource | null {
+  // Both rungs are 4:3 and both carry STORED dimensions, so either satisfies R2
+  // and R6. `getSmartCropRef` returns all three fields or nothing, which is what
+  // keeps an asserted intrinsic size out of the `width`/`height` attributes.
+  for (const name of [ARTICLE_COVER_MD.NAME, ARTICLE_COVER_MD.SOURCE_NAME]) {
+    const ref = getSmartCropRef(smartCrops, name);
+    if (ref) {
+      return {
+        src: ref.url,
+        width: ref.width,
+        height: ref.height,
+        boxAspect: '4/3',
+        variant: name,
+      };
+    }
+  }
+
+  const base = resolveCoverSource(variants, smartCrops, fallbackUrl);
+  if (!base) return null;
+  return { src: base.src, width: null, height: null, boxAspect: '3/2', variant: 'low' };
 }

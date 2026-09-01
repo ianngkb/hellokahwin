@@ -10,7 +10,7 @@ import {
   extractKeyFromUrl,
 } from '@/lib/r2/client';
 import { detectFaces, detectLabels } from '@/lib/rekognition/detect';
-import { MIDSIZE_COVER, type MidsizeRendition } from './midsize-cover';
+import { COVER_RENDITIONS, type CoverRenditionSpec, type MidsizeRendition } from './midsize-cover';
 import type { FaceBoundingBox, LabelInstance } from '@/lib/rekognition/detect';
 
 // ── Types ──────────────────────────────────────────────────────────────
@@ -452,26 +452,37 @@ function resolveR2Bucket(key: string): { bucket: string; publicUrl: string } {
 // ── Smart Crop Generation (I/O) ───────────────────────────────────────
 
 /**
- * DES-18 — resize an already-cropped 4:3 buffer down to the mid-size box,
- * stepping WebP quality until the result fits `MIDSIZE_COVER.CEILING_BYTES`.
+ * DES-18, generalised by UI-16 — resize an already-cropped 4:3 buffer down to a
+ * rendition's box, stepping WebP quality until the result fits that rendition's
+ * `CEILING_BYTES`.
  *
- * The spec, and the measurements behind every number, are in
+ * The specs, and the measurements behind every number, are in
  * `./midsize-cover.ts`. This is only the encoder half, kept here because
  * `sharp` already lives in this module.
  *
  * `fit:'inside' + withoutEnlargement` for the same reason the crop targets use
- * it: the box is a CEILING. A source narrower than 528 yields a smaller —
- * honest — file rather than fabricated pixels. Enumerated on 01 Sept 2026 no
- * live cover is narrower than 667, so this never fires today; it is here so
- * that the day one is, the stored `width` is the truth and the `.s-row`
- * degrades instead of lying.
+ * it: the box is a CEILING. A source narrower than the box yields a smaller —
+ * honest — file rather than fabricated pixels, and the stored `width` is then
+ * the truth so the slot can degrade instead of lying. Enumerated over the 96
+ * live covers on 02 Sept 2026: nothing is narrower than 528 (DES-18's rung
+ * never short-renders), and FIVE are narrower than 792 — 771 once and 667 four
+ * times — which is exactly the case `resolveArticleCoverSource` handles by
+ * capping the box to the asset.
+ *
+ * ⚠ Takes a SPEC, not a name. `MIDSIZE_COVER` was the only rendition until
+ * UI-16 and this function hardcoded it in three places; a second rung added by
+ * copy-and-edit would have been a second encoder to keep in sync with DES-03's
+ * `derivatives.py`.
  */
-export async function renderMidsizeCover(source: Buffer): Promise<MidsizeRendition> {
+export async function renderCoverRendition(
+  source: Buffer,
+  spec: CoverRenditionSpec,
+): Promise<MidsizeRendition> {
   let last: MidsizeRendition | null = null;
 
-  for (const quality of MIDSIZE_COVER.QUALITY_LADDER) {
+  for (const quality of spec.QUALITY_LADDER) {
     const { data, info } = await sharp(source)
-      .resize(MIDSIZE_COVER.WIDTH, MIDSIZE_COVER.HEIGHT, {
+      .resize(spec.WIDTH, spec.HEIGHT, {
         fit: 'inside',
         withoutEnlargement: true,
       })
@@ -487,7 +498,7 @@ export async function renderMidsizeCover(source: Buffer): Promise<MidsizeRenditi
       height: info.height,
       bytes: data.length,
       quality,
-      overCeiling: data.length > MIDSIZE_COVER.CEILING_BYTES,
+      overCeiling: data.length > spec.CEILING_BYTES,
     };
     if (!last.overCeiling) return last;
   }
@@ -595,35 +606,41 @@ export async function generateSmartCrops(
     // It is deliberately NOT a `CROP_TARGETS` entry: that array is the input to
     // `GEOMETRY_VERSION`, and adding a fifth member re-cuts all 86 live covers
     // through Rekognition + R2. See `./midsize-cover.ts`.
-    if (target.name === MIDSIZE_COVER.SOURCE_NAME) {
-      const midsize = await renderMidsizeCover(croppedBuffer);
-      const midsizeKey = `${dirPrefix}${MIDSIZE_COVER.NAME}.webp`;
+    // UI-16 — the SAME loop now writes every rung declared in
+    // `COVER_RENDITIONS`, rather than the one DES-18 hardcoded here. Both rungs
+    // are resizes OF this crop, so both are free of a second Rekognition call
+    // and neither is a `CROP_TARGETS` member.
+    for (const spec of COVER_RENDITIONS) {
+      if (target.name !== spec.SOURCE_NAME) continue;
+
+      const rendition = await renderCoverRendition(croppedBuffer, spec);
+      const renditionKey = `${dirPrefix}${spec.NAME}.webp`;
 
       await r2.send(
         new PutObjectCommand({
           Bucket: bucket,
-          Key: midsizeKey,
-          Body: midsize.buffer,
+          Key: renditionKey,
+          Body: rendition.buffer,
           ContentType: 'image/webp',
           CacheControl: 'public, max-age=31536000, immutable',
         }),
       );
 
-      smartCrops[MIDSIZE_COVER.NAME] = {
-        url: `${publicUrl}/${midsizeKey}?v=${version}`,
+      smartCrops[spec.NAME] = {
+        url: `${publicUrl}/${renditionKey}?v=${version}`,
         // The ACTUAL encoded dimensions, like every other entry — `getSmartCropRef`
         // treats an unrecorded dimension as unusable, which is what keeps an
-        // asserted intrinsic width off the `.s-row`.
-        width: midsize.width,
-        height: midsize.height,
+        // asserted intrinsic width off the `.s-row` and off the article cover.
+        width: rendition.width,
+        height: rendition.height,
       };
 
-      if (midsize.overCeiling) {
-        // Loud, and not thrown: a cover 16% over budget is a byte problem, not
+      if (rendition.overCeiling) {
+        // Loud, and not thrown: a cover over budget is a byte problem, not
         // a reason to fail an editor's upload. The backfill turns this same
         // signal into a non-zero exit, which is where it belongs.
         console.warn(
-          `[midsize] ${midsizeKey} is ${midsize.bytes} B at q${midsize.quality} — over the ${MIDSIZE_COVER.CEILING_BYTES} B ceiling`,
+          `[rendition] ${renditionKey} is ${rendition.bytes} B at q${rendition.quality} — over the ${spec.CEILING_BYTES} B ceiling`,
         );
       }
     }
