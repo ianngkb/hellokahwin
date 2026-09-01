@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import type { Metadata } from 'next';
 import { unstable_cache } from 'next/cache';
 import Link from 'next/link';
@@ -48,7 +49,12 @@ import {
 } from '@/lib/inspire/dynamic-blocks';
 import { MobileArticleBar } from '@/components/inspire/mobile-article-bar';
 import { PhotoGallery } from '@/components/inspire/photo-gallery';
-import { resolveCoverSource, resolveRowThumbSource } from '@/lib/storage/responsive-cover';
+import {
+  resolveCoverSource,
+  resolveRowThumbSource,
+  type CoverVariants,
+} from '@/lib/storage/responsive-cover';
+import { coverPlateAspect, coverPlateMaxWidth } from '@/lib/storage/cover-plate';
 import '@/design-system/tokens.css';
 import '@/design-system/components.css';
 import { Breadcrumbs, BreadcrumbJsonLd } from '@/components/common/breadcrumbs';
@@ -786,7 +792,7 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
   // the same call the figure below makes, so the two cannot disagree.
   const coverPreload = article.coverImageUrl
     ? resolveCoverSource(
-        article.coverImageVariants as Record<string, { url: string }> | null,
+        article.coverImageVariants as CoverVariants | null,
         article.coverImageSmartCrops,
         article.coverImageUrl,
       )
@@ -1138,11 +1144,24 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
             {article.coverImageUrl &&
               (() => {
                 const cover = resolveCoverSource(
-                  article.coverImageVariants as Record<string, { url: string }> | null,
+                  article.coverImageVariants as CoverVariants | null,
                   article.coverImageSmartCrops,
                   article.coverImageUrl,
                 );
                 if (!cover) return null;
+                // CONT-15 — emitted when and ONLY when the resolver returned
+                // real measured dimensions. Emitting neither property is what
+                // makes the unrecorded case reproduce today's geometry exactly:
+                // `.hk-cover-plate`'s own `3 / 2` and `756px` fallbacks take
+                // over. An empty string or a `0 / 0` here would be an invalid
+                // value that beats the fallback and collapses the box.
+                const plateVars =
+                  cover.width !== null && cover.height !== null
+                    ? ({
+                        '--cover-ar': coverPlateAspect(cover.width, cover.height),
+                        '--cover-max-w': coverPlateMaxWidth(cover.width, cover.height),
+                      } as CSSProperties)
+                    : undefined;
                 return (
                   <figure
                     className="hk-article-figure mt-6 mb-10 max-w-3xl"
@@ -1165,41 +1184,52 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
                       `low` at 1.4993 is 60% off and reports a 1.17× upscale —
                       4 gate failures.
 
-                      `aspect-[3/2]` at every width. With S1 landed the served
-                      asset is `low` at its true intrinsic, measured
-                      1024 × 683 = 1.4993 against a 1.5 box: a 0.05% deviation.
-                      Retained frame in a 3:2 box is 100% from a 1.500 source,
-                      88.9% from 1.333, 44.5% from 0.667 — all clear of the 33%
-                      floor, so this box needs no eligibility predicate. */}
+                      CONT-15 — `aspect-[3/2]` deleted for the same reason one
+                      step further out. A FIXED box fed a RESIZE is a box that
+                      only fits the modal photograph: `low.webp` carries the
+                      source's own aspect, and 14 of the 92 published covers are
+                      portrait (0.667 ×8, 0.748, 0.750 ×4, 0.753). Measured on
+                      production 02 September 2026, this element was 125% off the
+                      gate's 25% ceiling on the 0.667 covers and kept 44.5% of
+                      the frame. `.hk-cover-plate` derives the box from the file
+                      instead — a box derived from the file cannot deviate from
+                      it — and both custom properties fall back to today's exact
+                      geometry when the intrinsics are unrecorded. Zero bytes:
+                      same `low.webp`, same URL, no new R2 object. */}
                     <div
-                      className="bg-muted relative aspect-[3/2] w-full overflow-hidden"
-                      style={
-                        article.coverImageLqip
+                      className="hk-cover-plate"
+                      style={{
+                        ...plateVars,
+                        ...(article.coverImageLqip
                           ? {
                               backgroundImage: `url(${article.coverImageLqip})`,
                               backgroundSize: 'cover',
                               backgroundPosition: 'center',
                             }
-                          : undefined
-                      }
+                          : null),
+                      }}
                     >
                       {/* eslint-disable-next-line @next/next/no-img-element -- see responsive-cover.ts */}
                       {/* UI-12 S1/S5: no `srcSet`, no `sizes` (inert without one).
-                        `width`/`height` were 1200×500 — an aspect of 2.4 that
-                        described no asset in the pipeline, so the browser
-                        reserved a box nothing could fill and the page shifted.
-                        That is the same R6 defect UI-03 found on the homepage
-                        hero, still live here. 1200×800 = 1.500 is `low`'s modal
-                        intrinsic across the corpus and matches the 3:2 box the
-                        element actually renders into. */}
+                        CONT-15: `width`/`height` are the FILE's real recorded
+                        pixels, not the box's. They were hard-coded 1200×800,
+                        which reserved a 1.500 box for a 0.667 file on 14
+                        articles and fired `image-attr-aspect` at 125% — the same
+                        R6 defect UI-03 found on the homepage hero, one layer
+                        down. When nothing is recorded they stay 1200×800, which
+                        is `low`'s modal intrinsic and matches the 3 / 2 the plate
+                        falls back to, so the reservation and the box still agree.
+                        The `absolute inset-0 h-full w-full object-cover`
+                        utilities are gone because `.hk-cover-plate img` states
+                        all five: one definition, in the same rule as the box it
+                        has to fill. */}
                       <img
                         src={cover.src}
                         alt={article.title}
-                        width={1200}
-                        height={800}
+                        width={cover.width ?? 1200}
+                        height={cover.height ?? 800}
                         fetchPriority="high"
                         decoding="async"
-                        className="absolute inset-0 h-full w-full object-cover"
                       />
                     </div>
                     <figcaption

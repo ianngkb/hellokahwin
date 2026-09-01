@@ -628,6 +628,47 @@
   grid-template-columns: minmax(0, 1fr);
 }
 
+/* ══════════════════════════════════════════════════════════════════════
+ * CONT-15 — the article cover plate.
+ *
+ * The plate takes the photograph's own shape. Both custom properties fall
+ * back to EXACTLY today's geometry — `3 / 2` and the 756px measure — so a
+ * cover whose intrinsics have not been recorded renders as it does now
+ * rather than collapsing. See `src/lib/storage/cover-plate.ts` for the two
+ * constants and where each comes from.
+ *
+ * Per article the figure's child carries:
+ *     --cover-ar:    1200 / 1800
+ *     --cover-max-w: min(756px, calc(580px * 1200 / 1800))
+ *
+ * A real class rather than Tailwind arbitrary values, because the two
+ * properties need FALLBACKS: `aspect-[var(--cover-ar)]` cannot express
+ * `var(--cover-ar, 3 / 2)`, so an unrecorded cover would land on an invalid
+ * `aspect-ratio` and collapse to auto height — the exact state the fallback
+ * exists to prevent.
+ *
+ * `object-fit: cover` on the image is a no-op at 0% deviation; it is here to
+ * absorb the sub-pixel rounding between `aspect-ratio` and the resolved
+ * `max-width`, and to keep the element defined for the fallback case where
+ * the box IS 3:2 and the file is not.
+ * ══════════════════════════════════════════════════════════════════════ */
+.hk-cover-plate {
+  width: 100%;
+  max-width: var(--cover-max-w, 756px);
+  aspect-ratio: var(--cover-ar, 3 / 2);
+  background: var(--tint);
+  overflow: hidden;
+  position: relative;
+}
+.hk-cover-plate img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 /* The rail's own rhythm. `--sp-9` between blocks is section-to-section on
    desktop; the padding is what makes a rail child's usable width 268px, and
    UI-18's 24px tap-target floor is verified at that number rather than at

@@ -15,7 +15,11 @@ import { getPillarView } from '@/lib/inspire/pillar-queries';
 import { tagEdgeResponse } from '@/lib/cache/edge-tag';
 import { categoryOwnsPublishedArticles } from '@/lib/inspire/category-indexability';
 import { categoryRobots, ROBOTS_ON_DEADLINE_MISS } from '@/lib/seo/category-robots';
-import { resolveCoverSource, resolveRowThumbSource } from '@/lib/storage/responsive-cover';
+import {
+  resolveCoverSource,
+  resolveRowThumbSource,
+  type CoverVariants,
+} from '@/lib/storage/responsive-cover';
 import { EmptyCategoryState } from '@/design-system/components';
 import '@/design-system/tokens.css';
 import '@/design-system/components.css';
@@ -719,7 +723,7 @@ type CategoryArticle = Awaited<ReturnType<typeof getCategoryArticles>>['data'][n
 /** The first item of the set — spec §5.2's `.s-card`. */
 function CategoryCard({ article }: { article: CategoryArticle }) {
   const cover = resolveCoverSource(
-    article.coverImageVariants as Record<string, { url: string }> | null,
+    article.coverImageVariants as CoverVariants | null,
     article.coverImageSmartCrops,
     article.coverImageUrl,
   );

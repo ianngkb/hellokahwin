@@ -45,12 +45,53 @@ import { MIDSIZE_COVER } from './midsize-cover';
  * inert, and an inert attribute that looks like a geometry declaration misleads
  * the next reader — which is how `sizes="176px"` came to be read as the row
  * thumbnail's width in the first place.
+ *
+ * ── CONT-15: THE MEASURED INTRINSICS ───────────────────────────────────────
+ * `width`/`height` are the delivered file's REAL pixels, read out of its own
+ * header by `scripts/backfill-cover-intrinsics.mts` and recorded on
+ * `cover_image_variants.low`. They are the same all-three-or-nothing contract
+ * `getSmartCropRef` honours, and for the same reason: S1 above deleted a
+ * `1200w` descriptor that was a constant asserted in place of a measurement and
+ * was 17.2% wrong on a live cover. A half-recorded row must degrade to today's
+ * geometry, never to a plausible number.
+ *
+ * So: BOTH numeric and positive, or BOTH null. Never a partial. The article
+ * cover's `--cover-ar` / `--cover-max-w` and its `width`/`height` attributes are
+ * emitted only on the first case; on the second the CSS fallbacks
+ * (`3 / 2`, `756px`) reproduce today's geometry exactly.
  */
 export interface CoverSource {
   src: string;
+  /** Real intrinsic pixels of `src` when recorded; null when unrecorded. */
+  width: number | null;
+  height: number | null;
 }
 
-type Variants = Record<string, { url: string } | undefined> | null | undefined;
+type VariantEntry = { url: string; width?: unknown; height?: unknown };
+
+/**
+ * The shape of the `cover_image_variants` JSONB as the render path may assume
+ * it. `width`/`height` are optional and typed `unknown` on purpose: they are
+ * present only on rows CONT-15's backfill has reached, the column is JSONB and
+ * can hold anything, and `recordedIntrinsics` is the ONLY place allowed to
+ * decide a value is usable. Exported so call sites cast to this rather than to
+ * `{ url: string }`, which would silently hide the two new fields from the
+ * next reader.
+ */
+export type CoverVariants = Record<string, VariantEntry | undefined>;
+
+type Variants = CoverVariants | null | undefined;
+
+/** All-or-nothing, matching `getSmartCropRef`'s contract exactly. */
+function recordedIntrinsics(
+  entry: VariantEntry | undefined,
+): { width: number; height: number } | null {
+  if (!entry) return null;
+  const { width, height } = entry;
+  if (typeof width !== 'number' || typeof height !== 'number') return null;
+  if (!Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) return null;
+  return { width, height };
+}
 
 export function resolveCoverSource(
   variants: Variants,
@@ -62,11 +103,18 @@ export function resolveCoverSource(
   smartCrops: unknown,
   fallbackUrl: string | null,
 ): CoverSource | null {
-  const low = (variants as Record<string, { url: string } | undefined> | null)?.low?.url;
+  const lowEntry = (variants as Record<string, VariantEntry | undefined> | null | undefined)?.low;
+  const low = lowEntry?.url;
   const src = low ?? fallbackUrl ?? undefined;
   if (!src) return null;
 
-  return { src };
+  // The dimensions belong to `low`. When `low` is absent and the raw
+  // `coverImageUrl` is being served instead, there is nothing recorded about
+  // THAT file, and borrowing `low`'s numbers would be the neighbouring-record
+  // defect this whole contract exists to prevent.
+  const dims = low ? recordedIntrinsics(lowEntry) : null;
+
+  return { src, width: dims?.width ?? null, height: dims?.height ?? null };
 }
 
 /**
@@ -130,8 +178,16 @@ export function resolveRowThumbSource(
   // crops have not regenerated. `low` is exactly what these rows shipped
   // before, so the fallback is the previous behaviour rather than a new one,
   // and `width`/`height` stay null so the caller keeps the box ratio it can
-  // defend. `ImageVariantMeta` is `{ url, sizeBytes }` — there is no recorded
-  // width for `low` and there never was one to state.
+  // defend.
+  //
+  // ⚠️ CONT-15 changed the premise, and this line is deliberately NOT changed
+  // with it. `low` now DOES carry recorded intrinsics, so `base.width`/
+  // `base.height` are usually real numbers here and could be forwarded. CONT-15
+  // specifies exactly one consumer of them (the article cover plate) and
+  // explicitly does not authorise touching this function; forwarding them would
+  // put a portrait `width`/`height` pair on a `.s-row` thumbnail whose box is
+  // 4:3, which is a rendering decision for that slot and not a free
+  // consequence. Raised as a follow-up, not decided here.
   const base = resolveCoverSource(variants, smartCrops, fallbackUrl);
   return base ? { src: base.src, width: null, height: null } : null;
 }

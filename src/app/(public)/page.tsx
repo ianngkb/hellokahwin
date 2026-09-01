@@ -5,7 +5,7 @@ import { unstable_cache } from 'next/cache';
 import { db } from '@/lib/db/drizzle';
 import { articles, inspireCategories } from '@/lib/db/schema/articles';
 import { media } from '@/lib/db/schema/media';
-import { resolveRowThumbSource } from '@/lib/storage/responsive-cover';
+import { resolveRowThumbSource, type CoverVariants } from '@/lib/storage/responsive-cover';
 import { resolveHeroCrops } from '@/lib/inspire/hero-frame';
 import { selectHomeSet } from '@/lib/inspire/home-selection';
 import { EmptyState } from '@/design-system/components';
@@ -539,7 +539,7 @@ export default async function HomePage() {
           <div>
             {rest.map((article, i) => {
               const cover = resolveRowThumbSource(
-                article.coverImageVariants as Record<string, { url: string }> | null,
+                article.coverImageVariants as CoverVariants | null,
                 article.coverImageSmartCrops,
                 article.coverImageUrl,
               );

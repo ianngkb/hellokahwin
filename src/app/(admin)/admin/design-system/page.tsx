@@ -12,6 +12,12 @@ import { Breadcrumbs as PublicBreadcrumbs } from '@/components/common/breadcrumb
 import { ArticleToc, TOC_MIN_HEADINGS } from '@/components/inspire/article-toc';
 import { ArticleRail, RAIL_TOC_HEADING_ID } from '@/design-system/components/article-rail';
 import { extractHeadings, type ArticleHeading } from '@/lib/inspire/heading-anchors';
+import {
+  COVER_PLATE,
+  coverPlateAspect,
+  coverPlateMaxWidth,
+  coverPlateWidthPx,
+} from '@/lib/storage/cover-plate';
 import { PageHeader } from '@/components/layout/page-header';
 import '@/design-system/tokens.css';
 import '@/design-system/components.css';
@@ -127,6 +133,21 @@ function placeholderImg(label: string) {
   const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300'><rect width='100%' height='100%' fill='${PLACEHOLDER_FILL}'/><text x='20' y='280' font-family='monospace' font-size='13' fill='black' fill-opacity='0.35'>${label}</text></svg>`;
   return `data:image/svg+xml,${encodeURIComponent(svg)}`;
 }
+
+/**
+ * CONT-15 — the six shapes the published corpus actually contains, measured out
+ * of each `low.webp` header on production 02 September 2026. Not invented
+ * ratios: 0.667 is eight covers, 0.750 is four, 1.500 is forty-two, and 1.255 is
+ * the single near-square plate the height ceiling narrows.
+ */
+const COVER_PLATE_DEMOS: [string, number, number][] = [
+  ['portrait ×8', 1200, 1800],
+  ['portrait ×4', 1200, 1600],
+  ['near-square', 1200, 956],
+  ['4:3', 1600, 1200],
+  ['3:2 — modal, ×42', 1200, 800],
+  ['widest in corpus', 2000, 1000],
+];
 
 const NAV_ITEMS = [
   { label: 'Nikah & Undang-undang', href: '#' },
@@ -1436,9 +1457,131 @@ export default async function DesignSystemPage({
           </p>
         </section>
 
-        {/* ── 08 SCOPE ───────────────────────────────────────────────── */}
+        {/* ── 08 ARTICLE COVER PLATE ─────────────────────────────────── */}
+        <section className="flex flex-col gap-6">
+          <SectionHead
+            n="08"
+            title="Article cover plate"
+            note="CONT-15 — the real class, driven by the real constants"
+          />
+          <p className="text-muted-foreground max-w-[74ch] text-sm">
+            <code>.hk-cover-plate</code> is the box the article cover renders into. It is not a
+            fixed shape: it takes the photograph&rsquo;s own, from the intrinsics recorded on{' '}
+            <code>cover_image_variants.low</code> by{' '}
+            <code>scripts/backfill-cover-intrinsics.mts</code>. Every plate below is the shipped
+            class with the shipped custom properties — no copy, no re-declared CSS — and every
+            number in the table is computed from <code>COVER_PLATE</code> at render time, so this
+            page cannot show a width the system does not have.
+          </p>
+          <p className="text-muted-foreground max-w-[74ch] text-sm">
+            Two constants:{' '}
+            <strong>
+              <code>MEASURE_PX</code> = {COVER_PLATE.MEASURE_PX}
+            </strong>{' '}
+            (the body column&rsquo;s measure — <code>756 + 64 + 300 = 1120</code>, the same frame{' '}
+            <code>.hk-article-grid</code> uses) and{' '}
+            <strong>
+              <code>HEIGHT_CEILING_PX</code> = {COVER_PLATE.HEIGHT_CEILING_PX}
+            </strong>{' '}
+            (the tallest a plate may be before it NARROWS instead of growing — it never crops). They
+            meet at{' '}
+            <code>
+              {COVER_PLATE.MEASURE_PX} / {COVER_PLATE.HEIGHT_CEILING_PX} ={' '}
+              {(COVER_PLATE.MEASURE_PX / COVER_PLATE.HEIGHT_CEILING_PX).toFixed(4)}
+            </code>
+            , which sits in the corpus&rsquo;s empty gap between its near-square cover (1.255) and
+            its 4:3 cluster (1.313&ndash;1.344) — so the whole landscape population keeps full
+            measure. The ceiling is the knob; the aspect is not.
+          </p>
+          <div className="flex flex-wrap items-start gap-6">
+            {COVER_PLATE_DEMOS.map(([label, w, h]) => (
+              <figure key={label} className="m-0 flex flex-col gap-2" style={{ width: 200 }}>
+                <div
+                  className="hk-cover-plate"
+                  style={
+                    {
+                      '--cover-ar': coverPlateAspect(w, h),
+                      // Scaled to 200/756 of the real ceiling so six plates fit
+                      // side by side. The RATIO is the shipped one; only the
+                      // stage is smaller, and the table below carries the real
+                      // resolved widths.
+                      '--cover-max-w': `min(200px, calc(${
+                        (COVER_PLATE.HEIGHT_CEILING_PX * 200) / COVER_PLATE.MEASURE_PX
+                      }px * ${w} / ${h}))`,
+                    } as CSSProperties
+                  }
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element -- placeholder, no network */}
+                  <img src={placeholderImg(`${w}x${h}`)} alt="" width={w} height={h} />
+                </div>
+                <figcaption className="text-muted-foreground font-mono text-[10px] leading-snug">
+                  {label}
+                  <br />
+                  {w}&times;{h} &middot; {(w / h).toFixed(3)}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+          <div className="overflow-x-auto border">
+            <table className="w-full text-sm">
+              <thead className="bg-muted/40">
+                <tr>
+                  <th className="p-2 text-left font-mono text-[11px] uppercase">File</th>
+                  <th className="p-2 text-right font-mono text-[11px] uppercase">Aspect</th>
+                  <th className="p-2 text-left font-mono text-[11px] uppercase">--cover-max-w</th>
+                  <th className="p-2 text-right font-mono text-[11px] uppercase">
+                    Plate at &ge;1440
+                  </th>
+                  <th className="p-2 text-left font-mono text-[11px] uppercase">Ceiling binds?</th>
+                </tr>
+              </thead>
+              <tbody>
+                {COVER_PLATE_DEMOS.map(([label, w, h]) => {
+                  const px = coverPlateWidthPx(w, h);
+                  const binds = px < COVER_PLATE.MEASURE_PX;
+                  return (
+                    <tr key={label} className="border-t">
+                      <td className="p-2 font-mono text-[11px]">
+                        {w}&times;{h}
+                      </td>
+                      <td className="p-2 text-right font-mono text-[11px]">{(w / h).toFixed(3)}</td>
+                      <td className="p-2 font-mono text-[11px]">{coverPlateMaxWidth(w, h)}</td>
+                      <td className="p-2 text-right font-mono text-[11px]">
+                        {Math.round(px)}&times;{Math.round(px / (w / h))}
+                      </td>
+                      <td className="p-2 text-[12px]">{binds ? 'yes — narrowed' : 'no'}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+          <p className="text-muted-foreground max-w-[74ch] text-sm">
+            <strong>The state that is not a picture.</strong> When the resolver returns no recorded
+            dimensions — a cover ingested before the backfill, or a half-written row —{' '}
+            <em>neither</em> custom property is emitted and the class&rsquo; own fallbacks take
+            over: <code>aspect-ratio: 3 / 2</code> and{' '}
+            <code>max-width: {COVER_PLATE.MEASURE_PX}px</code>, which is today&rsquo;s exact
+            geometry rather than a new one. <code>resolveCoverSource</code> returns both dimensions
+            or neither, so a half-recorded row can never put an asserted number on the page. The
+            plate below is that fallback, rendered with no properties set at all.
+          </p>
+          <figure className="m-0 flex flex-col gap-2" style={{ width: 200 }}>
+            <div className="hk-cover-plate" style={{ maxWidth: 200 }}>
+              {/* eslint-disable-next-line @next/next/no-img-element -- placeholder, no network */}
+              <img src={placeholderImg('fallback 3 / 2')} alt="" width={1200} height={800} />
+            </div>
+            <figcaption className="text-muted-foreground font-mono text-[10px] leading-snug">
+              no --cover-ar, no --cover-max-w
+              <br />
+              falls back to 3 / 2 at {COVER_PLATE.MEASURE_PX}px
+            </figcaption>
+          </figure>
+        </section>
+
+        {/* ── 09 SCOPE ───────────────────────────────────────────────── */}
         <section className="flex flex-col gap-4">
-          <SectionHead n="08" title="Not yet here, and why" />
+          <SectionHead n="09" title="Not yet here, and why" />
           <ul className="text-muted-foreground max-w-[74ch] list-disc space-y-2 pl-5 text-sm">
             <li>
               <strong>Search panel, results, pagination and filter mechanisms</strong> — DES-06
