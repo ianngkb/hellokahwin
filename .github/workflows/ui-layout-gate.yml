@@ -76,7 +76,15 @@ jobs:
   selftest:
     name: gate self-test (blocking)
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # Raised from 15 by UI-19, which added four fixture pages to the self-test
+    # (`2026-09-02-rail/`) — 20 more page loads at five widths, a ~40% increase
+    # on the 50 this job already ran. Each load waits on `load`, on every image
+    # decoding and on `document.fonts.ready`, and the fixture pages pull their
+    # photographs from images.hellokahwin.com, so the cost is network-bound and
+    # not something a faster runner removes. A timeout that trips is
+    # indistinguishable in the log from a gate that hung, which is the worst
+    # possible failure for the one job that certifies the instruments.
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

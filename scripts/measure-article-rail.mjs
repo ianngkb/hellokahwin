@@ -155,10 +155,30 @@ const many = (n) => argv.reduce((a, v, i) => (v === `--${n}` ? [...a, argv[i + 1
 // measurement rather than by eye and named here so a run cannot silently
 // discover an empty set. Body character counts measured on production
 // 01 Sep 2026 with `extractTextContent` over the served page.
+//
+// ⚠ REVISED BY UI-19, BECAUSE THE OLD THREE COULD NOT EXERCISE R3. Not one of
+// them carried Rekod, the contents list and Sumber at the same time — measured
+// 02 Sep 2026, `mas-kahwin-ikut-negeri` has Sumber and no contents list, and
+// the other two have a contents list and no Sumber. R3 asserts the ORDER of the
+// three blocks "over whichever of the three are present", so on that set it had
+// never compared more than two, and the specified composition had never once
+// been observed whole. Only 7 of 92 live articles carry all three.
+//
+// The set below is chosen against the CEO ruling UI-19 ships under — Sumber
+// renders where sources exist and nowhere else — so it spans BOTH sides of it
+// and different lengths, and the first entry is the one that actually tests
+// the order:
 const DEFAULT_PATHS = [
-  '/artikel/idea-dan-nasihat/garden-wedding',
+  // all three blocks; the order case. 136,185 bytes.
+  '/artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat',
+  // all three, a different pillar and a different length. 131,131 bytes.
+  '/artikel/ucapan-doa/doa-pengantin-baru',
+  // Sumber, no contents list — the article DES-03 §5.1 drew its frames from.
   '/artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri',
-  '/artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik',
+  // no Sumber; the longest page on the site. 212,315 bytes.
+  '/artikel/idea-dan-nasihat/garden-wedding',
+  // no Sumber; the shortest. 90,686 bytes.
+  '/artikel/glamor-eksklusif/grand-hyatt-kuala-lumpur',
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -532,8 +552,10 @@ async function run() {
       observe(
         r,
         'R3-sumber-absent',
-        `no Sumber block — this article carries no "Sumber:" citation. 52 of 86 articles ` +
-          `carry none (measured 01 Sep 2026); a CONTENT gap, not a layout one, never invented`,
+        `no Sumber block — this article carries no standalone "Sumber:" citation. Most ` +
+          `articles carry none (79 of 92 on 02 Sep 2026; re-measure with \`pnpm ui:sources\`, ` +
+          `never from this string); a CONTENT gap, not a layout one, never invented. That the ` +
+          `heading is ABSENT rather than empty is enforced by ui-layout-gate check 14`,
       );
     for (let i = 1; i < present.length; i++) {
       const a = r[present[i - 1]];

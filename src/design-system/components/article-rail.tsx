@@ -51,11 +51,18 @@ import type { ArticleSource } from '@/lib/inspire/article-sources';
  *             fixture, which makes container-owned both safe AND checkable.
  *             That version is on master. Two props doing one job is the
  *             drift; one of them had to go, and it was not the tested one.
- * `sumber`  — UI-17. Rendered from the article's own `Sumber:` citations and
- *             from nothing else; see `@/lib/inspire/article-sources`. Absent
- *             on the 52 of 86 articles that carry no citation, because an
- *             empty `Sumber` heading asserts that an article is sourced when
- *             it is not.
+ * `sumber`  — UI-17, gated by UI-19. Rendered from the article's own `Sumber:`
+ *             citations and from nothing else; see
+ *             `@/lib/inspire/article-sources`. Absent on most articles — 79 of
+ *             92 on 02 Sep 2026, re-measurable with `pnpm ui:sources` and
+ *             deliberately not restated here, because the 52-of-86 that used to
+ *             stand in this comment was stale within a day — because an empty
+ *             `Sumber` heading asserts that an article is sourced when it is
+ *             not. That absence is now enforced rather than intended:
+ *             `scripts/ui-layout-gate.mjs` check 14 (`sumber-empty`) fails a
+ *             build that prints the heading over nothing, and check 13
+ *             (`rail-missing`) fails one where the rail itself has gone,
+ *             which is the failure the sourceless case invites.
  * `extra`   — everything the old sidebar carried (tags, categories, gallery,
  *             credits). Below the three specified blocks, so the composition
  *             DES-03 draws is the top of the rail at every width.

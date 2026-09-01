@@ -5,6 +5,8 @@
  *   pnpm ui:gate --fixtures --green         # the same fixtures + the green-control override
  *   pnpm ui:gate --pre-rail                 # UI-17's known-bad: the collapsed rail
  *   pnpm ui:gate --pre-rail --green         # the same page, panel moved right: check 10 clears
+ *   pnpm ui:gate --rail                     # UI-19's four: two controls, two known-bad
+ *   pnpm ui:gate --rail --only <file>       # one of them
  *   pnpm ui:gate --discriminator            # the unit fixture, sixteen labelled cases
  *   pnpm ui:gate --h6-order                 # the H6.6 pair: one CSS property apart
  *   pnpm ui:gate --empty-shell              # a real page with <main> emptied
@@ -241,6 +243,12 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright-core';
+// UI-19. The self-test's one-property proof re-derives the fixture deletion
+// with the SAME function that made it, rather than a second copy of the rule
+// that is free to drift. That module runs nothing on import — see the guard at
+// the foot of it, which exists because importing it once re-captured all four
+// fixtures from a newer deployment.
+import { cutElement, cutSourceItems } from './capture-rail-fixture.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const REPO = path.resolve(HERE, '..');
@@ -254,6 +262,19 @@ const FIXTURE_DIR = path.join(FIXTURES_ROOT, '2026-08-31-pre-ui-fix');
 // known-bad input rather than a page that simply has no rail. sha256 and
 // provenance in the fixture README.
 const PRE_RAIL_DIR = path.join(FIXTURES_ROOT, '2026-09-01-pre-rail');
+// UI-19's pairs, captured from live production 02 Sep 2026 AFTER the rail
+// shipped, by `scripts/capture-rail-fixture.mjs`. Four files, two controls and
+// two known-bad inputs, each bad one derived from its control by a SINGLE
+// contiguous deletion the self-test re-derives at run time. Provenance,
+// sha256s and the byte ranges are in the fixture README.
+const RAIL_DIR = path.join(FIXTURES_ROOT, '2026-09-02-rail');
+// Control first, then the file derived from it, so a log reads as a pair.
+const RAIL_FIXTURES = [
+  'unsourced-ok.html',
+  'unsourced-rail-absent.html',
+  'sourced-ok.html',
+  'sourced-sumber-empty.html',
+];
 const GREEN_CSS = path.join(FIXTURES_ROOT, 'green-control.css');
 const RAIL_GREEN_CSS = path.join(FIXTURES_ROOT, 'rail-green-control.css');
 
@@ -927,6 +948,162 @@ async function collect(limits) {
     }
   }
 
+  // ── CHECK 13: the rail is THERE, at a size, on the article template ───────
+  //
+  // UI-19. The DoD's sentence is "ON AN ARTICLE WITH NO SOURCES the rail still
+  // renders and does NOT collapse", and check 10 above cannot answer it.
+  //
+  // WHY CHECK 10 IS NOT THIS CHECK. Check 10 asks a relationship question —
+  // is the rail RIGHT of the body — and it is deliberately silent when there
+  // is no rail, because a "rail missing" verdict from a check that runs on
+  // seven templates would fire on the homepage, the catalogue and `/brand`.
+  // That silence is correct for check 10 and it is exactly the hole UI-19 has
+  // to close: a rail that vanishes, or that renders at zero size, satisfies
+  // check 10 completely. `rail.left` of a `display: none` element is 0, which
+  // is LEFT of the body and fires check 10 by accident; a rail that keeps its
+  // grid placement and collapses to a sliver has `rail.left` at column 2 and
+  // fires nothing at all. One of those two is caught for the wrong reason and
+  // the other is not caught.
+  //
+  // WHAT MAKES THE ABSENCE REPORTABLE HERE. `.hk-article-grid` is the article
+  // template's own container and nothing else on this site emits it —
+  // enumerated 02 Sep 2026 across `src/`, one render site, and it appears in
+  // NONE of the five committed pre-UI-19 fixtures. So the precondition is not
+  // "this page looks like an article", it is "this page IS the template that
+  // mounts the rail". On every other template this check cannot speak, which
+  // is the property that let check 10 stay useful and is kept here on purpose.
+  //
+  // THE FLOOR IS 240px AND IT IS NOT THE SPECIFICATION. DES-03 §5.1's 300px is
+  // asserted by `scripts/measure-article-rail.mjs` (R2), which runs against the
+  // article template specifically and is the right place for a design figure.
+  // This gate asks the weaker question it can ask everywhere: has the column
+  // collapsed. 240 sits under both real widths — 300 on desktop, 350 in the
+  // body column on a 390px phone — and far above the shapes a collapse
+  // produces, so it separates "gone" from "there" without duplicating a spec
+  // number that would then have two homes to drift between.
+  {
+    const RAIL_MIN_WIDTH = 240;
+    const grid = document.querySelector('.hk-article-grid');
+    if (grid) {
+      const rails = [...document.querySelectorAll('[data-hk-rail]')];
+      // Discard any match contained by another. `hk-navrail-item` counted 10
+      // on a rail with nine links because the container class contains the
+      // item class as a substring, and `[data-hk-rail-block]` counted a Rekod
+      // panel twice because it matched an element and its own ancestor.
+      const outer = rails.filter((el) => !rails.some((o) => o !== el && o.contains(el)));
+      notes.railCount = outer.length;
+      if (outer.length === 0) {
+        const g = grid.getBoundingClientRect();
+        violations.push({
+          check: 'rail-missing',
+          selector: sel(grid),
+          detail:
+            `.hk-article-grid is on this page (${Math.round(g.width)}px wide at ${vw}px) and ` +
+            `[data-hk-rail] is not — the article template mounted its grid and no rail. ` +
+            `DES-03 §5.1 puts Rekod, the contents list and, where sources exist, Sumber in ` +
+            `that column at every width`,
+          sample: '',
+          value: 0,
+        });
+      }
+      for (const rail of outer) {
+        const r = rail.getBoundingClientRect();
+        const cs = getComputedStyle(rail);
+        notes.railWidth = +r.width.toFixed(1);
+        notes.railHeight = Math.round(r.height);
+        const why =
+          cs.display === 'none'
+            ? 'display:none'
+            : cs.visibility === 'hidden'
+              ? 'visibility:hidden'
+              : r.width < RAIL_MIN_WIDTH
+                ? `${r.width.toFixed(1)}px wide, under the ${RAIL_MIN_WIDTH}px collapse floor`
+                : r.height < 1
+                  ? `${r.height.toFixed(1)}px tall — a wrapper, not a rail`
+                  : null;
+        if (why)
+          violations.push({
+            check: 'rail-missing',
+            selector: sel(rail),
+            detail:
+              `the rail has collapsed at ${vw}px: ${why}. It is in the DOM, so every ` +
+              `structural check on this page is green while the reader is given nothing`,
+            sample: (rail.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 60),
+            value: +r.width.toFixed(1),
+          });
+      }
+    }
+  }
+
+  // ── CHECK 14: no empty `Sumber` heading ──────────────────────────────────
+  //
+  // UI-19, and it enforces a CEO ruling rather than a layout rule: `Sumber`
+  // renders where sources exist and NOWHERE ELSE. Measured 02 Sep 2026, 13 of
+  // 92 live articles carry a rail `Sumber` block and 79 do not. A heading
+  // printed over nothing on those 79 would assert that an article is sourced
+  // when it is not — on a site whose whole claim is that its numbers carry
+  // sources, that is the most expensive thing this template could say.
+  //
+  // A SECTION, NOT A STRING. The unit is the rail block: either an explicit
+  // `[data-hk-rail-block="sumber"]`, or whatever block contains a rail heading
+  // whose own text is exactly `Sumber`. Two entry points because the defect
+  // has two shapes — a block that renders with an empty list, and a heading
+  // that survives a refactor after its container stops being emitted — and one
+  // union so a page carrying both is reported once rather than twice.
+  //
+  // WHY THE MATCH IS SCOPED TO HEADINGS INSIDE THE RAIL. The committed fixture
+  // `2026-09-02-rail/unsourced-ok.html` is why this is not a text search: that
+  // real page carries the word Sumber in the rail as a CONTENTS LINK
+  // (`<a href="#sumber">Sumber</a>`, because the article has a body section by
+  // that name) and again as an `<h2 id="sumber">` in the prose, with a real
+  // reference list under it — and it has no rail `Sumber` block at all. A
+  // check keyed on the word would fire on a correct page twice over. The
+  // signal is a heading IN THE RAIL, exactly as UI-17's relocation guard keys
+  // on `nav.article-toc` and never on a label string.
+  //
+  // EMPTY IS ASSERTED TWICE, ONCE STRUCTURALLY AND ONCE FROM THE BOX. Text
+  // residue catches the block whose list has no items; rendered height catches
+  // the block whose items exist and paint nothing. Either one firing is a
+  // defect, because a heading a reader can see over content they cannot is the
+  // same claim as a heading over an empty list.
+  {
+    const norm = (el) => (el?.textContent ?? '').replace(/\s+/g, ' ').trim();
+    const HEADINGS = 'h1,h2,h3,h4,h5,h6,.hk-rail-heading,.s-label,.hk-eyebrow';
+    const sections = new Map(); // block element -> its `Sumber` heading, if any
+
+    for (const rail of document.querySelectorAll('[data-hk-rail]')) {
+      for (const blk of rail.querySelectorAll('[data-hk-rail-block="sumber"]'))
+        if (!sections.has(blk)) sections.set(blk, null);
+      for (const h of rail.querySelectorAll(HEADINGS)) {
+        if (norm(h).toLowerCase() !== 'sumber') continue;
+        const blk = h.closest('[data-hk-rail-block]') ?? h.parentElement ?? rail;
+        sections.set(blk, h);
+      }
+    }
+    notes.sumberSections = sections.size;
+
+    for (const [blk, heading] of sections) {
+      const head = heading ?? blk.querySelector(HEADINGS);
+      const items = [...blk.querySelectorAll('li')].filter((li) => norm(li).length > 0);
+      const residue = norm(blk).slice(norm(head).length).trim();
+      const b = blk.getBoundingClientRect();
+      const h = head ? head.getBoundingClientRect() : { height: 0 };
+      const paintedBelow = +(b.height - h.height).toFixed(1);
+      if (residue.length > 0 && paintedBelow > 1) continue;
+      violations.push({
+        check: 'sumber-empty',
+        selector: sel(blk),
+        detail:
+          `a "Sumber" heading is printed with nothing under it at ${vw}px — ` +
+          `${items.length} citation(s), ${residue.length} characters of text below the heading, ` +
+          `${paintedBelow}px painted below it. The rail must render Sumber only where the ` +
+          `article carries a source; an empty heading asserts one that does not exist`,
+        sample: norm(head).slice(0, 60),
+        value: items.length,
+      });
+    }
+  }
+
   // ── CHECKS 11 & 12: H6 — homepage category diversity, and DOM order ───────
   //
   // DES-03 §7.5, rule H6, written by DES-17 and executable as
@@ -1398,6 +1575,14 @@ async function measure(targets, { json, label }) {
 const CHECKS = [
   'empty-content',
   'rail-collapsed',
+  // UI-19. Two checks, not one, and neither is a rename of `rail-collapsed`.
+  // `rail-collapsed` asks whether the rail is in the right COLUMN;
+  // `rail-missing` asks whether it is there at all, at a size, on the article
+  // template; `sumber-empty` asks whether a heading was printed over nothing.
+  // The self-test asserts each one fires on its own known-bad input and stays
+  // SILENT on the other's, so a later reader can tell three checks from one.
+  'rail-missing',
+  'sumber-empty',
   'narrow-text-column',
   'reading-measure',
   'clipped-text',
@@ -1428,6 +1613,8 @@ const NOT_COVERED = [];
 const ABBREV = {
   'empty-content': 'empty',
   'rail-collapsed': 'rail',
+  'rail-missing': 'railgone',
+  'sumber-empty': 'sumber',
   'narrow-text-column': 'narrow',
   'reading-measure': 'measure',
   'clipped-text': 'clipped',
@@ -1645,6 +1832,18 @@ async function selftest() {
     { label: 'selftest-pre-rail-green' },
   );
   railGoodServer.close();
+
+  // UI-19's four, from one server: two production controls and the two inputs
+  // derived from them. Measured in one pass so every assertion below compares
+  // rows taken in the same browser, at the same widths, with the same fonts.
+  const railFixServer = await startFixtureServer(false, RAIL_DIR);
+  const rbase = `http://127.0.0.1:${railFixServer.address().port}`;
+  const railFix = await measure(
+    RAIL_FIXTURES.map((f) => ({ name: f, url: `${rbase}/${f}` })),
+    { label: 'selftest-rail-fixtures' },
+  );
+  railFixServer.close();
+
   // UI-13. The H6.6 pair, served from FIXTURES_ROOT alongside the
   // discriminator. Same 13 real article paths, same DOM order, ONE CSS
   // property apart.
@@ -1904,6 +2103,203 @@ async function selftest() {
           'rail-collapsed',
         ),
       );
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // 7c. CHECKS 13 & 14 — UI-19. `rail-missing` and `sumber-empty`.
+  //
+  // The DoD's words are "each with a committed fixture proven to fire on it and
+  // clear on an input differing in exactly THAT ONE PROPERTY", so this block
+  // proves three things and not one:
+  //
+  //   (i)   the one-property claim itself, from the BYTES, before any browser
+  //         is involved — each bad file is its control minus exactly one
+  //         contiguous range, and the range is the thing named;
+  //   (ii)  each check FIRES on its own known-bad input and CLEARS on its
+  //         control;
+  //   (iii) each check stays SILENT on the OTHER's known-bad input, which is
+  //         what separates two checks from one check wearing two names. Both
+  //         bad files are articles with a defect in the rail; a check that had
+  //         quietly become "something is wrong with this rail" would pass (ii)
+  //         and fail (iii).
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  // (i) THE ONE-PROPERTY PROOF, IN TWO HALVES.
+  //
+  //     HALF ONE — there is only ONE region of difference. Longest common
+  //     prefix plus longest common suffix must account for the bad file
+  //     exactly. Touch a second place in either file and this stops reaching.
+  //
+  //     HALF TWO — that region is the element named. This does NOT read the
+  //     boundary off the prefix walk, and the first version of this assertion
+  //     did, and it FAILED on a correct pair. A longest-common-prefix boundary
+  //     is ambiguous whenever the deleted text and the text following it share
+  //     a leading byte: both files continue `<`, so the prefix ran one byte
+  //     INTO the deletion and the range came back as
+  //     `aside data-hk-rail=…</aside><` — the right 8,065 bytes, shifted one.
+  //     The byte count was never wrong; the claim about where the range STARTS
+  //     was not derivable that way.
+  //
+  //     So half two is a splice instead: locate the element with the capture
+  //     script's OWN cut function, remove it from the control, and require the
+  //     result to equal the committed bad file byte for byte. That is an exact
+  //     claim with no boundary to be ambiguous about, and importing the cut
+  //     rather than re-implementing it means the gate and the capture cannot
+  //     drift into disagreeing about what was removed.
+  const readFixture = (f) => fs.readFileSync(path.join(RAIL_DIR, f), 'utf8');
+  const oneRegion = (good, bad) => {
+    let p = 0;
+    while (p < good.length && p < bad.length && good[p] === bad[p]) p++;
+    let s = 0;
+    while (
+      s < good.length - p &&
+      s < bad.length - p &&
+      good[good.length - 1 - s] === bad[bad.length - 1 - s]
+    )
+      s++;
+    return { ok: p + s === bad.length, removed: good.length - bad.length };
+  };
+
+  for (const [goodFile, badFile, cut, what] of [
+    [
+      'unsourced-ok.html',
+      'unsourced-rail-absent.html',
+      (h) => cutElement(h, '<aside data-hk-rail=', 'aside'),
+      'the whole <aside data-hk-rail> element, open tag to close',
+    ],
+    [
+      'sourced-ok.html',
+      'sourced-sumber-empty.html',
+      cutSourceItems,
+      'the <li> citations inside <ul class="hk-rail-sources">, and not the heading',
+    ],
+  ]) {
+    const good = readFixture(goodFile);
+    const bad = readFixture(badFile);
+    const region = oneRegion(good, bad);
+    assert(
+      region.ok,
+      `${badFile} differs from ${goodFile} in ONE contiguous region (${region.removed} bytes removed)`,
+      `common prefix + common suffix did not account for the whole of ${badFile}`,
+    );
+    const r = cut(good);
+    const spliced = good.slice(0, r.start) + good.slice(r.end);
+    assert(
+      spliced === bad,
+      `…and splicing ${what} out of ${goodFile} reproduces ${badFile} byte for byte (${r.end - r.start} bytes at [${r.start}, ${r.end}))`,
+      `spliced ${spliced.length} bytes vs committed ${bad.length}`,
+    );
+  }
+
+  // (ii)+(iii) at every width. Both defects are width-independent — a rail that
+  // is not in the DOM is not in the DOM at 390 either — so unlike check 10
+  // these are asserted at all five, and a check that had picked up a
+  // breakpoint condition it was never given would show up here.
+  for (const w of WIDTHS) {
+    // The controls: two REAL production pages, one from each side of the CEO
+    // ruling. Both must be completely clean on both new checks.
+    for (const f of ['unsourced-ok.html', 'sourced-ok.html']) {
+      const row = railFix.find((r) => r.name === f && r.width === w);
+      assert(
+        pick(railFix, f, w, 'rail-missing').length === 0,
+        `${f} @${w}: rail-missing CLEAR — production renders the rail (${row?.notes.railWidth}x${row?.notes.railHeight}px, ${row?.notes.railCount} mount)`,
+        listing(row, 'rail-missing'),
+      );
+      assert(
+        pick(railFix, f, w, 'sumber-empty').length === 0,
+        `${f} @${w}: sumber-empty CLEAR — ${row?.notes.sumberSections} Sumber section(s) in the rail, none of them empty`,
+        listing(row, 'sumber-empty'),
+      );
+    }
+    // `unsourced-ok.html` is the DoD's "article with no sources", and it is the
+    // near-miss that makes `sumber-empty` worth having: the page carries the
+    // word Sumber in the rail as a CONTENTS LINK and again as an `<h2
+    // id="sumber">` in the prose with a real reference list under it, while
+    // having no rail Sumber block at all. A check keyed on the word rather than
+    // on a heading inside the rail fires here, twice, on a correct page.
+    assert(
+      railFix.find((r) => r.name === 'unsourced-ok.html' && r.width === w)?.notes.sumberSections ===
+        0,
+      `unsourced-ok.html @${w}: ZERO Sumber sections seen in the rail — the contents link and the body <h2 id="sumber"> are both correctly not one`,
+      `sumberSections=${railFix.find((r) => r.name === 'unsourced-ok.html' && r.width === w)?.notes.sumberSections}`,
+    );
+    assert(
+      railFix.find((r) => r.name === 'sourced-ok.html' && r.width === w)?.notes.sumberSections ===
+        1,
+      `sourced-ok.html @${w}: exactly ONE Sumber section seen — the check reached the block rather than reaching nothing`,
+    );
+
+    // The rail-collapse case. FIRES on its own input…
+    const rm = pick(railFix, 'unsourced-rail-absent.html', w, 'rail-missing');
+    assert(
+      rm.length === 1,
+      `unsourced-rail-absent.html @${w}: rail-missing FIRES once — got ${rm.length}`,
+      listing(
+        railFix.find((r) => r.name === 'unsourced-rail-absent.html' && r.width === w),
+        'rail-missing',
+      ),
+    );
+    // …and is SILENT on the empty-Sumber page, whose rail is perfectly fine.
+    assert(
+      pick(railFix, 'sourced-sumber-empty.html', w, 'rail-missing').length === 0,
+      `sourced-sumber-empty.html @${w}: rail-missing SILENT — that page's rail is present and 300px; only its Sumber list was emptied`,
+      listing(
+        railFix.find((r) => r.name === 'sourced-sumber-empty.html' && r.width === w),
+        'rail-missing',
+      ),
+    );
+
+    // The empty-heading case. FIRES on its own input…
+    const se = pick(railFix, 'sourced-sumber-empty.html', w, 'sumber-empty');
+    assert(
+      se.length === 1,
+      `sourced-sumber-empty.html @${w}: sumber-empty FIRES once — got ${se.length}`,
+      listing(
+        railFix.find((r) => r.name === 'sourced-sumber-empty.html' && r.width === w),
+        'sumber-empty',
+      ),
+    );
+    assert(
+      se.length === 1 && se[0].value === 0,
+      `sourced-sumber-empty.html @${w}: and it reports ZERO citations under the heading (value ${se[0]?.value})`,
+    );
+    // …and is SILENT on the page with no rail at all: there is no heading to be
+    // empty. Without this, "the rail is broken" would satisfy both checks.
+    assert(
+      pick(railFix, 'unsourced-rail-absent.html', w, 'sumber-empty').length === 0,
+      `unsourced-rail-absent.html @${w}: sumber-empty SILENT — no rail, therefore no Sumber heading to print over nothing`,
+      listing(
+        railFix.find((r) => r.name === 'unsourced-rail-absent.html' && r.width === w),
+        'sumber-empty',
+      ),
+    );
+  }
+
+  // Both new checks silent on every fixture that is not the article template.
+  // `.hk-article-grid` appears in NONE of these five files — checked, not
+  // assumed — so a `rail-missing` here would mean the precondition had been
+  // loosened into "this page has no rail", which fires on the homepage, the
+  // catalogue and /brand.
+  for (const w of WIDTHS) {
+    for (const f of ['homepage.html', 'category.html', 'article.html'])
+      for (const c of ['rail-missing', 'sumber-empty'])
+        assert(
+          pick(bad, f, w, c).length === 0,
+          `${f} @${w}: ${c} CLEAN — the 31 Aug capture is not the .hk-article-grid template`,
+          listing(
+            bad.find((r) => r.name === f && r.width === w),
+            c,
+          ),
+        );
+    for (const c of ['rail-missing', 'sumber-empty'])
+      assert(
+        pick(railBad, 'pre-rail/article.html', w, c).length === 0,
+        `pre-rail/article.html @${w}: ${c} CLEAN — the 01 Sep capture predates .hk-article-grid, so check 13 cannot speak about it and check 10 is the one that must`,
+        listing(
+          railBad.find((r) => r.name === 'pre-rail/article.html' && r.width === w),
+          c,
+        ),
+      );
+  }
 
   // 8. The discriminator fixture — a true positive and a near-miss false
   //    positive side by side for each check, so drift in EITHER direction is
@@ -2183,6 +2579,34 @@ if (has('selftest')) {
     quiet,
   });
   exit = r.errors > 0 ? 2 : r.failures > 0 ? 1 : 0;
+} else if (has('rail')) {
+  // UI-19's four files in one run. Expected to exit 1 — the same way
+  // `--fixtures` is — so read the per-file `railgone:` and `sumber:` columns
+  // rather than the exit code, which says only that something fired somewhere.
+  //
+  // WHAT "CONTROL" MEANS HERE, STATED BECAUSE IT IS NARROWER THAN IT SOUNDS.
+  // The two `-ok` files are controls for CHECKS 13 AND 14 — both must read
+  // `railgone:0 sumber:0` at all five widths — and they are real production
+  // pages, not clean-room ones. `sourced-ok.html` carries a pre-existing
+  // `narrow-text-column` finding, 6 at desktop and 15 at 390: `<td><p>` cells
+  // in the article's own comparison TABLE, 72.7–117.3px wide. That is check 1
+  // reporting a table cell as a text column on a page nobody has changed, it
+  // reproduces on the live URL, and it is left visible rather than swapped for
+  // a tidier article — choosing the fixture that hides a standing finding is
+  // how a suite starts lying about what it covers.
+  const server = await startFixtureServer(false, RAIL_DIR);
+  const b = `http://127.0.0.1:${server.address().port}`;
+  const only = opt('only', null);
+  const rows = await measure(
+    RAIL_FIXTURES.filter((f) => !only || f === only).map((f) => ({ name: f, url: `${b}/${f}` })),
+    { json, label: 'rail fixtures' },
+  );
+  server.close();
+  const r = report(rows, {
+    label: 'rail fixtures 2026-09-02 (controls: railgone:0 sumber:0; derived: exactly one each)',
+    quiet,
+  });
+  exit = r.errors > 0 ? 2 : r.failures > 0 ? 1 : 0;
 } else if (has('fixtures')) {
   const r = await runFixtures({ green: has('green'), json, quiet, only: opt('only', null) });
   exit = r.errors > 0 ? 2 : r.failures > 0 ? 1 : 0;
@@ -2194,7 +2618,7 @@ if (has('selftest')) {
   exit = r.errors > 0 ? 2 : r.failures > 0 ? 1 : 0;
 } else {
   console.error(
-    'usage: node scripts/ui-layout-gate.mjs (--fixtures [--green] | --pre-rail | --discriminator | --h6-order | --empty-shell | --base <url> | --url <u>… | --selftest)\n' +
+    'usage: node scripts/ui-layout-gate.mjs (--fixtures [--green] | --pre-rail | --rail | --discriminator | --h6-order | --empty-shell | --base <url> | --url <u>… | --selftest)\n' +
       '       [--json out.json] [--quiet] [--author-slug <slug>]\n' +
       '       env: UI_GATE_CHROME=<chrome path>  UI_GATE_BYPASS=<vercel preview bypass secret>',
   );
