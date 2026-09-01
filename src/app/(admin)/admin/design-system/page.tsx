@@ -13,6 +13,7 @@ import { ArticleToc, TOC_MIN_HEADINGS } from '@/components/inspire/article-toc';
 import { ArticleRail, RAIL_TOC_HEADING_ID } from '@/design-system/components/article-rail';
 import { extractHeadings, type ArticleHeading } from '@/lib/inspire/heading-anchors';
 import { PageHeader } from '@/components/layout/page-header';
+import { ARTICLE_COVER_MD } from '@/lib/storage/midsize-cover';
 import '@/design-system/tokens.css';
 import '@/design-system/components.css';
 import {
@@ -973,6 +974,97 @@ export default async function DesignSystemPage({
                 <code>CROP_TARGETS</code> entry, so <code>GEOMETRY_VERSION</code> does not move and
                 no live cover is re-cut. A test asserts that token still hashes to{' '}
                 <code>48c0b959</code>.
+              </p>
+            </div>
+
+            {/* Article cover figure — UI-16. The slot's OWN entry, because it
+               is the only shaped slot on the site whose asset and box both moved
+               in this change, and a reference page that shows the row thumbnail
+               but not the cover would let this one drift unwatched. */}
+            <div className="pt-8">
+              <Label muted className="mb-2 block">
+                Article cover figure (figure.hk-article-figure) — 4:3, fed the 792&times;594
+                rendition, box capped to the asset
+              </Label>
+              <figure className="hk-article-figure max-w-3xl" style={{ margin: '0 0 16px' }}>
+                <div
+                  className="bg-muted relative aspect-[4/3] w-full overflow-hidden"
+                  style={{ maxWidth: ARTICLE_COVER_MD.WIDTH }}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element -- parity with the real figure */}
+                  <img
+                    src={placeholderImg(
+                      `${ARTICLE_COVER_MD.NAME} ${ARTICLE_COVER_MD.WIDTH}×${ARTICLE_COVER_MD.HEIGHT}`,
+                    )}
+                    alt="Contoh kulit artikel dalam kotak 4:3"
+                    width={ARTICLE_COVER_MD.WIDTH}
+                    height={ARTICLE_COVER_MD.HEIGHT}
+                    decoding="async"
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                </div>
+              </figure>
+              <figure className="hk-article-figure max-w-3xl" style={{ margin: '0 0 8px' }}>
+                <div
+                  className="bg-muted relative aspect-[4/3] w-full overflow-hidden"
+                  style={{ maxWidth: 667 }}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element -- parity with the real figure */}
+                  <img
+                    src={placeholderImg('short asset 667×500 — box capped, not stretched')}
+                    alt="Contoh kulit artikel yang asetnya lebih kecil daripada kotaknya"
+                    width={667}
+                    height={500}
+                    decoding="async"
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                </div>
+              </figure>
+              <p className="text-muted-foreground mt-2 max-w-[74ch] text-xs">
+                Both boxes read their width from the ASSET. The dimensions on this page are the real{' '}
+                <code>ARTICLE_COVER_MD</code> constants, imported &mdash; not retyped &mdash; so a
+                change to the rendition moves this entry with it.
+              </p>
+              <p className="text-muted-foreground mt-2 max-w-[74ch] text-xs">
+                UI-16: this slot served <code>low.webp</code> in a shaped box until 02 September
+                2026. Hero-rules <strong>R1 passed</strong> the whole time &mdash; measured 0.05%
+                deviation, because <code>garden-wedding</code>&rsquo;s <code>low</code> is
+                1024&times;683 = 1.4993 against a 1.5 box &mdash; and that is precisely the trap:{' '}
+                <code>low</code> preserves the SOURCE aspect, so the slot passed or failed by which
+                camera shot the cover. <strong>R2</strong> (<code>low</code>/<code>high</code>/
+                <code>original</code> are never eligible for a shaped slot) and <strong>R6</strong>{' '}
+                (declared 1200&times;800 for a 1024&times;683 file &mdash; 17.2% out, ratio-correct
+                so the gate&rsquo;s aspect check never saw it) were the two that were red.
+              </p>
+              <p className="text-muted-foreground mt-2 max-w-[74ch] text-xs">
+                <code>crop-4x3-article-card-md</code> is <strong>792&times;594</strong> &mdash;
+                1.5&times; DES-18&rsquo;s 528px rung, and the smallest width that fills this
+                slot&rsquo;s widest measured box (756 CSS px at 1440/1920) with no upscale. Encoded
+                q50 against a <strong>103,680&nbsp;B</strong> ceiling: DES-03 &sect;6.2&rsquo;s card
+                figure area-scaled to a box 2.25&times; larger. Measured by HTTP HEAD across all 96
+                published covers on 02 September 2026:{' '}
+                <strong>min 12,346&nbsp;B, median 30,716&nbsp;B, max 100,990&nbsp;B</strong>, none
+                over the ceiling. 91 land at 792&times;594, four at 667&times;500 and one at
+                771&times;578.
+              </p>
+              <p className="text-muted-foreground mt-2 max-w-[74ch] text-xs">
+                It is a byte <em>saving</em> on the site&rsquo;s highest-traffic template: the
+                corpus total falls from <strong>5,034,824&nbsp;B</strong> of <code>low</code> to{' '}
+                <strong>3,296,332&nbsp;B</strong>, <strong>&minus;34.5%</strong>. On{' '}
+                <code>garden-wedding</code> &mdash; ~28% of all site impressions &mdash; the LCP
+                image goes 33,574&nbsp;B &rarr; 26,936&nbsp;B, <strong>&minus;19.8%</strong>. Four
+                covers get heavier, by 1,630&ndash;2,742&nbsp;B each; they are the four whose 4:3
+                crop is only 667px wide, and they are the second box above.
+              </p>
+              <p className="text-muted-foreground mt-2 max-w-[74ch] text-xs">
+                The second box is R1 taken literally &mdash; &ldquo;the box follows the asset, never
+                the reverse&rdquo;. <code>sewa-dewan-kahwin</code>, <code>villa-warisan</code>,{' '}
+                <code>wedding-planner-terbaik-di-malaysia</code> and <code>yasaka-shrine</code> have
+                800&times;500 source photographs, so their 4:3 crop is height-constrained at 667px
+                and <em>no larger 4:3 asset can exist for them</em>. Stretching 667 across 756 would
+                be a 1.13&times; upscale and R5 would go red on four articles; the figure narrows
+                instead. The cap is computed from the stored width, never a slug list, so it lifts
+                itself the day a bigger source is uploaded.
               </p>
             </div>
 
