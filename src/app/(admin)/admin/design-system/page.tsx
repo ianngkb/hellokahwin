@@ -1020,9 +1020,18 @@ export default async function DesignSystemPage({
                 editorial calendar was empty, and{' '}
                 <code>Vercel-CDN-Cache-Control: s-maxage=300, stale-while-revalidate=600</code> kept
                 that answer at the edge for up to fifteen minutes. The failed read now throws (
-                <code>@/lib/cache/degraded-render</code>) and the reader gets{' '}
-                <code>src/app/error.tsx</code> — &ldquo;Ada masalah teknikal … Cuba Semula&rdquo; —
-                at HTTP 500, which nothing caches. Do not reuse this block for a failure.
+                <code>@/lib/cache/degraded-render</code>) and the response is an HTTP 500. Do not
+                reuse this block for a failure.
+              </p>
+              <p className="text-muted-foreground mt-2 max-w-[74ch] text-xs">
+                <strong>The 500 has no designed page yet, and that is a real gap.</strong> Measured:
+                the document is <code>&lt;html id=&quot;__next_error__&quot;&gt;</code> — Next does
+                not server-render <code>error.tsx</code> for an uncaught error on the initial
+                request, so the words &ldquo;Ada masalah teknikal&rdquo; are not in the HTML at all.
+                A reader with JavaScript gets the retry page after hydration; a reader without it
+                gets a blank 500. And because <code>src/app/error.tsx</code> is the app&rsquo;s only
+                boundary, that page renders OUTSIDE <code>(public)/layout.tsx</code> — no masthead,
+                no footer, no way to another category. Raised as a follow-up, not fixed here.
               </p>
             </div>
 

@@ -55,16 +55,23 @@ import { withDeadline } from '@/lib/api/timeout';
  *
  * `scripts/verify-degraded-page-uncacheable.mjs` forces the stall for real, by
  * taking ACCESS EXCLUSIVE on `articles` in an open transaction, against a
- * built server. Against `next build && next start`, BUILD_ID lmJC2SbvuqgTurf-
- * GwjCV, 02 Sep 2026:
+ * built server. `next build && next start`, local Postgres, 02 Sep 2026:
  *
- *   before   GET /artikel/hantaran-mas-kahwin  ->  200  3800ms  "Panduan ini
- *                                                    masih kosong" x2, 0 links
- *   after    GET /artikel/hantaran-mas-kahwin  ->  500  7704ms  no empty state
- *   after    (lock released) next request      ->  200    51ms  4 article links
+ *   BEFORE  BUILD_ID 0AGGUS9nU17ed809rQLK5
+ *     /artikel/hantaran-mas-kahwin   200  3800ms  "Panduan ini masih kosong"x2
+ *     /artikel/idea-dan-nasihat      200  3075ms  "Kategori ini masih kosong"x2
+ *   AFTER   BUILD_ID j93XFC0b4-YHe8mhoTNK5
+ *     /artikel/hantaran-mas-kahwin   500  3187ms  no empty state, 0 links
+ *     /artikel/idea-dan-nasihat      500  3031ms  no empty state, 0 links
+ *     (lock released) next request   200    58ms   4 article links
+ *     (lock released) next request   200    51ms  15 article links
  *
- * The identical pair on the GRID shape (`/artikel/idea-dan-nasihat`): 200 with
- * `Kategori ini masih kosong` before, 500 after, 200 with 15 links on recovery.
+ * 3,187ms rather than 7,704ms is not a performance note — it is the difference
+ * between a response production can produce and one it cannot. The route
+ * declares `maxDuration = 5`, and the first version of this fix threw at
+ * 7,704ms, i.e. after Vercel would already have killed the function. See
+ * `@/lib/inspire/category-render-budget`, which was added for that reason and
+ * is where the arithmetic lives.
  *
  * TWO HONEST LIMITS on that evidence:
  *
@@ -112,6 +119,22 @@ export class RenderDataUnavailableError extends Error {
  * @param label   the same label convention `withDeadline` uses, e.g.
  *                `inspire-pillar:hantaran-mas-kahwin`
  */
+/**
+ * Next signals `notFound()`, `redirect()`, `forbidden()` and `unauthorized()`
+ * by THROWING a sentinel whose `digest` is a `NEXT_*` string. Wrapping one of
+ * those in `RenderDataUnavailableError` would turn an intended 404 or 301 into
+ * a 500 — and would log it as a database failure, which is the worst kind of
+ * wrong: a real bug reported as an infrastructure blip.
+ *
+ * Neither current call site can reach this (the reads are plain queries), but
+ * the docblock above invites reuse, and the first caller whose read redirects
+ * would find out in production. Cheap to hold, expensive to discover.
+ */
+function isNextControlFlow(err: unknown): boolean {
+  const digest = (err as { digest?: unknown } | null)?.digest;
+  return typeof digest === 'string' && digest.startsWith('NEXT_');
+}
+
 export async function readForCacheablePage<T>(
   promise: Promise<T>,
   ms: number,
@@ -120,6 +143,7 @@ export async function readForCacheablePage<T>(
   try {
     return await withDeadline(promise, ms, label);
   } catch (err) {
+    if (isNextControlFlow(err)) throw err;
     // Logged here rather than at the call site so the reason is in the log
     // exactly once, whatever the caller does with the throw.
     console.error(

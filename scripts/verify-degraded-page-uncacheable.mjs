@@ -141,16 +141,50 @@ console.log(`base              ${BASE}`);
 console.log(`target            ${PATHNAME}`);
 console.log('────────────────────────────────────────────────────────────');
 
+// ── EVERY instrument failure exits 2, never 1 ─────────────────────────
+//
+// 1 means "the page is defective". 2 means "this script could not tell". A
+// caller that cannot distinguish them will eventually read a crashed run as a
+// real finding, or a real finding as a crash. Review found three paths that
+// escaped as 1: an unguarded `fetch` when the server is down, the recovery
+// probe sitting outside any try, and a missing BUILD_ID silently skipping the
+// build guard entirely.
+function instrumentFailure(what, detail) {
+  console.error(`\nFATAL (instrument, not the page): ${what}`);
+  if (detail) console.error(String(detail));
+  console.log('PLAT16 EXIT: 2');
+  process.exit(2);
+}
+
+/** Every request here is bounded. An unbounded probe holds the ACCESS
+ *  EXCLUSIVE lock for as long as undici's 300s default, which is not a timeout
+ *  anybody chose. */
+const PROBE_TIMEOUT_MS = 30_000;
+
 // ── the server must be serving the build we just made ──────────────────────
 async function assertServingThisBuild() {
-  if (buildId.startsWith('(')) return;
-  const r = await fetch(`${BASE}/_next/static/${buildId}/_buildManifest.js`);
+  if (buildId.startsWith('(')) {
+    instrumentFailure(
+      'no .next/BUILD_ID — cannot prove which build is on the port.',
+      'Run `pnpm build` in this worktree first. Skipping this guard is how a run reports\n' +
+        'on a stale server while the fingerprint above quotes the source you just edited.',
+    );
+  }
+  let r;
+  try {
+    r = await fetch(`${BASE}/_next/static/${buildId}/_buildManifest.js`, {
+      signal: AbortSignal.timeout(PROBE_TIMEOUT_MS),
+    });
+  } catch (err) {
+    instrumentFailure(`${BASE} did not answer — is \`next start\` running on that port?`, err);
+  }
   if (!r.ok) {
     console.error(
       `FATAL: ${BASE} is not serving BUILD_ID ${buildId} ` +
         `(/_next/static/${buildId}/_buildManifest.js -> ${r.status}).\n` +
         'A stale `next start` on this port would make every number below a measurement of the wrong build.',
     );
+    console.log('PLAT16 EXIT: 2');
     process.exit(2);
   }
   console.log(`SERVING BUILD OK  /_next/static/${buildId}/_buildManifest.js -> 200`);
@@ -169,13 +203,32 @@ async function assertServingThisBuild() {
 // rendered HTML and the RSC flight payload in the same document, so every
 // string in the tree appears twice. That is why nothing below asserts an exact
 // number — only presence, absence, and direction.
+//
+// AND THEY ARE PINNED TO THEIR SOURCE. Assertions A and B3 are both phrased as
+// "this string is ABSENT", which is the direction that passes vacuously if an
+// editor rewords the Malay heading: the count goes to 0, A passes, B3 passes,
+// and the whole instrument reports PASS against a route serving a cacheable
+// empty page. So each marker is checked to still EXIST in the file it came
+// from, and a miss is an instrument failure rather than a pass.
 const EMPTY_MARKERS = [
-  ['pillar-empty', 'Panduan ini masih kosong'],
-  ['grid-empty', 'Kategori ini masih kosong'],
+  ['pillar-empty', 'Panduan ini masih kosong', 'src/components/inspire/pillar-body.tsx'],
+  ['grid-empty', 'Kategori ini masih kosong', 'src/design-system/components/feedback.tsx'],
 ];
-const ERROR_MARKER = 'Ada masalah teknikal'; // src/app/error.tsx
 /** Any link to an article: /artikel/{category}/{slug}. Works on both shapes. */
 const ARTICLE_HREF = /href="\/artikel\/[^"/]+\/[^"]+"/g;
+
+for (const [name, needle, source] of EMPTY_MARKERS) {
+  const file = path.join(ROOT, source);
+  if (!existsSync(file) || !readFileSync(file, 'utf8').includes(needle)) {
+    instrumentFailure(
+      `the \`${name}\` marker "${needle}" is no longer in ${source}.`,
+      'This script can only recognise an empty page by the words on it. Update the marker\n' +
+        'here in the same change that reworded the copy, or every run below is a no-op that\n' +
+        'reports PASS.',
+    );
+  }
+}
+console.log(`MARKERS PINNED    ${EMPTY_MARKERS.map(([n]) => n).join(', ')} — present in source`);
 
 function countAll(haystack, needle) {
   let n = 0;
@@ -191,7 +244,15 @@ function countAll(haystack, needle) {
 
 async function probe(label) {
   const t0 = Date.now();
-  const res = await fetch(`${BASE}${PATHNAME}`, { headers: { 'cache-control': 'no-cache' } });
+  let res;
+  try {
+    res = await fetch(`${BASE}${PATHNAME}`, {
+      headers: { 'cache-control': 'no-cache' },
+      signal: AbortSignal.timeout(PROBE_TIMEOUT_MS),
+    });
+  } catch (err) {
+    instrumentFailure(`the "${label}" probe did not complete within ${PROBE_TIMEOUT_MS}ms.`, err);
+  }
   const body = await res.text();
   const ms = Date.now() - t0;
   const emptyCounts = EMPTY_MARKERS.map(([name, s]) => [name, countAll(body, s)]);
@@ -204,13 +265,12 @@ async function probe(label) {
     cdnCacheControl: res.headers.get('vercel-cdn-cache-control') ?? '(none)',
     emptyCounts,
     empty: emptyCounts.reduce((a, [, n]) => a + n, 0),
-    error: countAll(body, ERROR_MARKER),
     links: (body.match(ARTICLE_HREF) ?? []).length,
   };
   console.log(
     `[${label.padEnd(12)}] HTTP ${obs.status}  ${String(ms).padStart(5)}ms  ${String(obs.bytes).padStart(7)}B  ` +
       emptyCounts.map(([n, c]) => `${n}x${c}`).join('  ') +
-      `  error-pagex${obs.error}  article-hrefx${obs.links}`,
+      `  article-hrefx${obs.links}`,
   );
   console.log(`${' '.repeat(15)}Cache-Control:             ${obs.cacheControl}`);
   console.log(`${' '.repeat(15)}Vercel-CDN-Cache-Control:  ${obs.cdnCacheControl}`);
@@ -226,7 +286,13 @@ function assert(id, ok, message) {
 
 await assertServingThisBuild();
 
-const sql = postgres(DATABASE_URL, { max: 1, connect_timeout: 10 });
+// `lock_timeout` so a conflicting lock held by anything else fails fast and
+// loudly instead of hanging this run with no verdict and no exit.
+const sql = postgres(DATABASE_URL, {
+  max: 1,
+  connect_timeout: 10,
+  connection: { lock_timeout: '10s' },
+});
 let stalled1;
 let stalled2;
 let recovered;
@@ -267,20 +333,39 @@ try {
 // minutes earlier. A comfortable number, produced by a warm cache rather than
 // by the page.
 //
-// A genuine stall CANNOT come back inside the 3s deadline. So: a fast answer
-// here is an INSTRUMENT failure (exit 2), never a pass.
+// A LATENCY TEST ALONE IS NOT ENOUGH, and this is worth stating because the
+// first version of this guard was exactly that. On a PILLAR url,
+// `generateMetadata` runs its OWN read against the locked `articles` table
+// under its own deadline — so the response can take the full deadline even
+// when `getPillarView` answered instantly from a warm cache. A slow answer
+// proves something stalled; it does not prove the PAGE's read stalled.
+//
+// What actually discriminates: a stalled render cannot produce the real page.
+// A 2xx carrying article links means the page's read succeeded, the lock never
+// reached it, and nothing was tested — whatever the clock said.
 const DEADLINE_MS = 3_000;
-if (stalled1.ms < DEADLINE_MS - 500) {
-  console.error(
-    `\nFATAL (instrument, not the page): the stalled request answered in ${stalled1.ms}ms, ` +
-      `faster than the ${DEADLINE_MS}ms deadline it was supposed to blow.\n` +
-      'The Next data cache was warm, so the locked table was never read and NOTHING was tested.\n' +
-      'Re-run cold:\n' +
-      '  1. stop `next start`\n' +
-      '  2. rm -rf .next/cache\n' +
-      '  3. restart `next start`, then run this script FIRST, before any other request.\n',
+const COLD_ADVICE =
+  'Re-run cold:\n' +
+  '  1. stop `next start`\n' +
+  '  2. rm -rf .next/cache\n' +
+  '  3. restart `next start`, then run this script FIRST, before any other request.';
+
+if (stalled1.status >= 200 && stalled1.status < 400 && stalled1.links > 0) {
+  instrumentFailure(
+    `the stalled request returned HTTP ${stalled1.status} with ${stalled1.links} article links ` +
+      `in ${stalled1.ms}ms — the page's own read answered from the warm Next data cache and ` +
+      'never touched the locked table, so NOTHING was tested.',
+    COLD_ADVICE,
   );
-  process.exit(2);
+}
+if (stalled1.ms < DEADLINE_MS - 500) {
+  instrumentFailure(
+    `the stalled request answered in ${stalled1.ms}ms, faster than the ${DEADLINE_MS}ms deadline ` +
+      'it was supposed to blow. Measured 02 Sep 2026: a run against the UNFIXED build came back ' +
+      '`HTTP 200 28ms … article-hrefx4` and printed `PLAT16 VERDICT: PASS` on code that had ' +
+      'failed the identical check twelve minutes earlier.',
+    COLD_ADVICE,
+  );
 }
 
 console.log('\n── PHASE 2: lock released, DB healthy ──────────────────────');
@@ -308,10 +393,13 @@ assert(
 );
 
 // A2 — the second stalled request must be a fresh render, not a served copy.
+const a2 = stalled2.status === stalled1.status;
 assert(
   'A2',
-  stalled2.status === stalled1.status,
-  `the second stalled request behaved like the first (HTTP ${stalled1.status} -> ${stalled2.status}), i.e. nothing pinned a copy`,
+  a2,
+  a2
+    ? `the second stalled request behaved like the first (HTTP ${stalled1.status} -> ${stalled2.status}), i.e. nothing pinned a copy`
+    : `the second stalled request DIFFERED from the first (HTTP ${stalled1.status} -> ${stalled2.status}) — something between the two is holding state`,
 );
 
 // B — green control. The instrument must reach a healthy page.
