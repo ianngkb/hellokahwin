@@ -1002,20 +1002,37 @@ export default async function DesignSystemPage({
               </p>
             </div>
 
-            {/* Empty pillar — the P6 state, and the soft-fail shape */}
+            {/* Empty pillar — the P6 state. NOT the failure shape any more: PLAT-16. */}
             <div className="pt-8">
               <Label muted className="mb-2 block">
                 Empty pillar — .s-empty + .s-btn link — UI-05 P6
               </Label>
               <PillarBody view={{ clusters: [], unclustered: [], totalArticles: 0 }} intro={null} />
               <p className="text-muted-foreground mt-2 max-w-[74ch] text-xs">
-                A pillar with no clusters and no unclustered articles. This is also exactly what the
-                route renders when <code>getPillarView</code> fails or blows its 3s deadline — the
-                error is swallowed and <code>view</code> stays empty — so the soft-fail path and the
-                genuinely-empty path get the same designed exit rather than a blank{' '}
-                <code>&lt;div&gt;</code>. The way out is a real <code>&lt;Link&gt;</code> wearing{' '}
-                <code>.s-btn</code>, not a <code>Button</code>: <code>EmptyState</code>&rsquo;s{' '}
-                <code>action</code> takes an <code>onClick</code>, and this renders on the server.
+                A pillar with no clusters and no unclustered articles. The way out is a real{' '}
+                <code>&lt;Link&gt;</code> wearing <code>.s-btn</code>, not a <code>Button</code>:{' '}
+                <code>EmptyState</code>&rsquo;s <code>action</code> takes an <code>onClick</code>,
+                and this renders on the server.
+              </p>
+              <p className="text-muted-foreground mt-2 max-w-[74ch] text-xs">
+                <strong>This state means one thing only: the pillar is empty.</strong> Until PLAT-16
+                it meant two — the route swallowed a failed or timed-out <code>getPillarView</code>{' '}
+                and rendered this exact block at HTTP 200, so a database blip told the reader our
+                editorial calendar was empty, and{' '}
+                <code>Vercel-CDN-Cache-Control: s-maxage=300, stale-while-revalidate=600</code> kept
+                that answer at the edge for up to fifteen minutes. The failed read now throws (
+                <code>@/lib/cache/degraded-render</code>) and the response is an HTTP 500. Do not
+                reuse this block for a failure.
+              </p>
+              <p className="text-muted-foreground mt-2 max-w-[74ch] text-xs">
+                <strong>The 500 has no designed page yet, and that is a real gap.</strong> Measured:
+                the document is <code>&lt;html id=&quot;__next_error__&quot;&gt;</code> — Next does
+                not server-render <code>error.tsx</code> for an uncaught error on the initial
+                request, so the words &ldquo;Ada masalah teknikal&rdquo; are not in the HTML at all.
+                A reader with JavaScript gets the retry page after hydration; a reader without it
+                gets a blank 500. And because <code>src/app/error.tsx</code> is the app&rsquo;s only
+                boundary, that page renders OUTSIDE <code>(public)/layout.tsx</code> — no masthead,
+                no footer, no way to another category. Raised as a follow-up, not fixed here.
               </p>
             </div>
 

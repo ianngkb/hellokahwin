@@ -45,7 +45,8 @@
     "brand:icons:check": "node scripts/generate-brand-icons.mjs --check",
     "audit:favicon": "node scripts/audit-favicon.mjs",
     "audit:favicon:local": "node scripts/audit-favicon.mjs --local",
-    "audit:favicon:selftest": "node scripts/audit-favicon.mjs --selftest"
+    "audit:favicon:selftest": "node scripts/audit-favicon.mjs --selftest",
+    "verify:degraded": "node scripts/verify-degraded-page-uncacheable.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-rekognition": "^3.996.0",

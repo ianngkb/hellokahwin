@@ -2,9 +2,15 @@
  * UI-05 — the three pillar-hub states, asserted on rendered markup.
  *
  * The empty-pillar state (P6) is the reason this file exists: it cannot be
- * reproduced on production without emptying a live category, and it is also
- * the shape `renderPillarPage` renders when `getPillarView` fails or blows
- * its 3s deadline. It gets a render test instead of a live check.
+ * reproduced on production without emptying a live category, so it gets a
+ * render test instead of a live check.
+ *
+ * It used to double as the shape `renderPillarPage` rendered when
+ * `getPillarView` failed or blew its 3s deadline. It does not any more —
+ * PLAT-16 made that path throw, because a failed read served as a cacheable
+ * HTTP 200 "this pillar is empty" is a lie the Vercel edge then repeats. The
+ * route-level gate for that lives in
+ * `src/app/(public)/artikel/[category]/__tests__/degraded-render.test.tsx`.
  *
  * `PillarBody` is a server component with no async work and no data access,
  * so it renders under `renderToStaticMarkup` exactly as it does in the route.
