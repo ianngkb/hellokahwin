@@ -918,6 +918,156 @@
   "serp_update_date": null,
   "volume": null
  },
+ "my|doa bersetubuh": {
+  "aio_position": 1,
+  "difficulty": 0,
+  "parent_topic": "doa bersetubuh",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "ai_overview_sitelink",
+   "image_th",
+   "image",
+   "video_th",
+   "question"
+  ],
+  "serp_update_date": "2026-08-13T23:40:15Z",
+  "volume": 900
+ },
+ "my|doa jodoh yang baik": {
+  "aio_position": 1,
+  "difficulty": 0,
+  "parent_topic": "doa jodoh yang baik",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "ai_overview_sitelink",
+   "image_th",
+   "image",
+   "question",
+   "video_th"
+  ],
+  "serp_update_date": "2026-08-10T04:12:08Z",
+  "volume": 600
+ },
+ "my|doa kahwin": {
+  "aio_position": 1,
+  "difficulty": 0,
+  "parent_topic": "doa pengantin",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "ai_overview_sitelink",
+   "image_th",
+   "image"
+  ],
+  "serp_update_date": "2026-08-05T23:03:38Z",
+  "volume": 300
+ },
+ "my|doa keluarga bahagia": {
+  "aio_position": 1,
+  "difficulty": 0,
+  "parent_topic": "doa keluarga bahagia",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "ai_overview_sitelink",
+   "image_th",
+   "image",
+   "video_th",
+   "question"
+  ],
+  "serp_update_date": "2026-08-09T13:57:36Z",
+  "volume": 500
+ },
+ "my|doa lembutkan hati suami": {
+  "aio_position": 1,
+  "difficulty": 0,
+  "parent_topic": "doa lembutkan hati suami",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "ai_overview_sitelink",
+   "image_th",
+   "question",
+   "video_th"
+  ],
+  "serp_update_date": "2026-08-26T21:59:17Z",
+  "volume": 400
+ },
+ "my|doa majlis kesyukuran": {
+  "aio_position": 5,
+  "difficulty": 0,
+  "parent_topic": "bacaan doa selamat dan kesyukuran",
+  "serp_crawled": true,
+  "serp_features": [
+   "image",
+   "video_th",
+   "ai_overview",
+   "image_th"
+  ],
+  "serp_update_date": "2026-07-30T06:55:44Z",
+  "volume": 200
+ },
+ "my|doa majlis ringkas": {
+  "aio_position": null,
+  "difficulty": 0,
+  "parent_topic": "doa majlis ringkas",
+  "serp_crawled": true,
+  "serp_features": [
+   "image",
+   "image_th",
+   "sitelink",
+   "video_th",
+   "question"
+  ],
+  "serp_update_date": "2026-08-23T12:19:01Z",
+  "volume": 2800
+ },
+ "my|doa malam pertama": {
+  "aio_position": 1,
+  "difficulty": 0,
+  "parent_topic": "doa bersetubuh",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "ai_overview_sitelink",
+   "image_th",
+   "image",
+   "video_th"
+  ],
+  "serp_update_date": "2026-07-31T04:38:16Z",
+  "volume": 40
+ },
+ "my|doa masuk rumah baru": {
+  "aio_position": 1,
+  "difficulty": 0,
+  "parent_topic": "doa masuk rumah baru",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "ai_overview_sitelink",
+   "image_th",
+   "image",
+   "question",
+   "video_th"
+  ],
+  "serp_update_date": "2026-08-23T10:38:28Z",
+  "volume": 700
+ },
+ "my|doa pembuka majlis": {
+  "aio_position": null,
+  "difficulty": 69,
+  "parent_topic": "doa pembuka majlis",
+  "serp_crawled": true,
+  "serp_features": [
+   "sitelink",
+   "question",
+   "video_th"
+  ],
+  "serp_update_date": "2026-08-27T17:08:07Z",
+  "volume": 5000
+ },
  "my|doa pengantin baru rumi": {
   "aio_position": null,
   "difficulty": 0,
@@ -940,6 +1090,83 @@
   ],
   "serp_update_date": "2026-08-27T04:03:07Z",
   "volume": 1200
+ },
+ "my|doa selamat ringkas": {
+  "aio_position": null,
+  "difficulty": 0,
+  "parent_topic": "doa selamat ringkas",
+  "serp_crawled": true,
+  "serp_features": [
+   "image",
+   "image_th",
+   "question",
+   "video_th"
+  ],
+  "serp_update_date": "2026-08-19T04:47:34Z",
+  "volume": 9800
+ },
+ "my|doa selepas akad nikah": {
+  "aio_position": null,
+  "difficulty": 0,
+  "parent_topic": "doa nikah",
+  "serp_crawled": true,
+  "serp_features": [
+   "image",
+   "video_th"
+  ],
+  "serp_update_date": "2026-07-29T16:36:36Z",
+  "volume": 150
+ },
+ "my|doa ubun ubun isteri": {
+  "aio_position": null,
+  "difficulty": null,
+  "parent_topic": null,
+  "serp_crawled": false,
+  "serp_features": [],
+  "serp_update_date": null,
+  "volume": 80
+ },
+ "my|doa untuk isteri": {
+  "aio_position": 1,
+  "difficulty": 0,
+  "parent_topic": "doa untuk isteri",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "video_th",
+   "image"
+  ],
+  "serp_update_date": "2026-07-21T16:28:51Z",
+  "volume": 350
+ },
+ "my|doa untuk suami": {
+  "aio_position": 1,
+  "difficulty": 0,
+  "parent_topic": "doa untuk suami",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "ai_overview_sitelink",
+   "image_th",
+   "image",
+   "video_th"
+  ],
+  "serp_update_date": "2026-08-02T10:27:55Z",
+  "volume": 1400
+ },
+ "my|doa untuk suami isteri": {
+  "aio_position": 1,
+  "difficulty": 0,
+  "parent_topic": "doa untuk suami isteri",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "ai_overview_sitelink",
+   "image_th",
+   "image"
+  ],
+  "serp_update_date": "2026-07-31T07:49:45Z",
+  "volume": 200
  },
  "my|dokumen nikah": {
   "aio_position": 1,
