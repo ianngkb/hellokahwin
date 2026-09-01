@@ -109,7 +109,31 @@ SUPERSEDED = {
     },
 }
 
-URL_RE = re.compile(r"https?://[^\s<>\)\"'\]]+")
+# `)` IS PART OF THE URL until proved otherwise - CONT-18, 2 September 2026.
+#
+# This pattern used to exclude `)` outright, which truncated every Wikimedia
+# Commons filename containing a bracket.  `File:UTC_Shah_Alam_(220711).jpg`
+# became `File:UTC_Shah_Alam_(220711`, that fragment returns HTTP 404, and the
+# gate reported FAIL on two live pages in one run.  Our own asset register
+# already carries two such credit URLs, so the false alarm was not hypothetical
+# and was going to repeat on every article crediting those photographs - which
+# is exactly how a checker earns the reputation that gets it switched off
+# (DES-09).  Parentheses are now matched and the UNBALANCED trailing ones are
+# trimmed instead, so `[x](https://a/b)` still yields `https://a/b`.
+URL_RE = re.compile(r"https?://[^\s<>\"'\]]+")
+
+
+def trim_url(raw):
+    """Strip trailing sentence punctuation and unbalanced closing brackets.
+
+    A URL at the end of a Malay sentence picks up a full stop; a URL inside a
+    markdown link picks up the link's own `)`.  A URL whose own filename
+    contains balanced brackets keeps them.
+    """
+    url = raw.rstrip(".,;:")
+    while url.endswith(")") and url.count(")") > url.count("("):
+        url = url[:-1].rstrip(".,;:")
+    return url
 
 
 def cited_urls(path):
@@ -122,7 +146,7 @@ def cited_urls(path):
     text = io.open(path, encoding="utf-8").read()
     seen, out = set(), []
     for raw in URL_RE.findall(text):
-        url = raw.rstrip(".,;:")
+        url = trim_url(raw)
         if any(h in url for h in OWN):
             continue
         if url not in seen:
@@ -318,6 +342,28 @@ def selftest():
     else:
         print("  WRONGLY FLAGGED")
         ok = False
+
+    print("\nTHE FAILING CASE - a URL whose filename contains brackets:")
+    # CONT-18, 2 Sept 2026. Both of these are LIVE (HTTP 200, checked by hand
+    # the same day). The old pattern cut each at the opening bracket and
+    # reported the fragment as a dead source.
+    bracket_cases = [
+        ("https://commons.wikimedia.org/wiki/File:UTC_Shah_Alam_(220711).jpg",
+         "https://commons.wikimedia.org/wiki/File:UTC_Shah_Alam_(220711).jpg"),
+        ("[foto](https://commons.wikimedia.org/wiki/File:UTC_Keramat_counter_(220527).jpg)",
+         "https://commons.wikimedia.org/wiki/File:UTC_Keramat_counter_(220527).jpg"),
+        ("Lihat (https://example.gov.my/a/b).",
+         "https://example.gov.my/a/b"),
+        ("markdown [x](https://example.gov.my/a/b) inline",
+         "https://example.gov.my/a/b"),
+    ]
+    for text, want in bracket_cases:
+        got = [trim_url(u) for u in URL_RE.findall(text)]
+        if got == [want]:
+            print("  ok    %s" % want)
+        else:
+            print("  WRONG %r -> %r, wanted [%r]" % (text, got, want))
+            ok = False
 
     print("\nCONTROL - our own URLs are not external sources:")
     n = len([u for u in ["https://hellokahwin.com/artikel/x"] if not any(h in u for h in OWN)])

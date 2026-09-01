@@ -568,6 +568,319 @@
   ],
   "volume": 250
  },
+ "my|borang kebenaran nikah": {
+  "aio_position": 1,
+  "difficulty": 0,
+  "parent_topic": "borang nikah negeri sembilan",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "ai_overview_sitelink",
+   "image_th",
+   "image"
+  ],
+  "serp_update_date": "2026-07-19T10:08:45Z",
+  "volume": 200
+ },
+ "my|borang nikah online": {
+  "aio_position": 5,
+  "difficulty": 4,
+  "parent_topic": "borang nikah online",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "ai_overview_sitelink",
+   "image_th",
+   "video_th"
+  ],
+  "serp_update_date": "2026-08-23T16:16:23Z",
+  "volume": 2500
+ },
+ "my|cara isi borang nikah": {
+  "aio_position": 1,
+  "difficulty": 5,
+  "parent_topic": "borang nikah online",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "ai_overview_sitelink",
+   "image_th",
+   "image",
+   "video_th"
+  ],
+  "serp_update_date": "2026-08-01T12:50:34Z",
+  "volume": 200
+ },
+ "my|cerai taklik": {
+  "aio_position": 1,
+  "country": "my",
+  "difficulty": 0,
+  "parent_topic": "cerai taklik",
+  "pulled": "2026-09-01T18:23:03Z",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "ai_overview_sitelink",
+   "image_th",
+   "question",
+   "video_th",
+   "image"
+  ],
+  "serp_update_date": "2026-08-09T03:03:12Z",
+  "siblings": [
+   {
+    "keyword": "cerai taklik",
+    "parent_topic": "cerai taklik",
+    "volume": 350
+   },
+   {
+    "keyword": "tempoh iddah cerai taklik",
+    "parent_topic": null,
+    "volume": 100
+   },
+   {
+    "keyword": "contoh kes cerai taklik",
+    "parent_topic": null,
+    "volume": 70
+   },
+   {
+    "keyword": "maksud cerai taklik",
+    "parent_topic": null,
+    "volume": 60
+   },
+   {
+    "keyword": "cerai taklik maksud",
+    "parent_topic": null,
+    "volume": 50
+   },
+   {
+    "keyword": "apa itu cerai taklik",
+    "parent_topic": null,
+    "volume": 30
+   },
+   {
+    "keyword": "cara rujuk cerai taklik",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "jenis cerai taklik",
+    "parent_topic": "jenis talak",
+    "volume": 20
+   },
+   {
+    "keyword": "syarat cerai taklik",
+    "parent_topic": "syarat cerai taklik",
+    "volume": 20
+   },
+   {
+    "keyword": "maksud taklik cerai",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "apa maksud cerai taklik",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "proses cerai taklik",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "cerai taklik dalam islam",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "contoh cerai taklik",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "lafaz taklik cerai",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "taklik cerai",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "lafaz cerai taklik",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "lafaz taklik cerai meaning",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "istri minta cerai taklik",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "definisi cerai taklik",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "hukum taklik cerai",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "lafaz cerai taklik maksud",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "cerai lafaz taklik",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "cerai taklik itu apa",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "cerai taklik ada iddah",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "lafaz taklik cerai isteri",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "lafaz cerai secara taklik",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "cerai taklik syamsul yusof",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "apa itu lafaz cerai taklik",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "pengesahan cerai taklik",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "cerai taklik pdf",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "cerai taklik ira kazar",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "cerai taklik maksudnya",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "rujuk cerai taklik",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "cerai taklik bersyarat",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "bukti untuk cerai taklik",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "maksud cerai lafaz taklik",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "maksud cerai taklik wikipedia",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "makna cerai taklik",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "cerai taklik boleh rujuk atau tidak",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "kesan cerai taklik",
+    "parent_topic": "perceraian",
+    "volume": 0
+   },
+   {
+    "keyword": "cerai taklik selangor",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "maksud cerai taklik dalam islam",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "cerai taklik singapore",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "cerai taklik along cham",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "maksud lafaz cerai taklik",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "apa maksud lafaz cerai taklik",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "what is cerai taklik",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "syarat sah cerai taklik",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "contoh lafaz cerai taklik",
+    "parent_topic": null,
+    "volume": 0
+   }
+  ],
+  "volume": 350
+ },
  "my|contoh kad jemputan kahwin": {
   "aio_position": null,
   "difficulty": 3,
@@ -627,6 +940,22 @@
   ],
   "serp_update_date": "2026-08-27T04:03:07Z",
   "volume": 1200
+ },
+ "my|dokumen nikah": {
+  "aio_position": 1,
+  "difficulty": 0,
+  "parent_topic": "sppim",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "ai_overview_sitelink",
+   "image_th",
+   "question",
+   "image",
+   "video_th"
+  ],
+  "serp_update_date": "2026-08-12T06:04:22Z",
+  "volume": 0
  },
  "my|garden wedding": {
   "country": "my",
@@ -1297,6 +1626,275 @@
   ],
   "volume": 150
  },
+ "my|hiv test kahwin": {
+  "aio_position": 1,
+  "country": "my",
+  "difficulty": 53,
+  "parent_topic": "hiv test kahwin",
+  "pulled": "2026-09-01T18:28:21Z",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "ai_overview_sitelink",
+   "image_th",
+   "question",
+   "video_th"
+  ],
+  "serp_update_date": "2026-08-27T08:04:08Z",
+  "siblings": [
+   {
+    "keyword": "hiv test kahwin",
+    "parent_topic": "hiv test kahwin",
+    "volume": 1100
+   },
+   {
+    "keyword": "borang hiv test kahwin",
+    "parent_topic": "borang ujian saringan hiv pra perkahwinan",
+    "volume": 200
+   },
+   {
+    "keyword": "tempoh sah hiv test kahwin",
+    "parent_topic": "hiv test",
+    "volume": 150
+   },
+   {
+    "keyword": "test hiv kahwin",
+    "parent_topic": "hiv test",
+    "volume": 150
+   },
+   {
+    "keyword": "hiv test untuk kahwin",
+    "parent_topic": "hiv test",
+    "volume": 100
+   },
+   {
+    "keyword": "tempoh hiv test kahwin",
+    "parent_topic": "hiv test kahwin",
+    "volume": 50
+   },
+   {
+    "keyword": "hiv test kahwin klinik kerajaan",
+    "parent_topic": null,
+    "volume": 50
+   },
+   {
+    "keyword": "check hiv test untuk kahwin",
+    "parent_topic": null,
+    "volume": 50
+   },
+   {
+    "keyword": "hiv test kahwin valid",
+    "parent_topic": "borang hiv",
+    "volume": 50
+   },
+   {
+    "keyword": "test hiv untuk kahwin",
+    "parent_topic": "hiv test kahwin",
+    "volume": 50
+   },
+   {
+    "keyword": "borang hiv test kahwin kelantan",
+    "parent_topic": null,
+    "volume": 40
+   },
+   {
+    "keyword": "borang hiv test kahwin johor",
+    "parent_topic": null,
+    "volume": 40
+   },
+   {
+    "keyword": "cara buat hiv test untuk kahwin",
+    "parent_topic": "hiv test kahwin",
+    "volume": 40
+   },
+   {
+    "keyword": "keputusan hiv test kahwin",
+    "parent_topic": null,
+    "volume": 40
+   },
+   {
+    "keyword": "hiv test valid berapa bulan untuk kahwin",
+    "parent_topic": null,
+    "volume": 40
+   },
+   {
+    "keyword": "cara test hiv untuk kahwin",
+    "parent_topic": "hiv test kahwin",
+    "volume": 40
+   },
+   {
+    "keyword": "hiv test kahwin klinik swasta",
+    "parent_topic": "hiv test kahwin",
+    "volume": 30
+   },
+   {
+    "keyword": "appointment hiv test kahwin",
+    "parent_topic": null,
+    "volume": 30
+   },
+   {
+    "keyword": "borang hiv test kahwin selangor",
+    "parent_topic": "borang nikah selangor pdf",
+    "volume": 30
+   },
+   {
+    "keyword": "hiv test berapa bulan sebelum kahwin",
+    "parent_topic": "hiv test kahwin",
+    "volume": 30
+   },
+   {
+    "keyword": "hiv test untuk kahwin valid berapa bulan",
+    "parent_topic": "borang hiv",
+    "volume": 30
+   },
+   {
+    "keyword": "hiv test kahwin valid berapa bulan",
+    "parent_topic": null,
+    "volume": 30
+   },
+   {
+    "keyword": "hiv test klinik swasta untuk kahwin",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "harga hiv test untuk kahwin",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "hiv test kahwin valid berapa lama",
+    "parent_topic": "tempoh sah hiv test kahwin",
+    "volume": 20
+   },
+   {
+    "keyword": "hiv test sebelum kahwin",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "hiv test kahwin selangor",
+    "parent_topic": "tempoh sah hiv test kahwin",
+    "volume": 20
+   },
+   {
+    "keyword": "cara nak buat hiv test untuk kahwin",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "tempoh sah hiv test kahwin selangor",
+    "parent_topic": "borang hiv",
+    "volume": 20
+   },
+   {
+    "keyword": "test hiv kahwin perlu bawa apa",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "valid hiv test untuk kahwin",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "hiv test kahwin johor",
+    "parent_topic": "hiv test",
+    "volume": 20
+   },
+   {
+    "keyword": "hiv test kahwin harga",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "result hiv test kahwin berapa lama",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "test hiv sebelum kahwin",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "borang hiv test kahwin sabah",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "hiv test valid berapa lama untuk kahwin",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "hiv test kahwin borang",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "hiv test kahwin berapa lama",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "tempoh sah hiv test kahwin kelantan",
+    "parent_topic": "tempoh sah hiv test kahwin kelantan",
+    "volume": 10
+   },
+   {
+    "keyword": "hiv test kahwin berapa bulan",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "tempoh sah hiv test kahwin johor",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "borang hiv test kahwin perak",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "borang hiv test kahwin kedah",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "borang hiv test kahwin penang",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "tempoh hiv test kahwin 2025",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "macam mana nak buat hiv test untuk kahwin",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "cara hiv test kahwin",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "harga hiv test kahwin",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "apa perlu bawa untuk hiv test kahwin",
+    "parent_topic": null,
+    "volume": 10
+   }
+  ],
+  "volume": 1100
+ },
  "my|idea goodies kahwin": {
   "aio_position": 1,
   "difficulty": 0,
@@ -1312,7 +1910,68 @@
   "serp_update_date": "2026-07-24T01:14:05Z",
   "volume": 200
  },
+ "my|kad nikah selangor": {
+  "aio_position": null,
+  "difficulty": 46,
+  "parent_topic": "kad nikah selangor",
+  "serp_crawled": true,
+  "serp_features": [
+   "image_th",
+   "video_th"
+  ],
+  "serp_update_date": "2026-08-26T17:56:23Z",
+  "volume": 700
+ },
  "my|kata kata kad jemputan": {
+  "aio_position": null,
+  "difficulty": null,
+  "parent_topic": null,
+  "serp_crawled": false,
+  "serp_features": [],
+  "serp_update_date": null,
+  "volume": null
+ },
+ "my|khutbah nikah": {
+  "aio_position": null,
+  "difficulty": 0,
+  "parent_topic": "khutbah nikah",
+  "serp_crawled": true,
+  "serp_features": [
+   "image",
+   "video_th"
+  ],
+  "serp_update_date": "2026-07-20T18:06:43Z",
+  "volume": 200
+ },
+ "my|kursus kahwin": {
+  "aio_position": null,
+  "difficulty": 47,
+  "parent_topic": "kursus kahwin",
+  "serp_crawled": true,
+  "serp_features": [
+   "sitelink",
+   "question",
+   "local_pack",
+   "video_th"
+  ],
+  "serp_update_date": "2026-08-27T07:01:44Z",
+  "volume": 3500
+ },
+ "my|kursus kahwin selangor": {
+  "aio_position": 1,
+  "difficulty": 48,
+  "parent_topic": "kursus kahwin selangor",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "ai_overview_sitelink",
+   "local_pack",
+   "video_th"
+  ],
+  "serp_update_date": "2026-08-27T04:45:36Z",
+  "volume": 3100
+ },
+ "my|lafaz taklik ikut negeri": {
   "aio_position": null,
   "difficulty": null,
   "parent_topic": null,
@@ -1608,6 +2267,276 @@
   ],
   "volume": 500
  },
+ "my|nikah di thailand": {
+  "aio_position": 1,
+  "country": "my",
+  "difficulty": 0,
+  "parent_topic": "nikah di thailand",
+  "pulled": "2026-09-01T18:22:58Z",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "ai_overview_sitelink",
+   "image_th",
+   "video",
+   "question",
+   "video_th"
+  ],
+  "serp_update_date": "2026-08-09T11:07:43Z",
+  "siblings": [
+   {
+    "keyword": "nikah di thailand",
+    "parent_topic": "nikah di thailand",
+    "volume": 200
+   },
+   {
+    "keyword": "denda nikah di thailand",
+    "parent_topic": "kos nikah di thailand",
+    "volume": 90
+   },
+   {
+    "keyword": "cara daftar nikah thailand di malaysia",
+    "parent_topic": "cara daftar nikah thailand di malaysia",
+    "volume": 50
+   },
+   {
+    "keyword": "nikah di thailand daftar di malaysia",
+    "parent_topic": null,
+    "volume": 30
+   },
+   {
+    "keyword": "nikah di thailand sah atau tidak",
+    "parent_topic": null,
+    "volume": 30
+   },
+   {
+    "keyword": "daftar nikah thailand di perlis",
+    "parent_topic": "daftar nikah thailand di perlis",
+    "volume": 20
+   },
+   {
+    "keyword": "cara daftar nikah di malaysia selepas nikah di thailand",
+    "parent_topic": "denda kahwin di thailand",
+    "volume": 20
+   },
+   {
+    "keyword": "daftar nikah thailand di malaysia",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "sijil nikah thailand sah di malaysia",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "hukum nikah di thailand",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "denda nikah di thailand 2020",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "nikah beda agama di thailand",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "syarat nikah di thailand",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "kos nikah di thailand",
+    "parent_topic": "nikah siam",
+    "volume": 0
+   },
+   {
+    "keyword": "denda nikah di thailand 2023",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "cara nikah di thailand tanpa agen",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "nikah di sempadan thailand",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "nikah di thailand dan daftar di malaysia",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "nikah di thailand pkp",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "tempat nikah di thailand",
+    "parent_topic": "nikah di thailand",
+    "volume": 0
+   },
+   {
+    "keyword": "denda nikah di thailand 2022",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "awie nikah di thailand",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "penjawat awam nikah di thailand",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "pendaftaran nikah thailand di malaysia",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "syarat daftar nikah thailand di malaysia",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "pakej nikah di thailand",
+    "parent_topic": "nikah thailand",
+    "volume": 0
+   },
+   {
+    "keyword": "nikah di thailand cerai di malaysia",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "sah ke nikah di thailand",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "nikah di thailand terbaik dan dipercayai",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "shamsul nikah di thailand",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "soal jawab nikah di thailand",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "nikah di thailand 2016",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "nikah di thailand daftar di perlis",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "panduan nikah di thailand",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "keburukan nikah di thailand",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "nikah di betong thailand",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "proses daftar nikah thailand di malaysia",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "nikah sesama jenis di thailand",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "daftar nikah di thailand",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "agen nikah di thailand",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "ira kazar nikah di thailand",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "nikah di thailand 2018",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "pengalaman nikah di thailand 2018",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "daftar nikah thailand di selangor",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "adakah sah nikah di thailand",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "kisah nikah di thailand",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "nikah di narathiwat thailand",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "surat pengesahan nikah di thailand",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "syamsul yusof nikah di thailand",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "ejen nikah di thailand",
+    "parent_topic": null,
+    "volume": 0
+   }
+  ],
+  "volume": 200
+ },
  "my|nikah gantung": {
   "aio_position": 1,
   "country": "my",
@@ -1876,6 +2805,275 @@
    }
   ],
   "volume": 70
+ },
+ "my|nikah siri": {
+  "aio_position": 1,
+  "country": "my",
+  "difficulty": 0,
+  "parent_topic": "nikah siri",
+  "pulled": "2026-09-01T18:26:11Z",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "ai_overview_sitelink",
+   "image_th",
+   "image",
+   "question"
+  ],
+  "serp_update_date": "2026-07-25T22:49:24Z",
+  "siblings": [
+   {
+    "keyword": "nikah siri",
+    "parent_topic": "nikah siri",
+    "volume": 350
+   },
+   {
+    "keyword": "nikah siri itu apa",
+    "parent_topic": "nikah siri",
+    "volume": 350
+   },
+   {
+    "keyword": "maksud nikah siri",
+    "parent_topic": "nikah siri",
+    "volume": 150
+   },
+   {
+    "keyword": "nikah siri di malaysia",
+    "parent_topic": "nikah siri",
+    "volume": 100
+   },
+   {
+    "keyword": "apakah nikah siri itu zina",
+    "parent_topic": null,
+    "volume": 50
+   },
+   {
+    "keyword": "nikah siri indonesia",
+    "parent_topic": null,
+    "volume": 40
+   },
+   {
+    "keyword": "contoh surat nikah siri malaysia",
+    "parent_topic": "nikah siri",
+    "volume": 40
+   },
+   {
+    "keyword": "nikah siri malaysia",
+    "parent_topic": null,
+    "volume": 40
+   },
+   {
+    "keyword": "surat nikah siri",
+    "parent_topic": "nikah siri",
+    "volume": 40
+   },
+   {
+    "keyword": "apa itu nikah siri",
+    "parent_topic": null,
+    "volume": 30
+   },
+   {
+    "keyword": "maksud nikah siri di indonesia",
+    "parent_topic": null,
+    "volume": 30
+   },
+   {
+    "keyword": "surat nikah siri kosong",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "nikah siri tanpa wali",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "nikah siri menurut islam",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "hukum nikah siri",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "surat nikah siri asli",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "nikah siri maksud",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "nikah siri adalah",
+    "parent_topic": "nikah siri",
+    "volume": 20
+   },
+   {
+    "keyword": "nikah siri dalam islam",
+    "parent_topic": "nikah siri",
+    "volume": 20
+   },
+   {
+    "keyword": "nikah siri di indonesia",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "contoh surat nikah siri dari ustadz",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "surat nikah siri pdf",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "surat nikah siri dari penghulu",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "surat nikah siri malaysia",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "jangka waktu nikah siri",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "cara cerai nikah siri dalam islam",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "apakah nikah siri sah",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "contoh surat nikah siri",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "tempat nikah siri terdekat",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "cerai nikah siri tanpa talak",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "jangka waktu nikah siri dalam islam",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "cara cerai nikah siri",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "jasa nikah siri terdekat dari lokasi saya",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "nikah siri di batam",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "hukum nikah siri dalam islam",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "syarat nikah siri di malaysia",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "apakah nikah siri sama dengan zina",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "jatuh talak nikah siri",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "nikah siri tanpa wali perempuan apakah sah",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "surat nikah siri di malaysia",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "apa maksud nikah siri",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "syarat nikah siri",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "syarat nikah siri tanpa sepengetahuan keluarga",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "bukti nikah siri adalah",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "bisakah nikah siri di kua",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "apakah istri nikah siri dapat warisan",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "akibat nikah siri",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "bagaimana nikah siri",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "apa arti nikah siri dalam islam",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "jasa nikah siri jabodetabek",
+    "parent_topic": null,
+    "volume": 0
+   }
+  ],
+  "volume": 350
  },
  "my|outdoor wedding": {
   "country": "my",
@@ -2414,6 +3612,797 @@
   ],
   "volume": 1500
  },
+ "my|permohonan kebenaran berkahwin": {
+  "aio_position": 4,
+  "country": "my",
+  "difficulty": 5,
+  "parent_topic": "borang nikah online",
+  "pulled": "2026-09-01T18:23:28Z",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "ai_overview_sitelink",
+   "image_th",
+   "video_th"
+  ],
+  "serp_update_date": "2026-08-03T03:23:17Z",
+  "siblings": [
+   {
+    "keyword": "permohonan kebenaran berkahwin",
+    "parent_topic": "borang nikah online",
+    "volume": 100
+   },
+   {
+    "keyword": "borang permohonan untuk kebenaran berkahwin",
+    "parent_topic": "borang nikah online",
+    "volume": 80
+   },
+   {
+    "keyword": "borang permohonan kebenaran berkahwin",
+    "parent_topic": "borang nikah online",
+    "volume": 40
+   },
+   {
+    "keyword": "borang permohonan untuk kebenaran berkahwin johor",
+    "parent_topic": null,
+    "volume": 40
+   },
+   {
+    "keyword": "permohonan kebenaran berkahwin online",
+    "parent_topic": "borang nikah online",
+    "volume": 10
+   },
+   {
+    "keyword": "borang permohonan untuk kebenaran berkahwin sppim",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "borang 1 permohonan untuk kebenaran berkahwin",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "permohonan untuk kebenaran berkahwin",
+    "parent_topic": "borang nikah online",
+    "volume": 0
+   },
+   {
+    "keyword": "borang 2a permohonan kebenaran berkahwin lelaki",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "tempoh permohonan kebenaran berkahwin",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "permohonan untuk kebenaran berkahwin kelantan",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "senarai semak permohonan kebenaran berkahwin",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "permohonan kebenaran berkahwin jawi",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "permohonan kebenaran berkahwin (perempuan)",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "slip permohonan online kebenaran berkahwin",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "borang permohonan kebenaran berkahwin pahang",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "borang permohonan kebenaran berkahwin kelantan",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "permohonan kebenaran berkahwin terengganu",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "contoh borang permohonan kebenaran berkahwin",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "cara isi borang permohonan kebenaran berkahwin",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "borang permohonan kebenaran berkahwin selangor",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "permohonan kebenaran berkahwin negeri perak",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "borang 2a permohonan kebenaran berkahwin",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "permohonan kebenaran berkahwin pahang",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "permohonan kebenaran berkahwin online perak",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "permohonan untuk kebenaran berkahwin selangor",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "permohonan kebenaran berkahwin johor",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "permohonan kebenaran berkahwin secara online",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "permohonan kebenaran berkahwin kelantan",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "permohonan kebenaran berkahwin online sppim",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "permohonan untuk kebenaran berkahwin perak",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "permohonan kebenaran berkahwin selangor",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "permohonan kebenaran berkahwin melaka",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "permohonan kebenaran berkahwin lelaki selangor",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "borang permohonan kebenaran berkahwin lelaki",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "borang permohonan kebenaran berkahwin sabah",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "permohonan kebenaran berkahwin kedah",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "semak permohonan kebenaran berkahwin online",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "borang permohonan kebenaran berkahwin terengganu",
+    "parent_topic": null,
+    "volume": 0
+   }
+  ],
+  "volume": 100
+ },
+ "my|saksi nikah": {
+  "aio_position": 1,
+  "country": "my",
+  "difficulty": 0,
+  "parent_topic": "syarat saksi nikah",
+  "pulled": "2026-09-01T18:22:33Z",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "ai_overview_sitelink",
+   "image_th",
+   "question",
+   "sitelink"
+  ],
+  "serp_update_date": "2026-08-10T15:31:50Z",
+  "siblings": [
+   {
+    "keyword": "saksi nikah",
+    "parent_topic": "syarat saksi nikah",
+    "volume": 200
+   },
+   {
+    "keyword": "syarat saksi nikah",
+    "parent_topic": "syarat saksi nikah",
+    "volume": 200
+   },
+   {
+    "keyword": "saksi nikah siapa",
+    "parent_topic": "syarat saksi nikah",
+    "volume": 150
+   },
+   {
+    "keyword": "saksi nikah berapa orang",
+    "parent_topic": "saksi nikah berapa orang",
+    "volume": 150
+   },
+   {
+    "keyword": "siapa boleh jadi saksi nikah perempuan",
+    "parent_topic": "siapa boleh jadi saksi nikah perempuan",
+    "volume": 100
+   },
+   {
+    "keyword": "syarat jadi saksi nikah",
+    "parent_topic": "syarat saksi nikah",
+    "volume": 80
+   },
+   {
+    "keyword": "syarat sah saksi nikah",
+    "parent_topic": "syarat saksi nikah",
+    "volume": 70
+   },
+   {
+    "keyword": "siapa boleh jadi saksi nikah lelaki",
+    "parent_topic": "saksi pengantin lelaki",
+    "volume": 50
+   },
+   {
+    "keyword": "saksi nikah belah lelaki atau perempuan",
+    "parent_topic": "saksi kahwin",
+    "volume": 40
+   },
+   {
+    "keyword": "berapa orang saksi nikah",
+    "parent_topic": "saksi nikah berapa orang",
+    "volume": 40
+   },
+   {
+    "keyword": "saksi nikah dari pihak siapa",
+    "parent_topic": null,
+    "volume": 40
+   },
+   {
+    "keyword": "syarat menjadi saksi nikah",
+    "parent_topic": null,
+    "volume": 30
+   },
+   {
+    "keyword": "siapa yang boleh jadi saksi nikah",
+    "parent_topic": null,
+    "volume": 30
+   },
+   {
+    "keyword": "siapa boleh jadi saksi nikah",
+    "parent_topic": "siapa boleh jadi saksi nikah perempuan",
+    "volume": 30
+   },
+   {
+    "keyword": "saksi nikah perempuan adik beradik",
+    "parent_topic": "saksi nikah perempuan adik beradik",
+    "volume": 30
+   },
+   {
+    "keyword": "saksi akad nikah",
+    "parent_topic": "syarat saksi nikah",
+    "volume": 30
+   },
+   {
+    "keyword": "berapa saksi untuk akad nikah",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "saksi nikah dari pihak perempuan berapa orang",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "siapa saksi nikah",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "syarat saksi nikah dalam islam",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "tugas saksi nikah",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "berapa saksi nikah",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "saksi nikah perempuan",
+    "parent_topic": "syarat saksi nikah",
+    "volume": 20
+   },
+   {
+    "keyword": "saksi nikah dalam islam",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "syarat saksi nikah perempuan",
+    "parent_topic": "saksi",
+    "volume": 20
+   },
+   {
+    "keyword": "saksi untuk nikah",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "borang saksi permohonan nikah",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "upah saksi nikah selangor 2025",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "syarat syarat saksi nikah",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "adakah adik beradik boleh jadi saksi nikah",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "siapa boleh jadi saksi borang nikah",
+    "parent_topic": "siapa boleh jadi saksi nikah perempuan",
+    "volume": 10
+   },
+   {
+    "keyword": "hukum saksi nikah",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "syarat jadi saksi nikah dalam islam",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "syarat sah jadi saksi nikah",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "saksi nikah pihak lelaki",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "syarat saksi nikah pihak perempuan",
+    "parent_topic": "syarat saksi nikah",
+    "volume": 10
+   },
+   {
+    "keyword": "syarat sah menjadi saksi nikah",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "borang saksi nikah",
+    "parent_topic": "borang kebenaran nikah",
+    "volume": 10
+   },
+   {
+    "keyword": "syarat saksi nikah pihak lelaki",
+    "parent_topic": "syarat saksi nikah",
+    "volume": 10
+   },
+   {
+    "keyword": "saksi untuk nikah berapa orang",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "saksi nikah dari pihak perempuan",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "upah saksi nikah",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "bolehkah saudara kandung menjadi saksi nikah",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "saksi nikah lelaki",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "saksi nikah in english",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "rukun saksi nikah",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "siapa saksi nikah perempuan",
+    "parent_topic": "syarat saksi nikah",
+    "volume": 10
+   },
+   {
+    "keyword": "saksi nikah syarat",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "saksi nikah dari pihak mana",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "tugas saksi nikah dalam islam",
+    "parent_topic": null,
+    "volume": 10
+   }
+  ],
+  "volume": 200
+ },
+ "my|semak status perkahwinan": {
+  "aio_position": 1,
+  "country": "my",
+  "difficulty": 5,
+  "parent_topic": "semak status perkahwinan",
+  "pulled": "2026-09-01T18:28:35Z",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "ai_overview_sitelink",
+   "image_th",
+   "video_th",
+   "question"
+  ],
+  "serp_update_date": "2026-08-10T19:36:14Z",
+  "siblings": [
+   {
+    "keyword": "semak status perkahwinan",
+    "parent_topic": "semak status perkahwinan",
+    "volume": 600
+   },
+   {
+    "keyword": "www.esyariah.gov.my semak status perkahwinan",
+    "parent_topic": "semak status perkahwinan",
+    "volume": 350
+   },
+   {
+    "keyword": "cara semak status perkahwinan",
+    "parent_topic": "esyariah",
+    "volume": 200
+   },
+   {
+    "keyword": "semak status perkahwinan melalui nama",
+    "parent_topic": "semakan status perkahwinan",
+    "volume": 150
+   },
+   {
+    "keyword": "semak status perkahwinan melalui ic",
+    "parent_topic": "semakan status perkahwinan melalui ic",
+    "volume": 150
+   },
+   {
+    "keyword": "semak status perkahwinan online",
+    "parent_topic": "esyariah",
+    "volume": 100
+   },
+   {
+    "keyword": "cara semak status perkahwinan online",
+    "parent_topic": "esyariah",
+    "volume": 100
+   },
+   {
+    "keyword": "cara semak status perkahwinan seseorang",
+    "parent_topic": "esyariah",
+    "volume": 90
+   },
+   {
+    "keyword": "jpn semak status perkahwinan",
+    "parent_topic": "semakan status perkahwinan",
+    "volume": 80
+   },
+   {
+    "keyword": "www esyariah gov my semak status perkahwinan",
+    "parent_topic": null,
+    "volume": 70
+   },
+   {
+    "keyword": "semak status perkahwinan di pejabat agama",
+    "parent_topic": "esyariah",
+    "volume": 40
+   },
+   {
+    "keyword": "esyariah.gov.my semak status perkahwinan",
+    "parent_topic": "esyariah",
+    "volume": 40
+   },
+   {
+    "keyword": "cara semak status perkahwinan melalui ic",
+    "parent_topic": null,
+    "volume": 30
+   },
+   {
+    "keyword": "portal e syariah semak status perkahwinan",
+    "parent_topic": "semak status perkahwinan",
+    "volume": 20
+   },
+   {
+    "keyword": "e syariah semak status perkahwinan",
+    "parent_topic": "semak status perkahwinan",
+    "volume": 20
+   },
+   {
+    "keyword": "semak status perkahwinan melalui nama pdf",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "semak status perkahwinan online free",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "semak status perkahwinan jais",
+    "parent_topic": "jais selangor",
+    "volume": 20
+   },
+   {
+    "keyword": "semak status perkahwinan online whatsapp",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "semak status perkahwinan jpn",
+    "parent_topic": "semakan status perkahwinan",
+    "volume": 10
+   },
+   {
+    "keyword": "cara nak semak status perkahwinan",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "cara nak semak status perkahwinan seseorang",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "semak status perkahwinan pasangan",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "semak status perkahwinan download",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "semak status perkahwinan kedah",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "semak status perkahwinan bukan islam",
+    "parent_topic": "permohonan kahwin",
+    "volume": 0
+   },
+   {
+    "keyword": "semak status perkahwinan di jpn",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "semak status perkahwinan suami",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "semak status perkahwinan sabah",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "semak status perkahwinan 7",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "semak status perkahwinan islam",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "semak status perkahwinan sarawak",
+    "parent_topic": "kad nikah sarawak",
+    "volume": 0
+   },
+   {
+    "keyword": "cara untuk semak status perkahwinan",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "semak status perkahwinan melalui nama download",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "semak status perkahwinan seseorang",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "semak perkahwinan status",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "cara semak status perkahwinan bukan islam",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "jais semak status perkahwinan",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "semak status perkahwinan secara online",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "semak status perkahwinan guna ic",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "semak status perkahwinan secara online malaysia",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "semak status perkahwinan johor",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "semak status perkahwinan esyariah",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "cara semak status perkahwinan jpn",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "laman web semak status perkahwinan",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "macam mana nak semak status perkahwinan",
+    "parent_topic": null,
+    "volume": 0
+   }
+  ],
+  "volume": 600
+ },
+ "my|semakan status perkahwinan melalui ic": {
+  "aio_position": 1,
+  "country": "my",
+  "difficulty": 0,
+  "parent_topic": "semakan status perkahwinan melalui ic",
+  "pulled": "2026-09-01T18:28:39Z",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "ai_overview_sitelink",
+   "image_th",
+   "video_th",
+   "sitelink",
+   "question"
+  ],
+  "serp_update_date": "2026-08-11T12:51:56Z",
+  "siblings": [
+   {
+    "keyword": "semakan status perkahwinan melalui ic",
+    "parent_topic": "semakan status perkahwinan melalui ic",
+    "volume": 1300
+   },
+   {
+    "keyword": "semakan status perkahwinan melalui ic whatsapp",
+    "parent_topic": null,
+    "volume": 60
+   },
+   {
+    "keyword": "semakan status perkahwinan melalui ic download",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "semakan status perkahwinan melalui ic bukan islam",
+    "parent_topic": "semakan status perkahwinan melalui ic",
+    "volume": 10
+   },
+   {
+    "keyword": "semakan status perkahwinan melalui ic.",
+    "parent_topic": null,
+    "volume": 0
+   }
+  ],
+  "volume": 1300
+ },
+ "my|sijil kursus kahwin": {
+  "aio_position": 1,
+  "difficulty": 60,
+  "parent_topic": "sijil kursus kahwin",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "ai_overview_sitelink",
+   "image_th",
+   "question",
+   "sitelink"
+  ],
+  "serp_update_date": "2026-08-27T15:58:57Z",
+  "volume": 300
+ },
  "my|skrip juruacara majlis perkahwinan": {
   "aio_position": null,
   "country": "my",
@@ -2791,6 +4780,705 @@
   ],
   "volume": 200
  },
+ "my|surat akuan bujang": {
+  "aio_position": 1,
+  "country": "my",
+  "difficulty": 0,
+  "parent_topic": "surat pengesahan bujang",
+  "pulled": "2026-09-01T18:28:57Z",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "ai_overview_sitelink",
+   "image_th",
+   "image",
+   "video_th"
+  ],
+  "serp_update_date": "2026-08-07T14:05:30Z",
+  "siblings": [
+   {
+    "keyword": "surat akuan bujang",
+    "parent_topic": "surat pengesahan bujang",
+    "volume": 450
+   },
+   {
+    "keyword": "contoh surat akuan bujang",
+    "parent_topic": "surat akuan bujang",
+    "volume": 100
+   },
+   {
+    "keyword": "surat akuan bujang sppim",
+    "parent_topic": null,
+    "volume": 80
+   },
+   {
+    "keyword": "surat akuan bujang majikan",
+    "parent_topic": "surat akuan bujang majikan",
+    "volume": 50
+   },
+   {
+    "keyword": "contoh surat akuan bujang majikan",
+    "parent_topic": null,
+    "volume": 40
+   },
+   {
+    "keyword": "surat akuan bujang majikan pdf",
+    "parent_topic": "surat akuan bujang majikan",
+    "volume": 40
+   },
+   {
+    "keyword": "surat akuan bujang ketua kampung",
+    "parent_topic": "surat akuan bujang",
+    "volume": 30
+   },
+   {
+    "keyword": "surat akuan bujang johor",
+    "parent_topic": "surat akuan bujang johor",
+    "volume": 20
+   },
+   {
+    "keyword": "surat akuan bujang pesuruhjaya sumpah",
+    "parent_topic": "surat akuan bujang",
+    "volume": 20
+   },
+   {
+    "keyword": "surat akuan bujang in english",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "contoh surat akuan bujang dari majikan",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "surat akuan bujang dari majikan",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "contoh surat akuan bujang untuk berkahwin",
+    "parent_topic": "surat pengesahan bujang",
+    "volume": 10
+   },
+   {
+    "keyword": "surat akuan bujang untuk berkahwin",
+    "parent_topic": "surat pengesahan bujang",
+    "volume": 10
+   },
+   {
+    "keyword": "surat akuan bujang perempuan",
+    "parent_topic": "surat akuan bujang",
+    "volume": 10
+   },
+   {
+    "keyword": "ketua kampung surat akuan bujang",
+    "parent_topic": "surat pengesahan bujang",
+    "volume": 10
+   },
+   {
+    "keyword": "surat akuan bujang doc",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "surat akuan sumpah bujang pesuruhjaya sumpah",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "surat akuan bujang perempuan selangor",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "contoh surat akuan bujang dalam bahasa inggris",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "surat akuan bujang perempuan pdf",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "surat akuan bujang kuala terengganu",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "surat akuan bujang dalam english",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "contoh surat akuan bujang guru",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "surat akuan bujang johor sppim",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "contoh surat akuan bujang selangor",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "tempoh sah surat akuan bujang",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "surat akuan bujang dari ketua kampung",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "contoh surat akuan bujang pesuruhjaya sumpah",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "surat akuan bujang sabah",
+    "parent_topic": "mas kahwin sabah",
+    "volume": 0
+   },
+   {
+    "keyword": "syarat surat akuan bujang",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "cara dapatkan surat akuan bujang",
+    "parent_topic": "borang pengakuan bujang",
+    "volume": 0
+   },
+   {
+    "keyword": "surat akuan bujang kelantan",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "surat akuan bujang ambil di mana",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "surat akuan bujang dari imam",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "surat akuan bujang untuk yang tidak bekerja",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "surat akuan bujang daripada majikan",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "contoh surat akuan bujang terengganu",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "contoh surat akuan bujang untuk kahwin",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "surat akuan bujang kedah",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "surat akuan bujang contoh",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "surat akuan bujang malaysia",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "contoh surat akuan bujang melaka",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "surat akuan bujang selangor pdf",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "perlu ke surat akuan bujang",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "surat akuan bujang kl",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "surat akuan bujang untuk nikah",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "contoh surat akuan bujang dari ketua kampung",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "surat akuan bujang ketua kampung pdf",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "contoh surat akuan bujang jkkk",
+    "parent_topic": null,
+    "volume": 0
+   }
+  ],
+  "volume": 450
+ },
+ "my|surat nikah": {
+  "aio_position": 1,
+  "country": "my",
+  "difficulty": 4,
+  "parent_topic": "sppim",
+  "pulled": "2026-09-01T18:23:08Z",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "image",
+   "video_th"
+  ],
+  "serp_update_date": "2026-08-18T15:51:43Z",
+  "siblings": [
+   {
+    "keyword": "surat nikah",
+    "parent_topic": "sppim",
+    "volume": 200
+   },
+   {
+    "keyword": "surat perakuan nikah",
+    "parent_topic": "kad nikah selangor",
+    "volume": 200
+   },
+   {
+    "keyword": "surat beranak anak luar nikah",
+    "parent_topic": "contoh ic anak luar nikah",
+    "volume": 100
+   },
+   {
+    "keyword": "surat nikah malaysia",
+    "parent_topic": "sppim",
+    "volume": 70
+   },
+   {
+    "keyword": "surat nikah indonesia",
+    "parent_topic": "buku nikah malaysia",
+    "volume": 70
+   },
+   {
+    "keyword": "contoh surat beranak anak luar nikah",
+    "parent_topic": "contoh sijil lahir anak luar nikah",
+    "volume": 60
+   },
+   {
+    "keyword": "contoh surat nikah siri malaysia",
+    "parent_topic": "nikah siri",
+    "volume": 40
+   },
+   {
+    "keyword": "surat nikah siri",
+    "parent_topic": "nikah siri",
+    "volume": 40
+   },
+   {
+    "keyword": "surat nikah johor",
+    "parent_topic": null,
+    "volume": 30
+   },
+   {
+    "keyword": "contoh surat nikah malaysia",
+    "parent_topic": "borang nikah online",
+    "volume": 30
+   },
+   {
+    "keyword": "surat perakuan nikah selangor",
+    "parent_topic": "kad nikah selangor",
+    "volume": 30
+   },
+   {
+    "keyword": "surat nikah siri kosong",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "sijil contoh surat beranak anak luar nikah",
+    "parent_topic": "contoh sijil lahir anak luar nikah",
+    "volume": 20
+   },
+   {
+    "keyword": "contoh surat perakuan nikah",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "surat nikah online",
+    "parent_topic": "sppim",
+    "volume": 20
+   },
+   {
+    "keyword": "surat nikah siri asli",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "contoh surat beranak anak luar nikah pdf",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "surat kebenaran nikah",
+    "parent_topic": "borang nikah online",
+    "volume": 10
+   },
+   {
+    "keyword": "contoh surat nikah siri dari ustadz",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "surat nikah siri pdf",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "surat keterangan nikah",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "nikah tanpa surat cerai",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "surat nikah siri dari penghulu",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "contoh surat nikah",
+    "parent_topic": "surat nikah siri",
+    "volume": 10
+   },
+   {
+    "keyword": "surat nikah siri malaysia",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "cara cek surat nikah online",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "surat nikah in english",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "contoh surat nikah siri",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "gambar surat nikah",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "surat perakuan nikah johor",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "surat perakuan nikah sabah",
+    "parent_topic": "mas kahwin sabah",
+    "volume": 10
+   },
+   {
+    "keyword": "foto surat nikah",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "surat akad nikah",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "contoh surat akuan sumpah sijil nikah hilang",
+    "parent_topic": "contoh sijil nikah selangor",
+    "volume": 10
+   },
+   {
+    "keyword": "contoh surat rekomendasi nikah ke luar negeri",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "buat surat nikah online",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "surat nikah是什么",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "no surat nikah",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "surat wakil ambil sijil nikah",
+    "parent_topic": "contoh surat wakil ambil sijil nikah",
+    "volume": 10
+   },
+   {
+    "keyword": "cara buat surat nikah",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "surat perakuan nikah sementara",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "pengesahan surat nikah kedutaan indonesia",
+    "parent_topic": "pengesahan surat nikah kedutaan indonesia",
+    "volume": 10
+   },
+   {
+    "keyword": "surat nikah siri di malaysia",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "surat nikah selangor",
+    "parent_topic": "kad nikah selangor",
+    "volume": 10
+   },
+   {
+    "keyword": "surat akuan nikah",
+    "parent_topic": "kad nikah selangor",
+    "volume": 10
+   },
+   {
+    "keyword": "surat pengakuan bujang untuk nikah",
+    "parent_topic": "surat pengesahan bujang",
+    "volume": 10
+   },
+   {
+    "keyword": "surat pengantar nikah",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "cek surat nikah online",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "contoh surat akuan sumpah nikah ibu bapa",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "baca surat nikah",
+    "parent_topic": null,
+    "volume": 0
+   }
+  ],
+  "volume": 200
+ },
+ "my|surat perakuan nikah": {
+  "aio_position": 1,
+  "country": "my",
+  "difficulty": 0,
+  "parent_topic": "kad nikah selangor",
+  "pulled": "2026-09-01T18:25:50Z",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "image"
+  ],
+  "serp_update_date": "2026-07-19T02:52:06Z",
+  "siblings": [
+   {
+    "keyword": "surat perakuan nikah",
+    "parent_topic": "kad nikah selangor",
+    "volume": 200
+   },
+   {
+    "keyword": "surat perakuan nikah selangor",
+    "parent_topic": "kad nikah selangor",
+    "volume": 30
+   },
+   {
+    "keyword": "contoh surat perakuan nikah",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "surat perakuan nikah johor",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "surat perakuan nikah sabah",
+    "parent_topic": "mas kahwin sabah",
+    "volume": 10
+   },
+   {
+    "keyword": "surat perakuan nikah sementara",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "surat perakuan nikah jais",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "surat perakuan nikah pahang",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "surat perakuan nikah contoh sijil nikah sabah",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "semakan surat perakuan nikah selangor",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "borang permohonan salinan surat perakuan nikah",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "surat perakuan nikah in english",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "surat perakuan nikah hilang",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "surat perakuan nikah negeri selangor",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "surat perakuan nikah sarawak",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "surat perakuan nikah sijil nikah sabah",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "semak status surat perakuan nikah",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "borang permohonan salinan surat perakuan nikah secara online",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "surat perakuan nikah sementara hilang",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "contoh surat perakuan nikah selangor",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "salinan surat perakuan nikah",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "surat perakuan nikah ibu bapa",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "surat perakuan nikah pdf",
+    "parent_topic": null,
+    "volume": 0
+   }
+  ],
+  "volume": 200
+ },
+ "my|syarat saksi nikah": {
+  "aio_position": 1,
+  "difficulty": 0,
+  "parent_topic": "syarat saksi nikah",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "ai_overview_sitelink",
+   "image_th",
+   "image",
+   "question",
+   "video_th"
+  ],
+  "serp_update_date": "2026-08-02T18:45:55Z",
+  "volume": 200
+ },
+ "my|syarat wali nikah": {
+  "aio_position": 1,
+  "difficulty": 0,
+  "parent_topic": "urutan wali nikah",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "ai_overview_sitelink",
+   "image_th",
+   "question",
+   "image",
+   "video_th"
+  ],
+  "serp_update_date": "2026-07-19T09:30:55Z",
+  "volume": 250
+ },
  "my|teks kad jemputan": {
   "aio_position": null,
   "difficulty": null,
@@ -2844,6 +5532,1071 @@
   ],
   "serp_update_date": "2026-08-26T19:01:40Z",
   "volume": 90
+ },
+ "my|ujian hiv sebelum kahwin": {
+  "aio_position": 1,
+  "country": "my",
+  "difficulty": 0,
+  "parent_topic": "hiv test kahwin",
+  "pulled": "2026-09-01T18:28:31Z",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "ai_overview_sitelink",
+   "image_th",
+   "question",
+   "video_th"
+  ],
+  "serp_update_date": "2026-08-18T22:52:45Z",
+  "siblings": [
+   {
+    "keyword": "ujian hiv sebelum kahwin",
+    "parent_topic": "hiv test kahwin",
+    "volume": 10
+   },
+   {
+    "keyword": "tempoh ujian hiv sebelum kahwin",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "ujian hiv berapa bulan sebelum kahwin",
+    "parent_topic": null,
+    "volume": 0
+   }
+  ],
+  "volume": 10
+ },
+ "my|urutan wali nikah": {
+  "aio_position": 1,
+  "country": "my",
+  "difficulty": 0,
+  "parent_topic": "wali nikah",
+  "pulled": "2026-09-01T18:24:27Z",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "ai_overview_sitelink",
+   "image_th",
+   "question",
+   "video_th"
+  ],
+  "serp_update_date": "2026-08-26T06:42:53Z",
+  "siblings": [
+   {
+    "keyword": "urutan wali nikah",
+    "parent_topic": "wali nikah",
+    "volume": 150
+   },
+   {
+    "keyword": "urutan wali nikah malaysia",
+    "parent_topic": "susunan wali nikah",
+    "volume": 40
+   },
+   {
+    "keyword": "urutan wali nikah perempuan dalam islam",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "urutan wali nikah dalam islam",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "urutan wali nikah setelah ayah meninggal",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "urutan wali nikah jika ayah meninggal",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "urutan yang berhak menjadi wali nikah",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "urutan wali nikah untuk anak perempuan",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "urutan yang bisa menjadi wali nikah",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "urutan wali nikah menurut 4 mazhab",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "urutan wali nikah janda",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "urutan wali nikah bagi seorang wanita",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "urutan wali nikah bagi perempuan",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "urutan nasab wali nikah",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "wali nikah urutan",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "urutan menjadi wali nikah",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "urutan wali nikah perempuan",
+    "parent_topic": null,
+    "volume": 0
+   }
+  ],
+  "volume": 150
+ },
+ "my|wali hakim": {
+  "aio_position": 1,
+  "country": "my",
+  "difficulty": 0,
+  "parent_topic": "wali kahwin",
+  "pulled": "2026-09-01T18:22:46Z",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "ai_overview_sitelink",
+   "image_th",
+   "question",
+   "image",
+   "video_th"
+  ],
+  "serp_update_date": "2026-07-31T22:58:18Z",
+  "siblings": [
+   {
+    "keyword": "wali hakim",
+    "parent_topic": "wali kahwin",
+    "volume": 200
+   },
+   {
+    "keyword": "wali hakim maksud",
+    "parent_topic": null,
+    "volume": 70
+   },
+   {
+    "keyword": "contoh lafaz akad nikah wali hakim",
+    "parent_topic": "akad nikah",
+    "volume": 30
+   },
+   {
+    "keyword": "maksud wali hakim",
+    "parent_topic": null,
+    "volume": 30
+   },
+   {
+    "keyword": "syarat wali hakim",
+    "parent_topic": "wali hakim",
+    "volume": 30
+   },
+   {
+    "keyword": "wali hakim syarat",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "sebab guna wali hakim",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "permohonan wali hakim",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "wali hakim adalah",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "nikah wali hakim",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "lafadz akad nikah wali hakim bahasa arab",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "wali hakim dalam pernikahan",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "prosedur nikah menggunakan wali hakim",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "lafaz nikah wali hakim",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "apa itu wali hakim",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "wali hakim sabah",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "wali hakim dalam islam",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "borang wali hakim",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "syarat sah wali hakim",
+    "parent_topic": "wali kahwin",
+    "volume": 10
+   },
+   {
+    "keyword": "cara mohon wali hakim",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "permohonan wali hakim johor",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "sebab perpindahan wali nasab kepada wali hakim",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "prosedur wali hakim",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "hukum janda menikah dengan wali hakim",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "syarat guna wali hakim",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "wali hakim selangor",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "syarat wali hakim dalam pernikahan",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "prosedur wali hakim anak luar nikah",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "lafaz akad nikah wali hakim",
+    "parent_topic": "lafaz akad nikah wali hakim",
+    "volume": 10
+   },
+   {
+    "keyword": "wali hakim anak luar nikah",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "akad nikah wali hakim",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "wali nasab dan wali hakim",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "maksud wali hakim dalam pernikahan",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "proses wali hakim",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "siapa wali hakim",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "borang wali hakim sabah",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "nikah dengan wali hakim apakah sah",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "cara ijab kabul wali hakim",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "wali hakim untuk janda",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "prosedur permohonan wali hakim",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "surat permohonan wali hakim pdf",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "nikah siri wali hakim",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "wali hakim nikah siri",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "siapa wali hakim dalam pernikahan",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "perpindahan wali nasab ke wali hakim",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "permohonan wali hakim kedah",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "dalil wali hakim",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "contoh wali hakim",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "contoh surat akuan sumpah wali hakim",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "syarat syarat wali hakim",
+    "parent_topic": null,
+    "volume": 0
+   }
+  ],
+  "volume": 200
+ },
+ "my|wali mujbir": {
+  "aio_position": 1,
+  "country": "my",
+  "difficulty": 0,
+  "parent_topic": "wali mujbir",
+  "pulled": "2026-09-01T18:28:51Z",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "ai_overview_sitelink",
+   "image_th",
+   "question"
+  ],
+  "serp_update_date": "2026-08-27T13:01:13Z",
+  "siblings": [
+   {
+    "keyword": "wali mujbir",
+    "parent_topic": "wali mujbir",
+    "volume": 300
+   },
+   {
+    "keyword": "wali mujbir maksud",
+    "parent_topic": null,
+    "volume": 200
+   },
+   {
+    "keyword": "maksud wali mujbir",
+    "parent_topic": null,
+    "volume": 150
+   },
+   {
+    "keyword": "apa itu wali mujbir",
+    "parent_topic": null,
+    "volume": 40
+   },
+   {
+    "keyword": "wali bukan mujbir",
+    "parent_topic": null,
+    "volume": 40
+   },
+   {
+    "keyword": "wali mujbir dan wali nasab",
+    "parent_topic": null,
+    "volume": 40
+   },
+   {
+    "keyword": "wali mujbir adalah",
+    "parent_topic": "wali mujbir",
+    "volume": 40
+   },
+   {
+    "keyword": "wali mujbir tu apa",
+    "parent_topic": null,
+    "volume": 40
+   },
+   {
+    "keyword": "wali mujbir siapa",
+    "parent_topic": null,
+    "volume": 30
+   },
+   {
+    "keyword": "apa maksud wali mujbir",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "bukan wali mujbir",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "wali mujbir ertinya",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "maksud bukan wali mujbir",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "siapa wali mujbir",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "siapakah wali mujbir",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "wali mujbir dan wali adhal",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "siapa saja wali mujbir",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "wali ghairu mujbir",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "hikmah wali mujbir",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "siapakah yang dimaksudkan dengan wali mujbir",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "pengertian wali mujbir",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "siapa wali mujbir itu",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "pengertian wali mujbir adalah",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "apa itu wali mujbir dan wali adhal",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "wali mujbir pdf",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "wali mujbir ialah",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "jelaskan apa yang dimaksud dengan wali mujbir",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "wali mujbir menurut ulama",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "siapakah yang dimaksudkan dengan wali mujbir?",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "sebutkan urutan wali mujbir",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "apa yang dimaksud dengan wali mujbir",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "contoh wali mujbir",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "wali mujbir adalah wali yang",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "senarai wali mujbir",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "wali nikah mujbir",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "apakah wali mujbir",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "wali nikah mujbir adalah",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "syarat syarat wali mujbir",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "wali mujbir siapa saja",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "mujbir dalam wali nikah",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "contoh wali mujbir adalah",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "wali mujbir pendidikan islam",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "arti wali mujbir",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "susunan wali mujbir",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "pengertian wali ghairu mujbir",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "wali bukan mujbir maksud",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "wali mujbir dan ghairu mujbir",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "syarat wali mujbir",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "apa yang dimaksud wali mujbir",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "wali ghairu mujbir adalah",
+    "parent_topic": null,
+    "volume": 0
+   }
+  ],
+  "volume": 300
+ },
+ "my|wali nikah": {
+  "aio_position": 1,
+  "country": "my",
+  "difficulty": 0,
+  "parent_topic": "urutan wali nikah",
+  "pulled": "2026-09-01T18:22:19Z",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "ai_overview_sitelink",
+   "image_th",
+   "question",
+   "image",
+   "video_th"
+  ],
+  "serp_update_date": "2026-08-09T21:58:44Z",
+  "siblings": [
+   {
+    "keyword": "wali nikah",
+    "parent_topic": "urutan wali nikah",
+    "volume": 300
+   },
+   {
+    "keyword": "syarat wali nikah",
+    "parent_topic": "urutan wali nikah",
+    "volume": 250
+   },
+   {
+    "keyword": "wali nikah dalam islam",
+    "parent_topic": "wali nikah dalam islam",
+    "volume": 200
+   },
+   {
+    "keyword": "syarat sah wali nikah",
+    "parent_topic": "syarat sah wali",
+    "volume": 150
+   },
+   {
+    "keyword": "urutan wali nikah",
+    "parent_topic": "wali nikah",
+    "volume": 150
+   },
+   {
+    "keyword": "susunan wali nikah",
+    "parent_topic": "jenis wali nikah",
+    "volume": 150
+   },
+   {
+    "keyword": "senarai wali nikah",
+    "parent_topic": "syarat sah wali nikah",
+    "volume": 100
+   },
+   {
+    "keyword": "syarat jadi wali nikah",
+    "parent_topic": null,
+    "volume": 100
+   },
+   {
+    "keyword": "turutan wali nikah",
+    "parent_topic": "syarat wali nikah",
+    "volume": 100
+   },
+   {
+    "keyword": "wali nikah perempuan",
+    "parent_topic": "wali nikah",
+    "volume": 70
+   },
+   {
+    "keyword": "syarat menjadi wali nikah",
+    "parent_topic": "syarat wali nikah",
+    "volume": 60
+   },
+   {
+    "keyword": "lafaz akad nikah wali",
+    "parent_topic": "lafaz akad nikah",
+    "volume": 60
+   },
+   {
+    "keyword": "jenis wali nikah",
+    "parent_topic": "jenis wali nikah",
+    "volume": 50
+   },
+   {
+    "keyword": "urutan wali nikah malaysia",
+    "parent_topic": "susunan wali nikah",
+    "volume": 40
+   },
+   {
+    "keyword": "tugas wali nikah",
+    "parent_topic": null,
+    "volume": 30
+   },
+   {
+    "keyword": "tertib wali nikah",
+    "parent_topic": null,
+    "volume": 30
+   },
+   {
+    "keyword": "susunan wali nikah dalam islam",
+    "parent_topic": null,
+    "volume": 30
+   },
+   {
+    "keyword": "wali akad nikah",
+    "parent_topic": "lafaz akad nikah",
+    "volume": 30
+   },
+   {
+    "keyword": "nikah tanpa wali",
+    "parent_topic": "rukun nikah janda",
+    "volume": 30
+   },
+   {
+    "keyword": "jika ayah kandung tidak mau menjadi wali nikah",
+    "parent_topic": null,
+    "volume": 30
+   },
+   {
+    "keyword": "contoh lafaz akad nikah wali hakim",
+    "parent_topic": "akad nikah",
+    "volume": 30
+   },
+   {
+    "keyword": "syarat wali nikah perempuan",
+    "parent_topic": "syarat sah wali",
+    "volume": 30
+   },
+   {
+    "keyword": "syarat sah menjadi wali nikah",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "hukum wali nikah",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "nikah siri tanpa wali",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "syarat wali nikah dalam islam",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "hukum nikah tanpa wali ayah kandung",
+    "parent_topic": "nikah tanpa wali",
+    "volume": 20
+   },
+   {
+    "keyword": "wali nikah in english",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "susur galur wali nikah",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "lafaz akad nikah wali abang",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "siapa wali nikah",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "siapa boleh jadi wali nikah perempuan",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "nikah wali hakim",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "nasab wali nikah",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "lafaz wakil wali nikah",
+    "parent_topic": "lafaz wakil wali nikah",
+    "volume": 20
+   },
+   {
+    "keyword": "lafadz akad nikah wali hakim bahasa arab",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "maksud wali nikah",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "urutan wali nikah perempuan dalam islam",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "wali nikah perempuan jika ayah meninggal",
+    "parent_topic": "turutan wali",
+    "volume": 20
+   },
+   {
+    "keyword": "syarat sah wali nikah perempuan",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "prosedur nikah menggunakan wali hakim",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "nikah kena ada wali",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "lafaz nikah wali hakim",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "siapa yang boleh jadi wali nikah perempuan",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "hierarki wali nikah",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "wali nikah janda",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "syarat syarat wali nikah",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "rukun wali nikah",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "lafaz wali nikah perempuan",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "siapakah wali nikah",
+    "parent_topic": null,
+    "volume": 10
+   }
+  ],
+  "volume": 300
+ },
+ "my|wali nikah dalam islam": {
+  "aio_position": 1,
+  "country": "my",
+  "difficulty": 0,
+  "parent_topic": "wali nikah dalam islam",
+  "pulled": "2026-09-01T18:25:55Z",
+  "serp_crawled": true,
+  "serp_features": [
+   "ai_overview",
+   "ai_overview_sitelink",
+   "image_th",
+   "question",
+   "image"
+  ],
+  "serp_update_date": "2026-08-01T11:37:05Z",
+  "siblings": [
+   {
+    "keyword": "wali nikah dalam islam",
+    "parent_topic": "wali nikah dalam islam",
+    "volume": 200
+   },
+   {
+    "keyword": "susunan wali nikah dalam islam",
+    "parent_topic": null,
+    "volume": 30
+   },
+   {
+    "keyword": "syarat wali nikah dalam islam",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "urutan wali nikah perempuan dalam islam",
+    "parent_topic": null,
+    "volume": 20
+   },
+   {
+    "keyword": "urutan wali nikah dalam islam",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "syarat sah wali nikah dalam islam",
+    "parent_topic": null,
+    "volume": 10
+   },
+   {
+    "keyword": "wali nikah untuk janda dalam islam",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "wali nikah anak angkat dalam islam",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "dalil wali nikah dalam islam",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "syarat menjadi wali nikah dalam islam",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "syarat jadi wali nikah dalam islam",
+    "parent_topic": "syarat wali nikah",
+    "volume": 0
+   },
+   {
+    "keyword": "wali akad nikah dalam islam",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "jenis wali nikah dalam islam",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "syarat syarat wali nikah dalam islam",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "syarat wali nikah perempuan dalam islam",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "apa itu wali nikah dalam islam",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "syarat wali dan saksi nikah dalam islam",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "syarat sah wali nikah dalam islam adalah",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "tugas wali nikah dalam islam",
+    "parent_topic": null,
+    "volume": 0
+   },
+   {
+    "keyword": "nikah wali hakim dalam islam",
+    "parent_topic": null,
+    "volume": 0
+   }
+  ],
+  "volume": 200
  },
  "my|walimatul urus": {
   "aio_position": 1,
