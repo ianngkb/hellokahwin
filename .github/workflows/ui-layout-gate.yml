@@ -84,6 +84,11 @@ jobs:
     # not something a faster runner removes. A timeout that trips is
     # indistinguishable in the log from a gate that hung, which is the worst
     # possible failure for the one job that certifies the instruments.
+    #
+    # MEASURED, not precautionary: run 33551557077 on ubuntu-latest took
+    # 14m17s. Against the old ceiling that is 43 seconds of headroom, and the
+    # job would have tripped on any slower runner while printing a log that
+    # looked exactly like a hang.
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4

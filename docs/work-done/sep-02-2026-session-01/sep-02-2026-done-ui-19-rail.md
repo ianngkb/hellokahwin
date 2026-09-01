@@ -361,6 +361,28 @@ inside `--selftest`, which is already blocking on every push and PR. Its
 widths is 20 more page loads on a job whose cost is network-bound, and a timeout
 that trips is indistinguishable in the log from a gate that hung.
 
+**That raise was necessary rather than precautionary, and the number says so.**
+The blocking job on this PR — run `33551557077`, `ubuntu-latest` — took
+**14m17s**. Against the old 15-minute ceiling that is **43 seconds** of headroom,
+and it would have tripped on any slower runner.
+
+The CI log carries all 99 of UI-19's assertions, not a tick:
+
+```
+PASS  …and splicing the whole <aside data-hk-rail> element, open tag to close out of
+      unsourced-ok.html reproduces unsourced-rail-absent.html byte for byte (8065 bytes at [21015, 29080))
+PASS  unsourced-ok.html @390: ZERO Sumber sections seen in the rail — the contents link
+      and the body <h2 id="sumber"> are both correctly not one
+PASS  unsourced-rail-absent.html @390: rail-missing FIRES once — got 1
+PASS  unsourced-ok.html @1024: rail-missing CLEAR — production renders the rail (300x1130px, 1 mount)
+314 passed, 0 failed
+UILINT EXIT: 0
+```
+
+(The rail measures 300×**1130**px on the Ubuntu runner and 300×1084px locally —
+a font-rendering difference, and the reason the height is recorded in `notes`
+and never asserted.)
+
 ---
 
 ## Undo
