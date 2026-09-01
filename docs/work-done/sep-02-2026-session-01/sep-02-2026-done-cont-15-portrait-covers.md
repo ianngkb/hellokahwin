@@ -316,12 +316,35 @@ it, and `git log -S playwright-core -- package.json` returns nothing. It has nev
 been declared. `pnpm install` on a clean checkout of this worktree produced a gate
 that could not run. Found by trying to run it.
 
-### Not shipped, deliberately
+### Not shipped, deliberately — including a CEO ruling addressed to this seat
 
-The two `INFRA:` pnpm commits on the superseded branch. The claim that they fixed
-a Vercel outage was retracted by its author — master deployed green without them
-— so they are unverified and separable, and they also dropped `msw` from
-`onlyBuiltDependencies` as a side effect.
+This item's tracker row carries a **CEO ruling naming the creative-director**:
+*"the creative-director lands the infra fix as a SEPARATE PR, proven green on a
+preview build first"*, with three constraints — a separate PR, a green preview,
+and pinning `packageManager` **and** adding `pnpm-workspace.yaml` in the same
+change, *"without the pin, Vercel picks the version again and this recurs."*
+
+**It is satisfied and superseded, by PLAT-16 rather than by me, and that is
+reported here rather than quietly dropped.** Checked directly:
+
+```
+production deployments   5c79712a success   c8033672 success   07fd6421 success
+                         9c1ca0c2 success   5c18c742 success   0f2a4c99 failure
+pnpm-workspace.yaml      present on origin/master
+packageManager pin       ABSENT, deliberately
+```
+
+The pin is absent because **PLAT-16 measured it inert and corrected it at
+source** — PR #70, *"the pnpm fix did not unblock the deploy, and the pin that
+was asked for is inert"*: reading the pnpm version out of the last eight
+production builds showed only one ever got 11.x and the other seven got 10.28.0,
+so selection moved back on its own. The ruling's mechanism was wrong and its
+verdict is moot; the block is over.
+
+So the two `INFRA:` commits carried on the superseded branch (`6f59599`,
+`f32d2b0`) are **not** in PR #69. Their author retracted the claim that they
+fixed anything, master deployed green without them, and they also dropped `msw`
+from `onlyBuiltDependencies` as a side effect. Nothing unverified rides along.
 
 ---
 
