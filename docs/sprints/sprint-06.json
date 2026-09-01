@@ -1,9 +1,9 @@
 {
   "id": 6,
   "name": "Deepen where the click is",
-  "state": "planned",
+  "state": "in_progress",
   "planned_at": "2026-09-02",
-  "started_at": null,
+  "started_at": "2026-09-02",
   "ended_at": null,
   "governance": "A sprint is a BODY OF WORK, not a duration. Completeness beats fitting a point budget. Every item is presented as CLAIM + EVIDENCE + LIVE LINK. DONE MEANS SHIPPED. A definition of done is never narrowed after the sprint starts. OWNER DECISION 02 Sept 2026: full scope approved, nothing cut - the FIFTH consecutive sprint in which the CEO flagged items and the owner kept every one. CONCURRENCY IS THE DEFAULT: one worktree per concurrent item, dispatch together. ⚠ SPRINT 05'S LESSON, BINDING HERE: it scoped 28 items and dispatched 14, so half the sprint never ran. This sprint is scoped to 10 items deliberately - the constraint is dispatch capacity, not ambition, and the fix is to dispatch ALL of it.",
   "points": 55,
@@ -183,5 +183,20 @@
     "SEO-14 is the ONLY item here that can invalidate the others. Recorded so its answer is read before CONT-17 selects targets, not after it writes."
   ],
   "metrics_change": "Unchanged: CTR reported SPLIT by intent class (decision 159), populated by the census classifier rather than CEO judgement. Clicks/28d remains the north star. NEW: family-level intent classification is now a planning input, not just a reporting one - the 02 Sept run is what selected this sprint's content direction, and it should be re-run at every planning meeting rather than only at sprint close.",
-  "retro": null
+  "retro": null,
+  "reconciled": {
+    "at": "2026-09-02",
+    "source": "buddy sprint tracker (public.sprints / public.sprint_items), via `sprint reconcile`",
+    "note": "state, started_at, ended_at, retro and every item's state and evidence are the TRACKER's. points, track, owner, title, why, dod and brief are left AS SCOPED so /endsprint can still measure sizing accuracy against them.",
+    "tracker_velocity": {
+      "planned": 55,
+      "completed": 0,
+      "parked": 0,
+      "moved_out": 0
+    },
+    "items_added_after_scoping": [],
+    "items_that_left_this_sprint": [],
+    "items_absent_from_tracker": [],
+    "scope_drift": []
+  }
 }
