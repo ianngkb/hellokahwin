@@ -19,6 +19,7 @@ import {
   Breadcrumb,
   Button,
   Card,
+  CascadeProbe,
   Chip,
   DataTable,
   EmptyCategoryState,
@@ -1192,6 +1193,62 @@ export default async function DesignSystemPage({
               </Heading>
             </div>
           </div>
+
+          {/* ── DES-15 ──────────────────────────────────────────────────
+              The reference page could not show this before, and that is the
+              whole point of adding it. §02's scale table is hand-typed: it said
+              h2 tracking −0.01em while every public page served −0.018em, and a
+              table cannot be wrong out loud. `.s-h2` was ALSO the only `.s-*`
+              class the page never rendered live — it was named in the §05 table
+              and drawn nowhere — so there was no specimen to disagree with it.
+
+              Both surfaces are shown deliberately. One class, two wrappers, and
+              until DES-15 two different answers: `.hk` (this console, no
+              re-skin) honoured the class; `.hk-public` (every reader-facing
+              page) silently replaced three of its four properties from
+              `globals.css`'s `.hk-public h1,h2,h3,h4` at (0,1,1). A specimen on
+              ONE surface would have looked perfect and proved nothing.
+
+              The claims below are copied from `components.css` by hand ON
+              PURPOSE — if someone edits the rule and not this block, the probe
+              goes red, which is the signal wanted. `scripts/audit-class-wins.mjs`
+              is the automated half and parses the rule instead. ── */}
+          <h3 className="mt-2 text-sm font-semibold">
+            Live: does <code>.s-h2</code> win its own declarations? (DES-15)
+          </h3>
+          <div className="flex flex-col gap-6 border p-4">
+            <div className={rootClass} style={{ padding: 16, ...FONT_DEMO_STYLE }}>
+              <CascadeProbe
+                label=".s-h2 on .hk — the console surface"
+                claim={{ 'font-weight': '600', 'letter-spacing': '-0.01em', 'line-height': '1.25' }}
+              >
+                <h2 className="s-h2">Nisbah dulang, duit hantaran &amp; etika</h2>
+              </CascadeProbe>
+            </div>
+            <div
+              className={`hk-public ${bodoniModa.variable}`}
+              style={{ padding: 16, border: '1px solid var(--border)' }}
+            >
+              <CascadeProbe
+                label=".s-h2 on .hk-public — what a reader gets"
+                claim={{ 'font-weight': '600', 'letter-spacing': '-0.01em', 'line-height': '1.25' }}
+              >
+                <h2 className="s-h2">Nisbah dulang, duit hantaran &amp; etika</h2>
+              </CascadeProbe>
+            </div>
+          </div>
+          <p className="text-muted-foreground max-w-[74ch] text-xs">
+            Before DES-15 the second block reported <code>font-weight</code> 400 and{' '}
+            <code>letter-spacing</code> −0.399264px against a −0.2218px claim, at 390px on
+            production deployment <code>dpl_B2j3SaaGVGjGKrtSqh4gvWf7hG7k</code>. The fix is the
+            doubled selector <code>.s-h2.s-h2</code> in <code>components.css</code>, which reaches
+            (0,2,0) and wins on every surface rather than only under this one wrapper. What was NOT
+            changed: the family. Pillar cluster headings stay in the display face, and whether spec
+            §2.4&rsquo;s &ldquo;may not: h2&rdquo; still holds now that production serves Bodoni
+            Moda as a <code>font-weight: 400 900</code> variable face rather than the 400-only
+            subset §2.4 assumed is the creative-director&rsquo;s call, raised in the DES-15
+            work-done entry and not applied here.
+          </p>
 
           <h3 className="mt-2 text-sm font-semibold">Schema slots — spec §9.2</h3>
           <div className="overflow-x-auto border">
