@@ -22,6 +22,19 @@ import { useEffect, useRef, useState } from 'react';
  *
  * ⚠ Every reading waits on `document.fonts.ready` and re-reads on resize. A
  * webfont landing after first paint changes every advance width on the page.
+ *
+ * ⚠ THE EFFECT DEPENDS ON A SERIALISED `claim`, NOT ON THE OBJECT — and the
+ * reason is smaller than it first looks, which is worth writing down because the
+ * bigger reason was asserted here first and was wrong. Review claimed depending
+ * on the object literal was an unconditional render → effect → setState → render
+ * loop. It is not: `setRows` re-renders THIS component, not the parent, so the
+ * `claim` prop keeps its identity across those renders and the effect does not
+ * re-run. Putting `[claim]` back and running the suite passed 3/3, which is how
+ * the claim died. What the serialisation actually buys is that a parent which
+ * DOES re-render no longer tears down and re-subscribes the ResizeObserver on
+ * every one of its renders, for a claim that did not change. Cheap, correct,
+ * and honestly described. `cascade-probe.test.tsx` discriminates between the two
+ * dependencies and has been watched failing on `[claim]`.
  */
 type Claim = Record<string, string>;
 
@@ -40,16 +53,19 @@ export function CascadeProbe({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [rows, setRows] = useState<{ prop: string; want: string; got: string; ok: boolean }[]>([]);
+  // Stable across renders even though every caller passes an object literal.
+  const claimKey = JSON.stringify(claim);
 
   useEffect(() => {
     const el = ref.current?.firstElementChild;
     if (!el) return;
+    const claims: Claim = JSON.parse(claimKey);
     const read = () => {
       const c = getComputedStyle(el);
       const fs = parseFloat(c.fontSize);
       const out: { prop: string; want: string; got: string; ok: boolean }[] = [];
       for (const prop of PROPS) {
-        const want = claim[prop];
+        const want = claims[prop];
         if (!want) continue;
         const got = c.getPropertyValue(prop);
         const em = /^(-?[\d.]+)em$/.exec(want);
@@ -74,7 +90,7 @@ export function CascadeProbe({
     const ro = new ResizeObserver(read);
     ro.observe(el);
     return () => ro.disconnect();
-  }, [claim]);
+  }, [claimKey]);
 
   const lost = rows.filter((r) => !r.ok);
 
