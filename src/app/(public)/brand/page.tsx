@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import {
   MASTER_LOGOS,
   SHORT_LOGOS,
+  APP_ICONS,
   BRAND_COLOURS,
   BRAND_DONTS,
   type BrandLogo,
@@ -18,8 +19,7 @@ export const metadata: Metadata = {
   alternates: { canonical: '/brand' },
   openGraph: {
     title: 'Brand assets · HelloKahwin',
-    description:
-      'Wordmark, monogram, colour and usage rules for HelloKahwin.',
+    description: 'Wordmark, monogram, colour and usage rules for HelloKahwin.',
     url: '/brand',
     type: 'website',
   },
@@ -58,9 +58,8 @@ export default function BrandPage() {
         <p className="bp-eyebrow">HelloKahwin · Brand</p>
         <h1>Brand assets</h1>
         <p className="bp-lede">
-          The wordmark, the monogram, the palette, and the six ways to get them wrong.
-          Every mark below is an outlined SVG under 3&nbsp;KB — one file per lockup,
-          in any brand colour.
+          The wordmark, the monogram, the palette, and the six ways to get them wrong. Every mark
+          below is an outlined SVG under 3&nbsp;KB — one file per lockup, in any brand colour.
         </p>
       </header>
 
@@ -68,8 +67,8 @@ export default function BrandPage() {
         <div className="bp-sec-head">
           <h2>Master logo</h2>
           <p>
-            The primary lockup runs at <strong>10.0 : 1</strong>. That proportion is the
-            mark — regenerate rather than rescale if the tracking ever changes.
+            The primary lockup runs at <strong>10.0 : 1</strong>. That proportion is the mark —
+            regenerate rather than rescale if the tracking ever changes.
           </p>
         </div>
         <div className="bp-grid">
@@ -83,8 +82,8 @@ export default function BrandPage() {
         <div className="bp-sec-head">
           <h2>Shortmark &amp; monogram</h2>
           <p>
-            For surfaces the full wordmark cannot survive. The monogram is the only mark
-            that works as a favicon, an app icon or an avatar.
+            For surfaces the full wordmark cannot survive. The monogram is the only mark that works
+            as a favicon, an app icon or an avatar.
           </p>
         </div>
         <div className="bp-grid">
@@ -94,12 +93,54 @@ export default function BrandPage() {
         </div>
       </section>
 
+      <section className="bp-sec" id="icons">
+        <div className="bp-sec-head">
+          <h2>Favicon &amp; app icon</h2>
+          <p>
+            The monogram on a full-bleed parchment tile, in <strong>ink</strong> — measured, not
+            preferred: at 16px on an ink ground the H crossbar comes back at 0.29 of full ink and
+            the K collapses; on parchment the same crossbar holds at 0.38 and both glyphs survive.
+            Every file is generated from the monogram by <code>pnpm brand:icons</code>, so a palette
+            change cannot leave one behind. Shown below at the size a browser actually paints it —
+            anything larger would be a picture of an icon rather than a test of one.
+          </p>
+        </div>
+        <div className="bp-icons">
+          {APP_ICONS.map((icon) => (
+            <figure className="bp-icon" key={icon.id}>
+              <div className="bp-icon-stage">
+                {/* eslint-disable-next-line @next/next/no-img-element -- see LogoCard.
+                    next/image would resample these; the whole point is the file at 1:1. */}
+                <img
+                  src={icon.src}
+                  alt={`HelloKahwin app icon at ${icon.renderedAt} pixels`}
+                  width={icon.renderedAt}
+                  height={icon.renderedAt}
+                  style={{ width: icon.renderedAt, height: icon.renderedAt }}
+                />
+              </div>
+              <figcaption>
+                <b>{icon.name}</b>
+                <span>{icon.description}</span>
+                <code>{icon.src}</code>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+        <p className="bp-icon-note">
+          Also shipped: <code>/favicon.ico</code>, carrying 16, 32 and 48px BMP entries for Windows
+          pins and older browsers, and <code>/apple-icon.png</code> at 180&times;180. The tile is
+          square because <code>--radius</code> is <code>0</code> — a rounded icon would be the only
+          rounded object the brand owns.
+        </p>
+      </section>
+
       <section className="bp-sec" id="reverse">
         <div className="bp-sec-head">
           <h2>On dark</h2>
           <p>
-            There is no separate reversed file. Every mark inherits{' '}
-            <code>currentColor</code>, so the same SVG serves ink, parchment and gold.
+            There is no separate reversed file. Every mark inherits <code>currentColor</code>, so
+            the same SVG serves ink, parchment and gold.
           </p>
         </div>
         <div className="bp-reverse">
@@ -116,9 +157,9 @@ export default function BrandPage() {
         <div className="bp-sec-head">
           <h2>Colour</h2>
           <p>
-            Every text pairing was computed, not eyeballed. Where a value is stated it is
-            the measured ratio against the ground it sits on; WCAG AA (4.5&nbsp;:&nbsp;1)
-            is the floor for body text.
+            Every text pairing was computed, not eyeballed. Where a value is stated it is the
+            measured ratio against the ground it sits on; WCAG AA (4.5&nbsp;:&nbsp;1) is the floor
+            for body text.
           </p>
         </div>
         <div className="bp-colours">
@@ -154,8 +195,8 @@ export default function BrandPage() {
 
       <footer className="bp-foot">
         <p>
-          Questions about usage, or need a format that is not here? Reply to whoever sent
-          you this page.
+          Questions about usage, or need a format that is not here? Reply to whoever sent you this
+          page.
         </p>
       </footer>
     </div>

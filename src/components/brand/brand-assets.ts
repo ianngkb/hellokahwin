@@ -51,8 +51,7 @@ export const MASTER_LOGOS: BrandLogo[] = [
   {
     id: 'horizontal',
     name: 'Horizontal — primary',
-    description:
-      'The default mark. Reach for this first on every surface wide enough to hold it.',
+    description: 'The default mark. Reach for this first on every surface wide enough to hold it.',
     src: '/brand/logos/hellokahwin-horizontal.svg',
     width: 18000,
     height: 1800,
@@ -98,13 +97,78 @@ export const SHORT_LOGOS: BrandLogo[] = [
   {
     id: 'monogram',
     name: 'Monogram',
-    description:
-      'HK. The only mark that survives a favicon, an app icon or a social avatar.',
+    description: 'HK. The only mark that survives a favicon, an app icon or a social avatar.',
     src: '/brand/logos/hellokahwin-monogram.svg',
     width: 3434,
     height: 1800,
     ratio: '1.9 : 1',
     minHeight: 14,
+  },
+];
+
+export interface BrandIcon {
+  id: string;
+  name: string;
+  description: string;
+  src: string;
+  /** The size a browser or OS actually paints this file at, in CSS px. The
+   *  /brand page renders each one at exactly this size — an icon shown at
+   *  200px is a picture of an icon, not a test of one. */
+  renderedAt: number;
+}
+
+/**
+ * THE APP ICON SET — UI-20, 02 September 2026.
+ *
+ * Generated, not drawn: `node scripts/generate-brand-icons.mjs` composes every
+ * file below from `hellokahwin-monogram.svg` and reads its two colours out of
+ * `src/design-system/tokens.css`. Re-run it after any change to the monogram
+ * or to --hk-parchment-100 / --hk-ink-900; `pnpm brand:icons:check` fails when
+ * public/ has drifted from either.
+ *
+ * WHAT THIS REPLACED, so nobody re-introduces it: a 48x48 PNG of a serif
+ * capital H on #b4326e. That H is not a mark in this registry, and #b4326e is
+ * in no palette file in this repo — not even the retired Plum Forward one in
+ * globals.css, whose plum is oklch(0.22 0.055 310). It survived the 27 Aug
+ * re-skin because nothing regenerated it and nothing checked it.
+ *
+ * The monogram is the mark that survives this surface, and its minHeight of 14
+ * is why: at a 16px favicon the mark is ~6.4px tall, below that minimum, and it
+ * is legible there only because the lockups were re-cut at `opsz 6` (f4a09d2).
+ * `pnpm audit:favicon` asserts the 16px result rather than trusting it.
+ */
+export const APP_ICONS: BrandIcon[] = [
+  {
+    id: 'tab-16',
+    name: 'Browser tab, 16px',
+    description:
+      'The hardest size the mark has to hold. Both glyphs still separate, and the H keeps its crossbar — asserted by pnpm audit:favicon, not assumed.',
+    src: '/icon.svg',
+    renderedAt: 16,
+  },
+  {
+    id: 'tab-32',
+    name: 'Tab at 2x, 32px',
+    description:
+      'What a retina tab strip and a pinned Windows taskbar icon use. The serifs come back at this size.',
+    src: '/icon.svg',
+    renderedAt: 32,
+  },
+  {
+    id: 'raster-48',
+    name: 'Raster fallback, 48px',
+    description:
+      '/favicon.png — the legacy path, kept wired up because middleware whitelists it and HTML cached in the wild still points at it.',
+    src: '/favicon.png',
+    renderedAt: 48,
+  },
+  {
+    id: 'apple-180',
+    name: 'iOS home screen, 180px',
+    description:
+      'apple-touch-icon. Full-bleed parchment: iOS applies its own corner mask, and the system carries no radius of its own to fight it with.',
+    src: '/apple-icon.png',
+    renderedAt: 180,
   },
 ];
 
@@ -177,8 +241,7 @@ export const BRAND_DONTS: BrandDont[] = [
   },
   {
     title: 'Do not use the horizontal below 18px tall',
-    detail:
-      'Below that the letterforms close up. Use the monogram — that is what it is for.',
+    detail: 'Below that the letterforms close up. Use the monogram — that is what it is for.',
   },
   {
     title: 'Do not add a stroke, shadow, gradient or outline',

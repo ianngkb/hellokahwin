@@ -20,8 +20,7 @@
   --bp-soft: #4a443a;
   --bp-mute: #615c4e;
   --bp-display: 'Bodoni Moda', Didot, Georgia, 'Times New Roman', serif;
-  --bp-body:
-    'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --bp-body: 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --bp-data: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
 
   background: var(--bp-page);
@@ -313,4 +312,74 @@
 .bp button:focus-visible {
   outline: 2px solid var(--bp-gold);
   outline-offset: 2px;
+}
+
+/* ── app icons (UI-20) ───────────────────────────────────────────────
+ * Each tile renders at its true pixel size. The stage is a plain
+ * boundary, not a card: anything decorative around a 16px icon makes
+ * it look better than it is, which is the one thing this row must not
+ * do.
+ * ------------------------------------------------------------------ */
+.bp-icons {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: grid;
+  gap: 28px;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 720px) {
+  .bp-icons {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.bp-icon {
+  margin: 0;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  border-top: 1px solid var(--bp-rule);
+  padding-top: 20px;
+}
+.bp-icon-stage {
+  flex: 0 0 auto;
+  width: 180px;
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 0;
+}
+.bp-icon-stage img {
+  display: block;
+  image-rendering: auto;
+}
+.bp-icon figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+.bp-icon figcaption b {
+  font-family: var(--bp-data);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--bp-gold);
+}
+.bp-icon figcaption span {
+  color: var(--bp-soft);
+}
+.bp-icon figcaption code,
+.bp-icon-note code {
+  font-family: var(--bp-data);
+  font-size: 0.78rem;
+  color: var(--bp-mute);
+}
+.bp-icon-note {
+  max-width: 1080px;
+  margin: 28px auto 0;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--bp-soft);
 }
