@@ -76,8 +76,21 @@ export function NotFoundState({ onSearch }: { onSearch?: () => void }) {
   );
 }
 
-/** K3/K-e — a fully empty category. Copy verbatim, replacing production's
- * undatable "akan datang tidak lama lagi" (spec §7.2 C). */
+/** K3/K-e — a FULLY empty category: nothing published under it at all. Copy
+ * verbatim, spec §7.2 C.
+ *
+ * CORRECTED 02 Sept 2026 (COPY-01). This comment used to say the copy was
+ * "replacing production's undatable 'akan datang tidak lama lagi'", carrying
+ * DES-03 §7.2 C's claim that the replacement had already happened. It had not:
+ * the line was still live on four empty clusters when COPY-01 measured
+ * production on 02 Sept 2026, after DES-08. DES-03 §7.2 C has been corrected
+ * at source.
+ *
+ * ⚠ NOT the empty-cluster state. An empty SECTION inside a POPULATED pillar is
+ * DES-07 K4, and it lives in `src/components/inspire/pillar-body.tsx`. Do not
+ * substitute this component there: it says the category is empty and points the
+ * reader at a different category, which is false and unhelpful on a pillar that
+ * holds published articles. */
 export function EmptyCategoryState({ onSearch }: { onSearch?: () => void }) {
   return (
     <EmptyState
