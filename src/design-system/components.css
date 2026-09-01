@@ -177,7 +177,53 @@
   color: var(--fg-muted);
   max-width: 58ch;
 }
-.s-h2 {
+/* ⚠ THE DOUBLED CLASS IS LOAD-BEARING. DO NOT "TIDY" IT TO `.s-h2`. — DES-15
+   ────────────────────────────────────────────────────────────────────────
+   Written as `.s-h2` this rule reached specificity (0,1,0) and LOST every one
+   of its own declarations on every public page. `globals.css` carries
+
+       .hk-public h1, .hk-public h2, .hk-public h3, .hk-public h4 {
+         font-family: var(--font-serif); font-weight: 400;
+         letter-spacing: -0.018em; text-wrap: balance;
+       }
+
+   at (0,1,1) — one class plus one element — and an element selector that beats
+   a design-system class inverts the whole system: the DEFAULT wins over the
+   DELIBERATE choice. Measured on production 02 Sep 2026, deployment
+   `dpl_B2j3SaaGVGjGKrtSqh4gvWf7hG7k`, on `/artikel/hantaran-mas-kahwin`:
+
+       390px   h2.s-h2  font-weight 400  letter-spacing -0.399264px  (= -0.018em)
+       1280px  h2.s-h2  font-weight 400  letter-spacing -0.468px     (= -0.018em)
+
+   -0.01em of 22.1814px is -0.2218px. The class asked; the page never listened.
+   `.s-row .t` renders 600 on the same pages purely because it happens to be
+   (0,2,0). The whole difference was one selector's shape.
+
+   Doubling the class takes this to (0,2,0) and it wins on EVERY surface, not
+   just under `.hk-public` — deliberately not `.hk-public .s-h2`, which would be
+   the scoped-token trap DES-12 and UI-02 both hit: `.s-h2` also renders inside
+   `.hk` on `/admin/design-system`, and inside `EmptyState` wherever that lands.
+
+   WHAT WAS DECIDED, AND WHAT WAS NOT (this was a design decision, not a cleanup):
+   `.s-h2` wins font-weight and letter-spacing. Its FAMILY is left alone, so the
+   pillar cluster headings stay Bodoni Moda and simply gain the weight that
+   separates a heading from the links under it. Rendered on the live page with
+   each candidate injected, both widths: at 400 the heading and its links are the
+   same face at the same weight and only size separates them; at 600 the cluster
+   reads as a cluster.
+
+   DES-03 §2.4 says the display face "may not" set an h2. Raised, NOT silently
+   applied — the family question is the creative-director's, and §2.4's premise
+   has moved under it: it was written for a 400-only self-hosted subset ("there
+   is no bold file"), and what production actually serves today is
+   `@font-face{font-family:Bodoni Moda;font-weight:400 900}` (chunk
+   19b83a0982f1e330.css), a real variable wght axis — same string at 26px
+   measures 274.94 / 286.97 / 295.03px at 400 / 600 / 700, monotonic, so 600 is
+   an instance and not a synthesised bold. See the DES-15 work-done entry.
+
+   Guarded by `scripts/audit-class-wins.mjs`, which fails if this stops winning.
+   ──────────────────────────────────────────────────────────────────────── */
+.s-h2.s-h2 {
   font-size: var(--fs-h2);
   line-height: 1.25;
   font-weight: 600;

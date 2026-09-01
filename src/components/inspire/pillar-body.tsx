@@ -4,7 +4,7 @@ import type { PillarView } from '@/lib/inspire/pillar-queries';
 
 /** The shared style of one article row in a pillar list. `.s-pillar-link`
  * (components.css) carries the type; the row geometry is here because the
- * empty-cluster promise line below has to sit on exactly the same rhythm. */
+ * empty-cluster line below has to sit on exactly the same rhythm. */
 const LINK_ROW_STYLE = {
   display: 'block',
   padding: '13px 0',
@@ -18,6 +18,22 @@ const LINK_ROW_STYLE = {
 const CLUSTER_BODY_STYLE = { marginTop: 20, borderTop: '1px solid var(--rule)' } as const;
 
 /**
+ * The one line an empty cluster renders. COPY-01, decided by the managing
+ * editor 02 Sept 2026; see the empty-cluster branch below for why.
+ *
+ * The count sentence is suppressed at zero rather than printing "0 artikel
+ * lain". A pillar whose clusters are ALL empty and which has no unclustered
+ * articles reaches this branch with `totalArticles === 0` — `isEmpty` only
+ * catches the pillar with no clusters at all. No such pillar exists today
+ * (census, 02 Sept 2026: every pillar carrying clusters carries articles), so
+ * this guard is for the pillar that gets commissioned before it is written.
+ */
+export function emptyClusterCopy(totalArticles: number): string {
+  const here = 'Belum ada artikel di sini.';
+  return totalArticles > 0 ? `${here} Halaman ini ada ${totalArticles} artikel lain.` : here;
+}
+
+/**
  * A pillar page's body: the map of the pillar.
  *
  * Every article link here is a plain crawlable <a>, grouped under its cluster
@@ -28,7 +44,12 @@ const CLUSTER_BODY_STYLE = { marginTop: 20, borderTop: '1px solid var(--rule)' }
  * An EMPTY cluster still renders its heading. That is deliberate: the pillar
  * page is the map, and a cluster with nothing under it yet is information for a
  * reader and a commitment for the editorial team. Hiding it would make the
- * pillar look complete when it is not.
+ * pillar look complete when it is not. DES-07 §11.3 escalated this to the
+ * managing editor as an open editorial question ("whether an empty section
+ * should render its heading at all"); it was ratified as written on 02 Sept
+ * 2026 under COPY-01 and is no longer open. The ordering rule below is what
+ * makes keeping the heading safe: an empty heading can never displace a real
+ * article.
  *
  * It does NOT, however, get to go first. Clusters arrive in `display_order`,
  * which is an editorial ordering of the topic — not of what exists yet — so an
@@ -51,12 +72,18 @@ export function PillarBody({ view, intro }: { view: PillarView; intro: string | 
     (a, b) => Number(b.articles.length > 0) - Number(a.articles.length > 0),
   );
 
-  // UI-05 P6 — the pillar with nothing under it at all. This is ALSO the shape
-  // `renderPillarPage` renders when `getPillarView` fails or blows its 3s
-  // deadline: it swallows the error and leaves `view` at
-  // `{ clusters: [], unclustered: [], totalArticles: 0 }`. Before this branch
-  // existed both paths rendered an empty <div> — intro, then nothing, with no
-  // message and no way out.
+  // UI-05 P6 — the pillar with nothing under it at all. Before this branch
+  // existed it rendered an empty <div> — intro, then nothing, with no message
+  // and no way out.
+  //
+  // PLAT-16: this used to be the FAILURE shape too. `renderPillarPage`
+  // swallowed a failed or timed-out `getPillarView`, left `view` at
+  // `{ clusters: [], unclustered: [], totalArticles: 0 }`, and rendered this —
+  // so "we could not read this pillar" and "this pillar is empty" were the
+  // same HTTP 200, cacheable at the Vercel edge for up to fifteen minutes. The
+  // route now throws instead (`@/lib/cache/degraded-render`). This branch means
+  // exactly one thing again: the pillar is empty. Keep it that way — do not
+  // route a failure back through here.
   const isEmpty = orderedClusters.length === 0 && view.unclustered.length === 0;
 
   return (
@@ -116,21 +143,50 @@ export function PillarBody({ view, intro }: { view: PillarView; intro: string | 
                 </div>
               ) : (
                 /* UI-05 P2/P3 — an empty cluster gets the SAME opening rule
-                   and the same 20px of air as a populated one, and its promise
-                   line sits on a link row's rhythm (13px/13px, closed by a
-                   --hair border) so the cluster occupies exactly one row. The
-                   rule says "the cluster body starts here" and that statement
-                   is not conditional on there being links; before this, an
-                   empty cluster rendered a bare `.s-meta mt-4` and the promise
-                   read as a subtitle bolted onto the h2. Copy and colour are
-                   deliberately unchanged — the wording is a separate open
-                   question owned by the managing editor. */
+                   and the same 20px of air as a populated one, and its line
+                   sits on a link row's rhythm (13px/13px, closed by a --hair
+                   border) so the cluster occupies exactly one row. The rule
+                   says "the cluster body starts here" and that statement is
+                   not conditional on there being links; before this, an empty
+                   cluster rendered a bare `.s-meta mt-4` and the line read as
+                   a subtitle bolted onto the h2.
+
+                   COPY-01, 02 Sept 2026 — the open question DES-07 §11.3 handed
+                   the managing editor is now answered, and the copy changed.
+                   It used to read "Artikel untuk {entityPhrase} akan datang
+                   tidak lama lagi." Two things were wrong with it:
+
+                   1. An undatable promise. It shipped in Sprint 02 and the
+                      articles did not arrive. DES-07 §3.4 rejected this exact
+                      sentence as the universal empty copy for that reason.
+                   2. It was scoped to a TOPIC, not to this section, and that
+                      made it false. On /artikel/sebelum-nikah the empty
+                      cluster "Merisik & meminang" said "Artikel untuk merisik
+                      akan datang tidak lama lagi." two headings below a live
+                      article titled "Cincin Tunang, Nikah dan Merisik". We had
+                      merisik. The sentence said we did not.
+
+                   The replacement is scoped to the SECTION and says only what
+                   is checkable, then hands over what the page actually holds.
+
+                   NOT §7.2 C's copy. DES-03 §7.2 C / EmptyCategoryState is
+                   "Kategori ini masih kosong." plus a way out to ANOTHER
+                   category. That is the fully-empty-category state (DES-07 K3).
+                   This is an empty section inside a populated pillar (K4).
+                   Using K3 here would tell a reader on a pillar holding six
+                   published articles that the category is empty, and send them
+                   off the page they should stay on — the same one-sentence-for-
+                   two-situations defect, in new words.
+
+                   No link and no button: the pillar page IS the category page,
+                   so the handover target is this page. A self-link is not a way
+                   out, and a `.s-btn` would break the one-row rhythm above. */
                 <div style={CLUSTER_BODY_STYLE}>
                   <p
                     className="s-meta"
                     style={{ padding: '13px 0', borderBottom: '1px solid var(--hair)' }}
                   >
-                    Artikel untuk {cluster.entityPhrase} akan datang tidak lama lagi.
+                    {emptyClusterCopy(view.totalArticles)}
                   </p>
                 </div>
               )}
