@@ -1,0 +1,73 @@
+UI-16 — THE FALLBACK REGRESSION, and the check that caught it.
+02 September 2026, ~20:30 UTC, hours after UI-16 deployed at 19:51.
+
+WHAT HAPPENED. Six articles were re-ingested at 20:12-20:16 UTC from a checkout
+predating UI-16. `processSmartCrops` REPLACES the whole `cover_image_smart_crops`
+object rather than merging into it, so the `crop-4x3-article-card-md` key was
+DROPPED. `resolveArticleCoverSource` then fell from the rendition straight to the
+FULL `crop-4x3-article-card`.
+
+`doa-untuk-isteri` is the proof it was RE-INGESTION and not a backlog: it was
+backfilled at 20:00 and had no `-md` at 20:12. `crop-4x3-article-card-sm`
+survived on all six, because that rung has been on master since Sprint 05 and the
+stale checkouts carry it.
+
+WHY NO RULE COULD SEE IT. The box is 4:3 and the file is 4:3, so `image-aspect`
+reads 0. It is a downscale, so `image-upscale` reads 0. It IS a named crop, so
+`shaped-slot-variant` (R2) passes. A pure byte defect has no rule behind it.
+
+──────────────────────────────────────────────────────────────────────────────
+BEFORE — pnpm audit:rendition --db "<prod>"
+──────────────────────────────────────────────────────────────────────────────
+byte ceiling 114048 B on the served cover
+
+  OVERWEIGHT doa-keluarga-bahagia — the page serves 770140 B (ceiling 114048)
+  OVERWEIGHT doa-masuk-rumah-baru — the page serves 1153770 B (ceiling 114048)
+  OVERWEIGHT doa-malam-pertama — the page serves 824448 B (ceiling 114048)
+  OVERWEIGHT doa-pembuka-majlis — the page serves 474964 B (ceiling 114048)
+  OVERWEIGHT doa-untuk-isteri — the page serves 672982 B (ceiling 114048)
+  OVERWEIGHT doa-untuk-suami — the page serves 846658 B (ceiling 114048)
+
+102 checked, 0 mismatched, 6 overweight, 0 unreadable
+RENDITION EXIT: 1
+
+  TOTAL 4,742,962 B across six LCP elements, mean 790 KB.
+  Their low.webp totals 378,182 B — the fallback was 12.5x heavier than the
+  code UI-16 replaced, and 45.7x heavier than the rendition it should serve.
+
+──────────────────────────────────────────────────────────────────────────────
+THE FIX — backfill, purge, re-run
+──────────────────────────────────────────────────────────────────────────────
+102 published article(s) with smart crops · 6 to render · 96 already done
+
+  wrote doa-keluarga-bahagia   792x594 q50  42554 B
+  wrote doa-malam-pertama      792x594 q50  40022 B
+  wrote doa-masuk-rumah-baru   792x594 q50  76306 B
+  wrote doa-pembuka-majlis     792x594 q50  15612 B
+  wrote doa-untuk-isteri       792x594 q50  26048 B
+  wrote doa-untuk-suami        792x594 q50  46090 B
+
+wrote 6, failed 0, over ceiling 0 | total 246632 B      <- 4,742,962 -> 246,632 B, -94.8%
+
+POST /api/cron/revalidate-content -> {"revalidated":["articles","inspire-categories"]}
+
+──────────────────────────────────────────────────────────────────────────────
+AFTER — same command, deployment 5c79712
+──────────────────────────────────────────────────────────────────────────────
+102 checked, 0 mismatched, 0 overweight, 0 unreadable
+RENDITION EXIT: 0
+
+CODE FIX SHIPPED (5c79712): the resolver gains DES-18's 528px rung between the
+rendition and the full crop — md -> sm -> card -> low, ordered
+largest-that-is-still-BUDGETED rather than largest. `-sm` would upscale 1.43x in
+this slot's 756px box on its own; it does not, because the caller caps the figure
+to the asset's stored width, so the plate narrows to 528 CSS px and R1/R2/R5/R6
+all stay green at 22,906 B instead of 790,000. A regression test goes RED against
+the old ordering (verified by reverting the one line).
+
+WHAT IT DOES NOT FIX: `scripts/ingest-article.mts` runs from an agent's OWN
+checkout, so a publish from a stale worktree will keep dropping the key until
+every worktree carries this commit. The mitigation is that the failure now costs
+~23 KB an article instead of ~790 KB, and this audit names the rows to backfill.
+Escalated to the owner as an ingest-architecture question; not absorbable from a
+branch.

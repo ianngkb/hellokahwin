@@ -1,9 +1,10 @@
 target db   aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
 target site https://hellokahwin.com
 expecting   crop-4x3-article-card-md then crop-4x3-article-card
+byte ceiling 114048 B on the served cover
 
-97 published article(s) with a cover
+102 published article(s) with a cover
 
 
-97 checked, 0 mismatched, 0 unreadable
+102 checked, 0 mismatched, 0 overweight, 0 unreadable
 RENDITION EXIT: 0

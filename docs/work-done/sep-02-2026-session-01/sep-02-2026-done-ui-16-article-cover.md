@@ -1,7 +1,7 @@
 # UI-16 — the article cover is a named 792×594 crop in a 4:3 box, and the gate now checks R2 and R6
 
 **Sprint 06 · `design` · 3 points · `design-systems-engineer` · 02 September 2026**
-**Merged:** `5c18c74` (PR [#65](https://github.com/ianngkb/hellokahwin/pull/65)) and PR [#67](https://github.com/ianngkb/hellokahwin/pull/67) → `master`
+**Merged:** `5c18c74` (PR [#65](https://github.com/ianngkb/hellokahwin/pull/65)) and `5c79712` (PR [#67](https://github.com/ianngkb/hellokahwin/pull/67)) → `master`
 **Live:** <https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding>
 **Reviewer: Claude** — this session's adversarial pass plus the paired self-test. **Not `codex-reviewer`**, per the owner directive of 02 September 2026.
 
@@ -167,13 +167,40 @@ Both files are named 4:3 crops with recorded dimensions, so both satisfy R1, R2,
 
 Caught by re-reading `currentSrc` on the live page after the gate went green — i.e. by suspecting a comfortable number. `POST /api/cron/revalidate-content` fixed it in one call; `X-Vercel-Cache: REVALIDATED` and the rendition appeared. **Six article titles were checked immediately afterwards** for the known post-purge metadata failure (a cached `generateMetadata` miss putting the root default `<title>` on an article) — all six correct.
 
-### 2. The ingest fix does not reach the ingest that matters
+### 2. THE FALLBACK FELL 12.5×, AND NO RULE COULD SEE IT
+
+**Found on live production hours after UI-16 shipped**, by the CONT-15 session, verified here to the byte before anything was touched. Six articles re-ingested at 20:12–20:16 UTC were serving the **full** `crop-4x3-article-card`:
+
+| slug | served | | slug | served |
+| --- | --- | --- | --- | --- |
+| `doa-keluarga-bahagia` | 770,140 B | | `doa-pembuka-majlis` | 474,964 B |
+| `doa-malam-pertama` | 824,448 B | | `doa-untuk-isteri` | 672,982 B |
+| `doa-masuk-rumah-baru` | 1,153,770 B | | `doa-untuk-suami` | 846,658 B |
+| | | | **total** | **4,742,962 B** |
+
+A mean of **790 KB on the LCP element**. Their `low.webp` totals 378,182 B, so the fallback was **12.5× heavier than the code this item replaced** — the +8.2 MB route `card-thumbnail-image-rules` §4 priced and refused, reached as a fallback rather than chosen.
+
+**Why every check was green, and this is the part worth keeping.** The box is 4:3 and the file is 4:3, so `image-aspect` reads 0. It is a downscale, so `image-upscale` reads 0. It **is** a named crop, so `shaped-slot-variant` (R2) passes. **A pure byte defect has no rule behind it, so no rule can see it.** The gate shipped that morning was working exactly as designed and was structurally blind to this.
+
+**The cause, and it is not "crops generated before the deploy".** `doa-untuk-isteri` was in the catch-up backfill at 20:00 and had no `-md` at 20:12 — so it was **re-ingested**, and `processSmartCrops` **replaces** the whole `cover_image_smart_crops` object rather than merging into it. DES-18's own comment warns about this shape for an admin moving a focal point; here it is the ingest CLI. `crop-4x3-article-card-sm` survived on all six precisely because that rung predates the stale checkouts.
+
+**Fixed in three parts** (`5c79712`):
+
+1. **The resolver gains DES-18's 528px rung between the rendition and the full crop** — `md → sm → card → low`, ordered *largest-that-is-still-budgeted* rather than largest. `-sm` would upscale 1.43× in this slot's 756px box on its own; it does not, because the resolver already caps the figure to the asset's stored width, so the plate narrows to 528 CSS px and R1/R2/R5/R6 all stay green at **22,906 B instead of 790,000**. Every one of the six *had* `-sm`. It cannot stop the dropping — nothing on a branch can — but it makes the failure survivable.
+2. **A regression test that goes red against the old ordering**, verified by reverting the one line.
+3. **A byte ceiling in `audit-cover-rendition.mjs`** — 103,680 B + 10%, measured by HEAD on the object the page actually references. It named all six with their URLs and printed the fix command: `102 checked, 0 mismatched, 6 overweight · RENDITION EXIT: 1`.
+
+**Production was fixed ahead of the merge**: backfilled the six (**246,632 B total, −94.8%**), purged, re-ran the audit → `102 checked, 0 mismatched, 0 overweight, 0 unreadable · RENDITION EXIT: 0`. Full transcript in [`07-fallback-regression-CAUGHT.txt`](sep-02-2026-ui-16-EVIDENCE/07-fallback-regression-CAUGHT.txt).
+
+> ⚠ **ESCALATED, NOT ABSORBED.** `scripts/ingest-article.mts` runs from **an agent's own checkout, not from the deployed app**, so a code change to the ingest path silently does not apply to any agent who has not rebased — UI-16's 19:51 fix was bypassed by a 20:12 ingest. Every ingest-path change in this repo has this property and nothing announces it. Cheap mitigation: publishing agents rebase onto `master` before an ingest batch. Durable one: move ingest behind the deployed app. **Neither is a branch's call**; raised to the owner via the CONT-15 session.
+
+### 3. The ingest fix does not reach the ingest that matters
 
 `generateSmartCrops` now writes both rungs, so every future cover gets the rendition — **from the deployed app**. But `scripts/ingest-article.mts` runs from an **agent's own checkout**, not from production. `doa-untuk-isteri` was published after the deploy, by another session on an older branch, and arrived with **no rendition**. Found by re-running the audit rather than by trusting the ingest change.
 
 Re-ran the backfill (re-runnable, skips completed rows): `97 published … 1 to render · 96 already done`, wrote `doa-untuk-isteri 792x594 q50 26048 B`, purged, and the live page now serves it. **Until every worktree carries this commit, a backfill pass is still needed after a batch publish** — recorded here rather than assumed away.
 
-### 3. The Vercel failure, where I was right in outcome and wrong in mechanism
+### 4. The Vercel failure, where I was right in outcome and wrong in mechanism
 
 The first preview build failed with `ERR_PNPM_IGNORED_BUILDS` on `pnpm install`, listing packages that **are** in `package.json`'s `onlyBuiltDependencies`. The same failure hit `master`'s production deploy at `0f2a4c9` and CONT-15's branch. A retry passed, unchanged, and five green builds followed on unchanged config — which a version-bump cause cannot produce. Relayed to the CONT-15 session, which had authorised a repo-wide "fix" (adding `pnpm-workspace.yaml`, pinning `packageManager`) and **withdrew it**. Their words: *"I had found where the failures started and never checked whether they stopped."*
 
@@ -258,11 +285,16 @@ Everything under [`sep-02-2026-ui-16-EVIDENCE/`](sep-02-2026-ui-16-EVIDENCE/), r
 
 **What we did twice.** Measured the corpus. The first pass said 92 covers and produced a full set of byte totals; four articles published mid-item and every number had to be re-derived at 96, then a 97th arrived before the entry was written. This is the third sprint running that a corpus has moved under a measurement (DES-18: 86 → 89; UI-13: 89 → 92). **The habit that survives is stating the n beside every total** — which the CEO's UI-13 correction already established and which this entry follows.
 
-**What we nearly shipped, and what caught it.** Three things:
+**What we nearly shipped, and what caught it.** Four things:
 
 1. A byte claim that was false by 8× — caught by re-reading `currentSrc` on the live page *after* the gate went green, i.e. by distrusting a comfortable zero.
-2. A repo-wide pnpm "fix" for a transient Vercel failure — caught by checking whether the failure window had a **closing** edge, not just an opening one.
-3. A second session backfilling over these 96 objects at a different size under the same name — caught by its dry run's surprising count being checked rather than accepted.
+2. **A 4.7 MB live regression on the fallback path** — caught by another session weighing the served objects, because no rule this repo owns could see it.
+3. A repo-wide pnpm "fix" for a Vercel failure I had called transient — caught by checking whether the failure window had a **closing** edge, not just an opening one.
+4. A second session backfilling over these 96 objects at a different size under the same name — caught by its dry run's surprising count being checked rather than accepted.
+
+**THE PAIRING IS WORTH MORE THAN EITHER INCIDENT.** Two failures on this one slot in one evening, both surviving a green gate, and they are the same failure in different clothing: (1) my merge deployed READY, the gate printed `UILINT EXIT: 0` on all seven templates, and the page served a 213 KB fallback; (2) a peer's census `continue`d past six rows before counting them and produced a comfortable `0`. In both cases **an instrument reported success about something it was not actually looking at.**
+
+The rule that comes out of it, and it is now implemented rather than written: **assert against the SERVED object, not the expected one.** `audit-cover-rendition.mjs` compares the database to the rendered page and then weighs the object that page references, by HEAD. Both halves are the lesson.
 
 **Which document must change, and who owns the edit — and the edit is made.**
 
@@ -270,17 +302,23 @@ Everything under [`sep-02-2026-ui-16-EVIDENCE/`](sep-02-2026-ui-16-EVIDENCE/), r
 | --- | --- | --- | --- |
 | `docs/design/card-thumbnail-image-rules.md` | `design-systems-engineer` (me — §6 is my own DES-18 paragraph) | new **§7** superseding "the article cover figure keeps `low`", plus inline markers at S5 and §6; records the R1-passing trap, the numbers, and the open CD question | ✅ shipped, `master` |
 | `scripts/backfill-midsize-cover.mts` | `design-systems-engineer` | header gains **"⚠ THE RUN IS NOT FINISHED WHEN THIS EXITS 0"** with the purge command and the audit command, at the point of use | ✅ shipped, `master` |
+| `src/lib/storage/responsive-cover.ts` | `design-systems-engineer` | the fallback order is documented as *largest-that-is-still-budgeted*, with the 4,742,962 B measurement that forced it and the reason no rule could see it | ✅ shipped, `master` |
 
 **Prose rules do not fire, so the real deliverable is a script.**
 
 `scripts/audit-cover-rendition.mjs` (`pnpm audit:rendition --db "<url>"`): for every published article, assert that the cover `<img>` on the **live page** loads the URL *and* the width/height the **database** says it should. A cross-layer assertion is the only kind that can see a stale cache, and it also catches a half-run backfill, a resolver regression that reorders preference, and a re-cut that moved the `?v=` token without the page following it.
 
+It carries **two** assertions, because the second incident proved the first was not enough: the served URL must be the one the database implies, **and** the object that URL points at must weigh no more than 103,680 B + 10%. A slot whose entire justification is its weight needs a check on its weight.
+
 Proved **both ways** on production, because a checker that reads the DB, builds the expected URL and then finds it in the page is one typo away from comparing a string to itself:
 
 ```
-(no flag)                            97 checked,  0 mismatched   RENDITION EXIT: 0
---expect crop-4x3-article-card-sm    97 checked, 97 mismatched   RENDITION EXIT: 1
+(no flag)                            102 checked,   0 mismatched, 0 overweight   RENDITION EXIT: 0
+--expect crop-4x3-article-card-sm    102 checked, 102 mismatched                 RENDITION EXIT: 1
+during the regression                102 checked,   0 mismatched, 6 overweight   RENDITION EXIT: 1
 ```
+
+The third line is the ceiling catching a real defect on live production, not a fixture.
 
 The preference order is **restated** in the script rather than imported from `resolveArticleCoverSource`. Importing it would make the checker agree with the render path by construction and copy any ordering bug into the check; two independent statements of one rule is the point. It is deliberately **not** folded into `ui-layout-gate.mjs`, which runs in CI on every push against committed fixtures and takes no credentials — this one needs the production database URL, and putting a secret in the path of the always-on check is the worse trade.
 
