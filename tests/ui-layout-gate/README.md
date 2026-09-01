@@ -165,7 +165,7 @@ Four files: two production controls, one from each side of the CEO ruling that
 `Sumber` renders only where sources exist, and two known-bad inputs derived from
 them.
 
-They are controls **for checks 13 and 14**, and that is narrower than "clean".
+They are controls **for checks 15 and 16**, and that is narrower than "clean".
 These are real production pages: `sourced-ok.html` carries a pre-existing
 `narrow-text-column` finding — 6 at desktop, 15 at 390 — from `<td><p>` cells
 72.7-117.3px wide in the article's own comparison table, which reproduces on the
@@ -279,10 +279,10 @@ right of the body — and is deliberately silent when there is no rail, because 
 homepage, the catalogue and `/brand`. That silence is correct for check 10 and it
 is precisely the hole UI-19 closes.
 
-`rail-missing` (check 13) can speak about absence because it is gated on
+`rail-missing` (check 15) can speak about absence because it is gated on
 `.hk-article-grid`, the article template's own container — one render site in
 `src/`, and present in **none** of the five pre-UI-19 fixtures, which is why
-check 13 is asserted CLEAN on all of them at all five widths. Its width floor is
+check 15 is asserted CLEAN on all of them at all five widths. Its width floor is
 **240px** and is not the specification: DES-03 §5.1's 300px belongs to
 `scripts/measure-article-rail.mjs` (R2), which runs against the article template
 specifically. 240 sits under both real widths — 300 in the desktop column, 350 in

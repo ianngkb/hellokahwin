@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="ms">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>UILINT shaped-slot fixture — UI-16</title>
+    <!--
+      A hand-built unit fixture for checks 13 (`shaped-slot-variant`, hero-rules
+      R2) and 14 (`shaped-slot-dims`, hero-rules R6) in
+      `scripts/ui-layout-gate.mjs`.
+
+      Production proves those checks catch the defect they were commissioned
+      for — the article cover figure, `low.webp` in an `aspect-[3/2]` box,
+      declared 1200x800 for a 1024x683 file. It cannot prove they DISCRIMINATE,
+      and the way both of these fail is by getting wider rather than by getting
+      quieter: check 13's scope predicate is one string test away from putting
+      every image on the site in scope, and check 14 is one probe away from
+      restating check 4b.
+
+      So each case below is a true positive sitting beside the near-miss that
+      must stay silent. Eight cases; FIVE of them — B, D, E, F, G — must produce
+      exactly nothing.
+
+      The three .webp files beside this page are flat solid plates. Their BYTES
+      are irrelevant and their DIMENSIONS are the entire point, so they are
+      generated rather than sampled: 1024x683 (`low`), 792x594 (the md
+      rendition) and 667x500 (a rendition that short-rendered because its source
+      crop was narrower than the box). Served from disk so the checks run with
+      no network at all.
+
+      Case A is the one to read first: it is the live production defect,
+      reproduced offline, and it is ALSO green on check 4b — 1200/800 and
+      1024/683 are both 1.50:1 to two decimal places. That agreement is what let
+      R6 stand on the site's highest-traffic template for a month while a check
+      that reads the ratio watched it.
+    -->
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, sans-serif;
+        font-size: 14px;
+        line-height: 1.4;
+      }
+      section {
+        padding: 10px 12px;
+        border-bottom: 1px solid #ddd;
+      }
+      h2 {
+        font-size: 13px;
+        margin: 0 0 6px;
+        font-weight: 600;
+      }
+      p {
+        margin: 6px 0 0;
+        color: #555;
+        /* 460px at 14px is 65.7 characters. Not decoration: at `70ch` this
+           fixture's own prose tripped check 6 twice and the run was no longer
+           only about R2 and R6. A unit fixture that also fails three unrelated
+           checks cannot be asserted on exactly. */
+        max-width: 460px;
+      }
+      .plate {
+        position: relative;
+        width: 100%;
+        max-width: 560px;
+        overflow: hidden;
+        background: #eee;
+      }
+      /* The DESIGNER's box. This is what makes a slot "shaped", and it is the
+         only thing that does — an `aspect-ratio` nobody wrote is not a design
+         decision. */
+      .box-3-2 {
+        aspect-ratio: 3 / 2;
+      }
+      .box-4-3 {
+        aspect-ratio: 4 / 3;
+      }
+      .plate > img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      /* Case G's wrapper chain: the shaped ancestor is four levels up, one past
+         the checks' three-hop walk. Deliberate — the walk has to stop somewhere
+         and this records where.
+
+         The image is positioned exactly like every other case here. Without
+         this it laid out at its 1200x800 attribute size inside a 560px plate
+         and fired check 7 and check 3 as well, which is a true finding about
+         markup that exists nowhere and would have made the self-test's counts
+         depend on it. */
+      .deep img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section>
+        <h2>A — THE LIVE DEFECT. `low` in a shaped box, declared 1200x800 for a 1024x683 file.</h2>
+        <div class="plate box-3-2">
+          <img src="low.webp" alt="Case A" width="1200" height="800" />
+        </div>
+        <p>
+          Must fire check 13 ONCE (R2: `low` preserves the source aspect) and check 14 ONCE (R6:
+          17.2% out on width). Must NOT fire check 4b — 1200/800 and 1024/683 are both 1.50:1, and
+          that agreement is exactly why a ratio check never saw this.
+        </p>
+      </section>
+
+      <section>
+        <h2>B — THE FIX. The named 792x594 rendition in a 4:3 box, declared at its real size.</h2>
+        <div class="plate box-4-3" style="max-width: 792px">
+          <img src="crop-4x3-article-card-md.webp" alt="Case B" width="792" height="594" />
+        </div>
+        <p>SILENT on both. One case A and one case B is the whole discriminator.</p>
+      </section>
+
+      <section>
+        <h2>C — R2 ALONE. A named crop is not enough if the declared size is a constant.</h2>
+        <div class="plate box-4-3" style="max-width: 792px">
+          <img src="crop-4x3-article-card-md.webp" alt="Case C" width="1200" height="900" />
+        </div>
+        <p>
+          Check 13 SILENT (the variant is a named crop), check 14 FIRES ONCE (1200 declared for a
+          792px file, 51.5% out). 1200/900 is 1.33:1 and the file is 1.3333:1, so check 4b is silent
+          too — the two checks are independent and this proves it in the direction that matters.
+        </p>
+      </section>
+
+      <section>
+        <h2>D — THE SHORT RENDITION. `withoutEnlargement` gave 667x500; the box is capped to it.</h2>
+        <div class="plate box-4-3" style="max-width: 667px">
+          <img src="crop-4x3-article-card-md-short.webp" alt="Case D" width="667" height="500" />
+        </div>
+        <p>
+          SILENT on both, and on the upscale check. Four live covers are this case; declaring 792
+          here would be case C and stretching the box to 756 would be a 1.13x upscale.
+        </p>
+      </section>
+
+      <section>
+        <h2>E — THE NEAR MISS THAT DECIDES CHECK 13'S SCOPE. `low`, declared, NO designer box.</h2>
+        <img src="low.webp" alt="Case E" width="1024" height="683" style="width: 300px; height: auto" />
+        <p>
+          SILENT on both. The UA stylesheet computes `aspect-ratio: auto 1024 / 683` here from the
+          attributes; treating that as a shaped box puts every image on the site in scope. If E ever
+          fires, the `auto ` prefix test has been removed and check 13 has become "every image".
+        </p>
+      </section>
+
+      <section>
+        <h2>F — THE SAME MISS FOR CHECK 14: wrong declared size, but NO designer box.</h2>
+        <img src="low.webp" alt="Case F" width="1200" height="800" style="width: 300px; height: auto" />
+        <p>
+          SILENT on check 14. This is a real R6 defect and it is check 4b's, which reports it
+          advisory for the reason 4b records — eleven in-body prose images on the live article
+          carry exactly this boilerplate. Check 14 is blocking, so it may not quietly inherit them.
+        </p>
+      </section>
+
+      <section class="deep">
+        <h2>G — FOUR LEVELS UP. The shaped ancestor is past the three-hop walk.</h2>
+        <div class="plate box-3-2">
+          <div>
+            <div>
+              <div>
+                <img src="low.webp" alt="Case G" width="1200" height="800" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <p>
+          SILENT on both. The walk stops at three ancestors and this is where. Recorded as a KNOWN
+          LIMIT rather than as correctness: a slot buried this deep is not caught, and the day one
+          exists the walk is what changes, not this note.
+        </p>
+      </section>
+
+      <section>
+        <h2>H — NO ATTRIBUTES AT ALL. A shaped box fed `low`, declaring nothing.</h2>
+        <div class="plate box-4-3" style="max-width: 400px">
+          <img src="low.webp" alt="Case H" />
+        </div>
+        <p>
+          Check 13 FIRES ONCE (the variant is still ineligible). Check 14 SILENT — an element that
+          declares nothing cannot declare it falsely, which is `next/image`'s `fill` and is why the
+          two `ArticleCard` plates on the live catalogue are green.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

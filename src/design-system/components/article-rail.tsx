@@ -59,8 +59,8 @@ import type { ArticleSource } from '@/lib/inspire/article-sources';
  *             stand in this comment was stale within a day — because an empty
  *             `Sumber` heading asserts that an article is sourced when it is
  *             not. That absence is now enforced rather than intended:
- *             `scripts/ui-layout-gate.mjs` check 14 (`sumber-empty`) fails a
- *             build that prints the heading over nothing, and check 13
+ *             `scripts/ui-layout-gate.mjs` check 16 (`sumber-empty`) fails a
+ *             build that prints the heading over nothing, and check 15
  *             (`rail-missing`) fails one where the rail itself has gone,
  *             which is the failure the sourceless case invites.
  * `extra`   — everything the old sidebar carried (tags, categories, gallery,

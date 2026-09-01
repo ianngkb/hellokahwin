@@ -1,0 +1,62 @@
+# pnpm settings. NOT a monorepo declaration — there is no `packages:` key, so
+# this repo stays a single project.
+#
+# ── WHY THIS FILE EXISTS (02 Sept 2026) ───────────────────────────────────
+#
+# Vercel rolled its default pnpm from 10.x to 11.x between 19:17 and 19:27 UTC
+# on 02 Sept 2026, mid-sprint, and every production deploy of this repo started
+# failing. Two builds ten minutes apart, same lockfile, read from the build logs:
+#
+#   19:17  0129797  "Using pnpm@10.x based on project creation date"
+#                   "Ignored build scripts: msw@2.15.0"        <- a WARNING
+#                   "Done in 2.1s using pnpm v10.28.0"         -> SUCCESS
+#
+#   19:27  0f2a4c9  "Using pnpm@11.x based on project creation date"
+#                   "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts:
+#                    esbuild@0.18.20, esbuild@0.25.12, esbuild@0.28.2,
+#                    msw@2.15.0, sharp@0.34.5, unrs-resolver@1.12.2"
+#                   'Command "pnpm install" exited with 1'     -> FAILURE
+#
+# THREE things changed at once, and the third is the one that bites.
+#
+#  1. pnpm 11 makes an ignored build script a HARD ERROR, not a warning.
+#
+#  2. pnpm 11 NO LONGER READS THE `pnpm` FIELD IN `package.json`. Reproduced
+#     locally with `npx pnpm@11 install --frozen-lockfile`, which says so:
+#
+#       [WARN] The "pnpm" field in package.json is no longer read by pnpm.
+#       The following keys were ignored: "pnpm.onlyBuiltDependencies".
+#
+#     That is why `sharp`, `esbuild` and `unrs-resolver` are in the error list
+#     at all — they were already allow-listed in `package.json`, and the
+#     allow-list stopped being read.
+#
+#  3. THE SETTING IS ALSO RENAMED. `onlyBuiltDependencies` — a LIST — became
+#     `allowBuilds`, a MAP of package to boolean. Moving the old key into this
+#     file verbatim does NOT work, and it fails with the byte-identical error,
+#     which is exactly what it looks like when a fix has changed nothing.
+#     Caught only by running the fix against the failing case: pnpm rewrote
+#     this file itself and prepended
+#
+#       allowBuilds:
+#         esbuild: set this to true or false
+#
+#     which is the whole answer, and is not visible from the error message.
+#
+# `sharp` is the entry that matters. `next.config.ts` lists it in
+# `serverExternalPackages` and it does the site's image processing; a sharp
+# without its platform binaries is a broken build, not a slow one.
+#
+# `msw` was NOT in the `package.json` list — it is the package that produced
+# the warning under pnpm 10 for however long that was true.
+#
+# The `pnpm` field in `package.json` is deliberately LEFT IN PLACE: pnpm 10
+# still reads it and does not read this file, and local machines are on 10.x
+# (10.30.1 at time of writing). Keep the two in step. When every consumer is on
+# 11.x, delete the `package.json` field, not this file.
+allowBuilds:
+  '@tailwindcss/oxide': true
+  esbuild: true
+  msw: true
+  sharp: true
+  unrs-resolver: true

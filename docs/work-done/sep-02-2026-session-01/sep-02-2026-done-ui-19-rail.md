@@ -54,7 +54,15 @@ takes, and one of the two it does catch, it catches for the wrong reason.
 
 ## What shipped
 
-### Check 13 — `rail-missing`
+> **They are 15 and 16, not 13 and 14.** This item built them as 13 and 14 and
+> UI-16 merged first with its own 13 and 14 — `shaped-slot-variant` and
+> `shaped-slot-dims`. Renumbered here rather than there: theirs was on `master`,
+> and the later branch is the one that moves. The check NAMES never collided,
+> which is the argument for a log keyed on names; the ordinals exist only for
+> the prose that describes them and are the part that two branches can both
+> claim.
+
+### Check 15 — `rail-missing`
 
 Gated on `.hk-article-grid`, the article template's own container. That is what
 lets it speak about **absence** where check 10 cannot: enumerated across `src/`
@@ -74,7 +82,7 @@ both real widths — 300 in the desktop column, 350 in the body column on a 390p
 phone — and far above what a collapse produces, so it separates *gone* from
 *there* without giving a design number a second home to drift between.
 
-### Check 14 — `sumber-empty`
+### Check 16 — `sumber-empty`
 
 Enforces the CEO ruling rather than a layout rule: `Sumber` renders where
 sources exist and nowhere else. It fires when a `Sumber` heading **inside the
@@ -102,7 +110,7 @@ each side of the CEO ruling, and derives one known-bad input from each by a
 | --- | --- | --- |
 | `unsourced-ok.html` — `…/ucapan-doa/doa-makan-majlis` | 117,910 | nothing |
 | `unsourced-rail-absent.html` — the above minus `<aside data-hk-rail>`, 8,065 bytes at 21015..29080 | 109,845 | `rail-missing` ×1 |
-| `sourced-ok.html` — `…/hantaran-mas-kahwin/hantaran-wajib-atau-adat` | 136,981 | nothing (on 13 and 14) |
+| `sourced-ok.html` — `…/hantaran-mas-kahwin/hantaran-wajib-atau-adat` | 136,981 | nothing (on 15 and 16) |
 | `sourced-sumber-empty.html` — the above minus the `<li>` citations, 320 bytes at 24053..24373 | 136,661 | `sumber-empty` ×1 |
 
 `sourced-ok.html` is one of only **7 of 92** live articles carrying Rekod, the

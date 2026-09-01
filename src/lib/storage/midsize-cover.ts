@@ -101,3 +101,111 @@ export interface MidsizeRendition {
   /** True when even the last rung missed the ceiling. Never silently ignored. */
   overCeiling: boolean;
 }
+
+/**
+ * UI-16 — the ARTICLE COVER rendition. The second rung on the same ladder, and
+ * it exists because the first one cannot reach this slot.
+ *
+ * ── THE SLOT, MEASURED RATHER THAN ASSUMED ─────────────────────────────────
+ * `figure.hk-article-figure` on the article template, measured on production
+ * 02 September 2026 at deviceScaleFactor 1 with `scripts/audit-article-cover.mjs`:
+ *
+ *   viewport   390   768   1024  1440  1920
+ *   box width  350   704   580   756   756      <- the widest box is 756 CSS px
+ *
+ * `MIDSIZE_COVER` is 528 px. In a 756 px box that is a **1.43x upscale**, which
+ * is why DES-18 wrote "the article cover keeps `low`" and excluded this slot by
+ * name. That exclusion was correct for the asset that existed and is what this
+ * rung retires — the tracker's phrase "DES-18's mid-size variant is the
+ * affordable route" is true of its MECHANISM, not of its 528 px box.
+ *
+ * ── WHY THIS SLOT COULD NOT STAY ON `low` ──────────────────────────────────
+ * hero-image-rules R2: `low`, `high` and `original` are never eligible for a
+ * shaped slot, at any quality, because they preserve the SOURCE aspect — which
+ * is the photographer's, not the designer's. `card-thumbnail-image-rules` T2
+ * already named 4:3 as where this slot goes "the day a small rendition of it
+ * exists (§5)". It exists now, so this is that day.
+ *
+ * ── 792 x 594, AND WHY NOT SOMETHING ROUNDER ───────────────────────────────
+ * 792 is 756 x 1.048 — the smallest width that clears the widest box with no
+ * upscale at all, and it is exactly 1.5x `MIDSIZE_COVER`, so the two rungs are
+ * the same box at two scales rather than two independent guesses.
+ *
+ * Enumerated across the 96 stored `crop-4x3-article-card` entries on
+ * 02 Sept 2026, source widths are 667, 771, 907, 908, 911, 1032, 1280, 1307,
+ * 1365, 1536, 1599, 1600. `withoutEnlargement` means five render SHORT of 792:
+ * one at 771 (clears the 756 box at 0.98x) and four at 667. Those four are the
+ * finding this item reports rather than hides — see `resolveArticleCoverSource`,
+ * which caps the box to the asset instead of stretching the asset to the box.
+ *
+ * Delivered, read back from the database after the backfill: **91 at 792x594,
+ * 4 at 667x500, 1 at 771x578**. The prediction and the corpus agree exactly,
+ * which is the only reason the four are a finding rather than a surprise.
+ *
+ * ── BYTES: THIS IS A SAVING, MEASURED OVER THE WHOLE CORPUS ────────────────
+ * Measured by HTTP HEAD on the objects this backfill actually wrote, against
+ * the `low.webp` the cover figure served before it — all 96 published covers,
+ * 02 September 2026:
+ *
+ *   low.webp        total 5,034,824 B    (min 15,184  max 252,352  median 49,856)
+ *   this rendition  total 3,296,332 B    (min 12,346  max 100,990  median 30,716)
+ *                   delta  -1,738,492 B  = -34.5%, and only 4 covers get heavier
+ *
+ * ⚠ The corpus moved from 92 to 96 WHILE this was being measured — four
+ * articles published mid-item, the same way DES-18 watched 86 become 89. Every
+ * number above is the 96-cover run; an earlier draft of this comment quoted the
+ * 92-cover one and was corrected rather than left to read as authoritative.
+ *
+ * The four that get heavier are the four 667px covers, by 1,630 / 2,250 /
+ * 2,404 / 2,742 B: their `low` is an 800x500 file at q30 and this is 667x500 at
+ * q50, so it is a quality trade on the four smallest photographs on the site,
+ * not a regression anyone can see.
+ *
+ * On `garden-wedding` — the page the item names, ~28% of all site impressions —
+ * 33,574 B becomes 26,936 B: **-6,638 B, -19.8%**, on the LCP element.
+ *
+ * ── THE CEILING ────────────────────────────────────────────────────────────
+ * 103,680 B = DES-03 §6.2's 46,080 B card ceiling scaled by area (792x594 is
+ * 2.25x the area of 528x396). Scaling it is the honest reading: DES-18 applied
+ * the same constant to a box 21% larger and called that strictly tighter, and
+ * the same argument at 2.25x would be a ceiling nothing could ever meet.
+ *
+ * Measured, the corpus max is 100,990 B (`songket-tenunan-tangan-atau-cetak`,
+ * the same worst-case photograph that made DES-18's ladder necessary) — 2.6%
+ * under, so every one of the 96 lands on the first rung and the backfill
+ * reported `over ceiling 0`. A ceiling nothing hits is a ceiling nobody has
+ * tested, so the ladder's step-down is proved by the unit test rather than by
+ * the corpus happening to need it.
+ */
+export const ARTICLE_COVER_MD = {
+  /** R2 object key stem AND the `coverImageSmartCrops` key. Never rename. */
+  NAME: 'crop-4x3-article-card-md',
+  /** The crop this is a rendition OF. Not re-cropped, only resized. */
+  SOURCE_NAME: 'crop-4x3-article-card',
+  WIDTH: 792,
+  HEIGHT: 594,
+  /** Bytes. DES-03 §6.2's card ceiling, area-scaled to this box. */
+  CEILING_BYTES: 103_680,
+  QUALITY_LADDER: [50, 46, 42, 38, 34, 30] as const,
+} as const;
+
+/**
+ * The shape both rungs share, so `renderCoverRendition` takes a spec rather
+ * than a name and a new rung cannot be added with a field missing.
+ */
+export interface CoverRenditionSpec {
+  readonly NAME: string;
+  readonly SOURCE_NAME: string;
+  readonly WIDTH: number;
+  readonly HEIGHT: number;
+  readonly CEILING_BYTES: number;
+  readonly QUALITY_LADDER: readonly number[];
+}
+
+/**
+ * Every rendition `generateSmartCrops` writes and `backfill-midsize-cover.mts`
+ * can target. Declared in ONE place so ingest and the backfill cannot drift:
+ * DES-18 added its rung to ingest and to the backfill separately, and a third
+ * rung added the same way would be a third opportunity to add it to only one.
+ */
+export const COVER_RENDITIONS: readonly CoverRenditionSpec[] = [MIDSIZE_COVER, ARTICLE_COVER_MD];

@@ -127,9 +127,10 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
-      "sharp",
       "@tailwindcss/oxide",
       "esbuild",
+      "msw",
+      "sharp",
       "unrs-resolver"
     ]
   }

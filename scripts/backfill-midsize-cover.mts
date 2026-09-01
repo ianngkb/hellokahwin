@@ -1,10 +1,17 @@
 /**
  * DES-18 — backfill `crop-4x3-article-card-sm`, the mid-size cover rendition.
+ * UI-16 — the same machinery, `--rendition`-selected, for `…-md` (792x594).
  *
  *   pnpm backfill:midsize --db "<url>" --dry-run   # report only, writes nothing
  *   pnpm backfill:midsize --db "<url>"             # write
  *   pnpm backfill:midsize --db "<url>" --force     # re-encode where one exists
  *   pnpm backfill:midsize --db "<url>" --limit 3   # a small first pass
+ *   pnpm backfill:midsize --db "<url>" --rendition crop-4x3-article-card-md
+ *
+ * `--rendition` defaults to DES-18's `…-sm`, so every command already recorded
+ * in a work-done entry still means what it meant when it was written down. It
+ * must name a member of `COVER_RENDITIONS`; an unknown name exits 2 rather than
+ * backfilling nothing and reporting success.
  *
  * `--db` is REQUIRED and never defaulted, for the reason
  * `backfill-cover-lqip.mts` states: this script writes, the local database is
@@ -44,8 +51,8 @@ import { writeFileSync } from 'node:fs';
 import postgres from 'postgres';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { getR2Client, getR2Bucket, getR2PublicUrl, extractKeyFromUrl } from '../src/lib/r2/client';
-import { renderMidsizeCover } from '../src/lib/storage/smart-crop';
-import { MIDSIZE_COVER } from '../src/lib/storage/midsize-cover';
+import { renderCoverRendition } from '../src/lib/storage/smart-crop';
+import { COVER_RENDITIONS, MIDSIZE_COVER } from '../src/lib/storage/midsize-cover';
 
 type CropEntry = { url: string; width: number; height: number };
 type Row = {
@@ -63,6 +70,9 @@ function parseArgs(argv: string[]) {
     dryRun: argv.includes('--dry-run'),
     force: argv.includes('--force'),
     limit: limit ? Number(limit) : undefined,
+    // UI-16 — which rung to backfill. Defaults to DES-18's so every command
+    // already written down in a work-done entry keeps meaning what it meant.
+    rendition: val('--rendition') ?? MIDSIZE_COVER.NAME,
   };
 }
 
@@ -80,13 +90,22 @@ async function main() {
   // Say out loud which database and which bucket this run is pointed at. Two
   // items in this repo have been measured against a target nobody had checked;
   // an unreadable host in the log is how that happens.
+  const spec = COVER_RENDITIONS.find((r) => r.NAME === args.rendition);
+  if (!spec) {
+    console.error(
+      `Refusing to run: --rendition ${args.rendition} is not a declared rendition. ` +
+        `Known: ${COVER_RENDITIONS.map((r) => r.NAME).join(', ')}`,
+    );
+    process.exit(2);
+  }
+
   const host = args.db.replace(/^postgres(ql)?:\/\//, '').replace(/^[^@]*@/, '');
   console.log(`target db     ${host}`);
   console.log(`target bucket ${process.env.R2_BUCKET_NAME ?? '(R2_BUCKET_NAME unset)'}`);
   console.log(
-    `rendition     ${MIDSIZE_COVER.NAME} ${MIDSIZE_COVER.WIDTH}x${MIDSIZE_COVER.HEIGHT} ` +
-      `ceiling ${MIDSIZE_COVER.CEILING_BYTES} B, quality ladder ` +
-      MIDSIZE_COVER.QUALITY_LADDER.join('/'),
+    `rendition     ${spec.NAME} ${spec.WIDTH}x${spec.HEIGHT} ` +
+      `ceiling ${spec.CEILING_BYTES} B, quality ladder ` +
+      spec.QUALITY_LADDER.join('/'),
   );
 
   const sql = postgres(args.db, { prepare: false });
@@ -100,38 +119,38 @@ async function main() {
      ${args.limit ? sql`limit ${args.limit}` : sql``}
   `;
 
-  const noSource = rows.filter((r) => !r.cover_image_smart_crops?.[MIDSIZE_COVER.SOURCE_NAME]?.url);
+  const noSource = rows.filter((r) => !r.cover_image_smart_crops?.[spec.SOURCE_NAME]?.url);
   const todo = rows.filter((r) => {
-    const src = r.cover_image_smart_crops?.[MIDSIZE_COVER.SOURCE_NAME];
+    const src = r.cover_image_smart_crops?.[spec.SOURCE_NAME];
     if (!src?.url) return false;
     if (args.force) return true;
-    const have = r.cover_image_smart_crops?.[MIDSIZE_COVER.NAME];
+    const have = r.cover_image_smart_crops?.[spec.NAME];
     return !(have?.url && typeof have.width === 'number' && typeof have.height === 'number');
   });
 
   console.log(
     `\n${rows.length} published article(s) with smart crops · ${todo.length} to render · ` +
       `${rows.length - todo.length - noSource.length} already done · ` +
-      `${noSource.length} with no ${MIDSIZE_COVER.SOURCE_NAME}`,
+      `${noSource.length} with no ${spec.SOURCE_NAME}`,
   );
   for (const r of noSource) console.warn(`  NO SOURCE ${r.slug}`);
 
   // ── The undo dump, written BEFORE the first write ────────────────────────
   const ids = todo.map((r) => `'${r.id}'`).join(', ');
   const undo = {
-    item: 'DES-18',
+    item: spec.NAME === MIDSIZE_COVER.NAME ? 'DES-18' : 'UI-16',
     writtenAt: new Date().toISOString(),
     targetDbHost: host,
     targetBucket: process.env.R2_BUCKET_NAME ?? null,
     dryRun: args.dryRun,
-    addedJsonbKey: MIDSIZE_COVER.NAME,
+    addedJsonbKey: spec.NAME,
     reversalSql:
       `UPDATE articles SET cover_image_smart_crops = ` +
-      `cover_image_smart_crops - '${MIDSIZE_COVER.NAME}' WHERE id IN (${ids});`,
+      `cover_image_smart_crops - '${spec.NAME}' WHERE id IN (${ids});`,
     r2ObjectsAdded: todo.map((r) => {
-      const src = r.cover_image_smart_crops![MIDSIZE_COVER.SOURCE_NAME]!;
+      const src = r.cover_image_smart_crops![spec.SOURCE_NAME]!;
       const dir = extractKeyFromUrl(src.url).replace(/\/[^/]*$/, '');
-      return `${dir}/${MIDSIZE_COVER.NAME}.webp`;
+      return `${dir}/${spec.NAME}.webp`;
     }),
     priorRows: todo.map((r) => ({
       id: r.id,
@@ -153,17 +172,17 @@ async function main() {
   const sizes: number[] = [];
 
   for (const r of todo) {
-    const src = r.cover_image_smart_crops![MIDSIZE_COVER.SOURCE_NAME]!;
+    const src = r.cover_image_smart_crops![spec.SOURCE_NAME]!;
     try {
       const res = await fetch(src.url);
       if (!res.ok) throw new Error(`HTTP ${res.status} fetching source crop`);
       const sourceBuf = Buffer.from(await res.arrayBuffer());
 
-      const out = await renderMidsizeCover(sourceBuf);
+      const out = await renderCoverRendition(sourceBuf, spec);
       sizes.push(out.bytes);
 
       const srcKey = extractKeyFromUrl(src.url);
-      const key = `${srcKey.replace(/\/[^/]*$/, '')}/${MIDSIZE_COVER.NAME}.webp`;
+      const key = `${srcKey.replace(/\/[^/]*$/, '')}/${spec.NAME}.webp`;
       // Carry the source crop's own `?v=` token onto the rendition. It encodes
       // the focal point and the geometry version, so a re-cut that moves the
       // window changes this URL too — without it an immutable CDN would serve
@@ -187,7 +206,7 @@ async function main() {
           update articles
              set cover_image_smart_crops =
                    coalesce(cover_image_smart_crops, '{}'::jsonb)
-                   || ${sql.json({ [MIDSIZE_COVER.NAME]: entry })}::jsonb
+                   || ${sql.json({ [spec.NAME]: entry })}::jsonb
            where id = ${r.id}`;
       }
 

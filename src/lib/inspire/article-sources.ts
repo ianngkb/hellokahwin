@@ -48,7 +48,7 @@ import { nodeText } from './heading-anchors';
  * Rekod and the contents and no `Sumber` heading, because there is nothing
  * true to put under one. An empty `Sumber` heading would assert that an
  * article is sourced when it is not, which is worse than the absence.
- * `scripts/ui-layout-gate.mjs` check 14 (`sumber-empty`) fails a build that
+ * `scripts/ui-layout-gate.mjs` check 16 (`sumber-empty`) fails a build that
  * prints one, against the committed fixture `2026-09-02-rail/
  * sourced-sumber-empty.html`.
  *

@@ -48,7 +48,7 @@ import {
 } from '@/lib/inspire/dynamic-blocks';
 import { MobileArticleBar } from '@/components/inspire/mobile-article-bar';
 import { PhotoGallery } from '@/components/inspire/photo-gallery';
-import { resolveCoverSource, resolveRowThumbSource } from '@/lib/storage/responsive-cover';
+import { resolveArticleCoverSource, resolveRowThumbSource } from '@/lib/storage/responsive-cover';
 import '@/design-system/tokens.css';
 import '@/design-system/components.css';
 import { Breadcrumbs, BreadcrumbJsonLd } from '@/components/common/breadcrumbs';
@@ -782,10 +782,14 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
   // the browser fetched both at high priority and the preload stopped being a
   // preload. One element, one hint, nothing left to drift.
   //
-  // `resolveCoverSource` is the single definition of what that element loads —
-  // the same call the figure below makes, so the two cannot disagree.
+  // `resolveArticleCoverSource` is the single definition of what that element
+  // loads — the same call the figure below makes, so the two cannot disagree.
+  // UI-16 moved BOTH from `resolveCoverSource` in one edit for that reason: a
+  // preload left on the old resolver would have pointed at `low.webp` while the
+  // figure fetched the rendition, and the page would have downloaded two
+  // photographs at high priority with nothing visibly wrong.
   const coverPreload = article.coverImageUrl
-    ? resolveCoverSource(
+    ? resolveArticleCoverSource(
         article.coverImageVariants as Record<string, { url: string }> | null,
         article.coverImageSmartCrops,
         article.coverImageUrl,
@@ -1137,7 +1141,7 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
               an appended line that a component swap can drop. */}
             {article.coverImageUrl &&
               (() => {
-                const cover = resolveCoverSource(
+                const cover = resolveArticleCoverSource(
                   article.coverImageVariants as Record<string, { url: string }> | null,
                   article.coverImageSmartCrops,
                   article.coverImageUrl,
@@ -1155,48 +1159,66 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
                     // re-centre it.
                     style={{ marginTop: 24, marginBottom: 40, marginLeft: 0, marginRight: 0 }}
                   >
-                    {/* UI-12 S5 — `lg:aspect-[2.4/1]` deleted. 2.4:1 matched no
-                      derivative this pipeline produces: `CROP_TARGETS` yields
-                      exactly four aspects — 0.800, 1.333, 1.905, 3.520 — and
-                      nothing yields 2.4. Per hero-rules R1, if no derivative
-                      matches the box you want you do not have that box; 2.4:1
-                      was drawn, not derived, and no asset on this site can fill
-                      it. Measured on production 31 Ogos 2026: a 2.400 box fed
-                      `low` at 1.4993 is 60% off and reports a 1.17× upscale —
-                      4 gate failures.
+                    {/* UI-16 — the box is 4:3 and the asset is a NAMED CROP.
+                      UI-12 S5 had already deleted `lg:aspect-[2.4/1]` (2.4:1
+                      matched no derivative the pipeline produces) and settled on
+                      `aspect-[3/2]` fed `low`, which measured a 0.05% deviation
+                      — R1 green — and left R2 red forever: `low` preserves the
+                      SOURCE aspect, so which shape this slot got was decided by
+                      which camera shot the cover. `card-thumbnail-image-rules`
+                      T2 named 4:3 as where this slot goes "the day a small
+                      rendition of it exists"; `crop-4x3-article-card-md` is that
+                      rendition and this is that day.
 
-                      `aspect-[3/2]` at every width. With S1 landed the served
-                      asset is `low` at its true intrinsic, measured
-                      1024 × 683 = 1.4993 against a 1.5 box: a 0.05% deviation.
-                      Retained frame in a 3:2 box is 100% from a 1.500 source,
-                      88.9% from 1.333, 44.5% from 0.667 — all clear of the 33%
-                      floor, so this box needs no eligibility predicate. */}
+                      `boxAspect` comes from the RESOLVER, not from this file, so
+                      a `low` fallback (a cover with no smart crops at all — zero
+                      of 92 today) cannot be paired with a 4:3 box.
+
+                      `maxWidth` is R1 taken literally: "the box follows the
+                      asset, never the reverse". Four covers have a 4:3 crop only
+                      667px wide because their source photograph is 800×500, and
+                      stretching that across this slot's 756px box would be a
+                      1.13× upscale. The figure narrows to the asset instead; it
+                      is already left-aligned with a ragged right (UI-10), so it
+                      hangs off the same left edge as everything above it. */}
                     <div
-                      className="bg-muted relative aspect-[3/2] w-full overflow-hidden"
-                      style={
-                        article.coverImageLqip
+                      className={`bg-muted relative w-full overflow-hidden ${
+                        cover.boxAspect === '4/3' ? 'aspect-[4/3]' : 'aspect-[3/2]'
+                      }`}
+                      style={{
+                        ...(cover.width ? { maxWidth: cover.width } : null),
+                        ...(article.coverImageLqip
                           ? {
                               backgroundImage: `url(${article.coverImageLqip})`,
                               backgroundSize: 'cover',
                               backgroundPosition: 'center',
                             }
-                          : undefined
-                      }
+                          : null),
+                      }}
                     >
                       {/* eslint-disable-next-line @next/next/no-img-element -- see responsive-cover.ts */}
-                      {/* UI-12 S1/S5: no `srcSet`, no `sizes` (inert without one).
-                        `width`/`height` were 1200×500 — an aspect of 2.4 that
-                        described no asset in the pipeline, so the browser
-                        reserved a box nothing could fill and the page shifted.
-                        That is the same R6 defect UI-03 found on the homepage
-                        hero, still live here. 1200×800 = 1.500 is `low`'s modal
-                        intrinsic across the corpus and matches the 3:2 box the
-                        element actually renders into. */}
+                      {/* UI-16 — `width`/`height` are the FILE's, read from the
+                        stored crop entry, never a constant.
+
+                        They were `1200×800`. UI-12 S5 chose that as "`low`'s
+                        modal intrinsic across the corpus", which is a statement
+                        about most articles rather than about this one: on
+                        `garden-wedding` the delivered `low.webp` is 1024×683.
+                        The RATIO was right to two decimal places, which is why
+                        the gate's aspect check stayed green while hero-rules R6
+                        — "state the default source's real intrinsic dimensions"
+                        — was 17.2% out. A modal value is still an asserted one.
+
+                        Null only on the `low` fallback, which has no recorded
+                        dimensions to state; declaring nothing beats declaring
+                        something false, and the box is reserved by the CSS
+                        `aspect-ratio` either way. UI-12 S1's deletion of
+                        `srcSet`/`sizes` stands. */}
                       <img
                         src={cover.src}
                         alt={article.title}
-                        width={1200}
-                        height={800}
+                        width={cover.width ?? undefined}
+                        height={cover.height ?? undefined}
                         fetchPriority="high"
                         decoding="async"
                         className="absolute inset-0 h-full w-full object-cover"

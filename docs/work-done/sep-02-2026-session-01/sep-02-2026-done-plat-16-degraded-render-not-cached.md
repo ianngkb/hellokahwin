@@ -300,6 +300,31 @@ path's shape is not sizing it.
    at HTTP 500; the module said, measured, that the string is not in the
    document. Caught in review.
 
+### The one that landed after the retrospective was written
+
+**A CI toolchain you did not pin is a dependency that changes under you between
+two deploys ten minutes apart.** PLAT-16's merge deployed into a Vercel builder
+that had switched from pnpm 10.x to 11.x since the previous merge, and failed.
+The failure named six packages, four of which were already allow-listed — so
+the error message pointed at a list that was correct and being ignored.
+
+It cost a third PR (#66) and it produced the same lesson this repo already has
+written down in `scripts/measure/count-in-html.sh`: **the first fix was
+confident, specific and wrong.** Moving `onlyBuiltDependencies` into
+`pnpm-workspace.yaml` was the obvious repair, it is what the docs for pnpm 10
+describe, and it fails with the BYTE-IDENTICAL error — which reads exactly like
+having changed nothing at all. The setting had also been renamed to
+`allowBuilds`, a map rather than a list, and the only place that said so was the
+file pnpm rewrote for me when I ran the fix against the failing case.
+
+**"I understand the cause" is not a test, and an unchanged error message is not
+evidence that your change did nothing.** Run it.
+
+Owner of the follow-up: platform / CEO — this repo has no pin on the pnpm
+version Vercel selects (`"packageManager"` is undefined and corepack is off), so
+the same class of break can arrive on any deploy, at any time, from a change
+nobody in this org made.
+
 ### Open findings raised, not fixed here
 
 | Finding | Owner |
@@ -308,6 +333,7 @@ path's shape is not sizing it.
 | **`generateMetadata` and the page now resolve the SAME failure in opposite directions.** Metadata's `getCategoryArticles` fails OPEN to `index, follow` and that verdict is frozen into an `unstable_cache` entry with `revalidate: false`; the page's copy of the same read now fails CLOSED. So a hub whose count could not be established can carry a permanently cached "indexable" robots verdict derived from a read the same request refused to render on. Same family of bug as PLAT-16, different lever. | platform / CEO |
 | **Removing the cacheable 200 removes load absorption during a stall.** Every request during a DB incident is now a fresh origin render against a 5-wide pool, where before one render's 200 answered ~300s of edge traffic. The 1,500ms budget bounds each attempt; there is still no retry, backoff or circuit breaker anywhere in the read path. | platform |
 | **Both halves of the PLAT-19 / DES-18 tooling finding are CLOSED.** `docs/work-done/README.md` exists on `master` (created by UI-20, 02 Sept) and `scripts/measure/count-in-html.sh` is present. Recorded so a fifth agent does not re-report them. | CEO |
+| **No pin on the pnpm version Vercel selects.** `package.json` has no `packageManager` field and corepack is off, so Vercel picks the major "based on project creation date" and moved 10.x -> 11.x mid-sprint, breaking every deploy in the repo. The `allowBuilds` fix unblocks today; nothing stops pnpm 12 doing it again. | platform / CEO |
 
 ---
 
@@ -320,6 +346,81 @@ path's shape is not sizing it.
   (427 files at the start of this session) and every previous session's entries
   live there. It is not the boardroom docs line, and no PR was opened into
   `feat/command-centre-dashboard`.
+
+## Shipping it broke on something else entirely
+
+**PLAT-16 merged as `0f2a4c9` and its production deployment FAILED.** Not the
+diff — Vercel rolled its default pnpm from **10.x to 11.x between 19:17 and
+19:27 UTC**, and PLAT-16's merge was simply the first deploy to land on the far
+side of it. Two production builds ten minutes apart, same lockfile, both read
+from the Vercel build logs:
+
+| | commit | pnpm | ignored builds | result |
+| --- | --- | --- | --- | --- |
+| 19:17 | `0129797` (UI-20) | `v10.28.0` | `msw@2.15.0` — a **warning** | success |
+| 19:27 | `0f2a4c9` (PLAT-16) | `11.x` | `esbuild`x3, `msw`, `sharp`, `unrs-resolver` — **`ERR_PNPM_IGNORED_BUILDS`** | failure |
+
+The only manifest difference between those commits is one added npm script
+line; `pnpm-lock.yaml`, `.npmrc` and `vercel.json` are untouched; and
+`pnpm build` on `0f2a4c9` is exit 0 locally. Every branch in the repo was
+undeployable, not just this one.
+
+**THREE things changed at once, and the third is the one that bites.**
+
+1. pnpm 11 makes an ignored build script a HARD ERROR, not a warning.
+2. **pnpm 11 no longer reads the `pnpm` field in `package.json`** — which is
+   why `sharp`, `esbuild` and `unrs-resolver` were in the error list at all:
+   they were ALREADY allow-listed there and the allow-list stopped being read.
+3. **The setting is also RENAMED**: `onlyBuiltDependencies` (a list) became
+   `allowBuilds` (a map of package to boolean). Moving the old key into
+   `pnpm-workspace.yaml` verbatim **fails with the byte-identical error**,
+   which is indistinguishable from having changed nothing.
+
+That third one is the whole lesson, and it is the same lesson as
+`scripts/measure/count-in-html.sh`: **the first fix was confident, specific and
+wrong, and only running it against the failing case caught it.** pnpm rewrote
+`pnpm-workspace.yaml` itself and prepended `allowBuilds: { esbuild: set this to
+true or false }` — the entire answer, invisible from the error message.
+
+Verified against the failing case, three runs of one command:
+
+```
+package.json list only          npx pnpm@11 install --frozen-lockfile  ->  exit 1
+onlyBuiltDependencies in yaml   same command                           ->  exit 1
+allowBuilds in yaml             same command                           ->  exit 0
+                                "Done in 14.8s using pnpm v11.25.0"
+```
+
+and the scripts actually run — `sharp install$ node install/check.js`, three
+esbuild postinstalls `Done` — after which `require('sharp')` loads libvips
+8.17.3. `sharp` is the entry that matters: `next.config.ts` lists it in
+`serverExternalPackages` and it does the site's image processing.
+
+Shipped as **PR #66**, `9c1ca0c`, production deployment `6209298019`
+**state=success**.
+
+## Live, on production
+
+`0f2a4c9` is an ancestor of the deployed `9c1ca0c` (`git merge-base
+--is-ancestor`, exit 0) and the deployed route source carries
+`readForCacheablePage` x4.
+
+| URL | status | pillar-empty | grid-empty | article hrefs |
+| --- | --- | --- | --- | --- |
+| `/artikel/hantaran-mas-kahwin` | 200 | 0 | 0 | **47** |
+| `/artikel/nikah-undang-undang` | 200 | 0 | 0 | **19** |
+| `/artikel/idea-dan-nasihat` | 200 | 0 | 0 | **34** |
+
+**POSITIVE CONTROL** — a zero from this checker means absence, not a broken
+check: the same `scripts/measure/count-in-html.sh` run against the same page
+returns `HelloKahwin` **x52** and `Hantaran` **x262**.
+
+**NEGATIVE CONTROL** — `/artikel/plat16-not-a-real-category` returns **404**,
+not a 200 shell.
+
+The forced-failure half cannot be run against production: it requires stalling
+the database. It is run against `next build && next start` on the same commit,
+which is what the numbers above the fold are.
 
 ## Reproducing this
 
