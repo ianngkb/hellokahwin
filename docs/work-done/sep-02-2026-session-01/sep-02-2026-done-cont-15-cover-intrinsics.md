@@ -141,10 +141,24 @@ writes decays the moment the backfill ends. That took **24 minutes**:
 20:23  after catch-up  102 of 102
 ```
 
-**Verified as a PAIR, not merely seen failing.** Run 1 against production: exit 1,
-six rows named. Ran the backfill. Run 2: the low column goes 96 → **102/102
-GREEN** while the md column **stays 96/102 RED**. It discriminates between two
-failure modes rather than reporting "something is wrong".
+**Verified over THREE points, not merely seen failing** — and the third was
+produced by a different team fixing a real defect, which is the strongest kind of
+control because nobody arranged it:
+
+| Run | `low.width/height` | `crop-4x3-article-card-md` | Exit | What changed before it |
+| --- | --- | --- | --- | --- |
+| 1 · 20:20 | 96/102 | 96/102 | **1** | — (both columns genuinely incomplete) |
+| 2 · 20:23 | **102/102** | 96/102 | **1** | CONT-15 ran its backfill |
+| 3 · 20:38 | **102/102** | **102/102** | **0** | **UI-16** fixed the rendition defect |
+
+Each column moved **independently, only when its own cause was addressed**. A
+single "is the corpus healthy" boolean could not have produced that table, and
+would have averaged the two into a lie.
+
+`COVER-INTRINSICS EXIT: 0` is the baseline recorded with PR #71 — deliberately
+re-run **after** UI-16's fix, because the first recorded run of a gate is what
+the next reader treats as normal, and shipping a red baseline for a defect that
+is already closed teaches the wrong thing.
 
 ---
 
@@ -163,6 +177,27 @@ failure modes rather than reporting "something is wrong".
    downscale → `image-upscale` 0; a named crop → R2 passes. A pure byte defect
    with no rule. Cause not asserted — belongs to UI-16's owner.
 
+   **RESOLVED by UI-16 the same evening, and the cause was neither of the two
+   hypotheses I offered.** Not "crops generated before the deploy":
+   `doa-untuk-isteri` HAD the `-md` rung at 20:00 and did not at 20:12, so it was
+   **re-ingested**, and `processSmartCrops` **replaces** the whole
+   `cover_image_smart_crops` object instead of merging into it. The ingest CLI
+   runs from an agent's **own checkout**, not from the deployed app — so UI-16's
+   19:51 fix to `generateSmartCrops` could not reach an article ingested at
+   20:12 by an unrebased worktree, and **no deploy can stop it**. `-sm` survived
+   on all six only because that rung has been on `master` since Sprint 05 and the
+   stale checkouts already had it.
+
+   That last part is larger than either item and is escalated to the owner rather
+   than absorbed by either of us. **I offered two hypotheses and both were wrong;
+   the value was in labelling them as hypotheses and handing the element to its
+   owner rather than guessing in public.**
+
+   UI-16 also reordered the fallback to `md → sm → card → low` (PR #67,
+   `b62e9c1`) — largest-that-is-still-budgeted rather than largest — so the same
+   failure mode now costs ~23 KB per article instead of ~790 KB, with a
+   regression test verified red against the old ordering.
+
 2. **The editorial defect, carried forward as a named item** (below).
 
 3. **`.inspire-prose` body images** still declare a hard-coded `width="1200"
@@ -175,6 +210,55 @@ failure modes rather than reporting "something is wrong".
    `_cont15-build-artifact.mjs` + `_cont15-plates.json` (its generator). If any
    number was hand-edited into the artifact after generation, the spec I built
    against was stale and nothing would have revealed it.
+
+---
+
+## Retrospective — what changed in the repo, and why
+
+Shipped as instruments and rules, not as prose in a document nobody re-reads:
+`scripts/audit-cover-intrinsics.mjs` (PR #71) and **R9 / R10 / R11** in
+`docs/design/hero-image-rules.md` — the file people actually read before touching
+a cover, and the one UI-16 cites as "hero-rules R2".
+
+**1. AN INSTRUMENT CAN REPORT SUCCESS ABOUT A THING IT IS NOT LOOKING AT, AND
+THIS HAPPENED TWICE ON THE SAME SLOT IN ONE EVENING.** That makes it a pattern,
+not an incident, and it is worth more than either bug:
+
+- CONT-15's scratch script `continue`d past six incomplete rows before counting
+  them and returned a comfortable "0 missing" — which I was about to hand up as
+  *independent corroboration of a ruling that had already gone against me*.
+- UI-16's merge deployed green, `ui-layout-gate.mjs` printed `UILINT EXIT: 0`
+  across all seven templates, and the page was still serving a 213 KB fallback
+  because the payload caches with `revalidate: false`.
+
+Neither had a failing assertion. One looked at a filtered list, the other at a
+cached payload. → **R11**: assert against the **served object** (`HEAD` the URL
+the page actually references), and treat a rendered measurement as belonging to a
+build *and a cache state*, never to a URL.
+
+**2. A CONVENIENT NUMBER IS THE HARDEST KIND TO DOUBT.** Mine was not caught by a
+test failing — it was caught by noticing the number was *pleasant*. It confirmed
+a decision already made, which is exactly when scrutiny is lowest. → **R10**:
+enumerate, then count.
+
+**3. THE CORPUS MOVED FOUR TIMES DURING ONE ITEM: 92 → 95 → 96 → 102.** Every
+count in a spec is a timestamp, not a fact. Both the spec's 92/15 and the
+re-derived 102/15 are kept and dated; reconciling them would destroy the evidence
+that it moves.
+
+**4. THREE PASSES TO FIND ONE CAUSE.** The pnpm outage was called a permanent
+bump, then transient flakiness, then correctly diagnosed as Vercel selecting
+pnpm 11 by a creation-date heuristic — and PLAT-16 found the part nobody had:
+`onlyBuiltDependencies` was **renamed to `allowBuilds` and changed from a list to
+a map**, so moving the key verbatim fails *byte-identically*. An error message
+that is unchanged after a fix is not evidence the fix was wrong about the cause.
+
+**5. I WAS ORDERED TO OPEN A PR AND DECLINED, AND THAT WAS CORRECT.** The
+instruction was "split it out and merge **on merit**". The merit case was
+disproven between the order and the execution, so the condition attached to the
+instruction failed and the instruction lapsed with it. The commits are preserved
+on `ianng89/pnpm-pin-hardening` rather than deleted, because the diagnosis was
+right about the mechanism even though the fix was superseded.
 
 ---
 
