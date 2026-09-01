@@ -51,12 +51,18 @@ export function PillarBody({ view, intro }: { view: PillarView; intro: string | 
     (a, b) => Number(b.articles.length > 0) - Number(a.articles.length > 0),
   );
 
-  // UI-05 P6 — the pillar with nothing under it at all. This is ALSO the shape
-  // `renderPillarPage` renders when `getPillarView` fails or blows its 3s
-  // deadline: it swallows the error and leaves `view` at
-  // `{ clusters: [], unclustered: [], totalArticles: 0 }`. Before this branch
-  // existed both paths rendered an empty <div> — intro, then nothing, with no
-  // message and no way out.
+  // UI-05 P6 — the pillar with nothing under it at all. Before this branch
+  // existed it rendered an empty <div> — intro, then nothing, with no message
+  // and no way out.
+  //
+  // PLAT-16: this used to be the FAILURE shape too. `renderPillarPage`
+  // swallowed a failed or timed-out `getPillarView`, left `view` at
+  // `{ clusters: [], unclustered: [], totalArticles: 0 }`, and rendered this —
+  // so "we could not read this pillar" and "this pillar is empty" were the
+  // same HTTP 200, cacheable at the Vercel edge for up to fifteen minutes. The
+  // route now throws instead (`@/lib/cache/degraded-render`). This branch means
+  // exactly one thing again: the pillar is empty. Keep it that way — do not
+  // route a failure back through here.
   const isEmpty = orderedClusters.length === 0 && view.unclustered.length === 0;
 
   return (

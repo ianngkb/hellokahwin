@@ -6,6 +6,7 @@ import { eq, ne, desc, and, inArray, sql } from 'drizzle-orm';
 import { unstable_cache } from 'next/cache';
 import { db } from '@/lib/db/drizzle';
 import { withDeadline } from '@/lib/api/timeout';
+import { readForCacheablePage } from '@/lib/cache/degraded-render';
 import { articles, inspireCategories, articleCategories } from '@/lib/db/schema/articles';
 import { media } from '@/lib/db/schema/media';
 import { Pagination } from '@/components/ui/pagination';
@@ -347,22 +348,21 @@ type CategoryRow = NonNullable<Awaited<ReturnType<typeof getCategoryBySlugCached
 /**
  * The pillar layout. Separate function, same route — see the call site.
  *
- * The article listing is soft-failed the same way the grid below is: a DB blip
- * renders the pillar with its intro and empty clusters rather than a 5xx.
+ * PLAT-16: the pillar view is NOT soft-failed. It used to be — a blown
+ * deadline left `view` at `{ clusters: [], … }` and the page rendered UI-05's
+ * "Panduan ini masih kosong" empty state with HTTP 200, which is both a lie to
+ * the reader and a cacheable one. See `@/lib/cache/degraded-render` for the
+ * full reasoning and for why "a short revalidate window on the degraded path"
+ * is not a lever a server component holds.
  */
 async function renderPillarPage(category: CategoryRow, categorySlug: string) {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com';
 
-  let view: Awaited<ReturnType<typeof getPillarView>> = {
-    clusters: [],
-    unclustered: [],
-    totalArticles: 0,
-  };
-  try {
-    view = await withDeadline(getPillarView(category.id), 3_000, `inspire-pillar:${categorySlug}`);
-  } catch (err) {
-    console.error(`[inspire-pillar:${categorySlug}] view fetch failed:`, err);
-  }
+  const view = await readForCacheablePage(
+    getPillarView(category.id),
+    3_000,
+    `inspire-pillar:${categorySlug}`,
+  );
 
   const breadcrumbItems = [
     { label: 'Utama', href: '/' },
@@ -481,20 +481,16 @@ export default async function InspireCategoryPage({ params, searchParams }: Cate
   const showAds = false;
   const perPage = showAds ? ARTICLES_PER_PAGE_WITH_ADS : ARTICLES_PER_PAGE;
 
-  // Soft-fail the article-listing query: if it stalls past the 3s deadline,
-  // render the empty-state UI rather than a 5xx. Far better UX during a DB
-  // blip than a hard error page.
-  let articlesData: Awaited<ReturnType<typeof getCategoryArticles>> = { data: [], total: 0 };
-  try {
-    articlesData = await withDeadline(
-      getCategoryArticles(categoryIds, page, perPage),
-      3_000,
-      `inspire-category-articles:${categorySlug}`,
-    );
-  } catch (err) {
-    console.error(`[inspire-category:${categorySlug}] articles fetch failed:`, err);
-  }
-  const { data, total } = articlesData;
+  // PLAT-16: NOT soft-failed, for the same reason the pillar above is not.
+  // This one carried the identical exposure — a blown deadline rendered the
+  // grid's empty state at HTTP 200 with `numberOfItems: 0` in the
+  // CollectionPage JSON-LD, on a hub `generateMetadata` had just failed OPEN
+  // to `index, follow`. `@/lib/cache/degraded-render` carries the argument.
+  const { data, total } = await readForCacheablePage(
+    getCategoryArticles(categoryIds, page, perPage),
+    3_000,
+    `inspire-category-articles:${categorySlug}`,
+  );
 
   const totalPages = Math.ceil(total / perPage);
 
