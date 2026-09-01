@@ -1,0 +1,49 @@
+UI-16 — the UI-06 gate on the live URL BEFORE the fix, 02 September 2026.
+
+  node scripts/ui-layout-gate.mjs --url https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding
+
+Deployment measured: sin1::sin1::qzthq-1788288991260-0d47b20ee564
+css=[21fd3106af40c828.css 19b83a0982f1e330.css 93b060e57eb15691.css]
+
+⚠ THIS FILE IS A TRANSCRIPT, NOT A RE-RUNNABLE CAPTURE. The defect is gone from
+production, so the command above cannot reproduce it today. The same two checks
+fire on the SAME numbers, offline and reproducibly, against the committed fixture:
+
+  pnpm ui:gate --shaped-slot        # case A is this defect
+
+──────────────────────────────────────────────────────────────────────────────
+[FAIL] /artikel/idea-dan-nasihat/garden-wedding @390  2 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:10 unmeasurable:0 R2:1 R6:1 H6:0 H6.6:0 · +10 advisory
+[FAIL] /artikel/idea-dan-nasihat/garden-wedding @768  2 violation(s)  … R2:1 R6:1 …
+[FAIL] /artikel/idea-dan-nasihat/garden-wedding @1024 2 violation(s)  … R2:1 R6:1 …
+[FAIL] /artikel/idea-dan-nasihat/garden-wedding @1440 2 violation(s)  … R2:1 R6:1 …
+[FAIL] /artikel/idea-dan-nasihat/garden-wedding @1920 2 violation(s)  … R2:1 R6:1 …
+
+        shaped-slot-variant ×1
+          served low into a box shaped aspect-ratio: 3 / 2 (div.inspire-editorial >
+          div.hk-article-grid.pt-4 > figure.hk-article-figure.mt-6.mb-10 >
+          div.bg-muted.relative.aspect-[3/2]) - hero-rules R2: low/high/original
+          preserve the SOURCE aspect, so this slot's shape is decided by the
+          photograph rather than by the design. Only a named crop may fill a shaped box.
+            div.hk-article-grid.pt-4 > figure.hk-article-figure.mt-6.mb-10 >
+            div.bg-muted.relative.aspect-[3/2] > img.absolute.inset-0.h-full
+            ⟨img · alt="20 Venue Garden Wedding Paling Cantik di Malaysia"⟩
+            "lokahwin.com/inspire/garden-wedding/1787397040017-cover/low.webp"
+
+        shaped-slot-dims ×1
+          declared width="1200" height="800" for a default source that is genuinely
+          1024x683 - 17.2% out on width. hero-rules R6 asks for the FILE's dimensions;
+          the ratio being close is what let this stand (check 4b compares 1.50:1
+          against 1.50:1).
+            "lokahwin.com/inspire/garden-wedding/1787397040017-cover/low.webp"
+
+──────────────────────────────────────────────────────────────────────────────
+totals: image-upscale 0
+        image-aspect 0                 <- R1 was ALREADY GREEN. 0.05% deviation.
+        image-attr-aspect 50 (advisory, does not fail the build)
+        shaped-slot-variant 5
+        shaped-slot-dims 5
+UILINT EXIT: 1
+
+The bytes that element downloaded, HTTP HEAD on the live object:
+  low.webp                          Content-Length: 33574   1024x683
+  crop-4x3-article-card-md.webp     Content-Length: 26936    792x594   (after)

@@ -1,0 +1,45 @@
+{
+  "item": "UI-16",
+  "writtenAt": "2026-09-01T20:13:10.945Z",
+  "targetDbHost": "aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres",
+  "targetBucket": "hellokahwin-images",
+  "dryRun": false,
+  "addedJsonbKey": "crop-4x3-article-card-md",
+  "reversalSql": "UPDATE articles SET cover_image_smart_crops = cover_image_smart_crops - 'crop-4x3-article-card-md' WHERE id IN ('2dc5c93c-0854-4203-b8c5-d042f21dd6bf');",
+  "r2ObjectsAdded": [
+    "inspire/doa-untuk-isteri/1788293506534-images-s-selepas-akad-raja-abd-kadir/crop-4x3-article-card-md.webp"
+  ],
+  "priorRows": [
+    {
+      "id": "2dc5c93c-0854-4203-b8c5-d042f21dd6bf",
+      "slug": "doa-untuk-isteri",
+      "cover_image_smart_crops": {
+        "crop-16x9-og": {
+          "url": "https://images.hellokahwin.com/inspire/doa-untuk-isteri/1788293506534-images-s-selepas-akad-raja-abd-kadir/crop-16x9-og.webp?v=0.4987_0.5600-g48c0b959",
+          "width": 1200,
+          "height": 630
+        },
+        "crop-4x3-article-card": {
+          "url": "https://images.hellokahwin.com/inspire/doa-untuk-isteri/1788293506534-images-s-selepas-akad-raja-abd-kadir/crop-4x3-article-card.webp?v=0.4987_0.5600-g48c0b959",
+          "width": 1600,
+          "height": 1200
+        },
+        "crop-4x5-mobile-cover": {
+          "url": "https://images.hellokahwin.com/inspire/doa-untuk-isteri/1788293506534-images-s-selepas-akad-raja-abd-kadir/crop-4x5-mobile-cover.webp?v=0.4987_0.5600-g48c0b959",
+          "width": 1920,
+          "height": 2400
+        },
+        "crop-4.3x1-desktop-hero": {
+          "url": "https://images.hellokahwin.com/inspire/doa-untuk-isteri/1788293506534-images-s-selepas-akad-raja-abd-kadir/crop-4.3x1-desktop-hero.webp?v=0.4987_0.5600-g48c0b959",
+          "width": 2464,
+          "height": 700
+        },
+        "crop-4x3-article-card-sm": {
+          "url": "https://images.hellokahwin.com/inspire/doa-untuk-isteri/1788293506534-images-s-selepas-akad-raja-abd-kadir/crop-4x3-article-card-sm.webp?v=0.4987_0.5600-g48c0b959",
+          "width": 528,
+          "height": 396
+        }
+      }
+    }
+  ]
+}

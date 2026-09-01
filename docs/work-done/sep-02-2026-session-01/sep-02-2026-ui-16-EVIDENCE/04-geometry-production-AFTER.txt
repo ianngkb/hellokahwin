@@ -1,0 +1,20 @@
+@390 clientW=390 box=350x262.5 (1.3333) asset=792x594 (1.3333) dev=0.00% scale=0.442x decl=792x594 fit=cover
+      currentSrc=https://images.hellokahwin.com/inspire/garden-wedding/1787397040017-cover/crop-4x3-article-card-md.webp?v=0.4669_0.7796-g48c0b959
+@768 clientW=768 box=704x528 (1.3333) asset=792x594 (1.3333) dev=0.00% scale=0.889x decl=792x594 fit=cover
+      currentSrc=https://images.hellokahwin.com/inspire/garden-wedding/1787397040017-cover/crop-4x3-article-card-md.webp?v=0.4669_0.7796-g48c0b959
+@1024 clientW=1024 box=580x435 (1.3333) asset=792x594 (1.3333) dev=0.00% scale=0.732x decl=792x594 fit=cover
+      currentSrc=https://images.hellokahwin.com/inspire/garden-wedding/1787397040017-cover/crop-4x3-article-card-md.webp?v=0.4669_0.7796-g48c0b959
+@1440 clientW=1440 box=756x567 (1.3333) asset=792x594 (1.3333) dev=0.00% scale=0.955x decl=792x594 fit=cover
+      currentSrc=https://images.hellokahwin.com/inspire/garden-wedding/1787397040017-cover/crop-4x3-article-card-md.webp?v=0.4669_0.7796-g48c0b959
+@1920 clientW=1920 box=756x567 (1.3333) asset=792x594 (1.3333) dev=0.00% scale=0.955x decl=792x594 fit=cover
+      currentSrc=https://images.hellokahwin.com/inspire/garden-wedding/1787397040017-cover/crop-4x3-article-card-md.webp?v=0.4669_0.7796-g48c0b959
+@390 clientW=390 box=350x262.5 (1.3333) asset=667x500 (1.3340) dev=0.05% scale=0.525x decl=667x500 fit=cover
+      currentSrc=https://images.hellokahwin.com/inspire/yasaka-shrine/1787396198396-cover/crop-4x3-article-card-md.webp?v=0.5313_0.6208-g48c0b959
+@768 clientW=768 box=667x500.25 (1.3333) asset=667x500 (1.3340) dev=0.05% scale=1.000x decl=667x500 fit=cover
+      currentSrc=https://images.hellokahwin.com/inspire/yasaka-shrine/1787396198396-cover/crop-4x3-article-card-md.webp?v=0.5313_0.6208-g48c0b959
+@1024 clientW=1024 box=580x435 (1.3333) asset=667x500 (1.3340) dev=0.05% scale=0.870x decl=667x500 fit=cover
+      currentSrc=https://images.hellokahwin.com/inspire/yasaka-shrine/1787396198396-cover/crop-4x3-article-card-md.webp?v=0.5313_0.6208-g48c0b959
+@1440 clientW=1440 box=667x500.25 (1.3333) asset=667x500 (1.3340) dev=0.05% scale=1.000x decl=667x500 fit=cover
+      currentSrc=https://images.hellokahwin.com/inspire/yasaka-shrine/1787396198396-cover/crop-4x3-article-card-md.webp?v=0.5313_0.6208-g48c0b959
+@1920 clientW=1920 box=667x500.25 (1.3333) asset=667x500 (1.3340) dev=0.05% scale=1.000x decl=667x500 fit=cover
+      currentSrc=https://images.hellokahwin.com/inspire/yasaka-shrine/1787396198396-cover/crop-4x3-article-card-md.webp?v=0.5313_0.6208-g48c0b959

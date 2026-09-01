@@ -1,0 +1,96 @@
+
+UILINT — rendered-layout gate · shaped-slot fixture (R2/R6 pair: A, C and H fire; B, D, E, F, G must not)
+widths 390/768/1024/1440/1920 · chrome C:/Program Files/Google/Chrome/Application/chrome.exe
+──────────────────────────────────────────────────────────────────────────────
+[FAIL] shaped-slot.html @390                          4 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:2 R6:2 H6:0 H6.6:0
+        shaped-slot-variant ×2
+          served low into a box shaped aspect-ratio: 3 / 2 (main > section > div.plate.box-3-2  ⟨div · not a link⟩) - hero-rules R2: low/high/original preserve the SOURCE aspect, so this slot's shape is decided by the photograph rather than by the design. Only a named crop may fill a shaped box.
+            main > section > div.plate.box-3-2 > img  ⟨img · not a link · alt="Case A"⟩
+            "http://127.0.0.1:5406/low.webp"
+          served low into a box shaped aspect-ratio: 4 / 3 (main > section > div.plate.box-4-3  ⟨div · not a link⟩) - hero-rules R2: low/high/original preserve the SOURCE aspect, so this slot's shape is decided by the photograph rather than by the design. Only a named crop may fill a shaped box.
+            main > section > div.plate.box-4-3 > img  ⟨img · not a link · alt="Case H"⟩
+            "http://127.0.0.1:5406/low.webp"
+        shaped-slot-dims ×2
+          declared width="1200" height="800" for a default source that is genuinely 1024x683 — 17.2% out on width, 17.1% on height. hero-rules R6 asks for the FILE's own dimensions, not for a ratio: check 4b compares 1.50:1 against 1.50:1 and can be green while this is not.
+            main > section > div.plate.box-3-2 > img  ⟨img · not a link · alt="Case A"⟩
+            "http://127.0.0.1:5406/low.webp"
+          declared width="1200" height="900" for a default source that is genuinely 792x594 — 51.5% out on width, 51.5% on height. hero-rules R6 asks for the FILE's own dimensions, not for a ratio: check 4b compares 1.33:1 against 1.33:1 and can be green while this is not.
+            main > section > div.plate.box-4-3 > img  ⟨img · not a link · alt="Case C"⟩
+            "http://127.0.0.1:5406/crop-4x3-article-card-md.webp"
+[FAIL] shaped-slot.html @768                          4 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:2 R6:2 H6:0 H6.6:0
+        shaped-slot-variant ×2
+          served low into a box shaped aspect-ratio: 3 / 2 (main > section > div.plate.box-3-2  ⟨div · not a link⟩) - hero-rules R2: low/high/original preserve the SOURCE aspect, so this slot's shape is decided by the photograph rather than by the design. Only a named crop may fill a shaped box.
+            main > section > div.plate.box-3-2 > img  ⟨img · not a link · alt="Case A"⟩
+            "http://127.0.0.1:5406/low.webp"
+          served low into a box shaped aspect-ratio: 4 / 3 (main > section > div.plate.box-4-3  ⟨div · not a link⟩) - hero-rules R2: low/high/original preserve the SOURCE aspect, so this slot's shape is decided by the photograph rather than by the design. Only a named crop may fill a shaped box.
+            main > section > div.plate.box-4-3 > img  ⟨img · not a link · alt="Case H"⟩
+            "http://127.0.0.1:5406/low.webp"
+        shaped-slot-dims ×2
+          declared width="1200" height="800" for a default source that is genuinely 1024x683 — 17.2% out on width, 17.1% on height. hero-rules R6 asks for the FILE's own dimensions, not for a ratio: check 4b compares 1.50:1 against 1.50:1 and can be green while this is not.
+            main > section > div.plate.box-3-2 > img  ⟨img · not a link · alt="Case A"⟩
+            "http://127.0.0.1:5406/low.webp"
+          declared width="1200" height="900" for a default source that is genuinely 792x594 — 51.5% out on width, 51.5% on height. hero-rules R6 asks for the FILE's own dimensions, not for a ratio: check 4b compares 1.33:1 against 1.33:1 and can be green while this is not.
+            main > section > div.plate.box-4-3 > img  ⟨img · not a link · alt="Case C"⟩
+            "http://127.0.0.1:5406/crop-4x3-article-card-md.webp"
+[FAIL] shaped-slot.html @1024                         4 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:2 R6:2 H6:0 H6.6:0
+        shaped-slot-variant ×2
+          served low into a box shaped aspect-ratio: 3 / 2 (main > section > div.plate.box-3-2  ⟨div · not a link⟩) - hero-rules R2: low/high/original preserve the SOURCE aspect, so this slot's shape is decided by the photograph rather than by the design. Only a named crop may fill a shaped box.
+            main > section > div.plate.box-3-2 > img  ⟨img · not a link · alt="Case A"⟩
+            "http://127.0.0.1:5406/low.webp"
+          served low into a box shaped aspect-ratio: 4 / 3 (main > section > div.plate.box-4-3  ⟨div · not a link⟩) - hero-rules R2: low/high/original preserve the SOURCE aspect, so this slot's shape is decided by the photograph rather than by the design. Only a named crop may fill a shaped box.
+            main > section > div.plate.box-4-3 > img  ⟨img · not a link · alt="Case H"⟩
+            "http://127.0.0.1:5406/low.webp"
+        shaped-slot-dims ×2
+          declared width="1200" height="800" for a default source that is genuinely 1024x683 — 17.2% out on width, 17.1% on height. hero-rules R6 asks for the FILE's own dimensions, not for a ratio: check 4b compares 1.50:1 against 1.50:1 and can be green while this is not.
+            main > section > div.plate.box-3-2 > img  ⟨img · not a link · alt="Case A"⟩
+            "http://127.0.0.1:5406/low.webp"
+          declared width="1200" height="900" for a default source that is genuinely 792x594 — 51.5% out on width, 51.5% on height. hero-rules R6 asks for the FILE's own dimensions, not for a ratio: check 4b compares 1.33:1 against 1.33:1 and can be green while this is not.
+            main > section > div.plate.box-4-3 > img  ⟨img · not a link · alt="Case C"⟩
+            "http://127.0.0.1:5406/crop-4x3-article-card-md.webp"
+[FAIL] shaped-slot.html @1440                         4 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:2 R6:2 H6:0 H6.6:0
+        shaped-slot-variant ×2
+          served low into a box shaped aspect-ratio: 3 / 2 (main > section > div.plate.box-3-2  ⟨div · not a link⟩) - hero-rules R2: low/high/original preserve the SOURCE aspect, so this slot's shape is decided by the photograph rather than by the design. Only a named crop may fill a shaped box.
+            main > section > div.plate.box-3-2 > img  ⟨img · not a link · alt="Case A"⟩
+            "http://127.0.0.1:5406/low.webp"
+          served low into a box shaped aspect-ratio: 4 / 3 (main > section > div.plate.box-4-3  ⟨div · not a link⟩) - hero-rules R2: low/high/original preserve the SOURCE aspect, so this slot's shape is decided by the photograph rather than by the design. Only a named crop may fill a shaped box.
+            main > section > div.plate.box-4-3 > img  ⟨img · not a link · alt="Case H"⟩
+            "http://127.0.0.1:5406/low.webp"
+        shaped-slot-dims ×2
+          declared width="1200" height="800" for a default source that is genuinely 1024x683 — 17.2% out on width, 17.1% on height. hero-rules R6 asks for the FILE's own dimensions, not for a ratio: check 4b compares 1.50:1 against 1.50:1 and can be green while this is not.
+            main > section > div.plate.box-3-2 > img  ⟨img · not a link · alt="Case A"⟩
+            "http://127.0.0.1:5406/low.webp"
+          declared width="1200" height="900" for a default source that is genuinely 792x594 — 51.5% out on width, 51.5% on height. hero-rules R6 asks for the FILE's own dimensions, not for a ratio: check 4b compares 1.33:1 against 1.33:1 and can be green while this is not.
+            main > section > div.plate.box-4-3 > img  ⟨img · not a link · alt="Case C"⟩
+            "http://127.0.0.1:5406/crop-4x3-article-card-md.webp"
+[FAIL] shaped-slot.html @1920                         4 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:2 R6:2 H6:0 H6.6:0
+        shaped-slot-variant ×2
+          served low into a box shaped aspect-ratio: 3 / 2 (main > section > div.plate.box-3-2  ⟨div · not a link⟩) - hero-rules R2: low/high/original preserve the SOURCE aspect, so this slot's shape is decided by the photograph rather than by the design. Only a named crop may fill a shaped box.
+            main > section > div.plate.box-3-2 > img  ⟨img · not a link · alt="Case A"⟩
+            "http://127.0.0.1:5406/low.webp"
+          served low into a box shaped aspect-ratio: 4 / 3 (main > section > div.plate.box-4-3  ⟨div · not a link⟩) - hero-rules R2: low/high/original preserve the SOURCE aspect, so this slot's shape is decided by the photograph rather than by the design. Only a named crop may fill a shaped box.
+            main > section > div.plate.box-4-3 > img  ⟨img · not a link · alt="Case H"⟩
+            "http://127.0.0.1:5406/low.webp"
+        shaped-slot-dims ×2
+          declared width="1200" height="800" for a default source that is genuinely 1024x683 — 17.2% out on width, 17.1% on height. hero-rules R6 asks for the FILE's own dimensions, not for a ratio: check 4b compares 1.50:1 against 1.50:1 and can be green while this is not.
+            main > section > div.plate.box-3-2 > img  ⟨img · not a link · alt="Case A"⟩
+            "http://127.0.0.1:5406/low.webp"
+          declared width="1200" height="900" for a default source that is genuinely 792x594 — 51.5% out on width, 51.5% on height. hero-rules R6 asks for the FILE's own dimensions, not for a ratio: check 4b compares 1.33:1 against 1.33:1 and can be green while this is not.
+            main > section > div.plate.box-4-3 > img  ⟨img · not a link · alt="Case C"⟩
+            "http://127.0.0.1:5406/crop-4x3-article-card-md.webp"
+──────────────────────────────────────────────────────────────────────────────
+totals: empty-content 0
+        rail-collapsed 0
+        narrow-text-column 0
+        reading-measure 0
+        clipped-text 0
+        viewport-overflow 0
+        scroll-container-clip 0
+        image-upscale 0
+        image-aspect 0
+        image-attr-aspect 0 (advisory, does not fail the build)
+        image-unmeasurable 0
+        shaped-slot-variant 10
+        shaped-slot-dims 10
+        category-diversity 0
+        source-order 0
+UILINT EXIT: 1

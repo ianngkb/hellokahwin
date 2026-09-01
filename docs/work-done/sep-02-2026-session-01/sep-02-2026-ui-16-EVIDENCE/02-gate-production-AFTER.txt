@@ -1,0 +1,99 @@
+
+UILINT — rendered-layout gate · https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding
+widths 390/768/1024/1440/1920 · chrome C:/Program Files/Google/Chrome/Application/chrome.exe
+──────────────────────────────────────────────────────────────────────────────
+[ ok ] /artikel/idea-dan-nasihat/garden-wedding @390  0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:10 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +10 advisory
+        image-attr-aspect ×10
+          declared width="1200" height="800" (1.50:1) for a 684x1024 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "garden-wedding/1787397070738-IN-GardenWedding-Cove55-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x669 file (1.17:1) — 28% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397101516-IN-GardenWedding-JardinEventVenue-1/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x743 file (1.06:1) — 42% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397102800-IN-GardenWedding-JardinEventVenue-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 628x786 file (0.80:1) — 88% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397105442-IN-GardenWedding-JardinEventVenue-4/high.webp"
+          … and 6 more
+[ ok ] /artikel/idea-dan-nasihat/garden-wedding @768  0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:10 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +10 advisory
+        image-attr-aspect ×10
+          declared width="1200" height="800" (1.50:1) for a 684x1024 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "garden-wedding/1787397070738-IN-GardenWedding-Cove55-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x669 file (1.17:1) — 28% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397101516-IN-GardenWedding-JardinEventVenue-1/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x743 file (1.06:1) — 42% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397102800-IN-GardenWedding-JardinEventVenue-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 628x786 file (0.80:1) — 88% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397105442-IN-GardenWedding-JardinEventVenue-4/high.webp"
+          … and 6 more
+[ ok ] /artikel/idea-dan-nasihat/garden-wedding @1024 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:10 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +10 advisory
+        image-attr-aspect ×10
+          declared width="1200" height="800" (1.50:1) for a 684x1024 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "garden-wedding/1787397070738-IN-GardenWedding-Cove55-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x669 file (1.17:1) — 28% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397101516-IN-GardenWedding-JardinEventVenue-1/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x743 file (1.06:1) — 42% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397102800-IN-GardenWedding-JardinEventVenue-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 628x786 file (0.80:1) — 88% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397105442-IN-GardenWedding-JardinEventVenue-4/high.webp"
+          … and 6 more
+[ ok ] /artikel/idea-dan-nasihat/garden-wedding @1440 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:10 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +10 advisory
+        image-attr-aspect ×10
+          declared width="1200" height="800" (1.50:1) for a 684x1024 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "garden-wedding/1787397070738-IN-GardenWedding-Cove55-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x669 file (1.17:1) — 28% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397101516-IN-GardenWedding-JardinEventVenue-1/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x743 file (1.06:1) — 42% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397102800-IN-GardenWedding-JardinEventVenue-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 628x786 file (0.80:1) — 88% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397105442-IN-GardenWedding-JardinEventVenue-4/high.webp"
+          … and 6 more
+[ ok ] /artikel/idea-dan-nasihat/garden-wedding @1920 0 violation(s)  empty:0 rail:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:10 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 · +10 advisory
+        image-attr-aspect ×10
+          declared width="1200" height="800" (1.50:1) for a 684x1024 file (0.67:1) — 125% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > figure.group.relative.my-6 > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "garden-wedding/1787397070738-IN-GardenWedding-Cove55-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x669 file (1.17:1) — 28% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397101516-IN-GardenWedding-JardinEventVenue-1/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 786x743 file (1.06:1) — 42% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397102800-IN-GardenWedding-JardinEventVenue-2/high.webp"
+          declared width="1200" height="800" (1.50:1) for a 628x786 file (0.80:1) — 88% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            article > div.inspire-prose > div.group.relative.lg:mx-auto > img.h-auto.w-auto.max-w-full  ⟨img · not a link · alt=null⟩
+            "ding/1787397105442-IN-GardenWedding-JardinEventVenue-4/high.webp"
+          … and 6 more
+──────────────────────────────────────────────────────────────────────────────
+totals: empty-content 0
+        rail-collapsed 0
+        narrow-text-column 0
+        reading-measure 0
+        clipped-text 0
+        viewport-overflow 0
+        scroll-container-clip 0
+        image-upscale 0
+        image-aspect 0
+        image-attr-aspect 50 (advisory, does not fail the build)
+        image-unmeasurable 0
+        shaped-slot-variant 0
+        shaped-slot-dims 0
+        category-diversity 0
+        source-order 0
+build fingerprint (last width measured, per target):
+  /artikel/idea-dan-nasihat/garden-wedding
+    200 HIT age=84 sin1::sin1::ft4br-1788293476610-fbb27d4f89a3 css=[e754448c3010263a.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+UILINT EXIT: 0
