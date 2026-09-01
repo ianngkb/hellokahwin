@@ -46,6 +46,24 @@
  *
  * Re-runnable. Without `--force` it skips any row that already carries the
  * rendition at recorded dimensions, so an interrupted run resumes.
+ *
+ * ── ⚠ THE RUN IS NOT FINISHED WHEN THIS EXITS 0 ────────────────────────────
+ * This writes to the database DIRECTLY, from outside the running app, so none
+ * of the admin write paths that call `revalidateTag` fire — and the public
+ * article payload is cached with `revalidate: false`, i.e. FOREVER. On
+ * 02 September 2026 UI-16 merged, deployed READY, and passed the UI-06 gate on
+ * production while every article still served the pre-backfill fallback crop:
+ * +186,620 B on the highest-traffic template, with every check green, because
+ * the cached payload predated this script.
+ *
+ * After a successful run, on the environment you wrote to:
+ *
+ *   curl -X POST "<base>/api/cron/revalidate-content" \n *        -H "Authorization: Bearer $CRON_SECRET"
+ *   pnpm audit:rendition --db "<url>" --base <base>     # must print RENDITION EXIT: 0
+ *
+ * `scripts/audit-cover-rendition.mjs` is the check that catches this; it
+ * compares the database to the RENDERED page, which is the only comparison
+ * that can see a stale cache.
  */
 import { writeFileSync } from 'node:fs';
 import postgres from 'postgres';

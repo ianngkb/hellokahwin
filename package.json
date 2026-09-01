@@ -40,6 +40,7 @@
     "ui:gate:pre-rail": "node scripts/ui-layout-gate.mjs --pre-rail",
     "ui:rail": "node scripts/measure-article-rail.mjs",
     "backfill:midsize": "tsx scripts/backfill-midsize-cover.mts",
+    "audit:rendition": "node scripts/audit-cover-rendition.mjs",
     "measure:cold": "tsx scripts/measure-cold-render.mts"
   },
   "dependencies": {
