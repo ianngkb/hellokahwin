@@ -16,7 +16,31 @@ export const metadata: Metadata = {
   },
   description:
     'Idea, tips dan panduan perkahwinan untuk pasangan Malaysia. Rancang majlis impian anda mengikut bajet.',
-  icons: { icon: '/favicon.png' },
+  // UI-20. Every file here is generated from
+  // `public/brand/logos/hellokahwin-monogram.svg` by
+  // `scripts/generate-brand-icons.mjs` — run `pnpm brand:icons` after any
+  // change to the monogram or to --hk-parchment-100 / --hk-ink-900, and
+  // `pnpm brand:icons:check` fails the moment public/ drifts from either.
+  //
+  // These are DECLARED here rather than dropped into `src/app/` as Next's
+  // icon.svg / apple-icon.png file conventions, on purpose: the conventions
+  // serve their files from hashed metadata routes (`/icon.svg?<hash>`) and
+  // emit no `rel="shortcut icon"` at all. UI-20's DoD names three rel values
+  // and two exact URLs, and only the config form can promise both.
+  //
+  // `/favicon.png` is the retired path and stays wired up: middleware.ts
+  // whitelists it by name and HTML cached in the wild still points at it.
+  // What it must never again do is serve the mark it served until today — a
+  // serif H on #b4326e, a glyph in no registry in a colour in no palette.
+  icons: {
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico', sizes: '16x16 32x32 48x48', type: 'image/x-icon' },
+      { url: '/favicon.png', sizes: '48x48', type: 'image/png' },
+    ],
+    shortcut: [{ url: '/favicon.ico' }],
+    apple: [{ url: '/apple-icon.png', sizes: '180x180', type: 'image/png' }],
+  },
 };
 
 // ClerkProvider deliberately does NOT wrap the root: public pages ship zero
