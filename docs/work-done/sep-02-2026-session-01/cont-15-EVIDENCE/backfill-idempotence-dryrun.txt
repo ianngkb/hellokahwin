@@ -1,0 +1,11 @@
+target db     aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+writes        cover_image_variants.low.width / .height (additive JSONB merge)
+writes to R2  none — not one byte of image data moves
+
+96 published article(s) with cover variants · 0 to measure · 96 already recorded · 0 with no low.url
+
+undo dump written: C:/Users/IANNG~1/AppData/Local/Temp/cont15/verify-undo.json (0 row(s), reversal SQL included)
+--dry-run: nothing will be written.
+
+
+would write 0, unmeasurable 0

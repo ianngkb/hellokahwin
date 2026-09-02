@@ -1,0 +1,21 @@
+target db     aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+writes        cover_image_variants.low.width / .height (additive JSONB merge)
+writes to R2  none — not one byte of image data moves
+
+102 published article(s) with cover variants · 6 to measure · 96 already recorded · 0 with no low.url
+
+undo dump written: C:/Users/IANNG~1/AppData/Local/Temp/cont15/verify2.json (6 row(s), reversal SQL included)
+--dry-run: nothing will be written.
+
+  would write doa-keluarga-bahagia                        1200x800   aspect 1.500
+  would write doa-malam-pertama                           1200x1800  aspect 0.667
+  would write doa-masuk-rumah-baru                        1200x800   aspect 1.500
+  would write doa-pembuka-majlis                          1200x1800  aspect 0.667
+  would write doa-untuk-isteri                            1200x900   aspect 1.333
+  would write doa-untuk-suami                             1200x800   aspect 1.500
+
+would write 6, unmeasurable 0
+source-aspect histogram (low.webp intrinsics, this run):
+  0.667  ×2
+  1.333  ×1
+  1.500  ×3
