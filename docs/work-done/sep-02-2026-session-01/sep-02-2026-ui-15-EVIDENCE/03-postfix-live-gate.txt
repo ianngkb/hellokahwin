@@ -1,0 +1,154 @@
+sitemap:  119 <loc>  =  1 root + 1 /artikel + 15 category archives + 102 articles
+grid pages derived at run time: 16
+
+
+UILINT — rendered-layout gate · https://hellokahwin.com/artikel, https://hellokahwin.com/artikel/busana-pengantin, https://hellokahwin.com/artikel/fotografi-videografi, https://hellokahwin.com/artikel/glamor-eksklusif, https://hellokahwin.com/artikel/hantaran-mas-kahwin, https://hellokahwin.com/artikel/hiasan-dekorasi, https://hellokahwin.com/artikel/idea-dan-nasihat, https://hellokahwin.com/artikel/minimalis-mewah, https://hellokahwin.com/artikel/moden-kontemporari, https://hellokahwin.com/artikel/nikah-undang-undang, https://hellokahwin.com/artikel/pantai-santai, https://hellokahwin.com/artikel/pelamin-kad-cenderahati, https://hellokahwin.com/artikel/real-wedding, https://hellokahwin.com/artikel/sebelum-nikah, https://hellokahwin.com/artikel/ucapan-doa, https://hellokahwin.com/artikel/venue-perancangan
+widths 390/768/1024/1440/1920 · chrome C:/Program Files/Google/Chrome/Application/chrome.exe
+──────────────────────────────────────────────────────────────────────────────
+[ ok ] /artikel @390                                  0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel @768                                  0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel @1024                                 0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0 · +1 advisory
+        image-attr-aspect ×1
+          declared width="1200" height="630" (1.90:1) for a 2463x700 file (3.52:1) — 46% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            a.group.block > div.bg-muted.relative.aspect-[40/21] > picture > img.absolute.inset-0.h-full  ⟨img · link → /artikel/ucapan-doa/doa-masuk-rumah-baru · alt="Doa masuk rumah baru: satu lafaz, dan empat amalan yang ada sumbernya"⟩
+            "ohd-hasan/crop-4.3x1-desktop-hero.webp?v=0.1534_0.1860-g48c0b959"
+[ ok ] /artikel @1440                                 0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0 · +1 advisory
+        image-attr-aspect ×1
+          declared width="1200" height="630" (1.90:1) for a 2463x700 file (3.52:1) — 46% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            a.group.block > div.bg-muted.relative.aspect-[40/21] > picture > img.absolute.inset-0.h-full  ⟨img · link → /artikel/ucapan-doa/doa-masuk-rumah-baru · alt="Doa masuk rumah baru: satu lafaz, dan empat amalan yang ada sumbernya"⟩
+            "ohd-hasan/crop-4.3x1-desktop-hero.webp?v=0.1534_0.1860-g48c0b959"
+[ ok ] /artikel @1920                                 0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0 · +1 advisory
+        image-attr-aspect ×1
+          declared width="1200" height="630" (1.90:1) for a 2463x700 file (3.52:1) — 46% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            a.group.block > div.bg-muted.relative.aspect-[40/21] > picture > img.absolute.inset-0.h-full  ⟨img · link → /artikel/ucapan-doa/doa-masuk-rumah-baru · alt="Doa masuk rumah baru: satu lafaz, dan empat amalan yang ada sumbernya"⟩
+            "ohd-hasan/crop-4.3x1-desktop-hero.webp?v=0.1534_0.1860-g48c0b959"
+[ ok ] /artikel/busana-pengantin @390                 0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/busana-pengantin @768                 0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/busana-pengantin @1024                0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/busana-pengantin @1440                0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/busana-pengantin @1920                0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/fotografi-videografi @390             0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/fotografi-videografi @768             0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/fotografi-videografi @1024            0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/fotografi-videografi @1440            0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/fotografi-videografi @1920            0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/glamor-eksklusif @390                 0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/glamor-eksklusif @768                 0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/glamor-eksklusif @1024                0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/glamor-eksklusif @1440                0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/glamor-eksklusif @1920                0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/hantaran-mas-kahwin @390              0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/hantaran-mas-kahwin @768              0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/hantaran-mas-kahwin @1024             0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/hantaran-mas-kahwin @1440             0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/hantaran-mas-kahwin @1920             0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/hiasan-dekorasi @390                  0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/hiasan-dekorasi @768                  0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/hiasan-dekorasi @1024                 0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/hiasan-dekorasi @1440                 0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/hiasan-dekorasi @1920                 0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/idea-dan-nasihat @390                 0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/idea-dan-nasihat @768                 0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/idea-dan-nasihat @1024                0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/idea-dan-nasihat @1440                0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/idea-dan-nasihat @1920                0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/minimalis-mewah @390                  0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/minimalis-mewah @768                  0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/minimalis-mewah @1024                 0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/minimalis-mewah @1440                 0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/minimalis-mewah @1920                 0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/moden-kontemporari @390               0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/moden-kontemporari @768               0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/moden-kontemporari @1024              0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/moden-kontemporari @1440              0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/moden-kontemporari @1920              0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/nikah-undang-undang @390              0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/nikah-undang-undang @768              0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/nikah-undang-undang @1024             0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/nikah-undang-undang @1440             0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/nikah-undang-undang @1920             0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/pantai-santai @390                    0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/pantai-santai @768                    0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/pantai-santai @1024                   0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/pantai-santai @1440                   0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/pantai-santai @1920                   0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/pelamin-kad-cenderahati @390          0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/pelamin-kad-cenderahati @768          0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/pelamin-kad-cenderahati @1024         0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/pelamin-kad-cenderahati @1440         0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/pelamin-kad-cenderahati @1920         0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/real-wedding @390                     0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/real-wedding @768                     0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/real-wedding @1024                    0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/real-wedding @1440                    0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/real-wedding @1920                    0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/sebelum-nikah @390                    0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/sebelum-nikah @768                    0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/sebelum-nikah @1024                   0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/sebelum-nikah @1440                   0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/sebelum-nikah @1920                   0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/ucapan-doa @390                       0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/ucapan-doa @768                       0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/ucapan-doa @1024                      0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/ucapan-doa @1440                      0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/ucapan-doa @1920                      0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/venue-perancangan @390                0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/venue-perancangan @768                0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/venue-perancangan @1024               0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/venue-perancangan @1440               0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/venue-perancangan @1920               0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+──────────────────────────────────────────────────────────────────────────────
+totals: empty-content 0
+        rail-collapsed 0
+        rail-missing 0
+        sumber-empty 0
+        narrow-text-column 0
+        reading-measure 0
+        clipped-text 0
+        viewport-overflow 0
+        scroll-container-clip 0
+        image-upscale 0
+        image-aspect 0
+        image-attr-aspect 3 (advisory, does not fail the build)
+        image-unmeasurable 0
+        shaped-slot-variant 0
+        shaped-slot-dims 0
+        category-diversity 0
+        source-order 0
+        grid-thumb-variant 0
+        grid-thumb-aspect 0
+build fingerprint (last width measured, per target):
+  /artikel
+    200 HIT age=12 sin1::rvgmz-1788319366218-3fb0c7f76eb4 css=[cd038c78e3b16e63.css 19b83a0982f1e330.css]
+  /artikel/busana-pengantin
+    200 HIT age=8 sin1::sin1::bcgb4-1788319377094-bf2391d976fe css=[cd038c78e3b16e63.css 19b83a0982f1e330.css 74c26d8d39dd9db2.css]
+  /artikel/fotografi-videografi
+    200 HIT age=6 sin1::sin1::86lsd-1788319384829-e58f15c98d01 css=[cd038c78e3b16e63.css 19b83a0982f1e330.css 74c26d8d39dd9db2.css]
+  /artikel/glamor-eksklusif
+    200 HIT age=5 sin1::sin1::6dbmb-1788319391674-c37c5989a3e2 css=[cd038c78e3b16e63.css 19b83a0982f1e330.css 74c26d8d39dd9db2.css]
+  /artikel/hantaran-mas-kahwin
+    200 HIT age=5 sin1::sin1::msfx6-1788319398083-6ee7b622c382 css=[cd038c78e3b16e63.css 19b83a0982f1e330.css 74c26d8d39dd9db2.css]
+  /artikel/hiasan-dekorasi
+    200 HIT age=6 sin1::sin1::hhtb8-1788319405745-44603781c418 css=[cd038c78e3b16e63.css 19b83a0982f1e330.css 74c26d8d39dd9db2.css]
+  /artikel/idea-dan-nasihat
+    200 HIT age=7 sin1::sin1::d5f2p-1788319414044-396478cd71a8 css=[cd038c78e3b16e63.css 19b83a0982f1e330.css 74c26d8d39dd9db2.css]
+  /artikel/minimalis-mewah
+    200 HIT age=7 sin1::sin1::ws26d-1788319422149-cd62d150d70b css=[cd038c78e3b16e63.css 19b83a0982f1e330.css 74c26d8d39dd9db2.css]
+  /artikel/moden-kontemporari
+    200 HIT age=6 sin1::sin1::jb2z2-1788319429187-cfefa5f80eb4 css=[cd038c78e3b16e63.css 19b83a0982f1e330.css 74c26d8d39dd9db2.css]
+  /artikel/nikah-undang-undang
+    200 HIT age=5 sin1::sin1::tgklq-1788319435153-2cb3905b713c css=[cd038c78e3b16e63.css 19b83a0982f1e330.css 74c26d8d39dd9db2.css]
+  /artikel/pantai-santai
+    200 HIT age=6 sin1::sin1::hl2dj-1788319442788-8b97ccbc39b9 css=[cd038c78e3b16e63.css 19b83a0982f1e330.css 74c26d8d39dd9db2.css]
+  /artikel/pelamin-kad-cenderahati
+    200 HIT age=4 sin1::sin1::hlpfd-1788319448589-a139ac9350a5 css=[cd038c78e3b16e63.css 19b83a0982f1e330.css 74c26d8d39dd9db2.css]
+  /artikel/real-wedding
+    200 HIT age=8 sin1::sin1::5dwlf-1788319457229-f326f42a5a1d css=[cd038c78e3b16e63.css 19b83a0982f1e330.css 74c26d8d39dd9db2.css]
+  /artikel/sebelum-nikah
+    200 HIT age=4 sin1::sin1::n72vc-1788319463150-ea8d028feec6 css=[cd038c78e3b16e63.css 19b83a0982f1e330.css 74c26d8d39dd9db2.css]
+  /artikel/ucapan-doa
+    200 HIT age=5 sin1::sin1::lwxcc-1788319469735-2c7b8733d67c css=[cd038c78e3b16e63.css 19b83a0982f1e330.css 74c26d8d39dd9db2.css]
+  /artikel/venue-perancangan
+    200 HIT age=4 sin1::sin1::pb9hm-1788319475545-f9bc7d37a258 css=[cd038c78e3b16e63.css 19b83a0982f1e330.css 74c26d8d39dd9db2.css]
+UILINT EXIT: 0
+GATE EXIT (read directly, not through a pipe): 0

@@ -182,7 +182,41 @@ subject and starts reading as a texture — which is precisely what the 18.9%
 crop does. A defensible line, drawn by the person accountable for taste, and
 labelled as one rather than dressed up as a constant.
 
-**R9 — A value the renderer derives GEOMETRY from must be written by INGEST, not
+**R9 — A rendition's SIZE is part of its identity. Change the box, change the
+NAME.** _Added by UI-15, 02 September 2026, because R1–R8 describe boxes, assets
+and upscales and none of them says this._
+
+A rendition name (`crop-4x3-article-card-md`, `crop-4x3-article-card-sm`) is the
+R2 object key **and** the `coverImageSmartCrops` key. Re-encoding an existing
+name at different pixel dimensions is **never** a valid edit. Give the new box a
+new name and leave the old objects alone.
+
+The cache is why, and it has no visual symptom. Those objects are served
+`Cache-Control: immutable, max-age=31536000` at a URL whose `?v=` token encodes
+**only the focal point and `GEOMETRY_VERSION`** — neither of which moves when a
+rendition's WIDTH moves. So a re-encode leaves the CDN serving a mix of old and
+new pixel sizes **under identical URLs for up to a year**, while the stored
+`width` reports one number for all of them. That breaks R4 and R6 simultaneously,
+on a page that looks correct, and cannot be purged cheaply.
+
+This is not hypothetical. On 02 September 2026 UI-15 and UI-16 independently
+specified `crop-4x3-article-card-md` at **768×576 and 792×594** within hours of
+each other. UI-16's was already live on all 96 covers; UI-15 was one command from
+overwriting them. It was caught by a dry run printing `0 to render / 5 already
+done` and someone checking a surprising number — not by any rule, because there
+was no rule.
+
+**Half of this is gated, half is not, and the gap is named rather than implied:**
+
+- **Gated.** `src/lib/storage/__tests__/card-source.test.ts` asserts the key is
+  defined exactly once in the tree and that consumers import it rather than
+  restating it. A second module re-declaring the string fails the suite.
+- **NOT gated — open, owner `design-systems-engineer`.** Nothing yet compares a
+  spec's `WIDTH`/`HEIGHT` against the dimensions of the objects already stored
+  under that key. That belongs in `scripts/audit-cover-rendition.mjs`. Until it
+  exists, **this rule is enforced by reading it.**
+
+**R10 — A value the renderer derives GEOMETRY from must be written by INGEST, not
 only by a backfill.** A value only a backfill writes decays from the moment the
 backfill ends, and it decays silently, because the fallback that replaces it is
 by design indistinguishable from the correct case.
@@ -224,7 +258,7 @@ boolean would have averaged those into a lie.
 > downscale not an upscale, and it **is** a named crop so R2 passes. Raised to
 > UI-16's owner, not fixed here.
 
-**R10 — Enumerate, then count. A count alone cannot tell a healthy corpus from a
+**R11 — Enumerate, then count. A count alone cannot tell a healthy corpus from a
 query that matched nothing.** CONT-15 nearly reported "UI-16's rendition is
 written by ingest and therefore self-maintaining" as independent support for a
 ruling that had already gone against it. It was **false** — a scratch script
@@ -236,7 +270,7 @@ A number that confirms a decision already made is the hardest kind to doubt.
 Print the rows; let the count be a consequence of the list rather than a
 substitute for it. A corpus of zero is an error, never a clean site.
 
-**R11 — Assert against the SERVED object, not the expected one.** R10 is not an
+**R12 — Assert against the SERVED object, not the expected one.** R11 is not an
 isolated mistake. Two instruments reported success about a thing they were not
 looking at, on the **same slot, the same evening**:
 
@@ -257,7 +291,7 @@ BUILD and a CACHE STATE, never about a URL: record the deployment id, the cache
 state and the CSS chunk hashes beside the number, and re-check after the cache
 that could be hiding the old payload has actually turned over.
 
-**R12 — Stage paths, never directories, in a shared worktree.** `git add docs/`
+**R13 — Stage paths, never directories, in a shared worktree.** `git add docs/`
 swept four of another seat's in-progress files onto an unrelated branch and
 pushed them. The repo already carries "an uncommitted file is not yours by
 default"; what it lacked was the mechanical form. `git add <path> <path>` is the

@@ -561,6 +561,18 @@ separate function from `resolveCoverSource` for exactly that reason.
 > outside R2 rather than naming the rung that was still missing. §7 is that
 > rung. `.s-card` genuinely does keep `low` and is untouched here; that half
 > stands.
+>
+> ⚠ **AND THAT REMAINING HALF EXPIRED THE SAME DAY — see §8.** UI-15 moved
+> `.s-card` onto the same `crop-4x3-article-card-md` rung, for the same reason
+> and at the same cost. So of §6's original sentence — _"`.s-card` and the
+> article cover figure keep `low`: 528px upscales in both"_ — **nothing now
+> stands.** Both halves were correct about the asset that existed and wrong
+> about the rule; both were retired within hours of each other by two items that
+> did not know the other was running. Left as three stacked corrections rather
+> than a silent rewrite, because the pattern is the point: a design note that
+> names a CONSTRAINT (`528px upscales`) as though it were a DECISION (`keeps
+low`) expires the moment someone builds a bigger rung, and it expires without
+> anybody editing it.
 
 ---
 
@@ -642,3 +654,146 @@ box follows the asset in shape as well as in width. That needs a portrait rendit
 at a sane weight — `crop-4x5-mobile-cover` is the right shape at 943 KB–2.0 MB, so
 it needs the same resize rung — and it is a separate item, not a patch. **Recorded
 so that whichever way the ruling goes, neither item is silently reverted.**
+
+---
+
+## 8. UI-15 — the `.s-card` lead plate, and the sentence in §6 that has now expired
+
+**Item:** UI-15 · **Date:** 02 September 2026 · **Owner:** Design Systems Engineer
+
+§6 above ends: _"`.s-card` and the article cover figure keep `low`: 528px upscales
+in both."_ **That was true and is now false on both counts**, and it is corrected
+here rather than left for the next reader to trip over. The 528px argument was
+always about that ONE rendition, not about `low`; the day a wider rung existed,
+the reason evaporated. UI-16 built it and UI-15 spends it.
+
+### The finding
+
+`.s-card img` was `width: 100%` with **no declared height**. The plate therefore
+took whatever shape the file was, and it was fed `low`. Two consequences, and the
+second is the one no existing check could see:
+
+1. **`image-aspect` read 0.0% on this slot, permanently.** A box with no height
+   agrees with every asset. R1 cannot catch this defect at any threshold.
+2. **The plate had five different shapes.** Measured on live production, the eight
+   category pages that render a lead card, at 390 and 1440:
+
+   | page                            | asset | intrinsic | plate aspect |
+   | ------------------------------- | ----- | --------- | ------------ |
+   | `/artikel/idea-dan-nasihat`     | `low` | 1160×680  | **1.706**    |
+   | `/artikel/pantai-santai`        | `low` | 1200×800  | 1.500        |
+   | `/artikel/fotografi-videografi` | `low` | 1024×683  | 1.499        |
+   | `/artikel/glamor-eksklusif`     | `low` | 1200×801  | 1.498        |
+   | `/artikel/minimalis-mewah`      | `low` | 1200×893  | **1.344**    |
+
+   One component, one page template, five compositions, chosen by whichever
+   camera took the cover. **That is R2, not R1** — the rule that says a
+   source-aspect variant may not fill a shaped slot — and it is why UI-15 shipped
+   a VARIANT check into the layout gate alongside the aspect one.
+
+UI-05 raised exactly this on 31 Ogos 2026 and was right: _"The lead `.s-card`
+passes R1 (no fixed aspect) but fails R2 and R6."_ It sat open for two days
+because the only rule that could catch it existed as prose.
+
+### What ships
+
+**S7 — `.s-card img` declares `aspect-ratio: 4 / 3`.** 4:3 for the reason T2 gave
+the row thumbnail: it is the aspect of `crop-4x3-article-card`, so the box is
+derived from the asset rather than drawn first, and the deviation is 0.0% rather
+than merely inside tolerance.
+
+**S8 — the plate is fed `crop-4x3-article-card-md`, via `resolveCardSource`.**
+A third resolver, not a widened second one: `.s-row` at 176px wants the 528px
+rung, `.s-card` at 768px would upscale it 1.45×, and the article cover figure is
+UI-16's. Three boxes, three functions, no shared default anyone can change by
+accident.
+
+**S9 — the call site caps `max-width` at the file's own intrinsic width (T3).**
+Five of the 96 live covers cannot fill the rendition's 792px box, because a 4:3
+crop cannot be wider than the photograph it came from: four deliver 667×500 and
+one 771×578. Painted at 768 the four would be a **1.151× upscale**. Capped, the
+plate is 667 CSS px on those four and 768 on the rest, and the SHAPE is 4:3 on all
+of them. This is not a pipeline request — re-cutting produces the same file.
+
+### The bytes, measured on the objects production actually serves
+
+HTTP HEAD on the eight category lead covers, 02 September 2026:
+
+|                                      | `low.webp` | `crop-4x3-article-card-md` |                  delta |
+| ------------------------------------ | ---------: | -------------------------: | ---------------------: |
+| total, 8 covers                      |  505,068 B |                  351,876 B | **−153,192 B, −30.3%** |
+| worst single page (`real-wedding`)   |   97,160 B |                   68,654 B |              −28,506 B |
+| best single page (`hiasan-dekorasi`) |   30,242 B |                   23,208 B |               −7,034 B |
+
+Every one of the eight gets lighter. There is no page where the right shape costs
+bytes.
+
+### ⚠ UI-15 WROTE NOTHING TO PRODUCTION, AND ALMOST WROTE THE WRONG THING
+
+UI-15 independently specified this rendition at **768×576**, under **the same
+name**, with a backfill script ready to run over all 96 covers. Its dry run
+reported `0 to render · 5 already done`. That number was checked instead of
+accepted, and the check found UI-16's rendition already live on every cover at
+792×594 — written from a worktree with no commit behind it.
+
+Running the backfill would have overwritten 96 live R2 objects with a
+different-sized file while UI-16's unmerged reader still expected 792.
+
+**792 is also the better box**: it is exactly 1.5× `MIDSIZE_COVER`'s 528, so the
+two rungs are one box at two scales rather than two independent guesses. UI-15
+adopted it. The rendition has one owner and now two consumers, and
+`responsive-cover.ts` says so at the constant rather than in a commit message.
+
+### The rule that stops this recurring
+
+R1 and R2 are no longer prose. `scripts/ui-layout-gate.mjs` carries two blocking
+checks, `grid-thumb-aspect` (R1, 15% — stricter than the gate's own 25% defect
+ceiling, per T2) and `grid-thumb-variant` (R2), scoped to `.s-card img, .s-row
+img`.
+
+**The scope is the load-bearing part.** The article cover figure is fed `low`
+deliberately and would go red under an unscoped rule, which is how a gate gets
+switched off. `tests/ui-layout-gate/fixtures/grid-thumb.html` case D is that scope
+written as an assertion: `low` in a 3:2 box, outside those classes, asserted
+silent. All six image files in that fixture are byte-identical (md5 `690222f9…`),
+so each case differs from its control in exactly one thing — the filename, or
+the box.
+
+**R2 is an ALLOW-list, and the first draft of it was a deny-list.** Written as
+`low|high|original` it was blind to `resolveCoverSource`'s last fallback, the RAW
+ingested cover, whose filename is `1724000000-tepak-sirih`. A cover with no
+variant record would have painted an uncropped source-aspect photograph into the
+4:3 box with R2 silent — and R1 catches only the shapes past 15%, which four of
+the five measured above are not. The deny-list would have passed the exact defect
+this section exists to close. It was also three literal strings standing against
+a set of names that `adminSettings.image_quality_presets` can rename from the
+admin UI. The rule is now _the stem must begin with `crop-`_, and fixture case K
+is the raw cover asserted red.
+
+### The numbers
+
+Measured on live production across the grid pages derived from the sitemap at run
+time, at 390/768/1024/1440/1920:
+
+```
+BEFORE   grid-thumb-variant 40 · grid-thumb-aspect 0   UILINT EXIT: 1
+```
+
+40 = one lead plate on each of 8 category pages × 5 widths. The other 8 grid pages
+were already clean: `/artikel` serves named crops, and 7 of the 15 category
+archives render a pillar view with **no images at all**.
+
+`bash scripts/gate-grid-pages.sh https://hellokahwin.com` derives the page list
+every run, refuses to report a clean pass over an empty one, refuses a forwarded
+flag that would silently switch the gate into another mode, and clears
+`UI_GATE_BASE_URL` — which the gate's own dispatch tests BEFORE `--url`, and which
+would otherwise have printed a 16-page derivation and then measured something else
+entirely.
+
+**The carried figure "all 37 pages" was wrong, and so is any single replacement
+for it.** The sitemap moved three times while this item was in flight — **109
+entries at 02:00, 113 at 03:00, 119 at 04:00** on 02 September 2026, as CONT items
+published — exactly as DES-18 watched 86 become 89 and UI-13 watched 89 become 92.
+The grid-page count was **16 on every one of those readings**: 1 `/artikel` plus 15
+category archives. That is the number to state, and the script prints its
+derivation every run so the next reader watches it move rather than inheriting it.

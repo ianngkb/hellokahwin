@@ -32,8 +32,7 @@
 import { chromium } from 'playwright-core';
 
 const CHROME =
-  process.env.UI_GATE_CHROME ??
-  'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
+  process.env.UI_GATE_CHROME ?? 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 
 const argv = process.argv.slice(2);
 const opt = (n, d) => (argv.includes(`--${n}`) ? argv[argv.indexOf(`--${n}`) + 1] : d);
@@ -107,7 +106,9 @@ async function measure(browser, url, width) {
   }
 
   const headers = response ? response.headers() : {};
-  const cssHashes = [...new Set(rows.filter((r) => r.bucket === 'css').map((r) => r.url.split('/').pop()))];
+  const cssHashes = [
+    ...new Set(rows.filter((r) => r.bucket === 'css').map((r) => r.url.split('/').pop())),
+  ];
 
   await context.close();
   return {
@@ -144,15 +145,21 @@ for (const p of paths) {
     console.log(`  css=[${fingerprint.css.join(' ')}]`);
     console.log(`${'─'.repeat(78)}`);
     for (const [k, v] of [...byBucket].sort((a, b) => b[1] - a[1])) {
-      console.log(`  ${k.padEnd(10)} ${String(v).padStart(9)} B  (${rows.filter((r) => r.bucket === k).length} request(s))`);
+      console.log(
+        `  ${k.padEnd(10)} ${String(v).padStart(9)} B  (${rows.filter((r) => r.bucket === k).length} request(s))`,
+      );
     }
-    console.log(`  ${'TOTAL'.padEnd(10)} ${String(total).padStart(9)} B   ${(total / 1024).toFixed(1)} KiB`);
+    console.log(
+      `  ${'TOTAL'.padEnd(10)} ${String(total).padStart(9)} B   ${(total / 1024).toFixed(1)} KiB`,
+    );
 
     const images = rows.filter((r) => r.bucket === 'image').sort((a, b) => b.bytes - a.bytes);
     if (images.length) {
       console.log(`  ── images transferred, heaviest first ──`);
       for (const i of images) {
-        console.log(`     ${String(i.bytes).padStart(8)} B  ${i.url.replace(/^https?:\/\/[^/]+\//, '')}`);
+        console.log(
+          `     ${String(i.bytes).padStart(8)} B  ${i.url.replace(/^https?:\/\/[^/]+\//, '')}`,
+        );
       }
     }
   }

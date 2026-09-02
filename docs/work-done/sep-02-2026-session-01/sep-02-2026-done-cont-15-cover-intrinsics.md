@@ -173,7 +173,7 @@ rung, no `low.width/height`, and a **different `low.url`**
 (`…1788295962710-images-s-keluarga-payung-kuning…`). Re-read 20 seconds later:
 identical. Not a transient.
 
-This is R9 demonstrated on a stopwatch: **22 minutes from green to red**, with no
+This is R10 demonstrated on a stopwatch: **22 minutes from green to red**, with no
 deploy and no code change. `processSmartCrops` **replaces**
 `cover_image_smart_crops` rather than merging, and the ingest CLI runs from an
 agent's **own checkout**, so no deployed fix can prevent it. The decay is not a
@@ -259,7 +259,7 @@ budgeted rather than largest. The defect recurs; its cost no longer does.
 ## Retrospective — what changed in the repo, and why
 
 Shipped as instruments and rules, not as prose in a document nobody re-reads:
-`scripts/audit-cover-intrinsics.mjs` (PR #71) and **R9 / R10 / R11** in
+`scripts/audit-cover-intrinsics.mjs` (PR #71) and **R10 / R11 / R12** in
 `docs/design/hero-image-rules.md` — the file people actually read before touching
 a cover, and the one UI-16 cites as "hero-rules R2".
 
@@ -275,13 +275,13 @@ not an incident, and it is worth more than either bug:
   because the payload caches with `revalidate: false`.
 
 Neither had a failing assertion. One looked at a filtered list, the other at a
-cached payload. → **R11**: assert against the **served object** (`HEAD` the URL
+cached payload. → **R12**: assert against the **served object** (`HEAD` the URL
 the page actually references), and treat a rendered measurement as belonging to a
 build *and a cache state*, never to a URL.
 
 **2. A CONVENIENT NUMBER IS THE HARDEST KIND TO DOUBT.** Mine was not caught by a
 test failing — it was caught by noticing the number was *pleasant*. It confirmed
-a decision already made, which is exactly when scrutiny is lowest. → **R10**:
+a decision already made, which is exactly when scrutiny is lowest. → **R11**:
 enumerate, then count.
 
 **3. THE CORPUS MOVED FOUR TIMES DURING ONE ITEM: 92 → 95 → 96 → 102.** Every
