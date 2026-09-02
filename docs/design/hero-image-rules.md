@@ -182,6 +182,40 @@ subject and starts reading as a texture — which is precisely what the 18.9%
 crop does. A defensible line, drawn by the person accountable for taste, and
 labelled as one rather than dressed up as a constant.
 
+**R9 — A rendition's SIZE is part of its identity. Change the box, change the
+NAME.** _Added by UI-15, 02 September 2026, because R1–R8 describe boxes, assets
+and upscales and none of them says this._
+
+A rendition name (`crop-4x3-article-card-md`, `crop-4x3-article-card-sm`) is the
+R2 object key **and** the `coverImageSmartCrops` key. Re-encoding an existing
+name at different pixel dimensions is **never** a valid edit. Give the new box a
+new name and leave the old objects alone.
+
+The cache is why, and it has no visual symptom. Those objects are served
+`Cache-Control: immutable, max-age=31536000` at a URL whose `?v=` token encodes
+**only the focal point and `GEOMETRY_VERSION`** — neither of which moves when a
+rendition's WIDTH moves. So a re-encode leaves the CDN serving a mix of old and
+new pixel sizes **under identical URLs for up to a year**, while the stored
+`width` reports one number for all of them. That breaks R4 and R6 simultaneously,
+on a page that looks correct, and cannot be purged cheaply.
+
+This is not hypothetical. On 02 September 2026 UI-15 and UI-16 independently
+specified `crop-4x3-article-card-md` at **768×576 and 792×594** within hours of
+each other. UI-16's was already live on all 96 covers; UI-15 was one command from
+overwriting them. It was caught by a dry run printing `0 to render / 5 already
+done` and someone checking a surprising number — not by any rule, because there
+was no rule.
+
+**Half of this is gated, half is not, and the gap is named rather than implied:**
+
+- **Gated.** `src/lib/storage/__tests__/card-source.test.ts` asserts the key is
+  defined exactly once in the tree and that consumers import it rather than
+  restating it. A second module re-declaring the string fails the suite.
+- **NOT gated — open, owner `design-systems-engineer`.** Nothing yet compares a
+  spec's `WIDTH`/`HEIGHT` against the dimensions of the objects already stored
+  under that key. That belongs in `scripts/audit-cover-rendition.mjs`. Until it
+  exists, **this rule is enforced by reading it.**
+
 ---
 
 ## 2. The finding: the hero slot picked the only portrait photograph on the page
