@@ -1,0 +1,314 @@
+sitemap:  119 <loc>  =  1 root + 1 /artikel + 15 category archives + 102 articles
+grid pages derived at run time: 16
+
+
+UILINT — rendered-layout gate · https://hellokahwin.com/artikel, https://hellokahwin.com/artikel/busana-pengantin, https://hellokahwin.com/artikel/fotografi-videografi, https://hellokahwin.com/artikel/glamor-eksklusif, https://hellokahwin.com/artikel/hantaran-mas-kahwin, https://hellokahwin.com/artikel/hiasan-dekorasi, https://hellokahwin.com/artikel/idea-dan-nasihat, https://hellokahwin.com/artikel/minimalis-mewah, https://hellokahwin.com/artikel/moden-kontemporari, https://hellokahwin.com/artikel/nikah-undang-undang, https://hellokahwin.com/artikel/pantai-santai, https://hellokahwin.com/artikel/pelamin-kad-cenderahati, https://hellokahwin.com/artikel/real-wedding, https://hellokahwin.com/artikel/sebelum-nikah, https://hellokahwin.com/artikel/ucapan-doa, https://hellokahwin.com/artikel/venue-perancangan
+widths 390/768/1024/1440/1920 · chrome C:/Program Files/Google/Chrome/Application/chrome.exe
+──────────────────────────────────────────────────────────────────────────────
+[ ok ] /artikel @390                                  0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel @768                                  0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel @1024                                 0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0 · +1 advisory
+        image-attr-aspect ×1
+          declared width="1200" height="630" (1.90:1) for a 2463x700 file (3.52:1) — 46% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            a.group.block > div.bg-muted.relative.aspect-[40/21] > picture > img.absolute.inset-0.h-full  ⟨img · link → /artikel/ucapan-doa/doa-masuk-rumah-baru · alt="Doa masuk rumah baru: satu lafaz, dan empat amalan yang ada sumbernya"⟩
+            "ohd-hasan/crop-4.3x1-desktop-hero.webp?v=0.1534_0.1860-g48c0b959"
+[ ok ] /artikel @1440                                 0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0 · +1 advisory
+        image-attr-aspect ×1
+          declared width="1200" height="630" (1.90:1) for a 2463x700 file (3.52:1) — 46% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            a.group.block > div.bg-muted.relative.aspect-[40/21] > picture > img.absolute.inset-0.h-full  ⟨img · link → /artikel/ucapan-doa/doa-masuk-rumah-baru · alt="Doa masuk rumah baru: satu lafaz, dan empat amalan yang ada sumbernya"⟩
+            "ohd-hasan/crop-4.3x1-desktop-hero.webp?v=0.1534_0.1860-g48c0b959"
+[ ok ] /artikel @1920                                 0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:1 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0 · +1 advisory
+        image-attr-aspect ×1
+          declared width="1200" height="630" (1.90:1) for a 2463x700 file (3.52:1) — 46% off, so the box reserved before load is the wrong shape (ceiling 25%)
+            a.group.block > div.bg-muted.relative.aspect-[40/21] > picture > img.absolute.inset-0.h-full  ⟨img · link → /artikel/ucapan-doa/doa-masuk-rumah-baru · alt="Doa masuk rumah baru: satu lafaz, dan empat amalan yang ada sumbernya"⟩
+            "ohd-hasan/crop-4.3x1-desktop-hero.webp?v=0.1534_0.1860-g48c0b959"
+[ ok ] /artikel/busana-pengantin @390                 0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/busana-pengantin @768                 0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/busana-pengantin @1024                0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/busana-pengantin @1440                0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/busana-pengantin @1920                0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[FAIL] /artikel/fotografi-videografi @390             1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik · alt=null⟩
+            "spire/lokasi-pre-wedding-photoshoot-terbaik/1787396444200-cover/low.webp"
+[FAIL] /artikel/fotografi-videografi @768             1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik · alt=null⟩
+            "spire/lokasi-pre-wedding-photoshoot-terbaik/1787396444200-cover/low.webp"
+[FAIL] /artikel/fotografi-videografi @1024            1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik · alt=null⟩
+            "spire/lokasi-pre-wedding-photoshoot-terbaik/1787396444200-cover/low.webp"
+[FAIL] /artikel/fotografi-videografi @1440            1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik · alt=null⟩
+            "spire/lokasi-pre-wedding-photoshoot-terbaik/1787396444200-cover/low.webp"
+[FAIL] /artikel/fotografi-videografi @1920            1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/fotografi-videografi/lokasi-pre-wedding-photoshoot-terbaik · alt=null⟩
+            "spire/lokasi-pre-wedding-photoshoot-terbaik/1787396444200-cover/low.webp"
+[FAIL] /artikel/glamor-eksklusif @390                 1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/glamor-eksklusif/amankila-bali · alt=null⟩
+            "mages.hellokahwin.com/inspire/amankila-bali/1787396256716-cover/low.webp"
+[FAIL] /artikel/glamor-eksklusif @768                 1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/glamor-eksklusif/amankila-bali · alt=null⟩
+            "mages.hellokahwin.com/inspire/amankila-bali/1787396256716-cover/low.webp"
+[FAIL] /artikel/glamor-eksklusif @1024                1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/glamor-eksklusif/amankila-bali · alt=null⟩
+            "mages.hellokahwin.com/inspire/amankila-bali/1787396256716-cover/low.webp"
+[FAIL] /artikel/glamor-eksklusif @1440                1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/glamor-eksklusif/amankila-bali · alt=null⟩
+            "mages.hellokahwin.com/inspire/amankila-bali/1787396256716-cover/low.webp"
+[FAIL] /artikel/glamor-eksklusif @1920                1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/glamor-eksklusif/amankila-bali · alt=null⟩
+            "mages.hellokahwin.com/inspire/amankila-bali/1787396256716-cover/low.webp"
+[ ok ] /artikel/hantaran-mas-kahwin @390              0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/hantaran-mas-kahwin @768              0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/hantaran-mas-kahwin @1024             0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/hantaran-mas-kahwin @1440             0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/hantaran-mas-kahwin @1920             0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[FAIL] /artikel/hiasan-dekorasi @390                  1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/hiasan-dekorasi/goodies-kahwin · alt=null⟩
+            "ages.hellokahwin.com/inspire/goodies-kahwin/1787395718040-cover/low.webp"
+[FAIL] /artikel/hiasan-dekorasi @768                  1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/hiasan-dekorasi/goodies-kahwin · alt=null⟩
+            "ages.hellokahwin.com/inspire/goodies-kahwin/1787395718040-cover/low.webp"
+[FAIL] /artikel/hiasan-dekorasi @1024                 1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/hiasan-dekorasi/goodies-kahwin · alt=null⟩
+            "ages.hellokahwin.com/inspire/goodies-kahwin/1787395718040-cover/low.webp"
+[FAIL] /artikel/hiasan-dekorasi @1440                 1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/hiasan-dekorasi/goodies-kahwin · alt=null⟩
+            "ages.hellokahwin.com/inspire/goodies-kahwin/1787395718040-cover/low.webp"
+[FAIL] /artikel/hiasan-dekorasi @1920                 1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/hiasan-dekorasi/goodies-kahwin · alt=null⟩
+            "ages.hellokahwin.com/inspire/goodies-kahwin/1787395718040-cover/low.webp"
+[FAIL] /artikel/idea-dan-nasihat @390                 1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/idea-dan-nasihat/hadiah-untuk-pengantin · alt=null⟩
+            "lokahwin.com/inspire/hadiah-untuk-pengantin/1787395639270-cover/low.webp"
+[FAIL] /artikel/idea-dan-nasihat @768                 1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/idea-dan-nasihat/hadiah-untuk-pengantin · alt=null⟩
+            "lokahwin.com/inspire/hadiah-untuk-pengantin/1787395639270-cover/low.webp"
+[FAIL] /artikel/idea-dan-nasihat @1024                1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/idea-dan-nasihat/hadiah-untuk-pengantin · alt=null⟩
+            "lokahwin.com/inspire/hadiah-untuk-pengantin/1787395639270-cover/low.webp"
+[FAIL] /artikel/idea-dan-nasihat @1440                1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/idea-dan-nasihat/hadiah-untuk-pengantin · alt=null⟩
+            "lokahwin.com/inspire/hadiah-untuk-pengantin/1787395639270-cover/low.webp"
+[FAIL] /artikel/idea-dan-nasihat @1920                1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/idea-dan-nasihat/hadiah-untuk-pengantin · alt=null⟩
+            "lokahwin.com/inspire/hadiah-untuk-pengantin/1787395639270-cover/low.webp"
+[FAIL] /artikel/minimalis-mewah @390                  1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/minimalis-mewah/the-danna-langkawi · alt=null⟩
+            ".hellokahwin.com/inspire/the-danna-langkawi/1787397136563-cover/low.webp"
+[FAIL] /artikel/minimalis-mewah @768                  1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/minimalis-mewah/the-danna-langkawi · alt=null⟩
+            ".hellokahwin.com/inspire/the-danna-langkawi/1787397136563-cover/low.webp"
+[FAIL] /artikel/minimalis-mewah @1024                 1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/minimalis-mewah/the-danna-langkawi · alt=null⟩
+            ".hellokahwin.com/inspire/the-danna-langkawi/1787397136563-cover/low.webp"
+[FAIL] /artikel/minimalis-mewah @1440                 1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/minimalis-mewah/the-danna-langkawi · alt=null⟩
+            ".hellokahwin.com/inspire/the-danna-langkawi/1787397136563-cover/low.webp"
+[FAIL] /artikel/minimalis-mewah @1920                 1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/minimalis-mewah/the-danna-langkawi · alt=null⟩
+            ".hellokahwin.com/inspire/the-danna-langkawi/1787397136563-cover/low.webp"
+[FAIL] /artikel/moden-kontemporari @390               1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/moden-kontemporari/jw-marriott-kuala-lumpur · alt=null⟩
+            "kahwin.com/inspire/jw-marriott-kuala-lumpur/1787395895924-cover/low.webp"
+[FAIL] /artikel/moden-kontemporari @768               1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/moden-kontemporari/jw-marriott-kuala-lumpur · alt=null⟩
+            "kahwin.com/inspire/jw-marriott-kuala-lumpur/1787395895924-cover/low.webp"
+[FAIL] /artikel/moden-kontemporari @1024              1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/moden-kontemporari/jw-marriott-kuala-lumpur · alt=null⟩
+            "kahwin.com/inspire/jw-marriott-kuala-lumpur/1787395895924-cover/low.webp"
+[FAIL] /artikel/moden-kontemporari @1440              1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/moden-kontemporari/jw-marriott-kuala-lumpur · alt=null⟩
+            "kahwin.com/inspire/jw-marriott-kuala-lumpur/1787395895924-cover/low.webp"
+[FAIL] /artikel/moden-kontemporari @1920              1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/moden-kontemporari/jw-marriott-kuala-lumpur · alt=null⟩
+            "kahwin.com/inspire/jw-marriott-kuala-lumpur/1787395895924-cover/low.webp"
+[ ok ] /artikel/nikah-undang-undang @390              0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/nikah-undang-undang @768              0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/nikah-undang-undang @1024             0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/nikah-undang-undang @1440             0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/nikah-undang-undang @1920             0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[FAIL] /artikel/pantai-santai @390                    1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/pantai-santai/perkahwinan-indah-di-laman-fajar-menyinsing-port-dickson · alt=null⟩
+            "ndah-di-laman-fajar-menyinsing-port-dickson/1787396030245-cover/low.webp"
+[FAIL] /artikel/pantai-santai @768                    1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/pantai-santai/perkahwinan-indah-di-laman-fajar-menyinsing-port-dickson · alt=null⟩
+            "ndah-di-laman-fajar-menyinsing-port-dickson/1787396030245-cover/low.webp"
+[FAIL] /artikel/pantai-santai @1024                   1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/pantai-santai/perkahwinan-indah-di-laman-fajar-menyinsing-port-dickson · alt=null⟩
+            "ndah-di-laman-fajar-menyinsing-port-dickson/1787396030245-cover/low.webp"
+[FAIL] /artikel/pantai-santai @1440                   1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/pantai-santai/perkahwinan-indah-di-laman-fajar-menyinsing-port-dickson · alt=null⟩
+            "ndah-di-laman-fajar-menyinsing-port-dickson/1787396030245-cover/low.webp"
+[FAIL] /artikel/pantai-santai @1920                   1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/pantai-santai/perkahwinan-indah-di-laman-fajar-menyinsing-port-dickson · alt=null⟩
+            "ndah-di-laman-fajar-menyinsing-port-dickson/1787396030245-cover/low.webp"
+[ ok ] /artikel/pelamin-kad-cenderahati @390          0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/pelamin-kad-cenderahati @768          0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/pelamin-kad-cenderahati @1024         0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/pelamin-kad-cenderahati @1440         0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/pelamin-kad-cenderahati @1920         0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[FAIL] /artikel/real-wedding @390                     1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/real-wedding/perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan · alt=null⟩
+            "la-lumpur-dengan-sentuhan-warisan-peranakan/1787395766407-cover/low.webp"
+[FAIL] /artikel/real-wedding @768                     1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/real-wedding/perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan · alt=null⟩
+            "la-lumpur-dengan-sentuhan-warisan-peranakan/1787395766407-cover/low.webp"
+[FAIL] /artikel/real-wedding @1024                    1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/real-wedding/perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan · alt=null⟩
+            "la-lumpur-dengan-sentuhan-warisan-peranakan/1787395766407-cover/low.webp"
+[FAIL] /artikel/real-wedding @1440                    1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/real-wedding/perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan · alt=null⟩
+            "la-lumpur-dengan-sentuhan-warisan-peranakan/1787395766407-cover/low.webp"
+[FAIL] /artikel/real-wedding @1920                    1 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:1 R1:0
+        grid-thumb-variant ×1
+          UI-03 R2 — this grid thumbnail is fed `low`, which is not a named crop. `low`, `high`, `original` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a `crop-*` derivative may fill it.
+            div > a.s-card > figure > img  ⟨img · link → /artikel/real-wedding/perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan · alt=null⟩
+            "la-lumpur-dengan-sentuhan-warisan-peranakan/1787395766407-cover/low.webp"
+[ ok ] /artikel/sebelum-nikah @390                    0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/sebelum-nikah @768                    0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/sebelum-nikah @1024                   0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/sebelum-nikah @1440                   0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/sebelum-nikah @1920                   0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/ucapan-doa @390                       0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/ucapan-doa @768                       0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/ucapan-doa @1024                      0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/ucapan-doa @1440                      0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/ucapan-doa @1920                      0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/venue-perancangan @390                0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/venue-perancangan @768                0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/venue-perancangan @1024               0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/venue-perancangan @1440               0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+[ ok ] /artikel/venue-perancangan @1920               0 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:0 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:0 unmeasurable:0 R2:0 R6:0 H6:0 H6.6:0 R2:0 R1:0
+──────────────────────────────────────────────────────────────────────────────
+totals: empty-content 0
+        rail-collapsed 0
+        rail-missing 0
+        sumber-empty 0
+        narrow-text-column 0
+        reading-measure 0
+        clipped-text 0
+        viewport-overflow 0
+        scroll-container-clip 0
+        image-upscale 0
+        image-aspect 0
+        image-attr-aspect 3 (advisory, does not fail the build)
+        image-unmeasurable 0
+        shaped-slot-variant 0
+        shaped-slot-dims 0
+        category-diversity 0
+        source-order 0
+        grid-thumb-variant 40
+        grid-thumb-aspect 0
+build fingerprint (last width measured, per target):
+  /artikel
+    200 HIT age=95 sin1::sin1::mfr2h-1788318712302-2d8ac737a2c3 css=[cd038c78e3b16e63.css 19b83a0982f1e330.css]
+  /artikel/busana-pengantin
+    200 HIT age=5 sin1::sin1::8t86l-1788318720429-48b1bdd3ca34 css=[cd038c78e3b16e63.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  /artikel/fotografi-videografi
+    200 HIT age=7 sin1::sin1::x7bnp-1788318729479-7dfd9c113882 css=[cd038c78e3b16e63.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  /artikel/glamor-eksklusif
+    200 HIT age=7 sin1::sin1::xlbhj-1788318739632-87843b3a9a00 css=[cd038c78e3b16e63.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  /artikel/hantaran-mas-kahwin
+    200 HIT age=5 sin1::sin1::s9hn9-1788318746695-79945de62334 css=[cd038c78e3b16e63.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  /artikel/hiasan-dekorasi
+    200 HIT age=10 sin1::sin1::2r8nq-1788318758324-7c0fa99314dc css=[cd038c78e3b16e63.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  /artikel/idea-dan-nasihat
+    200 HIT age=7 sin1::sin1::89lvh-1788318767186-e65a7225a7fe css=[cd038c78e3b16e63.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  /artikel/minimalis-mewah
+    200 HIT age=7 sin1::sin1::vxm2g-1788318775926-8f5c486d60ca css=[cd038c78e3b16e63.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  /artikel/moden-kontemporari
+    200 HIT age=6 sin1::sin1::xjvn4-1788318783960-f14dc545a1af css=[cd038c78e3b16e63.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  /artikel/nikah-undang-undang
+    200 HIT age=5 sin1::sin1::rhgz5-1788318790364-2c33e5a4f6f4 css=[cd038c78e3b16e63.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  /artikel/pantai-santai
+    200 HIT age=7 sin1::sin1::89lvh-1788318798576-91b20bc4c104 css=[cd038c78e3b16e63.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  /artikel/pelamin-kad-cenderahati
+    200 HIT age=4 sin1::sin1::zdzzs-1788318804891-33e95ef9143d css=[cd038c78e3b16e63.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  /artikel/real-wedding
+    200 HIT age=6 sin1::sin1::85w4v-1788318812749-9b76f27982bb css=[cd038c78e3b16e63.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  /artikel/sebelum-nikah
+    200 HIT age=5 sin1::sin1::cf949-1788318820088-dfb79c505919 css=[cd038c78e3b16e63.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  /artikel/ucapan-doa
+    200 HIT age=4 sin1::sin1::zwdlw-1788318825817-fc6a58c5c2f8 css=[cd038c78e3b16e63.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+  /artikel/venue-perancangan
+    200 HIT age=18 sin1::sin1::n2zbr-1788318845695-8e0909c9f23f css=[cd038c78e3b16e63.css 19b83a0982f1e330.css ece0345a72e045ca.css]
+UILINT EXIT: 1
+GATE EXIT (read directly, not through a pipe): 1

@@ -780,12 +780,34 @@ function CategoryCard({ article }: { article: CategoryArticle }) {
              four the plate is ~101px narrower than the headline block above it
              and sits left-aligned in the column. The alternative was a 1.151x
              upscale, and R5 decides that. */
+          /* ⚠ ON THE FALLBACK THIS DECLARES NOTHING, and `?? 800` was wrong.
+             An earlier draft wrote `width={cover.width ?? 800}` — the same
+             restatement of the CSS box that UI-12 S1 removed, reintroduced as a
+             default. Two things break when the resolver returns null and this
+             asserts 800x600 anyway:
+
+               · hero-rules R4. The resolver returns null precisely BECAUSE the
+                 dimensions are unrecorded; substituting a nominal pair here
+                 launders "we do not know" into "we do know, and it is 800x600".
+                 `low` is 1200x800 on eleven of twelve covers, so the assertion
+                 is not merely unfounded, it is wrong by 50% on width.
+               · UI-16's `shaped-slot-dims` (R6). This slot now carries an
+                 explicit `aspect-ratio`, which is exactly UI-16's definition of
+                 a SHAPED SLOT, so R6 compares the declared pair against the real
+                 file and goes red. The fallback would trip a check belonging to
+                 another item, on a page this item just certified.
+
+             An element that declares nothing is explicitly exempt from R6 —
+             next/image `fill` is that case — so omitting both attributes is the
+             honest answer rather than the lazy one. The plate then takes its
+             shape from `aspect-ratio` alone, which is where the 4:3 came from
+             in the first place. */
           <img
             src={cover.src}
             alt=""
-            width={cover.width ?? 800}
-            height={cover.height ?? 600}
-            style={cover.width ? { maxWidth: cover.width } : undefined}
+            {...(cover.width && cover.height
+              ? { width: cover.width, height: cover.height, style: { maxWidth: cover.width } }
+              : {})}
             loading="lazy"
             decoding="async"
           />
