@@ -1,0 +1,582 @@
+﻿2026-09-01T19:47:37.5941666Z Current runner version: '2.336.0'
+2026-09-01T19:47:37.5969696Z ##[group]Runner Image Provisioner
+2026-09-01T19:47:37.5970614Z Hosted Compute Agent
+2026-09-01T19:47:37.5971336Z Version: 20260819.586
+2026-09-01T19:47:37.5972013Z Commit: 3cc4a88dfa507ef76119ad1bb3eccc6378bb2b76
+2026-09-01T19:47:37.5972817Z Build Date: 2026-08-18T23:20:18Z
+2026-09-01T19:47:37.5973838Z Worker ID: {57bb5493-1727-424f-9c8f-d3be3f3ca2b9}
+2026-09-01T19:47:37.5974596Z Azure Region: westus
+2026-09-01T19:47:37.5975305Z ##[endgroup]
+2026-09-01T19:47:37.5977200Z ##[group]Operating System
+2026-09-01T19:47:37.5977956Z Ubuntu
+2026-09-01T19:47:37.5978562Z 24.04.4
+2026-09-01T19:47:37.5979097Z LTS
+2026-09-01T19:47:37.5979677Z ##[endgroup]
+2026-09-01T19:47:37.5980248Z ##[group]Runner Image
+2026-09-01T19:47:37.5980852Z Image: ubuntu-24.04
+2026-09-01T19:47:37.5981520Z Version: 20260823.283.1
+2026-09-01T19:47:37.5982624Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260823.283/images/ubuntu/Ubuntu2404-Readme.md
+2026-09-01T19:47:37.5984790Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260823.283
+2026-09-01T19:47:37.5985794Z ##[endgroup]
+2026-09-01T19:47:37.5987144Z ##[group]GITHUB_TOKEN Permissions
+2026-09-01T19:47:37.5989528Z Contents: read
+2026-09-01T19:47:37.5990385Z Issues: write
+2026-09-01T19:47:37.5990965Z Metadata: read
+2026-09-01T19:47:37.5991617Z ##[endgroup]
+2026-09-01T19:47:37.5994454Z Secret source: Actions
+2026-09-01T19:47:37.5995682Z Prepare workflow directory
+2026-09-01T19:47:37.6428307Z Prepare all required actions
+2026-09-01T19:47:37.6477258Z Getting action download info
+2026-09-01T19:47:38.0199271Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-09-01T19:47:38.1626952Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-09-01T19:47:38.4171275Z Complete job name: gate self-test (blocking)
+﻿2026-09-01T19:47:38.5017480Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-01T19:47:38.5027770Z ##[group]Run actions/checkout@v4
+2026-09-01T19:47:38.5028643Z with:
+2026-09-01T19:47:38.5029185Z   repository: ianngkb/hellokahwin
+2026-09-01T19:47:38.5033133Z   token: ***
+2026-09-01T19:47:38.5033821Z   ssh-strict: true
+2026-09-01T19:47:38.5034267Z   ssh-user: git
+2026-09-01T19:47:38.5034716Z   persist-credentials: true
+2026-09-01T19:47:38.5035218Z   clean: true
+2026-09-01T19:47:38.5035667Z   sparse-checkout-cone-mode: true
+2026-09-01T19:47:38.5036193Z   fetch-depth: 1
+2026-09-01T19:47:38.5036635Z   fetch-tags: false
+2026-09-01T19:47:38.5037089Z   show-progress: true
+2026-09-01T19:47:38.5037555Z   lfs: false
+2026-09-01T19:47:38.5037982Z   submodules: false
+2026-09-01T19:47:38.5038495Z   set-safe-directory: true
+2026-09-01T19:47:38.5039033Z   allow-unsafe-pr-checkout: false
+2026-09-01T19:47:38.5039820Z env:
+2026-09-01T19:47:38.5040269Z   PLAYWRIGHT_CORE_VERSION: 1.58.2
+2026-09-01T19:47:38.5040790Z ##[endgroup]
+2026-09-01T19:47:38.6168232Z Syncing repository: ianngkb/hellokahwin
+2026-09-01T19:47:38.6170327Z ##[group]Getting Git version info
+2026-09-01T19:47:38.6171167Z Working directory is '/home/runner/work/hellokahwin/hellokahwin'
+2026-09-01T19:47:38.6172361Z [command]/usr/bin/git version
+2026-09-01T19:47:38.6244591Z git version 2.55.0
+2026-09-01T19:47:38.6301300Z ##[endgroup]
+2026-09-01T19:47:38.6319571Z Temporarily overriding HOME='/home/runner/work/_temp/2d0769ff-ca3d-4110-bfb6-89c2561b3106' before making global git config changes
+2026-09-01T19:47:38.6322056Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-01T19:47:38.6326434Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/hellokahwin/hellokahwin
+2026-09-01T19:47:38.6380736Z Deleting the contents of '/home/runner/work/hellokahwin/hellokahwin'
+2026-09-01T19:47:38.6386917Z ##[group]Initializing the repository
+2026-09-01T19:47:38.6391828Z [command]/usr/bin/git init /home/runner/work/hellokahwin/hellokahwin
+2026-09-01T19:47:38.6495845Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-09-01T19:47:38.6498487Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-09-01T19:47:38.6500011Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-09-01T19:47:38.6501270Z hint: call:
+2026-09-01T19:47:38.6502120Z hint:
+2026-09-01T19:47:38.6503031Z hint: 	git config --global init.defaultBranch <name>
+2026-09-01T19:47:38.6504398Z hint:
+2026-09-01T19:47:38.6505404Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-09-01T19:47:38.6506452Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-09-01T19:47:38.6507254Z hint:
+2026-09-01T19:47:38.6507764Z hint: 	git branch -m <name>
+2026-09-01T19:47:38.6508275Z hint:
+2026-09-01T19:47:38.6508958Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-09-01T19:47:38.6510585Z Initialized empty Git repository in /home/runner/work/hellokahwin/hellokahwin/.git/
+2026-09-01T19:47:38.6512605Z [command]/usr/bin/git remote add origin https://github.com/ianngkb/hellokahwin
+2026-09-01T19:47:38.6560418Z ##[endgroup]
+2026-09-01T19:47:38.6561269Z ##[group]Disabling automatic garbage collection
+2026-09-01T19:47:38.6565199Z [command]/usr/bin/git config --local gc.auto 0
+2026-09-01T19:47:38.6596588Z ##[endgroup]
+2026-09-01T19:47:38.6597386Z ##[group]Setting up auth
+2026-09-01T19:47:38.6606425Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-01T19:47:38.6645511Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-01T19:47:38.7029732Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-01T19:47:38.7074857Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-01T19:47:38.7338833Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-01T19:47:38.7375067Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-01T19:47:38.7610081Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-09-01T19:47:38.7649929Z ##[endgroup]
+2026-09-01T19:47:38.7651444Z ##[group]Fetching the repository
+2026-09-01T19:47:38.7661482Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +52cbefaf9818445fb63799836ea974a92092c7ed:refs/remotes/pull/64/merge
+2026-09-01T19:47:40.5487944Z From https://github.com/ianngkb/hellokahwin
+2026-09-01T19:47:40.5490083Z  * [new ref]         52cbefaf9818445fb63799836ea974a92092c7ed -> pull/64/merge
+2026-09-01T19:47:40.5494981Z ##[endgroup]
+2026-09-01T19:47:40.5496966Z ##[group]Determining the checkout info
+2026-09-01T19:47:40.5499116Z ##[endgroup]
+2026-09-01T19:47:40.5502499Z [command]/usr/bin/git sparse-checkout disable
+2026-09-01T19:47:40.5554999Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-09-01T19:47:40.5600437Z ##[group]Checking out the ref
+2026-09-01T19:47:40.5603919Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/64/merge
+2026-09-01T19:47:40.7985000Z Note: switching to 'refs/remotes/pull/64/merge'.
+2026-09-01T19:47:40.7986611Z 
+2026-09-01T19:47:40.7987712Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-09-01T19:47:40.7989832Z changes and commit them, and you can discard any commits you make in this
+2026-09-01T19:47:40.7991722Z state without impacting any branches by switching back to a branch.
+2026-09-01T19:47:40.7992585Z 
+2026-09-01T19:47:40.7993188Z If you want to create a new branch to retain commits you create, you may
+2026-09-01T19:47:40.7994884Z do so (now or later) by using -c with the switch command. Example:
+2026-09-01T19:47:40.7995705Z 
+2026-09-01T19:47:40.7996077Z   git switch -c <new-branch-name>
+2026-09-01T19:47:40.7996672Z 
+2026-09-01T19:47:40.7997038Z Or undo this operation with:
+2026-09-01T19:47:40.7997570Z 
+2026-09-01T19:47:40.7997866Z   git switch -
+2026-09-01T19:47:40.7998292Z 
+2026-09-01T19:47:40.7999059Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-09-01T19:47:40.8000119Z 
+2026-09-01T19:47:40.8001397Z HEAD is now at 52cbefa Merge e334a74a7e2802a0ec8e37e3fc8daf3491f445bf into 0f2a4c994c9fc158030d40e3b70ac89de93eaae6
+2026-09-01T19:47:40.8012009Z ##[endgroup]
+2026-09-01T19:47:40.8059568Z [command]/usr/bin/git log -1 --format=%H
+2026-09-01T19:47:40.8086372Z 52cbefaf9818445fb63799836ea974a92092c7ed
+﻿2026-09-01T19:47:40.8637082Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-01T19:47:40.8644199Z ##[group]Run actions/setup-node@v4
+2026-09-01T19:47:40.8645440Z with:
+2026-09-01T19:47:40.8646346Z   node-version: 20
+2026-09-01T19:47:40.8647328Z   always-auth: false
+2026-09-01T19:47:40.8648327Z   check-latest: false
+2026-09-01T19:47:40.8658312Z   token: ***
+2026-09-01T19:47:40.8659289Z env:
+2026-09-01T19:47:40.8660207Z   PLAYWRIGHT_CORE_VERSION: 1.58.2
+2026-09-01T19:47:40.8661392Z ##[endgroup]
+2026-09-01T19:47:41.0238838Z Attempting to download 20...
+2026-09-01T19:47:41.0357759Z (node:2119) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-09-01T19:47:41.0363059Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-09-01T19:47:41.8671564Z Acquiring 20.20.2 - x64 from https://github.com/actions/node-versions/releases/download/20.20.2-23521894959/node-20.20.2-linux-x64.tar.gz
+2026-09-01T19:47:42.3432261Z Extracting ...
+2026-09-01T19:47:42.3558857Z [command]/usr/bin/tar xz --strip 1 --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/6c65ea24-5691-4bab-a2cd-8f0106272d2b -f /home/runner/work/_temp/19eefa57-9ab7-48fe-ab59-31bf791b2d87
+2026-09-01T19:47:43.3888918Z Adding to the cache ...
+2026-09-01T19:47:45.5374781Z ##[group]Environment details
+2026-09-01T19:47:45.7734868Z node: v20.20.2
+2026-09-01T19:47:45.7735533Z npm: 10.8.2
+2026-09-01T19:47:45.7735860Z yarn: 1.22.22
+2026-09-01T19:47:45.7736524Z ##[endgroup]
+﻿2026-09-01T19:47:45.7949087Z ##[group]Run npm i --no-save playwright-core@1.58.2
+2026-09-01T19:47:45.7949603Z ^[[36;1mnpm i --no-save playwright-core@1.58.2^[[0m
+2026-09-01T19:47:45.7992949Z shell: /usr/bin/bash -e {0}
+2026-09-01T19:47:45.7993566Z env:
+2026-09-01T19:47:45.7993803Z   PLAYWRIGHT_CORE_VERSION: 1.58.2
+2026-09-01T19:47:45.7994073Z ##[endgroup]
+2026-09-01T19:48:38.5144982Z npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+2026-09-01T19:48:40.8794537Z npm warn deprecated @esbuild-kit/esm-loader@2.6.5: Merged into tsx: https://tsx.hirok.io
+2026-09-01T19:48:40.9478997Z npm warn deprecated @esbuild-kit/core-utils@3.3.2: Merged into tsx: https://tsx.hirok.io
+2026-09-01T19:48:48.5438633Z npm warn deprecated eslint@9.39.5: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+2026-09-01T19:48:59.5386770Z 
+2026-09-01T19:48:59.5388170Z added 1119 packages, and audited 1120 packages in 1m
+2026-09-01T19:48:59.5388734Z 
+2026-09-01T19:48:59.5389063Z 403 packages are looking for funding
+2026-09-01T19:48:59.5389722Z   run `npm fund` for details
+2026-09-01T19:48:59.8301416Z 
+2026-09-01T19:48:59.8302520Z 8 vulnerabilities (4 moderate, 4 high)
+2026-09-01T19:48:59.8304062Z 
+2026-09-01T19:48:59.8304566Z To address all issues (including breaking changes), run:
+2026-09-01T19:48:59.8305435Z   npm audit fix --force
+2026-09-01T19:48:59.8305740Z 
+2026-09-01T19:48:59.8306070Z Run `npm audit` for details.
+﻿2026-09-01T19:48:59.8814552Z ##[group]Run which google-chrome || which google-chrome-stable || which chromium-browser
+2026-09-01T19:48:59.8815270Z ^[[36;1mwhich google-chrome || which google-chrome-stable || which chromium-browser^[[0m
+2026-09-01T19:48:59.8815959Z ^[[36;1mecho "path=$(which google-chrome || which google-chrome-stable || which chromium-browser)" >> "$GITHUB_OUTPUT"^[[0m
+2026-09-01T19:48:59.8857771Z shell: /usr/bin/bash -e {0}
+2026-09-01T19:48:59.8858087Z env:
+2026-09-01T19:48:59.8858301Z   PLAYWRIGHT_CORE_VERSION: 1.58.2
+2026-09-01T19:48:59.8858566Z ##[endgroup]
+2026-09-01T19:48:59.8934601Z /usr/bin/google-chrome
+﻿2026-09-01T19:48:59.9007119Z ##[group]Run set -o pipefail
+2026-09-01T19:48:59.9007528Z ^[[36;1mset -o pipefail^[[0m
+2026-09-01T19:48:59.9007899Z ^[[36;1mnode scripts/ui-layout-gate.mjs --selftest | tee gate.log^[[0m
+2026-09-01T19:48:59.9049127Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-09-01T19:48:59.9049549Z env:
+2026-09-01T19:48:59.9049782Z   PLAYWRIGHT_CORE_VERSION: 1.58.2
+2026-09-01T19:48:59.9050103Z   UI_GATE_CHROME: /usr/bin/google-chrome
+2026-09-01T19:48:59.9050419Z ##[endgroup]
+2026-09-01T20:01:49.7284198Z 
+2026-09-01T20:01:49.7285626Z UILINT SELF-TEST — does the gate fire on known-bad and clear on known-good?
+2026-09-01T20:01:49.7289345Z ──────────────────────────────────────────────────────────────────────────────
+2026-09-01T20:01:49.7290839Z   PASS  homepage.html @1024: narrow-text-column fires 24x (expected >= 12)
+2026-09-01T20:01:49.7292230Z   PASS  homepage.html @1024: a 44px column is among them (widths seen: 44)
+2026-09-01T20:01:49.7293786Z   PASS  homepage.html @1440: narrow-text-column fires 24x (expected >= 12)
+2026-09-01T20:01:49.7295248Z   PASS  homepage.html @1440: a 44px column is among them (widths seen: 44)
+2026-09-01T20:01:49.7296569Z   PASS  homepage.html @1920: narrow-text-column fires 24x (expected >= 12)
+2026-09-01T20:01:49.7297906Z   PASS  homepage.html @1920: a 44px column is among them (widths seen: 44)
+2026-09-01T20:01:49.7299631Z   PASS  article.html @390: narrow-text-column CLEAN — the 44x26px "01" rank cell is a label, not a column
+2026-09-01T20:01:49.7300986Z   PASS  category.html @390: narrow-text-column CLEAN
+2026-09-01T20:01:49.7302525Z   PASS  article.html @768: narrow-text-column CLEAN — the 44x26px "01" rank cell is a label, not a column
+2026-09-01T20:01:49.7304230Z   PASS  category.html @768: narrow-text-column CLEAN
+2026-09-01T20:01:49.7305819Z   PASS  article.html @1024: narrow-text-column CLEAN — the 44x26px "01" rank cell is a label, not a column
+2026-09-01T20:01:49.7307242Z   PASS  category.html @1024: narrow-text-column CLEAN
+2026-09-01T20:01:49.7308843Z   PASS  article.html @1440: narrow-text-column CLEAN — the 44x26px "01" rank cell is a label, not a column
+2026-09-01T20:01:49.7310236Z   PASS  category.html @1440: narrow-text-column CLEAN
+2026-09-01T20:01:49.7311813Z   PASS  article.html @1920: narrow-text-column CLEAN — the 44x26px "01" rank cell is a label, not a column
+2026-09-01T20:01:49.7313587Z   PASS  category.html @1920: narrow-text-column CLEAN
+2026-09-01T20:01:49.7315016Z   PASS  homepage.html @1024: viewport-overflow fires on the nav rail (furthest right edge 2058.9px)
+2026-09-01T20:01:49.7316681Z   PASS  homepage.html @1440: viewport-overflow fires on the nav rail (furthest right edge 2138.9px)
+2026-09-01T20:01:49.7318310Z   PASS  homepage.html @1920: viewport-overflow fires on the nav rail (furthest right edge 2378.9px)
+2026-09-01T20:01:49.7319885Z   PASS  homepage.html @390: the swipeable mobile rail is exempt from check 2, not a violation
+2026-09-01T20:01:49.7321431Z   PASS  homepage.html @768: the swipeable mobile rail is exempt from check 2, not a violation
+2026-09-01T20:01:49.7323502Z   PASS  homepage.html @1920: "Pelamin, Kad & Cenderahati Majlis" is INSIDE the viewport, so check 2 correctly does not see it
+2026-09-01T20:01:49.7325612Z   PASS  homepage.html @1920: check 6 catches it anyway, at 1823.5px, clipped by a scroller that ends earlier
+2026-09-01T20:01:49.7327149Z   PASS  homepage.html @1920: check 6 finds 3 clipped where check 2 finds 3 past the edge
+2026-09-01T20:01:49.7328322Z   PASS  homepage.html @390: the contained mobile rail is exempt from check 6
+2026-09-01T20:01:49.7329113Z   PASS  article.html @390: the contained mobile rail is exempt from check 6
+2026-09-01T20:01:49.7329664Z   PASS  category.html @390: the contained mobile rail is exempt from check 6
+2026-09-01T20:01:49.7330218Z   PASS  homepage.html @768: the contained mobile rail is exempt from check 6
+2026-09-01T20:01:49.7330735Z   PASS  article.html @768: the contained mobile rail is exempt from check 6
+2026-09-01T20:01:49.7331249Z   PASS  category.html @768: the contained mobile rail is exempt from check 6
+2026-09-01T20:01:49.7332013Z   PASS  homepage.html @1440: the 1200x1800 portrait hero is caught (1.2)
+2026-09-01T20:01:49.7332538Z   PASS  homepage.html @1920: the 1200x1800 portrait hero is caught (1.6)
+2026-09-01T20:01:49.7333674Z   PASS  homepage.html @390: the hero is genuinely DOWNSCALED here (0.33x at 390), so zero upscale violations is the right answer, not a blind spot
+2026-09-01T20:01:49.7334704Z   PASS  homepage.html @768: the hero is genuinely DOWNSCALED here (0.33x at 390), so zero upscale violations is the right answer, not a blind spot
+2026-09-01T20:01:49.7335687Z   PASS  homepage.html @1024: the hero is genuinely DOWNSCALED here (0.33x at 390), so zero upscale violations is the right answer, not a blind spot
+2026-09-01T20:01:49.7336574Z   PASS  homepage.html @1024: exactly the hero fails aspect (1 found, 260% off); the 12 thumbnails pass
+2026-09-01T20:01:49.7337270Z   PASS  homepage.html @1440: exactly the hero fails aspect (1 found, 260% off); the 12 thumbnails pass
+2026-09-01T20:01:49.7337955Z   PASS  homepage.html @1920: exactly the hero fails aspect (1 found, 260% off); the 12 thumbnails pass
+2026-09-01T20:01:49.7338520Z   PASS  category.html @390: zero images, zero image violations
+2026-09-01T20:01:49.7338949Z   PASS  category.html @768: zero images, zero image violations
+2026-09-01T20:01:49.7339383Z   PASS  category.html @1024: zero images, zero image violations
+2026-09-01T20:01:49.7339813Z   PASS  category.html @1440: zero images, zero image violations
+2026-09-01T20:01:49.7340264Z   PASS  category.html @1920: zero images, zero image violations
+2026-09-01T20:01:49.7340781Z   PASS  homepage.html @390: all 13 images decoded (0 skipped as not-decoded)
+2026-09-01T20:01:49.7341701Z   PASS  homepage.html @390: every decoded image was successfully probed for its true intrinsic size
+2026-09-01T20:01:49.7342794Z   PASS  homepage.html @768: all 13 images decoded (0 skipped as not-decoded)
+2026-09-01T20:01:49.7344099Z   PASS  homepage.html @768: every decoded image was successfully probed for its true intrinsic size
+2026-09-01T20:01:49.7345140Z   PASS  homepage.html @1024: all 13 images decoded (0 skipped as not-decoded)
+2026-09-01T20:01:49.7346170Z   PASS  homepage.html @1024: every decoded image was successfully probed for its true intrinsic size
+2026-09-01T20:01:49.7347157Z   PASS  homepage.html @1440: all 13 images decoded (0 skipped as not-decoded)
+2026-09-01T20:01:49.7348153Z   PASS  homepage.html @1440: every decoded image was successfully probed for its true intrinsic size
+2026-09-01T20:01:49.7349184Z   PASS  homepage.html @1920: all 13 images decoded (0 skipped as not-decoded)
+2026-09-01T20:01:49.7350207Z   PASS  homepage.html @1920: every decoded image was successfully probed for its true intrinsic size
+2026-09-01T20:01:49.7351220Z   PASS  article.html @1440: reading-measure FIRES (got 1)
+2026-09-01T20:01:49.7352153Z   PASS  article.html @1440: the 888px/17px body column is among them at ~104.5 cpl (values seen: 104.5)
+2026-09-01T20:01:49.7353040Z   PASS  article.html @768: reading-measure FIRES (got 2)
+2026-09-01T20:01:49.7354434Z   PASS  article.html @390: reading-measure CLEAN — a 350px phone column is ~41 cpl and no cap can widen it
+2026-09-01T20:01:49.7356019Z   PASS  article.html @1024: reading-measure CLEAN — 632px/17px is 74.4 cpl, under the 75 ceiling
+2026-09-01T20:01:49.7357238Z   PASS  homepage.html @390: reading-measure CLEAN — cards and labels are not continuous prose
+2026-09-01T20:01:49.7358435Z   PASS  category.html @390: reading-measure CLEAN — cards and labels are not continuous prose
+2026-09-01T20:01:49.7359646Z   PASS  homepage.html @768: reading-measure CLEAN — cards and labels are not continuous prose
+2026-09-01T20:01:49.7360851Z   PASS  category.html @768: reading-measure CLEAN — cards and labels are not continuous prose
+2026-09-01T20:01:49.7362202Z   PASS  homepage.html @1024: reading-measure CLEAN — cards and labels are not continuous prose
+2026-09-01T20:01:49.7363717Z   PASS  category.html @1024: reading-measure CLEAN — cards and labels are not continuous prose
+2026-09-01T20:01:49.7365321Z   PASS  homepage.html @1440: reading-measure CLEAN — cards and labels are not continuous prose
+2026-09-01T20:01:49.7366736Z   PASS  category.html @1440: reading-measure CLEAN — cards and labels are not continuous prose
+2026-09-01T20:01:49.7368039Z   PASS  homepage.html @1920: reading-measure CLEAN — cards and labels are not continuous prose
+2026-09-01T20:01:49.7369282Z   PASS  category.html @1920: reading-measure CLEAN — cards and labels are not continuous prose
+2026-09-01T20:01:49.7370828Z   PASS  pre-rail/article.html @1024: rail-collapsed FIRES once (the Rekod panel at the body column's own left edge) — got 1
+2026-09-01T20:01:49.7372788Z   PASS  pre-rail/article.html @1024 + GREEN: rail-collapsed CLEARS — same DOM, same fonts, panel moved clear of the body column and nothing else changed
+2026-09-01T20:01:49.7375043Z   PASS  pre-rail/article.html @1440: rail-collapsed FIRES once (the Rekod panel at the body column's own left edge) — got 1
+2026-09-01T20:01:49.7376948Z   PASS  pre-rail/article.html @1440 + GREEN: rail-collapsed CLEARS — same DOM, same fonts, panel moved clear of the body column and nothing else changed
+2026-09-01T20:01:49.7378958Z   PASS  pre-rail/article.html @1920: rail-collapsed FIRES once (the Rekod panel at the body column's own left edge) — got 1
+2026-09-01T20:01:49.7380855Z   PASS  pre-rail/article.html @1920 + GREEN: rail-collapsed CLEARS — same DOM, same fonts, panel moved clear of the body column and nothing else changed
+2026-09-01T20:01:49.7382764Z   PASS  pre-rail/article.html @390: rail-collapsed SILENT below the 1024 breakpoint — a stacked block is the specification there, not a defect
+2026-09-01T20:01:49.7384956Z   PASS  pre-rail/article.html @768: rail-collapsed SILENT below the 1024 breakpoint — a stacked block is the specification there, not a defect
+2026-09-01T20:01:49.7386824Z   PASS  homepage.html @390: rail-collapsed CLEAN — the 31 Aug capture has no [data-hk-rail] and no .s-rekod sharing a body column's edge
+2026-09-01T20:01:49.7388535Z   PASS  category.html @390: rail-collapsed CLEAN — the 31 Aug capture has no [data-hk-rail] and no .s-rekod sharing a body column's edge
+2026-09-01T20:01:49.7390260Z   PASS  article.html @390: rail-collapsed CLEAN — the 31 Aug capture has no [data-hk-rail] and no .s-rekod sharing a body column's edge
+2026-09-01T20:01:49.7391987Z   PASS  homepage.html @768: rail-collapsed CLEAN — the 31 Aug capture has no [data-hk-rail] and no .s-rekod sharing a body column's edge
+2026-09-01T20:01:49.7393862Z   PASS  category.html @768: rail-collapsed CLEAN — the 31 Aug capture has no [data-hk-rail] and no .s-rekod sharing a body column's edge
+2026-09-01T20:01:49.7395593Z   PASS  article.html @768: rail-collapsed CLEAN — the 31 Aug capture has no [data-hk-rail] and no .s-rekod sharing a body column's edge
+2026-09-01T20:01:49.7397321Z   PASS  homepage.html @1024: rail-collapsed CLEAN — the 31 Aug capture has no [data-hk-rail] and no .s-rekod sharing a body column's edge
+2026-09-01T20:01:49.7399088Z   PASS  category.html @1024: rail-collapsed CLEAN — the 31 Aug capture has no [data-hk-rail] and no .s-rekod sharing a body column's edge
+2026-09-01T20:01:49.7401008Z   PASS  article.html @1024: rail-collapsed CLEAN — the 31 Aug capture has no [data-hk-rail] and no .s-rekod sharing a body column's edge
+2026-09-01T20:01:49.7402784Z   PASS  homepage.html @1440: rail-collapsed CLEAN — the 31 Aug capture has no [data-hk-rail] and no .s-rekod sharing a body column's edge
+2026-09-01T20:01:49.7404790Z   PASS  category.html @1440: rail-collapsed CLEAN — the 31 Aug capture has no [data-hk-rail] and no .s-rekod sharing a body column's edge
+2026-09-01T20:01:49.7406589Z   PASS  article.html @1440: rail-collapsed CLEAN — the 31 Aug capture has no [data-hk-rail] and no .s-rekod sharing a body column's edge
+2026-09-01T20:01:49.7408341Z   PASS  homepage.html @1920: rail-collapsed CLEAN — the 31 Aug capture has no [data-hk-rail] and no .s-rekod sharing a body column's edge
+2026-09-01T20:01:49.7410085Z   PASS  category.html @1920: rail-collapsed CLEAN — the 31 Aug capture has no [data-hk-rail] and no .s-rekod sharing a body column's edge
+2026-09-01T20:01:49.7412129Z   PASS  article.html @1920: rail-collapsed CLEAN — the 31 Aug capture has no [data-hk-rail] and no .s-rekod sharing a body column's edge
+2026-09-01T20:01:49.7413882Z   PASS  unsourced-rail-absent.html differs from unsourced-ok.html in ONE contiguous region (8065 bytes removed)
+2026-09-01T20:01:49.7415966Z   PASS  …and splicing the whole <aside data-hk-rail> element, open tag to close out of unsourced-ok.html reproduces unsourced-rail-absent.html byte for byte (8065 bytes at [21015, 29080))
+2026-09-01T20:01:49.7417857Z   PASS  sourced-sumber-empty.html differs from sourced-ok.html in ONE contiguous region (320 bytes removed)
+2026-09-01T20:01:49.7420085Z   PASS  …and splicing the <li> citations inside <ul class="hk-rail-sources">, and not the heading out of sourced-ok.html reproduces sourced-sumber-empty.html byte for byte (320 bytes at [24053, 24373))
+2026-09-01T20:01:49.7422113Z   PASS  unsourced-ok.html @390: rail-missing CLEAR — production renders the rail (350x1003px, 1 mount)
+2026-09-01T20:01:49.7423692Z   PASS  unsourced-ok.html @390: sumber-empty CLEAR — 0 Sumber section(s) in the rail, none of them empty
+2026-09-01T20:01:49.7425043Z   PASS  sourced-ok.html @390: rail-missing CLEAR — production renders the rail (350x1330px, 1 mount)
+2026-09-01T20:01:49.7425898Z   PASS  sourced-ok.html @390: sumber-empty CLEAR — 1 Sumber section(s) in the rail, none of them empty
+2026-09-01T20:01:49.7426862Z   PASS  unsourced-ok.html @390: ZERO Sumber sections seen in the rail — the contents link and the body <h2 id="sumber"> are both correctly not one
+2026-09-01T20:01:49.7427852Z   PASS  sourced-ok.html @390: exactly ONE Sumber section seen — the check reached the block rather than reaching nothing
+2026-09-01T20:01:49.7428611Z   PASS  unsourced-rail-absent.html @390: rail-missing FIRES once — got 1
+2026-09-01T20:01:49.7430074Z   PASS  sourced-sumber-empty.html @390: rail-missing SILENT — that page's rail is present and 300px; only its Sumber list was emptied
+2026-09-01T20:01:49.7431109Z   PASS  sourced-sumber-empty.html @390: sumber-empty FIRES once — got 1
+2026-09-01T20:01:49.7431747Z   PASS  sourced-sumber-empty.html @390: and it reports ZERO citations under the heading (value 0)
+2026-09-01T20:01:49.7432636Z   PASS  unsourced-rail-absent.html @390: sumber-empty SILENT — no rail, therefore no Sumber heading to print over nothing
+2026-09-01T20:01:49.7434018Z   PASS  unsourced-ok.html @768: rail-missing CLEAR — production renders the rail (704x936px, 1 mount)
+2026-09-01T20:01:49.7435342Z   PASS  unsourced-ok.html @768: sumber-empty CLEAR — 0 Sumber section(s) in the rail, none of them empty
+2026-09-01T20:01:49.7436351Z   PASS  sourced-ok.html @768: rail-missing CLEAR — production renders the rail (704x1211px, 1 mount)
+2026-09-01T20:01:49.7437120Z   PASS  sourced-ok.html @768: sumber-empty CLEAR — 1 Sumber section(s) in the rail, none of them empty
+2026-09-01T20:01:49.7438096Z   PASS  unsourced-ok.html @768: ZERO Sumber sections seen in the rail — the contents link and the body <h2 id="sumber"> are both correctly not one
+2026-09-01T20:01:49.7439295Z   PASS  sourced-ok.html @768: exactly ONE Sumber section seen — the check reached the block rather than reaching nothing
+2026-09-01T20:01:49.7440022Z   PASS  unsourced-rail-absent.html @768: rail-missing FIRES once — got 1
+2026-09-01T20:01:49.7440891Z   PASS  sourced-sumber-empty.html @768: rail-missing SILENT — that page's rail is present and 300px; only its Sumber list was emptied
+2026-09-01T20:01:49.7441674Z   PASS  sourced-sumber-empty.html @768: sumber-empty FIRES once — got 1
+2026-09-01T20:01:49.7442278Z   PASS  sourced-sumber-empty.html @768: and it reports ZERO citations under the heading (value 0)
+2026-09-01T20:01:49.7443137Z   PASS  unsourced-rail-absent.html @768: sumber-empty SILENT — no rail, therefore no Sumber heading to print over nothing
+2026-09-01T20:01:49.7444318Z   PASS  unsourced-ok.html @1024: rail-missing CLEAR — production renders the rail (300x1130px, 1 mount)
+2026-09-01T20:01:49.7445305Z   PASS  unsourced-ok.html @1024: sumber-empty CLEAR — 0 Sumber section(s) in the rail, none of them empty
+2026-09-01T20:01:49.7446110Z   PASS  sourced-ok.html @1024: rail-missing CLEAR — production renders the rail (300x1542px, 1 mount)
+2026-09-01T20:01:49.7446877Z   PASS  sourced-ok.html @1024: sumber-empty CLEAR — 1 Sumber section(s) in the rail, none of them empty
+2026-09-01T20:01:49.7447850Z   PASS  unsourced-ok.html @1024: ZERO Sumber sections seen in the rail — the contents link and the body <h2 id="sumber"> are both correctly not one
+2026-09-01T20:01:49.7448859Z   PASS  sourced-ok.html @1024: exactly ONE Sumber section seen — the check reached the block rather than reaching nothing
+2026-09-01T20:01:49.7449595Z   PASS  unsourced-rail-absent.html @1024: rail-missing FIRES once — got 1
+2026-09-01T20:01:49.7450435Z   PASS  sourced-sumber-empty.html @1024: rail-missing SILENT — that page's rail is present and 300px; only its Sumber list was emptied
+2026-09-01T20:01:49.7451217Z   PASS  sourced-sumber-empty.html @1024: sumber-empty FIRES once — got 1
+2026-09-01T20:01:49.7451833Z   PASS  sourced-sumber-empty.html @1024: and it reports ZERO citations under the heading (value 0)
+2026-09-01T20:01:49.7452702Z   PASS  unsourced-rail-absent.html @1024: sumber-empty SILENT — no rail, therefore no Sumber heading to print over nothing
+2026-09-01T20:01:49.7453830Z   PASS  unsourced-ok.html @1440: rail-missing CLEAR — production renders the rail (300x1130px, 1 mount)
+2026-09-01T20:01:49.7454672Z   PASS  unsourced-ok.html @1440: sumber-empty CLEAR — 0 Sumber section(s) in the rail, none of them empty
+2026-09-01T20:01:49.7455477Z   PASS  sourced-ok.html @1440: rail-missing CLEAR — production renders the rail (300x1542px, 1 mount)
+2026-09-01T20:01:49.7456265Z   PASS  sourced-ok.html @1440: sumber-empty CLEAR — 1 Sumber section(s) in the rail, none of them empty
+2026-09-01T20:01:49.7457237Z   PASS  unsourced-ok.html @1440: ZERO Sumber sections seen in the rail — the contents link and the body <h2 id="sumber"> are both correctly not one
+2026-09-01T20:01:49.7458251Z   PASS  sourced-ok.html @1440: exactly ONE Sumber section seen — the check reached the block rather than reaching nothing
+2026-09-01T20:01:49.7458997Z   PASS  unsourced-rail-absent.html @1440: rail-missing FIRES once — got 1
+2026-09-01T20:01:49.7459858Z   PASS  sourced-sumber-empty.html @1440: rail-missing SILENT — that page's rail is present and 300px; only its Sumber list was emptied
+2026-09-01T20:01:49.7460632Z   PASS  sourced-sumber-empty.html @1440: sumber-empty FIRES once — got 1
+2026-09-01T20:01:49.7461236Z   PASS  sourced-sumber-empty.html @1440: and it reports ZERO citations under the heading (value 0)
+2026-09-01T20:01:49.7462101Z   PASS  unsourced-rail-absent.html @1440: sumber-empty SILENT — no rail, therefore no Sumber heading to print over nothing
+2026-09-01T20:01:49.7462966Z   PASS  unsourced-ok.html @1920: rail-missing CLEAR — production renders the rail (300x1130px, 1 mount)
+2026-09-01T20:01:49.7466365Z   PASS  unsourced-ok.html @1920: sumber-empty CLEAR — 0 Sumber section(s) in the rail, none of them empty
+2026-09-01T20:01:49.7467350Z   PASS  sourced-ok.html @1920: rail-missing CLEAR — production renders the rail (300x1542px, 1 mount)
+2026-09-01T20:01:49.7468521Z   PASS  sourced-ok.html @1920: sumber-empty CLEAR — 1 Sumber section(s) in the rail, none of them empty
+2026-09-01T20:01:49.7469758Z   PASS  unsourced-ok.html @1920: ZERO Sumber sections seen in the rail — the contents link and the body <h2 id="sumber"> are both correctly not one
+2026-09-01T20:01:49.7470759Z   PASS  sourced-ok.html @1920: exactly ONE Sumber section seen — the check reached the block rather than reaching nothing
+2026-09-01T20:01:49.7471492Z   PASS  unsourced-rail-absent.html @1920: rail-missing FIRES once — got 1
+2026-09-01T20:01:49.7472335Z   PASS  sourced-sumber-empty.html @1920: rail-missing SILENT — that page's rail is present and 300px; only its Sumber list was emptied
+2026-09-01T20:01:49.7473110Z   PASS  sourced-sumber-empty.html @1920: sumber-empty FIRES once — got 1
+2026-09-01T20:01:49.7474220Z   PASS  sourced-sumber-empty.html @1920: and it reports ZERO citations under the heading (value 0)
+2026-09-01T20:01:49.7475142Z   PASS  unsourced-rail-absent.html @1920: sumber-empty SILENT — no rail, therefore no Sumber heading to print over nothing
+2026-09-01T20:01:49.7476021Z   PASS  homepage.html @390: rail-missing CLEAN — the 31 Aug capture is not the .hk-article-grid template
+2026-09-01T20:01:49.7476812Z   PASS  homepage.html @390: sumber-empty CLEAN — the 31 Aug capture is not the .hk-article-grid template
+2026-09-01T20:01:49.7477613Z   PASS  category.html @390: rail-missing CLEAN — the 31 Aug capture is not the .hk-article-grid template
+2026-09-01T20:01:49.7478400Z   PASS  category.html @390: sumber-empty CLEAN — the 31 Aug capture is not the .hk-article-grid template
+2026-09-01T20:01:49.7479188Z   PASS  article.html @390: rail-missing CLEAN — the 31 Aug capture is not the .hk-article-grid template
+2026-09-01T20:01:49.7479956Z   PASS  article.html @390: sumber-empty CLEAN — the 31 Aug capture is not the .hk-article-grid template
+2026-09-01T20:01:49.7481048Z   PASS  pre-rail/article.html @390: rail-missing CLEAN — the 01 Sep capture predates .hk-article-grid, so check 13 cannot speak about it and check 10 is the one that must
+2026-09-01T20:01:49.7482331Z   PASS  pre-rail/article.html @390: sumber-empty CLEAN — the 01 Sep capture predates .hk-article-grid, so check 13 cannot speak about it and check 10 is the one that must
+2026-09-01T20:01:49.7483600Z   PASS  homepage.html @768: rail-missing CLEAN — the 31 Aug capture is not the .hk-article-grid template
+2026-09-01T20:01:49.7484427Z   PASS  homepage.html @768: sumber-empty CLEAN — the 31 Aug capture is not the .hk-article-grid template
+2026-09-01T20:01:49.7485208Z   PASS  category.html @768: rail-missing CLEAN — the 31 Aug capture is not the .hk-article-grid template
+2026-09-01T20:01:49.7485983Z   PASS  category.html @768: sumber-empty CLEAN — the 31 Aug capture is not the .hk-article-grid template
+2026-09-01T20:01:49.7486760Z   PASS  article.html @768: rail-missing CLEAN — the 31 Aug capture is not the .hk-article-grid template
+2026-09-01T20:01:49.7487529Z   PASS  article.html @768: sumber-empty CLEAN — the 31 Aug capture is not the .hk-article-grid template
+2026-09-01T20:01:49.7488606Z   PASS  pre-rail/article.html @768: rail-missing CLEAN — the 01 Sep capture predates .hk-article-grid, so check 13 cannot speak about it and check 10 is the one that must
+2026-09-01T20:01:49.7489887Z   PASS  pre-rail/article.html @768: sumber-empty CLEAN — the 01 Sep capture predates .hk-article-grid, so check 13 cannot speak about it and check 10 is the one that must
+2026-09-01T20:01:49.7490885Z   PASS  homepage.html @1024: rail-missing CLEAN — the 31 Aug capture is not the .hk-article-grid template
+2026-09-01T20:01:49.7491677Z   PASS  homepage.html @1024: sumber-empty CLEAN — the 31 Aug capture is not the .hk-article-grid template
+2026-09-01T20:01:49.7492454Z   PASS  category.html @1024: rail-missing CLEAN — the 31 Aug capture is not the .hk-article-grid template
+2026-09-01T20:01:49.7493359Z   PASS  category.html @1024: sumber-empty CLEAN — the 31 Aug capture is not the .hk-article-grid template
+2026-09-01T20:01:49.7494307Z   PASS  article.html @1024: rail-missing CLEAN — the 31 Aug capture is not the .hk-article-grid template
+2026-09-01T20:01:49.7495085Z   PASS  article.html @1024: sumber-empty CLEAN — the 31 Aug capture is not the .hk-article-grid template
+2026-09-01T20:01:49.7496148Z   PASS  pre-rail/article.html @1024: rail-missing CLEAN — the 01 Sep capture predates .hk-article-grid, so check 13 cannot speak about it and check 10 is the one that must
+2026-09-01T20:01:49.7497430Z   PASS  pre-rail/article.html @1024: sumber-empty CLEAN — the 01 Sep capture predates .hk-article-grid, so check 13 cannot speak about it and check 10 is the one that must
+2026-09-01T20:01:49.7498430Z   PASS  homepage.html @1440: rail-missing CLEAN — the 31 Aug capture is not the .hk-article-grid template
+2026-09-01T20:01:49.7499215Z   PASS  homepage.html @1440: sumber-empty CLEAN — the 31 Aug capture is not the .hk-article-grid template
+2026-09-01T20:01:49.7500123Z   PASS  category.html @1440: rail-missing CLEAN — the 31 Aug capture is not the .hk-article-grid template
+2026-09-01T20:01:49.7500899Z   PASS  category.html @1440: sumber-empty CLEAN — the 31 Aug capture is not the .hk-article-grid template
+2026-09-01T20:01:49.7501668Z   PASS  article.html @1440: rail-missing CLEAN — the 31 Aug capture is not the .hk-article-grid template
+2026-09-01T20:01:49.7502443Z   PASS  article.html @1440: sumber-empty CLEAN — the 31 Aug capture is not the .hk-article-grid template
+2026-09-01T20:01:49.7503644Z   PASS  pre-rail/article.html @1440: rail-missing CLEAN — the 01 Sep capture predates .hk-article-grid, so check 13 cannot speak about it and check 10 is the one that must
+2026-09-01T20:01:49.7504959Z   PASS  pre-rail/article.html @1440: sumber-empty CLEAN — the 01 Sep capture predates .hk-article-grid, so check 13 cannot speak about it and check 10 is the one that must
+2026-09-01T20:01:49.7506022Z   PASS  homepage.html @1920: rail-missing CLEAN — the 31 Aug capture is not the .hk-article-grid template
+2026-09-01T20:01:49.7506841Z   PASS  homepage.html @1920: sumber-empty CLEAN — the 31 Aug capture is not the .hk-article-grid template
+2026-09-01T20:01:49.7507634Z   PASS  category.html @1920: rail-missing CLEAN — the 31 Aug capture is not the .hk-article-grid template
+2026-09-01T20:01:49.7508422Z   PASS  category.html @1920: sumber-empty CLEAN — the 31 Aug capture is not the .hk-article-grid template
+2026-09-01T20:01:49.7509203Z   PASS  article.html @1920: rail-missing CLEAN — the 31 Aug capture is not the .hk-article-grid template
+2026-09-01T20:01:49.7509983Z   PASS  article.html @1920: sumber-empty CLEAN — the 31 Aug capture is not the .hk-article-grid template
+2026-09-01T20:01:49.7511070Z   PASS  pre-rail/article.html @1920: rail-missing CLEAN — the 01 Sep capture predates .hk-article-grid, so check 13 cannot speak about it and check 10 is the one that must
+2026-09-01T20:01:49.7512431Z   PASS  pre-rail/article.html @1920: sumber-empty CLEAN — the 01 Sep capture predates .hk-article-grid, so check 13 cannot speak about it and check 10 is the one that must
+2026-09-01T20:01:49.7513817Z   PASS  discriminator @390: narrow-text-column = 1 (B fires; A sr-only, C the "01" label and D a 300px column do not) — got 1
+2026-09-01T20:01:49.7514852Z   PASS  discriminator @390: clipped-text = 2 (K clips its own text, M clips text one node deeper; L uses the same idiom and fits) — got 2
+2026-09-01T20:01:49.7515958Z   PASS  discriminator @390: viewport-overflow = 1 (E always; F the contained rail only at desktop; N is clipped and P is inside the viewport) — got 1
+2026-09-01T20:01:49.7516881Z   PASS  discriminator @390: scroll-container-clip = 1 (N always; P and F only at desktop) — got 1
+2026-09-01T20:01:49.7517745Z   PASS  discriminator @390: image-upscale = 2 (G at 2.0x, O at 1.5x behind a srcset; H is 1.0x under cover and I is 1:1) — got 2
+2026-09-01T20:01:49.7518548Z   PASS  discriminator @390: image-aspect = 1 (H at 50%; G and O keep their file's aspect) — got 1
+2026-09-01T20:01:49.7519377Z   PASS  discriminator @390: the undecodable image is COUNTED (1) and never reported as a defect
+2026-09-01T20:01:49.7520234Z   PASS  discriminator @768: narrow-text-column = 1 (B fires; A sr-only, C the "01" label and D a 300px column do not) — got 1
+2026-09-01T20:01:49.7521218Z   PASS  discriminator @768: clipped-text = 2 (K clips its own text, M clips text one node deeper; L uses the same idiom and fits) — got 2
+2026-09-01T20:01:49.7522300Z   PASS  discriminator @768: viewport-overflow = 1 (E always; F the contained rail only at desktop; N is clipped and P is inside the viewport) — got 1
+2026-09-01T20:01:49.7523449Z   PASS  discriminator @768: scroll-container-clip = 1 (N always; P and F only at desktop) — got 1
+2026-09-01T20:01:49.7524393Z   PASS  discriminator @768: image-upscale = 2 (G at 2.0x, O at 1.5x behind a srcset; H is 1.0x under cover and I is 1:1) — got 2
+2026-09-01T20:01:49.7525203Z   PASS  discriminator @768: image-aspect = 1 (H at 50%; G and O keep their file's aspect) — got 1
+2026-09-01T20:01:49.7526014Z   PASS  discriminator @768: the undecodable image is COUNTED (1) and never reported as a defect
+2026-09-01T20:01:49.7526880Z   PASS  discriminator @1024: narrow-text-column = 1 (B fires; A sr-only, C the "01" label and D a 300px column do not) — got 1
+2026-09-01T20:01:49.7527863Z   PASS  discriminator @1024: clipped-text = 2 (K clips its own text, M clips text one node deeper; L uses the same idiom and fits) — got 2
+2026-09-01T20:01:49.7528951Z   PASS  discriminator @1024: viewport-overflow = 2 (E always; F the contained rail only at desktop; N is clipped and P is inside the viewport) — got 2
+2026-09-01T20:01:49.7529875Z   PASS  discriminator @1024: scroll-container-clip = 3 (N always; P and F only at desktop) — got 3
+2026-09-01T20:01:49.7530742Z   PASS  discriminator @1024: image-upscale = 2 (G at 2.0x, O at 1.5x behind a srcset; H is 1.0x under cover and I is 1:1) — got 2
+2026-09-01T20:01:49.7531564Z   PASS  discriminator @1024: image-aspect = 1 (H at 50%; G and O keep their file's aspect) — got 1
+2026-09-01T20:01:49.7532229Z   PASS  discriminator @1024: the undecodable image is COUNTED (1) and never reported as a defect
+2026-09-01T20:01:49.7533079Z   PASS  discriminator @1440: narrow-text-column = 1 (B fires; A sr-only, C the "01" label and D a 300px column do not) — got 1
+2026-09-01T20:01:49.7534284Z   PASS  discriminator @1440: clipped-text = 2 (K clips its own text, M clips text one node deeper; L uses the same idiom and fits) — got 2
+2026-09-01T20:01:49.7535377Z   PASS  discriminator @1440: viewport-overflow = 2 (E always; F the contained rail only at desktop; N is clipped and P is inside the viewport) — got 2
+2026-09-01T20:01:49.7536296Z   PASS  discriminator @1440: scroll-container-clip = 3 (N always; P and F only at desktop) — got 3
+2026-09-01T20:01:49.7537152Z   PASS  discriminator @1440: image-upscale = 2 (G at 2.0x, O at 1.5x behind a srcset; H is 1.0x under cover and I is 1:1) — got 2
+2026-09-01T20:01:49.7537968Z   PASS  discriminator @1440: image-aspect = 1 (H at 50%; G and O keep their file's aspect) — got 1
+2026-09-01T20:01:49.7538632Z   PASS  discriminator @1440: the undecodable image is COUNTED (1) and never reported as a defect
+2026-09-01T20:01:49.7539483Z   PASS  discriminator @1920: narrow-text-column = 1 (B fires; A sr-only, C the "01" label and D a 300px column do not) — got 1
+2026-09-01T20:01:49.7540468Z   PASS  discriminator @1920: clipped-text = 2 (K clips its own text, M clips text one node deeper; L uses the same idiom and fits) — got 2
+2026-09-01T20:01:49.7541566Z   PASS  discriminator @1920: viewport-overflow = 2 (E always; F the contained rail only at desktop; N is clipped and P is inside the viewport) — got 2
+2026-09-01T20:01:49.7542483Z   PASS  discriminator @1920: scroll-container-clip = 3 (N always; P and F only at desktop) — got 3
+2026-09-01T20:01:49.7543495Z   PASS  discriminator @1920: image-upscale = 2 (G at 2.0x, O at 1.5x behind a srcset; H is 1.0x under cover and I is 1:1) — got 2
+2026-09-01T20:01:49.7544324Z   PASS  discriminator @1920: image-aspect = 1 (H at 50%; G and O keep their file's aspect) — got 1
+2026-09-01T20:01:49.7545242Z   PASS  discriminator @1920: the undecodable image is COUNTED (1) and never reported as a defect
+2026-09-01T20:01:49.7545881Z   PASS  discriminator @1440: case P is invisible to the viewport check, as designed
+2026-09-01T20:01:49.7546353Z   PASS  discriminator @1440: and check 6 finds it
+2026-09-01T20:01:49.7546866Z   PASS  EMPTY SHELL category.html @390: empty-content fires (0 content elements inside <main>)
+2026-09-01T20:01:49.7547524Z   PASS  EMPTY SHELL category.html @768: empty-content fires (0 content elements inside <main>)
+2026-09-01T20:01:49.7548171Z   PASS  EMPTY SHELL category.html @1024: empty-content fires (0 content elements inside <main>)
+2026-09-01T20:01:49.7548824Z   PASS  EMPTY SHELL category.html @1440: empty-content fires (0 content elements inside <main>)
+2026-09-01T20:01:49.7549469Z   PASS  EMPTY SHELL category.html @1920: empty-content fires (0 content elements inside <main>)
+2026-09-01T20:01:49.7550536Z   PASS  EMPTY SHELL @390: empty-content is the ONLY violation (1), so every other check passes on a page that rendered nothing
+2026-09-01T20:01:49.7551391Z   PASS  EMPTY SHELL @768: empty-content is the ONLY violation (1), so every other check passes on a page that rendered nothing
+2026-09-01T20:01:49.7552055Z   PASS  homepage.html @390: empty-content clean (44 content elements)
+2026-09-01T20:01:49.7552532Z   PASS  article.html @390: empty-content clean (268 content elements)
+2026-09-01T20:01:49.7552996Z   PASS  category.html @390: empty-content clean (51 content elements)
+2026-09-01T20:01:49.7553618Z   PASS  homepage.html @768: empty-content clean (44 content elements)
+2026-09-01T20:01:49.7554080Z   PASS  article.html @768: empty-content clean (268 content elements)
+2026-09-01T20:01:49.7554544Z   PASS  category.html @768: empty-content clean (51 content elements)
+2026-09-01T20:01:49.7555016Z   PASS  homepage.html @1024: empty-content clean (44 content elements)
+2026-09-01T20:01:49.7555497Z   PASS  article.html @1024: empty-content clean (268 content elements)
+2026-09-01T20:01:49.7555963Z   PASS  category.html @1024: empty-content clean (51 content elements)
+2026-09-01T20:01:49.7556432Z   PASS  homepage.html @1440: empty-content clean (44 content elements)
+2026-09-01T20:01:49.7556902Z   PASS  article.html @1440: empty-content clean (268 content elements)
+2026-09-01T20:01:49.7557367Z   PASS  category.html @1440: empty-content clean (51 content elements)
+2026-09-01T20:01:49.7557831Z   PASS  homepage.html @1920: empty-content clean (44 content elements)
+2026-09-01T20:01:49.7558298Z   PASS  article.html @1920: empty-content clean (268 content elements)
+2026-09-01T20:01:49.7558758Z   PASS  category.html @1920: empty-content clean (51 content elements)
+2026-09-01T20:01:49.7559243Z   PASS  GREEN CONTROL category.html @390: 0 blocking violations (got 0)
+2026-09-01T20:01:49.7559737Z   PASS  GREEN CONTROL category.html @768: 0 blocking violations (got 0)
+2026-09-01T20:01:49.7560228Z   PASS  GREEN CONTROL category.html @1024: 0 blocking violations (got 0)
+2026-09-01T20:01:49.7560726Z   PASS  GREEN CONTROL category.html @1440: 0 blocking violations (got 0)
+2026-09-01T20:01:49.7561219Z   PASS  GREEN CONTROL category.html @1920: 0 blocking violations (got 0)
+2026-09-01T20:01:49.7561919Z   PASS  homepage.html @390: H6.0 extraction agrees with check-h6.sh — 13 items, all hantaran-mas-kahwin
+2026-09-01T20:01:49.7562617Z   PASS  homepage.html @390: H6.1 fires — one category supplies 13 of 13, cap is 5
+2026-09-01T20:01:49.7563383Z   PASS  homepage.html @390: H6.2 fires — 12 adjacent same-category pairs
+2026-09-01T20:01:49.7564044Z   PASS  homepage.html @390: H6.3 fires — 1 distinct category against a floor of 4
+2026-09-01T20:01:49.7564718Z   PASS  homepage.html @390: H6.6 CLEAN — the pre-fix page is monotonous, not visually reordered
+2026-09-01T20:01:49.7565471Z   PASS  homepage.html @768: H6.0 extraction agrees with check-h6.sh — 13 items, all hantaran-mas-kahwin
+2026-09-01T20:01:49.7566158Z   PASS  homepage.html @768: H6.1 fires — one category supplies 13 of 13, cap is 5
+2026-09-01T20:01:49.7566889Z   PASS  homepage.html @768: H6.2 fires — 12 adjacent same-category pairs
+2026-09-01T20:01:49.7567458Z   PASS  homepage.html @768: H6.3 fires — 1 distinct category against a floor of 4
+2026-09-01T20:01:49.7568111Z   PASS  homepage.html @768: H6.6 CLEAN — the pre-fix page is monotonous, not visually reordered
+2026-09-01T20:01:49.7568859Z   PASS  homepage.html @1024: H6.0 extraction agrees with check-h6.sh — 13 items, all hantaran-mas-kahwin
+2026-09-01T20:01:49.7569552Z   PASS  homepage.html @1024: H6.1 fires — one category supplies 13 of 13, cap is 5
+2026-09-01T20:01:49.7570123Z   PASS  homepage.html @1024: H6.2 fires — 12 adjacent same-category pairs
+2026-09-01T20:01:49.7570709Z   PASS  homepage.html @1024: H6.3 fires — 1 distinct category against a floor of 4
+2026-09-01T20:01:49.7571369Z   PASS  homepage.html @1024: H6.6 CLEAN — the pre-fix page is monotonous, not visually reordered
+2026-09-01T20:01:49.7572250Z   PASS  homepage.html @1440: H6.0 extraction agrees with check-h6.sh — 13 items, all hantaran-mas-kahwin
+2026-09-01T20:01:49.7572938Z   PASS  homepage.html @1440: H6.1 fires — one category supplies 13 of 13, cap is 5
+2026-09-01T20:01:49.7573720Z   PASS  homepage.html @1440: H6.2 fires — 12 adjacent same-category pairs
+2026-09-01T20:01:49.7574298Z   PASS  homepage.html @1440: H6.3 fires — 1 distinct category against a floor of 4
+2026-09-01T20:01:49.7574955Z   PASS  homepage.html @1440: H6.6 CLEAN — the pre-fix page is monotonous, not visually reordered
+2026-09-01T20:01:49.7575701Z   PASS  homepage.html @1920: H6.0 extraction agrees with check-h6.sh — 13 items, all hantaran-mas-kahwin
+2026-09-01T20:01:49.7576374Z   PASS  homepage.html @1920: H6.1 fires — one category supplies 13 of 13, cap is 5
+2026-09-01T20:01:49.7576949Z   PASS  homepage.html @1920: H6.2 fires — 12 adjacent same-category pairs
+2026-09-01T20:01:49.7577518Z   PASS  homepage.html @1920: H6.3 fires — 1 distinct category against a floor of 4
+2026-09-01T20:01:49.7578188Z   PASS  homepage.html @1920: H6.6 CLEAN — the pre-fix page is monotonous, not visually reordered
+2026-09-01T20:01:49.7578841Z   PASS  article.html @390: H6 does not run — it governs one ordered list on one page
+2026-09-01T20:01:49.7579478Z   PASS  category.html @390: H6 does not run — it governs one ordered list on one page
+2026-09-01T20:01:49.7580100Z   PASS  article.html @768: H6 does not run — it governs one ordered list on one page
+2026-09-01T20:01:49.7580714Z   PASS  category.html @768: H6 does not run — it governs one ordered list on one page
+2026-09-01T20:01:49.7581327Z   PASS  article.html @1024: H6 does not run — it governs one ordered list on one page
+2026-09-01T20:01:49.7581946Z   PASS  category.html @1024: H6 does not run — it governs one ordered list on one page
+2026-09-01T20:01:49.7582567Z   PASS  article.html @1440: H6 does not run — it governs one ordered list on one page
+2026-09-01T20:01:49.7583310Z   PASS  category.html @1440: H6 does not run — it governs one ordered list on one page
+2026-09-01T20:01:49.7583948Z   PASS  article.html @1920: H6 does not run — it governs one ordered list on one page
+2026-09-01T20:01:49.7584564Z   PASS  category.html @1920: H6 does not run — it governs one ordered list on one page
+2026-09-01T20:01:49.7585195Z   PASS  h6-order-good @390: H6.0 extracts 13 items and ignores the one-segment category links in <nav>
+2026-09-01T20:01:49.7585910Z   PASS  h6-order-good @390: H6.1/6.2/6.3 all CLEAR — 5 at the cap, no adjacency, 6 categories
+2026-09-01T20:01:49.7586492Z   PASS  h6-order-good @390: H6.6 CLEAR — DOM order is reading order
+2026-09-01T20:01:49.7587067Z   PASS  h6-order-good @768: H6.0 extracts 13 items and ignores the one-segment category links in <nav>
+2026-09-01T20:01:49.7587771Z   PASS  h6-order-good @768: H6.1/6.2/6.3 all CLEAR — 5 at the cap, no adjacency, 6 categories
+2026-09-01T20:01:49.7588343Z   PASS  h6-order-good @768: H6.6 CLEAR — DOM order is reading order
+2026-09-01T20:01:49.7588928Z   PASS  h6-order-good @1024: H6.0 extracts 13 items and ignores the one-segment category links in <nav>
+2026-09-01T20:01:49.7589801Z   PASS  h6-order-good @1024: H6.1/6.2/6.3 all CLEAR — 5 at the cap, no adjacency, 6 categories
+2026-09-01T20:01:49.7590382Z   PASS  h6-order-good @1024: H6.6 CLEAR — DOM order is reading order
+2026-09-01T20:01:49.7590954Z   PASS  h6-order-good @1440: H6.0 extracts 13 items and ignores the one-segment category links in <nav>
+2026-09-01T20:01:49.7591661Z   PASS  h6-order-good @1440: H6.1/6.2/6.3 all CLEAR — 5 at the cap, no adjacency, 6 categories
+2026-09-01T20:01:49.7592234Z   PASS  h6-order-good @1440: H6.6 CLEAR — DOM order is reading order
+2026-09-01T20:01:49.7592804Z   PASS  h6-order-good @1920: H6.0 extracts 13 items and ignores the one-segment category links in <nav>
+2026-09-01T20:01:49.7593627Z   PASS  h6-order-good @1920: H6.1/6.2/6.3 all CLEAR — 5 at the cap, no adjacency, 6 categories
+2026-09-01T20:01:49.7594200Z   PASS  h6-order-good @1920: H6.6 CLEAR — DOM order is reading order
+2026-09-01T20:01:49.7595015Z   PASS  h6-order-reversed @390: H6.6 fires — column-reverse puts DOM item 12 in visual position 0
+2026-09-01T20:01:49.7595785Z   PASS  h6-order-reversed @390: H6.1/6.2/6.3 stay CLEAR — the SET did not change, only its painting order
+2026-09-01T20:01:49.7596536Z   PASS  h6-order-reversed @768: H6.6 fires — column-reverse puts DOM item 12 in visual position 0
+2026-09-01T20:01:49.7597293Z   PASS  h6-order-reversed @768: H6.1/6.2/6.3 stay CLEAR — the SET did not change, only its painting order
+2026-09-01T20:01:49.7598046Z   PASS  h6-order-reversed @1024: H6.6 fires — column-reverse puts DOM item 12 in visual position 0
+2026-09-01T20:01:49.7598806Z   PASS  h6-order-reversed @1024: H6.1/6.2/6.3 stay CLEAR — the SET did not change, only its painting order
+2026-09-01T20:01:49.7599553Z   PASS  h6-order-reversed @1440: H6.6 fires — column-reverse puts DOM item 12 in visual position 0
+2026-09-01T20:01:49.7600309Z   PASS  h6-order-reversed @1440: H6.1/6.2/6.3 stay CLEAR — the SET did not change, only its painting order
+2026-09-01T20:01:49.7601073Z   PASS  h6-order-reversed @1920: H6.6 fires — column-reverse puts DOM item 12 in visual position 0
+2026-09-01T20:01:49.7601821Z   PASS  h6-order-reversed @1920: H6.1/6.2/6.3 stay CLEAR — the SET did not change, only its painting order
+2026-09-01T20:01:49.7602517Z ──────────────────────────────────────────────────────────────────────────────
+2026-09-01T20:01:49.7602869Z 314 passed, 0 failed
+2026-09-01T20:01:49.7603087Z UILINT EXIT: 0
+﻿2026-09-01T20:01:49.7632975Z ##[group]Run set +e
+2026-09-01T20:01:49.7633480Z ^[[36;1mset +e^[[0m
+2026-09-01T20:01:49.7633703Z ^[[36;1mset -uo pipefail^[[0m
+2026-09-01T20:01:49.7633939Z ^[[36;1mrc=0^[[0m
+2026-09-01T20:01:49.7634124Z ^[[36;1mran=0^[[0m
+2026-09-01T20:01:49.7634358Z ^[[36;1mrun() { # run <expected-exit> <file>^[[0m
+2026-09-01T20:01:49.7634715Z ^[[36;1m  bash scripts/measure/check-h6.sh "$2" > h6.out 2>&1^[[0m
+2026-09-01T20:01:49.7635043Z ^[[36;1m  got=$?^[[0m
+2026-09-01T20:01:49.7635244Z ^[[36;1m  ran=$((ran + 1))^[[0m
+2026-09-01T20:01:49.7635474Z ^[[36;1m  if [ "$got" = "$1" ]; then^[[0m
+2026-09-01T20:01:49.7635780Z ^[[36;1m    echo "  ok   exit $got (expected $1)  $2"^[[0m
+2026-09-01T20:01:49.7636068Z ^[[36;1m  else^[[0m
+2026-09-01T20:01:49.7636376Z ^[[36;1m    echo "  FAIL exit $got (expected $1)  $2"; sed 's/^/       /' h6.out; rc=1^[[0m
+2026-09-01T20:01:49.7636753Z ^[[36;1m  fi^[[0m
+2026-09-01T20:01:49.7636936Z ^[[36;1m}^[[0m
+2026-09-01T20:01:49.7637180Z ^[[36;1mecho 'check-h6.sh — DES-03 §7.5, over raw HTML'^[[0m
+2026-09-01T20:01:49.7637606Z ^[[36;1m# The negative control: the CEO's 31 Aug capture of the real front^[[0m
+2026-09-01T20:01:49.7638101Z ^[[36;1m# page, 13 items and every one of them hantaran-mas-kahwin.^[[0m
+2026-09-01T20:01:49.7638577Z ^[[36;1mrun 1 tests/ui-layout-gate/fixtures/2026-08-31-pre-ui-fix/homepage.html^[[0m
+2026-09-01T20:01:49.7639101Z ^[[36;1m# The positive control. Both H6.6 fixtures must exit 0 here: their^[[0m
+2026-09-01T20:01:49.7639579Z ^[[36;1m# item sets are identical and the reversal is CSS, which this script^[[0m
+2026-09-01T20:01:49.7640057Z ^[[36;1m# is structurally blind to. That blindness is the reason check 11^[[0m
+2026-09-01T20:01:49.7640681Z ^[[36;1m# exists in the browser gate, and asserting it keeps the division of^[[0m
+2026-09-01T20:01:49.7641145Z ^[[36;1m# labour between the two instruments honest rather than assumed.^[[0m
+2026-09-01T20:01:49.7641586Z ^[[36;1mrun 0 tests/ui-layout-gate/fixtures/h6-order-good.html^[[0m
+2026-09-01T20:01:49.7642004Z ^[[36;1mrun 0 tests/ui-layout-gate/fixtures/h6-order-reversed.html^[[0m
+2026-09-01T20:01:49.7642463Z ^[[36;1m# A fetch or usage error is exit 3 and is NOT a verdict about a page.^[[0m
+2026-09-01T20:01:49.7642898Z ^[[36;1mrun 3 tests/ui-layout-gate/fixtures/no-such-file.html^[[0m
+2026-09-01T20:01:49.7643486Z ^[[36;1mif [ "$ran" != "4" ]; then^[[0m
+2026-09-01T20:01:49.7643912Z ^[[36;1m  echo "  FAIL only $ran of 4 controls executed — the suite did not finish,"^[[0m
+2026-09-01T20:01:49.7644445Z ^[[36;1m  echo "       which prints exactly like a suite that did. Check the shell flags."^[[0m
+2026-09-01T20:01:49.7644845Z ^[[36;1m  rc=1^[[0m
+2026-09-01T20:01:49.7645041Z ^[[36;1mfi^[[0m
+2026-09-01T20:01:49.7645240Z ^[[36;1mecho "  $ran of 4 controls ran"^[[0m
+2026-09-01T20:01:49.7645500Z ^[[36;1mexit $rc^[[0m
+2026-09-01T20:01:49.7681525Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-09-01T20:01:49.7681862Z env:
+2026-09-01T20:01:49.7682060Z   PLAYWRIGHT_CORE_VERSION: 1.58.2
+2026-09-01T20:01:49.7682319Z ##[endgroup]
+2026-09-01T20:01:49.7739525Z check-h6.sh — DES-03 §7.5, over raw HTML
+2026-09-01T20:01:49.8282691Z   ok   exit 1 (expected 1)  tests/ui-layout-gate/fixtures/2026-08-31-pre-ui-fix/homepage.html
+2026-09-01T20:01:49.8657994Z   ok   exit 0 (expected 0)  tests/ui-layout-gate/fixtures/h6-order-good.html
+2026-09-01T20:01:49.9031069Z   ok   exit 0 (expected 0)  tests/ui-layout-gate/fixtures/h6-order-reversed.html
+2026-09-01T20:01:49.9102074Z   ok   exit 3 (expected 3)  tests/ui-layout-gate/fixtures/no-such-file.html
+2026-09-01T20:01:49.9102830Z   4 of 4 controls ran
+﻿2026-09-01T20:01:49.9136973Z ##[group]Run {
+2026-09-01T20:01:49.9137257Z ^[[36;1m{^[[0m
+2026-09-01T20:01:49.9137497Z ^[[36;1m  echo '### UI layout gate — self-test'^[[0m
+2026-09-01T20:01:49.9137800Z ^[[36;1m  echo ''^[[0m
+2026-09-01T20:01:49.9138006Z ^[[36;1m  echo '```'^[[0m
+2026-09-01T20:01:49.9138228Z ^[[36;1m  tail -n 60 gate.log || true^[[0m
+2026-09-01T20:01:49.9138484Z ^[[36;1m  echo '```'^[[0m
+2026-09-01T20:01:49.9138700Z ^[[36;1m} >> "$GITHUB_STEP_SUMMARY"^[[0m
+2026-09-01T20:01:49.9174966Z shell: /usr/bin/bash -e {0}
+2026-09-01T20:01:49.9175218Z env:
+2026-09-01T20:01:49.9175423Z   PLAYWRIGHT_CORE_VERSION: 1.58.2
+2026-09-01T20:01:49.9175674Z ##[endgroup]
+﻿2026-09-01T20:01:49.9469586Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-01T20:01:49.9471898Z Post job cleanup.
+2026-09-01T20:01:50.0744322Z (node:5524) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-09-01T20:01:50.0745966Z (Use `node --trace-deprecation ...` to show where the warning was created)
+﻿2026-09-01T20:01:50.0900127Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-01T20:01:50.0901423Z Post job cleanup.
+2026-09-01T20:01:50.1768283Z [command]/usr/bin/git version
+2026-09-01T20:01:50.1837617Z git version 2.55.0
+2026-09-01T20:01:50.1878540Z Temporarily overriding HOME='/home/runner/work/_temp/c7f30c61-987c-4039-98f3-a136350998bc' before making global git config changes
+2026-09-01T20:01:50.1880169Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-01T20:01:50.1884818Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/hellokahwin/hellokahwin
+2026-09-01T20:01:50.1922683Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-01T20:01:50.1960639Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-01T20:01:50.2185714Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-01T20:01:50.2212303Z http.https://github.com/.extraheader
+2026-09-01T20:01:50.2222316Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-09-01T20:01:50.2254586Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-01T20:01:50.2478404Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-01T20:01:50.2512913Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+﻿2026-09-01T20:01:50.2876337Z Cleaning up orphan processes
+2026-09-01T20:01:50.3181923Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

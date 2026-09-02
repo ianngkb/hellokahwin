@@ -151,3 +151,141 @@ displaces a block, it does not create a second column. The real change is
 Check 10 is also asserted SILENT at 390 and 768, where a stacked block is the
 specification rather than a defect, and silent on all three 31 Aug fixtures at
 all five widths. `pnpm ui:gate:selftest` carries all 24 assertions.
+
+---
+
+## `fixtures/2026-09-02-rail/` — the rail as it ships, and the two ways it breaks
+
+UI-19. Captured from live production on 02 Sep 2026 **after** the rail shipped,
+by `pnpm ui:rail:capture` (`scripts/capture-rail-fixture.mjs`). Re-verify at any
+time with `node scripts/capture-rail-fixture.mjs --verify`, which re-fetches,
+re-derives and compares without writing.
+
+Four files: two production controls, one from each side of the CEO ruling that
+`Sumber` renders only where sources exist, and two known-bad inputs derived from
+them.
+
+They are controls **for checks 15 and 16**, and that is narrower than "clean".
+These are real production pages: `sourced-ok.html` carries a pre-existing
+`narrow-text-column` finding — 6 at desktop, 15 at 390 — from `<td><p>` cells
+72.7-117.3px wide in the article's own comparison table, which reproduces on the
+live URL and predates this item. It is left standing rather than swapped for a
+tidier article. Picking the fixture that hides an existing finding is how a
+suite starts lying about what it covers.
+
+| File                         | Captured from / derived by                                            | bytes   | sha256                                                             |
+| ---------------------------- | --------------------------------------------------------------------- | ------- | ------------------------------------------------------------------ |
+| `sourced-ok.html`            | `…/artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat`              | 136,981 | `b42a5b708a88363bcdbdb75e00e7da73ec8ee4d9d733c01de9ed46706a95b3a3` |
+| `sourced-sumber-empty.html`  | the above, minus the `<li>` citations — 320 bytes at 24053..24373     | 136,661 | `01653ad2aaca7bd56f1697b230be2a6c972f76492163301e1f2e39b1606dc822` |
+| `unsourced-ok.html`          | `…/artikel/ucapan-doa/doa-makan-majlis`                               | 117,910 | `2cf828fa6b651f57113d9c089a5437489a3a09425c58f07712896542bb19a899` |
+| `unsourced-rail-absent.html` | the above, minus `<aside data-hk-rail>` — 8,065 bytes at 21015..29080 | 109,845 | `f6fb7e8e099621bf91e6230f3852f771458126af949ced6d946f844e15910a5e` |
+
+Fetched `x-vercel-cache HIT` at `x-vercel-id sin1::sin1::h4qph-1788289926799-085a676c8784`
+and siblings, CSS chunks `e754448c3010263a · 19b83a0982f1e330 · ece0345a72e045ca`.
+All four `woff2` faces are vendored and were compared byte for byte against the
+ones in `2026-09-01-pre-rail/` — **identical**, checked with `cmp`, not assumed.
+
+> **These are the SECOND capture of the day, and that is recorded rather than
+> tidied away.** The first, two hours earlier, carried CSS chunks
+> `21fd3106af40c828 · 93b060e57eb15691`. Those hashes are gone: DES-15 and UI-20
+> merged and deployed while UI-19 was being built, and a content-hashed chunk
+> stops being served the moment its deployment is superseded. The re-capture
+> happened by accident — importing `capture-rail-fixture.mjs` for two of its
+> functions re-ran its top-level code and silently re-fetched production — which
+> is why that module now carries a direct-run guard. **A rendered measurement
+> belongs to a build, not to a URL.**
+
+> The first capture also vendored **one** font, not four. The stylesheet writes
+> `url(../media/…)` relative to `/_next/static/chunks/`, and the pattern used to
+> find them was the absolute `/_next/static/media/…` shape the HTML uses in its
+> single `<link rel=preload>`. The three unmatched faces would have been served
+> as an empty 200 and every text measurement here would have been taken in a
+> fallback stack. Fixed by resolving each `url()` against the stylesheet's own
+> URL instead of matching an assumed shape.
+
+### Why two controls and not one
+
+`sourced-ok.html` is one of only **7 of 92** live articles carrying Rekod, the
+contents list and Sumber together (measured 02 Sep 2026, `pnpm ui:sources`). The
+rail's specified order had never been observed with all three present until this
+item; the three articles the rail rig had been using as defaults carried at most
+two.
+
+`unsourced-ok.html` is the DoD's _article with no sources_, frozen — and it is
+the near-miss that makes `sumber-empty` worth having rather than a text search.
+That real page carries the word `Sumber` **twice**: once in the rail, as a
+contents link (`<a href="#sumber">Sumber</a>`), and once in the prose, as
+`<h2 id="sumber">Sumber</h2>` with a genuine reference list under it. It has no
+rail `Sumber` block at all. A check keyed on the word fires here twice on a page
+that is completely correct.
+
+### The one-property claim is asserted, not described
+
+`pnpm ui:gate:selftest` proves it at run time, in two halves, and the second
+half took two attempts.
+
+**There is only one region of difference.** Longest common prefix plus longest
+common suffix must account for the bad file exactly. Touch a second place in
+either file and this goes red.
+
+**That region is the element named.** Not read off the prefix walk — the first
+version of this assertion did exactly that and FAILED on a correct pair. A
+longest-common-prefix boundary is ambiguous whenever the deleted text and what
+follows share a leading byte, and here both continue `<`, so the prefix ran one
+byte into the deletion and reported the range as `aside data-hk-rail=…</aside><`.
+The right 8,065 bytes, shifted by one. The count was never wrong; the claim
+about where the range _starts_ was not derivable that way.
+
+So the second half is a splice: locate the element with
+`capture-rail-fixture.mjs`'s **own** cut function — imported, not
+re-implemented, so the gate and the capture cannot drift into disagreeing about
+what was removed — remove it from the control, and require the result to equal
+the committed bad file byte for byte.
+
+```
+unsourced-rail-absent.html differs from unsourced-ok.html in ONE contiguous region (8065 bytes removed)
+…and splicing the whole <aside data-hk-rail> element, open tag to close, out of
+   unsourced-ok.html reproduces unsourced-rail-absent.html byte for byte (8065 bytes at [21015, 29080))
+sourced-sumber-empty.html differs from sourced-ok.html in ONE contiguous region (320 bytes removed)
+…and splicing the <li> citations inside <ul class="hk-rail-sources">, and not the
+   heading, out of sourced-ok.html reproduces sourced-sumber-empty.html byte for
+   byte (320 bytes at [24053, 24373))
+```
+
+A diff claim that is only written down stops being true the moment somebody
+edits the fixture.
+
+### Both checks, both directions, and each silent on the other's defect
+
+```
+pnpm ui:gate:rail        (measured 02 Sep 2026, identical at 390/768/1024/1440/1920)
+                         unsourced-ok.html            railgone:0  sumber:0
+                         unsourced-rail-absent.html   railgone:1  sumber:0
+                         sourced-ok.html              railgone:0  sumber:0
+                         sourced-sumber-empty.html    railgone:0  sumber:1
+```
+
+The diagonal is the point. Both bad files are article pages with something wrong
+in the rail, so a check that had drifted into _"something is wrong with this
+rail"_ would fire on both and still look healthy from a failing run alone. The
+off-diagonal zeros are what prove `rail-missing` and `sumber-empty` are two
+checks rather than one wearing two names.
+
+### `rail-missing` is not a rename of `rail-collapsed`
+
+`rail-collapsed` (check 10, UI-17) asks a **relationship** question — is the rail
+right of the body — and is deliberately silent when there is no rail, because a
+"rail missing" verdict from a check that runs on seven templates fires on the
+homepage, the catalogue and `/brand`. That silence is correct for check 10 and it
+is precisely the hole UI-19 closes.
+
+`rail-missing` (check 15) can speak about absence because it is gated on
+`.hk-article-grid`, the article template's own container — one render site in
+`src/`, and present in **none** of the five pre-UI-19 fixtures, which is why
+check 15 is asserted CLEAN on all of them at all five widths. Its width floor is
+**240px** and is not the specification: DES-03 §5.1's 300px belongs to
+`scripts/measure-article-rail.mjs` (R2), which runs against the article template
+specifically. 240 sits under both real widths — 300 in the desktop column, 350 in
+the body column on a 390px phone — and far above what a collapse produces, so it
+separates _gone_ from _there_ without giving a design number a second home to
+drift between.

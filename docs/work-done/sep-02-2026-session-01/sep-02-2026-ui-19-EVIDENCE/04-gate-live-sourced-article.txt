@@ -1,0 +1,29 @@
+
+UILINT — rendered-layout gate · https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat
+widths 390/768/1024/1440/1920 · chrome C:/Program Files/Google/Chrome/Application/chrome.exe
+──────────────────────────────────────────────────────────────────────────────
+[FAIL] /artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat @390 15 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:15 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:2 unmeasurable:0 H6:0 H6.6:0 · +2 advisory
+[FAIL] /artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat @768 7 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:6 measure:1 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:2 unmeasurable:0 H6:0 H6.6:0 · +2 advisory
+[FAIL] /artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat @1024 6 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:6 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:2 unmeasurable:0 H6:0 H6.6:0 · +2 advisory
+[FAIL] /artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat @1440 6 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:6 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:2 unmeasurable:0 H6:0 H6.6:0 · +2 advisory
+[FAIL] /artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat @1920 6 violation(s)  empty:0 rail:0 railgone:0 sumber:0 narrow:6 measure:0 clipped:0 over:0 clip:0 upscale:0 aspect:0 attr:2 unmeasurable:0 H6:0 H6.6:0 · +2 advisory
+──────────────────────────────────────────────────────────────────────────────
+totals: empty-content 0
+        rail-collapsed 0
+        rail-missing 0
+        sumber-empty 0
+        narrow-text-column 39
+        reading-measure 1
+        clipped-text 0
+        viewport-overflow 0
+        scroll-container-clip 0
+        image-upscale 0
+        image-aspect 0
+        image-attr-aspect 10 (advisory, does not fail the build)
+        image-unmeasurable 0
+        category-diversity 0
+        source-order 0
+build fingerprint (last width measured, per target):
+  /artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat
+    200 HIT age=68 sin1::sin1::hfxfv-1788288950463-c0eacee6642f css=[21fd3106af40c828.css 19b83a0982f1e330.css 93b060e57eb15691.css]
+UILINT EXIT: 1
