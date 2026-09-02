@@ -498,7 +498,12 @@ function assertIngestPipelineCurrent(args: Args): void {
    * objects). The caller decides whether that is fatal; it is not, under the
    * override, because the override has to keep working offline.
    */
-  const survey = (): { master: string; drifted: string[]; lost: string[]; behind: string } | null => {
+  const survey = (): {
+    master: string;
+    drifted: string[];
+    lost: string[];
+    behind: string;
+  } | null => {
     try {
       // A stale checkout has a stale `origin/master` ref too, so the ref must
       // be refreshed before it can be trusted. That is the whole trap.
@@ -534,10 +539,16 @@ function assertIngestPipelineCurrent(args: Args): void {
   // the next post-mortem should not depend on someone remembering they typed it.
   if (args.allowStaleCheckout) {
     const s = survey();
-    if (!s) say(`${where} — OVERRIDDEN via --allow-stale-checkout; could not determine what was skipped`);
+    if (!s)
+      say(`${where} — OVERRIDDEN via --allow-stale-checkout; could not determine what was skipped`);
     else if (s.drifted.length === 0)
-      say(`${where} — --allow-stale-checkout passed, but the image pipeline matched origin/master ${s.master.slice(0, 7)} anyway`);
-    else say(`${where} — OVERRIDDEN via --allow-stale-checkout, ${s.behind} behind. ${consequence(s)}`);
+      say(
+        `${where} — --allow-stale-checkout passed, but the image pipeline matched origin/master ${s.master.slice(0, 7)} anyway`,
+      );
+    else
+      say(
+        `${where} — OVERRIDDEN via --allow-stale-checkout, ${s.behind} behind. ${consequence(s)}`,
+      );
     return;
   }
 
