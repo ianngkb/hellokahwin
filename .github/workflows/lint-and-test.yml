@@ -1,0 +1,128 @@
+name: Lint and test
+
+# The two most standard checks in the repository, which until now ran nowhere.
+#
+# WHY THIS EXISTS, and why it took three sprints.
+#
+# Every gate this company owns is real, blocking and well argued — the UI layout
+# gate, the TOC gate, the indexing monitor, the backup verifier. Between them
+# they enforce computed geometry, editorial source order and restore integrity.
+# None of them runs `eslint`, and between them they run exactly ONE of the
+# repository's forty-two test files:
+#
+#     .github/workflows/  article-toc-gate · db-backup-verify · db-backup
+#                         indexing-monitor · ui-layout-gate
+#     grep -E "pnpm +(lint|test)|eslint|prettier"  across all five  ->  no match
+#     the only vitest in CI:  src/lib/inspire/__tests__/home-selection.test.ts
+#
+# `UI-15` reports 555 passing tests. Before this file, 554 of them ran only when
+# an agent remembered to run them.
+#
+# WHAT THAT COST, measured rather than asserted: three files sat lint-broken on
+# `master` across two sprints — `docs/design/card-thumbnail-image-rules.md`,
+# `scripts/measure-above-fold-bytes.mjs` and
+# `src/lib/storage/__tests__/midsize-cover.test.ts`. `UI-15` formatted them and
+# recorded `pnpm lint` exit 0, closing a finding open since Sprint 05. Nothing
+# would have caught the next one.
+#
+# WHY IT SURVIVED THREE SPRINTS, which is the part worth writing down.
+# It was raised by `UI-13`, then by `UI-19` (*"OPEN, second sprint, named rather
+# than taken inside a design item"*), then by `UI-15` from a third item. **Every
+# one of those refusals was correct** — the standard says a DoD is never widened
+# to absorb someone else's infrastructure job, and a design item that quietly
+# adopts a CI workflow is how estimates stop meaning anything. Being right about
+# scope is exactly how it survived. A rule that says "do not absorb it" needs a
+# matching rule that says who picks it up, and until `PLAT-21` there was none.
+#
+# THREE JOBS, BLOCKING, ON PURPOSE. They are separate so a failure names itself
+# in the checks list: "lint" and "types" and "tests" are three different repairs
+# by three different people, and a single merged job would report all three as
+# one red tick that says nothing about which.
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: eslint + prettier (blocking)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      # `version: 10` is not a preference: package.json carries no
+      # `packageManager` field, so `pnpm/action-setup` has nothing to resolve
+      # from and fails the step outright. Copied verbatim from
+      # `article-toc-gate.yml` and `ui-layout-gate.yml` rather than improvised,
+      # so the three cannot drift. PLAT-20 covers the pin itself and records
+      # that the repo half is INERT without `ENABLE_EXPERIMENTAL_COREPACK`.
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - run: pnpm install --frozen-lockfile
+
+      # `pnpm lint` is `eslint . && prettier --check .`. The `&&` means prettier
+      # never runs if eslint fails, so a red run reports one of the two and not
+      # both; that is the existing script's behaviour and this job does not
+      # silently change it.
+      #
+      # NO `| tee` HERE, and that is deliberate. `set -o pipefail` is the fix
+      # when a pipe is needed, and this repo has been bitten twice by its
+      # absence — the UI layout gate's first run reported SUCCESS while printing
+      # `UILINT EXIT: 1`. The simplest way not to make that mistake a third time
+      # is not to pipe at all.
+      - name: pnpm lint
+        run: pnpm lint
+
+  typecheck:
+    name: tsc --noEmit (blocking)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - run: pnpm install --frozen-lockfile
+
+      # ⚠ THIS DOES NOT COVER EVERYTHING, AND SAYING SO IS THE POINT.
+      # `pnpm typecheck` is `tsc --noEmit -p tsconfig.typecheck.json`, and
+      # `UI-16`'s retrospective records `tsc` being quoted as covering
+      # directories that config EXCLUDES — twice, once over an excluded
+      # directory and once over a file that did not parse. A green tick here
+      # means the files that config includes are sound. It is not a statement
+      # about `scripts/`. Check the config before citing this job as coverage.
+      - name: pnpm typecheck
+        run: pnpm typecheck
+
+  test:
+    name: vitest run — all of it (blocking)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - run: pnpm install --frozen-lockfile
+
+      # The whole suite, not one file. `ui-layout-gate.yml` runs
+      # `home-selection.test.ts` on its own and keeps doing so — that job exists
+      # to certify a specific editorial selection and is not a substitute for
+      # this one. Overlap of one file is cheaper than the gap this closes.
+      - name: pnpm test
+        run: pnpm test
