@@ -1,0 +1,106 @@
+UI-16 — THE RECURRENCE, THE CENSUS, AND THE TWO DEFECTS IN MY OWN AUDIT.
+02 September 2026, ~21:00-21:30 UTC.
+
+──────────────────────────────────────────────────────────────────────────────
+1. IT RECURRED, 22 MINUTES AFTER IT WENT GREEN
+──────────────────────────────────────────────────────────────────────────────
+The same six doa articles were re-ingested a SECOND time, 20:51:46-20:53:23Z
+(the first pass was 20:12-20:16Z; my backfill at ~20:30 sat between them and was
+overwritten). Verified live on doa-masuk-rumah-baru, a NEW asset id, which is
+what proves re-ingestion rather than a cache artefact:
+
+  .../1788295962710-images-s-keluarga-payung-kuning-mohd-hasan/
+    crop-4x3-article-card-sm.webp    HTTP 200      38,010 B   <- what shipped
+    crop-4x3-article-card.webp       HTTP 200   1,153,770 B   <- what would have
+    crop-4x3-article-card-md.webp    HTTP 404                 <- deleted again
+
+  THE REORDER SAVED 1,115,760 B ON THAT ONE PAGE.
+
+The defect recurred. Its cost did not. That is the entire value of making a
+failure survivable when its cause lives outside your reach.
+
+BATCH FINGERPRINT, from articles.updated_at — one sequential run, 16-23s apart:
+  20:51:46 doa-pembuka-majlis      20:52:25 doa-untuk-suami
+  20:52:09 doa-untuk-isteri        20:52:59 doa-masuk-rumah-baru
+  20:52:44 doa-malam-pertama       20:53:23 doa-keluarga-bahagia
+
+CONT-17 confirmed both batches were its item (the second a post-review
+re-ingest), that the second was the last write, and that no third would follow.
+
+──────────────────────────────────────────────────────────────────────────────
+2. WHICH CHECKOUT: UNKNOWN, AND THAT IS THE FINDING
+──────────────────────────────────────────────────────────────────────────────
+Not logged anywhere. The item's work-done entry and UNDO name no ingest path,
+and the session that ran it died in the fleet-wide auth expiry before it could
+be asked. Filesystem probes were inconclusive and were reported as such rather
+than guessed.
+
+A completed, reviewed, merged content item shipped six production articles and
+left NO RECORD of which checkout performed the write.
+
+CENSUS — every site-line checkout, grepped for COVER_RENDITIONS in
+src/lib/storage/smart-crop.ts. This is a population count, not an accusation:
+
+  CARRIES THE INGEST FIX (6)
+    ui16-cover  ui15-grid  ui19-rail  cont15-portrait  plat16-pillarcache  hk-guard
+
+  DOES NOT (10)
+    hellokahwin-site   <- THE MAIN CLONE, on master, 28 commits behind
+    seo13-faq  risk10-hooks  des18-midsize  des15-h2weight  ui13-diversity
+    ui20-favicon  ui17-rail  ui18-toc  pillars-ingest-redirects
+
+  NOT CANDIDATES: cont17-doa and C:/hkint are on the DOCS line and carry no
+  src/ at all, so the ingest cannot have run from either.
+
+WITHDRAWN: I first called the main clone "the likeliest offender". It would be
+refused by the guard — independently confirmed, it declares
+crop-4x3-article-card-sm and crop-4x3-article-card but not -md — but that is a
+fact about the clone, not evidence it was used. The operational point survives:
+A GUARD THAT ASSUMES AN ORCA WORKTREE MISSES THE MAIN CLONE.
+
+──────────────────────────────────────────────────────────────────────────────
+3. TWO DEFECTS IN MY OWN AUDIT, found by pointing it at the recurrence
+──────────────────────────────────────────────────────────────────────────────
+(a) DRIFT. PR #67 reordered the resolver to md -> sm -> card -> low and I did
+    not update the script's PREFERENCE, so it expected the FULL crop where the
+    page correctly served -sm, and reported 6 mismatches that were its own
+    error. The header says the order is restated rather than imported precisely
+    so a drift is a finding. It arrived within the hour.
+
+(b) THE HOLE THAT HID BEHIND IT. With PREFERENCE corrected:
+
+      102 checked, 0 mismatched, 0 overweight, 0 unreadable   EXIT 0
+
+    ...on six covers that had LOST the rendition. Green because the fallback did
+    its job: a legal named 4:3 crop, at its declared size, under the ceiling.
+
+    A CHECK THAT GOES QUIET BECAUSE THE MITIGATION WORKED IS A CHECK THAT LETS
+    THE DEFECT BECOME PERMANENT.
+
+    Third assertion added — the database must still carry the top rung:
+
+      before  102 checked, 0 mismatched, 0 overweight, 6 missing ...-md  EXIT 1
+      after   102 checked, 0 mismatched, 0 overweight, 0 missing ...-md  EXIT 0
+
+──────────────────────────────────────────────────────────────────────────────
+4. THE BACKFILL THAT STANDS
+──────────────────────────────────────────────────────────────────────────────
+Run only after CONT-17 confirmed the batch was complete; earlier passes were
+overwritten.
+
+  wrote 6, failed 0, over ceiling 0 | total 255,012 B
+  POST /api/cron/revalidate-content -> {"revalidated":["articles",...]}
+  102 published article(s) with smart crops · 0 to render · 102 already done
+  102 checked, 0 mismatched, 0 overweight, 0 missing ...-md, 0 unreadable
+  RENDITION EXIT: 0
+
+──────────────────────────────────────────────────────────────────────────────
+5. tsc DOES NOT COVER THESE SCRIPTS, AND I QUOTED IT AS IF IT DID
+──────────────────────────────────────────────────────────────────────────────
+tsconfig.json and tsconfig.typecheck.json both exclude "scripts". Every change
+to backfill-midsize-cover.mts in this item was NEVER TYPE-CHECKED, and PR #65's
+body quotes `tsc --noEmit` clean as though it were.
+
+What actually covers them: both scripts were EXECUTED against production
+repeatedly — the backfill four times, the audit six, plus the dry run above.
+That is the stronger guarantee and it is the one that should have been quoted.

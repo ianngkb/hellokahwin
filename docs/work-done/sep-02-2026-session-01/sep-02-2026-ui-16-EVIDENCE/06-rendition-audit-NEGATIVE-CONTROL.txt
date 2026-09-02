@@ -5,33 +5,39 @@ byte ceiling 114048 B on the served cover
 
 102 published article(s) with a cover
 
-  MISMATCH baju-pengantin-sewa-atau-beli
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/baju-pengantin-sewa-atau-beli/1787707239501-images-s-pengantin-bertudung-manik-azman-aziz/crop-4x3-article-card-sm.webp?v=0.4350_0.2800-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/baju-pengantin-sewa-atau-beli/1787707239501-images-s-pengantin-bertudung-manik-azman-aziz/crop-4x3-article-card-md.webp?v=0.4350_0.2800-g48c0b959
-  MISMATCH adat-hantaran-ikut-keluarga
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/adat-hantaran-ikut-keluarga/1787780652248-images-s-rombongan-lelaki-bincang-hantaran-azlan-dupree/crop-4x3-article-card-sm.webp?v=0.6533_0.8520-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/adat-hantaran-ikut-keluarga/1787780652248-images-s-rombongan-lelaki-bincang-hantaran-azlan-dupree/crop-4x3-article-card-md.webp?v=0.6533_0.8520-g48c0b959
-  MISMATCH bajet-kahwin
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/bajet-kahwin/1787707751640-images-s-keluarga-payung-kuning-mohd-hasan/crop-4x3-article-card-sm.webp?v=0.1534_0.1860-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/bajet-kahwin/1787707751640-images-s-keluarga-payung-kuning-mohd-hasan/crop-4x3-article-card-md.webp?v=0.1534_0.1860-g48c0b959
   MISMATCH apa-itu-mas-kahwin
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/lafaz-taklik/1787707459685-images-s-akad-ijab-qabul-mylifestory/crop-4x3-article-card-sm.webp?v=0.8333_0.6200-g48c0b959
       page has  https://images.hellokahwin.com/inspire/lafaz-taklik/1787707459685-images-s-akad-ijab-qabul-mylifestory/crop-4x3-article-card-md.webp?v=0.8333_0.6200-g48c0b959
+  MISMATCH adat-hantaran-berbeza-negeri
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/adat-hantaran-berbeza-negeri/1787758615851-images-s-arak-pengantin-lelaki-payung-kuning-sham-hardy/crop-4x3-article-card-sm.webp?v=0.2800_0.1560-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/adat-hantaran-berbeza-negeri/1787758615851-images-s-arak-pengantin-lelaki-payung-kuning-sham-hardy/crop-4x3-article-card-md.webp?v=0.2800_0.1560-g48c0b959
+  MISMATCH baju-pengantin-sewa-atau-beli
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/baju-pengantin-sewa-atau-beli/1787707239501-images-s-pengantin-bertudung-manik-azman-aziz/crop-4x3-article-card-sm.webp?v=0.4350_0.2800-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/baju-pengantin-sewa-atau-beli/1787707239501-images-s-pengantin-bertudung-manik-azman-aziz/crop-4x3-article-card-md.webp?v=0.4350_0.2800-g48c0b959
   MISMATCH amankila-bali
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/amankila-bali/1787396256716-cover/crop-4x3-article-card-sm.webp?v=0.4673_0.5872-g48c0b959
       page has  https://images.hellokahwin.com/inspire/amankila-bali/1787396256716-cover/crop-4x3-article-card-md.webp?v=0.4673_0.5872-g48c0b959
-  MISMATCH barang-hantaran-tunang
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/barang-hantaran-tunang/1787780709633-images-s-dulang-terbuka-gubahan-merah-phalinn-ooi/crop-4x3-article-card-sm.webp?v=0.3433_0.1500-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/barang-hantaran-tunang/1787780709633-images-s-dulang-terbuka-gubahan-merah-phalinn-ooi/crop-4x3-article-card-md.webp?v=0.3433_0.1500-g48c0b959
+  MISMATCH bajet-kahwin
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/bajet-kahwin/1787707751640-images-s-keluarga-payung-kuning-mohd-hasan/crop-4x3-article-card-sm.webp?v=0.1534_0.1860-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/bajet-kahwin/1787707751640-images-s-keluarga-payung-kuning-mohd-hasan/crop-4x3-article-card-md.webp?v=0.1534_0.1860-g48c0b959
+  MISMATCH adat-hantaran-ikut-keluarga
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/adat-hantaran-ikut-keluarga/1787780652248-images-s-rombongan-lelaki-bincang-hantaran-azlan-dupree/crop-4x3-article-card-sm.webp?v=0.6533_0.8520-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/adat-hantaran-ikut-keluarga/1787780652248-images-s-rombongan-lelaki-bincang-hantaran-azlan-dupree/crop-4x3-article-card-md.webp?v=0.6533_0.8520-g48c0b959
+  MISMATCH barang-hantaran-perempuan
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/barang-hantaran-perempuan/1787780564669-images-s-bawa-dulang-hantaran-naik-rumah-azlan-dupree/crop-4x3-article-card-sm.webp?v=0.1867_0.4020-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/barang-hantaran-perempuan/1787780564669-images-s-bawa-dulang-hantaran-naik-rumah-azlan-dupree/crop-4x3-article-card-md.webp?v=0.1867_0.4020-g48c0b959
+  MISMATCH berapa-dulang-hantaran-tunang
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/berapa-dulang-hantaran-tunang/1787780661260-images-s-dulang-hantaran-bersusun-phalinn-ooi/crop-4x3-article-card-sm.webp?v=0.3433_0.2460-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/berapa-dulang-hantaran-tunang/1787780661260-images-s-dulang-hantaran-bersusun-phalinn-ooi/crop-4x3-article-card-md.webp?v=0.3433_0.2460-g48c0b959
   MISMATCH bilangan-dulang-hantaran-ganjil
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/bilangan-dulang-hantaran-ganjil/1787758516617-images-s-bincang-hantaran-dua-keluarga-mohd-nasir/crop-4x3-article-card-sm.webp?v=0.2167_0.1860-g48c0b959
       page has  https://images.hellokahwin.com/inspire/bilangan-dulang-hantaran-ganjil/1787758516617-images-s-bincang-hantaran-dua-keluarga-mohd-nasir/crop-4x3-article-card-md.webp?v=0.2167_0.1860-g48c0b959
   MISMATCH barang-hantaran-berguna
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/barang-hantaran-berguna/1787781777697-images-s-dulang-kek-coklat-buah-hantaran-azlan-dupree/crop-4x3-article-card-sm.webp?v=0.3100_0.8520-g48c0b959
       page has  https://images.hellokahwin.com/inspire/barang-hantaran-berguna/1787781777697-images-s-dulang-kek-coklat-buah-hantaran-azlan-dupree/crop-4x3-article-card-md.webp?v=0.3100_0.8520-g48c0b959
-  MISMATCH berapa-dulang-hantaran-tunang
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/berapa-dulang-hantaran-tunang/1787780661260-images-s-dulang-hantaran-bersusun-phalinn-ooi/crop-4x3-article-card-sm.webp?v=0.3433_0.2460-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/berapa-dulang-hantaran-tunang/1787780661260-images-s-dulang-hantaran-bersusun-phalinn-ooi/crop-4x3-article-card-md.webp?v=0.3433_0.2460-g48c0b959
+  MISMATCH barang-hantaran-tunang
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/barang-hantaran-tunang/1787780709633-images-s-dulang-terbuka-gubahan-merah-phalinn-ooi/crop-4x3-article-card-sm.webp?v=0.3433_0.1500-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/barang-hantaran-tunang/1787780709633-images-s-dulang-terbuka-gubahan-merah-phalinn-ooi/crop-4x3-article-card-md.webp?v=0.3433_0.1500-g48c0b959
   MISMATCH borang-nikah
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/borang-nikah/1787707437117-images-s-kaunter-utc-keramat-angys/crop-4x3-article-card-sm.webp?v=0.9075_0.6200-g48c0b959
       page has  https://images.hellokahwin.com/inspire/borang-nikah/1787707437117-images-s-kaunter-utc-keramat-angys/crop-4x3-article-card-md.webp?v=0.9075_0.6200-g48c0b959
@@ -41,132 +47,126 @@ byte ceiling 114048 B on the served cover
   MISMATCH bunga-telur
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/bunga-telur/1787657096267-images-s-bunga-telur-daun-getah-fuzuri/crop-4x3-article-card-sm.webp?v=0.6862_0.1852-g48c0b959
       page has  https://images.hellokahwin.com/inspire/bunga-telur/1787657096267-images-s-bunga-telur-daun-getah-fuzuri/crop-4x3-article-card-md.webp?v=0.6862_0.1852-g48c0b959
-  MISMATCH cheong-fatt-tze-mansion
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/cheong-fatt-tze-mansion/1787396807270-cover/crop-4x3-article-card-sm.webp?v=0.4368_0.6839-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/cheong-fatt-tze-mansion/1787396807270-cover/crop-4x3-article-card-md.webp?v=0.4368_0.6839-g48c0b959
   MISMATCH checklist-kahwin
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/checklist-kahwin/1787707780243-images-s-kompang-gendang-johor-stress043/crop-4x3-article-card-sm.webp?v=0.5285_0.3069-g48c0b959
       page has  https://images.hellokahwin.com/inspire/checklist-kahwin/1787707780243-images-s-kompang-gendang-johor-stress043/crop-4x3-article-card-md.webp?v=0.5285_0.3069-g48c0b959
-  MISMATCH cincin-tunang
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/cincin-tunang/1787707557892-images-s-cincin-tunang-kotak-mohd-nasir/crop-4x3-article-card-sm.webp?v=0.9168_0.4500-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/cincin-tunang/1787707557892-images-s-cincin-tunang-kotak-mohd-nasir/crop-4x3-article-card-md.webp?v=0.9168_0.4500-g48c0b959
-  MISMATCH barang-hantaran-perempuan
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/barang-hantaran-perempuan/1787780564669-images-s-bawa-dulang-hantaran-naik-rumah-azlan-dupree/crop-4x3-article-card-sm.webp?v=0.1867_0.4020-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/barang-hantaran-perempuan/1787780564669-images-s-bawa-dulang-hantaran-naik-rumah-azlan-dupree/crop-4x3-article-card-md.webp?v=0.1867_0.4020-g48c0b959
+  MISMATCH cheong-fatt-tze-mansion
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/cheong-fatt-tze-mansion/1787396807270-cover/crop-4x3-article-card-sm.webp?v=0.4368_0.6839-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/cheong-fatt-tze-mansion/1787396807270-cover/crop-4x3-article-card-md.webp?v=0.4368_0.6839-g48c0b959
+  MISMATCH cara-tetapkan-duit-hantaran
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/cara-tetapkan-duit-hantaran/1787758589083-images-s-rombongan-lelaki-bincang-hantaran-azlan-dupree/crop-4x3-article-card-sm.webp?v=0.6533_0.8520-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/cara-tetapkan-duit-hantaran/1787758589083-images-s-rombongan-lelaki-bincang-hantaran-azlan-dupree/crop-4x3-article-card-md.webp?v=0.6533_0.8520-g48c0b959
   MISMATCH contoh-kad-jemputan-kahwin
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/contoh-kad-jemputan-kahwin/1787657083113-images-s-kad-jemputan-tangan-sham-hardy/crop-4x3-article-card-sm.webp?v=0.1660_0.3735-g48c0b959
       page has  https://images.hellokahwin.com/inspire/contoh-kad-jemputan-kahwin/1787657083113-images-s-kad-jemputan-tangan-sham-hardy/crop-4x3-article-card-md.webp?v=0.1660_0.3735-g48c0b959
-  MISMATCH dewan-kahwin
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/dewan-kahwin/1787396554924-cover/crop-4x3-article-card-sm.webp?v=0.4987_0.6560-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/dewan-kahwin/1787396554924-cover/crop-4x3-article-card-md.webp?v=0.4987_0.6560-g48c0b959
-  MISMATCH doa-jodoh
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/doa-jodoh/1788203355211-images-s-jemaah-doa-masjid-ahmad-ali-karim/crop-4x3-article-card-sm.webp?v=0.6868_0.1500-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/doa-jodoh/1788203355211-images-s-jemaah-doa-masjid-ahmad-ali-karim/crop-4x3-article-card-md.webp?v=0.6868_0.1500-g48c0b959
+  MISMATCH cincin-tunang
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/cincin-tunang/1787707557892-images-s-cincin-tunang-kotak-mohd-nasir/crop-4x3-article-card-sm.webp?v=0.9168_0.4500-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/cincin-tunang/1787707557892-images-s-cincin-tunang-kotak-mohd-nasir/crop-4x3-article-card-md.webp?v=0.9168_0.4500-g48c0b959
   MISMATCH doa-keluarga-bahagia
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/doa-keluarga-bahagia/1788293662693-images-s-pasangan-dan-keluarga-pelamin-mohd-hasan/crop-4x3-article-card-sm.webp?v=0.2800_0.3120-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/doa-keluarga-bahagia/1788293662693-images-s-pasangan-dan-keluarga-pelamin-mohd-hasan/crop-4x3-article-card-md.webp?v=0.2800_0.3120-g48c0b959
-  MISMATCH adat-hantaran-berbeza-negeri
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/adat-hantaran-berbeza-negeri/1787758615851-images-s-arak-pengantin-lelaki-payung-kuning-sham-hardy/crop-4x3-article-card-sm.webp?v=0.2800_0.1560-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/adat-hantaran-berbeza-negeri/1787758615851-images-s-arak-pengantin-lelaki-payung-kuning-sham-hardy/crop-4x3-article-card-md.webp?v=0.2800_0.1560-g48c0b959
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/doa-keluarga-bahagia/1788295985520-images-s-bersanding-pelamin-mohd-hasan/crop-4x3-article-card-sm.webp?v=0.9168_0.4979-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/doa-keluarga-bahagia/1788295985520-images-s-bersanding-pelamin-mohd-hasan/crop-4x3-article-card-md.webp?v=0.9168_0.4979-g48c0b959
   MISMATCH doa-majlis-perkahwinan
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/doa-majlis-perkahwinan/1787654634901-images-s-majlis-doa-selamat-ahmad-ali-karim/crop-4x3-article-card-sm.webp?v=0.7168_0.3000-g48c0b959
       page has  https://images.hellokahwin.com/inspire/doa-majlis-perkahwinan/1787654634901-images-s-majlis-doa-selamat-ahmad-ali-karim/crop-4x3-article-card-md.webp?v=0.7168_0.3000-g48c0b959
-  MISMATCH doa-majlis-pertunangan
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/dulang-hantaran/1787680476366-images-s-pertunangan-zeeana-mohd-nasir/crop-4x3-article-card-sm.webp?v=0.5603_0.5301-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/dulang-hantaran/1787680476366-images-s-pertunangan-zeeana-mohd-nasir/crop-4x3-article-card-md.webp?v=0.5603_0.5301-g48c0b959
+  MISMATCH doa-jodoh
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/doa-jodoh/1788203355211-images-s-jemaah-doa-masjid-ahmad-ali-karim/crop-4x3-article-card-sm.webp?v=0.6868_0.1500-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/doa-jodoh/1788203355211-images-s-jemaah-doa-masjid-ahmad-ali-karim/crop-4x3-article-card-md.webp?v=0.6868_0.1500-g48c0b959
   MISMATCH doa-makan-majlis
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/doa-makan-majlis/1788202968435-images-s-jamuan-kenduri-raja-abd-kadir/crop-4x3-article-card-sm.webp?v=0.5925_0.8107-g48c0b959
       page has  https://images.hellokahwin.com/inspire/doa-makan-majlis/1788202968435-images-s-jamuan-kenduri-raja-abd-kadir/crop-4x3-article-card-md.webp?v=0.5925_0.8107-g48c0b959
+  MISMATCH doa-majlis-pertunangan
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/dulang-hantaran/1787680476366-images-s-pertunangan-zeeana-mohd-nasir/crop-4x3-article-card-sm.webp?v=0.5603_0.5301-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/dulang-hantaran/1787680476366-images-s-pertunangan-zeeana-mohd-nasir/crop-4x3-article-card-md.webp?v=0.5603_0.5301-g48c0b959
+  MISMATCH doa-pembuka-majlis
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/doa-pembuka-majlis/1788295880756-images-s-majlis-doa-selamat-ahmad-ali-karim/crop-4x3-article-card-sm.webp?v=0.8099_0.2480-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/doa-pembuka-majlis/1788295880756-images-s-majlis-doa-selamat-ahmad-ali-karim/crop-4x3-article-card-md.webp?v=0.8099_0.2480-g48c0b959
+  MISMATCH dewan-kahwin
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/dewan-kahwin/1787396554924-cover/crop-4x3-article-card-sm.webp?v=0.4987_0.6560-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/dewan-kahwin/1787396554924-cover/crop-4x3-article-card-md.webp?v=0.4987_0.6560-g48c0b959
+  MISMATCH doa-masuk-rumah-baru
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/doa-masuk-rumah-baru/1788295962710-images-s-keluarga-payung-kuning-mohd-hasan/crop-4x3-article-card-sm.webp?v=0.1534_0.1860-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/doa-masuk-rumah-baru/1788295962710-images-s-keluarga-payung-kuning-mohd-hasan/crop-4x3-article-card-md.webp?v=0.1534_0.1860-g48c0b959
   MISMATCH doa-malam-pertama
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/doa-malam-pertama/1788293638873-images-s-pengantin-melayu-pelamin-fyruz-alqadiri/crop-4x3-article-card-sm.webp?v=0.3675_0.3734-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/doa-malam-pertama/1788293638873-images-s-pengantin-melayu-pelamin-fyruz-alqadiri/crop-4x3-article-card-md.webp?v=0.3675_0.3734-g48c0b959
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/doa-malam-pertama/1788295943592-images-s-pengantin-melayu-pelamin-fyruz-alqadiri/crop-4x3-article-card-sm.webp?v=0.3675_0.3734-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/doa-malam-pertama/1788295943592-images-s-pengantin-melayu-pelamin-fyruz-alqadiri/crop-4x3-article-card-md.webp?v=0.3675_0.3734-g48c0b959
+  MISMATCH doa-pengantin-baru
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/doa-pengantin-baru/1787707683563-images-s-bacaan-doa-qari-ahmad-ali-karim/crop-4x3-article-card-sm.webp?v=0.0833_0.2760-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/doa-pengantin-baru/1787707683563-images-s-bacaan-doa-qari-ahmad-ali-karim/crop-4x3-article-card-md.webp?v=0.0833_0.2760-g48c0b959
   MISMATCH doa-penutup-majlis
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/doa-penutup-majlis/1788202943529-images-s-bacaan-doa-qari-ahmad-ali-karim/crop-4x3-article-card-sm.webp?v=0.0833_0.2760-g48c0b959
       page has  https://images.hellokahwin.com/inspire/doa-penutup-majlis/1788202943529-images-s-bacaan-doa-qari-ahmad-ali-karim/crop-4x3-article-card-md.webp?v=0.0833_0.2760-g48c0b959
   MISMATCH doa-selamat-majlis
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/doa-selamat-majlis/1788203381951-images-s-majlis-doa-selamat-ahmad-ali-karim/crop-4x3-article-card-sm.webp?v=0.8099_0.2480-g48c0b959
       page has  https://images.hellokahwin.com/inspire/doa-selamat-majlis/1788203381951-images-s-majlis-doa-selamat-ahmad-ali-karim/crop-4x3-article-card-md.webp?v=0.8099_0.2480-g48c0b959
-  MISMATCH doa-masuk-rumah-baru
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/doa-masuk-rumah-baru/1788293717377-images-s-keluarga-payung-kuning-mohd-hasan/crop-4x3-article-card-sm.webp?v=0.1534_0.1860-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/doa-masuk-rumah-baru/1788293717377-images-s-keluarga-payung-kuning-mohd-hasan/crop-4x3-article-card-md.webp?v=0.1534_0.1860-g48c0b959
-  MISMATCH doa-pembuka-majlis
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/doa-pembuka-majlis/1788293734416-images-s-majlis-doa-selamat-ahmad-ali-karim/crop-4x3-article-card-sm.webp?v=0.8099_0.2480-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/doa-pembuka-majlis/1788293734416-images-s-majlis-doa-selamat-ahmad-ali-karim/crop-4x3-article-card-md.webp?v=0.8099_0.2480-g48c0b959
-  MISMATCH cara-tetapkan-duit-hantaran
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/cara-tetapkan-duit-hantaran/1787758589083-images-s-rombongan-lelaki-bincang-hantaran-azlan-dupree/crop-4x3-article-card-sm.webp?v=0.6533_0.8520-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/cara-tetapkan-duit-hantaran/1787758589083-images-s-rombongan-lelaki-bincang-hantaran-azlan-dupree/crop-4x3-article-card-md.webp?v=0.6533_0.8520-g48c0b959
-  MISMATCH doa-pengantin-baru
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/doa-pengantin-baru/1787707683563-images-s-bacaan-doa-qari-ahmad-ali-karim/crop-4x3-article-card-sm.webp?v=0.0833_0.2760-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/doa-pengantin-baru/1787707683563-images-s-bacaan-doa-qari-ahmad-ali-karim/crop-4x3-article-card-md.webp?v=0.0833_0.2760-g48c0b959
-  MISMATCH doa-untuk-suami
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/doa-untuk-suami/1788293698817-images-s-pasangan-baju-oren-azman-aziz/crop-4x3-article-card-sm.webp?v=0.0833_0.1560-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/doa-untuk-suami/1788293698817-images-s-pasangan-baju-oren-azman-aziz/crop-4x3-article-card-md.webp?v=0.0833_0.1560-g48c0b959
   MISMATCH doa-untuk-isteri
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/doa-untuk-isteri/1788293775830-images-s-selepas-akad-raja-abd-kadir/crop-4x3-article-card-sm.webp?v=0.4987_0.5600-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/doa-untuk-isteri/1788293775830-images-s-selepas-akad-raja-abd-kadir/crop-4x3-article-card-md.webp?v=0.4987_0.5600-g48c0b959
-  MISMATCH duit-hantaran-kahwin
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/duit-hantaran-kahwin/1787758566058-images-s-akad-tok-kadi-raja-abd-kadir/crop-4x3-article-card-sm.webp?v=0.5287_0.2187-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/duit-hantaran-kahwin/1787758566058-images-s-akad-tok-kadi-raja-abd-kadir/crop-4x3-article-card-md.webp?v=0.5287_0.2187-g48c0b959
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/doa-untuk-isteri/1788295905165-images-s-selepas-akad-raja-abd-kadir/crop-4x3-article-card-sm.webp?v=0.4987_0.5600-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/doa-untuk-isteri/1788295905165-images-s-selepas-akad-raja-abd-kadir/crop-4x3-article-card-md.webp?v=0.4987_0.5600-g48c0b959
+  MISMATCH doa-untuk-suami
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/doa-untuk-suami/1788295927683-images-s-pasangan-baju-oren-azman-aziz/crop-4x3-article-card-sm.webp?v=0.0833_0.1560-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/doa-untuk-suami/1788295927683-images-s-pasangan-baju-oren-azman-aziz/crop-4x3-article-card-md.webp?v=0.0833_0.1560-g48c0b959
   MISMATCH dulang-hantaran
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/apa-itu-mas-kahwin/1787655582619-images-s-dulang-hantaran-masjid-mylifestory/crop-4x3-article-card-sm.webp?v=0.5933_0.5910-g48c0b959
       page has  https://images.hellokahwin.com/inspire/apa-itu-mas-kahwin/1787655582619-images-s-dulang-hantaran-masjid-mylifestory/crop-4x3-article-card-md.webp?v=0.5933_0.5910-g48c0b959
+  MISMATCH duit-hantaran-kahwin
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/duit-hantaran-kahwin/1787758566058-images-s-akad-tok-kadi-raja-abd-kadir/crop-4x3-article-card-sm.webp?v=0.5287_0.2187-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/duit-hantaran-kahwin/1787758566058-images-s-akad-tok-kadi-raja-abd-kadir/crop-4x3-article-card-md.webp?v=0.5287_0.2187-g48c0b959
+  MISMATCH grand-hyatt-kuala-lumpur
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/grand-hyatt-kuala-lumpur/1787396577629-cover/crop-4x3-article-card-sm.webp?v=0.3114_0.6546-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/grand-hyatt-kuala-lumpur/1787396577629-cover/crop-4x3-article-card-md.webp?v=0.3114_0.6546-g48c0b959
   MISMATCH garden-wedding
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/garden-wedding/1787397040017-cover/crop-4x3-article-card-sm.webp?v=0.4669_0.7796-g48c0b959
       page has  https://images.hellokahwin.com/inspire/garden-wedding/1787397040017-cover/crop-4x3-article-card-md.webp?v=0.4669_0.7796-g48c0b959
   MISMATCH goodies-kahwin
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/goodies-kahwin/1787395718040-cover/crop-4x3-article-card-sm.webp?v=0.3733_0.1860-g48c0b959
       page has  https://images.hellokahwin.com/inspire/goodies-kahwin/1787395718040-cover/crop-4x3-article-card-md.webp?v=0.3733_0.1860-g48c0b959
-  MISMATCH grand-hyatt-kuala-lumpur
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/grand-hyatt-kuala-lumpur/1787396577629-cover/crop-4x3-article-card-sm.webp?v=0.3114_0.6546-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/grand-hyatt-kuala-lumpur/1787396577629-cover/crop-4x3-article-card-md.webp?v=0.3114_0.6546-g48c0b959
-  MISMATCH hadiah-untuk-pengantin
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/hadiah-untuk-pengantin/1787395639270-cover/crop-4x3-article-card-sm.webp?v=0.0733_0.1706-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/hadiah-untuk-pengantin/1787395639270-cover/crop-4x3-article-card-md.webp?v=0.0733_0.1706-g48c0b959
   MISMATCH gubahan-hantaran-simple
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/gubahan-hantaran-simple/1787765351314-images-s-rombongan-dulang-hantaran-depan-rumah-mohd-hasan/crop-4x3-article-card-sm.webp?v=0.1867_0.5279-g48c0b959
       page has  https://images.hellokahwin.com/inspire/gubahan-hantaran-simple/1787765351314-images-s-rombongan-dulang-hantaran-depan-rumah-mohd-hasan/crop-4x3-article-card-md.webp?v=0.1867_0.5279-g48c0b959
-  MISMATCH gubahan-hantaran
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/gubahan-hantaran/1787680501907-images-s-serah-hantaran-akad-mylifestory/crop-4x3-article-card-sm.webp?v=0.7162_0.1867-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/gubahan-hantaran/1787680501907-images-s-serah-hantaran-akad-mylifestory/crop-4x3-article-card-md.webp?v=0.7162_0.1867-g48c0b959
-  MISMATCH hantaran-coklat
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/hantaran-coklat/1787765191937-images-s-rombongan-bawa-hantaran-terengganu-mohd-hasan/crop-4x3-article-card-sm.webp?v=0.3100_0.4379-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/hantaran-coklat/1787765191937-images-s-rombongan-bawa-hantaran-terengganu-mohd-hasan/crop-4x3-article-card-md.webp?v=0.3100_0.4379-g48c0b959
+  MISMATCH hadiah-untuk-pengantin
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/hadiah-untuk-pengantin/1787395639270-cover/crop-4x3-article-card-sm.webp?v=0.0733_0.1706-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/hadiah-untuk-pengantin/1787395639270-cover/crop-4x3-article-card-md.webp?v=0.0733_0.1706-g48c0b959
+  MISMATCH hantaran-kahwin-5-balas-7
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/hantaran-kahwin-5-balas-7/1787758446371-images-s-dulang-hantaran-tunang-lantai-azlan-dupree/crop-4x3-article-card-sm.webp?v=0.9167_0.4020-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/hantaran-kahwin-5-balas-7/1787758446371-images-s-dulang-hantaran-tunang-lantai-azlan-dupree/crop-4x3-article-card-md.webp?v=0.9167_0.4020-g48c0b959
   MISMATCH hantaran-kahwin
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/hantaran-kahwin/1787396480698-cover/crop-4x3-article-card-sm.webp?v=0.6872_0.6475-g48c0b959
       page has  https://images.hellokahwin.com/inspire/hantaran-kahwin/1787396480698-cover/crop-4x3-article-card-md.webp?v=0.6872_0.6475-g48c0b959
   MISMATCH hantaran-kahwin-bajet
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/hantaran-kahwin-bajet/1787780589299-images-s-tujuh-dulang-hantaran-rombongan-azlan-dupree/crop-4x3-article-card-sm.webp?v=0.6867_0.5280-g48c0b959
       page has  https://images.hellokahwin.com/inspire/hantaran-kahwin-bajet/1787780589299-images-s-tujuh-dulang-hantaran-rombongan-azlan-dupree/crop-4x3-article-card-md.webp?v=0.6867_0.5280-g48c0b959
-  MISMATCH hantaran-tempah-atau-buat-sendiri
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/hantaran-tempah-atau-buat-sendiri/1787765324733-images-s-gubahan-kain-hantaran-mohd-hasan/crop-4x3-article-card-sm.webp?v=0.6224_0.4987-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/hantaran-tempah-atau-buat-sendiri/1787765324733-images-s-gubahan-kain-hantaran-mohd-hasan/crop-4x3-article-card-md.webp?v=0.6224_0.4987-g48c0b959
+  MISMATCH gubahan-hantaran
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/gubahan-hantaran/1787680501907-images-s-serah-hantaran-akad-mylifestory/crop-4x3-article-card-sm.webp?v=0.7162_0.1867-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/gubahan-hantaran/1787680501907-images-s-serah-hantaran-akad-mylifestory/crop-4x3-article-card-md.webp?v=0.7162_0.1867-g48c0b959
   MISMATCH hantaran-tema-warna
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/hantaran-tema-warna/1787765144241-images-s-kotak-hantaran-putih-tema-merah-jambu-qodak-stx/crop-4x3-article-card-sm.webp?v=0.4367_0.1500-g48c0b959
       page has  https://images.hellokahwin.com/inspire/hantaran-tema-warna/1787765144241-images-s-kotak-hantaran-putih-tema-merah-jambu-qodak-stx/crop-4x3-article-card-md.webp?v=0.4367_0.1500-g48c0b959
-  MISMATCH hantaran-kahwin-5-balas-7
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/hantaran-kahwin-5-balas-7/1787758446371-images-s-dulang-hantaran-tunang-lantai-azlan-dupree/crop-4x3-article-card-sm.webp?v=0.9167_0.4020-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/hantaran-kahwin-5-balas-7/1787758446371-images-s-dulang-hantaran-tunang-lantai-azlan-dupree/crop-4x3-article-card-md.webp?v=0.9167_0.4020-g48c0b959
-  MISMATCH hantaran-tunang-3-balas-5
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/hantaran-tunang-3-balas-5/1787758482975-images-s-cincin-tunang-dulang-mohd-nasir/crop-4x3-article-card-sm.webp?v=0.6224_0.0667-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/hantaran-tunang-3-balas-5/1787758482975-images-s-cincin-tunang-dulang-mohd-nasir/crop-4x3-article-card-md.webp?v=0.6224_0.0667-g48c0b959
+  MISMATCH hantaran-coklat
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/hantaran-coklat/1787765191937-images-s-rombongan-bawa-hantaran-terengganu-mohd-hasan/crop-4x3-article-card-sm.webp?v=0.3100_0.4379-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/hantaran-coklat/1787765191937-images-s-rombongan-bawa-hantaran-terengganu-mohd-hasan/crop-4x3-article-card-md.webp?v=0.3100_0.4379-g48c0b959
   MISMATCH hantaran-tunang
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/dulang-hantaran/1787680476366-images-s-dulang-buah-hantaran-mohd-hasan/crop-4x3-article-card-sm.webp?v=0.2475_0.6561-g48c0b959
       page has  https://images.hellokahwin.com/inspire/dulang-hantaran/1787680476366-images-s-dulang-buah-hantaran-mohd-hasan/crop-4x3-article-card-md.webp?v=0.2475_0.6561-g48c0b959
+  MISMATCH hantaran-tempah-atau-buat-sendiri
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/hantaran-tempah-atau-buat-sendiri/1787765324733-images-s-gubahan-kain-hantaran-mohd-hasan/crop-4x3-article-card-sm.webp?v=0.6224_0.4987-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/hantaran-tempah-atau-buat-sendiri/1787765324733-images-s-gubahan-kain-hantaran-mohd-hasan/crop-4x3-article-card-md.webp?v=0.6224_0.4987-g48c0b959
+  MISMATCH hantaran-tunang-3-balas-5
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/hantaran-tunang-3-balas-5/1787758482975-images-s-cincin-tunang-dulang-mohd-nasir/crop-4x3-article-card-sm.webp?v=0.6224_0.0667-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/hantaran-tunang-3-balas-5/1787758482975-images-s-cincin-tunang-dulang-mohd-nasir/crop-4x3-article-card-md.webp?v=0.6224_0.0667-g48c0b959
   MISMATCH hantaran-tunang-simple
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/hantaran-tunang-simple/1787780684276-images-s-hantaran-sangkar-buah-ringkas-phalinn-ooi/crop-4x3-article-card-sm.webp?v=0.3733_0.2460-g48c0b959
       page has  https://images.hellokahwin.com/inspire/hantaran-tunang-simple/1787780684276-images-s-hantaran-sangkar-buah-ringkas-phalinn-ooi/crop-4x3-article-card-md.webp?v=0.3733_0.2460-g48c0b959
-  MISMATCH hantaran-tunang-untuk-lelaki
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/hantaran-tunang-untuk-lelaki/1787780605155-images-s-hantaran-quran-sejadah-phalinn-ooi/crop-4x3-article-card-sm.webp?v=0.1233_0.6240-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/hantaran-tunang-untuk-lelaki/1787780605155-images-s-hantaran-quran-sejadah-phalinn-ooi/crop-4x3-article-card-md.webp?v=0.1233_0.6240-g48c0b959
   MISMATCH hantaran-tunang-untuk-perempuan
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/hantaran-tunang-untuk-perempuan/1787780629329-images-s-tepak-sirih-emas-dulang-phalinn-ooi/crop-4x3-article-card-sm.webp?v=0.3100_0.3720-g48c0b959
       page has  https://images.hellokahwin.com/inspire/hantaran-tunang-untuk-perempuan/1787780629329-images-s-tepak-sirih-emas-dulang-phalinn-ooi/crop-4x3-article-card-md.webp?v=0.3100_0.3720-g48c0b959
-  MISMATCH hantaran-wajib-atau-adat
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/hantaran-wajib-atau-adat/1787758644455-images-s-tepak-sirih-muzium-negara-marcin-konsek/crop-4x3-article-card-sm.webp?v=0.3112_0.3733-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/hantaran-wajib-atau-adat/1787758644455-images-s-tepak-sirih-muzium-negara-marcin-konsek/crop-4x3-article-card-md.webp?v=0.3112_0.3733-g48c0b959
   MISMATCH hantaran-untuk-lelaki
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/hantaran-untuk-lelaki/1787781752165-images-s-serah-dulang-hantaran-lelaki-azlan-dupree/crop-4x3-article-card-sm.webp?v=0.6867_0.1500-g48c0b959
       page has  https://images.hellokahwin.com/inspire/hantaran-untuk-lelaki/1787781752165-images-s-serah-dulang-hantaran-lelaki-azlan-dupree/crop-4x3-article-card-md.webp?v=0.6867_0.1500-g48c0b959
+  MISMATCH hantaran-tunang-untuk-lelaki
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/hantaran-tunang-untuk-lelaki/1787780605155-images-s-hantaran-quran-sejadah-phalinn-ooi/crop-4x3-article-card-sm.webp?v=0.1233_0.6240-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/hantaran-tunang-untuk-lelaki/1787780605155-images-s-hantaran-quran-sejadah-phalinn-ooi/crop-4x3-article-card-md.webp?v=0.1233_0.6240-g48c0b959
+  MISMATCH hantaran-wajib-atau-adat
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/hantaran-wajib-atau-adat/1787758644455-images-s-tepak-sirih-muzium-negara-marcin-konsek/crop-4x3-article-card-sm.webp?v=0.3112_0.3733-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/hantaran-wajib-atau-adat/1787758644455-images-s-tepak-sirih-muzium-negara-marcin-konsek/crop-4x3-article-card-md.webp?v=0.3112_0.3733-g48c0b959
   MISMATCH harga-sewa-dewan-kahwin
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/harga-sewa-dewan-kahwin/1787707807262-images-s-dewan-majlis-daerah-labis-chongkian/crop-4x3-article-card-sm.webp?v=0.1538_0.3733-g48c0b959
       page has  https://images.hellokahwin.com/inspire/harga-sewa-dewan-kahwin/1787707807262-images-s-dewan-majlis-daerah-labis-chongkian/crop-4x3-article-card-md.webp?v=0.1538_0.3733-g48c0b959
@@ -176,143 +176,143 @@ byte ceiling 114048 B on the served cover
   MISMATCH hiv-test-kahwin
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/hiv-test-kahwin/1788289729264-images-s-klinik-kesihatan-meru-selangor-wiki-farazi/crop-4x3-article-card-sm.webp?v=0.7800_0.3733-g48c0b959
       page has  https://images.hellokahwin.com/inspire/hiv-test-kahwin/1788289729264-images-s-klinik-kesihatan-meru-selangor-wiki-farazi/crop-4x3-article-card-md.webp?v=0.7800_0.3733-g48c0b959
-  MISMATCH jw-marriott-kuala-lumpur
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/jw-marriott-kuala-lumpur/1787395895924-cover/crop-4x3-article-card-sm.webp?v=0.3734_0.7738-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/jw-marriott-kuala-lumpur/1787395895924-cover/crop-4x3-article-card-md.webp?v=0.3734_0.7738-g48c0b959
-  MISMATCH kad-nikah-selangor
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/kad-nikah-selangor/1788289774450-images-s-utc-shah-alam-angys/crop-4x3-article-card-sm.webp?v=0.8437_0.2507-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/kad-nikah-selangor/1788289774450-images-s-utc-shah-alam-angys/crop-4x3-article-card-md.webp?v=0.8437_0.2507-g48c0b959
   MISMATCH inai-tangan-pengantin
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/inai-tangan-pengantin/1787707260598-images-s-inai-tangan-pengantin-azman-aziz/crop-4x3-article-card-sm.webp?v=0.3434_0.4979-g48c0b959
       page has  https://images.hellokahwin.com/inspire/inai-tangan-pengantin/1787707260598-images-s-inai-tangan-pengantin-azman-aziz/crop-4x3-article-card-md.webp?v=0.3434_0.4979-g48c0b959
+  MISMATCH jw-marriott-kuala-lumpur
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/jw-marriott-kuala-lumpur/1787395895924-cover/crop-4x3-article-card-sm.webp?v=0.3734_0.7738-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/jw-marriott-kuala-lumpur/1787395895924-cover/crop-4x3-article-card-md.webp?v=0.3734_0.7738-g48c0b959
+  MISMATCH kursus-kahwin-selangor
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/kursus-kahwin-selangor/1788289755438-images-s-kaunter-utc-keramat-angys/crop-4x3-article-card-sm.webp?v=0.9075_0.1333-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/kursus-kahwin-selangor/1788289755438-images-s-kaunter-utc-keramat-angys/crop-4x3-article-card-md.webp?v=0.9075_0.1333-g48c0b959
   MISMATCH kursus-kahwin
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/kursus-kahwin/1787396411246-cover/crop-4x3-article-card-sm.webp?v=0.4671_0.4976-g48c0b959
       page has  https://images.hellokahwin.com/inspire/kursus-kahwin/1787396411246-cover/crop-4x3-article-card-md.webp?v=0.4671_0.4976-g48c0b959
+  MISMATCH kad-nikah-selangor
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/kad-nikah-selangor/1788289774450-images-s-utc-shah-alam-angys/crop-4x3-article-card-sm.webp?v=0.8437_0.2507-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/kad-nikah-selangor/1788289774450-images-s-utc-shah-alam-angys/crop-4x3-article-card-md.webp?v=0.8437_0.2507-g48c0b959
   MISMATCH lafaz-taklik
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/lafaz-taklik/1787707459685-images-s-lelaki-menadah-doa-ahmad-ali-karim/crop-4x3-article-card-sm.webp?v=0.7801_0.6539-g48c0b959
       page has  https://images.hellokahwin.com/inspire/lafaz-taklik/1787707459685-images-s-lelaki-menadah-doa-ahmad-ali-karim/crop-4x3-article-card-md.webp?v=0.7801_0.6539-g48c0b959
   MISMATCH lafaz-akad-nikah
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/lafaz-akad-nikah/1788203336190-images-s-akad-tok-kadi-raja-abd-kadir/crop-4x3-article-card-sm.webp?v=0.5287_0.2187-g48c0b959
       page has  https://images.hellokahwin.com/inspire/lafaz-akad-nikah/1788203336190-images-s-akad-tok-kadi-raja-abd-kadir/crop-4x3-article-card-md.webp?v=0.5287_0.2187-g48c0b959
-  MISMATCH lokasi-pre-wedding-photoshoot-terbaik
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/lokasi-pre-wedding-photoshoot-terbaik/1787396444200-cover/crop-4x3-article-card-sm.webp?v=0.7804_0.8516-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/lokasi-pre-wedding-photoshoot-terbaik/1787396444200-cover/crop-4x3-article-card-md.webp?v=0.7804_0.8516-g48c0b959
-  MISMATCH kursus-kahwin-selangor
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/kursus-kahwin-selangor/1788289755438-images-s-kaunter-utc-keramat-angys/crop-4x3-article-card-sm.webp?v=0.9075_0.1333-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/kursus-kahwin-selangor/1788289755438-images-s-kaunter-utc-keramat-angys/crop-4x3-article-card-md.webp?v=0.9075_0.1333-g48c0b959
   MISMATCH majlis-kahwin
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/majlis-kahwin/1787397002082-cover/crop-4x3-article-card-sm.webp?v=0.6861_0.5922-g48c0b959
       page has  https://images.hellokahwin.com/inspire/majlis-kahwin/1787397002082-cover/crop-4x3-article-card-md.webp?v=0.6861_0.5922-g48c0b959
+  MISMATCH lokasi-pre-wedding-photoshoot-terbaik
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/lokasi-pre-wedding-photoshoot-terbaik/1787396444200-cover/crop-4x3-article-card-sm.webp?v=0.7804_0.8516-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/lokasi-pre-wedding-photoshoot-terbaik/1787396444200-cover/crop-4x3-article-card-md.webp?v=0.7804_0.8516-g48c0b959
   MISMATCH marriott-putrajaya
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/marriott-putrajaya/1787397328028-cover/crop-4x3-article-card-sm.webp?v=0.5598_0.4990-g48c0b959
       page has  https://images.hellokahwin.com/inspire/marriott-putrajaya/1787397328028-cover/crop-4x3-article-card-md.webp?v=0.5598_0.4990-g48c0b959
-  MISMATCH mas-kahwin-johor
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/mas-kahwin-johor/1787707316721-images-s-kompang-gendang-johor-stress043/crop-4x3-article-card-sm.webp?v=0.5285_0.3069-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/mas-kahwin-johor/1787707316721-images-s-kompang-gendang-johor-stress043/crop-4x3-article-card-md.webp?v=0.5285_0.3069-g48c0b959
   MISMATCH mas-kahwin-ikut-negeri
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/mas-kahwin-ikut-negeri/1787655861515-images-s-pengantin-merah-jambu-pelamin-mohd-hasan/crop-4x3-article-card-sm.webp?v=0.8434_0.6839-g48c0b959
       page has  https://images.hellokahwin.com/inspire/mas-kahwin-ikut-negeri/1787655861515-images-s-pengantin-merah-jambu-pelamin-mohd-hasan/crop-4x3-article-card-md.webp?v=0.8434_0.6839-g48c0b959
+  MISMATCH mas-kahwin-johor
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/mas-kahwin-johor/1787707316721-images-s-kompang-gendang-johor-stress043/crop-4x3-article-card-sm.webp?v=0.5285_0.3069-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/mas-kahwin-johor/1787707316721-images-s-kompang-gendang-johor-stress043/crop-4x3-article-card-md.webp?v=0.5285_0.3069-g48c0b959
+  MISMATCH mas-kahwin-kelantan-terengganu
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/mas-kahwin-kelantan-terengganu/1787707337050-images-s-arak-pengantin-kelantan-malexi/crop-4x3-article-card-sm.webp?v=0.0938_0.8107-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/mas-kahwin-kelantan-terengganu/1787707337050-images-s-arak-pengantin-kelantan-malexi/crop-4x3-article-card-md.webp?v=0.0938_0.8107-g48c0b959
   MISMATCH mas-kahwin-pahang-negeri-sembilan
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/mas-kahwin-pahang-negeri-sembilan/1787707358534-images-s-pejabat-agama-cameron-highlands-gula-kapas/crop-4x3-article-card-sm.webp?v=0.8086_0.6200-g48c0b959
       page has  https://images.hellokahwin.com/inspire/mas-kahwin-pahang-negeri-sembilan/1787707358534-images-s-pejabat-agama-cameron-highlands-gula-kapas/crop-4x3-article-card-md.webp?v=0.8086_0.6200-g48c0b959
   MISMATCH mas-kahwin-melebihi-kadar-minimum
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/cincin-tunang/1787707557892-images-s-kedai-emas-johor-bahru-chongkian/crop-4x3-article-card-sm.webp?v=0.1666_0.6400-g48c0b959
       page has  https://images.hellokahwin.com/inspire/cincin-tunang/1787707557892-images-s-kedai-emas-johor-bahru-chongkian/crop-4x3-article-card-md.webp?v=0.1666_0.6400-g48c0b959
-  MISMATCH mas-kahwin-kelantan-terengganu
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/mas-kahwin-kelantan-terengganu/1787707337050-images-s-arak-pengantin-kelantan-malexi/crop-4x3-article-card-sm.webp?v=0.0938_0.8107-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/mas-kahwin-kelantan-terengganu/1787707337050-images-s-arak-pengantin-kelantan-malexi/crop-4x3-article-card-md.webp?v=0.0938_0.8107-g48c0b959
-  MISMATCH mas-kahwin-perak
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/mas-kahwin-perak/1787707389884-images-s-maipk-perak-chongkian/crop-4x3-article-card-sm.webp?v=0.5625_0.2773-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/mas-kahwin-perak/1787707389884-images-s-maipk-perak-chongkian/crop-4x3-article-card-md.webp?v=0.5625_0.2773-g48c0b959
   MISMATCH mas-kahwin-sabah-sarawak
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/mas-kahwin-sabah-sarawak/1787707412159-images-s-mahkamah-syariah-keningau-sabah-aranas/crop-4x3-article-card-sm.webp?v=0.9168_0.5279-g48c0b959
       page has  https://images.hellokahwin.com/inspire/mas-kahwin-sabah-sarawak/1787707412159-images-s-mahkamah-syariah-keningau-sabah-aranas/crop-4x3-article-card-md.webp?v=0.9168_0.5279-g48c0b959
+  MISMATCH pakej-dewan-kahwin
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/pakej-dewan-kahwin/1787707835158-images-s-hidangan-bufet-pulau-pinang-ciksitimelati/crop-4x3-article-card-sm.webp?v=0.2475_0.5280-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/pakej-dewan-kahwin/1787707835158-images-s-hidangan-bufet-pulau-pinang-ciksitimelati/crop-4x3-article-card-md.webp?v=0.2475_0.5280-g48c0b959
   MISMATCH nisbah-hantaran
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/nisbah-hantaran/1787758416340-images-s-gubahan-kain-hantaran-mohd-hasan/crop-4x3-article-card-sm.webp?v=0.6224_0.4987-g48c0b959
       page has  https://images.hellokahwin.com/inspire/nisbah-hantaran/1787758416340-images-s-gubahan-kain-hantaran-mohd-hasan/crop-4x3-article-card-md.webp?v=0.6224_0.4987-g48c0b959
+  MISMATCH mas-kahwin-perak
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/mas-kahwin-perak/1787707389884-images-s-maipk-perak-chongkian/crop-4x3-article-card-sm.webp?v=0.5625_0.2773-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/mas-kahwin-perak/1787707389884-images-s-maipk-perak-chongkian/crop-4x3-article-card-md.webp?v=0.5625_0.2773-g48c0b959
+  MISMATCH pelamin
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/pelamin/1787657468167-images-s-bersanding-pelamin-mohd-hasan/crop-4x3-article-card-sm.webp?v=0.9168_0.4979-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/pelamin/1787657468167-images-s-bersanding-pelamin-mohd-hasan/crop-4x3-article-card-md.webp?v=0.9168_0.4979-g48c0b959
   MISMATCH pelamin-kahwin-dewan
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/pelamin/1787657468167-images-s-pelamin-putih-shahnazshahizan/crop-4x3-article-card-sm.webp?v=0.6225_0.5600-g48c0b959
       page has  https://images.hellokahwin.com/inspire/pelamin/1787657468167-images-s-pelamin-putih-shahnazshahizan/crop-4x3-article-card-md.webp?v=0.6225_0.5600-g48c0b959
   MISMATCH perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan/1787395766407-cover/crop-4x3-article-card-sm.webp?v=0.5001_0.8458-g48c0b959
       page has  https://images.hellokahwin.com/inspire/perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan/1787395766407-cover/crop-4x3-article-card-md.webp?v=0.5001_0.8458-g48c0b959
-  MISMATCH pelamin
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/pelamin/1787657468167-images-s-bersanding-pelamin-mohd-hasan/crop-4x3-article-card-sm.webp?v=0.9168_0.4979-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/pelamin/1787657468167-images-s-bersanding-pelamin-mohd-hasan/crop-4x3-article-card-md.webp?v=0.9168_0.4979-g48c0b959
   MISMATCH perkahwinan-indah-di-laman-fajar-menyinsing-port-dickson
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/perkahwinan-indah-di-laman-fajar-menyinsing-port-dickson/1787396030245-cover/crop-4x3-article-card-sm.webp?v=0.5001_0.3719-g48c0b959
       page has  https://images.hellokahwin.com/inspire/perkahwinan-indah-di-laman-fajar-menyinsing-port-dickson/1787396030245-cover/crop-4x3-article-card-md.webp?v=0.5001_0.3719-g48c0b959
-  MISMATCH perkahwinan-taman-kebun-yang-minimalis-di-hulu-langat
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/perkahwinan-taman-kebun-yang-minimalis-di-hulu-langat/1787395973700-cover/crop-4x3-article-card-sm.webp?v=0.5934_0.1500-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/perkahwinan-taman-kebun-yang-minimalis-di-hulu-langat/1787395973700-cover/crop-4x3-article-card-md.webp?v=0.5934_0.1500-g48c0b959
   MISMATCH perkahwinan-romantis-di-jen-shangri-la-puteri-harbour
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/perkahwinan-romantis-di-jen-shangri-la-puteri-harbour/1787396127546-cover/crop-4x3-article-card-sm.webp?v=0.2494_0.5894-g48c0b959
       page has  https://images.hellokahwin.com/inspire/perkahwinan-romantis-di-jen-shangri-la-puteri-harbour/1787396127546-cover/crop-4x3-article-card-md.webp?v=0.2494_0.5894-g48c0b959
-  MISMATCH pakej-dewan-kahwin
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/pakej-dewan-kahwin/1787707835158-images-s-hidangan-bufet-pulau-pinang-ciksitimelati/crop-4x3-article-card-sm.webp?v=0.2475_0.5280-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/pakej-dewan-kahwin/1787707835158-images-s-hidangan-bufet-pulau-pinang-ciksitimelati/crop-4x3-article-card-md.webp?v=0.2475_0.5280-g48c0b959
-  MISMATCH rukun-nikah
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/rukun-nikah/1788203511285-images-s-akad-nikah-masjid-azlan-dupree/crop-4x3-article-card-sm.webp?v=0.1867_0.5580-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/rukun-nikah/1788203511285-images-s-akad-nikah-masjid-azlan-dupree/crop-4x3-article-card-md.webp?v=0.1867_0.5580-g48c0b959
   MISMATCH persiapan-hantaran-kahwin
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/persiapan-hantaran-kahwin/1787780683875-images-s-rombongan-hantaran-jalan-azlan-dupree/crop-4x3-article-card-sm.webp?v=0.6867_0.4980-g48c0b959
       page has  https://images.hellokahwin.com/inspire/persiapan-hantaran-kahwin/1787780683875-images-s-rombongan-hantaran-jalan-azlan-dupree/crop-4x3-article-card-md.webp?v=0.6867_0.4980-g48c0b959
+  MISMATCH perkahwinan-taman-kebun-yang-minimalis-di-hulu-langat
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/perkahwinan-taman-kebun-yang-minimalis-di-hulu-langat/1787395973700-cover/crop-4x3-article-card-sm.webp?v=0.5934_0.1500-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/perkahwinan-taman-kebun-yang-minimalis-di-hulu-langat/1787395973700-cover/crop-4x3-article-card-md.webp?v=0.5934_0.1500-g48c0b959
+  MISMATCH rukun-nikah
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/rukun-nikah/1788203511285-images-s-akad-nikah-masjid-azlan-dupree/crop-4x3-article-card-sm.webp?v=0.1867_0.5580-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/rukun-nikah/1788203511285-images-s-akad-nikah-masjid-azlan-dupree/crop-4x3-article-card-md.webp?v=0.1867_0.5580-g48c0b959
   MISMATCH sentosa-janda-baik
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/sentosa-janda-baik/1787396879848-cover/crop-4x3-article-card-sm.webp?v=0.4362_0.8614-g48c0b959
       page has  https://images.hellokahwin.com/inspire/sentosa-janda-baik/1787396879848-cover/crop-4x3-article-card-md.webp?v=0.4362_0.8614-g48c0b959
   MISMATCH sewa-dewan-kahwin
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/sewa-dewan-kahwin/1787396701276-cover/crop-4x3-article-card-sm.webp?v=0.1875_0.5888-g48c0b959
       page has  https://images.hellokahwin.com/inspire/sewa-dewan-kahwin/1787396701276-cover/crop-4x3-article-card-md.webp?v=0.1875_0.5888-g48c0b959
-  MISMATCH sime-darby-convention-centre
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/sime-darby-convention-centre/1787396716550-cover/crop-4x3-article-card-sm.webp?v=0.8405_0.4368-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/sime-darby-convention-centre/1787396716550-cover/crop-4x3-article-card-md.webp?v=0.8405_0.4368-g48c0b959
   MISMATCH sirih-junjung
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/sirih-junjung/1787680524028-images-s-sirih-junjung-mohd-nasir/crop-4x3-article-card-sm.webp?v=0.4667_0.2460-g48c0b959
       page has  https://images.hellokahwin.com/inspire/sirih-junjung/1787680524028-images-s-sirih-junjung-mohd-nasir/crop-4x3-article-card-md.webp?v=0.4667_0.2460-g48c0b959
-  MISMATCH syarat-wali-nikah
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/syarat-wali-nikah/1788289708079-images-s-wali-saksi-tok-kadi-mylifestory/crop-4x3-article-card-sm.webp?v=0.7133_0.0750-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/syarat-wali-nikah/1788289708079-images-s-wali-saksi-tok-kadi-mylifestory/crop-4x3-article-card-md.webp?v=0.7133_0.0750-g48c0b959
-  MISMATCH skrip-pengacara-majlis-perkahwinan
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/lafaz-taklik/1787707459685-images-s-tok-kadi-baca-khutbah-mylifestory/crop-4x3-article-card-sm.webp?v=0.7467_0.3000-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/lafaz-taklik/1787707459685-images-s-tok-kadi-baca-khutbah-mylifestory/crop-4x3-article-card-md.webp?v=0.7467_0.3000-g48c0b959
+  MISMATCH sime-darby-convention-centre
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/sime-darby-convention-centre/1787396716550-cover/crop-4x3-article-card-sm.webp?v=0.8405_0.4368-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/sime-darby-convention-centre/1787396716550-cover/crop-4x3-article-card-md.webp?v=0.8405_0.4368-g48c0b959
   MISMATCH songket-tenunan-tangan-atau-cetak
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/songket-tenunan-tangan-atau-cetak/1787654687597-images-s-songket-limar-terengganu-daderot/crop-4x3-article-card-sm.webp?v=0.8101_0.4679-g48c0b959
       page has  https://images.hellokahwin.com/inspire/songket-tenunan-tangan-atau-cetak/1787654687597-images-s-songket-limar-terengganu-daderot/crop-4x3-article-card-md.webp?v=0.8101_0.4679-g48c0b959
+  MISMATCH skrip-pengacara-majlis-perkahwinan
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/lafaz-taklik/1787707459685-images-s-tok-kadi-baca-khutbah-mylifestory/crop-4x3-article-card-sm.webp?v=0.7467_0.3000-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/lafaz-taklik/1787707459685-images-s-tok-kadi-baca-khutbah-mylifestory/crop-4x3-article-card-md.webp?v=0.7467_0.3000-g48c0b959
+  MISMATCH syarat-sah-nikah
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/syarat-sah-nikah/1787707508568-images-s-akad-tok-kadi-raja-abd-kadir/crop-4x3-article-card-sm.webp?v=0.5287_0.2187-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/syarat-sah-nikah/1787707508568-images-s-akad-tok-kadi-raja-abd-kadir/crop-4x3-article-card-md.webp?v=0.5287_0.2187-g48c0b959
+  MISMATCH syarat-wali-nikah
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/syarat-wali-nikah/1788289708079-images-s-wali-saksi-tok-kadi-mylifestory/crop-4x3-article-card-sm.webp?v=0.7133_0.0750-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/syarat-wali-nikah/1788289708079-images-s-wali-saksi-tok-kadi-mylifestory/crop-4x3-article-card-md.webp?v=0.7133_0.0750-g48c0b959
   MISMATCH taaruf-maksud
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/taaruf-maksud/1787707624259-images-s-pasangan-baju-oren-azman-aziz/crop-4x3-article-card-sm.webp?v=0.0833_0.1560-g48c0b959
       page has  https://images.hellokahwin.com/inspire/taaruf-maksud/1787707624259-images-s-pasangan-baju-oren-azman-aziz/crop-4x3-article-card-md.webp?v=0.0833_0.1560-g48c0b959
-  MISMATCH ucapan-pengantin-baru
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/ucapan-pengantin-baru/1787707708864-images-s-tetamu-tiba-majlis-ahmad-ali-karim/crop-4x3-article-card-sm.webp?v=0.6234_0.1860-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/ucapan-pengantin-baru/1787707708864-images-s-tetamu-tiba-majlis-ahmad-ali-karim/crop-4x3-article-card-md.webp?v=0.6234_0.1860-g48c0b959
-  MISMATCH tempat-honeymoon-di-malaysia
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/tempat-honeymoon-di-malaysia/1787395659226-cover/crop-4x3-article-card-sm.webp?v=0.3750_0.7440-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/tempat-honeymoon-di-malaysia/1787395659226-cover/crop-4x3-article-card-md.webp?v=0.3750_0.7440-g48c0b959
   MISMATCH the-danna-langkawi
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/the-danna-langkawi/1787397136563-cover/crop-4x3-article-card-sm.webp?v=0.4687_0.4677-g48c0b959
       page has  https://images.hellokahwin.com/inspire/the-danna-langkawi/1787397136563-cover/crop-4x3-article-card-md.webp?v=0.4687_0.4677-g48c0b959
   MISMATCH tempat-beli-hantaran
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/tempat-beli-hantaran/1787780709236-images-s-dulang-buah-hantaran-mohd-hasan/crop-4x3-article-card-sm.webp?v=0.2475_0.6561-g48c0b959
       page has  https://images.hellokahwin.com/inspire/tempat-beli-hantaran/1787780709236-images-s-dulang-buah-hantaran-mohd-hasan/crop-4x3-article-card-md.webp?v=0.2475_0.6561-g48c0b959
-  MISMATCH syarat-sah-nikah
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/syarat-sah-nikah/1787707508568-images-s-akad-tok-kadi-raja-abd-kadir/crop-4x3-article-card-sm.webp?v=0.5287_0.2187-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/syarat-sah-nikah/1787707508568-images-s-akad-tok-kadi-raja-abd-kadir/crop-4x3-article-card-md.webp?v=0.5287_0.2187-g48c0b959
-  MISMATCH walimatul-urus
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/walimatul-urus/1787680552936-images-s-jamuan-kenduri-raja-abd-kadir/crop-4x3-article-card-sm.webp?v=0.5925_0.8107-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/walimatul-urus/1787680552936-images-s-jamuan-kenduri-raja-abd-kadir/crop-4x3-article-card-md.webp?v=0.5925_0.8107-g48c0b959
-  MISMATCH wedding-planner-terbaik-di-malaysia
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/wedding-planner-terbaik-di-malaysia/1787395692821-cover/crop-4x3-article-card-sm.webp?v=0.7813_0.4992-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/wedding-planner-terbaik-di-malaysia/1787395692821-cover/crop-4x3-article-card-md.webp?v=0.7813_0.4992-g48c0b959
-  MISMATCH yasaka-shrine
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/yasaka-shrine/1787396198396-cover/crop-4x3-article-card-sm.webp?v=0.5313_0.6208-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/yasaka-shrine/1787396198396-cover/crop-4x3-article-card-md.webp?v=0.5313_0.6208-g48c0b959
-  MISMATCH villa-warisan
-      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/villa-warisan/1787397271336-cover/crop-4x3-article-card-sm.webp?v=0.4688_0.6528-g48c0b959
-      page has  https://images.hellokahwin.com/inspire/villa-warisan/1787397271336-cover/crop-4x3-article-card-md.webp?v=0.4688_0.6528-g48c0b959
+  MISMATCH tempat-honeymoon-di-malaysia
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/tempat-honeymoon-di-malaysia/1787395659226-cover/crop-4x3-article-card-sm.webp?v=0.3750_0.7440-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/tempat-honeymoon-di-malaysia/1787395659226-cover/crop-4x3-article-card-md.webp?v=0.3750_0.7440-g48c0b959
+  MISMATCH ucapan-pengantin-baru
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/ucapan-pengantin-baru/1787707708864-images-s-tetamu-tiba-majlis-ahmad-ali-karim/crop-4x3-article-card-sm.webp?v=0.6234_0.1860-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/ucapan-pengantin-baru/1787707708864-images-s-tetamu-tiba-majlis-ahmad-ali-karim/crop-4x3-article-card-md.webp?v=0.6234_0.1860-g48c0b959
   MISMATCH ucapan-ulang-tahun-perkahwinan
       db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/ucapan-ulang-tahun-perkahwinan/1788202992329-images-s-pasangan-baju-oren-azman-aziz/crop-4x3-article-card-sm.webp?v=0.0833_0.1560-g48c0b959
       page has  https://images.hellokahwin.com/inspire/ucapan-ulang-tahun-perkahwinan/1788202992329-images-s-pasangan-baju-oren-azman-aziz/crop-4x3-article-card-md.webp?v=0.0833_0.1560-g48c0b959
+  MISMATCH villa-warisan
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/villa-warisan/1787397271336-cover/crop-4x3-article-card-sm.webp?v=0.4688_0.6528-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/villa-warisan/1787397271336-cover/crop-4x3-article-card-md.webp?v=0.4688_0.6528-g48c0b959
+  MISMATCH wedding-planner-terbaik-di-malaysia
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/wedding-planner-terbaik-di-malaysia/1787395692821-cover/crop-4x3-article-card-sm.webp?v=0.7813_0.4992-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/wedding-planner-terbaik-di-malaysia/1787395692821-cover/crop-4x3-article-card-md.webp?v=0.7813_0.4992-g48c0b959
+  MISMATCH walimatul-urus
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/walimatul-urus/1787680552936-images-s-jamuan-kenduri-raja-abd-kadir/crop-4x3-article-card-sm.webp?v=0.5925_0.8107-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/walimatul-urus/1787680552936-images-s-jamuan-kenduri-raja-abd-kadir/crop-4x3-article-card-md.webp?v=0.5925_0.8107-g48c0b959
+  MISMATCH yasaka-shrine
+      db wants  crop-4x3-article-card-sm  https://images.hellokahwin.com/inspire/yasaka-shrine/1787396198396-cover/crop-4x3-article-card-sm.webp?v=0.5313_0.6208-g48c0b959
+      page has  https://images.hellokahwin.com/inspire/yasaka-shrine/1787396198396-cover/crop-4x3-article-card-md.webp?v=0.5313_0.6208-g48c0b959
 
-102 checked, 102 mismatched, 0 overweight, 0 unreadable
+102 checked, 102 mismatched, 0 overweight, 0 missing crop-4x3-article-card-md, 0 unreadable
 
 A mismatch is usually the article payload cache, not the code: it is written
 with `revalidate: false`, so a DIRECT database write (this repo's ingest CLI and

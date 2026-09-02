@@ -194,13 +194,58 @@ A mean of **790 KB on the LCP element**. Their `low.webp` totals 378,182 B, so t
 
 > ⚠ **ESCALATED, NOT ABSORBED.** `scripts/ingest-article.mts` runs from **an agent's own checkout, not from the deployed app**, so a code change to the ingest path silently does not apply to any agent who has not rebased — UI-16's 19:51 fix was bypassed by a 20:12 ingest. Every ingest-path change in this repo has this property and nothing announces it. Cheap mitigation: publishing agents rebase onto `master` before an ingest batch. Durable one: move ingest behind the deployed app. **Neither is a branch's call**; raised to the owner via the CONT-15 session.
 
-### 3. The ingest fix does not reach the ingest that matters
+### 3. IT RECURRED 22 MINUTES AFTER IT WENT GREEN — and the reorder held
+
+The same six were re-ingested a **second** time, 20:51:46–20:53:23Z, and lost the rendition again. Verified independently on `doa-masuk-rumah-baru`: a **new** asset id `1788295962710`, whose `crop-4x3-article-card-md.webp` is **404** and whose full crop is **200 at 1,153,770 B**. A new asset id proves re-ingestion rather than a cache artefact.
+
+**The page served the 528px rung at 38,010 B.** The reorder shipped 22 minutes earlier — `md → sm → card → low` — saved **1,115,760 B on that one page**. The defect recurred; its cost did not. That is the whole value of making a failure survivable when its cause lives outside your reach.
+
+**Who ran it — recorded as UNKNOWN, because it is, and that is itself the finding.** CONT-17 confirmed both batches were its item (the second was a post-review re-ingest after the `editorial-verification-lead` raised 6 blockers) and that no third would follow. It could **not** say which checkout performed the write: it is not logged anywhere, the work-done entry and UNDO name no ingest path, and the session that actually ran it died in the fleet-wide auth expiry. Its filesystem probes were inconclusive and it said so rather than guessing.
+
+> **A completed, reviewed, merged content item shipped six production articles and left no record of which checkout wrote them.** That is why the question could not be answered an hour later. A guard that refuses the write is the fix; a guard that *also logs the checkout and commit when it allows* would have made this a ten-second answer. Both are worth having — raised to the session building it.
+
+**What I could establish, and it is a census rather than an accusation.** Every site-line checkout, grepped for `COVER_RENDITIONS` in `src/lib/storage/smart-crop.ts`:
+
+| carries the ingest fix (6) | does not (10) |
+| --- | --- |
+| `ui16-cover`, `ui15-grid`, `ui19-rail`, `cont15-portrait`, `plat16-pillarcache`, `hk-guard` | **`hellokahwin-site` — the MAIN clone, on `master`, 28 behind** · `seo13-faq` · `risk10-hooks` · `des18-midsize` · `des15-h2weight` · `ui13-diversity` · `ui20-favicon` · `ui17-rail` · `ui18-toc` · `pillars-ingest-redirects` |
+
+**10 of 16.** The `cont17-doa` and `C:/hkint` worktrees are on the **docs line** and carry no `src/` at all, so the ingest cannot have run from either.
+
+⚠ **I first called the main clone "the likeliest offender" and have withdrawn that.** It is the checkout agents reach for when they need `src/`, and it *would* be refused by the guard — confirmed independently: it declares `crop-4x3-article-card-sm` and `crop-4x3-article-card` but not `-md`. Neither fact is evidence that it was the one used. The census stands; the inference did not, and the operational point survives it intact: **a guard that assumes an orca worktree misses the main clone.**
+
+### 4. MY OWN AUDIT WENT GREEN FOR THE WRONG REASON — twice, in one file
+
+Pointing the audit at the recurrence found two defects in the audit.
+
+**(a) It had drifted from the resolver it checks.** PR #67 reordered `resolveArticleCoverSource` to `md → sm → card → low` and I did not update the script's `PREFERENCE`, so it expected the full crop where the page correctly served `-sm` and reported six mismatches that were **its own error**. The header says the order is restated rather than imported *precisely so a drift is a finding, not a maintenance cost*. It arrived within the hour. The argument survives — an imported constant would have agreed with a wrong resolver just as happily — but what it means is now concrete: the two statements must be edited together, and the check exists to say so out loud.
+
+**(b) The hole the first defect was hiding.** With `PREFERENCE` corrected, the run reported `0 mismatched, 0 overweight` on six covers that had **lost the rendition** — green *because the fallback did its job*. The page serves a legal named 4:3 crop, at its declared size, under the ceiling: both existing assertions pass while the rung this item exists for is gone and the plate is quietly narrower than specified.
+
+> **A check that goes quiet because the mitigation worked is a check that lets the defect become permanent.**
+
+So the audit gained a **third** assertion: the database must still carry `crop-4x3-article-card-md` on every published cover, checked before anything is fetched, because its *absence* is what recurs. Proved on the live recurrence:
+
+```
+before   102 checked, 0 mismatched, 0 overweight, 6 missing …-md, 0 unreadable   EXIT 1
+after    102 checked, 0 mismatched, 0 overweight, 0 missing …-md, 0 unreadable   EXIT 0
+```
+
+Backfilled once CONT-17 confirmed its batch was complete (**255,012 B**), purged, re-verified. Backfilling earlier would have been wiped a third time — the 20:30 pass already had been.
+
+### 5. `scripts/` IS EXCLUDED FROM BOTH TSCONFIGS, AND I QUOTED tsc AS IF IT COVERED IT
+
+Found by the CONT-15 session on its own file and it applies directly here: `tsconfig.json` and `tsconfig.typecheck.json` both exclude `scripts/`. **Every change to `backfill-midsize-cover.mts` in this item was never type-checked**, and PR #65's body quotes `tsc --noEmit` clean as though it were. It was clean about the app, and silent about the script that writes to production.
+
+What actually covers those scripts is that both were **executed against production repeatedly** — the backfill four times, the audit six, plus a dry run confirming `102 already done · 0 to render`. That is the stronger guarantee, and it is the one that should have been quoted. Folding `scripts/` into the type gate is its own item; it would need every script in there to pass first.
+
+### 6. The ingest fix does not reach the ingest that matters
 
 `generateSmartCrops` now writes both rungs, so every future cover gets the rendition — **from the deployed app**. But `scripts/ingest-article.mts` runs from an **agent's own checkout**, not from production. `doa-untuk-isteri` was published after the deploy, by another session on an older branch, and arrived with **no rendition**. Found by re-running the audit rather than by trusting the ingest change.
 
 Re-ran the backfill (re-runnable, skips completed rows): `97 published … 1 to render · 96 already done`, wrote `doa-untuk-isteri 792x594 q50 26048 B`, purged, and the live page now serves it. **Until every worktree carries this commit, a backfill pass is still needed after a batch publish** — recorded here rather than assumed away.
 
-### 4. The Vercel failure, where I was right in outcome and wrong in mechanism
+### 7. The Vercel failure, where I was right in outcome and wrong in mechanism
 
 The first preview build failed with `ERR_PNPM_IGNORED_BUILDS` on `pnpm install`, listing packages that **are** in `package.json`'s `onlyBuiltDependencies`. The same failure hit `master`'s production deploy at `0f2a4c9` and CONT-15's branch. A retry passed, unchanged, and five green builds followed on unchanged config — which a version-bump cause cannot produce. Relayed to the CONT-15 session, which had authorised a repo-wide "fix" (adding `pnpm-workspace.yaml`, pinning `packageManager`) and **withdrew it**. Their words: *"I had found where the failures started and never checked whether they stopped."*
 
@@ -285,16 +330,20 @@ Everything under [`sep-02-2026-ui-16-EVIDENCE/`](sep-02-2026-ui-16-EVIDENCE/), r
 
 **What we did twice.** Measured the corpus. The first pass said 92 covers and produced a full set of byte totals; four articles published mid-item and every number had to be re-derived at 96, then a 97th arrived before the entry was written. This is the third sprint running that a corpus has moved under a measurement (DES-18: 86 → 89; UI-13: 89 → 92). **The habit that survives is stating the n beside every total** — which the CEO's UI-13 correction already established and which this entry follows.
 
-**What we nearly shipped, and what caught it.** Four things:
+**What we nearly shipped, and what caught it.** Six things:
 
 1. A byte claim that was false by 8× — caught by re-reading `currentSrc` on the live page *after* the gate went green, i.e. by distrusting a comfortable zero.
 2. **A 4.7 MB live regression on the fallback path** — caught by another session weighing the served objects, because no rule this repo owns could see it.
 3. A repo-wide pnpm "fix" for a Vercel failure I had called transient — caught by checking whether the failure window had a **closing** edge, not just an opening one.
 4. A second session backfilling over these 96 objects at a different size under the same name — caught by its dry run's surprising count being checked rather than accepted.
+5. **My own audit reporting `0 mismatched, 0 overweight` on six covers that had lost the rendition** — green because the mitigation worked. Caught by pointing it at a defect I already knew was there, which is the only way that class of hole is ever found.
+6. **`tsc --noEmit` quoted as covering scripts it excludes** — caught by another session hitting the same exclusion on its own file and saying so.
 
 **THE PAIRING IS WORTH MORE THAN EITHER INCIDENT.** Two failures on this one slot in one evening, both surviving a green gate, and they are the same failure in different clothing: (1) my merge deployed READY, the gate printed `UILINT EXIT: 0` on all seven templates, and the page served a 213 KB fallback; (2) a peer's census `continue`d past six rows before counting them and produced a comfortable `0`. In both cases **an instrument reported success about something it was not actually looking at.**
 
-The rule that comes out of it, and it is now implemented rather than written: **assert against the SERVED object, not the expected one.** `audit-cover-rendition.mjs` compares the database to the rendered page and then weighs the object that page references, by HEAD. Both halves are the lesson.
+The rule that comes out of it, and it is now implemented rather than written: **assert against the SERVED object, not the expected one.** `audit-cover-rendition.mjs` compares the database to the rendered page, weighs the object that page references by HEAD, **and separately asserts the rung is still in the database** — because the third one is the only assertion that survives its own mitigation.
+
+**Six comfortable numbers in one evening, on one image slot.** A green merge over a stale cache; a peer census that `continue`d past its rows; a `tsc` exit 0 over an excluded directory; a `tsc` exit 0 over a file that did not parse; an audit quiet because a fallback absorbed the defect; and a repo-wide pnpm diagnosis built on a failure window with no closing edge. Not one was caught by a check going red. Every one was caught by somebody distrusting a number that looked fine — which is the only reason to write the rule down at all.
 
 **Which document must change, and who owns the edit — and the edit is made.**
 
@@ -303,6 +352,7 @@ The rule that comes out of it, and it is now implemented rather than written: **
 | `docs/design/card-thumbnail-image-rules.md` | `design-systems-engineer` (me — §6 is my own DES-18 paragraph) | new **§7** superseding "the article cover figure keeps `low`", plus inline markers at S5 and §6; records the R1-passing trap, the numbers, and the open CD question | ✅ shipped, `master` |
 | `scripts/backfill-midsize-cover.mts` | `design-systems-engineer` | header gains **"⚠ THE RUN IS NOT FINISHED WHEN THIS EXITS 0"** with the purge command and the audit command, at the point of use | ✅ shipped, `master` |
 | `src/lib/storage/responsive-cover.ts` | `design-systems-engineer` | the fallback order is documented as *largest-that-is-still-budgeted*, with the 4,742,962 B measurement that forced it and the reason no rule could see it | ✅ shipped, `master` |
+| `scripts/audit-cover-rendition.mjs` | `design-systems-engineer` | a third assertion — the top rung must still be IN the database — because the other two go quiet once the fallback absorbs the defect | ✅ shipped, PR #74 |
 
 **Prose rules do not fire, so the real deliverable is a script.**
 
