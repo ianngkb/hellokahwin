@@ -127,7 +127,28 @@ const CEILING = Number(opt('ceiling', 114048));
  * one rule is the point. If they drift, that is a finding — not a maintenance
  * cost to remove by importing.
  */
-const PREFERENCE = ['crop-4x3-article-card-md', 'crop-4x3-article-card'];
+const PREFERENCE = [
+  'crop-4x3-article-card-md',
+  'crop-4x3-article-card-sm',
+  'crop-4x3-article-card',
+];
+
+/**
+ * The rung the database is supposed to carry on every published cover.
+ *
+ * Checked SEPARATELY from the served URL, and that separation is the whole
+ * point. `resolveArticleCoverSource` falls to `-sm` when `-md` is missing, which
+ * is survivable — 38,010 B instead of 1,153,770 B — and completely silent: the
+ * page serves a legal named 4:3 crop at its declared size, under the ceiling, so
+ * assertions 1 and 2 both pass while the rendition this item exists for is gone.
+ *
+ * Measured 02 September 2026: the six `doa-*` articles were re-ingested TWICE
+ * from a stale checkout, and after the second pass this script reported
+ * `0 overweight` because the fallback had done its job. A check that goes quiet
+ * because the mitigation worked is a check that will let the defect become
+ * permanent.
+ */
+const TOP_RUNG = 'crop-4x3-article-card-md';
 
 function preferred(crops) {
   if (!crops || typeof crops !== 'object') return null;
@@ -208,6 +229,8 @@ async function main() {
 
   const mismatched = [];
   const unreadable = [];
+  /** Rows whose database entry has lost the top rung — assertion 3. */
+  const missingRung = [];
   /** What each page actually references, so the ceiling weighs the served object. */
   const served = [];
   let checked = 0;
@@ -217,6 +240,17 @@ async function main() {
     for (;;) {
       const r = queue.shift();
       if (!r) return;
+      // Assertion 3, checked before anything is fetched: the row must still
+      // carry the top rung. Its ABSENCE is what recurs — ingest replaces the
+      // whole smart-crops object — and the fallback hides it from every other
+      // assertion here.
+      if (!EXPECT) {
+        const top = r.crops?.[TOP_RUNG];
+        if (!(top && typeof top.width === 'number' && typeof top.height === 'number')) {
+          missingRung.push(r.slug);
+        }
+      }
+
       const want = preferred(r.crops);
       if (!want) {
         unreadable.push(`${r.slug} — no usable rendition entry in the database`);
@@ -286,11 +320,22 @@ async function main() {
 
   for (const o of overweight) console.log(`  OVERWEIGHT ${o}`);
   for (const m of mismatched) console.log(`  MISMATCH ${m}`);
+  for (const g of missingRung) console.log(`  NO ${TOP_RUNG} ${g}`);
   for (const u of unreadable) console.log(`  UNREADABLE ${u}`);
 
   console.log(
-    `\n${checked} checked, ${mismatched.length} mismatched, ${overweight.length} overweight, ${unreadable.length} unreadable`,
+    `\n${checked} checked, ${mismatched.length} mismatched, ${overweight.length} overweight, ` +
+      `${missingRung.length} missing ${TOP_RUNG}, ${unreadable.length} unreadable`,
   );
+  if (missingRung.length) {
+    console.log(
+      `\n${missingRung.length} row(s) have lost the top rung. The page is still LEGAL — the\n` +
+        'resolver falls to the 528px rung, which is why nothing above this line fired — but\n' +
+        'the rendition is gone and the plate is narrower than it should be. Ingest REPLACES\n' +
+        'the whole smart-crops object, so a publish from a checkout behind master deletes it:\n' +
+        '  pnpm backfill:midsize --db "<url>" --rendition crop-4x3-article-card-md --undo <path>',
+    );
+  }
   if (overweight.length) {
     console.log(
       '\nAn overweight cover is usually the resolver falling past the renditions to the\n' +
@@ -310,7 +355,13 @@ async function main() {
   }
   // Unreadable is never a pass. A page that could not be read is not a page
   // that agreed with the database.
-  const code = mismatched.length > 0 || overweight.length > 0 || unreadable.length > 0 ? 1 : 0;
+  const code =
+    mismatched.length > 0 ||
+    overweight.length > 0 ||
+    missingRung.length > 0 ||
+    unreadable.length > 0
+      ? 1
+      : 0;
   console.log(`RENDITION EXIT: ${code}`);
   process.exit(code);
 }
