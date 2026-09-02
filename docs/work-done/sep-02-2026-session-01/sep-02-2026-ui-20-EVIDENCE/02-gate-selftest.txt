@@ -1,0 +1,163 @@
+SELFTEST — every assertion must FIRE on the retired icon and CLEAR on the shipped one.
+
+
+[PASS] selftest colour  NEGATIVE control (retired #b4326e H)
+  fixture: 2236 opaque px, 74 distinct colours
+    dominant           #b4326e  1845/2236 (82.5%)
+    exact #b4326e     1845 px
+    pink band h270-355 s>=0.2  2058 px
+    max distance off the ink..parchment ramp  93.34/255
+    assertions fired: 4 -> dominant colour is #b4326e, expected #edeae1 (--hk-parchment-100); 1845 px of the retired #b4326e; 2058 px inside the pink hue band; a pixel sits 93.34/255 off the two-colour ramp
+    expected to FIRE — it did
+
+[PASS] selftest colour  POSITIVE control (shipped favicon.png)
+  shipped: 2304 opaque px, 91 distinct colours
+    dominant           #edeae1  1935/2304 (84.0%)
+    exact #b4326e     0 px
+    pink band h270-355 s>=0.2  0 px
+    max distance off the ink..parchment ramp  1.03/255
+    assertions fired: 0
+    expected to CLEAR — it did
+
+[PASS] selftest render  NEGATIVE control (retired H at 16px)
+  fixture@16: 16x16
+      |@%%%%%%%%%%%%%%@|
+      |%#%%%%%%%%%%%%#%|
+      |%%%%%%%%%%%%%%%%|
+      |%%%%%%%%%%%%%%%%|
+      |%%%%***##***%%%%|
+      |%%%%* :##. *%%%%|
+      |%%%%# =%%= #%%%%|
+      |%%%%# :**: #%%%%|
+      |%%%%# -##- #%%%%|
+      |%%%%# =%%= #%%%%|
+      |%%%%* .##: *%%%%|
+      |%%%%***##***%%%%|
+      |%%%%%%%%%%%%%%%%|
+      |%%%%%%%%%%%%%%%%|
+      |%#%%%%%%%%%%%%#%|
+      |@%%%%%%%%%%%%%%@|
+      colmax 1.00 0.85 0.85 0.86 0.87 0.87 0.87 0.89 0.89 0.87 0.87 0.87 0.86 0.85 0.85 1.00
+      ink column groups: 0-15
+    assertions fired: 1 -> expected 2 ink groups (H and K), found 1
+    expected to FIRE — it did
+
+[PASS] selftest render  NEGATIVE mutant: crossbar erased
+  no-crossbar@16: 16x16
+      |                |
+      |                |
+      |                |
+      |                |
+      | ==::==  :--.-: |
+      | +#..%=  .@..*. |
+      | =#  %-   @ *   |
+      | =%  %-   @*+   |
+      | =%  %-   @#%   |
+      | =#  %-   @ %+  |
+      | +#..%=  .@.:@: |
+      | ==::==  :--:-- |
+      |                |
+      |                |
+      |                |
+      |                |
+      colmax 0.02 0.56 0.86 0.17 0.20 0.90 0.48 0.00 0.00 0.23 0.96 0.72 0.93 0.97 0.37 0.02
+      ink column groups: 1-6, 9-14
+      clear ground columns between the glyphs: 2
+      edge columns: left 0.02  right 0.02
+      H stems at columns 2 and 5, counter 3-4
+      H band rows 4-11, crossbar searched in rows 6-9
+      H crossbar (best middle row spanning the counter) 0.00   emptiest counter row 0.00
+      K right-edge swing across rows: 2 px
+      darkest rendered pixel vs ground: 11.08:1
+    assertions fired: 1 -> the H has no crossbar (best spanning middle row 0.00)
+    expected to FIRE — it did
+
+[PASS] selftest render  NEGATIVE mutant: H counter filled
+  filled-counter@16: 16x16
+      |                |
+      |                |
+      |                |
+      |                |
+      | ==@@==  :--.-: |
+      | +#@@%=  .@..*. |
+      | =#@@%-   @ *   |
+      | =%@@%-   @*+   |
+      | =%@@%-   @#%   |
+      | =#@@%-   @ %+  |
+      | +#@@%=  .@.:@: |
+      | ==@@==  :--:-- |
+      |                |
+      |                |
+      |                |
+      |                |
+      colmax 0.02 0.56 0.86 1.00 1.00 0.90 0.48 0.00 0.00 0.23 0.96 0.72 0.93 0.97 0.37 0.02
+      ink column groups: 1-6, 9-14
+      clear ground columns between the glyphs: 2
+      edge columns: left 0.02  right 0.02
+      H stems at columns 3 and 4, counter 4-3
+    assertions fired: 1 -> the H has no open counter between its stems (stems at 3 and 4)
+    expected to FIRE — it did
+
+[PASS] selftest render  NEGATIVE mutant: K diagonal flattened
+  flat-K@16: 16x16
+      |                |
+      |                |
+      |                |
+      |                |
+      | ==::==  :--:-- |
+      | +#..%=  :--:-- |
+      | =#  %-  :--:-- |
+      | =%::%-  :--:-- |
+      | =%--%-  :--:-- |
+      | =#  %-  :--:-- |
+      | +#..%=  :--:-- |
+      | ==::==  :--:-- |
+      |                |
+      |                |
+      |                |
+      |                |
+      colmax 0.02 0.56 0.86 0.38 0.38 0.90 0.48 0.00 0.00 0.23 0.37 0.32 0.24 0.37 0.37 0.02
+      ink column groups: 1-6, 9-14
+      clear ground columns between the glyphs: 2
+      edge columns: left 0.02  right 0.02
+      H stems at columns 2 and 5, counter 3-4
+      H band rows 4-11, crossbar searched in rows 6-9
+      H crossbar (best middle row spanning the counter) 0.38   emptiest counter row 0.00
+      K right-edge swing across rows: 0 px
+      darkest rendered pixel vs ground: 6.27:1
+    assertions fired: 1 -> the K has no diagonal (right edge moves 0 px)
+    expected to FIRE — it did
+
+[PASS] selftest render  POSITIVE control (shipped ICO 16x16)
+  shipped@16: 16x16
+      |                |
+      |                |
+      |                |
+      |                |
+      | ==::==  :--.-: |
+      | +#..%=  .@..*. |
+      | =#  %-   @ *   |
+      | =%::%-   @*+   |
+      | =%--%-   @#%   |
+      | =#  %-   @ %+  |
+      | +#..%=  .@.:@: |
+      | ==::==  :--:-- |
+      |                |
+      |                |
+      |                |
+      |                |
+      colmax 0.02 0.56 0.86 0.38 0.38 0.90 0.48 0.00 0.00 0.23 0.96 0.72 0.93 0.97 0.37 0.02
+      ink column groups: 1-6, 9-14
+      clear ground columns between the glyphs: 2
+      edge columns: left 0.02  right 0.02
+      H stems at columns 2 and 5, counter 3-4
+      H band rows 4-11, crossbar searched in rows 6-9
+      H crossbar (best middle row spanning the counter) 0.38   emptiest counter row 0.00
+      K right-edge swing across rows: 2 px
+      darkest rendered pixel vs ground: 11.08:1
+    assertions fired: 0
+    expected to CLEAR — it did
+
+7/7 checks passed.
+FAVICON GATE EXIT: 0
+selftest exit: 0

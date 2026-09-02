@@ -1,0 +1,45 @@
+
+ARTICLE SOURCES — https://hellokahwin.com
+──────────────────────────────────────────────────────────────────────────────
+sitemap urls                          109
+article urls                          92
+fetched                               92
+
+rail Sumber block rendered            13
+body "## Sumber" section              13
+both                                  0
+the text "Sumber:" anywhere in body   35
+sourced by EITHER convention          26
+sourced by NEITHER                    66
+
+SOURCED IN THE BODY, SILENT IN THE RAIL — 13
+  /artikel/nikah-undang-undang/borang-nikah
+  /artikel/sebelum-nikah/doa-majlis-pertunangan
+  /artikel/nikah-undang-undang/lafaz-taklik
+  /artikel/ucapan-doa/doa-penutup-majlis
+  /artikel/sebelum-nikah/taaruf-maksud
+  /artikel/ucapan-doa/ucapan-ulang-tahun-perkahwinan
+  /artikel/ucapan-doa/doa-makan-majlis
+  /artikel/nikah-undang-undang/syarat-sah-nikah
+  /artikel/ucapan-doa/doa-selamat-majlis
+  /artikel/nikah-undang-undang/lafaz-akad-nikah
+  /artikel/sebelum-nikah/doa-jodoh
+  /artikel/sebelum-nikah/cincin-tunang
+  /artikel/nikah-undang-undang/rukun-nikah
+
+RAIL SUMBER BLOCK RENDERS ON — 13
+  /artikel/hantaran-mas-kahwin/mas-kahwin-pahang-negeri-sembilan
+  /artikel/hantaran-mas-kahwin/adat-hantaran-berbeza-negeri
+  /artikel/hantaran-mas-kahwin/adat-hantaran-ikut-keluarga
+  /artikel/hantaran-mas-kahwin/nisbah-hantaran
+  /artikel/hantaran-mas-kahwin/duit-hantaran-kahwin
+  /artikel/hantaran-mas-kahwin/cara-tetapkan-duit-hantaran
+  /artikel/hantaran-mas-kahwin/mas-kahwin-kelantan-terengganu
+  /artikel/hantaran-mas-kahwin/mas-kahwin-perak
+  /artikel/hantaran-mas-kahwin/mas-kahwin-ikut-negeri
+  /artikel/hantaran-mas-kahwin/mas-kahwin-johor
+  /artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat
+  /artikel/ucapan-doa/doa-pengantin-baru
+  /artikel/hantaran-mas-kahwin/apa-itu-mas-kahwin
+──────────────────────────────────────────────────────────────────────────────
+SOURCES EXIT: 0

@@ -1,0 +1,25 @@
+Route (app)                                        Revalidate  Expire
+┌ ○ /                                                     10m      1h
+├ ○ /_not-found
+├ ƒ /[slug]
+├ ƒ /admin
+├ ƒ /admin/design-system
+├ ƒ /admin/inspire
+├ ƒ /admin/inspire/[article-id]/edit
+├ ƒ /api/v1/inspire/upload
+├ ƒ /api/v1/search
+├ ○ /artikel                                              10m      1h
+├ ƒ /artikel/[category]
+├ ● /artikel/[category]/[slug]
+├ ƒ /artikel/author/[slug]
+├ ƒ /artikel/tag/[slug]
+├ ○ /brand                                                10m      1h
+├ ƒ /draft/[token]
+├ ƒ /login/[[...rest]]
+├ ○ /no-access
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand
+

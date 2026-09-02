@@ -1,0 +1,317 @@
+UILINT SELF-TEST — does the gate fire on known-bad and clear on known-good?
+  PASS  homepage.html @1024: narrow-text-column fires 24x (expected >= 12)
+  PASS  homepage.html @1024: a 44px column is among them (widths seen: 44)
+  PASS  homepage.html @1440: narrow-text-column fires 24x (expected >= 12)
+  PASS  homepage.html @1440: a 44px column is among them (widths seen: 44)
+  PASS  homepage.html @1920: narrow-text-column fires 24x (expected >= 12)
+  PASS  homepage.html @1920: a 44px column is among them (widths seen: 44)
+  PASS  article.html @390: narrow-text-column CLEAN — the 44x26px "01" rank cell is a label, not a column
+  PASS  category.html @390: narrow-text-column CLEAN
+  PASS  article.html @768: narrow-text-column CLEAN — the 44x26px "01" rank cell is a label, not a column
+  PASS  category.html @768: narrow-text-column CLEAN
+  PASS  article.html @1024: narrow-text-column CLEAN — the 44x26px "01" rank cell is a label, not a column
+  PASS  category.html @1024: narrow-text-column CLEAN
+  PASS  article.html @1440: narrow-text-column CLEAN — the 44x26px "01" rank cell is a label, not a column
+  PASS  category.html @1440: narrow-text-column CLEAN
+  PASS  article.html @1920: narrow-text-column CLEAN — the 44x26px "01" rank cell is a label, not a column
+  PASS  category.html @1920: narrow-text-column CLEAN
+  PASS  homepage.html @1024: viewport-overflow fires on the nav rail (furthest right edge 1985.5px)
+  PASS  homepage.html @1440: viewport-overflow fires on the nav rail (furthest right edge 2065.5px)
+  PASS  homepage.html @1920: viewport-overflow fires on the nav rail (furthest right edge 2305.5px)
+  PASS  homepage.html @390: the swipeable mobile rail is exempt from check 2, not a violation
+  PASS  homepage.html @768: the swipeable mobile rail is exempt from check 2, not a violation
+  PASS  homepage.html @1920: "Pelamin, Kad & Cenderahati Majlis" is INSIDE the viewport, so check 2 correctly does not see it
+  PASS  homepage.html @1920: check 6 catches it anyway, at 1775.8px, clipped by a scroller that ends earlier
+  PASS  homepage.html @1920: check 6 finds 3 clipped where check 2 finds 3 past the edge
+  PASS  homepage.html @390: the contained mobile rail is exempt from check 6
+  PASS  article.html @390: the contained mobile rail is exempt from check 6
+  PASS  category.html @390: the contained mobile rail is exempt from check 6
+  PASS  homepage.html @768: the contained mobile rail is exempt from check 6
+  PASS  article.html @768: the contained mobile rail is exempt from check 6
+  PASS  category.html @768: the contained mobile rail is exempt from check 6
+  PASS  homepage.html @1440: the 1200x1800 portrait hero is caught (1.2)
+  PASS  homepage.html @1920: the 1200x1800 portrait hero is caught (1.6)
+  PASS  homepage.html @390: the hero is genuinely DOWNSCALED here (0.33x at 390), so zero upscale violations is the right answer, not a blind spot
+  PASS  homepage.html @768: the hero is genuinely DOWNSCALED here (0.33x at 390), so zero upscale violations is the right answer, not a blind spot
+  PASS  homepage.html @1024: the hero is genuinely DOWNSCALED here (0.33x at 390), so zero upscale violations is the right answer, not a blind spot
+  PASS  homepage.html @1024: exactly the hero fails aspect (1 found, 260% off); the 12 thumbnails pass
+  PASS  homepage.html @1440: exactly the hero fails aspect (1 found, 260% off); the 12 thumbnails pass
+  PASS  homepage.html @1920: exactly the hero fails aspect (1 found, 260% off); the 12 thumbnails pass
+  PASS  category.html @390: zero images, zero image violations
+  PASS  category.html @768: zero images, zero image violations
+  PASS  category.html @1024: zero images, zero image violations
+  PASS  category.html @1440: zero images, zero image violations
+  PASS  category.html @1920: zero images, zero image violations
+  PASS  homepage.html @390: all 13 images decoded (0 skipped as not-decoded)
+  PASS  homepage.html @390: every decoded image was successfully probed for its true intrinsic size
+  PASS  homepage.html @768: all 13 images decoded (0 skipped as not-decoded)
+  PASS  homepage.html @768: every decoded image was successfully probed for its true intrinsic size
+  PASS  homepage.html @1024: all 13 images decoded (0 skipped as not-decoded)
+  PASS  homepage.html @1024: every decoded image was successfully probed for its true intrinsic size
+  PASS  homepage.html @1440: all 13 images decoded (0 skipped as not-decoded)
+  PASS  homepage.html @1440: every decoded image was successfully probed for its true intrinsic size
+  PASS  homepage.html @1920: all 13 images decoded (0 skipped as not-decoded)
+  PASS  homepage.html @1920: every decoded image was successfully probed for its true intrinsic size
+  PASS  article.html @1440: reading-measure FIRES (got 3)
+  PASS  article.html @1440: the 888px/17px body column is among them at ~104.5 cpl (values seen: 104.5, 77.2, 101.6)
+  PASS  article.html @768: reading-measure FIRES (got 3)
+  PASS  article.html @390: reading-measure CLEAN — a 350px phone column is ~41 cpl and no cap can widen it
+  PASS  article.html @1024: reading-measure CLEAN — 632px/17px is 74.4 cpl, under the 75 ceiling
+  PASS  homepage.html @390: reading-measure CLEAN — cards and labels are not continuous prose
+  PASS  category.html @390: reading-measure CLEAN — cards and labels are not continuous prose
+  PASS  homepage.html @768: reading-measure CLEAN — cards and labels are not continuous prose
+  PASS  category.html @768: reading-measure CLEAN — cards and labels are not continuous prose
+  PASS  homepage.html @1024: reading-measure CLEAN — cards and labels are not continuous prose
+  PASS  category.html @1024: reading-measure CLEAN — cards and labels are not continuous prose
+  PASS  homepage.html @1440: reading-measure CLEAN — cards and labels are not continuous prose
+  PASS  category.html @1440: reading-measure CLEAN — cards and labels are not continuous prose
+  PASS  homepage.html @1920: reading-measure CLEAN — cards and labels are not continuous prose
+  PASS  category.html @1920: reading-measure CLEAN — cards and labels are not continuous prose
+  PASS  pre-rail/article.html @1024: rail-collapsed FIRES once (the Rekod panel at the body column's own left edge) — got 1
+  PASS  pre-rail/article.html @1024 + GREEN: rail-collapsed CLEARS — same DOM, same fonts, panel moved clear of the body column and nothing else changed
+  PASS  pre-rail/article.html @1440: rail-collapsed FIRES once (the Rekod panel at the body column's own left edge) — got 1
+  PASS  pre-rail/article.html @1440 + GREEN: rail-collapsed CLEARS — same DOM, same fonts, panel moved clear of the body column and nothing else changed
+  PASS  pre-rail/article.html @1920: rail-collapsed FIRES once (the Rekod panel at the body column's own left edge) — got 1
+  PASS  pre-rail/article.html @1920 + GREEN: rail-collapsed CLEARS — same DOM, same fonts, panel moved clear of the body column and nothing else changed
+  PASS  pre-rail/article.html @390: rail-collapsed SILENT below the 1024 breakpoint — a stacked block is the specification there, not a defect
+  PASS  pre-rail/article.html @768: rail-collapsed SILENT below the 1024 breakpoint — a stacked block is the specification there, not a defect
+  PASS  homepage.html @390: rail-collapsed CLEAN — the 31 Aug capture has no [data-hk-rail] and no .s-rekod sharing a body column's edge
+  PASS  category.html @390: rail-collapsed CLEAN — the 31 Aug capture has no [data-hk-rail] and no .s-rekod sharing a body column's edge
+  PASS  article.html @390: rail-collapsed CLEAN — the 31 Aug capture has no [data-hk-rail] and no .s-rekod sharing a body column's edge
+  PASS  homepage.html @768: rail-collapsed CLEAN — the 31 Aug capture has no [data-hk-rail] and no .s-rekod sharing a body column's edge
+  PASS  category.html @768: rail-collapsed CLEAN — the 31 Aug capture has no [data-hk-rail] and no .s-rekod sharing a body column's edge
+  PASS  article.html @768: rail-collapsed CLEAN — the 31 Aug capture has no [data-hk-rail] and no .s-rekod sharing a body column's edge
+  PASS  homepage.html @1024: rail-collapsed CLEAN — the 31 Aug capture has no [data-hk-rail] and no .s-rekod sharing a body column's edge
+  PASS  category.html @1024: rail-collapsed CLEAN — the 31 Aug capture has no [data-hk-rail] and no .s-rekod sharing a body column's edge
+  PASS  article.html @1024: rail-collapsed CLEAN — the 31 Aug capture has no [data-hk-rail] and no .s-rekod sharing a body column's edge
+  PASS  homepage.html @1440: rail-collapsed CLEAN — the 31 Aug capture has no [data-hk-rail] and no .s-rekod sharing a body column's edge
+  PASS  category.html @1440: rail-collapsed CLEAN — the 31 Aug capture has no [data-hk-rail] and no .s-rekod sharing a body column's edge
+  PASS  article.html @1440: rail-collapsed CLEAN — the 31 Aug capture has no [data-hk-rail] and no .s-rekod sharing a body column's edge
+  PASS  homepage.html @1920: rail-collapsed CLEAN — the 31 Aug capture has no [data-hk-rail] and no .s-rekod sharing a body column's edge
+  PASS  category.html @1920: rail-collapsed CLEAN — the 31 Aug capture has no [data-hk-rail] and no .s-rekod sharing a body column's edge
+  PASS  article.html @1920: rail-collapsed CLEAN — the 31 Aug capture has no [data-hk-rail] and no .s-rekod sharing a body column's edge
+  PASS  unsourced-rail-absent.html differs from unsourced-ok.html in ONE contiguous region (8065 bytes removed)
+  PASS  …and splicing the whole <aside data-hk-rail> element, open tag to close out of unsourced-ok.html reproduces unsourced-rail-absent.html byte for byte (8065 bytes at [21015, 29080))
+  PASS  sourced-sumber-empty.html differs from sourced-ok.html in ONE contiguous region (320 bytes removed)
+  PASS  …and splicing the <li> citations inside <ul class="hk-rail-sources">, and not the heading out of sourced-ok.html reproduces sourced-sumber-empty.html byte for byte (320 bytes at [24053, 24373))
+  PASS  unsourced-ok.html @390: rail-missing CLEAR — production renders the rail (350x961px, 1 mount)
+  PASS  unsourced-ok.html @390: sumber-empty CLEAR — 0 Sumber section(s) in the rail, none of them empty
+  PASS  sourced-ok.html @390: rail-missing CLEAR — production renders the rail (350x1335px, 1 mount)
+  PASS  sourced-ok.html @390: sumber-empty CLEAR — 1 Sumber section(s) in the rail, none of them empty
+  PASS  unsourced-ok.html @390: ZERO Sumber sections seen in the rail — the contents link and the body <h2 id="sumber"> are both correctly not one
+  PASS  sourced-ok.html @390: exactly ONE Sumber section seen — the check reached the block rather than reaching nothing
+  PASS  unsourced-rail-absent.html @390: rail-missing FIRES once — got 1
+  PASS  sourced-sumber-empty.html @390: rail-missing SILENT — that page's rail is present and 300px; only its Sumber list was emptied
+  PASS  sourced-sumber-empty.html @390: sumber-empty FIRES once — got 1
+  PASS  sourced-sumber-empty.html @390: and it reports ZERO citations under the heading (value 0)
+  PASS  unsourced-rail-absent.html @390: sumber-empty SILENT — no rail, therefore no Sumber heading to print over nothing
+  PASS  unsourced-ok.html @768: rail-missing CLEAR — production renders the rail (704x941px, 1 mount)
+  PASS  unsourced-ok.html @768: sumber-empty CLEAR — 0 Sumber section(s) in the rail, none of them empty
+  PASS  sourced-ok.html @768: rail-missing CLEAR — production renders the rail (704x1197px, 1 mount)
+  PASS  sourced-ok.html @768: sumber-empty CLEAR — 1 Sumber section(s) in the rail, none of them empty
+  PASS  unsourced-ok.html @768: ZERO Sumber sections seen in the rail — the contents link and the body <h2 id="sumber"> are both correctly not one
+  PASS  sourced-ok.html @768: exactly ONE Sumber section seen — the check reached the block rather than reaching nothing
+  PASS  unsourced-rail-absent.html @768: rail-missing FIRES once — got 1
+  PASS  sourced-sumber-empty.html @768: rail-missing SILENT — that page's rail is present and 300px; only its Sumber list was emptied
+  PASS  sourced-sumber-empty.html @768: sumber-empty FIRES once — got 1
+  PASS  sourced-sumber-empty.html @768: and it reports ZERO citations under the heading (value 0)
+  PASS  unsourced-rail-absent.html @768: sumber-empty SILENT — no rail, therefore no Sumber heading to print over nothing
+  PASS  unsourced-ok.html @1024: rail-missing CLEAR — production renders the rail (300x1084px, 1 mount)
+  PASS  unsourced-ok.html @1024: sumber-empty CLEAR — 0 Sumber section(s) in the rail, none of them empty
+  PASS  sourced-ok.html @1024: rail-missing CLEAR — production renders the rail (300x1486px, 1 mount)
+  PASS  sourced-ok.html @1024: sumber-empty CLEAR — 1 Sumber section(s) in the rail, none of them empty
+  PASS  unsourced-ok.html @1024: ZERO Sumber sections seen in the rail — the contents link and the body <h2 id="sumber"> are both correctly not one
+  PASS  sourced-ok.html @1024: exactly ONE Sumber section seen — the check reached the block rather than reaching nothing
+  PASS  unsourced-rail-absent.html @1024: rail-missing FIRES once — got 1
+  PASS  sourced-sumber-empty.html @1024: rail-missing SILENT — that page's rail is present and 300px; only its Sumber list was emptied
+  PASS  sourced-sumber-empty.html @1024: sumber-empty FIRES once — got 1
+  PASS  sourced-sumber-empty.html @1024: and it reports ZERO citations under the heading (value 0)
+  PASS  unsourced-rail-absent.html @1024: sumber-empty SILENT — no rail, therefore no Sumber heading to print over nothing
+  PASS  unsourced-ok.html @1440: rail-missing CLEAR — production renders the rail (300x1084px, 1 mount)
+  PASS  unsourced-ok.html @1440: sumber-empty CLEAR — 0 Sumber section(s) in the rail, none of them empty
+  PASS  sourced-ok.html @1440: rail-missing CLEAR — production renders the rail (300x1486px, 1 mount)
+  PASS  sourced-ok.html @1440: sumber-empty CLEAR — 1 Sumber section(s) in the rail, none of them empty
+  PASS  unsourced-ok.html @1440: ZERO Sumber sections seen in the rail — the contents link and the body <h2 id="sumber"> are both correctly not one
+  PASS  sourced-ok.html @1440: exactly ONE Sumber section seen — the check reached the block rather than reaching nothing
+  PASS  unsourced-rail-absent.html @1440: rail-missing FIRES once — got 1
+  PASS  sourced-sumber-empty.html @1440: rail-missing SILENT — that page's rail is present and 300px; only its Sumber list was emptied
+  PASS  sourced-sumber-empty.html @1440: sumber-empty FIRES once — got 1
+  PASS  sourced-sumber-empty.html @1440: and it reports ZERO citations under the heading (value 0)
+  PASS  unsourced-rail-absent.html @1440: sumber-empty SILENT — no rail, therefore no Sumber heading to print over nothing
+  PASS  unsourced-ok.html @1920: rail-missing CLEAR — production renders the rail (300x1084px, 1 mount)
+  PASS  unsourced-ok.html @1920: sumber-empty CLEAR — 0 Sumber section(s) in the rail, none of them empty
+  PASS  sourced-ok.html @1920: rail-missing CLEAR — production renders the rail (300x1486px, 1 mount)
+  PASS  sourced-ok.html @1920: sumber-empty CLEAR — 1 Sumber section(s) in the rail, none of them empty
+  PASS  unsourced-ok.html @1920: ZERO Sumber sections seen in the rail — the contents link and the body <h2 id="sumber"> are both correctly not one
+  PASS  sourced-ok.html @1920: exactly ONE Sumber section seen — the check reached the block rather than reaching nothing
+  PASS  unsourced-rail-absent.html @1920: rail-missing FIRES once — got 1
+  PASS  sourced-sumber-empty.html @1920: rail-missing SILENT — that page's rail is present and 300px; only its Sumber list was emptied
+  PASS  sourced-sumber-empty.html @1920: sumber-empty FIRES once — got 1
+  PASS  sourced-sumber-empty.html @1920: and it reports ZERO citations under the heading (value 0)
+  PASS  unsourced-rail-absent.html @1920: sumber-empty SILENT — no rail, therefore no Sumber heading to print over nothing
+  PASS  homepage.html @390: rail-missing CLEAN — the 31 Aug capture is not the .hk-article-grid template
+  PASS  homepage.html @390: sumber-empty CLEAN — the 31 Aug capture is not the .hk-article-grid template
+  PASS  category.html @390: rail-missing CLEAN — the 31 Aug capture is not the .hk-article-grid template
+  PASS  category.html @390: sumber-empty CLEAN — the 31 Aug capture is not the .hk-article-grid template
+  PASS  article.html @390: rail-missing CLEAN — the 31 Aug capture is not the .hk-article-grid template
+  PASS  article.html @390: sumber-empty CLEAN — the 31 Aug capture is not the .hk-article-grid template
+  PASS  pre-rail/article.html @390: rail-missing CLEAN — the 01 Sep capture predates .hk-article-grid, so check 13 cannot speak about it and check 10 is the one that must
+  PASS  pre-rail/article.html @390: sumber-empty CLEAN — the 01 Sep capture predates .hk-article-grid, so check 13 cannot speak about it and check 10 is the one that must
+  PASS  homepage.html @768: rail-missing CLEAN — the 31 Aug capture is not the .hk-article-grid template
+  PASS  homepage.html @768: sumber-empty CLEAN — the 31 Aug capture is not the .hk-article-grid template
+  PASS  category.html @768: rail-missing CLEAN — the 31 Aug capture is not the .hk-article-grid template
+  PASS  category.html @768: sumber-empty CLEAN — the 31 Aug capture is not the .hk-article-grid template
+  PASS  article.html @768: rail-missing CLEAN — the 31 Aug capture is not the .hk-article-grid template
+  PASS  article.html @768: sumber-empty CLEAN — the 31 Aug capture is not the .hk-article-grid template
+  PASS  pre-rail/article.html @768: rail-missing CLEAN — the 01 Sep capture predates .hk-article-grid, so check 13 cannot speak about it and check 10 is the one that must
+  PASS  pre-rail/article.html @768: sumber-empty CLEAN — the 01 Sep capture predates .hk-article-grid, so check 13 cannot speak about it and check 10 is the one that must
+  PASS  homepage.html @1024: rail-missing CLEAN — the 31 Aug capture is not the .hk-article-grid template
+  PASS  homepage.html @1024: sumber-empty CLEAN — the 31 Aug capture is not the .hk-article-grid template
+  PASS  category.html @1024: rail-missing CLEAN — the 31 Aug capture is not the .hk-article-grid template
+  PASS  category.html @1024: sumber-empty CLEAN — the 31 Aug capture is not the .hk-article-grid template
+  PASS  article.html @1024: rail-missing CLEAN — the 31 Aug capture is not the .hk-article-grid template
+  PASS  article.html @1024: sumber-empty CLEAN — the 31 Aug capture is not the .hk-article-grid template
+  PASS  pre-rail/article.html @1024: rail-missing CLEAN — the 01 Sep capture predates .hk-article-grid, so check 13 cannot speak about it and check 10 is the one that must
+  PASS  pre-rail/article.html @1024: sumber-empty CLEAN — the 01 Sep capture predates .hk-article-grid, so check 13 cannot speak about it and check 10 is the one that must
+  PASS  homepage.html @1440: rail-missing CLEAN — the 31 Aug capture is not the .hk-article-grid template
+  PASS  homepage.html @1440: sumber-empty CLEAN — the 31 Aug capture is not the .hk-article-grid template
+  PASS  category.html @1440: rail-missing CLEAN — the 31 Aug capture is not the .hk-article-grid template
+  PASS  category.html @1440: sumber-empty CLEAN — the 31 Aug capture is not the .hk-article-grid template
+  PASS  article.html @1440: rail-missing CLEAN — the 31 Aug capture is not the .hk-article-grid template
+  PASS  article.html @1440: sumber-empty CLEAN — the 31 Aug capture is not the .hk-article-grid template
+  PASS  pre-rail/article.html @1440: rail-missing CLEAN — the 01 Sep capture predates .hk-article-grid, so check 13 cannot speak about it and check 10 is the one that must
+  PASS  pre-rail/article.html @1440: sumber-empty CLEAN — the 01 Sep capture predates .hk-article-grid, so check 13 cannot speak about it and check 10 is the one that must
+  PASS  homepage.html @1920: rail-missing CLEAN — the 31 Aug capture is not the .hk-article-grid template
+  PASS  homepage.html @1920: sumber-empty CLEAN — the 31 Aug capture is not the .hk-article-grid template
+  PASS  category.html @1920: rail-missing CLEAN — the 31 Aug capture is not the .hk-article-grid template
+  PASS  category.html @1920: sumber-empty CLEAN — the 31 Aug capture is not the .hk-article-grid template
+  PASS  article.html @1920: rail-missing CLEAN — the 31 Aug capture is not the .hk-article-grid template
+  PASS  article.html @1920: sumber-empty CLEAN — the 31 Aug capture is not the .hk-article-grid template
+  PASS  pre-rail/article.html @1920: rail-missing CLEAN — the 01 Sep capture predates .hk-article-grid, so check 13 cannot speak about it and check 10 is the one that must
+  PASS  pre-rail/article.html @1920: sumber-empty CLEAN — the 01 Sep capture predates .hk-article-grid, so check 13 cannot speak about it and check 10 is the one that must
+  PASS  discriminator @390: narrow-text-column = 1 (B fires; A sr-only, C the "01" label and D a 300px column do not) — got 1
+  PASS  discriminator @390: clipped-text = 2 (K clips its own text, M clips text one node deeper; L uses the same idiom and fits) — got 2
+  PASS  discriminator @390: viewport-overflow = 1 (E always; F the contained rail only at desktop; N is clipped and P is inside the viewport) — got 1
+  PASS  discriminator @390: scroll-container-clip = 1 (N always; P and F only at desktop) — got 1
+  PASS  discriminator @390: image-upscale = 2 (G at 2.0x, O at 1.5x behind a srcset; H is 1.0x under cover and I is 1:1) — got 2
+  PASS  discriminator @390: image-aspect = 1 (H at 50%; G and O keep their file's aspect) — got 1
+  PASS  discriminator @390: the undecodable image is COUNTED (1) and never reported as a defect
+  PASS  discriminator @768: narrow-text-column = 1 (B fires; A sr-only, C the "01" label and D a 300px column do not) — got 1
+  PASS  discriminator @768: clipped-text = 2 (K clips its own text, M clips text one node deeper; L uses the same idiom and fits) — got 2
+  PASS  discriminator @768: viewport-overflow = 1 (E always; F the contained rail only at desktop; N is clipped and P is inside the viewport) — got 1
+  PASS  discriminator @768: scroll-container-clip = 1 (N always; P and F only at desktop) — got 1
+  PASS  discriminator @768: image-upscale = 2 (G at 2.0x, O at 1.5x behind a srcset; H is 1.0x under cover and I is 1:1) — got 2
+  PASS  discriminator @768: image-aspect = 1 (H at 50%; G and O keep their file's aspect) — got 1
+  PASS  discriminator @768: the undecodable image is COUNTED (1) and never reported as a defect
+  PASS  discriminator @1024: narrow-text-column = 1 (B fires; A sr-only, C the "01" label and D a 300px column do not) — got 1
+  PASS  discriminator @1024: clipped-text = 2 (K clips its own text, M clips text one node deeper; L uses the same idiom and fits) — got 2
+  PASS  discriminator @1024: viewport-overflow = 2 (E always; F the contained rail only at desktop; N is clipped and P is inside the viewport) — got 2
+  PASS  discriminator @1024: scroll-container-clip = 3 (N always; P and F only at desktop) — got 3
+  PASS  discriminator @1024: image-upscale = 2 (G at 2.0x, O at 1.5x behind a srcset; H is 1.0x under cover and I is 1:1) — got 2
+  PASS  discriminator @1024: image-aspect = 1 (H at 50%; G and O keep their file's aspect) — got 1
+  PASS  discriminator @1024: the undecodable image is COUNTED (1) and never reported as a defect
+  PASS  discriminator @1440: narrow-text-column = 1 (B fires; A sr-only, C the "01" label and D a 300px column do not) — got 1
+  PASS  discriminator @1440: clipped-text = 2 (K clips its own text, M clips text one node deeper; L uses the same idiom and fits) — got 2
+  PASS  discriminator @1440: viewport-overflow = 2 (E always; F the contained rail only at desktop; N is clipped and P is inside the viewport) — got 2
+  PASS  discriminator @1440: scroll-container-clip = 3 (N always; P and F only at desktop) — got 3
+  PASS  discriminator @1440: image-upscale = 2 (G at 2.0x, O at 1.5x behind a srcset; H is 1.0x under cover and I is 1:1) — got 2
+  PASS  discriminator @1440: image-aspect = 1 (H at 50%; G and O keep their file's aspect) — got 1
+  PASS  discriminator @1440: the undecodable image is COUNTED (1) and never reported as a defect
+  PASS  discriminator @1920: narrow-text-column = 1 (B fires; A sr-only, C the "01" label and D a 300px column do not) — got 1
+  PASS  discriminator @1920: clipped-text = 2 (K clips its own text, M clips text one node deeper; L uses the same idiom and fits) — got 2
+  PASS  discriminator @1920: viewport-overflow = 2 (E always; F the contained rail only at desktop; N is clipped and P is inside the viewport) — got 2
+  PASS  discriminator @1920: scroll-container-clip = 3 (N always; P and F only at desktop) — got 3
+  PASS  discriminator @1920: image-upscale = 2 (G at 2.0x, O at 1.5x behind a srcset; H is 1.0x under cover and I is 1:1) — got 2
+  PASS  discriminator @1920: image-aspect = 1 (H at 50%; G and O keep their file's aspect) — got 1
+  PASS  discriminator @1920: the undecodable image is COUNTED (1) and never reported as a defect
+  PASS  discriminator @1440: case P is invisible to the viewport check, as designed
+  PASS  discriminator @1440: and check 6 finds it
+  PASS  EMPTY SHELL category.html @390: empty-content fires (0 content elements inside <main>)
+  PASS  EMPTY SHELL category.html @768: empty-content fires (0 content elements inside <main>)
+  PASS  EMPTY SHELL category.html @1024: empty-content fires (0 content elements inside <main>)
+  PASS  EMPTY SHELL category.html @1440: empty-content fires (0 content elements inside <main>)
+  PASS  EMPTY SHELL category.html @1920: empty-content fires (0 content elements inside <main>)
+  PASS  EMPTY SHELL @390: empty-content is the ONLY violation (1), so every other check passes on a page that rendered nothing
+  PASS  EMPTY SHELL @768: empty-content is the ONLY violation (1), so every other check passes on a page that rendered nothing
+  PASS  homepage.html @390: empty-content clean (44 content elements)
+  PASS  article.html @390: empty-content clean (268 content elements)
+  PASS  category.html @390: empty-content clean (51 content elements)
+  PASS  homepage.html @768: empty-content clean (44 content elements)
+  PASS  article.html @768: empty-content clean (268 content elements)
+  PASS  category.html @768: empty-content clean (51 content elements)
+  PASS  homepage.html @1024: empty-content clean (44 content elements)
+  PASS  article.html @1024: empty-content clean (268 content elements)
+  PASS  category.html @1024: empty-content clean (51 content elements)
+  PASS  homepage.html @1440: empty-content clean (44 content elements)
+  PASS  article.html @1440: empty-content clean (268 content elements)
+  PASS  category.html @1440: empty-content clean (51 content elements)
+  PASS  homepage.html @1920: empty-content clean (44 content elements)
+  PASS  article.html @1920: empty-content clean (268 content elements)
+  PASS  category.html @1920: empty-content clean (51 content elements)
+  PASS  GREEN CONTROL category.html @390: 0 blocking violations (got 0)
+  PASS  GREEN CONTROL category.html @768: 0 blocking violations (got 0)
+  PASS  GREEN CONTROL category.html @1024: 0 blocking violations (got 0)
+  PASS  GREEN CONTROL category.html @1440: 0 blocking violations (got 0)
+  PASS  GREEN CONTROL category.html @1920: 0 blocking violations (got 0)
+  PASS  homepage.html @390: H6.0 extraction agrees with check-h6.sh — 13 items, all hantaran-mas-kahwin
+  PASS  homepage.html @390: H6.1 fires — one category supplies 13 of 13, cap is 5
+  PASS  homepage.html @390: H6.2 fires — 12 adjacent same-category pairs
+  PASS  homepage.html @390: H6.3 fires — 1 distinct category against a floor of 4
+  PASS  homepage.html @390: H6.6 CLEAN — the pre-fix page is monotonous, not visually reordered
+  PASS  homepage.html @768: H6.0 extraction agrees with check-h6.sh — 13 items, all hantaran-mas-kahwin
+  PASS  homepage.html @768: H6.1 fires — one category supplies 13 of 13, cap is 5
+  PASS  homepage.html @768: H6.2 fires — 12 adjacent same-category pairs
+  PASS  homepage.html @768: H6.3 fires — 1 distinct category against a floor of 4
+  PASS  homepage.html @768: H6.6 CLEAN — the pre-fix page is monotonous, not visually reordered
+  PASS  homepage.html @1024: H6.0 extraction agrees with check-h6.sh — 13 items, all hantaran-mas-kahwin
+  PASS  homepage.html @1024: H6.1 fires — one category supplies 13 of 13, cap is 5
+  PASS  homepage.html @1024: H6.2 fires — 12 adjacent same-category pairs
+  PASS  homepage.html @1024: H6.3 fires — 1 distinct category against a floor of 4
+  PASS  homepage.html @1024: H6.6 CLEAN — the pre-fix page is monotonous, not visually reordered
+  PASS  homepage.html @1440: H6.0 extraction agrees with check-h6.sh — 13 items, all hantaran-mas-kahwin
+  PASS  homepage.html @1440: H6.1 fires — one category supplies 13 of 13, cap is 5
+  PASS  homepage.html @1440: H6.2 fires — 12 adjacent same-category pairs
+  PASS  homepage.html @1440: H6.3 fires — 1 distinct category against a floor of 4
+  PASS  homepage.html @1440: H6.6 CLEAN — the pre-fix page is monotonous, not visually reordered
+  PASS  homepage.html @1920: H6.0 extraction agrees with check-h6.sh — 13 items, all hantaran-mas-kahwin
+  PASS  homepage.html @1920: H6.1 fires — one category supplies 13 of 13, cap is 5
+  PASS  homepage.html @1920: H6.2 fires — 12 adjacent same-category pairs
+  PASS  homepage.html @1920: H6.3 fires — 1 distinct category against a floor of 4
+  PASS  homepage.html @1920: H6.6 CLEAN — the pre-fix page is monotonous, not visually reordered
+  PASS  article.html @390: H6 does not run — it governs one ordered list on one page
+  PASS  category.html @390: H6 does not run — it governs one ordered list on one page
+  PASS  article.html @768: H6 does not run — it governs one ordered list on one page
+  PASS  category.html @768: H6 does not run — it governs one ordered list on one page
+  PASS  article.html @1024: H6 does not run — it governs one ordered list on one page
+  PASS  category.html @1024: H6 does not run — it governs one ordered list on one page
+  PASS  article.html @1440: H6 does not run — it governs one ordered list on one page
+  PASS  category.html @1440: H6 does not run — it governs one ordered list on one page
+  PASS  article.html @1920: H6 does not run — it governs one ordered list on one page
+  PASS  category.html @1920: H6 does not run — it governs one ordered list on one page
+  PASS  h6-order-good @390: H6.0 extracts 13 items and ignores the one-segment category links in <nav>
+  PASS  h6-order-good @390: H6.1/6.2/6.3 all CLEAR — 5 at the cap, no adjacency, 6 categories
+  PASS  h6-order-good @390: H6.6 CLEAR — DOM order is reading order
+  PASS  h6-order-good @768: H6.0 extracts 13 items and ignores the one-segment category links in <nav>
+  PASS  h6-order-good @768: H6.1/6.2/6.3 all CLEAR — 5 at the cap, no adjacency, 6 categories
+  PASS  h6-order-good @768: H6.6 CLEAR — DOM order is reading order
+  PASS  h6-order-good @1024: H6.0 extracts 13 items and ignores the one-segment category links in <nav>
+  PASS  h6-order-good @1024: H6.1/6.2/6.3 all CLEAR — 5 at the cap, no adjacency, 6 categories
+  PASS  h6-order-good @1024: H6.6 CLEAR — DOM order is reading order
+  PASS  h6-order-good @1440: H6.0 extracts 13 items and ignores the one-segment category links in <nav>
+  PASS  h6-order-good @1440: H6.1/6.2/6.3 all CLEAR — 5 at the cap, no adjacency, 6 categories
+  PASS  h6-order-good @1440: H6.6 CLEAR — DOM order is reading order
+  PASS  h6-order-good @1920: H6.0 extracts 13 items and ignores the one-segment category links in <nav>
+  PASS  h6-order-good @1920: H6.1/6.2/6.3 all CLEAR — 5 at the cap, no adjacency, 6 categories
+  PASS  h6-order-good @1920: H6.6 CLEAR — DOM order is reading order
+  PASS  h6-order-reversed @390: H6.6 fires — column-reverse puts DOM item 12 in visual position 0
+  PASS  h6-order-reversed @390: H6.1/6.2/6.3 stay CLEAR — the SET did not change, only its painting order
+  PASS  h6-order-reversed @768: H6.6 fires — column-reverse puts DOM item 12 in visual position 0
+  PASS  h6-order-reversed @768: H6.1/6.2/6.3 stay CLEAR — the SET did not change, only its painting order
+  PASS  h6-order-reversed @1024: H6.6 fires — column-reverse puts DOM item 12 in visual position 0
+  PASS  h6-order-reversed @1024: H6.1/6.2/6.3 stay CLEAR — the SET did not change, only its painting order
+  PASS  h6-order-reversed @1440: H6.6 fires — column-reverse puts DOM item 12 in visual position 0
+  PASS  h6-order-reversed @1440: H6.1/6.2/6.3 stay CLEAR — the SET did not change, only its painting order
+  PASS  h6-order-reversed @1920: H6.6 fires — column-reverse puts DOM item 12 in visual position 0
+  PASS  h6-order-reversed @1920: H6.1/6.2/6.3 stay CLEAR — the SET did not change, only its painting order
+314 passed, 0 failed
+UILINT EXIT: 0

@@ -1,0 +1,40 @@
+############ idea-dan-nasihat ############
+LOOPBACK ASSERTION OK  host=127.0.0.1 port=5433 db=hklocal
+── FINGERPRINT ─────────────────────────────────────────────
+git HEAD          d7534c7  (2 files dirty)
+route source sha  724bab4b1914   src/app/(public)/artikel/[category]/page.tsx
+route variant     FIXED (readForCacheablePage)
+route maxDuration 5000ms
+.next/BUILD_ID    j93XFC0b4-YHe8mhoTNK5
+base              http://127.0.0.1:3216
+target            /artikel/idea-dan-nasihat
+────────────────────────────────────────────────────────────
+MARKERS PINNED    pillar-empty, grid-empty — present in source
+SERVING BUILD OK  /_next/static/j93XFC0b4-YHe8mhoTNK5/_buildManifest.js -> 200
+
+── PHASE 1: articles table locked ACCESS EXCLUSIVE ─────────
+lock held; every SELECT touching `articles` now blocks.
+[stalled #1  ] HTTP 500   3044ms    19254B  pillar-emptyx0  grid-emptyx0  article-hrefx0
+               Cache-Control:             private, no-cache, no-store, max-age=0, must-revalidate
+               Vercel-CDN-Cache-Control:  public, s-maxage=300, stale-while-revalidate=600
+[stalled #2  ] HTTP 500   3027ms    19255B  pillar-emptyx0  grid-emptyx0  article-hrefx0
+               Cache-Control:             private, no-cache, no-store, max-age=0, must-revalidate
+               Vercel-CDN-Cache-Control:  public, s-maxage=300, stale-while-revalidate=600
+lock released (transaction rolled back).
+
+── PHASE 2: lock released, DB healthy ──────────────────────
+[recovered   ] HTTP 200     49ms    57460B  pillar-emptyx0  grid-emptyx0  article-hrefx15
+               Cache-Control:             private, no-cache, no-store, max-age=0, must-revalidate
+               Vercel-CDN-Cache-Control:  public, s-maxage=300, stale-while-revalidate=600
+
+── ASSERTIONS ──────────────────────────────────────────────
+PASS  A  a stalled content read did not produce a cacheable empty page (HTTP 500, empty markers: none)
+PASS  A2  the second stalled request behaved like the first (HTTP 500 -> 500), i.e. nothing pinned a copy
+PASS  B1  the request after recovery is HTTP 200
+PASS  B2  the recovered page carries 15 /artikel/{cat}/{slug} links
+PASS  B3  the recovered page carries NO empty-state marker (pillar-emptyx0 grid-emptyx0) — so those markers really do discriminate
+PASS  C  the stalled request finished in 3044ms, inside the route's declared maxDuration of 5000ms — so the throw above is one production reaches
+────────────────────────────────────────────────────────────
+PLAT16 VERDICT: PASS
+PLAT16 EXIT: 0
+SCRIPT EXIT: 0

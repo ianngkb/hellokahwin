@@ -13,12 +13,14 @@ import { ArticleToc, TOC_MIN_HEADINGS } from '@/components/inspire/article-toc';
 import { ArticleRail, RAIL_TOC_HEADING_ID } from '@/design-system/components/article-rail';
 import { extractHeadings, type ArticleHeading } from '@/lib/inspire/heading-anchors';
 import { PageHeader } from '@/components/layout/page-header';
+import { ARTICLE_COVER_MD } from '@/lib/storage/midsize-cover';
 import '@/design-system/tokens.css';
 import '@/design-system/components.css';
 import {
   Breadcrumb,
   Button,
   Card,
+  CascadeProbe,
   Chip,
   DataTable,
   EmptyCategoryState,
@@ -1029,6 +1031,97 @@ export default async function DesignSystemPage({
               </p>
             </div>
 
+            {/* Article cover figure — UI-16. The slot's OWN entry, because it
+               is the only shaped slot on the site whose asset and box both moved
+               in this change, and a reference page that shows the row thumbnail
+               but not the cover would let this one drift unwatched. */}
+            <div className="pt-8">
+              <Label muted className="mb-2 block">
+                Article cover figure (figure.hk-article-figure) — 4:3, fed the 792&times;594
+                rendition, box capped to the asset
+              </Label>
+              <figure className="hk-article-figure max-w-3xl" style={{ margin: '0 0 16px' }}>
+                <div
+                  className="bg-muted relative aspect-[4/3] w-full overflow-hidden"
+                  style={{ maxWidth: ARTICLE_COVER_MD.WIDTH }}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element -- parity with the real figure */}
+                  <img
+                    src={placeholderImg(
+                      `${ARTICLE_COVER_MD.NAME} ${ARTICLE_COVER_MD.WIDTH}×${ARTICLE_COVER_MD.HEIGHT}`,
+                    )}
+                    alt="Contoh kulit artikel dalam kotak 4:3"
+                    width={ARTICLE_COVER_MD.WIDTH}
+                    height={ARTICLE_COVER_MD.HEIGHT}
+                    decoding="async"
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                </div>
+              </figure>
+              <figure className="hk-article-figure max-w-3xl" style={{ margin: '0 0 8px' }}>
+                <div
+                  className="bg-muted relative aspect-[4/3] w-full overflow-hidden"
+                  style={{ maxWidth: 667 }}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element -- parity with the real figure */}
+                  <img
+                    src={placeholderImg('short asset 667×500 — box capped, not stretched')}
+                    alt="Contoh kulit artikel yang asetnya lebih kecil daripada kotaknya"
+                    width={667}
+                    height={500}
+                    decoding="async"
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                </div>
+              </figure>
+              <p className="text-muted-foreground mt-2 max-w-[74ch] text-xs">
+                Both boxes read their width from the ASSET. The dimensions on this page are the real{' '}
+                <code>ARTICLE_COVER_MD</code> constants, imported &mdash; not retyped &mdash; so a
+                change to the rendition moves this entry with it.
+              </p>
+              <p className="text-muted-foreground mt-2 max-w-[74ch] text-xs">
+                UI-16: this slot served <code>low.webp</code> in a shaped box until 02 September
+                2026. Hero-rules <strong>R1 passed</strong> the whole time &mdash; measured 0.05%
+                deviation, because <code>garden-wedding</code>&rsquo;s <code>low</code> is
+                1024&times;683 = 1.4993 against a 1.5 box &mdash; and that is precisely the trap:{' '}
+                <code>low</code> preserves the SOURCE aspect, so the slot passed or failed by which
+                camera shot the cover. <strong>R2</strong> (<code>low</code>/<code>high</code>/
+                <code>original</code> are never eligible for a shaped slot) and <strong>R6</strong>{' '}
+                (declared 1200&times;800 for a 1024&times;683 file &mdash; 17.2% out, ratio-correct
+                so the gate&rsquo;s aspect check never saw it) were the two that were red.
+              </p>
+              <p className="text-muted-foreground mt-2 max-w-[74ch] text-xs">
+                <code>crop-4x3-article-card-md</code> is <strong>792&times;594</strong> &mdash;
+                1.5&times; DES-18&rsquo;s 528px rung, and the smallest width that fills this
+                slot&rsquo;s widest measured box (756 CSS px at 1440/1920) with no upscale. Encoded
+                q50 against a <strong>103,680&nbsp;B</strong> ceiling: DES-03 &sect;6.2&rsquo;s card
+                figure area-scaled to a box 2.25&times; larger. Measured by HTTP HEAD across all 96
+                published covers on 02 September 2026:{' '}
+                <strong>min 12,346&nbsp;B, median 30,716&nbsp;B, max 100,990&nbsp;B</strong>, none
+                over the ceiling. 91 land at 792&times;594, four at 667&times;500 and one at
+                771&times;578.
+              </p>
+              <p className="text-muted-foreground mt-2 max-w-[74ch] text-xs">
+                It is a byte <em>saving</em> on the site&rsquo;s highest-traffic template: the
+                corpus total falls from <strong>5,034,824&nbsp;B</strong> of <code>low</code> to{' '}
+                <strong>3,296,332&nbsp;B</strong>, <strong>&minus;34.5%</strong>. On{' '}
+                <code>garden-wedding</code> &mdash; ~28% of all site impressions &mdash; the LCP
+                image goes 33,574&nbsp;B &rarr; 26,936&nbsp;B, <strong>&minus;19.8%</strong>. Four
+                covers get heavier, by 1,630&ndash;2,742&nbsp;B each; they are the four whose 4:3
+                crop is only 667px wide, and they are the second box above.
+              </p>
+              <p className="text-muted-foreground mt-2 max-w-[74ch] text-xs">
+                The second box is R1 taken literally &mdash; &ldquo;the box follows the asset, never
+                the reverse&rdquo;. <code>sewa-dewan-kahwin</code>, <code>villa-warisan</code>,{' '}
+                <code>wedding-planner-terbaik-di-malaysia</code> and <code>yasaka-shrine</code> have
+                800&times;500 source photographs, so their 4:3 crop is height-constrained at 667px
+                and <em>no larger 4:3 asset can exist for them</em>. Stretching 667 across 756 would
+                be a 1.13&times; upscale and R5 would go red on four articles; the figure narrows
+                instead. The cap is computed from the stored width, never a slug list, so it lifts
+                itself the day a bigger source is uploaded.
+              </p>
+            </div>
+
             {/* Pillar list — the OTHER article-row shape (UI-05) */}
             <div className="pt-8">
               <Label muted className="mb-2 block">
@@ -1055,20 +1148,37 @@ export default async function DesignSystemPage({
               </p>
             </div>
 
-            {/* Empty pillar — the P6 state, and the soft-fail shape */}
+            {/* Empty pillar — the P6 state. NOT the failure shape any more: PLAT-16. */}
             <div className="pt-8">
               <Label muted className="mb-2 block">
                 Empty pillar — .s-empty + .s-btn link — UI-05 P6
               </Label>
               <PillarBody view={{ clusters: [], unclustered: [], totalArticles: 0 }} intro={null} />
               <p className="text-muted-foreground mt-2 max-w-[74ch] text-xs">
-                A pillar with no clusters and no unclustered articles. This is also exactly what the
-                route renders when <code>getPillarView</code> fails or blows its 3s deadline — the
-                error is swallowed and <code>view</code> stays empty — so the soft-fail path and the
-                genuinely-empty path get the same designed exit rather than a blank{' '}
-                <code>&lt;div&gt;</code>. The way out is a real <code>&lt;Link&gt;</code> wearing{' '}
-                <code>.s-btn</code>, not a <code>Button</code>: <code>EmptyState</code>&rsquo;s{' '}
-                <code>action</code> takes an <code>onClick</code>, and this renders on the server.
+                A pillar with no clusters and no unclustered articles. The way out is a real{' '}
+                <code>&lt;Link&gt;</code> wearing <code>.s-btn</code>, not a <code>Button</code>:{' '}
+                <code>EmptyState</code>&rsquo;s <code>action</code> takes an <code>onClick</code>,
+                and this renders on the server.
+              </p>
+              <p className="text-muted-foreground mt-2 max-w-[74ch] text-xs">
+                <strong>This state means one thing only: the pillar is empty.</strong> Until PLAT-16
+                it meant two — the route swallowed a failed or timed-out <code>getPillarView</code>{' '}
+                and rendered this exact block at HTTP 200, so a database blip told the reader our
+                editorial calendar was empty, and{' '}
+                <code>Vercel-CDN-Cache-Control: s-maxage=300, stale-while-revalidate=600</code> kept
+                that answer at the edge for up to fifteen minutes. The failed read now throws (
+                <code>@/lib/cache/degraded-render</code>) and the response is an HTTP 500. Do not
+                reuse this block for a failure.
+              </p>
+              <p className="text-muted-foreground mt-2 max-w-[74ch] text-xs">
+                <strong>The 500 has no designed page yet, and that is a real gap.</strong> Measured:
+                the document is <code>&lt;html id=&quot;__next_error__&quot;&gt;</code> — Next does
+                not server-render <code>error.tsx</code> for an uncaught error on the initial
+                request, so the words &ldquo;Ada masalah teknikal&rdquo; are not in the HTML at all.
+                A reader with JavaScript gets the retry page after hydration; a reader without it
+                gets a blank 500. And because <code>src/app/error.tsx</code> is the app&rsquo;s only
+                boundary, that page renders OUTSIDE <code>(public)/layout.tsx</code> — no masthead,
+                no footer, no way to another category. Raised as a follow-up, not fixed here.
               </p>
             </div>
 
@@ -1229,6 +1339,62 @@ export default async function DesignSystemPage({
               </Heading>
             </div>
           </div>
+
+          {/* ── DES-15 ──────────────────────────────────────────────────
+              The reference page could not show this before, and that is the
+              whole point of adding it. §02's scale table is hand-typed: it said
+              h2 tracking −0.01em while every public page served −0.018em, and a
+              table cannot be wrong out loud. `.s-h2` was ALSO the only `.s-*`
+              class the page never rendered live — it was named in the §05 table
+              and drawn nowhere — so there was no specimen to disagree with it.
+
+              Both surfaces are shown deliberately. One class, two wrappers, and
+              until DES-15 two different answers: `.hk` (this console, no
+              re-skin) honoured the class; `.hk-public` (every reader-facing
+              page) silently replaced three of its four properties from
+              `globals.css`'s `.hk-public h1,h2,h3,h4` at (0,1,1). A specimen on
+              ONE surface would have looked perfect and proved nothing.
+
+              The claims below are copied from `components.css` by hand ON
+              PURPOSE — if someone edits the rule and not this block, the probe
+              goes red, which is the signal wanted. `scripts/audit-class-wins.mjs`
+              is the automated half and parses the rule instead. ── */}
+          <h3 className="mt-2 text-sm font-semibold">
+            Live: does <code>.s-h2</code> win its own declarations? (DES-15)
+          </h3>
+          <div className="flex flex-col gap-6 border p-4">
+            <div className={rootClass} style={{ padding: 16, ...FONT_DEMO_STYLE }}>
+              <CascadeProbe
+                label=".s-h2 on .hk — the console surface"
+                claim={{ 'font-weight': '600', 'letter-spacing': '-0.01em', 'line-height': '1.25' }}
+              >
+                <h2 className="s-h2">Nisbah dulang, duit hantaran &amp; etika</h2>
+              </CascadeProbe>
+            </div>
+            <div
+              className={`hk-public ${bodoniModa.variable}`}
+              style={{ padding: 16, border: '1px solid var(--border)' }}
+            >
+              <CascadeProbe
+                label=".s-h2 on .hk-public — what a reader gets"
+                claim={{ 'font-weight': '600', 'letter-spacing': '-0.01em', 'line-height': '1.25' }}
+              >
+                <h2 className="s-h2">Nisbah dulang, duit hantaran &amp; etika</h2>
+              </CascadeProbe>
+            </div>
+          </div>
+          <p className="text-muted-foreground max-w-[74ch] text-xs">
+            Before DES-15 the second block reported <code>font-weight</code> 400 and{' '}
+            <code>letter-spacing</code> −0.399264px against a −0.2218px claim, at 390px on
+            production deployment <code>dpl_B2j3SaaGVGjGKrtSqh4gvWf7hG7k</code>. The fix is the
+            doubled selector <code>.s-h2.s-h2</code> in <code>components.css</code>, which reaches
+            (0,2,0) and wins on every surface rather than only under this one wrapper. What was NOT
+            changed: the family. Pillar cluster headings stay in the display face, and whether spec
+            §2.4&rsquo;s &ldquo;may not: h2&rdquo; still holds now that production serves Bodoni
+            Moda as a <code>font-weight: 400 900</code> variable face rather than the 400-only
+            subset §2.4 assumed is the creative-director&rsquo;s call, raised in the DES-15
+            work-done entry and not applied here.
+          </p>
 
           <h3 className="mt-2 text-sm font-semibold">Schema slots — spec §9.2</h3>
           <div className="overflow-x-auto border">

@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { MIDSIZE_COVER } from '../midsize-cover';
+import { ARTICLE_COVER_MD, MIDSIZE_COVER } from '../midsize-cover';
 import { resolveCardSource, resolveRowThumbSource } from '../responsive-cover';
 
 /**
@@ -19,21 +19,38 @@ const MD = 'crop-4x3-article-card-md';
 // If it is renamed on either side, every `.s-card` silently falls back to `low`
 // and the R2 violation this item closed comes back with no error.
 //
-// It is pinned here as a literal on purpose: UI-15 must not import a constant
-// from an unmerged branch, and it must not define a second one either. This
-// test is the join between the two.
+// It was pinned here as a literal while UI-16 sat unmerged, because UI-15 must
+// not import a constant from an unmerged branch and must not define a second
+// one either. UI-16 merged first (PR #65), so the literal below is now the
+// join between this test and UI-16's `ARTICLE_COVER_MD`, and the assertion is
+// that there is exactly ONE definition of the key in the tree.
 describe('the card rendition key', () => {
   it('is the exact string production stores and serves', () => {
-    const src = readFileSync('src/lib/storage/responsive-cover.ts', 'utf8');
-    const m = src.match(/const ARTICLE_CARD_MD = '([^']+)'/);
-    expect(m, 'ARTICLE_CARD_MD not found — was it renamed or inlined?').toBeTruthy();
-    expect(m![1]).toBe(MD);
+    expect(ARTICLE_COVER_MD.NAME).toBe(MD);
   });
 
-  // The `.s-card` plate is 768 CSS px at desktop. Reaching for DES-18's row
-  // rendition here would upscale 1.45x on every desktop category page — which
-  // is exactly why there are two rungs and not one.
-  it('is a different rung from the row thumbnail, and the row rung is too small', () => {
+  // ⚠ THE REGRESSION THIS GUARDS IS A SECOND DEFINITION, NOT A WRONG ONE.
+  // `NAME` is the R2 object key AND the `coverImageSmartCrops` key, so a rename
+  // has to orphan 96 live objects in one edit to be noticed. It only stays that
+  // way while `midsize-cover.ts` is the single place it is written down: a
+  // module that re-declares the string is a module that keeps serving the old
+  // key after the rename, and half of production follows it.
+  it('is defined once — responsive-cover.ts imports it and does not restate it', () => {
+    const src = readFileSync('src/lib/storage/responsive-cover.ts', 'utf8');
+    expect(
+      src.includes(`'${MD}'`),
+      'responsive-cover.ts hardcodes the rendition key again — import ARTICLE_COVER_MD.NAME instead',
+    ).toBe(false);
+    expect(src).toMatch(/import \{[^}]*ARTICLE_COVER_MD[^}]*\} from '\.\/midsize-cover'/);
+  });
+
+  // The `.s-card` plate is 768 CSS px at desktop and DES-18's row rendition is
+  // 528, so it cannot FILL this slot — which is why there are two rungs and not
+  // one. It is still rung 2 here: the call site caps the plate at the asset's
+  // own width, so a cover that has only the 528 paints a narrower plate rather
+  // than a stretched one. "Too small to fill" and "unusable" are different
+  // claims and only the first one is true.
+  it('is a different rung from the row thumbnail, and the row rung cannot fill the slot', () => {
     expect(MD).not.toBe(MIDSIZE_COVER.NAME);
     expect(768 / MIDSIZE_COVER.WIDTH).toBeGreaterThan(1.1);
   });
@@ -69,10 +86,54 @@ describe('resolveCardSource', () => {
     expect(got).toEqual({ src: mdUrl, width: 667, height: 500 });
   });
 
-  it('does NOT reach for the row thumbnail rendition when the card one is absent', () => {
+  // ⚠ THIS ASSERTION USED TO BE ITS OWN OPPOSITE, and the reversal is the
+  // finding. It read "does NOT reach for the row thumbnail rendition" and fell
+  // straight to `low`, on the reasoning that 528px upscales 1.45x in a 768px
+  // column. That reasoning ignored the cap: the call site sets `max-width` to
+  // the asset's own width (T3), so the plate NARROWS to 528 CSS px and upscales
+  // nothing.
+  //
+  // What changed the answer was UI-16 measuring the cost of the other choice.
+  // Its resolver fell from the `-md` rung to the FULL crop and shipped; on
+  // production, hours later, six articles carried 4,742,962 B of cover, a mean
+  // of 790 KB on the LCP element, 12.5x heavier than the code it replaced —
+  // with every rule green, because a pure byte defect has no rule behind it.
+  // Rung 2 is what stands between those two failure modes: 528px at a median
+  // 17,664 B, R2-green because it is a named crop, R5-green because of the cap.
+  it('falls to the row thumbnail rendition as rung 2, at its own size', () => {
     const got = resolveCardSource(
       variants,
       { [MIDSIZE_COVER.NAME]: { url: smUrl, width: 528, height: 396 } },
+      null,
+    );
+    expect(got).toEqual({ src: smUrl, width: 528, height: 396 });
+  });
+
+  // Rung 1 wins when both are present. Asserted rather than assumed: the two
+  // rungs differ by 264px of width and an order of magnitude of nothing else,
+  // so a reversed loop would be invisible in every other test here.
+  it('prefers the card rendition over the row one when both exist', () => {
+    const got = resolveCardSource(
+      variants,
+      {
+        [MD]: { url: mdUrl, width: 792, height: 594 },
+        [MIDSIZE_COVER.NAME]: { url: smUrl, width: 528, height: 396 },
+      },
+      null,
+    );
+    expect(got).toEqual({ src: mdUrl, width: 792, height: 594 });
+  });
+
+  // ⚠ THE RUNG THAT IS DELIBERATELY ABSENT. UI-16's ladder ends with the full
+  // `crop-4x3-article-card` (111 KB–1.4 MB) before `low`; this one does not,
+  // because `.s-card` is a lead plate in a scrolling list. A cover carrying the
+  // full crop and neither rendition takes the visible R2 hit instead — the gate
+  // reports it — rather than paying up to 1.4 MB to hide it.
+  it('does NOT reach for the full crop — that rung belongs to UI-16 and costs 12.5x', () => {
+    const full = 'https://images.example.com/inspire/a/b/crop-4x3-article-card.webp?v=x';
+    const got = resolveCardSource(
+      variants,
+      { 'crop-4x3-article-card': { url: full, width: 1600, height: 1200 } },
       null,
     );
     expect(got).toEqual({ src: lowUrl, width: null, height: null });

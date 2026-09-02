@@ -354,6 +354,12 @@ changelog claiming otherwise is wrong.
 
 ### S5 — `src/app/(public)/artikel/[category]/[slug]/page.tsx`: delete the 2.4:1 box
 
+> ⚠ **SUPERSEDED IN PART BY UI-16, 02 September 2026 — see §7.** Deleting the
+> 2.4:1 box was right and stands. Keeping `low` in the box that replaced it was
+> right only for as long as no small 4:3 rendition existed, and it left **R2 red
+> forever** on this slot. The box is now `aspect-[4/3]` fed
+> `crop-4x3-article-card-md`. Read §7 before implementing anything below.
+
 Line ~1036: `className="bg-muted relative aspect-[3/2] w-full overflow-hidden lg:aspect-[2.4/1]"`
 → drop `lg:aspect-[2.4/1]`. The box is `aspect-[3/2]` at every width.
 
@@ -549,9 +555,109 @@ upscales in both, and the article cover is the LCP element on the highest-traffi
 template and wants §5's 1.500 asset in its 3:2 box. `resolveRowThumbSource` is a
 separate function from `resolveCoverSource` for exactly that reason.
 
+> ⚠ **THE SENTENCE ABOVE IS MINE AND UI-16 RETIRED HALF OF IT, 02 September 2026.** "The article cover figure keeps `low`" was a correct statement about
+> the asset that existed — 528px in that slot's 756px box is a **1.43×
+> upscale** — and an incorrect conclusion, because it left a slot permanently
+> outside R2 rather than naming the rung that was still missing. §7 is that
+> rung. `.s-card` genuinely does keep `low` and is untouched here; that half
+> stands.
+>
+> ⚠ **AND THAT REMAINING HALF EXPIRED THE SAME DAY — see §8.** UI-15 moved
+> `.s-card` onto the same `crop-4x3-article-card-md` rung, for the same reason
+> and at the same cost. So of §6's original sentence — _"`.s-card` and the
+> article cover figure keep `low`: 528px upscales in both"_ — **nothing now
+> stands.** Both halves were correct about the asset that existed and wrong
+> about the rule; both were retired within hours of each other by two items that
+> did not know the other was running. Left as three stacked corrections rather
+> than a silent rewrite, because the pattern is the point: a design note that
+> names a CONSTRAINT (`528px upscales`) as though it were a DECISION (`keeps
+low`) expires the moment someone builds a bigger rung, and it expires without
+> anybody editing it.
+
 ---
 
-## 7. UI-15 — the `.s-card` lead plate, and the sentence in §6 that has now expired
+## 7. SUPERSEDED by UI-16, 02 September 2026 — the article cover figure
+
+Added by the Design Systems Engineer, who also wrote §6. §2's T2 is not amended;
+it was right, and this is the day it named.
+
+**The defect §6 left standing.** The article cover figure served `low.webp` into
+an `aspect-[3/2]` box on the template drawing ~28% of all site impressions.
+Measured on production 02 September 2026:
+
+| rule                                               | verdict  | number                                                |
+| -------------------------------------------------- | -------- | ----------------------------------------------------- |
+| **R1** box within 15% of the asset                 | **PASS** | 1024×683 = 1.4993 against 1.5 — **0.05%**             |
+| **R2** no `low`/`high`/`original` in a shaped slot | **FAIL** | it is `low`                                           |
+| **R6** declared dims are the file's                | **FAIL** | declared 1200×800 for a 1024×683 file — **17.2%** out |
+
+**R1 passing is the finding, not the reassurance.** `low` is a resize of the
+SOURCE, so its aspect is the photographer's. This slot passed R1 because
+`garden-wedding` happens to have been shot at 3:2. Eleven of the twelve front-page
+covers are 3:2 and one is 2:3; the day an editor filed a portrait here, the same
+markup measured **99.9%** off. A slot whose geometry is decided by the camera is
+not a slot anyone designed, and that is the whole reason R2 exists.
+
+**R6 was invisible to every check this company owned.** 1200/800 and 1024/683 are
+both 1.50:1 to two decimal places, so check 4b — the only declared-box check that
+existed — read **zero** on it. UI-16 adds `shaped-slot-dims`, which compares the
+DIMENSIONS rather than the ratio, and `shaped-slot-variant` for R2. Both blocking,
+both with a paired fixture (`pnpm ui:gate --shaped-slot`) in which five of eight
+cases must produce nothing.
+
+**What ships.** `ARTICLE_COVER_MD` — `crop-4x3-article-card-md`, **792×594**,
+ceiling 103,680 B (DES-03 §6.2's card figure area-scaled to a box 2.25× larger).
+792 is the smallest width that fills this slot's widest **measured** box — 756 CSS
+px at 1440/1920 — with no upscale, and is exactly 1.5× DES-18's 528px rung, so the
+two are one box at two scales. Same mechanism as DES-18: a resize of the stored
+`crop-4x3-article-card`, no Rekognition, not a `CROP_TARGETS` entry, so
+`GEOMETRY_VERSION` does not move.
+
+**§4's count is not amended, because §4 was measuring a different thing.** Its
+five remaining `image-aspect` violations were about the assets that existed then.
+This rung did not exist; §4 was right to refuse to spend 8.2 MB on the only 4:3
+asset that did.
+
+**Bytes — a saving, measured over the whole corpus** by HTTP HEAD on the objects
+the backfill wrote, all 96 published covers (the corpus moved 92 → 96 mid-item):
+
+|                            | total                    | min    | median | max     |
+| -------------------------- | ------------------------ | ------ | ------ | ------- |
+| `low.webp`                 | 5,034,824 B              | 15,184 | 49,856 | 252,352 |
+| `crop-4x3-article-card-md` | **3,296,332 B**          | 12,346 | 30,716 | 100,990 |
+| delta                      | **−1,738,492 B, −34.5%** |        |        |         |
+
+`garden-wedding`'s LCP image: **33,574 B → 26,936 B, −19.8%.**
+
+**The box follows the asset, literally.** R1's own sentence, and its remedy for a
+box no derivative can fill — _"you do not have that box"_. Four covers
+(`sewa-dewan-kahwin`, `villa-warisan`, `wedding-planner-terbaik-di-malaysia`,
+`yasaka-shrine`) have 800×500 source photographs, so their 4:3 crop is
+height-constrained at **667px** and no larger 4:3 asset can exist for them.
+Stretching 667 across 756 would be a 1.13× upscale and R5 would go red on four
+articles; the figure narrows to the asset instead, measured **1.000×**. Computed
+from the stored width, never a slug list, so the cap lifts itself the day a bigger
+source is uploaded.
+
+**⚠ AN OPEN QUESTION THIS SECTION DOES NOT SETTLE, and it belongs to the Creative
+Director.** CONT-15 (PR #63, open at time of writing) rewrites this same figure to
+the opposite rule: keep `low` and make the box follow the file per article, which
+is R1-by-construction and costs zero bytes. It is not compatible with R2 as
+written, and under `shaped-slot-variant` it fails the build. The substantive
+question is **portrait covers**: `tempat-beli-hantaran` is 1200×1800, and a 4:3
+crop of it keeps **50%** of the frame — clear of UI-03 R8(c)'s 33% floor, but
+still half a frame an editor framed tall.
+
+A synthesis exists and is deliberately NOT built here: drive the box's aspect from
+the **rendition's stored `width`/`height`** instead of a hardcoded `4/3`, so the
+box follows the asset in shape as well as in width. That needs a portrait rendition
+at a sane weight — `crop-4x5-mobile-cover` is the right shape at 943 KB–2.0 MB, so
+it needs the same resize rung — and it is a separate item, not a patch. **Recorded
+so that whichever way the ruling goes, neither item is silently reverted.**
+
+---
+
+## 8. UI-15 — the `.s-card` lead plate, and the sentence in §6 that has now expired
 
 **Item:** UI-15 · **Date:** 02 September 2026 · **Owner:** Design Systems Engineer
 
