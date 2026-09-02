@@ -176,6 +176,48 @@ your kenduri, which is a factual error dressed as helpfulness.
 protocol rule needs no gloss, because it is not a fiqh term. It needs an owner
 and a date.
 
+### 4.4a ⚠ THIS RULE DID NOT FIRE. Recorded 02 September 2026, at the Sprint 06 review board.
+
+**§4.4 was seven days old when `CONT-17` broke it, and nothing caught it until an
+adversarial reviewer with blocking authority was dispatched.**
+
+`doa-pembuka-majlis` quoted eight clauses of JAKIM's *Garis Panduan dan Himpunan
+Doa bagi Majlis Rasmi dan Separuh Rasmi Kerajaan* (terbitan 2026). Every clause
+verbatim. Every clause with its number. Every clause checked against the PDF by
+the writer. **The article was still wrong**, because paragraph 1 and paragraphs
+4.1–4.2 — the document's own statement of who it governs — were never read. The
+guideline binds a majlis organised by government or attended by pembesar. **A
+kenduri kahwin in somebody's front yard is neither.**
+
+What that produced was clause 7.2(i)'s *"pembaca doa hendaklah seorang lelaki"*
+carried into a FAQ answer: **a gendered religious restriction on who may read the
+doa at a Malay wedding, sourced to a government protocol that says nothing about
+weddings, inside FAQPage JSON-LD** — the part Google lifts out and shows without
+the page around it. It was live for roughly forty minutes.
+
+**The failure mode has a name and it is not one this guide had:** not fabrication
+and not misquotation, but **a rule nobody issued, wearing the authority of
+somebody who could have.**
+
+**Why the rule did not fire, and it is the chair's defect.** §4.4 was the only
+mandatory rule in this guide with **no row in the reviewer's checklist** in §15.
+Every other rule has an S-check. This one had none, so the review board never
+asked for it and the drafting checklist asked *"is the quotation accurate"*
+without ever asking *"does the document apply"*. **Closed by check S19.**
+
+**Read a document's SCOPE clause before you quote a single clause from it.** It
+costs one paragraph of reading and it makes the article better rather than
+shorter: the scope section is now the most useful thing on that page, because no
+competitor tells the reader that the document they keep being shown does not bind
+their majlis.
+
+**And state the limit honestly: no script can do this.** A currency gate passes
+that PDF — it is the current edition, in force, its landing page returns 200.
+Being current is orthogonal to applying. An ingest can refuse an article that
+cites an authority document carrying a scope clause while quoting no scope
+statement of its own; it cannot judge the scope. **That judgement is a reviewer's,
+and S19 is where it is checked.**
+
 ---
 
 ## 5. Bahasa Melayu Malaysia, and the words that give away a machine
@@ -741,5 +783,6 @@ The chair runs this in the Editorial Review Board, alongside the verification an
 | S16 | Humanizer | Run after revision, and re-checked |
 | S17 | Price currency | Every ringgit figure carries the source's own last sign of life, not only the date checked. Any catalogue range carries its result count. Any promotional price carries the struck-through original. No market range rests on one vendor. See §7.1a |
 | S18 | State copy | Every empty/error/loading string is scoped to its STATE, not to a topic; zero dateless promises (§13a.2); no count printed as zero. Verified on the public URL, not in the spec |
+| S19 | Scope of authority | For every guideline, enakmen, fatwa or protocol cited: the article states **who the document binds**, in the article's own words, before any clause of it is quoted — and where it does not bind the reader's majlis, says so plainly. Each rule named as hukum, adat or protokol pentadbiran. See §4.4 and §4.4a |
 
-**S15, S16 and S17 are the three that cannot be waived.** S15 because a review that found nothing did not happen. S16 because it is an owner-level rule. **S17 because a price is the one thing on this site a reader will act on with their own money, and a stale figure is indistinguishable from an invented one.**
+**S15, S16, S17 and S19 are the four that cannot be waived.** S15 because a review that found nothing did not happen. S16 because it is an owner-level rule. **S17 because a price is the one thing on this site a reader will act on with their own money, and a stale figure is indistinguishable from an invented one.** **S19 because a correctly quoted clause from a document that does not apply is the one error every other check on this list passes** — it is not fabrication and not misquotation, and CONT-17 put a gendered religious restriction into structured data on 02 September 2026 with every other check green. §4.4a records what it cost.
