@@ -1,0 +1,47 @@
+CONT-15 — the DoD's own instrument, run over EVERY URL in sitemap.xml, 02 Sept 2026
+master's gate (post-UI-16), production, 5 widths each. Two chunks, 109 URLs total.
+
+chunk A: 290 target-widths
+2799:totals: empty-content 0
+2800-        rail-collapsed 0
+2801-        narrow-text-column 725
+2802-        reading-measure 43
+2803-        clipped-text 0
+2804-        viewport-overflow 2
+2805-        scroll-container-clip 1
+2806-        image-upscale 0
+2807-        image-aspect 0
+2808-        image-attr-aspect 661 (advisory, does not fail the build)
+2809-        image-unmeasurable 0
+2810-        shaped-slot-variant 0
+2811-        shaped-slot-dims 0
+2812-        category-diversity 0
+2813-        source-order 0
+
+chunk B: 255 target-widths
+2984:totals: empty-content 0
+2985-        rail-collapsed 0
+2986-        narrow-text-column 1116
+2987-        reading-measure 23
+2988-        clipped-text 0
+2989-        viewport-overflow 4
+2990-        scroll-container-clip 46
+2991-        image-upscale 0
+2992-        image-aspect 0
+2993-        image-attr-aspect 822 (advisory, does not fail the build)
+2994-        image-unmeasurable 0
+2995-        shaped-slot-variant 0
+2996-        shaped-slot-dims 0
+2997-        category-diversity 0
+2998-        source-order 0
+
+COMBINED, 545 target-widths:
+  image-upscale        0   <- UI-06 upscale rule, DoD
+  image-aspect         0   <- UI-06 aspect rule, DoD
+  image-unmeasurable   0
+  shaped-slot-variant  0
+  shaped-slot-dims     0
+
+UILINT EXIT 1 on both chunks is OTHER checks, none of them UI-06's:
+  narrow-text-column 1841, reading-measure 66, viewport-overflow 6, scroll-container-clip 47
+  Pre-existing, belonging to other items. Reported, not absorbed into this DoD.

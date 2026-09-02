@@ -33,10 +33,16 @@ Verified after the fact, on production, rather than assumed:
 rows whose low.sizeBytes was lost by the write: 0
 ```
 
-## The undo files
+## The undo files — they ship in PR #71, not here
 
 - `docs/undo/cont-15-cover-intrinsics.json` — 96 rows
 - `docs/undo/cont-15-cover-intrinsics-catchup.json` — 4 rows
+- `docs/undo/cont-15-cover-intrinsics-catchup-2.json` — a later catch-up
+
+The script that made this write and all three undo files belong to the
+design-systems-engineer's PR #71 (CONT-15's database half), so that one PR
+carries the write, its reversal and its standing audit together. This document
+is the editorial half's pointer to them, not a second copy.
 
 Each carries every affected **row id**, that row's **prior**
 `cover_image_variants` in full, and the reversal SQL. Recovery is either:

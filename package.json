@@ -51,7 +51,6 @@
     "audit:favicon:local": "node scripts/audit-favicon.mjs --local",
     "audit:favicon:selftest": "node scripts/audit-favicon.mjs --selftest",
     "verify:degraded": "node scripts/verify-degraded-page-uncacheable.mjs",
-    "backfill:cover-intrinsics": "tsx scripts/backfill-cover-intrinsics.mts",
     "audit:crops": "node --env-file=.env scripts/audit-crop-depiction.mjs"
   },
   "dependencies": {

@@ -3,6 +3,11 @@
 **Sprint 06 · `design` · 5 points · owner `creative-director` · integration branch `master`**
 **02 September 2026**
 
+> **This is CONT-15's EDITORIAL half.** The database half — the intrinsics backfill,
+> its undo files and the standing audit — is the design-systems-engineer's
+> `sep-02-2026-done-cont-15-cover-intrinsics.md` and ships in PR #71. Two entries,
+> one item, split so neither PR carries the other's files.
+
 ---
 
 ## The one-line outcome
@@ -128,6 +133,27 @@ totals: image-upscale 0
 **The DoD's aspect and upscale clause is satisfied on live production.** It was
 not satisfied by CONT-15's change, and this entry does not claim otherwise.
 
+### Sitewide, which is what the DoD actually asks for
+
+Master's gate over **every URL in `sitemap.xml`** — 109 URLs at five widths,
+**545 target-widths** — run in two chunks because the gate buffers its whole
+report and a single 107-URL run had already been killed at ~55 minutes for
+looking hung:
+
+```
+image-upscale        0     <- UI-06's upscale rule
+image-aspect         0     <- UI-06's aspect rule
+image-unmeasurable   0
+shaped-slot-variant  0
+shaped-slot-dims     0
+```
+
+`UILINT EXIT: 1` on both chunks is **other checks only** — `narrow-text-column`
+1841, `reading-measure` 66, `viewport-overflow` 6, `scroll-container-clip` 47.
+Pre-existing, belonging to other items, and reported here rather than absorbed
+into this item's DoD or used to narrow it. Full logs in
+`cont-15-EVIDENCE/08a-` and `08b-`.
+
 `UILINT EXIT: 1` on that page is `narrow-text-column 89` — a data table in the
 article body, a pre-existing defect of a different item, untouched by this one.
 
@@ -186,6 +212,10 @@ a carried number can take: not quoted, re-derived, and it held.
 ---
 
 ## 5. What shipped — PR #69 into `master`
+
+Sixteen files, **none under `src/`**, and none of them touching PR #71's:
+`scripts/audit-crop-depiction.mjs`, this entry and its evidence,
+`docs/work-done/README.md`, the `audit:crops` script entry, and `playwright-core`.
 
 ### `scripts/audit-crop-depiction.mjs` — the contact sheet
 
@@ -256,16 +286,20 @@ GREEN (file fall-through)    17 pair(s) — "1 row(s) have no recorded low.width
 
 Confirmed restored: `published 102 · without recorded low.width 0`.
 
-### `scripts/backfill-cover-intrinsics.mts` + two undo files
+### `scripts/backfill-cover-intrinsics.mts` — written here, **shipping in PR #71**
 
 `ImageVariantMeta` is `{ url, sizeBytes }` — no recorded width or height for
 `low`, the gap UI-12 S1 named. **96 production rows were written** on
 02 September, before UI-16 was known to be landing.
 
 **Nothing reads these numbers today, and the file header says so in as many
-words.** They ship because a production write whose script and undo live only on
-an unmerged branch is unrecoverable in practice. Verified idempotent, by me, on
-production:
+words.** The write must be recoverable from the repo, which is why the script and
+its undo files matter — but they are **not in this PR**. The design-systems-engineer
+owns them and PR #71 is their home, together with `audit-cover-intrinsics.mjs` and
+the `hero-image-rules.md` change that belong with them. Shipping the same script
+from two PRs is how a repo ends up with two of it.
+
+Verified idempotent here anyway, independently, on production:
 
 ```
 $ pnpm backfill:cover-intrinsics --db <prod> --undo /tmp/verify-undo.json --dry-run
@@ -297,9 +331,9 @@ rather than a broken one, and nothing reads it today in any case. The real fix i
 a `generateVariants` change, raised as an open finding rather than papered over
 with a third catch-up run that would be stale before this entry was committed.
 
-**UNDO** — `docs/undo/cont-15-cover-intrinsics.json` (96 rows) and
-`…-catchup.json` (4), each carrying every affected row id, its prior
-`cover_image_variants`, and the reversal SQL:
+**UNDO** — `docs/undo/cont-15-cover-intrinsics.json` (96 rows), `…-catchup.json`
+(4) and `…-catchup-2.json`, each carrying every affected row id, its prior
+`cover_image_variants`, and the reversal SQL. **All three land in PR #71**:
 
 ```sql
 UPDATE articles
