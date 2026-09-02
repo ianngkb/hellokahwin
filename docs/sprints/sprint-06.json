@@ -1,10 +1,10 @@
 {
   "id": 6,
   "name": "Deepen where the click is",
-  "state": "in_progress",
+  "state": "done",
   "planned_at": "2026-09-02",
   "started_at": "2026-09-02",
-  "ended_at": null,
+  "ended_at": "2026-09-02",
   "governance": "A sprint is a BODY OF WORK, not a duration. Completeness beats fitting a point budget. Every item is presented as CLAIM + EVIDENCE + LIVE LINK. DONE MEANS SHIPPED. A definition of done is never narrowed after the sprint starts. OWNER DECISION 02 Sept 2026: full scope approved, nothing cut - the FIFTH consecutive sprint in which the CEO flagged items and the owner kept every one. CONCURRENCY IS THE DEFAULT: one worktree per concurrent item, dispatch together. ⚠ SPRINT 05'S LESSON, BINDING HERE: it scoped 28 items and dispatched 14, so half the sprint never ran. This sprint is scoped to 10 items deliberately - the constraint is dispatch capacity, not ambition, and the fix is to dispatch ALL of it.",
   "points": 55,
   "theme": "Sprint 05 shipped six document-intent articles and fixed the front page; the thesis that document intent converts ~12x better is still UNTESTED because SEO-14 never ran. This sprint tests it and then builds on the answer. THE CONTENT DIRECTION IS MEASURED, NOT GUESSED: all 337 ranking queries were classified with the committed intent gate on 02 Sept. The `doa` family is 221 impressions, 100% document intent, 4.5% CTR - and sits at AVERAGE POSITION 21.7, which is enormous headroom on our own best-converting territory. Against that, `mas kahwin` is 1,046 impressions (40% of the site), 0% document intent, 0.6% CTR, across 39 of our 92 articles. We built 39 articles in the cluster that cannot convert and 10 in the one that does. So: deepen ucapan-doa (CONT-17), build out nikah-undang-undang where lafaz taklik sits at position 9.0 with zero clicks and rukun at 22.3 (CONT-18), and finish the composition DES-03 already drew (UI-19's rail). 26 document-intent queries currently carry impressions and zero clicks. ADDED 02 Sept at the owner's request: UI-20, the favicon - which is a PINK serif 'H' from the retired Plum Forward palette, on a site whose brand is a warm-neutral monotone, and which is not any mark in the brand registry. brand-assets.ts already names the monogram as 'the only mark that survives a favicon'.",
@@ -26,144 +26,645 @@
       "id": "CONT-17",
       "track": "content",
       "points": 12,
-      "state": "todo",
+      "state": "done",
       "owner": "writer-inspirasi-vendor-venue",
       "title": "Deepen the doa pillar - the family that converts at 4.5% and sits at position 21.7",
       "flags": [],
       "why": "â€”",
       "dod": "SIX ARTICLES LIVE IN PRODUCTION, each returning 200 on FIRST request with the status line and X-Vercel-Cache quoted. Sitemap <loc> count rises from 109 to 115, quoted before and after. Each carries the COMPLETE artefact - the full doa in Arabic, DBP-method rumi and Malay meaning - verified by quoting the first and last line from LIVE HTML, never a summary. Every doa, Arabic string, transliteration and religious claim carries its NAMED AUTHORITY, THE EDITION, and the date checked, quoted from the live page. PRE-FLIGHT #1 (check-serp-shape.py) exit 0 and PRE-FLIGHT #3 (check-family-owned.py) exit 0 recorded per target; a target failing either is not written. Each article emits FAQPage where it has genuine Q&A and carries a contents list per UI-18's rule.",
       "brief": "â€”",
-      "evidence": []
+      "evidence": [
+        {
+          "at": "2026-09-02T02:57:49.850Z",
+          "link": "https://hellokahwin.com/artikel/ucapan-doa",
+          "actor": "SYSTEM",
+          "claim": "CEO-VERIFIED INDEPENDENTLY: six doa articles live, and the sitemap arithmetic closes exactly across both content items.",
+          "proof": "Six articles under /artikel/ucapan-doa carry datePublished 2026-09-02, ENUMERATED rather than assumed: doa-keluarga-bahagia, doa-malam-pertama, doa-masuk-rumah-baru, doa-pembuka-majlis, doa-untuk-isteri, doa-untuk-suami. Live sitemap <loc> count is 119 = 109 at planning + 4 (CONT-18) + 6 (CONT-17), so CONT-17 alone takes it to the 115 its DoD names. Artefact and authority spot-checked on three live pages, counted from the served HTML: doa-untuk-isteri 820 Arabic characters, doa-pembuka-majlis 802, doa-malam-pertama 708; FAQPage schema present on all three; named authorities present including JAKIM, Dewan Bahasa/DBP and the hadith collections Abu Daud and Bukhari. CEO METHOD NOTE: an earlier glance at the pillar suggested only +5 because it was compared against a stale '10 articles' figure from planning - the correct answer came from enumerating datePublished per slug, which is the same rule that CONT-18's verification had to be redone under."
+        }
+      ]
     },
     {
       "id": "CONT-18",
       "track": "content",
       "points": 8,
-      "state": "todo",
+      "state": "done",
       "owner": "writer-adat-agama-prosedur",
       "title": "Build out nikah-undang-undang - lafaz taklik, rukun and syarat, all document intent and all underbuilt",
       "flags": [],
       "why": "â€”",
       "dod": "FOUR ARTICLES LIVE IN PRODUCTION, each 200 on first request with the status line quoted, taking the sitemap to 119 combined with CONT-17 (state the combined figure and who contributed what). Each contains the COMPLETE artefact - the full lafaz text, the complete list of rukun with each one named, the full set of syarat - quoted first and last line from live HTML. Every religious or legal claim carries its NAMED AUTHORITY AND EDITION and the date checked, per item. Where a state enakmen is quoted, the state and the enakmen are both named. PRE-FLIGHT #1 and #3 exit codes recorded per target.",
       "brief": "â€”",
-      "evidence": []
+      "evidence": [
+        {
+          "at": "2026-09-01T19:21:03.908Z",
+          "link": "https://hellokahwin.com/artikel/nikah-undang-undang",
+          "actor": "SYSTEM",
+          "claim": "Four nikah-undang-undang articles are live in production, each 200 on first request after an edge purge, with no HIT",
+          "proof": "syarat-wali-nikah HTTP/1.1 200 OK X-Vercel-Cache: REVALIDATED Age: 32 | hiv-test-kahwin 200 REVALIDATED Age: 0 | kursus-kahwin-selangor 200 REVALIDATED Age: 0 | kad-nikah-selangor 200 REVALIDATED Age: 0. Control second fetch returns X-Vercel-Cache: HIT on all four, which is what proves the first fetch was first."
+        },
+        {
+          "at": "2026-09-01T19:21:24.987Z",
+          "link": "https://hellokahwin.com/sitemap.xml",
+          "actor": "SYSTEM",
+          "claim": "Sitemap 109 to 113. The DoD's combined 119 is not reached and the shortfall is CONT-17, not a narrowed DoD: CONT-18 contributed 4, CONT-17 contributed 0 and reads todo in the tracker. 113 = 109 + 4 + 0.",
+          "proof": "curl -s https://hellokahwin.com/sitemap.xml | grep -o '<loc>' | wc -l -> 109 immediately before the first ingest (URL set identical to the snapshot taken at item start), 113 after. All four new URLs present under /artikel/nikah-undang-undang, which now lists 9 articles."
+        },
+        {
+          "at": "2026-09-01T19:21:26.932Z",
+          "link": "https://github.com/ianngkb/hellokahwin/blob/feat/command-centre-dashboard/docs/work-done/sep-02-2026-session-01/sep-02-2026-done-cont-18-nikah-undang-undang.md",
+          "actor": "SYSTEM",
+          "claim": "PRE-FLIGHT #1 and #3 exit codes recorded per target; all four cleared decision 170's 220/month floor",
+          "proof": "syarat wali nikah PF1=0 PF3=0 vol 250 parent 'urutan wali nikah' | hiv test kahwin PF1=0 PF3=0 vol 1100 | kursus kahwin selangor PF1=0 PF3=0 vol 3100 | kad nikah selangor PF1=0 PF3=0 vol 700. Rejected: kursus kahwin PF3=1 OWNED; nikah siri PF1=1; wali nikah / wali hakim / wali mujbir / surat nikah / surat perakuan nikah / nikah di thailand / cerai taklik / semak status perkahwinan / ujian hiv sebelum kahwin / surat akuan bujang / urutan wali nikah all PF1=3 UNKNOWN, which is not a pass; khutbah nikah, syarat saksi nikah, borang kebenaran nikah all passed both gates at 200/mo and were dropped under the 220 floor."
+        },
+        {
+          "at": "2026-09-01T19:21:28.773Z",
+          "link": "https://github.com/ianngkb/hellokahwin/blob/feat/command-centre-dashboard/scripts/seo/check-family-owned.py",
+          "actor": "SYSTEM",
+          "claim": "PRE-FLIGHT #3 returned FREE exit 0 on a 2,500/mo family a live page already owns; fixed with a fourth verdict that exits non-zero, and PRE-FLIGHT #2 was reporting two LIVE pages as 404",
+          "proof": "check-family-owned.py 'borang nikah online' printed 'near miss: .../borang-nikah (67%: borang, nikah)' then 'FREE ... FAMILYOWNED EXIT: 0'. New verdict CONTAINED = exit 2 when a live article slug's whole token set sits inside the parent topic; regression suite 7 -> 12 cases, all hold, including controls 'urutan wali nikah' and 'hiv test kahwin' that must NOT fire and CONT-13's 'doa penutup majlis' / 'doa makan majlis'. Separately check-source-currency.py URL_RE excluded ')' so File:UTC_Shah_Alam_(220711).jpg was cut to a 404 fragment; both full URLs return 200 by hand; fixed and both are now the failing case in its suite; SOURCECURRENCY EXIT: 0 on all four drafts."
+        },
+        {
+          "at": "2026-09-01T20:18:22.330Z",
+          "link": "https://hellokahwin.com/artikel/nikah-undang-undang",
+          "actor": "SYSTEM",
+          "claim": "CEO-VERIFIED INDEPENDENTLY, NOT ON THE AGENT'S REPORT: all four articles live and the DoD's predicted combined sitemap figure of 119 now resolves exactly.",
+          "proof": "All four return 200 with datePublished 2026-09-02: syarat-wali-nikah, hiv-test-kahwin, kursus-kahwin-selangor, kad-nikah-selangor. Live sitemap is now 119 (109 at planning) and /artikel/nikah-undang-undang lists 9 articles. The DoD asked for '119 combined with CONT-17'; when CONT-18 reported, it was 113 and the agent stated plainly that the shortfall was CONT-17's and not a narrowed DoD - CONT-17 has since contributed the remaining 6 and the figure is exactly 119. Content spot-checked against live HTML with count-in-html.sh (never grep -o -i -F): 'Bapa Kandung' 6, 'Wali Hakim' 22 - matching the report's '6 -> 22' verbatim - and 'Enakmen Undang-Undang Keluarga Islam' 8 with 'Selangor' 12 and '2003' 8, so the state and edition are named as the DoD requires. CEO ERROR WORTH RECORDING: the CEO first tested a GUESSED slug set (rukun-nikah, syarat-sah-nikah) and concluded '3 of 4 shipped'; those two are 2026-08-25 articles that predate the sprint. The evidence named the four slugs and the CEO did not read them first - the same enumerate-what-IS-there rule it writes into every brief."
+        }
+      ]
     },
     {
       "id": "COPY-01",
       "track": "content",
       "points": 2,
-      "state": "todo",
+      "state": "done",
       "owner": "managing-editor",
       "title": "The undatable 'akan datang tidak lama lagi' line is still live, and a shipped spec says it was already replaced",
       "flags": [],
       "why": "â€”",
       "dod": "DES-03 section 7.2 C records that its approved copy 'Kategori ini masih kosong.' plus a way out ALREADY replaced production's undatable 'akan datang tidak lama lagi' line. It did not - the line is live on 4 empty clusters after DES-08. DES-07 escalated exactly this question to the managing editor and it was never answered. Done when the empty-CLUSTER copy is decided and either shipped or explicitly kept with a reason. NOTE THE STATE DISTINCTION, it is the trap here: section 7.2 C's copy is for a FULLY EMPTY CATEGORY, not for an empty cluster inside a populated pillar, so it is not a drop-in substitute and copying it across would be solving the wrong state. Also correct DES-03 section 7.2 C, which asserts a replacement that never happened.",
       "brief": "â€”",
-      "evidence": []
+      "evidence": [
+        {
+          "at": "2026-09-01T18:59:54.386Z",
+          "link": "https://github.com/ianngkb/hellokahwin/pull/58",
+          "actor": "SYSTEM",
+          "claim": "The empty-cluster copy is decided and SHIPPED. 'Artikel untuk {entityPhrase} akan datang tidak lama lagi.' is replaced by 'Belum ada artikel di sini. Halaman ini ada N artikel lain.' on all 4 empty clusters on live production. NOT section 7.2 C's copy: that is the fully-empty-CATEGORY state (K3) and this is an empty cluster inside a populated pillar (K4); using K3 would have told a reader on /artikel/nikah-undang-undang, which holds 6 published articles, that the category is empty. Both DES-07 section 11.3 questions are answered and closed there: the empty cluster keeps its heading, and the line is replaced rather than kept. DES-03 section 7.2 C is corrected at source, as is src/design-system/components/feedback.tsx, which had repeated the false claim as a citation.",
+          "proof": "node scripts/measure/check-empty-copy.mjs against live hellokahwin.com AFTER: '4 empty clusters checked across 15 pillars / VIOLATIONS: 0 / PASS', exit 0 — rows read 'Belum ada artikel di sini. Halaman ini ada 6/7/4/4 artikel lain.' The SAME gate against production captured 02 Sep BEFORE: exit 1, 'VIOLATIONS: 7 on nikah-undang-undang, pelamin-kad-cenderahati, sebelum-nikah'. Gate self-test 5/5. Failing case run both directions: the 6 new tests give 'Tests 6 failed | 10 passed (16)' against origin/master's component and 'Tests 16 passed (16)' against the fix. Full suite 'Test Files 36 passed / Tests 514 passed' exit 0; pnpm typecheck exit 0; pnpm build exit 0. FINDING BEYOND THE DoD: the line was not only undatable, it was FALSE — /artikel/sebelum-nikah said 'Artikel untuk merisik akan datang tidak lama lagi.' two headings below a live article titled 'Cincin Tunang, Nikah dan Merisik'. NOT DONE, stated: 4 other surfaces (catalogue root, tag, author, homepage feed) still carry the phrase; each is a different state, outside this DoD, enumerated with file:line in the log and recommended as COPY-02. pnpm lint exits 1 pre-existing on origin/master (0 eslint errors; prettier flags 6 files, none touched here). Reviewer: Claude — codex-reviewer NOT dispatched."
+        },
+        {
+          "at": "2026-09-01T19:00:12.024Z",
+          "link": "https://github.com/ianngkb/hellokahwin/blob/feat/command-centre-dashboard/docs/work-done/sep-02-2026-session-01/sep-02-2026-done-copy-01-empty-cluster-copy.md",
+          "actor": "SYSTEM",
+          "claim": "The document trail is committed and pushed where a reader looks: docs on feat/command-centre-dashboard, site code on master. Retrospective edits made, not just named — style guide section 13a (State copy) plus reviewer check S18 and the dateless promise added to section 12.3's banned list, the managing-editor persona in buddy/skillcentral, and the gate script, because prose rules do not fire and three documents said this line was gone while it was being served.",
+          "proof": "Docs: git push origin HEAD:feat/command-centre-dashboard -> '7b7c2bf..f03ffde HEAD -> feat/command-centre-dashboard', exit 0. Files on that branch: docs/design/des-03-spesifikasi.html (section 7.2 C corrected), docs/design/des-07-set-keadaan.html (section 11.3 handover row closed), docs/plans/aug-23-2026-session-01/aug-23-2026-style-guide.md (section 13a + S18), scripts/measure/check-empty-copy.mjs (new gate), docs/work-done/sep-02-2026-session-01/sep-02-2026-done-copy-01-empty-cluster-copy.md + 8 evidence files, docs/work-done/README.md updated. Site: PR #58 merged to master as eaad6d3 (3 files: pillar-body.tsx, its test, feedback.tsx); all blocking CI green (H6 unit tests, gate self-test, TOC gate self-test, Vercel). Persona edits went to ~/Documents/Code/buddy/skillcentral/agents/projects/hellokahwin/Editorial/managing-editor.md, NOT the worktree, because .claude/agents/ is gitignored. UNDO pushed: git revert eaad6d3 -m 1 on master; no data, no migration, no external write."
+        },
+        {
+          "at": "2026-09-01T19:05:01.425Z",
+          "link": "https://hellokahwin.com/artikel/nikah-undang-undang",
+          "actor": "SYSTEM",
+          "claim": "CEO VERIFICATION: DoD MET on live production. The undatable promise is gone and what replaced it says something checkable.",
+          "proof": "Verified by the CEO against production, not read from the report: 'akan datang tidak lama lagi' returns ZERO across 30 sampled live URLs including every category page. What replaced it is a state that states a fact rather than a date - /artikel/nikah-undang-undang renders 'Belum ada artikel di sini. Halaman ini ada 6 artikel lain.' and /artikel/sebelum-nikah renders the same sentence with 4. That is the right shape: the old line promised timing nobody could honour ('Artikel untuk nikah siri akan datang tidak lama lagi'), the new one tells the reader what IS there and routes them to it. BRANCH SPLIT CORRECT, which five items got wrong last sprint: the UI string merged to origin/master (PR #58, eaad6d3) because it is site code, and the work-done entry plus the style-guide edit landed on feat/command-centre-dashboard because they are docs. STAGE 9 EDIT MADE, NOT JUST NAMED: the style guide gained a new section 13a on state copy, the dateless promise was added to section 12.3's banned list, and reviewer check S18 - so the next writer is stopped by a checklist rather than by remembering this incident. REVIEWER, quoted from its own log: 'Claude. An adversarial pass by this seat, plus the six render tests and the gate above. codex-reviewer was not dispatched, and review was not routed through Codex, /autopilot's default reviewer, or any OpenAI-backed path, per the owner directive of 02 September 2026.' That is decision 195 followed AND said."
+        }
+      ]
     },
     {
       "id": "UI-19",
       "track": "design",
       "points": 8,
-      "state": "todo",
+      "state": "done",
       "owner": "design-systems-engineer",
       "title": "Finish the article rail: ship SUMBER under the CEO ruling, and stop the rail collapsing without it",
       "flags": [],
       "why": "â€”",
       "dod": "At 1024/1440/1920 on LIVE production, on at least three articles of different lengths: the rail renders to the RIGHT of the body (rail.left > body.right by computed getBoundingClientRect, not by markup presence), carrying REKOD, the contents list and - where sources exist - SUMBER, in that order. ON AN ARTICLE WITH NO SOURCES the rail still renders and does NOT collapse, and no empty SUMBER heading is printed: prove both with a computed-geometry capture on one article from each set. At 390px the same blocks render full-width in the same reading order. Body measure stays within UI-10's 45-75 characters per line at all three widths, figure stated at each. UI-06's layout gate carries a case that fails when the rail collapses AND a case that fails when an empty SUMBER heading is emitted, each with a committed fixture proven to fire on it and clear on an input differing in exactly that one property.",
       "brief": "â€”",
-      "evidence": []
+      "evidence": [
+        {
+          "at": "2026-09-01T19:32:56.992Z",
+          "link": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat",
+          "actor": "SYSTEM",
+          "claim": "On LIVE production the rail renders to the RIGHT of the body on 5 articles at 1024/1440/1920, carrying REKOD, the contents list and - where sources exist - SUMBER in that order; at 390px the same blocks are full-width in the same reading order; body measure 64.4/66.0/66.0 cpl, inside UI-10's 45-75 band at all three widths",
+          "proof": "pnpm ui:rail --base https://hellokahwin.com -> RAIL EXIT: 0, 0 violations, 5 articles x 5 widths. Gap 64px at every desktop width: @1024 rail.left 684 >= body.right 620; @1440 940 >= 876; @1920 1052 >= 988; rail width 300px at all three. Order by computed top @1440 on hantaran-wajib-atau-adat: rekod 266, contents 554, sumber 1126; on doa-pengantin-baru: 266 / 554 / 1179. @390 every block at left 20 right 370 width 350 (the body column's own edge), rekod 495 < contents 777 < sumber 1297. Measure: 580px/17.9997px=64.4 cpl @1024, 594px/18px=66.0 @1440 and @1920. Fingerprint HTTP 200 cache HIT css [e754448c3010263a 19b83a0982f1e330 ece0345a72e045ca]"
+        },
+        {
+          "at": "2026-09-01T19:33:18.658Z",
+          "link": "https://hellokahwin.com/artikel/glamor-eksklusif/grand-hyatt-kuala-lumpur",
+          "actor": "SYSTEM",
+          "claim": "The no-sources case is proven from computed geometry on one article from each set: the rail still renders, does NOT collapse, and prints no empty SUMBER heading",
+          "proof": "SOURCES EXIST - /artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat: counts {rail:1,rekod:1,toc:1,sumber:1,h1:1} at all five widths, SUMBER box 940..1240 x 300px inner 268 @1440. NO SOURCES - /artikel/glamor-eksklusif/grand-hyatt-kuala-lumpur (shortest article on the site, 90,686 bytes): counts {rail:1,rekod:1,toc:0,sumber:0,h1:1} and the rail still measures left 940 right 1240 width 300 gap 64px @1440, i.e. present, in column 2, at full specified width, with no Sumber heading anywhere in it. /artikel/idea-dan-nasihat/garden-wedding (longest page on the site, 212,315 bytes) is identical. Corpus: pnpm ui:sources -> 13 of 92 articles render a rail SUMBER block, 79 do not; SOURCES EXIT: 0, 92 of 92 fetched"
+        },
+        {
+          "at": "2026-09-01T19:59:00.416Z",
+          "link": "https://github.com/ianngkb/hellokahwin/pull/64",
+          "actor": "SYSTEM",
+          "claim": "UI-06's layout gate now carries check 13 rail-missing and check 14 sumber-empty, each with a committed production-captured fixture proven to FIRE on it and CLEAR on an input differing in exactly one byte range - and each proven SILENT on the other's known-bad input, which is what separates two checks from one wearing two names",
+          "proof": "pnpm ui:gate:selftest -> 314 passed, 0 failed, UILINT EXIT: 0 (99 of the 314 are UI-19's). Diagonal at all five widths: unsourced-ok.html railgone:0 sumber:0 | unsourced-rail-absent.html railgone:1 sumber:0 | sourced-ok.html railgone:0 sumber:0 | sourced-sumber-empty.html railgone:0 sumber:1. The one-property claim is asserted, not described: 'unsourced-rail-absent.html differs from unsourced-ok.html in ONE contiguous region (8065 bytes removed)' and 'splicing the whole <aside data-hk-rail> element, open tag to close out of unsourced-ok.html reproduces unsourced-rail-absent.html byte for byte (8065 bytes at [21015, 29080))'; same for the 320-byte <li> cut at [24053, 24373). The FIRST version of that assertion FAILED on a correct pair - the longest-common-prefix boundary is ambiguous when the deleted text and what follows share a leading byte, so it reported the range as 'aside data-hk-rail=...</aside><', the right 8065 bytes shifted by one - and was replaced with the splice. Both new checks asserted CLEAN on all five pre-UI-19 fixtures at all five widths"
+        },
+        {
+          "at": "2026-09-01T19:59:29.731Z",
+          "link": "https://hellokahwin.com/artikel/ucapan-doa/doa-makan-majlis",
+          "actor": "SYSTEM",
+          "claim": "FINDING, raised not taken: the rail speaks for exactly half the sourced corpus. 13 of 92 articles carry a standalone 'Sumber:' paragraph the rail lifts; a DISJOINT 13 carry an <h2 id=sumber> reference section in the body and show nothing in the rail. Widening extractSources() changes what 'where sources exist' means in the CEO ruling, so it needs a decision rather than a layout item",
+          "proof": "pnpm ui:sources -> SOURCES EXIT: 0, 92 of 92 fetched. rail Sumber block 13 | body '## Sumber' section 13 | both 0 | text 'Sumber:' anywhere 35 | sourced by EITHER 26 | by NEITHER 66. The 13 the rail cannot see: borang-nikah, doa-majlis-pertunangan, lafaz-taklik, doa-penutup-majlis, taaruf-maksud, ucapan-ulang-tahun-perkahwinan, doa-makan-majlis, syarat-sah-nikah, doa-selamat-majlis, lafaz-akad-nikah, doa-jodoh, cincin-tunang, rukun-nikah - every one in P1 Nikah, P3 Ucapan or P7 Sebelum Nikah. Also corrects the corpus figures written into article-sources.ts and article-rail.tsx ('34 of 86', '52 of 86', measured 01 Sep, wrong by 02 Sep); both now point at the script instead of carrying a number"
+        },
+        {
+          "at": "2026-09-01T19:59:41.835Z",
+          "link": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat",
+          "actor": "SYSTEM",
+          "claim": "FINDING, outside this DoD: UI-06 check 1 narrow-text-column reports <td><p> table cells as text columns on live articles, so every article carrying a comparison table fails the gate on a defect nobody introduced",
+          "proof": "node scripts/ui-layout-gate.mjs --url https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat -> narrow-text-column 15 at 390 and 6 at 1024/1440/1920, totals 39, UILINT EXIT: 1. Cells: '72.7px column, 4 lines, box 73x116px (floor 120px) tbody > tr > td > p' and '117.3px column, 17 lines'. Identical counts on the committed fixture sourced-ok.html, so it is the page and not the instrument. Left standing in the fixture rather than swapped for a tidier article: picking the fixture that hides an existing finding is how a suite starts lying about what it covers"
+        },
+        {
+          "at": "2026-09-01T20:03:40.373Z",
+          "link": "https://github.com/ianngkb/hellokahwin/actions/runs/33551557077/job/100001963418",
+          "actor": "SYSTEM",
+          "claim": "The two new checks run BLOCKING in CI on every push and PR, verified by reading the job log rather than by accepting a green tick - and the timeout raise they required is measured, not precautionary",
+          "proof": "GitHub Actions run 33551557077, job 'gate self-test (blocking)', ubuntu-latest: '314 passed, 0 failed' / 'UILINT EXIT: 0', with all 99 UI-19 assertions present in the log. Lines only a real run produces: 'PASS  ...and splicing the whole <aside data-hk-rail> element, open tag to close out of unsourced-ok.html reproduces unsourced-rail-absent.html byte for byte (8065 bytes at [21015, 29080))'; 'PASS  unsourced-ok.html @390: ZERO Sumber sections seen in the rail - the contents link and the body <h2 id=sumber> are both correctly not one'; 'PASS  unsourced-rail-absent.html @390: rail-missing FIRES once - got 1'; 'PASS  unsourced-ok.html @1024: rail-missing CLEAR - production renders the rail (300x1130px, 1 mount)'. Job duration 14m17s against the old 15-minute ceiling = 43 seconds of headroom, so timeout-minutes 15 -> 25 was necessary; the number is in the workflow beside it. Full log committed at docs/work-done/sep-02-2026-session-01/sep-02-2026-ui-19-EVIDENCE/06-ci-gate-selftest-33551557077.txt"
+        },
+        {
+          "at": "2026-09-01T20:35:48.428Z",
+          "link": "https://github.com/ianngkb/hellokahwin/pull/64",
+          "actor": "SYSTEM",
+          "claim": "CORRECTION TO MY OWN EVIDENCE: the two checks are 15 and 16, not 13 and 14. UI-16 merged first with its own checks 13 and 14 (shaped-slot-variant, shaped-slot-dims), so UI-19's renumbered. The check NAMES never collided - rail-missing and sumber-empty are unchanged - and every log line, assertion and fixture keys on a name, which is why nothing else moved",
+          "proof": "Merged gate re-run because neither half had been run against the other: pnpm ui:gate:selftest -> 369 passed, 0 failed, UILINT EXIT: 0 (314 before UI-16's 55 landed; 99 of the 369 are UI-19's). Also on the merged tree: pnpm test 541 passed / 41 files, typecheck clean, prettier clean on everything this item touches. Log committed at docs/work-done/sep-02-2026-session-01/sep-02-2026-ui-19-EVIDENCE/07-gate-selftest-merged-with-ui16.txt. Master moved SIX times during this item (DES-15, UI-20, PLAT-16 x3 incl. a pnpm-11 build fix, UI-16), which is also why the fixtures were captured twice: the CSS chunk hashes 21fd3106af40c828/93b060e57eb15691 were superseded mid-item by e754448c3010263a/ece0345a72e045ca"
+        },
+        {
+          "at": "2026-09-01T21:02:38.996Z",
+          "link": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/hantaran-wajib-atau-adat",
+          "actor": "SYSTEM",
+          "claim": "SHIPPED. Merged to master with a merge commit, deployed to production, and re-measured on the DEPLOYED build rather than the one that was measured before the merge",
+          "proof": "PR #64 merged 2026-09-01T20:55:54Z, merge commit cadcc421 on master. GitHub Production deployment 6210190373 for cadcc42: state SUCCESS at 20:57:24Z. Post-ship re-measurement against the new build (css chunk moved 21fd3106af40c828 -> e754448c3010263a -> cd038c78e3b16e63 across the session, so this is a different artefact from the pre-merge run): pnpm ui:rail --base https://hellokahwin.com -> RAIL EXIT: 0, 0 violations, 5 articles x 5 widths, gap 64px and rail width 300px at 1024/1440/1920 on every one, measure 66.0 cpl @1440. Blocking CI on the merged head: 'gate self-test (blocking)' 14m13s, '369 passed, 0 failed', 'UILINT EXIT: 0' - log read, not the tick, and it carries 88 lines naming rail-missing/sumber-empty/splicing and 30 naming UI-16's shaped-slot"
+        },
+        {
+          "at": "2026-09-02T03:11:39.504Z",
+          "link": "https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding",
+          "actor": "SYSTEM",
+          "claim": "CEO-VERIFIED BY RUNNING THE ITEM'S OWN INSTRUMENT AGAINST LIVE PRODUCTION: RAIL EXIT: 0, zero violations, and the CEO's SUMBER ruling is implemented as a gate rather than as prose.",
+          "proof": "node scripts/measure-article-rail.mjs --base https://hellokahwin.com on origin/master e6ab18e: five articles (hantaran-wajib-atau-adat, doa-pengantin-baru, mas-kahwin-ikut-negeri, garden-wedding, grand-hyatt-kuala-lumpur), all HTTP 200, measured at 390/768/1024/1440/1920 - '0 violation(s)' and 'RAIL EXIT: 0'. The ten observations are all R3-sumber-absent and are reported, never fatal, which is decision 189's ruling exactly: SUMBER renders only where sources exist, the heading is ABSENT rather than empty, and that absence is enforced by ui-layout-gate check 14 rather than by a prose rule. The DoD's four required gate cases are committed on master as tests/ui-layout-gate/fixtures/2026-09-02-rail/: sourced-ok.html and unsourced-ok.html (the two controls) plus sourced-sumber-empty.html (fails on an empty SUMBER heading) and unsourced-rail-absent.html (fails on a collapsed rail) - two controls and two known-bad, each differing in exactly the property under test. CEO LIMITATION STATED: pnpm ui:gate:selftest could NOT be run - it hung with no output twice, at 2 and 9 minutes, on this machine. The 369-case selftest is therefore NOT independently confirmed; the rail measurement above is, and it is the clause the DoD turns on."
+        }
+      ]
     },
     {
       "id": "UI-15",
       "track": "design",
       "points": 5,
-      "state": "todo",
+      "state": "done",
       "owner": "design-systems-engineer",
       "title": "Grid category thumbnails violate UI-03 R1 and R2 - re-derive the page count at run time, the carried '37' is wrong",
       "flags": [],
       "why": "â€”",
       "dod": "Every grid category thumbnail satisfies UI-03's R1 and R2 on LIVE production, proved by UI-06's layout gate reporting 0 violations across every category page, with the pre-fix count pasted beside it. âš  THE CARRIED FIGURE 'all 37 pages' IS WRONG - re-measured 02 Sept: the sitemap holds 109 entries, 92 of them articles, so there are 15 category pages plus /artikel. DERIVE THE COUNT AT RUN TIME from the live sitemap and state what you got; do not hardcode 37 or 15. Check at 390px as well as desktop, because the carried finding was '5 of 5 fail aspect at 390px'.",
       "brief": "â€”",
-      "evidence": []
+      "evidence": [
+        {
+          "at": "2026-09-02T03:28:45.517Z",
+          "link": null,
+          "actor": "SYSTEM",
+          "claim": "Every grid category thumbnail satisfies UI-03 R1 and R2 on LIVE production. The page list is DERIVED FROM THE LIVE SITEMAP AT RUN TIME and printed every run, never hardcoded: 119 sitemap entries = 1 root + 1 /artikel + 15 category archives + 102 articles, so 16 grid pages. The carried figure all",
+          "proof": "PRE-FIX (live, before deploy): sitemap: 119 <loc> = 1 root + 1 /artikel + 15 category archives + 102 articles | grid pages derived at run time: 16 | grid-thumb-variant (R2) total: 40 | grid-thumb-aspect (R1) total: 0 | UILINT EXIT: 1 | GATE EXIT (read directly, not through a pipe): 1"
+        },
+        {
+          "at": "2026-09-02T04:13:07.042Z",
+          "link": "https://hellokahwin.com/artikel/hantaran-mas-kahwin",
+          "actor": "SYSTEM",
+          "claim": "CEO-VERIFIED BY RUNNING UI-06's GATE AGAINST LIVE PRODUCTION TWICE: 35/35 rows ok, 0 violations, UILINT EXIT: 0, and the run-time page count independently reproduced.",
+          "proof": "node scripts/ui-layout-gate.mjs --base https://hellokahwin.com on origin/master f058e41, run twice consecutively: both 'UILINT EXIT: 0' with 35 rows [ ok ], 0 [FAIL], 0 [ERROR]. UI-15's own totals are grid-thumb-variant 0 and grid-thumb-aspect 0; every blocking total is 0, the only non-zero being image-attr-aspect 61 which the gate itself labels 'advisory, does not fail the build'. Widths measured 390/768/1024/1440/1920, so the DoD's 390px clause is covered - the carried finding was '5 of 5 fail aspect at 390px'. COUNT DERIVED AT RUN TIME AND REPRODUCED BY THE CEO FROM THE LIVE SITEMAP: 119 entries, 102 articles, 15 category pages plus the /artikel index = 16 grid pages. The agent reported 16 and that is right; the carried figure was 'all 37 pages' and the CEO's own planning figure of 15 was taken against a 109-entry sitemap before this sprint's ten articles landed. ⚠ ONE EARLIER RUN OF THE SAME COMMAND EXITED 1 AND IS RECORDED RATHER THAN DISCARDED: the CEO only tailed 22 lines of it and never saw which rows failed, so the cause is NOT established; deploys were landing during that window. Two consecutive clean runs afterwards are the evidence for this claim, not the absence of the first."
+        }
+      ]
     },
     {
       "id": "CONT-15",
       "track": "design",
       "points": 5,
-      "state": "todo",
+      "state": "done",
       "owner": "creative-director",
       "title": "Portrait article covers have no thumbnail-sized landscape crop - re-derive the count, the carried '12 of 86' predates a 92-article corpus",
       "flags": [],
       "why": "FOUND BY UI-12 WHEN IT STOPPED AT ITS GATE, 31 Aug, and it is a CONTENT PIPELINE gap rather than a CSS one. The last image-aspect violation on the site cannot be fixed in CSS: the article tempat-beli-hantaran has a 1200x1800 PORTRAIT cover, and low.webp is a resize not a crop, so it cannot satisfy a landscape thumbnail box at any breakpoint. UI-03 measured 12 of 86 published articles as portrait or near-portrait (0.667 x6, 0.750 x4, 0.748, 0.753). ANY of those landing in a .s-row row reproduces the defect. The existing crops are all too heavy for a thumbnail: CEO-verified sizes are low 53 KB, crop-16x9-og 223 KB, crop-4x3-article-card 488 KB, so substituting a correctly-shaped asset across twelve homepage rows costs about +8.2 MB on cheap Android over Malaysian mobile data. UI-12 correctly refused to spend that to clear five gate points, and correctly refused to loosen the threshold.",
       "dod": "Every article cover satisfies UI-06's aspect and upscale rules at thumbnail size on live production - the gate reports 0 violations sitewide with the pre-fix count pasted. âš  RE-DERIVE THE AFFECTED COUNT AT RUN TIME: the carried figure was '12 of 86' and the corpus is now 92 articles and still moving (CONT-17 and CONT-18 add ten more in this same sprint). DO NOT solve it by substituting an existing crop - UI-12 priced that at +8.2MB across the homepage and that route stays FORBIDDEN. DES-18's mid-size variant shipped in Sprint 05 and is the intended route; state the byte cost per affected article.",
       "brief": "â€”",
-      "evidence": []
+      "evidence": [
+        {
+          "at": "2026-09-01T19:45:58.240Z",
+          "link": null,
+          "actor": "SYSTEM",
+          "claim": "⚠ PRODUCTION DEPLOYS ARE RED REPO-WIDE, not caused by this item, and it blocks every item's ship. CEO ruled: the creative-director lands the infra fix as a SEPARATE PR, proven green on a preview build first.",
+          "proof": "CONT-15 stopped and escalated rather than working around it, which is correct — a repo-wide build-config change blocking seven other running items is not an item-level decision. ITS DIAGNOSIS, VERIFIED INDEPENDENTLY BY THE CEO: pnpm-workspace.yaml is ABSENT from origin/master; package.json has NO packageManager field, so Vercel picks the pnpm version itself; pnpm.onlyBuiltDependencies holds exactly sharp, @tailwindcss/oxide, esbuild, unrs-resolver. The agent's own timeline: master HEAD 0f2a4c9 (the PLAT-16 merge, NOT CONT-15) fails on Vercel; last green production was 0129797 at 19:17 UTC; the break lands between 19:17 and 19:27 with no build-config commit in between, which points at a Vercel-side pnpm bump rather than a code cause. THE FACT THE ESCALATION DID NOT STATE, and it changes the pace: THE LIVE SITE IS STILL SERVING. The CEO fetched it - hellokahwin.com, /artikel/ucapan-doa/doa-penutup-majlis and /favicon.ico all return 200 off the last green deploy. So this blocks SHIPPING NEW WORK; it is not an outage, and nobody is working one. CEO RULING (option 1, standing autonomy - internal infra, none of the four owner carve-outs): the creative-director lands it, with three constraints. (a) A SEPARATE PR into master, kept apart from CONT-15's #63, so the fix is reviewable and revertible independently of the cover work. (b) PROVEN GREEN ON A PREVIEW BUILD BEFORE MERGE - a passing local build is not evidence here, because the failure is Vercel choosing its own pnpm, so the preview must be the thing that goes green. (c) Pin packageManager AND add pnpm-workspace.yaml in the same change, with the reason in the PR body: without the pin, Vercel picks the version again and this recurs. Review stays Claude per the 02 Sept directive."
+        },
+        {
+          "at": "2026-09-01T20:32:02.142Z",
+          "link": "https://github.com/ianngkb/hellokahwin/pull/69",
+          "actor": "SYSTEM",
+          "claim": "Re-derived the affected count at run time against production, NOT the carried '12 of 86': 14 of 92 published covers failed the 25% aspect ceiling, and the corpus moved 92 -> 96 -> 97 -> 102 inside two hours while the item ran.",
+          "proof": "corpus probe + sitemap.xml, 02 Sept 2026 02:35 -> 92 published articles, 92 /artikel/<cat>/<slug> URLs. Aspects: 0.667 x8, 0.748 x1, 0.750 x4, 0.753 x1, 0 unmeasurable. Drift measured four times by the same query: 02:35 = 92; 03:08/03:27 = 96 written; 04:20 = 97; 04:25 = '102 published article(s) with cover variants - 6 to measure - 96 already recorded'."
+        },
+        {
+          "at": "2026-09-01T20:32:14.825Z",
+          "link": "https://hellokahwin.com/artikel/hantaran-mas-kahwin/tempat-beli-hantaran",
+          "actor": "SYSTEM",
+          "claim": "CORRECTION TO THE BRIEF: the failing slot was NOT the .s-row thumbnail. DES-18's crop-4x3-article-card-sm is on all 92 rows at 528x396 and renders at 0.00% deviation in both .s-row boxes. The violation was the article cover figure, a fixed aspect-[3/2] box fed low.webp.",
+          "proof": "Chrome, deviceScaleFactor 1, computed values: homepage @390 '.s-row img box 80.0x60.0 attrs 528x396 crop-4x3-article-card-sm.webp x12'; @1440 'box 176.0x132.0 attrs 528x396' - both 1.3333 against a 1.3333 file. Named failing case: 'image-aspect x1 | 125% off - file 0.67:1 (1200x1800), painted 1.50:1 (756x504), ~44% of the frame kept (ceiling 25%) | div.bg-muted.relative.aspect-[3/2] > img | low.webp' at all five widths, UILINT EXIT 1."
+        },
+        {
+          "at": "2026-09-01T20:32:30.179Z",
+          "link": "https://claude.ai/code/artifact/d66ebe2d-dd36-4410-96c9-688150750ea4",
+          "actor": "SYSTEM",
+          "claim": "The DoD's aspect and upscale clause is satisfied on live production - but by UI-16 (078dbbc), NOT by CONT-15. CONT-15's own plate is superseded and deliberately NOT merged, because UI-16's new blocking shaped-slot-variant check forbids exactly the plate this item specified. The specification is recorded as superseded, not narrowed to match.",
+          "proof": "Master's own gate run by the CD against live production on the named failing case: 'image-upscale 0 | image-aspect 0 (was 5) | shaped-slot-variant 0 | shaped-slot-dims 0'. Computed: '.hk-article-figure img @1440 box 756x567 ar 1.3333 attrs 792x594 crop-4x3-article-card-md.webp'. Master's gate against the CONT-15 preview: 'shaped-slot-variant 5' (one per width, blocking) alongside image-aspect 0. Residual UILINT EXIT 1 on that page is narrow-text-column 89, a data table in the body belonging to a different item."
+        },
+        {
+          "at": "2026-09-01T20:32:46.570Z",
+          "link": "https://claude.ai/code/artifact/d66ebe2d-dd36-4410-96c9-688150750ea4",
+          "actor": "SYSTEM",
+          "claim": "THE FINDING NO GATE COULD MAKE: three of the fifteen portrait covers UI-16 re-cut no longer depict their subject, while five came out better than their sources - all at 50.0-56.4% frame retention, above UI-03's ~one-third floor, with every instrument green. Shipped as a script because the prose rule was already written and still did not fire.",
+          "proof": "pnpm audit:crops --crop crop-4x3-article-card-md --portrait-only -> 15 pairs, 50.0-56.4% kept. Opened: baju-pengantin-sewa-atau-beli (article about the BAJU -> beauty headshot, garment out of frame), doa-selamat-majlis (imam reading before a congregation -> lattice screen with the top of a songkok at the bottom edge), hantaran-tunang-3-balas-5 (ring in a decorated box -> band of gold beads, ring outside the frame). Better: mas-kahwin-pahang-negeri-sembilan and mas-kahwin-melebihi-kadar-minimum both made an unreadable signboard readable. image-aspect/image-upscale/image-attr-aspect/shaped-slot-variant all 0 on every one. Both refusal paths run: no --crop exits 2; unknown crop exits 1 with 'that is a claim about this query, not about the corpus - 97 published rows carry smart crops'."
+        },
+        {
+          "at": "2026-09-01T20:33:03.234Z",
+          "link": "https://github.com/ianngkb/hellokahwin/pull/69",
+          "actor": "SYSTEM",
+          "claim": "PRODUCTION WRITE, additive and reversible: 96 rows of articles.cover_image_variants gained low.width/low.height, read out of each file's own header. Undo pushed to master. Byte cost per affected article: 0 B - no R2 write, no image byte moved, and the substitution route the brief forbade was never taken.",
+          "proof": "pnpm backfill:cover-intrinsics --dry-run against production, re-run by the CD: 'target db aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres | writes to R2 none - not one byte of image data moves | 96 published article(s) with cover variants - 0 to measure - 96 already recorded - 0 with no low.url | would write 0, unmeasurable 0' REAL EXIT 0. Non-destructive, checked directly: 'rows whose low.sizeBytes was lost by the write: 0'; garden-wedding low = {width 1024, height 683, sizeBytes 33574}, independently confirming UI-12 S1's finding that the asserted 1200w descriptor was 17.2% wrong. UNDO: docs/undo/cont-15-cover-intrinsics.json (96 rows) + -catchup.json (4), each with every row id, its prior value and the reversal SQL. Already 6 rows stale at 04:25 and deliberately not chased - no ingest path fills the field, raised as an open finding."
+        },
+        {
+          "at": "2026-09-01T20:41:47.439Z",
+          "link": "https://github.com/ianngkb/hellokahwin/pull/69",
+          "actor": "SYSTEM",
+          "claim": "CORRECTION TO MY OWN EARLIER EVIDENCE: the depiction finding is FOUR articles carrying THREE distinct photographs out of SEVENTEEN portrait covers, not three of fifteen. The fourth (doa-pembuka-majlis) reuses doa-selamat-majlis's photograph and was published DURING the measurement. Reviewing my own shipment also found the contact-sheet script silently skipping rows - the same quiet-zero defect it exists to catch - now proved red/green against a constructed failing case.",
+          "proof": "BUG: --portrait-only read orientation from cover_image_variants.low.width, an optional field no ingest path fills, so a cover with no record was silently dropped. FAILING CASE CONSTRUCTED, not reasoned about: doa-malam-pertama's recorded width/height removed on production and restored immediately (prior value {width:1200,height:1800} printed and held before the strip). RED (record-only): '16 pair(s)', doa-malam-pertama absent, no warning, exit 0. GREEN (file fall-through): '1 row(s) have no recorded low.width/height - their orientation is decided from the file itself' + '5. doa-malam-pertama 1200x1800 -> 792x594 50.0% kept' + '17 pair(s)'. Restored and confirmed: 'published 102 - without recorded low.width 0'."
+        },
+        {
+          "at": "2026-09-01T20:42:04.644Z",
+          "link": "https://github.com/ianngkb/hellokahwin/pull/69",
+          "actor": "SYSTEM",
+          "claim": "Retrospective edit made at source, and it is a script rather than a sentence because the sentence was already there. The creative-director persona's ~one-third crop-retention floor is now stated as NOT a pass mark, with this measurement as the evidence, and it names the command that does the only check that works.",
+          "proof": "Edited skillcentral/agents/projects/hellokahwin/Design/creative-director.md hard rule 1, recorded in that folder's CHANGELOG.md. The rule already said in capitals 'A CROP CAN BREAK THIS RULE WHILE EVERY NUMBER STAYS GREEN. OPEN THE IMAGE' and carried the retained-frame formula and floor - and four covers shipped broken anyway, because the rule contained a number (~one third) and the failures sit at 50.0-56.4%, so its own arithmetic said fine while its own instruction said look. A PROSE RULE CONTAINING A NUMBER GETS READ AS THE NUMBER. Shipped instead: scripts/audit-crop-depiction.mjs, 'pnpm audit:crops', which renders every source frame beside its stored crop and prints the retention labelled as context rather than a verdict. Also updated docs/work-done/README.md's 'a gate or a script, wherever one is possible' with this as the case that proves it."
+        },
+        {
+          "at": "2026-09-01T20:46:07.520Z",
+          "link": "https://github.com/ianngkb/hellokahwin/pull/69",
+          "actor": "SYSTEM",
+          "claim": "BYTE COST PER AFFECTED ARTICLE, measured on production rather than quoted: CONT-15's own change is 0 B (it touches no file under src/, so it cannot change a pixel). The route that actually shipped is a SAVING of 41,289 B per affected article. And the route the brief forbade re-prices, on today's larger corpus, at +460,694 B per article - independently reproducing UI-12's +8.2 MB verdict.",
+          "proof": "HEAD content-length over the 17 affected covers: low total 1,127,052 B -> crop-4x3-article-card-md total 425,136 B; per article 66,297 B -> 25,008 B = -41,289 B. Largest single saving mas-kahwin-pahang-negeri-sembilan 252,352 -> 70,096 B. The forbidden substitution (crop-4x3-article-card, 127,646-948,188 B) totals 8,958,842 B against the same 17, i.e. +7.83 MB and +460,694 B per article. CONT-15's PR #69 diff: 19 files, zero under src/, nothing deleted from master."
+        },
+        {
+          "at": "2026-09-01T20:48:45.802Z",
+          "link": "https://github.com/ianngkb/hellokahwin/pull/70",
+          "actor": "SYSTEM",
+          "claim": "THE CEO RULING ON THIS ITEM'S ROW - 'the creative-director lands the infra fix as a SEPARATE PR' - is SATISFIED AND SUPERSEDED, by PLAT-16 rather than by me, and I am reporting that rather than silently dropping it. The deploy block is over and the packageManager pin the ruling asked for was measured INERT and deliberately left out.",
+          "proof": "Production deployment states, checked directly: 5c79712a success, c8033672 success, 07fd6421 success, 9c1ca0c2 success, 5c18c742 success; only 0f2a4c99 (the original) failed. pnpm-workspace.yaml IS on origin/master. The packageManager pin is NOT, because PLAT-16's PR #70 corrected it at source: 'CORRECTION: the pnpm fix did not unblock the deploy, and the pin that was asked for is inert' - reading pnpm versions out of the last eight production builds showed only ONE ever got 11.x and the other seven got 10.28.0, so selection moved back on its own. CONSEQUENCE FOR THIS ITEM: two INFRA commits (6f59599, f32d2b0) that pinned pnpm@10.30.1 and edited three workflows were carried on the superseded branch, their author retracted the claim that they fixed anything, and they also dropped msw from onlyBuiltDependencies as a side effect. They are NOT in PR #69. Nothing unverified rides along."
+        },
+        {
+          "at": "2026-09-01T21:03:18.469Z",
+          "link": "https://github.com/ianngkb/hellokahwin/commit/b62e9c1",
+          "actor": "SYSTEM",
+          "claim": "This session found, on live production, that six articles had lost their crop-4x3-article-card-md key to a re-ingest and the article cover was falling back to the FULL crop at ~790 KB - the +8.2MB route the brief forbids, reached as a fallback rather than chosen. UI-16's owner fixed it in b62e9c1 crediting this session; my later measurement is the RECURRENCE, which confirms the mitigation works and the root cause is still live.",
+          "proof": "DB at ~04:53: 'published 102 - WITHOUT crop-4x3-article-card-md: 6' - doa-keluarga-bahagia, doa-malam-pertama, doa-masuk-rumah-baru, doa-pembuka-majlis, doa-untuk-isteri, doa-untuk-suami, all updated_at 04:51-04:52, i.e. AFTER b62e9c1 (04:36) and after that commit's own backfill. So a stale worktree dropped the key again, exactly as b62e9c1 predicted it would: 'a publish from a stale worktree will keep dropping the key until every worktree carries this commit'. COMPUTED VALUES on doa-pembuka-majlis post-fix: cover figure serves crop-4x3-article-card-sm, box 528.0x396.0, ar 1.3333, natural 528x396, attrs 528x594-no 528x396, parent aspect-ratio '4 / 3', object-fit cover. Gate on both affected articles at all five widths: '0 violation(s) ... upscale:0 aspect:0 attr:0 R2:0 R6:0'. So the new rung holds at ~23 KB instead of ~790 KB, and the plate narrows to 528 CSS px rather than 756 - a visible composition difference on six articles while they are un-backfilled, which is the residual cost of the mitigation and is mine to watch."
+        },
+        {
+          "at": "2026-09-02T02:41:54.607Z",
+          "link": "https://github.com/ianngkb/hellokahwin/pull/69",
+          "actor": "SYSTEM",
+          "claim": "THE DoD's OWN INSTRUMENT, SITEWIDE: master's gate over EVERY URL in sitemap.xml - 109 URLs at five widths, 545 target-widths - reports image-aspect 0 and image-upscale 0, with the pre-fix count of 14 of 92 pasted. UI-06's aspect and upscale rules are satisfied across the whole corpus on live production.",
+          "proof": "Two chunks (the gate buffers its whole report, so a single 107-URL run had already been killed at ~55 minutes for looking hung). chunk A 290 target-widths, chunk B 255. COMBINED: image-upscale 0, image-aspect 0, image-unmeasurable 0, shaped-slot-variant 0, shaped-slot-dims 0. UILINT EXIT 1 on both chunks is OTHER checks only - narrow-text-column 1841, reading-measure 66, viewport-overflow 6, scroll-container-clip 47 - pre-existing, belonging to other items, reported rather than absorbed into this DoD or used to narrow it. PRE-FIX, same instrument, same named case: 'image-aspect x1 | 125% off - file 0.67:1 (1200x1800), painted 1.50:1 (756x504), ~44% of the frame kept (ceiling 25%)' at all five widths. Full logs: docs/work-done/sep-02-2026-session-01/cont-15-EVIDENCE/08a-sitewide-chunk-a.log and 08b-."
+        },
+        {
+          "at": "2026-09-02T02:42:27.829Z",
+          "link": "https://github.com/ianngkb/hellokahwin/pull/69",
+          "actor": "SYSTEM",
+          "claim": "DECONFLICTED with the design-systems-engineer's PR #71 before either merged. Both PRs were carrying the same backfill script, the same undo files, three shared evidence logs and the same package.json line. Ruled the backfill and its undo are #71's; stripped them from #69. Zero substantive overlap now remains.",
+          "proof": "gh pr view <n> --json files, both lists proven non-empty as a positive control: comm -12 leaves exactly two paths, docs/work-done/sep-02-2026-session-01/README.md and package.json - both declared merge points, both additive. No scripts/, no docs/undo/, no EVIDENCE/ file in both. METHOD NOTE, recorded because it nearly shipped: the FIRST run of this check reported no overlap at all, because the gh call building one of the two lists had silently failed on this machine's known TCP stall and left the file empty - comm against an empty list reports nothing. A zero is a claim about the check until the check is proved. #69 is now 16 files, none under src/."
+        },
+        {
+          "at": "2026-09-02T02:47:12.058Z",
+          "link": "https://github.com/ianngkb/hellokahwin/pull/69",
+          "actor": "SYSTEM",
+          "claim": "The shipped script, run from its COMMITTED blob against production, is exercising its own bug fix live: 6 rows had lost their recorded low.width/height to the re-ingest oscillation again, and the file fall-through found all 17 portrait covers anyway. The record-only version would have reported 11.",
+          "proof": "git show origin/ianng89/cont15-intrinsics:scripts/audit-crop-depiction.mjs, run with --crop crop-4x3-article-card-md --portrait-only: '6 row(s) have no recorded low.width/height - their orientation is decided from the file itself below, never assumed' then '17 pair(s)', EXIT 0. This is the design-systems-engineer's documented oscillation (processSmartCrops replaces cover_image_smart_crops wholesale and the ingest CLI runs from an agent's own checkout, so no deployed fix prevents it) hitting the audit's input in real time. The fast path is a fast path and not an authority, which is exactly why it holds."
+        },
+        {
+          "at": "2026-09-02T07:43:15.670Z",
+          "link": "https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding",
+          "actor": "SYSTEM",
+          "claim": "CEO-VERIFIED ON LIVE PRODUCTION AGAINST THE NEW MASTER: gate clean sitewide, the forbidden render path never merged, and the paper trail landed on the branch the corrected routing rule names.",
+          "proof": "node scripts/ui-layout-gate.mjs --base https://hellokahwin.com on origin/master e67a2fd: UILINT EXIT: 0, 35 rows [ ok ], 0 [FAIL], 0 [ERROR], with image-upscale 0, image-aspect 0, shaped-slot-variant 0 and shaped-slot-dims 0 - the DoD's aspect and upscale clauses at thumbnail size. PRE-FIX COUNT AND AFFECTED SET, derived at run time and committed: docs/work-done/sep-02-2026-session-01/cont-15-EVIDENCE/06-affected-15-slugs-plus-2-controls-production.log enumerates 17 URLs (15 affected slugs + 2 controls) with the pre-fix capture showing narrow-text-column x29 at 390px on tempat-beli-hantaran. THE RULING WAS EXECUTED EXACTLY: PR #73 (ingest guard) merged FIRST as ordered - it is the only change that stops a stale checkout wiping renditions - then #71; PR #69 CLOSED because it carried the superseded render path decision 196 forbade; and #78 merged carrying ONLY the six documentation/evidence files. So the paper trail ships, the forbidden render path does not, and master's gate stays green. The DoD was NOT met by substituting an existing crop - that route stayed forbidden - it was met via UI-16's mid-size named crop, which CONT-15's own brief called the intended route. NOTE: the evidence landed under docs/work-done/ ON MASTER, which is where decision 203's corrected routing rule says a site item's log belongs."
+        }
+      ]
     },
     {
       "id": "UI-16",
       "track": "design",
       "points": 3,
-      "state": "todo",
+      "state": "done",
       "owner": "design-systems-engineer",
       "title": "The article cover on garden-wedding is low.webp in a shaped box - R1, R2 and R6 failing at once",
       "flags": [],
       "why": "â€”",
       "dod": "The garden-wedding article cover is no longer a low-resolution file in a shaped box: R1, R2 and R6 all pass on live production, proved by UI-06's gate on that URL with the pre-fix output pasted. âš  CONFIRMED STILL LIVE 02 Sept: the page serves https://images.hellokahwin.com/inspire/garden-wedding/1787397040017-cover/low.webp. This page draws ~28% of all site impressions, so measure the byte cost before and after and state it; DES-18's mid-size variant (crop-4x3-article-card-sm, 528x396, 46,080 B ceiling) is the affordable route and did not exist when this item was filed.",
       "brief": "â€”",
-      "evidence": []
+      "evidence": [
+        {
+          "at": "2026-09-01T20:01:48.529Z",
+          "link": "https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding",
+          "actor": "SYSTEM",
+          "claim": "R1, R2 and R6 all pass on live production for garden-wedding: the cover is crop-4x3-article-card-md 792x594 in a 4:3 box, declared at its real size. Pre-fix the same gate exited 1 with shaped-slot-variant 5 and shaped-slot-dims 5. R1 was ALREADY GREEN before this item (0.05% deviation) — the tracker's 'R1, R2 and R6 failing at once' is corrected: UI-12 S5 fixed R1 on 31 Aug, R2 and R6 were the live failures and nothing in the repo checked either one until now.",
+          "proof": "PRE-FIX, live URL: 'shaped-slot-variant 5 / shaped-slot-dims 5 / UILINT EXIT: 1' — 'served low into a box shaped aspect-ratio: 3 / 2 ... hero-rules R2' and 'declared width=1200 height=800 for a default source that is genuinely 1024x683 - 17.2% out on width ... check 4b compares 1.50:1 against 1.50:1 and can be green while this is not'. POST-FIX, same command, same URL, deployment 5c18c74: 'shaped-slot-variant 0 / shaped-slot-dims 0 / UILINT EXIT: 0' at 390/768/1024/1440/1920, and UILINT EXIT: 0 across all 7 templates with --base https://hellokahwin.com. Geometry from a detached Image() on currentSrc: box 756x567 vs asset 792x594, deviation 0.00%, scale 0.955x, declared 792x594 at every width."
+        },
+        {
+          "at": "2026-09-01T20:02:07.613Z",
+          "link": "https://images.hellokahwin.com/inspire/garden-wedding/1787397040017-cover/crop-4x3-article-card-md.webp",
+          "actor": "SYSTEM",
+          "claim": "The byte cost was measured before and after, and it is a SAVING, not a cost. garden-wedding's LCP image drops 33,574 B to 26,936 B (-6,638 B, -19.8%) on the page drawing ~28% of site impressions; across all 96 published covers the corpus total drops 5,034,824 B to 3,296,332 B (-1,738,492 B, -34.5%). Four covers get heavier by 1,630-2,742 B — the four whose 4:3 crop is only 667px because their source photograph is 800x500.",
+          "proof": "HTTP HEAD on the live R2 objects: low.webp Content-Length 33574; crop-4x3-article-card-md.webp Content-Length 26936, cf-cache-status HIT. Corpus totals from the production pooler plus a HEAD per object, n=96: low min 15,184 max 252,352 median 49,856 total 5,034,824; md min 12,346 max 100,990 median 30,716 total 3,296,332. Backfill run: 'wrote 96, failed 0, over ceiling 0 | min 12346 B median 30716 B max 100990 B total 3296332 B'. Delivered dimensions read back from the DB: 792x594 x91, 667x500 x4, 771x578 x1; 96/96 carry the key with recorded width and height. NOTE the corpus moved 92 -> 96 mid-item as four articles published; every number here is the 96 run."
+        },
+        {
+          "at": "2026-09-01T20:02:23.695Z",
+          "link": "https://github.com/ianngkb/hellokahwin/pull/65",
+          "actor": "SYSTEM",
+          "claim": "The UI-06 gate now enforces R2 and R6 as BLOCKING checks, proved to fire AND clear rather than only to fire. Reviewer was Claude — this session's adversarial pass plus the paired self-test — not codex-reviewer, per the owner directive of 02 Sept.",
+          "proof": "CI job 'gate self-test (blocking)' on PR #65, read from its OWN OUTPUT rather than from the green tick: '270 passed, 0 failed' then 'UILINT EXIT: 0' (was 250 before this item). Quoted lines only a real run produces: 'PASS shaped-slot @1440: shaped-slot-variant = 2 ... got 2 [Case A,Case H]'; 'PASS shaped-slot @1440: shaped-slot-dims = 2 ... got 2 [Case A,Case C]'; 'PASS shaped-slot @1440: check 4b reads ZERO on this whole fixture ... got 0'; 'PASS homepage.html @390: R2 FIRES once on the 31 Aug capture — UI-03's original finding caught retroactively'; 'PASS category.html @390: R2 and R6 CLEAR on the same known-bad capture'. The new fixture has 8 labelled cases, 5 of which must produce nothing. I ASSERTED the checks were clean on homepage.html and the run said otherwise 5 times — it was right, the pre-fix hero is low.webp in a 2.4:1 box declaring 1200x500, and the assertion was corrected to what the fixtures contain. The 10 new unit tests were run against the pre-fix resolver and 4 go red."
+        },
+        {
+          "at": "2026-09-01T20:02:42.031Z",
+          "link": "https://github.com/ianngkb/hellokahwin/pull/63",
+          "actor": "SYSTEM",
+          "claim": "TWO FINDINGS RAISED, NOT ABSORBED. (1) A DECISION FOR THE CREATIVE DIRECTOR: CONT-15 (PR #63, open) rewrites the SAME cover figure to the opposite rule — it keeps low.webp and makes the box follow the file per article. Under UI-16's new blocking R2 check that plate fails the gate on every article; under CONT-15 my resolver's fixed 4:3 is silently undone. Whichever merges second reverts the other. (2) A shipped deploy was NOT live until the data cache was purged.",
+          "proof": "COLLISION: both PRs touch src/app/(public)/artikel/[category]/[slug]/page.tsx, src/lib/storage/responsive-cover.ts and the reference page. CONT-15's .hk-cover-plate sets aspect-ratio: var(--cover-ar), which IS a shaped slot by check 13's predicate, fed low — so it goes red. The substantive question is portrait covers: tempat-beli-hantaran is a 1200x1800 portrait and UI-16's 4:3 crop keeps 50% of the frame (clears UI-03 R8(c)'s 33% floor, measured deviation 0.00%, scale 0.955x, 54,814 B -> 26,042 B, -52%), but it is still half a frame an editor framed tall. A synthesis exists — drive the box aspect from the rendition's stored width/height rather than a hardcoded 4/3 — but it needs a portrait rendition at a sane weight and is a separate item, not a patch. Relayed to both sessions; CONT-15 has escalated to the creative-director and will not merge #63 unilaterally. CACHE: the merge deployed READY and the gate went green, but the live page still served rung 2 (crop-4x3-article-card.webp, 213,556 B) because ARTICLE_PAGE_CACHE_KEY caches with revalidate:false and my backfill wrote the DB from OUTSIDE the app, so no admin write path fired. POST /api/cron/revalidate-content returned {revalidated:[articles,inspire-categories]} and the page then served crop-4x3-article-card-md.webp on X-Vercel-Cache: REVALIDATED. Six article titles checked afterwards for the known post-purge metadata failure — all six correct, no root default."
+        },
+        {
+          "at": "2026-09-01T20:52:34.311Z",
+          "link": "https://github.com/ianngkb/hellokahwin/pull/67",
+          "actor": "SYSTEM",
+          "claim": "POST-MERGE REGRESSION FOUND, FIXED IN PRODUCTION AND IN CODE, and it is the item's most valuable finding. UI-16's fallback path served 4,742,962 B across six LCP elements — mean 790 KB, 12.5x the low.webp it replaced — while every rule stayed green, because a 4:3 file in a 4:3 box that is downscaling and is a named crop breaks no rule. A pure byte defect has no rule behind it, so no rule can see it.",
+          "proof": "CAUSE, not a guess: six articles re-ingested 20:12-20:16 UTC from checkouts predating UI-16; processSmartCrops REPLACES the whole cover_image_smart_crops object rather than merging, so crop-4x3-article-card-md was dropped. doa-untuk-isteri had the key at 20:00 (my catch-up backfill) and not at 20:12, which is what makes it re-ingestion rather than backlog; crop-4x3-article-card-sm survived on all six because that rung predates the stale checkouts. FIXED IN PRODUCTION FIRST: backfilled the six (4,742,962 B -> 246,632 B, -94.8%), purged, re-ran. THEN IN CODE (5c79712): resolver is now md -> sm -> card -> low, ordered largest-that-is-still-BUDGETED — the -sm rung is 528px and would upscale 1.43x on its own, but the figure is already capped to the asset's width so the plate narrows and R1/R2/R5/R6 stay green at 22,906 B instead of 790,000; plus a regression test that goes RED against the old ordering, verified by reverting the one line. NEW STANDING INSTRUMENT: pnpm audit:rendition compares the DB to the RENDERED page AND weighs the served object by HEAD against a 103,680 B + 10% ceiling. Proved three ways: '102 checked, 0 mismatched, 0 overweight, RENDITION EXIT: 0'; '--expect crop-4x3-article-card-sm -> 102 mismatched, EXIT 1'; and during the regression '6 overweight, EXIT 1' naming all six with their URLs — a real defect on live production, not a fixture."
+        },
+        {
+          "at": "2026-09-01T20:52:55.098Z",
+          "link": "https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding",
+          "actor": "SYSTEM",
+          "claim": "ESCALATED, NOT ABSORBED — an ingest-architecture finding bigger than UI-16 and not fixable from a branch: scripts/ingest-article.mts runs from an AGENT'S OWN CHECKOUT, not from the deployed app, so a code change to the ingest path silently does not apply to any agent who has not rebased.",
+          "proof": "UI-16's fix to generateSmartCrops deployed at 19:51 UTC. Articles ingested at 20:12-20:16 bypassed it entirely and arrived with no rendition. Combined with processSmartCrops REPLACING the whole cover_image_smart_crops object, this means a publish from a stale worktree DELETES a key that a deployed code path depends on — and there is no signal: no error, no visual symptom, and every layout rule stays green. Every ingest-path change in this repo has this property and nothing announces it. Two mitigations named, neither a branch's call: (a) cheap — publishing agents rebase onto master before an ingest batch; (b) durable — move ingest behind the deployed app. Raised to the owner via the CONT-15 session, which is carrying it up. UI-16's own mitigation is to make the failure SURVIVABLE rather than to pretend it is fixed: the fallback now costs ~23 KB an article instead of ~790 KB, and pnpm audit:rendition names the rows to backfill."
+        },
+        {
+          "at": "2026-09-02T02:33:55.256Z",
+          "link": "https://hellokahwin.com/artikel/ucapan-doa/doa-masuk-rumah-baru",
+          "actor": "SYSTEM",
+          "claim": "THE REGRESSION RECURRED 22 MINUTES AFTER IT WENT GREEN, and UI-16's fallback reorder is the only reason it cost 38 KB instead of 1.15 MB. The defect recurs; its cost does not. The batch is identified and the stale-checkout population is counted: 10 of 16 site-line checkouts lack the ingest fix, INCLUDING the main clone.",
+          "proof": "VERIFIED INDEPENDENTLY on doa-masuk-rumah-baru: the page now references a NEW asset id 1788295962710-.../crop-4x3-article-card-sm.webp; crop-4x3-article-card-md.webp on that id is HTTP 404; crop-4x3-article-card.webp is HTTP 200 at 1,153,770 B. So the reorder shipped in 5c79712 is saving 1,115,760 B on that single page (1,153,770 -> 38,010). A new asset id proves re-ingestion, not a cache artefact. THE BATCH, from updated_at: one sequential run 20:51:46-20:53:23Z over the same six doa articles, 16-23s apart — the second such batch, after 20:12-20:16Z. WHICH CHECKOUT: enumerated all 16 site-line worktrees and grepped src/lib/storage/smart-crop.ts for COVER_RENDITIONS — 6 carry the UI-16 ingest fix, 10 do not, and the 10 include C:/Users/Ian Ng/Documents/Code/hellokahwin-site, the MAIN clone, on master, 28 commits behind. That is the checkout agents reach for when they need src/, so any guard that only covers orca worktrees misses the likeliest offender. The cont17-doa and C:/hkint worktrees are on the DOCS line and carry no src/ at all, so the ingest cannot have run from either. NOT BACKFILLED YET, deliberately: a backfill before the guard lands is wiped by the next batch. Asked the CONT-17 session whether it is mid-batch and which checkout it uses."
+        },
+        {
+          "at": "2026-09-02T04:13:50.100Z",
+          "link": "https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding",
+          "actor": "SYSTEM",
+          "claim": "CLOSED AND VERIFIED ON LIVE PRODUCTION. Both instruments green on deployment f058e41, which carries every UI-16 commit. Teammate/subagent dispatch was unavailable for this item — two fleet-wide 'Login expired' stalls — so all work was executed directly in the owning session; cross-session messaging to peers still worked and produced three of the findings.",
+          "proof": "node scripts/ui-layout-gate.mjs --url https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding -> 'shaped-slot-variant 0 / shaped-slot-dims 0 / UILINT EXIT: 0'. pnpm audit:rendition --db <prod> -> '102 checked, 0 mismatched, 0 overweight, 0 missing crop-4x3-article-card-md, 0 unreadable / RENDITION EXIT: 0'. CI gate self-test on PR #74 read from its OWN OUTPUT rather than the green tick: '369 passed, 0 failed' then 'UILINT EXIT: 0'. Ancestry confirmed: git merge-base --is-ancestor 5c79712 f058e41 (the fallback reorder) and e6ab18e f058e41 (the third assertion) both YES. Backfill holding: '102 published article(s) with smart crops - 0 to render - 102 already done'. FOUR PRs merged to master: #65 the rendition and the two blocking gate checks, #67 the fallback reorder plus the byte ceiling, #74 the third assertion. Docs, evidence and three undo dumps on feat/command-centre-dashboard at bb7bb1c."
+        },
+        {
+          "at": "2026-09-02T06:05:51.593Z",
+          "link": "https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding",
+          "actor": "SYSTEM",
+          "claim": "CEO-VERIFIED INDEPENDENTLY ON LIVE PRODUCTION: the garden-wedding cover is no longer low.webp, and R1/R2/R6 all read 0 at five widths on that exact URL.",
+          "proof": "The article cover element is now <img src=.../crop-4x3-article-card-md.webp>, preloaded with fetchPriority=high. The DoD named the defect as the page serving .../1787397040017-cover/low.webp; low.webp still appears three times on the page but NONE is the cover - two are a DIFFERENT article's thumbnail (dewan-kahwin) in the related list and its JSON payload, and one is the garden-wedding galleryImages thumbnailUrl. Enumerated by locating each occurrence in the served HTML rather than testing for absence of the string. UI-06's gate on that exact URL, from a clean sitewide run (UILINT EXIT: 0, 35/35 ok): R1:0, R2:0, R6:0, upscale:0, aspect:0 at 390/768/1024/1440/1920 - the ten advisories are image-attr-aspect, which the gate itself labels non-blocking. ⚠ BYTE FIGURES MEASURED BY THE CEO DIFFER FROM THE ONES REPORTED AND THESE ARE THE MEASURED ONES: live today, low.webp is 33,574 B and crop-4x3-article-card-md.webp is 26,936 B, a saving of 6,638 B or 19.8% on a page drawing ~28% of site impressions. The figure quoted during the CONT-15 cover ruling was '-52%, 54,814 -> 26,042'; the direction agrees, the magnitude does not, and the cause is not established - the assets may have been regenerated between the two measurements. The -52% figure should NOT be repeated without re-measuring."
+        }
+      ]
     },
     {
       "id": "DES-15",
       "track": "design",
       "points": 3,
-      "state": "todo",
+      "state": "done",
       "owner": "design-systems-engineer",
       "title": "s-h2's font-weight 600 and letter-spacing -0.01em are dead on every public page - a declaration that never wins",
       "flags": [],
       "why": "â€”",
       "dod": "components.css declares .s-h2 { font-weight: 600; letter-spacing: -0.01em }. On every public page .hk-public h1,h2,h3,h4 { font-family: var(--font-serif); letter-spacing: -.018em; font-weight: 400 } has specificity (0,1,1) and beats the bare class at (0,1,0), so neither declaration ever applies. VERIFIED on live production 31 Ogos 2026 at both breakpoints: h2.s-h2 on artikel/hantaran-mas-kahwin computes font-weight 400 and letter-spacing -0.399px at 390px, and 400 / -0.468px at 1280px - the -0.018em from the wrapper, not the -0.01em the class asks for. The specificity ladder is consistent: .s-row .t (0,2,0) > .hk-public h2 (0,1,1) > .s-h2 (0,1,0), which is why .s-row h2.t DOES render 600. Done when .s-h2 either wins its own declarations or stops making them, decided deliberately - NOTE this is a real design decision, not a cleanup: making 600 win would change every public h2 on the site. SAME CLASS AS UI-14 but a different mechanism - UI-14 catches a class matching no rule, this is a rule that matches and never wins - so a check for one will not catch the other. Found by the creative-director while correcting their own reasoning in UI-05, and verified on the live artefact before being recorded.",
       "brief": "â€”",
-      "evidence": []
+      "evidence": [
+        {
+          "at": "2026-09-01T18:59:54.081Z",
+          "link": "https://hellokahwin.com/artikel/hantaran-mas-kahwin",
+          "actor": "SYSTEM",
+          "claim": "SHIPPED. .s-h2 now wins its own declarations on production: font-weight 600 and letter-spacing -0.01em, at both breakpoints, on all 7 pillar hubs. Deployment dpl_CjRjq1CSiGg5Ca5QQxbkGKk3uU1E, CSS chunk ece0345a72e045ca.css (same hash the local build produced). Decided, not cleaned up: the family is deliberately left as the display face and DES-03 2.4's may-not-h2 clause is raised for the creative-director rather than silently applied.",
+          "proof": "node scripts/audit-class-wins.mjs (new, committed) parses the claims OUT of components.css and compares them to computed values on the rendered page. Same script, same pages: BEFORE on dpl_B2j3SaaGVGjGKrtSqh4gvWf7hG7k -> 20 ENFORCE failures, CLASSWINS EXIT: 1. AFTER on dpl_CjRjq1CSiGg5Ca5QQxbkGKk3uU1E -> 102 claims compared, ENFORCE failures: 0, CLASSWINS EXIT: 0. Independent second read on production: h2.s-h2 w=600 ls=-0.221814px at 390px (= -0.01em of 22.1814px) and w=600 ls=-0.26px at 1280px (= -0.01em of 26px); it was 400 / -0.399264px and 400 / -0.468px before. The gate still REPORTS .s-h1 losing its -0.022em to the same rule in the green run, so it is not green by construction. PR #60, merge commit 59954c6590d39a6cd98bb4272ce03098253b7b40. Reviewed by Claude, no OpenAI reviewer dispatched."
+        },
+        {
+          "at": "2026-09-01T19:00:18.498Z",
+          "link": "https://hellokahwin.com/artikel/venue-perancangan",
+          "actor": "SYSTEM",
+          "claim": "CORRECTION TO THE DoD's OWN NUMBER, evidence over assumption: the brief says making 600 win 'would change every public h2 on the site'. It changes 26 elements, all <h2>, on the 7 pillar hubs only. Zero .s-h2 on the homepage, the catalogue and article pages. The site-wide change is a DIFFERENT one that was NOT made - de-specifying the .hk-public h1,h2,h3,h4 base rule, which would additionally move 27 other classed public headings.",
+          "proof": "Enumerated at 390px across 12 production URLs before the fix: / .s-h2=0 | /artikel .s-h2=0 | /artikel/hantaran-mas-kahwin 5 | /nikah-undang-undang 4 | /sebelum-nikah 5 | /ucapan-doa 4 | /busana-pengantin 2 | /pelamin-kad-cenderahati 4 | /venue-perancangan 2 | /real-wedding 0 | /glamor-eksklusif 0 | an article page 0. TOTAL .s-h2 = 26. Other classed public headings that a base-rule change would ALSO move (s-h1, s-h3, hk-display, hk-eyebrow, hk-card-title on h1-h4 under .hk-public) = 27 across the same pages."
+        },
+        {
+          "at": "2026-09-01T19:00:20.585Z",
+          "link": "https://hellokahwin.com/_next/static/chunks/19b83a0982f1e330.css",
+          "actor": "SYSTEM",
+          "claim": "THREE FINDINGS RAISED, NOT SHIPPED - each is a decision someone else owns. (1) .s-h1 loses its letter-spacing -0.022em to the same .hk-public rule and renders -0.018em on every article and category page; the new gate REPORTS it every run. (2) The same rule puts the display face on every public h2/h3/h4, which DES-03 2.4 forbids outright - but 2.4's premise has moved: it assumed a 400-only self-hosted subset ('there is no bold file') and production serves a variable 400-900 face. Creative-director's call. (3) The ONLY next/font Bodoni_Moda declaration in the repo is on /admin/design-system, whose own comment says it is 'scoped to this admin page only'. It is not: that @font-face ships in a chunk public pages load and paint with.",
+          "proof": "(1) 'REPORT FAIL .s-h1 h1 letter-spacing: claimed -0.9680px (-0.022em of 44px) - reader gets -0.792px' appears in the GREEN production run of scripts/audit-class-wins.mjs. (2) curl of https://hellokahwin.com/_next/static/chunks/19b83a0982f1e330.css returns '@font-face{font-family:Bodoni Moda;font-style:normal;font-weight:400 900;...}'; canvas advance width for one string at 26px = 274.94 / 286.97 / 295.03px at wght 400 / 600 / 700, monotonic, so 600 is a real instance not a synthesised bold (Georgia by contrast gives 272.82 / 317.29 / 317.29 - 600 and 700 identical). (3) grep -rn 'next/font' src returns exactly two files: (admin)/admin/design-system/page.tsx and (admin)/layout.tsx; CDP CSS.getPlatformFontsForNode on the PUBLIC page /artikel/hantaran-mas-kahwin reports 'Bodoni Moda(webfont)' painting h1, h2 and the pillar links."
+        },
+        {
+          "at": "2026-09-01T19:09:52.850Z",
+          "link": "https://hellokahwin.com/artikel/nikah-undang-undang",
+          "actor": "SYSTEM",
+          "claim": "CEO VERIFICATION: DoD MET on production, and the item corrected its OWN brief's number plus a claim in ceo-memory that had been false for an unknown period.",
+          "proof": "VERIFIED IN THE SERVED CSS by the CEO, not read from the report: the public stylesheet chunk carries '.s-h2.s-h2{font-size:var(--fs-h2);letter-spacing:-.01em;max-width:34ch;font-weight:600;line-height:1.25}' - the class DOUBLED, which is what makes it win against the competing 'h2{...--tw-font-weight:var(--font-weight-normal)...}' rule sitting in the same sheet. Both dead declarations, font-weight 600 and letter-spacing -0.01em, are now live. THE ITEM CORRECTED ITS OWN BRIEF: the DoD asserted this 'would change every public h2 on the site'. It changes 26 elements on the 7 pillar hubs only. The CEO spot-checked the shape of that claim independently - .s-h2 appears ZERO times on the homepage and zero times on an article page, and only on hubs - which is the correction holding. (The CEO's raw string count across hubs is not comparable to the element count, because each element also appears in the RSC payload; the useful confirmation is the zeros.) THREE FINDINGS RAISED AND DELIBERATELY NOT SHIPPED, each named as someone else's decision rather than quietly actioned: .s-h1 losing its letter-spacing to the .hk-public rule (the new gate reports it every run); the display face landing on every public h2/h3/h4 which DES-03 2.4 forbids, EXCEPT that 2.4's premise has moved (it assumed a 400-only subset, production serves a variable 400-900 face) so it is the creative-director's call; and the webfont scoping below. ⚠ THE THIRD ONE FALSIFIES ceo-memory: it recorded 'Readers download ZERO webfont bytes'. The CEO fetched it - the HOMEPAGE preloads /_next/static/media/28f82cd8566a528f-s.p.e52237d5.woff2, HTTP 200, content-type font/woff2, 46,248 BYTES. The only next/font Bodoni_Moda declaration is on /admin/design-system and its own comment claims it is scoped there; it is not. ceo-memory corrected at source. Any proposal ever costed on 'we spend no webfont budget' was costed wrong."
+        }
+      ]
     },
     {
       "id": "SEO-14",
       "track": "seo",
       "points": 3,
-      "state": "todo",
+      "state": "done",
       "owner": "head-of-seo-content",
       "title": "Re-run the SERP-shape census - RUNS FIRST, and its answer decides whether CONT-17 writes at all",
       "flags": [],
       "why": "Decision 171 recorded the caveat that must travel with the split-CTR figure: eleven clicks carry the document arm, six of them from one query, and the confidence intervals bound the true ratio only at NO LESS THAN 2.3x. The 12.2x number governs every content-selection decision this company now makes, and it rests on 14 clicks in the matched band. This sprint adds eight document-intent articles - which is exactly the intervention that should move it, and therefore exactly the condition under which re-measuring is worth something.",
       "dod": "âš  THIS ITEM RUNS FIRST IN THE SPRINT AND ITS ANSWER STEERS CONT-17. The SERP-shape census is re-run over a window that includes Sprint 05's six new doa articles, the CSV re-issued, and the ratio restated with its n, its Fisher exact p and its confidence interval. The frozen intent_of in serp-shape-census.py is NOT quietly edited - import the gate's classifier and re-issue, per the comment in the file, and state which classifier produced which figure. Every SERP row carries its serp_update_date and the RANGE is reported (decision 174). The finding ships with its value under at least two re-cuts. âš  REPORT THE ANSWER TO THE CEO BEFORE CONT-17 SELECTS TARGETS: if the document/number split has collapsed below decision 171's conservative 2.3x bound, CONT-17's premise is gone and it must STOP and come back rather than write six articles on a dead thesis.",
       "brief": "RUNS AT SPRINT CLOSE, not at the start - it needs CONT-13 and CONT-16 live and long enough to have data, and it is the item that scores this sprint's central bet. If the new articles are too fresh to have meaningful impressions, SAY SO and report the census without them rather than reading noise as a result. Uncrawled and year-stamped queries are written 'unknown', never 'false' (decision 173).",
-      "evidence": []
+      "evidence": [
+        {
+          "at": "2026-09-01T18:48:59.580Z",
+          "link": "https://github.com/ianngkb/hellokahwin/blob/feat/command-centre-dashboard/docs/work-done/sep-02-2026-session-01/sep-02-2026-done-seo-14-serp-shape-census.md",
+          "actor": "SYSTEM",
+          "claim": "The document/number CTR split HOLDS and CONT-17 may proceed: 7.5x on SEO-11's frozen intent_of (13/302 = 4.30% vs 7/1213 = 0.58%, Fisher exact two-sided p = 0.0000125, 95% CI on the ratio 3.00x-18.5x) and 6.5x on the SEO-12 gate classifier (14/360 = 3.89% vs 8/1332 = 0.60%, p = 0.0000185, CI 2.74x-15.3x), against decision 171's 2.3x floor. GSC https://hellokahwin.com/ 2026-08-02..29 dataState=final, 95 queries, positions 3-11, garden-wedding quarantined. Twelve re-cuts across two windows and two classifiers run 6.5x to 14.7x and none approaches the floor. 12.2x -> 7.5x is NOT a fall: 7.5x sits inside SEO-11's own 3.39x-44.0x interval and the band now carries 20 clicks against its 13, so the estimate got precise rather than the effect shrinking.",
+          "proof": "$ python scripts/seo/census-restate.py docs/work-done/sep-02-2026-session-01/serp-shape-census-2026-09-02.csv --compare docs/work-done/aug-30-2026-session-01/serp-shape-census.csv | tail; frozen intent_of() worst re-cut 7.5x vs the 2.3x floor | 3 of 3 re-cuts computable | CI excludes parity in 3 of 3 | HOLDS; gate classifier worst re-cut 6.5x vs the 2.3x floor | 3 of 3 re-cuts computable | CI excludes parity in 3 of 3 | HOLDS; CONT-17 MAY PROCEED - the document/number split has not collapsed.; RESTATE EXIT: 0; $ echo $? -> 0 (read directly, not through a pipe)"
+        },
+        {
+          "at": "2026-09-01T18:49:20.333Z",
+          "link": "https://github.com/ianngkb/hellokahwin/blob/feat/command-centre-dashboard/docs/work-done/sep-02-2026-session-01/serp-shape-census-2026-09-02.csv",
+          "actor": "SYSTEM",
+          "claim": "The frozen intent_of() was NOT edited; the gate's classifier was imported and re-issued as a second column, per that function's own comment. The frozen block is byte-identical to HEAD (1,449 bytes) and still reproduces the committed aug-30 census on all 84 rows. The CSV now carries both intent_class (frozen, SEO-11) and intent_class_gate (check-serp-shape.py, SEO-12); the two disagree on 22 of 95 rows, so every published figure names its column. Every SERP row carries serp_update_date and the RANGE is computed from the data, not remembered: 2023-08-09T22:31:45Z .. 2026-08-28T05:56:47Z (2023-08 x1, 2026-07 x11, 2026-08 x44; 12 of 56 stale; 39 of 95 uncrawled and written unknown, never false, 17 of them year-stamped).",
+          "proof": "frozen block byte-identical: True | 1449 bytes; 84-row regression, disagreements: 0 -> PASS; census stderr: 'intent_class : frozen intent_of() (SEO-11)' / 'intent_class_gate : check-serp-shape.py (SEO-12)'; restate: 'serp_update_date RANGE : 2023-08-09T22:31:45Z .. 2026-08-28T05:56:47Z' / 'uncrawled : 39 of 95 rows, written unknown and never false (decision 173)'; cross-check CSV column vs live gate classification: 0 of 229 rows disagree across both censuses"
+        },
+        {
+          "at": "2026-09-01T18:49:22.530Z",
+          "link": "https://hellokahwin.com/artikel/ucapan-doa/doa-penutup-majlis",
+          "actor": "SYSTEM",
+          "claim": "REPORTED BEFORE CONT-17 SELECTS, and the honest limit of this measurement: Sprint 05's six doa articles are NOT in it and could not have been. They went live 01 Sept, this ran 02 Sept, GSC dataState=final stops at 2026-08-29, and GSC holds ZERO impressions for all six in BOTH data states over every window tested - including a second census run 2026-08-05..09-01 with dataState=all specifically to reach their publication date. All six return 200 from production, fetched sequentially, so the zero is Google's and not the pipeline's. This census therefore re-measures the thesis on 54% more impressions than SEO-11 had; it does not score Sprint 05's intervention. The earliest window that can score it starts 2026-09-02 and is not final until roughly 05 September - book it, do not remember it.",
+          "proof": "GSC dimensions=[page] 2026-08-01..09-02: 'dataState=final : 92 page rows total, 0 matching the six CONT-13 slugs' / 'dataState=all : 93 page rows total, 0 matching'; census level: 'serp-shape-census-2026-09-02.csv rows=95 imp=2899 clk=24 CONT-13 rows=0' and 'serp-shape-census-2026-09-02-inclusive.csv rows=134 imp=4039 clk=30 CONT-13 rows=0'; production, one request at a time: 200 on all six of doa-penutup-majlis, doa-makan-majlis, doa-selamat-majlis, ucapan-ulang-tahun-perkahwinan, lafaz-akad-nikah, doa-jodoh"
+        },
+        {
+          "at": "2026-09-01T18:49:47.734Z",
+          "link": "https://github.com/ianngkb/hellokahwin/blob/feat/command-centre-dashboard/docs/work-done/sep-02-2026-session-01/sep-02-2026-done-seo-14-serp-shape-census.md",
+          "actor": "SYSTEM",
+          "claim": "TWO CORRECTIONS TO THE COMPANY RECORD THAT CONT-17 NEEDS BEFORE IT SELECTS. (1) Decision 187's 'doa family at mean position 21.7' is the UNWEIGHTED mean of 34 per-query positions; the impression-weighted position is 9.8. Twenty queries carrying 29 of the family's 221 impressions at a mean of 29.9 make the difference, while doa pengantin baru rumi alone sits at position 3.74 with 84 impressions and 8 of the family's 10 clicks. So 'we are barely competing on our best territory' is wrong as stated - but the build signal survives in a better form: 56 document-intent queries inside the cited CTR curve carry 191 impressions and ZERO clicks against 6.89 expected, P(zero) = 0.001, with the largest at positions 4.27, 4.67 and 10.60. CONT-17 should weight toward those, not toward depth. (2) Decision 187's stated window 2026-08-20..09-01 dataState=final returns identical rows to 2026-08-20..08-29, so it contains no post-CONT-13 data either; and its '26 queries, 184 impressions' zero-click set is at a >=4-impression threshold the decision does not state.",
+          "proof": "doa family, GSC 2026-08-20..09-01 final, 34 queries, 221 imp, 10 clicks: impression-weighted position 9.82, unweighted mean 21.74. mas kahwin 7.96 vs 11.59; walimatul 9.44 vs 12.56 - decision 187 quoted the unweighted column throughout. Window check: 'stated window 2026-08-20..09-01 final : 337 queries, 2627 impressions' vs 'truncated at the last FINAL day 08-29: 337 queries, 2627 impressions' IDENTICAL: True. Zero-click set: min impressions >=4 -> 26 queries, 184 impressions (matches decision 187 exactly); >=1 -> 99 queries, 295 impressions."
+        },
+        {
+          "at": "2026-09-01T18:49:50.474Z",
+          "link": "https://github.com/ianng89/buddy/commit/427aaf9",
+          "actor": "SYSTEM",
+          "claim": "STAGE 9 - the retro edits are made, deployed and verified, and the deploy check found a bigger problem than the edit. head-of-seo-content.md now restates 12.2x as 7.5x/6.5x WITH its interval and extends the SEO-05 averaged-position rule from pages to query families. install.sh was run, not recommended, and the deployed file diffs clean CR-normalised - but enumerating EVERY deployed copy showed install.sh reaches 1 of 10: Orca worktrees each keep a gitignored .claude/agents that nothing refreshes. 21 stale agent files across 3 personas (head-of-seo-content, ceo-hellokahwin, managing-editor) and 8 worktrees, at THREE co-existing vintages - agents dispatched in the same sprint were reading different rulebooks, including 67 missing lines of CEO rules in six worktrees. Fixed with a committed script rather than a sentence: skillcentral/sync-worktree-agents.py. Also new: scripts/seo/census-restate.py turns decision 188's 2.3x floor into an exit code. Reviewer: Claude, own adversarial pass - codex-reviewer was NOT dispatched and no OpenAI-backed path was used.",
+          "proof": "persona-deploy.txt: 'diff (CR-normalised) exit: 0' with grep x1 for each of the two new rules and the PRE-FLIGHT #4 command, not a line count. worktree-agent-sync.txt: BEFORE report-only exit 1, STALE 21; APPLY 'synced 21 file(s). post-sync verification: 21 of 21 identical to source'; AFTER 'up to date : 81 | STALE : 0 | absent : 0 | re-check exit: 0'. buddy unpushed count after push: 0 (git rev-list --count @{u}..HEAD, the check git status cannot do). hellokahwin unpushed vs origin/feat/command-centre-dashboard: 0."
+        },
+        {
+          "at": "2026-09-01T18:58:04.042Z",
+          "link": "https://github.com/ianngkb/hellokahwin/commit/7b7c2bf",
+          "actor": "SYSTEM",
+          "claim": "CEO VERIFICATION: DoD MET, gate run by the CEO not read from the report, and it corrected TWO of the CEO's own figures — CONT-17 proceeds with re-aimed targeting.",
+          "proof": "RUN BY THE CEO: 'python scripts/seo/census-restate.py docs/work-done/sep-02-2026-session-01/serp-shape-census-2026-09-02.csv' prints 'CONT-17 MAY PROCEED - the document/number split has not collapsed', RESTATE EXIT 0, with worst re-cut 7.5x (frozen intent_of) and 6.5x (gate classifier) against decision 188's 2.3x floor, 3 of 3 re-cuts computable on each and the CI excluding parity in all six. IT DID NOT HIDE THE AWKWARD NUMBER: SEO-11's crude bound (document Wilson-lower / number Wilson-upper) now reads 2.1x and 2.0x, BELOW the floor - and the script prints that every run while correctly not gating on it, because that bound is not a CI on a ratio and the Katz CI is. 12.2x -> 7.5x is NOT a fall: 7.5x sits inside SEO-11's own 3.39x-44.0x interval and the band now carries 20 clicks against 13, so the estimate got PRECISE rather than the effect shrinking. SHIP VERIFIED BY CONTENT: 7b7c2bf is on origin/feat/command-centre-dashboard and no other branch; census-restate.py and the 2026-09-02 CSV both resolve there; docs/boardroom on origin/master is still 0 files; no PR was opened into master. skillcentral/sync-worktree-agents.py is on origin/main. Reviewer stated in its own log: Claude, own adversarial pass, codex-reviewer NOT dispatched and no OpenAI-backed path used - which is decision 195 being followed and, more importantly, being SAID so a reader can tell. THE PERSONA-DEPLOY FINDING IS REAL AND THE CEO COUNTED IT INDEPENDENTLY: 25 deployed copies of ceo-hellokahwin.md exist, 8 were stale, each missing exactly 67 lines, across three vintages. Its fix worked - every ACTIVE Sprint 06 worktree now reads CURRENT; the 8 stale are all dead Sprint 05 trees. install.sh reaching 1 of 10 live copies means agents dispatched in the same sprint were reading different rulebooks, which is a defect nothing in this company would have surfaced."
+        }
+      ]
     },
     {
       "id": "PLAT-16",
       "track": "platform",
       "points": 3,
-      "state": "todo",
+      "state": "done",
       "owner": "design-systems-engineer",
       "title": "A soft-failed pillar render is cached forever - one DB blip can pin an empty topic hub indefinitely",
       "flags": [],
       "why": "â€”",
       "dod": "renderPillarPage catches a failed or timed-out getPillarView and renders SUCCESSFULLY with clusters: [], while the route declares revalidate = false. Next therefore has a valid page to cache and caches it indefinitely; only revalidateTag('articles') or revalidateTag('inspire-categories') from an admin write can clear it, and there is no time-based revalidation to heal it. Done when a degraded render is provably not persisted as the long-lived ISR entry - either re-throw after logging so Next does not cache it, or set a short revalidate window on the degraded path - demonstrated by forcing the deadline miss and showing the next request re-renders rather than serving the empty page. The same soft-fail pattern exists on the category grid route; say whether it has the same exposure. Mitigated but NOT fixed by UI-05, which added an empty state so the page says something instead of rendering a bare div.",
       "brief": "â€”",
-      "evidence": []
+      "evidence": [
+        {
+          "at": "2026-09-01T20:05:48.356Z",
+          "link": "https://github.com/ianngkb/hellokahwin/pull/62",
+          "actor": "SYSTEM",
+          "claim": "A degraded render of /artikel/[category] is no longer served — and therefore no longer cached — as a successful empty page. Both content reads (getPillarView on the pillar shape, getCategoryArticles on the grid) now fail the render instead of rendering UI-05's empty state at HTTP 200.",
+          "proof": "Forced for real with LOCK TABLE articles IN ACCESS EXCLUSIVE MODE in an open transaction (selective: inspire_categories stays readable so the route still reaches the render). next build && next start, local Postgres, loopback-asserted. BEFORE BUILD_ID 0AGGUS9nU17ed809rQLK5: /artikel/hantaran-mas-kahwin 200 3800ms 'Panduan ini masih kosong'x2 0 links; /artikel/idea-dan-nasihat 200 3075ms 'Kategori ini masih kosong'x2 0 links. AFTER BUILD_ID j93XFC0b4-YHe8mhoTNK5: 500 3120ms and 500 3044ms, no empty state, 0 links. NEXT REQUEST AFTER RECOVERY: 200 48ms with 4 article links, and 200 49ms with 15 article links. Instrument: scripts/verify-degraded-page-uncacheable.mjs, pnpm verify:degraded."
+        },
+        {
+          "at": "2026-09-01T20:06:06.110Z",
+          "link": "https://github.com/ianngkb/hellokahwin/pull/62",
+          "actor": "SYSTEM",
+          "claim": "CORRECTION TO THE DoD, evidence wins: revalidate = false is INERT on this route. There is no long-lived ISR entry to poison and revalidateTag was never what would have cleared it. What actually persisted the empty page is the Vercel edge — fifteen minutes, not indefinitely. The fix is the same either way; the severity is one notch lower than the item states.",
+          "proof": "The route awaits searchParams, so it is dynamic. next build prints 'ƒ /artikel/[category]' with NO Revalidate/Expire columns, against '○ /artikel  10m  1h' two lines above it; legend 'ƒ (Dynamic) server-rendered on demand'. .next/prerender-manifest.json lists only /artikel/[category]/[slug] under dynamicRoutes. Every response carries 'Cache-Control: private, no-cache, no-store, max-age=0, must-revalidate' alongside 'Vercel-CDN-Cache-Control: public, s-maxage=300, stale-while-revalidate=600' = 300s fresh + 600s stale = 15 minutes max. src/lib/cache/edge-tag.ts recorded the same thing on 26 Aug: 'these pages read searchParams, so they are dynamic function responses whose CDN entry is created by the TTL header rather than by ISR'."
+        },
+        {
+          "at": "2026-09-01T20:06:08.452Z",
+          "link": "https://github.com/ianngkb/hellokahwin/pull/62",
+          "actor": "SYSTEM",
+          "claim": "The category grid route has THE SAME EXPOSURE — asked for explicitly by the DoD. It is not a separate route but the other branch of the same file, and it was fixed in the same change. A third soft-fail was found on that path in review and fixed too.",
+          "proof": "The non-pillar branch soft-failed getCategoryArticles in the identical shape, at the same 3s deadline, on the same URL pattern carrying the same Vercel-CDN-Cache-Control, rendering EmptyCategoryState at HTTP 200 with numberOfItems: 0 in the CollectionPage JSON-LD — on a hub generateMetadata had just failed OPEN to 'index, follow' via ROBOTS_ON_DEADLINE_MISS. Arguably worse than the pillar: it serves the eight non-pillar hubs as well. Verified by the same instrument on /artikel/idea-dan-nasihat: before 200 3075ms 'Kategori ini masih kosong'x2, after 500 3044ms, recovery 200 49ms with 15 article links. THIRD SOFT-FAIL: getCategoryHierarchyCached had NO deadline at all, so a stall on inspire_categories hung the render with no error, no label and no log; its result decides categoryIds, so soft-failing it would render a NARROWER article set as though it were the whole category."
+        },
+        {
+          "at": "2026-09-01T20:06:23.548Z",
+          "link": "https://github.com/ianngkb/hellokahwin/pull/62",
+          "actor": "SYSTEM",
+          "claim": "FOUND IN CLAUDE REVIEW: the first version of the fix threw AFTER Vercel would have killed the function, so it was verified against an artefact production cannot produce. Fixed by deriving one shared deadline budget from maxDuration. Reviewer was Claude — two independent adversarial passes, no codex-reviewer and no OpenAI-backed path.",
+          "proof": "The route declares maxDuration = 5 and gave each of nine reads a separate withDeadline(..., 3_000); generateMetadata's chain alone permitted 9s and one read had no deadline at all. Measured stalled wall time at three budgets, same locked table: per-read 3,000ms -> 6,188ms; shared 3,500ms (sized for one pass) -> 7,138ms; derived 1,500ms -> 3,187ms. A FAILING request pays the chain TWICE because Next's error document re-enters generateMetadata in a fresh React cache() scope. New module src/lib/inspire/category-render-budget.ts: (5,000 - 1,000 reserve) / 2 passes - (2 floored reads x 250) = 1,500ms, asserted by category-render-budget.test.ts which also reads maxDuration out of page.tsx as text so the duplication cannot drift. Retrospective gate: script assertion C reads 'export const maxDuration' from the route and fails the run when the stalled request exceeds it — verified RED at 7,138ms on a deliberately rebuilt one-pass budget and GREEN at 3,120ms. Review also caught: the route gate covered only the pillar path; readForCacheablePage swallowed Next's notFound()/redirect() sentinels; the precondition guard was latency-only and defeatable; the empty-state markers were unpinned; three instrument-failure paths exited 1 instead of 2."
+        },
+        {
+          "at": "2026-09-01T20:06:52.396Z",
+          "link": "https://hellokahwin.com/artikel/hantaran-mas-kahwin",
+          "actor": "SYSTEM",
+          "claim": "SHIPPED AND LIVE. PLAT-16 is merged to master (PR #62) and deployed. Shipping required an unrelated repo-wide build fix (PR #66): Vercel rolled its default pnpm from 10.x to 11.x mid-sprint and every production deploy of this repo was failing, PLAT-16's merge being the first to hit it.",
+          "proof": "PR #62 merged 0f2a4c9. Its deploy FAILED: 'Using pnpm@11.x' + '[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: esbuild@0.18.20, esbuild@0.25.12, esbuild@0.28.2, msw@2.15.0, sharp@0.34.5, unrs-resolver@1.12.2' -> 'Command pnpm install exited with 1'. Not the diff: the previous production deploy ten minutes earlier (0129797, UI-20) logged 'Using pnpm@10.x' and 'Done in 2.1s using pnpm v10.28.0' with the same ignored-builds text as a WARNING and succeeded; the only manifest change across the two commits is one added npm script line; pnpm build on 0f2a4c9 is exit 0 locally. THREE causes, verified by running the fix against the failing case three times with npx pnpm@11 install --frozen-lockfile: (1) pnpm 11 makes ignored builds a hard error; (2) it no longer reads the pnpm field in package.json ('[WARN] The pnpm field in package.json is no longer read by pnpm'), which is why already-allow-listed sharp/esbuild/unrs-resolver were in the error list; (3) the setting is RENAMED, onlyBuiltDependencies (list) -> allowBuilds (map). Moving the old key verbatim into pnpm-workspace.yaml failed with the BYTE-IDENTICAL error — exit 1, exit 1, then exit 0 'Done in 14.8s using pnpm v11.25.0' with the scripts actually running (sharp install$ node install/check.js) and require('sharp') loading libvips 8.17.3. PR #66 merged 9c1ca0c, production deployment 6209298019 state=success. 0f2a4c9 confirmed an ancestor of 9c1ca0c; the deployed route source carries readForCacheablePage x4. LIVE: /artikel/hantaran-mas-kahwin 200, /artikel/nikah-undang-undang 200, /artikel/idea-dan-nasihat 200, all with pillar-empty=0 grid-empty=0 and 47/19/34 article hrefs. POSITIVE CONTROL that a zero means absence: the same checker finds HelloKahwin x52 and Hantaran x262 on the same page. NEGATIVE CONTROL: /artikel/plat16-not-a-real-category -> 404, not a 200 shell."
+        },
+        {
+          "at": "2026-09-01T20:27:18.257Z",
+          "link": "https://github.com/ianngkb/hellokahwin/pull/70",
+          "actor": "SYSTEM",
+          "claim": "CORRECTION TO MY OWN EARLIER EVIDENCE ENTRY: the pnpm fix (PR #66) did NOT unblock the deploy. Vercel did not roll pnpm 10.x -> 11.x; ONE build in eight was handed an 11.x builder and selection returned to 10.28.0 on its own. The allowBuilds change is kept as the defence for the next 11.x selection, not claimed as the cause of the green. The exposure is NOT closed.",
+          "proof": "pnpm version read from the build log of the eight most recent production builds: 07fd6421 READY pnpm@10.x v10.28.0; 9c1ca0c2 READY pnpm@10.x v10.28.0 (THE DEPLOY OF THE FIX ITSELF); 5c18c742 READY pnpm@10.x v10.28.0; 0f2a4c99 ERROR pnpm@11.x (the only 11.x build that exists); 0129797a READY pnpm@10.x v10.28.0; 5342703c READY pnpm@10.x v10.28.0; 59954c65 READY pnpm@10.x v10.28.0; eaad6d33 READY pnpm@10.x v10.28.0. The build carrying the fix ran pnpm 10.28.0 and would have succeeded without it. I asserted causation from one failure and one subsequent success — the same error PLAT-16's own retrospective is about (a comfortable result taken as proof), forty minutes later. The allowBuilds change is still verified correct under npx pnpm@11: exit 1 (package.json only), exit 1 (onlyBuiltDependencies in yaml), exit 0 'Done in 526ms using pnpm v11.25.0' with the lockfile untouched. Corrected at source in pnpm-workspace.yaml, the work-done entry and the session index; shipped as PR #70 (c8033672), production deployment 6209679339 success."
+        },
+        {
+          "at": "2026-09-01T20:27:21.025Z",
+          "link": "https://github.com/ianngkb/hellokahwin/pull/70",
+          "actor": "SYSTEM",
+          "claim": "DECISION NEEDED, platform/CEO: pinning the pnpm version cannot be done from this repo alone. 'packageManager: pnpm@10.28.0' is INERT on this Vercel project, so shipping it would have looked like a fix and changed nothing. Reported rather than shipped, as directed.",
+          "proof": "Vercel's own failing build log states that selecting a non-default pnpm major requires corepack: 'To use pnpm@9.x, manually opt in using corepack (https://vercel.com/docs/deployments/configure-a-build#corepack)'. ENABLE_EXPERIMENTAL_COREPACK is not set on the project — enumerated via the Vercel API rather than tested for: 23 environment entries across 15 unique keys (ADMIN_EMAILS, CLERK_SECRET_KEY, CRON_SECRET, DATABASE_URL, NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY, NEXT_PUBLIC_R2_ASSETS_PUBLIC_URL, R2_ACCESS_KEY_ID, R2_ACCOUNT_ID, R2_ASSETS_BUCKET_NAME, R2_ASSETS_PUBLIC_URL, R2_BUCKET_NAME, R2_PUBLIC_URL, R2_SECRET_ACCESS_KEY, REKOGNITION_ENABLED, WP_SOURCE_URL), no corepack flag among them. The pin is therefore a TWO-PART change: one line in package.json plus an env var on the deployment target, which is infrastructure and not a repo change. Options: (a) set the corepack flag and pin 10.28.0 for determinism, or (b) stay on allowBuilds and accept either major. allowBuilds is verified to make an 11.x build succeed; it is a defence, not a pin."
+        },
+        {
+          "at": "2026-09-01T20:39:01.943Z",
+          "link": "https://hellokahwin.com/artikel/hantaran-mas-kahwin",
+          "actor": "SYSTEM",
+          "claim": "CEO-VERIFIED INDEPENDENTLY ON origin/master AND LIVE: the degraded render now re-throws, the category route is covered, and the DoD's own severity claim was corrected DOWNWARD at source by the agent.",
+          "proof": "src/lib/cache/degraded-render.ts exists on origin/master with its own test (src/lib/cache/__tests__/degraded-render.test.ts) and is called from src/app/(public)/artikel/[category]/page.tsx and src/components/inspire/pillar-body.tsx; pillar-body.test.tsx cites PLAT-16 by name. Live: /artikel/hantaran-mas-kahwin 200 and /artikel/idea-dan-nasihat 200, both rendering article links, negative control /artikel/plat16-not-a-real-category 404. THE CORRECTION THAT ARGUES AGAINST THE ITEM'S OWN IMPORTANCE, and is the reason to trust the rest: the DoD said a degraded render is 'cached indefinitely' because revalidate = false. The module documents that revalidate = false was INERT and the real persistence was the edge - 'Vercel-CDN-Cache-Control: s-maxage=300, stale-while-revalidate=600', so the true blast radius was up to FIFTEEN MINUTES, not forever. Less severe than the CEO wrote, still real, and corrected in the file a person editing this next actually opens rather than in a docs note. Reviewer was Claude; codex-reviewer was never dispatched."
+        }
+      ]
     },
     {
       "id": "UI-20",
       "track": "design",
       "points": 3,
-      "state": "todo",
+      "state": "done",
       "owner": "design-systems-engineer",
       "title": "The favicon is a PINK 'H' from the retired palette - the brand system says it must be the HK monogram",
       "flags": [],
       "why": "â€”",
       "dod": "LIVE PRODUCTION serves a favicon derived from public/brand/logos/hellokahwin-monogram.svg, and the pink is gone. OBSERVABLES, each checkable by command: (1) https://hellokahwin.com/favicon.ico returns 200 (it currently 404s) and https://hellokahwin.com/icon.svg returns 200 with image/svg+xml; (2) the served raster favicon's dominant non-transparent colour is drawn from the shipped palette - state the hex and name which palette token it is - and NO pixel matches the retired magenta; (3) an apple-touch-icon of at least 180x180 returns 200, because it currently 404s; (4) the homepage HTML carries <link> or Next metadata entries for icon, apple-touch-icon and a shortcut icon, quoted from the live response; (5) public/favicon-32.png is either WIRED UP or DELETED - it exists today and nothing references it, and a dead asset that looks live is how the wrong icon survives a redesign. RENDER-CHECK, because a status code proves nothing about an icon: capture the mark at 16px and confirm BOTH glyphs of HK are legible and separated - the brand module's own warning is that at opsz 11 the hairline erases at small sizes, so use the opsz 6 cut the marks are already set in and state which you used.",
       "brief": "THE FINDING, verified by the CEO on 02 Sept: the live site serves ONE icon link, <link rel=\"icon\" href=\"/favicon.png\">, and that file is a 48x48 PNG showing a PINK/MAGENTA rounded square with a serif capital H. Two things are wrong with it and both are evidenced. (1) WRONG MARK: brand-assets.ts describes the monogram as 'HK. The only mark that survives a favicon, an app icon or a social avatar', minHeight 14. The favicon is an H alone, which is not any mark in the registry. (2) WRONG PALETTE: the shipped brand is a warm-neutral ink-on-paper monotone - brand.css declares #edeae1, #ede8dc, #e4e0d4, #dad5c6, #c6bfac and #c9a45c gold - and magenta appears nowhere in it. ceo-memory records that globals.css was TWN's 'Plum Forward' palette ported wholesale and that UX-03 re-skinned the public site to the monotone on 27 Aug (78cd345). THE FAVICON IS A SURVIVOR OF THE PALETTE THE SITE RETIRED. Also missing: /favicon.ico, /icon.svg and /apple-icon.png all return 404 today, so there is no icon for a browser tab pinned on Windows, no vector for modern browsers, and nothing for an iOS home screen. USE THE COMMITTED MARK, do not draw a new one: every logo in public/brand/logos is an OUTLINED SVG with fill=currentColor, cut at opsz 6 specifically because the marks are used small, and the module warns that at opsz 11 the hairline erases at favicon size. Read src/components/brand/brand-assets.ts before touching anything - it is the single source of truth and it already anticipated this surface. BRANCH: this is site code and merges to master, NOT to the docs line.",
-      "evidence": []
+      "evidence": [
+        {
+          "at": "2026-09-01T19:00:17.685Z",
+          "link": "https://hellokahwin.com/icon.svg",
+          "actor": "SYSTEM",
+          "claim": "LIVE PRODUCTION serves the HK monogram as its icon set, and the retired magenta is gone. The item's own gate goes 0/7 against production before the merge and 7/7 after it.",
+          "proof": "node scripts/audit-favicon.mjs --url https://hellokahwin.com | BEFORE (02:46): '0/7 checks passed. FAVICON GATE EXIT: 1'. AFTER (03:00, merge 5342703 = PR #59): '7/7 checks passed. FAVICON GATE EXIT: 0'. /favicon.ico 200 image/vnd.microsoft.icon 15086 B, entries 16x16@32bpp 32x32@32bpp 48x48@32bpp; sha256 582da7245307... byte-identical to public/favicon.ico. /icon.svg 200 image/svg+xml 685 B, 2 glyph paths. /apple-icon.png 200 image/png 180x180. /favicon-32.png now 404 (deleted)."
+        },
+        {
+          "at": "2026-09-01T19:00:34.919Z",
+          "link": "https://hellokahwin.com/favicon.png",
+          "actor": "SYSTEM",
+          "claim": "DoD(2): the served raster favicon's dominant colour is #edeae1, which is --hk-parchment-100 in src/design-system/tokens.css (Parchment / --hk-sand-050 in brand-assets.ts). NO pixel matches the retired magenta #b4326e, and no pixel is pink at all.",
+          "proof": "Live https://hellokahwin.com/favicon.png, 48x48, 2304 opaque px, 91 distinct colours: dominant #edeae1 1935/2304 = 84.0%; exact #b4326e = 0 px; pink hue band (h270-355, s>=0.20) = 0 px; every pixel within 1.03/255 of the straight line between #16130f (--hk-ink-900) and #edeae1. The same measurement on the file production served this morning: dominant #b4326e 1845/2236 = 82.5%, 2058 px in the pink band, one pixel 93.34/255 off that ramp."
+        },
+        {
+          "at": "2026-09-01T19:00:48.084Z",
+          "link": "https://hellokahwin.com/",
+          "actor": "SYSTEM",
+          "claim": "DoD(4): the live homepage carries five icon link entries covering all three required rel values, declared through Next metadata.icons rather than the app/ file conventions.",
+          "proof": "curl -s https://hellokahwin.com/ , icon link tags quoted from the live response: rel=shortcut icon href=/favicon.ico ; rel=icon href=/icon.svg type=image/svg+xml ; rel=icon href=/favicon.ico sizes=16x16 32x32 48x48 type=image/x-icon ; rel=icon href=/favicon.png sizes=48x48 type=image/png ; rel=apple-touch-icon href=/apple-icon.png sizes=180x180 type=image/png. Before the merge the same command returned exactly ONE line: rel=icon href=/favicon.png. The config form was chosen over app/icon.svg because Next's file convention serves hashed metadata routes (/icon.svg?hash) and emits no rel=shortcut icon at all."
+        },
+        {
+          "at": "2026-09-01T19:01:06.754Z",
+          "link": "https://hellokahwin.com/favicon.ico",
+          "actor": "SYSTEM",
+          "claim": "RENDER-CHECK: at 16px both glyphs of HK are legible and separated. Measured off the 16x16 entry inside the LIVE favicon.ico, not asserted. Cut used: opsz 6 - the committed lockups already are that cut (f4a09d2, 're-cut all five lockups at opsz 6, not the font's default 11'); nothing was re-drawn, only scaled and translated.",
+          "proof": "node scripts/audit-favicon.mjs --url https://hellokahwin.com, check 6: ink column groups 1-6 and 9-14; clear ground columns between the glyphs 2; edge columns left 0.02 right 0.02; H stems at columns 2 and 5 with counter 3-4; H crossbar (best middle row spanning the counter) 0.38; emptiest counter row 0.00, so the counter is open on some rows and spanned on others - the structural signature of an H rather than a block or a pair of bars; K right-edge swing across rows 2 px, so the diagonal is present; darkest rendered pixel 11.08:1 against the ground. Ink height at 16px is 6.4px, BELOW the monogram's stated minHeight of 14 - it survives only because of the opsz 6 cut, which is the brief's point."
+        },
+        {
+          "at": "2026-09-01T19:01:10.054Z",
+          "link": "https://github.com/ianngkb/hellokahwin/pull/59",
+          "actor": "SYSTEM",
+          "claim": "DoD(5): public/favicon-32.png DELETED, and two committed gates now stop the whole class of defect coming back. Reviewer: Claude, per the 02 Sept owner directive - codex-reviewer was NOT dispatched.",
+          "proof": "git rm public/favicon-32.png in 5342703; https://hellokahwin.com/favicon-32.png now returns 404 and nothing references it. public/favicon.png was KEPT and regenerated instead of deleted, because middleware.ts whitelists it by name and HTML cached in the wild still points at it. Gates: (a) pnpm brand:icons:check regenerates all four files from the monogram + tokens.css and exits 1 on any byte drift, so a palette change cannot leave the icon behind again; (b) pnpm audit:favicon:selftest runs every render assertion against surgical mutants of the shipped icon (crossbar erased, counter filled, K diagonal flattened) and against the retired magenta PNG, asserts each FIRES, then asserts the real icon CLEARS - 7/7. That pairing caught a real bug before ship: the first cut of the counter check took x0+1..x1-1 as the counter, which swallowed both 2px stems, and it failed a CORRECT icon."
+        },
+        {
+          "at": "2026-09-01T19:17:53.375Z",
+          "link": "https://github.com/ianngkb/hellokahwin/pull/61",
+          "actor": "SYSTEM",
+          "claim": "Work-done entry, evidence and Stage 9 retrospective are on master where a reader finds them, and the persona edit went to its canonical path. Two Sprint-05 findings closed; two new findings raised, one of them outside this DoD and deliberately not absorbed.",
+          "proof": "Merges: 5342703 (PR 59, the icon set) and 0129797 (PR 61, the record) on master. Entry: docs/work-done/sep-02-2026-session-01/sep-02-2026-done-ui-20-favicon-monogram.md with a 9-file EVIDENCE directory. Persona: buddy bc6d2bf, skillcentral/agents/projects/hellokahwin/Design/design-systems-engineer.md, pushed - six entries. CLOSED: scripts/measure/count-in-html.sh exists on master (UI-17 f109450) and was used here; docs/work-done/README.md created rather than reported a fourth time. RAISED: (a) the brief's mechanism was wrong - b4326e is in NO palette file in this repo, retired or current; (b) public/hellokahwin-logo.png carries 7,127 px of that same b4326e plus plum 3d2b3d on off-white faf7f2, and it is the openGraph/twitter image on four route groups and the logo in the homepage Organization schema - so the colour is still on every social share card. That is OUTSIDE UI-20's DoD and is filed for the CEO to scope, not absorbed. Final re-run after both merges: 7/7, FAVICON GATE EXIT: 0."
+        },
+        {
+          "at": "2026-09-01T19:25:09.239Z",
+          "link": "https://hellokahwin.com/favicon.ico",
+          "actor": "SYSTEM",
+          "claim": "CEO VERIFICATION: DoD MET on live production and the render check passed — but the log was pushed to a SITE-space branch, and merging that branch would have been PR #37 in reverse.",
+          "proof": "VERIFIED BY THE CEO AGAINST PRODUCTION, not read from the report. All four routes now 200 where three were 404: /favicon.ico, /icon.svg, /apple-icon.png, /favicon.png. Five icon link entries in the live homepage HTML covering shortcut icon, icon, SVG and apple-touch-icon at 180x180. PALETTE: the served rasters are #edeae1 background and #16130f ink - both exact tokens from the shipped brand - and ZERO magenta pixels remain; the retired #b4326e is gone. RENDER CHECK, which a status code cannot do: the CEO opened both rasters. The 180px apple-icon and the 48px favicon both show the HK MONOGRAM with the two glyphs legible and separated - the mark brand-assets.ts calls 'the only mark that survives a favicon'. DoD clause 5: public/favicon-32.png is DELETED with zero remaining references, so the dead asset that looked live is gone. The item's own gate went 0/7 against production before the merge and 7/7 after. ⚠ THE SHIP DEFECT, and it is the sixth of its kind: the work-done log and its nine evidence files were written and pushed to origin/ianng89/ui20-favicon-log, which is a SITE-space branch (next.config.ts present, docs/boardroom absent). The CEO test-merged it into the docs line in a throwaway worktree and REFUSED: it brings 1,059 files - 345 src/, 89 _bmad-output, 22 frontend, 14 backend - and conflicts on .gitignore, README.md and _bmad-output/autopilot/decisions.md. That is PR #37's mirror image, the site space pouring into the docs line. Only UI-20's own two paths were taken across (10 files, zero under src/_bmad/frontend/backend/public/tests) and committed as 08ced0a, verified by content on the remote. REVIEWER, from its own log: 'Reviewer: Claude. codex-reviewer was not dispatched and no OpenAI-backed review path was used, per the 02 Sept owner directive.'"
+        },
+        {
+          "at": "2026-09-01T20:32:58.523Z",
+          "link": "https://hellokahwin.com/favicon.png",
+          "actor": "SYSTEM",
+          "claim": "CEO-VERIFIED INDEPENDENTLY: the favicon is fixed, on-palette, and all three previously-404 icon endpoints now serve.",
+          "proof": "Decision 194 recorded /favicon.ico, /icon.svg and /apple-icon.png ALL 404. Live 02 Sept: /favicon.ico 200 image/vnd.microsoft.icon, /icon.svg 200 image/svg+xml, /apple-icon.png 200 image/png, /favicon.png 200 image/png. All five icon links declared on the homepage with correct rel, sizes and type. COLOUR CHECKED ON THE LIVE ASSET, not the source: favicon.png 48x48 decodes to rgb(237,234,225) cream (= #edeae1, which IS in brand.css) plus near-black rgb(22,19,15) - the pink serif H and its magenta are gone. NOTE, filed as DES-20 rather than reopened here: hellokahwin-logo.png still carries rgb(180,50,110) = #b4326e over 7,127 px, off-palette, and is referenced on the homepage. That is a different surface from UI-20's DoD and is not held against this item."
+        }
+      ]
     }
   ],
   "out_of_scope": [
@@ -183,14 +684,103 @@
     "SEO-14 is the ONLY item here that can invalidate the others. Recorded so its answer is read before CONT-17 selects targets, not after it writes."
   ],
   "metrics_change": "Unchanged: CTR reported SPLIT by intent class (decision 159), populated by the census classifier rather than CEO judgement. Clicks/28d remains the north star. NEW: family-level intent classification is now a planning input, not just a reporting one - the 02 Sept run is what selected this sprint's content direction, and it should be re-run at every planning meeting rather than only at sprint close.",
-  "retro": null,
+  "retro": {
+    "held_at": "2026-09-02",
+    "velocity": {
+      "parked": 0,
+      "planned": 55,
+      "completed": 55,
+      "moved_out": 0,
+      "unfinished": 0
+    },
+    "learnings": [
+      {
+        "why": "When a chair writes that N seats converged, an item count dressed as a seat count inflates the strongest claim in the document, and it is the one claim a reader will not check. The persona now says: count the owner column, print distinct owners, and if a seat says your synthesis is not their finding, print both - because collapsing a finding loses its FIX, and the fix is the deliverable.",
+        "finding": "THE CEO'S 'SEVEN SEATS REACHED THIS INDEPENDENTLY' IS SEVEN ITEMS ACROSS THREE OR FOUR SEATS, AND FIVE OF THE SEVEN BELONG TO ONE AGENT. Counting the owner column: UI-16, UI-19, UI-15, PLAT-16 and CONT-15's database half are all design-systems-engineer. CONT-18 is writer-adat-agama-prosedur, SEO-14 is head-of-seo-content, and CONT-15's editorial half is creative-director. The finding is not withdrawn; its convergence claim is. The honest statement is three unrelated seats on three unrelated surfaces, plus five observations by one seat in one night on adjacent surfaces, two of them in the same file. Two seats also argued the SHAPE was wrong for their case and both are printed separately rather than merged: CONT-18's is 'a printed warning attached to a passing exit code is a prose rule' - the instrument WAS looking at the right thing and told them, it just did not stop them; CONT-17's is 'a correct check over an object that does not apply to us' - there was no instrument at all.",
+        "file_changed": "~/Documents/Code/buddy/skillcentral/agents/projects/hellokahwin/Editorial/managing-editor.md"
+      },
+      {
+        "why": "The document auditing instruments that report success about something they are not looking at, opened by doing exactly that. Corrected at source in section 1.1 with the command that reproduces it.",
+        "finding": "THE CEO'S RETROSPECTIVE OPENED WITH A MEASUREMENT OF ITSELF THAT WAS WRONG BY 1.9x. It says '13 logs, 756 lines, all read.' The Retrospective sections of the thirteen logs total 1,428 lines - PLAT-16 alone carries 297, SEO-14 175, UI-15 117. Reproduce with awk over the seven logs on feat/command-centre-dashboard and the six on origin/master. Whatever 756 counts, it is not the thing the sentence claims it counts. The room did not treat this as a gotcha - it is the evidence that the sprint's central finding is real enough to catch the person writing it up.",
+        "file_changed": "docs/boardroom/meetings/2026-09-02-sprint-06-retrospective.md"
+      },
+      {
+        "why": "Prose rules do not fire. R2 fails any open backlog item created before the second-most-recent sprint's planned_at whose key carries no literal CARRIED marker in the decision log. The escape hatch is exact and NOT a substring match, because UI-12 appears in decision 196 only as a price quoted while ruling on a different item - a gate clearable by an accident of prose passes for the wrong reason, which is the failure this whole sprint is about. Self-test 16/16 both directions; exits 1 on today's board with 8 R2 violations because no CARRIED marker exists anywhere yet.",
+        "finding": "A REFILED ITEM RESETS ITS APPARENT AGE, AND THAT IS THE MECHANISM BEHIND THE OWNER'S QUESTION. PLAT-21 - no CI job runs pnpm lint or pnpm test - was created 2026-09-02T08:13:24. The finding is THREE SPRINTS OLD: raised by UI-13, then UI-19 ('OPEN, second sprint, named rather than taken inside a design item'), then UI-15 from a third item. Every refusal was correct - an infrastructure job does not belong inside a design item - and every re-raise produced a new record with a new date. A three-sprint-old failure reads as a one-day-old backlog item to anyone scanning the board. This will happen to EVERY finding an item correctly refuses to absorb, which means 'do not absorb it' is only half a rule.",
+        "file_changed": "scripts/measure/check-backlog-deferral.mjs"
+      },
+      {
+        "why": "R1 fails an in_progress or blocked backlog item carrying zero evidence, and fires on all three today. Also the argument for pulling PLAT-14 (a per-item state-transition log with a waiting_on_ceo state) into Sprint 07: it is this retrospective's own fix, filed 29 August and never connected to the problem it solves.",
+        "finding": "A STATE CHANGE IS NOT WORK, AND THE TRACKER CANNOT TELL THE DIFFERENCE. At 10:42:46, 10:42:49 and 10:42:52 - three seconds apart - PLAT-21, DES-20 and COPY-02 were set in_progress with ZERO evidence rows, no work-done log and no commit. No other backlog item was touched at 10:42. Those are exactly the three items the CEO conceded were small enough to have simply been done; they were marked as being done instead. in_progress on a backlog item has no closing mechanism: it is not todo, so it does not read as owed, and it is not done. It is a state that reports work nobody claimed - the sprint's own central finding, committed inside the tracker by the person writing that finding up. ONE OF THE THREE IS THE CHAIR'S OWN (COPY-02).",
+        "file_changed": "scripts/measure/check-backlog-deferral.mjs"
+      },
+      {
+        "why": "New section 4.4a records that the rule existed, was a week old and did not fire, and names the failure mode: not fabrication and not misquotation, but a rule nobody issued wearing the authority of somebody who could have. New reviewer check S19 Scope of authority, added to the un-waivable set alongside S15, S16 and S17. The general rule now in the chair's persona: every rule added to the style guide gets its section 15 row in the SAME edit.",
+        "finding": "STYLE GUIDE SECTION 4.4 ALREADY SAID WHAT CONT-17 BROKE, AND IT WAS THE ONLY MANDATORY RULE IN THE GUIDE WITH NO REVIEWER CHECK. 4.4 was added 26 Ogos 2026 out of CONT-03: 'say plainly who the document binds, then say it does not bind the reader.' Seven days later doa-pembuka-majlis carried JAKIM clause 7.2(i) - 'pembaca doa hendaklah seorang lelaki' - into FAQPage JSON-LD: a gendered religious restriction on who may read the doa at a Malay wedding, sourced to a government protocol that says nothing about weddings, live for about forty minutes. Every clause was verbatim, numbered, and checked against the PDF. The article was wrong because paragraph 1 and 4.1-4.2, the document's own statement of who it governs, were never read. Every other rule in the guide has an S-check; 4.4 had none, so the review board never asked, and the drafting checklist asked 'is the quotation accurate' - it was - without ever asking 'does the document apply'.",
+        "file_changed": "docs/plans/aug-23-2026-session-01/aug-23-2026-style-guide.md"
+      },
+      {
+        "why": "Decisions 206 and 207. The price of the rule is one restate script per gating number: census-restate.py cost an afternoon and now prints the number that would have made the gate fire even on runs where it does not. STILL OWED, and NOT this seat's to make: ceo-memory.md and decision 171 carry 12.2x with no interval, and decision 187 carries 21.7 with no weighted figure beside it. Owner: ceo-hellokahwin.",
+        "finding": "A BOUND QUOTED IN A DECISION MUST CARRY THE ARITHMETIC THAT PRODUCED IT, IN THE SAME SENTENCE. Decision 171 said the intervals bound the ratio 'at no less than 2.3x' without stating that 2.3x is Wilson-lower over Wilson-upper. Decision 188 then made that unstated arithmetic CONT-17's kill condition. SEO-14 had to reverse-engineer it from SEO-11's committed CSV to know which of THREE plausible readings was meant - and under one of them the answer would have been COLLAPSED, stopping a twelve-point item. Separately, decision 187's 'doa at mean position 21.7' is the UNWEIGHTED mean; the impression-weighted position is 9.82, and one query at position 3.74 carries 38% of the family's impressions and 8 of its 10 clicks. It survived three restatements - decision log, sprint theme, plan - because each was a copy and not a confirmation.",
+        "file_changed": "scripts/seo/census-restate.py"
+      },
+      {
+        "why": "Recorded as an unresolved disagreement rather than a merged sentence, per the owner's instruction. UI-21 is where the synthesis goes and it is deferred deliberately - it needs a portrait rendition at sane weight first (crop-4x5-mobile-cover is 943KB-2.0MB). OWED, and not an agent's to make: an item must declare the SURFACE it owns, not only the files. Owner: ceo-hellokahwin / sprint tooling.",
+        "finding": "TWO ITEMS SHIPPED OPPOSITE CORRECT ANSWERS ON THE SAME PIXEL AND THE ROOM DID NOT RESOLVE IT. CONT-15 and UI-16 both measured production, both were right by their own DoD, and they are mutually exclusive in code rather than in taste. Position A (design-systems-engineer): the box governs, the asset must be a named crop, R2 stays blocking, and UI-16 executed CONT-15's own brief more faithfully than CONT-15's spec did - the brief named DES-18's mid-size variant as 'the intended route' and banned substituting the EXISTING heavy crops, which is not what UI-16 did. Position B (creative-director): the photograph governs; a rule containing a number gets read as the number - the persona said OPEN THE IMAGE in capitals and carried a ~33% floor, fifteen covers sat at 50.0-56.4%, and three shipped not depicting their subject. BOTH POSITIONS ARE PRINTED. What the room DID agree: nothing made the collision visible until a merge, because the startsprint conflict rule covers two agents editing the same FILES and these edited different files rendering the same PIXEL.",
+        "file_changed": "docs/boardroom/meetings/2026-09-02-sprint-06-retrospective.md"
+      },
+      {
+        "why": "What CAN be automated is narrow and is stated as narrow in 4.4a: an ingest can refuse an article citing an authority document with a scope clause while quoting no scope statement of its own; it cannot JUDGE the scope. That judgement is a reviewer's, and S19 is where it is checked. Recording the limit beats writing a to-do for a script nobody can build.",
+        "finding": "NO GATE THIS COMPANY OWNS COULD HAVE CAUGHT CONT-17'S SCOPE ERROR, AND THE ROOM SAYS SO RATHER THAN PROMISING A SCRIPT. A currency gate passes the JAKIM PDF - it is the current edition, in force, landing page 200. Being current is orthogonal to applying. What caught it was dispatching a genuine adversarial reviewer with BLOCKING AUTHORITY and the instruction not to praise: editorial-verification-lead, a Claude agent, given the live URLs, the drafts and the named sources. It opened every source, read the PDF BY WORD COORDINATE rather than trusting pdftotext, and returned 6 blockers - THREE OF THEM INSIDE FAQPage JSON-LD, the part Google lifts out and shows without the page around it. It also found that three attributions its own first-pass extraction reported as missing were present in the raw HTML on a differently-shaped search, so a naive extraction would have cut three TRUE citations for being unverifiable.",
+        "file_changed": "docs/plans/aug-23-2026-session-01/aug-23-2026-style-guide.md"
+      },
+      {
+        "why": "CONT-20 (8pt, managing-editor) carries the largest of these and is recommended for Sprint 07: on a site whose competitive claim is that its numbers carry sources, 79 of 92 carrying none is the biggest open question this sprint produced.",
+        "finding": "A CARRIED FIGURE WAS WRONG FOR THE FOURTH AND FIFTH CONSECUTIVE SESSION, AND IT UNDERSTATES EVERY TIME. The corpus moved 92 to 95 to 96 to 97 to 102 INSIDE SINGLE ITEMS; CONT-15 and the creative-director measured the same evening on different schedules and got different sequences, both correct, both dated, deliberately not reconciled. Decision 190's '52 of 86 articles have no sources' is 79 of 92 when re-measured by UI-19's own instrument. UI-15's tracker figure of 'all 37 category pages' is 16. The fix that works is already in place and it is not better carrying: THE DoD SAYS RE-DERIVE, and every item that did got the right number.",
+        "file_changed": "docs/boardroom/meetings/2026-09-02-sprint-06-retrospective.md"
+      },
+      {
+        "why": "It fixes the mechanism by which every rule any of these retrospectives writes fails to reach the seat that needs it - which makes it worth more than any individual rule. THIS RETROSPECTIVE USED IT: after appending three rules to managing-editor.md at the canonical path, install.sh was run, then sync-worktree-agents.py --apply synced 109 files with post-sync verification 109 of 109 identical to source, and a fresh report-only re-check returned up-to-date 234, STALE 0, absent 0, exit 0.",
+        "finding": "install.sh REACHES 1 OF 10 LIVE COPIES OF A PERSONA, AND THREE VINTAGES WERE CO-EXISTING MID-SPRINT. SEO-14 enumerated every deployed copy on the machine rather than testing the one it expected: head-of-seo-content.md existed at 822, 849 and 930 lines simultaneously, and SIXTY-SEVEN LINES OF CEO RULES were missing from six live worktrees. Agents dispatched into different worktrees in the same sprint were reading different rulebooks and nothing anywhere printed that. Orca worktrees each carry their own .claude/agents/, it is gitignored by design, and nothing refreshed it.",
+        "file_changed": "~/Documents/Code/buddy/skillcentral/sync-worktree-agents.py"
+      }
+    ],
+    "shipped_check": "THREE ARTEFACTS CHANGED BY THIS RETROSPECTIVE, ONE OF THEM EXECUTABLE, because a retrospective that names a document and does not change it has failed. (1) scripts/measure/check-backlog-deferral.mjs - NEW. --selftest returns '16 passed, 0 failed', DEFERRAL SELFTEST EXIT: 0, with every rule proved to FIRE and to CLEAR and three negative controls (a done item with no evidence must not fire R1; an item created after the cutoff must not fire R2; a bare mention of UI-12 must NOT exempt it). Against the live tracker it returns 'VIOLATIONS: 11, DEFERRAL EXIT: 1' - R1 on PLAT-21, DES-20 and COPY-02; R2 on PLAT-13, PLAT-14, PLAT-17, SEO-04, DES-14, DES-16, UI-12 and UI-14. It refuses to report a pass on a list it could not build: a parse returning zero items exits 2 with 'that is a claim about this parser, not about the backlog'. (2) aug-23-2026-style-guide.md - new section 4.4a and new reviewer check S19, added to the un-waivable set. (3) managing-editor.md at the canonical skillcentral path, 338 to 420 lines, DEPLOYED and verified: install.sh run, sync-worktree-agents.py --apply synced 109 files at 109 of 109 identical to source, re-check up-to-date 234, STALE 0, absent 0, exit 0, and the three new sections grepped x1 each out of a DEPLOYED copy rather than the source. NOT DONE, DELIBERATELY: COPY-02 is this chair's own backlog item and sat in front of the room. Doing it here would have been exactly the scope-widening the room spent an hour criticising. It is recommended for Sprint 07 and its in_progress-with-no-evidence state is reported as a violation of this retrospective's own gate. SPRINT 06 IS NOT CLOSED BY THIS DOCUMENT - sprint state 6 done is the owner's call via /endsprint.",
+    "velocity_note": "QUOTED from `pnpm --silent sprint velocity 6 --json`, never typed: planned 55, completed 55, parked 0, moved_out 0, unfinished 0, across 11 items, 11 done. The number is correct and it is INCOMPLETE, and the room said so rather than celebrating it. Sprint 06 also FILED 11 new backlog items worth 43 points, four of them in SIXTEEN SECONDS at 08:13 (PLAT-21 08:13:24, COPY-02 08:13:31, DES-21 08:13:35, UI-23 08:13:40) after the work was finished. Measured by scripts/measure/check-backlog-deferral.mjs, the backlog is 25 items / 80pt as the tracker reports it but only 19 items / 67pt are OWED - 6 items and 13pt are done and were never cleared out, which inflates the number the CEO's first pass quoted. So 43 of 67 open points, 64%, were created by this sprint. A velocity that counts what was completed and is silent on what the completing PRODUCED will read 100% every time the work is generative. RECOMMENDATION, agreed by the room: sprint velocity carries a filed figure beside completed - '55 of 55, and 43 points of new work discovered' is a sentence neither side of the argument objects to. Owner: ceo-hellokahwin, at Sprint 07 planning. Sprint 05's 30 moved-out points and Sprint 06's 43 newly-filed points are the same phenomenon under different verbs, and only one of the two appears in a velocity number.",
+    "carried_forward": [
+      "PULL INTO SPRINT 07 - 9 items, 30pt, of which FIVE are the ones already conceded as should-have-been-done. Taking them clears the whole category and the sprint stops carrying the charge that its velocity was bought.",
+      "PLAT-21 (3pt, design-systems-engineer) - PULL FIRST. Three sprints, three correct refusals. VERIFIED BY COMMAND on origin/master: five workflows exist and NONE runs pnpm lint or pnpm test; the only vitest in CI is one named file. CI runs 0 of 2 lint commands and 1 of 42 test files while UI-15 reports 555 passing tests. NOTE THE CEO'S DRAFT WAS STALE ON THE OTHER HALF: 'lint is red on master' was closed inside this sprint by UI-15, which formatted all three files and recorded pnpm lint exit 0. Fold UI-14 (2pt) into it - both are 'the build should check this and does not'.",
+      "UI-22 (3pt, design-systems-engineer) - PULL. The homepage is the only page on the site with no og:image; it is the single most-shared URL and renders imageless in WhatsApp. Conceded as should-have-been-done.",
+      "DES-20 (2pt, design-systems-engineer) - PULL, in the same sitting as UI-22. The same retired magenta UI-20 removed from the favicon is still on hellokahwin-logo.png, served as the openGraph and twitter image on four surfaces and as the logo in the Organization schema. One asset pipeline, one sitting.",
+      "COPY-02 (3pt, managing-editor) - PULL. One number, 155 vs 160, which refused two of four CONT-18 drafts AT INGEST after they were written to a style guide that said they were fine. This chair's own item and its state is an R1 violation.",
+      "DES-21 (2pt, creative-director) - PULL. An engineer building from DES-03 section 5.1 today builds the collapsed rail the CEO ruling forbids. The ruling is enforced by gate check 14 and four committed fixtures and has no home in the specification.",
+      "UI-23 (3pt, design-systems-engineer) - PULL. UI-15 closed half (the key is asserted defined exactly once). The open half is a year-long symptomless cache poisoning under immutable max-age=31536000, and it was ONE COMMAND from happening when two items specified the same rendition key at different sizes on the same day.",
+      "CONT-20 (8pt, managing-editor) - PULL. 79 of 92 articles carry no source citation, against a carried figure of '52 of 86'. On a site whose competitive claim is that its numbers carry sources, this is the largest open question the sprint produced, and it is the fourth consecutive carried figure found wrong in the understating direction.",
+      "DES-19 (3pt, design-systems-engineer) - PULL. cover: ESCALATE is unreachable because articleFileSchema requires a cover object and permits no sentinel. It already forced CONT-18 to ship two weak covers under time pressure, which is how 25 of 61 covers drifted in the first place.",
+      "PLAT-14 (3pt) - PULL, and it is this retrospective's own fix. A per-item state-transition log with a waiting_on_ceo state is exactly what would have made the 10:42 batch visible. Filed 29 August and never connected to the problem it solves.",
+      "PLAT-20 (3pt, design-systems-engineer) - DEFER WITH A NAMED TRIGGER, not indefinitely. Nothing is blocked and allowBuilds is a proven defence (paired test exit 1, exit 1, exit 0). It needs ENABLE_EXPERIMENTAL_COREPACK on the Vercel project, which is the owner's change and not an agent's. TRIGGER: the next 11.x builder selection. Do NOT ship the repo half alone - an inert pin reads as a defence that does not exist (decision 201).",
+      "UI-21 (5pt, creative-director) - DEFER TO SPRINT 08. Genuinely blocked: it needs a portrait rendition at sane weight first, since crop-4x5-mobile-cover is 943KB-2.0MB and needs the DES-18 resize rung. Both CONT-15 and UI-16 reached this synthesis independently and both said it must not be rushed. Sequence the rendition, then this.",
+      "CONT-19 (8pt, writer-adat-agama-prosedur) - THE CEO'S CALL ON CONTENT CAPACITY. Real work with a real DoD: /lafaz-taklik carries 1 of 14 states' gazetted text while 'lafaz taklik nikah selangor' draws impressions at position 18. If content capacity exists after CONT-20, this is next.",
+      "PLAT-13 (3pt) and PLAT-17 (2pt) - DECIDE THEM EITHER WAY. Created 28 and 31 August, passed over at two plannings, R2 fires on both.",
+      "DES-14 (3pt), DES-16 (3pt), UI-12 (3pt) - DEFER EXPLICITLY, all created 30 August. Genuine improvements with no acute defect. Sequence DES-16 behind the open DES-03 section 2.4 question. EACH NEEDS a CARRIED entry in the decision log naming what it was traded for, or R2 keeps firing.",
+      "SEO-04 (5pt) - STAYS PARKED. Decision 165 is explicit and it parked twice at the same gate. R2 fires only because the CARRIED marker syntax does not exist yet. WARNING: check the Setiawangsa control decision 83 deliberately retained, which rode inside SEO-04 when it parked - a deferral is a decision about the ITEM, never about the commitments the item was carrying.",
+      "HOUSEKEEPING (13pt, 6 items) - RISK-10, PLAT-10, PLAT-11, PLAT-18, SEO-07 and PROBE-99 are done and still sitting in the backlog, inflating the 80pt figure the CEO's first pass quoted. Clear them out. Owner: ceo-hellokahwin.",
+      "THE MECHANISM FOR AN UNOWNED CROSS-CUTTING ITEM - three clauses proposed by the room. (1) Sprint capacity reserves 10%, floor 3 points, for cross-cutting infrastructure with no natural owner; Sprint 06 was 55 points, so 5.5 points would have taken PLAT-21 twice over. (2) Re-filing may not reset the clock: an item refused for scope is re-filed under its ORIGINAL key with its original date, or the new key carries supersedes: <old key> and inherits it - PLAT-21 should read 2026-08-30, not 2026-09-02. (3) An item refused for scope in two consecutive sprints is drawn in AUTOMATICALLY and can be kept out only by a CARRIED entry in the decision log naming what it was traded for. Clause 3 is the load-bearing one because it is falsifiable: if PLAT-21 is not in Sprint 07 there must be a numbered decision naming which three points beat CI. Clause 3 SHIPS AS R2 OF THE GATE, not as a paragraph.",
+      "UNRESOLVED, FOR THE CEO AT SPRINT 07 PLANNING - ROTATION vs ASSIGNMENT for an unowned item. creative-director: 'four correct refusals is an unowned item, not a badly-briefed one - it needs a rotating owner.' design-systems-engineer: 'rotation means it lands on someone with no context and takes four hours instead of one.' creative-director: 'then it is assigned to you and it does not get done, because you are carrying five design items a sprint.' design-systems-engineer: 'that is true and I do not have an answer to it.' BOTH POSITIONS STAND.",
+      "OWED BY ceo-hellokahwin, NOT BY ANY SEAT: restate 12.2x as 7.5x/6.5x with the interval and both classifiers named in decision-log.md and ceo-memory.md; put 9.8 beside decision 187's 21.7; add a filed figure beside completed in sprint velocity; make an item declare the SURFACE it owns and not only its files; and BOOK the measurement that scores Sprint 05's bet - final data does not reach 02 September until about 05 September, and SEO-14's own words are 'book it; do not remember it.'",
+      "OWED BY creative-director: DES-03 section 2.4, whether the display face may set an h2 now that its premise has moved - production serves font-weight 400 900, a real variable axis, where 2.4 was written for a 400-only subset with 'no bold file'. Deciding it either way is a site-wide change and needs its own item.",
+      "OPEN EDITORIAL ITEMS FOR managing-editor AND editorial-verification-lead: the DBP Pedoman Transliterasi edition, cited on all six CONT-17 pages WITHOUT a year while every other source carries one - at least two editions are in circulation and neither seat could obtain the pedoman itself, so stating a year would be the exact fabrication the rule prevents. Plus the photographer-outreach list: the library holds no photograph of a woman in doa (CONT-17), HK-P-0084 is the right class and state but not the building the article describes, and HK-P-0063 is the right class and the WRONG STATE (CONT-18). All named rather than discovered in a later audit."
+    ],
+    "sizing_accuracy": "NO DoD WAS NARROWED and two items reported a DoD met by another item's route rather than by their own work - CONT-15 stated plainly that UI-16 closed its defect and did not rewrite its spec to match, and CONT-18 stated that the shortfall to the combined sitemap figure of 119 was CONT-17's and not a narrowing (109 + 4 + 6 = 119 resolved exactly once CONT-17 shipped). THREE ITEMS WERE MIS-SIZED, all under. UI-16 at 3pt shipped two rendition rungs, a resolver, a preload move, two blocking gate checks, an eight-case paired fixture, ten unit tests, a byte-ceiling audit and THREE production backfills, then caught a 4.7MB live regression on its own fallback path and a recurrence 22 minutes later. UI-15 at 5pt reconciled 72 commits of master and caught a merge that would have silently retired two of UI-16's blocking checks. CONT-17 at 12pt absorbed a full verification cycle - 6 BLOCKERs, 14 FIXes, all addressed in session and re-ingested. TWO ITEMS' TITLES WERE WRONG AND BOTH SAID SO FIRST: UI-16's tracker title claimed 'R1, R2 and R6 failing at once' when R1 had been green since 31 August, and CONT-18's title named three articles that already existed. DES-15 corrected its own DoD's blast-radius figure - 26 headings on 7 pillar hubs, not 'every public h2 on the site'.",
+    "process_findings": "SEVEN, and the first is why this document exists. (1) THE ELEVEN Retrospective SECTIONS WERE THE BEST MATERIAL IN THE SPRINT AND WERE SYNTHESISED BY ONE READER INSTEAD OF COLLIDED. The owner rejected that pass: a synthesis is not a retrospective, and the value of a retrospective is the collision. This one was convened as six seats and records three unresolved disagreements rather than merging them - CONT-15 vs UI-16 on whose framing governs a cover; whether the sprint's central finding is a convergence or an over-fit; and whether an unowned infrastructure item should be ROTATED (creative-director) or ASSIGNED (design-systems-engineer), where the room noted design-systems-engineer owned 6 of 11 items and 27 of 55 points this sprint. (2) NOTHING MADE THE CONT-15 / UI-16 COLLISION VISIBLE UNTIL A MERGE - the conflict rule covers files, not surfaces. (3) A DECISION BECAME A GATE ON ARITHMETIC NOBODY WROTE DOWN (207). (4) A ROUTING RULE OF THE CEO'S WAS WRONG AND TWO ITEMS RE-DERIVED IT from scratch before anyone fixed the source (203) - now corrected in startsprint/SKILL.md. (5) A CORRELATION WAS REPORTED AS A CAUSE (200) while praising an agent for the rule that catches exactly that. (6) THE CEO'S WATCHERS WERE KILLED TWICE and the fleet stalled about 4 hours unnoticed; the owner found it by asking - Sprint 03's lesson recurring. (7) ITEM STATE WAS CHANGED IN PLACE OF DOING WORK (the 10:42 batch). WHAT WENT RIGHT AND MUST NOT BE LOST: every item was left in_progress for CEO verification rather than self-marked done, and ALL ELEVEN were verified against production or by running the item's own instrument. SEO-14 was deliberately sequenced first so it could kill CONT-17; it did not kill it, it RE-AIMED it, and corrected two board numbers on the way. That is the review gate working in the direction it was built for and it is the strongest thing in this sprint. REVIEWER, STATED SO IT CAN BE AUDITED: Claude throughout. codex-reviewer was NOT dispatched, /autopilot was not used, and no OpenAI-backed path was touched, per the owner directive of 02 Sept 2026 (decision 195). All eleven item logs carry the same statement."
+  },
   "reconciled": {
     "at": "2026-09-02",
     "source": "buddy sprint tracker (public.sprints / public.sprint_items), via `sprint reconcile`",
     "note": "state, started_at, ended_at, retro and every item's state and evidence are the TRACKER's. points, track, owner, title, why, dod and brief are left AS SCOPED so /endsprint can still measure sizing accuracy against them.",
     "tracker_velocity": {
       "planned": 55,
-      "completed": 0,
+      "completed": 55,
       "parked": 0,
       "moved_out": 0
     },
