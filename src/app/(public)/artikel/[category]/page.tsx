@@ -15,7 +15,7 @@ import { getPillarView } from '@/lib/inspire/pillar-queries';
 import { tagEdgeResponse } from '@/lib/cache/edge-tag';
 import { categoryOwnsPublishedArticles } from '@/lib/inspire/category-indexability';
 import { categoryRobots, ROBOTS_ON_DEADLINE_MISS } from '@/lib/seo/category-robots';
-import { resolveCoverSource, resolveRowThumbSource } from '@/lib/storage/responsive-cover';
+import { resolveCardSource, resolveRowThumbSource } from '@/lib/storage/responsive-cover';
 import { EmptyCategoryState } from '@/design-system/components';
 import '@/design-system/tokens.css';
 import '@/design-system/components.css';
@@ -718,7 +718,7 @@ type CategoryArticle = Awaited<ReturnType<typeof getCategoryArticles>>['data'][n
 
 /** The first item of the set — spec §5.2's `.s-card`. */
 function CategoryCard({ article }: { article: CategoryArticle }) {
-  const cover = resolveCoverSource(
+  const cover = resolveCardSource(
     article.coverImageVariants as Record<string, { url: string }> | null,
     article.coverImageSmartCrops,
     article.coverImageUrl,
@@ -732,8 +732,41 @@ function CategoryCard({ article }: { article: CategoryArticle }) {
           // eslint-disable-next-line @next/next/no-img-element -- see responsive-cover.ts
           /* UI-12 S1: `srcSet` gone (its `1200w` descriptor was a constant, not
              a measurement — measured 17.2% wrong on `garden-wedding`), and
-             `sizes` with it, because `sizes` without a `srcset` is inert. */
-          <img src={cover.src} alt="" width={800} height={600} loading="lazy" decoding="async" />
+             `sizes` with it, because `sizes` without a `srcset` is inert.
+
+             UI-15: `resolveCardSource`, not `resolveCoverSource`. This plate
+             was fed `low`, which carries the photographer's aspect — measured
+             on production 02 Sept 2026 the eight category pages with a lead
+             card served FIVE different plate shapes (1.706, 1.500, 1.499,
+             1.498, 1.344) from one component. `crop-4x3-article-card-md` is
+             792x594, and across these eight leads it takes 505,068 B of `low`
+             down to 351,876 B — -30.3%, every one of them lighter.
+
+             `width`/`height` are the file's REAL intrinsics (hero-rules R4/R6),
+             falling back to the CSS box's own 4:3 when the rendition is absent
+             — 800x600 restated the box, never the file, and was 21.8% wrong on
+             `idea-dan-nasihat`'s 1160x680 cover.
+
+             `maxWidth` is `card-thumbnail-image-rules.md` T3, and it is not
+             decoration: four live covers have a 4:3 crop only 667px wide — a
+             4:3 crop cannot be wider than the photograph it came from — so
+             their rendition is 667x500 and a 768px plate would upscale them
+             1.151x. Capped here, the plate is 667 CSS px on those four and 768
+             everywhere else, 4:3 either way.
+
+             The cost of that, named rather than presented as free: on those
+             four the plate is ~101px narrower than the headline block above it
+             and sits left-aligned in the column. The alternative was a 1.151x
+             upscale, and R5 decides that. */
+          <img
+            src={cover.src}
+            alt=""
+            width={cover.width ?? 800}
+            height={cover.height ?? 600}
+            style={cover.width ? { maxWidth: cover.width } : undefined}
+            loading="lazy"
+            decoding="async"
+          />
         )}
         <figcaption style={{ paddingTop: 10, display: 'flex', flexDirection: 'column', gap: 6 }}>
           <h2 className="s-h3" style={{ fontSize: 19 }}>

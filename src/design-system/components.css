@@ -405,9 +405,55 @@
 .s-card figure {
   margin: 0;
 }
+/* UI-15 — 4:3, DECLARED, at every width.
+ *
+ * This box had no height. `width: 100%` with `height: auto` means the plate
+ * took whatever shape the file was, so `image-aspect` read 0.0% on it forever
+ * while the composition was set by whoever held the camera. Measured on live
+ * production 02 September 2026, the eight category pages that render
+ * a lead card served FIVE different plate shapes from one component:
+ *
+ *   idea-dan-nasihat      1160x680   1.706
+ *   pantai-santai         1200x800   1.500
+ *   fotografi-videografi  1024x683   1.499
+ *   glamor-eksklusif      1200x801   1.498
+ *   minimalis-mewah       1200x893   1.344
+ *
+ * That is UI-03 R2, not R1, and it is why the gate now carries a VARIANT check
+ * as well as an aspect one: a slot with no box satisfies "the box follows the
+ * asset" vacuously.
+ *
+ * 4:3 and not 3:2, for the reason UI-12 S2 gave the row thumbnail: 4:3 is the
+ * aspect of `crop-4x3-article-card`, which is what this slot is now fed —
+ * `crop-4x3-article-card-md` at 792x594 (`resolveCardSource`). The box was
+ * derived from the asset rather than chosen first, so the deviation is 0.0%
+ * and not merely inside tolerance.
+ *
+ * Measured on the 8 category pages that render a lead plate, 02 September 2026:
+ * 505,068 B of `low` becomes 351,876 B — **-153,192 B, -30.3%** — and every one
+ * of the eight gets lighter, not just the total.
+ *
+ * `max-width` is set INLINE by the call site, not here, and it has to be: it is
+ * the file's own intrinsic width (T3), which differs per cover. Four live
+ * covers deliver 667x500 because a 4:3 crop cannot be wider than the
+ * photograph it came from, and a 768px plate would upscale them 1.151x. */
 .s-card img {
   display: block;
   width: 100%;
+  /* ⚠ `height: auto` is NOT redundant beside `aspect-ratio`, and leaving it out
+     is a silent defect. The `height` attribute on the `<img>` — which R6
+     REQUIRES, and which now states the file's real 594px — maps to a
+     presentational height hint, and that hint beats `aspect-ratio` for the used
+     height. On the site Tailwind's preflight happens to set `img { height:
+     auto }`, so the box came out 4:3 anyway; in a page without preflight the
+     same markup and the same rule paint 600x300 instead of 600x450.
+
+     Found by `fixtures/grid-thumb.html` case I, which is served with no
+     framework reset — the fixture exercised a cascade the site does not have
+     and was RIGHT to. A design-system rule that only works because of a reset
+     it does not own is a rule waiting for someone to change the reset. */
+  height: auto;
+  aspect-ratio: 4 / 3;
   object-fit: cover;
 }
 

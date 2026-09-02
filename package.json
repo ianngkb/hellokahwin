@@ -38,6 +38,8 @@
     "ui:gate:fixtures": "node scripts/ui-layout-gate.mjs --fixtures",
     "ui:gate:selftest": "node scripts/ui-layout-gate.mjs --selftest",
     "ui:gate:pre-rail": "node scripts/ui-layout-gate.mjs --pre-rail",
+    "ui:gate:grid-thumb": "node scripts/ui-layout-gate.mjs --grid-thumb",
+    "ui:gate:grid-pages": "bash scripts/gate-grid-pages.sh",
     "ui:rail": "node scripts/measure-article-rail.mjs",
     "backfill:midsize": "tsx scripts/backfill-midsize-cover.mts",
     "measure:cold": "tsx scripts/measure-cold-render.mts"

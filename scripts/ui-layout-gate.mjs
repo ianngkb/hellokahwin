@@ -7,10 +7,11 @@
  *   pnpm ui:gate --pre-rail --green         # the same page, panel moved right: check 10 clears
  *   pnpm ui:gate --discriminator            # the unit fixture, sixteen labelled cases
  *   pnpm ui:gate --h6-order                 # the H6.6 pair: one CSS property apart
+ *   pnpm ui:gate --grid-thumb               # UI-15's ten labelled cases (A-J)
  *   pnpm ui:gate --empty-shell              # a real page with <main> emptied
  *   pnpm ui:gate --base https://hellokahwin.com
  *   pnpm ui:gate --url https://…/artikel --url https://…/brand
- *   pnpm ui:gate:selftest                   # 192 assertions: fires AND clears (CI)
+ *   pnpm ui:gate:selftest                   # 254 assertions: fires AND clears (CI)
  *
  * Prints `UILINT EXIT: <n>` at the start of a line and exits with that code.
  *
@@ -190,6 +191,31 @@
  *    proof: byte-identical item sets, one CSS property apart, and the shell
  *    script exits 0 on both.
  *
+ * 13. GRID THUMBNAIL VARIANT (UI-15, R2) — the `.s-card` lead plate and the
+ *    `.s-row` list thumbnail may not be fed `low`, `high` or `original`.
+ *
+ *    Those three preserve the SOURCE aspect, so a slot fed one of them is
+ *    shaped by whichever camera took the photograph. Measured on production 02
+ *    Sept 2026, the eight category pages that render a lead plate served five
+ *    different plate shapes — 1.706, 1.500, 1.499, 1.498, 1.344 — from one
+ *    component. R1 read 0.0% on every one of them, because a box with no
+ *    declared height satisfies "the box follows the asset" vacuously while the
+ *    composition is uncontrolled. R2 is the rule that catches that, and it is
+ *    the reason both are here rather than only the aspect one.
+ *
+ * 14. GRID THUMBNAIL ASPECT (UI-15, R1) — the same slot, within 15%.
+ *
+ *    `image-aspect` above is a DEFECT ceiling at 25%. R1 is the design rule and
+ *    it is stricter; UI-12's T2 says so in one sentence. The gap is real: in
+ *    the 4:3 box this item ships, `/artikel/idea-dan-nasihat`'s 1.706 cover
+ *    would sit at 21.8% — inside the old ceiling, outside the rule.
+ *
+ *    BOTH ARE SCOPED to `.s-card img, .s-row img` and the scope is load-bearing:
+ *    the article cover figure is fed `low` ON PURPOSE (UI-12 S5, a 3:2 box at
+ *    0.05%, a Creative Director decision). A check that fired there would be
+ *    red on a correct page from its first run. `fixtures/grid-thumb.html` case
+ *    D is that scope written as an assertion.
+ *
  * DELIBERATELY NOT HERE, and named rather than left silent: a headline WRAPPER
  * HEIGHT floor — UI-01 measured a legitimate three-line title at 106px against
  * a broken row's 225–307px, and the row's height is set by its 132px thumbnail
@@ -280,6 +306,69 @@ const WIDTHS = [390, 768, 1024, 1440, 1920];
 const MIN_TEXT_COLUMN_PX = 120;
 const MAX_UPSCALE = 1.1;
 const MAX_ASPECT_DEVIATION = 0.25;
+
+// ── UI-15: UI-03's R1 and R2, made executable, on the grid thumbnail ────────
+//
+// `MAX_ASPECT_DEVIATION` above is a DEFECT ceiling — the point past which a
+// photograph is visibly the wrong shape. R1 is a DESIGN rule and it is
+// stricter: `docs/design/hero-image-rules.md` R1 sets 15%, and UI-12's T2
+// restates it for this slot class in one sentence — "tolerates up to UI-03
+// R1's 15%, never the gate's 25%". The gap between the two is not academic.
+// Measured on production 02 Sept 2026, `/artikel/idea-dan-nasihat`'s lead
+// plate is a 1.706 photograph; in the 4:3 box this item ships it would sit at
+// 21.8% — inside the gate's ceiling, outside the rule, and invisible to every
+// check that existed before this one.
+const R1_MAX_ASPECT_DEVIATION = 0.15;
+
+// R2 is an ALLOW-LIST, and the first version of it was a deny-list.
+//
+// The rule reads *"only named landscape crop targets may fill a hero"*, and
+// UI-12 carries it to this slot class. That is a statement about what IS
+// permitted. Written as `low|high|original` it was three literal strings
+// standing in for the concept, and it was blind in three separate ways an
+// adversarial review found before this shipped:
+//
+//   1. THE RAW-URL FALLBACK. `resolveCoverSource` ends `low?.url ?? fallbackUrl`,
+//      and `fallbackUrl` is `article.coverImageUrl` — an ingested file whose
+//      last path segment is `1724000000-tepak-sirih`, not `original`. A cover
+//      with no variant record would have painted an uncropped source-aspect
+//      photograph into the 4:3 box with R2 silent, and R1 catches only the
+//      shapes past 15%: of the five measured on production, FOUR (1.500, 1.499,
+//      1.498, 1.344) sit under it. The check would have passed the exact defect
+//      this item exists to close.
+//   2. THE PRESET NAMES ARE A DATABASE ROW. `image-variants.ts` builds variant
+//      filenames from `adminSettings.image_quality_presets`, editable from the
+//      admin UI. Renaming `low` or adding a fourth preset silently retires a
+//      deny-list; it cannot retire an allow-list.
+//   3. Case and extension. `LOW.webp` and `low.v2.webp` both evade a literal
+//      match. Neither evades "must begin with `crop-`".
+//
+// So: a grid thumbnail must be served from a file whose stem names a CROP.
+// Everything in the pipeline that is aspect-controlled is `crop-*` — the four
+// `CROP_TARGETS` plus the `-sm` and `-md` renditions — and everything that
+// preserves the photographer's aspect is not. Read from the last path segment
+// of `currentSrc`, never from `src`: on a <picture> that is the fallback and
+// can be a different crop from the one that painted.
+// A plain string, not a RegExp. It crosses the `page.evaluate` boundary, and a
+// value whose type survives serialisation only by luck is a value that fails
+// silently the day the serialiser changes. `startsWith` on a lowercased stem is
+// the same test with nothing to marshal.
+const R2_NAMED_CROP_PREFIX = 'crop-';
+
+// ⚠ SCOPED, AND THE SCOPE IS THE LOAD-BEARING PART.
+//
+// R2 is not "no `low` anywhere on the site". The article cover figure is fed
+// `low` ON PURPOSE — UI-12 S5, a 3:2 box measured at a 0.05% deviation, a
+// Creative Director decision recorded in `card-thumbnail-image-rules.md`. A
+// check that fired there would be red on a correct page from its first run,
+// and a gate that is red on something nobody intends to change is a gate
+// somebody turns off. So these two checks cover the GRID THUMBNAIL — the
+// `.s-card` lead plate and the `.s-row` list thumbnail — which is the slot
+// UI-05 raised on 31 Ogos and UI-15 owns.
+//
+// `fixtures/grid-thumb.html` case D is that scope written as a test: the
+// article cover's exact shape, outside these classes, asserted SILENT.
+const GRID_THUMB_SELECTOR = '.s-card img, .s-row img';
 const DESKTOP_BREAKPOINT = 1024;
 // Deliberately low. This is an EMPTY-PAGE alarm, not a content-quality bar: its
 // job is to make the gate incapable of going green on a shell that rendered
@@ -358,6 +447,10 @@ async function collect(limits) {
     MIN_CONTENT,
     MAX_MEASURE_CPL,
     MIN_PROSE_CHARS,
+    // UI-15. See the constants' own notes above the `collect` boundary.
+    R1_MAX_ASPECT_DEVIATION,
+    R2_NAMED_CROP_PREFIX,
+    GRID_THUMB_SELECTOR,
     // UI-13. Told, not sniffed — see checks 10 & 11. Defaults false so every
     // other template is unaffected and a caller that forgets it gets silence
     // rather than a homepage rule applied to an article.
@@ -621,6 +714,37 @@ async function collect(limits) {
       const parent = t.parentElement;
       if (!parent || SKIP_TAGS.has(parent.tagName)) continue;
       if (!visible(parent)) continue;
+      // ⚠ A HEADING IS NOT CONTINUOUS PROSE. Added by UI-15, 02 Sept 2026,
+      // against a defect this check's own header already claimed it did not
+      // have: *"homepage.html and category.html are silent at all four widths:
+      // cards and labels are not prose."* That was an OBSERVATION about the 31
+      // Ogos fixture corpus, not a rule, and the corpus moved out from under
+      // it. Measured on live production 02 Sept, this check fired SEVEN times
+      // across three category pages at 768px, every one of them a
+      // `a.s-row > div > h2.t` — a two-line article headline in a 610px list
+      // row at 15px, 81.3 cpl by the formula. Nothing is wrong with those rows.
+      //
+      // The 45-75 band is about SUSTAINED reading of body copy; a headline is
+      // scanned. Holding editors' titles to it would mean shortening real
+      // headlines to clear a rule that was never about them, which is the shape
+      // of a check somebody switches off.
+      //
+      // Narrow on purpose: this excludes the heading ELEMENT, not "anything in
+      // a card". A 135-character paragraph inside a card still fires, and the
+      // article body — what UI-10 built this for — is untouched. The committed
+      // fixtures prove both halves: `article.html` still fires at 768 and 1440
+      // after this change, and `grid-thumb.html` cases G and H are the pair,
+      // identical text in an identical column, one tag name apart.
+      //
+      // ⚠ `closest`, NOT `parent.tagName`. The first version of this line tested
+      // the TEXT NODE's immediate parent, which is the heading only when the
+      // heading holds bare text. `<h2><a href="…">…</a></h2>` — the idiom on
+      // every card and row on this site — puts an `A` there, and `<h2>Hantaran
+      // <em>tunang</em>…</h2>` puts an `EM`. Either one defeated it and the
+      // seven live violations came straight back. It passed the fixture because
+      // case H is bare text; a fixture that only exercises the easy shape
+      // certifies the easy shape.
+      if (parent.closest('h1, h2, h3, h4, h5, h6')) continue;
 
       const range = document.createRange();
       range.selectNodeContents(t);
@@ -1120,6 +1244,47 @@ async function collect(limits) {
     }
     if (!visible(img)) continue;
     const src = img.currentSrc || img.src || '';
+
+    // ── CHECK 13 (UI-15): UI-03 R2 — the grid thumbnail is fed a NAMED CROP ──
+    //
+    // ⚠ HOISTED ABOVE THE DECODE GUARDS ON PURPOSE. R2 reads a FILENAME. It
+    // needs no decode and no intrinsic probe, and the guards below both `continue`:
+    // an `.s-card` still at `naturalWidth === 0` when the 15s
+    // `waitForFunction` gives up — and that wait swallows its own timeout — would
+    // be silently exempt from a BLOCKING check and appear only as an
+    // `imagesNotDecoded` note. A blocking rule whose enforcement depends on how
+    // fast the network was is not a rule.
+    //
+    // The stem is the last path segment with its extension stripped. A `?v=…`
+    // cache token is excluded because `URL.pathname` excludes it. A `data:` URI
+    // yields a stem that is not a crop name and therefore FAILS, which is the
+    // correct answer for a grid thumbnail: the site serves these from R2 and an
+    // inline image in this slot is not something to wave through. (An earlier
+    // comment here claimed a data: URI yields an EMPTY stem and matched nothing;
+    // that was wrong — `new URL('data:image/webp;base64,AAA').pathname` is
+    // `image/webp;base64,AAA`. The conclusion is unchanged, the reasoning was
+    // not, and it is corrected rather than quietly relied on.)
+    if (img.matches(GRID_THUMB_SELECTOR)) {
+      let stem = '';
+      try {
+        stem = new URL(src, location.href).pathname
+          .split('/')
+          .pop()
+          .replace(/\.[a-z0-9]+$/i, '');
+      } catch {
+        stem = '';
+      }
+      if (!stem.toLowerCase().startsWith(R2_NAMED_CROP_PREFIX)) {
+        violations.push({
+          check: 'grid-thumb-variant',
+          selector: sel(img),
+          detail: `UI-03 R2 — this grid thumbnail is fed \`${stem || '(no filename)'}\`, which is not a named crop. \`low\`, \`high\`, \`original\` and a raw ingested cover all preserve the SOURCE aspect, so the slot is shaped by whichever camera took the photograph and passes or fails by content rather than by design. Only a \`crop-*\` derivative may fill it.`,
+          sample: src.slice(-72),
+          value: 1,
+        });
+      }
+    }
+
     if (/\.svg(\?|$)/i.test(src)) continue; // vector: no intrinsic raster to upscale
     if (img.naturalWidth === 0 || img.naturalHeight === 0) {
       // NOT a defect. A below-the-fold lazy image reports 0 and reports it
@@ -1194,6 +1359,31 @@ async function collect(limits) {
           value: +attrDev.toFixed(3),
         });
       }
+    }
+
+    // ── CHECK 14 (UI-15): UI-03 R1 on the grid thumbnail ────────────────────
+    //
+    // R2 is CHECK 13 and it ran above the decode guards, because it reads a
+    // filename. This one needs the geometry, so it runs on the SAME `probe` and
+    // the SAME `r` the two checks above used, deliberately: a second
+    // measurement of the same element is a second chance to measure it
+    // differently, and the intrinsic-size trap this file documents at length
+    // was found exactly once and is not being reopened.
+    if (!img.matches(GRID_THUMB_SELECTOR)) continue;
+
+    // R1 — the box follows the asset, within 15%. Reported even when the 25%
+    // `image-aspect` ceiling above has already fired on the same element: the
+    // two have different owners and different remedies, and folding one into
+    // the other would make a red silent the day the looser one is relaxed. On
+    // a clean run both are 0, so the totals are not ambiguous where it counts.
+    if (dev > R1_MAX_ASPECT_DEVIATION) {
+      violations.push({
+        check: 'grid-thumb-aspect',
+        selector: sel(img),
+        detail: `UI-03 R1 — ${(dev * 100).toFixed(1)}% off, past the design rule's ${R1_MAX_ASPECT_DEVIATION * 100}% (the gate's own defect ceiling is ${MAX_ASPECT_DEVIATION * 100}%, and this is inside it${dev > MAX_ASPECT_DEVIATION ? ' — no, it is outside that too' : ''}). File ${probe.w}x${probe.h} = ${sourceAspect.toFixed(3)}:1, painted ${r.width.toFixed(0)}x${r.height.toFixed(0)} = ${renderedAspect.toFixed(3)}:1.`,
+        sample: src.slice(-72),
+        value: +dev.toFixed(3),
+      });
     }
   }
 
@@ -1384,6 +1574,15 @@ async function measure(targets, { json, label }) {
             MIN_CONTENT,
             MAX_MEASURE_CPL,
             MIN_PROSE_CHARS,
+            // UI-15. Every value here is a number or a plain string, and R2's
+            // rule is one of them on purpose: an earlier draft passed a `Set`
+            // and then a `RegExp`, both of which depend on the serialiser to
+            // survive the boundary. When that kind of value arrives wrong it
+            // arrives EMPTY, matches nothing, and the check reports a clean
+            // zero — which is the one failure mode this file exists to refuse.
+            R1_MAX_ASPECT_DEVIATION,
+            R2_NAMED_CROP_PREFIX,
+            GRID_THUMB_SELECTOR,
             isHomepage: t.homepage === true,
           });
       rows.push({ ...t, width, ...result, error, provenance });
@@ -1413,6 +1612,12 @@ const CHECKS = [
   // prose. A prose rule does not fire.
   'category-diversity',
   'source-order',
+  // UI-15. UI-03's R1 and R2 on the grid thumbnail, scoped to `.s-card`/`.s-row`
+  // — see the constants above `collect` for why the scope is not "the whole
+  // site". Blocking: R1 and R2 are the binding art direction for every
+  // fixed-aspect slot on this site and they had lived as prose since 31 Ogos.
+  'grid-thumb-variant',
+  'grid-thumb-aspect',
 ];
 // Reported with full numbers, never silent, but NOT counted towards the exit
 // code. `image-attr-aspect` was suggested by UI-03 with an explicit acceptance
@@ -1439,6 +1644,8 @@ const ABBREV = {
   'image-unmeasurable': 'unmeasurable',
   'category-diversity': 'H6',
   'source-order': 'H6.6',
+  'grid-thumb-variant': 'R2',
+  'grid-thumb-aspect': 'R1',
 };
 
 function report(rows, { label, quiet }) {
@@ -1658,6 +1865,20 @@ async function selftest() {
     { label: 'selftest-h6-order' },
   );
   h6Server.close();
+  // UI-15. The grid-thumbnail discriminator: six labelled cases, all five
+  // image files byte-identical, so a case differs from its control in exactly
+  // one thing — the filename, or the box.
+  const gtServer = await startFixtureServer(false, FIXTURES_ROOT);
+  const gt = await measure(
+    [
+      {
+        name: 'grid-thumb.html',
+        url: `http://127.0.0.1:${gtServer.address().port}/grid-thumb.html`,
+      },
+    ],
+    { label: 'selftest-grid-thumb' },
+  );
+  gtServer.close();
 
   const greenServer = await startFixtureServer(true);
   const gbase = `http://127.0.0.1:${greenServer.address().port}`;
@@ -2109,6 +2330,184 @@ async function selftest() {
     );
   }
 
+  // ── UI-15 on the REAL captured pages, not only the synthetic fixture ─────
+  //
+  // `grid-thumb.html` is a discriminator: its cases differ in one thing each,
+  // which is what makes them provable, and it is also markup nobody shipped.
+  // The 31 Ogos production capture is the other half — real HTML, real CSS,
+  // real assets — and on it R2 is a KNOWN-BAD with a number:
+  //
+  //   homepage.html   12  the twelve Terkini `.s-row` thumbnails, all `low`
+  //   article.html     1  the related-list row on that capture
+  //   category.html    0  that capture renders no grid thumbnail at all
+  //
+  // Those twelve are the same slot DES-18 later moved onto
+  // `crop-4x3-article-card-sm`. If this ever reads 0 on the pre-fix capture,
+  // the check has stopped seeing a defect that is definitely still in the file.
+  for (const w of WIDTHS) {
+    assert(
+      pick(bad, 'homepage.html', w, 'grid-thumb-variant').length === 12,
+      `homepage.html @${w}: grid-thumb-variant = 12 on the pre-fix capture — twelve real \`.s-row\` thumbnails fed \`low\``,
+      listing(
+        bad.find((r) => r.name === 'homepage.html' && r.width === w),
+        'grid-thumb-variant',
+      ),
+    );
+    assert(
+      pick(bad, 'article.html', w, 'grid-thumb-variant').length === 1,
+      `article.html @${w}: grid-thumb-variant = 1 on the pre-fix capture`,
+      listing(
+        bad.find((r) => r.name === 'article.html' && r.width === w),
+        'grid-thumb-variant',
+      ),
+    );
+  }
+
+  // ── UI-15. R1 and R2 on the grid thumbnail, asserted as PAIRS ────────────
+  //
+  // The five image files in `fixtures/gt/` are byte-identical — 400x300, 408 B,
+  // written from one buffer — so each case differs from its control in exactly
+  // one thing. That is the whole design: a fixture whose cases differ in two
+  // things can go green for the wrong reason and nobody can tell.
+  //
+  //   A  named crop, 4:3 box               both silent   (the green control)
+  //   B  A + filename `low`                R2 only       (filename alone)
+  //   C  named crop, 1.60 box              R1 only       (box alone)
+  //   D  `low`, 3:2 box, OUTSIDE the scope both silent   (the scope control)
+  //   E  filename `high`                   R2 only       (not a `low` special case)
+  //   F  `original`, 1.60 box              BOTH          (independent rules)
+  for (const w of WIDTHS) {
+    const row = gt.find((r) => r.name === 'grid-thumb.html' && r.width === w);
+    const v = pick(gt, 'grid-thumb.html', w, 'grid-thumb-variant');
+    const a = pick(gt, 'grid-thumb.html', w, 'grid-thumb-aspect');
+    assert(
+      v.length === 4,
+      `grid-thumb @${w}: grid-thumb-variant = 4 (B \`low\`, E \`high\`, F \`original\`, K the raw ingested cover) — got ${v.length}`,
+      listing(row, 'grid-thumb-variant'),
+    );
+    // K IS THE ONE THAT MATTERS. It is why R2 is an allow-list: the raw
+    // `coverImageUrl` fallback has none of the three variant names in it, so a
+    // deny-list is silent on it, and R1 only catches it past 15% — which four
+    // of the five plate shapes measured on production sit under. If this line
+    // ever goes red because someone "simplified" the rule back to three
+    // strings, the check has a hole exactly the size of this item.
+    assert(
+      ['low', 'high', 'original', '1724000000-tepak-sirih'].every((n) =>
+        v.some((x) => x.sample.includes(`${n}.webp`)),
+      ),
+      `grid-thumb @${w}: the three source-aspect variants AND the raw ingested cover are all caught`,
+      listing(row, 'grid-thumb-variant'),
+    );
+    assert(
+      a.length === 2 && a.every((x) => Math.abs(x.value - 0.2) < 0.005),
+      `grid-thumb @${w}: grid-thumb-aspect = 2 (C and F, both 20.0% off) — got ${a.length}`,
+      listing(row, 'grid-thumb-aspect'),
+    );
+    // THE GREEN CONTROL, and it is the assertion that makes the two above mean
+    // anything. A: a named crop in a matching box. Same file bytes as B, same
+    // box as B, and silent.
+    assert(
+      !v.some((x) => x.selector.includes('/a')) && !a.some((x) => x.selector.includes('/a')),
+      `grid-thumb @${w}: case A CLEAR — a named crop in a box that matches it fires neither check`,
+    );
+    // THE SCOPE CONTROL. D is the article cover figure's exact shape: `low` in
+    // a 3:2 box, outside `.s-card`/`.s-row`. UI-12 S5 decided that slot keeps
+    // `low`, measured at 0.05%. If this ever goes red the SCOPE is wrong, and
+    // the gate would be red on a page nobody intends to change.
+    //
+    // Stated as "nothing outside the two classes was reported", which is the
+    // claim. An earlier version opened with a `figcaption` test that could never
+    // be true — `sel()` walks ANCESTORS, and a figcaption is an img's sibling —
+    // so it read like a third condition and asserted nothing. A conjunct that
+    // cannot be false is indistinguishable from one that works.
+    assert(
+      !v.some((x) => !x.selector.includes('s-card') && !x.selector.includes('s-row')) &&
+        !a.some((x) => !x.selector.includes('s-card') && !x.selector.includes('s-row')),
+      `grid-thumb @${w}: case D CLEAR — \`low\` in a 3:2 box outside .s-card/.s-row is out of scope`,
+      `${listing(row, 'grid-thumb-variant')}\n          ${listing(row, 'grid-thumb-aspect')}`,
+    );
+    // The new checks must not be the old one wearing a new name. `image-aspect`
+    // is silent across this whole fixture: C and F sit at 20.0%, deliberately
+    // inside the 25% defect ceiling and outside R1's 15% design rule.
+    assert(
+      pick(gt, 'grid-thumb.html', w, 'image-aspect').length === 0,
+      `grid-thumb @${w}: image-aspect stays 0 — the R1 counts are not the 25% check counted twice`,
+      listing(row, 'image-aspect'),
+    );
+    // ── The T3 cap pair, I and J ──────────────────────────────────────────
+    //
+    // Same file, same 600px plate, one declaration apart: J caps `max-width` at
+    // the file's own intrinsic width and I does not.
+    //
+    // THIS PAIR EXISTS BECAUSE THE CORPUS CANNOT TEST IT. Four live covers
+    // deliver a 667px-wide 4:3 crop and would upscale 1.151x in the 768px
+    // plate; the cap is what stops them; and not one of those four leads a
+    // category page today. A rendered audit of production would report the cap
+    // working without ever exercising it — the content-bound trap UI-07 named.
+    // So the worst case is injected rather than waited for.
+    //
+    // It also caught a real one: with `height` on the `<img>` (which R6
+    // requires) the presentational height hint beats `aspect-ratio`, and case I
+    // painted 600x300 instead of 600x450. On the site Tailwind's preflight hid
+    // that. `.s-card img` now declares `height: auto` itself.
+    const up = pick(gt, 'grid-thumb.html', w, 'image-upscale');
+    if (w >= 768) {
+      assert(
+        up.length === 1 && up[0].selector.includes('uncapped'),
+        `grid-thumb @${w}: image-upscale = 1 — case I uncapped fires, case J capped does not`,
+        listing(row, 'image-upscale'),
+      );
+      assert(
+        Math.abs(up[0]?.value - 1.5) < 0.01,
+        `grid-thumb @${w}: case I is 1.50x — a 400px file in a 600px plate, so the box kept 4:3 and only the SCALE went wrong`,
+        listing(row, 'image-upscale'),
+      );
+      assert(
+        !up.some((x) => x.selector.includes('capped') && !x.selector.includes('uncapped')),
+        `grid-thumb @${w}: case J CLEAR — capping max-width at the file's own width is what protects the four 667px covers`,
+        listing(row, 'image-upscale'),
+      );
+    } else {
+      assert(
+        up.length === 0,
+        `grid-thumb @${w}: image-upscale = 0 — the 600px plate is capped by a ${w}px viewport, so neither case can upscale`,
+        listing(row, 'image-upscale'),
+      );
+    }
+
+    // ── The reading-measure pair, G and H ──────────────────────────────────
+    // Identical text, identical 800px column, identical 15px size, one TAG
+    // NAME apart. Check 6 fired 7 times on live category pages at 768px in
+    // September 2026, every one of them a two-line article headline in a list
+    // row, and this pair is what stops the exclusion that fixed it from
+    // quietly growing into "cards do not count". Below 800px the column is
+    // capped by the viewport and neither fires, which is the check working.
+    //
+    // H wraps its text in an `<a>` DELIBERATELY. Every headline on this site is
+    // `<h2><a href="…">…</a></h2>`, and an exclusion that tests the text node's
+    // immediate parent misses all of them; with bare text here the fixture
+    // certified a fix that worked on nothing.
+    const rm = pick(gt, 'grid-thumb.html', w, 'reading-measure');
+    if (w >= 768) {
+      assert(
+        rm.length === 1 && / > p\b/.test(rm[0].selector),
+        `grid-thumb @${w}: reading-measure = 1 — case G the <p> fires, case H the <h2><a> does not`,
+        listing(row, 'reading-measure'),
+      );
+      assert(
+        !rm.some((x) => /\bh[1-6]\b/.test(x.selector.split('⟨')[0])),
+        `grid-thumb @${w}: no HEADING is reported as a reading measure, including one whose text sits inside an <a>`,
+        listing(row, 'reading-measure'),
+      );
+    } else {
+      assert(
+        rm.length === 0,
+        `grid-thumb @${w}: reading-measure = 0 — the 800px column is capped by a ${w}px viewport`,
+        listing(row, 'reading-measure'),
+      );
+    }
+  }
+
   console.log('\nUILINT SELF-TEST — does the gate fire on known-bad and clear on known-good?');
   console.log('─'.repeat(78));
   for (const m of ok) console.log(`  PASS  ${m}`);
@@ -2156,6 +2555,27 @@ if (has('selftest')) {
     quiet,
   });
   exit = r.errors > 0 ? 2 : r.failures > 0 ? 1 : 0;
+} else if (has('grid-thumb')) {
+  // UI-15's ten labelled cases (A-J), for working on R1/R2, the T3 cap and the
+  // reading-measure heading exclusion by hand. It exits 1 BY DESIGN: cases B, E,
+  // F, C, I and G are all deliberate defects.
+  const server = await startFixtureServer(false, FIXTURES_ROOT);
+  const rows = await measure(
+    [
+      {
+        name: 'grid-thumb.html',
+        url: `http://127.0.0.1:${server.address().port}/grid-thumb.html`,
+      },
+    ],
+    { json, label: 'grid-thumb' },
+  );
+  server.close();
+  const r = report(rows, {
+    label:
+      'grid-thumb fixture — expect R2 x3 (B,E,F) · R1 x2 (C,F) · upscale x1 (I) · measure x1 (G) · A,D,H,J silent. EXIT 1 IS THE PASS.',
+    quiet,
+  });
+  exit = r.errors > 0 ? 2 : r.failures > 0 ? 1 : 0;
 } else if (has('discriminator')) {
   const server = await startFixtureServer(false, FIXTURES_ROOT);
   const rows = await measure(
@@ -2194,7 +2614,7 @@ if (has('selftest')) {
   exit = r.errors > 0 ? 2 : r.failures > 0 ? 1 : 0;
 } else {
   console.error(
-    'usage: node scripts/ui-layout-gate.mjs (--fixtures [--green] | --pre-rail | --discriminator | --h6-order | --empty-shell | --base <url> | --url <u>… | --selftest)\n' +
+    'usage: node scripts/ui-layout-gate.mjs (--fixtures [--green] | --pre-rail | --discriminator | --h6-order | --grid-thumb | --empty-shell | --base <url> | --url <u>… | --selftest)\n' +
       '       [--json out.json] [--quiet] [--author-slug <slug>]\n' +
       '       env: UI_GATE_CHROME=<chrome path>  UI_GATE_BYPASS=<vercel preview bypass secret>',
   );

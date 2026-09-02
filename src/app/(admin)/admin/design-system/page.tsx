@@ -123,8 +123,16 @@ function gradeColor(g: string) {
 }
 
 const PLACEHOLDER_FILL = PRIMITIVES['parchment-300'];
-function placeholderImg(label: string) {
-  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300'><rect width='100%' height='100%' fill='${PLACEHOLDER_FILL}'/><text x='20' y='280' font-family='monospace' font-size='13' fill='black' fill-opacity='0.35'>${label}</text></svg>`;
+/**
+ * UI-15: the placeholder is generated AT the size the entry claims, rather than
+ * always at 400x300 with the real size written in the label. A reference page
+ * whose demo asset is a different size from the one it documents cannot show
+ * the rule it is documenting — the `.s-card` plate caps `max-width` at the
+ * file's own intrinsic width (T3), so a 400px placeholder under a `792` cap
+ * would paint a 1.92x upscale and demonstrate the opposite of the rule.
+ */
+function placeholderImg(label: string, w = 400, h = 300) {
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='${w}' height='${h}'><rect width='100%' height='100%' fill='${PLACEHOLDER_FILL}'/><text x='20' y='${h - 20}' font-family='monospace' font-size='13' fill='black' fill-opacity='0.35'>${label}</text></svg>`;
   return `data:image/svg+xml,${encodeURIComponent(svg)}`;
 }
 
@@ -887,8 +895,9 @@ export default async function DesignSystemPage({
             {/* Card + list rows — the "awkward pair" DoD, real title extremes */}
             <div className="pt-8">
               <Label muted className="mb-2 block">
-                Card (.s-card) leading list rows (.s-row) — real 95-char / 47-char title extremes,
-                4:3 thumbnails at every width, fed the 528×396 mid-size rendition
+                Card (.s-card) leading list rows (.s-row) — real 95-char / 47-char title extremes.
+                4:3 at every width on BOTH: the card is fed the 792×594 rendition, the rows the
+                528×396 one. Neither is ever fed <code>low</code> (UI-03 R2).
               </Label>
               <Card
                 href="#"
@@ -896,8 +905,10 @@ export default async function DesignSystemPage({
                 title="Hantaran tunang untuk perempuan: apa yang dibawa masuk"
                 deck="Senarai barang mengikut kategori, dan sebab tepak sirih masih dikira dulang pembuka."
                 credit="Kredit: Mohd Fazlin Mohd Effendy Ooi (CC BY 2.0)"
-                imageSrc={placeholderImg('328×246')}
+                imageSrc={placeholderImg('792×594 → 350 / 768 CSS px', 792, 594)}
                 imageAlt="Tepak sirih tembaga berkilat di atas dulang, dikelilingi bunga ros merah"
+                imageWidth={792}
+                imageHeight={594}
               />
               <div className="mt-2">
                 <ListRow
@@ -905,7 +916,7 @@ export default async function DesignSystemPage({
                   headingLevel="h2"
                   title="20 Lokasi Terbaik Pre Wedding Photoshoot di Malaysia – Dari Alam Semula Jadi Hingga Urban City!"
                   meta="Fotografi & Videografi"
-                  imageSrc={placeholderImg('528×396 → 80×60 / 176×132')}
+                  imageSrc={placeholderImg('528×396 → 80×60 / 176×132', 528, 396)}
                   imageAlt="Rombongan hantaran berjalan di tepi jalan sambil memegang dulang"
                   index={2}
                 />
@@ -914,7 +925,7 @@ export default async function DesignSystemPage({
                   headingLevel="h2"
                   title="Tempat beli barang hantaran: lima jenis kedai"
                   meta="Hantaran & Mas Kahwin"
-                  imageSrc={placeholderImg('528×396 → 80×60 / 176×132')}
+                  imageSrc={placeholderImg('528×396 → 80×60 / 176×132', 528, 396)}
                   imageAlt="Dulang terbuka dengan gubahan bunga merah dan renda putih"
                   index={3}
                 />
@@ -972,6 +983,49 @@ export default async function DesignSystemPage({
                 <code>CROP_TARGETS</code> entry, so <code>GEOMETRY_VERSION</code> does not move and
                 no live cover is re-cut. A test asserts that token still hashes to{' '}
                 <code>48c0b959</code>.
+              </p>
+              <p className="text-muted-foreground mt-2 max-w-[74ch] text-xs">
+                UI-15 finished the same job on the <strong>card above the rows</strong>, which
+                DES-18 named and deliberately left: <code>.s-card img</code> had{' '}
+                <code>width: 100%</code> and no height, so the plate took whatever shape the file
+                was, and it was fed <code>low</code>. Aspect deviation read <strong>0.0%</strong>{' '}
+                forever, because a box with no height agrees with every asset. Measured on live
+                production 02 September 2026, the eight category pages that render a lead card
+                served <strong>five different plate shapes</strong> from one component &mdash;
+                1.706, 1.500, 1.499, 1.498 and 1.344 &mdash; set by whichever camera took the
+                photograph. That is UI-03 <strong>R2</strong>, not R1, and it is why the gate now
+                carries a variant check as well as an aspect one.
+              </p>
+              <p className="text-muted-foreground mt-2 max-w-[74ch] text-xs">
+                The plate is now <code>aspect-ratio: 4 / 3</code>, declared, and fed{' '}
+                <code>crop-4x3-article-card-md</code> at <strong>792&times;594</strong>. The
+                catalogue column is 350&nbsp;CSS&nbsp;px at 390 and 768 at 1024 and above, so 792
+                clears the widest box with nothing to spare and nothing wasted.{' '}
+                <code>crop-4x3-article-card-sm</code> is the wrong file here and DES-18 said so:
+                768&nbsp;/&nbsp;528 = <strong>1.45&times;</strong>, past hero-rules R5. Measured by
+                HTTP&nbsp;HEAD on the eight live category lead covers, 02 September 2026:{' '}
+                <strong>505,068&nbsp;B of low becomes 351,876&nbsp;B</strong> &mdash;
+                <strong>&minus;153,192&nbsp;B, &minus;30.3%</strong>, and all eight get lighter, not
+                just the total.
+              </p>
+              <p className="text-muted-foreground mt-2 max-w-[74ch] text-xs">
+                <strong>UI-15 wrote nothing to production to get this.</strong> It had specified the
+                same rendition at 768&times;576 under the same name and had a backfill ready; the
+                dry run said <code>0 to render &middot; 5 already done</code> and that number was
+                checked rather than accepted. UI-16 had already built and backfilled it &mdash; 792
+                is exactly 1.5&times; the 528 row rung, so the two are one box at two scales rather
+                than two guesses. Running the backfill would have overwritten 96 live objects with a
+                different-sized file. The rendition is UI-16&rsquo;s; this slot is a second consumer
+                of it.
+              </p>
+              <p className="text-muted-foreground mt-2 max-w-[74ch] text-xs">
+                Five of the 96 covers cannot fill 792, because a 4:3 crop cannot be wider than the
+                photograph it came from: four deliver <strong>667&times;500</strong> and one
+                771&times;578. A 768px plate would upscale those four <strong>1.151&times;</strong>.
+                The call site caps <code>max-width</code> at the file&rsquo;s own intrinsic width (
+                <code>card-thumbnail-image-rules.md</code> T3): those four render
+                667&nbsp;CSS&nbsp;px wide, everything else 768, and the SHAPE is 4:3 either way.
+                This is not a pipeline request &mdash; re-cutting would produce the same file.
               </p>
             </div>
 

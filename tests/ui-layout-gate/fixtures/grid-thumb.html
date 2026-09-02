@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="ms">
+  <head>
+    <meta charset="utf-8" />
+    <title>UI-15 grid-thumbnail discriminator</title>
+    <!--
+      TEN LABELLED CASES (A-J) for the two UI-15 checks, `grid-thumb-variant` (UI-03
+      R2) and `grid-thumb-aspect` (UI-03 R1). Every case is a real <img> loaded
+      over http from `fixtures/gt/`, so the intrinsic-size probe runs for real
+      rather than against a data: URI with no filename.
+
+      ⚠ ALL SIX FILES IN `gt/` ARE BYTE-IDENTICAL — 400x300, 408 B, written
+      from one buffer, md5 690222f9… on every one. That is the point. The only
+      thing separating case A from case B is the FILENAME, and the only thing
+      separating A from C is the BOX. A pair that differs in two things proves
+      nothing about either.
+
+      Expected, and asserted in `--selftest` at every width:
+        grid-thumb-variant  4   (B, E, F, K)
+        grid-thumb-aspect   2   (C, F)
+      plus, at >= 768 only:
+        image-upscale       1   (I)
+        reading-measure     1   (G)
+
+      Case D is the SCOPE control and it is the one that matters most. The
+      article cover figure on this site is deliberately fed `low` in a 3:2 box
+      — UI-12 S5, measured at a 0.05% deviation, a Creative Director decision.
+      A check that fired on every `low` on the site would go red there and be
+      switched off within a week. D is that element's shape, outside
+      `.s-card`/`.s-row`, and both checks must stay silent on it.
+
+      Case K is the one an adversarial review added, and it is why R2 is an
+      ALLOW-list. `resolveCoverSource` ends `low?.url ?? fallbackUrl`, and
+      `fallbackUrl` is the raw ingested cover — whose filename is
+      `1724000000-tepak-sirih`, not `low`. Against a deny-list of three names
+      that file sails through, and R1 only catches it past 15%: of the five
+      plate shapes measured on production, FOUR sit under that. The check would
+      have passed the exact defect this item exists to close.
+    -->
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, sans-serif;
+        padding: 12px;
+      }
+      figure {
+        margin: 0;
+      }
+      /* The real rule, copied from `src/design-system/components.css` so the
+         fixture cannot drift into testing a box the site does not have. */
+      .s-card img {
+        display: block;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 4 / 3;
+        object-fit: cover;
+      }
+      .s-row {
+        display: grid;
+        grid-template-columns: 176px minmax(0, 1fr);
+        gap: 14px;
+        padding: 14px 0;
+      }
+      .s-row img {
+        width: 176px;
+        height: 132px;
+        object-fit: cover;
+        display: block;
+      }
+      /* Cases C and F: a 1.60 box on a 4:3 file. 20.0% off — past UI-03 R1's
+         15%, and DELIBERATELY UNDER the gate's own 25% `image-aspect` ceiling,
+         so this fixture's counts belong to the new checks alone and cannot be
+         read off the old one. F additionally carries a source-aspect variant,
+         which is how one element proves the two checks are independent rather
+         than one rule counted twice. */
+      .case-c img,
+      .case-f img {
+        aspect-ratio: auto;
+        width: 176px;
+        height: 110px;
+      }
+      .box {
+        width: min(400px, 100%);
+        margin-bottom: 18px;
+      }
+      /* Housekeeping, not part of any case: keeps the fixture from tripping
+         `viewport-overflow` at 390px and `reading-measure` at 768px on its own
+         explanatory prose. A fixture that fires unrelated checks teaches the
+         next reader to skim the report. */
+      p {
+        margin: 4px 0 0;
+        font-size: 13px;
+        max-width: 440px;
+      }
+      /* Cases G and H — the reading-measure pair. One 800px column at 15px is
+         106.7 characters by the check's own formula, well past the 75 ceiling.
+         G is a <p> and must fire; H is an <h2> with the SAME text in the SAME
+         column at the SAME size and must not. One tag name apart. */
+      /* Cases I and J — the T3 pair. A 600px column and a 400x300 file. I has
+         no cap and paints 600x450, a 1.5x upscale. J caps `max-width` at the
+         file's own intrinsic width and paints 400x300. One declaration apart.
+
+         THIS PAIR EXISTS BECAUSE THE CORPUS CANNOT TEST IT. Four live covers
+         deliver a 667px-wide 4:3 crop and would upscale 1.151x in the 768px
+         plate, and the cap is what stops them — but none of those four leads a
+         category page today, so a rendered audit of production would report the
+         cap working when the cap was never exercised. The worst case is
+         injected here instead of waited for. */
+      .cap-pair {
+        width: 600px;
+        max-width: 100%;
+        margin-top: 24px;
+      }
+      .cap-pair .capped img {
+        max-width: 400px;
+      }
+      .measure-pair {
+        width: 800px;
+        max-width: 100%;
+        margin-top: 24px;
+      }
+      .measure-pair p,
+      .measure-pair h2 {
+        max-width: 100%;
+        width: 800px;
+        font-size: 15px;
+        line-height: 1.3;
+        font-weight: 400;
+        margin: 0 0 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="box">
+        <a class="s-card" href="/a"
+          ><figure>
+            <img src="/gt/crop-4x3-article-card-md.webp" alt="" width="400" height="300" />
+            <figcaption>
+              <h2>A — named crop, 4:3 box. Both checks silent.</h2>
+              <p>
+                Kes A ialah kawalan hijau: fail 400x300 dalam kotak 4:3, nama krop yang sah, jadi
+                tiada satu pun daripada dua pemeriksaan itu patut menyala di sini.
+              </p>
+            </figcaption>
+          </figure></a
+        >
+      </div>
+
+      <div class="box">
+        <a class="s-card" href="/b"
+          ><figure>
+            <img src="/gt/low.webp" alt="" width="400" height="300" />
+            <figcaption>
+              <h2>B — same box, same bytes, filename `low`. Variant fires; aspect silent.</h2>
+              <p>
+                Kes B berbeza daripada kes A pada satu perkara sahaja, iaitu nama fail. Kotaknya
+                serupa dan bait-baitnya serupa, jadi hanya pemeriksaan varian patut menyala.
+              </p>
+            </figcaption>
+          </figure></a
+        >
+      </div>
+
+      <div class="s-row case-c">
+        <img src="/gt/crop-4x3-article-card-sm.webp" alt="" width="400" height="300" />
+        <div>
+          <h2 class="t">C — named crop, 1.60 box. Aspect fires; variant silent.</h2>
+          <p>
+            Kes C berbeza daripada kes A pada satu perkara sahaja, iaitu kotaknya. Namanya sah,
+            jadi hanya pemeriksaan nisbah patut menyala di sini.
+          </p>
+        </div>
+      </div>
+
+      <div class="box">
+        <figure>
+          <img
+            src="/gt/low.webp"
+            alt=""
+            width="400"
+            height="300"
+            style="width: 100%; max-width: 400px; aspect-ratio: 3 / 2; object-fit: cover; display: block"
+          />
+          <figcaption>
+            <h2>D — SCOPE CONTROL. `low` in a 3:2 box, outside .s-card/.s-row. Both silent.</h2>
+            <p>
+              Kes D ialah bentuk gambar kulit artikel yang memang disuap `low` dengan sengaja. Kalau
+              mana-mana pemeriksaan menyala di sini, skopnya salah dan bukan ambangnya.
+            </p>
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="box">
+        <a class="s-card" href="/e"
+          ><figure>
+            <img src="/gt/high.webp" alt="" width="400" height="300" />
+            <figcaption>
+              <h2>E — filename `high`. Variant fires: the rule is not a `low` special case.</h2>
+              <p>
+                Kes E membuktikan senarai varian sumber itu mempunyai tiga nama, bukan satu, kerana
+                `high` dan `original` menyimpan nisbah jurugambar sama seperti `low`.
+              </p>
+            </figcaption>
+          </figure></a
+        >
+      </div>
+
+      <div class="box case-f">
+        <a class="s-card" href="/f"
+          ><figure>
+            <img src="/gt/original.webp" alt="" width="400" height="300" />
+            <figcaption>
+              <h2>F — `original` in a 1.60 box. BOTH fire: the two checks are independent.</h2>
+              <p>
+                Kes F menyalakan kedua-dua pemeriksaan pada satu elemen yang sama, supaya jumlah
+                yang dilaporkan tidak boleh datang daripada satu peraturan yang dikira dua kali.
+              </p>
+            </figcaption>
+          </figure></a
+        >
+      </div>
+      <div class="box">
+        <a class="s-card" href="/k"
+          ><figure>
+            <img src="/gt/1724000000-tepak-sirih.webp" alt="" width="400" height="300" />
+            <figcaption>
+              <h2>K — the RAW ingested cover. Variant fires; aspect silent (the box matches).</h2>
+              <p>
+                Kes K ialah fail kulit asal yang disiarkan terus, bukan krop bernama. Namanya bukan
+                `low`, `high` atau `original`, jadi senarai larangan tiga nama itu tidak nampak
+                langsung; senarai kebenaran `crop-` nampak.
+              </p>
+            </figcaption>
+          </figure></a
+        >
+      </div>
+
+      <div class="cap-pair">
+        <a class="s-card uncapped" href="/i"
+          ><figure>
+            <img src="/gt/crop-4x3-article-card-md.webp" alt="" width="400" height="300" />
+            <figcaption>
+              <h2>I — 400px file in a 600px plate, uncapped. image-upscale fires at 1.50x.</h2>
+              <p>
+                Kes I ialah keadaan empat gambar kulit yang krop 4:3-nya hanya 667 piksel lebar:
+                fail yang lebih kecil daripada kotaknya, tanpa had lebar, jadi pelayar meregangkannya.
+              </p>
+            </figcaption>
+          </figure></a
+        >
+        <a class="s-card capped" href="/j"
+          ><figure>
+            <img
+              src="/gt/crop-4x3-article-card-md.webp"
+              alt=""
+              width="400"
+              height="300"
+              style="max-width: 400px"
+            />
+            <figcaption>
+              <h2>J — the same file, the same plate, capped at its own width. Silent.</h2>
+              <p>
+                Kes J berbeza daripada kes I pada satu pengisytiharan sahaja, iaitu had lebar itu.
+                Bentuknya kekal 4:3 dan tiada satu pun daripada tiga pemeriksaan itu menyala.
+              </p>
+            </figcaption>
+          </figure></a
+        >
+      </div>
+
+      <div class="measure-pair">
+        <p>
+          G — Kes ini ialah perenggan prosa biasa dalam lajur selebar 800 piksel pada saiz 15
+          piksel, iaitu kira-kira 106.7 aksara satu baris mengikut formula pemeriksaan itu sendiri,
+          jadi ia mesti menyala kerana inilah jenis teks yang julat 45 hingga 75 aksara itu memang
+          ditulis untuk melindunginya.
+        </p>
+        <!-- H wraps its text in an <a>, and that is the whole point of the case.
+             The first version of the exclusion tested the text node's immediate
+             parent, so it only ever saw a heading holding BARE text — and every
+             headline on this site is `<h2><a href="…">…</a></h2>`. With bare
+             text here the fixture certified an exclusion that did not work on
+             any real page. -->
+        <h2>
+          <a href="/h"
+            >H — Kes ini ialah perenggan prosa biasa dalam lajur selebar 800 piksel pada saiz 15
+            piksel, iaitu kira-kira 106.7 aksara satu baris mengikut formula pemeriksaan itu
+            sendiri, jadi ia mesti menyala kerana inilah jenis teks yang julat 45 hingga 75 aksara
+            itu memang ditulis untuk melindunginya.</a
+          >
+        </h2>
+      </div>
+    </main>
+  </body>
+</html>
