@@ -455,10 +455,10 @@ function assertIngestPipelineCurrent(args: Args): void {
   const git = (...a: string[]) =>
     execFileSync('git', a, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
 
-  // Recorded on EVERY production write, allowed or refused. CONT-17 shipped six
-  // articles from a checkout nobody could afterwards identify — it was not
-  // logged anywhere, and the session that ran it had died. One line here turns
-  // "which checkout wrote these rows?" from unanswerable into a grep.
+  // Recorded on EVERY production write, allowed, overridden or refused. CONT-17
+  // shipped six articles from a checkout nobody could afterwards identify — it
+  // was not logged anywhere, and the session that ran it had died. One line
+  // turns "which checkout wrote these rows?" from unanswerable into a grep.
   const say = (m: string) => console.log(`Checkout: ${m}`);
 
   let head: string;
@@ -482,77 +482,86 @@ function assertIngestPipelineCurrent(args: Args): void {
   } catch {
     branch = '?';
   }
+  const where = `${head.slice(0, 7)} (${branch})`;
 
+  /**
+   * What master has that this checkout LACKS — never the reverse.
+   *
+   * THE RULE, because getting it backwards is invisible in the direction you
+   * are looking: only what master HAS and the checkout LACKS may refuse a run.
+   * What the checkout ADDS is never a reason. A plain `diff head master` is
+   * symmetric, so it also fires on branches doing ingest-path work — the
+   * population most likely to be doing it correctly — and teaches every one of
+   * them to reach for the override on their first try.
+   *
+   * Returns null when it cannot tell (no network, shallow clone, missing
+   * objects). The caller decides whether that is fatal; it is not, under the
+   * override, because the override has to keep working offline.
+   */
+  const survey = (): { master: string; drifted: string[]; lost: string[]; behind: string } | null => {
+    try {
+      // A stale checkout has a stale `origin/master` ref too, so the ref must
+      // be refreshed before it can be trusted. That is the whole trap.
+      git('fetch', '--quiet', 'origin', 'master');
+      const master = git('rev-parse', 'FETCH_HEAD');
+      const base = git('merge-base', head, master);
+      const drifted = git('diff', '--name-only', base, master, '--', ...INGEST_PIPELINE_PATHS)
+        .split('\n')
+        .map((l) => l.trim())
+        .filter(Boolean);
+      let lost: string[] = [];
+      try {
+        const mine = renditionNames(git('show', `${head}:src/lib/storage/midsize-cover.ts`));
+        const theirs = renditionNames(git('show', `${master}:src/lib/storage/midsize-cover.ts`));
+        lost = theirs.filter((n) => !mine.includes(n));
+      } catch {
+        lost = [];
+      }
+      return { master, drifted, lost, behind: git('rev-list', '--count', `${head}..${master}`) };
+    } catch {
+      return null;
+    }
+  };
+
+  const consequence = (s: { lost: string[] }) =>
+    s.lost.length
+      ? `Publishing DELETES ${s.lost.join(', ')} from every row it touches.`
+      : 'the image pipeline here differs from origin/master, so the renditions this run writes may ' +
+        'not match what the live site expects.';
+
+  // The override is the branch a hurried operator takes, and this log line is
+  // the only record that anything was bypassed. So it names what it skipped —
+  // the next post-mortem should not depend on someone remembering they typed it.
   if (args.allowStaleCheckout) {
-    say(`${head.slice(0, 7)} (${branch}) — pipeline check SKIPPED via --allow-stale-checkout`);
+    const s = survey();
+    if (!s) say(`${where} — OVERRIDDEN via --allow-stale-checkout; could not determine what was skipped`);
+    else if (s.drifted.length === 0)
+      say(`${where} — --allow-stale-checkout passed, but the image pipeline matched origin/master ${s.master.slice(0, 7)} anyway`);
+    else say(`${where} — OVERRIDDEN via --allow-stale-checkout, ${s.behind} behind. ${consequence(s)}`);
     return;
   }
 
-  // A stale checkout has a stale `origin/master` ref too, so the ref must be
-  // refreshed before it can be trusted. That is the whole trap.
-  try {
-    git('fetch', '--quiet', 'origin', 'master');
-  } catch {
+  const s = survey();
+  if (!s) {
     refuse([
-      'could not fetch origin/master to verify this checkout. Ingest from a stale checkout DELETES ' +
+      'could not compare this checkout against origin/master. Ingest from a stale checkout DELETES ' +
         'image renditions the live site is serving, so an unverifiable checkout is refused rather ' +
         'than trusted. Restore the network, or pass --allow-stale-checkout if you have independently ' +
         'confirmed the image pipeline here is current.',
     ]);
   }
-  const master = git('rev-parse', 'FETCH_HEAD');
-
-  // Only what MASTER has that this checkout lacks. A plain `diff head master`
-  // is symmetric and would also fire on a branch's OWN ingest-path work — the
-  // guard's own branch included — which is precisely the false positive that
-  // teaches people to reach for the override.
-  let base: string;
-  try {
-    base = git('merge-base', head, master);
-  } catch {
-    base = head;
-  }
-
-  let drifted: string[];
-  try {
-    drifted = git('diff', '--name-only', base, master, '--', ...INGEST_PIPELINE_PATHS)
-      .split('\n')
-      .map((l) => l.trim())
-      .filter(Boolean);
-  } catch {
-    say(`${head.slice(0, 7)} (${branch}) — could not compare against origin/master, not blocking`);
+  if (s.drifted.length === 0) {
+    say(`${where} · image pipeline matches origin/master ${s.master.slice(0, 7)}`);
     return;
   }
-  if (drifted.length === 0) {
-    say(`${head.slice(0, 7)} (${branch}) · image pipeline matches origin/master ${master.slice(0, 7)}`);
-    return;
-  }
-
-  // Name what would actually be destroyed, so the override is a decision
-  // rather than a habit.
-  let lost: string[] = [];
-  try {
-    const mine = renditionNames(git('show', `${head}:src/lib/storage/midsize-cover.ts`));
-    const theirs = renditionNames(git('show', `${master}:src/lib/storage/midsize-cover.ts`));
-    lost = theirs.filter((n) => !mine.includes(n));
-  } catch {
-    lost = [];
-  }
-
-  const behind = git('rev-list', '--count', `${head}..${master}`);
-  const detail = lost.length
-    ? `this checkout writes ${lost.length === 1 ? 'one fewer rendition' : `${lost.length} fewer renditions`} ` +
-      `than origin/master. Publishing would DELETE ${lost.join(', ')} from every row it touches.`
-    : 'the image pipeline here differs from origin/master, so the renditions this run writes may not ' +
-      'match what the live site expects.';
 
   refuse([
-    `the image pipeline in this checkout is behind origin/master (${behind} commit${behind === '1' ? '' : 's'}), ` +
+    `the image pipeline in this checkout is behind origin/master (${s.behind} commit${s.behind === '1' ? '' : 's'}), ` +
       'and ingest runs from the checkout rather than from the deployed app, replacing each row’s ' +
-      `smart-crop object wholesale. ${detail}\n` +
-      `      HEAD           ${head.slice(0, 7)} (${branch})\n` +
-      `      origin/master  ${master.slice(0, 7)}\n` +
-      `      drifted        ${drifted.join('\n                     ')}\n` +
+      `smart-crop object wholesale. ${consequence(s)}\n` +
+      `      HEAD           ${where}\n` +
+      `      origin/master  ${s.master.slice(0, 7)}\n` +
+      `      drifted        ${s.drifted.join('\n                     ')}\n` +
       '      Fix:  git merge --ff-only origin/master   (or rebase onto it), then re-run.\n' +
       '      Override, only if you have confirmed the ingest path is unchanged:  --allow-stale-checkout',
   ]);
