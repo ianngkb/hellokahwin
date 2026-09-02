@@ -2,6 +2,37 @@ import { getSmartCropRef } from './smart-crop-url';
 import { ARTICLE_COVER_MD, MIDSIZE_COVER } from './midsize-cover';
 
 /**
+ * ⚠ UI-15 CONSUMES A RENDITION IT DOES NOT OWN, AND THE OWNERSHIP IS THE NOTE.
+ *
+ * `crop-4x3-article-card-md` is UI-16's, produced for the ARTICLE COVER FIGURE,
+ * and it was already backfilled to production — an R2 object and a
+ * `coverImageSmartCrops` key on all 96 published articles — before UI-15 looked.
+ * Read back off the production pooler on 02 September 2026: **792x594 on 91
+ * covers, 667x500 on 4, 771x578 on 1.**
+ *
+ * UI-15 specified the same rendition independently, at 768x576, under the same
+ * name, and was one command away from overwriting 96 live objects with a
+ * different-sized file. The dry run said `0 to render · 5 already done` and
+ * that number was checked instead of accepted. 792 is also the better box: it
+ * is exactly 1.5x `MIDSIZE_COVER`'s 528, so the two rungs are one box at two
+ * scales rather than two guesses.
+ *
+ * This was a STRING here while UI-16 sat on an unmerged branch, with the note
+ * "whichever item merges second should delete this and import the constant".
+ * UI-16 merged first (PR #65, 02 Sept 2026), so that debt is settled: the name
+ * is now `ARTICLE_COVER_MD.NAME` and there is exactly ONE definition of the key
+ * in the codebase. A duplicate definition is how a rename orphans half of
+ * production, and `midsize-cover.ts` is where the rename would be made.
+ *
+ * If that key ever disappears, the `.s-card` falls back — and the layout gate
+ * reports the last rung as an R2 violation rather than passing quietly, because
+ * `grid-thumb-variant` requires a `crop-*` stem rather than forbidding three
+ * named ones. That is the intended failure mode, and it only works because the
+ * rule is an allow-list: a raw cover is called `1724000000-tepak-sirih`, which
+ * no deny-list of variant names would ever have matched.
+ */
+
+/**
  * The cover source for every card, row and article-cover `<img>` on the public
  * site: `low` (q30, ≤1200px — `src/lib/storage/image-variants.ts`), or the raw
  * `coverImageUrl` when there is no variant record.
@@ -132,6 +163,105 @@ export function resolveRowThumbSource(
   // and `width`/`height` stay null so the caller keeps the box ratio it can
   // defend. `ImageVariantMeta` is `{ url, sizeBytes }` — there is no recorded
   // width for `low` and there never was one to state.
+  const base = resolveCoverSource(variants, smartCrops, fallbackUrl);
+  return base ? { src: base.src, width: null, height: null } : null;
+}
+
+/**
+ * UI-15 — what the `.s-card` LEAD PLATE loads, and only that slot.
+ *
+ * Three call sites render `.s-card`: the catalogue's `CategoryCard`, the
+ * design-system reference page, and the `Card` component both go through. All
+ * three paint the same box — `width: 100%` inside a column that measures 350
+ * CSS px at 390 and 768 CSS px at 1024 and above.
+ *
+ * ── WHY IT IS NOT `resolveRowThumbSource` AND NOT `resolveCoverSource` ─────
+ * DES-18 already wrote the reason down, one slot over:
+ *
+ *     `.s-row`   80x60 / 176x132   528px is 3.0x at DPR 3   ← midsize
+ *     `.s-card`  ~350-768px wide   528px UPSCALES on desktop ← THIS function
+ *
+ * 768 / 528 = 1.45x, past hero-rules R5's 1.1x ceiling. And `resolveCoverSource`
+ * returns `low`, which is what UI-03 R2 forbids in a shaped slot and what this
+ * item exists to remove: measured on production 02 Sept 2026 the eight category
+ * pages with a lead plate served FIVE different plate shapes — 1.706, 1.500,
+ * 1.499, 1.498, 1.344 — because `low` carries the photographer's aspect and
+ * this box had no height of its own to argue with it. Aspect deviation read
+ * 0.0% on every one of them, which is why R2 and not R1 is the rule that
+ * catches it.
+ *
+ * So the rendition is opted INTO by slot class, not switched on globally — the
+ * same arrangement, for the same reason, as the row thumbnail. The article
+ * cover figure is UI-16's, not this function's.
+ *
+ * ── THIS ITEM WROTE NOTHING TO PRODUCTION, AND THAT IS THE POINT ───────────
+ * UI-15 specified an identical rendition at 768x576 under this exact name and
+ * had a backfill ready to run. It was not needed and it would have been
+ * destructive: see the note on `ARTICLE_CARD_MD` above. The asset was already
+ * live on every cover, at a better-argued box, so this item consumes it and
+ * spends zero AWS.
+ *
+ * ── THE FALLBACK IS THE PREVIOUS BEHAVIOUR, NOT A NEW ONE ──────────────────
+ * `getSmartCropRef` returns url + width + height or nothing, so a cover whose
+ * rendition has not been generated degrades to `low` with `width`/`height`
+ * null, exactly as this slot shipped before. An entry with unrecorded
+ * dimensions is treated as unusable rather than having a nominal width
+ * asserted for it — hero-rules R4, and the defect it was written against.
+ *
+ * ── THE CALLER MUST CAP THE PLATE AT `width` ──────────────────────────────
+ * Five of the 96 live covers cannot fill the rendition's 792px box, because a
+ * 4:3 crop cannot be wider than the photograph it came from: four deliver
+ * 667x500 and one 771x578. The `.s-card` plate is 768 CSS px at desktop, so the
+ * four 667s would be a **1.151x upscale** — red on the gate, and correctly so.
+ * `card-thumbnail-image-rules.md` T3 — *an image is never painted wider than
+ * its own intrinsic width* — is why `width` is returned rather than assumed,
+ * and `max-width` at the call site is where it is spent. Those four render 667
+ * CSS px wide, everything else 768, and the SHAPE is 4:3 either way.
+ */
+export interface CardSource {
+  src: string;
+  /** Real intrinsic pixels when known; null when falling back to `low`. */
+  width: number | null;
+  height: number | null;
+}
+
+export function resolveCardSource(
+  variants: Variants,
+  smartCrops: unknown,
+  fallbackUrl: string | null,
+): CardSource | null {
+  // Two rungs, then `low`. Both rungs are 4:3 and both carry STORED dimensions,
+  // so each satisfies R2 and R6, and the caller caps the plate to `width` — so
+  // the 528px rung paints 528 CSS px rather than upscaling 1.45x into the 768px
+  // column.
+  //
+  // ⚠ RUNG 2 IS HERE BECAUSE UI-16 MEASURED WHAT ITS ABSENCE COSTS, and rung 3
+  // is deliberately ABSENT for the same reason. UI-16's first version fell from
+  // the `-md` rendition straight to the full `crop-4x3-article-card`, on the
+  // reasonable-sounding logic that a heavy-but-correct file beats a wrongly
+  // shaped one. Measured on production hours after it shipped: six articles,
+  // 4,742,962 B of cover, a mean of 790 KB on the LCP element — 12.5x heavier
+  // than the code it replaced, with every rule green, because a pure byte
+  // defect has no rule behind it. The full crop runs 111 KB–1.4 MB and this is
+  // a LEAD PLATE in a scrolling list, which is where those bytes hurt most. So
+  // this ladder stops at `-sm` (median 17,664 B) and then takes the R2 hit
+  // visibly rather than paying 1.4 MB to hide it.
+  for (const name of [ARTICLE_COVER_MD.NAME, MIDSIZE_COVER.NAME]) {
+    const ref = getSmartCropRef(smartCrops, name);
+    if (ref) {
+      return { src: ref.url, width: ref.width, height: ref.height };
+    }
+  }
+
+  // Neither rendition — a cover with no smart crops at all. `low` is what this
+  // plate shipped before, so the fallback is the previous behaviour rather than
+  // a new one, and `width`/`height` stay null because there is no recorded
+  // width for `low` and there never was one to state.
+  //
+  // ⚠ IT IS STILL AN R2 VIOLATION, and the gate says so rather than letting it
+  // pass: `grid-thumb-variant` reads the SERVED filename, not this function's
+  // intent. Deliberate — a fallback that goes green is a fallback nobody
+  // notices has become load-bearing.
   const base = resolveCoverSource(variants, smartCrops, fallbackUrl);
   return base ? { src: base.src, width: null, height: null } : null;
 }

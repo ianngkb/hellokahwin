@@ -111,12 +111,40 @@ export interface CardProps {
   imageSrc: string;
   imageAlt: string;
   headingLevel: HeadingLevel;
+  /**
+   * UI-15 — the served file's REAL intrinsic pixels, from
+   * `resolveCardSource()`. Required, not optional, and that is the point:
+   *
+   *   · hero-rules R6 — `width`/`height` state the file's real dimensions, so
+   *     the box reserved before the bytes arrive is the right shape.
+   *   · `card-thumbnail-image-rules.md` T3 — the plate is capped at `imageWidth`
+   *     so it is never painted wider than its own intrinsic width. Four live
+   *     covers deliver a 667px 4:3 crop and would upscale 1.151x in the 768px
+   *     column without this.
+   *
+   * The reference page is the regression test for taste, so a `Card` that could
+   * be rendered without these would demonstrate a plate satisfying neither rule
+   * while the entry above it claims both. Making them required means a call
+   * site cannot omit them by accident.
+   */
+  imageWidth: number;
+  imageHeight: number;
 }
 
 /** The first item of a set — full-width figure + heading + deck + credit.
  * Spec §5.2: a card leads a list, the rest are `ListRow`s, because twelve
  * full-width cards runs to ~4,000px of scroll and twelve rows to ~1,150px. */
-export function Card({ href, title, deck, credit, imageSrc, imageAlt, headingLevel }: CardProps) {
+export function Card({
+  href,
+  title,
+  deck,
+  credit,
+  imageSrc,
+  imageAlt,
+  imageWidth,
+  imageHeight,
+  headingLevel,
+}: CardProps) {
   return (
     <a
       href={href}
@@ -125,7 +153,13 @@ export function Card({ href, title, deck, credit, imageSrc, imageAlt, headingLev
     >
       <figure>
         {/* eslint-disable-next-line @next/next/no-img-element -- design-system demo; real pages use next/image */}
-        <img src={imageSrc} alt={imageAlt} />
+        <img
+          src={imageSrc}
+          alt={imageAlt}
+          width={imageWidth}
+          height={imageHeight}
+          style={{ maxWidth: imageWidth }}
+        />
         <figcaption style={{ paddingTop: 10, display: 'flex', flexDirection: 'column', gap: 6 }}>
           <Heading as={headingLevel} variant="card">
             {title}
