@@ -456,8 +456,33 @@ does the only check that works.
 **The edit is a script, not a sentence, because the sentence was already there.**
 `scripts/audit-crop-depiction.mjs` renders every source frame beside its stored
 crop as one PNG and prints the retention labelled as context rather than a
-verdict. Recorded in
+verdict. Committed as `e4c69b1`, recorded in
 `skillcentral/agents/projects/hellokahwin/CHANGELOG.md`.
+
+**A second edit to the same file, same owner, made later the same session
+(`b1d0565`).** The persona already said *"a zero is a claim about your check
+until you have proved the check."* It did not say **the input counts as part of
+the check** — and that gap nearly let two pull requests land the same backfill
+script twice. `comm -12` reported no overlap between them because the `gh` call
+building one of its two input files had died on this machine's known ~21s TCP
+stall and left the file empty; `comm` against an empty list reports nothing, with
+exit 0. The check was correct and its input was not, which is a different silent
+zero and reaches every `diff`, `comm`, `grep -f` and set-subtraction run here.
+The rule now asks for a one-line positive control on both inputs.
+
+**Two further edits owed, neither of them mine to make:**
+
+- **`skillcentral/agents/projects/hellokahwin/Design/creative-director.md` says
+  "the artifact IS the specification; if it is not in the artifact it is not
+  specified" — and the artifact was unreadable to the engineer building from it.**
+  The Stage-2 spec returned *"artifact not found — it may have been deleted, or it
+  has not been shared with you"* and was absent from their listing under
+  `scope=all`. They built from the generator script that happened to be sitting in
+  the worktree. Luck, not design. Either the flow needs a share step or the persona
+  must stop calling a private link the specification. **Owner: creative-director,
+  but it needs a platform answer first**, so it is raised rather than patched.
+- **The sprint dispatch put two items on the same DOM element and neither knew.**
+  That is the CEO's or the sprint tooling's edit. Raised, not attempted.
 
 **Also owed, and not mine to make:** the sprint's own dispatch should not put two
 items on the same DOM element without either knowing. That is the CEO's or the
@@ -471,8 +496,14 @@ sprint tooling's edit, raised here rather than attempted.
 - **The gate's `--url` sweep was run twice** — the first pass was killed after
   ~55 minutes because the gate buffers its whole report to the end, so a
   long-running sweep shows zero bytes of progress and looks hung. Splitting the
-  URL list into chunks is the workaround; the gate printing per-target as it goes
+  URL list into two chunks is the workaround, and the second attempt landed the
+  545-target-width sitewide number; the gate printing per-target as it finishes
   would be the fix.
+- **The backfill script was written once and nearly shipped twice.** Both halves
+  of this item carried it, along with both undo files and three evidence logs,
+  because two agents worked the same item in the same worktree against the same
+  `docs/work-done/` directory. Caught by diffing the two PRs' file lists — on the
+  second attempt, after the first attempt's false zero.
 
 ### What we nearly shipped, and what caught it
 
@@ -490,6 +521,11 @@ sprint tooling's edit, raised here rather than attempted.
 - **Four broken covers that every automated check called fine.** Caught only by
   opening the PNG — and the fourth, `doa-pembuka-majlis`, was published *during*
   the measurement, which is why the deliverable is a command rather than a list.
+- **Two pull requests shipping the same script.** `comm -12` said there was no
+  overlap; it was comparing against an empty file left by a `gh` call that had
+  died on the network. Caught by re-running the comparison with a positive control
+  on both inputs — the same class of quiet zero as everything else in this entry,
+  one layer up, in the tool I was using to check for it.
 - **A silent skip inside the fix itself.** The first version of
   `audit-crop-depiction.mjs` filtered `--portrait-only` on an optional database
   field and dropped, without a word, every cover that field did not cover — the
