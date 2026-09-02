@@ -434,6 +434,20 @@ body-link dependency map so a partial undo does not leave dead links on the surv
 - **platform seat** — the record block's `Disemak` date disagrees with every body date (§7).
 - **whoever owns PRE-FLIGHT #3** — the "no live page shares a token" message is inaccurate (§8).
 - **the brief's next reader** — the census CSV names 12 of the 56, not all 56 (§3).
+- **whoever ingests next, and `CONT-15`** — **this item's ingest silently deleted a production
+  asset key, twice.** `processSmartCrops` **replaces** `cover_image_smart_crops` rather than merging
+  into it, and `scripts/ingest-article.mts` runs from the operator's own checkout rather than the
+  deployed app — so a checkout not rebased past `5c18c74` writes the old shape and drops
+  `crop-4x3-article-card-md`. Both CONT-17 batches (20:12–20:16Z and 20:51:46–20:53:23Z) did it, the
+  second overwriting UI-16's 20:30 backfill. Reported by the UI-16 seat, who measured
+  **1,115,760 B** of avoidable weight on `doa-masuk-rumah-baru` alone. Not visible from this seat:
+  the pillar hub is client-rendered, so the rungs cannot be read from server HTML.
+- **`CONT-15`'s ingest guard — the argument for it is this log** — **CONT-17 shipped six production
+  articles and recorded nowhere which checkout performed the write.** The log, the UNDO and the DOCS
+  worktree between them do not name it, and it could not be recovered afterwards: an ingest writes
+  to the database and R2, not the working tree, so no file mtime identifies it, and atime is
+  uniform. A guard that refuses a stale write is the fix; a guard that also **records the checkout
+  and commit on every ingest** would have made this answerable in seconds. Worth having both.
 
 ---
 
