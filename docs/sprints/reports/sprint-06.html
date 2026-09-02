@@ -1,0 +1,423 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>HelloKahwin — Sprint 06 report</title>
+<style>
+  :root{--ink:#1c1813;--mute:#615c4e;--line:#dad5c6;--bg:#faf8f4;--card:#fff;--gold:#a8823c;--red:#6b2130;--ok:#2f6b3a}
+  *{box-sizing:border-box}
+  body{margin:0;padding:32px 20px 80px;background:var(--bg);color:var(--ink);
+       font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  .wrap{max-width:920px;margin:0 auto}
+  h1{font-size:30px;margin:0 0 4px;letter-spacing:-.02em}
+  h2{font-size:20px;margin:0 0 10px;letter-spacing:-.01em}
+  h3{font-size:16px;margin:0 0 6px}
+  .sub{color:var(--mute);margin:0 0 22px}
+  .fine{color:var(--mute);font-size:13px;line-height:1.5}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;
+        padding:18px 20px;margin:0 0 14px}
+  .band{border-left:4px solid var(--gold);background:#fdf9f0}
+  .band.risk{border-left-color:var(--red);background:#fdf4f4}
+  .meta{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--mute);font-size:13px;margin:10px 0 0}
+  .tag{display:inline-block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+       border:1px solid var(--line);border-radius:99px;padding:2px 9px;color:var(--mute)}
+  .what{margin:10px 0 4px}
+  .how{background:#f7f4ec;border-radius:7px;padding:10px 12px;margin:8px 0 0;font-size:14px}
+  .how b{display:block;margin-bottom:3px;font-size:12px;letter-spacing:.05em;
+         text-transform:uppercase;color:var(--mute)}
+  code,kbd{font:13px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;
+           background:#f2efe6;border-radius:4px;padding:1px 5px}
+  pre{background:#f2efe6;border-radius:7px;padding:12px 14px;overflow-x:auto;
+      font:13px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace;margin:8px 0}
+  table.stats{border-collapse:collapse;width:100%;font-size:14px;margin:8px 0}
+  table.stats th,table.stats td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left}
+  .num{text-align:right;font-variant-numeric:tabular-nums}
+  ul{margin:8px 0;padding-left:20px}
+  li{margin:4px 0}
+  a{color:var(--gold)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0 0}
+  .stat{background:#f7f4ec;border-radius:8px;padding:10px 12px}
+  .stat .n{font-size:22px;font-weight:600;letter-spacing:-.02em}
+  .stat .l{font-size:12px;color:var(--mute)}
+  hr{border:0;border-top:1px solid var(--line);margin:30px 0}
+  @media print{body{background:#fff;padding:0}.card{break-inside:avoid}}
+</style>
+<div class="wrap">
+
+<h1>Sprint 06 — <em>Deepen where the click is</em></h1>
+<p class="sub">Planned 02 September 2026 · Closed 02 September 2026 · 11 items</p>
+
+<div class="card">
+  <div class="grid">
+    <div class="stat"><div class="n">55</div><div class="l">points planned (as scoped)</div></div>
+    <div class="stat"><div class="n">55</div><div class="l">points completed</div></div>
+    <div class="stat"><div class="n">0</div><div class="l">parked</div></div>
+    <div class="stat"><div class="n">0</div><div class="l">moved out</div></div>
+    <div class="stat"><div class="n">43</div><div class="l">points of new work <em>discovered</em></div></div>
+  </div>
+  <p class="fine" style="margin-top:14px">
+    <b>Deployed:</b> site <code>ca507fc</code> on <code>master</code> · docs <code>057fe1f</code> on
+    <code>feat/command-centre-dashboard</code>.<br>
+    <b>All three velocity figures, as the standard requires even when zero:</b> as-scoped 11 items / 55pt
+    (from <code>sprint-06.json</code>, the file authored at planning) · computed <code>planned 55 / completed 55 /
+    parked 0 / moved out 0 / unfinished 0</code> · nothing left the sprint after it started.
+    <code>reconcile 6 --check</code> exits 0 — the file agrees with the tracker <em>item for item</em>, not by count.<br>
+    <b>The fifth number is the one the room insisted on.</b> 55/55 is real and it is incomplete: this sprint also
+    filed 43 points of newly-known work. A velocity that counts what was completed and is silent on what the
+    completing produced will read 100% every time the work is generative.
+  </p>
+</div>
+
+<div class="card band risk">
+  <h2>Production data was written — read this first</h2>
+  <p class="fine">No schema migrations. Three items wrote directly to the production database, which is the
+  category that can break the live site in the gap between a deploy and its data. Every one recorded a reversible
+  UNDO before the write, and the UNDO files are committed.</p>
+  <ul>
+    <li><b>CONT-15</b> — backfilled real intrinsic width/height for <b>96 covers</b>. UNDO:
+      <code>docs/undo/cont-15-cover-intrinsics.json</code> (plus two catch-up files as the corpus moved under it).</li>
+    <li><b>CONT-17 / CONT-18</b> — ingested <b>10 new articles</b> to production.
+      UNDO: <code>docs/work-done/sep-02-2026-session-01/sep-02-2026-cont-17-UNDO.md</code> and
+      <code>…-cont-18-UNDO.md</code>.</li>
+    <li><b>UI-16</b> — three production image backfills, one of which had to be re-run after a
+      <b>4.7 MB live regression</b> on the fallback path that no existing rule could see.</li>
+  </ul>
+  <p class="fine"><b>No gate was waived in this sprint.</b> Nothing shipped over a red check.</p>
+</div>
+
+<hr>
+<h2>What shipped</h2>
+<p class="sub">One card per item. Written for someone using the site, not building it.</p>
+
+<div class="card">
+  <h3>Six new doa articles <span class="tag">CONT-17 · 12pt</span></h3>
+  <p class="what"><b>What changed.</b> Six new prayer guides went live — for a happy family, the wedding night,
+  moving into a new home, opening a majlis, and for a wife and for a husband. Each carries the full Arabic, a
+  romanised reading and the Malay meaning, and every religious claim names the authority it came from and the
+  edition it was checked against.</p>
+  <div class="how"><b>How to check it</b>
+    Open <a href="https://hellokahwin.com/artikel/ucapan-doa">hellokahwin.com/artikel/ucapan-doa</a> and look for
+    <em>doa keluarga bahagia</em>, <em>doa malam pertama</em>, <em>doa masuk rumah baru</em>,
+    <em>doa pembuka majlis</em>, <em>doa untuk isteri</em> and <em>doa untuk suami</em>. Each page shows the Arabic,
+    the romanised line and the source under it.</div>
+</div>
+
+<div class="card">
+  <h3>Four new marriage-law guides <span class="tag">CONT-18 · 8pt</span></h3>
+  <p class="what"><b>What changed.</b> Four guides now cover the legal and procedural side of getting married:
+  who may act as guardian, the HIV test, the Selangor pre-marriage course, and the Selangor marriage card. The
+  guardian guide lists all 21 positions in order; the course guide reproduces the full module table and the ten
+  approved organisers with their phone numbers.</p>
+  <div class="how"><b>How to check it</b>
+    Open <a href="https://hellokahwin.com/artikel/nikah-undang-undang">hellokahwin.com/artikel/nikah-undang-undang</a>.
+    The site's page count went from 109 to 119 with CONT-17's six.</div>
+</div>
+
+<div class="card">
+  <h3>The article sidebar is finished <span class="tag">UI-19 · 8pt</span></h3>
+  <p class="what"><b>What changed.</b> Long articles now carry a proper sidebar next to the text holding the
+  record panel, the contents list, and — <em>only where the article actually cites sources</em> — a sources block.
+  Articles with no sources keep the sidebar rather than collapsing it, and no empty "Sumber" heading is printed.</p>
+  <div class="how"><b>How to check it</b>
+    Open any long article on a desktop-width window, e.g.
+    <a href="https://hellokahwin.com/artikel/ucapan-doa/doa-pengantin-baru">doa-pengantin-baru</a> — the panel sits
+    to the right of the text. Then open
+    <a href="https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding">garden-wedding</a>, which cites none:
+    the sidebar is still there and there is no empty sources heading.</div>
+</div>
+
+<div class="card">
+  <h3>Category thumbnails are the right shape <span class="tag">UI-15 · 5pt</span></h3>
+  <p class="what"><b>What changed.</b> Thumbnails on the category listings were being squeezed into the wrong
+  shape and stretched beyond their real size — 40 separate cases across the site. They now use a properly cut
+  4:3 image at every screen width, including on phones.</p>
+  <div class="how"><b>How to check it</b>
+    Open <a href="https://hellokahwin.com/artikel/hantaran-mas-kahwin">any category page</a> and narrow the window
+    to phone width. Images stay in proportion and stay sharp.</div>
+</div>
+
+<div class="card">
+  <h3>Every cover knows its own true size <span class="tag">CONT-15 · 5pt</span></h3>
+  <p class="what"><b>What changed.</b> The site now records the real dimensions of all 96 article cover
+  photographs, so a tall photograph can never again be silently forced into a wide slot. It also ships a check
+  that renders each original beside its cropped version so a person can see what the crop kept.</p>
+  <div class="how"><b>How to check it</b>
+    Covers across the site sit correctly in their frames — browse
+    <a href="https://hellokahwin.com/artikel">the article index</a>. The finding that a deliberately tall
+    photograph still loses half its frame is <b>open and carried forward as UI-21</b>; it is not fixed here.</div>
+</div>
+
+<div class="card">
+  <h3>The garden-wedding cover is no longer blurry <span class="tag">UI-16 · 3pt</span></h3>
+  <p class="what"><b>What changed.</b> The page drawing roughly 28% of the site's search impressions was showing
+  its main photograph at a low-resolution size stretched into a bigger frame. It now loads a properly cut image —
+  and a smaller file than the blurry one it replaced.</p>
+  <div class="how"><b>How to check it</b>
+    Open <a href="https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding">garden-wedding</a>. The cover is
+    sharp. Measured: 33,574 bytes before, 26,936 after — <b>19.8% smaller</b>.</div>
+</div>
+
+<div class="card">
+  <h3>A real favicon <span class="tag">UI-20 · 3pt</span></h3>
+  <p class="what"><b>What changed.</b> The browser-tab icon was a pink serif "H" left over from a colour scheme
+  the brand retired two palettes ago, and the standard icon addresses returned nothing at all. There is now a
+  proper monogram in the brand's own cream and near-black, generated from the brand colours rather than being a
+  loose file nobody could regenerate.</p>
+  <div class="how"><b>How to check it</b>
+    Open <a href="https://hellokahwin.com/">hellokahwin.com</a> and look at the browser tab. Bookmark it and check
+    the icon there too.</div>
+</div>
+
+<div class="card">
+  <h3>Headings look like the design says <span class="tag">DES-15 · 3pt</span></h3>
+  <p class="what"><b>What changed.</b> Section headings on the topic pages were quietly ignoring their intended
+  weight and letter-spacing — a stylesheet rule elsewhere was overriding them on every public page. 26 headings
+  across 7 topic hubs now render as designed.</p>
+  <div class="how"><b>How to check it</b>
+    Open <a href="https://hellokahwin.com/artikel/hantaran-mas-kahwin">a topic hub</a> and compare a section
+    heading against the same style on <a href="https://hellokahwin.com/brand">the brand page</a>.</div>
+</div>
+
+<div class="card">
+  <h3>A topic page can no longer get stuck empty <span class="tag">PLAT-16 · 3pt</span></h3>
+  <p class="what"><b>What changed.</b> If the database hiccupped while a topic page was being built, the site used
+  to serve a page saying that guide was still empty — and then keep serving that empty page from its cache.
+  Readers were told a fact about our editorial calendar when the truth was a database blip. A failed read now
+  refuses to be published at all.</p>
+  <div class="how"><b>How to check it</b>
+    Open <a href="https://hellokahwin.com/artikel/hantaran-mas-kahwin">any topic hub</a> — it lists its articles.
+    A made-up one such as <code>/artikel/plat16-not-a-real-category</code> correctly returns "not found".</div>
+</div>
+
+<div class="card">
+  <h3>The undatable promise is gone <span class="tag">COPY-01 · 2pt</span></h3>
+  <p class="what"><b>What changed.</b> Empty sections of a topic page promised content "coming soon" with no date
+  behind it — a promise the company could not keep or measure. It now says what is actually true.</p>
+  <div class="how"><b>How to check it</b>
+    Any topic hub with an unfilled cluster. The banned phrasing is now enforced by a check, so it cannot come
+    back silently — it had already been rejected twice in design documents and was still live.</div>
+</div>
+
+<div class="card">
+  <h3>The measurement that re-aimed the content plan <span class="tag">SEO-14 · 3pt</span></h3>
+  <p class="what"><b>What changed.</b> Nothing a reader sees. This item re-ran the search-intent census that the
+  whole content strategy rests on, and it was allowed to <em>cancel</em> the sprint's biggest item if the numbers
+  had collapsed. They had not — but it found two wrong numbers in the company's own records and corrected them.</p>
+  <div class="how"><b>How to check it</b>
+    <code>docs/work-done/sep-02-2026-session-01/sep-02-2026-done-seo-14-serp-shape-census.md</code>, and decisions
+    206 and 207 in the boardroom log.</div>
+</div>
+
+<hr>
+<h2>Behind the scenes</h2>
+<div class="card">
+  <ul>
+    <li><b>CI now runs lint, type-checking and the whole test suite</b> (PLAT-21, PR #79). Before this, CI ran zero
+      of two lint commands and one of 42 test files — 555 tests existed and 554 ran only when someone remembered.
+      It caught a real formatting break on its first run.</li>
+    <li><b>The ingest tool refuses to publish from a stale checkout</b> (PR #73) — a fix made at 19:51 was silently
+      bypassed by an ingest at 20:12, because ingest runs from whatever copy of the code the operator happens to have.</li>
+    <li><b>A cover audit that compares the live page against the database</b> and weighs the file the page actually
+      loads, rather than the one it was supposed to.</li>
+    <li><b>A crop-depiction check</b> that renders every original beside its crop as a single sheet, because the
+      question "does this still show its subject" cannot be answered by a number.</li>
+    <li><b>A backlog-deferral gate</b> (<code>check-backlog-deferral.mjs</code>) that fails when a backlog item
+      claims work nobody did, or when an item survives two plannings with no decision naming it.</li>
+    <li><b>Build configuration</b> — a one-off pnpm 11 build failure was diagnosed, then the diagnosis was
+      publicly retracted by its own author when the evidence did not support it (PR #70).</li>
+  </ul>
+</div>
+
+<h2>Parked, blocked and moved out</h2>
+<div class="card">
+  <p><b>None.</b> Nothing was parked, nothing was blocked at close, and nothing left the sprint after it started —
+  <code>moved out 0pt</code>, stated here because a column that only appears when it is non-zero is a column
+  nobody knows to look for.</p>
+  <p class="fine">That is a clean record and it is not the whole picture: <b>43 points of new work were filed
+  during this sprint</b>, four items of it inside sixteen seconds after the work was finished. Sprint 05's 30
+  moved-out points and Sprint 06's 43 newly-filed points are the same phenomenon recorded under different verbs,
+  and only one of the two appears in a velocity number. See the retrospective, section 4.</p>
+</div>
+
+<hr>
+<div class="card">
+  <h2>Time, models &amp; tokens</h2>
+  <p class="sub"><b>5h 25m</b> of working time across <b>5929</b> steps, run on <b>&lt;synthetic&gt;, Opus 5</b>. Each row is one stage of the work.</p>
+  <p class="fine">Measuring <b>Sprint 06 — Deepen where the click is</b> (2026-09-01 16:00Z to 2026-09-02 15:59Z), matched by TIME WINDOW and working directory only — a sprint has no branch list, so anything else running in these trees during the window is counted too.</p>
+  <div style="overflow-x:auto">
+  <table class="stats">
+    <thead><tr><th>Stage</th><th>Took</th><th>Model</th><th class=num>Steps</th><th class=num>Written</th><th class=num>Thinking</th><th class=num>Re-read</th></tr></thead>
+    <tbody>
+      <tr><td>Building &amp; conversation <span class="chip">2437 via helpers</span></td><td>5h 04m</td><td>&lt;synthetic&gt;, Opus 5 <span class="chip">high</span></td><td class=num>5274</td><td class=num>3.33M</td><td class=num>1.14M</td><td class=num>1223.36M</td></tr>
+      <tr><td>Artifact Design <span class="chip">395 via helpers</span></td><td>12m 08s</td><td>Opus 5 <span class="chip">high</span></td><td class=num>395</td><td class=num>91.1k</td><td class=num>30.9k</td><td class=num>69.22M</td></tr>
+      <tr><td>Humanizer <span class="chip">138 via helpers</span></td><td>8m 39s</td><td>Opus 5 <span class="chip">high</span></td><td class=num>260</td><td class=num>187.0k</td><td class=num>50.6k</td><td class=num>69.24M</td></tr>
+    </tbody>
+    <tfoot><tr><th>Total</th><th>5h 25m</th><th></th><th class=num>5929</th><th class=num>3.61M</th><th class=num>1.22M</th><th class=num>1361.82M</th></tr></tfoot>
+  </table>
+  </div>
+  <p class="fine"><b>Reading this.</b> <em>Written</em> is new text produced &mdash; the closest thing to real effort. <em>Thinking</em> is reasoning done before answering, and is already counted inside Written. <em>Re-read</em> is previously-seen context loaded again on each step; it is large by nature, billed at a fraction of new text, and is not extra work. <em>Took</em> is working time: every stretch of real time is charged to exactly one stage, and any pause longer than 5m 00s is treated as waiting rather than working, so the rows add up to the total and an answer left open overnight does not read as an overnight task.</p>
+</div>
+
+<div class="card">
+  <h2>How this build ran</h2>
+  <p class="sub"><b>2</b> working sessions, <b>22</b> helper agents spawned, <b>6</b> skill invocations.</p>
+  <div style="overflow-x:auto">
+  <table class="stats">
+    <thead><tr><th>Session</th><th>Model</th><th>Active</th><th class=num>Steps</th><th class=num>Written</th></tr></thead>
+    <tbody>
+      <tr><td>main checkout</td><td>&lt;synthetic&gt;, Opus 5</td><td>17h 01m</td><td class=num>2959</td><td class=num>2.77M</td></tr>
+      <tr><td>main checkout helper</td><td>&lt;synthetic&gt;, Opus 5</td><td>16h 59m</td><td class=num>2970</td><td class=num>836.1k</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p><b>Helper agents:</b> <span class="chip">general-purpose ×13</span> <span class="chip">design-systems-engineer ×4</span> <span class="chip">editorial-verification-lead ×2</span> <span class="chip">managing-editor</span> <span class="chip">writer-inspirasi-vendor-venue</span> <span class="chip">creative-director</span></p>
+  <p><b>Skills invoked, in order:</b></p>
+  <ol class="fine"><li><code>/artifact-design</code><span class="fine"> — 18:42 UTC, in main checkout helper</span></li><li><code>/humanizer</code><span class="fine"> — 18:54 UTC, in main checkout</span></li><li><code>/humanizer</code><span class="fine"> — 19:03 UTC, in main checkout</span></li><li><code>/bmad-code-review</code><span class="fine"> — 19:13 UTC, in main checkout helper</span></li><li><code>/humanizer</code><span class="fine"> — 20:04 UTC, in main checkout helper</span></li><li><code>/bmad-party-mode</code><span class="fine"> — 10:51 UTC, in main checkout helper</span></li></ol>
+  <p class="fine">Sessions are the separate working copies (worktrees) that took part; helpers are short-lived agents a session spawned for one job (a review, a supervision loop). The skill list is every workflow step that ran, oldest first — a build that dragged can be traced to the step where the clock sat.</p>
+</div>
+
+<hr>
+<h2>Cleanup &amp; housekeeping</h2>
+<div class="card">
+  <ul>
+    <li><b>Branches merged and deleted:</b> PRs #60–#79 landed; <code>ianng89/plat21-lint-test-ci</code> deleted on merge.</li>
+    <li><b>PR #69 closed without merging</b> — it carried the superseded render path a CEO ruling had forbidden.
+      Its six evidence files were split out and merged separately as #78.</li>
+    <li><b>Deliberately kept:</b> <code>ianng89/pnpm-pin-hardening</code>, unmerged. The diagnosis on it was right
+      about the mechanism and the fix was superseded; the commits are preserved rather than deleted.</li>
+    <li><b>Worktrees:</b> 43 trees under <code>~/orca/workspaces/</code> were in scope for measurement and are
+      left in place — Sprint 07 planning decides which to reap. Not claimed as cleaned.</li>
+    <li><b>Open terminals:</b> several agent sessions still hold unsubmitted follow-up text at their prompts,
+      including two reading <code>/endsprint</code>. None was submitted by the CEO. Flagged rather than tidied,
+      because clearing them proved unreliable.</li>
+  </ul>
+</div>
+
+<hr>
+<h2>The retrospective</h2>
+<div class="card">
+  <p>Held 02 September 2026, <b>convened as a review board of six seats</b> chaired by
+  <code>managing-editor</code> — after the owner rejected a first pass the CEO had written alone.
+  <b>A synthesis is not a retrospective.</b> Full document:
+  <code>docs/boardroom/meetings/2026-09-02-sprint-06-retrospective.md</code> (606 lines);
+  machine-readable at <code>docs/sprints/sprint-06-retro.json</code>.</p>
+
+  <h3>1 · What we learned that was not written down</h3>
+  <p><b>An instrument reports success about something it is not looking at.</b> UI-16 counted six comfortable
+  numbers in one evening on a single image slot — a green merge over a stale cache, a census that skipped its own
+  rows, two type-check passes over files they excluded, an audit quiet because a fallback absorbed the defect, and
+  a build diagnosis resting on a failure window with no closing edge. <b>Not one was caught by a check going red.</b>
+  Every one was caught by somebody distrusting a number that looked fine.</p>
+  <p class="fine">The room corrected the CEO's framing of this: it is not "seven seats independently" but seven
+  items across at most four seats, five of them one engineer. <em>"Seven independent minds converging is a law of
+  nature. One engineer noticing the same thing five times before dawn is a Tuesday."</em></p>
+
+  <h3>2 · Which documents changed, and who owned each edit</h3>
+  <table class="stats">
+    <tr><th>File</th><th>Owner</th><th>What</th></tr>
+    <tr><td><code>Design/design-systems-engineer.md</code></td><td>design-systems-engineer</td><td>the fossil-asset rule; "a check restricted to where you looked"; measuring the wrong machine</td></tr>
+    <tr><td><code>Design/creative-director.md</code></td><td>creative-director</td><td>the retained-fraction floor is not a pass mark; the input counts as part of the check</td></tr>
+    <tr><td><code>Editorial/writer-inspirasi-vendor-venue.md</code></td><td>that seat</td><td>read a document's SCOPE clause before quoting a clause from it</td></tr>
+    <tr><td><code>Editorial/writer-adat-agama-prosedur.md</code></td><td>that seat</td><td><code>cover: ESCALATE</code> does not publish; names both owners</td></tr>
+    <tr><td><code>Editorial/managing-editor.md</code></td><td>managing-editor</td><td>the unanswered-escalation rule; copy is scoped to the state</td></tr>
+    <tr><td><code>skills/startsprint/SKILL.md</code></td><td><b>CEO</b></td><td>the <code>docs/</code> routing rule was wrong — <code>work-done</code> and <code>design</code> live on <code>master</code></td></tr>
+    <tr><td><code>skills/endsprint/SKILL.md</code></td><td><b>CEO</b></td><td>Step 2: a synthesis is not a retrospective, with a textual test</td></tr>
+    <tr><td><code>docs/design/hero-image-rules.md</code></td><td>design-systems-engineer</td><td>R9–R13, including assert against the served object</td></tr>
+    <tr><td><code>scripts/…</code> (7 new gates)</td><td>various</td><td>prose does not fire; each finding shipped as a runnable check</td></tr>
+  </table>
+
+  <h3>3 · What we did twice</h3>
+  <ul>
+    <li><b>A carried figure was wrong for the fourth and fifth consecutive session.</b> The article corpus moved
+      92 → 95 → 96 → 97 → 102 <em>inside single items</em>. The fix already works and is not better carrying:
+      the definition of done says <em>re-derive at run time</em>, and every item that did got the right number.</li>
+    <li><b>Two seats measured the same element on the same day and shipped opposite answers</b> — nothing made the
+      collision visible until one of them merged. A scoping defect, and the CEO's to prevent.</li>
+    <li><b>Two items specified the same image name at different sizes on the same day</b>, one command away from a
+      year-long cache poisoning. Caught by a dry run's surprising count, not by any gate. Carried as UI-23.</li>
+    <li><b>The CEO reported a state reading as work three times in one night</b> — most damningly inside its own
+      answer to the owner's question about deferred work.</li>
+  </ul>
+
+  <h3>4 · What we nearly shipped, and what caught it</h3>
+  <ul>
+    <li><b>A religious restriction nobody issued.</b> A government protocol clause was quoted accurately, with its
+      number, checked against the source PDF — and it does not govern weddings. It was headed into structured data
+      Google shows without the page around it. Caught by reading the document's own scope clause.
+      <em>"Not fabrication and not misquotation — a rule that nobody issued, wearing the authority of somebody who
+      could have."</em></li>
+    <li><b>An invented citation while every sentence checked out.</b> A summary attributed a real list to a page
+      that does not contain it. <em>"The summary did not invent the content, it invented the citation."</em></li>
+    <li><b>A 4.7 MB live regression</b> on the image fallback path, invisible to every rule the repo owned.</li>
+    <li><b>A fabricated bug written into a source comment as fact</b> — confident, specific and wrong. Killed by
+      putting the code back and running the suite.</li>
+  </ul>
+
+  <h3>5 · Was everything actually shipped?</h3>
+  <p><b>Yes, and every item was verified by the CEO against production or by running the item's own instrument —
+  not on an agent's report.</b> No item was self-marked done; all eleven were left open for verification, which is
+  the behaviour the standard exists to produce. Two agents corrected the CEO's own figures at source and both were
+  right.</p>
+  <p class="fine">One limitation stated rather than hidden: <code>pnpm ui:gate:selftest</code> could not be run on
+  this machine — it hung twice with no output — so UI-19's 369-case self-test is <b>not</b> independently confirmed.
+  The live rail measurement is, and that is the clause its definition of done turns on.</p>
+
+  <h3>6 · What the sprint process itself got wrong</h3>
+  <ul>
+    <li><b>Nothing made the CONT-15 / UI-16 collision visible until a merge.</b> The conflict rule covers two
+      agents editing the same <em>files</em>; these edited different files that render the same <em>pixel</em>.</li>
+    <li><b>A board decision became a gate on arithmetic nobody wrote down.</b> A twelve-point item was one
+      interpretation away from being stopped by a number that could not be reproduced.</li>
+    <li><b>The CEO's own routing rule was wrong and two items re-derived it</b> before anyone fixed the source.</li>
+    <li><b>The CEO reported a correlation as a cause</b> while praising an agent for the rule that catches it.</li>
+    <li><b>Watchers died twice and a four-hour fleet stall went unnoticed.</b> The owner found it by asking —
+      exactly the failure Sprint 03 recorded and did not fix. Carried as PLAT-13.</li>
+    <li><b>The first retrospective was not one.</b> The owner rejected it and was right; the skill is now gated.</li>
+  </ul>
+</div>
+
+<hr>
+<h2>Carried forward</h2>
+<div class="card">
+  <p><b>11 new items, and 8 older ones each now named individually with what it was traded for</b> —
+  <code>check-backlog-deferral.mjs</code> exits 1 until every carry is named, and it exits 0 today.</p>
+  <ul>
+    <li><b>CONT-20 (8pt) — the heaviest.</b> 79 of 92 articles carry no source citation, against a carried figure
+      of "52 of 86". On a site whose competitive claim is that its numbers carry sources, this is the largest open
+      question the sprint produced.</li>
+    <li><b>UI-21 (5pt)</b> — the portrait-cover synthesis both seats independently called correct and both said
+      must not be rushed.</li>
+    <li><b>UI-22 (3pt)</b> — the homepage is the only page on the site with no share image; every WhatsApp share of
+      <code>hellokahwin.com</code> renders imageless.</li>
+    <li><b>CONT-19 (8pt)</b> — the taklik guide carries 1 of 14 states' gazetted text.</li>
+    <li><b>PLAT-13 (3pt)</b> — the watcher defect that blinded the CEO twice in this sprint.</li>
+    <li><b>UI-14 (2pt)</b> — a CSS class with no matching rule should fail the build; this is the defect DES-15
+      spent an item on.</li>
+    <li>Also: DES-19, DES-20, DES-21, UI-23, PLAT-20, COPY-02, DES-14, DES-16, UI-12, PLAT-14, PLAT-17, SEO-04.</li>
+  </ul>
+  <p class="fine"><b>PLAT-21 is not on this list because it shipped instead.</b> It had been deferred three times
+  by three correct refusals — a rule that says "do not absorb another seat's infrastructure job" needs a matching
+  rule naming who picks it up.</p>
+</div>
+
+<hr>
+<h2>Item index</h2>
+<div class="card">
+  <table class="stats">
+    <tr><th>Item</th><th>Owner</th><th class="num">Pt</th><th>Evidence</th></tr>
+    <tr><td>CONT-17</td><td>writer-inspirasi-vendor-venue</td><td class="num">12</td><td>PR #72 · <code>…done-cont-17-doa-pillar.md</code></td></tr>
+    <tr><td>CONT-18</td><td>writer-adat-agama-prosedur</td><td class="num">8</td><td><code>…done-cont-18-nikah-undang-undang.md</code></td></tr>
+    <tr><td>UI-19</td><td>design-systems-engineer</td><td class="num">8</td><td>PR #64 · <code>…done-ui-19-rail.md</code></td></tr>
+    <tr><td>UI-15</td><td>design-systems-engineer</td><td class="num">5</td><td>PRs #75–77 · <code>…done-ui-15-grid-thumbnail.md</code></td></tr>
+    <tr><td>CONT-15</td><td>creative-director</td><td class="num">5</td><td>PRs #71, #78 · <code>…done-cont-15-portrait-covers.md</code></td></tr>
+    <tr><td>UI-16</td><td>design-systems-engineer</td><td class="num">3</td><td>PRs #65, #67, #74 · <code>…done-ui-16-article-cover.md</code></td></tr>
+    <tr><td>UI-20</td><td>design-systems-engineer</td><td class="num">3</td><td>PR #61 · <code>…done-ui-20-favicon-monogram.md</code></td></tr>
+    <tr><td>DES-15</td><td>design-systems-engineer</td><td class="num">3</td><td>PR #60 · <code>…done-des-15-h2-weight.md</code></td></tr>
+    <tr><td>PLAT-16</td><td>design-systems-engineer</td><td class="num">3</td><td>PRs #62, #68, #70 · <code>…done-plat-16-degraded-render-not-cached.md</code></td></tr>
+    <tr><td>SEO-14</td><td>head-of-seo-content</td><td class="num">3</td><td><code>…done-seo-14-serp-shape-census.md</code></td></tr>
+    <tr><td>COPY-01</td><td>managing-editor</td><td class="num">2</td><td><code>…done-copy-01-empty-cluster-copy.md</code></td></tr>
+  </table>
+  <p class="fine">Work-done logs live in <code>docs/work-done/sep-02-2026-session-01/</code>, split across both
+  branches — site items on <code>master</code>, docs items on <code>feat/command-centre-dashboard</code>, per the
+  routing rule this sprint corrected. Briefs are in <code>docs/plans/sep-02-2026-session-01/</code>.</p>
+</div>
+
+</div>
