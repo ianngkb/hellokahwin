@@ -5,6 +5,17 @@
 **Live:** <https://hellokahwin.com/artikel/idea-dan-nasihat/garden-wedding>
 **Reviewer: Claude** — this session's adversarial pass plus the paired self-test. **Not `codex-reviewer`**, per the owner directive of 02 September 2026.
 
+> **No subagent or teammate was dispatched for any part of this item.** Every
+> measurement, edit, backfill and verification was executed directly in the
+> owning session. That was the plan from the start rather than a fallback, but
+> it also turned out to be the only workable one: two fleet-wide `Login expired`
+> stalls hit this session, and teammate/subagent dispatch specifically stays dead
+> through them — each retry costs another stall rather than another attempt.
+> Recorded because a reader comparing this entry's scope against a one-session
+> budget deserves to know no work was fanned out. Cross-session MESSAGING to
+> peers (CONT-15, CONT-17, UI-15) worked throughout and is what produced three of
+> the findings below.
+
 ---
 
 ## The correction that comes first, because the item's own title is wrong
