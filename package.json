@@ -52,7 +52,9 @@
     "audit:favicon": "node scripts/audit-favicon.mjs",
     "audit:favicon:local": "node scripts/audit-favicon.mjs --local",
     "audit:favicon:selftest": "node scripts/audit-favicon.mjs --selftest",
-    "verify:degraded": "node scripts/verify-degraded-page-uncacheable.mjs"
+    "verify:degraded": "node scripts/verify-degraded-page-uncacheable.mjs",
+    "backfill:cover-intrinsics": "tsx scripts/backfill-cover-intrinsics.mts",
+    "audit:cover-intrinsics": "node scripts/audit-cover-intrinsics.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-rekognition": "^3.996.0",

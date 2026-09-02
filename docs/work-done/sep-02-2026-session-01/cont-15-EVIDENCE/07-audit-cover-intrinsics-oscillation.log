@@ -1,0 +1,18 @@
+audit-cover-intrinsics.mjs against production — THE BASELINE IS NOT A NUMBER, IT OSCILLATES
+=========================================================================================
+20:20  low  96/102   md  96/102   exit 1   both columns incomplete
+20:23  low 102/102   md  96/102   exit 1   after CONT-15's backfill  -> columns move independently
+20:38  low 102/102   md 102/102   exit 0   after UI-16's rendition fix
+20:52          <- doa-masuk-rumah-baru RE-INGESTED (updated_at 2026-09-01T20:52:59.321Z)
+21:00  low  96/102   md  96/102   exit 1   THE SAME SIX ARE BARE AGAIN, BOTH COLUMNS
+21:00  (re-read 20s later, identical — not a transient read)
+
+`doa-masuk-rumah-baru` at 21:00:
+  crop keys  crop-16x9-og, crop-4x3-article-card, crop-4x5-mobile-cover,
+             crop-4.3x1-desktop-hero, crop-4x3-article-card-sm      <- no -md
+  low        {"url":".../1788295962710-images-s-keluarga-payung-kuning-mohd-hasan/low.webp",
+              "sizeBytes":109236}                                    <- no width/height,
+                                                                        and a DIFFERENT file
+Production at 21:00 serves `crop-4x3-article-card-sm` (16 refs, no -md, no full card)
+-> UI-16's PR #67 fallback reorder (md -> sm -> card -> low) is CONTAINING the damage:
+   ~23 KB instead of the 770 KB full crop this cost before the reorder.

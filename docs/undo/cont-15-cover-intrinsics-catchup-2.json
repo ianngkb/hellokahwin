@@ -1,0 +1,120 @@
+{
+  "item": "CONT-15",
+  "writtenAt": "2026-09-01T20:23:46.090Z",
+  "targetDbHost": "aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres",
+  "dryRun": false,
+  "addedJsonbKeys": ["cover_image_variants.low.width", "cover_image_variants.low.height"],
+  "r2ObjectsAdded": [],
+  "reversalSql": "UPDATE articles SET cover_image_variants = jsonb_set(cover_image_variants, '{low}', (cover_image_variants -> 'low') - 'width' - 'height') WHERE id IN ('58361cdf-bcb2-4c51-a379-b95350f0d76b', 'aab3ff0a-3415-44da-a34a-798149e57e31', 'f9667316-e895-42b3-be05-36e094cc1c6b', '185a40da-4fe4-4dfa-9aa2-e122b5edd94e', '2dc5c93c-0854-4203-b8c5-d042f21dd6bf', 'e8d4d0c6-a6f8-4468-a2bb-053ad070830b');",
+  "restoreFromPriorRowsOnly": [],
+  "priorRows": [
+    {
+      "id": "58361cdf-bcb2-4c51-a379-b95350f0d76b",
+      "slug": "doa-keluarga-bahagia",
+      "cover_image_variants": {
+        "low": {
+          "url": "https://images.hellokahwin.com/inspire/doa-keluarga-bahagia/1788293662693-images-s-pasangan-dan-keluarga-pelamin-mohd-hasan/low.webp",
+          "sizeBytes": 60734
+        },
+        "high": {
+          "url": "https://images.hellokahwin.com/inspire/doa-keluarga-bahagia/1788293662693-images-s-pasangan-dan-keluarga-pelamin-mohd-hasan/high.webp",
+          "sizeBytes": 455606
+        },
+        "original": {
+          "url": "https://images.hellokahwin.com/inspire/doa-keluarga-bahagia/1788293662693-images-s-pasangan-dan-keluarga-pelamin-mohd-hasan.jpg",
+          "sizeBytes": 2865817
+        }
+      }
+    },
+    {
+      "id": "aab3ff0a-3415-44da-a34a-798149e57e31",
+      "slug": "doa-malam-pertama",
+      "cover_image_variants": {
+        "low": {
+          "url": "https://images.hellokahwin.com/inspire/doa-malam-pertama/1788293638873-images-s-pengantin-melayu-pelamin-fyruz-alqadiri/low.webp",
+          "sizeBytes": 77982
+        },
+        "high": {
+          "url": "https://images.hellokahwin.com/inspire/doa-malam-pertama/1788293638873-images-s-pengantin-melayu-pelamin-fyruz-alqadiri/high.webp",
+          "sizeBytes": 774658
+        },
+        "original": {
+          "url": "https://images.hellokahwin.com/inspire/doa-malam-pertama/1788293638873-images-s-pengantin-melayu-pelamin-fyruz-alqadiri.jpg",
+          "sizeBytes": 11846597
+        }
+      }
+    },
+    {
+      "id": "f9667316-e895-42b3-be05-36e094cc1c6b",
+      "slug": "doa-masuk-rumah-baru",
+      "cover_image_variants": {
+        "low": {
+          "url": "https://images.hellokahwin.com/inspire/doa-masuk-rumah-baru/1788293717377-images-s-keluarga-payung-kuning-mohd-hasan/low.webp",
+          "sizeBytes": 109236
+        },
+        "high": {
+          "url": "https://images.hellokahwin.com/inspire/doa-masuk-rumah-baru/1788293717377-images-s-keluarga-payung-kuning-mohd-hasan/high.webp",
+          "sizeBytes": 764774
+        },
+        "original": {
+          "url": "https://images.hellokahwin.com/inspire/doa-masuk-rumah-baru/1788293717377-images-s-keluarga-payung-kuning-mohd-hasan.jpg",
+          "sizeBytes": 3811719
+        }
+      }
+    },
+    {
+      "id": "185a40da-4fe4-4dfa-9aa2-e122b5edd94e",
+      "slug": "doa-pembuka-majlis",
+      "cover_image_variants": {
+        "low": {
+          "url": "https://images.hellokahwin.com/inspire/doa-pembuka-majlis/1788293734416-images-s-majlis-doa-selamat-ahmad-ali-karim/low.webp",
+          "sizeBytes": 31246
+        },
+        "high": {
+          "url": "https://images.hellokahwin.com/inspire/doa-pembuka-majlis/1788293734416-images-s-majlis-doa-selamat-ahmad-ali-karim/high.webp",
+          "sizeBytes": 189436
+        },
+        "original": {
+          "url": "https://images.hellokahwin.com/inspire/doa-pembuka-majlis/1788293734416-images-s-majlis-doa-selamat-ahmad-ali-karim.jpg",
+          "sizeBytes": 5056088
+        }
+      }
+    },
+    {
+      "id": "2dc5c93c-0854-4203-b8c5-d042f21dd6bf",
+      "slug": "doa-untuk-isteri",
+      "cover_image_variants": {
+        "low": {
+          "url": "https://images.hellokahwin.com/inspire/doa-untuk-isteri/1788293775830-images-s-selepas-akad-raja-abd-kadir/low.webp",
+          "sizeBytes": 37740
+        },
+        "high": {
+          "url": "https://images.hellokahwin.com/inspire/doa-untuk-isteri/1788293775830-images-s-selepas-akad-raja-abd-kadir/high.webp",
+          "sizeBytes": 253472
+        },
+        "original": {
+          "url": "https://images.hellokahwin.com/inspire/doa-untuk-isteri/1788293775830-images-s-selepas-akad-raja-abd-kadir.jpg",
+          "sizeBytes": 1845152
+        }
+      }
+    },
+    {
+      "id": "e8d4d0c6-a6f8-4468-a2bb-053ad070830b",
+      "slug": "doa-untuk-suami",
+      "cover_image_variants": {
+        "low": {
+          "url": "https://images.hellokahwin.com/inspire/doa-untuk-suami/1788293698817-images-s-pasangan-baju-oren-azman-aziz/low.webp",
+          "sizeBytes": 61244
+        },
+        "high": {
+          "url": "https://images.hellokahwin.com/inspire/doa-untuk-suami/1788293698817-images-s-pasangan-baju-oren-azman-aziz/high.webp",
+          "sizeBytes": 386306
+        },
+        "original": {
+          "url": "https://images.hellokahwin.com/inspire/doa-untuk-suami/1788293698817-images-s-pasangan-baju-oren-azman-aziz.jpg",
+          "sizeBytes": 2297572
+        }
+      }
+    }
+  ]
+}
