@@ -6,6 +6,10 @@
  *   pnpm ingest <file.md> --db <url> --commit   # write
  *   pnpm ingest <file.md> --db <url> --commit --update   # allow overwriting
  *
+ * Committing to a non-local database REFUSES if the checkout is behind
+ * origin/master: ingest runs from the checkout, not the deployed app, and a
+ * stale one deletes live image renditions. See assertIngestPipelineCurrent.
+ *
  * The design goal is that publishing becomes BORING. Every judgement call is
  * made in the file by the people who own it, and this script makes none of its
  * own: it validates, refuses loudly with everything wrong at once, or writes.
@@ -24,6 +28,7 @@
  * putting a page in front of readers stays a board-approved act.
  */
 import { readFile } from 'node:fs/promises';
+import { execFileSync } from 'node:child_process';
 import { resolve, dirname, basename, extname } from 'node:path';
 import postgres from 'postgres';
 import { marked } from 'marked';
@@ -83,6 +88,11 @@ interface Args {
    */
   skipMedia: boolean;
   /**
+   * Bypass the stale-checkout guard. Only for a checkout whose ingest path has
+   * been independently confirmed current — see `assertIngestPipelineCurrent`.
+   */
+  allowStaleCheckout: boolean;
+  /**
    * Actually set `status: published`. Without it, an article whose file says
    * `published` is inserted as a DRAFT and the run says so. Publishing is a
    * board-approved act and does not happen because a file asked for it.
@@ -122,6 +132,7 @@ function parseArgs(argv: string[]): Args {
   let skipMedia = false;
   let publish = false;
   let revalidateUrl = '';
+  let allowStaleCheckout = false;
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === '--db') db = argv[++i] ?? '';
@@ -131,6 +142,7 @@ function parseArgs(argv: string[]): Args {
     else if (a === '--update') update = true;
     else if (a === '--skip-media') skipMedia = true;
     else if (a === '--publish') publish = true;
+    else if (a === '--allow-stale-checkout') allowStaleCheckout = true;
     else if (!a.startsWith('--')) file = a;
   }
   const problems: string[] = [];
@@ -156,7 +168,7 @@ function parseArgs(argv: string[]): Args {
     console.error(problems.map((p) => `  - ${p}`).join('\n'));
     process.exit(1);
   }
-  return { file, db, commit, update, skipMedia, publish, revalidateUrl };
+  return { file, db, commit, update, skipMedia, publish, revalidateUrl, allowStaleCheckout };
 }
 
 /**
@@ -387,8 +399,177 @@ function composeBody(
   return [...nodes, ...appended];
 }
 
+/**
+ * Refuse to ingest from a checkout whose IMAGE PIPELINE is behind origin/master.
+ *
+ * WHY THIS EXISTS — CONT-15 / UI-16, 02 Sept 2026, measured twice on a stopwatch.
+ *
+ * This script does NOT run inside the deployed app. It runs from whatever
+ * checkout the operator is standing in, and `processSmartCrops` REPLACES the
+ * whole `cover_image_smart_crops` object rather than merging into it. So an
+ * ingest from a stale checkout does not merely skip a new rendition rung — it
+ * DELETES the rung the live site is already serving, with no deploy and no
+ * code change to show for it.
+ *
+ *   19:51  UI-16 ships `crop-4x3-article-card-md` and deploys it (5c18c74).
+ *   20:12  Six articles ingested from checkouts cut BEFORE that commit; all
+ *          six land without `-md`. The renderer falls through to the full
+ *          1600x1200 crop: 4,742,962 B across six covers, on the LCP element,
+ *          about 12.5x the asset the previous code served.
+ *   20:38  Backfilled. Audit green: low 102/102, md 102/102, exit 0.
+ *   20:52  One article re-ingested from a stale checkout.
+ *   21:00  Audit red again, the same six, both columns. 22 minutes.
+ *
+ * `crop-4x3-article-card-sm` survived all of it precisely because that rung has
+ * been on master since Sprint 05, so even the stale checkouts had it. That is
+ * the signature: the OLD rungs live, the NEW rung dies.
+ *
+ * At the time of writing, 10 of 16 site-line checkouts lacked the fix — the
+ * main clone among them, 28 commits behind. No deployed fix can reach any of
+ * them, which is why this guard lives in the thing that actually runs.
+ *
+ * IT FIRES ON THE SYMPTOM, NOT ON REF DISTANCE. A checkout can sit behind
+ * master for a hundred reasons that never touch ingest, and a guard that blocks
+ * all of them teaches people to type the override reflexively. So this compares
+ * the ingest-relevant sources against origin/master and refuses only when THOSE
+ * differ — naming the rendition rungs that would actually be destroyed.
+ *
+ * Scope: only when WRITING (`--commit`) to a NON-LOCAL database. Dry runs and
+ * local development are never blocked.
+ */
+const INGEST_PIPELINE_PATHS = [
+  'src/lib/storage/midsize-cover.ts',
+  'src/lib/storage/smart-crop.ts',
+  'src/lib/storage/image-variants.ts',
+  'src/lib/storage/lqip.ts',
+  'scripts/ingest-article.mts',
+];
+
+function renditionNames(source: string): string[] {
+  return [...source.matchAll(/NAME:\s*'([^']+)'/g)].map((m) => m[1]).sort();
+}
+
+function assertIngestPipelineCurrent(args: Args): void {
+  if (!args.commit || isLocalDb(args.db)) return;
+
+  const git = (...a: string[]) =>
+    execFileSync('git', a, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
+
+  // Recorded on EVERY production write, allowed, overridden or refused. CONT-17
+  // shipped six articles from a checkout nobody could afterwards identify — it
+  // was not logged anywhere, and the session that ran it had died. One line
+  // turns "which checkout wrote these rows?" from unanswerable into a grep.
+  const say = (m: string) => console.log(`Checkout: ${m}`);
+
+  let head: string;
+  try {
+    head = git('rev-parse', 'HEAD');
+  } catch {
+    if (args.allowStaleCheckout) {
+      say('UNKNOWN — not a git checkout, and --allow-stale-checkout was passed');
+      return;
+    }
+    refuse([
+      'cannot determine which git checkout this ingest is running from. Ingest writes image renditions ' +
+        'generated by THIS checkout, and a stale one silently deletes renditions the live site depends ' +
+        'on. Run it from inside the repository, or pass --allow-stale-checkout if you have ' +
+        'independently confirmed the image pipeline here is current.',
+    ]);
+  }
+  let branch: string;
+  try {
+    branch = git('rev-parse', '--abbrev-ref', 'HEAD');
+  } catch {
+    branch = '?';
+  }
+  const where = `${head.slice(0, 7)} (${branch})`;
+
+  /**
+   * What master has that this checkout LACKS — never the reverse.
+   *
+   * THE RULE, because getting it backwards is invisible in the direction you
+   * are looking: only what master HAS and the checkout LACKS may refuse a run.
+   * What the checkout ADDS is never a reason. A plain `diff head master` is
+   * symmetric, so it also fires on branches doing ingest-path work — the
+   * population most likely to be doing it correctly — and teaches every one of
+   * them to reach for the override on their first try.
+   *
+   * Returns null when it cannot tell (no network, shallow clone, missing
+   * objects). The caller decides whether that is fatal; it is not, under the
+   * override, because the override has to keep working offline.
+   */
+  const survey = (): { master: string; drifted: string[]; lost: string[]; behind: string } | null => {
+    try {
+      // A stale checkout has a stale `origin/master` ref too, so the ref must
+      // be refreshed before it can be trusted. That is the whole trap.
+      git('fetch', '--quiet', 'origin', 'master');
+      const master = git('rev-parse', 'FETCH_HEAD');
+      const base = git('merge-base', head, master);
+      const drifted = git('diff', '--name-only', base, master, '--', ...INGEST_PIPELINE_PATHS)
+        .split('\n')
+        .map((l) => l.trim())
+        .filter(Boolean);
+      let lost: string[] = [];
+      try {
+        const mine = renditionNames(git('show', `${head}:src/lib/storage/midsize-cover.ts`));
+        const theirs = renditionNames(git('show', `${master}:src/lib/storage/midsize-cover.ts`));
+        lost = theirs.filter((n) => !mine.includes(n));
+      } catch {
+        lost = [];
+      }
+      return { master, drifted, lost, behind: git('rev-list', '--count', `${head}..${master}`) };
+    } catch {
+      return null;
+    }
+  };
+
+  const consequence = (s: { lost: string[] }) =>
+    s.lost.length
+      ? `Publishing DELETES ${s.lost.join(', ')} from every row it touches.`
+      : 'the image pipeline here differs from origin/master, so the renditions this run writes may ' +
+        'not match what the live site expects.';
+
+  // The override is the branch a hurried operator takes, and this log line is
+  // the only record that anything was bypassed. So it names what it skipped —
+  // the next post-mortem should not depend on someone remembering they typed it.
+  if (args.allowStaleCheckout) {
+    const s = survey();
+    if (!s) say(`${where} — OVERRIDDEN via --allow-stale-checkout; could not determine what was skipped`);
+    else if (s.drifted.length === 0)
+      say(`${where} — --allow-stale-checkout passed, but the image pipeline matched origin/master ${s.master.slice(0, 7)} anyway`);
+    else say(`${where} — OVERRIDDEN via --allow-stale-checkout, ${s.behind} behind. ${consequence(s)}`);
+    return;
+  }
+
+  const s = survey();
+  if (!s) {
+    refuse([
+      'could not compare this checkout against origin/master. Ingest from a stale checkout DELETES ' +
+        'image renditions the live site is serving, so an unverifiable checkout is refused rather ' +
+        'than trusted. Restore the network, or pass --allow-stale-checkout if you have independently ' +
+        'confirmed the image pipeline here is current.',
+    ]);
+  }
+  if (s.drifted.length === 0) {
+    say(`${where} · image pipeline matches origin/master ${s.master.slice(0, 7)}`);
+    return;
+  }
+
+  refuse([
+    `the image pipeline in this checkout is behind origin/master (${s.behind} commit${s.behind === '1' ? '' : 's'}), ` +
+      'and ingest runs from the checkout rather than from the deployed app, replacing each row’s ' +
+      `smart-crop object wholesale. ${consequence(s)}\n` +
+      `      HEAD           ${where}\n` +
+      `      origin/master  ${s.master.slice(0, 7)}\n` +
+      `      drifted        ${s.drifted.join('\n                     ')}\n` +
+      '      Fix:  git merge --ff-only origin/master   (or rebase onto it), then re-run.\n' +
+      '      Override, only if you have confirmed the ingest path is unchanged:  --allow-stale-checkout',
+  ]);
+}
+
 async function main() {
   const args = parseArgs(process.argv.slice(2));
+  assertIngestPipelineCurrent(args);
 
   // Before anything else touches the environment. See bootstrapEnv().
   const {
