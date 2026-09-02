@@ -96,8 +96,14 @@ PRE-FIX image-aspect violations
 The 15th is `syarat-wali-nikah`, published *after* the CD measured.
 
 **THE CORPUS MOVED FOUR TIMES DURING THIS ITEM: 92 → 95 → 96 → 102, in one
-evening.** Both counts are kept and dated rather than reconciled; reconciling
-them would destroy the evidence that it moves.
+evening** — and the creative-director, measuring independently afterwards, saw
+92 → 96 → 97 → 102 with the portrait set going **14 → 15 → 17**. Two seats, two
+sampling schedules, neither wrong. Both counts are kept and dated rather than
+reconciled; reconciling them would destroy the evidence that it moves.
+
+**So the affected-slug LIST is not a deliverable — the COMMAND is.** Any
+document naming fifteen slugs is stale on a timescale of hours. `pnpm
+audit:cover-intrinsics` and the re-derivation query are what survive.
 
 ### Byte cost, content-length measured
 
@@ -228,12 +234,25 @@ budgeted rather than largest. The defect recurs; its cost no longer does.
    height="800"` for e.g. a 1527×2264 file — 122% off. Advisory
    (`image-attr-aspect` 61 sitewide). Different element, different item.
 
-4. **I could not read the specification artifact.** The Artifact tool returned
-   *"not found — it may have been deleted, or it has not been shared with you"*
+4. **I could not read the specification artifact** — the Artifact tool returned
+   *"not found — it may have been deleted, or it has not been shared with you"*,
    and it was absent from a `scope=all` listing. Built from
-   `_cont15-build-artifact.mjs` + `_cont15-plates.json` (its generator). If any
-   number was hand-edited into the artifact after generation, the spec I built
-   against was stale and nothing would have revealed it.
+   `_cont15-build-artifact.mjs` + `_cont15-plates.json` (its generator) instead.
+
+   **RESOLVED, and the answer is that the spec was NOT stale.** The
+   creative-director confirms every publish was `node _cont15-build-artifact.mjs`
+   with no hand-editing, so the generator on disk was byte-for-byte what was
+   published at the time I read it. The two later generator changes (a
+   "superseded" banner and a closing section on the depiction finding) both
+   post-date the ruling and moved no number.
+
+   **The finding stands anyway, and it is the platform's, not either of ours.**
+   Artifacts are private to the publisher and the flow has no share step, so a
+   specification was handed to a builder who could not open it. It was the
+   generator happening to be on disk that saved this — luck, not design. The
+   CD's own persona says "if it is not in the artifact it is not specified",
+   which is unworkable when the artifact is unreadable by the person building
+   from it.
 
 ---
 
