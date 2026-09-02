@@ -257,6 +257,13 @@ BUILD and a CACHE STATE, never about a URL: record the deployment id, the cache
 state and the CSS chunk hashes beside the number, and re-check after the cache
 that could be hiding the old payload has actually turned over.
 
+**R12 — Stage paths, never directories, in a shared worktree.** `git add docs/`
+swept four of another seat's in-progress files onto an unrelated branch and
+pushed them. The repo already carries "an uncommitted file is not yours by
+default"; what it lacked was the mechanical form. `git add <path> <path>` is the
+only safe form, and the recovery is `git rm --cached` — which removes the file
+from the branch while leaving it on disk, so the author loses nothing.
+
 **Two audits over the same key is correct, not duplication.**
 `audit-cover-intrinsics.mjs` reads the DATABASE; UI-16's rendition audit compares
 the database to the RENDERED PAGE and weighs the served object by `HEAD`. They

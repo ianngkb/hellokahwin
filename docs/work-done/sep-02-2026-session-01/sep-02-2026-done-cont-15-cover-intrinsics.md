@@ -288,7 +288,17 @@ right about the mechanism even though the fix was superseded.
 
 ## NEXT ITEM, scoped not built: the synthesis
 
-**Name:** `CONT-17 — the cover box follows the RENDITION, not a hardcoded 4/3`
+**Item:** **`UI-21`** — *"Portrait covers lose half the frame to the 4:3 named
+crop — the synthesis both CONT-15 and UI-16 independently called correct"*.
+Backlog, `todo`, design track, 5pt, owner `creative-director`, created
+2026-09-01T20:22Z.
+
+> ⚠️ **IT ALREADY EXISTED AND I ALMOST FILED A DUPLICATE.** This was drafted as
+> "CONT-17", which is a live 12-point content item (*Deepen the doa pillar*,
+> `writer-inspirasi-vendor-venue`). The next guess, CONT-19, is also taken
+> (backlog, `lafaz taklik`). Two different items under one id in one sprint is
+> unrecoverable a fortnight later. **Read the tracker; never infer an id from
+> the last number you saw in a brief.**
 
 Both CONT-15 and UI-16 independently reached the same synthesis and both said it
 should not be built the same night. Agreed; named and scoped here.
