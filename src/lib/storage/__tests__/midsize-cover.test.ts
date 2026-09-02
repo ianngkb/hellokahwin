@@ -51,10 +51,7 @@ describe('GEOMETRY_VERSION is not moved by the mid-size rendition', () => {
       'crop-16x9-og',
     ]);
 
-    const version = createHash('sha1')
-      .update(JSON.stringify(targets))
-      .digest('hex')
-      .slice(0, 8);
+    const version = createHash('sha1').update(JSON.stringify(targets)).digest('hex').slice(0, 8);
     expect(version).toBe('48c0b959');
   });
 
