@@ -3,6 +3,23 @@ import { encodeUnderCeiling, type CeilingSpec } from '../byte-ceiling';
 import { getArticleVariantUrl } from '../article-image-variant';
 
 /**
+ * ⚠️ The 5s default is not enough for the `await import('../image-variants')`
+ * calls below, and the assertion is never what runs long.
+ *
+ * That module pulls in `sharp`, the AWS SDK and drizzle. On a cold worktree
+ * with a `next build` running on the same CPU, vitest measured `import
+ * 175.89s` across the suite and this file's FIRST dynamic import — a test whose
+ * whole body is one comparison against a constant — blew the per-test budget
+ * and failed. Nothing about the code was wrong; the module graph was simply
+ * still loading.
+ *
+ * `midsize-cover.test.ts` dodges this by parsing `smart-crop.ts` as text rather
+ * than importing it, for exactly this reason. These tests need the real values,
+ * so they pay the import and are given room to.
+ */
+vi.setConfig({ testTimeout: 30_000 });
+
+/**
  * The Ahrefs image item, 04 September 2026. Each block below is a defect this
  * change could plausibly ship, written as the assertion that catches it —
  * not a restatement of the implementation.
