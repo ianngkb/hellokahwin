@@ -148,13 +148,29 @@ async function main() {
     pagesFetched++;
     const html = await res.text();
 
+    // ⚠ ONLY what the browser actually FETCHES — `src` and `srcset` attributes.
+    //
+    // A bare scan of the page text is wrong, and production proved it the day
+    // this shipped: `article-renderer.tsx` passes the ORIGINAL `high.webp` URL
+    // to `MoodboardSaveButton` as `photoUrl`, so every figure serialises its
+    // `high.webp` into the RSC flight payload beside the `mid.webp` it renders.
+    // On `amankila-bali` that is 86 `high.webp` strings in a page whose 43
+    // `<img>` tags contain none. A text scan would have reported 43 oversized
+    // body images that no browser ever requests, and failed a green deploy.
+    //
+    // The budget is about bytes on the wire, so the extraction is too.
     const urls = [
       ...new Set(
-        [...html.matchAll(/https:\/\/images\.hellokahwin\.com\/[^"'\\ )]+/g)]
-          .map((m) => m[0].replace(/\\u0026/g, '&').replace(/&amp;/g, '&'))
-          // Next.js serialises srcset and JSON payloads into the same HTML, so
-          // the same URL arrives with assorted trailing punctuation.
-          .map((u) => u.replace(/[",)\]]+$/, '')),
+        [...html.matchAll(/(?:src|srcSet|srcset)="([^"]*images\.hellokahwin\.com[^"]*)"/g)].flatMap(
+          (m) =>
+            // A srcset is a comma-separated list of `<url> <descriptor>` pairs; a
+            // plain src is the degenerate case and parses the same way.
+            m[1]
+              .split(',')
+              .map((part) => part.trim().split(/\s+/)[0])
+              .filter((u) => u.startsWith('https://images.hellokahwin.com/'))
+              .map((u) => u.replace(/\\u0026/g, '&').replace(/&amp;/g, '&')),
+        ),
       ),
     ];
 
