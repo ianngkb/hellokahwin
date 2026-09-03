@@ -1,0 +1,9 @@
+{
+  "layer": "FIX-CHECK-2",
+  "closed": [
+    "The acceptance audit exits 0 when it measured nothing at all",
+    "cropOffenders is collected but never reported or counted, so documented assertion 3 (cover crops over CROP_CEILING) never fails the run"
+  ],
+  "still_open": [],
+  "new_defects_introduced_by_fixes": []
+}
