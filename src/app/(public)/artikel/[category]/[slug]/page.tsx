@@ -1272,7 +1272,14 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
                   </span>
                   <WhatsAppShare title={article.title} url={canonicalUrl} />
                 </div>
-                <ArticleRenderer content={renderContent} articleId={article.id} showToc={false} />
+                <ArticleRenderer
+                  content={renderContent}
+                  articleId={article.id}
+                  showToc={false}
+                  /* Only used to build a fallback `alt` for images the editor
+                     uploaded without one — see `fallbackImageAlt`. */
+                  articleTitle={article.title}
+                />
                 {/* Link back up to the pillar. Inside <article> and immediately
                   after the body, so it reads as part of the piece rather than
                   as chrome, and so it sits above the fold of the related block. */}

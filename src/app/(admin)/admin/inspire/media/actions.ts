@@ -388,6 +388,12 @@ export async function bulkDeleteMediaAction(
 
 export async function createMediaRecordAction(data: {
   filename: string;
+  /**
+   * Required at the upload dialog, optional here: cover images and older
+   * callers create records without one, and a failed media insert must never
+   * take an upload down (see `uploadInspireImage`, which swallows this).
+   */
+  alt?: string | null;
   r2Key: string;
   url: string;
   originalUrl: string;
@@ -411,6 +417,9 @@ export async function createMediaRecordAction(data: {
     .insert(media)
     .values({
       filename: data.filename,
+      // `undefined` leaves the column's own `''` default in place, so a
+      // caller that never had an alt to give behaves exactly as it did before.
+      alt: data.alt?.trim() || undefined,
       r2Key: data.r2Key,
       url: data.url,
       originalUrl: data.originalUrl,

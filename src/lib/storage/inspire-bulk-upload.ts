@@ -6,6 +6,12 @@ export interface BulkUploadOptions {
   slug?: string;
   articleId?: string;
   concurrency?: number;
+  /**
+   * Alt text per file, positionally aligned with `files`. The upload dialog
+   * will not submit until every entry has one; a missing entry here is not
+   * silently defaulted, it simply leaves the media row's alt null.
+   */
+  alts?: string[];
   onFileProgress?: (fileIndex: number, stage: UploadStage, progress: number) => void;
   onFileComplete?: (fileIndex: number, result: InspireUploadResult) => void;
   onFileError?: (fileIndex: number, error: Error) => void;
@@ -33,7 +39,7 @@ export async function uploadInspireBulk(
 
       try {
         const result = await uploadInspireImage(
-          { slug: options.slug, articleId: options.articleId },
+          { slug: options.slug, articleId: options.articleId, alt: options.alts?.[currentIndex] },
           file,
           (stage, progress) => {
             options.onFileProgress?.(currentIndex, stage, progress);

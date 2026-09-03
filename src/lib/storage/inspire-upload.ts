@@ -19,6 +19,14 @@ export type InspireUploadOptions = {
   articleId?: string;
   /** When true, skip creating a media DB record (e.g. for cover images) */
   skipMediaRecord?: boolean;
+  /**
+   * Alt text for the media record. The admin upload dialog requires one before
+   * it will start an upload — see `BulkUploadDialog` — so the alt is on the
+   * media row from the moment the image exists, and every later insert into an
+   * article carries it. Optional here because the cover-image path skips the
+   * media record entirely.
+   */
+  alt?: string;
   /** Skip smart crops (Rekognition + 4 crop variants). Omit or set `true` to skip; set `false` to generate. */
   skipSmartCrops?: boolean;
 };
@@ -141,6 +149,7 @@ export async function uploadInspireImage(
       const source = options.articleId || options.slug ? 'article_upload' : 'library_upload';
       const mediaResult = await createMediaRecordAction({
         filename: file.name,
+        alt: options.alt ?? null,
         r2Key: key,
         url: result.url,
         originalUrl: publicUrl,

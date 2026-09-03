@@ -318,6 +318,57 @@ interface ArticleRendererProps {
    * (UI-17, DES-03 §5.1) and two contents lists on one page is a defect.
    */
   showToc?: boolean;
+  /**
+   * The article's headline, used ONLY to build a fallback `alt` for body and
+   * gallery images that the editor uploaded without one — see
+   * `fallbackImageAlt`. Optional, and its absence is not a bug: the admin draft
+   * preview and the design-system reference page render content with no article
+   * behind it, and they keep today's empty `alt`.
+   */
+  articleTitle?: string;
+}
+
+/**
+ * The `alt` an image gets when the stored content has none.
+ *
+ * ── WHY (Ahrefs 2026-08-28: "Missing alt text", 172 images) ───────────────
+ *
+ * The renderer shipped `alt={img.alt || ''}`. The alt lives in the Tiptap
+ * JSONB, and an editor who uploads without typing one publishes `alt=""` — a
+ * DECLARATION that the image is decorative. On the real-wedding photo essays
+ * that is 49 of 57 images on one page: a screen reader is told there is nothing
+ * there, on a page that is almost entirely photographs.
+ *
+ * A title-plus-position fallback is not good alt text. It is, however, true,
+ * and it is unambiguously better than lying about the image being decorative.
+ * The genuinely decorative images elsewhere in the app (the sidebar thumb, the
+ * author avatar, the mobile bar, the gallery thumbnail strip) keep their
+ * deliberate `alt=""` and do not come through here.
+ *
+ * `ordinal` is 0-based and counts every image in the article in document order,
+ * whether or not it already had an alt, so "gambar 3" is the third photograph
+ * on the page rather than the third one someone forgot to describe.
+ *
+ * Returns `''` with no title, preserving today's behaviour for the preview
+ * surfaces that have no article.
+ */
+export function fallbackImageAlt(articleTitle: string | undefined, ordinal: number): string {
+  const title = articleTitle?.trim();
+  if (!title) return '';
+  return `${title} — gambar ${ordinal + 1}`;
+}
+
+/**
+ * A running image ordinal for one article render.
+ *
+ * Deliberately a mutable box rather than a closure over `let`: it is handed to
+ * `renderHtmlParts`, which consumes it synchronously while CONSTRUCTING
+ * elements, and the gallery path reads it once at construction time to derive a
+ * base index. Nothing reads it from inside a component body, where React would
+ * decide the order instead of the document.
+ */
+interface ImageOrdinalCounter {
+  next: number;
 }
 
 /**
@@ -597,6 +648,8 @@ function renderHtmlParts(
   savedImageUrls: string[] | undefined,
   vendorCredits: { listingId: string | null; vendorName: string }[] | undefined,
   keyPrefix: string,
+  articleTitle: string | undefined,
+  imageOrdinal: ImageOrdinalCounter,
 ): React.ReactNode[] {
   const parts = splitHtmlByImages(html);
   const elements: React.ReactNode[] = [];
@@ -607,6 +660,10 @@ function renderHtmlParts(
     // captions pass through unchanged; `null` means there is nothing to show,
     // including a caption that is a bare label with no owner after it.
     const creditLabel = part.type === 'html' ? null : normaliseCaptionLabel(part.caption);
+    // Consumed for EVERY image, described or not, so the ordinal is the
+    // image's position on the page.
+    const imgAlt =
+      part.type === 'img' ? part.alt || fallbackImageAlt(articleTitle, imageOrdinal.next++) : '';
     if (part.type === 'html') {
       elements.push(
         <div key={`${keyPrefix}-${i}`} dangerouslySetInnerHTML={{ __html: part.value }} />,
@@ -646,7 +703,7 @@ function renderHtmlParts(
               uncredited `<div>` variant below, and the `figure` block. */}
           <Image
             src={getArticleVariantUrl(part.src, 'high')}
-            alt={part.alt}
+            alt={imgAlt}
             width={part.width}
             height={part.height}
             sizes="(max-width: 768px) 100vw, 680px"
@@ -705,7 +762,7 @@ function renderHtmlParts(
               measured defect and same reasoning as the credited figure above. */}
           <Image
             src={getArticleVariantUrl(part.src, 'high')}
-            alt={part.alt}
+            alt={imgAlt}
             width={part.width}
             height={part.height}
             sizes="(max-width: 768px) 100vw, 680px"
@@ -744,6 +801,7 @@ const gridClasses: Record<string, string> = {
 
 function GalleryImage({
   img,
+  alt,
   isMasonry,
   layout,
   articleId,
@@ -752,6 +810,11 @@ function GalleryImage({
   showCaption,
 }: {
   img: GalleryBlockImage;
+  /**
+   * Resolved by the caller, not here: the fallback needs the image's position
+   * in the ARTICLE, which only the caller knows.
+   */
+  alt: string;
   isMasonry: boolean;
   layout: string;
   articleId?: string;
@@ -809,7 +872,7 @@ function GalleryImage({
     <div className="group relative overflow-hidden rounded-md">
       <Image
         src={getArticleVariantUrl(img.src, variant)}
-        alt={img.alt || ''}
+        alt={alt}
         width={img.width || 800}
         height={img.height || 800}
         sizes={sizes}
@@ -827,12 +890,22 @@ function GalleryRenderer({
   savedImageUrls,
   vendorCredits,
   keyPrefix,
+  articleTitle,
+  altBaseOrdinal = 0,
 }: {
   data: GalleryBlockData;
   articleId?: string;
   savedImageUrls?: string[];
   vendorCredits?: { listingId: string | null; vendorName: string }[];
   keyPrefix: string;
+  articleTitle?: string;
+  /**
+   * 0-based position of this gallery's first image within the whole article.
+   * A NUMBER rather than the shared counter on purpose: this is a component,
+   * so React decides when its body runs, and an ordinal read here would be
+   * ordered by rendering rather than by the document.
+   */
+  altBaseOrdinal?: number;
 }) {
   const isMasonry = data.layout === 'masonry';
   const isGrid1 = data.layout === 'grid-1';
@@ -854,6 +927,7 @@ function GalleryRenderer({
                 <div key={`${keyPrefix}-gi-${j}`} style={{ flex: `${aspectRatio} 1 0%` }}>
                   <GalleryImage
                     img={img}
+                    alt={img.alt || fallbackImageAlt(articleTitle, altBaseOrdinal + j)}
                     isMasonry={false}
                     layout={data.layout}
                     articleId={articleId}
@@ -879,6 +953,7 @@ function GalleryRenderer({
         <div key={`${keyPrefix}-gi-${j}`} className={isMasonry ? 'mb-2 break-inside-avoid' : ''}>
           <GalleryImage
             img={img}
+            alt={img.alt || fallbackImageAlt(articleTitle, altBaseOrdinal + j)}
             isMasonry={isMasonry}
             layout={data.layout}
             articleId={articleId}
@@ -901,6 +976,7 @@ export function ArticleRenderer({
   vendorCredits,
   inlineBanner,
   showToc = true,
+  articleTitle,
 }: ArticleRendererProps) {
   if (!content) {
     return <p className="text-muted-foreground">No content yet.</p>;
@@ -934,6 +1010,7 @@ export function ArticleRenderer({
       vendorCredits,
       inlineBanner,
       toc,
+      articleTitle,
     );
   }
 
@@ -942,12 +1019,20 @@ export function ArticleRenderer({
   // de-duplication counter partway down the page.
   const assignId = createHeadingIdAssigner();
 
+  // ONE ordinal sequence for the whole article, for the same reason: alt text
+  // that says "gambar 3" twice on one page describes neither image.
+  const imageOrdinal: ImageOrdinalCounter = { next: 0 };
+
   // Render each segment
   const allElements: React.ReactNode[] = [];
   let partIndex = 0;
 
   for (const part of contentParts) {
     if (part.type === 'gallery') {
+      // Claim this gallery's slice of the sequence HERE, where the document
+      // order is known, rather than inside GalleryRenderer.
+      const galleryAltBase = imageOrdinal.next;
+      imageOrdinal.next += part.data.images.length;
       allElements.push(
         <div key={`gallery-${partIndex}`} className="my-8 lg:mx-auto lg:max-w-[680px]">
           <GalleryRenderer
@@ -956,6 +1041,8 @@ export function ArticleRenderer({
             savedImageUrls={savedImageUrls}
             vendorCredits={vendorCredits}
             keyPrefix={`g${partIndex}`}
+            articleTitle={articleTitle}
+            altBaseOrdinal={galleryAltBase}
           />
         </div>,
       );
@@ -963,6 +1050,7 @@ export function ArticleRenderer({
       const { src, alt, caption, captionUrl, captionHtml } = part.data;
       if (src) {
         const figureDims = parseImageDims(src);
+        const figureAlt = alt || fallbackImageAlt(articleTitle, imageOrdinal.next++);
         allElements.push(
           <figure
             key={`figure-${partIndex}`}
@@ -976,7 +1064,7 @@ export function ArticleRenderer({
                 1200 × 800 fallback is wrong for exactly the image that fires. */}
             <Image
               src={getArticleVariantUrl(src, 'high')}
-              alt={alt}
+              alt={figureAlt}
               width={figureDims.width}
               height={figureDims.height}
               sizes="(max-width: 768px) 100vw, 680px"
@@ -1116,6 +1204,8 @@ export function ArticleRenderer({
           savedImageUrls,
           vendorCredits,
           `p${partIndex}`,
+          articleTitle,
+          imageOrdinal,
         );
         allElements.push(...htmlElements);
       } catch (err) {
@@ -1248,6 +1338,7 @@ function renderOriginal(
   vendorCredits?: { listingId: string | null; vendorName: string }[],
   inlineBanner?: React.ReactNode,
   toc?: React.ReactNode,
+  articleTitle?: string,
 ): React.ReactNode {
   // Same as the wrapper above: the `prose*` classes here matched nothing, and
   // `max-w-none` came off in UI-10 for the same reason it did there — it
@@ -1265,6 +1356,7 @@ function renderOriginal(
     nodes: unknown[],
     keyPrefix: string,
     assignId: (text: string) => string,
+    imageOrdinal: ImageOrdinalCounter,
   ): React.ReactNode[] => {
     const subDoc = { type: 'doc', content: nodes };
     const raw = generateHTML(
@@ -1275,7 +1367,15 @@ function renderOriginal(
       wrapTablesForScroll(sanitizeHtml(raw, sanitizeOptions)),
       assignId,
     );
-    return renderHtmlParts(html, articleId, savedImageUrls, vendorCredits, keyPrefix);
+    return renderHtmlParts(
+      html,
+      articleId,
+      savedImageUrls,
+      vendorCredits,
+      keyPrefix,
+      articleTitle,
+      imageOrdinal,
+    );
   };
 
   // Pull out top-level nodes for JSON-level splitting. The current caller
@@ -1291,7 +1391,7 @@ function renderOriginal(
   if (!inlineBanner || nodes.length < 4) {
     let elements: React.ReactNode[];
     try {
-      elements = renderHalf(nodes, 'all', createHeadingIdAssigner());
+      elements = renderHalf(nodes, 'all', createHeadingIdAssigner(), { next: 0 });
     } catch {
       return <p className="text-muted-foreground">Unable to render content.</p>;
     }
@@ -1308,8 +1408,12 @@ function renderOriginal(
   const mid = Math.floor(nodes.length / 2);
   try {
     const assignId = createHeadingIdAssigner();
-    const firstHalf = renderHalf(nodes.slice(0, mid), 'a', assignId);
-    const secondHalf = renderHalf(nodes.slice(mid), 'b', assignId);
+    // One counter across both halves, exactly like the heading-id assigner
+    // above and for the same reason: restarting at the midpoint would number
+    // two images "gambar 1".
+    const imageOrdinal: ImageOrdinalCounter = { next: 0 };
+    const firstHalf = renderHalf(nodes.slice(0, mid), 'a', assignId, imageOrdinal);
+    const secondHalf = renderHalf(nodes.slice(mid), 'b', assignId, imageOrdinal);
     return (
       <div className={wrapperClassName}>
         {toc}
@@ -1322,7 +1426,7 @@ function renderOriginal(
     // If either half fails to render, fall back to a single-pass render of
     // the whole doc (no banner) before giving up entirely.
     try {
-      const all = renderHalf(nodes, 'all', createHeadingIdAssigner());
+      const all = renderHalf(nodes, 'all', createHeadingIdAssigner(), { next: 0 });
       return (
         <div className={wrapperClassName}>
           {toc}

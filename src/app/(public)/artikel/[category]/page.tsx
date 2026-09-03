@@ -17,6 +17,7 @@ import { getPillarView } from '@/lib/inspire/pillar-queries';
 import { tagEdgeResponse } from '@/lib/cache/edge-tag';
 import { categoryOwnsPublishedArticles } from '@/lib/inspire/category-indexability';
 import { categoryRobots, ROBOTS_ON_DEADLINE_MISS } from '@/lib/seo/category-robots';
+import { collectionItemList, type CollectionListItem } from '@/lib/seo/collection-jsonld';
 import { resolveCardSource, resolveRowThumbSource } from '@/lib/storage/responsive-cover';
 import { EmptyCategoryState } from '@/design-system/components';
 import '@/design-system/tokens.css';
@@ -217,6 +218,12 @@ export async function generateMetadata({
     openGraph: {
       title: `${cat.name} | Artikel | HelloKahwin`,
       description,
+      // Ahrefs requires all four of og:title, og:type, og:image and og:url;
+      // this route was serving two of them. `url` stays relative — the root
+      // layout's `metadataBase` resolves it — so the `?sub=` and paginated
+      // variants all point at the same canonical hub the `alternates` key does.
+      type: 'website',
+      url: `/artikel/${categorySlug}`,
       images: [{ url: '/hellokahwin-logo.png', width: 886, height: 290, alt: 'HelloKahwin' }],
     },
     twitter: {
@@ -381,6 +388,22 @@ async function renderPillarPage(
     { label: category.name },
   ];
 
+  // Every article the pillar renders, in document order, once each. An article
+  // linked to two clusters is rendered twice on the page but is ONE item of the
+  // collection, which is what `view.totalArticles` already counts — so the list
+  // is deduplicated by id to keep `numberOfItems` and `itemListElement` telling
+  // the same story.
+  const seenArticleIds = new Set<string>();
+  const pillarItems: CollectionListItem[] = [];
+  for (const article of [...view.clusters.flatMap((c) => c.articles), ...view.unclustered]) {
+    if (seenArticleIds.has(article.id)) continue;
+    seenArticleIds.add(article.id);
+    pillarItems.push({
+      name: article.title,
+      url: `${baseUrl}/artikel/${article.categorySlug}/${article.slug}`,
+    });
+  }
+
   return (
     <div className="hk s-pad mx-auto max-w-6xl py-8">
       <BreadcrumbJsonLd items={breadcrumbItems} />
@@ -393,7 +416,11 @@ async function renderPillarPage(
             name: category.name,
             description: category.description ?? `Artikel ${category.name} di HelloKahwin.`,
             url: `${baseUrl}/artikel/${categorySlug}`,
-            numberOfItems: view.totalArticles,
+            // `numberOfItems` belongs to ItemList, NOT to CollectionPage —
+            // emitting it here directly is what failed schema.org validation on
+            // 183 URLs (Ahrefs crawl 2026-08-28). `@/lib/seo/collection-jsonld`
+            // carries the whole diagnosis.
+            mainEntity: collectionItemList(view.totalArticles, pillarItems),
             // The clusters, declared as parts of the pillar. This is the
             // machine-readable half of the same statement the headings make:
             // these sub-topics belong to this entity.
@@ -558,7 +585,18 @@ export default async function InspireCategoryPage({ params, searchParams }: Cate
             name: category.name,
             description: category.description ?? `Artikel ${category.name} di HelloKahwin.`,
             url: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com'}/artikel/${categorySlug}`,
-            numberOfItems: Number(total),
+            // See the pillar view above, and `@/lib/seo/collection-jsonld`:
+            // `numberOfItems` is an ItemList property and was invalid here.
+            // `position` continues across pages, so page 2's first card is not
+            // also described as item 1 of the collection.
+            mainEntity: collectionItemList(
+              Number(total),
+              data.map((article) => ({
+                name: article.title,
+                url: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com'}/artikel/${article.categorySlug ?? categorySlug}/${article.slug}`,
+              })),
+              (page - 1) * perPage + 1,
+            ),
             provider: {
               '@type': 'Organization',
               name: 'HelloKahwin',
