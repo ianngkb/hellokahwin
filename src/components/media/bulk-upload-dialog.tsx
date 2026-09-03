@@ -224,12 +224,22 @@ export function BulkUploadDialog({
             return next;
           });
         },
-        onFileComplete: (fileIndex) => {
+        onFileComplete: (fileIndex, result) => {
           const realIndex = indexMap[fileIndex];
           markCompleted();
           setFiles((prev) => {
             const next = [...prev];
-            next[realIndex] = { ...next[realIndex], status: 'done', progress: 100 };
+            next[realIndex] = {
+              ...next[realIndex],
+              status: 'done',
+              progress: 100,
+              // The image reached R2, so this is not a failed upload — but its
+              // library row (and with it the alt just typed) did not land, and
+              // a green tick would have been the only thing anyone ever saw.
+              ...(result.mediaRecordFailed
+                ? { error: 'Uploaded, but not added to the library — alt text was not saved.' }
+                : {}),
+            };
             return next;
           });
         },

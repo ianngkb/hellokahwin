@@ -1445,7 +1445,9 @@ export function ArticleEditor({
 
       try {
         const result = await uploadInspireImage(
-          { slug: article.slug, articleId: article.id },
+          // Empty on purpose: this path has nowhere to type an alt, and warns
+          // instead. See NO_ALT_WARNING above and `InspireUploadOptions.alt`.
+          { slug: article.slug, articleId: article.id, alt: '' },
           file,
         );
 
@@ -1533,7 +1535,7 @@ export function ArticleEditor({
 
       // Upload all files in parallel, replacing placeholders as each completes
       for (const { file, src } of placeholders) {
-        uploadInspireImage({ slug: article.slug, articleId: article.id }, file)
+        uploadInspireImage({ slug: article.slug, articleId: article.id, alt: '' }, file)
           .then((result) => {
             let found = false;
             editor.state.doc.descendants((node, nodePos) => {

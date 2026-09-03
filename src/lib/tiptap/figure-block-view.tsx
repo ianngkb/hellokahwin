@@ -65,7 +65,7 @@ export function FigureBlockNodeView({
         const articleId = storage?.articleId || '';
         const articleSlug = storage?.articleSlug || '';
 
-        const result = await uploadInspireImage({ slug: articleSlug, articleId }, file);
+        const result = await uploadInspireImage({ slug: articleSlug, articleId, alt: '' }, file);
         updateAttributes({
           src: result.url,
           // No silent default. See NO_ALT_WARNING in the article editor: a

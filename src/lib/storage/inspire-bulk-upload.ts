@@ -39,7 +39,11 @@ export async function uploadInspireBulk(
 
       try {
         const result = await uploadInspireImage(
-          { slug: options.slug, articleId: options.articleId, alt: options.alts?.[currentIndex] },
+          {
+            slug: options.slug,
+            articleId: options.articleId,
+            alt: options.alts?.[currentIndex] ?? '',
+          },
           file,
           (stage, progress) => {
             options.onFileProgress?.(currentIndex, stage, progress);
