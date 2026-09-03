@@ -19,6 +19,9 @@ const targets: InternalHrefTargets = {
     ['goodies-kahwin', '/artikel/hiasan-dekorasi/goodies-kahwin'],
     ['dewan-kahwin', '/artikel/idea-dan-nasihat/dewan-kahwin'],
     ['garden-wedding', '/artikel/idea-dan-nasihat/garden-wedding'],
+    // Both a published article and a tag on the live site. The collision is
+    // the point: see the tag test below.
+    ['rukun-nikah', '/artikel/nikah-undang-undang/rukun-nikah'],
   ]),
   categorySlugs: new Set(['hantaran-mas-kahwin', 'hiasan-dekorasi', 'idea-dan-nasihat']),
 };
@@ -67,10 +70,24 @@ describe('resolveInternalHref', () => {
     expect(resolve('/tag/rukun-nikah')).toBe('/artikel/tag/rukun-nikah');
   });
 
-  it('normalises a trailing slash even when there is nothing else to do', () => {
+  it('never reads a tag page as an article, even when the two share a slug', () => {
+    // `rukun-nikah` is a tag AND a published article. Three segments, so the
+    // article rule would have matched and turned a link to the tag archive
+    // into a link to one article — a silent change of meaning, not a redirect
+    // saved.
+    expect(resolve('/artikel/tag/rukun-nikah')).toBeNull();
+    expect(resolve('/artikel/tag/rukun-nikah/')).toBe('/artikel/tag/rukun-nikah');
+    expect(resolve('https://hellokahwin.com/tag/rukun-nikah/')).toBe('/artikel/tag/rukun-nikah');
+  });
+
+  it('normalises a trailing slash only when the destination is known to exist', () => {
     expect(resolve('/artikel/hantaran-mas-kahwin/')).toBe('/artikel/hantaran-mas-kahwin');
     expect(resolve('/artikel/')).toBe('/artikel');
     expect(resolve('/')).toBeNull();
+    // The destination does not exist, so the slash is left alone rather than
+    // normalised into a tidy 404.
+    expect(resolve('/artikel/tak-wujud/')).toBeNull();
+    expect(resolve('/category/tak-wujud/')).toBeNull();
   });
 
   it('leaves external links, anchors and mail links untouched', () => {
@@ -78,6 +95,23 @@ describe('resolveInternalHref', () => {
     expect(resolve('//evil.example/x')).toBeNull();
     expect(resolve('#soalan-lazim')).toBeNull();
     expect(resolve('mailto:hello@hellokahwin.com')).toBeNull();
+    expect(resolve('tel:+60123456789')).toBeNull();
+  });
+
+  it('resolves a protocol-relative link to our own host', () => {
+    expect(resolve('//hellokahwin.com/dewan-kahwin/')).toBe(
+      '/artikel/idea-dan-nasihat/dewan-kahwin',
+    );
+    expect(resolve('//www.hellokahwin.com/dewan-kahwin')).toBe(
+      '/artikel/idea-dan-nasihat/dewan-kahwin',
+    );
+  });
+
+  it('will not rewrite a same-host URL that is not a page of this website', () => {
+    // Matching the hostname is not enough: these address a different scheme
+    // and a different port, and a root-relative path is not the same resource.
+    expect(resolve('ftp://hellokahwin.com/dewan-kahwin/')).toBeNull();
+    expect(resolve('https://hellokahwin.com:8443/dewan-kahwin/')).toBeNull();
   });
 
   it('refuses to guess: unknown slugs, unknown categories and app routes are left as written', () => {
@@ -88,6 +122,7 @@ describe('resolveInternalHref', () => {
     // even if some article one day carries that slug.
     expect(resolve('/admin')).toBeNull();
     expect(resolve('/login')).toBeNull();
+    expect(resolve('/brand')).toBeNull();
   });
 
   it('does not truncate a path shape the app does not serve', () => {

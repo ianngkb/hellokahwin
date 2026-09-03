@@ -74,6 +74,7 @@ export const RESERVED_ROOT_SEGMENTS = new Set([
   'sso-callback',
   'api',
   'artikel',
+  'brand',
   'draft',
   'wp-content',
   'sitemap',

@@ -10,29 +10,43 @@
  *
  * ── THE RULE IS IMPORTED, NOT RESTATED ────────────────────────────────────
  * `resolveInternalHref` is the same function the tests cover and the same one
- * a future editor tool would call. Nothing in this script decides where a link
+ * a future editor tool would call, and the canonical path it resolves to is
+ * built by `buildArticlePath` — the same builder the admin editor uses when it
+ * writes a slug-change redirect. Nothing in this script decides where a link
  * lands; it only finds the hrefs and reports what the resolver said.
  *
- * ── THE UNDO IS WRITTEN BEFORE THE WRITE ──────────────────────────────────
- * Two of them, deliberately. `snapshot()` copies `articles.id/content/updated_at`
- * into a backup TABLE in the same database before the first UPDATE, and the
- * dry run writes the full prior document per article to `<undo-dir>/<slug>.json`.
- * `--apply` refuses to run unless the undo directory already holds a file for
- * every article it is about to touch: a recovery path you would have to
- * reconstruct afterwards is a recovery path in principle only.
+ * ── DRY RUN FIRST, ALWAYS ─────────────────────────────────────────────────
+ * The default run writes three things and touches nothing: the diff report,
+ * one undo document per article, and `_manifest.json` recording each row's
+ * `updated_at` and a hash of the exact document it transformed. `--apply`
+ * refuses to start without that manifest and aborts if any row has moved since
+ * — see `_content-apply.mts` for the full order of checks, and `_db.mts` for
+ * why each one is there.
  *
  * Usage:
  *   pnpm exec tsx scripts/seo/rewrite-internal-hrefs.mts --undo <dir> --report <file.md>
  *   pnpm exec tsx scripts/seo/rewrite-internal-hrefs.mts --undo <dir> --report <file.md> --apply
  */
 import 'dotenv/config';
-import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import {
   resolveInternalHref,
   type InternalHrefTargets,
 } from '../../src/lib/inspire/internal-links';
-import { connect, parseMode, snapshot } from './_db.mts';
+import { buildArticlePath } from '../../src/lib/redirects/article-slug-change';
+import {
+  assertRedirectsTableEmpty,
+  connect,
+  contentHash,
+  newRunId,
+  parseMode,
+  requireManifest,
+  type Manifest,
+} from './_db.mts';
+import { applyContentMigration, type ArticleRow } from './_content-apply.mts';
+
+const SCRIPT = 'rewrite-internal-hrefs';
 
 const argv = process.argv.slice(2);
 const { apply } = parseMode(argv);
@@ -43,6 +57,7 @@ const flag = (name: string): string | undefined => {
 const undoDir = flag('--undo');
 const reportPath = flag('--report');
 if (!undoDir || !reportPath) throw new Error('--undo <dir> and --report <file.md> are mandatory');
+const manifestPath = join(undoDir, '_manifest.json');
 
 /**
  * Which stored spelling produced the hop, for the diff column the brief asks
@@ -52,8 +67,9 @@ if (!undoDir || !reportPath) throw new Error('--undo <dir> and --report <file.md
 function ruleFor(before: string, after: string): string {
   const rules: string[] = [];
   if (/^http:\/\//i.test(before)) rules.push('scheme');
-  if (/^https?:\/\//i.test(before)) rules.push('absolute-to-relative');
-  const path = before.replace(/^https?:\/\/[^/]+/i, '').split(/[?#]/)[0];
+  if (/^\/\//.test(before)) rules.push('protocol-relative');
+  else if (/^https?:\/\//i.test(before)) rules.push('absolute-to-relative');
+  const path = before.replace(/^(https?:)?\/\/[^/]+/i, '').split(/[?#]/)[0];
   if (path.length > 1 && path.endsWith('/')) rules.push('trailing-slash');
   const segments = path.split('/').filter(Boolean);
   if (segments.length === 1) rules.push('legacy-flat-permalink');
@@ -63,24 +79,29 @@ function ruleFor(before: string, after: string): string {
   return rules.join('+');
 }
 
-interface Change {
-  slug: string;
-  id: string;
+interface Hit {
   before: string;
   after: string;
   rule: string;
 }
+interface Change extends Hit {
+  slug: string;
+  id: string;
+}
 
 /**
- * Rewrite every internal href in a TipTap document in place, and report what
- * changed. Both spellings the corpus uses are covered: a `link` MARK on a text
- * node (everything ingested) and a bare `href` ATTR on a node (legacy rows).
+ * Rewrite every internal href in a TipTap document and return a NEW document
+ * plus what changed. Both spellings the corpus uses are covered: a `link` MARK
+ * on a text node (everything ingested) and a bare `href` ATTR on a node
+ * (legacy rows).
+ *
+ * It clones first rather than mutating in place. The apply path re-runs this
+ * against a freshly locked row and compares the result to the hash the dry run
+ * promised, so the input must survive the call unchanged.
  */
-function rewriteDoc(
-  doc: unknown,
-  targets: InternalHrefTargets,
-  hits: Omit<Change, 'slug' | 'id'>[],
-) {
+function rewriteDoc(doc: unknown, targets: InternalHrefTargets): { next: unknown; hits: Hit[] } {
+  const next = structuredClone(doc);
+  const hits: Hit[] = [];
   const consider = (bag: Record<string, unknown>) => {
     const href = bag.href;
     if (typeof href !== 'string') return;
@@ -103,11 +124,17 @@ function rewriteDoc(
     if (n.attrs) consider(n.attrs);
     if (n.content) walk(n.content);
   };
-  walk(doc);
+  walk(next);
+  return { next, hits };
 }
 
 const sql = connect();
 try {
+  // The resolver knows where an article lives from its current primary
+  // category. Once the redirects table has rows that is no longer the whole
+  // truth, and the script says so rather than quietly under-resolving.
+  await assertRedirectsTableEmpty(sql);
+
   const cats = await sql<{ id: string; slug: string }[]>`select id, slug from inspire_categories`;
   const arts = await sql<
     {
@@ -117,8 +144,9 @@ try {
       status: string;
       primary_category_id: string | null;
       content: unknown;
+      updated_at: Date;
     }[]
-  >`select id, slug, title, status, primary_category_id, content from articles`;
+  >`select id, slug, title, status, primary_category_id, content, updated_at from articles`;
 
   const catSlugById = new Map(cats.map((c) => [c.id, c.slug]));
   // PUBLISHED only, and only where the category segment is actually known. A
@@ -129,7 +157,7 @@ try {
     if (a.status !== 'published' || !a.primary_category_id) continue;
     const categorySlug = catSlugById.get(a.primary_category_id);
     if (!categorySlug) continue;
-    articlePathBySlug.set(a.slug, `/artikel/${categorySlug}/${a.slug}`);
+    articlePathBySlug.set(a.slug, buildArticlePath(categorySlug, a.slug));
   }
   const targets: InternalHrefTargets = {
     categorySlugs: new Set(cats.map((c) => c.slug)),
@@ -138,68 +166,74 @@ try {
 
   const published = arts.filter((a) => a.status === 'published');
   const changes: Change[] = [];
-  const touched: { id: string; slug: string; content: unknown }[] = [];
-
-  mkdirSync(undoDir, { recursive: true });
-  for (const a of published) {
-    const before = JSON.parse(JSON.stringify(a.content));
-    const hits: Omit<Change, 'slug' | 'id'>[] = [];
-    rewriteDoc(a.content, targets, hits);
-    if (hits.length === 0) continue;
-    for (const h of hits) changes.push({ slug: a.slug, id: a.id, ...h });
-    touched.push({ id: a.id, slug: a.slug, content: a.content });
-    if (!apply) {
-      writeFileSync(
-        join(undoDir, `${a.slug}.json`),
-        JSON.stringify({ id: a.id, slug: a.slug, content: before }, null, 1),
-      );
-    }
-  }
-
-  const byRule = new Map<string, number>();
-  for (const c of changes) byRule.set(c.rule, (byRule.get(c.rule) ?? 0) + 1);
-
-  const lines: string[] = [];
-  lines.push('# Internal href rewrite — dry run', '');
-  lines.push(`Published articles scanned: **${published.length}**`);
-  lines.push(`Articles with at least one stale href: **${touched.length}**`);
-  lines.push(`Hrefs to rewrite: **${changes.length}**`, '');
-  lines.push('| rule | count |', '| --- | --- |');
-  for (const [r, n] of [...byRule].sort((a, b) => b[1] - a[1])) lines.push(`| ${r} | ${n} |`);
-  lines.push('', '| article (row id) | before | after | rule |', '| --- | --- | --- | --- |');
-  for (const c of changes) {
-    lines.push(`| ${c.slug} (${c.id}) | \`${c.before}\` | \`${c.after}\` | ${c.rule} |`);
-  }
-  writeFileSync(reportPath, lines.join('\n') + '\n');
-
-  console.log(`scanned ${published.length} published articles`);
-  console.log(`${changes.length} hrefs across ${touched.length} articles`);
-  for (const [r, n] of [...byRule].sort((a, b) => b[1] - a[1])) console.log(`  ${r}: ${n}`);
-  console.log(`report -> ${reportPath}`);
 
   if (!apply) {
-    console.log(`undo documents -> ${undoDir} (${touched.length} files)`);
-    console.log('DRY RUN — nothing written. Re-run with --apply.');
-  } else {
-    const missing = touched.filter((t) => !existsSync(join(undoDir, `${t.slug}.json`)));
-    if (missing.length) {
-      const named = missing
-        .slice(0, 3)
-        .map((m) => m.slug)
-        .join(', ');
-      throw new Error(
-        `refusing to apply: ${missing.length} undo file(s) missing (${named}...). Run the dry run first.`,
+    const runId = newRunId();
+    const manifest: Manifest = {
+      script: SCRIPT,
+      runId,
+      generatedAt: new Date().toISOString(),
+      entries: [],
+    };
+    mkdirSync(undoDir, { recursive: true });
+    for (const a of published) {
+      const { next, hits } = rewriteDoc(a.content, targets);
+      if (hits.length === 0) continue;
+      for (const h of hits) changes.push({ slug: a.slug, id: a.id, ...h });
+      manifest.entries.push({
+        id: a.id,
+        slug: a.slug,
+        updatedAt: new Date(a.updated_at).toISOString(),
+        preimageHash: contentHash(a.content),
+        postimageHash: contentHash(next),
+      });
+      writeFileSync(
+        join(undoDir, `${a.slug}.json`),
+        JSON.stringify({ id: a.id, slug: a.slug, content: a.content }, null, 1),
       );
     }
-    const backup = await snapshot(sql, 'articles', 'hrefs', ['content', 'updated_at']);
-    const how = backup.created ? 'created now' : 'already existed';
-    console.log(`backup table ${backup.table} (${backup.rows} rows, ${how})`);
-    let written = 0;
-    for (const t of touched) {
-      await sql`update articles set content = ${sql.json(t.content as never)}, updated_at = now() where id = ${t.id}`;
-      written++;
+    writeFileSync(manifestPath, JSON.stringify(manifest, null, 1));
+
+    const byRule = new Map<string, number>();
+    for (const c of changes) byRule.set(c.rule, (byRule.get(c.rule) ?? 0) + 1);
+    const lines: string[] = [];
+    lines.push('# Internal href rewrite — dry run', '');
+    lines.push(`Run id: \`${runId}\``);
+    lines.push(`Published articles scanned: **${published.length}**`);
+    lines.push(`Articles with at least one stale href: **${manifest.entries.length}**`);
+    lines.push(`Hrefs to rewrite: **${changes.length}**`, '');
+    lines.push('| rule | count |', '| --- | --- |');
+    for (const [r, n] of [...byRule].sort((a, b) => b[1] - a[1])) lines.push(`| ${r} | ${n} |`);
+    lines.push('', '| article (row id) | before | after | rule |', '| --- | --- | --- | --- |');
+    for (const c of changes) {
+      lines.push(`| ${c.slug} (${c.id}) | \`${c.before}\` | \`${c.after}\` | ${c.rule} |`);
     }
-    console.log(`APPLIED — ${written} article rows updated`);
+    writeFileSync(reportPath, lines.join('\n') + '\n');
+
+    console.log(`scanned ${published.length} published articles`);
+    console.log(`${changes.length} hrefs across ${manifest.entries.length} articles`);
+    for (const [r, n] of [...byRule].sort((a, b) => b[1] - a[1])) console.log(`  ${r}: ${n}`);
+    console.log(`report   -> ${reportPath}`);
+    console.log(`undo     -> ${undoDir} (${manifest.entries.length} documents)`);
+    console.log(`manifest -> ${manifestPath} (run ${runId})`);
+    console.log('DRY RUN — nothing written. Re-run with --apply.');
+  } else {
+    let raw: string | undefined;
+    try {
+      raw = readFileSync(manifestPath, 'utf8');
+    } catch {
+      raw = undefined;
+    }
+    const manifest = requireManifest(raw, SCRIPT, manifestPath);
+    const result = await applyContentMigration({
+      sql,
+      manifest,
+      undoDir,
+      backupSlug: 'hrefs',
+      transform: (row: ArticleRow) => rewriteDoc(row.content, targets).next,
+    });
+    console.log(`backup table ${result.backupTable} (${result.backupRows} rows)`);
+    console.log(`APPLIED — ${result.written} article rows updated`);
   }
 } finally {
   await sql.end();

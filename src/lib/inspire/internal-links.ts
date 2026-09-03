@@ -158,46 +158,67 @@ export function normaliseInternalLinkMarks(doc: unknown): number {
 export interface InternalHrefTargets {
   /** Published article slug -> the canonical path it is served at today. */
   articlePathBySlug: ReadonlyMap<string, string>;
-  /** Every category slug that exists, so a hub link is left alone rather than guessed at. */
+  /** Every category slug that exists, so a hub link is never rewritten to a 404. */
   categorySlugs: ReadonlySet<string>;
 }
+
+/** The app's own hosts. Anything else is somebody else's site. */
+const INTERNAL_HOSTS = /^(www\.)?hellokahwin\.com$/i;
 
 /**
  * Where `href` finally lands, or `null` when it already lands there.
  *
- * `null` is the common answer and the safe one. Anything this function cannot
- * resolve WITH EVIDENCE — an unknown slug, an unknown category, a shape it has
- * no rule for — returns `null` and the stored href is left exactly as the
- * editor wrote it. A rewrite script that guesses is worse than one that skips.
+ * `null` is the common answer and the safe one. This function rewrites ONLY
+ * when it can name the destination from evidence — a published article's
+ * current canonical path, a category that exists, a static route the app
+ * actually serves. An unknown slug, an unknown category, an unfamiliar shape:
+ * all return `null` and the stored href is left exactly as the editor wrote
+ * it, even when normalising the slashes alone would have "worked". A rewrite
+ * script that guesses is worse than one that skips, and a link normalised into
+ * a 404 is worse than a link that spends one redirect.
  */
 export function resolveInternalHref(href: string, targets: InternalHrefTargets): string | null {
   const raw = href.trim();
   if (!raw || raw.startsWith('#')) return null;
-  if (!isInternalHref(raw)) return null;
 
   // Split the parts a redirect never changes, so they survive the rewrite.
-  let path = raw;
+  let head = raw;
   let suffix = '';
-  const hashAt = path.indexOf('#');
+  const hashAt = head.indexOf('#');
   if (hashAt !== -1) {
-    suffix = path.slice(hashAt) + suffix;
-    path = path.slice(0, hashAt);
+    suffix = head.slice(hashAt) + suffix;
+    head = head.slice(0, hashAt);
   }
-  const queryAt = path.indexOf('?');
+  const queryAt = head.indexOf('?');
   if (queryAt !== -1) {
-    suffix = path.slice(queryAt) + suffix;
-    path = path.slice(0, queryAt);
+    suffix = head.slice(queryAt) + suffix;
+    head = head.slice(0, queryAt);
   }
 
-  if (!path.startsWith('/')) {
-    // Absolute same-host URL. Taking the pathname is what turns
-    // `http://hellokahwin.com/x/` into a root-relative link in one step, so the
-    // scheme hop and the trailing-slash hop are both paid for here.
+  let path: string;
+  if (head.startsWith('/') && !head.startsWith('//')) {
+    path = head;
+  } else {
+    // Absolute, or protocol-relative. `//hellokahwin.com/x` is a real spelling
+    // of an internal link and `isInternalHref` deliberately calls it external
+    // (it cannot know the scheme at render time); here the scheme is not in
+    // question, so it is resolved against https and judged on its host.
+    let url: URL;
     try {
-      path = new URL(path).pathname;
+      url = new URL(head.startsWith('//') ? `https:${head}` : head);
     } catch {
       return null;
     }
+    // Host alone is not enough. `ftp://hellokahwin.com/x` and
+    // `https://hellokahwin.com:8443/x` both match the hostname and are NOT
+    // pages of this website; rewriting them to a root-relative path would
+    // silently change the scheme or the port they addressed.
+    if (url.protocol !== 'https:' && url.protocol !== 'http:') return null;
+    if (url.port !== '') return null;
+    if (!INTERNAL_HOSTS.test(url.hostname)) return null;
+    // Taking the pathname is what pays for the scheme hop and the trailing
+    // slash in one step.
+    path = url.pathname;
   }
   if (!path.startsWith('/')) return null;
 
@@ -212,29 +233,42 @@ export function resolveInternalHref(href: string, targets: InternalHrefTargets):
   if (pattern) path = normalizePathname(pattern.destinationPath);
 
   const segments = path.split('/').filter(Boolean);
+  let destination: string | null = null;
 
-  if (segments[0] === 'artikel') {
-    // /artikel/<category>/<slug> — the slug is authoritative and the category
-    // segment is whatever the link happens to say. `/artikel/<a>/<b>/<c>` is
-    // not a shape this app serves, so it is left alone rather than truncated.
-    if (segments.length === 3) {
-      const canonical = targets.articlePathBySlug.get(segments[2]);
-      path = canonical ?? path;
+  if (segments.length === 0) {
+    destination = '/';
+  } else if (segments[0] === 'artikel') {
+    if (segments.length === 1) {
+      destination = '/artikel';
+    } else if (segments[1] === 'tag') {
+      // A TAG page, never an article. This branch exists because the shapes
+      // collide: `/artikel/tag/rukun-nikah` has three segments and
+      // `rukun-nikah` is BOTH a tag and a published article, so the article
+      // rule below would have rewritten a tag link into an article link and
+      // quietly changed where the sentence pointed. Tags are not enumerated
+      // here, so a tag link is normalised and otherwise left alone.
+      if (segments.length === 3) destination = path;
+    } else if (segments.length === 2) {
+      // A category hub. It is only a destination if the category exists —
+      // `/artikel/tak-wujud/` normalises cleanly and still 404s.
+      if (targets.categorySlugs.has(segments[1])) destination = path;
+    } else if (segments.length === 3) {
+      // /artikel/<category>/<slug> — the slug is authoritative and the
+      // category segment is whatever the link happens to say.
+      destination = targets.articlePathBySlug.get(segments[2]) ?? null;
     }
-    // /artikel/<category> and /artikel are already canonical when they exist.
-    // When the category does not exist there is nothing to resolve TO — the
-    // page 404s today and will 404 after any rewrite — so leave it.
+    // Anything deeper is not a shape this app serves; leave it alone.
   } else if (segments.length === 1) {
     // The legacy flat permalink. `/[slug]` looks the article up by slug alone
     // and 308s to its canonical path; this does the same lookup up front.
     // RESERVED_ROOT_SEGMENTS is imported rather than restated so a new
     // top-level route cannot be silently swallowed here.
     if (!RESERVED_ROOT_SEGMENTS.has(segments[0])) {
-      const canonical = targets.articlePathBySlug.get(segments[0]);
-      path = canonical ?? path;
+      destination = targets.articlePathBySlug.get(segments[0]) ?? null;
     }
   }
 
-  const resolved = (segments.length === 0 ? '/' : path) + suffix;
+  if (destination === null) return null;
+  const resolved = destination + suffix;
   return resolved === raw ? null : resolved;
 }
