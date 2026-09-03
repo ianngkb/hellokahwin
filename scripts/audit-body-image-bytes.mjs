@@ -223,7 +223,48 @@ async function main() {
     if (worst) console.log(`largest body image  ${fmt(worst[1].bytes)} B  ${worst[0]}`);
   }
 
-  const failed = missing.length + offenders.length;
+  if (cropOffenders.length > 0) {
+    console.error(
+      `\nCOVER CROP OVER ${fmt(CROP_CEILING_BYTES)} B — ${cropOffenders.length} reference(s):`,
+    );
+    const byUrl = [...new Map(cropOffenders.map((o) => [o.url, o])).values()].sort(
+      (a, b) => b.bytes - a.bytes,
+    );
+    for (const o of byUrl.slice(0, 15)) console.error(`  ${fmt(o.bytes).padStart(10)} B  ${o.url}`);
+    if (byUrl.length > 15) console.error(`  … and ${byUrl.length - 15} more distinct URLs`);
+    console.error('  (a crop the backfill rewrote but nobody purged looks exactly like this)');
+  }
+
+  if (pageErrors.length > 0) {
+    console.error(`\n${pageErrors.length} page(s) did not load:`);
+    for (const pe of pageErrors.slice(0, 10))
+      console.error(`  ${pe.status || pe.error}  ${pe.page}`);
+    if (pageErrors.length > 10) console.error(`  … and ${pageErrors.length - 10} more`);
+  }
+
+  // A run that measured nothing is a FAILURE, not a pass. This file's own header
+  // blames precisely that shape of false green for an item shipping unmeasured,
+  // and a Cloudflare bot challenge on the HTML routes while `/sitemap.xml` still
+  // serves produces exactly it.
+  const measuredNothing = pagesFetched === 0 || bodyCount === 0;
+  if (measuredNothing) {
+    console.error(
+      `\nRefusing to pass: fetched ${pagesFetched} of ${pages.length} page(s) and measured ` +
+        `${bodyCount} body image(s). Nothing was verified.`,
+    );
+  }
+
+  // ⚠ Every one of the four documented assertions reaches this number. An
+  // assertion the header promises and the exit code ignores is worse than no
+  // assertion at all, because it is a check somebody will trust. `cropOffenders`
+  // and `pageErrors` were both collected and then never read here, which is
+  // exactly how this file's own cautionary tale started.
+  const failed =
+    missing.length +
+    offenders.length +
+    cropOffenders.length +
+    pageErrors.length +
+    (measuredNothing ? 1 : 0);
   console.log(
     failed === 0 ? '\nBODY IMAGE EXIT: 0' : `\nBODY IMAGE EXIT: 1 — ${failed} problem(s)`,
   );

@@ -1,0 +1,47 @@
+{
+  "layer": "FIX-CHECK",
+  "closed": [
+    "The crop dimension assertion runs AFTER the object is already written to production R2",
+    "The undo file — the only record of the irreversible crop rewrites — is written once, at the very end",
+    "A crop whose HEAD fails or 404s is silently counted as under the ceiling and the run exits 0",
+    "The named pre-ship gate cannot detect the 404 disaster it is documented to guard against",
+    "A crop still over the ceiling exits 0 whenever the re-encode did not come out smaller",
+    "A non-numeric --concurrency makes the pool run zero workers and the script reports total success",
+    "The crops phase hardcodes the inspire bucket where the writer resolves the bucket per key",
+    "Re-running the crops phase stacks generational loss on the crops that need it most, with no undo",
+    "getDefaultPresets merges only at the preset-name level, so a partial `mid` row still breaks generation",
+    "Cover renditions are now derived from a possibly stepped-down crop buffer",
+    "The crop dimension assertion runs AFTER the object is already written to R2",
+    "A failed or content-length-less HEAD becomes bytes 0, which silently reads as under the ceiling",
+    "A crop that cannot be shrunk is recorded 'skipped' and vanishes from both the summary and the exit code",
+    "A ceiling preset ignores the admin-supplied `quality`, so retuning `mid` down silently does nothing",
+    "The merged admin row is never shape-checked, so a non-object or partial JSONB value produces junk presets",
+    "A non-numeric --concurrency makes the pool run zero workers and the script reports success having done nothing",
+    "The variants phase omits the `jsonb_typeof` guard its sibling query has, and `variants || …` on a non-object corrupts the column",
+    "--force in the crops phase re-encodes crops that were never over the ceiling, adding a lossy generation",
+    "Backfill covers only media rows that already carry `high`, not every row lacking `mid`",
+    "Crop re-encode leaves the CDN stale by default and nothing in the verification path fails on it",
+    "No backup or export before the writes, and the undo record is only written after both phases finish",
+    "Committed comment states as fact a production backfill that has not run",
+    "Dry run does not produce the diff artifact the common rules require",
+    "Acceptance criterion \"no longer referenced by their article pages\" is unmeetable for the crop example"
+  ],
+  "still_open": [
+    {
+      "title": "The acceptance audit exits 0 when it measured nothing at all",
+      "file": "scripts/audit-body-image-bytes.mjs",
+      "line": 226,
+      "why": "The fix added `pageErrors` and `pagesFetched` and a header line claiming assertion 4 (\"It actually measured something\"), but neither value reaches the exit code: `const failed = missing.length + offenders.length` (line 226). If every article page returns non-200 — the Cloudflare bot challenge the new comment at line 136 names by name — or every fetch throws, `pagesFetched` is 0, `bodyCount` is 0, `missing` and `offenders` are empty, and the script prints `BODY IMAGE EXIT: 0` and exits 0. The only zero-measurement guard is still the pre-existing `pages.length === 0` sitemap check, which was already there in 1e28ddd. The fix also made one sub-case worse: a fetch that THREW previously propagated to `main().catch` and exited 1; it is now caught, pushed to the unread `pageErrors`, and the run continues to a green exit."
+    }
+  ],
+  "new_defects_introduced_by_fixes": [
+    {
+      "severity": "major",
+      "file": "scripts/audit-body-image-bytes.mjs",
+      "line": 226,
+      "title": "`cropOffenders` is collected but never reported or counted, so documented assertion 3 (cover crops over CROP_CEILING) never fails the run",
+      "description": "The fix added `--crop-ceiling` (default 300,000 B), the `cropOffenders` array (line 124), the push at line 181, and a header promising \"3. No cover crop is over `--crop-ceiling` … this is the only check that can tell a completed purge from a forgotten one\" and \"Exit 0 when all four hold\". `cropOffenders` is then never read: it appears nowhere in the RESULT block and nowhere in `const failed = missing.length + offenders.length`. The header before the fix said the cover was \"measured and reported but NOT failed on\"; after the fix the code behaves the same way while the documentation asserts the opposite — worse than the honest previous state, because this audit is the only post-purge verification for the crops phase. A run against production with 309 unpurged 500 KB+ crops still at the edge prints EXIT 0 and never even lists them.",
+      "fix": "Include the crop offenders in the failure count and print them: `const failed = missing.length + offenders.length + cropOffenders.length;` plus an `if (cropOffenders.length > 0)` block that reports the distinct URLs by size, in the same shape as the existing `OVER CEILING` block."
+    }
+  ]
+}
