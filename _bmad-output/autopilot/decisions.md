@@ -920,3 +920,12 @@ Append-only. One line per decision autopilot made without interrupting the user.
   genuine user input. Treated it as no consent, because the next action it would
   have authorised was a write to a production database with `pitr_enabled=false`
   and zero backups. Re-raised with the user instead.
+
+- [2026-09-04] Entered at Phase 2/3: worktree `ianngkb/ahrefs-quickwins` is clean at `master` (3e3315d) with no prior spec or implementation. Evidence: `git status` empty, `git log master..HEAD` empty, no `spec-*.md` for this task.
+- [2026-09-04] Treated the brief file (`tmp/2026-09-04-ahrefs-audit/hellokahwin-task.md`) as THE spec rather than generating a second one. This repo has no `_bmad/_config/manifest.yaml`, so `/bmad-dev-auto` is not installed here; the brief already carries scope, acceptance and decisions, and the one-spec rule says do not manufacture more planning docs.
+- [2026-09-04] Implemented in this Opus session rather than dispatching a child dev worker: five small, non-overlapping edits with no parallelisable independent chunks; a nested worker would add latency, not throughput. Review still goes to codex-reviewer as prescribed.
+- [2026-09-04] JSON-LD: took the brief's PREFERRED shape (`CollectionPage.mainEntity = ItemList`) at all three sites rather than dropping `numberOfItems`, because the rendered article list is already in scope at each one. Pagination is honoured via `startPosition` so `position` is document-global, not page-local.
+- [2026-09-04] "Site default OG image" resolved to `/hellokahwin-logo.png` (886x290) — the exact image the category and tag routes already declare. There is no dedicated 1200x630 OG asset in `public/`; inventing one is out of scope.
+- [2026-09-04] Alt-text ordinals are derived from a base index computed at element-construction time, not from a mutable counter read inside a lazily-invoked child component, so numbering cannot drift with React's render order.
+- [2026-09-04] "Require alt text on image upload" enforced in `BulkUploadDialog` (the only upload surface in the admin editor) and plumbed through `uploadInspireBulk` -> `uploadInspireImage` -> `createMediaRecordAction`, so the alt is stored on the media row and flows into every later insert. Blocking message, no silent default.
+- [2026-09-04] Standing consent from the `/autopilot` invocation covers the ONE production deploy of this run's work; `/buildit`'s deploy confirmation supplied on the user's behalf.

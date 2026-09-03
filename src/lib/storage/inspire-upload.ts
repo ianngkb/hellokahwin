@@ -12,16 +12,55 @@ export interface InspireUploadResult {
   focalPoint: FocalPoint | null;
   detectionData: object | null;
   mediaId?: string;
+  /**
+   * True when the R2 object exists but its `media` row could not be written.
+   *
+   * The insert is deliberately non-fatal — the image IS uploaded, and taking the
+   * whole upload down over its bookkeeping would be worse — but it used to be
+   * invisible: a `console.warn` on a machine nobody is watching, and a green
+   * tick in the dialog. The caller is now told, so it can say so.
+   *
+   * NOT the whole fix. The orphaned R2 object is still left behind; reaping it
+   * needs a delete path and a retry story, which is a larger change than this
+   * batch. Named in the run's result file.
+   */
+  mediaRecordFailed?: boolean;
 }
 
 export type InspireUploadOptions = {
   slug?: string;
   articleId?: string;
-  /** When true, skip creating a media DB record (e.g. for cover images) */
-  skipMediaRecord?: boolean;
   /** Skip smart crops (Rekognition + 4 crop variants). Omit or set `true` to skip; set `false` to generate. */
   skipSmartCrops?: boolean;
-};
+} & (
+  | {
+      /** No media row is written, so there is nothing to hang an alt on. */
+      skipMediaRecord: true;
+      alt?: never;
+    }
+  | {
+      skipMediaRecord?: false;
+      /**
+       * REQUIRED, not optional, and that is the point.
+       *
+       * This call writes a `media` row, and the alt on that row is what every
+       * later insert of the image into an article inherits. When the parameter
+       * was optional, four of the five call sites simply did not mention it and
+       * the omission was invisible — which is how 172 images reached production
+       * with no alt text. Making it required does not conjure a description out
+       * of nothing; it forces each call site to SAY which case it is in, so an
+       * empty string is a decision somebody can grep for and argue with rather
+       * than a field nobody remembered.
+       *
+       * `BulkUploadDialog` — the surface that has somewhere to type one — will
+       * not start an upload until every queued image has a non-blank alt. The
+       * drag, paste, figure-block and cover paths have no alt input to offer
+       * yet, so they pass `''` and warn; building that input is a feature, not
+       * part of this batch.
+       */
+      alt: string;
+    }
+);
 
 /**
  * Upload an image to R2 with variant generation and smart crops.
@@ -34,7 +73,9 @@ export async function uploadInspireImage(
 ): Promise<InspireUploadResult> {
   // Normalize options: support both legacy string param and new object param
   const options: InspireUploadOptions =
-    typeof optionsOrArticleId === 'string' ? { articleId: optionsOrArticleId } : optionsOrArticleId;
+    typeof optionsOrArticleId === 'string'
+      ? { articleId: optionsOrArticleId, alt: '' }
+      : optionsOrArticleId;
 
   // Build request body for the upload API
   const uploadBody: Record<string, unknown> = {
@@ -141,6 +182,7 @@ export async function uploadInspireImage(
       const source = options.articleId || options.slug ? 'article_upload' : 'library_upload';
       const mediaResult = await createMediaRecordAction({
         filename: file.name,
+        alt: options.alt ?? null,
         r2Key: key,
         url: result.url,
         originalUrl: publicUrl,
@@ -157,9 +199,16 @@ export async function uploadInspireImage(
 
       if (mediaResult.data) {
         result.mediaId = mediaResult.data.id;
+      } else {
+        // The action returns `{ error }` rather than throwing on an auth or
+        // insert failure, so this branch is the common one and used to be
+        // silently indistinguishable from success.
+        result.mediaRecordFailed = true;
+        console.warn('Failed to create media record:', mediaResult.error);
       }
     } catch (err) {
-      // Media record creation failure is non-blocking
+      // Media record creation failure is non-blocking — but no longer silent.
+      result.mediaRecordFailed = true;
       console.warn('Failed to create media record:', err);
     }
   }

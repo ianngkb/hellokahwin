@@ -220,7 +220,7 @@ export function ArticlePreviewView({ data, banner, variant = 'screen' }: Article
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_280px]">
             {/* Main article content — no articleId = no moodboard buttons, no inlineBanner = no ads */}
             <article>
-              <ArticleRenderer content={renderContent} />
+              <ArticleRenderer content={renderContent} articleTitle={article.title} />
             </article>
 
             {/* Sidebar.

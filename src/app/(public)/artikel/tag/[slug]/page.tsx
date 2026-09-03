@@ -15,6 +15,8 @@ import {
 import { ArticleCard } from '@/components/inspire/article-card';
 import { Pagination } from '@/components/ui/pagination';
 import { Breadcrumbs, BreadcrumbJsonLd } from '@/components/common/breadcrumbs';
+import { buildTagDescription, TAG_ROBOTS } from '@/lib/seo/tag-metadata';
+import { collectionItemList } from '@/lib/seo/collection-jsonld';
 
 // Cache forever; invalidate on admin write via revalidateTag('articles') /
 // revalidateTag(`inspire-tag:${slug}`). Time-based ISR was the cause of bot-
@@ -119,13 +121,18 @@ const getTagArticles = unstable_cache(
 
 export async function generateMetadata({ params }: TagPageProps): Promise<Metadata> {
   const { slug } = await params;
+  // EVERY exit of this function carries `robots`, including the failure ones.
+  // D6 says no tag is indexable; a `return {}` on a deadline miss says nothing,
+  // and "nothing" is Google's word for "index it". These routes cache with
+  // `revalidate: false`, so one slow render would have pinned an indexable tag
+  // page in the cache for the life of the entry.
   let tag;
   try {
     tag = await withDeadline(getTagBySlugCached(slug), 3_000, `inspire-tag-meta:${slug}`);
   } catch {
-    return {};
+    return { robots: TAG_ROBOTS };
   }
-  if (!tag) return { title: 'Not Found' };
+  if (!tag) return { title: 'Not Found', robots: TAG_ROBOTS };
 
   // Empty-tag detection in metadata so we return minimal head BEFORE any
   // streaming begins. Returning full Open Graph + canonical metadata for an
@@ -147,29 +154,29 @@ export async function generateMetadata({ params }: TagPageProps): Promise<Metada
       `inspire-tag-meta-count:${slug}`,
     );
   } catch {
-    return { title: 'Not Found' };
+    return { title: 'Not Found', robots: TAG_ROBOTS };
   }
-  if (articlesData.total === 0) return { title: 'Not Found' };
+  if (articlesData.total === 0) return { title: 'Not Found', robots: TAG_ROBOTS };
 
-  // Index-bloat control: many WP-imported tags map to a single article, making
-  // the tag page a thin, near-duplicate one-card list. Tag pages with fewer
-  // than 2 articles get noindex,follow — kept crawlable (so the article link is
-  // followed) but out of the index, focusing crawl/index budget on the ~2,250
-  // real articles. Tags are already excluded from the sitemap.
-  const MIN_INDEXABLE_TAG_ARTICLES = 2;
-  const isThinTag = Number(articlesData.total) < MIN_INDEXABLE_TAG_ARTICLES;
+  // ONE description, used for `<meta name="description">`, `og:description`
+  // and the JSON-LD alike. The route used to emit three near-variants of a
+  // 26-character sentence; `buildTagDescription` is bounded to 120-155 chars
+  // and unit-tested over the whole input space.
+  const description = buildTagDescription(tag.name, Number(articlesData.total));
 
   // Title omits ` | HelloKahwin` because the root layout's
   // title.template appends it. Open Graph and Twitter titles include it
   // explicitly because those tags are emitted as-is (no template).
   return {
     title: `${tag.name} | Inspire`,
-    description: `Artikel bertag ${tag.name}`,
+    description,
     alternates: { canonical: `/artikel/tag/${slug}` },
-    ...(isThinTag && { robots: { index: false, follow: true } }),
+    // Every tag, not just the thin ones — decision D6. Revisit the blanket
+    // rule when tags routinely carry five or more articles.
+    robots: TAG_ROBOTS,
     openGraph: {
       title: `${tag.name} | Artikel | HelloKahwin`,
-      description: `Artikel bertag ${tag.name}.`,
+      description,
       type: 'website',
       url: `/artikel/tag/${slug}`,
       images: [{ url: '/hellokahwin-logo.png', width: 886, height: 290, alt: 'HelloKahwin' }],
@@ -177,7 +184,7 @@ export async function generateMetadata({ params }: TagPageProps): Promise<Metada
     twitter: {
       card: 'summary',
       title: `${tag.name} | Artikel | HelloKahwin`,
-      description: `Artikel bertag ${tag.name}.`,
+      description,
       images: ['/hellokahwin-logo.png'],
     },
   };
@@ -245,9 +252,19 @@ export default async function InspireTagPage({ params, searchParams }: TagPagePr
               '@context': 'https://schema.org',
               '@type': 'CollectionPage',
               name: tag.name,
-              description: `Artikel bertag ${tag.name} di HelloKahwin.`,
+              description: buildTagDescription(tag.name, Number(total)),
               url: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com'}/artikel/tag/${slug}`,
-              numberOfItems: Number(total),
+              // `numberOfItems` is an ItemList property, not a CollectionPage
+              // one — see `@/lib/seo/collection-jsonld` for the 366 schema.org
+              // notices that came of saying it here.
+              mainEntity: collectionItemList(
+                Number(total),
+                data.map((article) => ({
+                  name: article.title,
+                  url: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com'}/artikel/${article.categorySlug ?? 'uncategorized'}/${article.slug}`,
+                })),
+                (page - 1) * perPage + 1,
+              ),
               provider: {
                 '@type': 'Organization',
                 name: 'HelloKahwin',

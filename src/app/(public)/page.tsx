@@ -52,6 +52,13 @@ export const metadata: Metadata = {
     description:
       'Idea, tips dan panduan perkahwinan untuk pasangan Malaysia. Rancang majlis impian anda mengikut bajet.',
     type: 'website',
+    // Ahrefs requires all four of og:title, og:type, og:image and og:url, and
+    // the homepage was serving two. `url` is relative on purpose: the root
+    // layout sets `metadataBase`, so Next resolves it to the apex. The image is
+    // the site default — the same asset the category and tag routes declare;
+    // there is no dedicated 1200x630 OG artwork in `public/` yet.
+    url: '/',
+    images: [{ url: '/hellokahwin-logo.png', width: 886, height: 290, alt: 'HelloKahwin' }],
   },
 };
 

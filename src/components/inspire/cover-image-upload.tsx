@@ -82,7 +82,9 @@ export function CoverImageUpload({
 
       try {
         const result = await uploadInspireImage(
-          { articleId, skipSmartCrops: false },
+          // The cover's rendered alt comes from the article title at every
+          // render site, so there is nothing to type here.
+          { articleId, skipSmartCrops: false, alt: '' },
           file,
           (s, p) => {
             setStage(s);
