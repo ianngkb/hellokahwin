@@ -1,0 +1,53 @@
+{
+  "layer": "ACCEPTANCE AUDITOR",
+  "findings": [
+    {
+      "severity": "major",
+      "file": "scripts/backfill-image-mid.mts",
+      "line": 224,
+      "title": "Backfill covers only media rows that already carry `high`, not every row lacking `mid`",
+      "description": "Scope item 3 says \"for every media row / variant set lacking `mid`, generate it from the ORIGINAL in R2\". The selection is `where variants ? 'high' and not (variants ? 'mid')`, so the ~13 of 1,087 media rows that do not carry a `high` (COMMON.md: 1,087 rows, 1,074 with `high`) are skipped even though they also lack `mid`. That subset is not harmless: `getArticleVariantUrl` rewrites `original.webp|jpg|jpeg|png` and `low.webp` to `mid.webp` as well as `high.webp` (src/lib/storage/article-image-variant.ts:25), and the editor inserts `item.url` verbatim into the Tiptap document (src/components/inspire/editor-toolbar.tsx:111, src/lib/tiptap/figure-block-view.tsx:36), which for a row without a generated variant set is the original. Any such image in an article body is rewritten to a `mid.webp` the backfill never wrote, and the render change 404s it. The pre-deploy audit samples only 30 pages, so it can miss it.",
+      "fix": "Widen the phase-`variants` query to every media row lacking `mid` that has a usable R2 original (`where not (variants ? 'mid')`, keeping the `r2_key` guard), or, if rows without `high` are deliberately out of scope, add an explicit pre-flight query that lists them and refuses to pass until it has been confirmed none is referenced by an article body — and state the exclusion in the result file."
+    },
+    {
+      "severity": "major",
+      "file": "scripts/backfill-image-mid.mts",
+      "line": 539,
+      "title": "Crop re-encode leaves the CDN stale by default and nothing in the verification path fails on it",
+      "description": "Phase `crops` rewrites bytes under an unchanged URL served `max-age=31536000, immutable` through Cloudflare (cf-cache-status: HIT). The purge is opt-in: without `--purge` the script warns and continues, and a failed purge is explicitly non-fatal. Nothing downstream catches the result — `scripts/audit-body-image-bytes.mjs:22` measures `crop-*` as \"reported, not failed\", and the backfill's own exit code is computed from the R2 write, not from what the edge serves. So the crop half of scope item 3 (`crop-*` <= 300 KB) and the findings' third example URL (crop-4x3-article-card.webp at 1,430,152 B) can be reported closed while production still serves the old file for up to a year. Resumability degrades for the same reason: phase `crops` sizes candidates with a HEAD against the public URL (line 352), which returns the cached old length, so a resumed run re-encodes crops it already fixed and never converges.",
+      "fix": "Make the purge part of the write rather than a flag: purge by default (opt out with an explicit `--no-purge`), treat a failed or skipped purge as a non-zero exit, and add a `crop-*` ceiling assertion to `audit-body-image-bytes.mjs` (or a separate post-purge check) that fails when a live crop is over `CROP_CEILING.CEILING_BYTES`. Size candidates with an R2 HeadObject rather than a CDN HEAD so resumption is not fooled by the edge cache."
+    },
+    {
+      "severity": "major",
+      "file": "scripts/backfill-image-mid.mts",
+      "line": 507,
+      "title": "No backup or export before the writes, and the undo record is only written after both phases finish",
+      "description": "Common rule 1 requires a timestamped backup table or a JSON export of the affected rows BEFORE any UPDATE to a live table. Neither exists: the only record is the undo file, and `writeFileSync` runs at the end of `main()` after both phases. If the process dies mid-run (a thrown error reaches the top-level catch at line 606, or the run is interrupted), no undo file is produced at all and the list of what was written is lost. The phase-`crops` case is worse than a missing list: it overwrites the R2 object in place and, by the header's own admission (lines 57-59), does not keep the prior bytes — the stated recovery is to re-run `processSmartCrops`, which re-cuts through Rekognition at AWS cost and writes `articles.cover_image_smart_crops`, the table the brief reserves for the other worker. So a live write is being made that cannot in practice be reversed.",
+      "fix": "Write the pre-state before writing anything: export the selected media ids/variants and the selected crop keys to `C:\\Users\\Ian Ng\\Documents\\Code\\tmp\\2026-09-04-ahrefs-audit\\backups\\hellokahwin-images.json` before the first PUT, and append each outcome to the undo file incrementally (or flush it in a `finally`) so an interrupted run still leaves a record. For phase `crops`, copy the existing object to a sibling backup key (e.g. `<key>.pre-ceiling`) before the overwriting PUT, so the prior bytes are restorable without a re-cut."
+    },
+    {
+      "severity": "minor",
+      "file": "src/lib/storage/article-image-variant.ts",
+      "line": 20,
+      "title": "Committed comment states as fact a production backfill that has not run",
+      "description": "The new header block asserts: \"`mid` was added on 04 September 2026 after `scripts/backfill-image-mid.mts` had written it for all 1,074 media rows and `scripts/audit-body-image-bytes.mjs` reported zero misses\". Per COMMON.md the backfill has NOT been run and nothing has been written to production. This is the one comment a future reader consults to know whether the ordering guard was honoured, and it currently certifies a state that does not exist — if the deploy ships before the backfill, the file in the repo says the safety condition was already met.",
+      "fix": "Reword to state the requirement rather than a completed fact (\"`mid` must not be rendered until `scripts/backfill-image-mid.mts` has written it for every media row and `scripts/audit-body-image-bytes.mjs` reports zero misses\"), and record the actual run counts in the result file once the backfill has run."
+    },
+    {
+      "severity": "minor",
+      "file": "scripts/backfill-image-mid.mts",
+      "line": 240,
+      "title": "Dry run does not produce the diff artifact the common rules require",
+      "description": "Common rule 2 requires a dry-run diff at `tmp\\2026-09-04-ahrefs-audit\\hellokahwin-<slug>-dryrun.md` listing row id, before, after, and the rule that fired, to be sanity-checked before applying. The dry run prints only the first 10 candidates to the console (lines 241-246) and the undo JSON it emits carries `id`, `key` and `highBytes` but no predicted `after` bytes and no rule column, so the required before/after comparison cannot be made from it. Phase `crops` dry-run output is closer (it has `before`) but still has no `after` and no markdown artifact.",
+      "fix": "Have `--dry-run` write the markdown diff at the path the rules name — one row per candidate with id/slug, the current bytes, the projected bytes (encode a sample or state the ceiling as the bound), and which rule selected it — in addition to the JSON."
+    },
+    {
+      "severity": "minor",
+      "file": "scripts/backfill-image-mid.mts",
+      "line": 37,
+      "title": "Acceptance criterion \"no longer referenced by their article pages\" is unmeetable for the crop example",
+      "description": "The brief's first acceptance criterion is that the three example URLs from the findings are no longer referenced by their article pages. Two are `**/high.webp` body figures and the render change satisfies that. The third, `.../songket-.../crop-4x3-article-card.webp` (1,430,152 B), is fixed by re-encoding bytes at the SAME key, deliberately — to keep `GEOMETRY_VERSION` stable and avoid re-cutting every cover through Rekognition. That URL therefore remains referenced after the change. The substance of the criterion (the bytes) is met via `CROP_CEILING`, but the criterion as written is not, and nothing in the diff records that as a decision the owner should see.",
+      "fix": "Record the deviation explicitly in `hk-images-result.md` under Decisions taken and Needs Ian: criterion 1 is met by byte reduction under the same URL for the `crop-*` example, not by de-referencing it, with the GEOMETRY_VERSION/Rekognition cost as the reason and \"re-cut all covers\" as the alternative not taken."
+    }
+  ]
+}

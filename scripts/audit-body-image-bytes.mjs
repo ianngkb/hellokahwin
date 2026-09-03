@@ -13,16 +13,25 @@
  * asset, because the cached payload predated the script. A database-only check
  * would have called that a pass.
  *
+ * ⚠ THIS IS THE *AFTER* CHECK. It cannot gate the deploy, because before the
+ * render change ships these pages still emit `high.webp` — it never requests a
+ * `mid.webp` at all. The pre-deploy gate is `scripts/audit-mid-coverage.mts`,
+ * which reads article CONTENT and asks R2 directly.
+ *
  * WHAT IT ASSERTS
  *   1. No body image on any sampled page is over `--ceiling` (default 500,000 B,
  *      the number the audit item calls a body-image failure).
  *   2. Every body figure resolves — a 404 here is the specific disaster of
  *      shipping the `mid` render change before its backfill.
+ *   3. No cover crop is over `--crop-ceiling` (default 300,000 B, `CROP_CEILING`).
+ *      Measured at the EDGE, which is the point: the crop phase of the backfill
+ *      rewrites bytes under an unchanged immutable URL, so this is the only
+ *      check that can tell a completed purge from a forgotten one.
+ *   4. It actually measured something. A run that fetched no page and found no
+ *      image used to print EXIT 0 — the same false pass this file's header
+ *      already blames for a whole item shipping unmeasured.
  *
- * The cover is measured and reported but NOT failed on: it is a `crop-*`
- * rendition governed by its own ceiling in `smart-crop.ts`, not a body image.
- *
- * Exit 0 when both hold, 1 otherwise. Prints the worst offenders either way,
+ * Exit 0 when all four hold, 1 otherwise. Prints the worst offenders either way,
  * because a passing run with a 480 KB image in it is worth seeing.
  */
 const args = process.argv.slice(2);
@@ -31,6 +40,10 @@ const val = (n, d) => (args.includes(n) ? args[args.indexOf(n) + 1] : d);
 const BASE = (val('--base', 'https://hellokahwin.com') ?? '').replace(/\/+$/, '');
 const LIMIT = Number(val('--limit', '30'));
 const CEILING = Number(val('--ceiling', '500000'));
+// `CROP_CEILING.CEILING_BYTES`. Not imported: this is a plain .mjs so it stays
+// runnable without a TypeScript loader, and the number is asserted against the
+// source in `mid-variant.test.ts` rather than trusted here.
+const CROP_CEILING_BYTES = Number(val('--crop-ceiling', '300000'));
 
 const fmt = (n) => n.toLocaleString('en-US');
 
@@ -108,16 +121,31 @@ async function main() {
   const measured = new Map();
   const offenders = [];
   const missing = [];
+  const cropOffenders = [];
+  const pageErrors = [];
+  let pagesFetched = 0;
   let bodyCount = 0;
   let bodyBytes = 0;
   const coverBytes = [];
 
   for (const page of pages) {
-    const res = await fetch(page);
+    let res;
+    try {
+      res = await fetch(page);
+    } catch (e) {
+      // Counted, not warned-and-forgotten. A Cloudflare bot challenge on the
+      // HTML routes while `/sitemap.xml` still serves would otherwise skip every
+      // page and report a clean run.
+      pageErrors.push({ page, status: 0, error: e.message });
+      console.warn(`  page ${page} → ${e.message}`);
+      continue;
+    }
     if (!res.ok) {
+      pageErrors.push({ page, status: res.status });
       console.warn(`  page ${page} → HTTP ${res.status}`);
       continue;
     }
+    pagesFetched++;
     const html = await res.text();
 
     const urls = [
@@ -146,7 +174,12 @@ async function main() {
     }
     for (const u of cover) {
       const m = measured.get(u);
-      if (m.ok) coverBytes.push({ url: u, bytes: m.bytes });
+      if (!m.ok) {
+        missing.push({ page, url: u, status: m.status });
+      } else {
+        coverBytes.push({ url: u, bytes: m.bytes });
+        if (m.bytes > CROP_CEILING_BYTES) cropOffenders.push({ page, url: u, bytes: m.bytes });
+      }
     }
 
     const pageBody = body.reduce((s, u) => s + (measured.get(u)?.bytes ?? 0), 0);
@@ -165,10 +198,9 @@ async function main() {
   }
   if (coverBytes.length > 0) {
     const mx = coverBytes.reduce((a, b) => (a.bytes > b.bytes ? a : b));
-    console.log(
-      `cover crops         ${coverBytes.length} seen, largest ${fmt(mx.bytes)} B (reported, not failed)`,
-    );
+    console.log(`cover crops         ${coverBytes.length} seen, largest ${fmt(mx.bytes)} B`);
   }
+  console.log(`pages fetched       ${pagesFetched} of ${pages.length}`);
 
   if (missing.length > 0) {
     console.error(`\nMISSING — ${missing.length} body image(s) did not resolve:`);

@@ -29,6 +29,7 @@
     "backfill:lqip": "tsx scripts/backfill-cover-lqip.mts",
     "backfill:mid": "tsx scripts/backfill-image-mid.mts",
     "audit:body-bytes": "node scripts/audit-body-image-bytes.mjs",
+    "audit:mid-coverage": "tsx scripts/audit-mid-coverage.mts",
     "perf:measure": "node scripts/measure-page.mjs",
     "audit:srow": "node scripts/audit-srow-geometry.mjs",
     "audit:labels": "node scripts/audit-label-fit.mjs",

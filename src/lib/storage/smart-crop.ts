@@ -481,7 +481,7 @@ export function resolveOriginalKey(variants: unknown, coverImageUrl: string): st
 
 // ── Bucket Resolution ─────────────────────────────────────────────────
 
-function resolveR2Bucket(key: string): { bucket: string; publicUrl: string } {
+export function resolveR2Bucket(key: string): { bucket: string; publicUrl: string } {
   if (key.startsWith('inspire/')) {
     return { bucket: getR2Bucket(), publicUrl: getR2PublicUrl() };
   }
@@ -585,26 +585,53 @@ export async function generateSmartCrops(
     // at its native size. Never upscale — Sharp interpolating a 1000px window
     // up to 2350px only fabricates pixels, and the browser then resamples again
     // for DPR, stacking two lossy passes.
-    // Encoded through the ladder rather than at a bare q100. Rung 0 IS q100, so
-    // a crop that already fits `CROP_CEILING` comes out byte-identical to what
-    // this line produced before the ceiling existed; only a crop over 300 KB
-    // steps down. See `CROP_CEILING`.
-    const cropped = await encodeUnderCeiling(
-      (quality) =>
-        sharp(originalBuffer)
-          .extract({
-            left: cropWindow.left,
-            top: cropWindow.top,
-            width: cropWindow.width,
-            height: cropWindow.height,
-          })
-          .resize(target.outputWidth, target.outputHeight, {
-            fit: 'inside',
-            withoutEnlargement: true,
-          })
-          .webp({ quality }),
-      CROP_CEILING,
-    );
+    const cropPipeline = (quality: number) =>
+      sharp(originalBuffer)
+        .extract({
+          left: cropWindow.left,
+          top: cropWindow.top,
+          width: cropWindow.width,
+          height: cropWindow.height,
+        })
+        .resize(target.outputWidth, target.outputHeight, {
+          fit: 'inside',
+          withoutEnlargement: true,
+        })
+        .webp({ quality });
+
+    // ── Rung 0, kept SEPARATELY from whatever gets served ─────────────────
+    //
+    // q100 is what this loop encoded before `CROP_CEILING` existed, and two
+    // different consumers need two different answers from here:
+    //
+    //   · the `crop-*.webp` OBJECT is what a browser downloads at full size,
+    //     so it is the thing the ceiling is about;
+    //   · `COVER_RENDITIONS` below are RESIZES of this crop down to 528 and
+    //     792 px, and they re-encode afterwards.
+    //
+    // Feeding the renditions a ceiling-constrained buffer would stack a second
+    // lossy generation on precisely the high-entropy photographs that tripped
+    // the ceiling — the `.s-row` thumbnail and the article cover for those
+    // covers would visibly degrade, which is not a trade this item is making.
+    // So the renditions always consume rung 0, and only the stored object steps.
+    const rung0 = await cropPipeline(CROP_CEILING.QUALITY_LADDER[0]).toBuffer({
+      resolveWithObject: true,
+    });
+
+    // Under the ceiling at rung 0 — the overwhelming majority — is the
+    // pre-ceiling behaviour exactly, byte for byte, with no second encode.
+    const cropped =
+      rung0.data.length <= CROP_CEILING.CEILING_BYTES
+        ? {
+            buffer: rung0.data,
+            width: rung0.info.width,
+            height: rung0.info.height,
+            bytes: rung0.data.length,
+            quality: CROP_CEILING.QUALITY_LADDER[0],
+            overCeiling: false,
+          }
+        : await encodeUnderCeiling(cropPipeline, CROP_CEILING);
+
     const croppedBuffer = cropped.buffer;
     const info = { width: cropped.width, height: cropped.height };
 
@@ -659,7 +686,8 @@ export async function generateSmartCrops(
     for (const spec of COVER_RENDITIONS) {
       if (target.name !== spec.SOURCE_NAME) continue;
 
-      const rendition = await renderCoverRendition(croppedBuffer, spec);
+      // rung 0, never `croppedBuffer` — see the comment on `rung0` above.
+      const rendition = await renderCoverRendition(rung0.data, spec);
       const renditionKey = `${dirPrefix}${spec.NAME}.webp`;
 
       await r2.send(

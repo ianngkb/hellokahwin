@@ -63,6 +63,26 @@ const PRESET_CEILINGS: Record<string, CeilingSpec> = {
   mid: MID_PRESET,
 };
 
+/**
+ * The ladder to actually encode `preset` with.
+ *
+ * ⚠️ Rung 0 comes from the EFFECTIVE preset, not from the constant. The ceiling
+ * spec's own `QUALITY_LADDER` starts at the hardcoded 72, so passing it
+ * unchanged would honour an admin's `maxWidth` (which `build` reads from the
+ * preset) while silently ignoring their `quality` — a row of
+ * `{"mid": {"quality": 60, "maxWidth": 1500}}` would produce a q72 file, LARGER
+ * than the one asked for, with nothing logged to say so. The settings row exists
+ * to retune these; a retune that does nothing is worse than no row at all.
+ *
+ * Rungs at or above the requested quality are dropped rather than reordered:
+ * the ladder's contract is that the FIRST rung that fits wins, so a higher rung
+ * left in front would hand back a bigger file than the admin asked for.
+ */
+export function ladderFor(preset: QualityPreset, ceiling: CeilingSpec): CeilingSpec {
+  const below = ceiling.QUALITY_LADDER.filter((q) => q < preset.quality);
+  return { CEILING_BYTES: ceiling.CEILING_BYTES, QUALITY_LADDER: [preset.quality, ...below] };
+}
+
 const DEFAULT_PRESETS: Record<string, QualityPreset> = {
   low: { quality: 30, maxWidth: 1200 },
   mid: { quality: MID_PRESET.quality, maxWidth: MID_PRESET.maxWidth },
@@ -70,6 +90,45 @@ const DEFAULT_PRESETS: Record<string, QualityPreset> = {
 };
 
 const DEFAULT_QUALITY = 'high';
+
+/**
+ * Merge an admin row over the defaults PER FIELD, not per preset name.
+ *
+ * A shallow `{ ...DEFAULT_PRESETS, ...row }` protects a MISSING preset, which is
+ * most of the point — but it replaces a PRESENT one wholesale. A row carrying
+ * `mid: { quality: 90 }` and no `maxWidth` would then reach `generateVariants`
+ * as `resize({ width: undefined })`, which sharp reads as "do not resize at
+ * all": `mid.webp` would be written at the source's full width (2400+) and the
+ * ladder would grind quality down to 30 trying to fit 350 KB. That is the exact
+ * oversized body figure this whole change exists to remove, reintroduced by a
+ * half-filled settings row.
+ *
+ * A preset in the row that is not an object at all is ignored rather than
+ * merged — the column is JSONB and nothing validates what an admin writes into
+ * it.
+ */
+export function mergePresets(
+  overrides: Record<string, Partial<QualityPreset>>,
+): Record<string, QualityPreset> {
+  const merged: Record<string, QualityPreset> = { ...DEFAULT_PRESETS };
+  if (!overrides || typeof overrides !== 'object' || Array.isArray(overrides)) return merged;
+
+  for (const [name, value] of Object.entries(overrides)) {
+    if (!value || typeof value !== 'object' || Array.isArray(value)) continue;
+
+    const base = DEFAULT_PRESETS[name];
+    const quality = typeof value.quality === 'number' ? value.quality : base?.quality;
+    const maxWidth = typeof value.maxWidth === 'number' ? value.maxWidth : base?.maxWidth;
+
+    // A preset the code does not know, supplied with only half its fields, has
+    // no default to fall back on. Dropping it is the only safe reading: half a
+    // preset generates a variant nobody specified.
+    if (typeof quality !== 'number' || typeof maxWidth !== 'number') continue;
+
+    merged[name] = { quality, maxWidth };
+  }
+  return merged;
+}
 
 /**
  * MERGES over `DEFAULT_PRESETS`; it does not replace them.
@@ -96,7 +155,7 @@ export async function getDefaultPresets(): Promise<Record<string, QualityPreset>
       .limit(1);
 
     if (row.length > 0 && row[0].value) {
-      return { ...DEFAULT_PRESETS, ...(row[0].value as Record<string, QualityPreset>) };
+      return mergePresets(row[0].value as Record<string, Partial<QualityPreset>>);
     }
   } catch {
     // Table may not exist yet - return defaults
@@ -164,7 +223,7 @@ export async function generateVariants(
 
     let variantBuffer: Buffer;
     if (ceiling) {
-      const encoded = await encodeUnderCeiling(build, ceiling);
+      const encoded = await encodeUnderCeiling(build, ladderFor(preset, ceiling));
       variantBuffer = encoded.buffer;
       if (encoded.overCeiling) {
         // Loud, not thrown -- the same contract `smart-crop.ts` uses. An

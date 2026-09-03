@@ -238,6 +238,92 @@ describe('getDefaultPresets', () => {
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
+// 3b. THE SETTINGS ROW IS UNVALIDATED JSONB
+//
+// Every case below was a live defect found in review, not a hypothetical: the
+// merge was one level deep and the ladder ignored the merged quality, so an
+// admin row could either reintroduce the oversized figure this change removes,
+// or silently do nothing at all.
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe('mergePresets', () => {
+  it('fills a half-written preset from the default, field by field', async () => {
+    const { mergePresets } = await import('../image-variants');
+    // A shallow spread would leave `maxWidth` undefined here, and sharp reads
+    // `resize({ width: undefined })` as "do not resize" — a full-resolution
+    // `mid.webp` with the ladder grinding to q30 trying to fit 350 KB.
+    const merged = mergePresets({ mid: { quality: 60 } });
+    expect(merged.mid).toEqual({ quality: 60, maxWidth: 1400 });
+  });
+
+  it('ignores a row that is not an object', async () => {
+    const { mergePresets } = await import('../image-variants');
+    // The column is JSONB; nothing validates what is written into it. Spreading
+    // a string would add numeric keys `0`, `1`, … as presets, and generation
+    // would PUT `<dir>/0.webp` to R2 and record it in `media.variants`.
+    for (const junk of ['abc', ['low', 'high'], 42, null] as unknown[]) {
+      const merged = mergePresets(junk as Record<string, never>);
+      expect(Object.keys(merged).sort()).toEqual(['high', 'low', 'mid']);
+    }
+  });
+
+  it('ignores a preset whose value is not an object', async () => {
+    const { mergePresets } = await import('../image-variants');
+    const merged = mergePresets({ mid: 'nonsense' as unknown as { quality: number } });
+    expect(merged.mid).toEqual({ quality: 72, maxWidth: 1400 });
+  });
+
+  it('drops an unknown preset that has no default to complete it', async () => {
+    const { mergePresets } = await import('../image-variants');
+    // Half a preset nobody declared generates a variant nobody specified.
+    const merged = mergePresets({ tiny: { quality: 20 } });
+    expect(merged.tiny).toBeUndefined();
+  });
+
+  it('accepts an unknown preset that is fully specified', async () => {
+    const { mergePresets } = await import('../image-variants');
+    const merged = mergePresets({ tiny: { quality: 20, maxWidth: 320 } });
+    expect(merged.tiny).toEqual({ quality: 20, maxWidth: 320 });
+  });
+});
+
+describe('ladderFor', () => {
+  it('starts at the effective preset quality, not the constant', async () => {
+    const { ladderFor, MID_PRESET } = await import('../image-variants');
+    // The defect: `encodeUnderCeiling` was handed `MID_PRESET` directly, whose
+    // ladder starts at 72. An admin row asking for q60 got `maxWidth` honoured
+    // and `quality` ignored — a LARGER file than requested, silently.
+    const ladder = ladderFor({ quality: 60, maxWidth: 1500 }, MID_PRESET);
+    expect(ladder.QUALITY_LADDER[0]).toBe(60);
+  });
+
+  it('drops rungs at or above the requested quality', async () => {
+    const { ladderFor, MID_PRESET } = await import('../image-variants');
+    // The first rung that fits wins, so a higher rung left in front would hand
+    // back a bigger file than was asked for.
+    const ladder = ladderFor({ quality: 60, maxWidth: 1500 }, MID_PRESET);
+    expect(ladder.QUALITY_LADDER.every((q, i) => i === 0 || q < 60)).toBe(true);
+    expect(ladder.QUALITY_LADDER).toEqual([60, 54, 48, 42, 36, 30]);
+  });
+
+  it('keeps the ceiling it was given', async () => {
+    const { ladderFor, MID_PRESET } = await import('../image-variants');
+    expect(ladderFor({ quality: 60, maxWidth: 1500 }, MID_PRESET).CEILING_BYTES).toBe(
+      MID_PRESET.CEILING_BYTES,
+    );
+  });
+
+  it('leaves the default preset on its declared ladder', async () => {
+    const { ladderFor, MID_PRESET } = await import('../image-variants');
+    const ladder = ladderFor(
+      { quality: MID_PRESET.quality, maxWidth: MID_PRESET.maxWidth },
+      MID_PRESET,
+    );
+    expect(ladder.QUALITY_LADDER).toEqual([...MID_PRESET.QUALITY_LADDER]);
+  });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
 // 4. THE URL REWRITE
 // ─────────────────────────────────────────────────────────────────────────────
 

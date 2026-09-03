@@ -13,12 +13,17 @@
  *
  * ⚠️ THIS IS A STRING REWRITE, NOT A LOOKUP. It never asks the database or R2
  * whether the variant it names exists — it swaps the last path segment and
- * returns. So asking for a variant is a promise that the object is already on
- * R2 for every image the site renders, and the ONLY thing that can keep that
- * promise is a completed backfill. `mid` was added on 04 September 2026 after
- * `scripts/backfill-image-mid.mts` had written it for all 1,074 media rows and
- * `scripts/audit-body-image-bytes.mjs` reported zero misses; a render change
- * that lands before its backfill 404s every figure on the site.
+ * returns. So naming a variant here is a PROMISE that the object is already on
+ * R2 for every image the site renders, and the only thing that can keep that
+ * promise is a completed backfill.
+ *
+ * The standing requirement for `mid`, added 04 September 2026: it must not be
+ * rendered until `scripts/backfill-image-mid.mts` has written a `mid.webp` for
+ * every media row and `scripts/audit-mid-coverage.mts` reports zero misses.
+ * That coverage check reads the article CONTENT, not rendered pages — a page
+ * that has not yet had the render change deployed still emits `high.webp`, so
+ * scraping production could never prove `mid` coverage ahead of the deploy.
+ * A render change that lands before its backfill 404s every figure on the site.
  */
 export type ArticleImageVariant = 'low' | 'mid' | 'high';
 
