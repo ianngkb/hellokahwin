@@ -97,3 +97,6 @@ __pycache__/
 # 2026). Raw Ahrefs blobs, ~1MB per census run, regenerable at the cost of Ahrefs
 # units. The census re-reads it, so keep it locally; it must not enter git.
 .cache/
+
+# Orchestrator scratch (see brain/docs/artifacts.md)
+/tmp/
