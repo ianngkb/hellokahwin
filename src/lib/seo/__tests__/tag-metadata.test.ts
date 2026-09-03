@@ -1,6 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { buildTagDescription, TAG_ROBOTS } from '../tag-metadata';
 
+/** U+1F389 PARTY POPPER — an astral character, i.e. a surrogate PAIR. */
+const PARTY = String.fromCodePoint(0x1f389);
+
 // The real corpus: WP-imported tag names run from three characters to about
 // forty, and the article count is a small integer that will not stay small.
 const TAG_NAMES = [
@@ -34,6 +37,40 @@ describe('buildTagDescription', () => {
   it('stays inside the ceiling even for an absurdly long tag name', () => {
     const description = buildTagDescription('a'.repeat(200), 3);
     expect(description.length).toBeLessThanOrEqual(155);
+  });
+
+  it('holds the FLOOR when a long tag name has word boundaries to cut at', () => {
+    // The trap: a word-boundary truncation that lands past 65% of the budget
+    // is "tidy" and well under the floor. The spaces here are placed so a naive
+    // last-space cut lands in the 100s.
+    for (const name of [
+      'baju pengantin lelaki dan perempuan melayu tradisional moden',
+      'pelamin nikah minimalis moden untuk dewan komuniti dan rumah kampung a',
+      Array.from({ length: 30 }, (_, i) => 'w' + i).join(' '),
+    ]) {
+      const description = buildTagDescription(name, 6);
+      expect(description.length, name + ' -> ' + description.length).toBeGreaterThanOrEqual(120);
+      expect(description.length, name + ' -> ' + description.length).toBeLessThanOrEqual(155);
+    }
+  });
+
+  it('never leaves a lone surrogate when it has to cut inside an emoji run', () => {
+    // `Array.from` walks CODE POINTS, so a well-formed pair comes back as one
+    // two-unit string. Anything left at length 1 inside the surrogate range is
+    // an unpaired half, which serialises into the page as a replacement char.
+    const hasLoneSurrogate = (text: string) =>
+      Array.from(text).some((ch) => {
+        const code = ch.charCodeAt(0);
+        return ch.length === 1 && code >= 0xd800 && code <= 0xdfff;
+      });
+
+    for (let pad = 0; pad < 24; pad++) {
+      const name = 'k'.repeat(pad) + ' ' + PARTY.repeat(20);
+      const description = buildTagDescription(name, 4);
+      expect(description.length).toBeLessThanOrEqual(155);
+      expect(description.length).toBeGreaterThanOrEqual(120);
+      expect(hasLoneSurrogate(description), name).toBe(false);
+    }
   });
 
   it('names the tag and the article count', () => {

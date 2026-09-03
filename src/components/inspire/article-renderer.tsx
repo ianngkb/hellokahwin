@@ -359,6 +359,24 @@ export function fallbackImageAlt(articleTitle: string | undefined, ordinal: numb
 }
 
 /**
+ * The `alt` an image actually renders with.
+ *
+ * Null-safe on purpose: the stored alt arrives from the content JSONB and from
+ * Tiptap node attributes, and both can hand back `null` — `figure-block-view`'s
+ * own upload-failure path writes `alt: null` — so a bare `.trim()` here would
+ * throw inside a server render. Whitespace-only counts as absent: `alt=" "` is
+ * an empty accessible name wearing a disguise.
+ */
+function resolveImageAlt(
+  stored: string | null | undefined,
+  articleTitle: string | undefined,
+  ordinal: number,
+): string {
+  const described = (stored ?? '').trim();
+  return described || fallbackImageAlt(articleTitle, ordinal);
+}
+
+/**
  * A running image ordinal for one article render.
  *
  * Deliberately a mutable box rather than a closure over `let`: it is handed to
@@ -660,10 +678,15 @@ function renderHtmlParts(
     // captions pass through unchanged; `null` means there is nothing to show,
     // including a caption that is a bare label with no owner after it.
     const creditLabel = part.type === 'html' ? null : normaliseCaptionLabel(part.caption);
-    // Consumed for EVERY image, described or not, so the ordinal is the
-    // image's position on the page.
-    const imgAlt =
-      part.type === 'img' ? part.alt || fallbackImageAlt(articleTitle, imageOrdinal.next++) : '';
+    // The increment is its OWN statement, deliberately. Written as
+    // `part.alt || fallbackImageAlt(…, ordinal.next++)` the `||` short-circuits
+    // whenever the image already HAS an alt, so a described image never
+    // consumed its ordinal and the next undescribed one reused it: an article
+    // whose first image is described and second is not labelled the second
+    // image "gambar 1". Every image consumes one, described or not, so the
+    // number is the image's position on the page.
+    const imgOrdinal = part.type === 'img' ? imageOrdinal.next++ : -1;
+    const imgAlt = part.type === 'img' ? resolveImageAlt(part.alt, articleTitle, imgOrdinal) : '';
     if (part.type === 'html') {
       elements.push(
         <div key={`${keyPrefix}-${i}`} dangerouslySetInnerHTML={{ __html: part.value }} />,
@@ -927,7 +950,7 @@ function GalleryRenderer({
                 <div key={`${keyPrefix}-gi-${j}`} style={{ flex: `${aspectRatio} 1 0%` }}>
                   <GalleryImage
                     img={img}
-                    alt={img.alt || fallbackImageAlt(articleTitle, altBaseOrdinal + j)}
+                    alt={resolveImageAlt(img.alt, articleTitle, altBaseOrdinal + j)}
                     isMasonry={false}
                     layout={data.layout}
                     articleId={articleId}
@@ -953,7 +976,7 @@ function GalleryRenderer({
         <div key={`${keyPrefix}-gi-${j}`} className={isMasonry ? 'mb-2 break-inside-avoid' : ''}>
           <GalleryImage
             img={img}
-            alt={img.alt || fallbackImageAlt(articleTitle, altBaseOrdinal + j)}
+            alt={resolveImageAlt(img.alt, articleTitle, altBaseOrdinal + j)}
             isMasonry={isMasonry}
             layout={data.layout}
             articleId={articleId}
@@ -1050,7 +1073,9 @@ export function ArticleRenderer({
       const { src, alt, caption, captionUrl, captionHtml } = part.data;
       if (src) {
         const figureDims = parseImageDims(src);
-        const figureAlt = alt || fallbackImageAlt(articleTitle, imageOrdinal.next++);
+        // Same short-circuit trap as `renderHtmlParts` — increment first.
+        const figureOrdinal = imageOrdinal.next++;
+        const figureAlt = resolveImageAlt(alt, articleTitle, figureOrdinal);
         allElements.push(
           <figure
             key={`figure-${partIndex}`}

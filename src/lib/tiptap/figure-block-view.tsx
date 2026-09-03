@@ -57,7 +57,7 @@ export function FigureBlockNodeView({
 
       // Show local preview immediately
       const previewUrl = URL.createObjectURL(file);
-      updateAttributes({ src: previewUrl, alt: file.name });
+      updateAttributes({ src: previewUrl, alt: '' });
 
       try {
         const storage = editor.storage.figureBlock as
@@ -68,12 +68,20 @@ export function FigureBlockNodeView({
         const result = await uploadInspireImage({ slug: articleSlug, articleId }, file);
         updateAttributes({
           src: result.url,
-          alt: file.name,
+          // No silent default. See NO_ALT_WARNING in the article editor: a
+          // filename is not a description, and shipping one makes an
+          // undescribed image look described.
+          alt: '',
           'data-original-src': result.originalUrl,
           'data-quality': result.defaultQuality,
           'data-variants': JSON.stringify(result.variants),
         });
         markCompleted();
+        toast.warning('Image uploaded without alt text.', {
+          description:
+            'Add a description via Media > Upload new, which requires one, or the page will fall back to the article title.',
+          duration: 10000,
+        });
       } catch (err) {
         markFailed();
         toast.error(err instanceof Error ? err.message : 'Image upload failed');

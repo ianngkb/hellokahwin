@@ -196,7 +196,20 @@ export async function generateMetadata({
       `inspire-category-meta:${categorySlug}`,
     );
   } catch {
-    return {};
+    // NOT `{}`. Next merges by walking the returned object's own keys, so an
+    // empty object contributes no Open Graph at all and the hub ships with none
+    // of og:title / og:type / og:image / og:url — the exact defect this run is
+    // closing, re-created by the error path. Everything below is knowable
+    // WITHOUT the category row: the slug is a route parameter.
+    return {
+      openGraph: {
+        title: 'Artikel | HelloKahwin',
+        type: 'website',
+        url: `/artikel/${categorySlug}`,
+        images: [{ url: '/hellokahwin-logo.png', width: 886, height: 290, alt: 'HelloKahwin' }],
+      },
+      robots: ROBOTS_ON_DEADLINE_MISS,
+    };
   }
   if (!cat) return { title: 'Not Found' };
 

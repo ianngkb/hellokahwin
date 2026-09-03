@@ -1403,6 +1403,20 @@ export function ArticleEditor({
     return () => document.removeEventListener('keydown', handler);
   }, [handleSave]);
 
+  /**
+   * What the editor says when an image lands with no alt text.
+   *
+   * The drag/drop and paste paths used to write `alt: file.name` — a SILENT
+   * DEFAULT, and the one thing the alt-text work is not allowed to do: a
+   * filename is indistinguishable from a real description downstream, so
+   * `IMG_4821.jpg` shipped looking described. These paths have nowhere to type an
+   * alt (there is no inline alt editor for an image node yet), so they say so
+   * instead and point at the surface that does require one.
+   */
+  const NO_ALT_WARNING = 'Image uploaded without alt text.';
+  const NO_ALT_WARNING_DETAIL =
+    'Add a description via Media > Upload new, which requires one, or the page will fall back to the article title.';
+
   // Drag-and-drop / paste image upload handler
   const handleEditorImageFile = useCallback(
     async (file: File, editor: EditorInstance, pos?: number) => {
@@ -1422,7 +1436,7 @@ export function ArticleEditor({
           .focus()
           .insertContentAt(pos, {
             type: 'image',
-            attrs: { src: placeholderSrc, alt: file.name },
+            attrs: { src: placeholderSrc, alt: '' },
           })
           .run();
       } else {
@@ -1456,6 +1470,7 @@ export function ArticleEditor({
         });
 
         markCompleted();
+        toast.warning(NO_ALT_WARNING, { description: NO_ALT_WARNING_DETAIL, duration: 10000 });
         URL.revokeObjectURL(placeholderSrc);
       } catch (err) {
         markFailed();
@@ -1501,7 +1516,7 @@ export function ArticleEditor({
           .focus()
           .insertContentAt(insertPos, {
             type: 'image',
-            attrs: { src, alt: file.name },
+            attrs: { src, alt: '' },
           })
           .run();
         placeholders.push({ file, src });
@@ -1509,6 +1524,12 @@ export function ArticleEditor({
 
       if (placeholders.length === 0) return;
       trackFiles(placeholders.length);
+      toast.warning(
+        placeholders.length === 1
+          ? NO_ALT_WARNING
+          : `${placeholders.length} images uploaded without alt text.`,
+        { description: NO_ALT_WARNING_DETAIL, duration: 10000 },
+      );
 
       // Upload all files in parallel, replacing placeholders as each completes
       for (const { file, src } of placeholders) {

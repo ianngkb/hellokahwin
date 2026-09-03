@@ -121,13 +121,18 @@ const getTagArticles = unstable_cache(
 
 export async function generateMetadata({ params }: TagPageProps): Promise<Metadata> {
   const { slug } = await params;
+  // EVERY exit of this function carries `robots`, including the failure ones.
+  // D6 says no tag is indexable; a `return {}` on a deadline miss says nothing,
+  // and "nothing" is Google's word for "index it". These routes cache with
+  // `revalidate: false`, so one slow render would have pinned an indexable tag
+  // page in the cache for the life of the entry.
   let tag;
   try {
     tag = await withDeadline(getTagBySlugCached(slug), 3_000, `inspire-tag-meta:${slug}`);
   } catch {
-    return {};
+    return { robots: TAG_ROBOTS };
   }
-  if (!tag) return { title: 'Not Found' };
+  if (!tag) return { title: 'Not Found', robots: TAG_ROBOTS };
 
   // Empty-tag detection in metadata so we return minimal head BEFORE any
   // streaming begins. Returning full Open Graph + canonical metadata for an
@@ -149,9 +154,9 @@ export async function generateMetadata({ params }: TagPageProps): Promise<Metada
       `inspire-tag-meta-count:${slug}`,
     );
   } catch {
-    return { title: 'Not Found' };
+    return { title: 'Not Found', robots: TAG_ROBOTS };
   }
-  if (articlesData.total === 0) return { title: 'Not Found' };
+  if (articlesData.total === 0) return { title: 'Not Found', robots: TAG_ROBOTS };
 
   // ONE description, used for `<meta name="description">`, `og:description`
   // and the JSON-LD alike. The route used to emit three near-variants of a

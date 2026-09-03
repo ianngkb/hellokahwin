@@ -14,6 +14,23 @@ import { cn } from '@/lib/utils';
 const MAX_FILES = 100;
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/avif'];
+/**
+ * Long enough for a real description, short enough that the whole batch stays
+ * well inside the server action's 1 MiB body limit at 100 files.
+ */
+const MAX_ALT_LENGTH = 300;
+
+/**
+ * Whether an alt field actually says anything.
+ *
+ * `.trim()` alone is not enough: it strips whitespace, and a zero-width space
+ * (U+200B) or a byte-order mark is neither whitespace nor visible, so a field
+ * holding one would pass the gate and ship an empty accessible name. `\p{Cf}`
+ * is the Unicode format category, which is where those characters live.
+ */
+function hasVisibleText(value: string): boolean {
+  return value.replace(/[\s\p{Cf}]/gu, '').length > 0;
+}
 
 interface BulkUploadDialogProps {
   open: boolean;
@@ -168,7 +185,7 @@ export function BulkUploadDialog({
 
     // A message, not a silent default. The button stays live so the reason is
     // readable rather than inferred from a control that does nothing.
-    const missingAlt = uploadableFiles.filter((f) => f.alt.trim().length === 0).length;
+    const missingAlt = uploadableFiles.filter((f) => !hasVisibleText(f.alt)).length;
     if (missingAlt > 0) {
       setValidationError(
         missingAlt === 1
@@ -237,7 +254,7 @@ export function BulkUploadDialog({
   }, [files, articleSlug, articleId]);
 
   const missingAltCount = files.filter(
-    (f) => f.status === 'pending' && f.alt.trim().length === 0,
+    (f) => f.status === 'pending' && !hasVisibleText(f.alt),
   ).length;
   const succeededCount = files.filter((f) => f.status === 'done').length;
   const failedCount = files.filter((f) => f.status === 'error').length;
@@ -363,10 +380,11 @@ export function BulkUploadDialog({
                             onChange={(e) => setAlt(index, e.target.value)}
                             placeholder="Alt text — what is in this photo?"
                             aria-label={`Alt text for ${entry.file.name}`}
-                            aria-invalid={entry.alt.trim().length === 0}
+                            maxLength={MAX_ALT_LENGTH}
+                            aria-invalid={!hasVisibleText(entry.alt)}
                             className={cn(
                               'h-8 text-xs',
-                              entry.alt.trim().length === 0 && 'border-destructive',
+                              !hasVisibleText(entry.alt) && 'border-destructive',
                             )}
                           />
                         </div>

@@ -21,7 +21,6 @@
  * The site language is Malay (`<html lang="ms">`), so the sentence is Malay.
  */
 
-import { truncateForMeta } from './meta';
 import type { RobotsDirective } from './category-robots';
 
 /** Everything after the brand, in the roomy form. */
@@ -57,9 +56,39 @@ export function buildTagDescription(tagName: string, articleCount: number): stri
   const short = compose(count, name, TAIL_SHORT);
   if (short.length <= MAX_LENGTH) return short;
 
-  // `MAX_LENGTH - 1`: truncateForMeta appends an ellipsis to its slice, so
-  // asking for 155 can return 156.
-  return truncateForMeta(short, MAX_LENGTH - 1);
+  return clampToCeiling(short);
+}
+
+/**
+ * Cuts a string to the ceiling without dropping under the floor and without
+ * splitting a character in half.
+ *
+ * NOT `truncateForMeta`. That helper cuts at the last word boundary in the
+ * slice whenever the boundary sits past 65% of the budget — 101 characters
+ * here — so a long tag name with spaces in the right places could come back at
+ * 102 characters, under the 120 floor this function exists to hold. Where a
+ * word boundary would breach the floor, the hard cut wins: a clipped word is a
+ * smaller problem than a description Ahrefs flags as short.
+ *
+ * The surrogate guard matters because `String.prototype.slice` counts UTF-16
+ * code units, so cutting inside an emoji or an astral character leaves a lone
+ * surrogate — an unpaired half that serialises into the page as U+FFFD.
+ */
+function clampToCeiling(text: string): string {
+  // One char of the budget is the ellipsis.
+  const budget = MAX_LENGTH - 1;
+  let slice = text.slice(0, budget);
+
+  // Drop a trailing lone high surrogate (0xD800-0xDBFF) — its pair was cut off.
+  const lastCode = slice.charCodeAt(slice.length - 1);
+  if (lastCode >= 0xd800 && lastCode <= 0xdbff) slice = slice.slice(0, -1);
+
+  const lastSpace = slice.lastIndexOf(' ');
+  // `+ 1` for the ellipsis this will carry.
+  if (lastSpace > 0 && lastSpace + 1 >= MIN_LENGTH) {
+    return `${slice.slice(0, lastSpace)}…`;
+  }
+  return `${slice}…`;
 }
 
 /**

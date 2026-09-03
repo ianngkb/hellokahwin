@@ -419,7 +419,11 @@ export async function createMediaRecordAction(data: {
       filename: data.filename,
       // `undefined` leaves the column's own `''` default in place, so a
       // caller that never had an alt to give behaves exactly as it did before.
-      alt: data.alt?.trim() || undefined,
+      // The `typeof` guard is not paranoia about our own callers: this is a
+      // server action, so its argument crosses a network boundary and arrives
+      // as whatever the client sent — a bare `.trim()` on a non-string throws
+      // inside the insert.
+      alt: typeof data.alt === 'string' ? data.alt.trim().slice(0, 300) || undefined : undefined,
       r2Key: data.r2Key,
       url: data.url,
       originalUrl: data.originalUrl,
