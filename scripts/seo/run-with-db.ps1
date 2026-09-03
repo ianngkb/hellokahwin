@@ -19,6 +19,9 @@ $env:PGPASSWORD = $null
 exit $LASTEXITCODE
 '@
 $quoted = ($Cmd | ForEach-Object { "'" + ($_ -replace "'", "''") + "'" }) -join ' '
-$inner = $inner -replace '__CMD__', $quoted
+# .Replace(), NOT -replace. The replacement side of -replace is a regex
+# substitution, so a '$' anywhere in an argument (a path, a flag value) would
+# be read as a capture-group reference and silently mangle the command.
+$inner = $inner.Replace('__CMD__', $quoted)
 & $vault run supabase.hellokahwin-dbpass -EnvVar PGPASSWORD -- pwsh -NoProfile -Command $inner
 exit $LASTEXITCODE
