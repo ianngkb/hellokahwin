@@ -11,6 +11,7 @@ import {
 } from '@/lib/r2/client';
 import { detectFaces, detectLabels } from '@/lib/rekognition/detect';
 import { COVER_RENDITIONS, type CoverRenditionSpec, type MidsizeRendition } from './midsize-cover';
+import { encodeUnderCeiling } from './byte-ceiling';
 import type { FaceBoundingBox, LabelInstance } from '@/lib/rekognition/detect';
 
 // ── Types ──────────────────────────────────────────────────────────────
@@ -108,6 +109,44 @@ export const GEOMETRY_VERSION = createHash('sha1')
   .update(JSON.stringify(CROP_TARGETS))
   .digest('hex')
   .slice(0, 8);
+
+/**
+ * The byte ceiling every `CROP_TARGETS` crop is encoded against.
+ *
+ * ── WHY IT IS NOT A FIELD ON `CROP_TARGETS` ────────────────────────────────
+ * ⚠️ `GEOMETRY_VERSION` above is `sha1(JSON.stringify(CROP_TARGETS))`. Adding a
+ * `ceilingBytes` field to those four objects changes that hash, which changes
+ * every stored crop URL, which re-cuts all ~96 live covers through Rekognition
+ * and R2. The array's own comment reserves that as "an AWS-cost decision that
+ * belongs to the owner", and a ceiling is not a geometry change — the crop
+ * window and the output box are byte-for-byte what they were. So the ceiling
+ * lives beside the array rather than inside it, and `GEOMETRY_VERSION` is
+ * deliberately left alone.
+ *
+ * ── WHY RUNG 0 IS q100 ─────────────────────────────────────────────────────
+ * q100 is exactly what this encoder used before the ceiling existed. Keeping it
+ * as the first rung means every crop already under 300 KB re-encodes to the
+ * SAME bytes and is skipped by the backfill's size check — so the blast radius
+ * is precisely the files that are over, and nothing else on the site moves.
+ *
+ * Measured on production 04 September 2026, the crops that are over:
+ * `crop-4x3-article-card` runs 111 KB – 1,430 KB (the 1.43 MB file is
+ * `songket-tenunan-tangan-atau-cetak`, the same worst-case photograph that made
+ * DES-18's ladder necessary in the first place), and `crop-4.3x1-desktop-hero`
+ * runs 535–916 KB.
+ *
+ * ── 300 KB ─────────────────────────────────────────────────────────────────
+ * Set by the Ahrefs audit item this ships under. It is a CEILING, not a target:
+ * the median crop is already well under it and never steps.
+ */
+export const CROP_CEILING = {
+  CEILING_BYTES: 300_000,
+  /**
+   * Rung 0 is the pre-ceiling encoder setting, so an under-budget crop is
+   * unchanged. The rest only ever run on a photograph q100 cannot fit.
+   */
+  QUALITY_LADDER: [100, 90, 82, 75, 68, 60, 52, 45] as const,
+} as const;
 
 // ── Pure Functions (no I/O) ────────────────────────────────────────────
 
@@ -442,7 +481,7 @@ export function resolveOriginalKey(variants: unknown, coverImageUrl: string): st
 
 // ── Bucket Resolution ─────────────────────────────────────────────────
 
-function resolveR2Bucket(key: string): { bucket: string; publicUrl: string } {
+export function resolveR2Bucket(key: string): { bucket: string; publicUrl: string } {
   if (key.startsWith('inspire/')) {
     return { bucket: getR2Bucket(), publicUrl: getR2PublicUrl() };
   }
@@ -478,35 +517,24 @@ export async function renderCoverRendition(
   source: Buffer,
   spec: CoverRenditionSpec,
 ): Promise<MidsizeRendition> {
-  let last: MidsizeRendition | null = null;
-
-  for (const quality of spec.QUALITY_LADDER) {
-    const { data, info } = await sharp(source)
-      .resize(spec.WIDTH, spec.HEIGHT, {
-        fit: 'inside',
-        withoutEnlargement: true,
-      })
-      // effort 6 matches DES-03's `derivatives.py` (`method=6`), so a byte
-      // measured here is comparable to the number in that specification rather
-      // than to a different encoder setting that happens to share a quality.
-      .webp({ quality, effort: 6 })
-      .toBuffer({ resolveWithObject: true });
-
-    last = {
-      buffer: data,
-      width: info.width,
-      height: info.height,
-      bytes: data.length,
-      quality,
-      overCeiling: data.length > spec.CEILING_BYTES,
-    };
-    if (!last.overCeiling) return last;
-  }
-
-  // Every rung missed. Returned anyway, flagged — a silent pass here would turn
-  // the ceiling back into a hope, and the caller is the one that decides
-  // whether a q30 miss is worth failing an ingest over.
-  return last!;
+  // The ladder itself moved to `./byte-ceiling.ts` when the `mid` article
+  // variant needed the same behaviour. Everything specific to a COVER rendition
+  // — the box, `fit:'inside'`, and the encoder effort — stays here; only the
+  // step-down loop is shared. A rendition over budget still comes back flagged
+  // rather than thrown, for the reason stated above.
+  return encodeUnderCeiling(
+    (quality) =>
+      sharp(source)
+        .resize(spec.WIDTH, spec.HEIGHT, {
+          fit: 'inside',
+          withoutEnlargement: true,
+        })
+        // effort 6 matches DES-03's `derivatives.py` (`method=6`), so a byte
+        // measured here is comparable to the number in that specification rather
+        // than to a different encoder setting that happens to share a quality.
+        .webp({ quality, effort: 6 }),
+    spec,
+  );
 }
 
 export async function generateSmartCrops(
@@ -557,19 +585,64 @@ export async function generateSmartCrops(
     // at its native size. Never upscale — Sharp interpolating a 1000px window
     // up to 2350px only fabricates pixels, and the browser then resamples again
     // for DPR, stacking two lossy passes.
-    const { data: croppedBuffer, info } = await sharp(originalBuffer)
-      .extract({
-        left: cropWindow.left,
-        top: cropWindow.top,
-        width: cropWindow.width,
-        height: cropWindow.height,
-      })
-      .resize(target.outputWidth, target.outputHeight, {
-        fit: 'inside',
-        withoutEnlargement: true,
-      })
-      .webp({ quality: 100 })
-      .toBuffer({ resolveWithObject: true });
+    const cropPipeline = (quality: number) =>
+      sharp(originalBuffer)
+        .extract({
+          left: cropWindow.left,
+          top: cropWindow.top,
+          width: cropWindow.width,
+          height: cropWindow.height,
+        })
+        .resize(target.outputWidth, target.outputHeight, {
+          fit: 'inside',
+          withoutEnlargement: true,
+        })
+        .webp({ quality });
+
+    // ── Rung 0, kept SEPARATELY from whatever gets served ─────────────────
+    //
+    // q100 is what this loop encoded before `CROP_CEILING` existed, and two
+    // different consumers need two different answers from here:
+    //
+    //   · the `crop-*.webp` OBJECT is what a browser downloads at full size,
+    //     so it is the thing the ceiling is about;
+    //   · `COVER_RENDITIONS` below are RESIZES of this crop down to 528 and
+    //     792 px, and they re-encode afterwards.
+    //
+    // Feeding the renditions a ceiling-constrained buffer would stack a second
+    // lossy generation on precisely the high-entropy photographs that tripped
+    // the ceiling — the `.s-row` thumbnail and the article cover for those
+    // covers would visibly degrade, which is not a trade this item is making.
+    // So the renditions always consume rung 0, and only the stored object steps.
+    const rung0 = await cropPipeline(CROP_CEILING.QUALITY_LADDER[0]).toBuffer({
+      resolveWithObject: true,
+    });
+
+    // Under the ceiling at rung 0 — the overwhelming majority — is the
+    // pre-ceiling behaviour exactly, byte for byte, with no second encode.
+    const cropped =
+      rung0.data.length <= CROP_CEILING.CEILING_BYTES
+        ? {
+            buffer: rung0.data,
+            width: rung0.info.width,
+            height: rung0.info.height,
+            bytes: rung0.data.length,
+            quality: CROP_CEILING.QUALITY_LADDER[0],
+            overCeiling: false,
+          }
+        : await encodeUnderCeiling(cropPipeline, CROP_CEILING);
+
+    const croppedBuffer = cropped.buffer;
+    const info = { width: cropped.width, height: cropped.height };
+
+    if (cropped.overCeiling) {
+      // Same contract as the rendition warning below: loud, not thrown. An
+      // oversized crop must not fail an editor's upload; the backfill turns
+      // this signal into a non-zero exit.
+      console.warn(
+        `[crop] ${target.name} is ${cropped.bytes} B at q${cropped.quality} — over the ${CROP_CEILING.CEILING_BYTES} B ceiling`,
+      );
+    }
 
     const variantKey = `${dirPrefix}${target.name}.webp`;
 
@@ -613,7 +686,8 @@ export async function generateSmartCrops(
     for (const spec of COVER_RENDITIONS) {
       if (target.name !== spec.SOURCE_NAME) continue;
 
-      const rendition = await renderCoverRendition(croppedBuffer, spec);
+      // rung 0, never `croppedBuffer` — see the comment on `rung0` above.
+      const rendition = await renderCoverRendition(rung0.data, spec);
       const renditionKey = `${dirPrefix}${spec.NAME}.webp`;
 
       await r2.send(

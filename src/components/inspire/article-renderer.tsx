@@ -725,7 +725,7 @@ function renderHtmlParts(
               Three call sites in this file share this reasoning: here, the
               uncredited `<div>` variant below, and the `figure` block. */}
           <Image
-            src={getArticleVariantUrl(part.src, 'high')}
+            src={getArticleVariantUrl(part.src, 'mid')}
             alt={imgAlt}
             width={part.width}
             height={part.height}
@@ -784,7 +784,7 @@ function renderHtmlParts(
           {/* UI-12 S6 — `w-auto max-w-full`, not `w-full … lg:w-auto`. Same
               measured defect and same reasoning as the credited figure above. */}
           <Image
-            src={getArticleVariantUrl(part.src, 'high')}
+            src={getArticleVariantUrl(part.src, 'mid')}
             alt={imgAlt}
             width={part.width}
             height={part.height}
@@ -887,9 +887,15 @@ function GalleryImage({
         ? '(max-width: 768px) 33vw, 227px'
         : '(max-width: 768px) 50vw, 340px';
 
-  // Single-column gallery cells render at ~680px (large) → high variant.
-  // Multi-up cells render at 227-340px → low is plenty.
-  const variant = layout === 'grid-1' ? 'high' : 'low';
+  // Single-column gallery cells render at ~680px (large) → `mid`.
+  // Multi-up cells render at 227-340px → `low` is plenty.
+  //
+  // `mid` and not `high`: `high` is q80 at 2400px served UNRESIZED, because
+  // `next.config.ts` sets `images.unoptimized = true`. Into a 680px box that is
+  // a 3.5x oversample — measured 1,423,024 B per figure on `amankila-bali`,
+  // 04 September 2026. `mid` is 1400px (2x retina for 680, plus 3%) under a
+  // 350 KB ceiling. See `MID_PRESET` in `@/lib/storage/image-variants`.
+  const variant = layout === 'grid-1' ? 'mid' : 'low';
 
   return (
     <div className="group relative overflow-hidden rounded-md">
@@ -1088,7 +1094,7 @@ export function ArticleRenderer({
                 paint width. S6 deliberately does not route through it — its
                 1200 × 800 fallback is wrong for exactly the image that fires. */}
             <Image
-              src={getArticleVariantUrl(src, 'high')}
+              src={getArticleVariantUrl(src, 'mid')}
               alt={figureAlt}
               width={figureDims.width}
               height={figureDims.height}

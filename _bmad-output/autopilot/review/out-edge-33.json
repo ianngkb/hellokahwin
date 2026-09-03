@@ -1,0 +1,77 @@
+{
+  "layer": "EDGE CASE HUNTER",
+  "findings": [
+    {
+      "severity": "major",
+      "file": "scripts/backfill-image-mid.mts",
+      "line": 424,
+      "title": "The crop dimension assertion runs AFTER the object is already written to R2",
+      "description": "In `backfillCrops` the `PutObjectCommand` is sent at line 411 and the `encoded.width !== meta.width` check is only made at line 424. The comment says \"Object NOT trusted\", but by the time the throw happens the untrusted bytes are already live at the production key, served `immutable` for a year under a URL that did not change. The item is then recorded `status: 'failed'`, which excludes it from `rewritten`, so it is also excluded from `purgeUrls` and from the undo file's purge list — the one thing that could get the bad object off the edge. Triggers whenever the re-encode changes dimensions: an animated WebP crop (`sharp(current)` without `{ animated: true }` collapses it to one frame while `metadata().height` reports the stacked page height), or any source sharp decodes to a different geometry. The stored `coverImageSmartCrops` width/height then describe an object that no longer matches, which is precisely the lie the check was written to prevent.",
+      "fix": "Move the `encoded.width !== meta.width || encoded.height !== meta.height` check to immediately after `encodeUnderCeiling` and before the `PutObjectCommand`, so a dimension change aborts the item without ever writing."
+    },
+    {
+      "severity": "major",
+      "file": "scripts/backfill-image-mid.mts",
+      "line": 354,
+      "title": "A failed or content-length-less HEAD becomes bytes 0, which silently reads as under the ceiling",
+      "description": "The `sized` pool does `Number(res.headers.get('content-length') ?? 0)` and never inspects `res.ok`; the `catch` also returns `bytes: 0`. So a crop whose HEAD 404s, 403s, times out, or comes back without a `content-length` (chunked/transfer-encoded response through Cloudflare) is recorded as 0 bytes. Line 360 then filters `c.bytes > CROP_CEILING.CEILING_BYTES`, so that crop is dropped from `over`, dropped from `totalOver`, never appears in any outcome array, is not counted in `failedC`, and does not contribute to `bad`. A transient network blip during the sizing pass therefore leaves an over-ceiling crop untouched and the script prints a smaller \"N over the ceiling\" figure and exits 0 as if the phase had completed. Because the phase is resumable only by re-measuring, a later re-run would have to be lucky to catch it, and `audit-body-image-bytes.mjs` explicitly reports covers \"not failed\" so nothing downstream notices.",
+      "fix": "Distinguish \"measured\" from \"unmeasurable\": return `{ ...c, bytes: null }` when `!res.ok`, when `content-length` is absent, or on a throw; treat a null-bytes candidate as a hard failure (push a `status: 'failed'` outcome so it lands in `failedC` and forces a non-zero exit) rather than folding it into the under-ceiling set."
+    },
+    {
+      "severity": "major",
+      "file": "scripts/audit-body-image-bytes.mjs",
+      "line": 117,
+      "title": "The acceptance audit exits 0 when it measured nothing at all",
+      "description": "A page that does not return 200 is `console.warn`ed and `continue`d (lines 117-120), and a page whose HTML yields no `images.hellokahwin.com` URLs contributes silently. `failed` at line 194 is only `missing.length + offenders.length`, so if every sampled page fails to fetch — a Cloudflare bot challenge on the HTML routes while `/sitemap.xml` still serves, a deploy mid-rollout, a base whose image host differs — `bodyCount` is 0, `missing` and `offenders` are empty, and the script prints \"BODY IMAGE EXIT: 0\". The header of this very file records that `backfill-midsize-cover.mts` \"learned this the expensive way\" with a check that passed while nothing had changed; this script reintroduces the same class of false pass through a different door. It also prints `pages sampled ${pages.length}` — the number *selected*, not the number successfully fetched — so the report overstates coverage rather than exposing it. This is the gate the brief's acceptance criterion (\"zero article pages referencing a body image over 500 KB, sample 30\") depends on.",
+      "fix": "Count fetch failures and fail on them: track `pagesFetched` and a `pageErrors` list, add both to the failure total, and refuse to pass when `pagesFetched < pages.length` or when `bodyCount === 0` (\"refusing to pass: measured zero body images\"), the same way line 103 already refuses on an empty sitemap."
+    },
+    {
+      "severity": "minor",
+      "file": "scripts/backfill-image-mid.mts",
+      "line": 399,
+      "title": "A crop that cannot be shrunk is recorded 'skipped' and vanishes from both the summary and the exit code",
+      "description": "`if (encoded.bytes >= c.bytes)` correctly refuses to make a file bigger, but the outcome it returns is `status: 'skipped'`. `skipped` appears in no summary line — the report only prints `crops rewritten` and `failed` — and `bad` at line 598 sums `failedV + failedC + overV + overC`, where `overC` is derived from `rewritten` only. So a crop that is over the 300 KB ceiling and that the ladder could not shrink below its current size is left over budget, is invisible in the run report, and the script exits 0 claiming the phase succeeded. The same silence applies to any crop the ladder shrank but not below the ceiling *and* whose result was still ≥ the original.",
+      "fix": "Give the too-large-re-encode branch `overCeiling: true` (it is, by construction — it was selected because `c.bytes > CEILING_BYTES` and the encode did not beat that), count `skipped` crops that are still over the ceiling into `bad`, and print a `crops still over ceiling N` line in the RESULT block."
+    },
+    {
+      "severity": "minor",
+      "file": "src/lib/storage/image-variants.ts",
+      "line": 159,
+      "title": "A ceiling preset ignores the admin-supplied `quality`, so retuning `mid` down silently does nothing",
+      "description": "In `generateVariants`, a preset present in `PRESET_CEILINGS` is encoded through `encodeUnderCeiling(build, ceiling)`, and `ceiling` is the module constant `MID_PRESET` — whose `QUALITY_LADDER` starts at the hardcoded 72. `preset.quality` from the merged admin row is used only in the `else` branch. So an admin row of `{\"mid\": {\"quality\": 60, \"maxWidth\": 1500}}` gets `maxWidth: 1500` honoured (the `build` callback reads `preset.maxWidth`) but is encoded at q72, not q60 — a *larger* file than requested, with nothing logged. The change's own test suite asserts this retune is honoured (`mid-variant.test.ts:220` — \"still lets an admin retune a preset, which is what the row is for\"), and `MID_PRESET`'s sibling test asserts the invariant that `QUALITY_LADDER[0] === quality` precisely so `quality` is not \"a decorative field\" — which is exactly what it becomes for a retuned row.",
+      "fix": "Derive rung 0 from the effective preset rather than the constant: build the spec per preset as `{ CEILING_BYTES: ceiling.CEILING_BYTES, QUALITY_LADDER: [preset.quality, ...ceiling.QUALITY_LADDER.filter(q => q < preset.quality)] }`, so an admin-lowered quality is the starting rung and the ladder still steps down from there."
+    },
+    {
+      "severity": "minor",
+      "file": "src/lib/storage/image-variants.ts",
+      "line": 99,
+      "title": "The merged admin row is never shape-checked, so a non-object or partial JSONB value produces junk presets",
+      "description": "`{ ...DEFAULT_PRESETS, ...(row[0].value as Record<string, QualityPreset>) }` trusts an unvalidated JSONB column. Two unhandled shapes: (1) a string or an array — spreading `\"abc\"` or `[\"a\",\"b\"]` adds numeric keys `0`, `1`, … to the preset map, and `generateVariants` then iterates them, encodes each with `preset.maxWidth === undefined` (an unresized full-resolution WebP at sharp's default quality) and PUTs it to R2 as `<dir>/0.webp`, recording it in `media.variants`. (2) a partial preset object such as `{\"mid\": {\"quality\": 60}}` — the merge is one level deep, so `mid` becomes `{quality: 60}` with no `maxWidth`, `resize({ width: undefined })` is a no-op, and `mid` is generated at the original's full width, stepped down by the ladder until 350 KB happens to fit. That is the exact defect this change exists to fix, reintroduced by a plausible admin edit. Production has no such row today, but the merge was added specifically to survive a row appearing later.",
+      "fix": "Validate before merging: only accept a plain object, and only fold in entries whose `quality` and `maxWidth` are both finite positive numbers (falling back to the `DEFAULT_PRESETS` entry per field); ignore and `console.warn` anything else instead of spreading it into the map."
+    },
+    {
+      "severity": "minor",
+      "file": "scripts/backfill-image-mid.mts",
+      "line": 133,
+      "title": "A non-numeric --concurrency makes the pool run zero workers and the script reports success having done nothing",
+      "description": "`num()` at line 93 returns `Number(v)`, so `--concurrency abc` yields `NaN`, and `?? 4` does not catch it (NaN is not nullish). In `pooled`, `Math.max(1, NaN)` is `NaN`, and `Array.from({ length: NaN }, worker)` produces an empty array — no worker is ever started. `Promise.all([])` resolves immediately, `out` is returned as a fully sparse array, and every downstream `.filter()` skips the holes. The result: zero media rows processed, zero crops rewritten, the `done % 50` progress line never fires, `bad` is 0, and the script prints the full RESULT block with zeroes and \"EXIT 0\". For a production backfill whose completion is the precondition for shipping the render change (a `mid.webp` 404 on every body figure otherwise), a silent no-op that reports success is the worst available outcome.",
+      "fix": "Validate the numeric flags in `parseArgs`: reject a `NaN` or non-positive `--concurrency`/`--limit`/`--sleep-ms` with `process.exit(2)` and a message, rather than letting `Math.max(1, …)` absorb it."
+    },
+    {
+      "severity": "minor",
+      "file": "scripts/backfill-image-mid.mts",
+      "line": 285,
+      "title": "The variants phase omits the `jsonb_typeof` guard its sibling query has, and `variants || …` on a non-object corrupts the column",
+      "description": "The crops query guards with `and jsonb_typeof(cover_image_smart_crops) = 'object'` (line 333); the variants query at line 224 has no equivalent. PostgreSQL's `?` operator matches a top-level key, an array element, *or* a scalar string, so a row whose `variants` is the jsonb value `\"high\"` or `[\"high\", …]` is selected. The update at line 285 then evaluates `variants || '{\"mid\": …}'::jsonb`, and jsonb concatenation of a non-object with an object does not error — it coerces both to arrays and concatenates, replacing the row's `variants` with something like `[\"high\", {\"mid\": …}]`. That destroys the row's variant record irrecoverably (the undo SQL is `variants - 'mid'`, which cannot restore an object from an array) and it is not detected: the item is reported `written`. Nothing writes a non-object today, but the asymmetry with the query 100 lines below suggests the guard was intended.",
+      "fix": "Add `and jsonb_typeof(variants) = 'object'` to the variants query, matching the crops query."
+    },
+    {
+      "severity": "minor",
+      "file": "scripts/backfill-image-mid.mts",
+      "line": 360,
+      "title": "--force in the crops phase re-encodes crops that were never over the ceiling, adding a lossy generation",
+      "description": "`over = sized.filter((c) => args.force || c.bytes > CROP_CEILING.CEILING_BYTES)` selects EVERY crop under `--force`, not just the over-budget ones, and the source for the re-encode is the stored crop (`fetchR2Object(bucket, key)`), not the original. The only guard is `encoded.bytes >= c.bytes`, which protects size but not quality: a 120 KB crop that happens to re-encode smaller at q100 is rewritten with a second lossy generation stacked on it, under an unchanged `immutable` URL, for no byte benefit. That is 408 crops in the blast radius rather than the 309 that are over, and the header's own recovery note says restoring a crop means re-running `processSmartCrops`, which re-cuts through Rekognition at AWS cost. The `variants` phase's `--force` is safe because it re-encodes from the original; the crops phase's is not, and they share one flag and one line of documentation.",
+      "fix": "Scope `--force` in the crops phase to \"re-measure and re-attempt crops that are over the ceiling\" rather than \"select everything\": keep the `c.bytes > CEILING_BYTES` predicate in the filter regardless of `--force`, or add a separate flag and document that it degrades under-budget crops."
+    }
+  ]
+}

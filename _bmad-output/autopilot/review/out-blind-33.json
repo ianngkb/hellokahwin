@@ -1,0 +1,85 @@
+{
+  "layer": "BLIND HUNTER",
+  "findings": [
+    {
+      "severity": "critical",
+      "file": "scripts/backfill-image-mid.mts",
+      "line": 411,
+      "title": "The crop dimension assertion runs AFTER the object is already written to production R2",
+      "description": "In `backfillCrops` the `PutObjectCommand` (411-419) is sent before the width/height check (424-429). The comment on that check says \"Object NOT trusted\" and it throws — but by then the re-encoded bytes are already at the live key. The catch at 446 records the item as `failed`, the run exits 1, and the operator is told the object was not trusted, while production is serving it. Worse, the failure path never records the item in `purgeUrls` (only `status === 'rewritten'` entries are collected at 506/527), so the one object that IS known to be wrong is the one object that will never be purged from the Cloudflare edge — and it is served `immutable` for a year with no undo of the prior bytes.",
+      "fix": "Move the `encoded.width !== meta.width || encoded.height !== meta.height` check to immediately after `encodeUnderCeiling` returns and before the `PutObjectCommand` is sent, so a dimension change aborts the item without writing anything."
+    },
+    {
+      "severity": "critical",
+      "file": "scripts/backfill-image-mid.mts",
+      "line": 507,
+      "title": "The undo file — the only record of the irreversible crop rewrites — is written once, at the very end",
+      "description": "`writeFileSync(args.undo, …)` runs after BOTH phases complete. Phase `crops` replaces bytes at an existing key with no backup of the prior object (the header admits recovery means re-cutting through Rekognition), and those URLs are `immutable` for a year, so the undo file's `purgeUrls` list is the only thing that makes the change visible at the edge and the only record of what was touched. Any interruption after the first crop PUT — Ctrl-C, a dropped Postgres connection during phase `variants` (which runs first under `--phase all` and would abort before crops even start), an OOM in sharp, a network fault — leaves production with rewritten bytes, a stale Cloudflare edge, and zero record of which of the 309 crops were rewritten. Compounding this, `args.undo` is only checked for presence (469-472), never for writability: a path whose directory does not exist passes the guard, both phases run to completion against production, and then `writeFileSync` throws ENOENT into the top-level catch — every purge URL and every reversal id lost after the writes have already landed.",
+      "fix": "Pre-flight the undo path before any write (write a stub `{}` to it at startup, after arg parsing, and fail with exit 2 if that throws), and append each outcome to the file incrementally — flush after every completed item, or at minimum after each phase — so an interrupted run still yields the purge list and the reversal ids."
+    },
+    {
+      "severity": "major",
+      "file": "scripts/backfill-image-mid.mts",
+      "line": 350,
+      "title": "A crop whose HEAD fails or 404s is silently counted as under the ceiling and the run exits 0",
+      "description": "`sized` does `fetch(c.url, { method: 'HEAD' })` and never checks `res.ok`; a throw is swallowed by the bare `catch` and yields `bytes: 0`. A 404 (a crop object that does not exist, e.g. an article whose `?v=` token moved), a 5xx from the edge, a DNS blip or a transient TCP reset therefore all produce `bytes: 0`. Line 360 then filters that item OUT of `over` because `0 > 300000` is false; line 361 excludes it from `totalOver`; it never appears in `crops`, never in `failedC`, and never in the `bad` sum at 598. The run prints a smaller over-ceiling count than reality and exits 0 — the exit code that the ship gate reads as 'the backfill is complete'. With 408 HEADs fired at concurrency 8 against a CDN, a handful of transient failures is the expected case, not the exotic one.",
+      "fix": "Return an explicit `ok` flag from the sizing pass (`ok: res.ok`), and treat every `!ok` candidate as a hard failure: emit it as a `CropOutcome` with `status: 'failed'` so it lands in `failedC` and forces exit 1, rather than letting it fall through the ceiling filter as if it measured zero bytes."
+    },
+    {
+      "severity": "major",
+      "file": "scripts/audit-body-image-bytes.mjs",
+      "line": 20,
+      "title": "The named pre-ship gate cannot detect the 404 disaster it is documented to guard against",
+      "description": "`backfill-image-mid.mts:22` and `article-image-variant.ts:18-21` both state the safety order as: run the backfill against production, confirm this audit reports zero misses, then ship. That gate cannot work. The audit measures URLs scraped from RENDERED production HTML (123-133), and until the render change deploys those pages emit `high.webp` — the audit never requests a single `mid.webp` URL, so it can never prove `mid` coverage before the deploy. (It will also fail outright pre-deploy, because the `high` files it does measure are the 174 over 500,000 B that motivated the change.) Coverage is a second, unreconciled problem: the backfill enumerates `media` rows matching `variants ? 'high'` (224), while the renderer rewrites every body-figure URL found in article content. Any figure whose URL ends `/high.webp` or `/original.{ext}` but whose media row is absent, or carries the R2 object without the `high` key in its JSONB (13 of the 1,087 rows carry no `high` at all), gets no `mid.webp` written and 404s the instant the render change goes live. Nothing in the change reconciles the set of URLs in article content against the set of rows the backfill visits.",
+      "fix": "Add a coverage check that runs against the DATA, not the rendered page, before the deploy: enumerate every `/high.webp` and `/original.*` URL in `articles` Tiptap content, rewrite each to `mid.webp` with `getArticleVariantUrl`, HEAD it, and fail on any miss. Alternatively run the existing audit with `--base` pointed at a preview deployment that already carries the render change, and say so in the header instead of naming production."
+    },
+    {
+      "severity": "major",
+      "file": "scripts/backfill-image-mid.mts",
+      "line": 598,
+      "title": "A crop still over the ceiling exits 0 whenever the re-encode did not come out smaller",
+      "description": "The `bad` sum counts `overC`, which is `rewritten.filter(c => c.overCeiling)` (558). But a crop that runs the whole ladder to q45, is still over 300,000 B, and encodes no smaller than the file already there hits the `encoded.bytes >= c.bytes` guard at 399 and returns `status: 'skipped'`. Skipped items are in neither `rewritten` nor `failedC`, so they contribute nothing to `bad`. The run therefore prints its over-ceiling census, leaves those crops over budget on production, and exits 0 — telling the ship gate the ceiling is met when it is not. This is precisely the population the whole crops phase exists for: the worst-entropy photographs (`songket-tenunan-tangan-atau-cetak` at 1,430 KB is named in `CROP_CEILING`'s own comment).",
+      "fix": "Carry `overCeiling` on the skipped-because-not-smaller outcome and include skipped-but-still-over-ceiling crops in the `bad` arithmetic, so any crop left above `CROP_CEILING.CEILING_BYTES` forces a non-zero exit."
+    },
+    {
+      "severity": "major",
+      "file": "scripts/backfill-image-mid.mts",
+      "line": 107,
+      "title": "A non-numeric --concurrency makes the pool run zero workers and the script reports total success",
+      "description": "`num()` returns `Number(v)`, so `--concurrency abc` yields `NaN`. `?? 4` does not catch it (NaN is not nullish). In `pooled`, `Math.max(1, NaN)` is `NaN`, `Array.from({ length: NaN }, worker)` is `[]`, and `Promise.all([])` resolves immediately, leaving `out` as a SPARSE array of holes. `Array.prototype.filter` skips holes, so `written`, `failedV`, `rewritten` and `failedC` are all empty, `bad` is 0, and the script prints 'variants written 0 failed 0 / crops rewritten 0 failed 0' followed by EXIT 0 — indistinguishable from a run that had nothing left to do. An operator who fat-fingers the flag gets a green backfill that wrote nothing, then ships the render change on the strength of it. Verified in Node: `Array.from({length: Math.max(1, NaN)})` has length 0 and a 3-hole sparse array filters to length 0.",
+      "fix": "Validate every numeric argument at parse time — reject with exit 2 when `Number.isFinite` is false for `--concurrency`, `--sleep-ms` or `--limit` — and make `pooled` throw rather than silently spawn zero workers when `concurrency` is not a positive integer."
+    },
+    {
+      "severity": "minor",
+      "file": "scripts/backfill-image-mid.mts",
+      "line": 389,
+      "title": "The crops phase hardcodes the inspire bucket where the writer resolves the bucket per key",
+      "description": "`backfillCrops` reads and writes with `bucket = getR2Bucket()` (passed in from main:478), but `generateSmartCrops` — the code that PUT these objects — picks its bucket with `resolveR2Bucket(originalKey)` (smart-crop.ts:484-489), which routes any key not starting with `inspire/` to `getR2AssetsBucket()`. Any cover outside the `inspire/` namespace therefore has its crops in the assets bucket, the `GetObjectCommand` at 139 raises NoSuchKey, and that crop can never be brought under the ceiling by this script — it just fails, counts into `failedC`, and forces exit 1 with no route to a green run.",
+      "fix": "Resolve the bucket per crop key the same way the writer does — export or duplicate `resolveR2Bucket` and select the bucket from `extractKeyFromUrl(c.url)` — rather than assuming every crop lives in `R2_BUCKET_NAME`."
+    },
+    {
+      "severity": "minor",
+      "file": "scripts/backfill-image-mid.mts",
+      "line": 360,
+      "title": "Re-running the crops phase stacks generational loss on the crops that need it most, with no undo",
+      "description": "The skip predicate is `bytes > CEILING_BYTES`, so a crop that finishes still over 300 KB is re-selected by the next run. That run re-encodes it from the ALREADY degraded stored bytes, starting again at rung 0 (q100) and walking down — a second full lossy generation on the same pixels, then a third. Because the run exits 1 whenever such a crop exists (598-602), the operator is actively invited to re-run. `--force` is the same problem across the whole corpus: it re-encodes all 408 crops from their stored WebP, and a q100 recompression of an already-compressed WebP is usually slightly SMALLER, so the `encoded.bytes >= c.bytes` guard at 399 will not stop it — every crop on the site silently picks up a second generation with no backup of the prior bytes. Two concurrent runs produce the same stacking by racing each other's PUTs.",
+      "fix": "Record the achieved quality (or a marker key/object metadata) so a crop that already ran the full ladder is skipped on a re-run rather than re-encoded from its own output, and re-encode `--force` items from the ORIGINAL via `processSmartCrops` geometry rather than from the stored crop."
+    },
+    {
+      "severity": "minor",
+      "file": "src/lib/storage/image-variants.ts",
+      "line": 99,
+      "title": "getDefaultPresets merges only at the preset-name level, so a partial `mid` row still breaks generation",
+      "description": "`{ ...DEFAULT_PRESETS, ...(row[0].value) }` is a shallow spread: it protects a MISSING `mid` key, which is what the doc comment claims, but an admin row containing `mid: { quality: 90 }` with no `maxWidth` replaces the default object wholesale and leaves `maxWidth` undefined. `generateVariants` then calls `.resize({ width: undefined, withoutEnlargement: true })`, which sharp treats as no resize at all — so `mid.webp` is generated at the source's full width (up to 2400+) and the `MID_PRESET` ladder grinds quality down to 30 trying to fit 350 KB, producing exactly the oversized-and-ugly body figure the change exists to remove. The same hole applies to a partial `low` or `high`.",
+      "fix": "Merge per preset, not per name: `mid: { ...DEFAULT_PRESETS.mid, ...row.mid }` for each key (or validate the row's shape and drop any preset missing `quality` or `maxWidth` back to the default)."
+    },
+    {
+      "severity": "minor",
+      "file": "src/lib/storage/smart-crop.ts",
+      "line": 662,
+      "title": "Cover renditions are now derived from a possibly stepped-down crop buffer",
+      "description": "`renderCoverRendition(croppedBuffer, spec)` is fed `cropped.buffer`, which since this change may be a q45 output rather than the q100 it was always given before. For the crops that actually trip `CROP_CEILING` — the high-entropy photographs the ceiling exists for — every `COVER_RENDITIONS` rung (`-sm`/`-md`) is now a resize of an already heavily-compressed image and then a second lossy encode on top, so the `.s-row` and article-cover renditions for exactly those covers degrade visibly. The diff's comment argues only that an UNDER-ceiling crop is byte-identical to before; it does not mention that the over-ceiling case changes the input to the rendition loop.",
+      "fix": "Keep a rung-0 (q100) buffer from the extract/resize pipeline for the rendition loop to consume, and use the ceiling-constrained buffer only for the `crop-*.webp` object that is actually served at that size."
+    }
+  ]
+}
