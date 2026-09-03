@@ -28,6 +28,11 @@ export const metadata: Metadata = {
     description:
       'Idea, tips dan panduan perkahwinan untuk pasangan Malaysia — daripada perancangan bajet hingga hari bahagia anda.',
     type: 'website',
+    // The fourth tag Ahrefs requires, and the one this route was missing while
+    // the homepage and the category hubs were being fixed. Relative on purpose:
+    // `metadataBase` in the root layout resolves it, and it matches the
+    // `alternates.canonical` above rather than restating a host.
+    url: '/artikel',
     images: [{ url: '/hellokahwin-logo.png', width: 886, height: 290, alt: 'HelloKahwin' }],
   },
   twitter: {

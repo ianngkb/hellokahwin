@@ -33,3 +33,19 @@ export const SITE_TITLE_TEMPLATE = '%s | HelloKahwin';
  * about 46 before the brand is what gets cut.
  */
 export const SITE_TITLE_SUFFIX_LENGTH = ' | HelloKahwin'.length;
+
+/**
+ * How many characters a page's OWN title has before Google starts cutting.
+ *
+ * Google prints roughly 60; the template above spends
+ * `SITE_TITLE_SUFFIX_LENGTH` of them on the brand. Stated as a value rather
+ * than left as arithmetic in three places because three consumers need the
+ * same number and must not disagree about it: the admin editor's counter and
+ * warning, `scripts/seo/apply-meta-titles.mts`, and the Ahrefs finding this
+ * closes ("Title too long", 33 pages, 28 Ogos 2026).
+ *
+ * It is a WARNING threshold, not a limit. The editor still accepts a longer
+ * title; a headline that needs the room is an editorial call, and the counter
+ * exists so that call is made knowingly rather than by accident.
+ */
+export const SERP_TITLE_BUDGET = 60 - SITE_TITLE_SUFFIX_LENGTH;
