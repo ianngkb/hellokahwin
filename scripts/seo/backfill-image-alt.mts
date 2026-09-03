@@ -330,8 +330,8 @@ function parseGallery(attrs: Record<string, unknown> | undefined): GalleryImage[
 const sql = connect();
 try {
   const arts = await sql<
-    { id: string; slug: string; title: string; content: unknown; updated_at: Date }[]
-  >`select id, slug, title, content, updated_at from articles where status = 'published' order by slug`;
+    { id: string; slug: string; title: string; content: unknown; updated_at_raw: string }[]
+  >`select id, slug, title, content, updated_at::text as updated_at_raw from articles where status = 'published' order by slug`;
 
   const bySlug = new Map(arts.map((a) => [a.slug, a]));
   const orphan = Object.keys(phrases).filter((s) => !bySlug.has(s));
@@ -360,7 +360,7 @@ try {
     manifest.entries.push({
       id: a.id,
       slug: a.slug,
-      updatedAt: new Date(a.updated_at).toISOString(),
+      updatedAt: a.updated_at_raw,
       preimageHash: contentHash(a.content),
       postimageHash: contentHash(next),
     });

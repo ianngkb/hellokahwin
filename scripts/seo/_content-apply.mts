@@ -38,7 +38,8 @@ export interface ArticleRow {
   slug: string;
   title: string;
   content: unknown;
-  updated_at: Date;
+  /** `updated_at::text` — exact. A JS `Date` loses the microseconds. */
+  updated_at_raw: string;
 }
 
 export async function applyContentMigration(opts: {
@@ -57,7 +58,7 @@ export async function applyContentMigration(opts: {
     await assertNoActiveEditLocks(tx, ids);
 
     const rows = await tx<ArticleRow[]>`
-      select id, slug, title, content, updated_at from articles
+      select id, slug, title, content, updated_at::text as updated_at_raw from articles
       where id = any(${ids}::uuid[])
       for update`;
     const byId = new Map(rows.map((r) => [r.id, r]));
@@ -115,7 +116,7 @@ export async function applyContentMigration(opts: {
       }
       const res = await tx`
         update articles set content = ${tx.json(next as never)}, updated_at = now()
-        where id = ${entry.id} and updated_at = ${row.updated_at}`;
+        where id = ${entry.id} and updated_at::text = ${row.updated_at_raw}`;
       if (res.count !== 1) {
         throw new Error(
           `aborting: updating ${entry.slug} affected ${res.count} rows, not 1 — the row changed underneath the lock.`,

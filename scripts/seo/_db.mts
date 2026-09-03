@@ -93,7 +93,11 @@ export function contentHash(value: unknown): string {
 export interface ManifestEntry {
   id: string;
   slug: string;
-  /** ISO string of the row's `updated_at` when the dry run read it. */
+  /**
+   * The row's `updated_at` AS POSTGRES RENDERS IT (`updated_at::text`), not an
+   * ISO string from a JS `Date` — see `assertUnchanged` for the microsecond
+   * truncation that makes the difference load-bearing.
+   */
   updatedAt: string;
   /** Hash of the exact value the dry run transformed. */
   preimageHash: string;
@@ -232,26 +236,34 @@ export function requireManifest(raw: string | undefined, script: string, path: s
  * write that did not move `updated_at`. Either mismatch aborts the whole apply
  * rather than skipping the row, because a partly-applied migration against a
  * diff nobody approved is the worse outcome.
+ *
+ * ⚠ THE TIMESTAMP IS COMPARED AS POSTGRES RENDERS IT, never as a JS `Date`.
+ * `timestamptz` keeps MICROseconds and a JS `Date` keeps MILLIseconds, so a
+ * round trip silently truncates: production's `2026-08-31 18:21:03.893838+00`
+ * comes back as `…893Z`, and `where updated_at = $1` with that value matches
+ * ZERO rows. The first apply attempt hit exactly that and aborted with "the
+ * row changed underneath the lock" on a row nobody had touched. Passing
+ * `updated_at::text` both ways is exact, and it is what the UPDATE predicate
+ * compares too.
  */
 export function assertUnchanged(
   entry: ManifestEntry,
-  row: { id: string; slug: string; updated_at: Date | string; preimage: unknown },
+  row: { id: string; slug: string; updated_at_raw: string; preimage: unknown },
 ): void {
-  const updatedAt = new Date(row.updated_at).toISOString();
   if (row.slug !== entry.slug) {
     throw new Error(
       `aborting: article ${entry.id} is now slug "${row.slug}", was "${entry.slug}" at dry-run time.`,
     );
   }
-  if (updatedAt !== entry.updatedAt) {
+  if (row.updated_at_raw !== entry.updatedAt) {
     throw new Error(
-      `aborting: article ${entry.slug} (${entry.id}) was saved at ${updatedAt}, after the dry run read it at ${entry.updatedAt}. Re-run the dry run and re-read the diff.`,
+      `aborting: ${entry.slug} (${entry.id}) was saved at ${row.updated_at_raw}, after the dry run read it at ${entry.updatedAt}. Re-run the dry run and re-read the diff.`,
     );
   }
   const hash = contentHash(row.preimage);
   if (hash !== entry.preimageHash) {
     throw new Error(
-      `aborting: article ${entry.slug} (${entry.id}) no longer matches the value the dry run transformed (hash ${hash} vs ${entry.preimageHash}).`,
+      `aborting: ${entry.slug} (${entry.id}) no longer matches the value the dry run transformed (hash ${hash} vs ${entry.preimageHash}).`,
     );
   }
 }

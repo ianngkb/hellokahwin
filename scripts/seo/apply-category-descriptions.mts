@@ -77,7 +77,8 @@ interface CategoryRow {
   slug: string;
   name: string;
   description: string | null;
-  updated_at: Date;
+  /** `updated_at::text` — exact. A JS `Date` loses the microseconds. */
+  updated_at_raw: string;
 }
 
 /** Both directions. A slug in one and not the other is a hard stop, not a skip. */
@@ -95,7 +96,7 @@ function assertCopyMatchesDatabase(cats: CategoryRow[]): void {
 const sql = connect();
 try {
   const cats = await sql<CategoryRow[]>`
-    select id, slug, name, description, updated_at from inspire_categories order by slug`;
+    select id, slug, name, description, updated_at::text as updated_at_raw from inspire_categories order by slug`;
   assertCopyMatchesDatabase(cats);
   const changes = cats.filter((c) => (c.description ?? '') !== copy[c.slug]);
 
@@ -107,7 +108,7 @@ try {
       entries: changes.map((c) => ({
         id: c.id,
         slug: c.slug,
-        updatedAt: new Date(c.updated_at).toISOString(),
+        updatedAt: c.updated_at_raw,
         preimageHash: contentHash(c.description),
         postimageHash: contentHash(copy[c.slug]),
       })),
@@ -142,7 +143,7 @@ try {
 
     const result = await sql.begin(async (tx) => {
       const locked = await tx<CategoryRow[]>`
-        select id, slug, name, description, updated_at from inspire_categories
+        select id, slug, name, description, updated_at::text as updated_at_raw from inspire_categories
         where id = any(${manifest.entries.map((e) => e.id)}::uuid[])
         for update`;
       const byId = new Map(locked.map((r) => [r.id, r]));
@@ -155,7 +156,7 @@ try {
             `aborting: category ${entry.id} is now "${row.slug}", was "${entry.slug}".`,
           );
         }
-        if (new Date(row.updated_at).toISOString() !== entry.updatedAt) {
+        if (row.updated_at_raw !== entry.updatedAt) {
           throw new Error(
             `aborting: category ${entry.slug} was edited after the dry run read it. Re-run the dry run.`,
           );
@@ -179,7 +180,7 @@ try {
         const row = byId.get(entry.id)!;
         const res = await tx`
           update inspire_categories set description = ${copy[entry.slug]}, updated_at = now()
-          where id = ${entry.id} and updated_at = ${row.updated_at}`;
+          where id = ${entry.id} and updated_at::text = ${row.updated_at_raw}`;
         if (res.count !== 1) {
           throw new Error(`aborting: updating ${entry.slug} affected ${res.count} rows, not 1.`);
         }

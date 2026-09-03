@@ -144,9 +144,9 @@ try {
       status: string;
       primary_category_id: string | null;
       content: unknown;
-      updated_at: Date;
+      updated_at_raw: string;
     }[]
-  >`select id, slug, title, status, primary_category_id, content, updated_at from articles`;
+  >`select id, slug, title, status, primary_category_id, content, updated_at::text as updated_at_raw from articles`;
 
   const catSlugById = new Map(cats.map((c) => [c.id, c.slug]));
   // PUBLISHED only, and only where the category segment is actually known. A
@@ -183,7 +183,7 @@ try {
       manifest.entries.push({
         id: a.id,
         slug: a.slug,
-        updatedAt: new Date(a.updated_at).toISOString(),
+        updatedAt: a.updated_at_raw,
         preimageHash: contentHash(a.content),
         postimageHash: contentHash(next),
       });

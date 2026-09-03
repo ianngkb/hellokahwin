@@ -87,13 +87,14 @@ interface ArticleTitleRow {
   slug: string;
   title: string;
   meta_title: string | null;
-  updated_at: Date;
+  /** `updated_at::text` — exact. A JS `Date` loses the microseconds. */
+  updated_at_raw: string;
 }
 
 const sql = connect();
 try {
   const arts = await sql<ArticleTitleRow[]>`
-    select id, slug, title, meta_title, updated_at from articles
+    select id, slug, title, meta_title, updated_at::text as updated_at_raw from articles
     where status = 'published' order by slug`;
 
   const bySlug = new Map(arts.map((a) => [a.slug, a]));
@@ -127,7 +128,7 @@ try {
       entries: changes.map(({ row, next }) => ({
         id: row.id,
         slug: row.slug,
-        updatedAt: new Date(row.updated_at).toISOString(),
+        updatedAt: row.updated_at_raw,
         preimageHash: contentHash(row.meta_title),
         postimageHash: contentHash(next),
       })),
@@ -168,7 +169,7 @@ try {
     const result = await sql.begin(async (tx) => {
       await assertNoActiveEditLocks(tx, ids);
       const locked = await tx<ArticleTitleRow[]>`
-        select id, slug, title, meta_title, updated_at from articles
+        select id, slug, title, meta_title, updated_at::text as updated_at_raw from articles
         where id = any(${ids}::uuid[])
         for update`;
       const byId = new Map(locked.map((r) => [r.id, r]));
@@ -181,7 +182,7 @@ try {
             `aborting: article ${entry.id} is now "${row.slug}", was "${entry.slug}".`,
           );
         }
-        if (new Date(row.updated_at).toISOString() !== entry.updatedAt) {
+        if (row.updated_at_raw !== entry.updatedAt) {
           throw new Error(
             `aborting: article ${entry.slug} was saved after the dry run read it. Re-run the dry run.`,
           );
@@ -205,7 +206,7 @@ try {
         const row = byId.get(entry.id)!;
         const res = await tx`
           update articles set meta_title = ${copy[entry.slug]}, updated_at = now()
-          where id = ${entry.id} and updated_at = ${row.updated_at}`;
+          where id = ${entry.id} and updated_at::text = ${row.updated_at_raw}`;
         if (res.count !== 1) {
           throw new Error(`aborting: updating ${entry.slug} affected ${res.count} rows, not 1.`);
         }
