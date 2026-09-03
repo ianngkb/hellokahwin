@@ -43,3 +43,6 @@ certificates/
 # Distinct from .tmp-ops/ above: these are per-run files, not an ops directory.
 .tmp-*
 .tmp-risk08/
+
+# Orchestrator scratch (see brain/docs/artifacts.md)
+/tmp/
