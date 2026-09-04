@@ -9,19 +9,32 @@
   "mode": "dispatched",
   "orchestrator_model": "claude-opus-5",
   "started_at": "2026-09-04T14:18:21Z",
-  "ended_at": null,
-  "total_seconds": null,
-  "outcome": null,
-  "ship_report": null,
+  "ended_at": "2026-09-04T16:45:49Z",
+  "total_seconds": 8848,
+  "outcome": "shipped",
+  "ship_report": "C:\\Users\\Ian Ng\\.claude\\ship-reports\\hellokahwin\\20260904-163928.html",
   "phases": [
     {
       "name": "3",
-      "status": "started",
+      "status": "done",
       "model": "claude-opus-5",
       "started_at": "2026-09-04T14:50:14Z",
-      "ended_at": null,
-      "seconds": null,
-      "notes": []
+      "ended_at": "2026-09-04T16:39:47Z",
+      "seconds": 6573,
+      "notes": [
+        "369 descriptions generated, humanized, applied to production and verified live; 20 review findings closed"
+      ]
+    },
+    {
+      "name": "4",
+      "status": "done",
+      "model": "claude-opus-5",
+      "started_at": "2026-09-04T16:40:01Z",
+      "ended_at": "2026-09-04T16:45:47Z",
+      "seconds": 346,
+      "notes": [
+        "shipped to master 966be9e, Vercel READY + alias, live acceptance ALL CHECKS PASSED"
+      ]
     }
   ],
   "events": [
@@ -65,5 +78,7 @@
     "note": null,
     "recorded_at": "2026-09-04T16:20:03Z",
     "total_layer_seconds": null
-  }
+  },
+  "run_dir": "C:\\Users\\Ian Ng\\orca\\workspaces\\hellokahwin\\ahrefs-alts\\_bmad-output\\autopilot\\runs\\2026-09-04-vision-alts",
+  "log_file": "C:\\Users\\Ian Ng\\Documents\\Code\\brain\\logs\\2026-09-04-hellokahwin-vision-alts.md"
 }
