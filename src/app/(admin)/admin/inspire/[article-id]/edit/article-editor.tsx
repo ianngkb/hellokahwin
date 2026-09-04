@@ -32,6 +32,7 @@ import {
   FileText,
   MessageCircle,
 } from 'lucide-react';
+import { SERP_TITLE_BUDGET, SITE_TITLE_TEMPLATE } from '@/lib/seo/site-title';
 import { createArticleBaseExtensions } from '@/lib/tiptap/article-extensions';
 import { DynamicBlockEmbed } from '@/lib/tiptap/dynamic-block-embed';
 import {
@@ -2459,7 +2460,16 @@ export function ArticleEditor({
               <div className="space-y-3">
                 <div className="space-y-1.5">
                   <Label className="text-muted-foreground text-xs">
-                    Meta Title <span className="float-right">{metaTitle.length}/70</span>
+                    Meta Title{' '}
+                    <span
+                      className={
+                        metaTitle.length > SERP_TITLE_BUDGET
+                          ? 'text-warning float-right'
+                          : 'float-right'
+                      }
+                    >
+                      {metaTitle.length}/{SERP_TITLE_BUDGET}
+                    </span>
                   </Label>
                   <Input
                     value={metaTitle}
@@ -2470,6 +2480,14 @@ export function ArticleEditor({
                     maxLength={70}
                     className="text-sm"
                   />
+                  {metaTitle.length > SERP_TITLE_BUDGET && (
+                    <p className="text-warning flex items-start gap-1.5 text-xs">
+                      <AlertTriangleIcon className="mt-0.5 size-3.5 shrink-0" />
+                      Google cuts this off. Every title gets &quot;
+                      {SITE_TITLE_TEMPLATE.replace('%s', '')}&quot; appended, which leaves{' '}
+                      {SERP_TITLE_BUDGET} characters for yours.
+                    </p>
+                  )}
                 </div>
                 <div className="space-y-1.5">
                   <Label className="text-muted-foreground text-xs">

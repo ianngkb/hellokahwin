@@ -21,20 +21,25 @@ export const metadata: Metadata = {
   // Brand omitted — root layout's title.template appends it once (was doubled).
   title: 'Artikel',
   description:
-    'Idea, tips dan panduan perkahwinan untuk pasangan Malaysia — daripada perancangan bajet hingga hari bahagia anda.',
+    'Idea, tips dan panduan perkahwinan untuk pasangan di Malaysia: perancangan dan bajet, hantaran, venue, busana, dan hari akad itu sendiri.',
   alternates: { canonical: '/artikel' },
   openGraph: {
     title: 'Artikel | HelloKahwin',
     description:
-      'Idea, tips dan panduan perkahwinan untuk pasangan Malaysia — daripada perancangan bajet hingga hari bahagia anda.',
+      'Idea, tips dan panduan perkahwinan untuk pasangan di Malaysia: perancangan dan bajet, hantaran, venue, busana, dan hari akad itu sendiri.',
     type: 'website',
+    // The fourth tag Ahrefs requires, and the one this route was missing while
+    // the homepage and the category hubs were being fixed. Relative on purpose:
+    // `metadataBase` in the root layout resolves it, and it matches the
+    // `alternates.canonical` above rather than restating a host.
+    url: '/artikel',
     images: [{ url: '/hellokahwin-logo.png', width: 886, height: 290, alt: 'HelloKahwin' }],
   },
   twitter: {
     card: 'summary',
     title: 'Artikel | HelloKahwin',
     description:
-      'Idea, tips dan panduan perkahwinan untuk pasangan Malaysia — daripada perancangan bajet hingga hari bahagia anda.',
+      'Idea, tips dan panduan perkahwinan untuk pasangan di Malaysia: perancangan dan bajet, hantaran, venue, busana, dan hari akad itu sendiri.',
     images: ['/hellokahwin-logo.png'],
   },
 };

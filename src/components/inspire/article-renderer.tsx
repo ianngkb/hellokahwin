@@ -5,6 +5,7 @@ import sanitizeHtml from 'sanitize-html';
 import { decode as decodeEntities } from 'he';
 import StarterKit from '@tiptap/starter-kit';
 import ImageExtension from '@tiptap/extension-image';
+import { fallbackImageAlt, resolveImageAlt } from '@/lib/inspire/image-alt';
 import { InternalAwareLink } from '@/lib/inspire/internal-links';
 import UnderlineExtension from '@tiptap/extension-underline';
 import Table from '@tiptap/extension-table';
@@ -329,52 +330,13 @@ interface ArticleRendererProps {
 }
 
 /**
- * The `alt` an image gets when the stored content has none.
- *
- * ── WHY (Ahrefs 2026-08-28: "Missing alt text", 172 images) ───────────────
- *
- * The renderer shipped `alt={img.alt || ''}`. The alt lives in the Tiptap
- * JSONB, and an editor who uploads without typing one publishes `alt=""` — a
- * DECLARATION that the image is decorative. On the real-wedding photo essays
- * that is 49 of 57 images on one page: a screen reader is told there is nothing
- * there, on a page that is almost entirely photographs.
- *
- * A title-plus-position fallback is not good alt text. It is, however, true,
- * and it is unambiguously better than lying about the image being decorative.
- * The genuinely decorative images elsewhere in the app (the sidebar thumb, the
- * author avatar, the mobile bar, the gallery thumbnail strip) keep their
- * deliberate `alt=""` and do not come through here.
- *
- * `ordinal` is 0-based and counts every image in the article in document order,
- * whether or not it already had an alt, so "gambar 3" is the third photograph
- * on the page rather than the third one someone forgot to describe.
- *
- * Returns `''` with no title, preserving today's behaviour for the preview
- * surfaces that have no article.
+ * `fallbackImageAlt` and `resolveImageAlt` now live in
+ * `@/lib/inspire/image-alt` — imported above rather than defined here, so the
+ * backfill script that WRITES stored alts and the renderer that falls back
+ * when there are none cannot disagree about what the fallback says. They used
+ * to be one copy each and the script had to reproduce this file's wording by
+ * hand.
  */
-export function fallbackImageAlt(articleTitle: string | undefined, ordinal: number): string {
-  const title = articleTitle?.trim();
-  if (!title) return '';
-  return `${title} — gambar ${ordinal + 1}`;
-}
-
-/**
- * The `alt` an image actually renders with.
- *
- * Null-safe on purpose: the stored alt arrives from the content JSONB and from
- * Tiptap node attributes, and both can hand back `null` — `figure-block-view`'s
- * own upload-failure path writes `alt: null` — so a bare `.trim()` here would
- * throw inside a server render. Whitespace-only counts as absent: `alt=" "` is
- * an empty accessible name wearing a disguise.
- */
-function resolveImageAlt(
-  stored: string | null | undefined,
-  articleTitle: string | undefined,
-  ordinal: number,
-): string {
-  const described = (stored ?? '').trim();
-  return described || fallbackImageAlt(articleTitle, ordinal);
-}
 
 /**
  * A running image ordinal for one article render.

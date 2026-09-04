@@ -67,13 +67,14 @@ const LEGACY_ROOT_SLUG = /^\/[a-z0-9][a-z0-9-]*$/;
  * Keep this in step with `isClerkRoute` in src/middleware.ts and with the
  * app's own top-level routes.
  */
-const RESERVED_ROOT_SEGMENTS = new Set([
+export const RESERVED_ROOT_SEGMENTS = new Set([
   'admin',
   'login',
   'no-access',
   'sso-callback',
   'api',
   'artikel',
+  'brand',
   'draft',
   'wp-content',
   'sitemap',
