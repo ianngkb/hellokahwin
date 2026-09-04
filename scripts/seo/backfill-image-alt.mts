@@ -62,6 +62,7 @@ import {
   type Manifest,
 } from './_db.mts';
 import { applyContentMigration, type ArticleRow } from './_content-apply.mts';
+import { parseGallery, walkArticleImages } from './_content-images.mts';
 
 const SCRIPT = 'backfill-image-alt';
 
@@ -83,20 +84,6 @@ const here = dirname(fileURLToPath(import.meta.url));
 const phrases: Record<string, string> = JSON.parse(
   readFileSync(join(here, 'image-alt-phrases.json'), 'utf8'),
 ).phrases;
-
-/** The visible text of a TipTap node, marks and nesting included. */
-function textOf(node: unknown): string {
-  let out = '';
-  const walk = (n: unknown): void => {
-    if (Array.isArray(n)) return n.forEach(walk);
-    if (!n || typeof n !== 'object') return;
-    const o = n as { type?: string; text?: string; content?: unknown };
-    if (o.type === 'text' && typeof o.text === 'string') out += o.text;
-    if (o.content) walk(o.content);
-  };
-  walk(node);
-  return out.trim();
-}
 
 /**
  * The heading text as a subject: the list number a listicle heading opens with
@@ -167,19 +154,17 @@ interface DocResult {
  * compares the result to the hash the dry run promised, so the input must
  * survive the call unchanged.
  *
- * The traversal is RECURSIVE and unwraps `sectionBlock` the way
- * `article-renderer.tsx` does. It used to look for a node type called
- * `section`, which does not exist — every image inside a real section was
- * skipped silently, and the ordinal sequence would have drifted out of step
- * with the renderer's.
+ * The traversal itself lives in `_content-images.mts`, shared with
+ * `vision-alt.mts`, which finds the images this script left on the title rung
+ * by recomputing the very string written here. Two walkers that disagree about
+ * what counts as an image would hand a photograph a description of a different
+ * one, so there is only one walker.
  */
 function backfillDoc(doc: unknown, slug: string, id: string, title: string): DocResult {
   const next = structuredClone(doc);
   const phrase = phrases[slug];
   const assignments: Assignment[] = [];
   let totalImages = 0;
-  let ordinal = 0;
-  let heading: string | null = null;
 
   /**
    * Accessible names already used on this page, seeded with the alts editors
@@ -219,14 +204,10 @@ function backfillDoc(doc: unknown, slug: string, id: string, title: string): Doc
   };
 
   const describe = (
-    storedAlt: unknown,
     caption: unknown,
+    heading: string | null,
+    thisOrdinal: number,
   ): { alt: string; rung: Assignment['rung']; context: string } | null => {
-    const stored = typeof storedAlt === 'string' ? storedAlt.trim() : '';
-    const thisOrdinal = ordinal++;
-    totalImages++;
-    if (stored) return null;
-
     const read = typeof caption === 'string' ? readCaption(caption) : null;
     if (read?.kind === 'description') {
       return { alt: unique(clamp(read.text)), rung: 'caption', context: read.text };
@@ -267,64 +248,18 @@ function backfillDoc(doc: unknown, slug: string, id: string, title: string): Doc
     return { alt: fallback, rung: 'title', context: `ordinal ${thisOrdinal + 1}` };
   };
 
-  const record = (r: { alt: string; rung: Assignment['rung']; context: string }) =>
-    assignments.push({ slug, id, ...r });
-
-  const walk = (node: unknown): void => {
-    if (Array.isArray(node)) return node.forEach(walk);
-    if (!node || typeof node !== 'object') return;
-    const n = node as { type?: string; attrs?: Record<string, unknown>; content?: unknown };
-
-    if (n.type === 'heading') {
-      heading = textOf(n);
-      return;
-    }
-    if (n.type === 'image' || n.type === 'figureBlock') {
-      const attrs = (n.attrs ?? {}) as Record<string, unknown>;
-      const result = describe(attrs.alt, attrs['data-caption']);
-      if (result) {
-        attrs.alt = result.alt;
-        n.attrs = attrs;
-        record(result);
-      }
-      return;
-    }
-    if (n.type === 'galleryBlock') {
-      const images = parseGallery(n.attrs);
-      let touched = false;
-      for (const img of images) {
-        const result = describe(img.alt, img.caption);
-        if (result) {
-          img.alt = result.alt;
-          touched = true;
-          record(result);
-        }
-      }
-      if (touched && n.attrs) n.attrs['data-images'] = JSON.stringify(images);
-      return;
-    }
-    // Everything else, `sectionBlock` included, is walked through.
-    if (n.content) walk(n.content);
-  };
-  walk((next as { content?: unknown } | null)?.content);
+  walkArticleImages(next, (site) => {
+    totalImages++;
+    // An image that already has an alt keeps it; it still counts, because the
+    // ordinal is a position on the page, not a position in the backlog.
+    if (typeof site.alt === 'string' && site.alt.trim()) return;
+    const result = describe(site.caption, site.heading, site.ordinal);
+    if (!result) return;
+    site.setAlt(result.alt);
+    assignments.push({ slug, id, ...result });
+  });
 
   return { next, assignments, totalImages };
-}
-
-interface GalleryImage {
-  src?: string;
-  alt?: unknown;
-  caption?: unknown;
-}
-function parseGallery(attrs: Record<string, unknown> | undefined): GalleryImage[] {
-  const raw = attrs?.['data-images'];
-  if (typeof raw !== 'string') return [];
-  try {
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? (parsed as GalleryImage[]) : [];
-  } catch {
-    return [];
-  }
 }
 
 const sql = connect();

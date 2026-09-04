@@ -18,10 +18,13 @@
   "include": [
     "scripts/seo/_db.mts",
     "scripts/seo/_content-apply.mts",
+    "scripts/seo/_content-images.mts",
     "scripts/seo/rewrite-internal-hrefs.mts",
     "scripts/seo/backfill-image-alt.mts",
+    "scripts/seo/vision-alt.mts",
     "scripts/seo/apply-category-descriptions.mts",
     "scripts/seo/apply-meta-titles.mts",
-    "scripts/seo/revalidate-production.mts"
+    "scripts/seo/revalidate-production.mts",
+    "scripts/seo/__tests__/content-images.test.ts"
   ]
 }
