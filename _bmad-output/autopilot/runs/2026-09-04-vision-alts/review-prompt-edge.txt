@@ -1,0 +1,949 @@
+Do not load, read or follow any repository skill, workflow, checklist or step file (`.agents/skills/**`, `_bmad/**`, `.claude/skills/**`). No questions, no checkpoints; produce the findings and stop.
+
+Walk every branching path and boundary condition the diff versus `master` introduces or alters: null/undefined, empty collections, zero/negative/overflow, unicode and long strings, concurrent or repeated invocation, partial failure mid-sequence, permission and auth edges. Report ONLY unhandled edge cases, one line each: `SEVERITY | file:line | the exact input or state that breaks it | concrete suggested fix`. Else exactly: `NO_FINDINGS`
+
+The diff:
+diff --git a/scripts/seo/__tests__/content-images.test.ts b/scripts/seo/__tests__/content-images.test.ts
+new file mode 100644
+index 0000000..a089e27
+--- /dev/null
++++ b/scripts/seo/__tests__/content-images.test.ts
+@@ -0,0 +1,165 @@
++/**
++ * The shared image walk, and specifically the ORDINAL it hands out.
++ *
++ * `backfill-image-alt.mts` wrote 369 alts of the form `${title} — gambar ${n}`
++ * where `n` came from this walk. `vision-alt.mts` finds those same images by
++ * recomputing that string from this walk. The two agree only for as long as
++ * the walk is one function with one definition of "an image" and one order, so
++ * the cases below are the ones that would break that agreement quietly:
++ * containers that must be walked THROUGH, gallery entries that each count, and
++ * an image that already has an alt still taking its place in the sequence.
++ */
++import { describe, expect, it } from 'vitest';
++import { parseGallery, textOf, walkArticleImages } from '../_content-images.mts';
++
++const text = (value: string) => ({ type: 'text', text: value });
++const para = (value: string) => ({ type: 'paragraph', content: [text(value)] });
++const heading = (value: string) => ({ type: 'heading', content: [text(value)] });
++const image = (src: string, attrs: Record<string, unknown> = {}) => ({
++  type: 'image',
++  attrs: { src, ...attrs },
++});
++const gallery = (images: unknown[]) => ({
++  type: 'galleryBlock',
++  attrs: { 'data-images': JSON.stringify(images) },
++});
++const doc = (...content: unknown[]) => ({ type: 'doc', content });
++
++/** Every ordinal the walk hands out, with the src it handed it to. */
++function visit(document: unknown) {
++  const seen: { ordinal: number; src: unknown; alt: unknown; heading: string | null }[] = [];
++  walkArticleImages(document, (site) =>
++    seen.push({ ordinal: site.ordinal, src: site.src, alt: site.alt, heading: site.heading }),
++  );
++  return seen;
++}
++
++describe('walkArticleImages', () => {
++  it('numbers images from zero in document order', () => {
++    const seen = visit(doc(image('a'), para('x'), image('b'), image('c')));
++    expect(seen.map((s) => [s.ordinal, s.src])).toEqual([
++      [0, 'a'],
++      [1, 'b'],
++      [2, 'c'],
++    ]);
++  });
++
++  it('counts an image that already has an alt', () => {
++    // The ordinal is a position ON THE PAGE, not a position in the backlog. An
++    // image described by an editor still consumes its number, or every image
++    // after it shifts and `gambar 4` names the wrong photograph.
++    const seen = visit(doc(image('a', { alt: 'sudah ada' }), image('b')));
++    expect(seen.map((s) => s.ordinal)).toEqual([0, 1]);
++    expect(seen[1].src).toBe('b');
++  });
++
++  it('descends into sectionBlock rather than stopping at it', () => {
++    // The bug this replaced looked for a node type called `section`, which does
++    // not exist, and silently skipped every image inside a real one.
++    const seen = visit(
++      doc(image('outside'), {
++        type: 'sectionBlock',
++        content: [image('inside-1'), { type: 'blockquote', content: [image('inside-2')] }],
++      }),
++    );
++    expect(seen.map((s) => s.src)).toEqual(['outside', 'inside-1', 'inside-2']);
++  });
++
++  it('treats figureBlock as an image', () => {
++    const seen = visit(
++      doc({ type: 'figureBlock', attrs: { src: 'f', 'data-caption': 'SOURCE: X' } }),
++    );
++    expect(seen).toHaveLength(1);
++    expect(seen[0].src).toBe('f');
++  });
++
++  it('gives every gallery entry its own ordinal', () => {
++    const seen = visit(
++      doc(image('a'), gallery([{ src: 'g1' }, { src: 'g2' }, { src: 'g3' }]), image('b')),
++    );
++    expect(seen.map((s) => [s.ordinal, s.src])).toEqual([
++      [0, 'a'],
++      [1, 'g1'],
++      [2, 'g2'],
++      [3, 'g3'],
++      [4, 'b'],
++    ]);
++  });
++
++  it('carries the nearest preceding heading, and null above the first one', () => {
++    const seen = visit(doc(image('a'), heading('1. Jardin Event Venue'), image('b')));
++    expect(seen[0].heading).toBeNull();
++    expect(seen[1].heading).toBe('1. Jardin Event Venue');
++  });
++
++  it('does not count an image nested inside a heading', () => {
++    // A heading contributes its text and nothing else; descending into it would
++    // both mis-number and read a decorative mark as a photograph.
++    const seen = visit(
++      doc({ type: 'heading', content: [text('Tajuk'), image('inside-heading')] }, image('a')),
++    );
++    expect(seen.map((s) => s.src)).toEqual(['a']);
++  });
++
++  it('writes an alt back onto an image node', () => {
++    const document = doc(image('a'));
++    walkArticleImages(document, (site) => site.setAlt('pelamin putih dengan bunga segar'));
++    expect((document.content[0] as { attrs: { alt?: string } }).attrs.alt).toBe(
++      'pelamin putih dengan bunga segar',
++    );
++  });
++
++  it('re-serialises data-images once a gallery entry is rewritten', () => {
++    const document = doc(gallery([{ src: 'g1' }, { src: 'g2', alt: 'asal' }]));
++    walkArticleImages(document, (site) => {
++      if (site.src === 'g1') site.setAlt('meja tetamu');
++    });
++    const raw = (document.content[0] as { attrs: Record<string, string> }).attrs['data-images'];
++    expect(JSON.parse(raw)).toEqual([
++      { src: 'g1', alt: 'meja tetamu' },
++      { src: 'g2', alt: 'asal' },
++    ]);
++  });
++
++  it('leaves data-images untouched when nothing in the gallery was rewritten', () => {
++    const original = JSON.stringify([{ src: 'g1' }]);
++    const document = doc({ type: 'galleryBlock', attrs: { 'data-images': original } });
++    walkArticleImages(document, () => {});
++    expect((document.content[0] as { attrs: Record<string, string> }).attrs['data-images']).toBe(
++      original,
++    );
++  });
++
++  it('survives a document with no content at all', () => {
++    expect(visit(null)).toEqual([]);
++    expect(visit({})).toEqual([]);
++    expect(visit({ type: 'doc', content: [] })).toEqual([]);
++  });
++});
++
++describe('parseGallery', () => {
++  it('reads the images out of the attribute', () => {
++    expect(parseGallery({ 'data-images': '[{"src":"a"}]' })).toEqual([{ src: 'a' }]);
++  });
++
++  it('treats malformed or missing JSON as no images rather than throwing', () => {
++    // A gallery nobody can parse is a gallery with nothing in it. Throwing here
++    // would abort a whole migration over one bad attribute.
++    expect(parseGallery({ 'data-images': 'not json' })).toEqual([]);
++    expect(parseGallery({ 'data-images': '{"src":"a"}' })).toEqual([]);
++    expect(parseGallery({})).toEqual([]);
++    expect(parseGallery(undefined)).toEqual([]);
++  });
++});
++
++describe('textOf', () => {
++  it('joins nested text nodes and trims', () => {
++    expect(
++      textOf({ type: 'heading', content: [text(' Dewan '), { content: [text('Seri')] }] }),
++    ).toBe('Dewan Seri');
++  });
++
++  it('is empty for a node with no text in it', () => {
++    expect(textOf(image('a'))).toBe('');
++  });
++});
+diff --git a/scripts/seo/_content-images.mts b/scripts/seo/_content-images.mts
+new file mode 100644
+index 0000000..94f96aa
+--- /dev/null
++++ b/scripts/seo/_content-images.mts
+@@ -0,0 +1,149 @@
++/**
++ * One traversal of an article's Tiptap document, over every image in it.
++ *
++ * ── WHY THIS IS SHARED ────────────────────────────────────────────────────
++ *
++ * Two scripts walk `articles.content` looking for images, and the ORDINAL each
++ * one computes has to be the same number. `backfill-image-alt.mts` stored 369
++ * alts of the form `${title} — gambar ${ordinal + 1}`; `vision-alt.mts` finds
++ * those images again by recomputing that exact string and matching it. If the
++ * two walkers disagree about what counts as an image, or about the order they
++ * come in, the second script silently matches nothing — or, worse, matches the
++ * wrong photograph and hands it a description of a different one.
++ *
++ * `_content-apply.mts` makes the same argument for the apply path: copying a
++ * guarantee into two files is how one of the two ends up missing it.
++ *
++ * ── WHAT COUNTS, AND IN WHAT ORDER ────────────────────────────────────────
++ *
++ * Document order, depth first. `image` and `figureBlock` are one image each;
++ * a `galleryBlock` is as many as its `data-images` array holds. `sectionBlock`
++ * and every other container is walked THROUGH, exactly as
++ * `article-renderer.tsx` unwraps it — an earlier version of the backfill
++ * looked for a node type called `section`, which does not exist, and skipped
++ * every image inside a real section while its ordinals drifted out of step
++ * with the renderer's.
++ *
++ * A `heading` node sets the current heading and is not descended into; its
++ * visible text has already been collected.
++ */
++
++/** The visible text of a Tiptap node, marks and nesting included. */
++export function textOf(node: unknown): string {
++  let out = '';
++  const walk = (n: unknown): void => {
++    if (Array.isArray(n)) return n.forEach(walk);
++    if (!n || typeof n !== 'object') return;
++    const o = n as { type?: string; text?: string; content?: unknown };
++    if (o.type === 'text' && typeof o.text === 'string') out += o.text;
++    if (o.content) walk(o.content);
++  };
++  walk(node);
++  return out.trim();
++}
++
++export interface GalleryImage {
++  src?: string;
++  alt?: unknown;
++  caption?: unknown;
++}
++
++/** `data-images` is a JSON string inside an attribute; a malformed one is no images. */
++export function parseGallery(attrs: Record<string, unknown> | undefined): GalleryImage[] {
++  const raw = attrs?.['data-images'];
++  if (typeof raw !== 'string') return [];
++  try {
++    const parsed = JSON.parse(raw);
++    return Array.isArray(parsed) ? (parsed as GalleryImage[]) : [];
++  } catch {
++    return [];
++  }
++}
++
++/** One image, where it sits, and the handle to rewrite its alt in place. */
++export interface ImageSite {
++  /**
++   * 0-based, counting every image in the article in document order whether or
++   * not it carries an alt — so "gambar 3" is the third photograph on the page,
++   * not the third one somebody forgot to describe.
++   */
++  ordinal: number;
++  /** Which node held it. `gallery` images live inside a `data-images` array. */
++  kind: 'image' | 'figureBlock' | 'gallery';
++  /** The stored alt exactly as it sits: a string, `null`, or absent. */
++  alt: unknown;
++  /** The stored image URL, if the node has one. */
++  src: unknown;
++  /** `data-caption` on a figure, `caption` on a gallery entry. */
++  caption: unknown;
++  /** The nearest preceding heading's visible text, or null above the first one. */
++  heading: string | null;
++  /** Write a new alt at this site. Mutates the document passed to `walkArticleImages`. */
++  setAlt: (value: string) => void;
++}
++
++/**
++ * Visit every image in `doc` in document order.
++ *
++ * Mutating: `site.setAlt` writes into the document you pass in, so callers that
++ * need the original intact clone first — `structuredClone` is what both
++ * scripts use, because the apply path re-runs its transform against a freshly
++ * locked row and compares the result to the hash the dry run promised.
++ */
++export function walkArticleImages(doc: unknown, visit: (site: ImageSite) => void): void {
++  let ordinal = 0;
++  let heading: string | null = null;
++
++  const walk = (node: unknown): void => {
++    if (Array.isArray(node)) return node.forEach(walk);
++    if (!node || typeof node !== 'object') return;
++    const n = node as { type?: string; attrs?: Record<string, unknown>; content?: unknown };
++
++    if (n.type === 'heading') {
++      heading = textOf(n);
++      return;
++    }
++    if (n.type === 'image' || n.type === 'figureBlock') {
++      const attrs = (n.attrs ?? {}) as Record<string, unknown>;
++      visit({
++        ordinal: ordinal++,
++        kind: n.type,
++        alt: attrs.alt,
++        src: attrs.src,
++        caption: attrs['data-caption'],
++        heading,
++        setAlt: (value) => {
++          attrs.alt = value;
++          n.attrs = attrs;
++        },
++      });
++      return;
++    }
++    if (n.type === 'galleryBlock') {
++      const images = parseGallery(n.attrs);
++      let touched = false;
++      for (const img of images) {
++        visit({
++          ordinal: ordinal++,
++          kind: 'gallery',
++          alt: img.alt,
++          src: img.src,
++          caption: img.caption,
++          heading,
++          setAlt: (value) => {
++            img.alt = value;
++            touched = true;
++          },
++        });
++      }
++      // Re-serialise once, after the whole array has been offered, so a
++      // per-image write does not have to know about the attribute encoding.
++      if (touched && n.attrs) n.attrs['data-images'] = JSON.stringify(images);
++      return;
++    }
++    // Everything else, `sectionBlock` included, is walked through.
++    if (n.content) walk(n.content);
++  };
++
++  walk((doc as { content?: unknown } | null)?.content);
++}
+diff --git a/scripts/seo/backfill-image-alt.mts b/scripts/seo/backfill-image-alt.mts
+index af02fd7..cba5ed7 100644
+--- a/scripts/seo/backfill-image-alt.mts
++++ b/scripts/seo/backfill-image-alt.mts
+@@ -62,6 +62,7 @@ import {
+   type Manifest,
+ } from './_db.mts';
+ import { applyContentMigration, type ArticleRow } from './_content-apply.mts';
++import { parseGallery, walkArticleImages } from './_content-images.mts';
+ 
+ const SCRIPT = 'backfill-image-alt';
+ 
+@@ -84,20 +85,6 @@ const phrases: Record<string, string> = JSON.parse(
+   readFileSync(join(here, 'image-alt-phrases.json'), 'utf8'),
+ ).phrases;
+ 
+-/** The visible text of a TipTap node, marks and nesting included. */
+-function textOf(node: unknown): string {
+-  let out = '';
+-  const walk = (n: unknown): void => {
+-    if (Array.isArray(n)) return n.forEach(walk);
+-    if (!n || typeof n !== 'object') return;
+-    const o = n as { type?: string; text?: string; content?: unknown };
+-    if (o.type === 'text' && typeof o.text === 'string') out += o.text;
+-    if (o.content) walk(o.content);
+-  };
+-  walk(node);
+-  return out.trim();
+-}
+-
+ /**
+  * The heading text as a subject: the list number a listicle heading opens with
+  * is numbering, not a name, and reading "16. Jardin Event Venue" aloud is
+@@ -167,19 +154,17 @@ interface DocResult {
+  * compares the result to the hash the dry run promised, so the input must
+  * survive the call unchanged.
+  *
+- * The traversal is RECURSIVE and unwraps `sectionBlock` the way
+- * `article-renderer.tsx` does. It used to look for a node type called
+- * `section`, which does not exist — every image inside a real section was
+- * skipped silently, and the ordinal sequence would have drifted out of step
+- * with the renderer's.
++ * The traversal itself lives in `_content-images.mts`, shared with
++ * `vision-alt.mts`, which finds the images this script left on the title rung
++ * by recomputing the very string written here. Two walkers that disagree about
++ * what counts as an image would hand a photograph a description of a different
++ * one, so there is only one walker.
+  */
+ function backfillDoc(doc: unknown, slug: string, id: string, title: string): DocResult {
+   const next = structuredClone(doc);
+   const phrase = phrases[slug];
+   const assignments: Assignment[] = [];
+   let totalImages = 0;
+-  let ordinal = 0;
+-  let heading: string | null = null;
+ 
+   /**
+    * Accessible names already used on this page, seeded with the alts editors
+@@ -219,14 +204,10 @@ function backfillDoc(doc: unknown, slug: string, id: string, title: string): Doc
+   };
+ 
+   const describe = (
+-    storedAlt: unknown,
+     caption: unknown,
++    heading: string | null,
++    thisOrdinal: number,
+   ): { alt: string; rung: Assignment['rung']; context: string } | null => {
+-    const stored = typeof storedAlt === 'string' ? storedAlt.trim() : '';
+-    const thisOrdinal = ordinal++;
+-    totalImages++;
+-    if (stored) return null;
+-
+     const read = typeof caption === 'string' ? readCaption(caption) : null;
+     if (read?.kind === 'description') {
+       return { alt: unique(clamp(read.text)), rung: 'caption', context: read.text };
+@@ -267,66 +248,20 @@ function backfillDoc(doc: unknown, slug: string, id: string, title: string): Doc
+     return { alt: fallback, rung: 'title', context: `ordinal ${thisOrdinal + 1}` };
+   };
+ 
+-  const record = (r: { alt: string; rung: Assignment['rung']; context: string }) =>
+-    assignments.push({ slug, id, ...r });
+-
+-  const walk = (node: unknown): void => {
+-    if (Array.isArray(node)) return node.forEach(walk);
+-    if (!node || typeof node !== 'object') return;
+-    const n = node as { type?: string; attrs?: Record<string, unknown>; content?: unknown };
+-
+-    if (n.type === 'heading') {
+-      heading = textOf(n);
+-      return;
+-    }
+-    if (n.type === 'image' || n.type === 'figureBlock') {
+-      const attrs = (n.attrs ?? {}) as Record<string, unknown>;
+-      const result = describe(attrs.alt, attrs['data-caption']);
+-      if (result) {
+-        attrs.alt = result.alt;
+-        n.attrs = attrs;
+-        record(result);
+-      }
+-      return;
+-    }
+-    if (n.type === 'galleryBlock') {
+-      const images = parseGallery(n.attrs);
+-      let touched = false;
+-      for (const img of images) {
+-        const result = describe(img.alt, img.caption);
+-        if (result) {
+-          img.alt = result.alt;
+-          touched = true;
+-          record(result);
+-        }
+-      }
+-      if (touched && n.attrs) n.attrs['data-images'] = JSON.stringify(images);
+-      return;
+-    }
+-    // Everything else, `sectionBlock` included, is walked through.
+-    if (n.content) walk(n.content);
+-  };
+-  walk((next as { content?: unknown } | null)?.content);
++  walkArticleImages(next, (site) => {
++    totalImages++;
++    // An image that already has an alt keeps it; it still counts, because the
++    // ordinal is a position on the page, not a position in the backlog.
++    if (typeof site.alt === 'string' && site.alt.trim()) return;
++    const result = describe(site.caption, site.heading, site.ordinal);
++    if (!result) return;
++    site.setAlt(result.alt);
++    assignments.push({ slug, id, ...result });
++  });
+ 
+   return { next, assignments, totalImages };
+ }
+ 
+-interface GalleryImage {
+-  src?: string;
+-  alt?: unknown;
+-  caption?: unknown;
+-}
+-function parseGallery(attrs: Record<string, unknown> | undefined): GalleryImage[] {
+-  const raw = attrs?.['data-images'];
+-  if (typeof raw !== 'string') return [];
+-  try {
+-    const parsed = JSON.parse(raw);
+-    return Array.isArray(parsed) ? (parsed as GalleryImage[]) : [];
+-  } catch {
+-    return [];
+-  }
+-}
+-
+ const sql = connect();
+ try {
+   const arts = await sql<
+diff --git a/scripts/seo/vision-alt.mts b/scripts/seo/vision-alt.mts
+new file mode 100644
+index 0000000..d9ff353
+--- /dev/null
++++ b/scripts/seo/vision-alt.mts
+@@ -0,0 +1,441 @@
++#!/usr/bin/env node
++/**
++ * Replace the positional fallback alts on the real-wedding photo essays with
++ * descriptions of what is actually in each frame.
++ *
++ * ── WHAT THIS FINISHES ────────────────────────────────────────────────────
++ *
++ * `backfill-image-alt.mts` put a value in every empty `alt` in published
++ * content, on a four-rung chain. 369 of them reached the last rung and were
++ * stored as `${article.title} — gambar ${n}`. That string is TRUE and it is
++ * better than the `alt=""` it replaced, but it is not a description: it is the
++ * same sentence twenty-five times down a page of twenty-five different
++ * photographs, and a screen reader reading it aloud learns the article's title
++ * and nothing else. The images are the photo essays, where fifteen consecutive
++ * pictures share one paragraph and the document distinguishes none of them —
++ * so describing them needs somebody, or something, to look at them. That is
++ * what `--extract` is for, and what `--descriptions` brings back.
++ *
++ * ── HOW AN IMAGE IS IDENTIFIED, AND WHY NOT BY REGEX ──────────────────────
++ *
++ * A target is an image whose stored alt is EXACTLY
++ * `fallbackImageAlt(title, ordinal)` — the same function, the same ordinal,
++ * recomputed from the same shared walker the backfill used
++ * (`_content-images.mts`). A regex for `/— gambar \d+$/` would also match an
++ * alt an editor happened to write that way, and would not notice if the
++ * ordinal had drifted. An exact match against a recomputed string cannot: if
++ * the two walkers ever disagree about what counts as an image, the count comes
++ * back short and the run stops instead of describing the wrong photograph.
++ *
++ * ── THE MODES ─────────────────────────────────────────────────────────────
++ *
++ *   --extract <file.jsonl>
++ *       One JSON object per article: the article's own words (title, headings,
++ *       captions, prose) and every target image with its `mid.webp` URL. The
++ *       article's words are there so a description can name the venue the
++ *       ARTICLE names, and nothing else.
++ *
++ *   --descriptions <file.json> --undo <dir> --report <file.md>
++ *       Dry run. Checks every description against the rules below, writes the
++ *       undo files, the manifest and the report. Writes nothing to the database.
++ *
++ *   ... --apply
++ *       The same, with the write, through `_content-apply.mts`.
++ *
++ * ── WHAT A DESCRIPTION HAS TO SURVIVE ─────────────────────────────────────
++ *
++ * Every rule here is a HARD FAILURE for the whole run, not a skipped row. A
++ * partly-described article is worse than an undescribed one: it looks finished.
++ *
++ *   1. Every target image has a description, and every description names a
++ *      target image. No strays, no gaps.
++ *   2. 125 characters, the same budget the backfill used — screen readers
++ *      truncate around there and a long alt stops being useful well before.
++ *   3. Not the positional fallback again, in any ordinal.
++ *   4. No `gambar`/`foto`/`imej` opener. "Gambar pelamin" tells a
++ *      screen-reader user the image is an image, which they know.
++ *   5. Unique on the page, case-insensitively, against the other new alts AND
++ *      against the alts already stored there — the accessible-name collision
++ *      `backfill-image-alt.mts` guards with its `(gambar N)` suffix.
++ *
++ * Usage (DATABASE_URL injected, never typed):
++ *   pwsh -File scripts/seo/run-with-db.ps1 pnpm exec tsx scripts/seo/vision-alt.mts --extract out.jsonl
++ *   pwsh -File scripts/seo/run-with-db.ps1 pnpm exec tsx scripts/seo/vision-alt.mts --descriptions d.json --undo dir --report r.md
++ *   pwsh -File scripts/seo/run-with-db.ps1 pnpm exec tsx scripts/seo/vision-alt.mts --descriptions d.json --undo dir --report r.md --apply
++ */
++import 'dotenv/config';
++import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
++import { join } from 'node:path';
++import { fallbackImageAlt } from '../../src/lib/inspire/image-alt';
++import { getArticleVariantUrl } from '../../src/lib/storage/article-image-variant';
++import {
++  connect,
++  contentHash,
++  newRunId,
++  parseMode,
++  requireManifest,
++  type Manifest,
++} from './_db.mts';
++import { applyContentMigration, type ArticleRow } from './_content-apply.mts';
++import { textOf, walkArticleImages } from './_content-images.mts';
++
++const SCRIPT = 'vision-alt';
++
++/** Same budget as the backfill, for the same reason. */
++const MAX_ALT = 125;
++
++/** How much of the article's prose the extract carries as grounding. */
++const PROSE_BUDGET = 4000;
++
++const argv = process.argv.slice(2);
++const { apply } = parseMode(argv);
++const flag = (name: string): string | undefined => {
++  const i = argv.indexOf(name);
++  return i === -1 ? undefined : argv[i + 1];
++};
++const extractPath = flag('--extract');
++const descriptionsPath = flag('--descriptions');
++const undoDir = flag('--undo');
++const reportPath = flag('--report');
++
++if (!extractPath && !descriptionsPath) {
++  throw new Error('nothing to do: pass --extract <file.jsonl> or --descriptions <file.json>');
++}
++if (descriptionsPath && (!undoDir || !reportPath)) {
++  throw new Error('--descriptions needs --undo <dir> and --report <file.md>');
++}
++
++interface Target {
++  ordinal: number;
++  src: string;
++  /** The 680px article-body rung — 350 KB rather than the 1.4 MB `high`. */
++  mid: string;
++  heading: string | null;
++  caption: string | null;
++  oldAlt: string;
++}
++
++interface Article {
++  id: string;
++  slug: string;
++  title: string;
++  content: unknown;
++  updated_at_raw: string;
++}
++
++/** Every image on this article still carrying the positional fallback. */
++function findTargets(a: { title: string; content: unknown }): Target[] {
++  const out: Target[] = [];
++  walkArticleImages(a.content, (site) => {
++    const stored = typeof site.alt === 'string' ? site.alt.trim() : '';
++    if (!stored || stored !== fallbackImageAlt(a.title, site.ordinal)) return;
++    const src = typeof site.src === 'string' ? site.src : '';
++    out.push({
++      ordinal: site.ordinal,
++      src,
++      mid: src ? getArticleVariantUrl(src, 'mid') : '',
++      heading: site.heading,
++      caption: typeof site.caption === 'string' && site.caption.trim() ? site.caption.trim() : null,
++      oldAlt: stored,
++    });
++  });
++  return out;
++}
++
++/** Every accessible name already on the page, whoever wrote it. */
++function existingAlts(content: unknown): string[] {
++  const out: string[] = [];
++  walkArticleImages(content, (site) => {
++    if (typeof site.alt === 'string' && site.alt.trim()) out.push(site.alt.trim());
++  });
++  return out;
++}
++
++/**
++ * The article's own prose, in document order, headings included.
++ *
++ * This is the ONLY source a description may name a venue or a vendor from. A
++ * photograph of a hotel ballroom does not say which hotel; the article does.
++ */
++function proseOf(doc: unknown): string {
++  const parts: string[] = [];
++  const walk = (n: unknown): void => {
++    if (Array.isArray(n)) return n.forEach(walk);
++    if (!n || typeof n !== 'object') return;
++    const o = n as { type?: string; content?: unknown };
++    if (o.type === 'paragraph' || o.type === 'heading') {
++      const t = textOf(o);
++      if (t) parts.push(t);
++      return;
++    }
++    if (o.content) walk(o.content);
++  };
++  walk((doc as { content?: unknown } | null)?.content);
++  return parts.join('\n').slice(0, PROSE_BUDGET);
++}
++
++/** `Gambar`, `Foto`, `Imej` as an opening word. */
++const IMAGE_WORD_OPENER = /^\s*(gambar|foto|imej|image|photo|picture)\b/i;
++
++/** The shape the fallback leaves behind, in any ordinal. */
++const POSITIONAL_TAIL = /—\s*gambar\s+\d+\s*$/i;
++
++interface Description {
++  id: string;
++  ordinal: number;
++  alt: string;
++}
++
++function readDescriptions(path: string): Description[] {
++  const parsed = JSON.parse(readFileSync(path, 'utf8')) as unknown;
++  if (!Array.isArray(parsed)) {
++    throw new Error(`${path} must be a JSON array of { id, ordinal, alt }`);
++  }
++  return parsed.map((row, i) => {
++    const r = row as Partial<Description>;
++    if (typeof r.id !== 'string' || typeof r.ordinal !== 'number' || typeof r.alt !== 'string') {
++      throw new Error(`${path}[${i}] is not { id: string, ordinal: number, alt: string }`);
++    }
++    return { id: r.id, ordinal: r.ordinal, alt: r.alt.trim() };
++  });
++}
++
++interface Written {
++  ordinal: number;
++  src: string;
++  oldAlt: string;
++  alt: string;
++}
++
++/**
++ * Write the descriptions into a clone of the article, or explain exactly why
++ * the whole run has to stop.
++ *
++ * `byOrdinal` is CONSUMED rather than read: whatever is left in it afterwards
++ * named an image this article does not have on the fallback, and the caller
++ * turns that into the error. Callers pass a copy.
++ */
++function describeDoc(
++  a: { id: string; slug: string; title: string; content: unknown },
++  byOrdinal: Map<number, string>,
++): { next: unknown; written: Written[] } {
++  const next = structuredClone(a.content);
++  const written: Written[] = [];
++
++  // Seeded with every name already on the page, so a new alt cannot collide
++  // with one an editor wrote. The fallbacks themselves are removed first —
++  // they are the strings being replaced, and every one of them would otherwise
++  // count as an existing name.
++  const used = new Set(existingAlts(a.content).map((x) => x.toLowerCase()));
++  for (const t of findTargets(a)) used.delete(t.oldAlt.toLowerCase());
++
++  walkArticleImages(next, (site) => {
++    const stored = typeof site.alt === 'string' ? site.alt.trim() : '';
++    if (!stored || stored !== fallbackImageAlt(a.title, site.ordinal)) return;
++
++    const where = `${a.slug} image ${site.ordinal + 1}`;
++    const alt = byOrdinal.get(site.ordinal);
++    if (alt === undefined) {
++      throw new Error(
++        `no description for ${where}. Every image on the positional fallback needs one; a half-described article looks finished and is not.`,
++      );
++    }
++    byOrdinal.delete(site.ordinal);
++
++    if (!alt) throw new Error(`empty description for ${where}`);
++    if (alt.length > MAX_ALT) {
++      throw new Error(
++        `description for ${where} is ${alt.length} characters, over the ${MAX_ALT} budget: ${alt}`,
++      );
++    }
++    if (alt === stored || POSITIONAL_TAIL.test(alt)) {
++      throw new Error(`description for ${where} is still the positional fallback: ${alt}`);
++    }
++    if (IMAGE_WORD_OPENER.test(alt)) {
++      throw new Error(
++        `description for ${where} opens by saying it is an image, which a screen-reader user already knows: ${alt}`,
++      );
++    }
++    const key = alt.toLowerCase();
++    if (used.has(key)) {
++      throw new Error(
++        `description for ${where} repeats an accessible name already on the page: ${alt}`,
++      );
++    }
++    used.add(key);
++
++    site.setAlt(alt);
++    written.push({
++      ordinal: site.ordinal,
++      src: typeof site.src === 'string' ? site.src : '',
++      oldAlt: stored,
++      alt,
++    });
++  });
++
++  return { next, written };
++}
++
++const sql = connect();
++try {
++  const arts = await sql<Article[]>`
++    select id, slug, title, content, updated_at::text as updated_at_raw from articles
++    where status = 'published' order by slug`;
++
++  if (extractPath) {
++    const lines: string[] = [];
++    let images = 0;
++    for (const a of arts) {
++      const targets = findTargets(a);
++      if (targets.length === 0) continue;
++      images += targets.length;
++      lines.push(
++        JSON.stringify({
++          id: a.id,
++          slug: a.slug,
++          title: a.title,
++          prose: proseOf(a.content),
++          images: targets,
++        }),
++      );
++    }
++    writeFileSync(extractPath, lines.join('\n') + '\n');
++    console.log(`${images} images on the positional fallback across ${lines.length} articles`);
++    console.log(`extract -> ${extractPath}`);
++  }
++
++  if (descriptionsPath && undoDir && reportPath) {
++    const manifestPath = join(undoDir, '_manifest.json');
++    const descriptions = readDescriptions(descriptionsPath);
++    const byArticle = new Map<string, Map<number, string>>();
++    for (const d of descriptions) {
++      const m = byArticle.get(d.id) ?? new Map<number, string>();
++      if (m.has(d.ordinal)) {
++        throw new Error(`two descriptions for article ${d.id} image ${d.ordinal + 1}`);
++      }
++      m.set(d.ordinal, d.alt);
++      byArticle.set(d.id, m);
++    }
++
++    const manifest: Manifest = {
++      script: SCRIPT,
++      runId: newRunId(),
++      generatedAt: new Date().toISOString(),
++      entries: [],
++    };
++    const rows: (Written & { slug: string })[] = [];
++
++    for (const a of arts) {
++      const targets = findTargets(a);
++      const supplied = byArticle.get(a.id);
++      byArticle.delete(a.id);
++      if (targets.length === 0) {
++        if (supplied && supplied.size > 0) {
++          throw new Error(
++            `${supplied.size} description(s) for ${a.slug}, which has no image on the positional fallback.`,
++          );
++        }
++        continue;
++      }
++      if (!supplied) {
++        throw new Error(`no descriptions at all for ${a.slug} (${targets.length} images)`);
++      }
++
++      const { next, written } = describeDoc(a, supplied);
++      if (supplied.size > 0) {
++        const stray = [...supplied.keys()].map((o) => o + 1).join(', ');
++        throw new Error(
++          `${supplied.size} description(s) for ${a.slug} name images that are not on the positional fallback: ${stray}`,
++        );
++      }
++      rows.push(...written.map((w) => ({ slug: a.slug, ...w })));
++      manifest.entries.push({
++        id: a.id,
++        slug: a.slug,
++        updatedAt: a.updated_at_raw,
++        preimageHash: contentHash(a.content),
++        postimageHash: contentHash(next),
++      });
++      if (!apply) {
++        mkdirSync(undoDir, { recursive: true });
++        writeFileSync(
++          join(undoDir, `${a.slug}.json`),
++          JSON.stringify({ id: a.id, slug: a.slug, content: a.content }, null, 1),
++        );
++      }
++    }
++
++    if (byArticle.size > 0) {
++      throw new Error(
++        `descriptions name article id(s) that are not published: ${[...byArticle.keys()].join(', ')}`,
++      );
++    }
++
++    if (!apply) {
++      mkdirSync(undoDir, { recursive: true });
++      writeFileSync(manifestPath, JSON.stringify(manifest, null, 1));
++
++      const lengths = rows.map((r) => r.alt.length);
++      const out: string[] = [];
++      out.push('# Vision alt text — dry run', '');
++      out.push(`Run id: \`${manifest.runId}\``);
++      out.push(
++        `Descriptions to write: **${rows.length}** across **${manifest.entries.length}** articles`,
++        '',
++      );
++      out.push(
++        `Length ${Math.min(...lengths)}–${Math.max(...lengths)} characters against a ${MAX_ALT} budget, ` +
++          `mean ${Math.round(lengths.reduce((s, n) => s + n, 0) / lengths.length)}.`,
++        '',
++      );
++      out.push('## Per article', '');
++      out.push('| article | images described |', '| --- | --- |');
++      const perArticle = new Map<string, number>();
++      for (const r of rows) perArticle.set(r.slug, (perArticle.get(r.slug) ?? 0) + 1);
++      for (const [slug, n] of [...perArticle].sort((x, y) => y[1] - x[1])) {
++        out.push(`| ${slug} | ${n} |`);
++      }
++      out.push('', '## Every alt written', '');
++      out.push(
++        '| article | image | old alt | new alt | chars |',
++        '| --- | --- | --- | --- | --- |',
++      );
++      for (const r of rows) {
++        out.push(`| ${r.slug} | ${r.src} | ${r.oldAlt} | ${r.alt} | ${r.alt.length} |`);
++      }
++      writeFileSync(reportPath, out.join('\n') + '\n');
++
++      console.log(`${rows.length} descriptions across ${manifest.entries.length} articles`);
++      console.log(`report   -> ${reportPath}`);
++      console.log(`undo     -> ${undoDir} (${manifest.entries.length} documents)`);
++      console.log(`manifest -> ${manifestPath} (run ${manifest.runId})`);
++      console.log('DRY RUN — nothing written. Re-run with --apply.');
++    } else {
++      let raw: string | undefined;
++      try {
++        raw = readFileSync(manifestPath, 'utf8');
++      } catch {
++        raw = undefined;
++      }
++      const stored = requireManifest(raw, SCRIPT, manifestPath);
++      const result = await applyContentMigration({
++        sql,
++        manifest: stored,
++        undoDir,
++        backupSlug: 'visionalt',
++        transform: (row: ArticleRow) => {
++          // A FRESH map per call: `describeDoc` consumes it, and the apply path
++          // may re-run the transform.
++          const supplied = new Map(
++            descriptions.filter((d) => d.id === row.id).map((d) => [d.ordinal, d.alt] as const),
++          );
++          return describeDoc(row, supplied).next;
++        },
++      });
++      console.log(`backup table ${result.backupTable} (${result.backupRows} rows)`);
++      console.log(`APPLIED — ${result.written} article rows updated`);
++    }
++  }
++} finally {
++  await sql.end();
++}
+diff --git a/tsconfig.scripts.json b/tsconfig.scripts.json
+index 045b7f6..1ff3065 100644
+--- a/tsconfig.scripts.json
++++ b/tsconfig.scripts.json
+@@ -18,10 +18,13 @@
+   "include": [
+     "scripts/seo/_db.mts",
+     "scripts/seo/_content-apply.mts",
++    "scripts/seo/_content-images.mts",
+     "scripts/seo/rewrite-internal-hrefs.mts",
+     "scripts/seo/backfill-image-alt.mts",
++    "scripts/seo/vision-alt.mts",
+     "scripts/seo/apply-category-descriptions.mts",
+     "scripts/seo/apply-meta-titles.mts",
+-    "scripts/seo/revalidate-production.mts"
++    "scripts/seo/revalidate-production.mts",
++    "scripts/seo/__tests__/content-images.test.ts"
+   ]
+ }

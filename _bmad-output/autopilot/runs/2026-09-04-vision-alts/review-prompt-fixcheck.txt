@@ -1,0 +1,51 @@
+Do not load, read or follow any repository skill, workflow, checklist or step file (`.agents/skills/**`, `_bmad/**`, `.claude/skills/**`). No questions, no checkpoints; produce the findings and stop.
+
+Here are review findings that were supposedly fixed. For each, examine `git diff d9f1148..HEAD` plus the current code at the cited locations and answer only: `CLOSED | file:line | one-line evidence`, or `STILL_OPEN | file:line | what remains`. Judge ONLY these findings — do not report anything else.
+
+--- FINDINGS ---
+
+Blind Hunter findings:
+
+1. MAJOR | vision-alt.mts | --apply computed a fresh manifest but wrote only what the stored dry-run manifest named, with no cross-check — descriptions appended after the dry run were silently never written while the run reported success.
+
+2. MINOR | vision-alt.mts | Empty `rows` produced `Length Infinity–-Infinity … mean NaN` in the dry-run report.
+
+3. MINOR | vision-alt.mts | `ImageSite.setAlt` for gallery entries only took effect if called synchronously during the visit; a `touched` flag read after the loop silently dropped later writes.
+
+4. MINOR | vision-alt.mts | `flag()` took the next argv token unconditionally, so `--undo --report r.md` bound undoDir to the literal `--report`.
+
+5. MINOR | vision-alt.mts | The header claimed the count "comes back short and the run stops", but nothing asserted a total; a renamed article drops out silently.
+
+Edge Case Hunter findings:
+
+6. MAJOR | vision-alt.mts | A gallery `data-images` entry that is null or a primitive threw a TypeError on `img.alt` / `setAlt`, aborting the whole run over one bad entry.
+
+7. MAJOR | vision-alt.mts | A src-less `figureBlock` was accepted by findTargets, emitted `src: ""`, `mid: ""`, and then made a description mandatory that could not be satisfied.
+
+8. MAJOR | vision-alt.mts | The walker consumed an ordinal for a src-less node while `article-renderer.tsx` only increments inside `if (src)`.
+
+9. MINOR | vision-alt.mts | A null/non-object element in the descriptions file threw a bare TypeError instead of the intended message.
+
+10. MINOR | vision-alt.mts | A description containing a newline or `|` broke the dry-run markdown table and was written unvalidated.
+
+11. MINOR | vision-alt.mts | `--extract` with zero articles wrote a file containing one blank line rather than an empty file.
+
+Acceptance Auditor findings:
+
+12. MAJOR | vision-alt.mts | The ordinal rule changes (7/8 above) diverge from the walk that wrote the 369 stored alts in production — required either restoring the old counting or stating the change as intentional AND proving no published article holds a src-less figure or null gallery entry.
+
+13. MAJOR | _content-images.mts | The test file had no case for the new rules or for `galleryEntryAlt`.
+
+14. MAJOR | _content-images.mts | Descriptions carried no `src`, so an image swapped between extract and apply would receive the previous frame's description.
+
+15. MAJOR | vision-alt.mts | The live verifier checked 3 of the 14 affected articles, and was uncommitted.
+
+16. MINOR | verify-content-acceptance.mjs | The verifier's `described` set spanned the whole page HTML (hero, rails, thumbnails) and deduped case-sensitively where the writer enforces case-insensitively.
+
+17. MINOR | vision-alt.mts | "Malay" is enforced by nothing, while the contract lists it.
+
+18. MINOR | vision-alt.mts | A gallery `setAlt` re-encodes the whole `data-images` attribute.
+
+19. MINOR | vision-alt.mts | The header claimed parity with `article-renderer.tsx` that the walk does not have.
+
+20. MAJOR | _content-apply.mts | `updated_at = now()` re-dates 14 published articles, surfacing as the visible "Disemak" date, JSON-LD `dateModified` and sitemap `lastmod`. REBUTTAL: the finding offered "or record the re-dating as an accepted consequence", and that option was taken rather than changing `applyContentMigration`. The rendered HTML changed (369 alt attributes), so `dateModified` moving is correct; the repo ties visible "Disemak" to `dateModified` deliberately, so they move together or contradict. Recorded in docs/work-done/sep-04-2026-session-01/sep-04-2026-done-d24-vision-alt-UNDO.md.

@@ -1,0 +1,30 @@
+All 20 findings verified against `git diff d9f1148..HEAD` and current code. Walker tests run green (21/21).
+
+**Blind Hunter**
+
+1. `CLOSED | scripts/seo/vision-alt.mts:550-557` | `--apply` now diffs the freshly computed manifest's id list against the stored one and refuses on any difference; a same-article append is additionally caught by the postimage-hash re-check in `_content-apply.mts:112`.
+2. `CLOSED | scripts/seo/vision-alt.mts:487-492` | Zero rows throws "nothing to describe" before the report's `Math.min`/mean is ever computed.
+3. `CLOSED | scripts/seo/_content-images.mts:216-219` | `setAlt` re-serialises `data-images` inside the closure, not via a post-loop flag; test at `__tests__/content-images.test.ts:158` writes after the walk ends and asserts it lands.
+4. `CLOSED | scripts/seo/vision-alt.mts:121-129` | `flag()` throws when the next token starts with `--` or is absent.
+5. `CLOSED | scripts/seo/vision-alt.mts:28-35,157-165` | Header now states the miss is silent and names `--expect <n>` as the remedy; `assertExpectedCount` is enforced on both the extract (403) and describe (479) paths.
+
+**Edge Case Hunter**
+
+6. `CLOSED | scripts/seo/_content-images.mts:188-198` | A null/primitive/src-less entry is guarded before any property read, takes its ordinal and continues; covered by the test at line 108.
+7. `CLOSED | scripts/seo/_content-images.mts:170` | `if (typeof src !== 'string' || !src) return;` — a src-less `figureBlock` is never offered to `visit`, so `findTargets` cannot emit `src: ""`.
+8. `CLOSED | scripts/seo/_content-images.mts:166-183` | The early return precedes `ordinal++`, matching `article-renderer.tsx`'s `if (src)`; asserted at `__tests__/content-images.test.ts:76`.
+9. `CLOSED | scripts/seo/vision-alt.mts:266-270` | Null/array/non-object check runs before any `.id` read and reports file and index.
+10. `CLOSED | scripts/seo/vision-alt.mts:350-354` | `/[\r\n|]/` rejects the description as a hard failure before the table is written.
+11. `CLOSED | scripts/seo/vision-alt.mts:404-407` | `lines.length ? lines.join('\n') + '\n' : ''` writes a genuinely empty file.
+
+**Acceptance Auditor**
+
+12. `CLOSED | scripts/seo/_content-images.mts:140-151` | The change is stated as intentional and backed by a dated production census (all 102 published articles: zero src-less `image`/`figureBlock`, zero `galleryBlock`; target set byte-identical at 369/14). The proof is a recorded assertion in the header, not a committed rerunnable census script.
+13. `CLOSED | scripts/seo/__tests__/content-images.test.ts:76,108,218` | Dedicated cases for the src-less-figure rule, the broken-gallery-entry slot rule, and a `galleryEntryAlt` block; 21/21 pass.
+14. `CLOSED | scripts/seo/vision-alt.mts:257,272-282,334-339` | `Description.src` is mandatory at parse time and `describeDoc` aborts the run when the ordinal's current `src` disagrees.
+15. `CLOSED | scripts/seo/verify-content-acceptance.mjs:72-87,237` | All 14 essay slugs are resolved through the live sitemap and checked; the file is committed in `d9f1148..HEAD` (+114 lines) and the tree is clean apart from `_bmad-output/`.
+16. `CLOSED | scripts/seo/verify-content-acceptance.mjs:116-121,243,249` | `articleBody()` scopes the scan to `<article>`…`<footer>`, and the uniqueness keys are lowercased to match the writer.
+17. `CLOSED | scripts/seo/vision-alt.mts:72-80` | "Malay" moved out of the enforced rules into an explicit "WHAT NO RULE HERE CHECKS" section held by the human reading the dry run.
+18. `CLOSED | scripts/seo/_content-images.mts:211-215` | The whole-attribute re-encode is documented as the deliberate choice over hand-splicing JSON; `__tests__/content-images.test.ts:179` pins that an untouched gallery's bytes stay identical.
+19. `CLOSED | scripts/seo/_content-images.mts:29-40` | The header now explicitly disclaims general renderer parity and narrows the claim to alt-carrying node types; `vision-alt.mts` no longer asserts parity at all.
+20. `CLOSED | docs/work-done/sep-04-2026-session-01/sep-04-2026-done-d24-vision-alt-UNDO.md:34-45` | The re-dating is recorded as an accepted consequence with the reasoning (369 alts genuinely changed the HTML, so `dateModified` and the visible "Disemak" must move together) — the option the finding itself offered.

@@ -1,0 +1,8 @@
+The Edge Case Hunter's raw output was truncated to zero bytes by the reviewer
+agent's own rerun before it could be copied here. Its eleven findings are not
+lost: they are enumerated verbatim, one per numbered item, in
+`review-prompt-fixcheck.txt` (findings 6-11 under "Edge Case Hunter"), and each
+is answered with its closing evidence in `fixcheck-1-raw.txt`.
+
+Recorded rather than reconstructed. Writing the findings back out from memory
+would produce a file that looks like a reviewer artifact and is not one.

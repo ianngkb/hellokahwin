@@ -1,0 +1,69 @@
+{
+  "schema": 1,
+  "run_id": "2026-09-04-vision-alts-be679c69",
+  "date": "2026-09-04",
+  "repo": "hellokahwin",
+  "branch": "ianngkb/ahrefs-alts",
+  "slug": "vision-alts",
+  "worktree": "C:\\Users\\Ian Ng\\orca\\workspaces\\hellokahwin\\ahrefs-alts",
+  "mode": "dispatched",
+  "orchestrator_model": "claude-opus-5",
+  "started_at": "2026-09-04T14:18:21Z",
+  "ended_at": null,
+  "total_seconds": null,
+  "outcome": null,
+  "ship_report": null,
+  "phases": [
+    {
+      "name": "3",
+      "status": "started",
+      "model": "claude-opus-5",
+      "started_at": "2026-09-04T14:50:14Z",
+      "ended_at": null,
+      "seconds": null,
+      "notes": []
+    }
+  ],
+  "events": [
+    {
+      "at": "2026-09-04T16:09:37Z",
+      "kind": "redispatch",
+      "detail": "reviewer-visionalt died on the old account's session limit after all three layers had written; re-dispatched as a scoped fix-check on 3088f75 after the account switch"
+    }
+  ],
+  "review": {
+    "verdict_file": "C:\\Users\\Ian Ng\\.claude\\review-log\\hellokahwin-site\\ianngkb-ahrefs-alts.json",
+    "schema": 2,
+    "verdict": "clean",
+    "branch": "ianngkb/ahrefs-alts",
+    "sha": "3088f75d2f95b939d65587873f2519fd815c0dba",
+    "reviewed_code_head": "d9f1148a20635faa2f960e3f08c6fae46acf0f81",
+    "base": "master",
+    "critical": 0,
+    "major": 0,
+    "minor": 0,
+    "open_findings": 0,
+    "reviewer_summary": "fix-check on claude-opus-5, rung 0 (policy primary)",
+    "reviewer": null,
+    "account": null,
+    "rung2_layers": 0,
+    "layers": [],
+    "fixchecks": [
+      {
+        "sha": "3088f75d2f95b939d65587873f2519fd815c0dba",
+        "reviewer": "claude-opus-5",
+        "account": null,
+        "closed": 20,
+        "still_open": 0,
+        "seconds": 347
+      }
+    ],
+    "fix_checks": 1,
+    "quota_events": [],
+    "verdict_ts": "2026-09-04T16:19:07Z",
+    "artifact_dir": "C:\\Users\\Ian Ng\\orca\\workspaces\\hellokahwin\\ahrefs-alts\\_bmad-output\\autopilot",
+    "note": null,
+    "recorded_at": "2026-09-04T16:20:03Z",
+    "total_layer_seconds": null
+  }
+}
