@@ -62,7 +62,7 @@ import {
   type Manifest,
 } from './_db.mts';
 import { applyContentMigration, type ArticleRow } from './_content-apply.mts';
-import { parseGallery, walkArticleImages } from './_content-images.mts';
+import { galleryEntryAlt, parseGallery, walkArticleImages } from './_content-images.mts';
 
 const SCRIPT = 'backfill-image-alt';
 
@@ -181,7 +181,8 @@ function backfillDoc(doc: unknown, slug: string, id: string, title: string): Doc
     if (alt) used.add(alt);
     if (o.type === 'galleryBlock') {
       for (const g of parseGallery(o.attrs)) {
-        if (typeof g.alt === 'string' && g.alt.trim()) used.add(g.alt.trim());
+        const galleryAlt = galleryEntryAlt(g);
+        if (typeof galleryAlt === 'string' && galleryAlt.trim()) used.add(galleryAlt.trim());
       }
     }
     if (o.content) seed(o.content);

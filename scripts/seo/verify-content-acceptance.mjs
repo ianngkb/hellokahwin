@@ -59,6 +59,36 @@ const ALT_SAMPLE = [
   '/artikel/hantaran-mas-kahwin/hantaran-tunang',
 ];
 
+/**
+ * Every photo essay the vision pass touched — all fourteen, not just the three
+ * the brief named. "0 of 369 remain" is a claim about all of them, and eleven
+ * would otherwise never be looked at.
+ *
+ * SLUGS, resolved to paths through the live sitemap. An article's URL carries
+ * its primary category, and an editor can recategorise one at any time; a
+ * hardcoded path would then 404 and be read as a failure of this migration
+ * rather than as a move somebody made on purpose.
+ */
+const ESSAY_SLUGS = [
+  'amankila-bali',
+  'cheong-fatt-tze-mansion',
+  'grand-hyatt-kuala-lumpur',
+  'jw-marriott-kuala-lumpur',
+  'marriott-putrajaya',
+  'perkahwinan-di-ruma-hotel-kuala-lumpur-dengan-sentuhan-warisan-peranakan',
+  'perkahwinan-indah-di-laman-fajar-menyinsing-port-dickson',
+  'perkahwinan-romantis-di-jen-shangri-la-puteri-harbour',
+  'perkahwinan-taman-kebun-yang-minimalis-di-hulu-langat',
+  'sentosa-janda-baik',
+  'sime-darby-convention-centre',
+  'the-danna-langkawi',
+  'villa-warisan',
+  'yasaka-shrine',
+];
+
+/** Screen readers truncate around here; the generator was held to the same budget. */
+const MAX_ALT = 125;
+
 const get = async (path) => {
   const res = await fetch(SITE + path, { headers: { 'user-agent': 'hk-acceptance-check' } });
   return { status: res.status, html: await res.text() };
@@ -75,6 +105,20 @@ const decode = (s) =>
     .replace(/&amp;/g, '&')
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>');
+
+/**
+ * Just the article's own body.
+ *
+ * From `<article` to the footer. The rails, the hero card and the thumbnail
+ * strip live outside it and carry alts this migration never wrote, so measuring
+ * them would report somebody else's markup as this run's result.
+ */
+const articleBody = (html) => {
+  const start = html.indexOf('<article');
+  const from = start === -1 ? html : html.slice(start);
+  const end = from.indexOf('<footer');
+  return end === -1 ? from : from.slice(0, end);
+};
 
 let failures = 0;
 const check = (ok, label, detail = '') => {
@@ -158,6 +202,76 @@ for (const path of ALT_SAMPLE) {
     path,
     `${alts.length} images: ${described} described, ${fallback} on the fallback, ${empty} empty`,
   );
+}
+
+console.log('\n=== 6. photo essays describe the frame, not the position ===');
+{
+  const sitemap = await fetch(`${SITE}/sitemap.xml`, {
+    headers: { 'user-agent': 'hk-acceptance-check' },
+  });
+  const xml = sitemap.ok ? await sitemap.text() : '';
+  const paths = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)]
+    .map((m) => {
+      try {
+        return new URL(m[1]).pathname;
+      } catch {
+        return '';
+      }
+    })
+    .filter(Boolean);
+  const essays = ESSAY_SLUGS.map((slug) => paths.find((path) => path.endsWith(`/${slug}`)) ?? null);
+  const missing = ESSAY_SLUGS.filter((_, i) => essays[i] === null);
+  check(
+    missing.length === 0,
+    'all 14 essays are in the sitemap',
+    missing.join(', ') || 'none missing',
+  );
+
+  // An EMPTY alt is not counted as an offender. `alt=""` is deliberate on the
+  // thumbnail strip and the author avatar. The claim being checked is narrower
+  // and exact: no image is left carrying the article's title and its position.
+  const positionalPattern = / \u2014 gambar \d+$/;
+  const seen = [];
+  let described = 0;
+  let positionalLeft = 0;
+  for (const path of essays.filter(Boolean)) {
+    const { status, html } = await get(path);
+    // Scoped to the article body. The whole page also carries the hero cover
+    // and the related-article rails, whose alts this migration never wrote and
+    // where two cards for the same article legitimately share one. Asserting
+    // uniqueness across those would report somebody else's markup as a failure.
+    const body = articleBody(html);
+    const alts = [...body.matchAll(/<img[^>]*\salt="([^"]*)"/g)].map((m) => decode(m[1]));
+    const positional = alts.filter((a) => positionalPattern.test(a));
+    const real = alts.filter((a) => a.trim() && !positionalPattern.test(a));
+    const overBudget = real.filter((a) => a.length > MAX_ALT);
+    // Lowercased, because that is the rule `vision-alt.mts` actually enforces.
+    const keys = real.map((a) => a.toLowerCase());
+    const repeated = keys.filter((a, i) => keys.indexOf(a) !== i);
+    positionalLeft += positional.length;
+    described += real.length;
+    check(
+      status === 200 && positional.length === 0,
+      path,
+      `${alts.length} images: ${real.length} described, ${positional.length} still positional`,
+    );
+    check(overBudget.length === 0, `${path} within ${MAX_ALT} chars`, `${overBudget.length} over`);
+    check(repeated.length === 0, `${path} alts unique on the page`, `${repeated.length} repeated`);
+    seen.push(...real.map((a) => `${path.split('/').pop()}: ${a}`));
+  }
+  check(
+    positionalLeft === 0,
+    'no positional alt left on any essay',
+    `${described} described across ${essays.filter(Boolean).length} articles, ${positionalLeft} positional`,
+  );
+
+  // The brief asks for thirty rows to be READ, so print them. Asserting a count
+  // and hiding the text would not settle whether these read as descriptions.
+  const step = Math.max(1, Math.floor(seen.length / 30));
+  const sample = [];
+  for (let i = 0; i < seen.length && sample.length < 30; i += step) sample.push(seen[i]);
+  console.log(`\n--- ${sample.length} stored alts, evenly spaced through the essays ---`);
+  for (const line of sample) console.log(`  ${line}`);
 }
 
 console.log(`\n${failures === 0 ? 'ALL CHECKS PASSED' : `${failures} CHECK(S) FAILED`}`);

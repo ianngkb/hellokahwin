@@ -25,6 +25,7 @@ replacing the table.
 
 | Session | Sprint | Index |
 | --- | --- | --- |
+| `sep-04-2026-session-01` | Ahrefs audit, Phase 3 | [index](./sep-04-2026-session-01/README.md) |
 | `sep-02-2026-session-01` | Sprint 06 — _Deepen where the click is_ | [index](./sep-02-2026-session-01/README.md) |
 | `sep-01-2026-session-01` | Sprint 05 — _Build where the click is_ | [index](./sep-01-2026-session-01/README.md) |
 | `aug-30-2026-session-01` | Sprint 04 | [index](./aug-30-2026-session-01/README.md) |

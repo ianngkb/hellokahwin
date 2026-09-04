@@ -22,10 +22,17 @@
  * `fallbackImageAlt(title, ordinal)` — the same function, the same ordinal,
  * recomputed from the same shared walker the backfill used
  * (`_content-images.mts`). A regex for `/— gambar \d+$/` would also match an
- * alt an editor happened to write that way, and would not notice if the
- * ordinal had drifted. An exact match against a recomputed string cannot: if
- * the two walkers ever disagree about what counts as an image, the count comes
- * back short and the run stops instead of describing the wrong photograph.
+ * alt an editor happened to write that way, and would not notice if the ordinal
+ * had drifted. An exact match against a recomputed string never describes the
+ * wrong photograph.
+ *
+ * What it does instead is MISS one, silently, and that is the trade. The stored
+ * string carries the article's title, so renaming an article after the backfill
+ * ran stops it matching: those images quietly leave the target set, are never
+ * extracted and never described, and the run finishes reporting success while
+ * they keep the old title and a number. Nothing in the matching can notice.
+ * `--expect <n>` is how you make it notice — pass the number you were told to
+ * expect and a corpus that no longer holds it stops the run.
  *
  * ── THE MODES ─────────────────────────────────────────────────────────────
  *
@@ -57,11 +64,25 @@
  *   5. Unique on the page, case-insensitively, against the other new alts AND
  *      against the alts already stored there — the accessible-name collision
  *      `backfill-image-alt.mts` guards with its `(gambar N)` suffix.
+ *   6. No newline and no `|`, either of which breaks the row of the dry-run
+ *      table somebody reads before authorising the write.
+ *   7. Written from THIS photograph: each description carries the `src` it was
+ *      written against, and a mismatch stops the run.
+ *
+ * ── WHAT NO RULE HERE CHECKS ──────────────────────────────────────────────
+ *
+ * That the text is Malay, and that it describes the photograph rather than
+ * some other photograph. Both are held by a person reading the dry-run report,
+ * and neither is mechanisable here: these pages name venues and vendors in
+ * English ("The Danna Langkawi", "Sime Darby Convention Centre", "Jimmy Choo"),
+ * so any English-stopword test rejects correct alts, and no string check can
+ * see a picture. The dry-run report prints every row with its image URL for
+ * exactly this reason. Read a sample of it before passing `--apply`.
  *
  * Usage (DATABASE_URL injected, never typed):
- *   pwsh -File scripts/seo/run-with-db.ps1 pnpm exec tsx scripts/seo/vision-alt.mts --extract out.jsonl
- *   pwsh -File scripts/seo/run-with-db.ps1 pnpm exec tsx scripts/seo/vision-alt.mts --descriptions d.json --undo dir --report r.md
- *   pwsh -File scripts/seo/run-with-db.ps1 pnpm exec tsx scripts/seo/vision-alt.mts --descriptions d.json --undo dir --report r.md --apply
+ *   pwsh -File scripts/seo/run-with-db.ps1 pnpm exec tsx scripts/seo/vision-alt.mts --extract out.jsonl --expect 369
+ *   pwsh -File scripts/seo/run-with-db.ps1 pnpm exec tsx scripts/seo/vision-alt.mts --descriptions d.json --undo dir --report r.md --expect 369
+ *   pwsh -File scripts/seo/run-with-db.ps1 pnpm exec tsx scripts/seo/vision-alt.mts --descriptions d.json --undo dir --report r.md --expect 369 --apply
  */
 import 'dotenv/config';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -89,20 +110,58 @@ const PROSE_BUDGET = 4000;
 
 const argv = process.argv.slice(2);
 const { apply } = parseMode(argv);
+/**
+ * A flag's value, or nothing.
+ *
+ * The next token is REFUSED when it is itself a flag. Taking it unconditionally
+ * meant `--undo --report r.md` bound the undo directory to the literal string
+ * `--report`, passed the "you must pass --undo" gate, and created a directory
+ * named `--report` holding the manifest a production apply then trusts.
+ */
 const flag = (name: string): string | undefined => {
   const i = argv.indexOf(name);
-  return i === -1 ? undefined : argv[i + 1];
+  if (i === -1) return undefined;
+  const value = argv[i + 1];
+  if (value === undefined || value.startsWith('--')) {
+    throw new Error(`${name} needs a value, and "${value ?? '(nothing)'}" is not one`);
+  }
+  return value;
 };
 const extractPath = flag('--extract');
 const descriptionsPath = flag('--descriptions');
 const undoDir = flag('--undo');
 const reportPath = flag('--report');
+const expectRaw = flag('--expect');
+
+/**
+ * How many images this run expects to find on the positional fallback.
+ *
+ * Optional, and worth passing. An article renamed after the backfill ran no
+ * longer matches `fallbackImageAlt(title, ordinal)`, so its images drop out of
+ * the target set SILENTLY — never extracted, never described, and the run
+ * reports success while they keep the old title and a number forever. Nothing
+ * about the matching can notice that on its own. A count can.
+ */
+const expected = expectRaw === undefined ? undefined : Number(expectRaw);
+if (expected !== undefined && !Number.isInteger(expected)) {
+  throw new Error(`--expect takes a whole number, not "${expectRaw}"`);
+}
 
 if (!extractPath && !descriptionsPath) {
   throw new Error('nothing to do: pass --extract <file.jsonl> or --descriptions <file.json>');
 }
 if (descriptionsPath && (!undoDir || !reportPath)) {
   throw new Error('--descriptions needs --undo <dir> and --report <file.md>');
+}
+
+/** Stop the run when the corpus no longer holds what the operator was told it holds. */
+function assertExpectedCount(found: number): void {
+  if (expected === undefined || found === expected) return;
+  throw new Error(
+    `refusing to continue: ${found} images carry the positional fallback, but --expect said ${expected}. ` +
+      `An article renamed since the backfill ran stops matching and drops out of this set without a word, ` +
+      `so the difference is reported rather than absorbed.`,
+  );
 }
 
 interface Target {
@@ -129,11 +188,10 @@ function findTargets(a: { title: string; content: unknown }): Target[] {
   walkArticleImages(a.content, (site) => {
     const stored = typeof site.alt === 'string' ? site.alt.trim() : '';
     if (!stored || stored !== fallbackImageAlt(a.title, site.ordinal)) return;
-    const src = typeof site.src === 'string' ? site.src : '';
     out.push({
       ordinal: site.ordinal,
-      src,
-      mid: src ? getArticleVariantUrl(src, 'mid') : '',
+      src: site.src,
+      mid: getArticleVariantUrl(site.src, 'mid'),
       heading: site.heading,
       caption: typeof site.caption === 'string' && site.caption.trim() ? site.caption.trim() : null,
       oldAlt: stored,
@@ -184,6 +242,19 @@ interface Description {
   id: string;
   ordinal: number;
   alt: string;
+  /**
+   * The `src` of the photograph this sentence was written from.
+   *
+   * Not decoration, and not optional. `id` + `ordinal` names a POSITION, and a
+   * position can be given a different picture: swap the image at ordinal 12
+   * between the extract and the apply and the stored alt is still the
+   * fallback, the ordinal is still 12, every rule still passes, the manifest
+   * hash still matches — and a description of the old frame is written onto
+   * the new one. A screen-reader user is then told, with total confidence,
+   * about a photograph that is not there. Carrying the src is what makes the
+   * binding checkable, and `describeDoc` refuses to write when it disagrees.
+   */
+  src: string;
 }
 
 function readDescriptions(path: string): Description[] {
@@ -192,11 +263,27 @@ function readDescriptions(path: string): Description[] {
     throw new Error(`${path} must be a JSON array of { id, ordinal, alt }`);
   }
   return parsed.map((row, i) => {
-    const r = row as Partial<Description>;
-    if (typeof r.id !== 'string' || typeof r.ordinal !== 'number' || typeof r.alt !== 'string') {
-      throw new Error(`${path}[${i}] is not { id: string, ordinal: number, alt: string }`);
+    // The null check comes FIRST. Reading `.id` off a null throws a bare
+    // TypeError that says nothing about which file or which row.
+    if (!row || typeof row !== 'object' || Array.isArray(row)) {
+      throw new Error(`${path}[${i}] is ${JSON.stringify(row)}, not an object`);
     }
-    return { id: r.id, ordinal: r.ordinal, alt: r.alt.trim() };
+    const r = row as Partial<Description>;
+    if (
+      typeof r.id !== 'string' ||
+      typeof r.ordinal !== 'number' ||
+      typeof r.alt !== 'string' ||
+      typeof r.src !== 'string' ||
+      !r.src
+    ) {
+      throw new Error(
+        `${path}[${i}] is not { id: string, ordinal: number, alt: string, src: string }`,
+      );
+    }
+    if (!Number.isInteger(r.ordinal) || r.ordinal < 0) {
+      throw new Error(`${path}[${i}] has ordinal ${r.ordinal}; ordinals are whole and 0-based`);
+    }
+    return { id: r.id, ordinal: r.ordinal, alt: r.alt.trim(), src: r.src };
   });
 }
 
@@ -217,7 +304,7 @@ interface Written {
  */
 function describeDoc(
   a: { id: string; slug: string; title: string; content: unknown },
-  byOrdinal: Map<number, string>,
+  byOrdinal: Map<number, { alt: string; src: string }>,
 ): { next: unknown; written: Written[] } {
   const next = structuredClone(a.content);
   const written: Written[] = [];
@@ -234,13 +321,22 @@ function describeDoc(
     if (!stored || stored !== fallbackImageAlt(a.title, site.ordinal)) return;
 
     const where = `${a.slug} image ${site.ordinal + 1}`;
-    const alt = byOrdinal.get(site.ordinal);
-    if (alt === undefined) {
+    const supplied = byOrdinal.get(site.ordinal);
+    if (supplied === undefined) {
       throw new Error(
         `no description for ${where}. Every image on the positional fallback needs one; a half-described article looks finished and is not.`,
       );
     }
     byOrdinal.delete(site.ordinal);
+    const { alt } = supplied;
+
+    // The sentence has to belong to THIS photograph, not merely to this slot.
+    if (supplied.src !== site.src) {
+      throw new Error(
+        `description for ${where} was written from ${supplied.src}, but that ordinal now holds ${site.src}. ` +
+          `The image was replaced after the extract; re-extract and re-describe it rather than writing a description of a photograph that is no longer there.`,
+      );
+    }
 
     if (!alt) throw new Error(`empty description for ${where}`);
     if (alt.length > MAX_ALT) {
@@ -250,6 +346,11 @@ function describeDoc(
     }
     if (alt === stored || POSITIONAL_TAIL.test(alt)) {
       throw new Error(`description for ${where} is still the positional fallback: ${alt}`);
+    }
+    if (/[\r\n|]/.test(alt)) {
+      throw new Error(
+        `description for ${where} contains a newline or a pipe, which breaks the row of the dry-run table a human reads before authorising the write: ${JSON.stringify(alt)}`,
+      );
     }
     if (IMAGE_WORD_OPENER.test(alt)) {
       throw new Error(
@@ -267,7 +368,7 @@ function describeDoc(
     site.setAlt(alt);
     written.push({
       ordinal: site.ordinal,
-      src: typeof site.src === 'string' ? site.src : '',
+      src: site.src,
       oldAlt: stored,
       alt,
     });
@@ -299,7 +400,11 @@ try {
         }),
       );
     }
-    writeFileSync(extractPath, lines.join('\n') + '\n');
+    assertExpectedCount(images);
+    // An EMPTY file, not a file holding one blank line: the consumer reads this
+    // a line at a time and `JSON.parse('')` throws where "no articles" should
+    // simply have been nothing to read.
+    writeFileSync(extractPath, lines.length ? lines.join('\n') + '\n' : '');
     console.log(`${images} images on the positional fallback across ${lines.length} articles`);
     console.log(`extract -> ${extractPath}`);
   }
@@ -307,13 +412,13 @@ try {
   if (descriptionsPath && undoDir && reportPath) {
     const manifestPath = join(undoDir, '_manifest.json');
     const descriptions = readDescriptions(descriptionsPath);
-    const byArticle = new Map<string, Map<number, string>>();
+    const byArticle = new Map<string, Map<number, { alt: string; src: string }>>();
     for (const d of descriptions) {
-      const m = byArticle.get(d.id) ?? new Map<number, string>();
+      const m = byArticle.get(d.id) ?? new Map<number, { alt: string; src: string }>();
       if (m.has(d.ordinal)) {
         throw new Error(`two descriptions for article ${d.id} image ${d.ordinal + 1}`);
       }
-      m.set(d.ordinal, d.alt);
+      m.set(d.ordinal, { alt: d.alt, src: d.src });
       byArticle.set(d.id, m);
     }
 
@@ -371,6 +476,21 @@ try {
       );
     }
 
+    assertExpectedCount(rows.length);
+
+    // Nothing to describe is a STOP, not a quiet success. Without this, an
+    // empty descriptions file — or a second dry run after a successful apply,
+    // when no image is left on the fallback — writes a manifest with no
+    // entries, and the `--apply` that follows creates a whole backup table for
+    // nothing and prints "APPLIED — 0 article rows updated" as though it had
+    // done the job.
+    if (rows.length === 0) {
+      throw new Error(
+        'nothing to describe: no published article carries the positional fallback. ' +
+          'If this run was meant to write something, the descriptions file or the corpus is not what you think it is.',
+      );
+    }
+
     if (!apply) {
       mkdirSync(undoDir, { recursive: true });
       writeFileSync(manifestPath, JSON.stringify(manifest, null, 1));
@@ -418,6 +538,24 @@ try {
         raw = undefined;
       }
       const stored = requireManifest(raw, SCRIPT, manifestPath);
+
+      // The loop above just worked out, from the CURRENT database and the
+      // CURRENT descriptions file, exactly which articles need writing. The
+      // apply then writes only what the stored manifest names. If those two
+      // disagree the difference is silent: descriptions appended after the dry
+      // run pass every check above, are absent from the manifest, and are never
+      // written — a partial application reported as "APPLIED — N rows updated".
+      // `_content-apply.mts` cannot catch it, because it only ever sees the
+      // manifest's own list.
+      const now = manifest.entries.map((e) => e.id).sort();
+      const then = stored.entries.map((e) => e.id).sort();
+      if (now.length !== then.length || now.some((id, i) => id !== then[i])) {
+        throw new Error(
+          `refusing to apply: the dry run covered ${then.length} article(s), but ${now.length} need describing now. ` +
+            `Re-run the dry run against this descriptions file and read the diff again.`,
+        );
+      }
+
       const result = await applyContentMigration({
         sql,
         manifest: stored,
@@ -427,7 +565,9 @@ try {
           // A FRESH map per call: `describeDoc` consumes it, and the apply path
           // may re-run the transform.
           const supplied = new Map(
-            descriptions.filter((d) => d.id === row.id).map((d) => [d.ordinal, d.alt] as const),
+            descriptions
+              .filter((d) => d.id === row.id)
+              .map((d) => [d.ordinal, { alt: d.alt, src: d.src }] as const),
           );
           return describeDoc(row, supplied).next;
         },
