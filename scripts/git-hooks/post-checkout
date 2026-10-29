@@ -10,7 +10,7 @@
 # with the site source on disk. This hook makes that operation fail.
 #
 # Space is decided by TREE CONTENT, never by branch name: `docs/plat-10-11-12`
-# is a site-space branch and `feat/command-centre-dashboard` is a docs-space
+# is a site-space branch and `main` (the docs branch, formerly `feat/command-centre-dashboard`) is a docs-space
 # branch, so any name-based rule is wrong on day one.
 #
 # Deliberate override:  HK_GIT_SPACE_GUARD=off git checkout <ref>
