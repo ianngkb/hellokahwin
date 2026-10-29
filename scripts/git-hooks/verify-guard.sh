@@ -23,7 +23,7 @@
 #
 #   1. The harness NEVER hardcodes a branch name. RISK-09 measured that names in
 #      this repo lie - `docs/plat-10-11-12` is site source, and
-#      `main` (the docs branch, formerly `feat/command-centre-dashboard`) is the company record. A fixture picked by
+#      `feat/command-centre-dashboard` is the company record. A fixture picked by
 #      name is wrong the day someone renames a branch, and wrong TODAY on two
 #      branches that already exist.
 #

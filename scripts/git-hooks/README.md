@@ -56,7 +56,7 @@ branch, where a docs-space commit is always underfoot, and left open what should
 happen once these files live on `master`, which is site space. The decision:
 
 - **No branch name is ever trusted.** Names in this repo lie:
-  `docs/plat-10-11-12` is site source; `main` (the docs branch, formerly `feat/command-centre-dashboard`) is the
+  `docs/plat-10-11-12` is site source; `feat/command-centre-dashboard` is the
   company record. A fixture picked by name is wrong today, on branches that
   already exist.
 - **Every ref the clone can see is classified by tree content**, using
@@ -111,7 +111,7 @@ Any name-based rule is wrong on day one in this repo:
 | Branch                          | Space    |
 | ------------------------------- | -------- |
 | `docs/plat-10-11-12`            | **site** |
-| `main` (the docs branch, formerly `feat/command-centre-dashboard`) | **docs** |
+| `feat/command-centre-dashboard` | **docs** |
 
 The rule the hooks use, against the commit's tree:
 
@@ -132,7 +132,7 @@ literally reproduces the first of them: CONT-14 pushed its paper trail to a
 branch nobody reads.
 
 Counted the same afternoon: **412 files under `docs/` on `master`**, 1,025 on
-`main` (the docs branch, formerly `feat/command-centre-dashboard`). Every item that shipped on 01 Sept — PLAT-19
+`feat/command-centre-dashboard`. Every item that shipped on 01 Sept — PLAT-19
 (`0a46c9d`), DES-18 (`c56e46d`), SEO-13 (`82ca795`) — put its `docs/work-done/`
 entry on **master**, beside the code it documents.
 
@@ -169,7 +169,7 @@ removed. It is also how the hook re-enters itself to restore the tree.
 ## Where these files live
 
 They are committed on **both** lines of this repository — `master` (site) and
-`main` (the docs branch, formerly `feat/command-centre-dashboard`) (docs) — because a guard reachable from only one
+`feat/command-centre-dashboard` (docs) — because a guard reachable from only one
 branch is not reachable from a fresh clone, which is where a newcomer starts and
 where the hazard is most likely to be triggered. When you change one, port it to
 the other in the same session; `verify-guard.sh` case 0d clones the repo it
