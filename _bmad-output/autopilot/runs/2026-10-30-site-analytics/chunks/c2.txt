@@ -1,0 +1,9 @@
+src/lib/analytics/bot-list.ts
+src/lib/analytics/__tests__/bot-list.test.ts
+src/lib/analytics/geo.ts
+src/lib/analytics/__tests__/geo.test.ts
+src/lib/analytics/hash.ts
+src/lib/analytics/__tests__/hash.test.ts
+src/lib/analytics/uuid.ts
+src/lib/analytics/visitor-id.ts
+src/lib/analytics/device.ts

@@ -1,0 +1,11 @@
+src/app/api/v1/analytics/collect/route.ts
+src/app/api/v1/analytics/collect/__tests__/route.test.ts
+src/lib/api/rate-limit.ts
+src/lib/api/__tests__/rate-limit.test.ts
+src/lib/db/migrations/0005_analytics_events.sql
+src/lib/db/migrations/meta/_journal.json
+src/lib/db/schema/analytics-events.ts
+src/lib/db/schema/index.ts
+.env.example
+package.json
+eslint.config.mjs

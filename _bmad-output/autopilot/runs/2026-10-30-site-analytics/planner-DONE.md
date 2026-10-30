@@ -1,0 +1,5 @@
+STATUS: done
+
+Spec written to `_bmad-output/implementation-artifacts/spec-hellokahwin-site-analytics.md` (memlog at `_bmad-output/specs/spec-hellokahwin-site-analytics/.memlog.md`).
+
+The spec ports twn-new's first-party analytics to hellokahwin as a new `analytics_events` table (migration 0005, additive, RLS on), a `/api/v1/analytics/collect` route with salted daily visitor hashing, an anonymous `_hk_vid` cookie, Vercel-header geo, bot flagging and server-side UA parsing, plus a client tracker that keeps the existing `track()` signature and records pageviews only on the `(public)` route group. The admin gets `/admin/site-analytics` (top stats with previous period, chart, sources/UTM, top/entry/exit pages with Malay titles, countries→states→cities, browsers/OS/screens, KL date picker, humans/bots toggle) and a nav entry; it reads raw events through indexed, date-bounded, 10-minute-cached queries with no cron or rollups. Rollups, city estimation, 404 capture, scroll depth, GSC import and TWN business panels are explicitly out, with retention and admin self-exclusion left as two open questions.

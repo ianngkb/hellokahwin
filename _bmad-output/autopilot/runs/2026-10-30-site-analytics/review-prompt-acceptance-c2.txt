@@ -1,0 +1,422 @@
+Do not load, read or follow any repository skill, workflow, checklist or step file (`.agents/skills/**`, `_bmad/**`, `.claude/skills/**`). No questions, no checkpoints; produce the findings and stop.
+
+Below is the spec this change claims to implement. Compare it against the diff versus `4d94f0843de33ea984fb8356330ab170f8906a04`.
+
+Report a FINDING **only** for one of these three, and for nothing else:
+(a) a requirement of the spec is unmet or half-met; (b) the code contradicts an explicit statement of the spec; (c) a claimed verification is false, or a test cannot fail (it asserts nothing, or asserts something that holds with the change reverted).
+
+One line per finding:
+`SEVERITY(critical|major|minor) | file:line (or SPEC:<section>) | gap | what would close it`. If there are none, write exactly `NO_FINDINGS`.
+
+Everything else you notice — behaviour beyond the spec's scope, "the spec should document X", validation stricter than the spec in a harmless direction, wording or subtext choices — is NOT a finding. List those after the findings under a line reading exactly `--- NOTES ---`, one per line:
+`NOTE | file:line or SPEC:<section> | observation`. Notes do not block and are not fixed; write them anyway, they are the record of what you saw.
+
+Scope of this pass (chunk 2 of 8 — the full change is split into chunks; other chunks are reviewed separately): ONLY these files:
+- src/lib/analytics/bot-list.ts
+- src/lib/analytics/__tests__/bot-list.test.ts
+- src/lib/analytics/geo.ts
+- src/lib/analytics/__tests__/geo.test.ts
+- src/lib/analytics/hash.ts
+- src/lib/analytics/__tests__/hash.test.ts
+- src/lib/analytics/uuid.ts
+- src/lib/analytics/visitor-id.ts
+- src/lib/analytics/device.ts
+Get the diff with: git diff 4d94f0843de33ea984fb8356330ab170f8906a04..HEAD -- "src/lib/analytics/bot-list.ts" "src/lib/analytics/__tests__/bot-list.test.ts" "src/lib/analytics/geo.ts" "src/lib/analytics/__tests__/geo.test.ts" "src/lib/analytics/hash.ts" "src/lib/analytics/__tests__/hash.test.ts" "src/lib/analytics/uuid.ts" "src/lib/analytics/visitor-id.ts" "src/lib/analytics/device.ts" 
+You may read any other file in the repository for context, but report only problems located in the files above. pnpm-lock.yaml and the generated drizzle snapshot are out of scope.
+Because the change is chunked, a requirement whose implementation would live in files outside this chunk is not "unmet" just because this chunk lacks it — check the repository (HEAD) before filing an unmet-requirement finding, and only file findings anchored in this chunk's files or in requirements nothing in the repository implements.
+
+Known & accepted by the orchestrator — NOT findings: dev check D16 admin sign-in could not run locally (prod-only Clerk) — verified on prod in P4; the Analytics nav group is hidden from the group tab bar because single-tab groups render no tab bar (pre-existing component behaviour, same as Authors/Media).
+
+The orchestrator's decisions file (closed open questions) follows the spec and is part of it.
+--- SPEC ---
+---
+id: SPEC-hellokahwin-site-analytics
+status: done
+followup_review_recommended: true
+baseline_revision: 4d94f0843de33ea984fb8356330ab170f8906a04
+companions: []
+sources:
+  - _bmad-output/autopilot/runs/2026-10-30-site-analytics/TASK-planner.md
+  - _bmad-output/autopilot/runs/2026-10-30-site-analytics/decisions.md
+---
+
+> **Canonical contract.** This SPEC is the complete, preservation-validated contract for what to build, test, and validate. The brief and decisions file in `sources:` are for traceability only.
+
+# Spec — HelloKahwin Site Analytics (first-party, no rollups)
+
+**Branch:** `ianng89/hellokahwin-site-analytics`
+**Date:** 2026-10-30
+**Status:** auto-accepted (autopilot Phase 2, one-spec rule)
+**Memlog:** `_bmad-output/specs/spec-hellokahwin-site-analytics/.memlog.md`
+
+---
+
+## Why
+
+hellokahwin.com has no analytics at all: no GA tag, no first-party collector, no tables. The only trace is `src/lib/analytics/tracker.ts`, a no-op `track()` seam ported from twn-new with one live caller (`photo-gallery.tsx:197`). The owner runs the site on data (traffic, acquisition, which Malay wedding content lands) and currently reads none of it. twn-new already carries a proven first-party pipeline (collector, privacy model, bot flagging, admin dashboard); this work ports it, stripped of twn-new's rollup machinery and business-specific panels, because commit `4e8aaaf` removed every scheduled job from hellokahwin on purpose and nothing scheduled may return. There is no historical first-party data, so this is a clean build with nothing to backfill.
+
+## Capabilities
+
+- **CAP-1 Event collection endpoint**
+  - **intent:** The public site can POST a batch of analytics events to `/api/v1/analytics/collect` and have each one stored as a row in `analytics_events`, enriched server-side (hash, geo, device, bot flag).
+  - **success:** A valid batch of N events returns `200 {success:true,data:{accepted:N}}` and N rows exist; malformed JSON or a body failing the schema returns 400; more than 120 requests/min from one IP returns 429; a DB stall returns 503 `analytics_unavailable` within ~8s instead of hanging.
+
+- **CAP-2 Client tracker with preserved `track()` seam**
+  - **intent:** Every page in the `(public)` route group records a `pageview` on load and on every App Router pathname change, and any code calling the existing `track(event, props)` records a custom event, with no change at call sites.
+  - **success:** `track()` keeps the signature `(event: string, props?: Record<string, unknown>) => void`; the photo-gallery call site is untouched and `Photo Gallery Opened` rows appear with `props.photo_count`. No pageview fires from `/admin/*`, `/login`, `/no-access`, `/draft/*` (token preview), the `(admin-preview)` or `(print)` route groups, or from a framed render. Events are batched and flushed every 5s and on `visibilitychange: hidden` via `sendBeacon`.
+
+- **CAP-3 Anonymous visitor identity, privacy-parity with twn-new**
+  - **intent:** Visitors are counted uniquely per day without storing anything that identifies a person.
+  - **success:** No column holds a raw IP. `visitor_hash` = sha256(`ip|ua|<KL yyyymmdd>|ANALYTICS_SALT`). `visitor_id` is read only from the first-party `_hk_vid` cookie (UUID, 2 years, `Path=/; SameSite=Lax; Secure` on https, not httpOnly), never from the payload; absent or malformed cookie stores NULL and the row is still written. A missing `ANALYTICS_SALT` yields 503 and an error log, never an unsalted hash.
+
+- **CAP-4 Bot rows kept but flagged**
+  - **intent:** Bot traffic is recorded for inspection but excluded from every dashboard number by default.
+  - **success:** The collect route classifies the request UA with the ported `bot-list.ts` and stores `is_bot` + `bot_reason`. The dashboard defaults to humans and offers a Humans / Bots / All toggle whose labels show distinct-visitor counts per bucket; switching modes changes every panel.
+
+- **CAP-5 Geo from Vercel request headers**
+  - **intent:** Each event carries country, state code, city, latitude and longitude as Vercel resolved them, with no dataset lookups.
+  - **success:** `x-vercel-ip-country`, `x-vercel-ip-country-region` (normalised to 1–10 upper-case alphanumerics or NULL), `x-vercel-ip-city` (percent-decoded), `x-vercel-ip-latitude/longitude` populate the row; `cf-ipcountry` is the country-only fallback; local dev stores NULLs. No `cities15k.json` and no city/region estimation exist in the repo.
+
+- **CAP-6 Top stats with previous-period comparison**
+  - **intent:** An admin sees unique visitors, visits, pageviews, views/visit, bounce rate and average visit duration for the selected KL date range, each with a change badge against the preceding range of equal length.
+  - **success:** Six tiles render; each badge compares against `getPreviousPeriod(from, to)`; definitions match twn-new (visit = session; bounce = single-pageview session; duration = session span capped at 1800s, over sessions with >1 pageview; unique visitors = distinct `visitor_hash` over rows, not over sessions).
+
+- **CAP-7 Time-series chart**
+  - **intent:** The same six metrics are plotted per KL day across the range, switchable by tile.
+  - **success:** Clicking a stat tile re-plots the area chart; days are bucketed with `DATE(created_at AT TIME ZONE 'Asia/Kuala_Lumpur')`; an empty range renders an empty state, not a crash.
+
+- **CAP-8 Acquisition panels**
+  - **intent:** Admin sees where visitors come from: referrer host, UTM medium, UTM campaign.
+  - **success:** Three tables of top 20 by distinct visitors with percentage share. Referrer host is derived as twn-new does (`Direct / None` for empty; strip scheme and `www.`; keep host only). Empty UTM buckets as `(none)`. UTM params are captured once per page load from the landing URL.
+
+- **CAP-9 Content panels with resolved titles and page filter**
+  - **intent:** Admin sees top, entry and exit pages, reads article titles rather than slugs, and can scope the whole dashboard to one pathname.
+  - **success:** Top pages count distinct visitors per `pageview` pathname; entry/exit pick the first/last pageview per session (`DISTINCT ON (session_id)`, session-less rows excluded). Pathnames resolve to titles for `/` (Laman Utama), `/artikel` (Semua Artikel), `/artikel/<category>` (category name), `/artikel/<category>/<slug>` (article title), `/artikel/tag/<slug>` (tag name), `/artikel/author/<slug>` (author name), `/brand`; unresolved paths show the raw path. A page-search box (debounced, ILIKE on pathname within the range) sets `?page=` and every panel honours it.
+
+- **CAP-10 Geo drill-down: countries → states → cities**
+  - **intent:** Admin can click a country to scope the dashboard to it, then a state to scope further, and see cities under the current scope.
+  - **success:** `?country=` is validated to a real ISO alpha-2 (provider pseudo-codes `XX ZZ EU AP QO A1 A2 O1 T1` rejected); `?region=` only honoured with a country. Countries table stays global; States table is scoped to the country but not the region (navigator rule); Cities honours both. Malaysian state codes render as names from a static ISO 3166-2:MY map (e.g. `10` → Selangor); any other code renders raw. Country names come from `Intl.DisplayNames`.
+
+- **CAP-11 Technology panels**
+  - **intent:** Admin sees browsers, operating systems and screen-size buckets.
+  - **success:** Browser and OS are parsed server-side from the UA with `ua-parser-js` at collect time; screen buckets are Mobile (<768), Tablet (<1024), Desktop, Unknown from `screen_width`. Humans vs bots counts appear in the toggle (CAP-4).
+
+- **CAP-12 KL date-range picker**
+  - **intent:** Admin picks a range in Asia/Kuala_Lumpur calendar days via URL params.
+  - **success:** `?from=yyyy-MM-dd&to=yyyy-MM-dd`, default last 30 days ending KL today; presets (Today, 7d, 30d, 90d, This month, Last month); two native date inputs for custom; invalid or rolled-over dates fall back; `to` clamps to today; range longer than 366 days clamps to 366. Queries compare the bare `created_at` column against half-open UTC instants derived from the KL days (`[from 00:00+08, to+1 00:00+08)`).
+
+- **CAP-13 Admin navigation entry**
+  - **intent:** Admin can reach the dashboard from the console chrome.
+  - **success:** `ADMIN_NAV_GROUPS` gains an `analytics` group (icon `BarChart3Icon`, tab "Site analytics", href `/admin/site-analytics`, keywords `traffic pageviews visitors referrers utm countries browsers`), so it appears in the sidebar, the group tab bar and the ⌘K palette.
+
+- **CAP-14 Additive schema migration with RLS**
+  - **intent:** The `analytics_events` table exists in prod with the same protections as every other public-schema table.
+  - **success:** `src/lib/db/schema/analytics-events.ts` is exported from the schema index; migration `0005_analytics_events.sql` (plus `meta/_journal.json` and snapshot entries) creates the table, its indexes and `ALTER TABLE "analytics_events" ENABLE ROW LEVEL SECURITY;` with no policies. Nothing is altered or dropped.
+
+- **CAP-15 Dashboard fast without rollups**
+  - **intent:** The admin page renders in bounded time by reading `analytics_events` directly.
+  - **success:** Every getter is date-bounded and index-sargable; results are wrapped in `unstable_cache` (tag `site-analytics`, `revalidate: 600`, args in key); the cold fan-out runs through `runBatched(…, 4)`; each panel goes through the existing `safePanel` (6s deadline, degrade to empty on transient DB errors). A single failing panel never 500s the page.
+
+## Constraints
+
+- **No cron, no scheduled job, no GitHub Action, no Vercel cron entry.** Rollup tables, rollup refresh, retention sweeps and health checks from twn-new are out. Anything periodic is a follow-up requiring an owner decision.
+- **Additive-only migration**, hand-numbered `0005_…`, applied with `pnpm db:migrate`; RLS enabled on the new table with zero policies (matches `0001`). The app connects as `postgres` via the transaction pooler, so RLS costs nothing at runtime.
+- **Privacy:** no raw IP anywhere; salted daily hash; cookie is anonymous and first-party; `user_agent` is stored (parity with twn-new, enables later re-classification).
+- **`track()` signature unchanged**; `src/lib/analytics/tracker.ts` stays the import path.
+- **Public bundle budget:** the client tracker adds no third-party dependency (UA parsing is server-side); only `screen_width` and pathname/referrer/UTM leave the browser.
+- **Pageviews only on `(public)`**; the tracker component is mounted in `src/app/(public)/layout.tsx` as a `<Suspense>` sibling of `{children}` (never a wrapper, so `notFound()` keeps producing real 404s) and returns early when the pathname starts with `/draft/`.
+- **Collect route stays outside the Clerk matcher** (`isClerkRoute` lists only `/api/v1/inspire`); do not add it. Rate limiting is per-IP in-memory (port twn-new's `ipRateLimit` to `src/lib/api/rate-limit.ts`), `maxDuration = 15`.
+- **`ANALYTICS_SALT`** is a new required env var (`.env.example` + Vercel production/preview) and must exist before the deploy that enables collection.
+- **Admin UI is English**; public-facing title resolution uses the site's Malay labels where a static route has one.
+- **Reuse before port:** `safePanel`, `withDeadline`, `isTransientDbError`, `apiSuccess/apiError`, `ConsoleTable`, `EmptyState`, `StatCard`, `SectionCard`, the admin `PageHeader` and skeleton primitives already in hellokahwin are used as-is.
+- **Dependencies added:** `recharts`, `ua-parser-js` (+ `@types/ua-parser-js`). Not added: `iso-3166-2`, `react-day-picker`.
+- **Timezone:** all day bucketing, the default range and the hash rotation use Asia/Kuala_Lumpur; the collect route computes the KL day with `toLocaleDateString('en-CA', { timeZone: 'Asia/Kuala_Lumpur' })`.
+- **Query discipline:** compare the bare `created_at` column to bound parameters; never wrap the column in `AT TIME ZONE` inside a WHERE clause. Top-stats reads the scoped rows once (`WITH scoped AS MATERIALIZED`).
+
+## Non-goals
+
+- Rollup tables (`analytics_visitor_daily`, `analytics_session_daily`, `analytics_visitor_target_daily`, `analytics_rollup_days`) and `rollup-refresh.ts`.
+- City or region estimation from coordinates (`city-estimate.ts`, `cities15k.json`, backfill scripts).
+- 404 capture route and table, `not-found-tracker.tsx`.
+- Scroll-depth tracker, `TrackView`, article read-depth charts.
+- Conversions, upsell panels, lead Trace, live route, ad analytics, search analytics, peak hours.
+- Impersonation exclusion and deploy-gap column retry (hellokahwin has neither impersonation nor a deploy-before-migrate gap to guard).
+- Importing Google Search Console history (service account lost access), adding GA, any third-party analytics.
+- Retention/purge automation. Consent-banner changes.
+
+## Success signal
+
+After the deploy, an admin opens `/admin/site-analytics` and sees today's real visitors from hellokahwin.com by page, source, country and device, with bots filtered out, within ten minutes of the traffic happening, and no job ran to make that true. A deliberate visit to `https://hellokahwin.com/?utm_source=autopilot-verify` is visible in the UTM and Top pages panels of the same dashboard.
+
+## Assumptions
+
+- A first-party anonymous cookie plus a salted, daily-rotating hash does not change the site's PDPA posture or require a consent banner (same stance twn-new ships with).
+- hellokahwin's event volume stays far below the scale at which twn-new needed rollups (~500K rows in 30 days there). Raw date-bounded scans serve this dashboard in well under a second; the trigger to revisit is a `[analytics-slow]` log from `safePanel`, not a date.
+- The admin's own browsing is counted as traffic at launch (twn-new only excluded impersonation sessions).
+
+## Open Questions
+
+- Retention: with no cron the table grows unbounded. Is a manual script (`pnpm analytics:purge --older-than 730d`) acceptable as the mechanism, and what horizon?
+- Should allowlisted admins' own visits be excluded from pageviews (e.g. by a cookie set on `/admin` login)?
+
+---
+
+## Design notes for the dev worker
+
+### Files to create
+
+| Path | Ported from (twn-new) | Simplifications |
+| --- | --- | --- |
+| `src/lib/db/schema/analytics-events.ts` | `src/lib/db/schema/analytics-events.ts` | drop `region_source`, `city_source`, the `visitor_created` partial index |
+| `src/lib/db/migrations/0005_analytics_events.sql` + journal/snapshot | generated by `pnpm db:generate`, renamed, RLS line appended by hand | — |
+| `src/app/api/v1/analytics/collect/route.ts` (+ `__tests__/route.test.ts`) | same path | no impersonation, no 42703 retry, no city estimate; add server-side UA parse |
+| `src/lib/api/rate-limit.ts` | `src/lib/api/rate-limit.ts` | keep bounded Map + eviction |
+| `src/lib/analytics/tracker.ts` (replaces no-op) | `src/lib/analytics/tracker.ts` | no `ua-parser-js`; keys `_hk_sid`, `_hk_sid_ts`; mints `_hk_vid` |
+| `src/lib/analytics/visitor-id.ts` | `src/lib/visitor-id.ts` | client helper + server reader only; cookie `_hk_vid` |
+| `src/lib/analytics/{hash,geo,bot-list,sql-filters,region-name,resolve-page-titles}.ts` | same names | `hash` rotates on KL day; `region-name` is a static MY map; `resolve-page-titles` maps hellokahwin routes (`/artikel/…`) against `articles`, `inspireCategories`, `inspireTags`, `profiles` |
+| `src/lib/analytics/device.ts` | new | `ua-parser-js` → `{browser, os, device_type}` from the request UA |
+| `src/components/analytics/analytics-tracker.tsx` | `components/providers/analytics-provider.tsx` | adds `/draft/` early return |
+| `src/lib/admin/date-range.ts`, `src/lib/admin/run-batched.ts` | same | verbatim |
+| `src/components/admin/{date-range-picker,traffic-toggle,page-search,change-badge}.tsx` | same | picker: presets + native date inputs |
+| `src/app/(admin)/admin/site-analytics/{page,dashboard,loading}.tsx`, `{queries,cached,actions}.ts` | same | queries are the `rawOnly` branches only; remove `planRollupRead`, conversions, upsell |
+
+### Files to modify
+
+- `src/lib/db/schema/index.ts` — export the new schema.
+- `src/app/(public)/layout.tsx` — mount `<Suspense><AnalyticsTracker /></Suspense>` beside `{children}`.
+- `src/app/(admin)/admin-nav-sections.ts` — add the `analytics` group (CAP-13).
+- `package.json` — add `recharts`, `ua-parser-js`, `@types/ua-parser-js`.
+- `.env.example` — add `ANALYTICS_SALT=` with a one-line comment.
+
+### DB change
+
+```sql
+-- 0005_analytics_events.sql (additive only)
+CREATE TABLE "analytics_events" (
+  "id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+  "visitor_hash" text NOT NULL,
+  "visitor_id" uuid,
+  "session_id" text,
+  "event_name" text NOT NULL,
+  "pathname" text,
+  "referrer" text,
+  "utm_source" text, "utm_medium" text, "utm_campaign" text, "utm_term" text, "utm_content" text,
+  "browser" text, "os" text, "device_type" text, "screen_width" integer,
+  "country" text, "region" text, "city" text, "latitude" real, "longitude" real,
+  "user_agent" text,
+  "is_bot" boolean DEFAULT false NOT NULL,
+  "bot_reason" text,
+  "props" jsonb,
+  "created_at" timestamp with time zone DEFAULT now() NOT NULL
+);
+CREATE INDEX "idx_analytics_events_created_at" ON "analytics_events" ("created_at");
+CREATE INDEX "idx_analytics_events_pathname_created" ON "analytics_events" ("pathname", "created_at");
+CREATE INDEX "idx_analytics_events_session_created" ON "analytics_events" ("session_id", "created_at");
+CREATE INDEX "idx_analytics_events_country_created" ON "analytics_events" ("country", "created_at");
+ALTER TABLE "analytics_events" ENABLE ROW LEVEL SECURITY;
+```
+
+Additive-only: yes. No existing table, column or index is touched. Applied with `pnpm db:migrate` against `DATABASE_URL` as part of the ship step, before or after deploy in either order (the collect route 500s harmlessly, and the tracker swallows failures, if a beacon lands before the table exists).
+
+### How the dashboard stays fast without rollups
+
+1. **Date-bounded, sargable predicates.** Every query has `created_at >= $start AND created_at < $end` on the bare column, with bounds computed from KL days (`klWindow`), so `idx_analytics_events_created_at` (or a composite starting with the filter column) serves every panel. Range is capped at 366 days; there is no "All time".
+2. **One scan per panel, one scan for top stats.** Top stats materialises the scoped rows once and derives sessions and distinct visitors from that CTE. Dimension panels are a single `GROUP BY` over the scoped rows.
+3. **Caching.** `cached.ts` wraps each getter in `unstable_cache` with `revalidate: 600` and tag `site-analytics`; args (range, traffic, page, country, region) form the key, so the default view is warm for everyone for ten minutes.
+4. **Bounded fan-out.** `page.tsx` runs the 16 getters through `runBatched(…, 4)` (below the pool width of 5) and each through `safePanel` (6s deadline, 4s slow tripwire, transient errors degrade to an empty panel).
+5. **Scale guard.** When `[analytics-slow]` warnings appear in Vercel logs, that is the signal to revisit (follow-up: rollups would need a scheduler, which this project forbids today; a materialised view refreshed on admin visit is the no-cron alternative).
+
+### Follow-ups (recorded, not in scope)
+
+- GSC history import once the service account regains access.
+- Manual retention script and horizon (open question above).
+- Admin self-exclusion cookie (open question above).
+- 404 capture and scroll-depth events, if an admin panel is ever specified for them.
+
+---
+
+## Verification plan
+
+### Dev checks (run in the worktree before review)
+
+| ID | What | How (command or steps) | Expected | Kind |
+| --- | --- | --- | --- | --- |
+| D1 | Collect route accepts a valid batch | `pnpm vitest run src/app/api/v1/analytics/collect` — test posts 2 events with a Chrome UA, asserts `db.insert` called once with 2 rows, `is_bot=false`, `visitor_hash` from the mocked hash, `visitor_id` null without cookie | 200, `accepted: 2`; all assertions pass. **Goes RED when reverted** (route file absent → import fails) | unit |
+| D2 | Bot UA is stored flagged, not dropped | same test file: UA `Mozilla/5.0 (compatible; Googlebot/2.1)` | row has `is_bot=true`, `bot_reason` starts with `search_engine` (or the ported reason prefix) | unit |
+| D3 | Cookie is the only visitor-id source | same file: body includes `visitor_id`, no cookie → NULL; `Cookie: _hk_vid=<uuid>` → that uuid; malformed cookie → NULL | assertions pass | unit |
+| D4 | Validation and limits | same file: invalid JSON → 400; 51 events → 400; `screen_width: -1` → 400; mocked `ipRateLimit` returning 429 → 429 | status codes match | unit |
+| D5 | Missing salt never produces an unsalted hash | `src/lib/analytics/__tests__/hash.test.ts`: with `ANALYTICS_SALT` unset `generateVisitorHash` throws; with it set, same ip/ua on two KL days differ, same day equal; no substring of the ip appears in the output | pass | unit |
+| D6 | `track()` seam records | `src/lib/analytics/__tests__/tracker.test.ts` (jsdom): `track('Photo Gallery Opened', {photo_count: 3})` → queue has 1 item with `pathname = window.location.pathname`, `session_id` set, `props.photo_count = 3`; `flush()` calls `fetch('/api/v1/analytics/collect', …)`. **Goes RED when reverted** (no-op seam leaves the queue empty) | unit |
+| D7 | Tracker exclusions | same file: `trackPageview` with `window.self !== window.top` enqueues nothing; `AnalyticsTracker` rendered under a mocked `usePathname()` of `/draft/abc` calls `trackPageview` zero times, `/artikel/x/y` once | pass | unit |
+| D8 | KL window and previous period | `src/lib/admin/__tests__/date-range.test.ts`: `toUtcRange({from:'2026-10-01',to:'2026-10-01'})` → `2026-09-30T16:00:00.000Z`..`2026-10-01T16:00:00.000Z`; `getPreviousPeriod('2026-10-02','2026-10-31')` → `2026-09-02..2026-10-01`; `parseDateParam('2026-13-45', fb)` → fb | pass | unit |
+| D9 | Query-param guards | `src/lib/analytics/__tests__/sql-filters.test.ts`: `parseCountry('xx')` undefined, `parseCountry('my')` `'MY'`; `parseRegion('Unknown')` undefined, `parseRegion('10')` `'10'`; `parseTrafficMode('bogus')` `'human'` | pass | unit |
+| D10 | Title resolution for hellokahwin routes | `src/lib/analytics/__tests__/resolve-page-titles.test.ts` with mocked db: `/artikel/pakaian/baju-nikah` → article title; `/artikel/tag/hantaran` → tag name; `/` → `Laman Utama`; `/unknown` absent | pass | unit |
+| D11 | Nav registry | `src/app/(admin)/__tests__/admin-nav-sections.test.ts`: `flattenAdminNav(resolveAdminGroups())` contains href `/admin/site-analytics`; `findGroupForPath` for it returns group id `analytics` | pass | unit |
+| D12 | Migration shape | `grep -c 'ENABLE ROW LEVEL SECURITY' src/lib/db/migrations/0005_analytics_events.sql` and `grep -E 'DROP|ALTER TABLE "(articles|media|profiles)"' …` | 1; no matches; `meta/_journal.json` has `idx: 5, tag: 0005_analytics_events` | static |
+| D13 | Migration applies cleanly | `pnpm db:migrate` against the dev `DATABASE_URL`, then `psql -c "\d analytics_events"` (or drizzle studio) | table + 4 indexes + `rowsecurity = true` in `pg_tables` | integration |
+| D14 | Public bundle gains no parser | `pnpm build`; inspect `.next/static` chunk for the public layout: `grep -l "ua-parser" .next/static/chunks/*.js` | no match | build |
+| D15 | Whole-repo gates | `pnpm typecheck && pnpm lint && pnpm test && pnpm build` | all exit 0 | gate |
+| D16 | Local end-to-end | `pnpm dev`; open `http://localhost:3200/?utm_source=dev-verify&utm_campaign=dev-check`; then `/admin/site-analytics?from=<today>&to=<today>` | collect POST 200 in network tab; dashboard shows 1 visitor, Sources `Direct / None`, UTM campaign `dev-check`, Top pages `/` titled `Laman Utama`; `SELECT utm_source FROM analytics_events ORDER BY created_at DESC LIMIT 1` = `dev-verify` | manual |
+
+### Prod checks (run by the ship worker after the deploy, on the live site)
+
+| ID | URL / action | Expected observable | Method | Side effects & cleanup |
+| --- | --- | --- | --- | --- |
+| P1 | `GET https://hellokahwin.com/` (anon) | 200; HTML contains no `googletagmanager`/`gtag`; response has no Clerk script; network shows one `POST /api/v1/analytics/collect` within ~5s returning 200 `{"accepted":1}` | browser devtools or `curl -s` + visit | one `pageview` row from the verifier's browser (normal traffic) |
+| P2 | Visit `https://hellokahwin.com/?utm_source=autopilot-verify&utm_medium=verify&utm_campaign=site-analytics-ship`, then open `https://hellokahwin.com/artikel` in the same tab | both pageviews beacon 200; second one carries no UTM (captured once) | browser | **test rows tagged `utm_source='autopilot-verify'`**; left in place (two human rows); optional cleanup `DELETE FROM analytics_events WHERE utm_source = 'autopilot-verify';` |
+| P3 | `GET https://hellokahwin.com/admin/site-analytics` signed out | 307 → `/login` | `curl -sI` | none |
+| P4 | `GET https://hellokahwin.com/admin/site-analytics` as allowlisted admin, range = today, traffic = Humans | six stat tiles render with non-zero visitors; chart has today's point; **UTM medium panel lists `verify`** and **UTM campaign lists `site-analytics-ship`**; Top pages lists `/` and `/artikel` with Malay titles (`Laman Utama`, `Semua Artikel`); Countries lists `MY` (or the verifier's country) | browser, within 10 min of P2 (cache TTL) | none |
+| P5 | Same page, click Bots toggle | panels switch; counts in toggle labels sum (humans + bots ≥ total distinct) | browser | none |
+| P6 | Same page, click `MY` in Countries, then a state row | URL gains `?country=MY` then `&region=<code>`; States show names (e.g. Selangor); Cities scoped; Countries panel still global | browser | none |
+| P7 | Same page, page search `artikel` → pick `/artikel` | URL gains `?page=/artikel`; tiles and chart re-scope; chip shows title `Semua Artikel` | browser | none |
+| P8 | Date picker: Last 30 days, then custom `from=2026-01-01` | URL params update; no 500; empty days render as empty state not error | browser | none |
+| P9 | Bot beacon | `curl -X POST https://hellokahwin.com/api/v1/analytics/collect -H 'content-type: application/json' -A 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)' -d '{"events":[{"event_name":"pageview","pathname":"/autopilot-verify-bot"}]}'` | 200 `{"accepted":1}`; after ≤10 min the row is visible under the Bots toggle at Top pages `/autopilot-verify-bot`, absent under Humans | curl + browser | one bot row with a unique pathname; optional cleanup `DELETE FROM analytics_events WHERE pathname = '/autopilot-verify-bot';` |
+| P10 | Malformed beacon | same curl with `-d '{"events":[]}'` | 400 | curl | none |
+| P11 | Admin nav | sidebar shows an "Analytics" group with "Site analytics"; ⌘K search `traffic` returns it | browser | none |
+| P12 | Privacy | `SELECT column_name FROM information_schema.columns WHERE table_name='analytics_events'` via Supabase SQL editor; sample `SELECT visitor_hash, visitor_id FROM analytics_events ORDER BY created_at DESC LIMIT 3` | no `ip`-named column; hashes are 64 hex chars; `visitor_id` is a UUID or NULL | SQL (read-only) | none |
+| P13 | Preview route not tracked | open an article's `/draft/<token>` preview link from the admin editor | no `collect` request in the network tab | browser | none |
+| P14 | No scheduled automation introduced | `git grep -n "crons" vercel.json; ls .github/workflows` | `vercel.json` has no `crons`; no workflow files added by this branch | shell | none |
+
+---
+
+## Review Triage Log
+
+### 2026-10-30 — Review pass
+- verdicts: 59 findings — high 1, medium 24, low 27, false 7, maybe-false 0
+- findings:
+  - Blind Hunter
+    - `low` `reject` In-session pageviews repeat the landing `document.referrer`; self-referrals possible — Sources counts DISTINCT visitors, so a repeated referrer does not inflate a row; derivation is spec-mandated ("as twn-new does"); fixing means redefining Sources (spec edit).
+    - `low` `reject` Range "unique visitors" counts per-day `visitor_hash` — CAP-6 defines unique visitors as distinct `visitor_hash` over rows (twn parity); fix edits the spec.
+    - `low` `reject` Unused lat/long/UA/visitor_id columns and no retention — schema and `user_agent` storage are spec-mandated; retention is a closed decision (no purge in this run).
+    - `low` `reject` No consent/disclosure for `_hk_vid` — spec Assumptions + Non-goals ("Consent-banner changes") exclude it.
+    - `low` `reject` Collector accepts forged `/draft/` or junk pathnames — requires an attacker to already hold a draft token; display is admin-only; tracker sends `usePathname()` (no query string).
+    - `low` `patch` Rate limiter keys on first (spoofable) XFF entry vs collector's last — `getClientIp` switched to last entry (same root as VG-8, EC-13).
+    - `medium` `reject` 120/min per-IP limit vs carrier CGNAT; failed batches not re-queued — limit and per-IP keying are spec-mandated (CAP-1, Constraints); fix edits the spec.
+    - `low` `reject` `sendBeacon` false return / no `pagehide` listener — modern browsers fire `visibilitychange: hidden` on unload; fix adds branches for a rare path.
+    - `medium` `patch` UTMs dropped unless `utm_source` present — capture on any UTM key (same root as EC-4, EC-26).
+    - `high` `patch` `'pinterest'` substring flags Pinterest in-app browser users as bots — matched `pinterestbot` / `pinterest/0.` only, with tests.
+    - `low` `reject` X11 Linux Chrome heuristic, `bot_reason` not shown — twn-new parity; no user-facing harm for hellokahwin's audience.
+    - `low` `reject` Page filter rescopes session metrics to that page's rows — CAP-9 "every panel honours it" over scoped rows; redefining is a spec change.
+    - `low` `reject` Page search ignores country/region — admin convenience only; fix adds parameters through action/query/component.
+    - `medium` `patch` `props` unbounded keys/length on an anonymous endpoint — zod caps: ≤50 keys, key ≤100, string ≤1000 (same root as EC-8).
+    - `false` `reject` Title resolution misses `(public)/[slug]` and ignores category — `[slug]` only 301-redirects (never renders a pageview); `articles.slug` is UNIQUE (schema articles.ts).
+    - `low` `reject` Missing `ANALYTICS_SALT` fails silently — spec CAP-3 mandates 503 + error log; salt is set in the ship step before deploy.
+    - `medium` `patch` Tests missing for visitor-id, rate-limit, queries, cached, tracker component — grouped with VG-1..5 test patches.
+  - Verification Gap
+    - `medium` `patch` `scope()` filters and navigator getters never run — added `site-analytics/__tests__/queries.test.ts` asserting rendered SQL.
+    - `medium` `patch` `searchPagesAction` auth gate/input checks untested — added `__tests__/actions.test.ts`.
+    - `medium` `patch` Page date clamp untested — extracted `resolveRange()` into `src/lib/admin/date-range.ts` with unit tests.
+    - `medium` `patch` Real rate limiter and eviction bound never run — added `src/lib/api/__tests__/rate-limit.test.ts`.
+    - `low` `patch` Drill-down hrefs untested — added a dashboard href test.
+    - `low` `reject` Layout mount untested — D16 recorded a real headless-Chrome beacon (200) from the public layout; P1 re-checks in prod.
+    - `medium` `patch` One over-long referrer/UTM or nested prop 400s the whole batch — server truncates referrer/UTM; `track()` drops non-primitive props.
+    - `low` `patch` Rate limiter spoofable XFF fallback — same root as BH-6.
+    - `low` `patch` Page search has no range bound — action returns [] for from>to or >366 days.
+  - Edge Case Hunter
+    - `medium` `patch` `track()` records on `/draft/` (PhotoGallery in draft preview) — `enqueue()` returns early on `/draft/` paths.
+    - `medium` `patch` `init()` runs on draft pages so draft `track()` events flush — same root as previous; fixed by the `enqueue()` guard.
+    - `low` `patch` A → /draft/x → A drops the return pageview — ref updated before the draft early-return.
+    - `medium` `patch` UTM capture gated on `utm_source` — same root as BH-9.
+    - `medium` `patch` Referrer >2000 chars 400s batch — truncated server-side.
+    - `medium` `patch` UTM >200 chars 400s batch — truncated server-side.
+    - `medium` `patch` Nested props 400 the batch — `track()` filters to primitive values.
+    - `medium` `patch` Unbounded props — same root as BH-14.
+    - `low` `patch` >50 queued events exceed batch max — `flush()` sends chunks of 50.
+    - `low` `reject` `sendBeacon` false return ignored — same reasoning as BH-8.
+    - `medium` `patch` `crypto.randomUUID` missing on old WebViews throws in `track()` — shared `randomUuid()` fallback via `getRandomValues`.
+    - `medium` `patch` `_hk_vid` minting uses `crypto.randomUUID` — same fallback helper.
+    - `low` `patch` Spoofable first-XFF keying — same root as BH-6.
+    - `low` `reject` Eviction sorts 10k entries per new IP at capacity — attacker-only CPU cost on one instance; fix restructures eviction.
+    - `medium` `reject` CGNAT 429s — same as BH-7, spec-mandated.
+    - `false` `reject` No IP headers collapse visitors into one hash — Vercel always sets `x-real-ip` on deployed requests.
+    - `low` `patch` Search action unbounded range — same root as VG-9.
+    - `low` `reject` `pct` uses top-20 sum as denominator — twn-new parity; share among listed rows is a defensible reading of CAP-8.
+    - `medium` `patch` Zero-event days missing from chart — every KL day in range is filled with zeros.
+    - `false` `reject` `runBatched` size ≤0 infinite loop — only caller passes the constant 4.
+    - `low` `reject` PageSearch pending debounce after unmount — harmless stray call; React ignores setState after unmount.
+    - `low` `reject` Custom range >366 silently clamped — server clamp is the spec'd behaviour (CAP-12).
+    - `low` `reject` `1000.0k` formatting at 999,950+ — hellokahwin traffic never reaches that per panel.
+    - `false` `reject` Claim: a failing panel can 500 the page — spec mandates reusing `safePanel` as-is (degrades transient errors); all 16 getters ran clean against real Postgres in D16.
+    - `medium` `patch` Claim CAP-7 per-day plot — same root as the chart zero-day finding.
+    - `medium` `patch` Claim CAP-8 UTM capture — same root as BH-9.
+    - `low` `reject` Claim CAP-8 percentage share — same as the pct finding.
+  - Intent Alignment
+    - `medium` `patch` Read path (queries/page/dashboard) untested — queries/actions/range/href tests added; D16 ran every getter against real Postgres.
+    - `medium` `patch` Success signal expects `utm_source` visible but no UTM Source panel — added a UTM Source tab.
+    - `low` `reject` UTMs only on the landing pageview put the same visitor in `(none)` — CAP-8 mandates landing-URL capture once per load.
+    - `false` `reject` "Today" vs 30-day default — CAP-12 mandates the 30-day default; a Today preset exists.
+    - `false` `reject` `requireAdminSection` ignores section — matches the existing auth contract (single admin allowlist).
+    - `false` `reject` D14 grep not shown run — run in dev verification: 0 chunk matches for `ua-parser|UAParser`.
+
+## Auto Run Result
+
+Status: done (commits 8044ac6..a9ced39 on `ianng89/hellokahwin-site-analytics`, not pushed)
+
+**Summary.** Ported twn-new's first-party analytics without the rollups. The pieces:
+- the `analytics_events` table (migration 0005, additive, RLS on, no policies);
+- a public `/api/v1/analytics/collect` route (salted daily KL hash, `_hk_vid` read from the cookie only, Vercel-header geo, server-side UA parse, bot flag, per-IP rate limit, 503 when the salt is missing);
+- a real client tracker behind the unchanged `track()` seam, mounted as a Suspense sibling in `(public)/layout.tsx`, which skips `/draft/` and framed renders;
+- the `/admin/site-analytics` dashboard, which reads raw rows through date-bounded, cached, batched and `safePanel`-wrapped getters;
+- an Analytics group in the admin nav.
+
+Nothing scheduled was added.
+
+**Files changed (51).**
+- Schema/migration: `src/lib/db/schema/analytics-events.ts`, `schema/index.ts`, `migrations/0005_analytics_events.sql`, `meta/0005_snapshot.json`, `meta/_journal.json`.
+- Collector: `src/app/api/v1/analytics/collect/route.ts` (+ test), `src/lib/api/rate-limit.ts` (+ test), `src/lib/analytics/{bot-list,device,geo,hash,visitor-id,uuid}.ts` (+ tests).
+- Tracker: `src/lib/analytics/tracker.ts` (+ test), `src/components/analytics/analytics-tracker.tsx`, `src/app/(public)/layout.tsx`.
+- Dashboard: `src/app/(admin)/admin/site-analytics/{page,dashboard,loading}.tsx`, `{queries,cached,actions,drill-down}.ts` (+ tests), `src/components/admin/{date-range-picker,traffic-toggle,page-search,change-badge}.tsx`, `src/lib/admin/{date-range,run-batched}.ts` (+ tests), `src/lib/analytics/{sql-filters,region-name,resolve-page-titles}.ts` (+ tests), `src/app/(admin)/admin-nav-sections.ts` (+ test).
+- Config: `package.json`, `pnpm-lock.yaml`, `.env.example`.
+
+**Review findings.** 59 findings: 28 patched, 31 rejected, 0 deferred. Every rejection and its reason is in the triage log above.
+
+Patched entries by verdict: 1 high (Pinterest in-app browser classified as a bot), 15 medium, 9 low. These were grouped into 16 fixes:
+- `/draft/` guard in `enqueue`;
+- draft ref fix;
+- UTM capture on any key;
+- server-side truncation of referrer/UTM;
+- props bounds;
+- primitive-only `track()` props;
+- 50-event flush chunks;
+- `randomUuid` fallback;
+- last-XFF rate-limit key;
+- Pinterest crawler-only match;
+- chart zero-fill;
+- UTM Source panel;
+- `resolveRange` helper;
+- bounded search action;
+- tests for queries, actions, rate limiter and drill-down hrefs.
+
+**Follow-up review recommended: true.** This pass patched a high, the Pinterest bot classification. The unverified risk is that real Pinterest in-app traffic in production has not yet been seen classified as human; only unit tests with sample UAs cover it. The review layers have not re-checked the 16 patches.
+
+**Verification.**
+- D1–D12: pass, 61 test files and 789 tests.
+- D13: pass, on a throwaway local Postgres 18 (table, 4 indexes, `rowsecurity = t`).
+- D14: pass, 0 chunks match.
+- D15: pass. Typecheck, tests, prettier and build (against the local DB) all exit 0. Lint passes once `_bmad/**` is excluded: the only errors are in the local-only, git-excluded `_bmad/wds/scripts`.
+- D16: partial. A real headless-Chrome visit posted `/api/v1/analytics/collect` with 200 `accepted:1`, and `SELECT utm_source` returned `dev-verify`. Every dashboard getter, run against real Postgres, returned 1 visitor, `Direct / None`, campaign `dev-check`, UTM source `dev-verify`, and `/` titled `Laman Utama`. The admin page itself could not be viewed while signed in: hellokahwin's Clerk keys are production-only (`pk_live`, domain-locked) and Doppler `hellokahwin` holds no dev keys. Signed out, it gives 307 → `/login` as expected.
+
+**Residual risks.**
+- `ANALYTICS_SALT` must be set in Vercel production and preview before deploy. Until then the collector answers 503, which is harmless.
+- Single-tab nav groups are hidden by the existing `admin-group-tabs.tsx`. The Analytics group shows in the sidebar and ⌘K but not in the group tab bar, which CAP-13 lists; Authors and Media behave the same today.
+- The signed-in dashboard render has only been checked through its data path, not visually. P4–P8 in prod are the first visual check.
+
+--- DECISIONS (decisions.md) ---
+# Decisions — hellokahwin site analytics
+
+- [2026-10-30] Resume probe: fresh start. Branch ianng89/whelk = master HEAD, no spec, no prior run for this branch.
+- [2026-10-30] Existing analytics: only `src/lib/analytics/tracker.ts`, a no-op `track()` seam ported from twn-new, with call sites in the article page, photo gallery and mobile article bar. No analytics tables, no GA tag, no collect endpoint. So there is no first-party historical event data to backfill — per the brief's fallback, build from scratch.
+- [2026-10-30] Port twn-new's site analytics (analytics_events table, /api/v1/analytics/collect, client tracker, bot detection, geo from Vercel headers, admin Site Analytics dashboard) rather than adopting a third-party (Plausible/GA): the brief asks for parity with twn-new.
+- [2026-10-30] No cron / scheduled rollups. Commit 4e8aaaf (2026-10-29) deliberately removed all scheduled automation from hellokahwin. Dashboard reads raw events with indexes; at hellokahwin's traffic this is fine. twn-new's rollup tables are left out.
+- [2026-10-30] GSC history not imported as "historical site analytics": GSC is search clicks/impressions, not pageviews, and the GSC service account lost access to the property (per 4e8aaaf). Noted as a follow-up.
+- [2026-10-30] Preflight: project BMAD engine 6.10.0 vs library 6.12.0 — escalated (hard-block row).
+- [2026-10-30] User chose to upgrade the toolkit first ("upgrade it for me first"); ran brain/upgrade.sh on their instruction.
+- [2026-10-30] upgrade.sh finished clean: all six project engines now 6.12.4 (hellokahwin 6.10.0 -> 6.12.4). Copied the untracked _bmad/ from the main checkout into this worktree (excluded from git there).
+- [2026-10-30] hellokahwin's site branch is master; _bmad/ is tracked only on the docs branch 'main'. Added /_bmad/ to the shared info/exclude (no effect on main, where it is tracked) so the copied engine can never be committed to master.
+- [2026-10-30] Spec auto-accepted (Fable planner): `_bmad-output/implementation-artifacts/spec-hellokahwin-site-analytics.md`.
+- [2026-10-30] Spec open question "retention": no purge script in this run — growth is small at hellokahwin's traffic and any purge job would need a scheduler the project forbids. Recorded as follow-up.
+- [2026-10-30] Spec open question "admin self-exclusion": count admin visits (parity with twn-new, which only excludes impersonation). Follow-up if it skews numbers.
+- [2026-10-30] hellokahwin has a single Supabase DB (= production). Dev checks D13/D16 run against a throwaway local Postgres (scoop postgresql binaries) — never prod. The prod migration is applied only in the ship step.
+- [2026-10-30] ANALYTICS_SALT: generated as a random 32-byte hex at ship time and set in Doppler `hellokahwin` + Vercel production/preview before the deploy. Not a user-held secret.
+- [2026-10-30] Dev worker builds in this run's worktree (branch ianng89/whelk) rather than a child worktree: single chunk, avoids a second merge back.
+- [2026-10-30] Worktree branch is ianng89/hellokahwin-site-analytics (renamed before run start; run record opened as ianng89/whelk). Added _bmad/** and .tmp-ops/** to eslint globalIgnores (dev worker's pre-existing note #2).

@@ -1,0 +1,15 @@
+Do not load, read or follow any repository skill, workflow, checklist or step file (`.agents/skills/**`, `_bmad/**`, `.claude/skills/**`). No questions, no checkpoints; produce the findings and stop.
+
+Review the changes versus `4d94f0843de33ea984fb8356330ab170f8906a04` (run: `git diff 4d94f0843de33ea984fb8356330ab170f8906a04..HEAD` restricted as below). You have ONLY the diff and the code — no description of intent, on purpose. Hunt for real bugs: logic errors, security issues, broken contracts, regressions, missing error handling. Skip style nits. Output one line per finding: `SEVERITY(critical|major|minor) | file:line | problem | concrete suggested fix`. Else exactly: `NO_FINDINGS`
+
+Scope of this pass (chunk 5 of 8 — the full change is split into chunks; other chunks are reviewed separately): ONLY these files:
+- src/app/(admin)/admin/site-analytics/page.tsx
+- src/app/(admin)/admin/site-analytics/cached.ts
+- src/app/(admin)/admin/site-analytics/actions.ts
+- src/app/(admin)/admin/site-analytics/drill-down.ts
+- src/lib/admin/date-range.ts
+- src/lib/admin/run-batched.ts
+- src/lib/analytics/region-name.ts
+- src/lib/analytics/__tests__/region-name.test.ts
+Get the diff with: git diff 4d94f0843de33ea984fb8356330ab170f8906a04..HEAD -- "src/app/(admin)/admin/site-analytics/page.tsx" "src/app/(admin)/admin/site-analytics/cached.ts" "src/app/(admin)/admin/site-analytics/actions.ts" "src/app/(admin)/admin/site-analytics/drill-down.ts" "src/lib/admin/date-range.ts" "src/lib/admin/run-batched.ts" "src/lib/analytics/region-name.ts" "src/lib/analytics/__tests__/region-name.test.ts" 
+You may read any other file in the repository for context, but report only problems located in the files above. pnpm-lock.yaml and the generated drizzle snapshot are out of scope.

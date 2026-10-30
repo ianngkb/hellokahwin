@@ -1,0 +1,1290 @@
+{
+  "schema": 1,
+  "run_id": "2026-10-30-site-analytics-14b73469",
+  "date": "2026-10-30",
+  "repo": "hellokahwin",
+  "branch": "ianng89/whelk",
+  "slug": "site-analytics",
+  "worktree": "C:\\Users\\Ian Ng\\orca\\workspaces\\hellokahwin\\analytics",
+  "git_common_dir": "C:\\Users\\Ian Ng\\Documents\\Code\\hellokahwin\\hellokahwin\\.git",
+  "mode": "local",
+  "orchestrator_model": "claude-opus-5",
+  "started_at": "2026-10-29T17:49:48Z",
+  "ended_at": "2026-10-30T03:12:16Z",
+  "total_seconds": 33748,
+  "outcome": "shipped",
+  "ship_report": null,
+  "phases": [
+    {
+      "name": "R",
+      "status": "done",
+      "model": "claude-opus-5",
+      "started_at": "2026-10-29T17:49:57Z",
+      "ended_at": "2026-10-29T17:49:57Z",
+      "seconds": 0,
+      "notes": [
+        "fresh start: no spec, no prior run for this branch"
+      ]
+    },
+    {
+      "name": "0",
+      "status": "done",
+      "model": "claude-opus-5",
+      "started_at": "2026-10-29T17:49:58Z",
+      "ended_at": "2026-10-30T01:54:22Z",
+      "seconds": 29064,
+      "notes": []
+    },
+    {
+      "name": "1",
+      "status": "done",
+      "model": "claude-opus-5",
+      "started_at": "2026-10-29T17:49:58Z",
+      "ended_at": "2026-10-30T01:53:35Z",
+      "seconds": 29017,
+      "notes": [
+        "engine upgraded 6.10.0->6.12.4 on user's instruction"
+      ]
+    },
+    {
+      "name": "2",
+      "status": "done",
+      "model": "claude-fable-5-1",
+      "started_at": "2026-10-30T01:54:22Z",
+      "ended_at": "2026-10-30T02:03:26Z",
+      "seconds": 544,
+      "notes": []
+    },
+    {
+      "name": "3",
+      "status": "done",
+      "model": "claude-opus-5",
+      "started_at": "2026-10-30T02:03:26Z",
+      "ended_at": "2026-10-30T02:39:12Z",
+      "seconds": 2146,
+      "notes": [
+        "4 commits + lint ignore; D16 admin sign-in FAIL (prod-only Clerk), data path verified"
+      ]
+    },
+    {
+      "name": "4a",
+      "status": "done",
+      "model": "claude-opus-5",
+      "started_at": "2026-10-30T02:39:12Z",
+      "ended_at": "2026-10-30T03:11:18Z",
+      "seconds": 1926,
+      "notes": [
+        "clean at cf307ad after 2 fix-checks"
+      ]
+    },
+    {
+      "name": "4b",
+      "status": "done",
+      "model": "claude-opus-5",
+      "started_at": "2026-10-30T03:11:18Z",
+      "ended_at": "2026-10-30T03:12:11Z",
+      "seconds": 53,
+      "notes": [
+        "queued, not built"
+      ]
+    },
+    {
+      "name": "5",
+      "status": "unclosed",
+      "model": "claude-opus-5",
+      "started_at": "2026-10-30T03:12:16Z",
+      "ended_at": "2026-10-30T03:12:16Z",
+      "seconds": 0,
+      "notes": []
+    },
+    {
+      "name": "5",
+      "status": "done",
+      "model": "claude-opus-5",
+      "started_at": "2026-10-30T03:12:38Z",
+      "ended_at": "2026-10-30T03:12:38Z",
+      "seconds": 0,
+      "notes": []
+    }
+  ],
+  "events": [
+    {
+      "at": "2026-10-29T17:49:58Z",
+      "kind": "escalation",
+      "detail": "hellokahwin BMAD engine is 6.10.0 (main checkout, untracked, absent from worktree) vs library 6.12.0"
+    }
+  ],
+  "review": {
+    "verdict_file": "C:\\Users\\Ian Ng\\.claude\\review-log\\hellokahwin\\ianng89-hellokahwin-site-analytics.json",
+    "schema": 3,
+    "verdict": "clean",
+    "branch": "ianng89/hellokahwin-site-analytics",
+    "sha": "cf307ad9fc442249cf6e1b03bf85b3a30114c271",
+    "reviewed_code_head": "cf307ad9fc442249cf6e1b03bf85b3a30114c271",
+    "base": "4d94f0843de33ea984fb8356330ab170f8906a04",
+    "critical": 0,
+    "major": 0,
+    "minor": 0,
+    "open_findings": 0,
+    "findings": [
+      {
+        "id": "F1",
+        "severity": "major",
+        "file": "src/app/api/v1/analytics/collect/route.ts",
+        "line": 31,
+        "layers": [
+          "blind"
+        ],
+        "class": "defect-edge",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F2",
+        "severity": "major",
+        "file": "src/lib/api/rate-limit.ts",
+        "line": 43,
+        "layers": [
+          "blind",
+          "edge"
+        ],
+        "class": "defect-edge",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F3",
+        "severity": "major",
+        "file": "src/app/api/v1/analytics/collect/route.ts",
+        "line": 39,
+        "layers": [
+          "blind",
+          "edge"
+        ],
+        "class": "defect-edge",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F4",
+        "severity": "major",
+        "file": "src/app/api/v1/analytics/collect/route.ts",
+        "line": 24,
+        "layers": [
+          "edge"
+        ],
+        "class": "defect-edge",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F5",
+        "severity": "minor",
+        "file": "src/app/api/v1/analytics/collect/route.ts",
+        "line": 41,
+        "layers": [
+          "edge"
+        ],
+        "class": "defect-edge",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F6",
+        "severity": "minor",
+        "file": "src/lib/api/rate-limit.ts",
+        "line": 64,
+        "layers": [
+          "edge"
+        ],
+        "class": "defect-edge",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F7",
+        "severity": "minor",
+        "file": "src/app/api/v1/analytics/collect/__tests__/route.test.ts",
+        "line": 329,
+        "layers": [
+          "acceptance"
+        ],
+        "class": "test-gap",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F8",
+        "severity": "major",
+        "file": "src/lib/analytics/visitor-id.ts",
+        "line": 38,
+        "layers": [
+          "blind",
+          "edge"
+        ],
+        "class": "defect-edge",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F9",
+        "severity": "major",
+        "file": "src/lib/analytics/device.ts",
+        "line": 1,
+        "layers": [
+          "blind"
+        ],
+        "class": "defect-user",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F10",
+        "severity": "minor",
+        "file": "src/lib/analytics/bot-list.ts",
+        "line": 43,
+        "layers": [
+          "blind",
+          "edge"
+        ],
+        "class": "defect-edge",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F11",
+        "severity": "major",
+        "file": "src/lib/analytics/geo.ts",
+        "line": 55,
+        "layers": [
+          "edge"
+        ],
+        "class": "defect-edge",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F12",
+        "severity": "minor",
+        "file": "src/lib/analytics/geo.ts",
+        "line": 62,
+        "layers": [
+          "edge"
+        ],
+        "class": "defect-edge",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F13",
+        "severity": "minor",
+        "file": "src/lib/analytics/geo.ts",
+        "line": 40,
+        "layers": [
+          "edge"
+        ],
+        "class": "defect-edge",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F14",
+        "severity": "minor",
+        "file": "src/lib/analytics/uuid.ts",
+        "line": 10,
+        "layers": [
+          "edge"
+        ],
+        "class": "defect-edge",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F15",
+        "severity": "minor",
+        "file": "src/lib/analytics/visitor-id.ts",
+        "line": 36,
+        "layers": [
+          "edge"
+        ],
+        "class": "rebutted",
+        "state": "rebutted",
+        "class_overridden": false
+      },
+      {
+        "id": "F16",
+        "severity": "major",
+        "file": "src/lib/analytics/tracker.ts",
+        "line": 167,
+        "layers": [
+          "blind"
+        ],
+        "class": "rebutted",
+        "state": "rebutted",
+        "class_overridden": false
+      },
+      {
+        "id": "F17",
+        "severity": "minor",
+        "file": "src/lib/analytics/resolve-page-titles.ts",
+        "line": 49,
+        "layers": [
+          "blind",
+          "edge"
+        ],
+        "class": "defect-edge",
+        "state": "closed",
+        "class_overridden": true
+      },
+      {
+        "id": "F18",
+        "severity": "minor",
+        "file": "src/lib/analytics/resolve-page-titles.ts",
+        "line": 147,
+        "layers": [
+          "blind",
+          "edge"
+        ],
+        "class": "defect-edge",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F19",
+        "severity": "minor",
+        "file": "src/lib/analytics/tracker.ts",
+        "line": 107,
+        "layers": [
+          "blind",
+          "edge"
+        ],
+        "class": "defect-edge",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F20",
+        "severity": "minor",
+        "file": "src/lib/analytics/tracker.ts",
+        "line": 194,
+        "layers": [
+          "edge"
+        ],
+        "class": "defect-edge",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F21",
+        "severity": "minor",
+        "file": "src/lib/analytics/tracker.ts",
+        "line": 160,
+        "layers": [
+          "edge"
+        ],
+        "class": "duplicate",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F22",
+        "severity": "minor",
+        "file": "src/lib/analytics/tracker.ts",
+        "line": 56,
+        "layers": [
+          "edge"
+        ],
+        "class": "defect-edge",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F23",
+        "severity": "major",
+        "file": "src/app/(admin)/admin/site-analytics/queries.ts",
+        "line": 120,
+        "layers": [
+          "blind"
+        ],
+        "class": "rebutted",
+        "state": "rebutted",
+        "class_overridden": false
+      },
+      {
+        "id": "F24",
+        "severity": "minor",
+        "file": "src/app/(admin)/admin/site-analytics/queries.ts",
+        "line": 258,
+        "layers": [
+          "blind",
+          "edge"
+        ],
+        "class": "rebutted",
+        "state": "rebutted",
+        "class_overridden": false
+      },
+      {
+        "id": "F25",
+        "severity": "minor",
+        "file": "src/app/(admin)/admin/site-analytics/queries.ts",
+        "line": 113,
+        "layers": [
+          "blind",
+          "edge"
+        ],
+        "class": "rebutted",
+        "state": "rebutted",
+        "class_overridden": false
+      },
+      {
+        "id": "F26",
+        "severity": "minor",
+        "file": "src/lib/analytics/sql-filters.ts",
+        "line": 136,
+        "layers": [
+          "blind",
+          "edge"
+        ],
+        "class": "defect-edge",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F27",
+        "severity": "major",
+        "file": "src/app/(admin)/admin/site-analytics/queries.ts",
+        "line": 406,
+        "layers": [
+          "edge"
+        ],
+        "class": "rebutted",
+        "state": "rebutted",
+        "class_overridden": false
+      },
+      {
+        "id": "F28",
+        "severity": "major",
+        "file": "src/app/(admin)/admin/site-analytics/queries.ts",
+        "line": 110,
+        "layers": [
+          "edge"
+        ],
+        "class": "rebutted",
+        "state": "rebutted",
+        "class_overridden": false
+      },
+      {
+        "id": "F29",
+        "severity": "minor",
+        "file": "src/app/(admin)/admin/site-analytics/queries.ts",
+        "line": 210,
+        "layers": [
+          "edge"
+        ],
+        "class": "defect-edge",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F30",
+        "severity": "minor",
+        "file": "src/app/(admin)/admin/site-analytics/queries.ts",
+        "line": 312,
+        "layers": [
+          "edge"
+        ],
+        "class": "defect-edge",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F31",
+        "severity": "major",
+        "file": "src/app/(admin)/admin/site-analytics/page.tsx",
+        "line": 45,
+        "layers": [
+          "blind",
+          "edge"
+        ],
+        "class": "rebutted",
+        "state": "rebutted",
+        "class_overridden": false
+      },
+      {
+        "id": "F32",
+        "severity": "minor",
+        "file": "src/app/(admin)/admin/site-analytics/actions.ts",
+        "line": 27,
+        "layers": [
+          "blind",
+          "edge"
+        ],
+        "class": "defect-edge",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F33",
+        "severity": "minor",
+        "file": "src/app/(admin)/admin/site-analytics/actions.ts",
+        "line": 31,
+        "layers": [
+          "blind"
+        ],
+        "class": "defect-edge",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F34",
+        "severity": "minor",
+        "file": "src/app/(admin)/admin/site-analytics/page.tsx",
+        "line": 83,
+        "layers": [
+          "edge"
+        ],
+        "class": "defect-edge",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F35",
+        "severity": "minor",
+        "file": "src/lib/admin/run-batched.ts",
+        "line": 11,
+        "layers": [
+          "edge"
+        ],
+        "class": "defect-edge",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F36",
+        "severity": "minor",
+        "file": "src/app/(admin)/admin/site-analytics/__tests__/queries.test.ts",
+        "line": 48,
+        "layers": [
+          "acceptance"
+        ],
+        "class": "test-gap",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F37",
+        "severity": "minor",
+        "file": "src/app/(admin)/admin/site-analytics/__tests__/queries.test.ts",
+        "line": 55,
+        "layers": [
+          "acceptance"
+        ],
+        "class": "test-gap",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F38",
+        "severity": "minor",
+        "file": "src/components/admin/change-badge.tsx",
+        "line": 29,
+        "layers": [
+          "blind",
+          "edge"
+        ],
+        "class": "defect-user",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F39",
+        "severity": "minor",
+        "file": "src/app/(admin)/admin/site-analytics/dashboard.tsx",
+        "line": 31,
+        "layers": [
+          "blind",
+          "edge"
+        ],
+        "class": "defect-edge",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F40",
+        "severity": "minor",
+        "file": "src/app/(admin)/admin/site-analytics/dashboard.tsx",
+        "line": 518,
+        "layers": [
+          "blind",
+          "edge"
+        ],
+        "class": "defect-user",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F41",
+        "severity": "minor",
+        "file": "src/app/(admin)/admin/site-analytics/dashboard.tsx",
+        "line": 69,
+        "layers": [
+          "edge"
+        ],
+        "class": "defect-edge",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F42",
+        "severity": "minor",
+        "file": "src/app/(admin)/admin/site-analytics/dashboard.tsx",
+        "line": 159,
+        "layers": [
+          "acceptance"
+        ],
+        "class": "paperwork",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F43",
+        "severity": "minor",
+        "file": "src/components/admin/page-search.tsx",
+        "line": 56,
+        "layers": [
+          "blind",
+          "edge"
+        ],
+        "class": "defect-edge",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F44",
+        "severity": "minor",
+        "file": "src/components/admin/page-search.tsx",
+        "line": 75,
+        "layers": [
+          "edge"
+        ],
+        "class": "defect-user",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F45",
+        "severity": "minor",
+        "file": "src/components/admin/date-range-picker.tsx",
+        "line": 105,
+        "layers": [
+          "edge"
+        ],
+        "class": "defect-user",
+        "state": "closed",
+        "class_overridden": false
+      },
+      {
+        "id": "F46",
+        "severity": "minor",
+        "file": "src/components/admin/traffic-toggle.tsx",
+        "line": 24,
+        "layers": [
+          "edge"
+        ],
+        "class": "duplicate",
+        "state": "closed",
+        "class_overridden": false
+      }
+    ],
+    "findings_total": 46,
+    "by_class": {
+      "defect-edge": 27,
+      "test-gap": 3,
+      "defect-user": 5,
+      "rebutted": 8,
+      "duplicate": 2,
+      "paperwork": 1
+    },
+    "by_layer": {
+      "blind": {
+        "findings": 21,
+        "by_class": {
+          "defect-edge": 13,
+          "defect-user": 3,
+          "rebutted": 5
+        }
+      },
+      "edge": {
+        "findings": 37,
+        "by_class": {
+          "defect-edge": 25,
+          "rebutted": 6,
+          "duplicate": 2,
+          "defect-user": 4
+        }
+      },
+      "acceptance": {
+        "findings": 4,
+        "by_class": {
+          "test-gap": 3,
+          "paperwork": 1
+        }
+      }
+    },
+    "notes": [
+      {
+        "source": "acceptance",
+        "ref": "package.json:112",
+        "text": "`ua-parser-js@^2` ships its own types (`src/main/ua-parser.d.ts`), so `@types/ua-parser-js@^0.7.39` (the v0.7 API) is redundant and may disagree with the v2 types. The spec asks for it explicitly, so this is not a finding."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/api/v1/analytics/collect/route.ts:64",
+        "text": "The rate limit runs before the salt check, so with `ANALYTICS_SALT` missing, a client over 120/min gets 429 rather than 503. Harmless."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/api/v1/analytics/collect/route.ts:97-104",
+        "text": "The salt check runs after body validation, so with the salt missing a malformed body gets 400, not 503. A well-formed request still gets 503 plus an error log, which satisfies CAP-3."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/api/v1/analytics/collect/route.ts:94",
+        "text": "If none of the IP headers is present, every request hashes as `'unknown'`. Vercel always sets `x-real-ip`, and the earlier review already rejected this concern."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/api/v1/analytics/collect/route.ts:39",
+        "text": "`pathname` is required (1–2000 chars) at the API, while the DB column is nullable. This is stricter than the spec in a harmless direction."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/api/v1/analytics/collect/route.ts:55",
+        "text": "`screen_width` is capped at 10000. The spec states no upper bound; this is stricter and harmless."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/api/rate-limit.ts:43",
+        "text": "When the store is full and every bucket is live, eviction sorts all 10k entries on each new IP. The earlier review accepted this."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/api/rate-limit.ts:83",
+        "text": "The `keySuffix` option is beyond spec scope, and the collector does not use it."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/db/migrations/0005_analytics_events.sql",
+        "text": "The migration matches the spec's DB block. Indexes add an explicit `USING btree` (the default). Running D12's grep finds one `ENABLE ROW LEVEL SECURITY` and no DROP or ALTER of other tables, and the journal has `idx: 5, tag: 0005_analytics_events`."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/db/schema/analytics-events.ts",
+        "text": "`region_source`, `city_source` and the `visitor_created` partial index are dropped, as the design notes require. The schema is exported from `schema/index.ts:11`."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/middleware.ts:10-19",
+        "text": "Not part of this chunk. Checked at HEAD: `isClerkRoute` still leaves out the collect route, as the constraint requires."
+      },
+      {
+        "source": "acceptance",
+        "ref": "eslint.config.mjs:14-15",
+        "text": "Ignoring `_bmad/**` and `.tmp-ops/**` matches the decisions file. It is outside the spec's capabilities and has no impact on them."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/api/__tests__/rate-limit.test.ts:42",
+        "text": "The bound test runs 10,001 iterations and would fail if eviction went back to expired-only. It is a real test, just slow-ish."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/analytics/__tests__/hash.test.ts:71",
+        "text": "D5's check that no part of the IP appears in the hash is weak. A hex digest can never contain `.`, so the dotted-fragment loop and `not.toContain('.')` can't fail once the 64-hex test passes. Only `not.toContain(ip)` is a real check. Digit-only fragments such as `203` or `113` can't be asserted absent from a hex string anyway."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/analytics/visitor-id.ts:166",
+        "text": "On the client, `decodeURIComponent(match[1])` has no try/catch. A malformed `_hk_vid` cookie such as `%zz` would throw a URIError inside `track()` or a click handler, which is exactly the failure `uuid.ts` was written to avoid. This is a robustness issue, not a spec gap."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/analytics/visitor-id.ts:179",
+        "text": "No test checks the cookie attributes CAP-3 requires: `Max-Age` of 2 years, `Path=/`, `SameSite=Lax`, and `Secure` on https. `tracker.test.ts:83` only checks that a UUID-shaped `_hk_vid` exists. jsdom hides those attributes from `document.cookie`, so checking them would need a spy on the cookie setter."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/analytics/visitor-id.ts:199",
+        "text": "`VISITOR_ID_RE` accepts any 8-4-4-4-12 hex string, case-insensitive, not only v4 UUIDs. That's harmless because the column type is `uuid`, and it meets CAP-3's \"UUID\"."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/analytics/geo.ts:91",
+        "text": "The country from `x-vercel-ip-country` and `cf-ipcountry` is stored without upper-casing or validation, so `XX`, `T1` and similar values reach the table. The read side's `parseCountry` filters them for drill-down, but they can still show up as their own rows in the Countries panel. The spec only requires that the header populates the row."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/analytics/__tests__/geo.test.ts:107",
+        "text": "The tests assert latitude but never longitude. They also don't cover a non-numeric latitude/longitude header becoming null, or a malformed percent-sequence in the city header falling back to the raw value."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/analytics/device.ts:1",
+        "text": "`device.ts`, `uuid.ts` and `visitor-id.ts` have no unit test files of their own, although the Auto Run Result lists the whole group as \"(+ tests)\". Coverage does exist elsewhere: `parseDevice` and `parseVisitorIdCookie` through `collect/__tests__/route.test.ts:115,199`, and the `randomUuid` fallback and cookie minting through `tracker.test.ts:81,223`."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/analytics/device.ts:1",
+        "text": "`package.json` pairs `ua-parser-js ^2.0.10`, which ships its own types, with `@types/ua-parser-js ^0.7.39`, which describes v1. The spec requires both, and the named `UAParser` import works with v2. The v1 type package is probably redundant (`package.json` is outside this chunk)."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/analytics/bot-list.ts:69",
+        "text": "The bare `whatsapp` pattern marks every UA containing \"WhatsApp\" as `social:whatsapp`. The link-preview fetcher sends `WhatsApp/2.x`, but if the WhatsApp in-app webview ever adds that token, real visitors would be counted as bots. This is the same class of bug as the Pinterest fix; none was observed here."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/analytics/bot-list.ts:159",
+        "text": "The heuristic that flags desktop-Linux Chrome as a bot (`heuristic:datacenter_linux_chrome`) also catches real Linux desktop Chrome users. The triage log accepts this for parity with twn-new."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/analytics/bot-list.ts:37",
+        "text": "D2 expects `bot_reason` to start with `search_engine` \"(or the ported reason prefix)\". The ported prefix is `search:`, so Googlebot gets `search:googlebot`, which falls within the allowance."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/analytics/bot-list.ts:89",
+        "text": "The comments still describe twn-new's `/wa/` WhatsApp-click audit, which doesn't exist in hellokahwin. They're inherited from the port and only affect wording."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/analytics/tracker.ts:187",
+        "text": "Nothing tests that the `visibilitychange: hidden` listener calls `flush()`. The `sendBeacon` test sets `visibilityState` and then calls `flush()` directly, so the CAP-2 \"flush on visibilitychange\" wiring has no test."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/analytics/tracker.ts:199",
+        "text": "The `/draft/` guard in `enqueue()` reads `window.location.pathname`, not the pathname passed in. `trackPageview('/draft/x')` called from a non-draft URL would still be queued. The only caller, `AnalyticsTracker`, guards first, so nothing goes wrong today."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/analytics/tracker.ts:172",
+        "text": "`sendBeacon`'s `false` return is ignored, so a refused beacon is lost silently. This was already triaged and rejected in the spec's review log."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/components/analytics/analytics-tracker.tsx:60",
+        "text": "Every in-session pageview sends the landing `document.referrer`, because `trackPageview` falls back to it when no referrer is passed. This matches twn-new and was already triaged and rejected."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/components/analytics/analytics-tracker.tsx:44",
+        "text": "Re-renders on the same pathname (for example a query-only change) are deliberately not counted as pageviews. This matches CAP-2's \"pathname change\" wording."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/(public)/layout.tsx:32",
+        "text": "The tracker is mounted as a `<Suspense>` sibling of `<main>{children}</main>`, not a wrapper, as the constraint requires. `/login`, `/no-access`, `(admin-preview)` and `(print)` all sit outside `(public)`, so they are excluded because of where the tracker is mounted."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/analytics/resolve-page-titles.ts:100",
+        "text": "Article titles are looked up by slug only. The category segment and publish status are not checked, so `/artikel/<wrong-cat>/<slug>` resolves to the article's title. Slugs are UNIQUE, so the title is correct, but the path might not have rendered that page."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/analytics/resolve-page-titles.ts:23",
+        "text": "`/brand` resolves to the English \"Brand\". The spec lists `/brand` without a Malay label, so this is consistent with the constraint \"Malay labels where a static route has one\"."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/analytics/resolve-page-titles.ts:147",
+        "text": "Each lookup is wrapped in `Promise.allSettled`, so if one type fails, that type falls back to the raw path and nothing is logged. That is safe for display, but the failure is invisible."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/analytics/__tests__/tracker.test.ts:146",
+        "text": "The `/draft/abc` component test works because jsdom's `window.location` stays at `/`. The component's own guard is the only thing that stops the event, so the test would fail if that guard were removed."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/(admin)/admin/site-analytics/queries.ts:113-121",
+        "text": "`total_pageviews` only counts pageviews that have a `session_id`, so pageview rows without a session are dropped from the Pageviews tile and from views/visit. The tracker always sets `session_id`, so in practice only hand-posted beacons like P9's curl are affected. That fits the spec's \"visit = session\" definition, but the Pageviews tile is not a raw count of pageview rows."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/(admin)/admin/site-analytics/queries.ts:121-127",
+        "text": "A session that holds only custom events (no pageview) counts as a visit but never as a bounce, which lowers the bounce rate slightly. This matches twn-new's definition (bounce = exactly one pageview)."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/(admin)/admin/site-analytics/queries.ts:224-237",
+        "text": "`getChartData` always returns one zero-filled point per day, so an empty range comes back as all zeros, never as an empty array. Whether CAP-7's empty state still shows depends on `dashboard.tsx` treating \"all zeros\" as empty. That file is outside this chunk."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/(admin)/admin/site-analytics/queries.ts:309-315",
+        "text": "The referrer-host regex removes the scheme, `www.` and anything from the first `/`. A port (`host:8080`), or a query string on a referrer with no path (`https://x.com?a=1`), stays in the name. That is the same as twn-new; browsers usually send an origin plus `/`, so it rarely shows."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/(admin)/admin/site-analytics/queries.ts:258-265",
+        "text": "`pct` divides by the sum of the top-20 rows, not by all distinct visitors. Earlier triage accepted this as twn-new parity."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/(admin)/admin/site-analytics/queries.ts:559-586",
+        "text": "`searchPages` ignores the country and region scope (accepted as an admin convenience in earlier triage). It is date-bounded and escapes LIKE wildcards correctly."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/(admin)/admin/site-analytics/queries.ts:59-64",
+        "text": "`scope()` applies `regionFilter` even when there is no country. CAP-10's \"region only with a country\" is enforced instead in `page.tsx:88`, which drops `region` when `country` is absent."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/analytics/sql-filters.ts:87-90",
+        "text": "`countryFilter` only checks the alpha-2 shape, so pseudo-codes like `XX` would pass. That is safe today because `page.tsx` runs `parseCountry` first and drops them, but the filter does not guard against them itself."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/analytics/sql-filters.ts:136-139",
+        "text": "`regionFilter` does not upper-case its input. It depends on `parseRegion` having normalised the value first, which `page.tsx` does."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/(admin)/admin/site-analytics/queries.ts:33,176",
+        "text": "`AT TIME ZONE` only appears in a SELECT, for day bucketing. Every WHERE compares the bare `created_at` with bound `::timestamptz` parameters, which meets the query-discipline constraint. Top stats and the chart both use `WITH scoped AS MATERIALIZED`."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/admin/date-range.ts:4",
+        "text": "The header says the file is \"Ported verbatim\" from The Wedding Notebook, but it adds `MAX_RANGE_DAYS`, `resolveRange` and `isBoundedRange`. These came from the review patch (VG-3/VG-9). The behaviour matches CAP-12; only the \"verbatim\" label in the design-notes table is no longer accurate."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/admin/date-range.ts:155",
+        "text": "When `from` is after `to`, `resolveRange` resets both ends to the default 30-day window rather than falling back only the bad param. CAP-12 says invalid dates \"fall back\" and does not cover from > to, so this is a reasonable reading."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/(admin)/admin/site-analytics/page.tsx:96",
+        "text": "`runBatched` runs 17 thunks, not the \"16 getters\" in the design notes. The extra one is the second `getCachedTopStats` call for the previous period. There are still 16 distinct getters."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/(admin)/admin/site-analytics/page.tsx:155",
+        "text": "Countries is global over geo but still filtered by `page` and `traffic`. That fits both CAP-10 (\"stays global\" as the navigator) and CAP-9 (\"every panel honours\" `?page=`)."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/(admin)/admin/site-analytics/page.tsx:159",
+        "text": "With no country selected, States skips the query and returns `[]`. CAP-10 scopes States to a country, so an empty panel without one is consistent."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/(admin)/admin/site-analytics/page.tsx:81",
+        "text": "The `?page=` value reaches the cache key and `pageFilter` without any length bound or normalisation. It is admin-only and goes through bound parameters, so there is no injection risk, but every distinct value creates a new cache entry."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/(admin)/admin/site-analytics/actions.ts:32",
+        "text": "Page search does not take country or region. This was already raised and rejected in triage (BH-13). CAP-9 only asks for the search to be bounded by the date range."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/(admin)/admin/site-analytics/cached.ts:32",
+        "text": "The cache uses tag `site-analytics` and `revalidate: 600`, and the getter args are folded into the key implicitly, as CAP-15 requires. Nothing in the repo calls `revalidateTag('site-analytics')`, so the 10-minute TTL is the only way entries go stale."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/analytics/region-name.ts:10",
+        "text": "The 16 ISO 3166-2:MY codes match the standard (`01` Johor … `16` Putrajaya). The admin UI uses the Malay state names (e.g. \"Wilayah Persekutuan Kuala Lumpur\", \"Pulau Pinang\"); CAP-10 only gives `10` → Selangor as an example."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/analytics/__tests__/region-name.test.ts:1",
+        "text": "This test fails if the change is reverted, because the module would be missing. Its assertions check real mapping and fallback behaviour, so it can fail on a wrong implementation."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/admin/run-batched.ts:8",
+        "text": "Passing `size <= 0` would loop forever. The only caller passes 4, and triage already rejected this as a false positive."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/(admin)/admin/site-analytics/__tests__/queries.test.ts:33",
+        "text": "The scoped-getter test does check CAP-12's discipline: bare `created_at` compared with `>=` and `<` against `::timestamptz` parameters, no `<=`, no `AT TIME ZONE` after `WHERE`, and the exact UTC bounds for the KL days."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/(admin)/admin/site-analytics/__tests__/queries.test.ts:45",
+        "text": "`sql.split('WHERE')[1]` only looks at the text after the first `WHERE`, so a zone-wrapped `created_at` in a later `WHERE` would go unnoticed. `getCities` has only one `WHERE`, so it is fine here."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/(admin)/admin/site-analytics/__tests__/queries.test.ts",
+        "text": "No test checks top stats: the `WITH scoped AS MATERIALIZED` constraint or the CAP-6 definitions (bounce, the 1800s duration cap, distinct `visitor_hash`). This chunk doesn't claim to test them."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/(admin)/admin/site-analytics/__tests__/queries.test.ts",
+        "text": "The \"`?region=` only honoured with a country\" rule lives in `page.tsx:88` and has no test in this chunk."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/(admin)/admin/site-analytics/__tests__/queries.test.ts:77",
+        "text": "The `getChartData` zero-fill test covers the CAP-7 per-KL-day points, including days with no data."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/analytics/__tests__/sql-filters.test.ts:42",
+        "text": "The D9 assertions match the spec exactly. The test also covers all nine provider pseudo-codes from CAP-10."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/analytics/__tests__/sql-filters.test.ts:142",
+        "text": "The `countryFilter` sanity test sits inside the `regionFilter` describe block. This is only about organisation."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/admin/__tests__/date-range.test.ts:11",
+        "text": "The D8 assertions match the spec's values exactly. `resolveRange` covers the CAP-12 30-day default, clamping `to` to today, falling back when from > to, and the 366-day clamp."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/admin/__tests__/date-range.test.ts:73",
+        "text": "`resolveRange` is tested with a local-midnight `Date` that stands in for `getKLToday()`. `getKLToday()` itself (the `toLocaleDateString` path for the KL zone) is not tested."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/lib/admin/__tests__/run-batched.test.ts:16",
+        "text": "Checks that order is kept and peak concurrency equals the batch size. Size ≤ 0 is not tested; the triage log already rejected that case as unreachable."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/(admin)/admin/site-analytics/__tests__/actions.test.ts:33",
+        "text": "Covers the auth gate and the bounded-range rejection. Neither query-whitespace trimming nor how `traffic` is parsed when passed to `searchPages` is checked."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/(admin)/admin/site-analytics/__tests__/drill-down.test.ts:23",
+        "text": "`regionHref` builds a region link even when there is no country in the search string. The page ignores such a region (`page.tsx:88`), so it causes no harm, but no test covers it."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/(admin)/admin/site-analytics/dashboard.tsx:439-481",
+        "text": "The six KPI tiles are hand-built buttons, not `StatCard`. `StatCard` has no `onClick` or pressed state, only a link, so it can't do CAP-7's click-to-switch chart. That reason holds, but nothing in the code records it."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/(admin)/admin/site-analytics/dashboard.tsx:182-272",
+        "text": "`DataTable` is a custom bar-list, not `ConsoleTable`. It reads like twn-new's panel UI. The spec's success criteria only say \"tables\", so I left this as a note."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/(admin)/admin/site-analytics/dashboard.tsx:492",
+        "text": "The chart empty state is `chartData.every(d => d.unique_visitors === 0)`. That is true for an empty array, so an empty range shows the empty state and doesn't crash. This meets CAP-7 and matches the zero-fill comment."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/(admin)/admin/site-analytics/dashboard.tsx:86",
+        "text": "The \"30 minutes of inactivity\" session text matches `SESSION_TIMEOUT_MS` in `tracker.ts:22`. The 30-minute duration cap matches CAP-6's 1800s."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/(admin)/admin/site-analytics/dashboard.tsx:541",
+        "text": "It adds a \"UTM Source\" tab on top of CAP-8's three acquisition tables. This came from the triage patch for the success signal and goes beyond scope."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/(admin)/admin/site-analytics/dashboard.tsx:568-583",
+        "text": "The Locations panel's `key` resets the tab to one level below the current drill. \"Countries\" always renders the global `countries` prop, and States shows a prompt when no country is set. This is consistent with CAP-10; whether the data is scoped correctly is decided in `queries.ts`/`page.tsx`, outside this chunk."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/(admin)/admin/site-analytics/dashboard.tsx:65-79",
+        "text": "Country names come from `Intl.DisplayNames` and are gated by `isCountryCode`, so pseudo-codes like `XX` render raw (CAP-10)."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/components/admin/change-badge.tsx:27",
+        "text": "When the previous period is 0 it shows an em-dash instead of a percentage. `higherIsBetter=false` on Bounce Rate turns a rise red. Neither is set by the spec; both are sensible."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/(admin)/admin/site-analytics/loading.tsx:1-33",
+        "text": "It uses the existing `LoadingRows` primitive plus raw `animate-pulse` divs. The repo has no `Skeleton` component, so nothing is left unused."
+      },
+      {
+        "source": "acceptance",
+        "ref": "SPEC:Verification",
+        "text": "No test renders `dashboard.tsx` or `change-badge.tsx`. The \"dashboard href test\" from triage is in `__tests__/drill-down.test.ts`, which tests `drill-down.ts`, not this component. No dev check claims coverage of these files, so this isn't a false-verification finding."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/(admin)/__tests__/admin-nav-sections.test.ts:29",
+        "text": "The test \"keeps Articles first\" still passes if the change is reverted. It doesn't check anything about CAP-13; it's a regression guard for the `/admin` redirect target and can only fail if someone reorders the groups. The other three tests in this file would fail on revert (href present, `findGroupForPath` returns `analytics`, ⌘K \"traffic\" finds it), so D11 is genuinely tested."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/(admin)/__tests__/admin-nav-sections.test.ts:11",
+        "text": "No test checks the group's icon (`BarChart3Icon`), its label \"Analytics\", or the full keyword string. The code matches the spec on all three."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/components/admin/date-range-picker.tsx:157",
+        "text": "\"Rolled-over dates fall back\" and \"range > 366 clamps\" (CAP-12) are left to the server (`resolveRange`). The custom form only blocks from>to and to>today, so someone can submit a 2-year range and the server quietly shortens it to 366 days. The earlier triage rejected that as spec'd behaviour."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/components/admin/date-range-picker.tsx:85",
+        "text": "Applying a preset or custom range keeps the existing `page`, `country`, `region` and `traffic` params. That fits \"every panel honours it\", but a chosen page stays filtered even when it has no rows in the new range."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/components/admin/date-range-picker.tsx:95",
+        "text": "The preset match is a plain from/to comparison. On the 1st of a month, \"Today\" and \"This month\" give the same range, and the label always shows \"Today\" (first match wins). This is cosmetic only."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/components/admin/page-search.tsx:63",
+        "text": "The search sends from/to/traffic but not country/region, so the results can include pages with no rows in the current geo scope. The earlier triage rejected this as admin convenience."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/components/admin/page-search.tsx:80",
+        "text": "The 300ms debounce timer is never cleared on unmount, so one stray server-action call can happen after navigation. The earlier triage rejected this as harmless."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/components/admin/page-search.tsx:86",
+        "text": "Picking a page doesn't drop `country`/`region`, so the page filter is applied on top of any active geo drill-down. This fits the spec, but the chip doesn't mention the geo scope."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/components/admin/traffic-toggle.tsx:25",
+        "text": "`formatCount` uses `toFixed(1)`, so 999,950 and above shows as \"1000.0k\". The earlier triage rejected this as unreachable at hellokahwin's traffic."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/components/admin/traffic-toggle.tsx:36",
+        "text": "The toggle has no tests. CAP-4 (labels show distinct-visitor counts per bucket, switching changes every panel) relies on page.tsx passing the `trafficCounts` it computes and on the server re-reading `?traffic=`. Both live outside this chunk, and P5 checks them in prod."
+      },
+      {
+        "source": "acceptance",
+        "ref": "src/app/(admin)/admin-nav-sections.ts:161",
+        "text": "The Analytics group sits between Media and Design rather than at the end. The spec doesn't say where it should go. The single-tab group not showing in the tab bar is already known and accepted."
+      }
+    ],
+    "notes_count": 89,
+    "selection": {
+      "blind": {
+        "state": "forced",
+        "reason": "risk override: diff adds a DB migration/schema and handles visitor privacy data"
+      },
+      "edge": {
+        "state": "forced",
+        "reason": "risk override; diff also adds parsing, validation, rate limiting and date arithmetic"
+      },
+      "acceptance": {
+        "state": "forced",
+        "reason": "risk override; spec has 15 capabilities plus orchestrator decisions"
+      }
+    },
+    "diff_files": 51,
+    "diff_lines": 8380,
+    "reviewer_summary": "policy: claude primary (config/review-policy.json); all three layers on claude-opus-5-5 at rung 0, no Codex account touched; each layer split into 8 chunks (24 blind headless sessions, 8 concurrent) because the reviewable diff is ~5,486 lines after excluding pnpm-lock.yaml and the generated 0005_snapshot.json; edge-layer MEDIUM mapped to major and LOW to minor.",
+    "reviewer": "claude-opus-5-5",
+    "account": null,
+    "rung2_layers": 0,
+    "layers": [
+      {
+        "name": "blind",
+        "reviewer": "claude-opus-5-5",
+        "rung": 0,
+        "account": null,
+        "attempts": 1,
+        "seconds": 313,
+        "chunks": 8,
+        "findings": 21
+      },
+      {
+        "name": "edge",
+        "reviewer": "claude-opus-5-5",
+        "rung": 0,
+        "account": null,
+        "attempts": 1,
+        "seconds": 407,
+        "chunks": 8,
+        "findings": 39
+      },
+      {
+        "name": "acceptance",
+        "reviewer": "claude-opus-5-5",
+        "rung": 0,
+        "account": null,
+        "attempts": 1,
+        "seconds": 380,
+        "chunks": 8,
+        "findings": 4
+      }
+    ],
+    "fixchecks": [
+      {
+        "sha": "8d61eaf98c91207c2da36077a18a0b510c2610dc",
+        "reviewer": "claude-opus-5-5",
+        "account": null,
+        "closed": 45,
+        "still_open": 1,
+        "seconds": 111,
+        "by_class": {
+          "defect-user": 5,
+          "defect-edge": 27,
+          "test-gap": 3,
+          "paperwork": 1,
+          "rebutted": 8,
+          "duplicate": 2
+        },
+        "class_overrides": 1
+      },
+      {
+        "sha": "cf307ad9fc442249cf6e1b03bf85b3a30114c271",
+        "reviewer": "claude-opus-5-5",
+        "account": null,
+        "closed": 1,
+        "still_open": 0,
+        "seconds": 20,
+        "by_class": {
+          "defect-user": 0,
+          "defect-edge": 1,
+          "test-gap": 0,
+          "paperwork": 0,
+          "rebutted": 0,
+          "duplicate": 0
+        },
+        "class_overrides": 0
+      }
+    ],
+    "fix_checks": 2,
+    "quota_events": [],
+    "verdict_ts": "2026-10-30T03:10:44Z",
+    "artifact_dir": "C:/Users/Ian Ng/orca/workspaces/hellokahwin/analytics/_bmad-output/autopilot/runs/2026-10-30-site-analytics",
+    "note": "diff.files/lines are the full stat excluding pnpm-lock.yaml (8375+/5-); the 2,894-line generated drizzle snapshot was not handed to reviewers. Per-layer seconds are summed chunk wall times (chunks ran 8-wide in parallel; whole review wall time ~2.7 min). Several findings (F16, F23, F24, F35, F38-F40, F46) touch items the spec triage log previously rejected as twn-new parity or unreachable; they were raised blind and are recorded as-is; the fixer may rebut. Fix-check 1: F26 was written REBUTTAL_ACCEPTED by the fix-check, but its evidence says it is a fix and should read CLOSED; recorded as closed (fixer class defect-edge, not an override). Severity counts now reflect open findings only. Fix-check 2 (scoped to F17, delta 8d61eaf..cf307ad): CLOSED.",
+    "recorded_at": "2026-10-30T03:11:18Z",
+    "total_layer_seconds": 1100
+  },
+  "verification": {
+    "dev": {
+      "passed": 15,
+      "failed": 1,
+      "file": "_bmad-output\\autopilot\\runs\\2026-10-30-site-analytics\\dev-DONE.md",
+      "ts": "2026-10-30T02:38:32Z"
+    }
+  },
+  "ship_mode": "queued",
+  "ship_queued_at": "2026-10-30T03:12:11Z",
+  "run_dir": "C:\\Users\\Ian Ng\\orca\\workspaces\\hellokahwin\\analytics\\_bmad-output\\autopilot\\runs\\2026-10-30-site-analytics",
+  "log_file": "C:\\Users\\Ian Ng\\Documents\\Code\\brain\\logs\\2026-10-30-hellokahwin-site-analytics.md"
+}

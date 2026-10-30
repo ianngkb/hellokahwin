@@ -1,0 +1,11 @@
+LOW | src/lib/analytics/tracker.ts:197 | `track('x', { note: 'a'.repeat(1001) })`, or a key longer than 100 characters, or more than 50 keys, or `track('', …)`: `primitiveProps` lets these through, but the collector's `propsSchema` and `event_name` `.min(1).max(100)` return a 400 for the whole batch. Up to 49 pageviews sent in the same batch are lost with it | In `primitiveProps`, cut string values to 1000 characters, drop keys over 100 characters and keep at most 50 entries; in `track()`, return early when `eventName` is empty and cut it to 100 characters
+
+LOW | src/lib/analytics/tracker.ts:162 | A visitor lands on a crafted or very long URL whose pathname is over 2000 characters. The collector checks `pathname` with plain `.max(2000)` and does not cut it, so it rejects that visitor's whole batch, including their other valid events | Cut `pathname` to 2000 characters in `enqueue`, or in `trackPageview` and `track`, before pushing it to the queue
+
+LOW | src/lib/analytics/tracker.ts:103 | The page is hidden with more than one chunk queued, or the beacon quota is used up: `navigator.sendBeacon` returns `false`, the result is ignored, and those events are dropped silently | When `sendBeacon(...)` returns `false`, fall back to the `fetch(..., { keepalive: true })` branch
+
+LOW | src/lib/analytics/tracker.ts:55 | The device clock is moved backwards after the session timestamp was saved, so `lastTs > now`. `now - lastTs` is negative, which always passes `<= SESSION_TIMEOUT_MS`, so the session never expires until the clock catches up | Use `now >= lastTs && now - lastTs <= SESSION_TIMEOUT_MS`
+
+LOW | src/lib/analytics/resolve-page-titles.ts:50 | `/artikel/wrong-category/real-slug`, a 404 or stale category path, gets the real article's title because the category segment is ignored. The admin panel then shows a broken URL as if it were the article | Also select the article's category slug (join `article_categories`/`inspireCategories`) and only apply the title when `segs[1]` matches; otherwise leave the path unresolved
+
+LOW | src/lib/analytics/resolve-page-titles.ts:146 | One lookup rejects (timeout, connection error): `Promise.allSettled` throws the reason away, so its titles go missing and nothing records why | Go through the settled results and `console.error` the reason of each rejected one

@@ -1,0 +1,6 @@
+src/lib/analytics/tracker.ts
+src/lib/analytics/__tests__/tracker.test.ts
+src/components/analytics/analytics-tracker.tsx
+src/app/(public)/layout.tsx
+src/lib/analytics/resolve-page-titles.ts
+src/lib/analytics/__tests__/resolve-page-titles.test.ts

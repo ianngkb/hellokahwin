@@ -1,0 +1,13 @@
+NO_FINDINGS
+
+--- NOTES ---
+NOTE | src/lib/analytics/tracker.ts:187 | Nothing tests that the `visibilitychange: hidden` listener calls `flush()`. The `sendBeacon` test sets `visibilityState` and then calls `flush()` directly, so the CAP-2 "flush on visibilitychange" wiring has no test.
+NOTE | src/lib/analytics/tracker.ts:199 | The `/draft/` guard in `enqueue()` reads `window.location.pathname`, not the pathname passed in. `trackPageview('/draft/x')` called from a non-draft URL would still be queued. The only caller, `AnalyticsTracker`, guards first, so nothing goes wrong today.
+NOTE | src/lib/analytics/tracker.ts:172 | `sendBeacon`'s `false` return is ignored, so a refused beacon is lost silently. This was already triaged and rejected in the spec's review log.
+NOTE | src/components/analytics/analytics-tracker.tsx:60 | Every in-session pageview sends the landing `document.referrer`, because `trackPageview` falls back to it when no referrer is passed. This matches twn-new and was already triaged and rejected.
+NOTE | src/components/analytics/analytics-tracker.tsx:44 | Re-renders on the same pathname (for example a query-only change) are deliberately not counted as pageviews. This matches CAP-2's "pathname change" wording.
+NOTE | src/app/(public)/layout.tsx:32 | The tracker is mounted as a `<Suspense>` sibling of `<main>{children}</main>`, not a wrapper, as the constraint requires. `/login`, `/no-access`, `(admin-preview)` and `(print)` all sit outside `(public)`, so they are excluded because of where the tracker is mounted.
+NOTE | src/lib/analytics/resolve-page-titles.ts:100 | Article titles are looked up by slug only. The category segment and publish status are not checked, so `/artikel/<wrong-cat>/<slug>` resolves to the article's title. Slugs are UNIQUE, so the title is correct, but the path might not have rendered that page.
+NOTE | src/lib/analytics/resolve-page-titles.ts:23 | `/brand` resolves to the English "Brand". The spec lists `/brand` without a Malay label, so this is consistent with the constraint "Malay labels where a static route has one".
+NOTE | src/lib/analytics/resolve-page-titles.ts:147 | Each lookup is wrapped in `Promise.allSettled`, so if one type fails, that type falls back to the raw path and nothing is logged. That is safe for display, but the failure is invisible.
+NOTE | src/lib/analytics/__tests__/tracker.test.ts:146 | The `/draft/abc` component test works because jsdom's `window.location` stays at `/`. The component's own guard is the only thing that stops the event, so the test would fail if that guard were removed.

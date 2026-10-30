@@ -1,0 +1,14 @@
+NO_FINDINGS
+
+--- NOTES ---
+NOTE | src/lib/admin/date-range.ts:4 | The header says the file is "Ported verbatim" from The Wedding Notebook, but it adds `MAX_RANGE_DAYS`, `resolveRange` and `isBoundedRange`. These came from the review patch (VG-3/VG-9). The behaviour matches CAP-12; only the "verbatim" label in the design-notes table is no longer accurate.
+NOTE | src/lib/admin/date-range.ts:155 | When `from` is after `to`, `resolveRange` resets both ends to the default 30-day window rather than falling back only the bad param. CAP-12 says invalid dates "fall back" and does not cover from > to, so this is a reasonable reading.
+NOTE | src/app/(admin)/admin/site-analytics/page.tsx:96 | `runBatched` runs 17 thunks, not the "16 getters" in the design notes. The extra one is the second `getCachedTopStats` call for the previous period. There are still 16 distinct getters.
+NOTE | src/app/(admin)/admin/site-analytics/page.tsx:155 | Countries is global over geo but still filtered by `page` and `traffic`. That fits both CAP-10 ("stays global" as the navigator) and CAP-9 ("every panel honours" `?page=`).
+NOTE | src/app/(admin)/admin/site-analytics/page.tsx:159 | With no country selected, States skips the query and returns `[]`. CAP-10 scopes States to a country, so an empty panel without one is consistent.
+NOTE | src/app/(admin)/admin/site-analytics/page.tsx:81 | The `?page=` value reaches the cache key and `pageFilter` without any length bound or normalisation. It is admin-only and goes through bound parameters, so there is no injection risk, but every distinct value creates a new cache entry.
+NOTE | src/app/(admin)/admin/site-analytics/actions.ts:32 | Page search does not take country or region. This was already raised and rejected in triage (BH-13). CAP-9 only asks for the search to be bounded by the date range.
+NOTE | src/app/(admin)/admin/site-analytics/cached.ts:32 | The cache uses tag `site-analytics` and `revalidate: 600`, and the getter args are folded into the key implicitly, as CAP-15 requires. Nothing in the repo calls `revalidateTag('site-analytics')`, so the 10-minute TTL is the only way entries go stale.
+NOTE | src/lib/analytics/region-name.ts:10 | The 16 ISO 3166-2:MY codes match the standard (`01` Johor … `16` Putrajaya). The admin UI uses the Malay state names (e.g. "Wilayah Persekutuan Kuala Lumpur", "Pulau Pinang"); CAP-10 only gives `10` → Selangor as an example.
+NOTE | src/lib/analytics/__tests__/region-name.test.ts:1 | This test fails if the change is reverted, because the module would be missing. Its assertions check real mapping and fallback behaviour, so it can fail on a wrong implementation.
+NOTE | src/lib/admin/run-batched.ts:8 | Passing `size <= 0` would loop forever. The only caller passes 4, and triage already rejected this as a false positive.

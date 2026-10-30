@@ -1,0 +1,16 @@
+minor | src/app/api/v1/analytics/collect/__tests__/route.test.ts:328 | CAP-1 says a DB stall must return 503 `analytics_unavailable` within about 8s. The test rejects the mocked insert with a ready-made `DeadlineExceededError`, so it only checks how that error maps to a response. It would still pass if the `withDeadline(…, 8_000, …)` wrapper at route.ts:145 were removed, so nothing verifies that a hanging insert is cut off. | Make `mockInsert` return a promise that never settles, use fake timers to advance 8000ms, and assert a 503 `analytics_unavailable` response (or spy on `withDeadline` and assert it is called with 8000).
+
+--- NOTES ---
+NOTE | package.json:112 | `ua-parser-js@^2` ships its own types (`src/main/ua-parser.d.ts`), so `@types/ua-parser-js@^0.7.39` (the v0.7 API) is redundant and may disagree with the v2 types. The spec asks for it explicitly, so this is not a finding.
+NOTE | src/app/api/v1/analytics/collect/route.ts:64 | The rate limit runs before the salt check, so with `ANALYTICS_SALT` missing, a client over 120/min gets 429 rather than 503. Harmless.
+NOTE | src/app/api/v1/analytics/collect/route.ts:97-104 | The salt check runs after body validation, so with the salt missing a malformed body gets 400, not 503. A well-formed request still gets 503 plus an error log, which satisfies CAP-3.
+NOTE | src/app/api/v1/analytics/collect/route.ts:94 | If none of the IP headers is present, every request hashes as `'unknown'`. Vercel always sets `x-real-ip`, and the earlier review already rejected this concern.
+NOTE | src/app/api/v1/analytics/collect/route.ts:39 | `pathname` is required (1–2000 chars) at the API, while the DB column is nullable. This is stricter than the spec in a harmless direction.
+NOTE | src/app/api/v1/analytics/collect/route.ts:55 | `screen_width` is capped at 10000. The spec states no upper bound; this is stricter and harmless.
+NOTE | src/lib/api/rate-limit.ts:43 | When the store is full and every bucket is live, eviction sorts all 10k entries on each new IP. The earlier review accepted this.
+NOTE | src/lib/api/rate-limit.ts:83 | The `keySuffix` option is beyond spec scope, and the collector does not use it.
+NOTE | src/lib/db/migrations/0005_analytics_events.sql | The migration matches the spec's DB block. Indexes add an explicit `USING btree` (the default). Running D12's grep finds one `ENABLE ROW LEVEL SECURITY` and no DROP or ALTER of other tables, and the journal has `idx: 5, tag: 0005_analytics_events`.
+NOTE | src/lib/db/schema/analytics-events.ts | `region_source`, `city_source` and the `visitor_created` partial index are dropped, as the design notes require. The schema is exported from `schema/index.ts:11`.
+NOTE | src/middleware.ts:10-19 | Not part of this chunk. Checked at HEAD: `isClerkRoute` still leaves out the collect route, as the constraint requires.
+NOTE | eslint.config.mjs:14-15 | Ignoring `_bmad/**` and `.tmp-ops/**` matches the decisions file. It is outside the spec's capabilities and has no impact on them.
+NOTE | src/lib/api/__tests__/rate-limit.test.ts:42 | The bound test runs 10,001 iterations and would fail if eviction went back to expired-only. It is a real test, just slow-ish.
