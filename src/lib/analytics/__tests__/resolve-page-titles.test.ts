@@ -1,0 +1,137 @@
+// @vitest-environment node
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { articles, inspireCategories, inspireTags } from '@/lib/db/schema/articles';
+import { profiles } from '@/lib/db/schema/profiles';
+
+// Rows each table "returns", keyed by the table object the query selects from.
+const tableRows = vi.hoisted(() => new Map<unknown, unknown[] | Error>());
+const fromCalls = vi.hoisted(() => [] as unknown[]);
+// The rendered WHERE of each query, keyed by table, so a test can assert on it.
+const whereSql = vi.hoisted(() => new Map<unknown, { sql: string; params: unknown[] }>());
+
+vi.mock('@/lib/db/drizzle', async () => {
+  const { PgDialect } = await import('drizzle-orm/pg-core');
+  const dialect = new PgDialect();
+  return {
+    db: {
+      select: () => ({
+        from: (table: unknown) => {
+          fromCalls.push(table);
+          const rows = tableRows.get(table);
+          return {
+            where: (condition: Parameters<PgDialect['sqlToQuery']>[0]) => {
+              const rendered = dialect.sqlToQuery(condition);
+              whereSql.set(table, rendered);
+              if (rows instanceof Error) return Promise.reject(rows);
+              // Honour a `status = 'published'` predicate the way Postgres would,
+              // so a draft/deleted row only comes back if the filter is missing.
+              const publishedOnly =
+                /"status" = \$\d+/.test(rendered.sql) && rendered.params.includes('published');
+              const visible = (rows ?? []).filter(
+                (r) =>
+                  !publishedOnly ||
+                  ((r as { status?: string }).status !== 'draft' &&
+                    (r as { status?: string }).status !== 'deleted'),
+              );
+              return Promise.resolve(visible);
+            },
+          };
+        },
+      }),
+    },
+  };
+});
+
+const { resolvePageTitles, resolvePageTitle, classifyPathname } =
+  await import('../resolve-page-titles');
+
+beforeEach(() => {
+  fromCalls.length = 0;
+  whereSql.clear();
+  tableRows.clear();
+  tableRows.set(articles, [{ slug: 'baju-nikah', title: 'Baju Nikah Pilihan 2026' }]);
+  tableRows.set(inspireCategories, [{ slug: 'pakaian', title: 'Pakaian' }]);
+  tableRows.set(inspireTags, [{ slug: 'hantaran', title: 'Hantaran' }]);
+  tableRows.set(profiles, [{ slug: 'aisyah', firstName: 'Aisyah', lastName: 'Rahman' }]);
+});
+
+describe('resolvePageTitles (D10)', () => {
+  it('resolves an article path to the article title', async () => {
+    const titles = await resolvePageTitles(['/artikel/pakaian/baju-nikah']);
+    expect(titles.get('/artikel/pakaian/baju-nikah')).toBe('Baju Nikah Pilihan 2026');
+  });
+
+  it('leaves draft and deleted article slugs unresolved (F17)', async () => {
+    tableRows.set(articles, [
+      { slug: 'baju-nikah', title: 'Baju Nikah Pilihan 2026', status: 'published' },
+      { slug: 'draf-rahsia', title: 'Draf Rahsia', status: 'draft' },
+      { slug: 'ditarik-balik', title: 'Ditarik Balik', status: 'deleted' },
+    ]);
+    const titles = await resolvePageTitles([
+      '/artikel/pakaian/baju-nikah',
+      '/artikel/pakaian/draf-rahsia',
+      '/artikel/pakaian/ditarik-balik',
+    ]);
+    expect(titles.get('/artikel/pakaian/baju-nikah')).toBe('Baju Nikah Pilihan 2026');
+    expect(titles.has('/artikel/pakaian/draf-rahsia')).toBe(false);
+    expect(titles.has('/artikel/pakaian/ditarik-balik')).toBe(false);
+
+    const where = whereSql.get(articles);
+    expect(where?.sql).toMatch(/"articles"\."status" = \$\d+/);
+    expect(where?.params).toContain('published');
+  });
+
+  it('resolves a tag path to the tag name', async () => {
+    expect(await resolvePageTitle('/artikel/tag/hantaran')).toBe('Hantaran');
+  });
+
+  it('resolves static routes in Malay without touching the DB', async () => {
+    const titles = await resolvePageTitles(['/', '/artikel', '/brand']);
+    expect(titles.get('/')).toBe('Laman Utama');
+    expect(titles.get('/artikel')).toBe('Semua Artikel');
+    expect(titles.get('/brand')).toBe('Brand');
+    expect(fromCalls).toHaveLength(0);
+  });
+
+  it('resolves category and author paths', async () => {
+    const titles = await resolvePageTitles(['/artikel/pakaian', '/artikel/author/aisyah']);
+    expect(titles.get('/artikel/pakaian')).toBe('Pakaian');
+    expect(titles.get('/artikel/author/aisyah')).toBe('Aisyah Rahman');
+  });
+
+  it('leaves unknown paths absent', async () => {
+    const titles = await resolvePageTitles(['/unknown', '/artikel/pakaian/no-such-article']);
+    expect(titles.has('/unknown')).toBe(false);
+    expect(titles.has('/artikel/pakaian/no-such-article')).toBe(false);
+  });
+
+  it('keeps the titles that resolved when one lookup fails', async () => {
+    tableRows.set(inspireTags, new Error('canceling statement due to statement timeout'));
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const titles = await resolvePageTitles(['/artikel/pakaian/baju-nikah', '/artikel/tag/x']);
+    expect(titles.get('/artikel/pakaian/baju-nikah')).toBe('Baju Nikah Pilihan 2026');
+    // The failure is logged with its kind (F18); the raw path stays the fallback.
+    expect(titles.has('/artikel/tag/x')).toBe(false);
+    expect(warn).toHaveBeenCalledWith('[analytics-titles]', 'tag', expect.any(Error));
+    expect(warn).toHaveBeenCalledTimes(1);
+    warn.mockRestore();
+  });
+});
+
+describe('classifyPathname', () => {
+  it('does not mistake the tag/author index segments for categories', () => {
+    expect(classifyPathname('/artikel/tag')).toBeNull();
+    expect(classifyPathname('/artikel/author')).toBeNull();
+  });
+
+  it('ignores trailing slashes and query strings', () => {
+    expect(classifyPathname('/artikel/pakaian/baju-nikah/?utm_source=x')).toEqual({
+      kind: 'article',
+      slug: 'baju-nikah',
+    });
+  });
+
+  it('returns null outside /artikel', () => {
+    expect(classifyPathname('/some-legacy-slug')).toBeNull();
+  });
+});

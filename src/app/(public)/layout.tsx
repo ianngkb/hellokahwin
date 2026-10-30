@@ -1,4 +1,6 @@
+import { Suspense } from 'react';
 import { Navbar } from '@/components/layout/navbar';
+import { AnalyticsTracker } from '@/components/analytics/analytics-tracker';
 import { Footer } from '@/components/layout/footer';
 import '@/design-system/tokens.css';
 
@@ -16,12 +18,20 @@ import '@/design-system/tokens.css';
  * rendered header, not by reading the component. Only `:root`/`.hk-dark`
  * variables live in this file (no selectors), and `.hk-dark` is never applied
  * on a public route, so importing it site-wide paints nothing new.
+ *
+ * `AnalyticsTracker` is a `<Suspense>` SIBLING of `{children}`, never a
+ * wrapper: wrapping the page tree would let HTML flush before a page's
+ * `notFound()` runs and turn real 404s into soft 404s. It returns early on
+ * `/draft/*`, the one non-visit route in this group.
  */
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="hk-public flex min-h-screen flex-col">
       <Navbar />
       <main className="flex-1">{children}</main>
+      <Suspense>
+        <AnalyticsTracker />
+      </Suspense>
       <Footer />
     </div>
   );

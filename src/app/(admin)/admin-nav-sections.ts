@@ -1,4 +1,5 @@
 import {
+  BarChart3Icon,
   BookOpenIcon,
   ImageIcon,
   LayoutTemplateIcon,
@@ -154,6 +155,18 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
             keywords: 'add create module widget',
           },
         ],
+      },
+    ],
+  },
+  {
+    id: 'analytics',
+    label: 'Analytics',
+    icon: BarChart3Icon,
+    tabs: [
+      {
+        label: 'Site analytics',
+        href: '/admin/site-analytics',
+        keywords: 'traffic pageviews visitors referrers utm countries browsers',
       },
     ],
   },
