@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { NextRequest } from 'next/server';
-import { ipRateLimit, __rateLimitStoreInternals } from '../rate-limit';
+import { ipRateLimit, rateLimitIdentity, __rateLimitStoreInternals } from '../rate-limit';
 
 const OPTS = { limit: 3, windowMs: 60_000 };
 
@@ -53,5 +53,33 @@ describe('ipRateLimit', () => {
       expect(ipRateLimit(req({ 'x-forwarded-for': `1.1.1.${i}, 203.0.113.9` }), OPTS)).toBeNull();
     }
     expect(ipRateLimit(req({ 'x-forwarded-for': '9.9.9.9, 203.0.113.9' }), OPTS)?.status).toBe(429);
+  });
+
+  it('puts two IPv6 addresses in one /64 in the same bucket (F6)', () => {
+    for (let i = 0; i < OPTS.limit; i++) {
+      expect(ipRateLimit(req({ 'x-real-ip': `2001:db8:1:2::${i + 1}` }), OPTS)).toBeNull();
+    }
+    expect(
+      ipRateLimit(req({ 'x-real-ip': '2001:0db8:0001:0002:ffff:eeee:dddd:cccc' }), OPTS)?.status,
+    ).toBe(429);
+    // A different /64 is a different bucket.
+    expect(ipRateLimit(req({ 'x-real-ip': '2001:db8:1:3::1' }), OPTS)).toBeNull();
+  });
+});
+
+describe('rateLimitIdentity', () => {
+  it('leaves IPv4 unchanged', () => {
+    expect(rateLimitIdentity('203.0.113.9')).toBe('203.0.113.9');
+  });
+
+  it('keys IPv6 on its expanded, lower-cased /64', () => {
+    expect(rateLimitIdentity('2001:DB8::1')).toBe('2001:db8:0:0::/64');
+    expect(rateLimitIdentity('2001:db8:a:b:1:2:3:4')).toBe('2001:db8:a:b::/64');
+    expect(rateLimitIdentity('::1')).toBe('0:0:0:0::/64');
+    expect(rateLimitIdentity('fe80::1%eth0')).toBe('fe80:0:0:0::/64');
+  });
+
+  it('treats an IPv4-mapped IPv6 address as its IPv4', () => {
+    expect(rateLimitIdentity('::ffff:203.0.113.9')).toBe('203.0.113.9');
   });
 });

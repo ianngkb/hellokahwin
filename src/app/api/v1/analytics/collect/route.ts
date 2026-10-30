@@ -18,27 +18,54 @@ export const maxDuration = 15;
 // Ported from The Wedding Notebook's collector. Public and unauthenticated by
 // design (the tracker beacons from anonymous pages), so it stays OUTSIDE the
 // Clerk matcher in src/middleware.ts and is guarded by a per-IP rate limit.
-// Referrer and UTM values come verbatim from whatever URL a visitor landed on,
-// so an over-long one is TRUNCATED rather than rejected — a rejection would 400
-// the whole batch and lose every pageview sent with it.
-const clipped = (max: number) =>
-  z
-    .string()
-    .transform((s) => s.slice(0, max))
-    .optional();
+
+// The collector reads at most this many characters of body — the same 64 KB a
+// `sendBeacon` payload is capped at — before parsing any of it.
+const MAX_BODY_CHARS = 65_536;
+
+/**
+ * Make a string safe for a Postgres `text` / `jsonb` value. A NUL character or
+ * a lone UTF-16 surrogate makes Postgres reject the INSERT, and with it every
+ * event in the batch, so NULs are stripped and lone surrogates become U+FFFD.
+ * Run AFTER clipping: `slice` can split a surrogate pair.
+ */
+function cleanText(s: string): string {
+  const noNul = s.replaceAll('\u0000', '');
+  return typeof noNul.toWellFormed === 'function'
+    ? noNul.toWellFormed()
+    : noNul.replace(/[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/g, '�');
+}
+
+// Pathname, referrer and UTM values come verbatim from whatever URL a visitor
+// landed on, so an over-long one is CLIPPED rather than rejected — a rejection
+// would 400 the whole batch and lose every pageview sent with it.
+const clippedText = (max: number) => z.string().transform((s) => cleanText(s.slice(0, max)));
+const clipped = (max: number) => clippedText(max).optional();
 
 // `props` lands in a JSONB column from an anonymous endpoint, so it is bounded:
-// at most 50 keys, keys ≤100 chars, string values ≤1000 chars, primitives only.
+// at most 50 keys, keys ≤100 chars, primitives only; string values are clipped
+// to 1000 chars.
 const propsSchema = z
-  .record(z.string().max(100), z.union([z.string().max(1000), z.number(), z.boolean(), z.null()]))
+  .record(
+    z.string().max(100).transform(cleanText),
+    z.union([clippedText(1000), z.number(), z.boolean(), z.null()]),
+  )
   .refine((p) => Object.keys(p).length <= 50, { message: 'Too many props' })
   .optional();
 
 const analyticsEventSchema = z.object({
-  event_name: z.string().min(1).max(100),
-  pathname: z.string().min(1).max(2000),
+  event_name: z.string().min(1).max(100).transform(cleanText),
+  pathname: z
+    .string()
+    .refine((s) => s.startsWith('/'), { message: 'pathname must start with /' })
+    .transform((s) => cleanText(s.slice(0, 2000))),
   referrer: clipped(2000),
-  session_id: z.string().max(100).optional(),
+  // Empty / whitespace-only → absent, so it is stored NULL rather than ''.
+  session_id: z
+    .string()
+    .max(100)
+    .transform((s) => (s.trim() ? cleanText(s) : undefined))
+    .optional(),
   // `visitor_id` IS DELIBERATELY ABSENT. This endpoint is unauthenticated and
   // `_hk_vid` is not httpOnly, so any script on the page could read a real id
   // and post fabricated events under it. The id comes from the request cookie
@@ -70,9 +97,16 @@ export async function POST(request: NextRequest) {
     const ua = request.headers.get('user-agent') ?? '';
     const botCheck = classifyBot(ua);
 
+    // Refuse a declared-oversized body without reading it, then size-check the
+    // raw text (Content-Length can be absent or wrong) BEFORE parsing it.
+    const declared = Number(request.headers.get('content-length'));
+    if (declared > MAX_BODY_CHARS) return apiError('Payload too large', 413);
+    const raw = await request.text();
+    if (raw.length > MAX_BODY_CHARS) return apiError('Payload too large', 413);
+
     let body: unknown;
     try {
-      body = await request.json();
+      body = JSON.parse(raw);
     } catch {
       return apiError('Invalid JSON body', 400);
     }

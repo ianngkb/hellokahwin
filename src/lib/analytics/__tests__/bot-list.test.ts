@@ -188,3 +188,18 @@ describe('Pinterest', () => {
     );
   });
 });
+
+describe('Sogou (F10)', () => {
+  it('does not flag the Sogou mobile browser (real visitors)', () => {
+    const ua =
+      'Mozilla/5.0 (Linux; Android 12; V2109) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Mobile Safari/537.36 SogouMobileBrowser/5.39.1';
+    expect(classifyBot(ua)).toEqual({ isBot: false, reason: null });
+  });
+
+  it('flags the Sogou spiders', () => {
+    expect(
+      classifyBot('Sogou web spider/4.0(+http://www.sogou.com/docs/help/webmasters.htm#07)').reason,
+    ).toBe('search:sogou');
+    expect(classifyBot('Sogou inst spider/4.0').reason).toBe('search:sogou');
+  });
+});

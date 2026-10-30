@@ -4,6 +4,7 @@ import { useCallback, useTransition } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { Users, Bot, Layers } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { formatCount } from '@/lib/admin/format-count';
 import { TRAFFIC_MODES, type TrafficMode } from '@/lib/analytics/sql-filters';
 
 interface TrafficToggleProps {
@@ -19,12 +20,6 @@ const labels: Record<
   bot: { label: 'Bots', Icon: Bot, key: 'bots' },
   all: { label: 'All', Icon: Layers, key: 'total' },
 };
-
-function formatCount(n: number): string {
-  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
-  if (n >= 1_000) return `${(n / 1_000).toFixed(1)}k`;
-  return String(n);
-}
 
 export function TrafficToggle({ active, counts }: TrafficToggleProps) {
   const router = useRouter();

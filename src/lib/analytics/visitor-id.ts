@@ -35,8 +35,14 @@ export function getOrCreateVisitorIdClient(): string {
   const read = () => {
     const match = document.cookie.match(/(?:^|;\s*)_hk_vid=([^;]+)/);
     if (!match) return null;
-    const value = decodeURIComponent(match[1]);
-    return VISITOR_ID_RE.test(value) ? value : null;
+    // A malformed escape (`%E0%A4`) throws; treat it as no cookie, so a fresh
+    // id is minted and the bad cookie overwritten.
+    try {
+      const value = decodeURIComponent(match[1]);
+      return VISITOR_ID_RE.test(value) ? value : null;
+    } catch {
+      return null;
+    }
   };
 
   const existing = read();

@@ -46,14 +46,29 @@ describe('site-analytics query scoping', () => {
   });
 
   it('getCountries (the navigator) is scoped by neither country nor region', async () => {
-    await q.getCountries(RANGE, 'human');
+    // Extra country/region args through a cast (F36): the navigator must ignore
+    // them even if a caller passes them, or the test could never fail.
+    await (q.getCountries as (...a: unknown[]) => Promise<unknown>)(
+      RANGE,
+      'human',
+      undefined,
+      'MY',
+      '10',
+    );
     const { sql } = lastQuery();
     expect(sql).not.toContain('country =');
     expect(sql).not.toContain('region =');
   });
 
   it('getStates is scoped by country but not region', async () => {
-    await q.getStates(RANGE, 'human', undefined, 'MY');
+    // A region passed as an extra arg must be ignored (F37).
+    await (q.getStates as (...a: unknown[]) => Promise<unknown>)(
+      RANGE,
+      'human',
+      undefined,
+      'MY',
+      '10',
+    );
     const { sql } = lastQuery();
     expect(sql).toContain('country =');
     expect(sql).not.toContain('region =');
@@ -74,7 +89,26 @@ describe('site-analytics query scoping', () => {
   });
 });
 
+describe('getSources', () => {
+  it('lower-cases the referrer host and strips scheme, www., path and port (F30)', async () => {
+    await q.getSources(RANGE, 'human');
+    const { sql } = lastQuery();
+    expect(sql).toContain("THEN 'Direct / None'");
+    expect(sql).toContain('LOWER(referrer)');
+    expect(sql).toContain(String.raw`'^https?://(www\.)?'`);
+    expect(sql).toContain("'[/?#].*$'");
+    expect(sql).toContain("':[0-9]+$'");
+  });
+});
+
 describe('getChartData', () => {
+  it('formats the day with to_char, not a DateStyle-dependent cast (F29)', async () => {
+    await q.getChartData(RANGE, 'human');
+    const { sql } = lastQuery();
+    expect(sql).toContain("to_char(dv.day, 'YYYY-MM-DD')");
+    expect(sql).not.toContain('::text');
+  });
+
   it('returns one point per KL day, zero-filling days without events', async () => {
     executed.rows = [
       {

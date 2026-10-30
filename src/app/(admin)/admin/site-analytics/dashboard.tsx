@@ -17,6 +17,8 @@ import type { NameType, ValueType } from 'recharts/types/component/DefaultToolti
 import { GlobeIcon, InfoIcon, SmartphoneIcon, TabletIcon, MonitorIcon, XIcon } from 'lucide-react';
 import { isCountryCode } from '@/lib/analytics/sql-filters';
 import { EmptyState } from '@/components/ui/empty-state';
+import { SectionCard } from '@/components/ui/section-card';
+import { formatCount } from '@/lib/admin/format-count';
 import { ChangeBadge } from '@/components/admin/change-badge';
 // `import type` only — erased at compile time, so this client component never
 // pulls the server-only query module into the browser bundle.
@@ -28,11 +30,8 @@ const CHART_ACCENT = 'var(--primary)';
 
 // ─── Formatters ──────────────────────────────────────────────────────────────
 
-function fmtNumber(n: number): string {
-  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
-  if (n >= 1_000) return `${(n / 1_000).toFixed(1)}k`;
-  return n.toString();
-}
+// Shared with the traffic toggle, so 999,950+ reads "1.0M", never "1000.0k".
+const fmtNumber = formatCount;
 
 function fmtDuration(secs: number): string {
   if (!secs || isNaN(secs)) return '0s';
@@ -57,25 +56,6 @@ function countryFlag(code: string | null | undefined): string {
   return code
     .toUpperCase()
     .replace(/./g, (c) => String.fromCodePoint(0x1f1e6 + c.charCodeAt(0) - 65));
-}
-
-let regionNames: Intl.DisplayNames | null | undefined;
-
-/** ISO alpha-2 → English country name via `Intl.DisplayNames`; anything else raw. */
-function formatCountryName(name: string): string {
-  if (!isCountryCode(name)) return name;
-  if (regionNames === undefined) {
-    try {
-      regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
-    } catch {
-      regionNames = null;
-    }
-  }
-  try {
-    return regionNames?.of(name.toUpperCase()) ?? name;
-  } catch {
-    return name;
-  }
 }
 
 // ─── Metric Definitions ───────────────────────────────────────────────────────
@@ -153,14 +133,14 @@ const STATS: StatMeta[] = [
 ];
 
 // ─── Panel frame ─────────────────────────────────────────────────────────────
-// A thin bordered surface rather than `SectionCard`: these panels drive their
-// own tabbed headers, which SectionCard's titled header row does not support.
+// `SectionCard` with no title and an unpadded body: these panels draw their own
+// tabbed or labelled header rows inside it.
 
-function Panel({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+function Panel({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`bg-card border-hairline rounded-card overflow-hidden border ${className}`}>
+    <SectionCard className={className} bodyClassName="p-0">
       {children}
-    </div>
+    </SectionCard>
   );
 }
 
@@ -208,11 +188,7 @@ function DataTable({
       {rows.map((row) => {
         const href = getRowHref?.(row);
         const title = variant === 'pages' ? pageTitles?.[row.name] : undefined;
-        const label = formatName
-          ? formatName(row.name)
-          : variant === 'countries'
-            ? formatCountryName(row.name)
-            : row.name;
+        const label = formatName ? formatName(row.name) : row.name;
         const inner = (
           <>
             {/* percentage background bar */}
@@ -349,6 +325,9 @@ interface DashboardProps {
   states: TableRow[];
   /** Code → display name for the visible states + the selected region. */
   regionNames: Record<string, string>;
+  /** ISO code → English country name for the country rows + the selected
+   *  country, resolved on the server so SSR and hydration render the same text. */
+  countryNames: Record<string, string>;
   cities: TableRow[];
   browsers: TableRow[];
   operatingSystems: TableRow[];
@@ -374,6 +353,7 @@ export function SiteAnalyticsDashboard({
   countries,
   states,
   regionNames: stateNames,
+  countryNames,
   cities,
   browsers,
   operatingSystems,
@@ -393,6 +373,7 @@ export function SiteAnalyticsDashboard({
   const clearCountry = clearCountryHref(pathname, search);
   const clearRegion = clearRegionHref(pathname, search);
   const formatRegionName = (code: string) => stateNames[code] ?? code;
+  const formatCountryName = (code: string) => countryNames[code] ?? code;
 
   // The Locations panel opens one level down from the current drill-down: a
   // country shows its States, a state shows its Cities. Keyed on the selection
@@ -515,7 +496,8 @@ export function SiteAnalyticsDashboard({
                   tickLine={false}
                   axisLine={false}
                   width={40}
-                  tickFormatter={(v) => fmtNumber(Number(v))}
+                  // The selected metric's own formatter: 45% / 1m 5s / 2.3.
+                  tickFormatter={(v) => activeStat.format(Number(v))}
                 />
                 <Tooltip
                   content={makeChartTooltip(activeStat)}
@@ -570,7 +552,12 @@ export function SiteAnalyticsDashboard({
           initialTab={locationTab}
           render={(tab) =>
             tab === 'Countries' ? (
-              <DataTable rows={countries} variant="countries" getRowHref={countryRowHref} />
+              <DataTable
+                rows={countries}
+                variant="countries"
+                getRowHref={countryRowHref}
+                formatName={formatCountryName}
+              />
             ) : tab === 'States' ? (
               selectedCountry ? (
                 <DataTable rows={states} getRowHref={regionRowHref} formatName={formatRegionName} />

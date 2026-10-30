@@ -40,7 +40,12 @@ const BOT_UA_PATTERNS: ReadonlyArray<readonly [pattern: string, reason: string]>
   ['duckduckbot', 'search:duckduckbot'],
   ['baiduspider', 'search:baidu'],
   ['yandexbot', 'search:yandex'],
-  ['sogou', 'search:sogou'],
+  // The spiders only — a bare `sogou` would also match real people on the
+  // Sogou mobile browser (`SogouMobileBrowser`).
+  ['sogou web spider', 'search:sogou'],
+  ['sogou inst spider', 'search:sogou'],
+  ['sogou pic spider', 'search:sogou'],
+  ['sogou spider', 'search:sogou'],
   ['exabot', 'search:exabot'],
   ['petalbot', 'search:petalbot'],
   ['applebot', 'search:applebot'],

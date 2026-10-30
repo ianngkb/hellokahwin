@@ -111,6 +111,13 @@ describe('isBoundedRange', () => {
     expect(isBoundedRange('2026-10-01', '2026-10-01')).toBe(true);
   });
 
+  it('rejects a range ending after KL today (F33)', () => {
+    const today = new Date(2026, 9, 30);
+    expect(isBoundedRange('2026-10-01', '2026-10-30', today)).toBe(true);
+    expect(isBoundedRange('2026-10-01', '2026-10-31', today)).toBe(false);
+    expect(isBoundedRange('2027-01-01', '2027-01-02', today)).toBe(false);
+  });
+
   it('rejects malformed, reversed and over-long ranges', () => {
     expect(isBoundedRange('2026-13-45', '2026-10-30')).toBe(false);
     expect(isBoundedRange('2026-10-30', '2026-10-01')).toBe(false);

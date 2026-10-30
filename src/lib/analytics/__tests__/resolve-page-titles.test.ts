@@ -65,8 +65,14 @@ describe('resolvePageTitles (D10)', () => {
 
   it('keeps the titles that resolved when one lookup fails', async () => {
     tableRows.set(inspireTags, new Error('canceling statement due to statement timeout'));
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
     const titles = await resolvePageTitles(['/artikel/pakaian/baju-nikah', '/artikel/tag/x']);
     expect(titles.get('/artikel/pakaian/baju-nikah')).toBe('Baju Nikah Pilihan 2026');
+    // The failure is logged with its kind (F18); the raw path stays the fallback.
+    expect(titles.has('/artikel/tag/x')).toBe(false);
+    expect(warn).toHaveBeenCalledWith('[analytics-titles]', 'tag', expect.any(Error));
+    expect(warn).toHaveBeenCalledTimes(1);
+    warn.mockRestore();
   });
 });
 

@@ -37,7 +37,6 @@ const { generateVisitorHash } = await import('@/lib/analytics/hash');
 const { resolveGeo } = await import('@/lib/analytics/geo');
 const { ipRateLimit } = await import('@/lib/api/rate-limit');
 const { db } = await import('@/lib/db/drizzle');
-const { DeadlineExceededError } = await import('@/lib/api/timeout');
 
 // ── Helpers ────────────────────────────────────────────────────────────────
 
@@ -282,12 +281,80 @@ describe('POST /api/v1/analytics/collect', () => {
     it.each([
       ['more than 50 keys', Object.fromEntries(Array.from({ length: 51 }, (_, i) => [`k${i}`, i]))],
       ['a key over 100 chars', { ['k'.repeat(101)]: 1 }],
-      ['a string value over 1000 chars', { note: 'x'.repeat(1001) }],
       ['a nested value', { nested: { a: 1 } }],
     ])('returns 400 for props with %s', async (_label, props) => {
       const res = await POST(makeRequest({ events: [{ ...validEvent, props }] }));
       expect(res.status).toBe(400);
       expect(db.insert).not.toHaveBeenCalled();
+    });
+
+    it('clips an over-long prop string value instead of rejecting', async () => {
+      const res = await POST(
+        makeRequest({ events: [{ ...validEvent, props: { note: 'x'.repeat(1500) } }] }),
+      );
+      expect(res.status).toBe(200);
+      expect(String((insertedRows()[0].props as Record<string, unknown>).note)).toHaveLength(1000);
+    });
+
+    it('returns 413 and writes nothing for a body over 64 KB (F1)', async () => {
+      const req = new NextRequest('http://localhost:3200/api/v1/analytics/collect', {
+        method: 'POST',
+        body: JSON.stringify({ events: [{ ...validEvent, referrer: 'r'.repeat(70_000) }] }),
+        headers: { 'Content-Type': 'application/json' },
+      });
+      const res = await POST(req);
+      expect(res.status).toBe(413);
+      expect(db.insert).not.toHaveBeenCalled();
+    });
+
+    it('returns 413 from a declared Content-Length over 64 KB without reading the body (F1)', async () => {
+      const req = new NextRequest('http://localhost:3200/api/v1/analytics/collect', {
+        method: 'POST',
+        body: JSON.stringify({ events: [validEvent] }),
+        headers: { 'Content-Type': 'application/json', 'content-length': '100000' },
+      });
+      const textSpy = vi.spyOn(req, 'text');
+      const res = await POST(req);
+      expect(res.status).toBe(413);
+      expect(textSpy).not.toHaveBeenCalled();
+      expect(db.insert).not.toHaveBeenCalled();
+    });
+
+    it('stores an over-long pathname clipped to 2000 chars (F3)', async () => {
+      const res = await POST(
+        makeRequest({ events: [{ ...validEvent, pathname: `/${'p'.repeat(3000)}` }] }),
+      );
+      expect(res.status).toBe(200);
+      expect(String(insertedRows()[0].pathname)).toHaveLength(2000);
+    });
+
+    it('returns 400 for a pathname without a leading slash (F3)', async () => {
+      const res = await POST(makeRequest({ events: [{ ...validEvent, pathname: 'artikel' }] }));
+      expect(res.status).toBe(400);
+    });
+
+    it('strips NUL and repairs lone surrogates instead of losing the batch (F4)', async () => {
+      const res = await POST(
+        makeRequest({
+          events: [
+            {
+              ...validEvent,
+              utm_source: 'news\u0000letter\uD800',
+              props: { note: 'a\u0000b' },
+            },
+          ],
+        }),
+      );
+      expect(res.status).toBe(200);
+      const [row] = insertedRows();
+      expect(row.utmSource).toBe('newsletter\uFFFD');
+      expect(row.props).toEqual({ note: 'ab' });
+    });
+
+    it.each(['', '   '])('stores an empty session_id (%j) as NULL (F5)', async (sessionId) => {
+      const res = await POST(makeRequest({ events: [{ ...validEvent, session_id: sessionId }] }));
+      expect(res.status).toBe(200);
+      expect(insertedRows()[0].sessionId).toBeNull();
     });
 
     it('accepts props at the bounds', async () => {
@@ -325,13 +392,26 @@ describe('POST /api/v1/analytics/collect', () => {
       errSpy.mockRestore();
     });
 
-    it('returns 503 analytics_unavailable when the DB write misses its deadline', async () => {
-      mockInsert.mockRejectedValueOnce(new DeadlineExceededError('analytics_collect_db', 8000));
+    it('returns 503 analytics_unavailable when the DB write stalls past 8s (F7)', async () => {
+      // A write that never settles — only the route's own withDeadline can end it.
+      mockInsert.mockReturnValueOnce(new Promise(() => {}));
+      vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
       const errSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-      const res = await POST(makeRequest({ events: [validEvent] }));
-      expect(res.status).toBe(503);
-      expect((await res.json()).error.message).toBe('analytics_unavailable');
-      errSpy.mockRestore();
+      try {
+        const pending = POST(makeRequest({ events: [validEvent] }));
+        await vi.advanceTimersByTimeAsync(7_999);
+        let settled = false;
+        void pending.then(() => (settled = true));
+        await Promise.resolve();
+        expect(settled).toBe(false);
+        await vi.advanceTimersByTimeAsync(1);
+        const res = await pending;
+        expect(res.status).toBe(503);
+        expect((await res.json()).error.message).toBe('analytics_unavailable');
+      } finally {
+        vi.useRealTimers();
+        errSpy.mockRestore();
+      }
     });
 
     it('returns 500 on any other DB error', async () => {

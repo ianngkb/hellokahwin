@@ -20,8 +20,13 @@ const FLUSH_INTERVAL_MS = 5_000;
 const SESSION_KEY = '_hk_sid';
 const SESSION_TS_KEY = '_hk_sid_ts';
 const SESSION_TIMEOUT_MS = 30 * 60 * 1000; // 30-minute inactivity timeout (industry standard)
-// The collector accepts at most 50 events per request.
+// Collector limits (src/app/api/v1/analytics/collect/route.ts). Anything past
+// them would 400 the whole batch, so the tracker stays inside them.
 const MAX_BATCH = 50;
+const MAX_EVENT_NAME = 100;
+const MAX_PROP_KEYS = 50;
+const MAX_PROP_KEY_LENGTH = 100;
+const MAX_PROP_STRING = 1000;
 
 export interface UtmParams {
   utm_source?: string;
@@ -53,7 +58,10 @@ export function getOrCreateSessionId(): string {
     const lastTs = Number(sessionStorage.getItem(SESSION_TS_KEY) || '0');
 
     // Rotate session if inactive for longer than the timeout
-    if (existing && now - lastTs <= SESSION_TIMEOUT_MS) {
+    // `elapsed < 0` means the clock went backwards; rotate rather than keep a
+    // session that could then never time out.
+    const elapsed = now - lastTs;
+    if (existing && elapsed >= 0 && elapsed <= SESSION_TIMEOUT_MS) {
       sessionStorage.setItem(SESSION_TS_KEY, String(now));
       return existing;
     }
@@ -102,19 +110,20 @@ export function flush(): void {
 
 function send(body: string): void {
   // Use sendBeacon when the page is being hidden to prevent data loss on close
+  // `sendBeacon` returns false when the browser refuses to queue the payload
+  // (quota, size); fall through to a keepalive fetch rather than lose it.
   if (document.visibilityState === 'hidden' && navigator.sendBeacon) {
     const blob = new Blob([body], { type: 'application/json' });
-    navigator.sendBeacon(COLLECT_ENDPOINT, blob);
-  } else {
-    fetch(COLLECT_ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body,
-      keepalive: true,
-    }).catch(() => {
-      // Non-blocking — analytics failures should never affect the user experience
-    });
+    if (navigator.sendBeacon(COLLECT_ENDPOINT, blob)) return;
   }
+  fetch(COLLECT_ENDPOINT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body,
+    keepalive: true,
+  }).catch(() => {
+    // Non-blocking — analytics failures should never affect the user experience
+  });
 }
 
 // ── Visibility change handler ─────────────────────────────────────────────────
@@ -178,25 +187,37 @@ export function trackPageview(pathname: string, referrer?: string, utmParams?: U
 export function track(eventName: string, props?: Record<string, unknown>): void {
   if (typeof window === 'undefined') return;
   if (isFramedContext()) return;
+  // The collector 400s a batch with an empty event name, losing every event in
+  // it, so a blank name is dropped here.
+  const name = eventName.trim();
+  if (!name) return;
 
   enqueue({
-    event_name: eventName,
+    event_name: name.slice(0, MAX_EVENT_NAME),
     pathname: window.location.pathname,
-    props: props && primitiveProps(props),
+    props: props && collectableProps(props),
   });
 }
 
 /**
- * The collector accepts only string / number / boolean / null prop values and
- * rejects the WHOLE batch otherwise, so anything else (objects, arrays,
- * undefined, functions) is dropped here rather than costing co-batched events.
+ * Shape props to what the collector accepts, so one odd value can't 400 the
+ * WHOLE batch: string / number / boolean / null values only (objects, arrays,
+ * undefined, functions are dropped), keys over 100 chars dropped, string
+ * values clipped to 1000 chars, at most the first 50 keys.
  */
-function primitiveProps(props: Record<string, unknown>): Record<string, unknown> {
-  return Object.fromEntries(
-    Object.entries(props).filter(
-      ([, v]) => v === null || ['string', 'number', 'boolean'].includes(typeof v),
-    ),
-  );
+function collectableProps(props: Record<string, unknown>): Record<string, unknown> {
+  const out: Record<string, unknown> = {};
+  let kept = 0;
+  for (const [key, value] of Object.entries(props)) {
+    if (kept >= MAX_PROP_KEYS) break;
+    if (key.length > MAX_PROP_KEY_LENGTH) continue;
+    if (typeof value === 'string') out[key] = value.slice(0, MAX_PROP_STRING);
+    else if (value === null || typeof value === 'number' || typeof value === 'boolean') {
+      out[key] = value;
+    } else continue;
+    kept++;
+  }
+  return out;
 }
 
 /** Exposed for testing */

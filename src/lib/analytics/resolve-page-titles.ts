@@ -93,8 +93,10 @@ export async function resolvePageTitles(pathnames: string[]): Promise<Map<string
   }
 
   const jobs: Array<Promise<void>> = [];
+  const jobKinds: Kind[] = [];
 
   if (byKind.article.size > 0) {
+    jobKinds.push('article');
     jobs.push(
       db
         .select({ slug: articles.slug, title: articles.title })
@@ -104,6 +106,7 @@ export async function resolvePageTitles(pathnames: string[]): Promise<Map<string
     );
   }
   if (byKind.category.size > 0) {
+    jobKinds.push('category');
     jobs.push(
       db
         .select({ slug: inspireCategories.slug, title: inspireCategories.name })
@@ -113,6 +116,7 @@ export async function resolvePageTitles(pathnames: string[]): Promise<Map<string
     );
   }
   if (byKind.tag.size > 0) {
+    jobKinds.push('tag');
     jobs.push(
       db
         .select({ slug: inspireTags.slug, title: inspireTags.name })
@@ -122,6 +126,7 @@ export async function resolvePageTitles(pathnames: string[]): Promise<Map<string
     );
   }
   if (byKind.author.size > 0) {
+    jobKinds.push('author');
     jobs.push(
       db
         .select({
@@ -144,7 +149,14 @@ export async function resolvePageTitles(pathnames: string[]): Promise<Map<string
   // allSettled (not all): a single failing lookup (e.g. statement timeout on one
   // content type) must not throw away the titles that did resolve.
   // Unresolved pathnames simply fall back to the raw path.
-  await Promise.allSettled(jobs);
+  // Each failure is logged, so a broken lookup shows up in the logs instead of
+  // silently reading as "no title".
+  const settled = await Promise.allSettled(jobs);
+  settled.forEach((outcome, i) => {
+    if (outcome.status === 'rejected') {
+      console.warn('[analytics-titles]', jobKinds[i], outcome.reason);
+    }
+  });
   return result;
 }
 

@@ -207,7 +207,7 @@ export async function getChartData(
       GROUP BY day
     )
     SELECT
-      dv.day::text AS date,
+      to_char(dv.day, 'YYYY-MM-DD') AS date,
       dv.unique_visitors,
       COALESCE(ds.total_visits, 0) AS total_visits,
       COALESCE(ds.total_pageviews, 0) AS total_pageviews,
@@ -297,9 +297,11 @@ export async function getSources(
   country?: string,
   region?: string,
 ): Promise<TableRow[]> {
-  // Referrer host, as twn-new derives it: empty → `Direct / None`; otherwise
-  // strip the scheme and a leading `www.`, then everything from the first `/`.
-  // `\\.` in this JS template is the single backslash-dot Postgres receives.
+  // Referrer host: empty → `Direct / None`; otherwise lower-case it, strip the
+  // scheme and a leading `www.`, everything from the first `/`, `?` or `#`,
+  // and any `:port` — so `Google.com`, `google.com:443` and `google.com` are
+  // one row. `\\.` in this JS template is the single backslash-dot Postgres
+  // receives.
   return dimensionTable(
     range,
     traffic,
@@ -309,8 +311,11 @@ export async function getSources(
     sql`CASE
           WHEN referrer IS NULL OR referrer = '' THEN 'Direct / None'
           ELSE REGEXP_REPLACE(
-            REGEXP_REPLACE(referrer, '^https?://(www\\.)?', ''),
-            '/.*$', ''
+            REGEXP_REPLACE(
+              REGEXP_REPLACE(LOWER(referrer), '^https?://(www\\.)?', ''),
+              '[/?#].*$', ''
+            ),
+            ':[0-9]+$', ''
           )
         END`,
   );

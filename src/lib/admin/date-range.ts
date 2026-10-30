@@ -163,14 +163,16 @@ export function resolveRange(
 
 /**
  * True when `from..to` is a valid, ordered range of at most MAX_RANGE_DAYS
- * whole KL days. For callers that must REJECT rather than clamp (server
- * actions, which have no URL to correct).
+ * whole KL days ending no later than KL today — the same bounds `resolveRange`
+ * clamps a page to. For callers that must REJECT rather than clamp (server
+ * actions, which have no URL to correct). `today` is a test seam.
  */
-export function isBoundedRange(from: string, to: string): boolean {
+export function isBoundedRange(from: string, to: string, today: Date = getKLToday()): boolean {
   const invalid = new Date(Number.NaN);
   const f = parseDateParam(from, invalid);
   const t = parseDateParam(to, invalid);
   if (Number.isNaN(f.getTime()) || Number.isNaN(t.getTime())) return false;
   if (isAfter(f, t)) return false;
+  if (format(t, DATE_FORMAT) > format(today, DATE_FORMAT)) return false;
   return differenceInCalendarDays(t, f) + 1 <= MAX_RANGE_DAYS;
 }

@@ -51,10 +51,25 @@ export function PageSearch({ activePage, activePageTitle, from, to, traffic }: P
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Invalidate any in-flight search (its late response is then dropped by the
+  // seq check) and empty the list.
+  const resetResults = useCallback(() => {
+    searchSeqRef.current++;
+    setResults([]);
+    setSearching(false);
+  }, []);
+
+  // Results belong to one range + traffic mode; when those change, the list is
+  // stale, so clear it along with any pending or in-flight search.
+  useEffect(() => {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    resetResults();
+  }, [from, to, traffic, resetResults]);
+
   const doSearch = useCallback(
     async (q: string) => {
       if (!q.trim()) {
-        setResults([]);
+        resetResults();
         return;
       }
       const seq = ++searchSeqRef.current;
@@ -69,17 +84,21 @@ export function PageSearch({ activePage, activePageTitle, from, to, traffic }: P
         if (seq === searchSeqRef.current) setSearching(false);
       }
     },
-    [from, to, traffic],
+    [from, to, traffic, resetResults],
   );
 
   const handleInputChange = useCallback(
     (value: string) => {
       setQuery(value);
       setOpen(true);
+      // The old list no longer matches what is typed: drop it now rather than
+      // after the debounce, and show "Searching…" until the new one lands.
+      resetResults();
+      if (value.trim()) setSearching(true);
       if (debounceRef.current) clearTimeout(debounceRef.current);
       debounceRef.current = setTimeout(() => doSearch(value), 300);
     },
-    [doSearch],
+    [doSearch, resetResults],
   );
 
   const selectPage = useCallback(

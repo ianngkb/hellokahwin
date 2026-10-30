@@ -1,4 +1,5 @@
 import type { NextRequest } from 'next/server';
+import { parseCountry } from '@/lib/analytics/sql-filters';
 
 /**
  * Region codes are stored raw and grouped on by the dashboard's States panel,
@@ -6,13 +7,42 @@ import type { NextRequest } from 'next/server';
  * Normalize at the write boundary: trim, upper-case (ISO 3166-2 region parts are
  * upper-case; numeric codes are unaffected), and accept only the 1–10
  * alphanumerics real subdivision codes use — anything else becomes null
- * (treated as "no region"). Kept here rather than importing sql-filters so the geo
- * helper carries no query-layer dependency.
+ * (treated as "no region").
  */
 function normalizeRegion(raw: string | null | undefined): string | null {
   if (!raw) return null;
   const v = raw.trim().toUpperCase();
   return /^[A-Z0-9]{1,10}$/.test(v) ? v : null;
+}
+
+/**
+ * A provider country code, kept only when it is a real ISO alpha-2 country —
+ * `XX`, `T1` and the other pseudo-codes become null, so the stored column
+ * agrees with what the dashboard's `?country=` drill-down accepts.
+ */
+function normalizeCountry(raw: string | null): string | null {
+  return parseCountry(raw?.trim()) ?? null;
+}
+
+/** A coordinate header, kept only when finite and within `±limit` degrees. */
+function coordinate(raw: string | null, limit: number): number | null {
+  const v = parseFloat(raw ?? '');
+  return Number.isFinite(v) && Math.abs(v) <= limit ? v : null;
+}
+
+const MAX_CITY_CHARS = 100;
+
+/** Drop C0 control characters and DEL, then clip — the header is untrusted. */
+function cleanCity(city: string | null): string | null {
+  if (!city) return null;
+  const clean = Array.from(city)
+    .filter((ch) => {
+      const code = ch.charCodeAt(0);
+      return code > 0x1f && code !== 0x7f;
+    })
+    .join('')
+    .slice(0, MAX_CITY_CHARS);
+  return clean || null;
 }
 
 export interface GeoResult {
@@ -59,21 +89,19 @@ export function resolveGeo(request: NextRequest): GeoResult {
   const vercelRegion = request.headers.get('x-vercel-ip-country-region');
 
   if (vercelCountry) {
-    const lat = parseFloat(request.headers.get('x-vercel-ip-latitude') ?? '');
-    const lng = parseFloat(request.headers.get('x-vercel-ip-longitude') ?? '');
     return {
-      country: vercelCountry,
+      country: normalizeCountry(vercelCountry),
       region: normalizeRegion(vercelRegion),
-      city: decodeGeoCity(vercelCity),
-      latitude: Number.isFinite(lat) ? lat : null,
-      longitude: Number.isFinite(lng) ? lng : null,
+      city: cleanCity(decodeGeoCity(vercelCity)),
+      latitude: coordinate(request.headers.get('x-vercel-ip-latitude'), 90),
+      longitude: coordinate(request.headers.get('x-vercel-ip-longitude'), 180),
     };
   }
 
   const cfCountry = request.headers.get('cf-ipcountry');
   if (cfCountry) {
     return {
-      country: cfCountry,
+      country: normalizeCountry(cfCountry),
       region: null,
       city: null,
       latitude: null,

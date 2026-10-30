@@ -5,6 +5,7 @@ import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { CalendarIcon } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
+import { MAX_RANGE_DAYS } from '@/lib/admin/date-range';
 
 /**
  * KL-calendar date-range picker for admin reports: presets plus two native
@@ -28,6 +29,13 @@ function addDays(day: Ymd, n: number): Ymd {
   const d = new Date(`${day}T00:00:00Z`);
   d.setUTCDate(d.getUTCDate() + n);
   return d.toISOString().slice(0, 10);
+}
+
+/** Inclusive number of days in `from..to`. */
+export function spanDays(from: Ymd, to: Ymd): number {
+  return (
+    Math.round((Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) / 86_400_000) + 1
+  );
 }
 
 function startOfMonth(day: Ymd): Ymd {
@@ -102,7 +110,12 @@ export function DateRangePicker({
       ? fmtDay(from, true)
       : `${fmtDay(from, from.slice(0, 4) !== to.slice(0, 4))} – ${fmtDay(to, true)}`);
 
-  const customValid = Boolean(draftFrom && draftTo && draftFrom <= draftTo && draftTo <= today);
+  // Same cap the page clamps to (resolveRange); refusing here means the admin
+  // never gets silently handed a shorter range than they picked.
+  const tooLong = Boolean(draftFrom && draftTo) && spanDays(draftFrom, draftTo) > MAX_RANGE_DAYS;
+  const customValid = Boolean(
+    draftFrom && draftTo && draftFrom <= draftTo && draftTo <= today && !tooLong,
+  );
 
   return (
     <Popover
@@ -176,6 +189,11 @@ export function DateRangePicker({
                 className="bg-background h-8 rounded-md border px-2 text-xs"
               />
             </label>
+            {tooLong ? (
+              <p role="alert" className="text-error text-xs">
+                Max {MAX_RANGE_DAYS} days
+              </p>
+            ) : null}
             <button
               type="submit"
               disabled={!customValid}

@@ -28,9 +28,9 @@ export function ChangeBadge({
   const diff = current - previous;
   const pct = Math.abs(Math.round((diff / previous) * 100));
   const isUp = diff > 0;
-  const isNeutral = diff === 0;
-
-  if (isNeutral) {
+  // Neutral when the change ROUNDS to 0%, not only when it is exactly 0 —
+  // otherwise a 0.3% move shows an arrow beside "0%".
+  if (pct === 0) {
     return <span className="text-muted-foreground text-xs">0%</span>;
   }
 

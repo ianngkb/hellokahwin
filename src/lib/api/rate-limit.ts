@@ -25,9 +25,12 @@ const MAX_STORE_SIZE = 10_000;
  * written to prevent (review F10).
  *
  * Expired rows go first because they are free. If that is not enough, the
- * SOONEST-EXPIRING live bucket is dropped: it is the one closest to being
- * worthless anyway, and losing it costs an attacker a few extra allowed
- * attempts rather than resetting everybody's counter.
+ * OLDEST buckets are dropped, in Map insertion order (a bucket is re-inserted
+ * whenever its window restarts, so insertion order is window-start order and
+ * the first keys are the ones nearest their reset). That is O(overBy) — the
+ * earlier version sorted all 10,000 entries on every new IP once the store was
+ * full. Losing an old bucket costs an attacker a few extra allowed attempts
+ * rather than resetting everybody's counter.
  */
 function evictExpiredIfNeeded(): void {
   if (store.size < MAX_STORE_SIZE) return;
@@ -38,13 +41,39 @@ function evictExpiredIfNeeded(): void {
   }
   if (store.size < MAX_STORE_SIZE) return;
 
-  // Nothing expired — every bucket is live. Drop the ones nearest their reset
-  // until there is room for the caller's insert.
-  const byExpiry = [...store.entries()].sort((a, b) => a[1].resetAt - b[1].resetAt);
-  const overBy = store.size - MAX_STORE_SIZE + 1;
-  for (let i = 0; i < overBy && i < byExpiry.length; i++) {
-    store.delete(byExpiry[i][0]);
+  // Nothing expired — every bucket is live. Drop the oldest until there is
+  // room for the caller's insert.
+  let overBy = store.size - MAX_STORE_SIZE + 1;
+  for (const key of store.keys()) {
+    if (overBy-- <= 0) break;
+    store.delete(key);
   }
+}
+
+/**
+ * The rate-limit identity for an address. IPv4 is used as-is. IPv6 is cut to
+ * its /64 prefix: one client is routinely handed a whole /64 and can rotate
+ * through it freely, so per-address buckets would not limit anything. An
+ * IPv4-mapped IPv6 address (`::ffff:1.2.3.4`) is treated as the IPv4 it carries.
+ */
+export function rateLimitIdentity(ip: string): string {
+  if (!ip.includes(':')) return ip;
+  const addr = ip.split('%')[0].toLowerCase();
+  if (addr.includes('.')) return addr.slice(addr.lastIndexOf(':') + 1);
+
+  const [head, tail] = addr.split('::');
+  const headParts = head ? head.split(':') : [];
+  let hextets = headParts;
+  if (tail !== undefined) {
+    const tailParts = tail ? tail.split(':') : [];
+    const zeros = Array(Math.max(0, 8 - headParts.length - tailParts.length)).fill('0');
+    hextets = [...headParts, ...zeros, ...tailParts];
+  }
+  const prefix = hextets
+    .slice(0, 4)
+    .map((h) => h.replace(/^0+(?=.)/, '') || '0')
+    .join(':');
+  return `${prefix}::/64`;
 }
 
 /**
@@ -88,7 +117,7 @@ interface RateLimitOptions {
  * Returns a 429 Response if the limit is exceeded, or null if the request is allowed.
  */
 export function ipRateLimit(request: NextRequest, options: RateLimitOptions): Response | null {
-  const ip = getClientIp(request);
+  const ip = rateLimitIdentity(getClientIp(request));
   const key = options.keySuffix
     ? `${request.nextUrl.pathname}:${ip}:${options.keySuffix}`
     : `${request.nextUrl.pathname}:${ip}`;
@@ -97,6 +126,9 @@ export function ipRateLimit(request: NextRequest, options: RateLimitOptions): Re
   const entry = store.get(key);
 
   if (!entry || entry.resetAt <= now) {
+    // Delete-then-set moves a restarted bucket to the END of insertion order,
+    // which is what lets eviction drop the oldest windows first.
+    store.delete(key);
     evictExpiredIfNeeded();
     store.set(key, { count: 1, resetAt: now + options.windowMs });
     return null;

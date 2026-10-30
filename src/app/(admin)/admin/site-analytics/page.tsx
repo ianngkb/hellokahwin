@@ -9,8 +9,14 @@ import { PageHeader } from '@/components/layout/page-header';
 import { DateRangePicker } from '@/components/admin/date-range-picker';
 import { TrafficToggle } from '@/components/admin/traffic-toggle';
 import { PageSearch } from '@/components/admin/page-search';
-import { parseTrafficMode, parseCountry, parseRegion } from '@/lib/analytics/sql-filters';
+import {
+  parseTrafficMode,
+  parseCountry,
+  parseRegion,
+  parsePageParam,
+} from '@/lib/analytics/sql-filters';
 import { regionName } from '@/lib/analytics/region-name';
+import { countryName } from '@/lib/analytics/country-name';
 import { resolvePageTitle, resolvePageTitles } from '@/lib/analytics/resolve-page-titles';
 import { getPreviousPeriod, type TopStats, type TrafficCounts } from './queries';
 import {
@@ -80,7 +86,8 @@ export default async function SiteAnalyticsPage({ searchParams }: PageProps) {
   const range = resolveRange(params, today);
   const prevRange = getPreviousPeriod(range.from, range.to);
   const traffic = parseTrafficMode(single(params.traffic));
-  const page = single(params.page);
+  // A pathname of at most 2000 chars, or no page filter at all.
+  const page = parsePageParam(single(params.page));
   // Optional per-country drill-down, validated to a real ISO alpha-2 code. The
   // Countries panel itself stays global so it remains the navigator.
   const country = parseCountry(single(params.country));
@@ -202,6 +209,13 @@ export default async function SiteAnalyticsPage({ searchParams }: PageProps) {
     if (region) regionNames[region] = regionName(country, region);
   }
 
+  // Country names too, on the server: `Intl.DisplayNames` output can differ
+  // between the server's and the browser's ICU data, which would be a
+  // hydration mismatch if the client resolved them.
+  const countryNames: Record<string, string> = {};
+  for (const row of countries) countryNames[row.name] = countryName(row.name);
+  if (country) countryNames[country] = countryName(country);
+
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
@@ -249,6 +263,7 @@ export default async function SiteAnalyticsPage({ searchParams }: PageProps) {
         countries={countries}
         states={states}
         regionNames={regionNames}
+        countryNames={countryNames}
         cities={cities}
         browsers={browsers}
         operatingSystems={operatingSystems}

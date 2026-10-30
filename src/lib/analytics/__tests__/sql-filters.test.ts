@@ -6,6 +6,7 @@ import {
   parseCountry,
   parseRegion,
   parseTrafficMode,
+  parsePageParam,
   regionFilter,
   countryFilter,
   trafficFilter,
@@ -143,5 +144,35 @@ describe('regionFilter', () => {
     const q = render(countryFilter('MY'));
     expect(q.sql).toContain('country =');
     expect(q.params).toContain('MY');
+  });
+});
+
+describe('filters normalise their own input (F26)', () => {
+  it('regionFilter upper-cases before binding', () => {
+    const q = render(regionFilter('ca'));
+    expect(q.sql).toContain('region =');
+    expect(q.params).toEqual(['CA']);
+  });
+
+  it('countryFilter renders TRUE for a pseudo-code and upper-cases a real one', () => {
+    const pseudo = render(countryFilter('XX'));
+    expect(pseudo.sql).toBe('TRUE');
+    expect(pseudo.params).toHaveLength(0);
+    expect(render(countryFilter('my')).params).toEqual(['MY']);
+  });
+});
+
+describe('parsePageParam (F34)', () => {
+  it('accepts a pathname starting with / of up to 2000 chars', () => {
+    expect(parsePageParam('/artikel')).toBe('/artikel');
+    const max = `/${'a'.repeat(1999)}`;
+    expect(parsePageParam(max)).toBe(max);
+  });
+
+  it('ignores anything else', () => {
+    expect(parsePageParam(undefined)).toBeUndefined();
+    expect(parsePageParam('')).toBeUndefined();
+    expect(parsePageParam('artikel')).toBeUndefined();
+    expect(parsePageParam(`/${'a'.repeat(2000)}`)).toBeUndefined();
   });
 });

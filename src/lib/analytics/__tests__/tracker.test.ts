@@ -239,3 +239,68 @@ describe('randomUuid', () => {
     }
   });
 });
+
+describe('external review fixes', () => {
+  it('F8: a malformed _hk_vid cookie is replaced with a fresh id', async () => {
+    const { getOrCreateVisitorIdClient } = await import('../visitor-id');
+    document.cookie = '_hk_vid=%E0%A4; Path=/';
+    _resetVisitorIdCacheForTest();
+    const id = getOrCreateVisitorIdClient();
+    expect(id).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/);
+    expect(document.cookie).toContain(`_hk_vid=${id}`);
+  });
+
+  it('F14: randomUuid works with no crypto global at all', async () => {
+    const { randomUuid } = await import('../uuid');
+    vi.stubGlobal('crypto', undefined);
+    const id = randomUuid();
+    expect(id).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/);
+    expect(randomUuid()).not.toBe(id);
+  });
+
+  it('F19: falls back to fetch when sendBeacon refuses the payload', () => {
+    const sendBeacon = vi.fn().mockReturnValue(false);
+    Object.defineProperty(navigator, 'sendBeacon', { configurable: true, value: sendBeacon });
+    vi.spyOn(document, 'visibilityState', 'get').mockReturnValue('hidden');
+    track('x');
+    flush();
+    expect(sendBeacon).toHaveBeenCalledTimes(1);
+    expect(mockFetch).toHaveBeenCalledTimes(1);
+    expect(mockFetch.mock.calls[0][1]).toMatchObject({ method: 'POST', keepalive: true });
+  });
+
+  it('F20: ignores blank event names', () => {
+    track('');
+    track('   ');
+    expect(_getQueue()).toHaveLength(0);
+  });
+
+  it('F20: clips prop strings, drops long keys, keeps the first 50 keys', () => {
+    const props: Record<string, unknown> = {
+      long: 'x'.repeat(1500),
+      ['k'.repeat(101)]: 'dropped',
+    };
+    for (let i = 0; i < 60; i++) props[`p${i}`] = i;
+    track('x', props);
+    const sent = _getQueue()[0].props as Record<string, unknown>;
+    expect(String(sent.long)).toHaveLength(1000);
+    expect(sent).not.toHaveProperty('k'.repeat(101));
+    expect(Object.keys(sent)).toHaveLength(50);
+    expect(sent.p48).toBe(48);
+    expect(sent).not.toHaveProperty('p49');
+  });
+
+  it('F22: rotates the session when the clock has gone backwards', () => {
+    sessionStorage.setItem('_hk_sid', 'old-session');
+    sessionStorage.setItem('_hk_sid_ts', String(Date.now() + 60_000));
+    track('x');
+    expect(_getQueue()[0].session_id).not.toBe('old-session');
+  });
+
+  it('keeps a live session within the timeout', () => {
+    sessionStorage.setItem('_hk_sid', 'live-session');
+    sessionStorage.setItem('_hk_sid_ts', String(Date.now() - 60_000));
+    track('x');
+    expect(_getQueue()[0].session_id).toBe('live-session');
+  });
+});

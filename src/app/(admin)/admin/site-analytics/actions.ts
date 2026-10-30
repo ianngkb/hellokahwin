@@ -12,6 +12,8 @@ export interface PageSearchResult {
   title: string | null;
 }
 
+const MAX_QUERY_CHARS = 200;
+
 export async function searchPagesAction(
   query: string,
   from: string,
@@ -24,13 +26,17 @@ export async function searchPagesAction(
   const { error } = await requireAdminSectionAction('site_analytics');
   if (error) return [];
 
+  // The declared types are not enforced on the wire — a caller can post
+  // anything — so check them before use.
+  if (typeof query !== 'string' || typeof from !== 'string' || typeof to !== 'string') return [];
   const trimmed = query.trim();
-  if (!trimmed) return [];
-  // Well-formed, ordered and at most MAX_RANGE_DAYS — the same bound the page
-  // enforces, so this endpoint cannot be used to scan the whole table.
+  if (!trimmed || trimmed.length > MAX_QUERY_CHARS) return [];
+  // Well-formed, ordered, at most MAX_RANGE_DAYS and not past KL today — the
+  // bounds the page clamps to — so this endpoint cannot scan the whole table.
   if (!isBoundedRange(from, to)) return [];
+  const trafficMode = parseTrafficMode(typeof traffic === 'string' ? traffic : undefined);
 
-  const pathnames = await searchPages({ from, to }, parseTrafficMode(traffic), trimmed);
+  const pathnames = await searchPages({ from, to }, trafficMode, trimmed);
   const titles = await resolvePageTitles(pathnames);
 
   // Preserve the relevance order from searchPages.

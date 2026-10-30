@@ -67,3 +67,59 @@ describe('resolveGeo — region (state) capture', () => {
     expect(geo.region).toBeNull();
   });
 });
+
+describe('resolveGeo — input hardening', () => {
+  it('F11: keeps only real ISO alpha-2 countries, trimmed and upper-cased', () => {
+    expect(resolveGeo(reqWith({ 'x-vercel-ip-country': 'xx' })).country).toBeNull();
+    expect(resolveGeo(reqWith({ 'x-vercel-ip-country': 'T1' })).country).toBeNull();
+    expect(resolveGeo(reqWith({ 'x-vercel-ip-country': ' my ' })).country).toBe('MY');
+    expect(resolveGeo(reqWith({ 'cf-ipcountry': 'XX' })).country).toBeNull();
+    expect(resolveGeo(reqWith({ 'cf-ipcountry': 'sg' })).country).toBe('SG');
+  });
+
+  it('F12: drops out-of-range or non-finite coordinates', () => {
+    const ok = resolveGeo(
+      reqWith({
+        'x-vercel-ip-country': 'MY',
+        'x-vercel-ip-latitude': '-90',
+        'x-vercel-ip-longitude': '180',
+      }),
+    );
+    expect(ok.latitude).toBe(-90);
+    expect(ok.longitude).toBe(180);
+
+    const bad = resolveGeo(
+      reqWith({
+        'x-vercel-ip-country': 'MY',
+        'x-vercel-ip-latitude': '90.5',
+        'x-vercel-ip-longitude': '-181',
+      }),
+    );
+    expect(bad.latitude).toBeNull();
+    expect(bad.longitude).toBeNull();
+
+    const junk = resolveGeo(
+      reqWith({
+        'x-vercel-ip-country': 'MY',
+        'x-vercel-ip-latitude': 'Infinity',
+        'x-vercel-ip-longitude': 'abc',
+      }),
+    );
+    expect(junk.latitude).toBeNull();
+    expect(junk.longitude).toBeNull();
+  });
+
+  it('F13: strips control characters from the city and clips it to 100 chars', () => {
+    const encodedCtl = encodeURIComponent(
+      `Shah${String.fromCharCode(1)}Alam${String.fromCharCode(0x7f)}`,
+    );
+    expect(
+      resolveGeo(reqWith({ 'x-vercel-ip-country': 'MY', 'x-vercel-ip-city': encodedCtl })).city,
+    ).toBe('ShahAlam');
+
+    const long = encodeURIComponent('K'.repeat(150));
+    expect(
+      resolveGeo(reqWith({ 'x-vercel-ip-country': 'MY', 'x-vercel-ip-city': long })).city,
+    ).toHaveLength(100);
+  });
+});

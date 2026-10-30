@@ -81,12 +81,13 @@ export function parseCountry(value: string | undefined | null): string | undefin
 
 /**
  * Returns the SQL fragment to scope an analytics query to a single country
- * (ISO alpha-2). When `country` is undefined/invalid, returns `TRUE` so callers
- * can unconditionally interpolate it via `AND ${countryFilter(country)}`.
+ * (ISO alpha-2). The input goes through `parseCountry` here, so the fragment is
+ * safe whatever the caller passes: a pseudo-code or junk returns `TRUE`, which
+ * callers can unconditionally interpolate via `AND ${countryFilter(country)}`.
  */
 export function countryFilter(country?: string): SQL {
-  if (!country || !COUNTRY_CODE_RE.test(country)) return sql`TRUE`;
-  return sql`country = ${country}`;
+  const code = parseCountry(country);
+  return code ? sql`country = ${code}` : sql`TRUE`;
 }
 
 /**
@@ -134,6 +135,19 @@ export function parseRegion(value: string | undefined | null): string | undefine
  * `countryFilter`; this fragment scopes the `region` column alone.
  */
 export function regionFilter(region?: string): SQL {
-  if (!isRegionCode(region)) return sql`TRUE`;
-  return sql`region = ${region}`;
+  // Normalised (upper-cased) here, to match how geo.ts stores the code.
+  const code = parseRegion(region);
+  return code ? sql`region = ${code}` : sql`TRUE`;
+}
+
+/** Longest `?page=` pathname honoured — the collector clips pathnames to this. */
+export const MAX_PAGE_PARAM_LENGTH = 2000;
+
+/**
+ * Normalizes an untrusted `?page=` param: a pathname starting with `/` and at
+ * most MAX_PAGE_PARAM_LENGTH chars, or `undefined` (no page filter).
+ */
+export function parsePageParam(value: string | undefined | null): string | undefined {
+  if (!value || !value.startsWith('/') || value.length > MAX_PAGE_PARAM_LENGTH) return undefined;
+  return value;
 }

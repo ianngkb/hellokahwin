@@ -17,4 +17,13 @@ describe('runBatched', () => {
     expect(out).toEqual([1, 2, 3, 4, 5]);
     expect(peak).toBe(2);
   });
+
+  it.each([0, -1, Number.NaN, 0.5])(
+    'rejects size %s instead of looping forever (F35)',
+    async (size) => {
+      await expect(runBatched([async () => 1] as const, size)).rejects.toThrow(
+        new RangeError('size must be >= 1'),
+      );
+    },
+  );
 });
