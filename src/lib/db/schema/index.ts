@@ -8,3 +8,4 @@ export * from './settings';
 export * from './media';
 export * from './dynamic-blocks';
 export * from './seo-indexing';
+export * from './analytics-events';
