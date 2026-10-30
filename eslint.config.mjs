@@ -11,6 +11,8 @@ const eslintConfig = defineConfig([
     'build/**',
     'next-env.d.ts',
     '_bmad-output/**',
+    '_bmad/**',
+    '.tmp-ops/**',
     '.claude/**',
   ]),
   // Ported-code debt: same downgrade set as twn-new — the React Compiler hook
