@@ -1,4 +1,4 @@
-import { inArray } from 'drizzle-orm';
+import { and, eq, inArray } from 'drizzle-orm';
 import { db } from '@/lib/db/drizzle';
 import { articles, inspireCategories, inspireTags } from '@/lib/db/schema/articles';
 import { profiles } from '@/lib/db/schema/profiles';
@@ -101,7 +101,12 @@ export async function resolvePageTitles(pathnames: string[]): Promise<Map<string
       db
         .select({ slug: articles.slug, title: articles.title })
         .from(articles)
-        .where(inArray(articles.slug, [...byKind.article.keys()]))
+        // Published only: the article page 404s on a draft or deleted slug, but
+        // that 404 is still a tracked pageview — it must not borrow the title
+        // of an article the public never saw. It stays an unresolved raw path.
+        .where(
+          and(inArray(articles.slug, [...byKind.article.keys()]), eq(articles.status, 'published')),
+        )
         .then((rows) => applyLookup(byKind.article, rows, result)),
     );
   }

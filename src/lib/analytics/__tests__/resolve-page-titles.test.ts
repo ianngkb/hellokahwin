@@ -6,26 +6,48 @@ import { profiles } from '@/lib/db/schema/profiles';
 // Rows each table "returns", keyed by the table object the query selects from.
 const tableRows = vi.hoisted(() => new Map<unknown, unknown[] | Error>());
 const fromCalls = vi.hoisted(() => [] as unknown[]);
+// The rendered WHERE of each query, keyed by table, so a test can assert on it.
+const whereSql = vi.hoisted(() => new Map<unknown, { sql: string; params: unknown[] }>());
 
-vi.mock('@/lib/db/drizzle', () => ({
-  db: {
-    select: () => ({
-      from: (table: unknown) => {
-        fromCalls.push(table);
-        const rows = tableRows.get(table);
-        return {
-          where: () => (rows instanceof Error ? Promise.reject(rows) : Promise.resolve(rows ?? [])),
-        };
-      },
-    }),
-  },
-}));
+vi.mock('@/lib/db/drizzle', async () => {
+  const { PgDialect } = await import('drizzle-orm/pg-core');
+  const dialect = new PgDialect();
+  return {
+    db: {
+      select: () => ({
+        from: (table: unknown) => {
+          fromCalls.push(table);
+          const rows = tableRows.get(table);
+          return {
+            where: (condition: Parameters<PgDialect['sqlToQuery']>[0]) => {
+              const rendered = dialect.sqlToQuery(condition);
+              whereSql.set(table, rendered);
+              if (rows instanceof Error) return Promise.reject(rows);
+              // Honour a `status = 'published'` predicate the way Postgres would,
+              // so a draft/deleted row only comes back if the filter is missing.
+              const publishedOnly =
+                /"status" = \$\d+/.test(rendered.sql) && rendered.params.includes('published');
+              const visible = (rows ?? []).filter(
+                (r) =>
+                  !publishedOnly ||
+                  ((r as { status?: string }).status !== 'draft' &&
+                    (r as { status?: string }).status !== 'deleted'),
+              );
+              return Promise.resolve(visible);
+            },
+          };
+        },
+      }),
+    },
+  };
+});
 
 const { resolvePageTitles, resolvePageTitle, classifyPathname } =
   await import('../resolve-page-titles');
 
 beforeEach(() => {
   fromCalls.length = 0;
+  whereSql.clear();
   tableRows.clear();
   tableRows.set(articles, [{ slug: 'baju-nikah', title: 'Baju Nikah Pilihan 2026' }]);
   tableRows.set(inspireCategories, [{ slug: 'pakaian', title: 'Pakaian' }]);
@@ -37,6 +59,26 @@ describe('resolvePageTitles (D10)', () => {
   it('resolves an article path to the article title', async () => {
     const titles = await resolvePageTitles(['/artikel/pakaian/baju-nikah']);
     expect(titles.get('/artikel/pakaian/baju-nikah')).toBe('Baju Nikah Pilihan 2026');
+  });
+
+  it('leaves draft and deleted article slugs unresolved (F17)', async () => {
+    tableRows.set(articles, [
+      { slug: 'baju-nikah', title: 'Baju Nikah Pilihan 2026', status: 'published' },
+      { slug: 'draf-rahsia', title: 'Draf Rahsia', status: 'draft' },
+      { slug: 'ditarik-balik', title: 'Ditarik Balik', status: 'deleted' },
+    ]);
+    const titles = await resolvePageTitles([
+      '/artikel/pakaian/baju-nikah',
+      '/artikel/pakaian/draf-rahsia',
+      '/artikel/pakaian/ditarik-balik',
+    ]);
+    expect(titles.get('/artikel/pakaian/baju-nikah')).toBe('Baju Nikah Pilihan 2026');
+    expect(titles.has('/artikel/pakaian/draf-rahsia')).toBe(false);
+    expect(titles.has('/artikel/pakaian/ditarik-balik')).toBe(false);
+
+    const where = whereSql.get(articles);
+    expect(where?.sql).toMatch(/"articles"\."status" = \$\d+/);
+    expect(where?.params).toContain('published');
   });
 
   it('resolves a tag path to the tag name', async () => {
