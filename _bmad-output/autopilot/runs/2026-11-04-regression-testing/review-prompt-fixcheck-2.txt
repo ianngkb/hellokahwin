@@ -1,0 +1,9 @@
+Do not load, read or follow any repository skill, workflow, checklist or step file (`.agents/skills/**`, `_bmad/**`, `.claude/skills/**`). No questions, no checkpoints; produce the findings and stop.
+
+Here is a review finding that was supposedly fixed, with its id, the class the fixer assigned it, and what the fixer says they did. Examine the current state and answer with ONE line, in this shape:
+`CLOSED|STILL_OPEN|REBUTTAL_ACCEPTED|REBUTTAL_REJECTED | F1 | file:line | evidence`.
+Then judge the class. If the fixer's class is right, end the line there. If it is wrong, append ` | CLASS: <one of defect-user, defect-edge, test-gap, paperwork, rebutted, duplicate>` and one clause saying why.
+Judge ONLY this finding. **Check the proof yourself** with read-only commands: `gh api repos/ianngkb/hellokahwin/rulesets`, `gh api repos/ianngkb/hellokahwin/rulesets/<id>`, `gh api repos/ianngkb/hellokahwin/rules/branches/master`, `gh pr view 84 --json mergeStateStatus,statusCheckRollup`, and compare against `.github/workflows/ci.yml` job names and `.github/rulesets/ci-must-pass-on-master.json`. Do NOT call any GitHub write API.
+There are no out-of-scope hunks: the only change since fix-check 1 is applying the committed ruleset on GitHub (no code change).
+--- FINDINGS ---
+| F1 | acceptance, blind | .github/workflows/ci.yml:1 (docs/verify.md:4) | major | defect-user | fixed | Spec layer 2 requires CI "as a hard gate"; master had no branch protection and no rulesets, so all three jobs were advisory. Fix: ruleset definition committed at .github/rulesets/ci-must-pass-on-master.json and now APPLIED on GitHub as ruleset id 26524556 "CI must pass on master" (enforcement active, target branch, refs/heads/master, required_status_checks = the three CI job names from the GitHub Actions app 15368, no bypass actors). docs/verify.md documents it. Fix-check 1 said STILL_OPEN only because it had not been applied yet. |
