@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+export PATH=/usr/bin:$PATH
+cd "/c/Users/Ian Ng/orca/workspaces/hellokahwin-site/regression-testing"
+S=$(date +%s); claude -p --model claude-opus-5 --permission-mode bypassPermissions --strict-mcp-config --mcp-config '{"mcpServers":{}}' < "/c/Users/Ian Ng/orca/workspaces/hellokahwin-site/regression-testing/_bmad-output/autopilot/runs/2026-11-04-homepage-nested-link/review-prompt-fixcheck-2.txt" > "/c/Users/Ian Ng/orca/workspaces/hellokahwin-site/regression-testing/_bmad-output/autopilot/runs/2026-11-04-homepage-nested-link/fixcheck-2-raw.tmp" 2>&1; mv "/c/Users/Ian Ng/orca/workspaces/hellokahwin-site/regression-testing/_bmad-output/autopilot/runs/2026-11-04-homepage-nested-link/fixcheck-2-raw.tmp" "/c/Users/Ian Ng/orca/workspaces/hellokahwin-site/regression-testing/_bmad-output/autopilot/runs/2026-11-04-homepage-nested-link/fixcheck-2-raw.txt"; echo $(( $(date +%s) - S )) > "/c/Users/Ian Ng/orca/workspaces/hellokahwin-site/regression-testing/_bmad-output/autopilot/runs/2026-11-04-homepage-nested-link/fixcheck-2-secs.txt"
+echo FIXCHECK-DONE

@@ -52,9 +52,9 @@ The tests mock the database and Clerk; none of them touches production.
 
 ## Layer 3 — the standing smoke suite against the live site
 
-| What                               | Command                              | Where it runs                                                                                                                                                                                                             |
-| ---------------------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Live-site smoke, 11 checks, ~2–5 s | `node --test scripts/smoke-prod.mjs` | Automatically: `.github/workflows/smoke-production.yml`, when Vercel reports a successful **Production** deployment to GitHub (`deployment_status`). Also runnable from the Actions tab (`workflow_dispatch`) or by hand. |
+| What                                 | Command                              | Where it runs                                                                                                                                                                                                             |
+| ------------------------------------ | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Live-site smoke, 12 checks, ~10–35 s | `node --test scripts/smoke-prod.mjs` | Automatically: `.github/workflows/smoke-production.yml`, when Vercel reports a successful **Production** deployment to GitHub (`deployment_status`). Also runnable from the Actions tab (`workflow_dispatch`) or by hand. |
 
 - Target: `https://hellokahwin.com` (override with `SMOKE_BASE_URL`). The
   per-deploy `*.vercel.app` URLs are behind Vercel Deployment Protection, so
@@ -63,11 +63,14 @@ The tests mock the database and Clerk; none of them touches production.
   page (H1, JSON-LD, canonical, share image loads), one category page lists its
   articles, search reaches the database, `/admin` redirects to `/login` when
   signed out, `/login` loads, unknown pages are 404 not 5xx, and the analytics
-  collector answers 400 (or 429 when rate-limited) to an invalid body.
+  collector answers 400 (or 429 when rate-limited) to an invalid body. The
+  last check opens `/` in the runner's headless Google Chrome (over the
+  DevTools protocol, no extra dependency) and fails on any uncaught
+  JavaScript error or `console.error`, such as a React hydration error.
 - **Read-only.** Every request is a GET, except one POST of an invalid body to
   `/api/v1/analytics/collect`, which is rejected before anything is stored.
-  The suite runs in Node (no browser), so the client-side tracker never fires
-  and no pageviews are recorded.
+  The browser check blocks `/api/v1/analytics/collect` inside Chrome, so the
+  tracker's beacon never leaves the browser and no pageview is recorded.
 - **Fixtures: none.** The article and category are picked from the live
   sitemap on each run. It only needs the site to have at least one published
   article, which is real content. There is no seed script because there is
@@ -88,8 +91,8 @@ The tests mock the database and Clerk; none of them touches production.
   smart crops, site analytics screens. There is no saved signed-in session for
   a prod-only Clerk instance.
 - Draft previews (`/draft/<token>`): they need a share token.
-- How pages look: no browser runs in either layer, so layout, images actually
-  painting, and client-side JavaScript (including the analytics tracker) are
-  untested against production.
+- How pages look: layout and images actually painting are untested against
+  production. Client-side JavaScript is checked for errors on `/` only; other
+  pages and the analytics tracker itself are untested in a browser.
 - Database migrations: applied by hand per ship (see the run log for the
   drizzle-history caveat); no test exercises them against Postgres.

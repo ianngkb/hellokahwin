@@ -1,0 +1,15 @@
+Warning: this sign-in ends between 2026-11-06 and 2026-11-09 (in 2 days at the earliest). Renewing it does not move those dates. Run claude auth login before then, or use claude setup-token for unattended jobs.
+Proof checks run here (real output):
+
+- `node --check scripts/smoke-prod.mjs` → clean (`CHECK_OK`), Node v22.19.0.
+- `node --test scripts/smoke-prod.mjs` → `# pass 11 # fail 1`; the only failure is test 12 `the home page runs in a real browser without JavaScript errors` with `uncaught: Error: Minified React error #418` — i.e. it fails only on the unfixed live-site bug, as claimed.
+- `CHROME_PATH=C:/nope.exe node --test --test-name-pattern="real browser" …` → `not ok 1` with `error: 'TEST MACHINE, NOT THE SITE: CHROME_PATH=C:/nope.exe does not exist'`.
+
+```
+CLOSED | F8 | scripts/smoke-prod.mjs:316,325,340,341 | all four cited messages now interpolate NOT_THE_SITE (exit-before-DevTools, DevTools connect failure, ws.onclose, exit mid-check); `grep -c NOT_THE_SITE` = 9 (1 declaration + 8 sites), and the live missing-browser run printed the prefix verbatim. Only `DevTools ${method} got no answer in 20000 ms` (line ~351) stays unprefixed, and that one can legitimately be the page hanging the renderer, so it is outside this finding.
+CLOSED | FC1-N1 | scripts/smoke-prod.mjs:423 | `const quietDeadline = Date.now() + QUIET_MS + QUIET_BUDGET_MS` (2s + 8s) is taken after the load wait; the loop `break`s on `Date.now() >= quietDeadline` and the old `assert.ok(Date.now() < deadline, '… never went quiet in 30s')` is gone, so exhausting the quiet wait no longer reds the gate; the activity filter is restricted to `e.method.startsWith('Page.') || e.method.startsWith('Runtime.')`, so Network chatter no longer keeps it awake. Live run reached the assertion and reported the real React error, so the shortened wait still catches the hydration failure.
+```
+
+Edits nobody flagged: `none` — no NEW defects. (The diff touches only the four error strings and the quiet-wait block; the one behavioural trade-off it introduces — a page still busy at 10s is read as quiet instead of failing — is the fix FC1-N1 asked for and is documented in the comment, and a Chrome death during that window still surfaces via `closedReason` on the next `send`, prefixed.)
+
+Plain version: both fixes hold up, and I verified them by actually running the tests rather than trusting the write-up. The one failure left is the real bug on the live site, which is expected.

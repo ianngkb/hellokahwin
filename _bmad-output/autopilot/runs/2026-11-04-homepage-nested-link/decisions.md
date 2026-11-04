@@ -1,0 +1,7 @@
+- [2026-11-04] track: Standard (CI workflows + smoke suite + docs, ~400 lines, no risk areas). Orca brief forbids helper workers, so I build myself.
+- [2026-11-04] deploy hook: no deploy workflow exists (Vercel git integration), so layer 3 = a GitHub workflow on `deployment_status` (success, Production) — no new secret needed.
+- [2026-11-04] smoke writes nothing: the analytics beacon is intercepted and answered 204 in the browser.
+- [2026-11-04] ESCALATED: real prod bug found by the smoke suite — home hero nests the photo-credit <a> inside the hero <Link> <a> (src/app/(public)/page.tsx ~323-420); invalid HTML → React hydration error #418 on every load of /.
+- [2026-11-04] RE-PLAN (orchestrator): PR #84 (other worker, same repo) already shipped CI + smoke. Dropped my duplicate CI/smoke/docs work (kept locally as branch backup/regression-testing-local-f9c773d…, never pushed). Branch renamed ianngkb/homepage-nested-link, rebuilt on origin/master 4e03cdd. Scope now: hero fix + its test + one browser check in #84's smoke spec.
+- [2026-11-04] browser check uses system Chrome over CDP with Node's built-in WebSocket rather than adding playwright, because #84's smoke job deliberately installs no dependencies.
+- [2026-11-04] smoke job pinned to ubuntu-24.04 (orchestrator FYI: ubuntu-latest became 26.04 today); 24.04 is the image known to ship Google Chrome.
