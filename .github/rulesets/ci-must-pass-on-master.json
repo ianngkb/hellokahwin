@@ -1,0 +1,22 @@
+{
+  "name": "CI must pass on master",
+  "target": "branch",
+  "enforcement": "active",
+  "conditions": {
+    "ref_name": { "include": ["refs/heads/master"], "exclude": [] }
+  },
+  "bypass_actors": [],
+  "rules": [
+    {
+      "type": "required_status_checks",
+      "parameters": {
+        "strict_required_status_checks_policy": false,
+        "required_status_checks": [
+          { "context": "vitest — the whole suite (blocking)", "integration_id": 15368 },
+          { "context": "tsc --noEmit (blocking)", "integration_id": 15368 },
+          { "context": "eslint + prettier (blocking)", "integration_id": 15368 }
+        ]
+      }
+    }
+  ]
+}

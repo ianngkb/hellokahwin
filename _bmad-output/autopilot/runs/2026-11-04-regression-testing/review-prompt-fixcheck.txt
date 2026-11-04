@@ -1,0 +1,642 @@
+Do not load, read or follow any repository skill, workflow, checklist or step file (`.agents/skills/**`, `_bmad/**`, `.claude/skills/**`). No questions, no checkpoints; produce the findings and stop.
+
+Here are review findings that were supposedly fixed, each with an id, the class the fixer assigned it, and what the fixer says they did. For each, examine `git diff 4a011f8..HEAD` plus the current code at the cited locations and answer with ONE line per finding, in this shape:
+`CLOSED|STILL_OPEN|REBUTTAL_ACCEPTED|REBUTTAL_REJECTED | F<id> | file:line | evidence`.
+Then judge the class. If the fixer's class is right, end the line there. If it is wrong, append ` | CLASS: <one of defect-user, defect-edge, test-gap, paperwork, rebutted, duplicate>` and one clause saying why — a finding whose fix changed no runtime behaviour is `paperwork` however it was filed, and a finding a user would hit in normal use is `defect-user` however it was filed.
+Judge ONLY these findings, plus the two checks below. Do not report anything else you noticed along the way.
+
+**Check the proof yourself.** When a rebuttal or a "what I did" cites a test, a command or its output, run that test or command now and quote the real result. Never accept pasted output. If it fails, the claim does not hold (`STILL_OPEN` or `REBUTTAL_REJECTED`). If it cannot be run here, say why; a rebuttal whose proof cannot be reproduced is `REBUTTAL_REJECTED`. (Commands available: `pnpm vitest run <file>`, `pnpm test`, `node --test scripts/smoke-prod.mjs` — read-only against production, `gh api` read calls, `curl`. Do NOT apply the ruleset or call any GitHub write API.)
+
+**Check the edits nobody flagged.** The fixer is told to fix each cause everywhere it appears, so it edits lines no finding cited. The out-of-scope hunks are listed below. For each hunk, ask only one question: did this edit break something or open a hole? Report a real defect as `NEW | N<k> | file:line | critical|major|minor | problem | fix`. Do not review the code around the hunk, and do not report style.
+--- FINDINGS ---
+| F1 | acceptance, blind | .github/workflows/ci.yml:1 (docs/verify.md:4) | major | defect-user | fixed | Ruleset definition committed at .github/rulesets/ci-must-pass-on-master.json (requires the three CI job names from the GitHub Actions app, no bypass, master only); applied with `gh api -X POST repos/ianngkb/hellokahwin/rulesets --input …` at ship time, after the PR's CI is green and BEFORE the merge, so the merge itself is gated (applying earlier would block nothing extra and would stall any parallel ship). ci.yml header + docs/verify.md say what enforces the gate, that ships go via PR, and how to update the ruleset if a job is renamed. |
+| F2 | blind | .github/workflows/smoke-production.yml:18 | major | defect-user | fixed | `if: failure()` step (actions/github-script@v7, `issues: write`) opens an issue "Live-site smoke check failed" or comments on the open one; both comments corrected (vercel[bot] is the actor, so no failed-run email). |
+| F3 | blind, edge | .github/workflows/smoke-production.yml:39 | major | defect-edge | fixed | `startsWith(github.event.deployment.environment, 'Production')` — GitHub expression comparisons are case-insensitive, and startsWith admits "Production – <project>". Declined the daily cron half: commit 4e8aaaf removed all scheduled automation on purpose and the brief asks for a post-deploy run, not a schedule. Observed value today is exactly "Production" (gh api .../deployments). |
+| F4 | blind, edge | scripts/smoke-prod.mjs:100 | major | defect-edge | fixed | Share-image fetch uses `{ redirect: 'follow' }`; asserts final status 200 + image/*. |
+| F5 | blind, edge | scripts/smoke-prod.mjs:99 | minor | defect-edge | fixed | Canonical asserted as any https host + the article's own path (escaped); header no longer advertises preview URLs (they are SSO-protected) — override documented for a local `pnpm start`. |
+| F6 | blind | scripts/smoke-prod.mjs:115 | minor | defect-edge | fixed | Search term is the longest ≥4-letter word of the picked article's live <title> (route ILIKEs titles), fallback "kahwin". |
+| F7 | blind | .github/workflows/ci.yml:29 | minor | defect-edge | fixed | `cancel-in-progress: ${{ github.event_name == 'pull_request' }}` — master runs never cancelled. |
+| F8 | blind | docs/verify.md:24 | minor | test-gap | fixed | `node --check scripts/smoke-prod.mjs` step in the CI test job; doc says "app + scripts/seo". |
+| F9 | edge | .github/workflows/ci.yml:31 | major | rebutted | rebutted | `pnpm build` in CI needs production secrets: `generateStaticParams` in src/app/(public)/artikel/[category]/[slug]/page.tsx:423 queries the DB at build and src/lib/db/drizzle.ts:5 reads DATABASE_URL (the only DB is production). Putting a prod DB credential into GitHub is a new-secret decision the brief says to escalate, not take. And the build is already gated where it matters: Vercel builds every master push and a failed build never goes live (the previous deployment keeps serving). Named in the final report as an option for Ian. |
+| F10 | edge | scripts/smoke-prod.mjs:110 | minor | defect-edge | fixed | `escapeRegExp(categoryPath)`, optional absolute host prefix in the link match. |
+| F11 | edge | scripts/smoke-prod.mjs:146 | minor | defect-edge | fixed | Collector check accepts 400 or 429 (rate limit runs before validation; neither writes). |
+| F12 | edge | scripts/smoke-prod.mjs:61 | minor | defect-edge | fixed | `tryUrl()` drops unparseable `<loc>`s instead of throwing in the before hook. |
+| F13 | edge | scripts/smoke-prod.mjs:119 | minor | defect-edge | fixed | JSON.parse wrapped; non-JSON 200 fails with the body prefix in the message. |
+| F14 | edge | src/app/__tests__/robots.test.ts:10 | minor | defect-edge | fixed | `NEXT_PUBLIC_SITE_URL ??` → `||` at all 15 sites in src/ (robots, sitemap, layout, page metadata, breadcrumbs, indexnow, admin actions); robots test adds unset + empty cases (empty case fails with `??` restored — checked). |
+| F15 | edge | src/__tests__/middleware.test.ts:52 | minor | rebutted | rebutted | The `/admin-tips/` behaviour is pre-existing production middleware code this diff does not change (the diff only adds a test). Its cost is one extra redirect hop for a slug that does not exist: no URL in the live sitemap starts with /admin, /login, /no-access or /api (checked: `curl -s https://hellokahwin.com/sitemap.xml | grep -E 'com/(admin|login|no-access|api)'` → none). Narrowing an auth-adjacent guard in a testing-standard run trades safety for a hop on a hypothetical page. |
+| F16 | edge | src/__tests__/middleware.test.ts:59 | minor | defect-edge | fixed | Asserts `location` non-null with a message before parsing it. |
+
+Original wording of each finding (from the reviewers' raw output):
+MAJOR | .github/workflows/smoke-production.yml:18 | The only alert channel is a claim that "GitHub emails whoever pushed", but a deployment_status run is triggered by vercel[bot], not the pusher — GitHub only emails the actor of a run, so a red post-deploy smoke can sit unseen indefinitely (docs/verify.md:61 repeats the claim) | Add an `if: failure()` step that actually notifies: `actions/github-script` opening/updating a "smoke red" issue (add `issues: write` to `permissions`) or a webhook/ntfy POST, and correct both comments.
+MINOR | .github/workflows/smoke-production.yml:39 | The whole layer-3 trigger hinges on an unverified exact string match (`deployment.environment == 'Production'`); if Vercel reports anything else (lowercase, or "Production – hellokahwin"), the job is skipped and every run still looks green, so the monitor silently stops running | Match loosely and add a fallback: `contains(github.event.deployment.environment, 'roduction')` (or compare `toLower`), plus `on: schedule: - cron: '17 2 * * *'` so the suite still fires daily if the deploy filter ever stops matching.
+MINOR | scripts/smoke-prod.mjs:99 | `SMOKE_BASE_URL` is documented as a way to smoke a preview deployment, but this test pins the canonical host to hellokahwin.com and then fetches the absolute og:image — so a preview run asserts prod's canonical and downloads prod's image rather than the deployment under test, defeating the re-rooting done at line 63 | Derive the expected canonical host from `BASE` (`new RegExp('<link rel="canonical" href="' + BASE + '/artikel/')`) and re-root the og URL on `BASE` before fetching it.
+MINOR | scripts/smoke-prod.mjs:100 | The share-image check uses `get()`, which sets `redirect: 'manual'`, so the assert demands a literal 200 — the day the image host or Vercel image optimizer answers a 301/302 the post-deploy gate goes red on a site that is fine | Fetch the image with `{ redirect: 'follow' }` (and skip reading the body) for this one request.
+MINOR | scripts/smoke-prod.mjs:115 | The database check hardcodes the editorial word "kahwin"; the route answers 200 with an empty list on failure, so the assert is sound, but a retitling pass that drops that word from every title turns a content change into a production-red alert | Query a token taken from the article already picked from the sitemap (e.g. the longest word of its `<title>` or slug) so the check depends on the DB being reachable, not on wording.
+MINOR | docs/verify.md:4 | Doc states the suite "gates every ship" and ci.yml:5 calls itself a "hard gate", but Vercel's Git integration deploys every push to master independently of Actions — the master CI run races the deploy, and nothing in the repo makes the PR checks required, so a red suite can reach production | Mark the three jobs as required status checks on master in branch protection (and/or a Vercel ignored-build-step that waits for them), or reword both to "gates pull requests; master runs are a record, not a block".
+MINOR | .github/workflows/ci.yml:29 | `cancel-in-progress: true` also applies to `push: master`, so two merges in quick succession cancel the first commit's run — that commit deploys with no completed suite result and the cancellation reads as a grey tick, not a failure | Scope cancellation to PRs: `cancel-in-progress: ${{ github.event_name == 'pull_request' }}`.
+MINOR | docs/verify.md:24 | Doc says typecheck covers "app + scripts", but tsconfig.scripts.json only lists ten files under scripts/seo; scripts/smoke-prod.mjs is covered by neither typecheck nor vitest (vitest.config include is `src/**` + `scripts/**/*.test.ts`), so a syntax error in the post-deploy gate first surfaces after a deploy | Add `- run: node --check scripts/smoke-prod.mjs` to the ci.yml test job and narrow the doc's wording to "app + scripts/seo".
+`MEDIUM | .github/workflows/smoke-production.yml:39 | A Vercel `deployment_status` payload whose `deployment.environment` is not the exact string `Production` (Vercel has shipped lowercase `production`, and project-scoped values like `Production – hellokahwin`) → the `if` is false, the job is *skipped*, the run shows green/neutral, and layer 3 silently never runs after any deploy | compare case-insensitively on a prefix, e.g. `startsWith(lower(github.event.deployment.environment), 'production')`, and add a scheduled `cron` run so a permanently-mismatching filter still gets noticed`
+`MEDIUM | scripts/smoke-prod.mjs:102 | An `og:image` that answers 30x instead of 200 — Supabase storage redirecting to a signed CDN URL, or `/_next/image` redirecting on a cold cache — because `get()` forces `redirect: 'manual'` for every request | fetch the share image with `redirect: 'follow'` (pass `{ redirect: 'follow' }` in the `init`, which the spread already honours) and assert the final status`
+`MEDIUM | .github/workflows/ci.yml:31 | A change that lints, typechecks and unit-tests clean but fails `next build --turbopack` (bad route export, throwing `generateStaticParams`, server/client boundary violation) → merges green, and the first thing that fails is the Vercel production deploy on `master` | add a fourth blocking job running `pnpm build``
+`LOW | scripts/smoke-prod.mjs:110 | A category slug containing a regex metacharacter, or a page that renders article links as absolute `href="https://hellokahwin.com/artikel/…"` → `new RegExp("href=\"" + categoryPath + "/…")` either mis-compiles or never matches, failing a healthy category page | escape the interpolation (`categoryPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')`) and match `href="(?:https://[^"]+)?<path>/…"``
+`LOW | scripts/smoke-prod.mjs:146 | The collector answers 429, not 400 — `ipRateLimit` (120/min/IP) runs *before* body validation in `collect/route.ts:91`, and GitHub runners share egress IPs, so a noisy neighbour or a re-run inside the same 60 s window turns the check red | accept `[400, 422, 429]`, or assert `r.status !== 200 && r.status < 500``
+`LOW | scripts/smoke-prod.mjs:61 | A `<loc>` that is not an absolute parseable URL (relative path, stray text, XML comment caught by the regex) → `new URL(u)` throws inside `.filter`, the `before` hook dies with a bare `TypeError: Invalid URL`, and all 11 checks fail with no indication of which page is wrong | parse with a try/catch helper returning `null` and drop unparseable locs before filtering`
+`LOW | scripts/smoke-prod.mjs:119 | `/api/v1/search?q=kahwin` returns 200 with a non-JSON body (Vercel/edge error page, empty body) → `JSON.parse` throws `SyntaxError: Unexpected token` instead of the intended "database is down" message | guard on `content-type` / wrap in try-catch and assert with the body prefix in the message`
+`LOW | scripts/smoke-prod.mjs:99 | Running the documented `SMOKE_BASE_URL=https://example.vercel.app` form against a deployment whose `NEXT_PUBLIC_SITE_URL` is not production → the canonical assertion hardcodes `https://hellokahwin.com`, so the override path the header advertises fails on a healthy preview | derive the expected canonical host from `BASE`, or skip the canonical assertion when `BASE !== 'https://hellokahwin.com'``
+`LOW | src/app/__tests__/robots.test.ts:10 | `NEXT_PUBLIC_SITE_URL=''` (an env var present-but-empty in Vercel) → `??` in `src/app/robots.ts:4` does not catch empty string, so robots.txt advertises `Sitemap: /sitemap.xml`, which Google rejects; the new test pins only the populated value and never exercises unset or empty | add cases for unset and `''`, and change `robots.ts` to `process.env.NEXT_PUBLIC_SITE_URL || 'https://hellokahwin.com'``
+`LOW | src/__tests__/middleware.test.ts:52 | `/admin-tips/` — a lowercase single-segment legacy slug that is not reserved: `CLERK_PATH_PREFIXES.some(p => path.startsWith(p))` matches `/admin` on a prefix boundary, so the rewrite branch returns a 308 and the slug pays the two hops the resolver exists to remove; no case in the `it.each` covers a prefix-sibling | add `/admin-tips/` and `/login-guide/` as cases asserting a rewrite, and tighten the guard to `p === path || path.startsWith(p + '/')``
+`LOW | src/__tests__/middleware.test.ts:59 | A branch that returns neither Clerk nor a redirect (e.g. `NextResponse.next()` for a path the resolver reports as `none`) → `location` is null and `new URL(null!)` throws `TypeError: Invalid URL`, hiding which assertion actually failed | assert `res.headers.get('location')` is non-null first, then compare the pathname`
+MAJOR | .github/workflows/ci.yml:1 | Spec layer 2 requires CI "as a hard gate"; `master` has no branch protection and no rulesets (`gh api .../branches/master/protection` → 404, `rulesets` → `[]`), so all three jobs are advisory — a PR can be merged and master pushed with the suite red, and `docs/verify.md:33` plus the job names assert they are "blocking" | Add a repo ruleset (or branch protection) on `master` requiring the `vitest — the whole suite (blocking)`, `tsc --noEmit (blocking)` and `eslint + prettier (blocking)` checks; the repo is public, so this is available on the free plan
+
+--- DIFF OF CITED FILES ---
+diff --git a/.github/rulesets/ci-must-pass-on-master.json b/.github/rulesets/ci-must-pass-on-master.json
+new file mode 100644
+index 0000000..2ea67eb
+--- /dev/null
++++ b/.github/rulesets/ci-must-pass-on-master.json
+@@ -0,0 +1,22 @@
++{
++  "name": "CI must pass on master",
++  "target": "branch",
++  "enforcement": "active",
++  "conditions": {
++    "ref_name": { "include": ["refs/heads/master"], "exclude": [] }
++  },
++  "bypass_actors": [],
++  "rules": [
++    {
++      "type": "required_status_checks",
++      "parameters": {
++        "strict_required_status_checks_policy": false,
++        "required_status_checks": [
++          { "context": "vitest — the whole suite (blocking)", "integration_id": 15368 },
++          { "context": "tsc --noEmit (blocking)", "integration_id": 15368 },
++          { "context": "eslint + prettier (blocking)", "integration_id": 15368 }
++        ]
++      }
++    }
++  ]
++}
+diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
+index cf0ee5e..6a992cc 100644
+--- a/.github/workflows/ci.yml
++++ b/.github/workflows/ci.yml
+@@ -10,10 +10,14 @@ name: CI
+ # ("clearing the deck so monitoring can be rebuilt from scratch") — this is
+ # that rebuild. Deliberately nothing here downloads a browser or needs a
+ # secret: the gates removed in 4e8aaaf failed on their own tooling (a
+ # playwright-core install crash, a lost GSC grant) rather than on the site.
+ #
++# Hard gate: a repository ruleset on master requires these three checks, so
++# a PR cannot merge red (see docs/verify.md). Vercel deploys whatever reaches
++# master, so the PR is where the gate has to hold.
++#
+ # Baseline when this file landed (master 9e7b840): 65 test files, 850 tests,
+ # all green; typecheck clean; lint 0 errors.
+ 
+ on:
+   pull_request:
+@@ -22,13 +26,15 @@ on:
+   workflow_dispatch:
+ 
+ permissions:
+   contents: read
+ 
++# Superseded PR runs are cancelled; master runs never are, so every commit
++# that reaches master (and therefore production) keeps a finished result.
+ concurrency:
+   group: ci-${{ github.ref }}
+-  cancel-in-progress: true
++  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+ 
+ jobs:
+   test:
+     name: vitest — the whole suite (blocking)
+     runs-on: ubuntu-latest
+@@ -47,10 +53,14 @@ jobs:
+       # No pipe on purpose: a `| tee` without pipefail once reported success
+       # on a failing gate in this repo. vitest exits non-zero on any failure
+       # and on "no test files found", so a 0-test run cannot pass.
+       - name: pnpm test
+         run: pnpm test
++      # The post-deploy smoke suite is plain Node outside vitest and tsc; a
++      # syntax error in it should fail here, not after a deploy.
++      - name: smoke suite parses
++        run: node --check scripts/smoke-prod.mjs
+ 
+   typecheck:
+     name: tsc --noEmit (blocking)
+     runs-on: ubuntu-latest
+     timeout-minutes: 10
+diff --git a/.github/workflows/smoke-production.yml b/.github/workflows/smoke-production.yml
+index 77a719c..030ca11 100644
+--- a/.github/workflows/smoke-production.yml
++++ b/.github/workflows/smoke-production.yml
+@@ -13,32 +13,40 @@ name: Smoke production
+ # It tests https://hellokahwin.com, not the deployment's own *.vercel.app URL:
+ # those are behind Vercel Deployment Protection (302 to vercel.com/sso-api) and
+ # a bypass would need a new secret.
+ #
+ # Red does NOT roll back. It means "production is live and something on it
+-# looks wrong": the run goes red and GitHub emails whoever pushed.
++# looks wrong". The run goes red, AND the last step opens (or comments on) an
++# issue titled "Live-site smoke check failed": a deployment_status run is
++# started by vercel[bot], so GitHub's own "your workflow failed" email goes to
++# nobody, while a new issue emails the repo's watchers (the owner by default).
++# Close the issue once production is fixed; the next red run opens a new one.
+ #
+ # Read-only, no fixtures, no secrets — see the header of scripts/smoke-prod.mjs.
+ 
+ on:
+   deployment_status:
+   workflow_dispatch:
+ 
+ permissions:
+   contents: read
++  issues: write
+ 
+ concurrency:
+   group: smoke-production
+   cancel-in-progress: false
+ 
+ jobs:
+   smoke:
+     name: smoke — live site (hellokahwin.com)
++    # Expression string comparisons are case-insensitive, and startsWith also
++    # admits Vercel's per-project form ("Production – hellokahwin"). Preview
++    # deployments are skipped. The value observed on 2026-11-04 is "Production".
+     if: >-
+       github.event_name == 'workflow_dispatch' ||
+       (github.event.deployment_status.state == 'success' &&
+-       github.event.deployment.environment == 'Production')
++       startsWith(github.event.deployment.environment, 'Production'))
+     runs-on: ubuntu-latest
+     timeout-minutes: 10
+     env:
+       SMOKE_BASE_URL: https://hellokahwin.com
+     steps:
+@@ -56,5 +64,28 @@ jobs:
+         run: |
+           if node --test scripts/smoke-prod.mjs; then exit 0; fi
+           echo "::warning::smoke failed once; retrying in 60s in case the alias had not switched yet"
+           sleep 60
+           node --test scripts/smoke-prod.mjs
++
++      - name: Raise an issue when the live site looks wrong
++        if: failure()
++        uses: actions/github-script@v7
++        with:
++          script: |
++            const title = 'Live-site smoke check failed';
++            const run = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
++            const sha = context.payload.deployment?.sha ?? context.sha;
++            const body = [
++              `The post-deploy smoke suite failed against https://hellokahwin.com (commit ${sha}).`,
++              `Run log (which checks failed, and why): ${run}`,
++              'Nothing was rolled back. Re-run by hand: `node --test scripts/smoke-prod.mjs`.',
++            ].join('\n\n');
++            const open = await github.paginate(github.rest.issues.listForRepo, {
++              ...context.repo, state: 'open', creator: 'github-actions[bot]', per_page: 100,
++            });
++            const existing = open.find((i) => i.title === title && !i.pull_request);
++            if (existing) {
++              await github.rest.issues.createComment({ ...context.repo, issue_number: existing.number, body });
++            } else {
++              await github.rest.issues.create({ ...context.repo, title, body });
++            }
+diff --git a/docs/verify.md b/docs/verify.md
+index e77e58b..ad28c15 100644
+--- a/docs/verify.md
++++ b/docs/verify.md
+@@ -18,16 +18,31 @@ smoke suite runs against the live site after every deploy).
+ 
+ ## Layer 2 — the whole suite, before every ship and in CI
+ 
+ | What                                     | Command          | Runtime (Windows dev box, 2026-11-04)    |
+ | ---------------------------------------- | ---------------- | ---------------------------------------- |
+-| Unit / integration tests (Vitest, jsdom) | `pnpm test`      | ~50 s — 67 files, 872 tests              |
+-| Type check (app + scripts)               | `pnpm typecheck` | ~1 min 40 s                              |
++| Unit / integration tests (Vitest, jsdom) | `pnpm test`      | ~55 s — 67 files, 874 tests              |
++| Type check (app + `scripts/seo`)         | `pnpm typecheck` | ~1 min 40 s                              |
+ | Lint + formatting                        | `pnpm lint`      | ~2 min 15 s (0 errors; warnings allowed) |
+ 
+-- CI: `.github/workflows/ci.yml` runs all three as separate blocking jobs on
+-  every pull request and every push to `master`.
++- CI: `.github/workflows/ci.yml` runs all three as separate jobs on every
++  pull request and every push to `master` (the test job also runs
++  `node --check scripts/smoke-prod.mjs`).
++- **It is a hard gate on pull requests:** the repository ruleset
++  "CI must pass on master" (GitHub → Settings → Rules) requires the three
++  checks before a PR can merge, and blocks pushing to `master` directly, so
++  ships go out as a PR. Vercel deploys whatever reaches `master`, so the PR is
++  where the gate has to hold. To ship in an emergency, still open a PR; the
++  checks take about 3 minutes. Removing the ruleset turns the gate back into a
++  report.
++- The ruleset's definition is `.github/rulesets/ci-must-pass-on-master.json`
++  (the three job names above, from the GitHub Actions app, id 15368). If a job
++  is renamed, update the file and re-apply it, or the old name is required
++  forever and every PR blocks:
++  `gh api -X POST repos/ianngkb/hellokahwin/rulesets --input .github/rulesets/ci-must-pass-on-master.json`
++  (use `-X PUT …/rulesets/<id>` to update the existing one; list ids with
++  `gh api repos/ianngkb/hellokahwin/rulesets`).
+ - Before a ship, run `pnpm test` on the batch **and** on `origin/master`. A
+   test red on both is pre-existing (list it, it does not block). A test green
+   on `origin/master` and red on the batch is a regression and blocks.
+ - Read the test count, not just the exit code.
+ - Baseline when CI was added (`origin/master` 9e7b840): 65 files, 850 tests,
+@@ -35,32 +50,37 @@ smoke suite runs against the live site after every deploy).
+ 
+ The tests mock the database and Clerk; none of them touches production.
+ 
+ ## Layer 3 — the standing smoke suite against the live site
+ 
+-| What                             | Command                              | Where it runs                                                                                                                                                                                                             |
+-| -------------------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+-| Live-site smoke, 11 checks, ~5 s | `node --test scripts/smoke-prod.mjs` | Automatically: `.github/workflows/smoke-production.yml`, when Vercel reports a successful **Production** deployment to GitHub (`deployment_status`). Also runnable from the Actions tab (`workflow_dispatch`) or by hand. |
++| What                               | Command                              | Where it runs                                                                                                                                                                                                             |
++| ---------------------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
++| Live-site smoke, 11 checks, ~2–5 s | `node --test scripts/smoke-prod.mjs` | Automatically: `.github/workflows/smoke-production.yml`, when Vercel reports a successful **Production** deployment to GitHub (`deployment_status`). Also runnable from the Actions tab (`workflow_dispatch`) or by hand. |
+ 
+ - Target: `https://hellokahwin.com` (override with `SMOKE_BASE_URL`). The
+   per-deploy `*.vercel.app` URLs are behind Vercel Deployment Protection, so
+   the suite tests the public domain.
+ - It checks: home page, `sitemap.xml`, `robots.txt`, `/artikel`, one article
+   page (H1, JSON-LD, canonical, share image loads), one category page lists its
+   articles, search reaches the database, `/admin` redirects to `/login` when
+   signed out, `/login` loads, unknown pages are 404 not 5xx, and the analytics
+-  collector answers 400 to an invalid body.
++  collector answers 400 (or 429 when rate-limited) to an invalid body.
+ - **Read-only.** Every request is a GET, except one POST of an invalid body to
+   `/api/v1/analytics/collect`, which is rejected before anything is stored.
+   The suite runs in Node (no browser), so the client-side tracker never fires
+   and no pageviews are recorded.
+ - **Fixtures: none.** The article and category are picked from the live
+   sitemap on each run. It only needs the site to have at least one published
+   article, which is real content. There is no seed script because there is
+   nothing to seed.
++- One retry after 60 s absorbs the moment between Vercel reporting success
++  and hellokahwin.com serving the new build.
+ - Red does not roll back. It means production is live and something on it
+-  looks wrong; GitHub emails whoever pushed.
++  looks wrong. The workflow then opens (or comments on) a GitHub issue titled
++  **"Live-site smoke check failed"**, which emails the repo's watchers. (The
++  run is started by `vercel[bot]`, so GitHub's own failed-workflow email goes
++  to nobody.) Close the issue once production is fixed.
+ - **Growing it:** when a shipped spec has a repeatable, read-only prod check
+   marked `(standing)`, add it to `scripts/smoke-prod.mjs` in the same run.
+ 
+ ## What is NOT covered
+ 
+diff --git a/scripts/smoke-prod.mjs b/scripts/smoke-prod.mjs
+index 865ab2f..2ba736d 100644
+--- a/scripts/smoke-prod.mjs
++++ b/scripts/smoke-prod.mjs
+@@ -9,11 +9,14 @@
+  *
+  * WHERE IT RUNS: automatically, by .github/workflows/smoke-production.yml,
+  * when Vercel reports a successful Production deployment to GitHub. By hand:
+  *
+  *     node --test scripts/smoke-prod.mjs
+- *     SMOKE_BASE_URL=https://example.vercel.app node --test scripts/smoke-prod.mjs
++ *
++ * SMOKE_BASE_URL overrides the host (default https://hellokahwin.com). The
++ * per-deploy *.vercel.app URLs sit behind Vercel Deployment Protection, so in
++ * practice the override is for a local `pnpm start` (http://localhost:3200).
+  *
+  * READ-ONLY. Every request is a GET, except one POST of a deliberately invalid
+  * body to the analytics collector, which is rejected with 400 before anything
+  * is stored (src/app/api/v1/analytics/collect/route.ts validates the body
+  * first). No customer data is written, so there is nothing to clean up.
+@@ -32,10 +35,21 @@ import assert from 'node:assert/strict';
+ 
+ const BASE = (process.env.SMOKE_BASE_URL || 'https://hellokahwin.com').replace(/\/+$/, '');
+ const UA = 'hellokahwin-smoke/1.0 (+https://github.com/ianngkb/hellokahwin)';
+ const TIMEOUT_MS = 20_000;
+ 
++/** Parse a URL, or null when it is not one (a stray `<loc>` must not crash the run). */
++function tryUrl(u) {
++  try {
++    return new URL(u);
++  } catch {
++    return null;
++  }
++}
++
++const escapeRegExp = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
++
+ async function get(path, init = {}) {
+   const url = path.startsWith('http') ? path : `${BASE}${path}`;
+   const res = await fetch(url, {
+     redirect: 'manual',
+     signal: AbortSignal.timeout(TIMEOUT_MS),
+@@ -49,23 +63,27 @@ async function get(path, init = {}) {
+ function expectOk(r) {
+   assert.equal(r.status, 200, `${r.url} answered ${r.status}, expected 200`);
+ }
+ 
+ let articleUrl;
++let articlePath;
+ let categoryPath;
+ 
+ before(async () => {
+   const r = await get('/sitemap.xml');
+   expectOk(r);
+-  const locs = [...r.body.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].trim());
++  const urls = [...r.body.matchAll(/<loc>([^<]+)<\/loc>/g)]
++    .map((m) => tryUrl(m[1].trim()))
++    .filter(Boolean);
+   // /artikel/<category>/<slug> — an article detail page.
+-  const articles = locs.filter((u) => /\/artikel\/[^/]+\/[^/]+$/.test(new URL(u).pathname));
++  const articles = urls.filter((u) => /^\/artikel\/[^/]+\/[^/]+$/.test(u.pathname));
+   assert.ok(articles.length > 0, 'sitemap lists no article pages');
+   // Sitemap URLs are absolute on the canonical host; re-root them on BASE so a
+-  // run against a preview URL tests that deployment, not production.
+-  articleUrl = `${BASE}${new URL(articles[0]).pathname}`;
+-  categoryPath = new URL(articles[0]).pathname.split('/').slice(0, 3).join('/');
++  // run against another host tests that host, not production.
++  articlePath = articles[0].pathname;
++  articleUrl = `${BASE}${articlePath}`;
++  categoryPath = articlePath.split('/').slice(0, 3).join('/');
+ });
+ 
+ test('home page loads with the site title', async () => {
+   const r = await get('/');
+   expectOk(r);
+@@ -94,38 +112,62 @@ test('article index /artikel loads', async () => {
+ test('an article page renders its content, structured data and share image', async () => {
+   const r = await get(articleUrl);
+   expectOk(r);
+   assert.match(r.body, /<h1[\s>]/, `no <h1> on ${articleUrl}`);
+   assert.match(r.body, /application\/ld\+json/, `no JSON-LD on ${articleUrl}`);
+-  assert.match(r.body, /<link rel="canonical" href="https:\/\/hellokahwin\.com\/artikel\//);
++  // The canonical always names the public site, whichever host served it.
++  assert.match(
++    r.body,
++    new RegExp(`<link rel="canonical" href="https?://[^"/]+${escapeRegExp(articlePath)}"`),
++    `canonical on ${articleUrl} does not point at the article`,
++  );
+   const og = r.body.match(/<meta property="og:image" content="([^"]+)"/);
+   assert.ok(og, `no og:image on ${articleUrl}`);
+-  const img = await get(og[1].replace(/&amp;/g, '&'));
++  // Image hosts may redirect to a CDN copy; only the final answer matters.
++  const img = await get(og[1].replace(/&amp;/g, '&'), { redirect: 'follow' });
+   assert.equal(img.status, 200, `share image ${og[1]} answered ${img.status}`);
+   assert.match(img.headers.get('content-type') || '', /^image\//);
+ });
+ 
+ test('a category page lists articles (not the empty or degraded state)', async () => {
+   const r = await get(categoryPath);
+   expectOk(r);
+-  const linkToArticle = new RegExp(`href="${categoryPath}/[^"/]+"`);
++  // Relative or absolute links both count.
++  const linkToArticle = new RegExp(
++    `href="(?:https?://[^"/]+)?${escapeRegExp(categoryPath)}/[^"/]+"`,
++  );
+   assert.match(r.body, linkToArticle, `${categoryPath} links to none of its articles`);
+ });
+ 
+ test('search reaches the database and returns articles', async () => {
+-  const r = await get('/api/v1/search?q=kahwin');
++  // Search for a word from the article picked above, so a hit depends on the
++  // database answering, not on any particular wording across the site. The
++  // route matches titles with ILIKE '%word%'.
++  const page = await get(articleUrl);
++  const title = (page.body.match(/<title>([^<|]+)/)?.[1] ?? '').trim();
++  const word =
++    title
++      .split(/\s+/)
++      .filter((w) => /^[A-Za-z]{4,}$/.test(w))
++      .sort((a, b) => b.length - a.length)[0] ?? 'kahwin';
++  const r = await get(`/api/v1/search?q=${encodeURIComponent(word)}`);
+   expectOk(r);
++  let json;
++  try {
++    json = JSON.parse(r.body);
++  } catch {
++    assert.fail(`search answered 200 with a non-JSON body: ${r.body.slice(0, 120)}`);
++  }
+   // The route answers 200 with an empty list when the query throws, so an
+-  // empty list for a word in nearly every title means the database is down.
+-  const json = JSON.parse(r.body);
+-  assert.ok(json?.data?.articles?.length > 0, 'search for "kahwin" returned no articles');
++  // empty list for a word taken from a live title means the database is down.
++  assert.ok(json?.data?.articles?.length > 0, `search for "${word}" returned no articles`);
+ });
+ 
+ test('/admin is locked when signed out', async () => {
+   const r = await get('/admin');
+   assert.ok([302, 303, 307, 308].includes(r.status), `/admin answered ${r.status}`);
+-  assert.match(r.headers.get('location') || '', /\/login/);
++  assert.match(r.headers.get('location') || '', /\/login/, '/admin does not send to /login');
+ });
+ 
+ test('the login page loads', async () => {
+   expectOk(await get('/login'));
+ });
+@@ -141,7 +183,9 @@ test('the analytics collector is up and rejects junk without storing it', async
+   const r = await get('/api/v1/analytics/collect', {
+     method: 'POST',
+     headers: { 'content-type': 'application/json' },
+     body: JSON.stringify({ smoke: 'invalid-on-purpose' }),
+   });
+-  assert.equal(r.status, 400, `collector answered ${r.status} to an invalid body`);
++  // 400 = validated and rejected. 429 = the per-IP limit (it runs before
++  // validation, and CI runners share egress IPs) — still up, still no write.
++  assert.ok([400, 429].includes(r.status), `collector answered ${r.status} to an invalid body`);
+ });
+diff --git a/src/__tests__/middleware.test.ts b/src/__tests__/middleware.test.ts
+index d6357e7..f440f60 100644
+--- a/src/__tests__/middleware.test.ts
++++ b/src/__tests__/middleware.test.ts
+@@ -53,11 +53,13 @@ describe('middleware — the admin sign-in gate', () => {
+     (path) => {
+       const res = run(path);
+       expect(isRewrite(res)).toBe(false);
+       if (!isClerk(res)) {
+         expect([301, 308]).toContain(res.status);
+-        expect(new URL(res.headers.get('location')!).pathname).toBe(path.replace(/\/+$/, ''));
++        const location = res.headers.get('location');
++        expect(location, `${path} was neither handed to Clerk nor redirected`).not.toBeNull();
++        expect(new URL(location!).pathname).toBe(path.replace(/\/+$/, ''));
+       }
+     },
+   );
+ 
+   it.each(['/', '/artikel', '/artikel/busana-pengantin', '/brand'])(
+diff --git a/src/app/__tests__/robots.test.ts b/src/app/__tests__/robots.test.ts
+index 0c9644c..ad0e4b5 100644
+--- a/src/app/__tests__/robots.test.ts
++++ b/src/app/__tests__/robots.test.ts
+@@ -32,6 +32,21 @@ describe('robots.txt', () => {
+   });
+ 
+   it('advertises only the sitemap that exists', () => {
+     expect(result.sitemap).toEqual(['https://hellokahwin.com/sitemap.xml']);
+   });
++
++  // Vercel can hold a variable that is present but empty; `??` let that
++  // through and robots.txt advertised a bare `/sitemap.xml`, which Google
++  // rejects. Unset and empty must both fall back to the public site.
++  it.each([
++    ['unset', undefined],
++    ['empty', ''],
++  ])('falls back to the public site when NEXT_PUBLIC_SITE_URL is %s', (_label, value) => {
++    vi.stubEnv('NEXT_PUBLIC_SITE_URL', value);
++    try {
++      expect(robots().sitemap).toEqual(['https://hellokahwin.com/sitemap.xml']);
++    } finally {
++      vi.unstubAllEnvs();
++    }
++  });
+ });
+
+--- OUT-OF-SCOPE HUNKS ---
+diff --git a/src/app/(admin)/admin/inspire/actions.ts b/src/app/(admin)/admin/inspire/actions.ts
+index 0c7fada..1015d66 100644
+--- a/src/app/(admin)/admin/inspire/actions.ts
++++ b/src/app/(admin)/admin/inspire/actions.ts
+@@ -488,5 +488,5 @@ export async function toggleArticleStatusAction(articleId: string) {
+ 
+     if (article.categorySlug) {
+-      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com';
++      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://hellokahwin.com';
+       const canonicalUrl = `${baseUrl}/artikel/${article.categorySlug}/${article.slug}`;
+       void submitUrlToIndexNow(canonicalUrl, articleId).catch((err) => {
+diff --git a/src/app/(public)/artikel/[category]/[slug]/page.tsx b/src/app/(public)/artikel/[category]/[slug]/page.tsx
+index c5fef77..fac47d8 100644
+--- a/src/app/(public)/artikel/[category]/[slug]/page.tsx
++++ b/src/app/(public)/artikel/[category]/[slug]/page.tsx
+@@ -501,5 +501,5 @@ const META_FALLBACK_DEADLINE_MS = Number(process.env.INSPIRE_META_FALLBACK_DEADL
+ export async function generateMetadata({ params }: ArticlePageProps): Promise<Metadata> {
+   const { category, slug } = await params;
+-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com';
++  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://hellokahwin.com';
+ 
+   // Deadline-protect the metadata path so a stalled DB doesn't burn the whole
+@@ -579,5 +579,5 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
+   // rewrites an article that has been live long enough to be cached.
+   await tagEdgeResponse(`/artikel/${categorySlug}/${slug}`);
+-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com';
++  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://hellokahwin.com';
+ 
+   // ONE SHARED BUDGET across every sequential read in this render, not a fresh
+diff --git a/src/app/(public)/artikel/[category]/page.tsx b/src/app/(public)/artikel/[category]/page.tsx
+index bb4721c..9d4e8df 100644
+--- a/src/app/(public)/artikel/[category]/page.tsx
++++ b/src/app/(public)/artikel/[category]/page.tsx
+@@ -388,5 +388,5 @@ async function renderPillarPage(
+   budgetLeft: () => number,
+ ) {
+-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com';
++  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://hellokahwin.com';
+ 
+   const view = await readForCacheablePage(
+@@ -598,5 +598,5 @@ export default async function InspireCategoryPage({ params, searchParams }: Cate
+             name: category.name,
+             description: category.description ?? `Artikel ${category.name} di HelloKahwin.`,
+-            url: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com'}/artikel/${categorySlug}`,
++            url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://hellokahwin.com'}/artikel/${categorySlug}`,
+             // See the pillar view above, and `@/lib/seo/collection-jsonld`:
+             // `numberOfItems` is an ItemList property and was invalid here.
+@@ -607,5 +607,5 @@ export default async function InspireCategoryPage({ params, searchParams }: Cate
+               data.map((article) => ({
+                 name: article.title,
+-                url: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com'}/artikel/${article.categorySlug ?? categorySlug}/${article.slug}`,
++                url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://hellokahwin.com'}/artikel/${article.categorySlug ?? categorySlug}/${article.slug}`,
+               })),
+               (page - 1) * perPage + 1,
+diff --git a/src/app/(public)/artikel/author/[slug]/page.tsx b/src/app/(public)/artikel/author/[slug]/page.tsx
+index d846b28..e4a3382 100644
+--- a/src/app/(public)/artikel/author/[slug]/page.tsx
++++ b/src/app/(public)/artikel/author/[slug]/page.tsx
+@@ -99,5 +99,5 @@ export default async function InspireAuthorPage({ params, searchParams }: Author
+   const { slug } = await params;
+   const sp = await searchParams;
+-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com';
++  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://hellokahwin.com';
+ 
+   const author = await withDeadline(getPublicAuthorBySlug(slug), 3_000, `inspire-author:${slug}`);
+diff --git a/src/app/(public)/artikel/tag/[slug]/page.tsx b/src/app/(public)/artikel/tag/[slug]/page.tsx
+index 138cf99..41868fe 100644
+--- a/src/app/(public)/artikel/tag/[slug]/page.tsx
++++ b/src/app/(public)/artikel/tag/[slug]/page.tsx
+@@ -254,5 +254,5 @@ export default async function InspireTagPage({ params, searchParams }: TagPagePr
+               name: tag.name,
+               description: buildTagDescription(tag.name, Number(total)),
+-              url: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com'}/artikel/tag/${slug}`,
++              url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://hellokahwin.com'}/artikel/tag/${slug}`,
+               // `numberOfItems` is an ItemList property, not a CollectionPage
+               // one — see `@/lib/seo/collection-jsonld` for the 366 schema.org
+@@ -262,5 +262,5 @@ export default async function InspireTagPage({ params, searchParams }: TagPagePr
+                 data.map((article) => ({
+                   name: article.title,
+-                  url: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com'}/artikel/${article.categorySlug ?? 'uncategorized'}/${article.slug}`,
++                  url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://hellokahwin.com'}/artikel/${article.categorySlug ?? 'uncategorized'}/${article.slug}`,
+                 })),
+                 (page - 1) * perPage + 1,
+diff --git a/src/app/(public)/page.tsx b/src/app/(public)/page.tsx
+index 070d894..1bf6966 100644
+--- a/src/app/(public)/page.tsx
++++ b/src/app/(public)/page.tsx
+@@ -287,5 +287,5 @@ export default async function HomePage() {
+   // Rekognition + R2, an AWS-cost decision that belongs to the owner.
+ 
+-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com';
++  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://hellokahwin.com';
+ 
+   return (
+diff --git a/src/app/layout.tsx b/src/app/layout.tsx
+index 5998a09..f11be50 100644
+--- a/src/app/layout.tsx
++++ b/src/app/layout.tsx
+@@ -4,5 +4,5 @@ import './globals.css';
+ 
+ export const metadata: Metadata = {
+-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com'),
++  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://hellokahwin.com'),
+   // `default` is NOT a harmless placeholder. Next merges page metadata by
+   // walking the returned object's own keys, so a page whose `generateMetadata`
+diff --git a/src/app/robots.ts b/src/app/robots.ts
+index 40ba759..45ff15a 100644
+--- a/src/app/robots.ts
++++ b/src/app/robots.ts
+@@ -2,5 +2,5 @@ import type { MetadataRoute } from 'next';
+ 
+ export default function robots(): MetadataRoute.Robots {
+-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com';
++  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://hellokahwin.com';
+ 
+   const disallow = [
+diff --git a/src/app/sitemap.ts b/src/app/sitemap.ts
+index f2425c6..6161bfe 100644
+--- a/src/app/sitemap.ts
++++ b/src/app/sitemap.ts
+@@ -38,5 +38,5 @@ function newestDate(dates: Date[]): Date {
+ 
+ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com';
++  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://hellokahwin.com';
+ 
+   // The longest-lived edge entry on the site: `s-maxage=3600`, so without a tag
+diff --git a/src/components/common/breadcrumbs.tsx b/src/components/common/breadcrumbs.tsx
+index 68bbed5..d6975a8 100644
+--- a/src/components/common/breadcrumbs.tsx
++++ b/src/components/common/breadcrumbs.tsx
+@@ -63,5 +63,5 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
+ 
+ export function BreadcrumbJsonLd({ items }: BreadcrumbsProps) {
+-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com';
++  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://hellokahwin.com';
+ 
+   const jsonLd = {
+diff --git a/src/lib/seo/indexnow.ts b/src/lib/seo/indexnow.ts
+index 0faebd6..971f692 100644
+--- a/src/lib/seo/indexnow.ts
++++ b/src/lib/seo/indexnow.ts
+@@ -22,5 +22,5 @@ export async function submitUrlToIndexNow(url: string, articleId?: string): Prom
+   }
+ 
+-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com';
++  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://hellokahwin.com';
+   let host: string;
+   try {

@@ -253,7 +253,7 @@ export default async function InspireTagPage({ params, searchParams }: TagPagePr
               '@type': 'CollectionPage',
               name: tag.name,
               description: buildTagDescription(tag.name, Number(total)),
-              url: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com'}/artikel/tag/${slug}`,
+              url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://hellokahwin.com'}/artikel/tag/${slug}`,
               // `numberOfItems` is an ItemList property, not a CollectionPage
               // one — see `@/lib/seo/collection-jsonld` for the 366 schema.org
               // notices that came of saying it here.
@@ -261,7 +261,7 @@ export default async function InspireTagPage({ params, searchParams }: TagPagePr
                 Number(total),
                 data.map((article) => ({
                   name: article.title,
-                  url: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com'}/artikel/${article.categorySlug ?? 'uncategorized'}/${article.slug}`,
+                  url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://hellokahwin.com'}/artikel/${article.categorySlug ?? 'uncategorized'}/${article.slug}`,
                 })),
                 (page - 1) * perPage + 1,
               ),

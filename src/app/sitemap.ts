@@ -37,7 +37,7 @@ function newestDate(dates: Date[]): Date {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://hellokahwin.com';
 
   // The longest-lived edge entry on the site: `s-maxage=3600`, so without a tag
   // a newly published article can be absent from the sitemap for an hour after

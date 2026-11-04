@@ -286,7 +286,7 @@ export default async function HomePage() {
   // target changes `GEOMETRY_VERSION` and re-queues every live cover through
   // Rekognition + R2, an AWS-cost decision that belongs to the owner.
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://hellokahwin.com';
 
   return (
     <div className="hk">

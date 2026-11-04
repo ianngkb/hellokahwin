@@ -1,0 +1,523 @@
+Do not load, read or follow any repository skill, workflow, checklist or step file (`.agents/skills/**`, `_bmad/**`, `.claude/skills/**`). No questions, no checkpoints; produce the findings and stop.
+
+--- FILES IN THIS CHUNK ---
+ .github/workflows/ci.yml               |  83 +++++++++++++++++++
+ .github/workflows/smoke-production.yml |  60 ++++++++++++++
+ docs/verify.md                         |  75 +++++++++++++++++
+ scripts/smoke-prod.mjs                 | 147 +++++++++++++++++++++++++++++++++
+ src/__tests__/middleware.test.ts       |  70 ++++++++++++++++
+ src/app/__tests__/robots.test.ts       |  37 +++++++++
+ 6 files changed, 472 insertions(+)
+--- DIFF (25 lines of context) ---
+diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
+new file mode 100644
+index 0000000..cf0ee5e
+--- /dev/null
++++ b/.github/workflows/ci.yml
+@@ -0,0 +1,83 @@
++name: CI
++
++# Layer 2 of the regression-testing standard (brain/docs/regression-testing.md):
++# the WHOLE suite runs on every pull request and every push to master, as a
++# hard gate. Old tests are the regression tests; running only new ones checks
++# nothing old.
++#
++# Three jobs so a red tick names its own repair: lint, types and tests are
++# different fixes. Shape restored from the lint-and-test.yml removed in 4e8aaaf
++# ("clearing the deck so monitoring can be rebuilt from scratch") — this is
++# that rebuild. Deliberately nothing here downloads a browser or needs a
++# secret: the gates removed in 4e8aaaf failed on their own tooling (a
++# playwright-core install crash, a lost GSC grant) rather than on the site.
++#
++# Baseline when this file landed (master 9e7b840): 65 test files, 850 tests,
++# all green; typecheck clean; lint 0 errors.
++
++on:
++  pull_request:
++  push:
++    branches: [master]
++  workflow_dispatch:
++
++permissions:
++  contents: read
++
++concurrency:
++  group: ci-${{ github.ref }}
++  cancel-in-progress: true
++
++jobs:
++  test:
++    name: vitest — the whole suite (blocking)
++    runs-on: ubuntu-latest
++    timeout-minutes: 15
++    steps:
++      - uses: actions/checkout@v4
++      - uses: actions/setup-node@v4
++        with:
++          node-version: '22'
++      # package.json has no `packageManager` field, so the version must be
++      # given here or pnpm/action-setup fails the step.
++      - uses: pnpm/action-setup@v4
++        with:
++          version: 10
++      - run: pnpm install --frozen-lockfile
++      # No pipe on purpose: a `| tee` without pipefail once reported success
++      # on a failing gate in this repo. vitest exits non-zero on any failure
++      # and on "no test files found", so a 0-test run cannot pass.
++      - name: pnpm test
++        run: pnpm test
++
++  typecheck:
++    name: tsc --noEmit (blocking)
++    runs-on: ubuntu-latest
++    timeout-minutes: 10
++    steps:
++      - uses: actions/checkout@v4
++      - uses: actions/setup-node@v4
++        with:
++          node-version: '22'
++      - uses: pnpm/action-setup@v4
++        with:
++          version: 10
++      - run: pnpm install --frozen-lockfile
++      - name: pnpm typecheck
++        run: pnpm typecheck
++
++  lint:
++    name: eslint + prettier (blocking)
++    runs-on: ubuntu-latest
++    timeout-minutes: 10
++    steps:
++      - uses: actions/checkout@v4
++      - uses: actions/setup-node@v4
++        with:
++          node-version: '22'
++      - uses: pnpm/action-setup@v4
++        with:
++          version: 10
++      - run: pnpm install --frozen-lockfile
++      - name: pnpm lint
++        run: pnpm lint
+diff --git a/.github/workflows/smoke-production.yml b/.github/workflows/smoke-production.yml
+new file mode 100644
+index 0000000..77a719c
+--- /dev/null
++++ b/.github/workflows/smoke-production.yml
+@@ -0,0 +1,60 @@
++name: Smoke production
++
++# Layer 3 of the regression-testing standard (brain/docs/regression-testing.md):
++# a standing smoke suite runs AUTOMATICALLY against the live site after every
++# production deploy.
++#
++# hellokahwin has no deploy workflow of its own: Vercel's Git integration
++# deploys every push to master. Vercel reports each deployment back to GitHub
++# as a deployment + deployment_status (creator vercel[bot], environment
++# "Production"), so this workflow is the "last job of the deploy": it fires
++# when that status turns `success`.
++#
++# It tests https://hellokahwin.com, not the deployment's own *.vercel.app URL:
++# those are behind Vercel Deployment Protection (302 to vercel.com/sso-api) and
++# a bypass would need a new secret.
++#
++# Red does NOT roll back. It means "production is live and something on it
++# looks wrong": the run goes red and GitHub emails whoever pushed.
++#
++# Read-only, no fixtures, no secrets — see the header of scripts/smoke-prod.mjs.
++
++on:
++  deployment_status:
++  workflow_dispatch:
++
++permissions:
++  contents: read
++
++concurrency:
++  group: smoke-production
++  cancel-in-progress: false
++
++jobs:
++  smoke:
++    name: smoke — live site (hellokahwin.com)
++    if: >-
++      github.event_name == 'workflow_dispatch' ||
++      (github.event.deployment_status.state == 'success' &&
++       github.event.deployment.environment == 'Production')
++    runs-on: ubuntu-latest
++    timeout-minutes: 10
++    env:
++      SMOKE_BASE_URL: https://hellokahwin.com
++    steps:
++      - uses: actions/checkout@v4
++      - uses: actions/setup-node@v4
++        with:
++          node-version: '22'
++      # No install step: the suite uses only Node built-ins (fetch, node:test).
++      #
++      # Vercel can report `success` a moment before the hellokahwin.com alias
++      # and the edge cache have moved to the new build. One retry after a
++      # minute absorbs that; a real breakage fails both runs and the job goes
++      # red. The first run's failures are still printed in the log.
++      - name: Run smoke suite
++        run: |
++          if node --test scripts/smoke-prod.mjs; then exit 0; fi
++          echo "::warning::smoke failed once; retrying in 60s in case the alias had not switched yet"
++          sleep 60
++          node --test scripts/smoke-prod.mjs
+diff --git a/docs/verify.md b/docs/verify.md
+new file mode 100644
+index 0000000..e77e58b
+--- /dev/null
++++ b/docs/verify.md
+@@ -0,0 +1,75 @@
++# How hellokahwin is verified
++
++The standard this follows is `brain/docs/regression-testing.md` (three layers:
++every change has its own test, the whole suite gates every ship, a standing
++smoke suite runs against the live site after every deploy).
++
++## Where things are
++
++- **`master` is the live site** (Next.js 16 on Vercel, region `sin1`). Vercel's
++  Git integration deploys every push to `master`; there is no deploy workflow.
++  Ships go out as a PR merged to `master`.
++- `main` is a separate docs branch (the old Electron migration tool and
++  `_bmad/`). Never cut a worktree for site work from it, and never use it as a
++  merge base.
++- Dev server: `pnpm dev` on port **3200**.
++- There is one database and it is production (Supabase). Clerk is a prod-only
++  `pk_live` instance, so admin pages cannot be signed into locally.
++
++## Layer 2 — the whole suite, before every ship and in CI
++
++| What                                     | Command          | Runtime (Windows dev box, 2026-11-04)    |
++| ---------------------------------------- | ---------------- | ---------------------------------------- |
++| Unit / integration tests (Vitest, jsdom) | `pnpm test`      | ~50 s — 67 files, 872 tests              |
++| Type check (app + scripts)               | `pnpm typecheck` | ~1 min 40 s                              |
++| Lint + formatting                        | `pnpm lint`      | ~2 min 15 s (0 errors; warnings allowed) |
++
++- CI: `.github/workflows/ci.yml` runs all three as separate blocking jobs on
++  every pull request and every push to `master`.
++- Before a ship, run `pnpm test` on the batch **and** on `origin/master`. A
++  test red on both is pre-existing (list it, it does not block). A test green
++  on `origin/master` and red on the batch is a regression and blocks.
++- Read the test count, not just the exit code.
++- Baseline when CI was added (`origin/master` 9e7b840): 65 files, 850 tests,
++  all green. Nothing is quarantined.
++
++The tests mock the database and Clerk; none of them touches production.
++
++## Layer 3 — the standing smoke suite against the live site
++
++| What                             | Command                              | Where it runs                                                                                                                                                                                                             |
++| -------------------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
++| Live-site smoke, 11 checks, ~5 s | `node --test scripts/smoke-prod.mjs` | Automatically: `.github/workflows/smoke-production.yml`, when Vercel reports a successful **Production** deployment to GitHub (`deployment_status`). Also runnable from the Actions tab (`workflow_dispatch`) or by hand. |
++
++- Target: `https://hellokahwin.com` (override with `SMOKE_BASE_URL`). The
++  per-deploy `*.vercel.app` URLs are behind Vercel Deployment Protection, so
++  the suite tests the public domain.
++- It checks: home page, `sitemap.xml`, `robots.txt`, `/artikel`, one article
++  page (H1, JSON-LD, canonical, share image loads), one category page lists its
++  articles, search reaches the database, `/admin` redirects to `/login` when
++  signed out, `/login` loads, unknown pages are 404 not 5xx, and the analytics
++  collector answers 400 to an invalid body.
++- **Read-only.** Every request is a GET, except one POST of an invalid body to
++  `/api/v1/analytics/collect`, which is rejected before anything is stored.
++  The suite runs in Node (no browser), so the client-side tracker never fires
++  and no pageviews are recorded.
++- **Fixtures: none.** The article and category are picked from the live
++  sitemap on each run. It only needs the site to have at least one published
++  article, which is real content. There is no seed script because there is
++  nothing to seed.
++- Red does not roll back. It means production is live and something on it
++  looks wrong; GitHub emails whoever pushed.
++- **Growing it:** when a shipped spec has a repeatable, read-only prod check
++  marked `(standing)`, add it to `scripts/smoke-prod.mjs` in the same run.
++
++## What is NOT covered
++
++- Anything behind sign-in: the admin dashboard, the article editor, uploads,
++  smart crops, site analytics screens. There is no saved signed-in session for
++  a prod-only Clerk instance.
++- Draft previews (`/draft/<token>`): they need a share token.
++- How pages look: no browser runs in either layer, so layout, images actually
++  painting, and client-side JavaScript (including the analytics tracker) are
++  untested against production.
++- Database migrations: applied by hand per ship (see the run log for the
++  drizzle-history caveat); no test exercises them against Postgres.
+diff --git a/scripts/smoke-prod.mjs b/scripts/smoke-prod.mjs
+new file mode 100644
+index 0000000..865ab2f
+--- /dev/null
++++ b/scripts/smoke-prod.mjs
+@@ -0,0 +1,147 @@
++#!/usr/bin/env node
++/**
++ * Standing smoke suite — layer 3 of the regression-testing standard
++ * (brain/docs/regression-testing.md).
++ *
++ * Proves the live site still works after a deploy: the important pages load,
++ * nothing answers 5xx, the database is reachable, the signed-out admin lock
++ * holds, and the analytics collector is up.
++ *
++ * WHERE IT RUNS: automatically, by .github/workflows/smoke-production.yml,
++ * when Vercel reports a successful Production deployment to GitHub. By hand:
++ *
++ *     node --test scripts/smoke-prod.mjs
++ *     SMOKE_BASE_URL=https://example.vercel.app node --test scripts/smoke-prod.mjs
++ *
++ * READ-ONLY. Every request is a GET, except one POST of a deliberately invalid
++ * body to the analytics collector, which is rejected with 400 before anything
++ * is stored (src/app/api/v1/analytics/collect/route.ts validates the body
++ * first). No customer data is written, so there is nothing to clean up.
++ *
++ * FIXTURES: none. The article and category it opens are picked from the live
++ * sitemap on each run, so it needs no test rows in the production database.
++ * It does need the site to have at least one published article in a
++ * category, which is the site's real content, not a fixture.
++ *
++ * NOT COVERED: anything behind sign-in (/admin/*, the editor, uploads), draft
++ * previews (need a share token), and what pages look like (no browser).
++ */
++
++import { test, before } from 'node:test';
++import assert from 'node:assert/strict';
++
++const BASE = (process.env.SMOKE_BASE_URL || 'https://hellokahwin.com').replace(/\/+$/, '');
++const UA = 'hellokahwin-smoke/1.0 (+https://github.com/ianngkb/hellokahwin)';
++const TIMEOUT_MS = 20_000;
++
++async function get(path, init = {}) {
++  const url = path.startsWith('http') ? path : `${BASE}${path}`;
++  const res = await fetch(url, {
++    redirect: 'manual',
++    signal: AbortSignal.timeout(TIMEOUT_MS),
++    ...init,
++    headers: { 'user-agent': UA, ...(init.headers || {}) },
++  });
++  const body = await res.text();
++  return { url, status: res.status, headers: res.headers, body };
++}
++
++function expectOk(r) {
++  assert.equal(r.status, 200, `${r.url} answered ${r.status}, expected 200`);
++}
++
++let articleUrl;
++let categoryPath;
++
++before(async () => {
++  const r = await get('/sitemap.xml');
++  expectOk(r);
++  const locs = [...r.body.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].trim());
++  // /artikel/<category>/<slug> — an article detail page.
++  const articles = locs.filter((u) => /\/artikel\/[^/]+\/[^/]+$/.test(new URL(u).pathname));
++  assert.ok(articles.length > 0, 'sitemap lists no article pages');
++  // Sitemap URLs are absolute on the canonical host; re-root them on BASE so a
++  // run against a preview URL tests that deployment, not production.
++  articleUrl = `${BASE}${new URL(articles[0]).pathname}`;
++  categoryPath = new URL(articles[0]).pathname.split('/').slice(0, 3).join('/');
++});
++
++test('home page loads with the site title', async () => {
++  const r = await get('/');
++  expectOk(r);
++  assert.match(r.body, /<title>[^<]*HelloKahwin/, 'no HelloKahwin <title> on /');
++  assert.match(r.body, /href="\/artikel\/[^"]+"/, 'home page links to no articles');
++});
++
++test('sitemap.xml lists the site', async () => {
++  const r = await get('/sitemap.xml');
++  expectOk(r);
++  const count = (r.body.match(/<loc>/g) || []).length;
++  assert.ok(count >= 10, `sitemap has only ${count} URLs`);
++});
++
++test('robots.txt keeps admin out of search and points at the sitemap', async () => {
++  const r = await get('/robots.txt');
++  expectOk(r);
++  assert.match(r.body, /Disallow: \/admin\//);
++  assert.match(r.body, /Sitemap: https?:\/\/\S+\/sitemap\.xml/);
++});
++
++test('article index /artikel loads', async () => {
++  expectOk(await get('/artikel'));
++});
++
++test('an article page renders its content, structured data and share image', async () => {
++  const r = await get(articleUrl);
++  expectOk(r);
++  assert.match(r.body, /<h1[\s>]/, `no <h1> on ${articleUrl}`);
++  assert.match(r.body, /application\/ld\+json/, `no JSON-LD on ${articleUrl}`);
++  assert.match(r.body, /<link rel="canonical" href="https:\/\/hellokahwin\.com\/artikel\//);
++  const og = r.body.match(/<meta property="og:image" content="([^"]+)"/);
++  assert.ok(og, `no og:image on ${articleUrl}`);
++  const img = await get(og[1].replace(/&amp;/g, '&'));
++  assert.equal(img.status, 200, `share image ${og[1]} answered ${img.status}`);
++  assert.match(img.headers.get('content-type') || '', /^image\//);
++});
++
++test('a category page lists articles (not the empty or degraded state)', async () => {
++  const r = await get(categoryPath);
++  expectOk(r);
++  const linkToArticle = new RegExp(`href="${categoryPath}/[^"/]+"`);
++  assert.match(r.body, linkToArticle, `${categoryPath} links to none of its articles`);
++});
++
++test('search reaches the database and returns articles', async () => {
++  const r = await get('/api/v1/search?q=kahwin');
++  expectOk(r);
++  // The route answers 200 with an empty list when the query throws, so an
++  // empty list for a word in nearly every title means the database is down.
++  const json = JSON.parse(r.body);
++  assert.ok(json?.data?.articles?.length > 0, 'search for "kahwin" returned no articles');
++});
++
++test('/admin is locked when signed out', async () => {
++  const r = await get('/admin');
++  assert.ok([302, 303, 307, 308].includes(r.status), `/admin answered ${r.status}`);
++  assert.match(r.headers.get('location') || '', /\/login/);
++});
++
++test('the login page loads', async () => {
++  expectOk(await get('/login'));
++});
++
++test('an unknown page is a 404, not a server error', async () => {
++  const r = await get('/smoke-test-page-that-does-not-exist');
++  assert.equal(r.status, 404);
++  const a = await get('/artikel/smoke-test-missing/smoke-test-missing');
++  assert.equal(a.status, 404);
++});
++
++test('the analytics collector is up and rejects junk without storing it', async () => {
++  const r = await get('/api/v1/analytics/collect', {
++    method: 'POST',
++    headers: { 'content-type': 'application/json' },
++    body: JSON.stringify({ smoke: 'invalid-on-purpose' }),
++  });
++  assert.equal(r.status, 400, `collector answered ${r.status} to an invalid body`);
++});
+diff --git a/src/__tests__/middleware.test.ts b/src/__tests__/middleware.test.ts
+new file mode 100644
+index 0000000..d6357e7
+--- /dev/null
++++ b/src/__tests__/middleware.test.ts
+@@ -0,0 +1,70 @@
++// @vitest-environment node
++import { describe, it, expect, vi, beforeEach } from 'vitest';
++import { NextRequest, type NextFetchEvent } from 'next/server';
++
++// Clerk is replaced by a marker response so the test can see exactly which
++// requests were handed to it. The real matcher is kept: it is the thing under
++// test, together with the order of the branches in middleware.ts.
++const clerkHandled = vi.fn();
++vi.mock('@clerk/nextjs/server', async () => {
++  const actual =
++    await vi.importActual<typeof import('@clerk/nextjs/server')>('@clerk/nextjs/server');
++  return {
++    createRouteMatcher: actual.createRouteMatcher,
++    clerkMiddleware: () => (req: NextRequest) => {
++      clerkHandled(req.nextUrl.pathname);
++      return new Response(null, { status: 299, headers: { 'x-test': 'clerk' } });
++    },
++  };
++});
++
++const { default: middleware } = await import('../middleware');
++
++function run(path: string) {
++  const req = new NextRequest(new URL(path, 'https://hellokahwin.com'));
++  return middleware(req, {} as NextFetchEvent) as Response;
++}
++
++const isClerk = (res: Response) => res.headers.get('x-test') === 'clerk';
++const isRewrite = (res: Response) => res.headers.has('x-middleware-rewrite');
++
++beforeEach(() => clerkHandled.mockClear());
++
++describe('middleware — the admin sign-in gate', () => {
++  it.each([
++    '/admin',
++    '/admin/articles',
++    '/admin/site-analytics',
++    '/login',
++    '/no-access',
++    '/api/v1/inspire/upload',
++  ])('hands %s to Clerk', (path) => {
++    const res = run(path);
++    expect(isClerk(res)).toBe(true);
++    expect(clerkHandled).toHaveBeenCalledWith(path);
++  });
++
++  // The regression this guards: `/admin/` used to be REWRITTEN onto the admin
++  // route, which skips Clerk entirely (measured at the time: `/admin` → 307
++  // /login, `/admin/` → 500 from inside the route). A trailing-slash variant of
++  // any Clerk surface must come back as a visible redirect, never a rewrite.
++  it.each(['/admin/', '/admin/articles/', '/login/', '/api/v1/inspire/upload/'])(
++    'never rewrites %s past Clerk',
++    (path) => {
++      const res = run(path);
++      expect(isRewrite(res)).toBe(false);
++      if (!isClerk(res)) {
++        expect([301, 308]).toContain(res.status);
++        expect(new URL(res.headers.get('location')!).pathname).toBe(path.replace(/\/+$/, ''));
++      }
++    },
++  );
++
++  it.each(['/', '/artikel', '/artikel/busana-pengantin', '/brand'])(
++    'keeps Clerk off the public page %s',
++    (path) => {
++      run(path);
++      expect(clerkHandled).not.toHaveBeenCalled();
++    },
++  );
++});
+diff --git a/src/app/__tests__/robots.test.ts b/src/app/__tests__/robots.test.ts
+new file mode 100644
+index 0000000..0c9644c
+--- /dev/null
++++ b/src/app/__tests__/robots.test.ts
+@@ -0,0 +1,37 @@
++import { describe, it, expect, vi } from 'vitest';
++import robots from '../robots';
++
++// robots.txt is the one file that decides what search engines may index. If
++// it lost a line, unpublished drafts (/draft/ share links) and the admin
++// screens could be crawled and listed ahead of the real articles.
++describe('robots.txt', () => {
++  // Pinned so the result does not depend on the machine's .env.
++  vi.stubEnv('NEXT_PUBLIC_SITE_URL', 'https://hellokahwin.com');
++  const result = robots();
++  vi.unstubAllEnvs();
++  const rules = Array.isArray(result.rules) ? result.rules : [result.rules];
++
++  it('has a rule for every crawler and a named one for Googlebot', () => {
++    const agents = rules.map((r) => r.userAgent);
++    expect(agents).toContain('*');
++    expect(agents).toContain('Googlebot');
++  });
++
++  it.each(['/admin/', '/draft/', '/login', '/no-access', '/sso-callback'])(
++    'keeps %s out of every rule',
++    (path) => {
++      for (const rule of rules) {
++        const disallow = Array.isArray(rule.disallow) ? rule.disallow : [rule.disallow];
++        expect(disallow).toContain(path);
++      }
++    },
++  );
++
++  it('allows the public site', () => {
++    for (const rule of rules) expect(rule.allow).toBe('/');
++  });
++
++  it('advertises only the sitemap that exists', () => {
++    expect(result.sitemap).toEqual(['https://hellokahwin.com/sitemap.xml']);
++  });
++});
+
+Everything you need is above. Open another file only to confirm a specific suspicion (a caller, a type, a schema), and name the suspicion when you do. Aim for under 15 tool calls.
+
+Walk every branching path and boundary condition the diff in the briefing pack introduces or alters: null/undefined, empty collections, zero/negative/overflow, unicode and long strings, concurrent or repeated invocation, partial failure mid-sequence, permission and auth edges. Report ONLY unhandled edge cases, one line each: `SEVERITY | file:line | the exact input or state that breaks it | concrete suggested fix`. Else exactly: `NO_FINDINGS`

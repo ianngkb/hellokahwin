@@ -487,7 +487,7 @@ export async function toggleArticleStatusAction(articleId: string) {
     revalidatePath('/sitemap.xml');
 
     if (article.categorySlug) {
-      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com';
+      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://hellokahwin.com';
       const canonicalUrl = `${baseUrl}/artikel/${article.categorySlug}/${article.slug}`;
       void submitUrlToIndexNow(canonicalUrl, articleId).catch((err) => {
         console.error('[indexnow] submit failed for', canonicalUrl, err);

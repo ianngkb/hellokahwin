@@ -98,7 +98,7 @@ export async function generateMetadata({ params }: AuthorPageProps): Promise<Met
 export default async function InspireAuthorPage({ params, searchParams }: AuthorPageProps) {
   const { slug } = await params;
   const sp = await searchParams;
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://hellokahwin.com';
 
   const author = await withDeadline(getPublicAuthorBySlug(slug), 3_000, `inspire-author:${slug}`);
   // THE gate, in one place: `getPublicAuthorBySlug` only ever returns a profile

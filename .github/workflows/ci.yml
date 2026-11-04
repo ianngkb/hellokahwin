@@ -1,0 +1,93 @@
+name: CI
+
+# Layer 2 of the regression-testing standard (brain/docs/regression-testing.md):
+# the WHOLE suite runs on every pull request and every push to master, as a
+# hard gate. Old tests are the regression tests; running only new ones checks
+# nothing old.
+#
+# Three jobs so a red tick names its own repair: lint, types and tests are
+# different fixes. Shape restored from the lint-and-test.yml removed in 4e8aaaf
+# ("clearing the deck so monitoring can be rebuilt from scratch") — this is
+# that rebuild. Deliberately nothing here downloads a browser or needs a
+# secret: the gates removed in 4e8aaaf failed on their own tooling (a
+# playwright-core install crash, a lost GSC grant) rather than on the site.
+#
+# Hard gate: a repository ruleset on master requires these three checks, so
+# a PR cannot merge red (see docs/verify.md). Vercel deploys whatever reaches
+# master, so the PR is where the gate has to hold.
+#
+# Baseline when this file landed (master 9e7b840): 65 test files, 850 tests,
+# all green; typecheck clean; lint 0 errors.
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Superseded PR runs are cancelled; master runs never are, so every commit
+# that reaches master (and therefore production) keeps a finished result.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  test:
+    name: vitest — the whole suite (blocking)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      # package.json has no `packageManager` field, so the version must be
+      # given here or pnpm/action-setup fails the step.
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - run: pnpm install --frozen-lockfile
+      # No pipe on purpose: a `| tee` without pipefail once reported success
+      # on a failing gate in this repo. vitest exits non-zero on any failure
+      # and on "no test files found", so a 0-test run cannot pass.
+      - name: pnpm test
+        run: pnpm test
+      # The post-deploy smoke suite is plain Node outside vitest and tsc; a
+      # syntax error in it should fail here, not after a deploy.
+      - name: smoke suite parses
+        run: node --check scripts/smoke-prod.mjs
+
+  typecheck:
+    name: tsc --noEmit (blocking)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - run: pnpm install --frozen-lockfile
+      - name: pnpm typecheck
+        run: pnpm typecheck
+
+  lint:
+    name: eslint + prettier (blocking)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - run: pnpm install --frozen-lockfile
+      - name: pnpm lint
+        run: pnpm lint
