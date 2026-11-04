@@ -6,7 +6,7 @@
 // early, so the DOM React hydrates no longer matches the tree it rendered.
 import { cleanup, render } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
-import { HomeHero, type HomeHeroItem } from '../home-hero';
+import { HomeHero, type HomeHeroCrops, type HomeHeroItem } from '../home-hero';
 
 const hero: HomeHeroItem = {
   slug: 'doa-keluarga-bahagia',
@@ -35,6 +35,19 @@ describe('HomeHero', () => {
     expect(credit?.getAttribute('href')).toBe(hero.coverCreditUrl);
     expect(credit?.getAttribute('rel')).toBe('noopener noreferrer');
     expect(credit?.closest('article')).not.toBeNull();
+  });
+
+  it('keeps the links apart when the hero photo renders too', () => {
+    const heroCrops = {
+      desktop: { url: 'https://cdn.example/desktop.webp', width: 2463, height: 700 },
+      og: { url: 'https://cdn.example/og.webp', width: 1200, height: 630 },
+    } as unknown as NonNullable<HomeHeroCrops>;
+    const { container } = render(<HomeHero hero={hero} heroCrops={heroCrops} />);
+    expect(container.querySelector('picture img')?.getAttribute('src')).toBe(heroCrops.og.url);
+    expect(container.querySelector('picture source')?.getAttribute('srcset')).toBe(
+      `${heroCrops.desktop.url} 2463w`,
+    );
+    expect(container.querySelectorAll('a a')).toHaveLength(0);
   });
 
   it('renders a credit without a URL as plain text', () => {

@@ -33,7 +33,7 @@
 
 import { test, before } from 'node:test';
 import assert from 'node:assert/strict';
-import { spawn } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 import { existsSync, mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -204,47 +204,102 @@ test('the analytics collector is up and rejects junk without storing it', async 
 // browser parses the page and React hydrates it.
 //
 // No dependency: it drives the system Chrome over the DevTools protocol with
-// Node's built-in WebSocket (Node ≥ 22). ubuntu-latest ships Google Chrome;
-// set CHROME_PATH to point elsewhere. A missing Chrome FAILS the check rather
-// than skipping it — a check that silently checks nothing is the failure mode.
+// Node's built-in WebSocket (Node ≥ 22). The workflow pins `ubuntu-24.04`
+// because that image ships Google Chrome (ubuntu-latest moved to 26.04); see
+// .github/workflows/smoke-production.yml. Set CHROME_PATH to use another
+// browser. A missing browser FAILS the check, with a message that says it is
+// the test machine and not the site: a check that silently checks nothing is
+// the failure mode.
 //
-// Still read-only: the analytics beacon is blocked inside the browser
-// (Network.setBlockedURLs), so the visit records no pageview.
+// Still read-only: requests to the analytics collector are answered with 204
+// inside the browser (Fetch domain) and also blocked (Network domain), and the
+// browser is killed without unloading the page, so no pageview is recorded.
 
-const CHROME_CANDIDATES = [
-  process.env.CHROME_PATH,
-  '/usr/bin/google-chrome',
-  '/usr/bin/google-chrome-stable',
-  '/usr/bin/chromium',
-  '/usr/bin/chromium-browser',
-  '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
-  'C:/Program Files/Google/Chrome/Application/chrome.exe',
-  'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe',
-].filter(Boolean);
+const BROWSER_TIMEOUT_MS = 20_000;
+const LOAD_DEADLINE_MS = 30_000;
+const QUIET_MS = 2_000;
+const NOT_THE_SITE = 'TEST MACHINE, NOT THE SITE:';
 
-async function pageErrorsIn(url) {
-  const chrome = CHROME_CANDIDATES.find((p) => existsSync(p));
-  assert.ok(chrome, `no Chrome found (tried ${CHROME_CANDIDATES.join(', ')}); set CHROME_PATH`);
-  const profile = mkdtempSync(join(tmpdir(), 'hk-smoke-'));
-  const proc = spawn(
-    chrome,
-    [
-      '--headless=new',
-      '--remote-debugging-port=0',
-      `--user-data-dir=${profile}`,
-      '--no-first-run',
-      '--no-default-browser-check',
-      '--no-sandbox',
-      '--disable-gpu',
-      'about:blank',
-    ],
-    { stdio: ['ignore', 'ignore', 'pipe'] },
+function findChrome() {
+  if (process.env.CHROME_PATH) {
+    assert.ok(
+      existsSync(process.env.CHROME_PATH),
+      `${NOT_THE_SITE} CHROME_PATH=${process.env.CHROME_PATH} does not exist`,
+    );
+    return process.env.CHROME_PATH;
+  }
+  const local = process.env.LOCALAPPDATA;
+  const candidates = [
+    '/usr/bin/google-chrome',
+    '/usr/bin/google-chrome-stable',
+    '/usr/bin/chromium',
+    '/usr/bin/chromium-browser',
+    '/snap/bin/chromium',
+    '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+    'C:/Program Files/Google/Chrome/Application/chrome.exe',
+    'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe',
+    local && join(local, 'Google/Chrome/Application/chrome.exe'),
+  ].filter(Boolean);
+  const found = candidates.find((p) => existsSync(p));
+  assert.ok(
+    found,
+    `${NOT_THE_SITE} no Chrome found (tried ${candidates.join(', ')}); set CHROME_PATH`,
   );
+  return found;
+}
+
+function killChrome(proc) {
+  if (proc.exitCode !== null || proc.signalCode !== null) return;
+  if (process.platform === 'win32') {
+    // proc.kill() ends only the parent chrome.exe; its helpers keep the
+    // profile open. Kill the tree.
+    spawnSync('taskkill', ['/PID', String(proc.pid), '/T', '/F'], { stdio: 'ignore' });
+  } else {
+    proc.kill('SIGKILL');
+  }
+}
+
+const RENDERED_EXPRESSION = `(() => {
+  const h1 = document.querySelector('h1');
+  const hydrated = [...document.querySelectorAll('body *')].some((el) =>
+    Object.keys(el).some((k) => k.startsWith('__reactFiber$')));
+  return { h1: (h1 && h1.textContent ? h1.textContent : '').trim(), hydrated };
+})()`;
+
+/**
+ * Open `url` in headless Chrome. Returns every uncaught error and
+ * console.error, plus facts about what actually rendered.
+ */
+async function openInChrome(url) {
+  const chrome = findChrome();
+  const profile = mkdtempSync(join(tmpdir(), 'hk-smoke-'));
+  let proc;
   let ws;
   try {
+    proc = spawn(
+      chrome,
+      [
+        '--headless=new',
+        '--remote-debugging-port=0',
+        `--user-data-dir=${profile}`,
+        '--no-first-run',
+        '--no-default-browser-check',
+        '--no-sandbox',
+        '--disable-gpu',
+        'about:blank',
+      ],
+      { stdio: ['ignore', 'ignore', 'pipe'] },
+    );
     const wsUrl = await new Promise((resolve, reject) => {
       let buf = '';
-      const timer = setTimeout(() => reject(new Error('Chrome did not start in 20s')), 20_000);
+      const timer = setTimeout(
+        () => reject(new Error(`${NOT_THE_SITE} Chrome did not start in 20s`)),
+        BROWSER_TIMEOUT_MS,
+      );
+      proc.on('error', (e) => {
+        clearTimeout(timer);
+        reject(new Error(`${NOT_THE_SITE} could not start ${chrome}: ${e.message}`));
+      });
       proc.stderr.on('data', (d) => {
         buf += d;
         const m = buf.match(/DevTools listening on (ws:\/\/\S+)/);
@@ -253,7 +308,10 @@ async function pageErrorsIn(url) {
           resolve(m[1]);
         }
       });
-      proc.on('exit', (code) => reject(new Error(`Chrome exited (${code}): ${buf.slice(-300)}`)));
+      proc.on('exit', (code) => {
+        clearTimeout(timer);
+        reject(new Error(`Chrome exited (${code}) before DevTools came up: ${buf.slice(-300)}`));
+      });
     });
 
     ws = new WebSocket(wsUrl);
@@ -261,42 +319,118 @@ async function pageErrorsIn(url) {
       ws.onopen = resolve;
       ws.onerror = () => reject(new Error('could not connect to Chrome DevTools'));
     });
+
     let nextId = 1;
+    let closedReason = null;
+    // Filled in once the page target is attached; read by onmessage.
+    const page = { sessionId: null };
     const pending = new Map();
     const events = [];
+    const failAll = (reason) => {
+      closedReason ??= reason;
+      for (const { reject } of pending.values()) reject(new Error(reason));
+      pending.clear();
+    };
+    ws.onclose = () => failAll('Chrome DevTools connection closed (browser crashed?)');
+    proc.on('exit', (code) => failAll(`Chrome exited (${code}) mid-check`));
+
+    const send = (method, params = {}, session) =>
+      new Promise((resolve, reject) => {
+        if (closedReason) {
+          reject(new Error(closedReason));
+          return;
+        }
+        const id = nextId++;
+        const timer = setTimeout(() => {
+          pending.delete(id);
+          reject(new Error(`DevTools ${method} got no answer in ${BROWSER_TIMEOUT_MS} ms`));
+        }, BROWSER_TIMEOUT_MS);
+        pending.set(id, {
+          resolve: (v) => {
+            clearTimeout(timer);
+            resolve(v);
+          },
+          reject: (e) => {
+            clearTimeout(timer);
+            reject(e);
+          },
+        });
+        ws.send(JSON.stringify({ id, method, params, ...(session ? { sessionId: session } : {}) }));
+      });
+
     ws.onmessage = (msg) => {
       const m = JSON.parse(msg.data);
       if (m.id && pending.has(m.id)) {
         const { resolve, reject } = pending.get(m.id);
         pending.delete(m.id);
-        if (m.error) reject(new Error(`${m.error.message}`));
+        if (m.error) reject(new Error(m.error.message));
         else resolve(m.result);
-      } else if (m.method) {
-        events.push(m);
+        return;
       }
+      if (!m.method) return;
+      if (m.method === 'Fetch.requestPaused' && m.sessionId === page.sessionId) {
+        // The only paused pattern is the analytics collector: answer locally.
+        send(
+          'Fetch.fulfillRequest',
+          { requestId: m.params.requestId, responseCode: 204 },
+          page.sessionId,
+        ).catch(() => {});
+        return;
+      }
+      events.push({ ...m, at: Date.now() });
     };
-    const send = (method, params = {}, sessionId) =>
-      new Promise((resolve, reject) => {
-        const id = nextId++;
-        pending.set(id, { resolve, reject });
-        ws.send(JSON.stringify({ id, method, params, ...(sessionId ? { sessionId } : {}) }));
-      });
 
     const { targetId } = await send('Target.createTarget', { url: 'about:blank' });
-    const { sessionId } = await send('Target.attachToTarget', { targetId, flatten: true });
+    page.sessionId = (await send('Target.attachToTarget', { targetId, flatten: true })).sessionId;
+    const { sessionId } = page;
     await send('Runtime.enable', {}, sessionId);
     await send('Page.enable', {}, sessionId);
+    await send('Page.setLifecycleEventsEnabled', { enabled: true }, sessionId);
     await send('Network.enable', {}, sessionId);
     await send('Network.setBlockedURLs', { urls: ['*/api/v1/analytics/collect*'] }, sessionId);
-    await send('Page.navigate', { url }, sessionId);
+    await send(
+      'Fetch.enable',
+      { patterns: [{ urlPattern: '*/api/v1/analytics/collect*' }] },
+      sessionId,
+    );
 
-    // Wait for the load event, then a quiet moment for hydration to finish.
-    const deadline = Date.now() + 30_000;
-    while (!events.some((e) => e.method === 'Page.loadEventFired' && e.sessionId === sessionId)) {
+    const nav = await send('Page.navigate', { url }, sessionId);
+    assert.ok(!nav.errorText, `${url} did not load: ${nav.errorText}`);
+
+    // Wait for THIS navigation's load event, matched by loaderId, so the
+    // initial about:blank load cannot satisfy it.
+    const deadline = Date.now() + LOAD_DEADLINE_MS;
+    const loaded = () =>
+      events.some(
+        (e) =>
+          e.sessionId === sessionId &&
+          e.method === 'Page.lifecycleEvent' &&
+          e.params.name === 'load' &&
+          e.params.loaderId === nav.loaderId,
+      );
+    while (!loaded()) {
+      assert.ok(!closedReason, closedReason);
       assert.ok(Date.now() < deadline, `${url} did not finish loading in 30s`);
       await new Promise((r) => setTimeout(r, 100));
     }
-    await new Promise((r) => setTimeout(r, 3_000));
+    // Then a quiet period: no new page event for QUIET_MS, bounded by the same
+    // deadline, so a slow hydration still reports its error.
+    for (;;) {
+      const mine = events.filter((e) => e.sessionId === sessionId);
+      const last = mine.length ? mine[mine.length - 1].at : 0;
+      if (Date.now() - last >= QUIET_MS) break;
+      assert.ok(!closedReason, closedReason);
+      assert.ok(Date.now() < deadline, `${url} never went quiet in 30s`);
+      await new Promise((r) => setTimeout(r, 200));
+    }
+
+    // A positive fact, so a page whose JavaScript never ran cannot pass with
+    // "no errors": the h1 has text, and React has attached to the DOM.
+    const { result } = await send(
+      'Runtime.evaluate',
+      { returnByValue: true, expression: RENDERED_EXPRESSION },
+      sessionId,
+    );
 
     const errors = [];
     for (const e of events) {
@@ -309,14 +443,15 @@ async function pageErrorsIn(url) {
         errors.push(`console.error: ${text.split('\n')[0]}`);
       }
     }
-    return errors;
+    return { errors, rendered: result.value };
   } finally {
     ws?.close();
-    const exited = new Promise((r) => proc.once('exit', r));
-    proc.kill();
-    await Promise.race([exited, new Promise((r) => setTimeout(r, 5_000))]);
-    // Best effort: on Windows Chrome's helpers can hold the profile a moment
-    // longer. A leftover temp folder is not a site defect.
+    if (proc) {
+      const exited = new Promise((r) => proc.once('exit', r));
+      killChrome(proc);
+      await Promise.race([exited, new Promise((r) => setTimeout(r, 5_000))]);
+    }
+    // Best effort: a leftover temp folder is not a site defect.
     try {
       rmSync(profile, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
     } catch {
@@ -326,6 +461,8 @@ async function pageErrorsIn(url) {
 }
 
 test('the home page runs in a real browser without JavaScript errors', async () => {
-  const errors = await pageErrorsIn(`${BASE}/`);
+  const { errors, rendered } = await openInChrome(`${BASE}/`);
+  assert.ok(rendered.h1.length > 0, `${BASE}/ rendered no <h1> text in the browser`);
+  assert.ok(rendered.hydrated, `React never hydrated ${BASE}/ (did its JavaScript load?)`);
   assert.deepEqual(errors, [], `errors on ${BASE}/:\n${errors.join('\n')}`);
 });
