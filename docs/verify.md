@@ -34,6 +34,13 @@ smoke suite runs against the live site after every deploy).
   where the gate has to hold. To ship in an emergency, still open a PR; the
   checks take about 3 minutes. Removing the ruleset turns the gate back into a
   report.
+- The ruleset's definition is `.github/rulesets/ci-must-pass-on-master.json`
+  (the three job names above, from the GitHub Actions app, id 15368). If a job
+  is renamed, update the file and re-apply it, or the old name is required
+  forever and every PR blocks:
+  `gh api -X POST repos/ianngkb/hellokahwin/rulesets --input .github/rulesets/ci-must-pass-on-master.json`
+  (use `-X PUT …/rulesets/<id>` to update the existing one; list ids with
+  `gh api repos/ianngkb/hellokahwin/rulesets`).
 - Before a ship, run `pnpm test` on the batch **and** on `origin/master`. A
   test red on both is pre-existing (list it, it does not block). A test green
   on `origin/master` and red on the batch is a regression and blocks.
