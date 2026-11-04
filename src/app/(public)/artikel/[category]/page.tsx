@@ -387,7 +387,7 @@ async function renderPillarPage(
   categorySlug: string,
   budgetLeft: () => number,
 ) {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://hellokahwin.com';
 
   const view = await readForCacheablePage(
     getPillarView(category.id),
@@ -597,7 +597,7 @@ export default async function InspireCategoryPage({ params, searchParams }: Cate
             '@type': 'CollectionPage',
             name: category.name,
             description: category.description ?? `Artikel ${category.name} di HelloKahwin.`,
-            url: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com'}/artikel/${categorySlug}`,
+            url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://hellokahwin.com'}/artikel/${categorySlug}`,
             // See the pillar view above, and `@/lib/seo/collection-jsonld`:
             // `numberOfItems` is an ItemList property and was invalid here.
             // `position` continues across pages, so page 2's first card is not
@@ -606,7 +606,7 @@ export default async function InspireCategoryPage({ params, searchParams }: Cate
               Number(total),
               data.map((article) => ({
                 name: article.title,
-                url: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com'}/artikel/${article.categorySlug ?? categorySlug}/${article.slug}`,
+                url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://hellokahwin.com'}/artikel/${article.categorySlug ?? categorySlug}/${article.slug}`,
               })),
               (page - 1) * perPage + 1,
             ),

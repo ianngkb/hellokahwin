@@ -55,7 +55,9 @@ describe('middleware — the admin sign-in gate', () => {
       expect(isRewrite(res)).toBe(false);
       if (!isClerk(res)) {
         expect([301, 308]).toContain(res.status);
-        expect(new URL(res.headers.get('location')!).pathname).toBe(path.replace(/\/+$/, ''));
+        const location = res.headers.get('location');
+        expect(location, `${path} was neither handed to Clerk nor redirected`).not.toBeNull();
+        expect(new URL(location!).pathname).toBe(path.replace(/\/+$/, ''));
       }
     },
   );

@@ -500,7 +500,7 @@ const META_FALLBACK_DEADLINE_MS = Number(process.env.INSPIRE_META_FALLBACK_DEADL
 
 export async function generateMetadata({ params }: ArticlePageProps): Promise<Metadata> {
   const { category, slug } = await params;
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://hellokahwin.com';
 
   // Deadline-protect the metadata path so a stalled DB doesn't burn the whole
   // 5s budget on metadata alone — the page render below still gets its own
@@ -578,7 +578,7 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
   // this earns its keep on the OTHER path: `pnpm ingest --update`, which
   // rewrites an article that has been live long enough to be cached.
   await tagEdgeResponse(`/artikel/${categorySlug}/${slug}`);
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://hellokahwin.com';
 
   // ONE SHARED BUDGET across every sequential read in this render, not a fresh
   // deadline per read. Giving each its own ceiling would permit 3s + 1.5s + 2s

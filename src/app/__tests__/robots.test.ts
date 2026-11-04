@@ -34,4 +34,19 @@ describe('robots.txt', () => {
   it('advertises only the sitemap that exists', () => {
     expect(result.sitemap).toEqual(['https://hellokahwin.com/sitemap.xml']);
   });
+
+  // Vercel can hold a variable that is present but empty; `??` let that
+  // through and robots.txt advertised a bare `/sitemap.xml`, which Google
+  // rejects. Unset and empty must both fall back to the public site.
+  it.each([
+    ['unset', undefined],
+    ['empty', ''],
+  ])('falls back to the public site when NEXT_PUBLIC_SITE_URL is %s', (_label, value) => {
+    vi.stubEnv('NEXT_PUBLIC_SITE_URL', value);
+    try {
+      expect(robots().sitemap).toEqual(['https://hellokahwin.com/sitemap.xml']);
+    } finally {
+      vi.unstubAllEnvs();
+    }
+  });
 });

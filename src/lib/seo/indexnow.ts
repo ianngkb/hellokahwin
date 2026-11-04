@@ -21,7 +21,7 @@ export async function submitUrlToIndexNow(url: string, articleId?: string): Prom
     return;
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://hellokahwin.com';
   let host: string;
   try {
     host = new URL(url).host;

@@ -12,6 +12,10 @@ name: CI
 # secret: the gates removed in 4e8aaaf failed on their own tooling (a
 # playwright-core install crash, a lost GSC grant) rather than on the site.
 #
+# Hard gate: a repository ruleset on master requires these three checks, so
+# a PR cannot merge red (see docs/verify.md). Vercel deploys whatever reaches
+# master, so the PR is where the gate has to hold.
+#
 # Baseline when this file landed (master 9e7b840): 65 test files, 850 tests,
 # all green; typecheck clean; lint 0 errors.
 
@@ -24,9 +28,11 @@ on:
 permissions:
   contents: read
 
+# Superseded PR runs are cancelled; master runs never are, so every commit
+# that reaches master (and therefore production) keeps a finished result.
 concurrency:
   group: ci-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   test:
@@ -49,6 +55,10 @@ jobs:
       # and on "no test files found", so a 0-test run cannot pass.
       - name: pnpm test
         run: pnpm test
+      # The post-deploy smoke suite is plain Node outside vitest and tsc; a
+      # syntax error in it should fail here, not after a deploy.
+      - name: smoke suite parses
+        run: node --check scripts/smoke-prod.mjs
 
   typecheck:
     name: tsc --noEmit (blocking)

@@ -3,7 +3,7 @@ import { SITE_DEFAULT_TITLE, SITE_TITLE_TEMPLATE } from '@/lib/seo/site-title';
 import './globals.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hellokahwin.com'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://hellokahwin.com'),
   // `default` is NOT a harmless placeholder. Next merges page metadata by
   // walking the returned object's own keys, so a page whose `generateMetadata`
   // returns `{}` contributes no `title` key and inherits THIS line verbatim —
