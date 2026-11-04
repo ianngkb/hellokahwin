@@ -1,0 +1,60 @@
+name: Smoke production
+
+# Layer 3 of the regression-testing standard (brain/docs/regression-testing.md):
+# a standing smoke suite runs AUTOMATICALLY against the live site after every
+# production deploy.
+#
+# hellokahwin has no deploy workflow of its own: Vercel's Git integration
+# deploys every push to master. Vercel reports each deployment back to GitHub
+# as a deployment + deployment_status (creator vercel[bot], environment
+# "Production"), so this workflow is the "last job of the deploy": it fires
+# when that status turns `success`.
+#
+# It tests https://hellokahwin.com, not the deployment's own *.vercel.app URL:
+# those are behind Vercel Deployment Protection (302 to vercel.com/sso-api) and
+# a bypass would need a new secret.
+#
+# Red does NOT roll back. It means "production is live and something on it
+# looks wrong": the run goes red and GitHub emails whoever pushed.
+#
+# Read-only, no fixtures, no secrets — see the header of scripts/smoke-prod.mjs.
+
+on:
+  deployment_status:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: smoke-production
+  cancel-in-progress: false
+
+jobs:
+  smoke:
+    name: smoke — live site (hellokahwin.com)
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.deployment_status.state == 'success' &&
+       github.event.deployment.environment == 'Production')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      SMOKE_BASE_URL: https://hellokahwin.com
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      # No install step: the suite uses only Node built-ins (fetch, node:test).
+      #
+      # Vercel can report `success` a moment before the hellokahwin.com alias
+      # and the edge cache have moved to the new build. One retry after a
+      # minute absorbs that; a real breakage fails both runs and the job goes
+      # red. The first run's failures are still printed in the log.
+      - name: Run smoke suite
+        run: |
+          if node --test scripts/smoke-prod.mjs; then exit 0; fi
+          echo "::warning::smoke failed once; retrying in 60s in case the alias had not switched yet"
+          sleep 60
+          node --test scripts/smoke-prod.mjs

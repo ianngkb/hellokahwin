@@ -16,3 +16,4 @@ PAUSED 2026-11-04 (orchestrator pause request; machine restart). No deploy or /b
 2. .github/workflows/ci.yml (lint, typecheck, test on PR + push master) and .github/workflows/smoke-production.yml (on deployment_status success, environment Production → node scripts/smoke-prod.mjs).
 3. docs/verify.md (full-suite cmd+runtime, smoke cmd+where, fixtures=none, not covered=admin/signed-in) + a short CLAUDE.md pointer.
 4. Add a couple of critical-path tests only if gaps found; review (codex-reviewer procedure) → /imdone → ship via PR to master; report buildit-profile change needed (add a hellokahwin profile that runs pnpm test + typecheck + build).
+- 2026-11-04T10:23:45Z PROGRESS: resumed after restart; smoke + ci.yml + smoke-production.yml + verify.md + 2 test files written; full suite 67 files/872 tests green; next = review
