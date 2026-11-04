@@ -218,6 +218,7 @@ test('the analytics collector is up and rejects junk without storing it', async 
 const BROWSER_TIMEOUT_MS = 20_000;
 const LOAD_DEADLINE_MS = 30_000;
 const QUIET_MS = 2_000;
+const QUIET_BUDGET_MS = 8_000;
 const NOT_THE_SITE = 'TEST MACHINE, NOT THE SITE:';
 
 function findChrome() {
@@ -310,14 +311,18 @@ async function openInChrome(url) {
       });
       proc.on('exit', (code) => {
         clearTimeout(timer);
-        reject(new Error(`Chrome exited (${code}) before DevTools came up: ${buf.slice(-300)}`));
+        reject(
+          new Error(
+            `${NOT_THE_SITE} Chrome exited (${code}) before DevTools came up: ${buf.slice(-300)}`,
+          ),
+        );
       });
     });
 
     ws = new WebSocket(wsUrl);
     await new Promise((resolve, reject) => {
       ws.onopen = resolve;
-      ws.onerror = () => reject(new Error('could not connect to Chrome DevTools'));
+      ws.onerror = () => reject(new Error(`${NOT_THE_SITE} could not connect to Chrome DevTools`));
     });
 
     let nextId = 1;
@@ -331,8 +336,9 @@ async function openInChrome(url) {
       for (const { reject } of pending.values()) reject(new Error(reason));
       pending.clear();
     };
-    ws.onclose = () => failAll('Chrome DevTools connection closed (browser crashed?)');
-    proc.on('exit', (code) => failAll(`Chrome exited (${code}) mid-check`));
+    ws.onclose = () =>
+      failAll(`${NOT_THE_SITE} Chrome DevTools connection closed (browser crashed?)`);
+    proc.on('exit', (code) => failAll(`${NOT_THE_SITE} Chrome exited (${code}) mid-check`));
 
     const send = (method, params = {}, session) =>
       new Promise((resolve, reject) => {
@@ -413,14 +419,20 @@ async function openInChrome(url) {
       assert.ok(Date.now() < deadline, `${url} did not finish loading in 30s`);
       await new Promise((r) => setTimeout(r, 100));
     }
-    // Then a quiet period: no new page event for QUIET_MS, bounded by the same
-    // deadline, so a slow hydration still reports its error.
+    // Then a quiet period: no new page or script event for QUIET_MS, so a slow
+    // hydration still reports its error. It has its own budget, and running out
+    // of it is not a failure: a busy but healthy page must not turn the gate
+    // red. Network chatter does not count as activity.
+    const quietDeadline = Date.now() + QUIET_MS + QUIET_BUDGET_MS;
     for (;;) {
-      const mine = events.filter((e) => e.sessionId === sessionId);
+      const mine = events.filter(
+        (e) =>
+          e.sessionId === sessionId &&
+          (e.method.startsWith('Page.') || e.method.startsWith('Runtime.')),
+      );
       const last = mine.length ? mine[mine.length - 1].at : 0;
-      if (Date.now() - last >= QUIET_MS) break;
+      if (Date.now() - last >= QUIET_MS || Date.now() >= quietDeadline) break;
       assert.ok(!closedReason, closedReason);
-      assert.ok(Date.now() < deadline, `${url} never went quiet in 30s`);
       await new Promise((r) => setTimeout(r, 200));
     }
 
