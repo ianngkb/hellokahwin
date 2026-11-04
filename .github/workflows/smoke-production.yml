@@ -45,7 +45,10 @@ jobs:
       github.event_name == 'workflow_dispatch' ||
       (github.event.deployment_status.state == 'success' &&
        startsWith(github.event.deployment.environment, 'Production'))
-    runs-on: ubuntu-latest
+    # Pinned, not ubuntu-latest: the last check drives the runner's own Google
+    # Chrome, and 24.04 is the image known to ship it (ubuntu-latest moved to
+    # 26.04 on 2026-11-04).
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     env:
       SMOKE_BASE_URL: https://hellokahwin.com
