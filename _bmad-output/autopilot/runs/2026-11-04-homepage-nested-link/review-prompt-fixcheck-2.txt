@@ -1,0 +1,86 @@
+Do not load, read or follow any repository skill, workflow, checklist or step file (`.agents/skills/**`, `_bmad/**`, `.claude/skills/**`). No questions, no checkpoints; produce the findings and stop.
+
+Here are review findings that were supposedly fixed, each with an id, the class the fixer assigned it, and what the fixer says they did. For each, examine `git diff fee1e069bc6997e5a57adac260961b6a229774a7..HEAD` plus the current code at the cited locations and answer with ONE line per finding, in this shape:
+`CLOSED|STILL_OPEN|REBUTTAL_ACCEPTED|REBUTTAL_REJECTED | F<id> | file:line | evidence`.
+Then judge the class. If the fixer's class is right, end the line there. If it is wrong, append ` | CLASS: <one of defect-user, defect-edge, test-gap, paperwork, rebutted, duplicate>` and one clause saying why.
+Judge ONLY these findings, plus the two checks below. Do not report anything else you noticed along the way.
+
+**Check the proof yourself.** When a "what I did" cites a test, a command or its output, run it now and quote the real result. Never accept pasted output. (Runnable here: `node --check scripts/smoke-prod.mjs`, `node --test scripts/smoke-prod.mjs` against the live site, expected to fail only its last test because the site still carries the unfixed bug, and `CHROME_PATH=C:/nope.exe node --test --test-name-pattern="real browser" scripts/smoke-prod.mjs`.)
+
+**Check the edits nobody flagged.** For each hunk below, ask only: did this edit break something or open a hole? Report a real defect as `NEW | N<k> | file:line | critical|major|minor | problem | fix`. Do not report style.
+--- FINDINGS ---
+| F8 | edge | scripts/smoke-prod.mjs:335 | minor | defect-edge | fixed | the four remaining browser-environment messages (exit before DevTools, cannot connect, socket closed, exit mid-check) now carry the "TEST MACHINE, NOT THE SITE:" prefix; 9 uses of NOT_THE_SITE |
+| FC1-N1 | fixcheck | scripts/smoke-prod.mjs:423 | minor | defect-edge | fixed | quiet phase has its own budget (QUIET_MS + 8 s) after load; running out of it breaks instead of failing; only Page.* / Runtime.* events count as activity |
+--- OUT-OF-SCOPE HUNKS ---
+none outside the cited areas; full diff for reference:
+diff --git a/scripts/smoke-prod.mjs b/scripts/smoke-prod.mjs
+index 10f8ccc..0499c61 100644
+--- a/scripts/smoke-prod.mjs
++++ b/scripts/smoke-prod.mjs
+@@ -218,6 +218,7 @@ test('the analytics collector is up and rejects junk without storing it', async
+ const BROWSER_TIMEOUT_MS = 20_000;
+ const LOAD_DEADLINE_MS = 30_000;
+ const QUIET_MS = 2_000;
++const QUIET_BUDGET_MS = 8_000;
+ const NOT_THE_SITE = 'TEST MACHINE, NOT THE SITE:';
+ 
+ function findChrome() {
+@@ -310,14 +311,18 @@ async function openInChrome(url) {
+       });
+       proc.on('exit', (code) => {
+         clearTimeout(timer);
+-        reject(new Error(`Chrome exited (${code}) before DevTools came up: ${buf.slice(-300)}`));
++        reject(
++          new Error(
++            `${NOT_THE_SITE} Chrome exited (${code}) before DevTools came up: ${buf.slice(-300)}`,
++          ),
++        );
+       });
+     });
+ 
+     ws = new WebSocket(wsUrl);
+     await new Promise((resolve, reject) => {
+       ws.onopen = resolve;
+-      ws.onerror = () => reject(new Error('could not connect to Chrome DevTools'));
++      ws.onerror = () => reject(new Error(`${NOT_THE_SITE} could not connect to Chrome DevTools`));
+     });
+ 
+     let nextId = 1;
+@@ -331,8 +336,9 @@ async function openInChrome(url) {
+       for (const { reject } of pending.values()) reject(new Error(reason));
+       pending.clear();
+     };
+-    ws.onclose = () => failAll('Chrome DevTools connection closed (browser crashed?)');
+-    proc.on('exit', (code) => failAll(`Chrome exited (${code}) mid-check`));
++    ws.onclose = () =>
++      failAll(`${NOT_THE_SITE} Chrome DevTools connection closed (browser crashed?)`);
++    proc.on('exit', (code) => failAll(`${NOT_THE_SITE} Chrome exited (${code}) mid-check`));
+ 
+     const send = (method, params = {}, session) =>
+       new Promise((resolve, reject) => {
+@@ -413,14 +419,20 @@ async function openInChrome(url) {
+       assert.ok(Date.now() < deadline, `${url} did not finish loading in 30s`);
+       await new Promise((r) => setTimeout(r, 100));
+     }
+-    // Then a quiet period: no new page event for QUIET_MS, bounded by the same
+-    // deadline, so a slow hydration still reports its error.
++    // Then a quiet period: no new page or script event for QUIET_MS, so a slow
++    // hydration still reports its error. It has its own budget, and running out
++    // of it is not a failure: a busy but healthy page must not turn the gate
++    // red. Network chatter does not count as activity.
++    const quietDeadline = Date.now() + QUIET_MS + QUIET_BUDGET_MS;
+     for (;;) {
+-      const mine = events.filter((e) => e.sessionId === sessionId);
++      const mine = events.filter(
++        (e) =>
++          e.sessionId === sessionId &&
++          (e.method.startsWith('Page.') || e.method.startsWith('Runtime.')),
++      );
+       const last = mine.length ? mine[mine.length - 1].at : 0;
+-      if (Date.now() - last >= QUIET_MS) break;
++      if (Date.now() - last >= QUIET_MS || Date.now() >= quietDeadline) break;
+       assert.ok(!closedReason, closedReason);
+-      assert.ok(Date.now() < deadline, `${url} never went quiet in 30s`);
+       await new Promise((r) => setTimeout(r, 200));
+     }
+ 
