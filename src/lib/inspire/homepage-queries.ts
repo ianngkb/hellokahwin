@@ -107,6 +107,26 @@ export async function getInspireHomepageConfig(): Promise<{
   return parseInspireHomepageConfig(row.value);
 }
 
+/**
+ * The public /artikel read: a curation that cannot be read must never take the
+ * page down. Vercel PREVIEW builds connect as `hk_preview_ro`, which may read
+ * articles, categories and media but not `admin_settings`, so the build-time
+ * prerender of /artikel failed with "permission denied". Any failure here falls
+ * back to the automatic layout (newest articles) — the same page production
+ * shows before anyone curates. The admin screen keeps the strict read.
+ */
+export async function getInspireHomepageConfigOrDefault(): Promise<{
+  config: InspireHomepageConfig;
+  invalid: boolean;
+}> {
+  try {
+    return await getInspireHomepageConfig();
+  } catch (err) {
+    console.warn('[inspire-homepage] curation unreadable, using the automatic layout:', err);
+    return { config: DEFAULT_INSPIRE_HOMEPAGE_CONFIG, invalid: false };
+  }
+}
+
 export async function getInspireHomepageCategories(): Promise<InspireHomepageCategory[]> {
   const articleCountSub = db
     .select({
@@ -138,9 +158,18 @@ export async function getInspireHomepageCategories(): Promise<InspireHomepageCat
  * full article rows. Explicit pins are fetched separately, so an old story can
  * still be curated even though automatic pools stay bounded.
  */
-export async function getInspireHomepageResolvedData() {
+/**
+ * `tolerateUnreadableConfig` is for the PUBLIC page only. The admin editor must
+ * use the strict read: if it opened on the default after a failed read, a Save
+ * would overwrite the arrangement actually saved (review R1).
+ */
+export async function getInspireHomepageResolvedData(
+  options: { tolerateUnreadableConfig?: boolean } = {},
+) {
   const [{ config, invalid }, allCategories] = await Promise.all([
-    getInspireHomepageConfig(),
+    options.tolerateUnreadableConfig
+      ? getInspireHomepageConfigOrDefault()
+      : getInspireHomepageConfig(),
     getInspireHomepageCategories(),
   ]);
   const allPinnedIds = [
@@ -224,4 +253,9 @@ export function pickerArticlesForConfig(
     featured: pick(config.featured.pinnedArticleIds),
     latest: pick(config.latest.pinnedArticleIds),
   };
+}
+
+/** /artikel's read: never fails because the curation is unreadable. */
+export function getPublicInspireHomepageResolvedData() {
+  return getInspireHomepageResolvedData({ tolerateUnreadableConfig: true });
 }
