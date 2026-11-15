@@ -1114,6 +1114,10 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_280px]">
             {/* Main article content */}
             <article>
+              {/* The cluster's series box, at the head of the body rather than
+                  above the cover, so it never pushes the hero photograph (the
+                  page's largest paint) further down a phone screen. */}
+              <SeriesBox box={seriesBox} />
               {/* The contents list renders inline at the top of the body,
                   inside the renderer, from the same `article.content` the
                   renderer anchors its headings from. */}
