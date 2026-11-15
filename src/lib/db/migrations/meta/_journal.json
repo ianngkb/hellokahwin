@@ -43,6 +43,13 @@
       "when": 1793326039600,
       "tag": "0005_analytics_events",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1794758324000,
+      "tag": "0006_inspire_admin_versions_clusters_gsc",
+      "breakpoints": true
     }
   ]
 }
