@@ -52,6 +52,13 @@ CREATE INDEX CONCURRENTLY IF NOT EXISTS "idx_analytics_events_artikel_pageview"
 
 ALTER TABLE "gsc_pages" ENABLE ROW LEVEL SECURITY;
 ALTER TABLE "gsc_page_daily" ENABLE ROW LEVEL SECURITY;
+ALTER TABLE "article_title_tests" ENABLE ROW LEVEL SECURITY;
+
+-- article_title_tests must carry the partial unique index the start action
+-- relies on (one running test per article). drizzle generates it from the
+-- schema; this repeats it idempotently in case the generated SQL is edited.
+CREATE UNIQUE INDEX IF NOT EXISTS "article_title_tests_one_running_idx"
+  ON "article_title_tests" ("article_id") WHERE "ended_at" IS NULL;
 
 -- ── ROLLBACK ───────────────────────────────────────────────────────────────
 --
@@ -60,8 +67,13 @@ ALTER TABLE "gsc_page_daily" ENABLE ROW LEVEL SECURITY;
 -- order; a missing table shows "This panel couldn't load", never a 500.
 --
 --   DROP INDEX CONCURRENTLY IF EXISTS "idx_analytics_events_artikel_pageview";
+--   DROP TABLE IF EXISTS "article_title_tests";  -- loses the test history only;
+--                                                 -- the live meta titles stay
 --   DROP TABLE IF EXISTS "gsc_page_daily";   -- data is re-fetchable from Google
 --   DROP TABLE IF EXISTS "gsc_pages";
+--
+-- Also remove the `crons` entry from vercel.json (the nightly /api/cron/gsc-sync)
+-- if the tables go: the route would otherwise fail every night.
 --
 -- (Dropping a table drops its RLS setting with it.) analytics_events itself is
 -- unchanged apart from the index, and keeps every row it collected.

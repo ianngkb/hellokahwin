@@ -12,6 +12,7 @@ import { loadOverview } from './overview-data';
 import { currentParams, parseFilters } from './overview-params';
 import { OverviewDashboard } from './overview-dashboard';
 import { PeriodBar } from './period-bar';
+import { TitleTestsView } from './title-tests-view';
 
 export const metadata: Metadata = {
   title: 'Article Analytics - Admin',
@@ -31,6 +32,7 @@ interface PageProps {
 const TABS = [
   { key: 'overview', label: 'Overview', href: '/admin/inspire/analytics' },
   { key: 'compare', label: 'Compare articles', href: '/admin/inspire/analytics?view=compare' },
+  { key: 'title-tests', label: 'Title tests', href: '/admin/inspire/analytics?view=title-tests' },
 ] as const;
 
 const tab = 'border-b-2 px-1 pb-2 text-sm font-semibold transition-colors underline-offset-4';
@@ -40,8 +42,13 @@ export default async function ArticleAnalyticsPage({ searchParams }: PageProps) 
   const sp = await searchParams;
 
   // Old comparison links (`?ids=…` with no view) still open the Compare tab.
-  const view: 'overview' | 'compare' =
-    sp.view === 'compare' || sp.ids !== undefined ? 'compare' : 'overview';
+  const view: 'overview' | 'compare' | 'title-tests' =
+    sp.view === 'title-tests'
+      ? 'title-tests'
+      : sp.view === 'compare' || sp.ids !== undefined
+        ? 'compare'
+        : 'overview';
+  const start = typeof sp.start === 'string' ? sp.start : undefined;
 
   return (
     <div className="flex min-w-0 flex-col gap-6">
@@ -83,7 +90,11 @@ export default async function ArticleAnalyticsPage({ searchParams }: PageProps) 
 
       {/* Awaited here rather than rendered as async children, so the whole page
           resolves in one pass (and renders under the unit tests' renderer). */}
-      {view === 'compare' ? await CompareView({ ids: sp.ids }) : await Overview({ sp })}
+      {view === 'compare'
+        ? await CompareView({ ids: sp.ids })
+        : view === 'title-tests'
+          ? await TitleTestsView({ start })
+          : await Overview({ sp })}
     </div>
   );
 }

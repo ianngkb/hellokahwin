@@ -36,6 +36,13 @@ vi.mock('../overview-dashboard', () => ({
 vi.mock('../period-bar', () => ({
   PeriodBar: ({ active }: { active: string }) => <div data-testid="period">{active}</div>,
 }));
+const TitleTestsView = vi.fn();
+vi.mock('../title-tests-view', () => ({
+  TitleTestsView: (p: { start?: string }) => {
+    TitleTestsView(p);
+    return <div data-testid="title-tests">{p.start ?? ''}</div>;
+  },
+}));
 vi.mock('@/components/layout/page-header', () => ({
   PageHeader: ({ title }: { title: string }) => <h1>{title}</h1>,
 }));
@@ -154,5 +161,17 @@ describe('Article Analytics page', () => {
     await renderPage(id(9));
     expect(getArticlesCompare).not.toHaveBeenCalled();
     expect(screen.getByText('Pick two or more articles to compare')).toBeTruthy();
+  });
+});
+
+describe('Title tests tab', () => {
+  it('opens on ?view=title-tests and passes the article to start a test on', async () => {
+    await renderPage(undefined, { view: 'title-tests', start: 'abc' });
+    expect(screen.getByTestId('title-tests').textContent).toBe('abc');
+    expect(screen.queryByTestId('overview')).toBeNull();
+    expect(screen.getByRole('link', { name: 'Title tests' }).getAttribute('aria-current')).toBe(
+      'page',
+    );
+    expect(requireAdminSection).toHaveBeenCalledWith('inspire');
   });
 });

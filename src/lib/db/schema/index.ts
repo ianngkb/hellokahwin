@@ -10,3 +10,4 @@ export * from './dynamic-blocks';
 export * from './seo-indexing';
 export * from './analytics-events';
 export * from './gsc';
+export * from './article-title-tests';
