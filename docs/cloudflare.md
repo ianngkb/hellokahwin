@@ -59,6 +59,16 @@ production (same `system_identifier`), `has_table_privilege('articles',
 session port (5432). Hyperdrive's own query cache is **off**, so a purge is
 never undone by a 60-second-old query result.
 
+**Prepared statements and the connection cap.** Behind Hyperdrive the client
+uses prepared statements (`prepare: false` there causes intermittent hangs,
+per Cloudflare); `src/lib/db/prefer-prepared.ts` extends that to Drizzle's
+`unsafe()` calls, which postgres-js otherwise always sends unprepared.
+Hyperdrive's `origin_connection_limit` is set to **10** because Supavisor
+session mode allows only 15 clients per role (`EMAXCONNSESSION`). At the
+default limit, 68 of 90 concurrent cold article renders returned 500; at 10,
+0 of 90 did (15 Nov 2026). Change it with
+`cf.ps1 hyperdrive update a7579bc5a9b64c4e8ab49dab9dc070c8 --origin-connection-limit <n>`.
+
 Smart Placement (`placement.mode = smart`) moves the Worker next to the data.
 
 ### Read-only preview

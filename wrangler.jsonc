@@ -37,6 +37,11 @@
   // The origin is the READ-ONLY role Vercel previews use, so this Worker
   // cannot write to the production database whatever the code does.
   // Created 15 Nov 2026 as `hellokahwin-db`, query caching off.
+  // origin_connection_limit = 10 (set on the config, not here): the origin is
+  // Supavisor SESSION mode, capped at pool_size 15 per role. Above that every
+  // extra connection fails with EMAXCONNSESSION and the page 500s — measured
+  // 15 Nov 2026: 68 of 90 concurrent cold renders failed at the default limit,
+  // 0 of 90 at 10.
   "hyperdrive": [
     {
       "binding": "HYPERDRIVE",
