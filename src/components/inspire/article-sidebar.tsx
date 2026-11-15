@@ -5,6 +5,7 @@ import { Chip } from '@/components/ui/chip';
 import { PhotoGallery } from './photo-gallery';
 import { authorArchivePath } from '@/lib/authors/gate';
 import type { GalleryImage } from './article-renderer';
+import './article-twn.css';
 
 interface ArticleTag {
   id: string;
@@ -31,6 +32,12 @@ interface ArticleSidebarProps {
   authorAvatarUrl?: string | null;
   tags?: ArticleTag[];
   galleryImages: GalleryImage[];
+  /**
+   * The share control (WhatsApp on the public article), rendered under its own
+   * "Kongsi" heading. Optional so the draft-preview surfaces keep their call
+   * signature and simply render no share section.
+   */
+  share?: React.ReactNode;
   variant?: 'sidebar' | 'mobile';
 }
 
@@ -42,7 +49,7 @@ export function ArticleSidebar({
   authorAvatarUrl,
   tags,
   galleryImages,
-  variant = 'sidebar',
+  share,
 }: ArticleSidebarProps) {
   return (
     <aside className="inspire-sidebar space-y-6">
@@ -125,6 +132,14 @@ export function ArticleSidebar({
               </Chip>
             ))}
           </div>
+        </div>
+      )}
+
+      {/* Share */}
+      {share && (
+        <div>
+          <h3 className="sidebar-section-title mb-3">Kongsi</h3>
+          {share}
         </div>
       )}
 

@@ -1,4 +1,3 @@
-import { Fragment } from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -18,10 +17,7 @@ import { tagEdgeResponse } from '@/lib/cache/edge-tag';
 import { categoryOwnsPublishedArticles } from '@/lib/inspire/category-indexability';
 import { categoryRobots, ROBOTS_ON_DEADLINE_MISS } from '@/lib/seo/category-robots';
 import { collectionItemList, type CollectionListItem } from '@/lib/seo/collection-jsonld';
-import { resolveCardSource, resolveRowThumbSource } from '@/lib/storage/responsive-cover';
-import { EmptyCategoryState } from '@/design-system/components';
-import '@/design-system/tokens.css';
-import '@/design-system/components.css';
+import { ArticleCard } from '@/components/inspire/article-card';
 
 // Cache forever; invalidate via `revalidateTag('articles')` /
 // `revalidateTag('inspire-categories')` from admin write paths. See
@@ -418,7 +414,7 @@ async function renderPillarPage(
   }
 
   return (
-    <div className="hk s-pad mx-auto max-w-6xl py-8">
+    <div className="container mx-auto px-4 py-8 lg:px-6">
       <BreadcrumbJsonLd items={breadcrumbItems} />
       <script
         type="application/ld+json"
@@ -448,17 +444,16 @@ async function renderPillarPage(
       />
       <Breadcrumbs items={breadcrumbItems} />
 
-      <header className="mx-auto max-w-3xl pt-4 pb-10 text-center">
-        <span className="s-label" style={{ color: 'var(--accent)' }}>
-          Panduan
-        </span>
-        <h1 className="s-h1 mx-auto mt-3">{category.name}</h1>
-      </header>
+      <div className="inspire-editorial">
+        <div className="mb-8">
+          <span className="inspire-overline text-brand-secondary">Panduan</span>
+          <h1 className="inspire-display mt-2 text-3xl">{category.name}</h1>
+        </div>
 
-      {/* PillarBody's own h2-per-cluster outline is already correct (DES-09
-          §3.2: the seven pillar hubs go h1 h2 h2 …, unlike the eight
-          non-pillar categories fixed below) — left untouched. */}
-      <PillarBody view={view} intro={category.intro} />
+        {/* PillarBody's own h2-per-cluster outline: the pillar hubs go
+            h1 h2 h2 … (DES-09 §3.2). */}
+        <PillarBody view={view} intro={category.intro} />
+      </div>
     </div>
   );
 }
@@ -579,15 +574,24 @@ export default async function InspireCategoryPage({ params, searchParams }: Cate
       : [{ label: category.name }]),
   ];
 
-  // The first item of the set is a Card (full-width figure + heading), the
-  // rest are ListRows — spec §5.2: twelve full-width cards runs ~4,000px of
-  // scroll, twelve rows ~1,150px. Card only on page 1 — pages 2+ are all rows,
-  // matching the spec's "index · title · thumbnail" desktop drawing.
-  const [firstArticle, ...restArticles] = data;
-  const leadIsCard = page === 1 && Boolean(firstArticle);
+  // The chip row, as on The Wedding Notebook: "Semua" plus one chip per
+  // sub-category, active chip filled. Every chip is a real crawlable `?sub=`
+  // link (DES-09 E1's anchor-only rule), with `aria-current="page"` on the one
+  // the reader is standing on.
+  const chipClass = (active: boolean, size: 'lg' | 'sm') =>
+    `rounded-full border ${
+      size === 'lg' ? 'px-4 py-1.5 text-xs' : 'px-3 py-1 text-[11px]'
+    } font-medium tracking-wider uppercase transition-colors ${
+      active
+        ? 'bg-foreground text-background border-foreground'
+        : 'text-muted-foreground hover:text-foreground hover:border-foreground'
+    }`;
+  const childGrandchildren = activeChild
+    ? grandchildren.filter((g) => g.parentId === activeChild!.id)
+    : [];
 
   return (
-    <div className="hk s-pad mx-auto max-w-6xl py-8">
+    <div className="container mx-auto px-4 py-8 lg:px-6">
       <BreadcrumbJsonLd items={breadcrumbItems} />
       <script
         type="application/ld+json"
@@ -619,91 +623,50 @@ export default async function InspireCategoryPage({ params, searchParams }: Cate
       />
       <Breadcrumbs items={breadcrumbItems} />
 
-      <div className="mx-auto max-w-3xl">
-        {/* h1 = the category name, exactly one — spec §9.1. The article count
-            + "Disemak" (checked) fields are the record §7.1's "category counts
-            available at render time" build dependency asks for; `total` is
-            already computed above for pagination, so this is free. */}
-        <header>
-          <span className="s-label" style={{ color: 'var(--accent)' }}>
-            Kategori
-          </span>
-          <h1 className="s-h1 mt-3">{category.name}</h1>
-          {category.description && <p className="s-deck mt-4">{category.description}</p>}
-        </header>
-        <div
-          style={{
-            display: 'flex',
-            gap: 28,
-            borderTop: '2px solid var(--fg)',
-            marginTop: 18,
-            paddingTop: 12,
-          }}
-        >
-          <div>
-            <div className="s-label" style={{ color: 'var(--fg-muted)', marginBottom: 5 }}>
-              Artikel
-            </div>
-            <div className="s-val" style={{ fontSize: 17 }}>
-              {total}
-            </div>
-          </div>
+      <div className="inspire-editorial">
+        {/* h1 = the category name, exactly one — spec §9.1. */}
+        <div className="mb-8">
+          <h1 className="inspire-display text-3xl">{category.name}</h1>
+          {category.description && (
+            <p className="text-muted-foreground mt-2">{category.description}</p>
+          )}
         </div>
 
-        {/* Subcategory filter chips — real <a> navigation, not a JS toggle:
-            `?sub=` is a real crawlable URL, per DES-09 E1's anchor-only rule.
-            `.s-chip`'s [aria-pressed] fill is for the standalone Chip button;
-            here the active state is `aria-current="page"` (the correct ARIA
-            role for "the page I'm already on"), styled the same way. */}
+        {/* Sub-category chips */}
         {children.length > 0 && (
-          <div className="s-chiprow" style={{ marginTop: 20 }}>
-            <Link
-              href={`/artikel/${categorySlug}`}
-              className="s-chip"
-              aria-current={!sp.sub ? 'page' : undefined}
-              style={
-                !sp.sub
-                  ? { background: 'var(--fg)', color: 'var(--bg)', borderColor: 'var(--fg)' }
-                  : undefined
-              }
-            >
-              Semua
-            </Link>
-            {children.map((child) => {
-              const isActive = activeChild?.id === child.id;
-              return (
-                <Link
-                  key={child.id}
-                  href={`/artikel/${categorySlug}?sub=${child.slug}`}
-                  className="s-chip"
-                  aria-current={isActive ? 'page' : undefined}
-                  style={
-                    isActive
-                      ? { background: 'var(--fg)', color: 'var(--bg)', borderColor: 'var(--fg)' }
-                      : undefined
-                  }
-                >
-                  {child.name}
-                </Link>
-              );
-            })}
-          </div>
-        )}
-        {activeChild &&
-          (() => {
-            const childGrandchildren = grandchildren.filter((g) => g.parentId === activeChild!.id);
-            if (childGrandchildren.length === 0) return null;
-            return (
-              <div className="s-chiprow" style={{ marginTop: 8, paddingLeft: 8 }}>
+          <div className="mb-8 space-y-3">
+            <div className="flex flex-wrap gap-2">
+              <Link
+                href={`/artikel/${categorySlug}`}
+                aria-current={!sp.sub ? 'page' : undefined}
+                className={chipClass(!sp.sub, 'lg')}
+                style={{ fontFamily: 'var(--font-geist)' }}
+              >
+                Semua
+              </Link>
+              {children.map((child) => {
+                const isActive = activeChild?.id === child.id;
+                return (
+                  <Link
+                    key={child.id}
+                    href={`/artikel/${categorySlug}?sub=${child.slug}`}
+                    aria-current={isActive ? 'page' : undefined}
+                    className={chipClass(isActive, 'lg')}
+                    style={{ fontFamily: 'var(--font-geist)' }}
+                  >
+                    {child.name}
+                  </Link>
+                );
+              })}
+            </div>
+            {/* One level down: the active child's own sections. */}
+            {activeChild && childGrandchildren.length > 0 && (
+              <div className="flex flex-wrap gap-2 pl-2">
                 <Link
                   href={`/artikel/${categorySlug}?sub=${activeChild.slug}`}
-                  className="s-chip"
                   aria-current={!activeGrandchild ? 'page' : undefined}
-                  style={
-                    !activeGrandchild
-                      ? { background: 'var(--fg)', color: 'var(--bg)', borderColor: 'var(--fg)' }
-                      : undefined
-                  }
+                  className={chipClass(!activeGrandchild, 'sm')}
+                  style={{ fontFamily: 'var(--font-geist)' }}
                 >
                   Semua {activeChild.name}
                 </Link>
@@ -713,57 +676,50 @@ export default async function InspireCategoryPage({ params, searchParams }: Cate
                     <Link
                       key={gc.id}
                       href={`/artikel/${categorySlug}?sub=${gc.slug}`}
-                      className="s-chip"
                       aria-current={isActive ? 'page' : undefined}
-                      style={
-                        isActive
-                          ? {
-                              background: 'var(--fg)',
-                              color: 'var(--bg)',
-                              borderColor: 'var(--fg)',
-                            }
-                          : undefined
-                      }
+                      className={chipClass(isActive, 'sm')}
+                      style={{ fontFamily: 'var(--font-geist)' }}
                     >
                       {gc.name}
                     </Link>
                   );
                 })}
               </div>
-            );
-          })()}
+            )}
+          </div>
+        )}
 
-        {/* List — spec §5.2/§9.1: every row/card title is h2 (this page's own
-            h1 is the category name, so the list is the page's only h2 level). */}
+        {/* Article grid */}
         {data.length > 0 ? (
           <>
-            <div style={{ paddingTop: 20 }}>
-              {leadIsCard && firstArticle && (
-                <CategoryCard key={firstArticle.id} article={firstArticle} />
-              )}
-              {(leadIsCard ? restArticles : data).map((article, i) => (
-                <Fragment key={article.id}>
-                  <CategoryRow
-                    article={article}
-                    index={leadIsCard ? i + 2 : (page - 1) * data.length + i + 1}
-                  />
-                </Fragment>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {data.map((article, index) => (
+                <ArticleCard
+                  key={article.id}
+                  title={article.title}
+                  slug={article.slug}
+                  categorySlug={article.categorySlug ?? categorySlug}
+                  categories={article.categories}
+                  coverImageUrl={article.coverImageUrl}
+                  coverImageVariants={
+                    article.coverImageVariants as Record<
+                      string,
+                      { url: string; sizeBytes: number }
+                    > | null
+                  }
+                  smartCrops={
+                    article.coverImageSmartCrops as Record<
+                      string,
+                      { url: string; width: number; height: number }
+                    > | null
+                  }
+                  publishedAt={
+                    article.publishedAt ? new Date(article.publishedAt).toISOString() : null
+                  }
+                  lqip={article.coverImageLqip}
+                  priority={index < 2}
+                />
               ))}
-            </div>
-
-            <div
-              style={{
-                borderTop: '2px solid var(--fg)',
-                marginTop: 6,
-                paddingTop: 14,
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
-              <span className="s-meta">
-                Menunjukkan {data.length} daripada {total}
-              </span>
             </div>
 
             {totalPages > 1 && (
@@ -778,152 +734,17 @@ export default async function InspireCategoryPage({ params, searchParams }: Cate
             )}
           </>
         ) : (
-          <div style={{ paddingTop: 20 }}>
-            <EmptyCategoryState />
+          <div className="py-20 text-center">
+            <p className="text-lg font-medium">Kategori ini masih kosong.</p>
+            <p className="text-muted-foreground mt-1 text-sm">
+              Belum ada artikel {category.name} diterbitkan.{' '}
+              <Link href="/artikel" className="hover:text-foreground underline underline-offset-2">
+                Lihat semua artikel
+              </Link>
+            </p>
           </div>
         )}
       </div>
     </div>
-  );
-}
-
-type CategoryArticle = Awaited<ReturnType<typeof getCategoryArticles>>['data'][number];
-
-/** The first item of the set — spec §5.2's `.s-card`. */
-function CategoryCard({ article }: { article: CategoryArticle }) {
-  const cover = resolveCardSource(
-    article.coverImageVariants as Record<string, { url: string }> | null,
-    article.coverImageSmartCrops,
-    article.coverImageUrl,
-  );
-  const credit = article.coverCredit;
-  const href = `/artikel/${article.categorySlug ?? ''}/${article.slug}`;
-  return (
-    <a href={href} className="s-card" style={{ textDecoration: 'none', color: 'inherit' }}>
-      <figure style={{ margin: 0 }}>
-        {cover && (
-          // eslint-disable-next-line @next/next/no-img-element -- see responsive-cover.ts
-          /* UI-12 S1: `srcSet` gone (its `1200w` descriptor was a constant, not
-             a measurement — measured 17.2% wrong on `garden-wedding`), and
-             `sizes` with it, because `sizes` without a `srcset` is inert.
-
-             UI-15: `resolveCardSource`, not `resolveCoverSource`. This plate
-             was fed `low`, which carries the photographer's aspect — measured
-             on production 02 Sept 2026 the eight category pages with a lead
-             card served FIVE different plate shapes (1.706, 1.500, 1.499,
-             1.498, 1.344) from one component. `crop-4x3-article-card-md` is
-             792x594, and across these eight leads it takes 505,068 B of `low`
-             down to 351,876 B — -30.3%, every one of them lighter.
-
-             `width`/`height` are the file's REAL intrinsics (hero-rules R4/R6),
-             falling back to the CSS box's own 4:3 when the rendition is absent
-             — 800x600 restated the box, never the file, and was 21.8% wrong on
-             `idea-dan-nasihat`'s 1160x680 cover.
-
-             `maxWidth` is `card-thumbnail-image-rules.md` T3, and it is not
-             decoration: four live covers have a 4:3 crop only 667px wide — a
-             4:3 crop cannot be wider than the photograph it came from — so
-             their rendition is 667x500 and a 768px plate would upscale them
-             1.151x. Capped here, the plate is 667 CSS px on those four and 768
-             everywhere else, 4:3 either way.
-
-             The cost of that, named rather than presented as free: on those
-             four the plate is ~101px narrower than the headline block above it
-             and sits left-aligned in the column. The alternative was a 1.151x
-             upscale, and R5 decides that. */
-          /* ⚠ ON THE FALLBACK THIS DECLARES NOTHING, and `?? 800` was wrong.
-             An earlier draft wrote `width={cover.width ?? 800}` — the same
-             restatement of the CSS box that UI-12 S1 removed, reintroduced as a
-             default. Two things break when the resolver returns null and this
-             asserts 800x600 anyway:
-
-               · hero-rules R4. The resolver returns null precisely BECAUSE the
-                 dimensions are unrecorded; substituting a nominal pair here
-                 launders "we do not know" into "we do know, and it is 800x600".
-                 `low` is 1200x800 on eleven of twelve covers, so the assertion
-                 is not merely unfounded, it is wrong by 50% on width.
-               · UI-16's `shaped-slot-dims` (R6). This slot now carries an
-                 explicit `aspect-ratio`, which is exactly UI-16's definition of
-                 a SHAPED SLOT, so R6 compares the declared pair against the real
-                 file and goes red. The fallback would trip a check belonging to
-                 another item, on a page this item just certified.
-
-             An element that declares nothing is explicitly exempt from R6 —
-             next/image `fill` is that case — so omitting both attributes is the
-             honest answer rather than the lazy one. The plate then takes its
-             shape from `aspect-ratio` alone, which is where the 4:3 came from
-             in the first place. */
-          <img
-            src={cover.src}
-            alt=""
-            {...(cover.width && cover.height
-              ? { width: cover.width, height: cover.height, style: { maxWidth: cover.width } }
-              : {})}
-            loading="lazy"
-            decoding="async"
-          />
-        )}
-        <figcaption style={{ paddingTop: 10, display: 'flex', flexDirection: 'column', gap: 6 }}>
-          <h2 className="s-h3" style={{ fontSize: 19 }}>
-            {article.title}
-          </h2>
-          {/* `credit` already carries its "Kredit: " prefix — see page.tsx's
-              hero note; do not prepend a second one. */}
-          {credit && <span className="s-cred">{credit}</span>}
-        </figcaption>
-      </figure>
-    </a>
-  );
-}
-
-/** Every subsequent item — spec §5.2's `.s-row`, with the desktop index
- * number (§5.2: "the catalogue is ordered… the number is how a reader knows
- * where they are"). */
-function CategoryRow({ article, index }: { article: CategoryArticle; index: number }) {
-  const cover = resolveRowThumbSource(
-    article.coverImageVariants as Record<string, { url: string }> | null,
-    article.coverImageSmartCrops,
-    article.coverImageUrl,
-  );
-  const href = `/artikel/${article.categorySlug ?? ''}/${article.slug}`;
-  return (
-    <a
-      href={href}
-      className={cover ? 's-row' : 's-imgless'}
-      style={{ textDecoration: 'none', color: 'inherit' }}
-    >
-      <span className="s-idx">{String(index).padStart(2, '0')}</span>
-      {cover && (
-        /* Before the text in source order; `.s-row img` takes `order:3` at
-           desktop, which is where the spec puts the thumbnail. */
-        // eslint-disable-next-line @next/next/no-img-element
-        /* UI-12 S1/S2: no `srcSet`, no `sizes`. 176×132 = 1.33333 is the ratio
-           `.s-row img` now sets in BOTH bands (80×60 below 1024px), so the
-           attributes and the CSS box state the same shape. */
-        /* DES-18: the mid-size rendition, 528x396 — the 4:3 asset this slot
-           has wanted since UI-12 S2 made the box 4:3 at every width. UI-12
-           could not serve one because the only 4:3 file was the 488-946 KB
-           full crop; `crop-4x3-article-card-sm` is a median 17,664 B, lighter
-           than the `low` this row fetched before. `width`/`height` are the
-           file's REAL intrinsics when the rendition is present (hero-rules
-           R4/R6), falling back to the CSS box's own 176x132 = 1.33333. */
-        <img
-          src={cover.src}
-          alt=""
-          width={cover.width ?? 176}
-          height={cover.height ?? 132}
-          loading="lazy"
-          decoding="async"
-        />
-      )}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-        <h2 className="t">{article.title}</h2>
-        {article.categories[0] && (
-          <span className="s-dim" style={{ fontSize: 13 }}>
-            {article.categories[0].name}
-          </span>
-        )}
-      </div>
-    </a>
   );
 }

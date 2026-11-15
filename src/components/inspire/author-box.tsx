@@ -44,9 +44,9 @@ export function AuthorBox({
 }: AuthorBoxProps) {
   const archiveHref = authorArchivePath(slug);
   const socials = [
-    { href: websiteUrl, Icon: GlobeIcon, label: `${name}'s website` },
-    { href: instagramUrl, Icon: InstagramIcon, label: `${name} on Instagram` },
-    { href: linkedinUrl, Icon: LinkedinIcon, label: `${name} on LinkedIn` },
+    { href: websiteUrl, Icon: GlobeIcon, label: `Laman web ${name}` },
+    { href: instagramUrl, Icon: InstagramIcon, label: `${name} di Instagram` },
+    { href: linkedinUrl, Icon: LinkedinIcon, label: `${name} di LinkedIn` },
   ].filter((s): s is { href: string; Icon: typeof GlobeIcon; label: string } => Boolean(s.href));
 
   return (
@@ -84,8 +84,8 @@ export function AuthorBox({
           <div className="mt-3 flex flex-wrap items-center gap-4">
             <Link href={archiveHref} className="text-sm font-medium hover:underline">
               {typeof articleCount === 'number' && articleCount > 0
-                ? `View all ${articleCount} article${articleCount === 1 ? '' : 's'}`
-                : `View all articles by ${name}`}
+                ? `Lihat semua ${articleCount} artikel`
+                : `Lihat semua artikel oleh ${name}`}
             </Link>
             {socials.length > 0 && (
               <span className="flex items-center gap-3">

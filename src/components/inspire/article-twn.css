@@ -1,0 +1,176 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Artikel pages — The Wedding Notebook layout parity.
+
+   The public shell (`.hk-public`, in globals.css) carries an older editorial
+   restyle of the ported inspire chrome: an 18px serif body capped at a 66ch
+   measure, centred hairline blockquotes, square corners on every card and a
+   wider-tracked overline. Ian's decision (Nov 2026) is that the Artikel pages
+   look and lay out exactly like The Wedding Notebook's /inspire pages, keeping
+   only HelloKahwin's logo, name and colour tokens.
+
+   So this file puts The Wedding Notebook's values back, and ONLY inside
+   `.inspire-editorial` — the wrapper every Artikel page (category, article, tag,
+   author) renders. Nothing outside those pages changes.
+
+   Every selector starts `.hk-public .inspire-editorial`, three classes deep, so
+   it outranks the two-class `.hk-public …` rules whatever order the
+   stylesheets load in. If the shell stops using `.hk-public` these rules simply
+   stop matching and the base `.inspire-prose` rules in globals.css — which are
+   already The Wedding Notebook's — take over unchanged.
+
+   Colours are deliberately NOT restated: every value below that paints reads a
+   token (`--primary`, `--brand-secondary`, `--muted-foreground`), so the
+   HelloKahwin palette still decides what colour things are.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* Body: The Wedding Notebook's prose face at 14px / 1.5, full column width. */
+.hk-public .inspire-editorial .inspire-prose {
+  font-family: var(--font-prose);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  max-width: none;
+}
+.hk-public .inspire-editorial .inspire-prose p,
+.hk-public .inspire-editorial .inspire-prose span,
+.hk-public .inspire-editorial .inspire-prose a,
+.hk-public .inspire-editorial .inspire-prose li {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+.hk-public .inspire-editorial .grid > article {
+  max-width: none;
+}
+.hk-public .inspire-editorial .inspire-prose p {
+  margin-bottom: 1em;
+}
+.hk-public .inspire-editorial .inspire-prose p:last-child {
+  margin-bottom: 0;
+}
+
+/* Headings inside the body. */
+.hk-public .inspire-editorial .inspire-prose h2 {
+  font-family: var(--font-prose);
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: -0.0125em;
+  line-height: 1.25;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+.hk-public .inspire-editorial .inspire-prose h3 {
+  font-family: var(--font-prose);
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+.hk-public .inspire-editorial .inspire-prose h4 {
+  font-family: var(--font-prose);
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: normal;
+  text-transform: none;
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+.hk-public .inspire-editorial .inspire-prose h5 {
+  font-family: var(--font-prose);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: normal;
+  text-transform: none;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Pull quote: serif italic with a brand rule on the left, not centred between
+   two hairlines. */
+.hk-public .inspire-editorial .inspire-prose blockquote {
+  color: inherit;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: left;
+  margin: 1em 0;
+  padding: 0 0 0 1.5rem;
+  border-top: none;
+  border-bottom: none;
+  border-left: 2px solid var(--brand-secondary);
+}
+
+/* Links in the body: bold and underlined in the primary colour. */
+.hk-public .inspire-editorial .inspire-prose a {
+  color: var(--primary);
+  font-weight: bold;
+  text-decoration-line: underline;
+  text-decoration-color: var(--primary);
+  text-decoration-thickness: auto;
+  text-underline-offset: 0.15em;
+}
+.hk-public .inspire-editorial .inspire-prose a:hover {
+  text-decoration-color: color-mix(in oklch, var(--primary) 60%, transparent);
+}
+/* The table of contents keeps its own quiet link style (the rules above are
+   more specific than the contents list's own, so it is restated here). */
+.hk-public .inspire-editorial .inspire-prose nav.article-toc a {
+  font-family: var(--font-geist);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--foreground);
+  text-decoration-line: none;
+}
+.hk-public .inspire-editorial .inspire-prose nav.article-toc ul a {
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+.hk-public .inspire-editorial .inspire-prose nav.article-toc a:hover {
+  color: var(--primary);
+  text-decoration-line: underline;
+  text-underline-offset: 3px;
+}
+
+/* The contents list opens the body; it starts level with the sidebar rather
+   than 32px below it. */
+.hk-public .inspire-editorial .inspire-prose > nav.article-toc:first-child {
+  margin-top: 0;
+}
+
+/* Over a photograph the overline must stay readable. On The Wedding Notebook it
+   is brass; HelloKahwin's palette turns brand-secondary grey, which vanishes
+   on a dark cover, so on the cover it is light instead. */
+.hk-public .inspire-editorial .inspire-overline.on-photo {
+  color: rgb(255 255 255 / 0.85);
+}
+
+/* Rounded corners on photographs and cards, as on The Wedding Notebook. */
+.hk-public .inspire-editorial .inspire-prose img {
+  border-radius: 0.375rem;
+}
+.hk-public .inspire-editorial .rounded-image {
+  border-radius: var(--radius-image);
+}
+.hk-public .inspire-editorial .rounded-card {
+  border-radius: var(--radius-card);
+}
+
+/* Category overline: The Wedding Notebook's size and tracking. The colour stays
+   whatever the HelloKahwin palette says it is. */
+.hk-public .inspire-editorial .inspire-overline {
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+}
+
+/* A title that LOOKS like the <h1> but is not one — the article page renders
+   its title in the phone cover and the desktop hero, and only one element on
+   the page may be the <h1>. */
+.inspire-editorial .inspire-title-h1 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
