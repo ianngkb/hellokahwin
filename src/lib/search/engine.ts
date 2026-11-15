@@ -268,6 +268,20 @@ export function searchIndex(
   return page(query, original, suggestion, original.mode, options);
 }
 
+/**
+ * The articles a reader may see at `now`: a `published` article dated in the
+ * future is scheduled, not live, and must not surface in search. Filtered at
+ * query time rather than when the corpus is cached, so a scheduled article
+ * appears the moment its date passes instead of when the cache next refreshes.
+ * An article with no date is treated as live, as the article pages treat it.
+ */
+export function publiclyVisible(
+  corpus: readonly CorpusArticle[],
+  now: number = Date.now(),
+): CorpusArticle[] {
+  return corpus.filter((a) => a.publishedAt === null || Date.parse(a.publishedAt) <= now);
+}
+
 /** Convenience for tests and one-off callers: index and search in one go. */
 export function searchCorpus(
   corpus: readonly CorpusArticle[],

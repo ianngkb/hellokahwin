@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Chip } from '@/components/ui/chip';
 import { Pagination } from '@/components/ui/pagination';
 import { Breadcrumbs } from '@/components/common/breadcrumbs';
-import { getSearchCorpus, searchArticles } from '@/lib/search/article-search';
+import { getVisibleSearchCorpus, searchArticles } from '@/lib/search/article-search';
 import {
   POPULAR_SEARCHES,
   SEARCH_PAGE_PATH,
@@ -73,7 +73,7 @@ async function loadCategories(): Promise<{
   total: number;
 } | null> {
   try {
-    const corpus = await getSearchCorpus();
+    const corpus = await getVisibleSearchCorpus();
     return { top: topCategories(corpus, 4), all: topCategories(corpus, 100), total: corpus.length };
   } catch {
     return null;

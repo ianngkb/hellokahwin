@@ -5,7 +5,13 @@ import { articles, inspireCategories } from '@/lib/db/schema/articles';
 import { cachedJson } from '@/lib/cache/cached-json';
 import { getSmartCropUrl } from '@/lib/storage/smart-crop-url';
 import type { SearchResponse } from './contract';
-import { buildSearchIndex, searchIndex, type CorpusArticle, type SearchIndex } from './engine';
+import {
+  buildSearchIndex,
+  publiclyVisible,
+  searchIndex,
+  type CorpusArticle,
+  type SearchIndex,
+} from './engine';
 
 /**
  * Article search: the whole published corpus (~100 articles) is loaded once
@@ -89,11 +95,17 @@ function indexFor(corpus: CorpusArticle[]): SearchIndex {
   return memo.index;
 }
 
-/** Searches published articles. Throws when the corpus cannot be loaded — callers must not turn that into an empty result. */
+/** The cached corpus minus scheduled (future-dated) articles. Use this, never `getSearchCorpus`, for anything a reader sees. */
+export async function getVisibleSearchCorpus(now: number = Date.now()): Promise<CorpusArticle[]> {
+  return publiclyVisible(await getSearchCorpus(), now);
+}
+
+/** Searches live published articles. Throws when the corpus cannot be loaded — callers must not turn that into an empty result. */
 export async function searchArticles(
   query: string,
   options: { limit: number; offset: number },
+  now: number = Date.now(),
 ): Promise<SearchResponse> {
-  const corpus = await getSearchCorpus();
+  const corpus = await getVisibleSearchCorpus(now);
   return searchIndex(indexFor(corpus), query, options);
 }
