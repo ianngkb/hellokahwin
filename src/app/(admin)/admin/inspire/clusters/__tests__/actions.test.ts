@@ -6,7 +6,50 @@ const h = vi.hoisted(() => ({
   // One entry per awaited query, in order. An Error entry rejects.
   results: [] as unknown[],
   writes: [] as { op: string; payload: unknown }[],
+  // Stateful mode: when set, queries are answered from this fake table
+  // instead of `results`, and inserts enforce the two unique constraints the
+  // real table has. Used to exercise moved clusters and concurrent creates.
+  table: null as null | TableRow[],
+  tablePillarId: '',
 }));
+
+interface TableRow {
+  id: string;
+  slug: string;
+  parentId: string | null;
+  isPillar: boolean;
+  pillarCode: string | null;
+  displayOrder: number | null;
+}
+
+function uniqueError(constraint: string) {
+  return Object.assign(new Error('duplicate key value violates unique constraint'), {
+    cause: { code: '23505', constraint_name: constraint },
+  });
+}
+
+/** Answer a query from the fake table, keyed by the selected column set. */
+function fromTable(table: TableRow[], kind: string, fields: string[], values: unknown): unknown {
+  if (kind === 'insert') {
+    const row = values as TableRow;
+    if (table.some((r) => r.pillarCode && r.pillarCode === row.pillarCode)) {
+      throw uniqueError('inspire_categories_pillar_code_idx');
+    }
+    if (table.some((r) => r.slug === row.slug)) throw uniqueError('inspire_categories_slug_unique');
+    const id = `new-${table.length}`;
+    table.push({ ...row, id });
+    return [{ id }];
+  }
+  if (fields.includes('isPillar')) return table.filter((r) => r.id === h.tablePillarId);
+  if (fields.length === 1 && fields[0] === 'displayOrder') {
+    return table.filter((r) => r.parentId === h.tablePillarId);
+  }
+  if (fields.length === 1 && fields[0] === 'pillarCode') {
+    // The action asks for every code with its pillar's prefix, table-wide.
+    return table.filter((r) => r.pillarCode?.startsWith('C1.'));
+  }
+  throw new Error(`unexpected query: ${kind} ${fields.join(',')}`);
+}
 
 vi.mock('@/lib/auth/admin', () => ({
   requireAdminSectionAction: vi.fn(async () => h.auth),
@@ -19,8 +62,9 @@ vi.mock('next/cache', () => ({
   unstable_cache: (fn: unknown) => fn,
 }));
 vi.mock('@/lib/db/drizzle', () => {
-  const chain = (): Record<string, unknown> => {
+  const chain = (kind: string, fields: string[] = []): Record<string, unknown> => {
     const b: Record<string, unknown> = {};
+    let inserted: unknown;
     for (const m of ['from', 'where', 'limit', 'returning']) b[m] = vi.fn(() => b);
     b.set = vi.fn((payload: unknown) => {
       h.writes.push({ op: 'update', payload });
@@ -28,9 +72,17 @@ vi.mock('@/lib/db/drizzle', () => {
     });
     b.values = vi.fn((payload: unknown) => {
       h.writes.push({ op: 'insert', payload });
+      inserted = payload;
       return b;
     });
     b.then = (res: (v: unknown) => unknown, rej: (e: unknown) => unknown) => {
+      if (h.table) {
+        const table = h.table;
+        // Yield first so concurrent callers genuinely interleave.
+        return Promise.resolve()
+          .then(() => fromTable(table, kind, fields, inserted))
+          .then(res, rej);
+      }
       const next = h.results.shift();
       return (next instanceof Error ? Promise.reject(next) : Promise.resolve(next ?? [])).then(
         res,
@@ -41,9 +93,11 @@ vi.mock('@/lib/db/drizzle', () => {
   };
   return {
     db: {
-      select: vi.fn(() => chain()),
-      update: vi.fn(() => chain()),
-      insert: vi.fn(() => chain()),
+      select: vi.fn((fields?: Record<string, unknown>) =>
+        chain('select', Object.keys(fields ?? {})),
+      ),
+      update: vi.fn(() => chain('update')),
+      insert: vi.fn(() => chain('insert')),
     },
   };
 });
@@ -67,6 +121,8 @@ beforeEach(() => {
   h.auth = { error: null, user: { id: 'admin-1' } };
   h.results = [];
   h.writes = [];
+  h.table = null;
+  h.tablePillarId = '';
 });
 
 describe('updateClusterSettingsAction', () => {
@@ -212,10 +268,8 @@ describe('createClusterAction', () => {
   it('creates a cluster with the next code, under the pillar, series box off', async () => {
     h.results = [
       [{ id: PILLAR_ID, isPillar: true, pillarCode: 'P1' }],
-      [
-        { pillarCode: 'C1.1', displayOrder: 0 },
-        { pillarCode: 'C1.4', displayOrder: 3 },
-      ],
+      [{ displayOrder: 0 }, { displayOrder: 3 }],
+      [{ pillarCode: 'C1.1' }, { pillarCode: 'C1.4' }],
       [{ id: CLUSTER_ID }],
     ];
     const res = await createClusterAction(
@@ -246,21 +300,118 @@ describe('createClusterAction', () => {
   });
 
   it('refuses a pillar without a pillar code', async () => {
-    h.results = [[{ id: PILLAR_ID, isPillar: true, pillarCode: null }], []];
+    h.results = [[{ id: PILLAR_ID, isPillar: true, pillarCode: null }]];
     const res = await createClusterAction(null, fd({ pillarId: PILLAR_ID, name: 'X' }));
     expect(res).toHaveProperty('error');
     expect(db.insert).not.toHaveBeenCalled();
   });
 
-  it('turns a duplicate web address into a readable error', async () => {
+  it('turns a duplicate web address into a readable error (slug constraint only)', async () => {
     h.results = [
       [{ id: PILLAR_ID, isPillar: true, pillarCode: 'P1' }],
       [],
-      Object.assign(new Error('duplicate key'), { code: '23505' }),
+      [],
+      uniqueError('inspire_categories_slug_unique'),
     ];
     const res = await createClusterAction(null, fd({ pillarId: PILLAR_ID, name: 'Mas Kahwin' }));
     expect(res).toEqual({
       error: 'A category with the web address "mas-kahwin" already exists. Try another name.',
     });
+    expect(db.insert).toHaveBeenCalledTimes(1);
+  });
+
+  it('F1: after the highest cluster moves to another pillar, the next code is still unused', async () => {
+    // C1.2 was created under P1 and later moved to P2 by the category admin,
+    // keeping its code. P1's own children are now only C1.1.
+    h.tablePillarId = 'p1';
+    h.table = [
+      { id: 'p1', slug: 'p1', parentId: null, isPillar: true, pillarCode: 'P1', displayOrder: 0 },
+      { id: 'p2', slug: 'p2', parentId: null, isPillar: true, pillarCode: 'P2', displayOrder: 1 },
+      {
+        id: 'c11',
+        slug: 'c11',
+        parentId: 'p1',
+        isPillar: false,
+        pillarCode: 'C1.1',
+        displayOrder: 0,
+      },
+      {
+        id: 'c12',
+        slug: 'c12',
+        parentId: 'p2',
+        isPillar: false,
+        pillarCode: 'C1.2',
+        displayOrder: 0,
+      },
+    ];
+    const res = await createClusterAction(null, fd({ pillarId: PILLAR_ID, name: 'Baru' }));
+    expect(res).toEqual({ success: true });
+    expect(h.table.find((r) => r.slug === 'baru')).toMatchObject({
+      parentId: 'p1',
+      pillarCode: 'C1.3',
+    });
+    // One insert, no collision: the moved cluster's code was never offered.
+    expect(db.insert).toHaveBeenCalledTimes(1);
+  });
+
+  it('F1: two concurrent creates under one pillar end with distinct codes', async () => {
+    h.tablePillarId = 'p1';
+    h.table = [
+      { id: 'p1', slug: 'p1', parentId: null, isPillar: true, pillarCode: 'P1', displayOrder: 0 },
+      {
+        id: 'c11',
+        slug: 'c11',
+        parentId: 'p1',
+        isPillar: false,
+        pillarCode: 'C1.1',
+        displayOrder: 0,
+      },
+    ];
+    const [a, b] = await Promise.all([
+      createClusterAction(null, fd({ pillarId: PILLAR_ID, name: 'Satu' })),
+      createClusterAction(null, fd({ pillarId: PILLAR_ID, name: 'Dua' })),
+    ]);
+    expect(a).toEqual({ success: true });
+    expect(b).toEqual({ success: true });
+    const codes = h.table
+      .filter((r) => r.slug === 'satu' || r.slug === 'dua')
+      .map((r) => r.pillarCode)
+      .sort();
+    expect(codes).toEqual(['C1.2', 'C1.3']);
+    // Both read C1.2 as free; one lost on the code index and retried.
+    expect(db.insert).toHaveBeenCalledTimes(3);
+  });
+
+  it('F1: recovers from a pillar-code collision by re-reading and taking the next code', async () => {
+    h.results = [
+      [{ id: PILLAR_ID, isPillar: true, pillarCode: 'P1' }],
+      [{ displayOrder: 0 }],
+      [{ pillarCode: 'C1.1' }],
+      uniqueError('inspire_categories_pillar_code_idx'),
+      [{ pillarCode: 'C1.1' }, { pillarCode: 'C1.2' }],
+      [{ id: CLUSTER_ID }],
+    ];
+    const res = await createClusterAction(null, fd({ pillarId: PILLAR_ID, name: 'Tiga' }));
+    expect(res).toEqual({ success: true });
+    expect(
+      h.writes.filter((w) => w.op === 'insert').map((w) => (w.payload as TableRow).pillarCode),
+    ).toEqual(['C1.2', 'C1.3']);
+  });
+
+  it('F1: gives up with a clear message after repeated code collisions', async () => {
+    h.results = [
+      [{ id: PILLAR_ID, isPillar: true, pillarCode: 'P1' }],
+      [],
+      ...Array.from({ length: 5 }, () => [
+        [],
+        uniqueError('inspire_categories_pillar_code_idx'),
+      ]).flat(),
+    ];
+    const res = await createClusterAction(null, fd({ pillarId: PILLAR_ID, name: 'Empat' }));
+    expect(res).toEqual({
+      error:
+        'Could not assign a free cluster code because others were being added at the same time. Try again.',
+    });
+    expect(db.insert).toHaveBeenCalledTimes(5);
   });
 });

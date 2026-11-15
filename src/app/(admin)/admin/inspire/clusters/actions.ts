@@ -1,7 +1,7 @@
 'use server';
 
 import { revalidatePath, revalidateTag, updateTag } from 'next/cache';
-import { eq } from 'drizzle-orm';
+import { eq, like } from 'drizzle-orm';
 import { PURGE_IMMEDIATELY } from '@/lib/cache/purge';
 import { db } from '@/lib/db/drizzle';
 import { inspireCategories } from '@/lib/db/schema/articles';
@@ -34,9 +34,25 @@ function str(formData: FormData, key: string): string | undefined {
   return typeof v === 'string' ? v : undefined;
 }
 
-function isUniqueViolation(err: unknown): boolean {
-  const e = err as { code?: string; cause?: { code?: string } } | null;
-  return e?.code === '23505' || e?.cause?.code === '23505';
+const PILLAR_CODE_INDEX = 'inspire_categories_pillar_code_idx';
+const SLUG_CONSTRAINT = 'inspire_categories_slug_unique';
+/** Attempts at claiming a free cluster code before giving up. */
+const CLUSTER_CODE_ATTEMPTS = 5;
+
+/**
+ * Which unique constraint a failed insert hit, or null when it was not a
+ * unique violation. postgres-js puts it on the error; drizzle wraps that error
+ * in `cause`.
+ */
+function uniqueViolationOn(err: unknown): string | null {
+  const e = err as {
+    code?: string;
+    constraint_name?: string;
+    cause?: { code?: string; constraint_name?: string };
+  } | null;
+  if (e?.code === '23505') return e.constraint_name ?? '';
+  if (e?.cause?.code === '23505') return e.cause.constraint_name ?? '';
+  return null;
 }
 
 /**
@@ -148,47 +164,71 @@ export async function createClusterAction(
     .limit(1);
   if (!pillar?.isPillar) return { error: 'Choose a pillar to add the cluster under.' };
 
-  const siblings = await db
-    .select({
-      pillarCode: inspireCategories.pillarCode,
-      displayOrder: inspireCategories.displayOrder,
-    })
-    .from(inspireCategories)
-    .where(eq(inspireCategories.parentId, pillar.id));
-
-  const code = nextClusterCode(
-    pillar.pillarCode,
-    siblings.map((s) => s.pillarCode),
-  );
-  if (!code) {
+  const pillarNumber = /^P(\d+)$/.exec(pillar.pillarCode?.trim() ?? '')?.[1];
+  if (!pillarNumber) {
     return { error: 'This pillar has no pillar code (P1–P7), so clusters cannot be added to it.' };
   }
 
   const slug = input.slug || generateSlug(input.name);
   if (!slug) return { error: 'Enter a name made of letters or numbers.' };
+
+  const siblings = await db
+    .select({ displayOrder: inspireCategories.displayOrder })
+    .from(inspireCategories)
+    .where(eq(inspireCategories.parentId, pillar.id));
   const displayOrder = siblings.reduce((max, s) => Math.max(max, s.displayOrder ?? 0), -1) + 1;
 
+  // `pillar_code` is unique across the WHOLE table, and the category admin can
+  // move a cluster to another pillar without changing its code. So the next
+  // free `C<n>.<m>` is computed from every code in use with this prefix, not
+  // from this pillar's current children. Two admins adding a cluster at the
+  // same moment can still race for the same code; the unique index decides,
+  // and the loser re-reads and tries the next number.
+  const tried: string[] = [];
   let created: { id: string } | undefined;
-  try {
-    [created] = await db
-      .insert(inspireCategories)
-      .values({
-        name: input.name,
-        slug,
-        parentId: pillar.id,
-        pillarCode: code,
-        entityPhrase: input.entityPhrase,
-        isPillar: false,
-        displayOrder,
-      })
-      .returning({ id: inspireCategories.id });
-  } catch (err) {
-    if (isUniqueViolation(err)) {
-      return {
-        error: `A category with the web address "${slug}" already exists. Try another name.`,
-      };
+  let code: string | null = null;
+  for (let attempt = 0; attempt < CLUSTER_CODE_ATTEMPTS && !created; attempt++) {
+    const inUse = await db
+      .select({ pillarCode: inspireCategories.pillarCode })
+      .from(inspireCategories)
+      .where(like(inspireCategories.pillarCode, `C${pillarNumber}.%`));
+    code = nextClusterCode(pillar.pillarCode, [...inUse.map((r) => r.pillarCode), ...tried]);
+    if (!code) break;
+    try {
+      [created] = await db
+        .insert(inspireCategories)
+        .values({
+          name: input.name,
+          slug,
+          parentId: pillar.id,
+          pillarCode: code,
+          entityPhrase: input.entityPhrase,
+          isPillar: false,
+          displayOrder,
+        })
+        .returning({ id: inspireCategories.id });
+    } catch (err) {
+      const constraint = uniqueViolationOn(err);
+      if (constraint === PILLAR_CODE_INDEX) {
+        tried.push(code);
+        continue;
+      }
+      if (constraint === SLUG_CONSTRAINT) {
+        return {
+          error: `A category with the web address "${slug}" already exists. Try another name.`,
+        };
+      }
+      if (constraint !== null) {
+        return { error: 'That cluster clashes with an existing category. Try another name.' };
+      }
+      throw err;
     }
-    throw err;
+  }
+  if (!created || !code) {
+    return {
+      error:
+        'Could not assign a free cluster code because others were being added at the same time. Try again.',
+    };
   }
 
   logAuditEvent({
