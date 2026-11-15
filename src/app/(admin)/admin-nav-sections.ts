@@ -1,13 +1,4 @@
-import {
-  BarChart3Icon,
-  BookOpenIcon,
-  ImageIcon,
-  LayoutTemplateIcon,
-  PaletteIcon,
-  TagsIcon,
-  UsersIcon,
-  type LucideIcon,
-} from 'lucide-react';
+import { BarChart3Icon, BookOpenIcon, PaletteIcon, type LucideIcon } from 'lucide-react';
 
 // ── Admin nav registry ─────────────────────────────────────────────
 // One source of truth for three consumers: the sidebar (one row per group),
@@ -62,40 +53,47 @@ export interface AdminNavGroup {
 
 export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
   {
-    id: 'articles',
-    label: 'Articles',
+    // ONE Inspire group, in The Wedding Notebook's tab order and labels, for
+    // every Inspire screen HelloKahwin has. TWN screens HelloKahwin lacks
+    // (Article Analytics, Clusters, Vendor Credits, Ang Pow Rates, Pinterest
+    // Export) are deliberately absent — an entry for a screen that does not
+    // exist is a dead link. TWN's "More" overflow is not reproduced: the tab
+    // bar here scrolls sideways instead (`admin-group-tabs.tsx`).
+    //
+    // This group MUST stay first: `/admin` redirects to Articles, and a sidebar
+    // group row links to `tabs[0].href`, so reordering these silently moves
+    // where clicking the group lands.
+    id: 'inspire',
+    label: 'Inspire',
     icon: BookOpenIcon,
-    // Articles MUST stay first: `/admin` redirects here, and a sidebar group
-    // row links to `tabs[0].href`, so reordering these silently moves where
-    // clicking the group lands.
     tabs: [
       {
-        label: 'All articles',
+        label: 'Articles',
         href: '/admin/inspire',
         // REQUIRED, not tidiness: this href prefixes every other admin route.
         exact: true,
-        keywords: 'posts content publish draft scheduled inspire',
-      },
-      {
-        label: 'New article',
-        href: '/admin/inspire/create',
-        keywords: 'write compose add post',
+        keywords: 'all articles posts content publish draft scheduled inspire refresh',
+        children: [
+          {
+            // TWN has no tab for this either — its way in is the "New Article"
+            // button on the Articles header. As a child it stays out of the
+            // tab bar but is still reachable from ⌘K and the sidebar filter.
+            label: 'New article',
+            href: '/admin/inspire/create',
+            keywords: 'write compose add post create',
+          },
+        ],
       },
       {
         label: 'Inspire Homepage',
         href: '/admin/inspire/homepage',
         keywords: 'featured latest pin category curation article order artikel front',
       },
-    ],
-    // Claims the editor (`/admin/inspire/<id>/edit`) and its preview/PDF
-    // siblings, which have no enumerable href.
-    extraPrefixes: ['/admin/inspire'],
-  },
-  {
-    id: 'taxonomy',
-    label: 'Taxonomy',
-    icon: TagsIcon,
-    tabs: [
+      {
+        label: 'Media Library',
+        href: '/admin/inspire/media',
+        keywords: 'image photo upload asset file library',
+      },
       {
         label: 'Categories',
         href: '/admin/inspire/categories',
@@ -107,52 +105,27 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
         keywords: 'label keyword taxonomy hidden',
         children: [
           {
-            label: 'Merge tags',
+            label: 'Merge Tags',
             href: '/admin/inspire/tags/merge',
-            keywords: 'duplicate combine dedupe consolidate',
+            keywords: 'merge tags duplicate combine dedupe consolidate',
           },
         ],
       },
-    ],
-  },
-  {
-    id: 'authors',
-    label: 'Authors',
-    icon: UsersIcon,
-    tabs: [
       {
         label: 'Authors',
         href: '/admin/inspire/authors',
-        keywords: 'writer byline contributor avatar profile',
+        keywords:
+          'writer byline contributor avatar profile photo headshot bio title socials instagram linkedin website public author archive attribution',
       },
-    ],
-  },
-  {
-    id: 'media',
-    label: 'Media',
-    icon: ImageIcon,
-    tabs: [
-      {
-        label: 'Media library',
-        href: '/admin/inspire/media',
-        keywords: 'image photo upload asset file library',
-      },
-    ],
-  },
-  {
-    id: 'site',
-    label: 'Site structure',
-    icon: LayoutTemplateIcon,
-    tabs: [
       {
         label: 'Navigation',
         href: '/admin/inspire/navigation',
         keywords: 'menu nav header links order',
       },
       {
-        label: 'Dynamic blocks',
+        label: 'Dynamic Blocks',
         href: '/admin/inspire/dynamic-blocks',
-        keywords: 'module widget promo embed reusable',
+        keywords: 'dynamic blocks reusable content snippets embeds module widget promo',
         children: [
           {
             label: 'New dynamic block',
@@ -162,6 +135,9 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
         ],
       },
     ],
+    // Claims the editor (`/admin/inspire/<id>/edit`) and its preview/PDF
+    // siblings, which have no enumerable href.
+    extraPrefixes: ['/admin/inspire'],
   },
   {
     id: 'analytics',
@@ -239,9 +215,9 @@ function matchesHref(pathname: string, href: string, exact?: boolean): boolean {
  * row the shell renders.
  *
  * Two passes, most-specific-first: every tab and child href is considered and
- * the LONGEST match wins, so `/admin/inspire/tags/merge` resolves to Taxonomy
+ * the LONGEST match wins, so `/admin/site-analytics` resolves to Analytics
  * rather than to whichever group happened to be declared first. Only if
- * nothing matches do group `extraPrefixes` apply, which is what lets Articles
+ * nothing matches do group `extraPrefixes` apply, which is what lets Inspire
  * claim the editor without swallowing its siblings.
  */
 export function findGroupForPath(

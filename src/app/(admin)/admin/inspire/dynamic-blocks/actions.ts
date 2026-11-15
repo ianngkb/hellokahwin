@@ -16,6 +16,28 @@ import {
   dynamicBlockUpdateSchema,
 } from '@/lib/validations/dynamic-block';
 
+/**
+ * The lighter cache rule for a block write (ported from The Wedding Notebook).
+ *
+ * Fires `DYNAMIC_BLOCKS_TAG` only — NOT the shared `articles` tag. Busting
+ * `articles` on every block save threw away every public `/artikel` listing,
+ * pillar and archive page as well, to refresh a block that only appears inside
+ * article bodies. A block change now reaches live articles when an article is
+ * next saved (an article save busts `articles`), or when an admin presses
+ * "Refresh all articles" — which `<RefreshAllArticlesNote>` on the Dynamic
+ * Blocks page says in plain words. The admin embed counter on that page moved
+ * onto this tag so it still updates.
+ *
+ * Both calls, deliberately, as `tags/actions.ts` does it: `revalidateTag`
+ * invalidates the tag for every OTHER request, and `updateTag` gives this
+ * server action read-your-own-writes so the block just published is in the
+ * editor's Insert picker on the very next render.
+ */
+function invalidateDynamicBlockCaches() {
+  revalidateTag(DYNAMIC_BLOCKS_TAG, PURGE_IMMEDIATELY);
+  updateTag(DYNAMIC_BLOCKS_TAG);
+}
+
 export async function createDynamicBlockAction(_prev: unknown, formData: FormData) {
   const { error: authError, user } = await requireAdminSectionAction('inspire');
   if (authError || !user) return { error: authError ?? 'Unauthorized' };
@@ -44,13 +66,7 @@ export async function createDynamicBlockAction(_prev: unknown, formData: FormDat
   });
 
   revalidatePath('/admin/inspire/dynamic-blocks');
-  revalidateTag('articles', PURGE_IMMEDIATELY);
-  // The article editor's Insert picker now reads the published-block list from a
-  // `cachedJson` entry on this tag, so it stops costing a DB round-trip on every
-  // render and every autosave. `updateTag` is the server-action-only variant
-  // that gives read-your-own-writes: without it a block the admin just published
-  // would be missing from the picker until the 300s TTL expired.
-  updateTag(DYNAMIC_BLOCKS_TAG);
+  invalidateDynamicBlockCaches();
   redirect(`/admin/inspire/dynamic-blocks/${inserted.id}/edit`);
 }
 
@@ -126,11 +142,9 @@ export async function updateDynamicBlockAction(blockId: string, data: Record<str
 
   revalidatePath('/admin/inspire/dynamic-blocks');
   revalidatePath(`/admin/inspire/dynamic-blocks/${blockId}/edit`);
-  // Article pages cache forever — without this, block edits never propagate.
-  revalidateTag('articles', PURGE_IMMEDIATELY);
   // An edit can flip `status`/`isActive`, which is exactly what decides whether
   // the block appears in the editor's cached picker list.
-  updateTag(DYNAMIC_BLOCKS_TAG);
+  invalidateDynamicBlockCaches();
   return { success: true };
 }
 
@@ -160,10 +174,9 @@ export async function deleteDynamicBlockAction(blockId: string) {
   });
 
   revalidatePath('/admin/inspire/dynamic-blocks');
-  revalidateTag('articles', PURGE_IMMEDIATELY);
   // A deleted block must leave the editor's cached picker immediately, or the
   // admin can insert a block that no longer exists.
-  updateTag(DYNAMIC_BLOCKS_TAG);
+  invalidateDynamicBlockCaches();
   return { success: true };
 }
 

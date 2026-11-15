@@ -2,7 +2,7 @@
 
 import { revalidatePath, revalidateTag, updateTag } from 'next/cache';
 import { PURGE_IMMEDIATELY } from '@/lib/cache/purge';
-import { eq, count, sql } from 'drizzle-orm';
+import { and, eq, ne, count, sql } from 'drizzle-orm';
 import { db } from '@/lib/db/drizzle';
 import { inspireCategories, articleCategories } from '@/lib/db/schema/articles';
 import { requireAdminSectionAction } from '@/lib/auth/admin';
@@ -10,6 +10,25 @@ import { INSPIRE_CATEGORIES_TAG } from '@/lib/inspire/cached-lists';
 import { logAuditEvent } from '@/lib/audit/log';
 import { generateSlug } from '@/lib/utils/slug';
 import { categoryCreateSchema } from '@/lib/validations/article';
+import {
+  NO_SLUG_ERROR,
+  isReservedCategorySlug,
+  isUniqueViolation,
+  reservedCategorySlugError,
+} from '@/lib/inspire/taxonomy-slugs';
+
+async function categorySlugTaken(slug: string, exceptId?: string): Promise<boolean> {
+  const [row] = await db
+    .select({ id: inspireCategories.id })
+    .from(inspireCategories)
+    .where(
+      exceptId
+        ? and(eq(inspireCategories.slug, slug), ne(inspireCategories.id, exceptId))
+        : eq(inspireCategories.slug, slug),
+    )
+    .limit(1);
+  return !!row;
+}
 
 /** Returns the depth (1-based) of a category by walking its ancestor chain. */
 async function getCategoryDepth(categoryId: string): Promise<number> {
@@ -70,6 +89,14 @@ export async function createCategoryAction(_prev: unknown, formData: FormData) {
   const rawParentId = parsed.data.parentId;
   const parentId = rawParentId && rawParentId !== 'none' ? rawParentId : null;
   const slug = parsed.data.slug || generateSlug(name);
+  // Slug rules ported from The Wedding Notebook: never store an empty slug,
+  // never shadow a static `/artikel/*` route, and say so when it is taken
+  // instead of letting the unique index surface as a 500.
+  if (!slug) return { error: NO_SLUG_ERROR };
+  if (isReservedCategorySlug(slug)) return { error: reservedCategorySlugError(slug) };
+  if (await categorySlugTaken(slug)) {
+    return { error: `A category with slug "${slug}" already exists` };
+  }
 
   // Validate depth: new category would be at parentDepth + 1
   if (parentId) {
@@ -79,15 +106,22 @@ export async function createCategoryAction(_prev: unknown, formData: FormData) {
     }
   }
 
-  const [category] = await db
-    .insert(inspireCategories)
-    .values({
-      name,
-      slug,
-      description,
-      parentId: parentId || null,
-    })
-    .returning({ id: inspireCategories.id });
+  let category: { id: string };
+  try {
+    [category] = await db
+      .insert(inspireCategories)
+      .values({
+        name,
+        slug,
+        description,
+        parentId: parentId || null,
+      })
+      .returning({ id: inspireCategories.id });
+  } catch (err) {
+    // Raced another create of the same slug past the pre-check.
+    if (isUniqueViolation(err)) return { error: `A category with slug "${slug}" already exists` };
+    throw err;
+  }
 
   logAuditEvent({
     entityType: 'inspire_category',
@@ -127,10 +161,31 @@ export async function updateCategoryAction(_prev: unknown, formData: FormData) {
   if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? 'Invalid input' };
 
   const name = parsed.data.name;
-  const slug = parsed.data.slug || '';
+  // A cleared slug is regenerated from the name (ported from The Wedding
+  // Notebook) — it used to be written as '' and leave the category at no URL.
+  const slug = parsed.data.slug || generateSlug(name);
   const description = parsed.data.description || null;
   const rawParentId = parsed.data.parentId;
   const parentId = rawParentId && rawParentId !== 'none' ? rawParentId : null;
+
+  if (!slug) return { error: NO_SLUG_ERROR };
+
+  const [existing] = await db
+    .select({ slug: inspireCategories.slug })
+    .from(inspireCategories)
+    .where(eq(inspireCategories.id, id))
+    .limit(1);
+  if (!existing) return { error: 'Category not found' };
+
+  // The reserved rule applies only when the slug CHANGES: the edit dialog
+  // resubmits the stored slug on every save, so a category that already holds
+  // one must still be renameable.
+  if (existing.slug !== slug && isReservedCategorySlug(slug)) {
+    return { error: reservedCategorySlugError(slug) };
+  }
+  if (await categorySlugTaken(slug, id)) {
+    return { error: `A category with slug "${slug}" already exists` };
+  }
 
   // Validate depth constraints when parent is changing
   if (parentId) {
@@ -157,10 +212,15 @@ export async function updateCategoryAction(_prev: unknown, formData: FormData) {
     }
   }
 
-  await db
-    .update(inspireCategories)
-    .set({ name, slug, description, parentId: parentId || null, updatedAt: new Date() })
-    .where(eq(inspireCategories.id, id));
+  try {
+    await db
+      .update(inspireCategories)
+      .set({ name, slug, description, parentId: parentId || null, updatedAt: new Date() })
+      .where(eq(inspireCategories.id, id));
+  } catch (err) {
+    if (isUniqueViolation(err)) return { error: `A category with slug "${slug}" already exists` };
+    throw err;
+  }
 
   logAuditEvent({
     entityType: 'inspire_category',

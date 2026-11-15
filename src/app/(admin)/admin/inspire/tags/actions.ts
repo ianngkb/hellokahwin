@@ -13,6 +13,7 @@ import {
 } from '@/lib/inspire/cached-lists';
 import { logAuditEvent } from '@/lib/audit/log';
 import { generateSlug } from '@/lib/utils/slug';
+import { NO_SLUG_ERROR, isUniqueViolation } from '@/lib/inspire/taxonomy-slugs';
 import { tagCreateSchema, tagUpdateSchema } from '@/lib/validations/article';
 import { groupSimilarTags, type TagWithCounts } from '@/lib/utils/tag-similarity';
 import { replaceTagLinksInContent } from '@/lib/utils/tiptap-link-replacer';
@@ -33,6 +34,8 @@ export async function createTagAction(_prev: unknown, formData: FormData) {
   const slug = parsed.data.slug || generateSlug(name);
   // Always a real boolean — the `=== 'on'` above never yields undefined.
   const isHidden = parsed.data.isHidden;
+  // Ported from The Wedding Notebook: never store an empty slug.
+  if (!slug) return { error: NO_SLUG_ERROR };
 
   // Check unique slug
   const [existing] = await db
@@ -43,10 +46,17 @@ export async function createTagAction(_prev: unknown, formData: FormData) {
 
   if (existing) return { error: `A tag with slug "${slug}" already exists` };
 
-  const [tag] = await db
-    .insert(inspireTags)
-    .values({ name, slug, isHidden })
-    .returning({ id: inspireTags.id });
+  let tag: { id: string };
+  try {
+    [tag] = await db
+      .insert(inspireTags)
+      .values({ name, slug, isHidden })
+      .returning({ id: inspireTags.id });
+  } catch (err) {
+    // Raced another create of the same slug past the pre-check.
+    if (isUniqueViolation(err)) return { error: `A tag with slug "${slug}" already exists` };
+    throw err;
+  }
 
   logAuditEvent({
     entityType: 'inspire_tag',
@@ -110,7 +120,20 @@ export async function updateTagAction(_prev: unknown, formData: FormData) {
     if (clash) return { error: 'A tag with that slug already exists' };
   }
 
-  await db.update(inspireTags).set(updateData).where(eq(inspireTags.id, id));
+  let updated: Array<{ id: string }>;
+  try {
+    updated = await db
+      .update(inspireTags)
+      .set(updateData)
+      .where(eq(inspireTags.id, id))
+      .returning({ id: inspireTags.id });
+  } catch (err) {
+    // Raced another rename to the same slug past the pre-check.
+    if (isUniqueViolation(err)) return { error: 'A tag with that slug already exists' };
+    throw err;
+  }
+  // Unknown or deleted id: nothing written, so no audit row and no cache bust.
+  if (updated.length === 0) return { error: 'Tag not found' };
 
   logAuditEvent({
     entityType: 'inspire_tag',

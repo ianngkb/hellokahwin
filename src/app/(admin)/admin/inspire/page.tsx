@@ -15,6 +15,7 @@ import { profiles } from '@/lib/db/schema/profiles';
 import { Button } from '@/components/ui/button';
 import { PageHeader } from '@/components/layout/page-header';
 import { ArticlesTable } from './articles-table';
+import { RefreshAllArticlesButton } from './refresh-all-articles-button';
 import { listSelectableAuthors, type SelectableAuthor } from '@/lib/authors/queries';
 import {
   ARTICLE_AUTHORSHIPS,
@@ -287,9 +288,12 @@ export default async function AdminInspirePage({
         title="Articles"
         description="Manage editorial articles and content."
         actions={
-          <Button asChild>
-            <Link href="/admin/inspire/create">New Article</Link>
-          </Button>
+          <div className="flex flex-wrap items-center gap-2">
+            <RefreshAllArticlesButton />
+            <Button asChild>
+              <Link href="/admin/inspire/create">New Article</Link>
+            </Button>
+          </div>
         }
       />
 
