@@ -119,3 +119,20 @@ describe("admin nav: Inspire matches The Wedding Notebook's tab order", () => {
     expect(searchAdminNav(flat, 'merge').map((i) => i.href)).toContain('/admin/inspire/tags/merge');
   });
 });
+
+describe('admin nav: articles homepage curation', () => {
+  const groups = resolveAdminGroups();
+
+  it('lists /admin/inspire/homepage and routes it to the Inspire group', () => {
+    expect(flattenAdminNav(groups).map((i) => i.href)).toContain('/admin/inspire/homepage');
+    expect(findGroupForPath(groups, '/admin/inspire/homepage')?.id).toBe('inspire');
+  });
+
+  it('is findable from the ⌘K palette by "featured" and "pin"', () => {
+    const flat = flattenAdminNav(groups);
+    expect(searchAdminNav(flat, 'featured').map((i) => i.href)).toContain(
+      '/admin/inspire/homepage',
+    );
+    expect(searchAdminNav(flat, 'pin').map((i) => i.href)).toContain('/admin/inspire/homepage');
+  });
+});
