@@ -704,6 +704,7 @@ describe('the originating article', () => {
     queueSelect('media', [
       record({ id: ID_B, dir: OTHER_DIR, originalArticleId: null, variants: null }),
     ]);
+    queueSelect('articles', []); // no other article's text or cover uses them
     listing({
       [`${DIR_A}/`]: [`${DIR_A}/original.jpg`],
       'inspire/majlis-di-taman/': [OTHER_KEY, ORPHAN_KEY],
@@ -728,6 +729,63 @@ describe('the originating article', () => {
 
     expect(deletedKeys()).not.toContain(OTHER_KEY);
     expect(deletedKeys()).not.toContain(ORPHAN_KEY);
+  });
+
+  // Ian's rule (16 Nov 2026): deleting an article deletes its photos, unless
+  // another article still uses them.
+  const DELETED_DIR = 'inspire/(Deleted) majlis-di-taman/';
+  const SHARED_KEY = `${DELETED_DIR}1758000000003-kek/high.webp`;
+  const UNUSED_KEY = `${DELETED_DIR}1758000000004-bunga/high.webp`;
+
+  it('keeps a file another library row references through a %20-encoded URL', async () => {
+    queueLastPhotoOfDeletedArticle();
+    // 'inspire/majlis-di-taman/' has nothing listed; the soft-deleted folder does.
+    queueSelect('media', [
+      {
+        ...record({ id: ID_B, originalArticleId: null, variants: null }),
+        r2Key: 'inspire/elsewhere/original.jpg',
+        url: `${HOST}/${encodeURI(SHARED_KEY)}`,
+        originalUrl: null,
+      },
+    ]);
+    queueSelect('articles', []);
+    listing({
+      [`${DIR_A}/`]: [`${DIR_A}/original.jpg`],
+      [DELETED_DIR]: [SHARED_KEY, UNUSED_KEY],
+    });
+
+    await deleteMedia(ACTOR, ID_A);
+
+    expect(deletedKeys()).toContain(UNUSED_KEY);
+    expect(deletedKeys()).not.toContain(SHARED_KEY);
+  });
+
+  it("keeps a file another article's body uses, even with no library row for it", async () => {
+    queueLastPhotoOfDeletedArticle();
+    queueSelect('media', []);
+    queueSelect('articles', [
+      {
+        id: 'dddddddd-2222-4333-8444-555555555555',
+        content: {
+          type: 'doc',
+          content: [{ type: 'image', attrs: { src: `${HOST}/${encodeURI(SHARED_KEY)}?w=800` } }],
+        },
+        coverImageUrl: null,
+        coverImageVariants: null,
+        coverImageSmartCrops: null,
+      },
+    ]);
+    listing({
+      [`${DIR_A}/`]: [`${DIR_A}/original.jpg`],
+      [DELETED_DIR]: [SHARED_KEY, UNUSED_KEY],
+    });
+
+    await deleteMedia(ACTOR, ID_A);
+
+    expect(deletedKeys()).toContain(UNUSED_KEY);
+    expect(deletedKeys()).not.toContain(SHARED_KEY);
+    // The deleted article itself is still removed.
+    expect(deletes.map((d) => d.table)).toContain('articles');
   });
 });
 

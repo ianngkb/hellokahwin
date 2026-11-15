@@ -40,7 +40,7 @@
  * crops is refused even under `force` unless the crops are in the same batch,
  * in which case children go first.
  */
-import { and, count, eq, inArray, like, not, or, sql } from 'drizzle-orm';
+import { and, count, eq, inArray, like, not, or, sql, type AnyColumn, type SQL } from 'drizzle-orm';
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { DeleteObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3';
 import { db } from '@/lib/db/drizzle';
@@ -643,7 +643,14 @@ async function cleanupAfterDelete(
 export function storageKeyOf(urlOrKey: string): string {
   const [bare] = urlOrKey.split(/[?#]/, 1);
   const m = /^https?:\/\/[^/]+\/(.*)$/i.exec(bare);
-  return m ? m[1] : bare;
+  const path = m ? m[1] : bare;
+  // A URL spells a space as %20 (a soft-deleted article's folder is
+  // `inspire/(Deleted) <slug>/`); the stored key has the space itself.
+  try {
+    return decodeURI(path);
+  } catch {
+    return path;
+  }
 }
 
 /** Every stored key a row references: r2Key, url, original, variants, smart crops. */
@@ -1111,7 +1118,7 @@ export async function cleanupDeletedArticleIfEmpty(articleId: string) {
   for (const prefix of prefixes) {
     const keys = await listKeys(prefix);
     if (keys.length === 0) continue;
-    const referenced = await keysReferencedUnder(prefix);
+    const referenced = await keysReferencedUnder(prefix, articleId);
     await deleteKeys(keys.filter((key) => !referenced.has(key)));
   }
 
@@ -1127,23 +1134,73 @@ export async function cleanupDeletedArticleIfEmpty(articleId: string) {
  * (its key, url, original url, variants or smart crops), whatever article the
  * row belongs to. Throws if the lookup fails, so callers delete nothing.
  */
-export async function keysReferencedUnder(prefix: string): Promise<Set<string>> {
-  const contains = `%${prefix}%`;
+export async function keysReferencedUnder(
+  prefix: string,
+  excludeArticleId?: string,
+): Promise<Set<string>> {
+  // Both spellings of the prefix: the key as stored, and as it appears inside
+  // a URL (spaces as %20).
+  const forms = [...new Set([prefix, encodeURI(prefix)])];
+  const contains = forms.map((f) => `%${f}%`);
+  const anyOf = (col: SQL | AnyColumn) => or(...contains.map((c) => sql`${col}::text like ${c}`));
+
+  const referenced = new Set<string>();
+  const keep = (key: string) => {
+    if (key.startsWith(prefix)) referenced.add(key);
+  };
+
   const rows = await db
     .select(MEDIA_COLUMNS)
     .from(media)
     .where(
       or(
-        like(media.r2Key, `${prefix}%`),
-        like(media.url, contains),
-        like(media.originalUrl, contains),
-        sql`${media.variants}::text like ${contains}`,
-        sql`${media.smartCrops}::text like ${contains}`,
+        ...forms.map((f) => like(media.r2Key, `${f}%`)),
+        anyOf(media.url),
+        anyOf(media.originalUrl),
+        anyOf(media.variants),
+        anyOf(media.smartCrops),
       ),
     );
-  const referenced = new Set<string>();
-  for (const row of rows as MediaRecord[]) {
-    for (const key of referencedKeysOf(row)) if (key.startsWith(prefix)) referenced.add(key);
+  for (const row of rows as MediaRecord[]) for (const key of referencedKeysOf(row)) keep(key);
+
+  // Ian's rule: a photo another article still uses is never deleted, even when
+  // no library row tracks that use — so read other articles' bodies and covers.
+  const articleRows = await db
+    .select({
+      id: articles.id,
+      content: articles.content,
+      coverImageUrl: articles.coverImageUrl,
+      coverImageVariants: articles.coverImageVariants,
+      coverImageSmartCrops: articles.coverImageSmartCrops,
+    })
+    .from(articles)
+    .where(
+      and(
+        excludeArticleId ? not(eq(articles.id, excludeArticleId)) : undefined,
+        or(
+          anyOf(articles.content),
+          anyOf(articles.coverImageUrl),
+          anyOf(articles.coverImageVariants),
+          anyOf(articles.coverImageSmartCrops),
+        ),
+      ),
+    );
+  for (const row of articleRows) {
+    const text = JSON.stringify([
+      row.content,
+      row.coverImageUrl,
+      row.coverImageVariants,
+      row.coverImageSmartCrops,
+    ]);
+    for (const form of forms) {
+      let at = text.indexOf(form);
+      while (at >= 0) {
+        // The prefix itself may contain a space, so match only what follows it.
+        const rest = /^[^"'\s)<>\\]*/.exec(text.slice(at + form.length))?.[0] ?? '';
+        keep(storageKeyOf(form + rest));
+        at = text.indexOf(form, at + form.length);
+      }
+    }
   }
   return referenced;
 }
