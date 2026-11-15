@@ -4,10 +4,10 @@ import { requireAdminSection } from '@/lib/auth/admin';
 import { db } from '@/lib/db/drizzle';
 import { media, mediaArticleUsage } from '@/lib/db/schema/media';
 import { articles } from '@/lib/db/schema/articles';
-import { profiles } from '@/lib/db/schema/profiles';
 import { ConsoleBreadcrumb } from '@/components/console/console-breadcrumb';
 import { PageHeader } from '@/components/layout/page-header';
 import { MediaGallery } from '@/components/media/media-gallery';
+import { countOrNull, estimateTotalFromPage } from '@/lib/media/paging';
 import type { Media } from '@/lib/db/schema/media';
 
 export const metadata: Metadata = {
@@ -17,7 +17,18 @@ export const metadata: Metadata = {
 export default async function AdminMediaPage({
   searchParams,
 }: {
-  searchParams: Promise<{ search?: string; source?: string; page?: string; articleId?: string }>;
+  searchParams: Promise<{
+    search?: string;
+    source?: string;
+    page?: string;
+    articleId?: string;
+    /**
+     * ONE row, opened directly. `?search=<uuid>` could never do this: the
+     * search filter is an `ilike` over filename, alt and caption and never
+     * looks at `media.id`, so such a link landed on an empty result page.
+     */
+    mediaId?: string;
+  }>;
 }) {
   await requireAdminSection('media_library');
 
@@ -29,6 +40,7 @@ export default async function AdminMediaPage({
   const offset = (page - 1) * pageSize;
 
   const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  const mediaId = params.mediaId && UUID_RE.test(params.mediaId) ? params.mediaId : undefined;
   const articleId =
     params.articleId && UUID_RE.test(params.articleId) ? params.articleId : undefined;
 
@@ -36,6 +48,7 @@ export default async function AdminMediaPage({
   if (source === 'article_upload' || source === 'library_upload') {
     conditions.push(eq(media.source, source));
   }
+  if (mediaId) conditions.push(eq(media.id, mediaId));
   if (articleId) {
     // Include media referenced in article content (junction) OR originally uploaded from this article
     const articleMediaIds = db
@@ -57,6 +70,9 @@ export default async function AdminMediaPage({
 
   const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
 
+  // The count must not take the page down: a searched view cannot use an index,
+  // so it is the slow half and can hit the statement timeout. A failed count
+  // degrades to a paging estimate and the rows still render.
   const [rows, totalResult] = await Promise.all([
     db
       .select()
@@ -65,10 +81,17 @@ export default async function AdminMediaPage({
       .orderBy(desc(media.createdAt))
       .limit(pageSize)
       .offset(offset),
-    db.select({ count: count() }).from(media).where(whereClause),
+    countOrNull(() =>
+      db
+        .select({ count: count() })
+        .from(media)
+        .where(whereClause)
+        .then((r) => r[0]?.count ?? 0),
+    ),
   ]);
 
-  const total = totalResult[0]?.count ?? 0;
+  // `??`, never `||` — a real count of 0 is falsy.
+  const total = totalResult ?? estimateTotalFromPage(offset, rows.length, pageSize);
   const totalPages = Math.ceil(total / pageSize);
 
   // Look up article name for display when filtering by articleId
@@ -102,6 +125,7 @@ export default async function AdminMediaPage({
         currentPage={page}
         totalPages={totalPages}
         searchParams={params}
+        openMediaId={mediaId}
         articleId={articleId}
         articleName={articleName}
       />
