@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useCallback, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { ChevronDown, MenuIcon, SearchIcon } from 'lucide-react';
+import { ChevronDown, MenuIcon } from 'lucide-react';
 import {
   Sheet,
   SheetClose,
@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/sheet';
 import { InspireNavMenu, type MenuCategory } from '@/components/inspire/inspire-nav-menu';
 import { InspireNavDropdown } from '@/components/layout/inspire-nav-dropdown';
-import { cn } from '@/lib/utils';
+import { SearchTrigger } from '@/components/search/search-trigger';
 
 interface NavbarClientProps {
   categories: MenuCategory[];
@@ -24,14 +24,10 @@ interface NavbarClientProps {
 
 const navLinks = [{ href: '/artikel', label: 'Artikel' }] as const;
 
-/** The article search field lives on /artikel; it focuses itself on `#cari`. */
-const SEARCH_HREF = '/artikel#cari';
-const SEARCH_PLACEHOLDER = 'Cari artikel, idea, panduan...';
-
 /**
  * Port of twn-new's NavbarClient, minus everything HelloKahwin does not have
- * (sign-in, accounts, "Submit a Wedding", the venue catalogue, the search
- * modal). The structure, heights and type are TWN's:
+ * (sign-in, accounts, "Submit a Wedding", the venue catalogue). Search opens
+ * HelloKahwin's own search screen (components/search). The structure, heights and type are TWN's:
  *
  *   ┌ top bar ─ 40px (41px md) ─ white, hairline below ──────────────────────┐
  *   │ [ARTIKEL] (left, desktop on artikel pages)                     CARI   │
@@ -59,6 +55,8 @@ export function NavbarClient({ categories, wordmark }: NavbarClientProps) {
   const showArtikelBar = isArtikel && categories.length > 0;
 
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+  // Controlled so the search row in the menu can close it before opening search.
+  const [menuOpen, setMenuOpen] = useState(false);
   const handleCategoryToggle = useCallback((slug: string) => {
     setExpandedCategory((prev) => (prev === slug ? null : slug));
   }, []);
@@ -91,12 +89,7 @@ export function NavbarClient({ categories, wordmark }: NavbarClientProps) {
             HelloKahwin has no accounts, so it carries the search door instead,
             which keeps search one tap away on phones too. */}
         <div className={`ml-auto flex items-center ${showArtikelBar ? '2xl:ml-0' : ''}`}>
-          <Link
-            href={SEARCH_HREF}
-            className="text-foreground inline-flex items-center gap-1.5 px-3 text-[11px] font-medium tracking-[1.1px] uppercase underline underline-offset-2 transition-opacity hover:opacity-60 md:px-[18px]"
-          >
-            Cari
-          </Link>
+          <SearchTrigger variant="topbar" header />
         </div>
       </div>
 
@@ -131,7 +124,7 @@ export function NavbarClient({ categories, wordmark }: NavbarClientProps) {
               />
             </div>
             <div className="ml-3 shrink-0">
-              <SearchLink variant="navbar" compact />
+              <SearchTrigger variant="navbar" compact header />
             </div>
           </div>
         )}
@@ -156,14 +149,21 @@ export function NavbarClient({ categories, wordmark }: NavbarClientProps) {
               ),
             )}
             <div className="ml-5 shrink-0">
-              <SearchLink variant="navbar" />
+              <SearchTrigger variant="navbar" header />
             </div>
           </div>
         }
 
+        {/* Phone: search beside the menu, the way a phone reader looks for it. */}
+        <div className="-mr-2 ml-auto flex items-center md:hidden">
+          <SearchTrigger variant="icon" />
+        </div>
+
         {/* Mobile hamburger */}
         <Sheet
+          open={menuOpen}
           onOpenChange={(open) => {
+            setMenuOpen(open);
             if (!open) setExpandedCategory(null);
           }}
         >
@@ -185,9 +185,13 @@ export function NavbarClient({ categories, wordmark }: NavbarClientProps) {
             <SheetDescription className="sr-only">Navigasi laman dan carian</SheetDescription>
 
             <div className="border-hairline shrink-0 border-b px-6 pt-5 pb-3 pr-12">
-              <SheetClose asChild>
-                <SearchLink variant="navbar-mobile" />
-              </SheetClose>
+              <SearchTrigger
+                variant="navbar-mobile"
+                onBeforeOpen={() => {
+                  setMenuOpen(false);
+                  setExpandedCategory(null);
+                }}
+              />
             </div>
 
             <div className="min-h-0 flex-1 overflow-y-auto">
@@ -291,40 +295,5 @@ export function NavbarClient({ categories, wordmark }: NavbarClientProps) {
         </Sheet>
       </nav>
     </>
-  );
-}
-
-/**
- * Looks like twn-new's `<SearchTrigger>` (a boxed search field) but is a plain
- * link: HelloKahwin has no search modal — its search field is on /artikel and
- * focuses itself when the URL hash is `#cari`.
- */
-function SearchLink({
-  variant,
-  compact = false,
-  ...rest
-}: {
-  variant: 'navbar' | 'navbar-mobile';
-  /** Beside the category bar: icon-only, so the long category names keep the room. */
-  compact?: boolean;
-} & Omit<React.ComponentProps<typeof Link>, 'href' | 'className'>) {
-  const isMobile = variant === 'navbar-mobile';
-  return (
-    <Link
-      href={SEARCH_HREF}
-      aria-label="Cari artikel"
-      {...rest}
-      className={cn(
-        'border-input bg-background text-muted-foreground hover:border-primary/40 hover:text-foreground focus:ring-primary rounded-control flex items-center gap-2.5 border transition-colors focus:ring-1 focus:outline-none',
-        isMobile ? 'h-11 w-full px-4 text-sm' : 'h-9 px-3.5 text-sm',
-      )}
-    >
-      <SearchIcon className="size-4 shrink-0" aria-hidden="true" />
-      <span
-        className={cn('truncate text-left', !isMobile && (compact ? 'hidden' : 'hidden xl:inline'))}
-      >
-        {SEARCH_PLACEHOLDER}
-      </span>
-    </Link>
   );
 }

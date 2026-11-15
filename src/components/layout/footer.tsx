@@ -3,6 +3,7 @@ import { getMastheadCategories } from '@/lib/services/inspire-nav';
 import { type MenuCategory } from '@/components/inspire/inspire-nav-menu';
 import { withDeadline } from '@/lib/api/timeout';
 import { SiteWordmark } from '@/components/brand/site-wordmark';
+import { SearchTrigger } from '@/components/search/search-trigger';
 
 const linkClass = 'text-plum-deep-muted text-sm transition-colors hover:text-white';
 const headingClass =
@@ -84,9 +85,9 @@ export async function Footer() {
               <Link href="/" className={linkClass}>
                 Laman Utama
               </Link>
-              <Link href="/artikel#cari" className={linkClass}>
+              <SearchTrigger variant="text" className={linkClass}>
                 Cari Artikel
-              </Link>
+              </SearchTrigger>
               <Link href="/brand" className={linkClass}>
                 Jenama &amp; Media
               </Link>
