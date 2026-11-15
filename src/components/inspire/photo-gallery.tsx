@@ -205,7 +205,7 @@ export function PhotoGallery({ images, trigger }: PhotoGalleryProps) {
       ref={containerRef}
       role="dialog"
       aria-modal="true"
-      aria-label={`Photo gallery — ${currentIndex + 1} of ${images.length}`}
+      aria-label={`Galeri foto — ${currentIndex + 1} daripada ${images.length}`}
       tabIndex={-1}
       className="fixed inset-0 z-50 flex flex-col bg-black/95 outline-none"
     >
@@ -219,7 +219,7 @@ export function PhotoGallery({ images, trigger }: PhotoGalleryProps) {
           type="button"
           className="inline-flex size-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
           onClick={() => setOpen(false)}
-          aria-label="Close gallery"
+          aria-label="Tutup galeri"
         >
           <XIcon className="size-5" />
         </button>

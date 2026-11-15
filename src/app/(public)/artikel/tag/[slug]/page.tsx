@@ -1,4 +1,3 @@
-import { Fragment } from 'react';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { eq, desc, and, sql, inArray } from 'drizzle-orm';
@@ -275,39 +274,40 @@ export default async function InspireTagPage({ params, searchParams }: TagPagePr
       )}
       <Breadcrumbs items={breadcrumbItems} />
 
-      <div>
-        <header className="border-border mx-auto max-w-3xl border-b pt-4 pb-10 text-center">
-          <span className="hk-eyebrow">Tag</span>
-          <h1 className="hk-display mt-3 text-[2rem] lg:text-[2.75rem]">{tag.name}</h1>
-        </header>
+      <div className="inspire-editorial">
+        <div className="mb-8">
+          <h1 className="inspire-display text-3xl">{tag.name}</h1>
+        </div>
 
         {data.length > 0 ? (
           <>
-            <div className="grid grid-cols-2 gap-x-4 gap-y-10 pt-10 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-14">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {data.map((article, index) => (
-                <Fragment key={article.id}>
-                  <ArticleCard
-                    title={article.title}
-                    slug={article.slug}
-                    categorySlug={article.categorySlug ?? 'uncategorized'}
-                    categories={article.categories}
-                    coverImageUrl={article.coverImageUrl}
-                    coverImageVariants={
-                      article.coverImageVariants as Record<
-                        string,
-                        { url: string; sizeBytes: number }
-                      > | null
-                    }
-                    smartCrops={
-                      article.coverImageSmartCrops as Record<
-                        string,
-                        { url: string; width: number; height: number }
-                      > | null
-                    }
-                    publishedAt={null}
-                    lqip={article.coverImageLqip}
-                  />
-                </Fragment>
+                <ArticleCard
+                  key={article.id}
+                  title={article.title}
+                  slug={article.slug}
+                  categorySlug={article.categorySlug ?? 'uncategorized'}
+                  categories={article.categories}
+                  coverImageUrl={article.coverImageUrl}
+                  coverImageVariants={
+                    article.coverImageVariants as Record<
+                      string,
+                      { url: string; sizeBytes: number }
+                    > | null
+                  }
+                  smartCrops={
+                    article.coverImageSmartCrops as Record<
+                      string,
+                      { url: string; width: number; height: number }
+                    > | null
+                  }
+                  publishedAt={
+                    article.publishedAt ? new Date(article.publishedAt).toISOString() : null
+                  }
+                  lqip={article.coverImageLqip}
+                  priority={index < 2}
+                />
               ))}
             </div>
 
@@ -321,10 +321,10 @@ export default async function InspireTagPage({ params, searchParams }: TagPagePr
             )}
           </>
         ) : (
-          <div className="py-24 text-center">
-            <h2 className="hk-display text-2xl">Tiada artikel dijumpai</h2>
-            <p className="hk-deck mt-3">
-              Artikel bertag {tag.name.toLowerCase()} akan datang tidak lama lagi.
+          <div className="py-20 text-center">
+            <p className="text-lg font-medium">Tiada artikel dijumpai</p>
+            <p className="text-muted-foreground mt-1 text-sm">
+              Belum ada artikel bertag {tag.name.toLowerCase()} buat masa ini.
             </p>
           </div>
         )}

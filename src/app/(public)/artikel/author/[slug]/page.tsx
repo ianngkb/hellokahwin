@@ -1,4 +1,3 @@
-import { Fragment } from 'react';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
@@ -146,9 +145,9 @@ export default async function InspireAuthorPage({ params, searchParams }: Author
   ];
 
   const socials = [
-    { href: author.websiteUrl, Icon: GlobeIcon, label: `${author.name}'s website` },
-    { href: author.instagramUrl, Icon: InstagramIcon, label: `${author.name} on Instagram` },
-    { href: author.linkedinUrl, Icon: LinkedinIcon, label: `${author.name} on LinkedIn` },
+    { href: author.websiteUrl, Icon: GlobeIcon, label: `Laman web ${author.name}` },
+    { href: author.instagramUrl, Icon: InstagramIcon, label: `${author.name} di Instagram` },
+    { href: author.linkedinUrl, Icon: LinkedinIcon, label: `${author.name} di LinkedIn` },
   ].filter((s): s is { href: string; Icon: typeof GlobeIcon; label: string } => Boolean(s.href));
 
   const archiveUrl = `${baseUrl}${authorArchivePath(slug)}`;
@@ -189,76 +188,83 @@ export default async function InspireAuthorPage({ params, searchParams }: Author
       )}
       <Breadcrumbs items={breadcrumbItems} />
 
-      <div>
-        {/* Author header — centred colophon, matching the category and tag
-            archives. */}
-        <header className="border-border mx-auto max-w-2xl border-b pt-4 pb-10 text-center">
+      <div className="inspire-editorial">
+        {/* Author header */}
+        <header className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-start">
           {author.avatarUrl ? (
             <Image
               src={author.avatarUrl}
               alt=""
               width={96}
               height={96}
-              className="mx-auto size-20 rounded-full object-cover"
+              className="size-24 shrink-0 rounded-full object-cover"
               priority
             />
           ) : (
-            <span className="bg-muted text-muted-foreground mx-auto flex size-20 items-center justify-center rounded-full">
-              <UserIcon className="size-8" />
+            <span className="bg-muted text-muted-foreground flex size-24 shrink-0 items-center justify-center rounded-full">
+              <UserIcon className="size-9" />
             </span>
           )}
-          <span className="hk-eyebrow mt-5 block">Penulis</span>
-          <h1 className="hk-display mt-2 text-[2rem] lg:text-[2.5rem]">{author.name}</h1>
-          {author.title && <p className="hk-meta mt-2">{author.title}</p>}
-          {author.bio && <p className="hk-deck mx-auto mt-4 max-w-[60ch]">{author.bio}</p>}
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-5">
-            <p className="hk-eyebrow">{total} Artikel</p>
-            {socials.length > 0 && (
-              <span className="flex items-center gap-4">
-                {socials.map(({ href, Icon, label }) => (
-                  <a
-                    key={href}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer nofollow"
-                    aria-label={label}
-                    className="text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    <Icon className="size-4" />
-                  </a>
-                ))}
-              </span>
+          <div className="min-w-0">
+            <h1 className="inspire-display text-3xl">{author.name}</h1>
+            {author.title && <p className="text-muted-foreground mt-1 text-sm">{author.title}</p>}
+            {author.bio && (
+              <p className="mt-3 max-w-[65ch] text-sm leading-relaxed">{author.bio}</p>
             )}
+            <div className="mt-3 flex flex-wrap items-center gap-4">
+              <p className="text-muted-foreground text-sm">
+                <span className="text-foreground font-mono font-medium tabular-nums">{total}</span>{' '}
+                artikel
+              </p>
+              {socials.length > 0 && (
+                <span className="flex items-center gap-3">
+                  {socials.map(({ href, Icon, label }) => (
+                    <a
+                      key={href}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer nofollow"
+                      aria-label={label}
+                      className="text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      <Icon className="size-4" />
+                    </a>
+                  ))}
+                </span>
+              )}
+            </div>
           </div>
         </header>
 
         {data.length > 0 ? (
           <>
-            <div className="grid grid-cols-2 gap-x-4 gap-y-10 pt-10 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-14">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {data.map((article, index) => (
-                <Fragment key={article.id}>
-                  <ArticleCard
-                    title={article.title}
-                    slug={article.slug}
-                    categorySlug={article.categorySlug ?? 'uncategorized'}
-                    categories={article.categories}
-                    coverImageUrl={article.coverImageUrl}
-                    coverImageVariants={
-                      article.coverImageVariants as Record<
-                        string,
-                        { url: string; sizeBytes: number }
-                      > | null
-                    }
-                    smartCrops={
-                      article.coverImageSmartCrops as Record<
-                        string,
-                        { url: string; width: number; height: number }
-                      > | null
-                    }
-                    publishedAt={null}
-                    lqip={article.coverImageLqip}
-                  />
-                </Fragment>
+                <ArticleCard
+                  key={article.id}
+                  title={article.title}
+                  slug={article.slug}
+                  categorySlug={article.categorySlug ?? 'uncategorized'}
+                  categories={article.categories}
+                  coverImageUrl={article.coverImageUrl}
+                  coverImageVariants={
+                    article.coverImageVariants as Record<
+                      string,
+                      { url: string; sizeBytes: number }
+                    > | null
+                  }
+                  smartCrops={
+                    article.coverImageSmartCrops as Record<
+                      string,
+                      { url: string; width: number; height: number }
+                    > | null
+                  }
+                  publishedAt={
+                    article.publishedAt ? new Date(article.publishedAt).toISOString() : null
+                  }
+                  lqip={article.coverImageLqip}
+                  priority={index < 2}
+                />
               ))}
             </div>
 
@@ -275,7 +281,7 @@ export default async function InspireAuthorPage({ params, searchParams }: Author
           <div className="py-20 text-center">
             <p className="text-lg font-medium">Tiada artikel dijumpai</p>
             <p className="text-muted-foreground mt-1 text-sm">
-              Artikel lain daripada {author.name} akan datang tidak lama lagi.
+              Belum ada artikel daripada {author.name} buat masa ini.
             </p>
           </div>
         )}
