@@ -1126,10 +1126,6 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
                   existing first-party tracker (no extra request on load), and
                   the wrappers add no layout: a plain <div> each, plus a 1px
                   end-of-article sentinel. */}
-              {/* The cluster's series box (#90). At the head of the body rather
-                  than above the cover so it never pushes the hero photograph
-                  (the page's largest paint) further down a phone screen. */}
-              <SeriesBox box={seriesBox} />
               <ArticleScrollTracker />
               <ArticleSectionTracker articleSlug={article.slug}>
                 <ArticleClickTracker articleId={article.id}>
