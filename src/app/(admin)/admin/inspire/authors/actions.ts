@@ -5,6 +5,7 @@ import { PURGE_IMMEDIATELY } from '@/lib/cache/purge';
 import { eq } from 'drizzle-orm';
 import { db } from '@/lib/db/drizzle';
 import { profiles } from '@/lib/db/schema/profiles';
+import { articles, inspireCategories } from '@/lib/db/schema/articles';
 import { requireAdminSectionAction } from '@/lib/auth/admin';
 import { logAuditEvent } from '@/lib/audit/log';
 import { diffFields } from '@/lib/audit/diff';
@@ -156,5 +157,29 @@ export async function updateAuthorProfileAction(_prev: unknown, formData: FormDa
   });
 
   revalidateAuthorSurfaces([before.authorSlug, updateData.authorSlug]);
+  await revalidateAuthoredArticlePages(input.profileId);
   return { success: true };
+}
+
+/**
+ * Refresh every article page this author wrote (ported from The Wedding
+ * Notebook, where article pages carry per-article cache tags and this is the
+ * ONLY thing that refreshes them on an author save).
+ *
+ * Here the `articles` tag fired above already covers the cached page data; this
+ * adds the per-URL purge so each of the author's article routes is rebuilt too,
+ * byline, photo and author box included. Best-effort: the profile is already
+ * saved, so a failed lookup is logged rather than reported as a failed save.
+ */
+async function revalidateAuthoredArticlePages(profileId: string) {
+  try {
+    const rows = await db
+      .select({ slug: articles.slug, categorySlug: inspireCategories.slug })
+      .from(articles)
+      .innerJoin(inspireCategories, eq(articles.primaryCategoryId, inspireCategories.id))
+      .where(eq(articles.authorId, profileId));
+    for (const row of rows) revalidatePath(`/artikel/${row.categorySlug}/${row.slug}`);
+  } catch (err) {
+    console.error('[authors] could not refresh the author’s article pages:', err);
+  }
 }

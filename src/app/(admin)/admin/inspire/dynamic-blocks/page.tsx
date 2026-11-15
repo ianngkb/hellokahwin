@@ -8,6 +8,7 @@ import { db } from '@/lib/db/drizzle';
 import { dynamicBlocks, dynamicBlockRules } from '@/lib/db/schema/dynamic-blocks';
 import { articles, inspireCategories, inspireTags } from '@/lib/db/schema/articles';
 import { collectEmbeddedBlockIds } from '@/lib/inspire/dynamic-blocks';
+import { DYNAMIC_BLOCKS_TAG } from '@/lib/inspire/cached-lists';
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
 import { ConsoleTable } from '@/components/ui/console-table';
@@ -15,6 +16,7 @@ import { EmptyState } from '@/components/ui/empty-state';
 import { ConsoleBreadcrumb } from '@/components/console/console-breadcrumb';
 import { PageHeader } from '@/components/layout/page-header';
 import { StatusChip } from '@/lib/ui/status-chip';
+import { RefreshAllArticlesNote } from '../refresh-all-articles-note';
 
 export const metadata: Metadata = {
   title: 'Dynamic Blocks - Admin',
@@ -22,9 +24,14 @@ export const metadata: Metadata = {
 
 // Manual-embed usage counts. The `content::text LIKE` prefilter scans every
 // article's multi-MB jsonb — too heavy to run per render (this exact pattern
-// has 500'd admin pages against the 8s role statement_timeout), so it's cached
-// and invalidated with article saves. Null = lookup unavailable; the column
-// degrades to "—" instead of failing the page.
+// has 500'd admin pages against the 8s role statement_timeout), so it's cached.
+// Null = lookup unavailable; the column degrades to "—" instead of failing the
+// page.
+//
+// On the dynamic-blocks tag, not `articles` (ported from The Wedding
+// Notebook): block writes no longer bust `articles` (see `./actions.ts`), and
+// this admin-only count keeps its 300s timer, so after an article gains or
+// loses an embed the number is at worst five minutes behind.
 const getEmbedCounts = unstable_cache(
   async (): Promise<Record<string, number> | null> => {
     try {
@@ -45,7 +52,7 @@ const getEmbedCounts = unstable_cache(
     }
   },
   ['dynamic-blocks-embed-counts'],
-  { tags: ['articles'], revalidate: 300 },
+  { tags: [DYNAMIC_BLOCKS_TAG], revalidate: 300 },
 );
 
 export default async function AdminDynamicBlocksPage() {
@@ -189,6 +196,10 @@ export default async function AdminDynamicBlocksPage() {
           </ConsoleTable>
         </div>
       )}
+
+      <div className="mt-6">
+        <RefreshAllArticlesNote />
+      </div>
     </div>
   );
 }

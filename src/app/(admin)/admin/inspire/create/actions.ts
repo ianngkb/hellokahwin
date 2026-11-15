@@ -20,7 +20,9 @@ export async function createArticleAction(_prev: unknown, formData: FormData) {
   if (!parsed.success) return { error: formatArticleValidationError(parsed.error) };
 
   const { title, primaryCategoryId, additionalCategoryIds } = parsed.data;
-  const slug = generateSlug(title) + '-' + Date.now().toString(36);
+  // A title with no a–z/0–9 (e.g. "婚礼") generates an empty base; never let the
+  // slug start with a hyphen (ported from The Wedding Notebook).
+  const slug = `${generateSlug(title) || 'article'}-${Date.now().toString(36)}`;
 
   const newArticle = await db.transaction(async (tx) => {
     const [inserted] = await tx
