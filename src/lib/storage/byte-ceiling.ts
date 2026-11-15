@@ -20,12 +20,27 @@
  * declared to prevent one layer up, where DES-18 added its rung to ingest and
  * to the backfill separately.
  *
- * ⚠️ It takes a PIPELINE FACTORY, not a `sharp` instance. A `sharp` object is
+ * ⚠️ It takes a PIPELINE FACTORY, not a `sharp` instance (or an encoder
+ * returning a promise — see `encodeRung`). A `sharp` object is
  * consumed by `toBuffer()`; reusing one across rungs silently returns the first
  * rung's bytes for every subsequent attempt, so the ladder would appear to work
  * and never actually step. Each rung gets a fresh pipeline from the callback.
  */
 import type sharp from 'sharp';
+import type { EncodedImage } from './image-engine';
+
+/**
+ * A rung is either a fresh sharp pipeline (the original callers) or an
+ * already-encoded image from `@/lib/storage/image-engine`, which is how the
+ * upload variants reach Cloudflare Images on a Worker. Same ladder either way.
+ */
+async function encodeRung(rung: sharp.Sharp | Promise<EncodedImage>): Promise<EncodedImage> {
+  if (typeof (rung as sharp.Sharp).toBuffer === 'function') {
+    const { data, info } = await (rung as sharp.Sharp).toBuffer({ resolveWithObject: true });
+    return { data, width: info.width, height: info.height };
+  }
+  return rung as Promise<EncodedImage>;
+}
 
 export interface CeilingSpec {
   /** Bytes. The result is judged against this, never above it if a rung fits. */
@@ -55,18 +70,18 @@ export interface CeilingResult {
  * turn the flag into a non-zero exit, which is where that decision belongs.
  */
 export async function encodeUnderCeiling(
-  build: (quality: number) => sharp.Sharp,
+  build: (quality: number) => sharp.Sharp | Promise<EncodedImage>,
   spec: CeilingSpec,
 ): Promise<CeilingResult> {
   let last: CeilingResult | null = null;
 
   for (const quality of spec.QUALITY_LADDER) {
-    const { data, info } = await build(quality).toBuffer({ resolveWithObject: true });
+    const { data, width, height } = await encodeRung(build(quality));
 
     last = {
       buffer: data,
-      width: info.width,
-      height: info.height,
+      width,
+      height,
       bytes: data.length,
       quality,
       overCeiling: data.length > spec.CEILING_BYTES,
