@@ -81,6 +81,11 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
         href: '/admin/inspire/create',
         keywords: 'write compose add post',
       },
+      {
+        label: 'Articles homepage',
+        href: '/admin/inspire/homepage',
+        keywords: 'featured latest pin category curation article order artikel front',
+      },
     ],
     // Claims the editor (`/admin/inspire/<id>/edit`) and its preview/PDF
     // siblings, which have no enumerable href.

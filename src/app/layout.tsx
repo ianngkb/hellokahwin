@@ -1,6 +1,75 @@
 import type { Metadata } from 'next';
+import localFont from 'next/font/local';
 import { SITE_DEFAULT_TITLE, SITE_TITLE_TEMPLATE } from '@/lib/seo/site-title';
 import './globals.css';
+
+// ─────────────────────────────────────────────────────────────────────────────
+// The Wedding Notebook's type, self-hosted from public/_fonts (copied
+// byte-for-byte from twn-new, which vendors them with
+// `scripts/vendor-google-fonts.ts`). Same faces, same weights, same
+// preload/fallback choices as twn-new's root layout, so the public pages set
+// type exactly as TWN's /inspire does. Newsreader and Poppins are not ported:
+// no HelloKahwin route uses them.
+//
+// This replaces the system-font stacks HelloKahwin used to declare on :root in
+// globals.css; those declarations are gone, because a same-specificity rule
+// later in the cascade would put the system stack back over these variables.
+// ─────────────────────────────────────────────────────────────────────────────
+
+const geist = localFont({
+  src: [{ path: '../../public/_fonts/geist-400-700.woff2', weight: '400 700', style: 'normal' }],
+  variable: '--font-geist',
+  display: 'swap',
+  adjustFontFallback: 'Arial',
+  fallback: ['system-ui', '-apple-system', 'Segoe UI', 'sans-serif'],
+});
+
+// Site serif — Cormorant Garamond. Drives --font-serif / --font-accent.
+const cormorant = localFont({
+  src: [
+    {
+      path: '../../public/_fonts/cormorant-garamond-400-600.woff2',
+      weight: '400 600',
+      style: 'normal',
+    },
+    {
+      path: '../../public/_fonts/cormorant-garamond-400-600-italic.woff2',
+      weight: '400 600',
+      style: 'italic',
+    },
+  ],
+  variable: '--font-cormorant',
+  display: 'swap',
+  adjustFontFallback: 'Times New Roman',
+  fallback: ['Georgia', 'Times New Roman', 'serif'],
+});
+
+// Article-reading face — Now Alt (`--font-prose`). preload: false — article
+// body copy, below the fold on most landings.
+const nowAlt = localFont({
+  src: [
+    { path: '../../public/_fonts/now-alt-300.woff2', weight: '300', style: 'normal' },
+    { path: '../../public/_fonts/now-alt-regular.woff2', weight: '400', style: 'normal' },
+    { path: '../../public/_fonts/now-alt-500.woff2', weight: '500', style: 'normal' },
+    { path: '../../public/_fonts/now-alt-700.woff2', weight: '700', style: 'normal' },
+  ],
+  variable: '--font-now-alt',
+  display: 'swap',
+  preload: false,
+  fallback: ['system-ui', '-apple-system', 'Segoe UI', 'sans-serif'],
+});
+
+// preload: false — monospace, rarely rendered and never above the fold.
+const geistMono = localFont({
+  src: [
+    { path: '../../public/_fonts/geist-mono-100-900.woff2', weight: '100 900', style: 'normal' },
+  ],
+  variable: '--font-geist-mono',
+  display: 'swap',
+  preload: false,
+  adjustFontFallback: 'Arial',
+  fallback: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://hellokahwin.com'),
@@ -55,7 +124,10 @@ export const metadata: Metadata = {
 // a Toaster in `(public)/layout.tsx` rather than moving this one back up.
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ms">
+    <html
+      lang="ms"
+      className={`${geist.variable} ${cormorant.variable} ${nowAlt.variable} ${geistMono.variable}`}
+    >
       <body className="bg-background text-foreground min-h-screen font-sans antialiased">
         {children}
       </body>

@@ -94,7 +94,6 @@ describe('PillarBody — empty pillar (UI-05 P6)', () => {
   const html = renderToStaticMarkup(<PillarBody view={EMPTY} intro="Satu perenggan intro." />);
 
   it('renders the designed empty state, not a blank div', () => {
-    expect(html).toContain('s-empty');
     expect(html).toContain('Panduan ini masih kosong.');
     expect(html).toContain('Belum ada artikel di bawah topik ini.');
   });
@@ -116,8 +115,11 @@ describe('PillarBody — empty pillar (UI-05 P6)', () => {
 describe('PillarBody — populated and empty clusters (UI-05 P2/P3)', () => {
   const html = renderToStaticMarkup(<PillarBody view={MIXED} intro={null} />);
 
-  it('styles every article link with .s-pillar-link, never the unmatched .t', () => {
-    const links = html.match(/class="s-pillar-link"/g) ?? [];
+  // Nov 2026: the pillar hub was restyled into The Wedding Notebook's category
+  // language (Tailwind classes instead of the retired `.s-*` design system), so
+  // these assertions key on the component's own structural class names.
+  it('styles every article link as a pillar row, never the unmatched .t', () => {
+    const links = html.match(/class="pillar-link [^"]*"/g) ?? [];
     // one clustered article + one unclustered article
     expect(links).toHaveLength(2);
     expect(html).not.toMatch(/class="t"/);
@@ -126,14 +128,13 @@ describe('PillarBody — populated and empty clusters (UI-05 P2/P3)', () => {
   it('gives an empty cluster the same opening rule and air as a populated one', () => {
     // Both cluster bodies carry the structural top rule; it is not conditional
     // on there being links.
-    const rules = html.match(/border-top:1px solid var\(--rule\)/g) ?? [];
+    const rules = html.match(/class="cluster-body mt-4 border-t"/g) ?? [];
     expect(rules).toHaveLength(3); // c1, c2 (empty), and Lain-lain
-    expect(html).toMatch(/margin-top:20px;border-top:1px solid var\(--rule\)/);
   });
 
-  it('sits the empty-cluster line on a link row rhythm and closes it with a hair rule', () => {
+  it('sits the empty-cluster line on a link row rhythm and closes it with a rule', () => {
     expect(html).toMatch(
-      /<p class="s-meta" style="padding:13px 0;border-bottom:1px solid var\(--hair\)">Belum ada artikel di sini\. Halaman ini ada 2 artikel lain\.<\/p>/,
+      /<p class="empty-cluster [^"]*border-b py-3[^"]*">Belum ada artikel di sini\. Halaman ini ada 2 artikel lain\.<\/p>/,
     );
   });
 
@@ -172,10 +173,10 @@ describe('PillarBody — empty-cluster copy (COPY-01)', () => {
   });
 
   it('adds no link or button, so the one-row rhythm is unchanged', () => {
-    const rowRule =
-      /<p class="s-meta" style="padding:13px 0;border-bottom:1px solid var\(--hair\)">/g;
+    const rowRule = /<p class="empty-cluster [^"]*">/g;
     expect(html.match(rowRule) ?? []).toHaveLength(2);
-    expect(html).not.toContain('class="s-btn"');
+    // No "Semua artikel" way-out button inside a populated pillar.
+    expect(html).not.toContain('href="/artikel"');
   });
 });
 

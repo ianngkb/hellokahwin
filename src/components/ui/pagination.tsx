@@ -66,14 +66,14 @@ export function Pagination({ currentPage, totalPages, baseHref, searchParams }: 
   }
 
   return (
-    <nav aria-label="Pagination" className="mt-16">
+    <nav aria-label="Penomboran halaman" className="mt-16">
       {/* Desktop: full numbered pagination */}
       <div className="hidden items-center justify-center gap-1.5 md:flex">
         {currentPage > 1 ? (
           <Link
             href={buildHref(currentPage - 1)}
             className="text-muted-foreground hover:bg-accent/50 hover:text-foreground inline-flex size-9 items-center justify-center rounded-full transition-colors"
-            aria-label="Previous page"
+            aria-label="Halaman sebelumnya"
           >
             <ChevronLeft className="size-4" />
           </Link>
@@ -123,7 +123,7 @@ export function Pagination({ currentPage, totalPages, baseHref, searchParams }: 
           <Link
             href={buildHref(currentPage + 1)}
             className="text-muted-foreground hover:bg-accent/50 hover:text-foreground inline-flex size-9 items-center justify-center rounded-full transition-colors"
-            aria-label="Next page"
+            aria-label="Halaman seterusnya"
           >
             <ChevronRight className="size-4" />
           </Link>
@@ -143,7 +143,7 @@ export function Pagination({ currentPage, totalPages, baseHref, searchParams }: 
           <Link
             href={buildHref(currentPage - 1)}
             className="text-muted-foreground hover:bg-accent/50 hover:text-foreground inline-flex size-9 items-center justify-center rounded-full transition-colors"
-            aria-label="Previous page"
+            aria-label="Halaman sebelumnya"
           >
             <ChevronLeft className="size-4" />
           </Link>
@@ -164,7 +164,7 @@ export function Pagination({ currentPage, totalPages, baseHref, searchParams }: 
           <Link
             href={buildHref(currentPage + 1)}
             className="text-muted-foreground hover:bg-accent/50 hover:text-foreground inline-flex size-9 items-center justify-center rounded-full transition-colors"
-            aria-label="Next page"
+            aria-label="Halaman seterusnya"
           >
             <ChevronRight className="size-4" />
           </Link>
