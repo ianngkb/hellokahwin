@@ -6,6 +6,8 @@ import {
   edgePurgeSuccessNotice,
   edgePurgeFailureNotice,
   purgeVercelEdge,
+  purgeEdge,
+  edgeHostingFor,
   rateLimitWaitMs,
   type EdgePurgeResult,
 } from '../edge-purge';
@@ -168,6 +170,33 @@ describe('purgeVercelEdge', () => {
         expect(result.paths).toEqual(paths);
       });
     });
+  });
+});
+
+describe('purgeEdge on a Cloudflare origin', () => {
+  it('reads a workers.dev revalidate URL as Cloudflare and anything else as Vercel', () => {
+    expect(edgeHostingFor('https://hellokahwin.misty-glitter-43d0.workers.dev')).toBe('cloudflare');
+    expect(edgeHostingFor('https://hellokahwin.com')).toBe('vercel');
+    expect(edgeHostingFor('not a url')).toBe('vercel');
+  });
+
+  it('never calls Vercel and says the origin revalidation was the purge', async () => {
+    const saved = globalThis.fetch;
+    let called = 0;
+    globalThis.fetch = (async () => {
+      called++;
+      return new Response('{}');
+    }) as typeof fetch;
+    try {
+      const result = await purgeEdge(['/artikel/a/b'], 'cloudflare');
+      expect(called).toBe(0);
+      expect(result.ok).toBe(true);
+      expect(result.hosting).toBe('cloudflare');
+      expect(edgePurgeSuccessNotice(result)).toContain('the article is visible on the site now');
+      expect(edgePurgeSuccessNotice(result)).not.toContain('Vercel edge purged');
+    } finally {
+      globalThis.fetch = saved;
+    }
   });
 });
 

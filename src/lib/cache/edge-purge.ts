@@ -108,6 +108,54 @@ export interface EdgePurgeResult {
   detail: string;
   /** True when no token was available, so nothing was even attempted. */
   skipped: boolean;
+  /** Which host's edge this result is about. Absent means Vercel (the original path). */
+  hosting?: EdgeHosting;
+}
+
+/**
+ * Which edge sits in front of the origin an ingest just revalidated.
+ *
+ * ── CLOUDFLARE (docs/cloudflare.md) ───────────────────────────────────────
+ *
+ * On the Cloudflare Worker there is no second cache to delete. The rendered
+ * pages live in OpenNext's own cache (R2 bodies, D1 tag table), and
+ * `/api/cron/revalidate-content` — the call the ingest makes BEFORE this one —
+ * already expired them there with `revalidateTag(…, PURGE_IMMEDIATELY)`: D1
+ * records the tag as revalidated and the next read is a miss. The
+ * `Vercel-CDN-Cache-Control` headers that create the Vercel edge copy mean
+ * nothing to Cloudflare, and no Cache Rule caches HTML on a Workers route, so
+ * nothing holds a copy that could go stale.
+ *
+ * So for a Cloudflare origin the purge is the origin revalidation, and this
+ * module reports that rather than calling Vercel. If a Cache Rule that stores
+ * HTML is ever added to the zone, this is where a zone purge-by-URL goes.
+ *
+ * Decided from the revalidate URL (`*.workers.dev` → Cloudflare), overridable
+ * with `HK_EDGE_HOSTING=cloudflare|vercel` for the day hellokahwin.com itself
+ * moves — the hostname alone cannot tell then.
+ */
+export type EdgeHosting = 'vercel' | 'cloudflare';
+
+export function edgeHostingFor(revalidateUrl: string): EdgeHosting {
+  const forced = process.env.HK_EDGE_HOSTING;
+  if (forced === 'cloudflare' || forced === 'vercel') return forced;
+  try {
+    return new URL(revalidateUrl).hostname.endsWith('.workers.dev') ? 'cloudflare' : 'vercel';
+  } catch {
+    return 'vercel';
+  }
+}
+
+/** Purge whatever edge `hosting` puts in front of the origin. Never throws. */
+export async function purgeEdge(paths: string[], hosting: EdgeHosting): Promise<EdgePurgeResult> {
+  if (hosting === 'vercel') return purgeVercelEdge(paths);
+  return {
+    ok: true,
+    paths,
+    skipped: false,
+    hosting,
+    detail: 'Cloudflare: the origin revalidation already expired these in the OpenNext cache',
+  };
 }
 
 /**
@@ -134,6 +182,13 @@ const SITE = 'https://hellokahwin.com';
  * against someone re-attaching that sentence to the wrong branch.
  */
 export function edgePurgeSuccessNotice(result: EdgePurgeResult): string {
+  if (result.hosting === 'cloudflare') {
+    return (
+      'Content caches dropped on Cloudflare — the article is visible on the site now.\n' +
+      `No CDN copy to purge (${result.detail}):\n` +
+      result.paths.map((p) => `  ${p}`).join('\n')
+    );
+  }
   return (
     'Content caches dropped and the Vercel edge purged — the article is visible on the\n' +
     `site now. Purged (${result.detail}):\n` +

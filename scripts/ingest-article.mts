@@ -53,7 +53,8 @@ import {
   type ArticleBodyImage,
 } from '../src/lib/inspire/article-file';
 import {
-  purgeVercelEdge,
+  purgeEdge,
+  edgeHostingFor,
   pathsInvalidatedByIngest,
   edgePurgeSuccessNotice,
   edgePurgeFailureNotice,
@@ -610,7 +611,11 @@ async function main() {
   // block a correct publish over a bounded staleness. Said before the write,
   // not after, so the operator can stop and re-run under the vault rather than
   // discover it once the row is in.
-  if (args.revalidateUrl && !process.env.VERCEL_TOKEN) {
+  if (
+    args.revalidateUrl &&
+    edgeHostingFor(args.revalidateUrl) === 'vercel' &&
+    !process.env.VERCEL_TOKEN
+  ) {
     console.warn(
       '⚠ VERCEL_TOKEN is not set, so the Vercel EDGE cache will NOT be purged after the\n' +
         '  write. The article will be correct at the origin but the pillar page can serve a\n' +
@@ -1317,7 +1322,7 @@ async function main() {
       // got the old page is precisely the failure that let the original bug
       // survive review; it may only be said once BOTH caches are clear.
       const purgePaths = pathsInvalidatedByIngest(pillar.slug, frontMatter.slug);
-      const purge = await purgeVercelEdge(purgePaths);
+      const purge = await purgeEdge(purgePaths, edgeHostingFor(args.revalidateUrl));
       if (purge.ok) {
         console.log(edgePurgeSuccessNotice(purge));
 
