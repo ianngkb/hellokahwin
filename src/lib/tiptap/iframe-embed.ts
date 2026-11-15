@@ -4,7 +4,10 @@ import { Node, mergeAttributes } from '@tiptap/core';
 // sanitizer allowlist in src/components/inspire/article-renderer.tsx — the
 // node gates what can be STORED, the sanitizer gates what can be RENDERED, and
 // both must agree or an embed silently disappears at one of the two layers.
-const ALLOWED_EMBED_HOSTS = new Set([
+// ⚠️ ALSO mirrored in `frame-src` in next.config.ts — a host the browser's CSP
+// does not allow is blocked in the editor and on public pages alike. Guarded by
+// `src/lib/tiptap/__tests__/embed-csp.test.ts`.
+export const ALLOWED_EMBED_HOSTS: ReadonlySet<string> = new Set([
   'www.youtube.com',
   'youtube.com',
   'player.vimeo.com',

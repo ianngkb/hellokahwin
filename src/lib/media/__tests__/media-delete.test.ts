@@ -35,6 +35,8 @@ const TABLE_NAMES = new Map<unknown, string>([
 const nameOf = (table: unknown) => TABLE_NAMES.get(table) ?? 'unknown';
 
 const order: string[] = [];
+/** Queue this as a table's rows to make that one query reject. */
+const THROWS: unknown[] = [];
 const selectQueue = new Map<string, unknown[][]>();
 const queueSelect = (table: string, rows: unknown[]) => {
   const q = selectQueue.get(table) ?? [];
@@ -53,7 +55,8 @@ function selectChain(prefix = '') {
   let table = 'unknown';
   const resolve = () => {
     order.push(`${prefix}select:${table}`);
-    return Promise.resolve(nextRows(table));
+    const rows = nextRows(table);
+    return rows === THROWS ? Promise.reject(new Error('db down')) : Promise.resolve(rows);
   };
   const chain: Record<string, unknown> = {};
   chain.from = (t: unknown) => {
@@ -218,6 +221,26 @@ function queueSimpleDelete(rows: unknown[] = [record()]) {
 }
 
 const r2Calls = () => order.filter((o) => o.startsWith('r2:'));
+
+type R2Input = { input: { Prefix?: string; Key?: string } };
+/** Serve listings by EXACT prefix; deletes succeed. */
+function listing(byPrefix: Record<string, string[]>) {
+  r2Send.mockImplementation((cmd: R2Input & { constructor: { name: string } }) => {
+    if (cmd.constructor.name === 'ListObjectsV2Command') {
+      const keys = byPrefix[cmd.input.Prefix ?? ''] ?? [];
+      return Promise.resolve({ Contents: keys.map((Key) => ({ Key })), IsTruncated: false });
+    }
+    return Promise.resolve({});
+  });
+}
+const listedPrefixes = () =>
+  r2Send.mock.calls.map((c) => (c[0] as R2Input).input.Prefix).filter(Boolean);
+const deletedKeys = () =>
+  r2Send.mock.calls
+    .filter(
+      (c) => (c[0] as { constructor: { name: string } }).constructor.name === 'DeleteObjectCommand',
+    )
+    .map((c) => (c[0] as R2Input).input.Key as string);
 
 beforeEach(() => {
   vi.clearAllMocks();
@@ -451,7 +474,7 @@ describe('stored files', () => {
       .mockResolvedValueOnce({ Contents: [{ Key: `${DIR_A}/b` }], IsTruncated: false });
 
     const out = await deleteR2Directory(`${DIR_A}/original.jpg`);
-    expect(out.deletedKeys).toEqual([`${DIR_A}/a`, `${DIR_A}/b`]);
+    expect(out.deletedKeys).toEqual([`${DIR_A}/a`, `${DIR_A}/b`, `${DIR_A}/original.jpg`]);
     expect(r2Send.mock.calls[1][0].input).toMatchObject({ ContinuationToken: 't1' });
   });
 
@@ -480,11 +503,113 @@ describe('stored files', () => {
 
     await deleteMedia(ACTOR, ID_A);
 
-    expect(r2Calls()).toEqual(['r2:DeleteObjectCommand']);
-    expect(r2Send.mock.calls[0][0].input).toEqual({
+    // Only its OWN rendition folder is listed, never `inspire/general/`.
+    const prefixes = r2Send.mock.calls
+      .map((c) => (c[0] as { input: { Prefix?: string } }).input.Prefix)
+      .filter(Boolean);
+    expect(prefixes).toEqual(['inspire/general/loose-photo/']);
+    expect(r2Calls()).toEqual(['r2:ListObjectsV2Command', 'r2:DeleteObjectCommand']);
+    expect(r2Send.mock.calls[1][0].input).toEqual({
       Bucket: 'hk-images',
       Key: 'inspire/general/loose-photo.jpg',
     });
+  });
+
+  /* IA-1 — a legacy flat original sits in the SHARED article folder. */
+  it('IA-1: deletes a LEGACY flat original and its own rendition folder only — never the article folder', async () => {
+    const legacyKey = 'inspire/majlis-di-taman/1700000000000-photo.jpg';
+    const renditions = 'inspire/majlis-di-taman/1700000000000-photo/';
+    listing({
+      [renditions]: [`${renditions}high.webp`, `${renditions}crop-4x5-mobile-cover.webp`],
+      // If anything listed the article folder, it would get these siblings.
+      'inspire/majlis-di-taman/': [
+        legacyKey,
+        'inspire/majlis-di-taman/1700000000001-other.jpg',
+        'inspire/majlis-di-taman/1700000000001-other/high.webp',
+      ],
+    });
+    queueSimpleDelete([
+      record({
+        r2Key: legacyKey,
+        url: `${HOST}/${renditions}high.webp`,
+        originalUrl: `${HOST}/${legacyKey}`,
+        variants: { high: { url: `${HOST}/${renditions}high.webp`, sizeBytes: 1 } },
+      }),
+    ]);
+
+    const result = await deleteMedia(ACTOR, ID_A);
+
+    expect(result).toMatchObject({ deleted: true });
+    expect(listedPrefixes()).toEqual([renditions]);
+    expect(deletedKeys().sort()).toEqual(
+      [legacyKey, `${renditions}high.webp`, `${renditions}crop-4x5-mobile-cover.webp`].sort(),
+    );
+  });
+
+  /* IA-2 — files another media row still references are kept, and said so. */
+  it('IA-2: KEEPS every key another media row still references, and reports it as kept', async () => {
+    listing({
+      [`${DIR_A}/`]: [`${DIR_A}/original.jpg`, `${DIR_A}/low.webp`, `${DIR_A}/high.webp`],
+    });
+    queueSelect('media', [record()]);
+    queueUsage();
+    queueNoSurvivors(); // urlsToScrub
+    queueScrubFindsNothing();
+    // The storage-ownership lookup: a different row reuses A's high rung.
+    queueSelect('media', [
+      recordB({ url: `${HOST}/${DIR_A}/high.webp`, originalUrl: `${HOST}/${DIR_B}/original.jpg` }),
+    ]);
+    lastLockedIds = [ID_A];
+
+    const result = await deleteMedia(ACTOR, ID_A, { force: true });
+
+    expect(result).toMatchObject({ deleted: true, keptKeys: [`${DIR_A}/high.webp`] });
+    expect(deletedKeys()).not.toContain(`${DIR_A}/high.webp`);
+    expect(deletedKeys().sort()).toEqual([`${DIR_A}/low.webp`, `${DIR_A}/original.jpg`].sort());
+    expect((result as { note?: string }).note).toMatch(/1 file was kept in storage/);
+    expect(logAuditEvent.mock.calls[0][0].metadata).toMatchObject({
+      keptKeys: [`${DIR_A}/high.webp`],
+    });
+  });
+
+  it('IA-2: when another row’s OWN file lives in the folder, deletes only keys this row references', async () => {
+    listing({
+      [`${DIR_A}/`]: [
+        `${DIR_A}/original.jpg`,
+        `${DIR_A}/high.webp`,
+        `${DIR_A}/stranger.webp`, // referenced by nobody we know of
+        `${DIR_A}/twin-original.jpg`,
+      ],
+    });
+    queueSelect('media', [record()]);
+    queueUsage();
+    queueNoSurvivors();
+    queueScrubFindsNothing();
+    queueSelect('media', [
+      recordB({
+        r2Key: `${DIR_A}/twin-original.jpg`,
+        url: `${HOST}/${DIR_A}/twin-original.jpg`,
+        originalUrl: `${HOST}/${DIR_A}/twin-original.jpg`,
+        variants: null,
+      }),
+    ]);
+    lastLockedIds = [ID_A];
+
+    await deleteMedia(ACTOR, ID_A, { force: true });
+
+    expect(deletedKeys().sort()).toEqual([`${DIR_A}/high.webp`, `${DIR_A}/original.jpg`].sort());
+  });
+
+  it('IA-2: deletes NOTHING when the ownership lookup itself fails', async () => {
+    listing({ [`${DIR_A}/`]: [`${DIR_A}/original.jpg`] });
+    queueSimpleDelete();
+    queueSelect('media', THROWS); // the storage-ownership lookup fails
+
+    const result = await deleteMedia(ACTOR, ID_A);
+
+    expect(result).toMatchObject({ deleted: true });
+    expect(deletedKeys()).toEqual([]);
+    expect((result as { note?: string }).note).toMatch(/could not be removed from storage/);
   });
 
   it('reports the exact files left behind, and still deletes the rest', async () => {
@@ -544,6 +669,7 @@ describe('child crops', () => {
 describe('the originating article', () => {
   it('refuses to sweep inspire/general/ for an article whose slug is "general"', async () => {
     queueSimpleDelete([record({ originalArticleId: ARTICLE_ID })]);
+    queueNoSurvivors(); // the storage-ownership lookup
     queueSelect('articles', [{ id: ARTICLE_ID, slug: 'general', status: 'deleted' }]);
     queueSelect('media', [{ count: 0 }]);
 

@@ -22,8 +22,12 @@
  *      transaction that locks the row first. `returning()` tells a double
  *      delete it lost the race, so it does not write a second audit row and
  *      re-wipe storage.
- *   3. Delete the stored files — every variant and crop file in the picture's
- *      own directory, never a bare namespace prefix. Best-effort and AFTER the
+ *   3. Delete the stored files the picture PROVABLY OWNS — see
+ *      `planOwnedKeys`. A new-format original (`…/<ts>-<name>/original.ext`)
+ *      owns its folder; a LEGACY flat original (`inspire/<article>/<ts>-x.jpg`)
+ *      owns only itself and its derived rendition folder (`…/<ts>-x/`), never
+ *      the article folder it sits in. Every key another media row still
+ *      references is KEPT and reported as kept. Best-effort and AFTER the
  *      row, because an orphaned file is harmless while an orphaned row is a
  *      broken page. But no longer SILENT: any file left behind comes back as a
  *      `note` naming the keys, and the admin sees it as a warning.
@@ -36,7 +40,7 @@
  * crops is refused even under `force` unless the crops are in the same batch,
  * in which case children go first.
  */
-import { and, count, eq, inArray, not, or } from 'drizzle-orm';
+import { and, count, eq, inArray, like, not, or, sql } from 'drizzle-orm';
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { DeleteObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3';
 import { db } from '@/lib/db/drizzle';
@@ -103,6 +107,7 @@ export interface MediaRecord {
   parentMediaId: string | null;
   originalArticleId: string | null;
   variants: unknown;
+  smartCrops?: unknown;
   alt: string | null;
 }
 
@@ -114,6 +119,8 @@ export interface DeleteMediaSuccess {
   note?: string;
   /** The exact storage keys that could not be removed. */
   leftoverKeys?: string[];
+  /** Keys deliberately KEPT because another media row still references them. */
+  keptKeys?: string[];
 }
 
 export interface BulkDeleteMediaSuccess {
@@ -124,6 +131,8 @@ export interface BulkDeleteMediaSuccess {
   /** One line per record that left files behind in storage. */
   errors: string[];
   leftoverKeys: string[];
+  /** Keys deliberately KEPT because another media row still references them. */
+  keptKeys?: string[];
 }
 
 export type MediaDeleteError = { error: string };
@@ -137,6 +146,7 @@ const MEDIA_COLUMNS = {
   parentMediaId: media.parentMediaId,
   originalArticleId: media.originalArticleId,
   variants: media.variants,
+  smartCrops: media.smartCrops,
   alt: media.alt,
 } as const;
 
@@ -326,7 +336,13 @@ async function performDelete(
   records: MediaRecord[],
   usageById: Map<string, MediaUsage>,
 ): Promise<
-  | { deletedIds: string[]; detached: DetachedCounts; notes: string[]; leftoverKeys: string[] }
+  | {
+      deletedIds: string[];
+      detached: DetachedCounts;
+      notes: string[];
+      leftoverKeys: string[];
+      keptKeys: string[];
+    }
   | MediaDeleteError
 > {
   const articleIds = new Set<string>();
@@ -378,14 +394,16 @@ async function performDelete(
   // 3 + 4. Best-effort cleanup, reported but never fatal — the rows are gone.
   const notes: string[] = [];
   const leftoverKeys: string[] = [];
+  const keptKeys: string[] = [];
   const deletedSet = new Set(deletedIds);
   for (const record of records) {
     if (!deletedSet.has(record.id)) continue;
-    const cleanup = await cleanupAfterDelete(record);
+    const cleanup = await cleanupAfterDelete(record, ids);
     if (cleanup.note) {
       notes.push(records.length === 1 ? cleanup.note : `${record.filename}: ${cleanup.note}`);
     }
     leftoverKeys.push(...cleanup.leftoverKeys);
+    keptKeys.push(...cleanup.keptKeys);
   }
 
   return {
@@ -393,6 +411,7 @@ async function performDelete(
     detached: { articles: articleIds.size, covers: coverIds.size },
     notes,
     leftoverKeys,
+    keptKeys,
   };
 }
 
@@ -430,6 +449,7 @@ export async function deleteMedia(
       detached: result.detached,
       r2Key: record.r2Key,
       ...(result.leftoverKeys.length > 0 ? { leftoverKeys: result.leftoverKeys } : {}),
+      ...(result.keptKeys.length > 0 ? { keptKeys: result.keptKeys } : {}),
     },
   });
 
@@ -440,6 +460,7 @@ export async function deleteMedia(
     detached: result.detached,
     ...(note ? { note } : {}),
     ...(result.leftoverKeys.length > 0 ? { leftoverKeys: result.leftoverKeys } : {}),
+    ...(result.keptKeys.length > 0 ? { keptKeys: result.keptKeys } : {}),
   };
 }
 
@@ -537,6 +558,7 @@ export async function bulkDeleteMedia(
     notFound,
     errors: result.notes,
     leftoverKeys: result.leftoverKeys,
+    ...(result.keptKeys.length > 0 ? { keptKeys: result.keptKeys } : {}),
   };
 }
 
@@ -544,21 +566,25 @@ export async function bulkDeleteMedia(
  * Steps 3 and 4: the stored files, then the originating article if it is now an
  * empty soft-deleted shell.
  *
- * A crop deletes ONE file; anything else deletes its whole directory (every
- * variant, and any crop file whose row the crop guard has already let go).
- * Every key that could not be removed is collected and reported — never only
- * logged.
+ * Only keys the record provably owns are deleted (see `planOwnedKeys`), and
+ * any of those another media row still references is KEPT and reported. Every
+ * key that could not be removed is collected and reported — never only logged.
  */
 async function cleanupAfterDelete(
   record: MediaRecord,
-): Promise<{ note?: string; leftoverKeys: string[] }> {
+  batchIds: string[],
+): Promise<{ note?: string; leftoverKeys: string[]; keptKeys: string[] }> {
   let leftoverKeys: string[] = [];
+  let keptKeys: string[] = [];
   let listFailed = false;
 
   try {
-    const result = record.parentMediaId
-      ? await deleteR2SingleFile(record.r2Key)
-      : await deleteR2Directory(record.r2Key);
+    // Survivors are read BEFORE anything is listed or deleted: if this lookup
+    // fails, nothing is touched.
+    const survivors = await findSurvivorsSharingStorage(record, batchIds);
+    const plan = await planOwnedKeys(record, survivors);
+    keptKeys = plan.keep;
+    const result = await deleteKeys(plan.delete);
     leftoverKeys = result.failedKeys;
   } catch (err) {
     // The listing itself failed, so we do not even know which files exist.
@@ -574,12 +600,19 @@ async function cleanupAfterDelete(
     }
   }
 
+  const keptNote =
+    keptKeys.length > 0
+      ? `${plural(keptKeys.length, 'file was', 'files were')} kept in storage because another ` +
+        `library item still uses ${keptKeys.length === 1 ? 'it' : 'them'} (${nameList(keptKeys)}).`
+      : null;
+
   if (listFailed) {
     return {
       note:
         'The library row is gone, but its files could not be removed from storage. ' +
         'They are orphaned, not visible anywhere, and can be cleaned up later.',
       leftoverKeys: [record.r2Key],
+      keptKeys: [],
     };
   }
   if (leftoverKeys.length > 0) {
@@ -588,11 +621,152 @@ async function cleanupAfterDelete(
       note:
         `The library row is gone, but ${plural(leftoverKeys.length, 'file')} could not be removed ` +
         `from storage (${nameList(leftoverKeys)}). They are orphaned, not visible anywhere, and ` +
-        'can be cleaned up later.',
+        'can be cleaned up later.' +
+        (keptNote ? ` ${keptNote}` : ''),
       leftoverKeys,
+      keptKeys,
     };
   }
-  return { leftoverKeys: [] };
+  if (keptNote) return { note: keptNote, leftoverKeys: [], keptKeys };
+  return { leftoverKeys: [], keptKeys: [] };
+}
+
+/* ------------------------------------------------------------------ *
+ * Storage ownership — which stored keys ONE media row provably owns
+ * ------------------------------------------------------------------ */
+
+/**
+ * The storage key a stored URL points at: query/fragment stripped, host
+ * dropped. Host-agnostic on purpose — used to MATCH keys, where over-matching
+ * only ever keeps more files, never deletes more.
+ */
+export function storageKeyOf(urlOrKey: string): string {
+  const [bare] = urlOrKey.split(/[?#]/, 1);
+  const m = /^https?:\/\/[^/]+\/(.*)$/i.exec(bare);
+  return m ? m[1] : bare;
+}
+
+/** Every stored key a row references: r2Key, url, original, variants, smart crops. */
+export function referencedKeysOf(
+  row: Pick<MediaRecord, 'r2Key' | 'url' | 'originalUrl' | 'variants'> & { smartCrops?: unknown },
+): Set<string> {
+  const keys = new Set<string>();
+  if (row.r2Key) keys.add(row.r2Key);
+  for (const url of collectMediaUrls([row])) keys.add(storageKeyOf(url));
+  let crops = row.smartCrops;
+  if (typeof crops === 'string') {
+    try {
+      crops = JSON.parse(crops);
+    } catch {
+      crops = null;
+    }
+  }
+  if (crops && typeof crops === 'object') {
+    for (const entry of Object.values(crops as Record<string, unknown>)) {
+      const url = (entry as { url?: unknown } | null)?.url;
+      if (typeof url === 'string') keys.add(storageKeyOf(url));
+    }
+  }
+  return keys;
+}
+
+/**
+ * The folders this row's own files live in, and whether it owns them outright.
+ *
+ * - A CROP (`parentMediaId`) owns nothing but its one file.
+ * - A NEW-format original `…/<ts>-<name>/original.<ext>` owns that folder.
+ * - A LEGACY flat original `inspire/<article>/<ts>-<name>.<ext>` sits in the
+ *   ARTICLE folder, shared by every other legacy photo of that article — it
+ *   owns only itself and the rendition folder `generateVariants` and the smart
+ *   crops derive from its name (`…/<ts>-<name>/`), never its parent folder.
+ *
+ * No folder that is, or encloses, a reserved namespace is ever returned.
+ */
+export function ownedFoldersOf(record: Pick<MediaRecord, 'r2Key' | 'parentMediaId'>): string[] {
+  if (record.parentMediaId) return [];
+  const key = record.r2Key;
+  const slash = key.lastIndexOf('/');
+  if (slash < 0) return [];
+  const dir = key.slice(0, slash + 1);
+  const file = key.slice(slash + 1);
+
+  let folder: string | null;
+  if (/^original\.[^./]+$/.test(file)) {
+    folder = dir;
+  } else {
+    const stem = file.replace(/\.[^.]+$/, '');
+    folder = stem ? `${dir}${stem}/` : null;
+  }
+  if (!folder || enclosesReservedNamespace(folder)) return [];
+  return [folder];
+}
+
+/**
+ * Every OTHER media row that references a key in this record's storage scope
+ * (its own key, or anything under the folders it owns). Matched loosely — a
+ * false match only keeps a file, never deletes one.
+ */
+async function findSurvivorsSharingStorage(
+  record: MediaRecord,
+  batchIds: string[],
+): Promise<MediaRecord[]> {
+  const needles = [record.r2Key, ...ownedFoldersOf(record)].filter(Boolean);
+  if (needles.length === 0) return [];
+  const clauses = needles.flatMap((needle) => {
+    const contains = `%${needle}%`;
+    return [
+      like(media.r2Key, `${needle}%`),
+      like(media.url, contains),
+      like(media.originalUrl, contains),
+      sql`${media.variants}::text like ${contains}`,
+      sql`${media.smartCrops}::text like ${contains}`,
+    ];
+  });
+  const rows = await db
+    .select(MEDIA_COLUMNS)
+    .from(media)
+    .where(
+      and(not(inArray(media.id, batchIds.length > 0 ? batchIds : [record.id])), or(...clauses)),
+    );
+  return rows as MediaRecord[];
+}
+
+/**
+ * Decide exactly which keys to delete for a deleted record, and which to keep.
+ *
+ * Candidates: the record's own key plus every object in the folders it owns.
+ * If any surviving row has its OWN file inside one of those folders, the folder
+ * is shared and ownership of unreferenced files cannot be proven — candidates
+ * narrow to the keys this record itself references. Then every key a surviving
+ * row references is moved from `delete` to `keep`.
+ */
+export async function planOwnedKeys(
+  record: MediaRecord,
+  survivors: Pick<MediaRecord, 'r2Key' | 'url' | 'originalUrl' | 'variants' | 'smartCrops'>[],
+): Promise<{ delete: string[]; keep: string[] }> {
+  const folders = ownedFoldersOf(record);
+
+  const survivorKeys = new Set<string>();
+  for (const s of survivors) for (const k of referencedKeysOf(s)) survivorKeys.add(k);
+
+  const folderShared = survivors.some(
+    (s) => typeof s.r2Key === 'string' && folders.some((f) => s.r2Key.startsWith(f)),
+  );
+
+  const candidates = new Set<string>([record.r2Key]);
+  if (folders.length > 0) {
+    const ownRefs = referencedKeysOf(record);
+    for (const folder of folders) {
+      for (const key of await listKeys(folder)) {
+        if (!folderShared || ownRefs.has(key)) candidates.add(key);
+      }
+    }
+  }
+
+  const del: string[] = [];
+  const keep: string[] = [];
+  for (const key of candidates) (survivorKeys.has(key) ? keep : del).push(key);
+  return { delete: del, keep };
 }
 
 /* ------------------------------------------------------------------ *
@@ -949,26 +1123,21 @@ export async function deleteR2SingleFile(
 }
 
 /**
- * Delete every stored file in the same directory as an original key — the
- * original and all its variants and crop files.
- *
- * R2 keys look like `inspire/<slug>/<timestamp>-<name>/original.ext`; the
- * objects to remove are the ones in `inspire/<slug>/<timestamp>-<name>/`.
+ * Delete an original key and the folder(s) it provably owns — see
+ * `ownedFoldersOf`. A new-format `…/<ts>-<name>/original.ext` takes its folder;
+ * a LEGACY flat `inspire/<article>/<ts>-x.jpg` takes only itself and its
+ * `…/<ts>-x/` rendition folder, never the shared article folder. Does NOT check
+ * other media rows — the delete core uses `planOwnedKeys` for that.
  */
 export async function deleteR2Directory(
   r2Key: string,
 ): Promise<{ deletedKeys: string[]; failedKeys: string[] }> {
-  const dirPrefix = r2Key.substring(0, r2Key.lastIndexOf('/') + 1);
-  // No directory, or a key sitting directly in a namespace: it owns only itself.
-  // Sweeping `inspire/general/` would take out the entire library.
-  if (!dirPrefix || enclosesReservedNamespace(dirPrefix)) {
-    if (dirPrefix) {
-      console.warn(
-        '[media-delete] key sits directly in a reserved namespace; deleting only it:',
-        r2Key,
-      );
-    }
-    return deleteKeys([r2Key]);
+  const keys = new Set<string>();
+  for (const folder of ownedFoldersOf({ r2Key, parentMediaId: null })) {
+    for (const key of await listKeys(folder)) keys.add(key);
   }
-  return deleteKeys(await listKeys(dirPrefix));
+  // A legacy original sits OUTSIDE its rendition folder; a new-format one is
+  // normally already in the listing.
+  keys.add(r2Key);
+  return deleteKeys([...keys]);
 }
