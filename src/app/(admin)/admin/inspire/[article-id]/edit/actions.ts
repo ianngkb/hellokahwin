@@ -34,6 +34,7 @@ import {
 import { getR2Client, getR2Bucket } from '@/lib/r2/client';
 import { generateVariants, getDefaultPresets } from '@/lib/storage/image-variants';
 import { generateLqipForCover } from '@/lib/storage/lqip';
+import { declareVersionActor } from '@/lib/articles/versioning';
 import {
   processSmartCrops,
   resolveOriginalKey,
@@ -63,11 +64,15 @@ function isSameIdSet(a: readonly string[], b: readonly string[]): boolean {
  * Suppresses ONLY the self-targeted `revalidatePath` on this editor's own path —
  * see the revalidation block near the end of this function. Everything else,
  * including all public invalidation, is unaffected.
+ * @param options.versionLabel Names the version this save produces ("Save
+ * named version" in the editor, "Restored from v3" from a restore). The
+ * snapshot itself is taken by the database trigger at commit; this only
+ * labels it. See `declareVersionActor`.
  */
 export async function updateArticleAction(
   articleId: string,
   data: Record<string, unknown>,
-  options?: { silent?: boolean },
+  options?: { silent?: boolean; versionLabel?: string | null },
 ) {
   const { error: authError, user } = await requireAdminSectionAction('inspire');
   if (authError || !user) return { error: authError ?? 'Unauthorized' };
@@ -349,6 +354,19 @@ export async function updateArticleAction(
     }
   };
 
+  // Version history: the deferred `article_version_capture` trigger snapshots
+  // the article (and its tags) when this save's transaction commits. It needs
+  // to know WHO saved — otherwise the version is filed as an anonymous system
+  // write — so every write path below runs in a transaction that declares the
+  // admin first. Transaction-local, so it cannot leak to the next request on
+  // the pooled connection. A snapshot failure can never fail the save: the
+  // trigger swallows its own errors (see migrations-pending/versions.sql).
+  const versionActor = {
+    id: user.id,
+    label: user.email ?? null,
+    versionLabel: options?.versionLabel ?? null,
+  };
+
   // Auto-301 on slug change: if the slug of a previously-published article is
   // changing, write a redirect row atomically with the slug change. The
   // current-state read runs INSIDE the transaction so a concurrent save can't
@@ -400,6 +418,7 @@ export async function updateArticleAction(
           });
         }
 
+        await declareVersionActor(tx, versionActor);
         await tx.update(articles).set(updateData).where(eq(articles.id, articleId));
         await writeTags(tx);
 
@@ -466,13 +485,15 @@ export async function updateArticleAction(
         metadata: { from: slugRedirect.sourcePath, to: slugRedirect.destinationPath },
       });
     }
-  } else if (tagsChanged) {
+  } else {
+    // One transaction whether or not tags changed: the version actor has to be
+    // declared in the same transaction as the article write. `writeTags` is a
+    // no-op when the set is unchanged (the autosave case).
     await db.transaction(async (tx) => {
+      await declareVersionActor(tx, versionActor);
       await tx.update(articles).set(updateData).where(eq(articles.id, articleId));
       await writeTags(tx);
     });
-  } else {
-    await db.update(articles).set(updateData).where(eq(articles.id, articleId));
   }
 
   if (tagsChanged) {

@@ -113,6 +113,8 @@ import { SmartCropPreviewDialog } from '@/components/inspire/smart-crop-preview-
 import { SmartCropManualOverride } from '@/components/inspire/smart-crop-manual-override';
 import { RedirectHistory } from './redirect-history';
 import { ShareDraftDialog } from './share-draft-dialog';
+import { VersionsButton } from './versions-button';
+import { SaveVersionDialog } from './save-version-dialog';
 import { toast } from 'sonner';
 // No Sentry in HelloKahwin — degrade error capture to console.
 const Sentry = {
@@ -132,6 +134,7 @@ import {
   BadgeCheckIcon,
   Share2Icon,
   FileDownIcon,
+  BookmarkPlusIcon,
 } from 'lucide-react';
 import {
   ARTICLE_AUTHORSHIP_LABELS,
@@ -758,6 +761,15 @@ export function ArticleEditor({
 
   const [showScheduleDialog, setShowScheduleDialog] = useState(false);
   const [showShareDialog, setShowShareDialog] = useState(false);
+  // ── Version history ──
+  // Bumped after every explicit save so the Versions count stays current.
+  const [versionRefreshToken, setVersionRefreshToken] = useState(0);
+  const [showSaveVersionDialog, setShowSaveVersionDialog] = useState(false);
+  // Set once a restore has committed and the page is about to reload: blocks
+  // any further save (an autosave of the pre-restore body would undo the
+  // restore) and the unsaved-changes prompt (the admin already agreed to
+  // discard them in the restore dialog).
+  const restoringRef = useRef(false);
   const [seoOpen, setSeoOpen] = useState(true);
   const [selectedBlockIndices, setSelectedBlockIndices] = useState<Set<number>>(new Set());
   const hasBlockSelection = selectedBlockIndices.size >= 2;
@@ -1166,7 +1178,12 @@ export function ArticleEditor({
       silent?: boolean;
       statusOverride?: ArticleStatus;
       scheduledPublishAtOverride?: string | null;
+      /** Names the version this save produces ("Save named version"). */
+      versionLabel?: string;
     }) => {
+      // A restore has replaced the article and the page is reloading.
+      if (restoringRef.current) return;
+
       // Guard: prevent save when lock has been lost
       if (lockLostRef.current) {
         toast.error('Cannot save — your editing session has expired');
@@ -1281,11 +1298,16 @@ export function ArticleEditor({
             // the page inside the action's response, so busting the cache here just
             // forces that render to refetch everything, every 60 seconds, against a
             // 5-wide pool. Explicit saves still revalidate.
-            { silent: options?.silent === true },
+            {
+              silent: options?.silent === true,
+              ...(options?.versionLabel ? { versionLabel: options.versionLabel } : {}),
+            },
           );
           if (result.error) {
             if (!options?.silent) toast.error(result.error);
           } else {
+            if (options?.versionLabel) setShowSaveVersionDialog(false);
+            if (!options?.silent) setVersionRefreshToken((n) => n + 1);
             // Sync local state if overrides were used
             if (options?.statusOverride) setStatus(options.statusOverride);
             if (options?.scheduledPublishAtOverride !== undefined)
@@ -1316,7 +1338,11 @@ export function ArticleEditor({
             // save, so the admin's picks are still pending.
             const wroteCategories = allCatIds !== null;
             if (!options?.silent) {
-              toast.success('Article saved');
+              toast.success(
+                options?.versionLabel
+                  ? `Article saved as version “${options.versionLabel}”`
+                  : 'Article saved',
+              );
               // The save succeeded but quietly dropped a field the admin may have
               // just edited. Say so — a bare "Article saved" here would be a lie
               // by omission, and the change is lost the moment they navigate.
@@ -1489,13 +1515,23 @@ export function ArticleEditor({
         '/api/v1/inspire/release-lock',
         new Blob([JSON.stringify({ articleId: article.id })], { type: 'application/json' }),
       );
-      if (isDirty) {
+      if (isDirty && !restoringRef.current) {
         e.preventDefault();
       }
     };
     window.addEventListener('beforeunload', handler);
     return () => window.removeEventListener('beforeunload', handler);
   }, [isDirty, article.id]);
+
+  // A version restore has committed: the article on the server is now the
+  // restored one and everything in this editor is stale client state. Drop the
+  // local draft (or the recovery prompt would offer the pre-restore body back)
+  // and reload onto the restored article.
+  const handleVersionRestored = useCallback(() => {
+    restoringRef.current = true;
+    clearLocalAutosave(article.id, userId);
+    window.location.reload();
+  }, [article.id, userId]);
 
   // Cmd+S / Ctrl+S keyboard shortcut
   useEffect(() => {
@@ -1840,6 +1876,24 @@ export function ArticleEditor({
                 </span>
               )}
 
+              {/* Version history: browse/compare/restore, and a named save. */}
+              <VersionsButton
+                articleId={article.id}
+                refreshToken={versionRefreshToken}
+                editorIsDirty={isDirty}
+                disabled={isReadOnly}
+                onRestored={handleVersionRestored}
+              />
+              <Button
+                variant="quiet"
+                size="sm"
+                onClick={() => setShowSaveVersionDialog(true)}
+                disabled={isPending || isReadOnly}
+              >
+                <BookmarkPlusIcon className="mr-1 size-3.5" />
+                Save version
+              </Button>
+
               {status === 'draft' && !scheduledPublishAt ? (
                 <>
                   {/* Draft (not scheduled): Share | Export PDF | Schedule | Save as Draft | Publish.
@@ -1931,6 +1985,14 @@ export function ArticleEditor({
             articleId={article.id}
             open={showShareDialog}
             onOpenChange={setShowShareDialog}
+          />
+
+          {/* "Save version" — a normal save with a name for the version it makes. */}
+          <SaveVersionDialog
+            open={showSaveVersionDialog}
+            onOpenChange={setShowSaveVersionDialog}
+            isPending={isPending}
+            onConfirm={(label) => handleSave({ versionLabel: label })}
           />
 
           {/* Schedule Dialog */}

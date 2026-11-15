@@ -43,6 +43,14 @@ vi.mock('@/lib/storage/smart-crop', () => ({
   resolveOriginalKey: vi.fn(),
   framingFromStoredOverride: vi.fn(),
 }));
+// Version history: record the actor declaration in the same call log as the
+// writes, so a test can prove it happens INSIDE the save's transaction and
+// BEFORE the article row is written (the trigger reads it at commit).
+vi.mock('@/lib/articles/versioning', () => ({
+  declareVersionActor: async (tx: { __via?: string }, actor: unknown) => {
+    h.calls.push({ op: 'declareVersionActor', args: actor, via: tx.__via === 'tx' ? 'tx' : 'db' });
+  },
+}));
 
 vi.mock('@/lib/db/drizzle', () => {
   // A chain whose every builder method returns itself and which resolves to
@@ -76,6 +84,7 @@ vi.mock('@/lib/db/drizzle', () => {
   };
 
   const api = (via: 'db' | 'tx') => ({
+    __via: via,
     select: () =>
       chain(
         () => h.selectResults.shift() ?? [],
@@ -191,7 +200,7 @@ describe('tags persist only as part of a save', () => {
     expect(result).toMatchObject({ success: true });
     expect(h.transactions).toBe(1);
     const txOps = h.calls.filter((c: Call) => c.via === 'tx').map((c: Call) => c.op);
-    expect(txOps).toEqual(['update.set', 'delete', 'insert.values']);
+    expect(txOps).toEqual(['declareVersionActor', 'update.set', 'delete', 'insert.values']);
     const inserted = h.calls.find((c: Call) => c.op === 'insert.values' && c.table === articleTags);
     // Duplicates collapse to one row each.
     expect(inserted?.args).toEqual([
@@ -208,14 +217,16 @@ describe('tags persist only as part of a save', () => {
     h.selectResults.push([{ id: TAG_A }]);
     await updateArticleAction(ARTICLE_ID, { tagIds: [] });
     const txOps = h.calls.filter((c: Call) => c.via === 'tx').map((c: Call) => c.op);
-    expect(txOps).toEqual(['update.set', 'delete']);
+    expect(txOps).toEqual(['declareVersionActor', 'update.set', 'delete']);
   });
 
   it('an unchanged set (the autosave case) rewrites nothing', async () => {
     h.selectResults.push([{ title: 'T', status: 'draft' }]);
     h.selectResults.push([{ id: TAG_B }, { id: TAG_A }]);
     await updateArticleAction(ARTICLE_ID, { tagIds: [TAG_A, TAG_B] }, { silent: true });
-    expect(h.transactions).toBe(0);
+    // One transaction (the version actor must share it with the article
+    // write), but no tag row is deleted or re-inserted.
+    expect(h.transactions).toBe(1);
     expect(h.calls.some((c: Call) => c.table === articleTags)).toBe(false);
     expect(h.audit).not.toHaveBeenCalledWith(expect.objectContaining({ action: 'tags_updated' }));
   });
@@ -230,6 +241,74 @@ describe('tags persist only as part of a save', () => {
   it('rejects a tag id that is not a uuid, naming the field', async () => {
     const result = await updateArticleAction(ARTICLE_ID, { tagIds: ['not-a-uuid'] });
     expect(result.error).toMatch(/^Tags/);
+    expect(h.calls).toEqual([]);
+  });
+});
+
+describe('version history: every save declares its admin to the capture trigger', () => {
+  function txOps() {
+    return h.calls.filter((c: Call) => c.via === 'tx').map((c: Call) => c.op);
+  }
+
+  it('a plain save declares the admin inside the transaction, before the article write', async () => {
+    h.selectResults.push([{ title: 'T', status: 'draft' }]);
+    h.auth.mockResolvedValue({ error: null, user: { id: 'admin-1', email: 'ed@hk.test' } });
+    await updateArticleAction(ARTICLE_ID, { title: 'New title' });
+
+    expect(h.transactions).toBe(1);
+    expect(txOps()).toEqual(['declareVersionActor', 'update.set']);
+    expect(h.calls.find((c: Call) => c.op === 'declareVersionActor')?.args).toEqual({
+      id: 'admin-1',
+      label: 'ed@hk.test',
+      versionLabel: null,
+    });
+    // Nothing writes `articles` outside the transaction any more.
+    expect(h.calls.some((c: Call) => c.via === 'db' && c.table === articles)).toBe(false);
+  });
+
+  it('the autosave declares the admin too (its versions fold into one session)', async () => {
+    h.selectResults.push([{ title: 'T', status: 'draft' }]);
+    await updateArticleAction(ARTICLE_ID, { title: 'x' }, { silent: true });
+    expect(txOps()[0]).toBe('declareVersionActor');
+  });
+
+  it('a named save passes the version name through', async () => {
+    h.selectResults.push([{ title: 'T', status: 'draft' }]);
+    await updateArticleAction(
+      ARTICLE_ID,
+      { title: 'x' },
+      { versionLabel: 'Before the price refresh' },
+    );
+    expect(h.calls.find((c: Call) => c.op === 'declareVersionActor')?.args).toMatchObject({
+      versionLabel: 'Before the price refresh',
+    });
+  });
+
+  it('a slug change keeps its automatic 301, in the same transaction as the declared save', async () => {
+    h.selectResults.push([{ title: 'T', slug: 'old', status: 'published' }]); // audit snapshot
+    h.selectResults.push([
+      { slug: 'old', status: 'published', publishedAt: new Date(), categorySlug: 'tips' },
+    ]); // in-transaction current state
+    const result = await updateArticleAction(ARTICLE_ID, { slug: 'new-slug' });
+
+    expect(result).toMatchObject({ success: true });
+    expect(h.transactions).toBe(1);
+    const ops = txOps();
+    expect(ops[0]).toBe('declareVersionActor');
+    expect(ops[1]).toBe('update.set'); // the article row
+    expect(ops).toContain('insert.values'); // the redirect row
+    expect(h.audit).toHaveBeenCalledWith(
+      expect.objectContaining({ action: 'slug_redirect_created' }),
+    );
+  });
+
+  it('a refused save (blob preview) declares nothing and writes nothing', async () => {
+    const result = await updateArticleAction(
+      ARTICLE_ID,
+      { coverImageUrl: BLOB },
+      { versionLabel: 'x' },
+    );
+    expect(result.error).toBeTruthy();
     expect(h.calls).toEqual([]);
   });
 });
