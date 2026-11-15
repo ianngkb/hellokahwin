@@ -13,7 +13,7 @@
  * Only the plain operation lives here: scale down to a width, encode WebP at a
  * quality. That covers the upload variants (`low`/`high`/`mid`) and the LQIP
  * placeholder. The smart crops (`smart-crop.ts`: attention-based framing,
- * extract regions), PDF compression (ghostscript) and HEIC decoding still need
+ * extract regions) and PDF compression (ghostscript) still need
  * sharp/ghostscript and stay on Vercel until the media-tools container exists
  * (docs/cloudflare.md, "What stays on Vercel").
  *

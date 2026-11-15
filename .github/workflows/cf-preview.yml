@@ -1,0 +1,85 @@
+# Build HelloKahwin for Cloudflare and upload it to the PREVIEW Worker only.
+# docs/cloudflare.md explains the whole lane.
+#
+# This workflow cannot touch production:
+#   * `workflow_dispatch` only - no push, pull_request or schedule trigger.
+#   * wrangler.jsonc has no routes and no custom domain. The only address the
+#     Worker answers on is hellokahwin.misty-glitter-43d0.workers.dev.
+#     hellokahwin.com stays on Vercel.
+#   * mode=version (the default) runs `wrangler versions upload`: a new version
+#     with its own preview URL, taking no traffic. mode=deploy makes it the
+#     version the workers.dev address serves - still the preview.
+#   * The build reads the database through the READ-ONLY role, and the Worker
+#     is wired to Hyperdrive with that same role (wrangler.jsonc).
+#
+# Runtime secrets are NOT passed here: a version inherits the Worker's secrets,
+# which `scripts/cloudflare/cf-docker.sh secrets` sets.
+#
+# Required repository secrets (names only; none is set by the run that added this):
+#   CLOUDFLARE_API_TOKEN               TWN account: Workers Scripts edit, R2, D1,
+#                                      Hyperdrive, Images (vault: cloudflare.workers-twn)
+#   CLOUDFLARE_ACCOUNT_ID              the TWN account id
+#   CF_PREVIEW_DATABASE_URL            the READ-ONLY role's pooler URL (Vercel's
+#                                      Preview DATABASE_URL), for `next build`
+#   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY  inlined into the client bundle
+# Required repository variables (public values):
+#   NEXT_PUBLIC_R2_ASSETS_PUBLIC_URL, R2_PUBLIC_URL, R2_ASSETS_PUBLIC_URL
+name: Cloudflare preview
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: version = upload a version (no traffic); deploy = serve it on workers.dev
+        required: true
+        default: version
+        type: choice
+        options:
+          - version
+          - deploy
+
+concurrency:
+  group: cf-preview-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build the Worker bundle
+        env:
+          NEXT_TELEMETRY_DISABLED: '1'
+          NEXT_PUBLIC_HOSTING: cloudflare
+          HK_READ_ONLY: '1'
+          DATABASE_URL: ${{ secrets.CF_PREVIEW_DATABASE_URL }}
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
+          NEXT_PUBLIC_R2_ASSETS_PUBLIC_URL: ${{ vars.NEXT_PUBLIC_R2_ASSETS_PUBLIC_URL }}
+          R2_PUBLIC_URL: ${{ vars.R2_PUBLIC_URL }}
+          R2_ASSETS_PUBLIC_URL: ${{ vars.R2_ASSETS_PUBLIC_URL }}
+        run: pnpm exec opennextjs-cloudflare build
+
+      - name: Upload a preview version
+        if: inputs.mode == 'version'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: pnpm exec wrangler versions upload --message "${{ github.sha }} via workflow_dispatch"
+
+      - name: Deploy to the workers.dev preview
+        if: inputs.mode == 'deploy'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: pnpm exec wrangler deploy
