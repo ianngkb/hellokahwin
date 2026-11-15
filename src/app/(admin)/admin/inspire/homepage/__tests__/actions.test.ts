@@ -60,7 +60,7 @@ import {
   searchInspireHomepageArticlesAction,
 } from '../actions';
 
-describe('Articles homepage actions', () => {
+describe('Inspire homepage actions', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     h.auth.mockResolvedValue({ error: null, user: { id: 'admin-1' } });

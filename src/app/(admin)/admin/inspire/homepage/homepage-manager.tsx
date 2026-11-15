@@ -311,7 +311,7 @@ export function InspireHomepageManager({
         toast.error(result.error);
         return;
       }
-      toast.success('Articles homepage updated');
+      toast.success('Inspire homepage updated');
       router.refresh();
     });
   }
@@ -325,7 +325,7 @@ export function InspireHomepageManager({
       }
       setConfig(DEFAULT_INSPIRE_HOMEPAGE_CONFIG);
       setPins({ featured: [], latest: [] });
-      toast.success('Articles homepage reset to automatic');
+      toast.success('Inspire homepage reset to automatic');
       router.refresh();
     });
   }
@@ -360,7 +360,7 @@ export function InspireHomepageManager({
         </Button>
         <Button type="button" onClick={save} disabled={saving}>
           {saving ? <Loader2 className="animate-spin" /> : null}
-          Save articles homepage
+          Save Inspire homepage
         </Button>
       </div>
     </div>

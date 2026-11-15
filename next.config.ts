@@ -56,8 +56,9 @@ const clerkCspHosts = [
   ...(clerkHost ? [`https://${clerkHost}`] : []),
 ].join(' ');
 
-// Framing surface is deliberately NARROWER than the script surface. Only two
-// things are ever framed: the Turnstile challenge, and Clerk's own hosted
+// Framing surface is deliberately NARROWER than the script surface. Besides the
+// article embeds (`embedFrameHosts` below), only two auth things are ever
+// framed: the Turnstile challenge, and Clerk's own hosted
 // pages (the accounts portal on a dev instance, the Frontend API host on a
 // production one). `*.clerk.com` is Clerk's CDN/telemetry origin and has no
 // business being frameable by us, so it is not listed here.
@@ -65,6 +66,19 @@ const clerkFrameHosts = [
   'https://challenges.cloudflare.com',
   'https://*.clerk.accounts.dev',
   ...(clerkHost ? [`https://${clerkHost}`] : []),
+].join(' ');
+
+// Article embeds (the editor's YouTube / Vimeo / Instagram block). EXACTLY the
+// hosts `ALLOWED_EMBED_HOSTS` in src/lib/tiptap/iframe-embed.ts lets the node
+// store and render — kept as literals so this config imports nothing from src/.
+// `src/lib/tiptap/__tests__/embed-csp.test.ts` fails if the two drift apart.
+const embedFrameHosts = [
+  'https://www.youtube.com',
+  'https://youtube.com',
+  'https://player.vimeo.com',
+  'https://vimeo.com',
+  'https://www.instagram.com',
+  'https://instagram.com',
 ].join(' ');
 
 const csp = [
@@ -75,7 +89,7 @@ const csp = [
   `connect-src 'self'${isDev ? ' ws://localhost:*' : ''} https://*.r2.cloudflarestorage.com ${clerkCspHosts}`,
   "font-src 'self' data:",
   `media-src 'self' ${r2CspHosts.join(' ')}`,
-  `frame-src 'self' ${clerkFrameHosts}`,
+  `frame-src 'self' ${clerkFrameHosts} ${embedFrameHosts}`,
   "worker-src 'self' blob:",
   "child-src 'self' blob:",
   "frame-ancestors 'none'",

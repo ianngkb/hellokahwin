@@ -11,7 +11,13 @@ import {
 } from '@aws-sdk/client-s3';
 import { db } from '@/lib/db/drizzle';
 import { articles, articleCategories, inspireCategories } from '@/lib/db/schema/articles';
-import { media } from '@/lib/db/schema/media';
+import { media, mediaArticleUsage } from '@/lib/db/schema/media';
+import { deleteR2Objects } from '@/lib/r2/delete';
+import {
+  collectReferencedAssets,
+  copyReferencedAssets,
+  rewriteR2Urls,
+} from '@/lib/inspire/duplicate-assets';
 import { requireAdminSectionAction } from '@/lib/auth/admin';
 import { logAuditEvent, logAuditEventAsync } from '@/lib/audit/log';
 import { checkIsSuperAdmin } from '@/lib/auth/admin';
@@ -316,60 +322,258 @@ export async function duplicateArticleAction(articleId: string) {
 
   const newSlug = generateSlug(original.title + ' copy') + '-' + Date.now().toString(36);
 
-  const newArticle = await db.transaction(async (tx) => {
-    const [inserted] = await tx
-      .insert(articles)
-      .values({
-        title: `${original.title} (Copy)`,
-        slug: newSlug,
-        content: original.content,
-        coverImageUrl: original.coverImageUrl,
-        status: 'draft',
-        authorId: user.id,
-        primaryCategoryId: original.primaryCategoryId,
-        // A copy is the same provenance as its original — duplicating a
-        // human-written article must not silently relabel it AI, which is what
-        // falling through to the column default would do.
-        authorship: original.authorship,
-        // ...but the COPY has not been reviewed, whatever the original's state.
-        // Carrying `reviewed` across would let edited copy inherit a sign-off
-        // for text nobody has read.
-        reviewStatus: 'pending_review',
-        // Compat mirror for rollback safety — removed in the follow-up migration that drops these columns.
-        isAiGenerated: original.isAiGenerated,
-        humanReviewedAt: null,
-      })
-      .returning({ id: articles.id });
+  // Give the copy its OWN photos.
+  //
+  // Cloning just the row leaves the copy's images physically inside the SOURCE
+  // article's R2 folder, so master-deleting the source silently destroys the
+  // copy's pictures. Copying the objects first makes the duplicate
+  // self-contained, which is also what keeps the delete paths safe without a
+  // reference check. See `@/lib/inspire/duplicate-assets`.
+  //
+  // Best-effort by design: an image that fails to copy is left pointing at the
+  // original URL rather than aborting a duplication the admin asked for — and
+  // the result says so, so the admin is warned the copy still shares photos.
+  let bases: string[] = [];
+  let canonicalBase = '';
+  let r2Unavailable = false;
+  try {
+    canonicalBase = getR2PublicUrl();
+    bases = [canonicalBase];
+  } catch (err) {
+    // Duplication used to be a pure DB clone that ran anywhere. Keep it working
+    // without R2 configured rather than failing the whole action — but the
+    // result is a duplicate sharing 100% of the source's photos, so it must
+    // never be reported as a clean copy.
+    console.warn('[duplicateArticle] R2 public URL unavailable; copying no assets', err);
+    r2Unavailable = true;
+  }
 
-    // Clone category associations
-    const cats = await tx
-      .select()
-      .from(articleCategories)
-      .where(eq(articleCategories.articleId, articleId));
+  const assets = canonicalBase
+    ? collectReferencedAssets(
+        [
+          original.coverImageUrl,
+          original.coverImageVariants,
+          original.coverImageSmartCrops,
+          original.content,
+        ],
+        bases,
+      )
+    : { dirs: [], siblingKeys: [], skipped: [] };
 
-    if (cats.length > 0) {
-      await tx.insert(articleCategories).values(
-        cats.map((c) => ({
-          articleId: inserted.id,
-          categoryId: c.categoryId,
-        })),
+  let keyMap = new Map<string, string>();
+  let copied = 0;
+  // Only count skips that were inspire-shaped but unhandled. A URL pointing at
+  // another bucket was never ours to copy and is unaffected by deleting the
+  // source — counting it would fire the "some photos could not be copied"
+  // warning on ordinary articles, and a warning that cries wolf gets ignored.
+  let failed = assets.skipped.filter((s) => s.reason !== 'not under inspire/').length;
+  let copyErrored = r2Unavailable;
+
+  if (assets.dirs.length > 0 || assets.siblingKeys.length > 0) {
+    try {
+      const report = await copyReferencedAssets(
+        getR2Client(),
+        getR2Bucket(),
+        assets,
+        newSlug,
+        (message, err) => console.warn('[duplicateArticle]', message, err),
       );
+      keyMap = report.keyMap;
+      copied = report.copied;
+      failed += report.failed;
+    } catch (err) {
+      // Wholesale failure (bad credentials, bucket 401). Silence here is what
+      // recreates the original incident, so make it loud.
+      copyErrored = true;
+      console.error('[duplicateArticle] asset copy failed for article', articleId, newSlug, err);
     }
+  }
 
-    return inserted;
-  });
+  const rewrite = <T>(value: T): T => rewriteR2Urls(value, keyMap, bases, canonicalBase);
+
+  // If the transaction fails after the copy, the objects under
+  // `inspire/{newSlug}/` belong to no article and nothing would ever reclaim
+  // them — and the admin's natural retry mints a fresh slug and a fresh orphan
+  // set. Clean up before reporting the failure.
+  const newArticle = await db
+    .transaction(async (tx) => {
+      const [inserted] = await tx
+        .insert(articles)
+        .values({
+          title: `${original.title} (Copy)`,
+          slug: newSlug,
+          content: rewrite(original.content),
+          coverImageUrl: rewrite(original.coverImageUrl),
+          // Carried across so the copy keeps its responsive sizes, social crops
+          // and blur placeholder. Dropping these left every duplicate serving
+          // one full-size hero with no mobile variant and no og image.
+          coverImageVariants: rewrite(original.coverImageVariants),
+          coverImageQuality: original.coverImageQuality,
+          coverImageSmartCrops: rewrite(original.coverImageSmartCrops),
+          coverImageFocalPoint: original.coverImageFocalPoint,
+          coverImageDetectionData: original.coverImageDetectionData,
+          coverImageFocalPointOverride: original.coverImageFocalPointOverride,
+          coverImageLqip: original.coverImageLqip,
+          status: 'draft',
+          authorId: user.id,
+          primaryCategoryId: original.primaryCategoryId,
+          // A copy is the same provenance as its original — duplicating a
+          // human-written article must not silently relabel it AI, which is what
+          // falling through to the column default would do.
+          authorship: original.authorship,
+          // ...but the COPY has not been reviewed, whatever the original's state.
+          // Carrying `reviewed` across would let edited copy inherit a sign-off
+          // for text nobody has read.
+          reviewStatus: 'pending_review',
+          // Compat mirror for rollback safety — removed in the follow-up migration that drops these columns.
+          isAiGenerated: original.isAiGenerated,
+          humanReviewedAt: null,
+        })
+        .returning({ id: articles.id });
+
+      // Clone the media rows for everything we copied, so the duplicate owns its
+      // photos in the media library too — and so the delete paths see it as an
+      // article WITH media, exactly like a normally-created one.
+      if (keyMap.size > 0) {
+        // Chunked on both sides: a gallery-heavy article yields hundreds of keys,
+        // and one oversized statement failing here would abort AFTER all the R2
+        // work is paid for.
+        const copiedKeys = [...keyMap.keys()];
+        const sourceMedia: (typeof media.$inferSelect)[] = [];
+        for (let i = 0; i < copiedKeys.length; i += DUPLICATE_DB_CHUNK) {
+          const chunk = copiedKeys.slice(i, i + DUPLICATE_DB_CHUNK);
+          sourceMedia.push(...(await tx.select().from(media).where(inArray(media.r2Key, chunk))));
+        }
+
+        if (sourceMedia.length > 0) {
+          // Pre-generate ids so a child row can point at its cloned parent in the
+          // same insert; a parent that was not itself cloned becomes a root.
+          const idMap = new Map(sourceMedia.map((m) => [m.id, crypto.randomUUID()]));
+          const rows = sourceMedia.map((m) => ({
+            ...m,
+            id: idMap.get(m.id)!,
+            r2Key: keyMap.get(m.r2Key) ?? m.r2Key,
+            url: rewrite(m.url),
+            originalUrl: rewrite(m.originalUrl),
+            variants: rewrite(m.variants),
+            smartCrops: rewrite(m.smartCrops),
+            originalArticleId: inserted.id,
+            parentMediaId: m.parentMediaId ? (idMap.get(m.parentMediaId) ?? null) : null,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          }));
+          for (let i = 0; i < rows.length; i += DUPLICATE_DB_CHUNK) {
+            await tx.insert(media).values(rows.slice(i, i + DUPLICATE_DB_CHUNK));
+          }
+
+          // Record the copy as a USER of its own media. The junction is otherwise
+          // only reconciled on article save, so until someone opened and saved the
+          // copy its brand-new photos would read as "used by 0 articles" — and an
+          // admin tidying unused media would delete the very files we just copied.
+          const usage = rows.map((r) => ({ mediaId: r.id, articleId: inserted.id }));
+          for (let i = 0; i < usage.length; i += DUPLICATE_DB_CHUNK) {
+            await tx
+              .insert(mediaArticleUsage)
+              .values(usage.slice(i, i + DUPLICATE_DB_CHUNK))
+              .onConflictDoNothing();
+          }
+        }
+      }
+
+      // Clone category associations
+      const cats = await tx
+        .select()
+        .from(articleCategories)
+        .where(eq(articleCategories.articleId, articleId));
+
+      if (cats.length > 0) {
+        await tx.insert(articleCategories).values(
+          cats.map((c) => ({
+            articleId: inserted.id,
+            categoryId: c.categoryId,
+          })),
+        );
+      }
+
+      return inserted;
+    })
+    .catch(async (err) => {
+      await reclaimCopiedObjects(newSlug, [...keyMap.values()]).catch((cleanupErr) =>
+        console.warn('[duplicateArticle] orphan cleanup failed', newSlug, cleanupErr),
+      );
+      console.error('[duplicateArticle] insert failed for article', articleId, newSlug, err);
+      // Returned, not rethrown: the caller awaits this action inside a
+      // `startTransition`, so a thrown rejection surfaces as no toast at all —
+      // silence after real R2 work has already run.
+      return null;
+    });
+
+  if (!newArticle) {
+    return { error: 'Could not duplicate the article. Nothing was saved.' };
+  }
 
   logAuditEvent({
     entityType: 'article',
     entityId: newArticle.id,
     action: 'duplicated',
     performedBy: user.id,
-    metadata: { sourceArticleId: articleId },
+    // Counts make a partial copy visible in the audit trail.
+    metadata: {
+      sourceArticleId: articleId,
+      assetsCopied: copied,
+      assetsFailed: failed,
+      assetCopyErrored: copyErrored,
+    },
   });
 
   revalidatePath('/admin/inspire');
   revalidateTag('articles', PURGE_IMMEDIATELY);
-  return { success: true, newArticleId: newArticle.id };
+  return {
+    success: true,
+    newArticleId: newArticle.id,
+    assetsCopied: copied,
+    // The caller shows a warning when the copy was partial: the duplicate still
+    // shares some photos with its source, so deleting the source would break it.
+    assetsIncomplete: copyErrored || failed > 0,
+  };
+}
+
+/**
+ * Rows per statement when cloning a duplicate's media. A gallery-heavy article
+ * clones hundreds of rows; chunking keeps each statement small.
+ */
+const DUPLICATE_DB_CHUNK = 100;
+
+/**
+ * Delete the objects a failed duplication copied — but only when it is certain
+ * nothing uses them.
+ *
+ * Two traps make the obvious "delete `inspire/{newSlug}/`" wrong:
+ *  1. The transaction may have COMMITTED and only the response failed (a dropped
+ *     connection). The copy's row is live; deleting its prefix strips it of
+ *     every image we just gave it.
+ *  2. `newSlug` ends in `Date.now().toString(36)`, so two duplications of the
+ *     same title in the same millisecond collide. The loser's cleanup would wipe
+ *     the winner's objects, leaving a live article with no photos.
+ *
+ * So: delete only the exact keys this run wrote, and only once the article is
+ * confirmed absent. Anything left behind is inert storage, which is strictly
+ * cheaper than a live article with holes in it.
+ */
+async function reclaimCopiedObjects(newSlug: string, copiedKeys: string[]): Promise<void> {
+  if (copiedKeys.length === 0) return;
+
+  const [survivor] = await db
+    .select({ id: articles.id })
+    .from(articles)
+    .where(eq(articles.slug, newSlug))
+    .limit(1);
+  if (survivor) return; // it committed after all — these objects are in use
+
+  // DeleteObjects caps at 1000 keys per call.
+  for (let i = 0; i < copiedKeys.length; i += 1000) {
+    await deleteR2Objects(copiedKeys.slice(i, i + 1000));
+  }
 }
 
 /**

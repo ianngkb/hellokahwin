@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { AlertTriangleIcon } from 'lucide-react';
+import { AlertTriangleIcon, BarChart3Icon } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { requireAdminSection } from '@/lib/auth/admin';
 import { getClusterOverview, type ClusterAdminArticle } from '@/lib/inspire/cluster-admin';
 import { THIN_CLUSTER_LIVE_MIN } from '@/lib/inspire/clusters';
@@ -133,6 +134,14 @@ export default async function AdminInspireClusterDetailPage({
         breadcrumb={breadcrumb}
         title={c.name}
         description={`Cluster ${c.code} in ${parent!.name} · ${c.live} live, ${c.draft} draft, ${c.scheduled} scheduled · ${formatViews(c.views)} views in the last 28 days`}
+        actions={
+          <Button variant="quiet" size="sm" asChild>
+            <Link href={`/admin/inspire/clusters/${c.id}/analytics`}>
+              <BarChart3Icon className="mr-1 size-3.5" />
+              Cluster analytics
+            </Link>
+          </Button>
+        }
       />
       {c.thin && (
         <p className="text-warning-strong bg-warning-subtle/40 rounded-card flex items-center gap-1.5 px-4 py-3 text-sm">

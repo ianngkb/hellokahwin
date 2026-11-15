@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useEditor } from 'novel';
 import { getMarkRange } from '@tiptap/core';
 import { Toggle } from '@/components/ui/toggle';
@@ -8,6 +8,22 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
+import {
+  buildLinkAttrs,
+  dialogNofollow,
+  hasNofollow,
+  isInternalHref,
+  normaliseLinkInput,
+} from '@/lib/tiptap/link-rel';
+import { toEmbedSrc } from '@/lib/tiptap/iframe-embed';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { Separator } from '@/components/ui/separator';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import {
@@ -37,6 +53,7 @@ import {
   LayoutGrid,
   FolderPlus,
   Video,
+  Clapperboard,
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -81,6 +98,7 @@ export function EditorToolbar({
 }: EditorToolbarProps) {
   const { editor } = useEditor();
   const [pickerOpen, setPickerOpen] = useState(false);
+  const [embedOpen, setEmbedOpen] = useState(false);
   const handleMediaSelect = useCallback(
     (items: PickedMedia[]) => {
       if (!editor || items.length === 0) return;
@@ -439,6 +457,12 @@ export function EditorToolbar({
             >
               <FileText className="mr-2 h-4 w-4" /> PDF
             </DropdownMenuItem>
+            {/* The general embed: a YouTube, Vimeo or Instagram post by URL.
+                Distinct from "Embed block" below, which is a live reference to
+                a dynamic block — not an iframe. */}
+            <DropdownMenuItem onSelect={() => setEmbedOpen(true)}>
+              <Clapperboard className="mr-2 h-4 w-4" /> Video / Instagram
+            </DropdownMenuItem>
             {/* Was inserting `embedBlock`, a node type that does not exist —
                 Tiptap rejected the content as invalid and the item silently
                 did nothing. The registered node is `dynamicBlockEmbed`, and it
@@ -528,21 +552,117 @@ export function EditorToolbar({
         articleId={articleId}
         articleSlug={articleSlug}
       />
+
+      <EmbedUrlDialog
+        open={embedOpen}
+        onOpenChange={setEmbedOpen}
+        onInsert={(src) =>
+          editor
+            .chain()
+            .focus()
+            .insertContent({ type: 'iframeEmbed', attrs: { src, width: 540, height: 640 } })
+            .run()
+        }
+      />
     </>
   );
 }
 
-function normaliseUrl(raw: string): string {
-  const trimmed = raw.trim();
-  if (!trimmed) return '';
-  if (/^https?:\/\//i.test(trimmed) || /^mailto:/i.test(trimmed)) return trimmed;
-  return `https://${trimmed}`;
+/**
+ * Asks for the address of a YouTube, Vimeo or Instagram post and inserts it as
+ * an `iframeEmbed`. The address is translated to its embed form and checked
+ * against the same host allowlist the node and the public sanitizer use, so a
+ * link that could never render is refused here with a reason rather than saved
+ * as an empty block.
+ */
+function EmbedUrlDialog({
+  open,
+  onOpenChange,
+  onInsert,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onInsert: (src: string) => void;
+}) {
+  const [url, setUrl] = useState('');
+  const [error, setError] = useState<string | null>(null);
+
+  // Cleared on the way out, so the next open starts empty.
+  const handleOpenChange = (next: boolean) => {
+    if (!next) {
+      setUrl('');
+      setError(null);
+    }
+    onOpenChange(next);
+  };
+
+  const submit = () => {
+    const src = toEmbedSrc(url);
+    if (!src) {
+      setError('Paste the link to a YouTube video, a Vimeo video or an Instagram post or reel.');
+      return;
+    }
+    onInsert(src);
+    handleOpenChange(false);
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={handleOpenChange}>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>Embed a video or Instagram post</DialogTitle>
+          <DialogDescription>
+            Paste the link from the address bar. YouTube, Vimeo and Instagram are supported.
+          </DialogDescription>
+        </DialogHeader>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            submit();
+          }}
+          className="space-y-2"
+        >
+          <Label htmlFor="embed-url" className="text-xs">
+            Link
+          </Label>
+          <Input
+            id="embed-url"
+            value={url}
+            onChange={(e) => {
+              setUrl(e.target.value);
+              setError(null);
+            }}
+            placeholder="https://www.youtube.com/watch?v=…"
+            aria-invalid={error ? true : undefined}
+            aria-describedby={error ? 'embed-url-error' : undefined}
+            autoFocus
+          />
+          {error && (
+            <p id="embed-url-error" className="text-destructive text-xs">
+              {error}
+            </p>
+          )}
+          <DialogFooter>
+            <Button type="button" variant="ghost" onClick={() => handleOpenChange(false)}>
+              Cancel
+            </Button>
+            <Button type="submit" disabled={!url.trim()}>
+              Insert
+            </Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
 }
 
 function LinkPopover({ editor }: { editor: NonNullable<ReturnType<typeof useEditor>['editor']> }) {
   const [open, setOpen] = useState(false);
   const [url, setUrl] = useState('');
   const [openInNewTab, setOpenInNewTab] = useState(false);
+  const [nofollow, setNofollow] = useState(false);
+  // True once the nofollow box was set by hand, or the link already existed.
+  const [nofollowExplicit, setNofollowExplicit] = useState(false);
 
   const isEditing = editor.isActive('link');
 
@@ -552,6 +672,8 @@ function LinkPopover({ editor }: { editor: NonNullable<ReturnType<typeof useEdit
         const attrs = editor.getAttributes('link');
         setUrl((attrs.href as string) ?? '');
         setOpenInNewTab(attrs.target === '_blank');
+        setNofollow(hasNofollow(attrs.rel));
+        setNofollowExplicit(Boolean(attrs.href));
       }
       setOpen(isOpen);
     },
@@ -559,18 +681,22 @@ function LinkPopover({ editor }: { editor: NonNullable<ReturnType<typeof useEdit
   );
 
   const saveLink = useCallback(() => {
-    const normalised = normaliseUrl(url);
+    const normalised = normaliseLinkInput(url);
     if (!normalised) {
       editor.chain().focus().unsetLink().run();
       setOpen(false);
       return;
     }
 
-    const linkAttrs = {
-      href: normalised,
-      target: openInNewTab ? '_blank' : null,
-      rel: openInNewTab ? 'noopener noreferrer nofollow' : null,
-    };
+    const linkAttrs = buildLinkAttrs(normalised, {
+      openInNewTab,
+      nofollow: dialogNofollow({
+        href: normalised,
+        openInNewTab,
+        nofollow,
+        explicit: nofollowExplicit,
+      }),
+    });
 
     if (isEditing && editor.state.selection.empty) {
       // Editing an existing link — find mark range and update attrs
@@ -602,7 +728,7 @@ function LinkPopover({ editor }: { editor: NonNullable<ReturnType<typeof useEdit
     }
 
     setOpen(false);
-  }, [editor, url, openInNewTab, isEditing]);
+  }, [editor, url, openInNewTab, nofollow, nofollowExplicit, isEditing]);
 
   const removeLink = useCallback(() => {
     editor.chain().focus().unsetLink().run();
@@ -646,10 +772,30 @@ function LinkPopover({ editor }: { editor: NonNullable<ReturnType<typeof useEdit
             <Checkbox
               id="toolbar-newtab"
               checked={openInNewTab}
-              onCheckedChange={(v) => setOpenInNewTab(v === true)}
+              onCheckedChange={(v) => {
+                // New tab links default to nofollow, as they always have.
+                setOpenInNewTab(v === true);
+                // Auto-tick nofollow only for an outbound link; our own pages
+                // stay followed unless the editor ticks the box themselves.
+                // (a preview only — the saved value is decided from the final href)
+                if (!nofollowExplicit) setNofollow(v === true && !isInternalHref(url));
+              }}
             />
             <Label htmlFor="toolbar-newtab" variant="inline" className="cursor-pointer text-xs">
               Open in new tab
+            </Label>
+          </div>
+          <div className="flex items-center gap-2">
+            <Checkbox
+              id="toolbar-nofollow"
+              checked={nofollow}
+              onCheckedChange={(v) => {
+                setNofollow(v === true);
+                setNofollowExplicit(true);
+              }}
+            />
+            <Label htmlFor="toolbar-nofollow" variant="inline" className="cursor-pointer text-xs">
+              Nofollow (untick for paid guest post links)
             </Label>
           </div>
           <div className="flex items-center justify-between">

@@ -28,6 +28,11 @@ export type ArticleCreateInput = z.infer<typeof articleCreateSchema>;
 export const articleUpdateSchema = z.object({
   title: z.string().min(1).optional(),
   slug: urlSlugSchema.optional(),
+  // The card blurb. Until now it had no field in the editor at all — it was
+  // only ever written by the WordPress import. Deliberately UNBOUNDED: imported
+  // articles already carry excerpts of unknown length, and a max here would
+  // refuse to save an article the editor had just loaded fine.
+  excerpt: z.string().optional().nullable(),
   // M3: Validate TipTap JSON structure — root must be a 'doc' node
   content: z
     .object({ type: z.literal('doc'), content: z.array(z.unknown()) })
@@ -87,6 +92,10 @@ export const articleUpdateSchema = z.object({
   // (WYSIWYG) instead of auto-bumping updated_at to now(); see updateArticleAction.
   updatedAt: z.string().datetime().optional().nullable(),
   scheduledPublishAt: z.string().datetime().optional().nullable(),
+  // The article's full tag set, sent with the save (tags no longer write on
+  // click). OMITTED means "leave the tag rows alone" — what a degraded tag read
+  // sends. `[]` means the admin cleared them, and really does delete the rows.
+  tagIds: z.array(z.string().uuid()).optional(),
 });
 
 export type ArticleUpdateInput = z.infer<typeof articleUpdateSchema>;
@@ -97,7 +106,9 @@ export type ArticleUpdateInput = z.infer<typeof articleUpdateSchema>;
 const ARTICLE_FIELD_LABELS: Record<string, string> = {
   title: 'Title',
   slug: 'Slug',
+  excerpt: 'Excerpt',
   content: 'Content',
+  tagIds: 'Tags',
   coverImageUrl: 'Cover Image URL',
   metaTitle: 'Meta Title',
   metaDescription: 'Meta Description',

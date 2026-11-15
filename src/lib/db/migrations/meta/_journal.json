@@ -50,6 +50,13 @@
       "when": 1794756782032,
       "tag": "0006_cluster_series_box",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1794763886068,
+      "tag": "0007_inspire_admin_versions_gsc",
+      "breakpoints": true
     }
   ]
 }

@@ -228,6 +228,7 @@ export default async function EditArticlePage({ params }: EditPageProps) {
     id: article.id,
     title: article.title,
     slug: article.slug,
+    excerpt: article.excerpt,
     content: article.content ?? { type: 'doc', content: [{ type: 'paragraph' }] },
     coverImageUrl: article.coverImageUrl,
     coverImageVariants: article.coverImageVariants,

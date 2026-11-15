@@ -94,7 +94,7 @@ export async function saveInspireHomepageAction(
     await logAuditEventAsync({
       entityType: 'settings',
       entityId: INSPIRE_HOMEPAGE_SETTING_KEY,
-      entityLabel: 'Articles homepage',
+      entityLabel: 'Inspire homepage',
       action: 'updated',
       performedBy: user.id,
       metadata: parsed.data as unknown as Record<string, unknown>,
@@ -117,7 +117,7 @@ export async function resetInspireHomepageAction(): Promise<InspireHomepageActio
     await logAuditEventAsync({
       entityType: 'settings',
       entityId: INSPIRE_HOMEPAGE_SETTING_KEY,
-      entityLabel: 'Articles homepage',
+      entityLabel: 'Inspire homepage',
       action: 'reset',
       performedBy: user.id,
       metadata: DEFAULT_INSPIRE_HOMEPAGE_CONFIG as unknown as Record<string, unknown>,

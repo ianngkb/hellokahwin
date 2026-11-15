@@ -320,12 +320,14 @@ describe('POST /api/v1/analytics/collect', () => {
       expect(db.insert).not.toHaveBeenCalled();
     });
 
-    it('stores an over-long pathname clipped to 2000 chars (F3)', async () => {
+    it('stores an over-long pathname clipped, not rejected (F3) — to the 1,000-byte index cap', async () => {
       const res = await POST(
         makeRequest({ events: [{ ...validEvent, pathname: `/${'p'.repeat(3000)}` }] }),
       );
       expect(res.status).toBe(200);
-      expect(String(insertedRows()[0].pathname)).toHaveLength(2000);
+      // Validated at 2,000 chars, then byte-capped for the pathname indexes
+      // (src/lib/analytics/utf8-cap.ts). ASCII: 1 byte per char.
+      expect(String(insertedRows()[0].pathname)).toHaveLength(1000);
     });
 
     it('returns 400 for a pathname without a leading slash (F3)', async () => {
@@ -420,6 +422,54 @@ describe('POST /api/v1/analytics/collect', () => {
       const res = await POST(makeRequest({ events: [validEvent] }));
       expect(res.status).toBe(500);
       errSpy.mockRestore();
+    });
+  });
+
+  describe('article analytics events', () => {
+    it('byte-caps pathname at 1,000 UTF-8 bytes (an index key) on a whole character', async () => {
+      // 2,000 chars of a 3-byte character = 6,000 bytes: past any btree entry.
+      const long = `/artikel/a/${'あ'.repeat(1990)}`;
+      const res = await POST(makeRequest({ events: [{ ...validEvent, pathname: long }] }));
+      expect(res.status).toBe(200);
+      const stored = insertedRows()[0].pathname as string;
+      expect(Buffer.byteLength(stored, 'utf8')).toBeLessThanOrEqual(1000);
+      expect(long.startsWith(stored)).toBe(true);
+      expect(stored).not.toContain('�');
+    });
+
+    it('stores the article trackers’ events as ordinary rows with their props', async () => {
+      const res = await POST(
+        makeRequest({
+          events: [
+            { event_name: 'scroll_depth', pathname: '/artikel/a/b', props: { percent: 75 } },
+            {
+              event_name: 'section_reached',
+              pathname: '/artikel/a/b',
+              props: { section_index: 2, section_total: 5, heading: 'Kos', article_slug: 'b' },
+            },
+            {
+              event_name: 'article_link_click',
+              pathname: '/artikel/a/b',
+              props: { href: '/artikel/c/d', link_type: 'internal_article', article_id: 'x' },
+            },
+          ],
+        }),
+      );
+      expect(res.status).toBe(200);
+      const rows = insertedRows();
+      expect(rows.map((r) => r.eventName)).toEqual([
+        'scroll_depth',
+        'section_reached',
+        'article_link_click',
+      ]);
+      expect(rows[2].props).toEqual({
+        href: '/artikel/c/d',
+        link_type: 'internal_article',
+        article_id: 'x',
+      });
+      // Same privacy treatment as a pageview: hashed visitor, no IP column.
+      expect(rows[0].visitorHash).toBe('test-visitor-hash-abc123');
+      expect(Object.keys(rows[0])).not.toContain('ip');
     });
   });
 });

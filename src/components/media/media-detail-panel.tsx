@@ -30,7 +30,7 @@ import {
 } from '@/app/(admin)/admin/inspire/media/actions';
 import { toast } from 'sonner';
 import type { Media } from '@/lib/db/schema/media';
-import type { ImageVariants } from '@/lib/storage/image-variants';
+import { displayFileSize, normalizeVariants } from '@/lib/media/media-quality';
 import { cn, formatFileSize } from '@/lib/utils';
 import { MediaImageEditor } from './media-image-editor';
 
@@ -97,13 +97,21 @@ export function MediaDetailPanel({
         setAlt(mediaResult.data.alt ?? '');
         setCaption(mediaResult.data.caption ?? '');
         setCaptionUrl(mediaResult.data.captionUrl ?? '');
+      } else {
+        // A `?mediaId=` deep link to a picture that has since been deleted
+        // used to leave the panel reading "Loading..." forever.
+        toast.error(mediaResult.error ?? 'Media not found');
+        onClose();
+        return;
       }
       if (usageResult.data) {
         setUsages(usageResult.data);
       }
       setChildren(childrenResult.data ?? []);
     });
-  }, [mediaId, open]);
+    // `onClose` is a stable callback from the gallery; it is listed so the
+    // not-found branch above never calls a stale one.
+  }, [mediaId, open, onClose]);
 
   const handleSaveField = useCallback(
     (field: 'alt' | 'caption' | 'captionUrl', value: string) => {
@@ -128,6 +136,9 @@ export function MediaDetailPanel({
         toast.error(result.error);
       } else {
         toast.success('Media deleted');
+        // The row is gone but some of its files were not removed. Saying so is
+        // the difference between a known orphan and a silent one.
+        if (result.warning) toast.warning(result.warning, { duration: 10_000 });
         onDeleted();
       }
     });
@@ -140,8 +151,13 @@ export function MediaDetailPanel({
     setTimeout(() => setCopied(false), 2000);
   }, [mediaData]);
 
-  const variants = mediaData?.variants as ImageVariants | null;
+  // Some rows hold the column as a JSON *string*, which is truthy — rendering
+  // the "Variants" section with nothing in it. `normalizeVariants` parses it,
+  // so the section is honest either way.
+  const variants = normalizeVariants(mediaData?.variants);
   const hasHighVariant = !!variants?.high;
+  // A picture whose size nothing recorded shows "—", never "0 B".
+  const shownFileSize = mediaData ? displayFileSize(mediaData) : null;
 
   return (
     <Sheet open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
@@ -188,7 +204,13 @@ export function MediaDetailPanel({
                   : '—'}
               </span>
               <span className="text-muted-foreground">File size</span>
-              <span>{formatFileSize(mediaData.fileSize)}</span>
+              {shownFileSize === null ? (
+                <span className="text-muted-foreground" title="Size not recorded">
+                  —
+                </span>
+              ) : (
+                <span>{formatFileSize(shownFileSize)}</span>
+              )}
               <span className="text-muted-foreground">Type</span>
               <span>{mediaData.mimeType}</span>
               <span className="text-muted-foreground">Source</span>
@@ -294,14 +316,17 @@ export function MediaDetailPanel({
                 <div className="space-y-2">
                   <h4 className="text-sm font-medium">Variants</h4>
                   <div className="grid grid-cols-2 gap-2 text-xs">
-                    {(['original', 'high', 'medium', 'low'] as const).map((key) => {
+                    {(['original', 'high', 'medium', 'mid', 'low'] as const).map((key) => {
                       const v = variants[key];
                       if (!v) return null;
                       return (
                         <div key={key} className="bg-muted flex justify-between rounded p-2">
                           <span className="capitalize">{key}</span>
-                          <span className="text-muted-foreground">
-                            {formatFileSize(v.sizeBytes)}
+                          <span
+                            className="text-muted-foreground"
+                            title={v.sizeBytes > 0 ? undefined : 'Size not recorded'}
+                          >
+                            {v.sizeBytes > 0 ? formatFileSize(v.sizeBytes) : '—'}
                           </span>
                         </div>
                       );
@@ -404,14 +429,19 @@ export function MediaDetailPanel({
                 <AlertDialogHeader>
                   <AlertDialogTitle>Delete media?</AlertDialogTitle>
                   <AlertDialogDescription>
-                    {usages.length > 0
-                      ? `This image is used in ${usages.length} article${usages.length === 1 ? '' : 's'}. Deleting it will remove it from R2 storage. The image references in articles will become broken.`
-                      : 'This will permanently delete the image and all its variants from R2 storage.'}
+                    {children.length > 0
+                      ? `This image has ${children.length} cropped edit${children.length === 1 ? '' : 's'} stored in its folder, so it cannot be deleted on its own. Delete the edits first, or select them together with it in the library.`
+                      : usages.length > 0
+                        ? `This image is used in ${usages.length} article${usages.length === 1 ? '' : 's'}. Deleting it removes it from those articles and deletes the file and all its versions from storage. This cannot be undone.`
+                        : 'This deletes the image and all its versions from storage. This cannot be undone.'}
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={handleDelete} disabled={isPending}>
+                  <AlertDialogAction
+                    onClick={handleDelete}
+                    disabled={isPending || children.length > 0}
+                  >
                     Delete
                   </AlertDialogAction>
                 </AlertDialogFooter>

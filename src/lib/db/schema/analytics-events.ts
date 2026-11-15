@@ -9,6 +9,7 @@ import {
   real,
   boolean,
 } from 'drizzle-orm/pg-core';
+import { sql } from 'drizzle-orm';
 
 /**
  * First-party site analytics, one row per event (pageview or custom `track()`
@@ -63,6 +64,16 @@ export const analyticsEvents = pgTable(
     index('idx_analytics_events_pathname_created').on(table.pathname, table.createdAt),
     index('idx_analytics_events_session_created').on(table.sessionId, table.createdAt),
     index('idx_analytics_events_country_created').on(table.country, table.createdAt),
+    // Article analytics (src/lib/analytics/article-views.ts and friends): every
+    // per-article view count is "human pageviews of /artikel/{cat}/{slug}".
+    // Partial on exactly that predicate, with visitor_hash + session_id in the
+    // key so the views/readers/visit aggregations are index-only scans.
+    // Readers MUST repeat `event_name = 'pageview' AND is_bot = FALSE AND
+    // pathname LIKE '/artikel/%'` (ARTIKEL_PATH_SCOPE) or Postgres will not
+    // use it. Built CONCURRENTLY by migrations-pending/analytics.sql.
+    index('idx_analytics_events_artikel_pageview')
+      .on(table.pathname, table.createdAt, table.visitorHash, table.sessionId)
+      .where(sql`event_name = 'pageview' AND is_bot = FALSE AND pathname LIKE '/artikel/%'`),
   ],
 );
 

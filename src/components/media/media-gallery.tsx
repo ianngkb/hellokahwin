@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useTransition, useEffect } from 'react';
 import Image from 'next/image';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -26,7 +26,6 @@ import {
   X,
 } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
-import { getMediaListAction } from '@/app/(admin)/admin/inspire/media/actions';
 import { ConsoleTable, MediaCell } from '@/components/ui/console-table';
 import { EmptyState } from '@/components/ui/empty-state';
 import { MediaDetailPanel } from './media-detail-panel';
@@ -34,6 +33,7 @@ import { BulkUploadDialog } from './bulk-upload-dialog';
 import { ArticleCombobox } from './article-combobox';
 import type { Media } from '@/lib/db/schema/media';
 import { cn, formatFileSize } from '@/lib/utils';
+import { displayFileSize } from '@/lib/media/media-quality';
 import { bulkDeleteMediaAction } from '@/app/(admin)/admin/inspire/media/actions';
 import { toast } from 'sonner';
 
@@ -77,6 +77,8 @@ interface MediaGalleryProps {
   currentPage: number;
   totalPages: number;
   searchParams: { search?: string; source?: string; page?: string; articleId?: string };
+  /** Open this row's detail panel on arrival (`?mediaId=`). */
+  openMediaId?: string;
   articleId?: string;
   articleName?: string;
 }
@@ -97,11 +99,11 @@ export function MediaGallery({
   currentPage,
   totalPages,
   searchParams,
+  openMediaId,
   articleId,
   articleName,
 }: MediaGalleryProps) {
   const router = useRouter();
-  const urlParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
 
   const [items, setItems] = useState<Media[]>(initialItems);
@@ -118,7 +120,9 @@ export function MediaGallery({
     () => (articleId && articleName ? { id: articleId, title: articleName } : null),
   );
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
-  const [detailMediaId, setDetailMediaId] = useState<string | null>(null);
+  // Opened straight from a `?mediaId=` link — a way to send somebody to one
+  // specific picture.
+  const [detailMediaId, setDetailMediaId] = useState<string | null>(openMediaId ?? null);
   const [uploadOpen, setUploadOpen] = useState(false);
 
   // Sync selectedArticle when props change (browser back/forward)
@@ -129,6 +133,24 @@ export function MediaGallery({
       return fromProps;
     });
   }, [articleId, articleName]);
+
+  // The same sync for the source dropdown, which was seeded from props once and
+  // never re-read — so pressing Back left the Select reading a stale value above
+  // an unfiltered list. Adjusted during render (React's "storing information
+  // from previous renders" pattern) rather than in an effect, so there is no
+  // extra cascading render.
+  const [prevSourceParam, setPrevSourceParam] = useState(searchParams.source);
+  if (searchParams.source !== prevSourceParam) {
+    setPrevSourceParam(searchParams.source);
+    setSourceFilter(searchParams.source ?? 'all');
+  }
+
+  // A new `?mediaId=` arriving by client navigation opens that picture too.
+  const [prevOpenMediaId, setPrevOpenMediaId] = useState(openMediaId);
+  if (openMediaId !== prevOpenMediaId) {
+    setPrevOpenMediaId(openMediaId);
+    if (openMediaId) setDetailMediaId(openMediaId);
+  }
 
   // Persist view preference
   useEffect(() => {
@@ -197,7 +219,14 @@ export function MediaGallery({
 
   const handleBulkDelete = useCallback(() => {
     if (selectedIds.size === 0 || isPending) return;
-    if (!confirm(`Delete ${selectedIds.size} selected media items? This cannot be undone.`)) return;
+    if (
+      !confirm(
+        `Delete ${selectedIds.size} selected media items? This removes them from any article ` +
+          'using them, and deletes the files and all their versions from storage. ' +
+          'This cannot be undone.',
+      )
+    )
+      return;
 
     startTransition(async () => {
       showBulkActionToast(`Deleting ${selectedIds.size} items...`);
@@ -206,7 +235,15 @@ export function MediaGallery({
         if (result.error) {
           toast.error(result.error);
         } else {
-          toast.success(`Deleted ${result.deleted} items`);
+          // Report the WHOLE outcome. A green "Deleted N items" while some ids
+          // were already gone, or while their files were left orphaned in
+          // storage, is a lie the person then acts on.
+          const skipped =
+            result.notFound && result.notFound > 0
+              ? ` ${result.notFound} ${result.notFound === 1 ? 'was' : 'were'} already gone.`
+              : '';
+          toast.success(`Deleted ${result.deleted} items.${skipped}`);
+          if (result.warning) toast.warning(result.warning, { duration: 10_000 });
           setSelectedIds(new Set());
           router.refresh();
         }
@@ -223,9 +260,12 @@ export function MediaGallery({
     router.refresh();
   }, [router]);
 
+  // A `?mediaId=` link filters the list down to that one picture. Once its
+  // panel closes, that one-row list is a dead end, so go back to the library.
   const handleDetailClose = useCallback(() => {
     setDetailMediaId(null);
-  }, []);
+    if (openMediaId) router.replace('/admin/inspire/media');
+  }, [openMediaId, router]);
 
   const handleMediaUpdated = useCallback(() => {
     router.refresh();
@@ -233,8 +273,9 @@ export function MediaGallery({
 
   const handleMediaDeleted = useCallback(() => {
     setDetailMediaId(null);
-    router.refresh();
-  }, [router]);
+    if (openMediaId) router.replace('/admin/inspire/media');
+    else router.refresh();
+  }, [openMediaId, router]);
 
   const isBulkMode = selectedIds.size > 0;
 
@@ -445,7 +486,17 @@ export function MediaGallery({
                     <td className="num hidden md:table-cell">
                       {item.width && item.height ? `${item.width}\u00D7${item.height}` : '—'}
                     </td>
-                    <td className="num hidden md:table-cell">{formatFileSize(item.fileSize)}</td>
+                    <td className="num hidden md:table-cell">
+                      {/* "—", never "0 B": imported rows can carry no size at all. */}
+                      {(() => {
+                        const size = displayFileSize(item);
+                        return size === null ? (
+                          <span title="Size not recorded">—</span>
+                        ) : (
+                          formatFileSize(size)
+                        );
+                      })()}
+                    </td>
                     <td className="text-muted-foreground hidden lg:table-cell">
                       {item.source === 'article_upload' ? 'Article' : 'Library'}
                     </td>
