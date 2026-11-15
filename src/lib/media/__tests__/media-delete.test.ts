@@ -670,6 +670,7 @@ describe('the originating article', () => {
   it('refuses to sweep inspire/general/ for an article whose slug is "general"', async () => {
     queueSimpleDelete([record({ originalArticleId: ARTICLE_ID })]);
     queueNoSurvivors(); // the storage-ownership lookup
+    queueSelect('articles', []); // no other article uses this photo's files
     queueSelect('articles', [{ id: ARTICLE_ID, slug: 'general', status: 'deleted' }]);
     queueSelect('media', [{ count: 0 }]);
 
@@ -693,6 +694,7 @@ describe('the originating article', () => {
   function queueLastPhotoOfDeletedArticle() {
     queueSimpleDelete([record({ originalArticleId: ARTICLE_ID })]);
     queueNoSurvivors(); // the storage-ownership lookup
+    queueSelect('articles', []); // no other article uses this photo's files
     queueSelect('articles', [{ id: ARTICLE_ID, slug: 'majlis-di-taman', status: 'deleted' }]);
     queueSelect('media', [{ count: 0 }]);
   }
@@ -786,6 +788,82 @@ describe('the originating article', () => {
     expect(deletedKeys()).not.toContain(SHARED_KEY);
     // The deleted article itself is still removed.
     expect(deletes.map((d) => d.table)).toContain('articles');
+  });
+});
+
+describe("Ian's rule on a single photo delete: files another article uses are kept", () => {
+  // A legacy-format photo inside a soft-deleted article's folder (a path with a
+  // space), whose own rendition folder holds a file another article's body
+  // still points at through a %20-encoded URL.
+  const DIR = 'inspire/(Deleted) majlis-di-taman/1758000000007-pelamin';
+  const OWN_KEY = `${DIR}/original.jpg`;
+  const SHARED = `${DIR}/high.webp`;
+  const UNUSED = `${DIR}/low.webp`;
+
+  function photo() {
+    return {
+      ...record({ variants: null }),
+      r2Key: OWN_KEY,
+      url: `${HOST}/${encodeURI(OWN_KEY)}`,
+      originalUrl: null,
+    };
+  }
+
+  it("keeps a file in the photo's own folder that another article uses via a %20 URL", async () => {
+    queueSimpleDelete([photo()]);
+    queueSelect('articles', [
+      {
+        id: 'dddddddd-2222-4333-8444-555555555555',
+        content: {
+          type: 'doc',
+          content: [{ type: 'image', attrs: { src: `${HOST}/${encodeURI(SHARED)}` } }],
+        },
+        coverImageUrl: null,
+        coverImageVariants: null,
+        coverImageSmartCrops: null,
+      },
+    ]);
+    listing({ [`${DIR}/`]: [OWN_KEY, SHARED, UNUSED] });
+
+    const res = await deleteMedia(ACTOR, ID_A);
+
+    expect(deletedKeys()).toContain(OWN_KEY);
+    expect(deletedKeys()).toContain(UNUSED);
+    expect(deletedKeys()).not.toContain(SHARED);
+    expect(JSON.stringify(res)).toContain('high.webp');
+  });
+
+  it("keeps a file in the photo's own folder that another library row references via a %20 URL", async () => {
+    queueSelect('media', [photo()]);
+    queueUsage();
+    queueNoSurvivors(); // the pre-delete media read
+    // the storage-ownership lookup now matches the %20 spelling too
+    queueSelect('media', [
+      {
+        ...record({ id: ID_B, variants: null }),
+        r2Key: 'inspire/elsewhere/original.jpg',
+        url: `${HOST}/${encodeURI(SHARED)}`,
+        originalUrl: null,
+      },
+    ]);
+    queueScrubFindsNothing();
+    lastLockedIds = [ID_A];
+    queueSelect('articles', []);
+    listing({ [`${DIR}/`]: [OWN_KEY, SHARED, UNUSED] });
+
+    await deleteMedia(ACTOR, ID_A);
+
+    expect(deletedKeys()).not.toContain(SHARED);
+  });
+
+  it('deletes nothing if the other-articles lookup fails', async () => {
+    queueSimpleDelete([photo()]);
+    queueSelect('articles', THROWS);
+    listing({ [`${DIR}/`]: [OWN_KEY, SHARED, UNUSED] });
+
+    await deleteMedia(ACTOR, ID_A);
+
+    expect(deletedKeys()).toEqual([]);
   });
 });
 

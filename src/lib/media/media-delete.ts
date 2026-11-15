@@ -583,8 +583,15 @@ async function cleanupAfterDelete(
     // fails, nothing is touched.
     const survivors = await findSurvivorsSharingStorage(record, batchIds);
     const plan = await planOwnedKeys(record, survivors);
-    keptKeys = plan.keep;
-    const result = await deleteKeys(plan.delete);
+    // Ian's rule: never delete a file another article's body or cover uses.
+    const slash = record.r2Key.lastIndexOf('/');
+    const usedByArticles = await keysUsedByArticles([
+      ...ownedFoldersOf(record),
+      ...(slash >= 0 ? [record.r2Key.slice(0, slash + 1)] : []),
+    ]);
+    const toDelete = plan.delete.filter((key) => !usedByArticles.has(key));
+    keptKeys = [...plan.keep, ...plan.delete.filter((key) => usedByArticles.has(key))];
+    const result = await deleteKeys(toDelete);
     leftoverKeys = result.failedKeys;
   } catch (err) {
     // The listing itself failed, so we do not even know which files exist.
@@ -717,8 +724,10 @@ async function findSurvivorsSharingStorage(
   record: MediaRecord,
   batchIds: string[],
 ): Promise<MediaRecord[]> {
-  const needles = [record.r2Key, ...ownedFoldersOf(record)].filter(Boolean);
-  if (needles.length === 0) return [];
+  const plain = [record.r2Key, ...ownedFoldersOf(record)].filter(Boolean);
+  if (plain.length === 0) return [];
+  // Both spellings: the key as stored, and as a URL writes it (spaces as %20).
+  const needles = [...new Set(plain.flatMap((n) => [n, encodeURI(n)]))];
   const clauses = needles.flatMap((needle) => {
     const contains = `%${needle}%`;
     return [
@@ -1163,8 +1172,28 @@ export async function keysReferencedUnder(
     );
   for (const row of rows as MediaRecord[]) for (const key of referencedKeysOf(row)) keep(key);
 
-  // Ian's rule: a photo another article still uses is never deleted, even when
-  // no library row tracks that use — so read other articles' bodies and covers.
+  for (const key of await keysUsedByArticles([prefix], excludeArticleId)) keep(key);
+  return referenced;
+}
+
+/**
+ * Ian's rule (16 Nov 2026): a photo another article still uses is never
+ * deleted, even when no library row tracks that use. Every storage key under
+ * any of `prefixes` that an article's body or cover fields reference, in
+ * either spelling (stored key, or URL with spaces as %20). Throws on failure,
+ * so callers delete nothing.
+ */
+export async function keysUsedByArticles(
+  prefixes: string[],
+  excludeArticleId?: string,
+): Promise<Set<string>> {
+  const used = new Set<string>();
+  const wanted = [...new Set(prefixes)].filter(Boolean);
+  if (wanted.length === 0) return used;
+  const forms = [...new Set(wanted.flatMap((p) => [p, encodeURI(p)]))];
+  const contains = forms.map((f) => `%${f}%`);
+  const anyOf = (col: SQL | AnyColumn) => or(...contains.map((c) => sql`${col}::text like ${c}`));
+
   const articleRows = await db
     .select({
       id: articles.id,
@@ -1185,7 +1214,7 @@ export async function keysReferencedUnder(
         ),
       ),
     );
-  for (const row of articleRows) {
+  for (const row of articleRows ?? []) {
     const text = JSON.stringify([
       row.content,
       row.coverImageUrl,
@@ -1197,12 +1226,13 @@ export async function keysReferencedUnder(
       while (at >= 0) {
         // The prefix itself may contain a space, so match only what follows it.
         const rest = /^[^"'\s)<>\\]*/.exec(text.slice(at + form.length))?.[0] ?? '';
-        keep(storageKeyOf(form + rest));
+        const key = storageKeyOf(form + rest);
+        if (wanted.some((p) => key.startsWith(p))) used.add(key);
         at = text.indexOf(form, at + form.length);
       }
     }
   }
-  return referenced;
+  return used;
 }
 
 /** Delete a single stored file. */
