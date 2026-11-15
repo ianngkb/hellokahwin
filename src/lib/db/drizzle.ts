@@ -1,6 +1,7 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import * as schema from './schema';
+import { preferPrepared } from './prefer-prepared';
 
 const connectionString = process.env.DATABASE_URL!;
 
@@ -131,14 +132,19 @@ function cloudflareDb(): Db | null {
   let perRequest = requestDbs.get(ctx);
   if (!perRequest) {
     perRequest = drizzle(
-      postgres(hyperdrive.connectionString, {
-        max: 5,
-        prepare: false,
-        // Hyperdrive answers the type lookup itself; skipping it saves a round trip.
-        fetch_types: false,
-        connect_timeout: 8,
-        idle_timeout: 5,
-      }),
+      // Prepared statements, as Cloudflare requires behind Hyperdrive
+      // (`prepare: false` there hangs/fails intermittently). preferPrepared
+      // extends that to Drizzle's unsafe() calls and transactions.
+      preferPrepared(
+        postgres(hyperdrive.connectionString, {
+          max: 5,
+          prepare: true,
+          // Hyperdrive answers the type lookup itself; skipping it saves a round trip.
+          fetch_types: false,
+          connect_timeout: 8,
+          idle_timeout: 5,
+        }),
+      ),
       { schema },
     );
     requestDbs.set(ctx, perRequest);
