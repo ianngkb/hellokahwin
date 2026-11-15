@@ -370,8 +370,7 @@ export async function getArticleSectionDropOffUncached(
   if (!slug) return buildSectionDropOff(NOTHING_RECORDED, opts.currentHeadings ?? []);
   const paths = opts.paths ?? (await resolveArticlePathsUncached([slug])).get(slug) ?? [];
   const raw = await querySectionRaw(paths);
-  const headings =
-    opts.currentHeadings ?? (await loadCurrentSectionHeadings(slug));
+  const headings = opts.currentHeadings ?? (await loadCurrentSectionHeadings(slug));
   return buildSectionDropOff(raw, headings);
 }
 
