@@ -85,6 +85,7 @@ import {
   regenerateArticleImagesAction,
   acquireLockAction,
 } from './actions';
+import { ArticleSeriesPanel } from './article-series-panel';
 import { useAutosave } from './use-autosave';
 import {
   NO_DEGRADED_CONTROLS,
@@ -2538,6 +2539,8 @@ export function ArticleEditor({
               )}
             </div>
           </fieldset>
+
+          <ArticleSeriesPanel articleId={article.id} />
 
           {/* Slug */}
           <div className="space-y-2">

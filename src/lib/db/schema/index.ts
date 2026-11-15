@@ -3,6 +3,7 @@ export * from './profiles';
 export * from './audit-logs';
 export * from './articles';
 export * from './article-versions';
+export * from './article-clusters';
 export * from './redirects';
 export * from './legacy-image-redirects';
 export * from './settings';
