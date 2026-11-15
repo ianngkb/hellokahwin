@@ -1,0 +1,94 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // HelloKahwin on Cloudflare — PREVIEW ONLY (docs/cloudflare.md).
+  // Served at https://hellokahwin.misty-glitter-43d0.workers.dev, TWN account.
+  // No routes, no custom domain: hellokahwin.com stays on Vercel.
+  "name": "hellokahwin",
+  "account_id": "249af9c6ea41ab1c7cd049f2adf80eb2",
+  // cf-worker.ts wraps the generated .open-next/worker.js (noindex header,
+  // resized-image cache). See that file.
+  "main": "cf-worker.ts",
+  // Pinned: must not be later than the workerd inside the pinned wrangler.
+  "compatibility_date": "2026-11-13",
+  // nodejs_compat: Next's server needs crypto, buffer, async_hooks.
+  // global_fetch_strictly_public: fetch() to our own hostname goes back out
+  // through the edge instead of looping inside the isolate.
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS",
+  },
+  "workers_dev": true,
+  "preview_urls": true,
+  // Every render reads Supabase in Singapore (aws-0-ap-southeast-1); Smart
+  // Placement moves the Worker next to the data instead of the viewer.
+  "placement": { "mode": "smart" },
+  "observability": { "enabled": true },
+  "vars": {
+    // Read-only preview: admin, uploads, the page-view beacon and every
+    // non-GET answer in middleware (src/lib/cloudflare/read-only-preview.ts).
+    "HK_READ_ONLY": "1",
+    // X-Robots-Tag: noindex on every response (cf-worker.ts) — a
+    // workers.dev copy of the site must never compete with hellokahwin.com.
+    "HK_NOINDEX": "1",
+    "NEXT_PUBLIC_HOSTING": "cloudflare",
+  },
+  // Postgres through Hyperdrive (pool lives next to Supabase in Singapore).
+  // The origin is the READ-ONLY role Vercel previews use, so this Worker
+  // cannot write to the production database whatever the code does.
+  // Created 15 Nov 2026 as `hellokahwin-db`, query caching off.
+  // origin_connection_limit = 10 (set on the config, not here): the origin is
+  // Supavisor SESSION mode, capped at pool_size 15 per role. Above that every
+  // extra connection fails with EMAXCONNSESSION and the page 500s — measured
+  // 15 Nov 2026: 68 of 90 concurrent cold renders failed at the default limit,
+  // 0 of 90 at 10.
+  "hyperdrive": [
+    {
+      "binding": "HYPERDRIVE",
+      "id": "a7579bc5a9b64c4e8ab49dab9dc070c8",
+    },
+  ],
+  "services": [
+    {
+      // Self-reference for the revalidation queue; must equal "name".
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "hellokahwin",
+    },
+  ],
+  // Page/fetch cache (ISR, unstable_cache) bodies. Shared by every Next app
+  // in the TWN account; entries are namespaced per Worker.
+  "r2_buckets": [
+    {
+      "binding": "NEXT_INC_CACHE_R2_BUCKET",
+      "bucket_name": "twn-next-cache",
+    },
+  ],
+  // Tag -> last revalidation time, so revalidateTag() works. Shared likewise.
+  "d1_databases": [
+    {
+      "binding": "NEXT_TAG_CACHE_D1",
+      "database_name": "twn-next-tags",
+      "database_id": "e19dd168-21cb-43aa-92fb-63e8cd7fb487",
+    },
+  ],
+  // One regeneration per stale page, not one per concurrent request.
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "NEXT_CACHE_DO_QUEUE",
+        "class_name": "DOQueueHandler",
+      },
+    ],
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["DOQueueHandler"],
+    },
+  ],
+  // Cloudflare Images: stands in for sharp (src/lib/storage/image-engine.ts)
+  // and answers /_next/image.
+  "images": { "binding": "IMAGES" },
+  // Scheduled jobs: none. vercel.json declares no crons; the one /api/cron
+  // route is called by the ingest CLI, not a timer. See docs/cloudflare.md.
+}

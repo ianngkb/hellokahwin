@@ -10,6 +10,8 @@
     "_bmad-output",
     "scripts",
     ".next",
+    ".open-next",
+    "cf-worker.ts",
     "**/__tests__/**",
     "**/*.test.ts",
     "**/*.test.tsx"
