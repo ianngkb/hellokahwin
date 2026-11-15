@@ -418,7 +418,8 @@ const getRelatedArticles = unstable_cache(
 // A future attempt needs to fix the CONCURRENCY, not the count — e.g. a
 // build-phase semaphore around the page's DB reads, or `experimental.workerThreads`
 // / `cpus` turned down for the export phase — and must be proven by a green
-// `doppler run --project twn-new --config dev -- pnpm build` before landing.
+// `infisical run --projectId 79665911-0240-4eab-b23c-caae042efecf --env dev -- pnpm build`
+// before landing.
 // Raising the limit alone will not work.
 export async function generateStaticParams(): Promise<Array<{ category: string; slug: string }>> {
   return [];

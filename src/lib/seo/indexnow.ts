@@ -17,7 +17,8 @@ const TIMEOUT_MS = 5000;
 export async function submitUrlToIndexNow(url: string, articleId?: string): Promise<void> {
   const key = process.env.INDEXNOW_KEY;
   if (!key) {
-    // Expected on local dev runs that don't have Doppler pulled. Stay quiet.
+    // Expected on local dev runs: INDEXNOW_KEY lives in the Vercel env, not in
+    // the worktree's .env or Infisical `hellokahwin`. Stay quiet.
     return;
   }
 
