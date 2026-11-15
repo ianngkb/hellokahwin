@@ -10,6 +10,7 @@ import { resolveGeo } from '@/lib/analytics/geo';
 import { classifyBot } from '@/lib/analytics/bot-list';
 import { parseDevice } from '@/lib/analytics/device';
 import { VISITOR_COOKIE_NAME, parseVisitorIdCookie } from '@/lib/analytics/visitor-id';
+import { capUtf8Bytes, MAX_PATHNAME_BYTES } from '@/lib/analytics/utf8-cap';
 
 // Cap function runtime well below the default. Combined with the 8s deadline
 // on the DB write below, a stalled invocation wastes at most 15s.
@@ -151,7 +152,9 @@ export async function POST(request: NextRequest) {
       visitorId,
       sessionId: event.session_id ?? null,
       eventName: event.event_name,
-      pathname: event.pathname,
+      // Byte-capped: pathname is an index key (two btrees), and an over-long
+      // entry fails the WHOLE batch's insert. See utf8-cap.ts.
+      pathname: capUtf8Bytes(event.pathname, MAX_PATHNAME_BYTES),
       referrer: event.referrer ?? null,
       utmSource: event.utm_source ?? null,
       utmMedium: event.utm_medium ?? null,

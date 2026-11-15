@@ -118,6 +118,14 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
           'writer byline contributor avatar profile photo headshot bio title socials instagram linkedin website public author archive attribution',
       },
       {
+        // Where TWN puts it: after Authors. Same `inspire` scope as its
+        // siblings. Also reached from each article row's Views number.
+        label: 'Article Analytics',
+        href: '/admin/inspire/analytics',
+        keywords:
+          'compare articles analytics top articles best performers month lifetime google clicks title tests headline movers drop-off read depth sources devices clusters',
+      },
+      {
         label: 'Navigation',
         href: '/admin/inspire/navigation',
         keywords: 'menu nav header links order',

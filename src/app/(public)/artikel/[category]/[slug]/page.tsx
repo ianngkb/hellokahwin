@@ -56,6 +56,9 @@ import { AuthorBox } from '@/components/inspire/author-box';
 import { WhatsAppShare } from '@/components/inspire/whatsapp-share';
 import { INSPIRE_AUTHORS_TAG } from '@/lib/authors/queries';
 import { authorArchivePath, authorDisplayName, isLinkableAuthor } from '@/lib/authors/gate';
+import { ArticleScrollTracker } from '@/components/analytics/article-scroll-tracker';
+import { ArticleSectionTracker } from '@/components/analytics/article-section-tracker';
+import { ArticleClickTracker } from '@/components/analytics/article-click-tracker';
 
 // Cache forever; invalidate via `revalidateTag('articles')` from admin write
 // paths. Time-based ISR (`revalidate = 1800`) was the cause of bot-crawl
@@ -1094,13 +1097,23 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
               {/* The contents list renders inline at the top of the body,
                   inside the renderer, from the same `article.content` the
                   renderer anchors its headings from. */}
-              <ArticleRenderer
-                content={renderContent}
-                articleId={article.id}
-                /* Only used to build a fallback `alt` for images the editor
-                   uploaded without one — see `fallbackImageAlt`. */
-                articleTitle={article.title}
-              />
+              {/* Read-depth, section drop-off and in-body link clicks for the
+                  admin Article Analytics. All three only queue events into the
+                  existing first-party tracker (no extra request on load), and
+                  the wrappers add no layout: a plain <div> each, plus a 1px
+                  end-of-article sentinel. */}
+              <ArticleScrollTracker />
+              <ArticleSectionTracker articleSlug={article.slug}>
+                <ArticleClickTracker articleId={article.id}>
+                  <ArticleRenderer
+                    content={renderContent}
+                    articleId={article.id}
+                    /* Only used to build a fallback `alt` for images the editor
+                       uploaded without one — see `fallbackImageAlt`. */
+                    articleTitle={article.title}
+                  />
+                </ArticleClickTracker>
+              </ArticleSectionTracker>
               {/* Link back up to the pillar. Inside <article> and immediately
                   after the body, so it reads as part of the piece rather than
                   as chrome, and so it sits above the related block. */}

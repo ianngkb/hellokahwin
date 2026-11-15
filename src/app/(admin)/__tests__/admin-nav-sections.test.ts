@@ -61,6 +61,7 @@ describe("admin nav: Inspire matches The Wedding Notebook's tab order", () => {
       ['Categories', '/admin/inspire/categories'],
       ['Tags', '/admin/inspire/tags'],
       ['Authors', '/admin/inspire/authors'],
+      ['Article Analytics', '/admin/inspire/analytics'],
       ['Navigation', '/admin/inspire/navigation'],
       ['Dynamic Blocks', '/admin/inspire/dynamic-blocks'],
     ]);
@@ -69,7 +70,6 @@ describe("admin nav: Inspire matches The Wedding Notebook's tab order", () => {
   it('has no entries for TWN screens HelloKahwin lacks', () => {
     const hrefs = flattenAdminNav(groups).map((i) => i.href);
     for (const missing of [
-      '/admin/inspire/analytics',
       '/admin/inspire/clusters',
       '/admin/inspire/vendor-credits',
       '/admin/inspire/angpow-rates',

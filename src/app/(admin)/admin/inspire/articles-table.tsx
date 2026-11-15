@@ -12,8 +12,14 @@ import {
   CalendarClockIcon,
   BadgeCheckIcon,
   ExternalLinkIcon,
+  ArrowDownIcon,
+  ArrowUpIcon,
+  ArrowUpDownIcon,
 } from 'lucide-react';
 import { Chip } from '@/components/ui/chip';
+import { ChangeBadge } from '@/components/admin/change-badge';
+import { classifyTrend } from '@/lib/analytics/article-trend';
+import { parseViewSort, type ViewSort, type ViewSortKey } from '@/lib/analytics/article-view-sort';
 import { StatusChip } from '@/lib/ui/status-chip';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -66,6 +72,16 @@ interface ArticleRow {
   reviewedAt: string | null;
   /** NULL when unreviewed, or when the reviewer's profile has since been deleted. */
   reviewedByName: string | null;
+  /**
+   * All-time views + week-on-week / month-on-month window sums for this article,
+   * or null when the analytics read was unavailable (safePanel degraded) or the
+   * article has never been viewed.
+   */
+  viewMetrics: {
+    totalViews: number;
+    wow: { current: number; prior: number };
+    mom: { current: number; prior: number };
+  } | null;
   categoryName: string | null;
   categorySlug: string | null;
   secondaryCategories: string[];
@@ -147,12 +163,36 @@ const REVIEW_FILTERS: Array<{ label: string; value: string }> = [
   { label: 'Needs changes', value: 'needs_changes' },
 ];
 
+/**
+ * The trend pill for one article's Views cell, for the chosen period.
+ *
+ * `New` (not a percentage or a red arrow) when there is a current-window count
+ * but the prior window was empty — a just-published article has no baseline to
+ * fall against. Otherwise the shared `ChangeBadge` renders the em-dash (both
+ * windows empty) or the green-up / red-down percentage.
+ */
+function ViewsTrend({ current, prior }: { current: number; prior: number }) {
+  if (classifyTrend(current, prior).kind === 'new') {
+    return (
+      <Chip
+        variant="outline"
+        size="sm"
+        title="First period with views — no prior window to compare"
+      >
+        New
+      </Chip>
+    );
+  }
+  return <ChangeBadge current={current} previous={prior} higherIsBetter />;
+}
+
 export function ArticlesTable({
   articles,
   categories,
   hiddenTags,
   selectableAuthors,
   searchParams,
+  activeViewSort = null,
   currentPage,
   totalPages,
   total,
@@ -171,7 +211,16 @@ export function ArticlesTable({
     review?: string;
     hiddenTagId?: string;
     page?: string;
+    sort?: string;
+    dir?: string;
   };
+  /**
+   * The view sort the server ACTUALLY applied — null when there is none or when
+   * the metrics read degraded and the list fell back to newest-first. The header
+   * arrows follow this, not the raw URL, so they never claim an order the rows
+   * are not in.
+   */
+  activeViewSort?: ViewSort | null;
   currentPage: number;
   totalPages: number;
   total: number;
@@ -197,7 +246,14 @@ export function ArticlesTable({
     authorship: pAuthorship,
     review: pReview,
     hiddenTagId: pHiddenTagId,
+    sort: rawSort,
+    dir: rawDir,
   } = searchParams;
+  // Normalised through the same parser the server uses, so a junk `?sort=foo`
+  // or a stray `?dir=` is dropped from every link instead of riding along.
+  const requestedViewSort = parseViewSort(rawSort, rawDir);
+  const pSort = requestedViewSort?.key;
+  const pDir = requestedViewSort?.dir;
 
   /**
    * Build the next URL from the *current* params plus overrides. An override of
@@ -215,6 +271,8 @@ export function ArticlesTable({
           | 'authorship'
           | 'review'
           | 'hiddenTagId'
+          | 'sort'
+          | 'dir'
           | 'page',
           string
         >
@@ -228,6 +286,10 @@ export function ArticlesTable({
         authorship: pAuthorship,
         review: pReview,
         hiddenTagId: pHiddenTagId,
+        // The view sort rides along on every link (filters and pager alike) so
+        // it survives narrowing the list or paging through it.
+        sort: pSort,
+        dir: pDir,
         ...overrides,
       };
       const next = new URLSearchParams();
@@ -239,6 +301,8 @@ export function ArticlesTable({
         'authorship',
         'review',
         'hiddenTagId',
+        'sort',
+        'dir',
       ] as const) {
         if (merged[key]) next.set(key, merged[key]);
       }
@@ -247,7 +311,7 @@ export function ArticlesTable({
       const qs = next.toString();
       return qs ? `/admin/inspire?${qs}` : '/admin/inspire';
     },
-    [pSearch, pStatus, pCategoryId, pSource, pAuthorship, pReview, pHiddenTagId],
+    [pSearch, pStatus, pCategoryId, pSource, pAuthorship, pReview, pHiddenTagId, pSort, pDir],
   );
 
   /**
@@ -332,9 +396,55 @@ export function ArticlesTable({
 
   const offset = (currentPage - 1) * pageSize;
 
+  // A view sort counts here so "Clear filters" (which navigates to the bare
+  // URL) is also the way back to the default newest-first order.
   const hasActiveFilters = Boolean(
-    searchInput || pStatus || pCategoryId || pSource || pAuthorship || pReview || pHiddenTagId,
+    searchInput ||
+    pStatus ||
+    pCategoryId ||
+    pSource ||
+    pAuthorship ||
+    pReview ||
+    pHiddenTagId ||
+    pSort,
   );
+
+  /**
+   * Sortable view-column header. The first click on a column sorts it high→low
+   * (the "what's performing?" question); clicking the active column flips the
+   * direction. Navigates like a filter, so it lands on page 1.
+   */
+  function viewSortHeader(key: ViewSortKey, label: string, title: string) {
+    const active = activeViewSort?.key === key ? activeViewSort.dir : null;
+    // The arrow shows the order actually applied, but the toggle follows the
+    // order REQUESTED: when the sort degraded, flipping from the applied state
+    // (none) would always land on desc and the direction could never change.
+    const requested = requestedViewSort?.key === key ? requestedViewSort.dir : null;
+    const nextDir = requested === 'desc' ? 'asc' : 'desc';
+    const Icon =
+      active === 'asc' ? ArrowUpIcon : active === 'desc' ? ArrowDownIcon : ArrowUpDownIcon;
+    return (
+      <th
+        className="num hidden @xl:table-cell"
+        aria-sort={active === 'asc' ? 'ascending' : active === 'desc' ? 'descending' : 'none'}
+      >
+        <button
+          type="button"
+          onClick={() => navigate(buildHref({ sort: key, dir: nextDir }))}
+          className="hover:text-foreground inline-flex items-center gap-1 whitespace-nowrap"
+          title={title}
+        >
+          {label}
+          <Icon className={active ? 'size-3' : 'text-muted-foreground/60 size-3'} aria-hidden />
+        </button>
+      </th>
+    );
+  }
+
+  // A requested view sort the server could NOT apply (the analytics read was
+  // slow or failed) falls back to newest-first. Say so, or a shared "top
+  // articles" link silently shows newest-first rows that read as the ranking.
+  const viewSortUnavailable = Boolean(requestedViewSort && !activeViewSort);
 
   // What the two selects should SHOW, and what `handleFilter` materializes when
   // it retires a legacy alias. A bookmarked `?source=ai-unreviewed` URL still
@@ -565,6 +675,11 @@ export function ArticlesTable({
           </Button>
         )}
       </div>
+      {viewSortUnavailable && (
+        <p className="text-muted-foreground -mt-2 text-xs" role="status">
+          View sort unavailable right now — showing newest first.
+        </p>
+      )}
 
       {/* Bulk actions */}
       {selected.size > 0 && (
@@ -649,6 +764,13 @@ export function ArticlesTable({
                 <th>Article</th>
                 <th className="hidden @2xl:table-cell">Category</th>
                 <th>Status</th>
+                {viewSortHeader('views', 'Views', 'All-time views — click to sort')}
+                {viewSortHeader('week', 'Last 7 days', 'Views in the last 7 days — click to sort')}
+                {viewSortHeader(
+                  'month',
+                  'Last 30 days',
+                  'Views in the last 30 days — click to sort',
+                )}
                 <th className="hidden @6xl:table-cell">Author</th>
                 <th className="num hidden @2xl:table-cell">Published</th>
                 <th className="num hidden @4xl:table-cell">Updated</th>
@@ -901,6 +1023,39 @@ export function ArticlesTable({
                         />
                       )}
                     </td>
+                    <td className="num hidden @xl:table-cell">
+                      {article.viewMetrics ? (
+                        <Link
+                          href={`/admin/inspire/${article.id}/analytics`}
+                          prefetch={false}
+                          className="hover:text-foreground font-medium tabular-nums"
+                          title="View this article's analytics"
+                        >
+                          {article.viewMetrics.totalViews.toLocaleString()}
+                        </Link>
+                      ) : (
+                        <span className="text-muted-foreground">—</span>
+                      )}
+                    </td>
+                    {/* Period count with its change vs the equal-length period
+                        before it (week-on-week / month-on-month) beneath. */}
+                    {(['wow', 'mom'] as const).map((period) => (
+                      <td key={period} className="num hidden @xl:table-cell">
+                        {article.viewMetrics ? (
+                          <span className="inline-flex flex-col items-end gap-0.5">
+                            <span className="font-medium tabular-nums">
+                              {article.viewMetrics[period].current.toLocaleString()}
+                            </span>
+                            <ViewsTrend
+                              current={article.viewMetrics[period].current}
+                              prior={article.viewMetrics[period].prior}
+                            />
+                          </span>
+                        ) : (
+                          <span className="text-muted-foreground">—</span>
+                        )}
+                      </td>
+                    ))}
                     <td className="text-muted-foreground hidden @6xl:table-cell">
                       {article.authorName ?? '—'}
                     </td>
