@@ -683,6 +683,52 @@ describe('the originating article', () => {
     // The empty soft-deleted article itself is still removed.
     expect(deletes.map((d) => d.table)).toContain('articles');
   });
+
+  // Review IA-2 (closure): the article-folder sweep after the last photo of a
+  // soft-deleted article goes must keep every file another row still uses.
+  const OTHER_DIR = 'inspire/majlis-di-taman/1758000000009-kek';
+  const OTHER_KEY = `${OTHER_DIR}/high.webp`;
+  const ORPHAN_KEY = 'inspire/majlis-di-taman/1758000000005-lama/original.jpg';
+
+  function queueLastPhotoOfDeletedArticle() {
+    queueSimpleDelete([record({ originalArticleId: ARTICLE_ID })]);
+    queueNoSurvivors(); // the storage-ownership lookup
+    queueSelect('articles', [{ id: ARTICLE_ID, slug: 'majlis-di-taman', status: 'deleted' }]);
+    queueSelect('media', [{ count: 0 }]);
+  }
+
+  it('IA-2: the article-folder sweep keeps files another library row still references', async () => {
+    queueLastPhotoOfDeletedArticle();
+    // keysReferencedUnder('inspire/majlis-di-taman/'): another row, filed under
+    // a different article, still points at OTHER_KEY.
+    queueSelect('media', [
+      record({ id: ID_B, dir: OTHER_DIR, originalArticleId: null, variants: null }),
+    ]);
+    listing({
+      [`${DIR_A}/`]: [`${DIR_A}/original.jpg`],
+      'inspire/majlis-di-taman/': [OTHER_KEY, ORPHAN_KEY],
+    });
+
+    await deleteMedia(ACTOR, ID_A);
+
+    expect(deletedKeys()).toContain(ORPHAN_KEY);
+    expect(deletedKeys()).not.toContain(OTHER_KEY);
+    expect(deletes.map((d) => d.table)).toContain('articles');
+  });
+
+  it('IA-2: if the reference lookup fails, the article-folder sweep deletes nothing', async () => {
+    queueLastPhotoOfDeletedArticle();
+    queueSelect('media', THROWS);
+    listing({
+      [`${DIR_A}/`]: [`${DIR_A}/original.jpg`],
+      'inspire/majlis-di-taman/': [OTHER_KEY, ORPHAN_KEY],
+    });
+
+    await deleteMedia(ACTOR, ID_A);
+
+    expect(deletedKeys()).not.toContain(OTHER_KEY);
+    expect(deletedKeys()).not.toContain(ORPHAN_KEY);
+  });
 });
 
 /* ── bulk ───────────────────────────────────────────────────────────── */

@@ -1104,8 +1104,15 @@ export async function cleanupDeletedArticleIfEmpty(articleId: string) {
     },
   );
 
+  // Review IA-2: the sweep must honour the same rule as a single delete — a
+  // file any surviving library row still references is never deleted, however
+  // its row is filed. The lookup runs BEFORE any delete; if it throws, nothing
+  // under that prefix is touched (the caller logs the failure).
   for (const prefix of prefixes) {
-    await deleteKeys(await listKeys(prefix));
+    const keys = await listKeys(prefix);
+    if (keys.length === 0) continue;
+    const referenced = await keysReferencedUnder(prefix);
+    await deleteKeys(keys.filter((key) => !referenced.has(key)));
   }
 
   await db.delete(articles).where(eq(articles.id, articleId));
@@ -1113,6 +1120,32 @@ export async function cleanupDeletedArticleIfEmpty(articleId: string) {
   revalidatePath('/admin/inspire');
   revalidatePath('/admin/inspire/media');
   revalidateTag('articles', PURGE_IMMEDIATELY);
+}
+
+/**
+ * Every storage key under `prefix` that some library row still references
+ * (its key, url, original url, variants or smart crops), whatever article the
+ * row belongs to. Throws if the lookup fails, so callers delete nothing.
+ */
+export async function keysReferencedUnder(prefix: string): Promise<Set<string>> {
+  const contains = `%${prefix}%`;
+  const rows = await db
+    .select(MEDIA_COLUMNS)
+    .from(media)
+    .where(
+      or(
+        like(media.r2Key, `${prefix}%`),
+        like(media.url, contains),
+        like(media.originalUrl, contains),
+        sql`${media.variants}::text like ${contains}`,
+        sql`${media.smartCrops}::text like ${contains}`,
+      ),
+    );
+  const referenced = new Set<string>();
+  for (const row of rows as MediaRecord[]) {
+    for (const key of referencedKeysOf(row)) if (key.startsWith(prefix)) referenced.add(key);
+  }
+  return referenced;
 }
 
 /** Delete a single stored file. */
