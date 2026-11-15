@@ -7,7 +7,7 @@ import { InspireArticleSearch } from '@/components/inspire/inspire-article-searc
 import { Chip } from '@/components/ui/chip';
 import { getSmartCropUrl } from '@/lib/storage/smart-crop-url';
 import { flattenCategoriesByArticleCount } from '@/lib/inspire/category-tree';
-import { getInspireHomepageResolvedData } from '@/lib/inspire/homepage-queries';
+import { getPublicInspireHomepageResolvedData } from '@/lib/inspire/homepage-queries';
 import { INSPIRE_HOMEPAGE_CACHE_TAG } from '@/lib/inspire/homepage-curation';
 
 // ISR: getInspireHomeData() is unstable_cache-wrapped, but the page itself
@@ -54,12 +54,16 @@ export const metadata: Metadata = {
 // (flat `latestArticles` → `resolution`), so reusing the old key would hand
 // the first readers after deploy an object this page cannot read. Bump it
 // again whenever the shape of `getInspireHomepageResolvedData()` changes.
-const getInspireHomeData = unstable_cache(getInspireHomepageResolvedData, ['artikel-home-v3'], {
-  revalidate: 600,
-  // `revalidatePath('/artikel')` does not evict an `unstable_cache` entry —
-  // only a tag does. The curation save purges INSPIRE_HOMEPAGE_CACHE_TAG.
-  tags: [INSPIRE_HOMEPAGE_CACHE_TAG, 'articles', 'inspire-categories'],
-});
+const getInspireHomeData = unstable_cache(
+  getPublicInspireHomepageResolvedData,
+  ['artikel-home-v3'],
+  {
+    revalidate: 600,
+    // `revalidatePath('/artikel')` does not evict an `unstable_cache` entry —
+    // only a tag does. The curation save purges INSPIRE_HOMEPAGE_CACHE_TAG.
+    tags: [INSPIRE_HOMEPAGE_CACHE_TAG, 'articles', 'inspire-categories'],
+  },
+);
 
 function formatTarikh(value: Date | string | null): string | null {
   if (!value) return null;

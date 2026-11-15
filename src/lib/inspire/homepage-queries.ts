@@ -158,9 +158,18 @@ export async function getInspireHomepageCategories(): Promise<InspireHomepageCat
  * full article rows. Explicit pins are fetched separately, so an old story can
  * still be curated even though automatic pools stay bounded.
  */
-export async function getInspireHomepageResolvedData() {
+/**
+ * `tolerateUnreadableConfig` is for the PUBLIC page only. The admin editor must
+ * use the strict read: if it opened on the default after a failed read, a Save
+ * would overwrite the arrangement actually saved (review R1).
+ */
+export async function getInspireHomepageResolvedData(
+  options: { tolerateUnreadableConfig?: boolean } = {},
+) {
   const [{ config, invalid }, allCategories] = await Promise.all([
-    getInspireHomepageConfigOrDefault(),
+    options.tolerateUnreadableConfig
+      ? getInspireHomepageConfigOrDefault()
+      : getInspireHomepageConfig(),
     getInspireHomepageCategories(),
   ]);
   const allPinnedIds = [
@@ -244,4 +253,9 @@ export function pickerArticlesForConfig(
     featured: pick(config.featured.pinnedArticleIds),
     latest: pick(config.latest.pinnedArticleIds),
   };
+}
+
+/** /artikel's read: never fails because the curation is unreadable. */
+export function getPublicInspireHomepageResolvedData() {
+  return getInspireHomepageResolvedData({ tolerateUnreadableConfig: true });
 }
