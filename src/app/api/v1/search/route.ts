@@ -1,57 +1,56 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { and, eq, ilike, or, desc, sql } from 'drizzle-orm';
-import { db } from '@/lib/db/drizzle';
-import { articles, inspireCategories } from '@/lib/db/schema/articles';
+import { searchArticles } from '@/lib/search/article-search';
+import { SEARCH_MAX_QUERY_LENGTH, SEARCH_MIN_QUERY_LENGTH } from '@/lib/search/engine';
+import type { SearchResponse } from '@/lib/search/contract';
 
 /**
- * Lightweight article search backing InspireArticleSearch. twn-new ran a
- * hybrid fts+embedding search across listings and articles here; HelloKahwin
- * has ~dozens of articles, so a title/excerpt ILIKE with a title-match-first
- * ordering is honest and fast. Response shape matches the client:
- * `{ data: { articles: [{ id, title, slug, category_slug, excerpt }] } }`.
+ * GET /api/v1/search?q=&limit=&offset= — the article search behind the
+ * header search screen and the /artikel box. The contract is
+ * `src/lib/search/contract.ts`; the matching rules are DES-06 §3.3 and live in
+ * `src/lib/search/engine.ts`.
+ *
+ * A failure is a 500, never an empty 200: the UI must be able to tell "the
+ * search broke" from "there is nothing on this" (DES-06 F1). `type` is still
+ * accepted from older clients and ignored — only articles are searched.
  */
-export async function GET(request: NextRequest) {
-  const q = request.nextUrl.searchParams.get('q')?.trim() ?? '';
-  const limitParam = Number(request.nextUrl.searchParams.get('limit') ?? 5);
-  const limit = Number.isFinite(limitParam) ? Math.min(Math.max(1, limitParam), 20) : 5;
+const DEFAULT_LIMIT = 6;
+const MAX_LIMIT = 20;
 
-  if (q.length < 2 || q.length > 100) {
-    return NextResponse.json({ data: { articles: [] } });
+function intParam(value: string | null, fallback: number, min: number, max: number): number {
+  if (value === null || value.trim() === '') return fallback;
+  const n = Math.floor(Number(value));
+  if (!Number.isFinite(n)) return fallback;
+  return Math.min(Math.max(n, min), max);
+}
+
+export async function GET(request: NextRequest) {
+  const params = request.nextUrl.searchParams;
+  const q = (params.get('q') ?? '').trim().slice(0, SEARCH_MAX_QUERY_LENGTH);
+  const limit = intParam(params.get('limit'), DEFAULT_LIMIT, 1, MAX_LIMIT);
+  const offset = intParam(params.get('offset'), 0, 0, 10_000);
+
+  if (q.length < SEARCH_MIN_QUERY_LENGTH) {
+    const data: SearchResponse = {
+      query: q,
+      articles: [],
+      total: 0,
+      mode: 'none',
+      suggestion: null,
+    };
+    return NextResponse.json({ data });
   }
 
-  const escaped = q.replace(/[%_\\]/g, (m) => `\\${m}`);
-  const pattern = `%${escaped}%`;
-
   try {
-    const rows = await db
-      .select({
-        id: articles.id,
-        title: articles.title,
-        slug: articles.slug,
-        category_slug: inspireCategories.slug,
-        excerpt: articles.excerpt,
-      })
-      .from(articles)
-      .innerJoin(inspireCategories, eq(articles.primaryCategoryId, inspireCategories.id))
-      .where(
-        and(
-          eq(articles.status, 'published'),
-          or(ilike(articles.title, pattern), ilike(articles.excerpt, pattern)),
-        ),
-      )
-      .orderBy(
-        // Title matches rank above excerpt-only matches; newest first within each.
-        sql`CASE WHEN ${articles.title} ILIKE ${pattern} THEN 0 ELSE 1 END`,
-        desc(articles.publishedAt),
-      )
-      .limit(limit);
-
+    const data = await searchArticles(q, { limit, offset });
     return NextResponse.json(
-      { data: { articles: rows } },
+      { data },
       { headers: { 'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300' } },
     );
   } catch (err) {
     console.error('[search] query failed:', err);
-    return NextResponse.json({ data: { articles: [] } }, { status: 200 });
+    return NextResponse.json(
+      { error: 'Carian gagal' },
+      { status: 500, headers: { 'Cache-Control': 'no-store' } },
+    );
   }
 }

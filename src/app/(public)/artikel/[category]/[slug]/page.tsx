@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { unstable_cache } from 'next/cache';
+import Image from 'next/image';
 import Link from 'next/link';
 import { notFound, permanentRedirect } from 'next/navigation';
 import { cache } from 'react';
@@ -25,14 +26,12 @@ import {
   extractTextContent,
 } from '@/components/inspire/article-renderer';
 import { extractHeadings } from '@/lib/inspire/heading-anchors';
-import { extractSources } from '@/lib/inspire/article-sources';
-import { ArticleToc, hasArticleToc } from '@/components/inspire/article-toc';
 import { buildItemListJsonLd } from '@/lib/inspire/listicle-schema';
 import { buildFaqPageJsonLd } from '@/lib/inspire/faq-schema';
 import type { GalleryImage } from '@/components/inspire/article-renderer';
 import { ArticleSidebar } from '@/components/inspire/article-sidebar';
-import { ArticleRail, RAIL_TOC_HEADING_ID } from '@/design-system/components/article-rail';
-import { RekodPanel } from '@/design-system/components/content';
+import { ArticleCard } from '@/components/inspire/article-card';
+import { ArticleCoverMobile } from '@/components/inspire/article-cover-mobile';
 import {
   ARTICLE_PAGE_CACHE_KEY,
   ARTICLE_META_CACHE_KEY,
@@ -47,10 +46,6 @@ import {
   collectEmbeddedBlockIds,
 } from '@/lib/inspire/dynamic-blocks';
 import { MobileArticleBar } from '@/components/inspire/mobile-article-bar';
-import { PhotoGallery } from '@/components/inspire/photo-gallery';
-import { resolveArticleCoverSource, resolveRowThumbSource } from '@/lib/storage/responsive-cover';
-import '@/design-system/tokens.css';
-import '@/design-system/components.css';
 import { Breadcrumbs, BreadcrumbJsonLd } from '@/components/common/breadcrumbs';
 import { PillarUpLinkBlock } from '@/components/inspire/pillar-up-link';
 import { getPillarUpLink, getClusterSiblings } from '@/lib/inspire/pillar-queries';
@@ -747,24 +742,6 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
 
   const bodyImages = extractImageUrlsWithVariants(renderContent);
 
-  // The rail's `Sumber` block — UI-17, DES-03 §5.1. Read from the article's
-  // own `Sumber:` citations and from nothing else: `articles` has no sources
-  // column and never has, and inventing one on a site whose whole claim is
-  // that its numbers carry sources is the worst outcome available. Empty on
-  // the 52 of 86 articles that carry no citation, which is a CONTENT gap owned
-  // by the editorial seat rather than a layout one. Read from `renderContent`
-  // so a citation that arrives inside a dynamic block is found — the same
-  // input the body renders, not the raw column.
-  const sourceCensus = extractSources(renderContent);
-
-  // Computed once and asked about BEFORE the rail renders. `<ArticleToc>`
-  // returns null below `TOC_MIN_HEADINGS`, but a React element is truthy even
-  // when it renders nothing, so passing it unconditionally leaves an empty
-  // wrapper in the rail's flex column — measured 0px tall and still worth 56px
-  // of `gap` between Rekod and Sumber on the preview build. `hasArticleToc` is
-  // the component's OWN floor, exported rather than re-implemented here.
-  const articleHeadings = extractHeadings(article.content);
-
   const coverGalleryImage: GalleryImage | null = article.coverImageUrl
     ? {
         src: article.coverImageUrl,
@@ -775,38 +752,36 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
       }
     : null;
 
-  // LCP preload — ONE hint, no media query, because the redesigned cover is
-  // ONE `<img>` at every breakpoint (spec §5.1) rather than the mobile/desktop
-  // pair this route used to render. That pair needed two media-scoped preloads
-  // and each had to stay byte-identical to whichever branch would render, or
-  // the browser fetched both at high priority and the preload stopped being a
-  // preload. One element, one hint, nothing left to drift.
-  //
-  // `resolveArticleCoverSource` is the single definition of what that element
-  // loads — the same call the figure below makes, so the two cannot disagree.
-  // UI-16 moved BOTH from `resolveCoverSource` in one edit for that reason: a
-  // preload left on the old resolver would have pointed at `low.webp` while the
-  // figure fetched the rendition, and the page would have downloaded two
-  // photographs at high priority with nothing visibly wrong.
-  const coverPreload = article.coverImageUrl
-    ? resolveArticleCoverSource(
-        article.coverImageVariants as Record<string, { url: string }> | null,
-        article.coverImageSmartCrops,
-        article.coverImageUrl,
-      )
+  // The cover is drawn twice, exactly as on The Wedding Notebook: a full-bleed
+  // 4:5 photograph on phones and a 3.52:1 banner on desktop, one hidden per
+  // breakpoint. `coverHigh` is the high webp variant, which is much smaller
+  // than the legacy original for the same rendered quality; each breakpoint
+  // still prefers its own smart crop when one exists.
+  const coverHigh = article.coverImageUrl
+    ? ((article.coverImageVariants as { high?: { url: string } } | null)?.high?.url ??
+      article.coverImageUrl)
     : null;
-  // UI-12 S1: `imageSrcSet`/`imageSizes` are gone with the `srcSet` the figure
-  // no longer carries. A preload whose candidate list differs from the rendered
-  // element's is not a preload — the browser resolves the hint against the hint's
-  // own srcset/sizes and fetches a second file at high priority. Now there is one
-  // URL in both places and nothing to keep in step. It is also the byte fix:
-  // `sizes` resolved to 768px here, so every DPR ≥ 1.33 display was selecting the
-  // `1600w` candidate and preloading 488–946 KB of `crop-4x3-article-card`; this
-  // preloads `low` at 36–80 KB (measured, 31 Ogos 2026).
-  if (coverPreload) {
-    ReactDOM.preload(coverPreload.src, {
+  const desktopHeroUrl = coverHigh
+    ? (getSmartCropUrl(article.coverImageSmartCrops, 'crop-4.3x1-desktop-hero') ?? coverHigh)
+    : null;
+  const mobileCoverUrl = coverHigh
+    ? (getSmartCropUrl(article.coverImageSmartCrops, 'crop-4x5-mobile-cover') ?? coverHigh)
+    : null;
+
+  // LCP preload — explicit hints with media queries so the browser preload
+  // scanner discovers the LCP image during the initial HTML parse, each
+  // breakpoint fetching only its own cover. Each URL is the same expression
+  // the element below renders, so a hint can never point at a different file.
+  if (desktopHeroUrl && mobileCoverUrl) {
+    ReactDOM.preload(desktopHeroUrl, {
       as: 'image',
       fetchPriority: 'high',
+      media: '(min-width: 1024px)',
+    });
+    ReactDOM.preload(mobileCoverUrl, {
+      as: 'image',
+      fetchPriority: 'high',
+      media: '(max-width: 1023px)',
     });
   }
 
@@ -814,8 +789,6 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
     ...(coverGalleryImage ? [coverGalleryImage] : []),
     ...bodyImages,
   ];
-
-  const imageUrls = galleryImages.map((img) => img.src);
 
   const authorName = authorDisplayName({
     firstName: article.authorFirstName,
@@ -862,6 +835,12 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
     const minutes = Math.max(1, Math.round(wordCount / 200));
     readTime = `${minutes} min bacaan`;
   }
+
+  const updatedLabel = new Date(article.updatedAt).toLocaleDateString('ms-MY', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
 
   // JSON-LD Article schema
   const jsonLdDescription = articleMetaDescription(article);
@@ -946,6 +925,42 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
   // is found by heading text rather than by heading level.
   const faqJsonLd = buildFaqPageJsonLd({ content: article.content });
 
+  // The cover photograph's credit — owner-level rule: always credit the source.
+  // Rendered under the byline on phones and under the banner on desktop.
+  const coverCreditNode = coverCredit ? (
+    <ImageCredit
+      credit={coverCredit.credit}
+      creditUrl={coverCredit.creditUrl}
+      className="text-muted-foreground text-xs"
+    />
+  ) : null;
+
+  // The byline under the title: author · Dikemas kini {date} · {n} min bacaan.
+  const byline = (linkClassName: string) => (
+    <>
+      {authorSlug ? (
+        <Link href={authorArchivePath(authorSlug)} className={linkClassName}>
+          {authorName}
+        </Link>
+      ) : (
+        authorName
+      )}{' '}
+      &middot; Dikemas kini {updatedLabel}
+      {readTime && <> &middot; {readTime}</>}
+    </>
+  );
+
+  const sidebarProps = {
+    updatedAt: new Date(article.updatedAt).toISOString(),
+    categories,
+    authorName,
+    authorSlug,
+    authorAvatarUrl,
+    tags,
+    galleryImages,
+    share: <WhatsAppShare title={article.title} url={canonicalUrl} />,
+  };
+
   return (
     <>
       {/* NO `data-hide-mobile-nav` HERE. It was on this div until UX-01
@@ -953,10 +968,9 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
           was written for chromeless vendor-detail surfaces and applied to the
           route that receives essentially all of the site's search traffic, on
           phones. A reader from Google got no logo, no brand, no navigation and
-          no search, with the footer 12,000px away as the nearest escape. If you
-          are about to re-add it here, read the block above the rule in
-          globals.css first. */}
-      <div className="hk serif-editorial s-pad container mx-auto pb-20 lg:pt-8 lg:pb-8">
+          no search. If you are about to re-add it here, read the block above
+          the rule in globals.css first. */}
+      <div className="serif-editorial container mx-auto px-4 pb-20 lg:px-6 lg:pt-8 lg:pb-8">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -980,318 +994,132 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
           />
         )}
         <BreadcrumbJsonLd items={breadcrumbItems} />
-        <Breadcrumbs items={breadcrumbItems} />
+        <div className="hidden lg:block">
+          <Breadcrumbs items={breadcrumbItems} />
+        </div>
 
         <div className="inspire-editorial">
-          {/* ── UI-17: the composition, DES-03 §5.1 ──────────────────────────
-              `.hk-article-grid` is 756 + 64 + 300 at any container wider than
-              1120px, and one column below 1024. Placement is EXPLICIT, not
-              source order: the rail sits between the header and the figure in
-              the DOM — where a phone needs the record, above the fold and
-              ahead of the photograph — and is lifted into column 2 spanning
-              all three rows on desktop.
+          {/* ONE <h1> per page (DES-09 G01). The phone cover and the desktop
+              banner each draw the title, one hidden per breakpoint, so both
+              draw it as an aria-hidden <p> and the real <h1> sits here,
+              visually hidden, in the accessibility tree at every width. */}
+          {coverHigh && <h1 className="sr-only">{article.title}</h1>}
 
-              Before this, production rendered the mobile composition at every
-              width: measured at 1440 on 31 Aug, body 120..714 and Rekod
-              120..888, the SAME left edge. `pt-4` moved here from the header
-              so both columns start at the same y.
+          {coverHigh && desktopHeroUrl ? (
+            <>
+              <ArticleCoverMobile
+                coverImageUrl={coverHigh}
+                smartCrops={
+                  article.coverImageSmartCrops as
+                    Record<string, { url: string; width: number; height: number }> | undefined
+                }
+                categoryName={article.categoryName ?? 'Tiada kategori'}
+                categorySlug={article.categorySlug ?? categorySlug}
+                title={article.title}
+                titleAs="p"
+                authorName={authorName}
+                authorSlug={authorSlug}
+                authorAvatarUrl={authorAvatarUrl}
+                updatedAt={article.updatedAt}
+                readTime={readTime}
+                galleryImages={galleryImages}
+                articleId={article.id}
+                lqip={article.coverImageLqip}
+                credit={coverCreditNode}
+              />
 
-              ONE MOUNT. The two-copy idiom (`lg:hidden` + `hidden lg:block`)
-              is what put two `<h1>`s on 85 of 85 articles (DES-09 G01) and two
-              `<aside>`s on every article until this change; check R6 of
-              `scripts/measure-article-rail.mjs` fails if any rail block is
-              ever in the DOM more than once. */}
-          <div className="hk-article-grid pt-4">
-            {/* ── The record above the fold — spec §5.1 ────────────────────────
-              ONE header, ONE `<h1>`, at every breakpoint. This replaces the
-              two-block mobile/desktop pair that put the same headline in the
-              DOM twice (DES-09 G01: 85 of 85 articles emitted two `<h1>`).
-              `.s-h1`'s clamp() is what makes one node work at both sizes —
-              spec §2.2: "every size below is one clamp(), which retires the
-              second h1 as a side effect".
-
-              Order is the composition: eyebrow, headline, deck, then the
-              Rekod panel — "the reader searching mas kahwin Perak has the
-              answer before the photograph loads" — and the figure after it. */}
-            {/* UI-10, 31 Ogos 2026 — `mx-auto` came off this header and off the
-              cover figure below it. It centred a 768px block inside the 1200px
-              shell while the body column below it starts at the grid's left
-              edge, so at 1440 the headline began 216px to the RIGHT of its own
-              first paragraph (measured: header left 336, body left 120), and at
-              1920 the offset was 344px. It was survivable while the body ran
-              888px wide and nearly reached the headline's right edge; once
-              UI-10 capped the body at the reading measure (594px) the two
-              blocks no longer shared an edge OR a right margin, and the page
-              read as two unrelated columns. See
-              `…-ui-10-EVIDENCE/screens/compose-after-1440px.png`.
-
-              Left-aligning is a no-op below 768 (the cell is narrower than
-              768px there) and strictly better at every width above it, so it is
-              unconditional rather than an `lg:` variant. The stack now hangs
-              off ONE left edge — eyebrow, headline, deck, Rekod, cover, body —
-              with a ragged right: the headline may run wider than the reading
-              column, and the photograph wider still. That is the composition,
-              not an oversight. */}
-            <header className="hk-article-head max-w-3xl">
-              <span className="s-label" style={{ color: 'var(--accent)' }}>
-                {article.categoryName ?? 'Tiada kategori'}
-              </span>
-              <h1 className="s-h1 mt-3">{article.title}</h1>
-              {article.excerpt && <p className="s-deck mt-4">{article.excerpt}</p>}
-            </header>
-
-            {/* ── The rail — UI-17, DES-03 §5.1 ────────────────────────────────
-              "On desktop the panel is the 300 px rail; on a phone it is a
-              full-width block in the same place in the reading order."
-
-              Mounted HERE, between the deck and the photograph, because that
-              is the phone's reading order: eyebrow, headline, deck, Rekod,
-              figure, body — "the reader searching mas kahwin Perak has the
-              answer before the photograph loads". `.hk-article-grid` lifts it
-              into column 2 at >= 1024px. One node, two positions; never two
-              nodes.
-
-              `toc` is UI-18's, deliberately not passed yet: the rail accepts
-              an empty contents slot so neither item blocks the other, and the
-              `Dalam artikel ini` heading renders only when the slot is filled.
-              Container contract agreed with UI-18 on 01 Sep 2026 — this
-              component owns the container and the heading, UI-18 owns the
-              list, and a rail child lays out in a measured 268px.
-
-              `extra` is the old `<ArticleSidebar>`, now mounted ONCE. It was
-              rendered twice — `hidden lg:block` plus a separate `lg:hidden`
-              copy — which is why production served two `<aside>` elements per
-              article, one of them measuring 0x0 at every width. */}
-            <ArticleRail
-              rekod={
-                /* Every field is a fact this page already holds — nothing
-                 invented. "Disemak" is the same `updatedAt` the Article
-                 schema's `dateModified` asserts (spec §9.2: "the visible claim
-                 and the schema claim cannot disagree").
-
-                 `RekodPanel` from the design system, not the hand-rolled copy
-                 that stood here: the copy had drifted to a bare `<span
-                 className="s-label">` where the component uses `<Label muted>`,
-                 so the panel on the live article and the panel on the
-                 reference page were two different components wearing the same
-                 class. */
-                <RekodPanel
-                  fields={[
-                    { label: 'Kategori', value: article.categoryName ?? 'Tiada kategori' },
-                    {
-                      label: 'Penulis',
-                      value: authorSlug ? (
-                        <Link
-                          href={authorArchivePath(authorSlug)}
-                          style={{ color: 'inherit', textDecoration: 'none' }}
-                        >
-                          {authorName}
-                        </Link>
-                      ) : (
-                        authorName
-                      ),
-                    },
-                    ...(readTime ? [{ label: 'Bacaan', value: readTime }] : []),
-                    {
-                      label: 'Disemak',
-                      accent: true,
-                      value: new Date(article.updatedAt).toLocaleDateString('ms-MY', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                      }),
-                    },
-                  ]}
-                />
-              }
-              toc={
-                /* UI-18's component, with `labelledBy` set so it drops its
-                 own heading, its own `aria-label` and the inline callout's
-                 border, fill, radius and `lg:max-w-[680px]` — a card inside a
-                 card in a 300px column. It keeps its `<nav class="article-toc">`
-                 and its links; the rail renders the heading it points at.
-
-                 Built from `article.content`, the same input `ArticleRenderer`
-                 feeds `injectHeadingIds()`, so every `href="#…"` resolves to a
-                 heading that exists — see `lib/inspire/heading-anchors.ts`.
-
-                 UI-18 merged the component and the prop but did NOT relocate
-                 the list, so the relocation lands here: `showToc={false}` below
-                 is what stops the page carrying two. */
-                hasArticleToc(articleHeadings) ? (
-                  <ArticleToc headings={articleHeadings} labelledBy={RAIL_TOC_HEADING_ID} />
-                ) : null
-              }
-              sources={sourceCensus.sources}
-              extra={
-                <ArticleSidebar
-                  updatedAt={new Date(article.updatedAt).toISOString()}
-                  categories={categories}
-                  authorName={authorName}
-                  authorSlug={authorSlug}
-                  authorAvatarUrl={authorAvatarUrl}
-                  tags={tags}
-                  galleryImages={galleryImages}
-                />
-              }
-            />
-
-            {/* The cover, with its caption and credit as one figure — spec §5.1
-              and DES-09 G38: the credit is part of the component contract, not
-              an appended line that a component swap can drop. */}
-            {article.coverImageUrl &&
-              (() => {
-                const cover = resolveArticleCoverSource(
-                  article.coverImageVariants as Record<string, { url: string }> | null,
-                  article.coverImageSmartCrops,
-                  article.coverImageUrl,
-                );
-                if (!cover) return null;
-                return (
-                  <figure
-                    className="hk-article-figure mt-6 mb-10 max-w-3xl"
-                    // `margin: '24px auto 40px'` until UI-10. The inline `auto`
-                    // beat the class, so dropping `mx-auto` above without also
-                    // changing this line would have left the figure centred and
-                    // the header alone on the new left edge — the exact
-                    // half-fixed state that reads as a bug. Written long-hand so
-                    // the horizontal margin is a value, not an `auto` waiting to
-                    // re-centre it.
-                    style={{ marginTop: 24, marginBottom: 40, marginLeft: 0, marginRight: 0 }}
-                  >
-                    {/* UI-16 — the box is 4:3 and the asset is a NAMED CROP.
-                      UI-12 S5 had already deleted `lg:aspect-[2.4/1]` (2.4:1
-                      matched no derivative the pipeline produces) and settled on
-                      `aspect-[3/2]` fed `low`, which measured a 0.05% deviation
-                      — R1 green — and left R2 red forever: `low` preserves the
-                      SOURCE aspect, so which shape this slot got was decided by
-                      which camera shot the cover. `card-thumbnail-image-rules`
-                      T2 named 4:3 as where this slot goes "the day a small
-                      rendition of it exists"; `crop-4x3-article-card-md` is that
-                      rendition and this is that day.
-
-                      `boxAspect` comes from the RESOLVER, not from this file, so
-                      a `low` fallback (a cover with no smart crops at all — zero
-                      of 92 today) cannot be paired with a 4:3 box.
-
-                      `maxWidth` is R1 taken literally: "the box follows the
-                      asset, never the reverse". Four covers have a 4:3 crop only
-                      667px wide because their source photograph is 800×500, and
-                      stretching that across this slot's 756px box would be a
-                      1.13× upscale. The figure narrows to the asset instead; it
-                      is already left-aligned with a ragged right (UI-10), so it
-                      hangs off the same left edge as everything above it. */}
-                    <div
-                      className={`bg-muted relative w-full overflow-hidden ${
-                        cover.boxAspect === '4/3' ? 'aspect-[4/3]' : 'aspect-[3/2]'
-                      }`}
-                      style={{
-                        ...(cover.width ? { maxWidth: cover.width } : null),
-                        ...(article.coverImageLqip
-                          ? {
-                              backgroundImage: `url(${article.coverImageLqip})`,
-                              backgroundSize: 'cover',
-                              backgroundPosition: 'center',
-                            }
-                          : null),
-                      }}
-                    >
-                      {/* eslint-disable-next-line @next/next/no-img-element -- see responsive-cover.ts */}
-                      {/* UI-16 — `width`/`height` are the FILE's, read from the
-                        stored crop entry, never a constant.
-
-                        They were `1200×800`. UI-12 S5 chose that as "`low`'s
-                        modal intrinsic across the corpus", which is a statement
-                        about most articles rather than about this one: on
-                        `garden-wedding` the delivered `low.webp` is 1024×683.
-                        The RATIO was right to two decimal places, which is why
-                        the gate's aspect check stayed green while hero-rules R6
-                        — "state the default source's real intrinsic dimensions"
-                        — was 17.2% out. A modal value is still an asserted one.
-
-                        Null only on the `low` fallback, which has no recorded
-                        dimensions to state; declaring nothing beats declaring
-                        something false, and the box is reserved by the CSS
-                        `aspect-ratio` either way. UI-12 S1's deletion of
-                        `srcSet`/`sizes` stands. */}
-                      <img
-                        src={cover.src}
-                        alt={article.title}
-                        width={cover.width ?? undefined}
-                        height={cover.height ?? undefined}
-                        fetchPriority="high"
-                        decoding="async"
-                        className="absolute inset-0 h-full w-full object-cover"
-                      />
-                    </div>
-                    <figcaption
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        gap: 24,
-                        flexWrap: 'wrap',
-                        paddingTop: 9,
-                      }}
-                    >
-                      <ImageCredit
-                        credit={coverCredit?.credit}
-                        creditUrl={coverCredit?.creditUrl}
-                        className="s-cred"
-                      />
-                      {galleryImages.length > 0 && (
-                        <PhotoGallery
-                          images={galleryImages}
-                          trigger={
-                            <span className="s-btn">Lihat semua foto ({galleryImages.length})</span>
-                          }
-                        />
-                      )}
-                    </figcaption>
-                  </figure>
-                );
-              })()}
-
-            {/* Row 3, column 1. The old wrapper here was a SECOND grid —
-              `lg:grid-cols-[minmax(0,1fr)_280px]` — that produced a 280px
-              column of tags and credits beside the body while the specified
-              300px rail did not exist at all. Two right-hand columns of
-              different widths, one of them the wrong one. The sidebar's
-              contents moved into `<ArticleRail extra={…}>` above, mounted
-              once; this is now a plain cell. */}
-            <div className="hk-article-body" data-hk-body-col>
-              <article>
+              {/* Desktop cover — 3.52:1 crop; box is aspect-[2.2/1] capped at 350px */}
+              <div className="mb-8 hidden lg:block">
                 <div
-                  className="mb-8 flex flex-wrap items-center justify-between gap-4 py-4"
-                  style={{
-                    borderTop: '1px solid var(--rule)',
-                    borderBottom: '1px solid var(--rule)',
-                  }}
+                  className="rounded-card relative aspect-[2.2/1] max-h-[350px] w-full overflow-hidden"
+                  style={
+                    article.coverImageLqip
+                      ? {
+                          backgroundImage: `url(${article.coverImageLqip})`,
+                          backgroundSize: 'cover',
+                          backgroundPosition: 'center',
+                        }
+                      : undefined
+                  }
                 >
-                  <span className="s-label" style={{ color: 'var(--fg-muted)' }}>
-                    Kongsi artikel ini
-                  </span>
-                  <WhatsAppShare title={article.title} url={canonicalUrl} />
+                  <Image
+                    src={desktopHeroUrl}
+                    alt={article.title}
+                    fill
+                    sizes="(max-width: 1280px) 100vw, 1280px"
+                    className="object-cover"
+                    priority
+                  />
+                  <div className="absolute inset-0 flex flex-col items-center justify-end bg-gradient-to-t from-black/60 to-transparent px-6 pb-10 text-center text-white">
+                    <span className="inspire-overline on-photo text-brand-secondary">
+                      {article.categoryName ?? 'Tiada kategori'}
+                    </span>
+                    <p
+                      aria-hidden="true"
+                      className="inspire-title-h1 mt-2 max-w-[700px] text-[2.25rem] text-white"
+                    >
+                      {article.title}
+                    </p>
+                    <p className="mt-3 text-sm text-white/60">
+                      {byline(
+                        'underline-offset-2 transition-colors hover:text-white hover:underline',
+                      )}
+                    </p>
+                  </div>
                 </div>
-                <ArticleRenderer
-                  content={renderContent}
-                  articleId={article.id}
-                  showToc={false}
-                  /* Only used to build a fallback `alt` for images the editor
-                     uploaded without one — see `fallbackImageAlt`. */
-                  articleTitle={article.title}
-                />
-                {/* Link back up to the pillar. Inside <article> and immediately
-                  after the body, so it reads as part of the piece rather than
-                  as chrome, and so it sits above the fold of the related block. */}
-                <PillarUpLinkBlock link={pillarUpLink} />
-              </article>
+                {coverCreditNode && <div className="mt-2 text-right">{coverCreditNode}</div>}
+              </div>
+            </>
+          ) : (
+            <div className="mb-8">
+              <div className="bg-muted rounded-card mb-6 aspect-[2.2/1] max-h-[350px] w-full" />
+              <div className="mb-8 text-center">
+                <span className="inspire-overline text-brand-secondary">
+                  {article.categoryName ?? 'Tiada kategori'}
+                </span>
+                <h1 className="mx-auto mt-2 max-w-[700px] text-[2.25rem]">{article.title}</h1>
+                <p className="text-muted-foreground mt-3 text-sm">
+                  {byline(
+                    'hover:text-foreground underline-offset-2 transition-colors hover:underline',
+                  )}
+                </p>
+              </div>
             </div>
-            {/* ── end .hk-article-grid ─────────────────────────────────────── */}
+          )}
+
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_280px]">
+            {/* Main article content */}
+            <article>
+              {/* The contents list renders inline at the top of the body,
+                  inside the renderer, from the same `article.content` the
+                  renderer anchors its headings from. */}
+              <ArticleRenderer
+                content={renderContent}
+                articleId={article.id}
+                /* Only used to build a fallback `alt` for images the editor
+                   uploaded without one — see `fallbackImageAlt`. */
+                articleTitle={article.title}
+              />
+              {/* Link back up to the pillar. Inside <article> and immediately
+                  after the body, so it reads as part of the piece rather than
+                  as chrome, and so it sits above the related block. */}
+              <PillarUpLinkBlock link={pillarUpLink} />
+            </article>
+
+            {/* Sidebar — deliberately NOT sticky, as on The Wedding Notebook. */}
+            <div className="hidden lg:block">
+              <ArticleSidebar {...sidebarProps} />
+            </div>
+          </div>
+
+          {/* Mobile sidebar content */}
+          <div className="mt-8 border-t pt-8 lg:hidden">
+            <ArticleSidebar {...sidebarProps} variant="mobile" />
           </div>
 
           {/* End-of-article author box. Rendered ONLY for a linkable author,
-                which is why the house account's articles look exactly as they
-                do today: no box, no photo, no link. */}
+              which is why the house account's articles look exactly as they
+              do today: no box, no photo, no link. */}
           {authorSlug && (
             <AuthorBox
               name={authorName}
@@ -1305,75 +1133,42 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
             />
           )}
 
-          {/* Related articles — crawlable internal links to same-category content.
-          The primary mechanism (with the sitemap) for distributing crawl depth
-          across deep/older articles that otherwise have no inbound links. */}
-          {/* The literal `Lagi dalam ` prefix on an `<h2>` is DES-09's G05, and
-              this block is what supplies the difference between a median of 8
-              inbound links per article and a median of 4 (G40). The heading
-              text and level are the contract; only the row styling changed. */}
+          {/* Related articles — crawlable internal links to same-cluster (or
+              same-category) content. The literal `Lagi dalam ` prefix on an
+              `<h2>` is DES-09's G05; this block is the main mechanism (with
+              the sitemap) for distributing crawl depth across older articles. */}
           {relatedArticles.length > 0 && (
-            <section
-              className="mt-16 pt-10"
-              style={{ borderTop: '1px solid var(--rule)' }}
-              aria-labelledby="related-articles-heading"
-            >
-              <h2
-                id="related-articles-heading"
-                className="s-label"
-                style={{
-                  color: 'var(--fg-muted)',
-                  borderTop: '2px solid var(--fg)',
-                  paddingTop: 12,
-                  display: 'block',
-                }}
-              >
+            <section className="mt-12 border-t pt-8" aria-labelledby="related-articles-heading">
+              <h2 id="related-articles-heading" className="inspire-display mb-6 text-2xl">
                 {article.categoryName ? 'Lagi dalam ' + article.categoryName : 'Artikel berkaitan'}
               </h2>
-              <div>
-                {relatedArticles.map((related, i) => {
-                  const cover = resolveRowThumbSource(
-                    related.coverImageVariants as Record<string, { url: string }> | null,
-                    related.coverImageSmartCrops,
-                    related.coverImageUrl,
-                  );
-                  return (
-                    <a
-                      key={related.id}
-                      href={`/artikel/${related.categorySlug ?? categorySlug}/${related.slug}`}
-                      className={cover ? 's-row' : 's-imgless'}
-                      style={{ textDecoration: 'none', color: 'inherit' }}
-                    >
-                      <span className="s-idx">{String(i + 1).padStart(2, '0')}</span>
-                      {cover && (
-                        // eslint-disable-next-line @next/next/no-img-element -- see responsive-cover.ts
-                        /* UI-12 S1/S2: still no `srcSet` and no `sizes`. The
-                           box is 176×132 on desktop and 80×60 below 1024px,
-                           both 1.33333.
-
-                           DES-18: fed `crop-4x3-article-card-sm`, 528×396 —
-                           the 4:3 asset this slot has wanted since UI-12 S2
-                           made the box 4:3 and could not serve one, because
-                           the only 4:3 file was the 488–946 KB full crop.
-                           Median 17,664 B, lighter than the `low` it replaces.
-                           `width`/`height` are the file's REAL intrinsics when
-                           the rendition is present (hero-rules R4/R6), and the
-                           box's own 176×132 when it is not. */
-                        <img
-                          src={cover.src}
-                          alt=""
-                          width={cover.width ?? 176}
-                          height={cover.height ?? 132}
-                          loading="lazy"
-                          decoding="async"
-                        />
-                      )}
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-                        <h3 className="t">{related.title}</h3>
-                      </div>
-                    </a>
-                  );
-                })}
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {relatedArticles.map((related) => (
+                  <ArticleCard
+                    key={related.id}
+                    title={related.title}
+                    slug={related.slug}
+                    categorySlug={related.categorySlug ?? categorySlug}
+                    categories={[]}
+                    coverImageUrl={related.coverImageUrl}
+                    coverImageVariants={
+                      related.coverImageVariants as Record<
+                        string,
+                        { url: string; sizeBytes: number }
+                      > | null
+                    }
+                    smartCrops={
+                      related.coverImageSmartCrops as Record<
+                        string,
+                        { url: string; width: number; height: number }
+                      > | null
+                    }
+                    publishedAt={
+                      related.publishedAt ? new Date(related.publishedAt).toISOString() : null
+                    }
+                    lqip={related.coverImageLqip}
+                  />
+                ))}
               </div>
             </section>
           )}

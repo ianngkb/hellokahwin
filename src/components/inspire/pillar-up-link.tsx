@@ -19,9 +19,9 @@ export function PillarUpLinkBlock({ link }: { link: PillarUpLink | null }) {
   return (
     <nav
       aria-label="Panduan berkaitan"
-      className="border-border bg-muted/30 mt-12 rounded-lg border p-5"
+      className="border-border bg-muted/30 rounded-card mt-12 border p-5 lg:mx-auto lg:max-w-[680px]"
     >
-      <p className="hk-eyebrow">Sebahagian daripada panduan</p>
+      <p className="inspire-overline text-brand-secondary">Sebahagian daripada panduan</p>
       {/* `hk-tap` on both — UI-11. This block is navigation under its own
           eyebrow, not a sentence: the pillar anchor measured 185.8 x 21 and the
           em dash between the two links is a separator, not prose around them. */}

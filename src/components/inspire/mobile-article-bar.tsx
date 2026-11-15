@@ -150,7 +150,9 @@ export function MobileArticleBar({ nextArticle, galleryImages }: MobileArticleBa
               </span>
             )}
             <span className="min-w-0 flex-1 text-left">
-              <span className="hk-eyebrow block">Baca seterusnya</span>
+              <span className="text-muted-foreground block text-[10px] font-semibold tracking-[0.12em] uppercase">
+                Baca seterusnya
+              </span>
               {/* Two lines then ellipsis: enough for a real Malay headline to
                   be recognisable, not enough to grow the bar into a card. */}
               <span className="mt-0.5 line-clamp-2 block text-[13px] leading-snug font-medium">

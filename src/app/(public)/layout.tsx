@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import { Navbar } from '@/components/layout/navbar';
 import { AnalyticsTracker } from '@/components/analytics/analytics-tracker';
 import { Footer } from '@/components/layout/footer';
+import { SearchProvider } from '@/components/search/search-provider';
 import '@/design-system/tokens.css';
 
 /**
@@ -23,16 +24,24 @@ import '@/design-system/tokens.css';
  * wrapper: wrapping the page tree would let HTML flush before a page's
  * `notFound()` runs and turn real 404s into soft 404s. It returns early on
  * `/draft/*`, the one non-visit route in this group.
+ *
+ * `SearchProvider` mounts the one search screen every trigger opens (header,
+ * phone menu, /artikel box, footer, and the `/` and Ctrl/⌘K shortcuts). It is
+ * a client boundary that only passes `children` through, so the server tree
+ * inside it stays server-rendered.
  */
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="hk-public flex min-h-screen flex-col">
-      <Navbar />
-      <main className="flex-1">{children}</main>
-      <Suspense>
-        <AnalyticsTracker />
-      </Suspense>
-      <Footer />
-    </div>
+    <SearchProvider>
+      <div className="hk-public flex min-h-screen flex-col">
+        <Navbar />
+        {/* No top padding: the navbar is sticky (in flow), see navbar.tsx. */}
+        <main className="flex-1">{children}</main>
+        <Suspense>
+          <AnalyticsTracker />
+        </Suspense>
+        <Footer />
+      </div>
+    </SearchProvider>
   );
 }

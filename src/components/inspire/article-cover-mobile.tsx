@@ -4,8 +4,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ShareIcon } from 'lucide-react';
 import { PhotoGallery } from './photo-gallery';
-import { getMobileCoverUrl } from '@/lib/storage/smart-crop-url';
 import { authorArchivePath } from '@/lib/authors/gate';
+import { getSmartCropUrl } from '@/lib/storage/smart-crop-url';
 import type { GalleryImage } from './article-renderer';
 
 interface ArticleCoverMobileProps {
@@ -14,20 +14,21 @@ interface ArticleCoverMobileProps {
   categoryName: string;
   /**
    * Retained on the interface but no longer read. It fed the overlay back
-   * arrow, which UX-01 removed once the site header stopped being hidden on
-   * article pages — the masthead's category rail is a strictly better escape
-   * (every category, not just this one) and the arrow's destination is an empty
-   * state on at least one pillar. Kept so the admin draft-preview surface's
-   * call signature is untouched; drop it when that surface is next edited.
+   * arrow, which is not rendered here because the site header stays visible
+   * on article pages (UX-01) and already offers every category.
    */
   categorySlug: string;
   title: string;
+  /**
+   * 'h1' (default) renders the title as this breakpoint's <h1>. 'p' renders a
+   * visually identical, aria-hidden <p> for pages that put their single <h1>
+   * elsewhere — the public article page does, so it carries exactly one <h1>.
+   */
+  titleAs?: 'h1' | 'p';
   authorName: string;
   /**
    * Set only when the author passes `isLinkableAuthor` — the caller does that
-   * check, this component just links the name when it gets a slug. OPTIONAL so
-   * the admin draft-preview surfaces, which render this component without ever
-   * touching the author's profile columns, keep working unchanged.
+   * check, this component just links the name when it gets a slug.
    */
   authorSlug?: string | null;
   authorAvatarUrl?: string | null;
@@ -35,48 +36,40 @@ interface ArticleCoverMobileProps {
   readTime: string | null;
   galleryImages: GalleryImage[];
   articleId: string;
-  /**
-   * Base64 LQIP for the blur placeholder (UX-04). The mobile cover is
-   * `priority`, so it is never lazy — but priority only wins the request, it
-   * does not make the decode instant. Until UX-04 the plate under it was flat
-   * `bg-muted`, which is what a reader arriving from Google saw first. Optional
-   * so the admin draft-preview surfaces keep their call signature.
-   */
+  /** Base64 LQIP for the blur placeholder while the cover decodes. */
   lqip?: string | null;
+  /** The cover's photo credit, rendered under the byline. */
+  credit?: React.ReactNode;
 }
 
+/**
+ * The phone cover, laid out as The Wedding Notebook's: a full-bleed 4:5
+ * photograph with a share button and a "see all photos" pill on it, and a
+ * curved paper panel that overlaps the bottom of the photograph and carries
+ * the category, headline and byline.
+ */
 export function ArticleCoverMobile({
   coverImageUrl,
   smartCrops,
   categoryName,
   title,
+  titleAs = 'h1',
   authorName,
   authorSlug,
   authorAvatarUrl,
   updatedAt,
   readTime,
   galleryImages,
-  articleId,
   lqip,
+  credit,
 }: ArticleCoverMobileProps) {
   return (
     <div className="-mx-4 lg:hidden">
       <div className="relative">
-        {/* Cover image — 3:2 full-bleed.
-            Was 4:5 (487px tall at 390px wide), which is a portrait plate on a
-            portrait screen: it pushed the headline, the byline and the share
-            row down far enough that the first sentence of the article started
-            at 793px, 50px off the bottom of an 844px viewport. A reader who
-            arrived from Google saw a photograph and nothing else. 3:2 is 260px
-            at the same width — 227px handed back to the words, which is what
-            the reader came for. Do not make this plate taller without
-            re-measuring where the first paragraph lands at 390px. */}
-        <div data-mobile-cover className="relative aspect-[3/2] w-full overflow-hidden">
-          {/* Crop preference follows the plate, not habit — see
-              getMobileCoverUrl. Shared with the route's LCP preload hint so the
-              two cannot resolve to different URLs. */}
+        {/* Cover image — 4:5 full-bleed */}
+        <div data-mobile-cover className="relative aspect-[4/5] w-full overflow-hidden">
           <Image
-            src={getMobileCoverUrl(smartCrops, coverImageUrl)}
+            src={getSmartCropUrl(smartCrops, 'crop-4x5-mobile-cover') ?? coverImageUrl}
             alt={title}
             fill
             sizes="100vw"
@@ -85,14 +78,8 @@ export function ArticleCoverMobile({
             {...(lqip ? { placeholder: 'blur' as const, blurDataURL: lqip } : {})}
           />
 
-          {/* Overlay controls — share only.
-              The back arrow that used to sit opposite is gone: the site header
-              is no longer hidden here, so the masthead and its category rail
-              are pinned above this plate and offer every category rather than
-              just the one. Two navigation affordances 60px apart, one of them
-              strictly weaker, is a choice the reader should not have to make.
-              The spec bans save/heart icons on this surface, so the moodboard
-              button is still not rendered. */}
+          {/* Overlay control — share. There is no back arrow: the site header
+              stays visible on article pages, so the masthead is the way out. */}
           <div className="absolute top-0 right-0 left-0 z-10 flex items-center justify-end px-4 pt-4">
             <button
               type="button"
@@ -105,24 +92,20 @@ export function ArticleCoverMobile({
                   navigator.clipboard.writeText(window.location.href);
                 }
               }}
-              className="flex size-11 items-center justify-center bg-white/90 backdrop-blur-sm"
+              className="flex size-10 items-center justify-center rounded-full bg-white/90 shadow-md backdrop-blur-sm"
               aria-label="Kongsi artikel"
             >
               <ShareIcon className="size-5" />
             </button>
           </div>
 
-          {/* View all photos pill. This is where the gallery lives now — on the
-              photograph, where the offer makes sense. It used to be here AND in
-              a fixed bottom bar, the same words twice, occupying both of the
-              two most valuable positions on a phone. The bottom bar now carries
-              the next article instead. */}
+          {/* View all photos pill */}
           {galleryImages.length > 0 && (
-            <div className="absolute right-4 bottom-3 z-10">
+            <div className="absolute right-4 bottom-10 z-10">
               <PhotoGallery
                 images={galleryImages}
                 trigger={
-                  <span className="hk-eyebrow flex min-h-11 items-center bg-black/70 px-3 py-2 !text-white">
+                  <span className="rounded-full bg-black/60 px-2.5 py-1 text-xs text-white">
                     Lihat semua foto ({galleryImages.length})
                   </span>
                 }
@@ -131,17 +114,22 @@ export function ArticleCoverMobile({
           )}
         </div>
 
-        {/* Editorial header — headline on paper directly under the plate,
-            never over it. */}
-        <div className="relative">
-          <div className="bg-background">
-            <div className="px-4 pt-7 text-center">
-              <span className="hk-eyebrow">{categoryName}</span>
-              <h1 className="hk-display mt-3 text-[1.75rem]">{title}</h1>
-              {/* Kept as flowing inline text, not a flex row: the "· Updated
-                  {date} · {readTime}" tail below is a fragment of loose text
-                  nodes, and each one would become its own flex item. */}
-              <p className="hk-meta mt-4">
+        {/* Curved content panel — overlaps the photo */}
+        <div className="relative -mt-6 overflow-hidden">
+          <div className="bg-background -mx-1 rounded-t-[24px] px-1">
+            <div className="px-4 pt-6">
+              <span className="inspire-overline text-brand-secondary">{categoryName}</span>
+              {titleAs === 'h1' ? (
+                <h1 className="mt-2 text-2xl leading-tight">{title}</h1>
+              ) : (
+                <p aria-hidden="true" className="inspire-title-h1 mt-2 text-2xl leading-tight">
+                  {title}
+                </p>
+              )}
+              {/* Kept as flowing inline text, not a flex row: the "· Dikemas
+                  kini {date} · {readTime}" tail below is a fragment of loose
+                  text nodes, and each one would become its own flex item. */}
+              <p className="text-muted-foreground mt-2 text-sm">
                 {authorAvatarUrl && (
                   <Image
                     src={authorAvatarUrl}
@@ -174,7 +162,9 @@ export function ArticleCoverMobile({
                 )}
                 {readTime && <> &middot; {readTime}</>}
               </p>
+              {credit && <div className="mt-2">{credit}</div>}
             </div>
+            <div className="bg-border mx-4 my-5 h-px" />
           </div>
         </div>
       </div>
