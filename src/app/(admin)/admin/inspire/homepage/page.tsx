@@ -13,7 +13,7 @@ import type { ResolvedInspireHomepageArticle } from '@/lib/inspire/homepage-cura
 import { getSmartCropUrl } from '@/lib/storage/smart-crop-url';
 import { InspireHomepageManager } from './homepage-manager';
 
-export const metadata: Metadata = { title: 'Articles homepage | Inspire' };
+export const metadata: Metadata = { title: 'Inspire Homepage - Admin' };
 
 const SOURCE_LABEL = {
   pinned: 'Pinned',
@@ -74,8 +74,8 @@ export default async function InspireHomepageAdminPage() {
   return (
     <div className="space-y-8">
       <PageHeader
-        title="Articles homepage"
-        description="Choose what leads /artikel. Pin the stories that matter, then let the newest articles or a category fill every remaining space automatically."
+        title="Inspire Homepage"
+        description="Pin the stories that matter, then let the newest articles or a category fill every remaining space automatically."
       />
 
       <InspireHomepageManager

@@ -146,6 +146,7 @@ export function ArticleCard({
         {displayDate && (
           <p className="text-muted-foreground text-xs">
             {new Date(displayDate).toLocaleDateString('ms-MY', {
+              timeZone: 'Asia/Kuala_Lumpur',
               year: 'numeric',
               month: 'long',
               day: 'numeric',

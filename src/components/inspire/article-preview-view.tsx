@@ -177,6 +177,7 @@ export function ArticlePreviewView({ data, banner, variant = 'screen' }: Article
                             {' '}
                             &middot; Updated{' '}
                             {new Date(article.updatedAt).toLocaleDateString('en-MY', {
+                              timeZone: 'Asia/Kuala_Lumpur',
                               year: 'numeric',
                               month: 'long',
                               day: 'numeric',
@@ -205,6 +206,7 @@ export function ArticlePreviewView({ data, banner, variant = 'screen' }: Article
                       {' '}
                       &middot; Updated{' '}
                       {new Date(article.updatedAt).toLocaleDateString('en-MY', {
+                        timeZone: 'Asia/Kuala_Lumpur',
                         year: 'numeric',
                         month: 'long',
                         day: 'numeric',

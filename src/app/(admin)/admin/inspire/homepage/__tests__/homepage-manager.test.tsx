@@ -50,7 +50,7 @@ function renderManager() {
   );
 }
 
-describe('Articles homepage manager', () => {
+describe('Inspire homepage manager', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     h.save.mockResolvedValue({ success: true });
@@ -65,7 +65,7 @@ describe('Articles homepage manager', () => {
     const ui = within(view.container);
 
     fireEvent.click(ui.getByRole('button', { name: 'Move Second story up' }));
-    fireEvent.click(ui.getByRole('button', { name: 'Save articles homepage' }));
+    fireEvent.click(ui.getByRole('button', { name: 'Save Inspire homepage' }));
 
     await waitFor(() =>
       expect(h.save).toHaveBeenCalledWith(
@@ -82,7 +82,7 @@ describe('Articles homepage manager', () => {
     const ui = within(view.container);
 
     fireEvent.click(ui.getByRole('button', { name: 'Remove First story' }));
-    fireEvent.click(ui.getByRole('button', { name: 'Save articles homepage' }));
+    fireEvent.click(ui.getByRole('button', { name: 'Save Inspire homepage' }));
 
     await waitFor(() =>
       expect(h.save).toHaveBeenCalledWith(
@@ -110,7 +110,7 @@ describe('Articles homepage manager', () => {
     );
     const ui = within(view.container);
 
-    fireEvent.click(ui.getByRole('button', { name: 'Save articles homepage' }));
+    fireEvent.click(ui.getByRole('button', { name: 'Save Inspire homepage' }));
 
     await waitFor(() =>
       expect(h.save).toHaveBeenCalledWith(
@@ -129,7 +129,7 @@ describe('Articles homepage manager', () => {
     fireEvent.click(ui.getByRole('button', { name: 'Reset to automatic' }));
 
     await waitFor(() => expect(h.reset).toHaveBeenCalledOnce());
-    expect(h.success).toHaveBeenCalledWith('Articles homepage reset to automatic');
+    expect(h.success).toHaveBeenCalledWith('Inspire homepage reset to automatic');
     expect(h.refresh).toHaveBeenCalled();
   });
 });

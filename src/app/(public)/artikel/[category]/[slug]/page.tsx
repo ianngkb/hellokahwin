@@ -837,6 +837,7 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
   }
 
   const updatedLabel = new Date(article.updatedAt).toLocaleDateString('ms-MY', {
+    timeZone: 'Asia/Kuala_Lumpur',
     year: 'numeric',
     month: 'long',
     day: 'numeric',

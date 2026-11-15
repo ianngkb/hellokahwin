@@ -3,10 +3,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { unstable_cache } from 'next/cache';
 import { ArticleCard } from '@/components/inspire/article-card';
-import { InspireArticleSearch } from '@/components/inspire/inspire-article-search';
+import { OpenSearchOnCariHash } from '@/components/inspire/inspire-article-search';
 import { Chip } from '@/components/ui/chip';
 import { getSmartCropUrl } from '@/lib/storage/smart-crop-url';
-import { flattenCategoriesByArticleCount } from '@/lib/inspire/category-tree';
 import { getInspireHomepageResolvedData } from '@/lib/inspire/homepage-queries';
 import { INSPIRE_HOMEPAGE_CACHE_TAG } from '@/lib/inspire/homepage-curation';
 
@@ -64,6 +63,7 @@ const getInspireHomeData = unstable_cache(getInspireHomepageResolvedData, ['arti
 function formatTarikh(value: Date | string | null): string | null {
   if (!value) return null;
   return new Date(value).toLocaleDateString('ms-MY', {
+    timeZone: 'Asia/Kuala_Lumpur',
     year: 'numeric',
     month: 'long',
     day: 'numeric',
@@ -76,12 +76,27 @@ export default async function InspireHomePage() {
   const latest = resolution.latest.map(({ article }) => article);
   const resolvedArticles = [...featured, ...latest];
 
-  // Bottom browse index: every category that actually has something to read,
-  // counted with its full subtree, busiest first. twn lists top-level
-  // categories only; that rendered a two-chip row against HelloKahwin's
-  // imported WordPress taxonomy, where nearly all the depth sits one level
-  // down, so the flattening stays while the markup follows twn.
-  const bottomCategories = flattenCategoriesByArticleCount(allCategories);
+  // Build top-level categories with aggregated descendant counts — twn's rule,
+  // exactly (Ian, 15 Nov 2026: "exactly like TWN", knowing it yields only a
+  // few pills against HelloKahwin's taxonomy).
+  const topCategories = allCategories
+    .filter((c) => !c.parentId)
+    .map((parent) => {
+      const children = allCategories.filter((c) => c.parentId === parent.id);
+      const grandchildren = allCategories.filter((c) =>
+        children.some((ch) => ch.id === c.parentId),
+      );
+      const totalCount =
+        parent.articleCount +
+        children.reduce((sum, c) => sum + c.articleCount, 0) +
+        grandchildren.reduce((sum, c) => sum + c.articleCount, 0);
+      return { ...parent, articleCount: totalCount, children, grandchildren };
+    });
+
+  // Sort categories by article count descending for bottom pills
+  const bottomCategories = [...topCategories]
+    .filter((c) => c.articleCount > 0)
+    .sort((a, b) => b.articleCount - a.articleCount);
 
   return (
     <div className="inspire-editorial">
@@ -238,14 +253,10 @@ export default async function InspireHomePage() {
                 </div>
               )}
 
-              {/* Search — sits where twn places its above-grid banner (banners
-                  are out of scope here). `id="cari"` is load-bearing: the
-                  masthead on every page links to /artikel#cari, and this is the
-                  site's only search surface. scroll-mt clears the whole sticky
-                  header — wordmark row plus category rail. */}
-              <div id="cari" className="mx-auto max-w-xl scroll-mt-28 py-4 lg:scroll-mt-32">
-                <InspireArticleSearch />
-              </div>
+              {/* twn places its above-grid banner here; banners are out of
+                  scope, so nothing renders. Search lives in the header on every
+                  page. Old `/artikel#cari` links still open the search screen. */}
+              <OpenSearchOnCariHash />
 
               {/* Latest section */}
               {latest.length > 0 && (

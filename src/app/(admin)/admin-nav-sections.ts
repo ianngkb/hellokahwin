@@ -82,7 +82,7 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
         keywords: 'write compose add post',
       },
       {
-        label: 'Articles homepage',
+        label: 'Inspire Homepage',
         href: '/admin/inspire/homepage',
         keywords: 'featured latest pin category curation article order artikel front',
       },

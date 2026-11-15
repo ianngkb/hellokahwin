@@ -154,6 +154,7 @@ export function ArticleCoverMobile({
                     {' '}
                     &middot; Dikemas kini{' '}
                     {new Date(updatedAt).toLocaleDateString('ms-MY', {
+                      timeZone: 'Asia/Kuala_Lumpur',
                       year: 'numeric',
                       month: 'long',
                       day: 'numeric',
