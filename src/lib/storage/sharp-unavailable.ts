@@ -10,7 +10,7 @@
  */
 function sharpUnavailable(): never {
   throw new Error(
-    'sharp is not available on Cloudflare Workers — this job runs on Vercel (docs/cloudflare.md)',
+    'sharp is not available on Cloudflare Workers — resize/encode uses the Images binding (image-engine); smart crops wait for media-tools and run on Vercel (docs/cloudflare.md)',
   );
 }
 
