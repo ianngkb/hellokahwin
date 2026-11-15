@@ -21,6 +21,7 @@ import { redirects } from '@/lib/db/schema/redirects';
 import { buildArticleSlugRedirect } from '@/lib/redirects/article-slug-change';
 import { requireAdminSectionAction } from '@/lib/auth/admin';
 import { logAuditEvent } from '@/lib/audit/log';
+import { countClusters } from '@/lib/inspire/clusters';
 import { diffFields } from '@/lib/audit/diff';
 import { articleUpdateSchema, formatArticleValidationError } from '@/lib/validations/article';
 import { INSPIRE_AUTHORS_TAG, listSelectableAuthors } from '@/lib/authors/queries';
@@ -646,6 +647,40 @@ export async function updateArticleCategoriesAction(
   const { error: authError, user } = await requireAdminSectionAction('inspire');
   if (authError || !user) return { error: authError ?? 'Unauthorized' };
   if (!parseArticleId(articleId)) return { error: 'Invalid article ID' };
+
+  // One cluster per article. The editor's Cluster picker already sends at most
+  // one; this is the server-side backstop so no other caller can put an
+  // article in two clusters (its series box and up-link would pick one at
+  // random). Only the handed ids and their parents are read.
+  if (categoryIds.length > 1) {
+    const rows = await db
+      .select({
+        id: inspireCategories.id,
+        parentId: inspireCategories.parentId,
+        isPillar: inspireCategories.isPillar,
+        pillarCode: inspireCategories.pillarCode,
+        name: inspireCategories.name,
+      })
+      .from(inspireCategories)
+      .where(inArray(inspireCategories.id, categoryIds));
+    const parentIds = [...new Set(rows.map((r) => r.parentId).filter((id): id is string => !!id))];
+    const parents =
+      parentIds.length > 0
+        ? await db
+            .select({
+              id: inspireCategories.id,
+              parentId: inspireCategories.parentId,
+              isPillar: inspireCategories.isPillar,
+              pillarCode: inspireCategories.pillarCode,
+              name: inspireCategories.name,
+            })
+            .from(inspireCategories)
+            .where(inArray(inspireCategories.id, parentIds))
+        : [];
+    if (countClusters(categoryIds, [...rows, ...parents]) > 1) {
+      return { error: 'An article can be in one cluster at most.' };
+    }
+  }
 
   await db.transaction(async (tx) => {
     await tx.delete(articleCategories).where(eq(articleCategories.articleId, articleId));

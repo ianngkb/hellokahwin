@@ -19,7 +19,7 @@ import { ARTICLE_LINK_CLICK_EVENT } from './link-click-tracking';
 
 /**
  * Cluster analytics (R16–R21): how a hand-picked group of articles
- * performs together — `/admin/inspire/clusters/[cluster-id]/analytics`.
+ * performs together — `/admin/inspire/clusters/[id]/analytics`.
  *
  * TWO STATEMENTS, ALL MEMBERS AT ONCE.
  *   1. pageviews — ONE scan of the members' pageviews giving (a) per member:
@@ -796,7 +796,7 @@ export async function getClusterLinkClicks(
  *
  * THE PATH SET ADDITIONALLY EXCLUDES MEMBERS A DIFFERENT CLUSTER CURRENTLY SHOWS
  * (R2, via `getShownSeriesForArticles`): an article in two switched-on clusters
- * renders ONE box — the first it joined — so its impressions belong to that
+ * renders ONE box (see `getShownSeriesForArticles`), so its impressions belong to that
  * cluster alone. Without that exclusion, the second cluster would claim page
  * views its box never appeared on.
  *

@@ -116,6 +116,15 @@ export const inspireCategories = pgTable(
     /** A pillar page's editorial introduction. One paragraph per blank line. */
     intro: text('intro'),
     isPillar: boolean('is_pillar').notNull().default(false),
+    // ── "Dalam siri ini" series box (clusters build, 15 Nov 2026) ──
+    //
+    // Meaningful on a CLUSTER row only. When on, every live article in the
+    // cluster shows a box near the top listing its siblings. OFF by default so
+    // adding the column changes nothing a reader sees until an admin switches
+    // a cluster on from /admin/inspire/clusters.
+    seriesEnabled: boolean('series_enabled').notNull().default(false),
+    /** Optional one-line Malay description under the box title. Plain text, <= 600 chars. */
+    seriesDescription: text('series_description'),
     createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
     updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
   },

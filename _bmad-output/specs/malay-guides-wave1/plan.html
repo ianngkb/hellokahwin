@@ -1,0 +1,173 @@
+<title>HelloKahwin Guides Wave 1</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: single reading column, tables for the work list, one summary band up top */
+:root{
+  --bg:#f6f7f9; --surface:#ffffff; --fg:#1d1f24; --muted:#5d6370; --line:#dfe2e8;
+  --accent:#7a1f3d; --accent-soft:#f6e8ed; --gold:#8a6a12; --gold-soft:#f7f0dc;
+  --ok:#1f6b45; --ok-soft:#e3f2ea;
+  --display:"Plus Jakarta Sans",system-ui,sans-serif; --body:"Inter",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#14151a; --surface:#1c1e25; --fg:#e8e9ee; --muted:#a2a7b3; --line:#2e313b;
+  --accent:#e58aa8; --accent-soft:#3a1d28; --gold:#e3c26a; --gold-soft:#332a14;
+  --ok:#7fd3a6; --ok-soft:#173326; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#14151a; --surface:#1c1e25; --fg:#e8e9ee; --muted:#a2a7b3; --line:#2e313b;
+  --accent:#e58aa8; --accent-soft:#3a1d28; --gold:#e3c26a; --gold-soft:#332a14;
+  --ok:#7fd3a6; --ok-soft:#173326; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:15px/1.6 var(--body)}
+.wrap{max-width:880px;margin:0 auto;padding-block:40px 64px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:flex;flex-direction:column;gap:36px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:2rem;font-weight:800}
+h2{font-size:1.3rem;font-weight:700}
+h3{font-size:1rem;font-weight:700}
+p{margin:0;max-width:68ch}
+.eyebrow{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.lede{color:var(--muted);font-size:1.05rem}
+section{display:flex;flex-direction:column;gap:14px}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:4px}
+.stat b{font-family:var(--display);font-size:1.6rem;font-variant-numeric:tabular-nums}
+.stat span{color:var(--muted);font-size:.9rem}
+.callout{background:var(--accent-soft);border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:6px}
+.tbl{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:.92rem}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--bg)}
+tr:last-child td{border-bottom:0}
+td.n{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+th.n{text-align:right}
+.kw{font-weight:600}
+.slug{font-family:ui-monospace,Consolas,monospace;font-size:.8rem;color:var(--muted)}
+.tag{display:inline-block;font-size:.72rem;font-weight:600;padding:2px 8px;border-radius:99px;white-space:nowrap}
+.t-law{background:var(--gold-soft);color:var(--gold)}
+.t-day{background:var(--ok-soft);color:var(--ok)}
+.group td{background:var(--bg);font-family:var(--display);font-weight:700;font-size:.85rem}
+ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;max-width:68ch}
+.muted{color:var(--muted)}
+footer{color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:16px}
+</style>
+
+<div class="wrap">
+  <header style="display:flex;flex-direction:column;gap:10px">
+    <div class="eyebrow">HelloKahwin · Content plan · 15 Nov 2026</div>
+    <h1>Malay guides: wave 1</h1>
+    <p class="lede">Twelve new Malay guides that fill gaps in HelloKahwin's 117 published articles, and a fix list for existing guides that get high search volume but aren't showing up in Google yet. All figures are Ahrefs Malaysia monthly searches, checked today.</p>
+  </header>
+
+  <div class="summary">
+    <div class="stat"><b>12</b><span>new guides in wave 1</span></div>
+    <div class="stat"><b>~15,800</b><span>monthly searches they target</span></div>
+    <div class="stat"><b>~33,000</b><span>monthly searches sitting on existing guides that don't rank</span></div>
+  </div>
+
+  <div class="callout">
+    <h3>The biggest finding isn't a new topic</h3>
+    <p>HelloKahwin already has guides for <b>rukun nikah</b> (7,200 searches a month), <b>ucapan pengantin baru</b> (5,500), <b>kursus kahwin</b> (3,400), <b>cincin tunang</b> (3,200) and <b>borang nikah</b> (2,700). According to Ahrefs, none of them appear in Google's top 100 for their main term. Fixing these is worth about twice as much as all the new guides below. That's why it's step 1.</p>
+  </div>
+
+  <section>
+    <div class="eyebrow">Step 1 result · 15 Nov 2026</div>
+    <h2>Why the existing guides aren't ranking</h2>
+    <ul>
+      <li><b>Search Console has lost its owner.</b> Google shows every account on hellokahwin.com, including the site's own, as "unverified". The verification record is gone from the site and from its domain settings. Until someone re-verifies, nobody can see ranking data, and Google can't receive sitemap updates from the site. <b>This needs Ian:</b> re-verify the domain in Search Console. It takes about 10 minutes at the domain provider.</li>
+      <li><b>The pages are young, and the site has almost no outside links.</b> Most of these guides went live on 25 Aug 2026, about 12 weeks ago. Ahrefs gives hellokahwin.com a link-strength score of 0 out of 100, meaning almost no other sites link to it. Google is slow to trust new pages on a site like that for big search terms.</li>
+      <li><b>The writing is not the problem.</b> The guides are 1,300–2,300 words, well structured, and open to Google (no blocking tags, correct page addresses).</li>
+      <li><b>Some main search terms can't realistically be won.</b> For "borang nikah" and "kursus kahwin", Google shows government sites (SPPIM, JAWI, state religious departments) at the top. For "cincin tunang", it shows jewellery shops. Aim those guides at the longer, specific searches instead, for example by state, how-to, or "jari mana".</li>
+      <li><b>Two are winnable soon.</b> For "rukun nikah" and "ucapan pengantin baru", the sites on top are small (link scores of 4–26).</li>
+      <li><b>Links between our own guides matter.</b> The hantaran tunang guide ranks #1 and has 17 links from inside other articles. The guides that don't rank have only 3–6.</li>
+      <li><b>The overall direction is good.</b> Google traffic grew from about 16 visits a week in August to about 810 a week now, with a dip in mid-October.</li>
+    </ul>
+    <h3>What to do</h3>
+    <ul>
+      <li>Ian re-verifies Search Console. This comes first, so everything after it can be measured.</li>
+      <li>Add links to these 11 guides from related HelloKahwin articles, aiming for 10–15 each. Edits only, nothing new to write.</li>
+      <li>Get a few real outside links. TWN's Malay-wedding articles linking to the matching HelloKahwin guide is the easiest start.</li>
+      <li>Re-check rankings in January, once the August pages are about 5 months old.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="eyebrow">Step 1 (original brief)</div>
+    <h2>Find out why existing guides aren't ranking</h2>
+    <p>Before writing anything new, check these guides against our own Search Console data. Ahrefs can miss rankings, so confirm first. Then work out the cause: not indexed by Google, too thin, or beaten by an official government page.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Main search term</th><th class="n">Searches / mo</th><th>Our existing guide</th></tr></thead>
+      <tbody>
+        <tr><td class="kw">rukun nikah</td><td class="n">7,200</td><td class="slug">nikah-undang-undang/rukun-nikah</td></tr>
+        <tr><td class="kw">ucapan pengantin baru</td><td class="n">5,500</td><td class="slug">ucapan-doa/ucapan-pengantin-baru</td></tr>
+        <tr><td class="kw">kursus kahwin</td><td class="n">3,400</td><td class="slug">idea-dan-nasihat/kursus-kahwin</td></tr>
+        <tr><td class="kw">cincin tunang</td><td class="n">3,200</td><td class="slug">sebelum-nikah/cincin-tunang</td></tr>
+        <tr><td class="kw">borang nikah (+ online)</td><td class="n">4,900</td><td class="slug">nikah-undang-undang/borang-nikah</td></tr>
+        <tr><td class="kw">contoh kad kahwin</td><td class="n">2,400</td><td class="slug">pelamin-kad-cenderahati/contoh-kad-jemputan-kahwin</td></tr>
+        <tr><td class="kw">mas kahwin</td><td class="n">2,000</td><td class="slug">hantaran-mas-kahwin/apa-itu-mas-kahwin</td></tr>
+        <tr><td class="kw">kursus kahwin selangor</td><td class="n">1,700</td><td class="slug">nikah-undang-undang/kursus-kahwin-selangor</td></tr>
+        <tr><td class="kw">hadiah kahwin</td><td class="n">1,600</td><td class="slug">idea-dan-nasihat/hadiah-untuk-pengantin</td></tr>
+        <tr><td class="kw">goodies kahwin</td><td class="n">1,600</td><td class="slug">hiasan-dekorasi/goodies-kahwin</td></tr>
+        <tr><td class="kw">syarat sah nikah</td><td class="n">1,400</td><td class="slug">nikah-undang-undang/syarat-sah-nikah</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Step 2</div>
+    <h2>Write 12 new guides</h2>
+    <p>None of these topics are on HelloKahwin today. State-by-state pages follow the pattern the site already uses for mas kahwin, which is working: Kelantan, Terengganu and Negeri Sembilan already rank around #5.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>#</th><th>Guide (target search)</th><th class="n">Searches / mo</th><th>Type</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr class="group"><td colspan="5">Nikah paperwork, by state</td></tr>
+        <tr><td>1</td><td class="kw">Mas kahwin Selangor &amp; Wilayah Persekutuan</td><td class="n">2,000</td><td><span class="tag t-law">Rules</span></td><td>Biggest single gap. Selangor is the largest state and has no page yet.</td></tr>
+        <tr><td>2</td><td class="kw">Mas kahwin Kedah &amp; Perlis</td><td class="n">600</td><td><span class="tag t-law">Rules</span></td><td>Completes the state set.</td></tr>
+        <tr><td>3</td><td class="kw">Mas kahwin Melaka &amp; Pulau Pinang</td><td class="n">600</td><td><span class="tag t-law">Rules</span></td><td>Completes the state set.</td></tr>
+        <tr><td>4</td><td class="kw">Semak status perkahwinan (IC / e-Syariah)</td><td class="n">2,050</td><td><span class="tag t-law">Rules</span></td><td>How to check marriage status online. Four search phrasings combined.</td></tr>
+        <tr><td>5</td><td class="kw">Borang nikah Johor</td><td class="n">700</td><td><span class="tag t-law">Rules</span></td><td>Step-by-step application. Link from the main borang-nikah guide.</td></tr>
+        <tr><td>6</td><td class="kw">Borang nikah Kelantan</td><td class="n">600</td><td><span class="tag t-law">Rules</span></td><td>Same pattern.</td></tr>
+        <tr><td>7</td><td class="kw">Borang nikah Selangor</td><td class="n">600</td><td><span class="tag t-law">Rules</span></td><td>Link to the existing kad-nikah-selangor guide.</td></tr>
+        <tr><td>8</td><td class="kw">Kursus kahwin online: cara daftar</td><td class="n">1,950</td><td><span class="tag t-law">Rules</span></td><td>Online course and registration steps.</td></tr>
+        <tr><td>9</td><td class="kw">Kursus kahwin Pulau Pinang</td><td class="n">1,100</td><td><span class="tag t-law">Rules</span></td><td>Follows the existing Selangor page.</td></tr>
+        <tr class="group"><td colspan="5">The wedding itself</td></tr>
+        <tr><td>10</td><td class="kw">Baju nikah: idea untuk perempuan &amp; lelaki</td><td class="n">3,250</td><td><span class="tag t-day">Style</span></td><td>Shops hold the top spots. A good style guide can still rank alongside them.</td></tr>
+        <tr><td>11</td><td class="kw">Cincin nikah / cincin kahwin</td><td class="n">1,750</td><td><span class="tag t-day">Style</span></td><td>Also answers "cincin tunang jari mana" (600).</td></tr>
+        <tr><td>12</td><td class="kw">Pantun pengantin baru</td><td class="n">600</td><td><span class="tag t-day">Wishes</span></td><td>Sits next to the existing ucapan and doa guides.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>Saved for wave 2</h2>
+    <ul>
+      <li>Bunga tangan pengantin (700), gandik pengantin (600), baju tunang (600)</li>
+      <li>Khemah kenduri: prices and sizes (750 combined)</li>
+      <li>Borang nikah Kedah (450) and Perak (350)</li>
+      <li>Kenduri dishes, e.g. ayam masak merah kenduri (1,050): popular, but these are recipe searches</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Deliberately skipped</h2>
+    <ul>
+      <li>Celebrity wedding news ("erra fazira kahwin" and similar): gossip traffic, no planning value</li>
+      <li>Wattpad stories, dream meanings ("mimpi kahwin")</li>
+      <li>Translation searches ("tunang in english", "kahwin in english")</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Rules for writing these</h2>
+    <ul>
+      <li><b>Every "Rules" guide is checked against the official source</b> for that state: the state religious department or court, and SPPIM for nikah forms and courses. Amounts and steps change and vary by state, and a wrong figure on a religious or legal topic damages trust quickly.</li>
+      <li>Each guide shows the date it was last checked, so readers know how current it is.</li>
+      <li>Written in natural Malay from scratch, not translated, in HelloKahwin's existing voice, then run through the humanizer check.</li>
+      <li>Each new guide links to its main guide (borang nikah, mas kahwin, kursus kahwin) and back, so the topic group grows together.</li>
+      <li>Saved as drafts for review. Nothing goes live without your approval.</li>
+    </ul>
+  </section>
+
+  <footer>Source: Ahrefs Keywords Explorer and Site Explorer (Malaysia), 15 Nov 2026. "Not ranking" means not in Google's top 100 per Ahrefs, to be confirmed against Search Console in step 1. Copy of record: <span class="slug">_bmad-output/specs/malay-guides-wave1/plan.html</span> on branch <span class="slug">ianngkb/malay-guides</span>.</footer>
+</div>

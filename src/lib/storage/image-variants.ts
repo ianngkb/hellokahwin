@@ -1,10 +1,10 @@
-import sharp from 'sharp';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { getR2Client, getR2Bucket, getR2PublicUrl } from '@/lib/r2/client';
 import { db } from '@/lib/db/drizzle';
 import { adminSettings } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
 import { encodeUnderCeiling, type CeilingSpec } from './byte-ceiling';
+import { resizeToWebp } from './image-engine';
 
 export type ImageVariantMeta = { url: string; sizeBytes: number };
 
@@ -216,10 +216,9 @@ export async function generateVariants(
     // encoded at its quality exactly as before. `PRESET_CEILINGS` is the whole
     // list of presets whose behaviour changed.
     const ceiling = PRESET_CEILINGS[name];
+    // sharp on Vercel, Cloudflare Images on a Worker (`@/lib/storage/image-engine`).
     const build = (quality: number) =>
-      sharp(originalBuffer)
-        .resize({ width: preset.maxWidth, withoutEnlargement: true })
-        .webp({ quality });
+      resizeToWebp(originalBuffer, { width: preset.maxWidth, quality });
 
     let variantBuffer: Buffer;
     if (ceiling) {
@@ -234,7 +233,7 @@ export async function generateVariants(
         );
       }
     } else {
-      variantBuffer = await build(preset.quality).toBuffer();
+      variantBuffer = (await build(preset.quality)).data;
     }
 
     const variantKey = `${dirPrefix}${name}.webp`;

@@ -100,6 +100,11 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
         keywords: 'section topic taxonomy',
       },
       {
+        label: 'Clusters',
+        href: '/admin/inspire/clusters',
+        keywords: 'pillar cluster series siri topical authority thin views',
+      },
+      {
         label: 'Tags',
         href: '/admin/inspire/tags',
         keywords: 'label keyword taxonomy hidden',
@@ -124,15 +129,6 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
         href: '/admin/inspire/analytics',
         keywords:
           'compare articles analytics top articles best performers month lifetime google clicks title tests headline movers drop-off read depth sources devices clusters',
-      },
-      {
-        // TWN's label and slot (after Authors; TWN's Article Analytics sits
-        // between them when it exists). Hand-picked article groups and the
-        // reader-facing "series" switch — "series" stays in the keywords
-        // because that is what an admin types to reach this page.
-        label: 'Clusters',
-        href: '/admin/inspire/clusters',
-        keywords: 'article clusters groups hand-picked recirculation journey series series box',
       },
       {
         label: 'Navigation',

@@ -16,6 +16,9 @@ const r2CspHosts = r2Hostnames.filter((v, i, arr) => arr.indexOf(v) === i);
 
 const isDev = process.env.NODE_ENV === 'development';
 
+// Set by the Cloudflare build (scripts/cloudflare, .github/workflows/cf-preview.yml).
+const isCloudflareBuild = process.env.NEXT_PUBLIC_HOSTING === 'cloudflare';
+
 // Clerk's Frontend API host.
 //
 // A DEVELOPMENT instance serves from `*.clerk.accounts.dev`, which the
@@ -238,7 +241,11 @@ const nextConfig: NextConfig = {
     ];
   },
   // sharp and gs-wasm load native/wasm assets at runtime — keep them external.
-  serverExternalPackages: ['sharp', '@jspawn/ghostscript-wasm'],
+  // On the Cloudflare build sharp cannot be bundled or loaded at all, so it is
+  // aliased to a stub instead (see `turbopack.resolveAlias` below).
+  serverExternalPackages: isCloudflareBuild
+    ? ['@jspawn/ghostscript-wasm']
+    : ['sharp', '@jspawn/ghostscript-wasm'],
   outputFileTracingIncludes: {
     // Must match the ACTUAL route path — the PDF route lives under
     // /api/v1/inspire here, not twn-new's /api/v1/storage. A stale key traces
@@ -253,6 +260,11 @@ const nextConfig: NextConfig = {
   },
   turbopack: {
     root: __dirname,
+    // Cloudflare only: sharp → a stub that throws (docs/cloudflare.md). Upload
+    // resizing uses Cloudflare Images there (`@/lib/storage/image-engine`).
+    ...(isCloudflareBuild
+      ? { resolveAlias: { sharp: './src/lib/storage/sharp-unavailable.ts' } }
+      : {}),
   },
   images: {
     // Variants are pre-optimized via Sharp at upload time — skip Vercel image optimization.

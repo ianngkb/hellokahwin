@@ -1,6 +1,7 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import * as schema from './schema';
+import { preferPrepared } from './prefer-prepared';
 
 const connectionString = process.env.DATABASE_URL!;
 
@@ -101,7 +102,63 @@ if (process.env.NODE_ENV !== 'production') {
   globalForDb.pgClient = client;
 }
 
-export const db = drizzle(client, { schema });
+const vercelDb = drizzle(client, { schema });
+
+// ── CLOUDFLARE WORKERS (docs/cloudflare.md) ──────────────────────────────
+//
+// A Worker may not reuse a socket opened while serving another request
+// ("Cannot perform I/O on behalf of a different request"), so the
+// module-level pool above cannot be shared there. On Cloudflare each request
+// gets its own small client, pointed at the Hyperdrive binding — Hyperdrive
+// keeps the real, warm pool to Supabase next to the database, so opening a
+// client per request costs a hop to Hyperdrive, not a TCP+TLS handshake to
+// Singapore.
+//
+// The request is identified by the context object OpenNext stores per request
+// (`Symbol.for('__cloudflare-context__')`, read directly so the Vercel build
+// never imports the adapter). Outside a Worker the symbol is undefined and
+// `db` is exactly the Vercel pool above — `next dev`, `next build`, the
+// Vercel runtime, vitest and the CLI scripts are unchanged.
+type CloudflareRequestContext = { env?: { HYPERDRIVE?: { connectionString: string } } };
+type Db = typeof vercelDb;
+
+const requestDbs = new WeakMap<object, Db>();
+
+function cloudflareDb(): Db | null {
+  const ctx = (globalThis as Record<symbol, unknown>)[Symbol.for('__cloudflare-context__')] as
+    CloudflareRequestContext | undefined;
+  const hyperdrive = ctx?.env?.HYPERDRIVE;
+  if (!ctx || !hyperdrive) return null;
+  let perRequest = requestDbs.get(ctx);
+  if (!perRequest) {
+    perRequest = drizzle(
+      // Prepared statements, as Cloudflare requires behind Hyperdrive
+      // (`prepare: false` there hangs/fails intermittently). preferPrepared
+      // extends that to Drizzle's unsafe() calls and transactions.
+      preferPrepared(
+        postgres(hyperdrive.connectionString, {
+          max: 5,
+          prepare: true,
+          // Hyperdrive answers the type lookup itself; skipping it saves a round trip.
+          fetch_types: false,
+          connect_timeout: 8,
+          idle_timeout: 5,
+        }),
+      ),
+      { schema },
+    );
+    requestDbs.set(ctx, perRequest);
+  }
+  return perRequest;
+}
+
+export const db: Db = new Proxy(vercelDb, {
+  get(target, prop) {
+    const active = cloudflareDb() ?? target;
+    const value = Reflect.get(active, prop, active);
+    return typeof value === 'function' ? value.bind(active) : value;
+  },
+});
 
 // The raw postgres-js client behind Drizzle. Exposed for the few code paths
 // that share the tagged-template SQL engine with CLI scripts (e.g. the Pinterest

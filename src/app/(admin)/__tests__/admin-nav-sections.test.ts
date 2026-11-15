@@ -59,10 +59,10 @@ describe("admin nav: Inspire matches The Wedding Notebook's tab order", () => {
       ['Inspire Homepage', '/admin/inspire/homepage'],
       ['Media Library', '/admin/inspire/media'],
       ['Categories', '/admin/inspire/categories'],
+      ['Clusters', '/admin/inspire/clusters'],
       ['Tags', '/admin/inspire/tags'],
       ['Authors', '/admin/inspire/authors'],
       ['Article Analytics', '/admin/inspire/analytics'],
-      ['Clusters', '/admin/inspire/clusters'],
       ['Navigation', '/admin/inspire/navigation'],
       ['Dynamic Blocks', '/admin/inspire/dynamic-blocks'],
     ]);

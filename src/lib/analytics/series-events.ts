@@ -32,7 +32,7 @@ export const SERIES_LINK_CLICKED_EVENT = 'Series Link Clicked';
  * `TrackProps` without a cast.
  */
 export type SeriesBoxViewedProps = {
-  /** The cluster whose box is on screen (`article_clusters.id`). */
+  /** The cluster whose box is on screen (the cluster's `inspire_categories.id`). */
   cluster_id: string;
   /** The article the reader is on. */
   article_id: string;

@@ -1,181 +1,166 @@
-import { and, asc, count, eq, ne, sql } from 'drizzle-orm';
-import { db } from '@/lib/db/drizzle';
-import { articles, inspireCategories } from '@/lib/db/schema/articles';
-import { articleClusterMembers, articleClusters } from '@/lib/db/schema/article-clusters';
-import type { ArticleStatus } from '@/lib/constants';
-
 /**
- * Reads for hand-picked article clusters (`/admin/inspire/clusters`, its
- * editor, and the article editor's Series panel). Writes live in the clusters
- * admin actions. Ported from The Wedding Notebook.
+ * Pure cluster rules, shared by the article editor (client), the editor's save
+ * action and the Clusters admin page (server). No database import on purpose:
+ * this file is bundled into the `'use client'` editor.
  *
- * A soft-deleted article (`status = 'deleted'`, which is what the admin
- * "delete" does) keeps its membership row — no cascade fires — so both reads
- * hide it: it is neither counted nor listed. A hard delete removes the row
- * through the FK cascade.
+ * A CLUSTER is a category that is not a pillar, carries a pillar code, and sits
+ * directly under a pillar. That is the exact definition `getPillarUpLink` uses
+ * (`!isPillar && parentIsPillar`, filtered to `pillar_code IS NOT NULL`), so a
+ * category this file calls a cluster is one the public article page will treat
+ * as one. Keep the two in step.
  */
 
-/**
- * The cache tag every cached cluster-analytics read carries. The clusters
- * admin actions revalidate it on any change to a cluster, so the analytics
- * page never shows a stale member list.
- */
-export function clusterAnalyticsTag(clusterId: string): string {
-  return `cluster-analytics:${clusterId}`;
-}
-
-const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-
-export interface ClusterSummary {
+export interface ClusterCategoryLike {
   id: string;
   name: string;
-  slug: string | null;
-  /** The reader-facing Series box: intro, optional small label, and the switch. */
-  description: string | null;
-  eyebrow: string | null;
-  seriesEnabled: boolean;
-  /** Members whose article is not soft-deleted. */
-  memberCount: number;
-  createdAt: Date;
+  parentId: string | null;
+  isPillar?: boolean | null;
+  pillarCode?: string | null;
+  displayOrder?: number | null;
 }
 
-export interface ClusterMember {
-  /** The membership row's id. */
-  memberId: string;
-  articleId: string;
-  title: string;
-  slug: string;
-  status: ArticleStatus;
-  /** A scheduled article is a draft with this set; the editor shows "Scheduled". */
-  scheduledPublishAt: Date | null;
-  /** Primary category slug — the `/artikel/<category>/<slug>` segment. Null if unset. */
-  categorySlug: string | null;
-  position: number;
-}
-
-export interface ClusterWithMembers {
+export interface ClusterOption {
   id: string;
   name: string;
-  slug: string | null;
-  description: string | null;
-  eyebrow: string | null;
-  seriesEnabled: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-  /** In `position` order (ties: oldest membership first). */
-  members: ClusterMember[];
+  pillarId: string;
+  pillarName: string;
+  pillarCode: string | null;
+  code: string;
 }
 
-/** Every cluster with its live member count, alphabetical by name. */
-export async function getClusters(): Promise<ClusterSummary[]> {
-  const counts = db
-    .select({
-      clusterId: articleClusterMembers.clusterId,
-      n: count().as('n'),
-    })
-    .from(articleClusterMembers)
-    .innerJoin(articles, eq(articles.id, articleClusterMembers.articleId))
-    .where(ne(articles.status, 'deleted' as ArticleStatus))
-    .groupBy(articleClusterMembers.clusterId)
-    .as('counts');
+/** Whether `cat` is a cluster, given every category (to look its parent up). */
+export function isClusterCategory(
+  cat: ClusterCategoryLike | undefined,
+  byId: ReadonlyMap<string, ClusterCategoryLike>,
+): boolean {
+  if (!cat || cat.isPillar || !cat.pillarCode || !cat.parentId) return false;
+  return byId.get(cat.parentId)?.isPillar === true;
+}
 
-  const rows = await db
-    .select({
-      id: articleClusters.id,
-      name: articleClusters.name,
-      slug: articleClusters.slug,
-      description: articleClusters.description,
-      eyebrow: articleClusters.eyebrow,
-      seriesEnabled: articleClusters.seriesEnabled,
-      createdAt: articleClusters.createdAt,
-      memberCount: sql<number>`coalesce(${counts.n}, 0)`.mapWith(Number),
-    })
-    .from(articleClusters)
-    .leftJoin(counts, eq(counts.clusterId, articleClusters.id))
-    .orderBy(asc(articleClusters.name), asc(articleClusters.id));
+function indexById<T extends ClusterCategoryLike>(categories: readonly T[]): Map<string, T> {
+  return new Map(categories.map((c) => [c.id, c]));
+}
 
-  return rows.map((r) => ({ ...r, memberCount: Number(r.memberCount) || 0 }));
+/** The set of category ids that are clusters. */
+export function clusterIdSet(categories: readonly ClusterCategoryLike[]): Set<string> {
+  const byId = indexById(categories);
+  return new Set(categories.filter((c) => isClusterCategory(c, byId)).map((c) => c.id));
 }
 
 /**
- * One cluster and its members in `position` order, or null when the id is not
- * a uuid (no query is sent — Postgres would reject the cast) or no such
- * cluster exists.
- *
- * ONE statement, so the cluster and its member list come from the same
- * snapshot. The cluster is the outer row; each membership is LEFT JOINed onto
- * it, so an empty cluster still yields one row (member columns null). The
- * soft-delete filter sits in the article join's ON clause, not WHERE, so a
- * cluster whose only members are soft-deleted still comes back (empty) instead
- * of looking missing; those rows arrive with a null article and are dropped.
+ * Compare two pillar/cluster codes numerically: `C1.10` sorts after `C1.9`,
+ * `P10` after `P2`. Missing codes sort last.
  */
-export async function getClusterWithMembers(id: string): Promise<ClusterWithMembers | null> {
-  if (!UUID_RE.test(id)) return null;
+export function compareCodes(a: string | null | undefined, b: string | null | undefined): number {
+  if (!a && !b) return 0;
+  if (!a) return 1;
+  if (!b) return -1;
+  const na = a
+    .replace(/^[A-Z]+/i, '')
+    .split('.')
+    .map(Number);
+  const nb = b
+    .replace(/^[A-Z]+/i, '')
+    .split('.')
+    .map(Number);
+  for (let i = 0; i < Math.max(na.length, nb.length); i++) {
+    const d = (na[i] ?? -1) - (nb[i] ?? -1);
+    if (d !== 0 && !Number.isNaN(d)) return d;
+  }
+  return a.localeCompare(b);
+}
 
-  const rows = await db
-    .select({
-      id: articleClusters.id,
-      name: articleClusters.name,
-      slug: articleClusters.slug,
-      description: articleClusters.description,
-      eyebrow: articleClusters.eyebrow,
-      seriesEnabled: articleClusters.seriesEnabled,
-      createdAt: articleClusters.createdAt,
-      updatedAt: articleClusters.updatedAt,
-      memberId: articleClusterMembers.id,
-      articleId: articles.id,
-      title: articles.title,
-      articleSlug: articles.slug,
-      status: articles.status,
-      scheduledPublishAt: articles.scheduledPublishAt,
-      categorySlug: inspireCategories.slug,
-      position: articleClusterMembers.position,
-    })
-    .from(articleClusters)
-    .leftJoin(articleClusterMembers, eq(articleClusterMembers.clusterId, articleClusters.id))
-    .leftJoin(
-      articles,
-      and(
-        eq(articles.id, articleClusterMembers.articleId),
-        ne(articles.status, 'deleted' as ArticleStatus),
-      ),
-    )
-    .leftJoin(inspireCategories, eq(inspireCategories.id, articles.primaryCategoryId))
-    .where(eq(articleClusters.id, id))
-    .orderBy(
-      asc(articleClusterMembers.position),
-      asc(articleClusterMembers.createdAt),
-      asc(articleClusterMembers.id),
-    );
-
-  const first = rows[0];
-  if (!first) return null;
-
-  const members: ClusterMember[] = [];
-  for (const r of rows) {
-    // No membership (empty cluster), or its article is soft-deleted.
-    if (r.memberId === null || r.articleId === null) continue;
-    members.push({
-      memberId: r.memberId,
-      articleId: r.articleId,
-      title: r.title ?? '',
-      slug: r.articleSlug ?? '',
-      status: r.status as ArticleStatus,
-      scheduledPublishAt: r.scheduledPublishAt ?? null,
-      categorySlug: r.categorySlug ?? null,
-      position: r.position ?? 0,
+/** Every cluster as a picker option, grouped by pillar in code order. */
+export function listClusterOptions(categories: readonly ClusterCategoryLike[]): ClusterOption[] {
+  const byId = indexById(categories);
+  const options: ClusterOption[] = [];
+  for (const c of categories) {
+    if (!isClusterCategory(c, byId)) continue;
+    const pillar = byId.get(c.parentId!)!;
+    options.push({
+      id: c.id,
+      name: c.name,
+      pillarId: pillar.id,
+      pillarName: pillar.name,
+      pillarCode: pillar.pillarCode ?? null,
+      code: c.pillarCode!,
     });
   }
-
-  return {
-    id: first.id,
-    name: first.name,
-    slug: first.slug,
-    description: first.description,
-    eyebrow: first.eyebrow,
-    seriesEnabled: first.seriesEnabled,
-    createdAt: first.createdAt,
-    updatedAt: first.updatedAt,
-    members,
-  };
+  return options.sort(
+    (a, b) =>
+      compareCodes(a.pillarCode, b.pillarCode) ||
+      compareCodes(a.code, b.code) ||
+      a.name.localeCompare(b.name),
+  );
 }
+
+/**
+ * The cluster an article starts in when the editor opens. When the primary
+ * category is itself a cluster that wins (it cannot be changed from the picker
+ * without moving the article's URL); otherwise the first linked cluster.
+ * `''` means "no cluster".
+ */
+export function initialClusterId(
+  primaryCategoryId: string | null,
+  linkedCategoryIds: readonly string[],
+  categories: readonly ClusterCategoryLike[],
+): string {
+  const clusters = clusterIdSet(categories);
+  if (primaryCategoryId && clusters.has(primaryCategoryId)) return primaryCategoryId;
+  return linkedCategoryIds.find((id) => clusters.has(id)) ?? '';
+}
+
+/**
+ * Apply the one-cluster rule to a category sync payload: drop every cluster id
+ * except the chosen one, then make sure the chosen one is present.
+ *
+ * The primary category is never removed — it decides the article's URL, and
+ * the editor locks the picker to it when it is a cluster, so in practice
+ * `clusterId === primaryCategoryId` in that case.
+ */
+export function applyClusterChoice(
+  ids: readonly string[],
+  clusterId: string,
+  categories: readonly ClusterCategoryLike[],
+  primaryCategoryId: string,
+): string[] {
+  const clusters = clusterIdSet(categories);
+  const kept = ids.filter(
+    (id) => !clusters.has(id) || id === clusterId || id === primaryCategoryId,
+  );
+  if (clusterId && clusters.has(clusterId) && !kept.includes(clusterId)) kept.push(clusterId);
+  return [...new Set(kept)];
+}
+
+/** How many of `ids` are clusters. */
+export function countClusters(
+  ids: readonly string[],
+  categories: readonly ClusterCategoryLike[],
+): number {
+  const clusters = clusterIdSet(categories);
+  return new Set(ids.filter((id) => clusters.has(id))).size;
+}
+
+/**
+ * The next free cluster code under a pillar: `P3` with `C3.1`…`C3.4` taken
+ * gives `C3.5`. `null` when the pillar has no usable `P<n>` code, in which case
+ * a cluster cannot be created under it (the article page ignores categories
+ * without a pillar code, so the cluster would silently not work).
+ */
+export function nextClusterCode(
+  pillarCode: string | null | undefined,
+  existingCodes: readonly (string | null | undefined)[],
+): string | null {
+  const m = /^P(\d+)$/.exec(pillarCode?.trim() ?? '');
+  if (!m) return null;
+  const n = m[1];
+  let max = 0;
+  for (const code of existingCodes) {
+    const cm = new RegExp(`^C${n}\\.(\\d+)$`).exec(code ?? '');
+    if (cm) max = Math.max(max, Number(cm[1]));
+  }
+  return `C${n}.${max + 1}`;
+}
+
+/** A cluster is "thin" below this many live articles. */
+export const THIN_CLUSTER_LIVE_MIN = 3;

@@ -46,3 +46,8 @@ certificates/
 
 # Orchestrator scratch (see brain/docs/artifacts.md)
 /tmp/
+
+# Cloudflare (docs/cloudflare.md): OpenNext output, wrangler state, local secrets
+.open-next/
+.wrangler/
+.dev.vars*

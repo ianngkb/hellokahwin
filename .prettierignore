@@ -43,3 +43,7 @@ src/lib/db/migrations
 # So the record is ignored, and the gate is green for the reason it should be.
 docs/work-done
 
+
+# Cloudflare build output
+.open-next
+.wrangler

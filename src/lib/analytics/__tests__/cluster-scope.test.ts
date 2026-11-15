@@ -3,10 +3,11 @@ import { PgDialect } from 'drizzle-orm/pg-core';
 import type { SQL } from 'drizzle-orm';
 
 /**
- * The cluster reads the analytics page makes against TWN's cluster TABLES
- * (built in parallel by the series port). Pinned: the table/column names the
- * dependency rests on, member order, deleted articles dropped, and R2 (the
- * first-joined switched-on cluster with an intro owns an article's box).
+ * The cluster reads the analytics page makes against the Clusters admin's
+ * model (#90): a cluster is an inspire_categories row under a pillar, and its
+ * members come through article_categories. Pinned: the table/column names the
+ * dependency rests on, member order, deleted articles dropped, and which
+ * switched-on cluster owns an article's box.
  */
 
 vi.mock('server-only', () => ({}));
@@ -35,7 +36,7 @@ beforeEach(() => {
 });
 
 describe('loadClusterMembers', () => {
-  it('reads one cluster with its live members in member order', async () => {
+  it('reads one cluster with its live members, newest first', async () => {
     answers = [
       [
         { id: C1, name: 'Adat', series_enabled: true, article_id: A1, slug: 'merisik', title: 'M' },
@@ -53,10 +54,13 @@ describe('loadClusterMembers', () => {
       ],
     });
     const { sql } = statements[0];
-    expect(sql).toContain('FROM article_clusters c');
-    expect(sql).toContain('LEFT JOIN article_cluster_members m ON m.cluster_id = c.id');
+    expect(sql).toContain('FROM inspire_categories c');
+    expect(sql).toContain('JOIN inspire_categories p ON p.id = c.parent_id AND p.is_pillar = TRUE');
+    expect(sql).toContain('LEFT JOIN article_categories ac ON ac.category_id = c.id');
+    expect(sql).toContain('c.is_pillar = FALSE');
+    expect(sql).toContain('c.pillar_code IS NOT NULL');
     expect(sql).toContain("a.status <> 'deleted'");
-    expect(sql).toContain('ORDER BY m.position ASC NULLS LAST, m.created_at ASC, m.id ASC');
+    expect(sql).toContain('ORDER BY a.published_at DESC NULLS LAST');
   });
 
   it('an empty cluster has no members; an unknown or malformed id is null', async () => {
@@ -72,17 +76,17 @@ describe('loadClusterMembers', () => {
   });
 });
 
-describe('getShownSeriesForArticles (R2)', () => {
-  it('first-joined, switched-on cluster with an intro, keyed back to the caller’s spelling', async () => {
+describe('getShownSeriesForArticles', () => {
+  it('the article’s switched-on cluster, keyed back to the caller’s spelling', async () => {
     answers = [[{ article_id: A1, cluster_id: C1 }]];
     const out = await getShownSeriesForArticles([A1.toUpperCase(), A2, 'junk']);
     expect(out.get(A1.toUpperCase())).toEqual({ clusterId: C1 });
     expect(out.has(A2)).toBe(false);
     const { sql, params } = statements[0];
-    expect(sql).toContain('DISTINCT ON (m.article_id)');
-    expect(sql).toContain('c.series_enabled = TRUE');
-    expect(sql).toContain("NULLIF(btrim(c.description), '') IS NOT NULL");
-    expect(sql).toContain('ORDER BY m.article_id, m.created_at ASC, m.id ASC');
+    expect(sql).toContain('DISTINCT ON (ac.article_id)');
+    expect(sql).toContain('FROM article_categories ac');
+    expect(sql).toContain('s.series_enabled = TRUE');
+    expect(sql).toContain('ORDER BY ac.article_id, c.id ASC');
     expect(params).not.toContain('junk');
   });
 

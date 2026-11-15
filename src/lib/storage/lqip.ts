@@ -1,4 +1,4 @@
-import sharp from 'sharp';
+import { resizeToWebp } from './image-engine';
 
 /**
  * LQIP — the tiny base64 placeholder that stands in for a cover while the real
@@ -23,10 +23,12 @@ export const LQIP_MAX_BYTES = 800;
 
 /** Produces a `data:image/webp;base64,...` URL suitable for `blurDataURL`. */
 export async function generateLqip(sourceBuffer: Buffer): Promise<string> {
-  const buf = await sharp(sourceBuffer)
-    .resize({ width: LQIP_WIDTH, withoutEnlargement: true })
-    .webp({ quality: LQIP_QUALITY, effort: 6 })
-    .toBuffer();
+  // sharp on Vercel, Cloudflare Images on a Worker (`@/lib/storage/image-engine`).
+  const { data: buf } = await resizeToWebp(sourceBuffer, {
+    width: LQIP_WIDTH,
+    quality: LQIP_QUALITY,
+    effort: 6,
+  });
 
   return `data:image/webp;base64,${buf.toString('base64')}`;
 }

@@ -14,6 +14,11 @@ const eslintConfig = defineConfig([
     '_bmad/**',
     '.tmp-ops/**',
     '.claude/**',
+    // Cloudflare build output and the Worker wrapper that imports it
+    // (docs/cloudflare.md) — neither exists until a Cloudflare build runs.
+    '.open-next/**',
+    '.wrangler/**',
+    'cf-worker.ts',
   ]),
   // Ported-code debt: same downgrade set as twn-new — the React Compiler hook
   // checks and `no-explicit-any` fire across the inherited Inspire code.

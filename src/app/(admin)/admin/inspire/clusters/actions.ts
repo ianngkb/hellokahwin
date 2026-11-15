@@ -1,785 +1,244 @@
 'use server';
 
 import { revalidatePath, revalidateTag, updateTag } from 'next/cache';
-import { and, count, desc, eq, ilike, inArray, ne, sql } from 'drizzle-orm';
-import { z } from 'zod/v4';
-import { db } from '@/lib/db/drizzle';
-import { articles } from '@/lib/db/schema/articles';
-import { articleClusterMembers, articleClusters } from '@/lib/db/schema/article-clusters';
-import { requireAdminSectionAction } from '@/lib/auth/admin';
-import { logAuditEvent } from '@/lib/audit/log';
-import { diffFields } from '@/lib/audit/diff';
+import { eq, like } from 'drizzle-orm';
 import { PURGE_IMMEDIATELY } from '@/lib/cache/purge';
-import { clusterAnalyticsTag, getClusters } from '@/lib/inspire/clusters';
-import {
-  getArticleClusterMemberships,
-  type ArticleClusterMembership,
-} from '@/lib/inspire/article-series';
-import type { ArticleStatus } from '@/lib/constants';
-import {
-  MAX_CLUSTER_MEMBERS,
-  clusterAddMembersSchema,
-  clusterCreateSchema,
-  clusterIdSchema,
-  clusterMemberSchema,
-  clusterRenameSchema,
-  clusterReorderSchema,
-  clusterSeriesSettingsSchema,
-} from '@/lib/validations/article-cluster';
+import { db } from '@/lib/db/drizzle';
+import { inspireCategories } from '@/lib/db/schema/articles';
+import { requireAdminSectionAction } from '@/lib/auth/admin';
+import { INSPIRE_CATEGORIES_TAG } from '@/lib/inspire/cached-lists';
+import { logAuditEvent } from '@/lib/audit/log';
+import { generateSlug } from '@/lib/utils/slug';
+import { nextClusterCode } from '@/lib/inspire/clusters';
+import { clusterCreateSchema, clusterSettingsSchema } from './validation';
+
+export type ClusterActionState = { error: string } | { success: true } | null;
 
 /**
- * The clusters admin (`/admin/inspire/clusters`): hand-picked, ordered groups
- * of articles that can be shown to readers as a "series". Ported from The
- * Wedding Notebook.
- *
- * Every action is behind the `inspire` admin section, validates its input with
- * zod, writes an `article_cluster` audit row, and revalidates the list, the
- * cluster's own pages and its `cluster-analytics:<id>` cache tag.
- *
- * Every write to an existing cluster (rename, add, remove, reorder, settings)
- * runs in one transaction that first locks the cluster row (`SELECT … FOR
- * UPDATE`), so two admins (or two tabs) changing the same cluster go one after
- * the other and each sees the other's committed change. Audit rows and cache
- * revalidation happen only after the commit, and revalidation is best-effort:
- * a cache hiccup never turns a saved change into a reported failure (which
- * would invite a duplicate retry).
- *
- * The 50-article cap counts the members an admin can SEE — the same set every
- * read in `@/lib/inspire/clusters` shows (article not soft-deleted).
- *
- * ── No public page refresh (yet) ──────────────────────────────────────
- * In TWN a switched-on cluster renders a Series box on each member's public
- * page, so every write there also refreshes those pages. HelloKahwin does not
- * render the box yet (`SERIES_BOX_ON_SITE` is false), so there is no public
- * page whose content depends on a cluster, and these actions refresh admin
- * screens only. The change that ships the public box MUST add the per-member
- * refresh here (members before ∪ after, only when the cluster is on before or
- * after) — see TWN's `revalidateSeriesMembers`.
+ * Same invalidation set as the category actions (`../categories/actions.ts`):
+ * the category tag (editor selects, pillar view, up-link), the articles tag
+ * (every article page carries the series box and the up-link), and the paths
+ * an admin is looking at.
  */
+function invalidate() {
+  revalidatePath('/admin/inspire/clusters', 'layout');
+  revalidatePath('/admin/inspire/categories');
+  revalidatePath('/artikel');
+  revalidateTag(INSPIRE_CATEGORIES_TAG, PURGE_IMMEDIATELY);
+  updateTag(INSPIRE_CATEGORIES_TAG);
+  revalidateTag('articles', PURGE_IMMEDIATELY);
+}
 
-export type ClusterActionResult = { success: true } | { error: string };
+function str(formData: FormData, key: string): string | undefined {
+  const v = formData.get(key);
+  return typeof v === 'string' ? v : undefined;
+}
 
-/** One staged article the batch add could not add, and why (shown to the admin). */
-export interface ClusterAddFailure {
-  articleId: string;
-  error: string;
+const PILLAR_CODE_INDEX = 'inspire_categories_pillar_code_idx';
+const SLUG_CONSTRAINT = 'inspire_categories_slug_unique';
+/** Attempts at claiming a free cluster code before giving up. */
+const CLUSTER_CODE_ATTEMPTS = 5;
+
+/**
+ * Which unique constraint a failed insert hit, or null when it was not a
+ * unique violation. postgres-js puts it on the error; drizzle wraps that error
+ * in `cause`.
+ */
+function uniqueViolationOn(err: unknown): string | null {
+  const e = err as {
+    code?: string;
+    constraint_name?: string;
+    cause?: { code?: string; constraint_name?: string };
+  } | null;
+  if (e?.code === '23505') return e.constraint_name ?? '';
+  if (e?.cause?.code === '23505') return e.cause.constraint_name ?? '';
+  return null;
 }
 
 /**
- * The batch add's answer. `{ error }` is a cluster-wide refusal (not allowed,
- * cluster gone, bad input, database down) — nothing was added. Otherwise
- * `added` landed (in the order given) and `failed` did not, each with its reason.
+ * Edit a pillar's or a cluster's settings. Which fields apply is decided from
+ * the stored row, never from the form: a pillar takes the linking phrase and
+ * intro, a cluster takes the linking phrase and its series-box settings.
  */
-export type ClusterAddMembersResult =
-  { success: true; added: string[]; failed: ClusterAddFailure[] } | { error: string };
-
-/** One article as the cluster editor's picker shows it. */
-export interface ClusterPickerArticle {
-  id: string;
-  title: string;
-  status: string;
-}
-
-/** Everything the article editor's Series panel needs, in one call. */
-export interface ArticleSeriesPanelData {
-  memberships: ArticleClusterMembership[];
-  clusters: { id: string; name: string; seriesEnabled: boolean; memberCount: number }[];
-}
-
-// Not exported: a 'use server' file may only export async functions.
-const ALREADY_IN_CLUSTER = 'Already in this cluster';
-const ARTICLE_GONE = 'That article no longer exists.';
-const CLUSTER_GONE = 'This cluster no longer exists — reload the page.';
-const STALE_ORDER = 'The article list is out of date — reload the page and try again.';
-const FULL = `A cluster can hold up to ${MAX_CLUSTER_MEMBERS} articles`;
-/** `article_clusters.slug` is UNIQUE; 23505 is the only way an admin meets it. */
-const DUPLICATE_SLUG = 'Another cluster already uses that web address name';
-/** The picker's search term cap, in characters (matches the homepage picker). */
-const PICKER_MAX_TERM_CHARS = 120;
-const PICKER_RESULT_LIMIT = 20;
-
-const LIST_PATH = '/admin/inspire/clusters';
-
-type Tx = Parameters<Parameters<typeof db.transaction>[0]>[0];
-
-/** Thrown inside the reorder transaction to roll it back as "stale". */
-class StaleOrderError extends Error {}
-
-function hasPgCode(err: unknown, code: string): boolean {
-  const e = err as { code?: string; cause?: { code?: string } };
-  return e?.code === code || e?.cause?.code === code;
-}
-
-function firstIssue(error: { issues: { message: string }[] }): string {
-  return error.issues[0]?.message ?? 'Invalid input';
-}
-
-/**
- * Refresh everything that shows this cluster. `updateTag` gives the admin
- * read-your-own-writes (server actions only); `revalidateTag` with
- * `PURGE_IMMEDIATELY` covers every other cached copy.
- *
- * Called only AFTER the write has committed, and never throws.
- */
-function revalidateCluster(clusterId?: string) {
-  try {
-    revalidatePath(LIST_PATH);
-    if (!clusterId) return;
-    revalidatePath(`${LIST_PATH}/${clusterId}`);
-    revalidatePath(`${LIST_PATH}/${clusterId}/analytics`);
-    const tag = clusterAnalyticsTag(clusterId);
-    revalidateTag(tag, PURGE_IMMEDIATELY);
-    updateTag(tag);
-  } catch (err) {
-    console.error('[clusters] revalidation failed after a saved change:', err);
-  }
-}
-
-/**
- * Locks the cluster row for the rest of the transaction. Empty when it is gone.
- * One lock helper, so no write can take a weaker lock than its siblings.
- */
-function lockCluster(tx: Tx, clusterId: string) {
-  return tx
-    .select({
-      id: articleClusters.id,
-      name: articleClusters.name,
-      slug: articleClusters.slug,
-      description: articleClusters.description,
-      eyebrow: articleClusters.eyebrow,
-      seriesEnabled: articleClusters.seriesEnabled,
-    })
-    .from(articleClusters)
-    .where(eq(articleClusters.id, clusterId))
-    .for('update');
-}
-
-/** Creates an empty cluster (series box off — the column default). */
-export async function createClusterAction(input: {
-  name: string;
-}): Promise<{ success: true; id: string } | { error: string }> {
+export async function updateClusterSettingsAction(
+  _prev: unknown,
+  formData: FormData,
+): Promise<ClusterActionState> {
   const { error: authError, user } = await requireAdminSectionAction('inspire');
   if (authError || !user) return { error: authError ?? 'Unauthorized' };
 
-  const parsed = clusterCreateSchema.safeParse({ name: input?.name });
-  if (!parsed.success) return { error: firstIssue(parsed.error) };
+  const parsed = clusterSettingsSchema.safeParse({
+    id: str(formData, 'id'),
+    entityPhrase: str(formData, 'entityPhrase') ?? '',
+    intro: str(formData, 'intro') ?? '',
+    seriesDescription: str(formData, 'seriesDescription') ?? '',
+    seriesEnabled: formData.get('seriesEnabled') === 'on',
+  });
+  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? 'Invalid input' };
+  const input = parsed.data;
 
-  let row: { id: string; name: string } | undefined;
-  try {
-    [row] = await db
-      .insert(articleClusters)
-      .values({ name: parsed.data.name, slug: parsed.data.slug ?? null })
-      .returning({ id: articleClusters.id, name: articleClusters.name });
-  } catch (err) {
-    console.error('[clusters] create failed:', err);
-    return { error: 'Could not create the cluster — please try again.' };
+  const [row] = await db
+    .select({
+      id: inspireCategories.id,
+      name: inspireCategories.name,
+      isPillar: inspireCategories.isPillar,
+      pillarCode: inspireCategories.pillarCode,
+      parentId: inspireCategories.parentId,
+    })
+    .from(inspireCategories)
+    .where(eq(inspireCategories.id, input.id))
+    .limit(1);
+  if (!row) return { error: 'That pillar or cluster no longer exists.' };
+
+  let changes: Partial<typeof inspireCategories.$inferInsert>;
+  if (row.isPillar) {
+    changes = { entityPhrase: input.entityPhrase, intro: input.intro };
+  } else {
+    // Confirm it really is a cluster — a pillar code and a pillar parent — so
+    // this form can never be used to edit an ordinary category.
+    const parent = row.parentId
+      ? (
+          await db
+            .select({ isPillar: inspireCategories.isPillar })
+            .from(inspireCategories)
+            .where(eq(inspireCategories.id, row.parentId))
+            .limit(1)
+        )[0]
+      : undefined;
+    if (!row.pillarCode || parent?.isPillar !== true) {
+      return { error: 'Only pillars and clusters can be edited here.' };
+    }
+    changes = {
+      entityPhrase: input.entityPhrase,
+      seriesEnabled: input.seriesEnabled,
+      seriesDescription: input.seriesDescription,
+    };
   }
-  if (!row) return { error: 'Could not create the cluster — please try again.' };
+
+  await db
+    .update(inspireCategories)
+    .set({ ...changes, updatedAt: new Date() })
+    .where(eq(inspireCategories.id, row.id));
 
   logAuditEvent({
-    entityType: 'article_cluster',
+    entityType: 'inspire_category',
     entityId: row.id,
-    entityLabel: row.name,
+    action: 'updated',
+    performedBy: user.id,
+    metadata: { name: row.name, kind: row.isPillar ? 'pillar' : 'cluster', ...changes },
+  });
+
+  invalidate();
+  return { success: true };
+}
+
+/**
+ * Add a cluster under a pillar. The cluster code (`C3.5`) is assigned here:
+ * without one the article page does not treat the category as a cluster, so a
+ * code-less "cluster" would look created and silently do nothing.
+ */
+export async function createClusterAction(
+  _prev: unknown,
+  formData: FormData,
+): Promise<ClusterActionState> {
+  const { error: authError, user } = await requireAdminSectionAction('inspire');
+  if (authError || !user) return { error: authError ?? 'Unauthorized' };
+
+  const parsed = clusterCreateSchema.safeParse({
+    pillarId: str(formData, 'pillarId'),
+    name: str(formData, 'name') ?? '',
+    slug: str(formData, 'slug') || undefined,
+    entityPhrase: str(formData, 'entityPhrase') ?? '',
+  });
+  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? 'Invalid input' };
+  const input = parsed.data;
+
+  const [pillar] = await db
+    .select({
+      id: inspireCategories.id,
+      isPillar: inspireCategories.isPillar,
+      pillarCode: inspireCategories.pillarCode,
+    })
+    .from(inspireCategories)
+    .where(eq(inspireCategories.id, input.pillarId))
+    .limit(1);
+  if (!pillar?.isPillar) return { error: 'Choose a pillar to add the cluster under.' };
+
+  const pillarNumber = /^P(\d+)$/.exec(pillar.pillarCode?.trim() ?? '')?.[1];
+  if (!pillarNumber) {
+    return { error: 'This pillar has no pillar code (P1–P7), so clusters cannot be added to it.' };
+  }
+
+  const slug = input.slug || generateSlug(input.name);
+  if (!slug) return { error: 'Enter a name made of letters or numbers.' };
+
+  const siblings = await db
+    .select({ displayOrder: inspireCategories.displayOrder })
+    .from(inspireCategories)
+    .where(eq(inspireCategories.parentId, pillar.id));
+  const displayOrder = siblings.reduce((max, s) => Math.max(max, s.displayOrder ?? 0), -1) + 1;
+
+  // `pillar_code` is unique across the WHOLE table, and the category admin can
+  // move a cluster to another pillar without changing its code. So the next
+  // free `C<n>.<m>` is computed from every code in use with this prefix, not
+  // from this pillar's current children. Two admins adding a cluster at the
+  // same moment can still race for the same code; the unique index decides,
+  // and the loser re-reads and tries the next number.
+  const tried: string[] = [];
+  let created: { id: string } | undefined;
+  let code: string | null = null;
+  for (let attempt = 0; attempt < CLUSTER_CODE_ATTEMPTS && !created; attempt++) {
+    const inUse = await db
+      .select({ pillarCode: inspireCategories.pillarCode })
+      .from(inspireCategories)
+      .where(like(inspireCategories.pillarCode, `C${pillarNumber}.%`));
+    code = nextClusterCode(pillar.pillarCode, [...inUse.map((r) => r.pillarCode), ...tried]);
+    if (!code) break;
+    try {
+      [created] = await db
+        .insert(inspireCategories)
+        .values({
+          name: input.name,
+          slug,
+          parentId: pillar.id,
+          pillarCode: code,
+          entityPhrase: input.entityPhrase,
+          isPillar: false,
+          displayOrder,
+        })
+        .returning({ id: inspireCategories.id });
+    } catch (err) {
+      const constraint = uniqueViolationOn(err);
+      if (constraint === PILLAR_CODE_INDEX) {
+        tried.push(code);
+        continue;
+      }
+      if (constraint === SLUG_CONSTRAINT) {
+        return {
+          error: `A category with the web address "${slug}" already exists. Try another name.`,
+        };
+      }
+      if (constraint !== null) {
+        return { error: 'That cluster clashes with an existing category. Try another name.' };
+      }
+      throw err;
+    }
+  }
+  if (!created || !code) {
+    return {
+      error:
+        'Could not assign a free cluster code because others were being added at the same time. Try again.',
+    };
+  }
+
+  logAuditEvent({
+    entityType: 'inspire_category',
+    entityId: created!.id,
     action: 'created',
     performedBy: user.id,
+    metadata: { name: input.name, slug, parentId: pillar.id, pillarCode: code, kind: 'cluster' },
   });
-  revalidateCluster(row.id);
-  return { success: true, id: row.id };
-}
 
-/**
- * Renames the cluster. The old name is read under the cluster row's lock, so
- * a second rename racing this one waits, then sees (and audits) THIS rename's
- * name as its "old" value. The name IS the series heading readers see.
- */
-export async function renameClusterAction(input: {
-  id: string;
-  name: string;
-}): Promise<ClusterActionResult> {
-  const { error: authError, user } = await requireAdminSectionAction('inspire');
-  if (authError || !user) return { error: authError ?? 'Unauthorized' };
-
-  const parsed = clusterRenameSchema.safeParse({ id: input?.id, name: input?.name });
-  if (!parsed.success) return { error: firstIssue(parsed.error) };
-  const { id, name } = parsed.data;
-
-  let outcome: { kind: 'gone' } | { kind: 'unchanged' } | { kind: 'renamed'; oldName: string };
-  try {
-    outcome = await db.transaction(async (tx) => {
-      const [before] = await lockCluster(tx, id);
-      if (!before) return { kind: 'gone' as const };
-      if (before.name === name) return { kind: 'unchanged' as const };
-
-      await tx
-        .update(articleClusters)
-        .set({ name, updatedAt: new Date() })
-        .where(eq(articleClusters.id, id));
-      return { kind: 'renamed' as const, oldName: before.name };
-    });
-  } catch (err) {
-    console.error('[clusters] rename failed:', err);
-    return { error: 'Could not rename the cluster — please try again.' };
-  }
-
-  if (outcome.kind === 'gone') return { error: CLUSTER_GONE };
-  if (outcome.kind === 'unchanged') return { success: true };
-
-  logAuditEvent({
-    entityType: 'article_cluster',
-    entityId: id,
-    entityLabel: name,
-    action: 'updated',
-    performedBy: user.id,
-    changes: { name: { old: outcome.oldName, new: name } },
-  });
-  revalidateCluster(id);
+  invalidate();
   return { success: true };
-}
-
-/**
- * Deletes the cluster. Its membership rows go with it (FK cascade); the
- * articles themselves are not touched. Deleting a cluster that is already
- * gone (a double click, a second tab) succeeds without a second audit row.
- */
-export async function deleteClusterAction(clusterId: string): Promise<ClusterActionResult> {
-  const { error: authError, user } = await requireAdminSectionAction('inspire');
-  if (authError || !user) return { error: authError ?? 'Unauthorized' };
-
-  const parsed = clusterIdSchema.safeParse(clusterId);
-  if (!parsed.success) return { error: firstIssue(parsed.error) };
-  const id = parsed.data;
-
-  let row: { id: string; name: string } | undefined;
-  try {
-    [row] = await db
-      .delete(articleClusters)
-      .where(eq(articleClusters.id, id))
-      .returning({ id: articleClusters.id, name: articleClusters.name });
-  } catch (err) {
-    console.error('[clusters] delete failed:', err);
-    return { error: 'Could not delete the cluster — please try again.' };
-  }
-
-  if (row) {
-    logAuditEvent({
-      entityType: 'article_cluster',
-      entityId: id,
-      entityLabel: row.name,
-      action: 'deleted',
-      performedBy: user.id,
-    });
-  }
-  revalidateCluster(id);
-  return { success: true };
-}
-
-/**
- * Adds several articles to the end of the cluster, in the order given, in ONE
- * transaction with ONE revalidation afterwards.
- *
- * Under the cluster row's lock it reads, once each: the picked articles
- * (`FOR SHARE`, so a soft-delete racing this add waits until we commit), which
- * of them are already members, the VISIBLE member count and the last position.
- * Then each pick, in order, is either added or refused with its own reason:
- *
- *   - the article is gone or soft-deleted → "That article no longer exists."
- *   - it is already a member → "Already in this cluster" (checked BEFORE the
- *     cap, so a duplicate on a full cluster still says what it is)
- *   - the cluster has no room left → the 50-article cap message.
- *
- * Refusals are per article and never undo the others.
- */
-export async function addClusterMembersAction(input: {
-  clusterId: string;
-  articleIds: string[];
-}): Promise<ClusterAddMembersResult> {
-  const { error: authError, user } = await requireAdminSectionAction('inspire');
-  if (authError || !user) return { error: authError ?? 'Unauthorized' };
-
-  const parsed = clusterAddMembersSchema.safeParse({
-    clusterId: input?.clusterId,
-    articleIds: input?.articleIds,
-  });
-  if (!parsed.success) return { error: firstIssue(parsed.error) };
-  const { clusterId, articleIds } = parsed.data;
-
-  type Added = { articleId: string; title: string };
-  let outcome:
-    | { kind: 'gone' }
-    | { kind: 'done'; clusterName: string; added: Added[]; failed: ClusterAddFailure[] };
-  try {
-    outcome = await db.transaction(async (tx) => {
-      const [cluster] = await lockCluster(tx, clusterId);
-      if (!cluster) return { kind: 'gone' as const };
-
-      const found = await tx
-        .select({ id: articles.id, title: articles.title, status: articles.status })
-        .from(articles)
-        .where(inArray(articles.id, articleIds))
-        .for('share');
-      const byId = new Map(found.map((a) => [a.id, a]));
-
-      // ANY membership row, visible or not: re-adding an article whose old row
-      // is still there would hit the unique key, so it is "already in".
-      const existing = await tx
-        .select({ articleId: articleClusterMembers.articleId })
-        .from(articleClusterMembers)
-        .where(
-          and(
-            eq(articleClusterMembers.clusterId, clusterId),
-            inArray(articleClusterMembers.articleId, articleIds),
-          ),
-        );
-      const already = new Set(existing.map((r) => r.articleId));
-
-      // The cap counts what the editor shows: members whose article is live.
-      const [size] = await tx
-        .select({ n: count() })
-        .from(articleClusterMembers)
-        .innerJoin(articles, eq(articles.id, articleClusterMembers.articleId))
-        .where(
-          and(
-            eq(articleClusterMembers.clusterId, clusterId),
-            ne(articles.status, 'deleted' as ArticleStatus),
-          ),
-        );
-
-      // After the current last member (hidden ones included, so positions
-      // never collide with a row that might come back).
-      const [last] = await tx
-        .select({
-          max: sql<number>`coalesce(max(${articleClusterMembers.position}), -1)`.mapWith(Number),
-        })
-        .from(articleClusterMembers)
-        .where(eq(articleClusterMembers.clusterId, clusterId));
-
-      let room = MAX_CLUSTER_MEMBERS - Number(size?.n ?? 0);
-      let next = Number(last?.max ?? -1) + 1;
-      const failed: ClusterAddFailure[] = [];
-      const rows: { clusterId: string; articleId: string; position: number }[] = [];
-      const titles = new Map<string, string>();
-
-      for (const articleId of articleIds) {
-        const article = byId.get(articleId);
-        if (!article || article.status === ('deleted' as ArticleStatus)) {
-          failed.push({ articleId, error: ARTICLE_GONE });
-        } else if (already.has(articleId)) {
-          failed.push({ articleId, error: ALREADY_IN_CLUSTER });
-        } else if (room <= 0) {
-          failed.push({ articleId, error: FULL });
-        } else {
-          rows.push({ clusterId, articleId, position: next++ });
-          titles.set(articleId, article.title);
-          room--;
-        }
-      }
-
-      let inserted: { articleId: string }[] = [];
-      if (rows.length > 0) {
-        inserted = await tx
-          .insert(articleClusterMembers)
-          .values(rows)
-          // Cannot fire under the lock (we just checked); kept so a duplicate
-          // is never a 500.
-          .onConflictDoNothing({
-            target: [articleClusterMembers.clusterId, articleClusterMembers.articleId],
-          })
-          .returning({ articleId: articleClusterMembers.articleId });
-      }
-      const landed = new Set(inserted.map((r) => r.articleId));
-      for (const r of rows) {
-        if (!landed.has(r.articleId)) {
-          failed.push({ articleId: r.articleId, error: ALREADY_IN_CLUSTER });
-        }
-      }
-
-      return {
-        kind: 'done' as const,
-        clusterName: cluster.name,
-        added: rows
-          .filter((r) => landed.has(r.articleId))
-          .map((r) => ({ articleId: r.articleId, title: titles.get(r.articleId) ?? '' })),
-        // Back in the order the admin picked them.
-        failed: articleIds.flatMap((id) => failed.filter((f) => f.articleId === id)),
-      };
-    });
-  } catch (err) {
-    // Belt and braces: ON CONFLICT already absorbs the duplicate, but a
-    // constraint renamed under the target would surface as a raw 23505.
-    if (hasPgCode(err, '23505')) return { error: ALREADY_IN_CLUSTER };
-    // An article or the cluster was hard-deleted between the checks and the insert.
-    if (hasPgCode(err, '23503')) return { error: 'That article or cluster no longer exists.' };
-    console.error('[clusters] add members failed:', err);
-    return { error: 'Could not add the articles — please try again.' };
-  }
-
-  if (outcome.kind === 'gone') return { error: CLUSTER_GONE };
-
-  for (const a of outcome.added) {
-    logAuditEvent({
-      entityType: 'article_cluster',
-      entityId: clusterId,
-      entityLabel: outcome.clusterName,
-      action: 'cluster_member_added',
-      performedBy: user.id,
-      metadata: { articleId: a.articleId, articleTitle: a.title },
-    });
-  }
-  if (outcome.added.length > 0) revalidateCluster(clusterId);
-  return {
-    success: true,
-    added: outcome.added.map((a) => a.articleId),
-    failed: outcome.failed,
-  };
-}
-
-/**
- * Adds one article at the end of the cluster — the batch add with one pick.
- * Used by the article editor's Series panel.
- */
-export async function addClusterMemberAction(input: {
-  clusterId: string;
-  articleId: string;
-}): Promise<ClusterActionResult> {
-  const parsed = clusterMemberSchema.safeParse({
-    clusterId: input?.clusterId,
-    articleId: input?.articleId,
-  });
-  if (!parsed.success) {
-    // Auth first, exactly like every other action: a non-admin learns nothing
-    // about the input.
-    const { error: authError, user } = await requireAdminSectionAction('inspire');
-    if (authError || !user) return { error: authError ?? 'Unauthorized' };
-    return { error: firstIssue(parsed.error) };
-  }
-
-  const result = await addClusterMembersAction({
-    clusterId: parsed.data.clusterId,
-    articleIds: [parsed.data.articleId],
-  });
-  if ('error' in result) return { error: result.error };
-  if (result.failed.length > 0) return { error: result.failed[0]!.error };
-  return { success: true };
-}
-
-/**
- * Removes one article from the cluster (the article itself is untouched).
- * Takes the same cluster lock as reorder and add. Removing one that is not a
- * member any more succeeds without an audit row.
- */
-export async function removeClusterMemberAction(input: {
-  clusterId: string;
-  articleId: string;
-}): Promise<ClusterActionResult> {
-  const { error: authError, user } = await requireAdminSectionAction('inspire');
-  if (authError || !user) return { error: authError ?? 'Unauthorized' };
-
-  const parsed = clusterMemberSchema.safeParse({
-    clusterId: input?.clusterId,
-    articleId: input?.articleId,
-  });
-  if (!parsed.success) return { error: firstIssue(parsed.error) };
-  const { clusterId, articleId } = parsed.data;
-
-  let outcome: { kind: 'gone' } | { kind: 'done'; clusterName: string; removed: boolean };
-  try {
-    outcome = await db.transaction(async (tx) => {
-      const [cluster] = await lockCluster(tx, clusterId);
-      if (!cluster) return { kind: 'gone' as const };
-
-      const removed = await tx
-        .delete(articleClusterMembers)
-        .where(
-          and(
-            eq(articleClusterMembers.clusterId, clusterId),
-            eq(articleClusterMembers.articleId, articleId),
-          ),
-        )
-        .returning({ id: articleClusterMembers.id });
-      return { kind: 'done' as const, clusterName: cluster.name, removed: removed.length > 0 };
-    });
-  } catch (err) {
-    console.error('[clusters] remove member failed:', err);
-    return { error: 'Could not remove the article — please try again.' };
-  }
-
-  if (outcome.kind === 'gone') return { error: CLUSTER_GONE };
-  if (outcome.removed) {
-    logAuditEvent({
-      entityType: 'article_cluster',
-      entityId: clusterId,
-      entityLabel: outcome.clusterName,
-      action: 'cluster_member_removed',
-      performedBy: user.id,
-      metadata: { articleId },
-    });
-  }
-  revalidateCluster(clusterId);
-  return { success: true };
-}
-
-/**
- * Saves a new member order. `orderedArticleIds` must be exactly the cluster's
- * VISIBLE members. A list from a stale page is refused rather than applied
- * partially. Every renumbering UPDATE must hit exactly one row; if one does
- * not, the whole transaction rolls back and the list is reported out of date.
- */
-export async function reorderClusterMembersAction(input: {
-  clusterId: string;
-  orderedArticleIds: string[];
-}): Promise<ClusterActionResult> {
-  const { error: authError, user } = await requireAdminSectionAction('inspire');
-  if (authError || !user) return { error: authError ?? 'Unauthorized' };
-
-  const parsed = clusterReorderSchema.safeParse({
-    clusterId: input?.clusterId,
-    orderedArticleIds: input?.orderedArticleIds,
-  });
-  if (!parsed.success) return { error: firstIssue(parsed.error) };
-  const { clusterId, orderedArticleIds } = parsed.data;
-
-  let outcome: { kind: 'gone' } | { kind: 'stale' } | { kind: 'done'; clusterName: string };
-  try {
-    outcome = await db.transaction(async (tx) => {
-      const [cluster] = await lockCluster(tx, clusterId);
-      if (!cluster) return { kind: 'gone' as const };
-
-      const current = await tx
-        .select({ articleId: articleClusterMembers.articleId })
-        .from(articleClusterMembers)
-        .innerJoin(articles, eq(articles.id, articleClusterMembers.articleId))
-        .where(
-          and(
-            eq(articleClusterMembers.clusterId, clusterId),
-            ne(articles.status, 'deleted' as ArticleStatus),
-          ),
-        );
-
-      const currentIds = new Set(current.map((r) => r.articleId));
-      const submitted = new Set(orderedArticleIds);
-      const stale =
-        currentIds.size !== submitted.size ||
-        orderedArticleIds.length !== submitted.size ||
-        orderedArticleIds.some((id) => !currentIds.has(id));
-      if (stale) return { kind: 'stale' as const };
-
-      for (let i = 0; i < orderedArticleIds.length; i++) {
-        const hit = await tx
-          .update(articleClusterMembers)
-          .set({ position: i })
-          .where(
-            and(
-              eq(articleClusterMembers.clusterId, clusterId),
-              eq(articleClusterMembers.articleId, orderedArticleIds[i]!),
-            ),
-          )
-          .returning({ id: articleClusterMembers.id });
-        // Throwing rolls back every position already written.
-        if (hit.length !== 1) throw new StaleOrderError();
-      }
-      return { kind: 'done' as const, clusterName: cluster.name };
-    });
-  } catch (err) {
-    if (err instanceof StaleOrderError) return { error: STALE_ORDER };
-    console.error('[clusters] reorder failed:', err);
-    return { error: 'Could not save the new order — please try again.' };
-  }
-
-  if (outcome.kind === 'gone') return { error: CLUSTER_GONE };
-  if (outcome.kind === 'stale') return { error: STALE_ORDER };
-
-  logAuditEvent({
-    entityType: 'article_cluster',
-    entityId: clusterId,
-    entityLabel: outcome.clusterName,
-    action: 'reordered',
-    performedBy: user.id,
-    metadata: { orderedArticleIds },
-  });
-  revalidateCluster(clusterId);
-  return { success: true };
-}
-
-/**
- * Saves the cluster's reader-facing "Series box" settings: the intro text, the
- * optional small label above the title, the web address name (slug) and the
- * on/off switch. The heading is the cluster's `name`, saved by
- * `renameClusterAction`.
- *
- *   · Validation first: the switch cannot be turned on while the intro is
- *     blank — refused with the next thing to do, and NOTHING is written.
- *   · One transaction holding the cluster row's lock, so two admins saving at
- *     once go one after the other and each audits the other's committed values
- *     as its "old" ones.
- *   · ONE `article_cluster` / `updated` audit row listing only the fields that
- *     really moved. Written after the commit, like every other action here
- *     (HK's `logAuditEvent`; TWN writes this one inside the transaction with a
- *     helper HelloKahwin does not have). A save that changes nothing writes and
- *     audits nothing.
- *   · A web address name another cluster already uses (23505) comes back as a
- *     sentence an admin can act on, never a 500.
- */
-export async function updateClusterSeriesAction(input: {
-  id: string;
-  description: string;
-  eyebrow: string;
-  slug: string;
-  seriesEnabled: boolean;
-}): Promise<ClusterActionResult> {
-  const { error: authError, user } = await requireAdminSectionAction('inspire');
-  if (authError || !user) return { error: authError ?? 'Unauthorized' };
-
-  const parsed = clusterSeriesSettingsSchema.safeParse({
-    id: input?.id,
-    description: input?.description,
-    eyebrow: input?.eyebrow,
-    slug: input?.slug,
-    seriesEnabled: input?.seriesEnabled,
-  });
-  if (!parsed.success) return { error: firstIssue(parsed.error) };
-  const { id, description, eyebrow, slug, seriesEnabled } = parsed.data;
-
-  let outcome:
-    | { kind: 'gone' }
-    | { kind: 'unchanged' }
-    | { kind: 'saved'; name: string; changes: NonNullable<ReturnType<typeof diffFields>> };
-  try {
-    outcome = await db.transaction(async (tx) => {
-      const [before] = await lockCluster(tx, id);
-      if (!before) return { kind: 'gone' as const };
-
-      // Plain-language keys, not column names: these land in the activity
-      // feed, where an admin reads them.
-      const changes = diffFields(
-        {
-          introText: before.description,
-          smallLabel: before.eyebrow,
-          webAddressName: before.slug,
-          seriesBoxShownToReaders: before.seriesEnabled,
-        },
-        {
-          introText: description,
-          smallLabel: eyebrow,
-          webAddressName: slug,
-          seriesBoxShownToReaders: seriesEnabled,
-        },
-      );
-      if (!changes) return { kind: 'unchanged' as const };
-
-      await tx
-        .update(articleClusters)
-        .set({ description, eyebrow, slug, seriesEnabled, updatedAt: new Date() })
-        .where(eq(articleClusters.id, id));
-
-      return { kind: 'saved' as const, name: before.name, changes };
-    });
-  } catch (err) {
-    // `article_clusters.slug` is UNIQUE. Checking first would still race, so
-    // the constraint is the check and this is its message.
-    if (hasPgCode(err, '23505')) return { error: DUPLICATE_SLUG };
-    console.error('[clusters] series settings save failed:', err);
-    return { error: 'Could not save the series settings — please try again.' };
-  }
-
-  if (outcome.kind === 'gone') return { error: CLUSTER_GONE };
-  if (outcome.kind === 'unchanged') return { success: true };
-
-  logAuditEvent({
-    entityType: 'article_cluster',
-    entityId: id,
-    entityLabel: outcome.name,
-    action: 'updated',
-    performedBy: user.id,
-    changes: outcome.changes,
-  });
-  revalidateCluster(id);
-  return { success: true };
-}
-
-/**
- * Title search for the cluster editor's "Add articles" picker. Any status but
- * soft-deleted (a cluster may be built ahead of publishing), newest first,
- * capped at 20. The term is capped at 120 characters and its LIKE wildcards
- * are escaped, so what the admin typed is what is matched.
- */
-export async function searchClusterArticlesAction(
-  query: string,
-): Promise<{ articles: ClusterPickerArticle[] } | { error: string }> {
-  const { error: authError, user } = await requireAdminSectionAction('inspire');
-  if (authError || !user) return { error: authError ?? 'Unauthorized' };
-
-  const term = Array.from(typeof query === 'string' ? query.trim() : '')
-    .slice(0, PICKER_MAX_TERM_CHARS)
-    .join('');
-  if (Array.from(term).length < 2) return { articles: [] };
-  const escaped = term.replace(/[\\%_]/g, '\\$&');
-
-  try {
-    const rows = await db
-      .select({
-        id: articles.id,
-        title: articles.title,
-        status: articles.status,
-        scheduledPublishAt: articles.scheduledPublishAt,
-      })
-      .from(articles)
-      .where(
-        and(ne(articles.status, 'deleted' as ArticleStatus), ilike(articles.title, `%${escaped}%`)),
-      )
-      .orderBy(desc(articles.updatedAt), desc(articles.id))
-      .limit(PICKER_RESULT_LIMIT);
-    return {
-      articles: rows.map((r) => ({
-        id: r.id,
-        title: r.title,
-        status: r.status === 'draft' && r.scheduledPublishAt ? 'scheduled' : r.status,
-      })),
-    };
-  } catch (err) {
-    console.error('[clusters] article search failed:', err);
-    return { error: 'Could not search articles — please try again.' };
-  }
-}
-
-/**
- * Everything the article editor's **Series** panel needs, in one call.
- *
- * Read by the panel ITSELF, on mount — deliberately NOT by the edit page's
- * server render and NOT part of the article save payload: a slow or broken
- * series read can never delay the editor opening or degrade the save, and
- * membership is saved the moment it is picked (through the actions above),
- * so the 60-second autosave never rewrites it.
- *
- * `{ error }` on any failure, which the panel shows as its own "couldn't load"
- * state.
- */
-export async function getArticleSeriesPanelAction(
-  articleId: string,
-): Promise<ArticleSeriesPanelData | { error: string }> {
-  const { error: authError, user } = await requireAdminSectionAction('inspire');
-  if (authError || !user) return { error: authError ?? 'Unauthorized' };
-
-  const parsed = z.string().uuid().safeParse(articleId);
-  if (!parsed.success) return { error: 'Invalid article ID' };
-
-  try {
-    // Two independent reads, in parallel: this article's memberships and the
-    // full cluster list for the picker. Each is one statement.
-    const [memberships, clusters] = await Promise.all([
-      getArticleClusterMemberships(parsed.data),
-      getClusters(),
-    ]);
-    return {
-      memberships,
-      clusters: clusters.map((c) => ({
-        id: c.id,
-        name: c.name,
-        seriesEnabled: c.seriesEnabled,
-        memberCount: c.memberCount,
-      })),
-    };
-  } catch (err) {
-    console.error('[clusters] series panel read failed for article', articleId, err);
-    return { error: "Couldn't load series — refresh to try again" };
-  }
 }

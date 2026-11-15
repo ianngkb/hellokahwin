@@ -1,5 +1,4 @@
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { HORIZONTAL_MARK_SVG } from './horizontal-mark-svg';
 import { cn } from '@/lib/utils';
 
 /**
@@ -18,15 +17,15 @@ import { cn } from '@/lib/utils';
  * inline, where `fill="currentColor"` is a genuine CSS cascade and follows
  * the wrapping element's `color` like any other inline content.
  *
+ * The markup comes from a bundled string (`./horizontal-mark-svg`), not a
+ * `readFileSync` of `public/` — a Cloudflare Worker has no filesystem.
+ *
  * Sized off `--fs-wordmark` (tokens.css, DES-05): `clamp(18px, ..., 24px)`.
  * That floor is not a coincidence — it is `brand-assets.ts`'s stated
  * `minHeight` for the horizontal lockup. Using the token rather than a new
  * literal means the two specs cannot drift apart.
  */
-const HORIZONTAL_MARK = readFileSync(
-  join(process.cwd(), 'public/brand/logos/hellokahwin-horizontal.svg'),
-  'utf8',
-);
+const HORIZONTAL_MARK = HORIZONTAL_MARK_SVG;
 
 export function SiteWordmark({ className }: { className?: string }) {
   return (

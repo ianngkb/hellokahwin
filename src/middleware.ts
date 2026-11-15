@@ -2,6 +2,7 @@ import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 import { NextResponse, type NextRequest, type NextFetchEvent } from 'next/server';
 import { getPatternRedirect } from '@/lib/redirects/patterns';
 import { resolveTrailingSlash } from '@/lib/redirects/trailing-slash';
+import { isReadOnlyPreview, readOnlyPreviewVerdict } from '@/lib/cloudflare/read-only-preview';
 
 // Clerk runs ONLY on admin surfaces. Public pages never load or consult Clerk —
 // no dev-browser handshake redirects, no auth latency, nothing for the
@@ -22,6 +23,17 @@ const withClerk = clerkMiddleware();
 
 export default function middleware(request: NextRequest, event: NextFetchEvent) {
   const { pathname } = request.nextUrl;
+
+  // Cloudflare preview only (HK_READ_ONLY=1): it shares the production
+  // database, so admin and every write answer here, before Clerk or a route
+  // runs. Unset on Vercel — see @/lib/cloudflare/read-only-preview.
+  const readOnly = readOnlyPreviewVerdict(isReadOnlyPreview(), request.method, pathname);
+  if (readOnly) {
+    return new NextResponse(readOnly.status === 204 ? null : readOnly.reason, {
+      status: readOnly.status,
+      headers: { 'cache-control': 'no-store', 'x-robots-tag': 'noindex' },
+    });
+  }
 
   // Trailing slashes FIRST. next.config sets `skipTrailingSlashRedirect`, so
   // Next no longer normalises them and this is the only thing that does — see
