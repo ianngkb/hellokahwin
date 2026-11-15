@@ -110,6 +110,8 @@ import {
   CategoryMultiSelect,
   CategoryTertiarySelect,
 } from '@/components/inspire/category-select';
+import { ClusterSelect } from '@/components/inspire/cluster-select';
+import { applyClusterChoice, clusterIdSet, initialClusterId } from '@/lib/inspire/clusters';
 import { SmartCropPreviewDialog } from '@/components/inspire/smart-crop-preview-dialog';
 import { SmartCropManualOverride } from '@/components/inspire/smart-crop-manual-override';
 import { RedirectHistory } from './redirect-history';
@@ -239,6 +241,9 @@ interface Category {
   name: string;
   parentId: string | null;
   slug: string;
+  /** Optional: a stale cached category list may predate these two fields. */
+  isPillar?: boolean | null;
+  pillarCode?: string | null;
 }
 
 interface TagOption {
@@ -691,10 +696,24 @@ export function ArticleEditor({
   const [authorId, setAuthorId] = useState(article.authorId);
   const [primaryCategoryId, setPrimaryCategoryId] = useState(article.primaryCategoryId ?? '');
   // Split initialCategoryIds into secondary (children of primary) and tertiary (children of secondaries)
+  // Clusters are children of a pillar, so they used to surface here as
+  // "secondary categories". They now have their own picker (one cluster per
+  // article), so they are kept OUT of the secondary list and tracked as
+  // `clusterId` instead; the save payload adds the chosen one back.
+  const clusterIds = useMemo(() => clusterIdSet(categories), [categories]);
+  const nonClusterCategories = useMemo(
+    () => categories.filter((c) => !clusterIds.has(c.id)),
+    [categories, clusterIds],
+  );
+  const [clusterId, setClusterId] = useState(() =>
+    initialClusterId(article.primaryCategoryId, initialCategoryIds, categories),
+  );
   const [secondaryCategoryIds, setSecondaryCategoryIds] = useState<string[]>(() => {
     if (!article.primaryCategoryId) return [];
+    const initialClusters = clusterIdSet(categories);
     return initialCategoryIds.filter((id) => {
       if (id === article.primaryCategoryId) return false;
+      if (initialClusters.has(id)) return false;
       const cat = categories.find((c) => c.id === id);
       return cat?.parentId === article.primaryCategoryId;
     });
@@ -855,6 +874,7 @@ export function ArticleEditor({
     primaryCategoryId: article.primaryCategoryId ?? '',
     secondaryCategoryIds: JSON.stringify(secondaryCategoryIds),
     tertiaryCategoryIds: JSON.stringify(tertiaryCategoryIds),
+    clusterId,
     content: JSON.stringify(article.content),
     publishedAt: article.publishedAt ?? '',
     updatedAt: article.updatedAt ?? '',
@@ -878,6 +898,7 @@ export function ArticleEditor({
     primaryCategoryId !== initialValues.current.primaryCategoryId ||
     JSON.stringify(secondaryCategoryIds) !== initialValues.current.secondaryCategoryIds ||
     JSON.stringify(tertiaryCategoryIds) !== initialValues.current.tertiaryCategoryIds ||
+    clusterId !== initialValues.current.clusterId ||
     JSON.stringify(editorContent) !== initialValues.current.content ||
     publishedAt !== initialValues.current.publishedAt ||
     updatedAt !== initialValues.current.updatedAt ||
@@ -939,6 +960,7 @@ export function ArticleEditor({
       setPrimaryCategoryId(data.primaryCategoryId);
       // Validate restored secondaries: must be children of the restored primary
       const restoredSecondaries = (data.secondaryCategoryIds ?? []).filter((id) => {
+        if (clusterIds.has(id)) return false;
         const cat = categories.find((c) => c.id === id);
         return cat?.parentId === data.primaryCategoryId;
       });
@@ -950,6 +972,10 @@ export function ArticleEditor({
         return cat?.parentId ? secSet.has(cat.parentId) : false;
       });
       setTertiaryCategoryIds(restoredTertiaries);
+      // Older snapshots have no cluster field: keep the current cluster then.
+      if (data.clusterId !== undefined) {
+        setClusterId(data.clusterId && clusterIds.has(data.clusterId) ? data.clusterId : '');
+      }
     }
     setPublishedAt(data.publishedAt);
     setUpdatedAt(data.updatedAt ?? article.updatedAt ?? '');
@@ -989,6 +1015,7 @@ export function ArticleEditor({
       primaryCategoryId,
       secondaryCategoryIds,
       tertiaryCategoryIds,
+      clusterId,
       publishedAt,
       updatedAt,
       scheduledPublishAt,
@@ -1011,6 +1038,7 @@ export function ArticleEditor({
     primaryCategoryId,
     secondaryCategoryIds,
     tertiaryCategoryIds,
+    clusterId,
     publishedAt,
     updatedAt,
     scheduledPublishAt,
@@ -1053,6 +1081,14 @@ export function ArticleEditor({
       );
     },
     [categories, degraded],
+  );
+
+  const handleClusterChange = useCallback(
+    (next: string) => {
+      if (!shouldWriteCategories(degraded)) return;
+      setClusterId(next);
+    },
+    [degraded],
   );
 
   const handleTertiaryCategoryChange = useCallback(
@@ -1202,25 +1238,44 @@ export function ArticleEditor({
             // `null` = the category reads failed, so the local id set is empty
             // for the wrong reason; skip the (delete-then-insert) sync entirely
             // rather than clear the article's real categories.
-            const allCatIds = buildCategorySyncPayload(degraded, {
+            const syncIds = buildCategorySyncPayload(degraded, {
               primaryCategoryId,
               secondaryCategoryIds,
               tertiaryCategoryIds,
             });
+            // One cluster per article: drop every other cluster, add the
+            // picked one. When the primary category is itself a cluster the
+            // picker is locked to it, so that is the cluster.
+            const allCatIds = syncIds
+              ? applyClusterChoice(
+                  syncIds,
+                  clusterIds.has(primaryCategoryId) ? primaryCategoryId : clusterId,
+                  categories,
+                  primaryCategoryId,
+                )
+              : null;
+            let categoryWriteRejected = false;
             if (allCatIds) {
               // Forward the save's public-visibility verdict so this call doesn't
               // re-fire the public cache invalidation that updateArticleAction just
               // deliberately skipped for a draft — and the same `silent` flag, or
               // this call would bust the editor's own cache one line after
               // updateArticleAction deliberately spared it.
-              await updateArticleCategoriesAction(article.id, allCatIds, result.affectsPublic, {
-                silent: options?.silent === true,
-              });
+              const catResult = await updateArticleCategoriesAction(
+                article.id,
+                allCatIds,
+                result.affectsPublic,
+                { silent: options?.silent === true },
+              );
+              if (catResult && 'error' in catResult) {
+                categoryWriteRejected = true;
+                toast.error(`Categories not saved: ${catResult.error}`, { duration: 10000 });
+              }
             }
             // `allCatIds === null` means the sync was skipped because the category
             // reads failed. Nothing category-shaped reached the database on this
             // save, so the admin's picks are still pending.
-            const wroteCategories = allCatIds !== null;
+            const wroteCategories = allCatIds !== null && !categoryWriteRejected;
             if (!options?.silent) {
               toast.success('Article saved');
               // The save succeeded but quietly dropped a field the admin may have
@@ -1257,6 +1312,7 @@ export function ArticleEditor({
                 primaryCategoryId,
                 secondaryCategoryIds: JSON.stringify(secondaryCategoryIds),
                 tertiaryCategoryIds: JSON.stringify(tertiaryCategoryIds),
+                clusterId,
                 content: JSON.stringify(editorContent),
                 publishedAt: effectivePublishedAt,
                 updatedAt,
@@ -1303,6 +1359,9 @@ export function ArticleEditor({
       primaryCategoryId,
       secondaryCategoryIds,
       tertiaryCategoryIds,
+      clusterId,
+      clusterIds,
+      categories,
       publishedAt,
       updatedAt,
       scheduledPublishAt,
@@ -2192,6 +2251,28 @@ export function ArticleEditor({
               />
             </div>
 
+            {/* Cluster: one per article. Clusters are kept out of the
+                secondary list below so there is exactly one place to set it. */}
+            {clusterIds.size > 0 && (
+              <div className="space-y-2">
+                <Label htmlFor="article-cluster" className="text-sm font-semibold">
+                  Cluster
+                </Label>
+                <p className="text-muted-foreground text-xs">
+                  {clusterIds.has(primaryCategoryId)
+                    ? 'The primary category is a cluster, so the article is in that cluster. Change the primary category to move it.'
+                    : 'The group of guides this article belongs to. An article is in one cluster at most; choosing another replaces it.'}
+                </p>
+                <ClusterSelect
+                  id="article-cluster"
+                  categories={categories}
+                  value={clusterIds.has(primaryCategoryId) ? primaryCategoryId : clusterId}
+                  onValueChange={handleClusterChange}
+                  disabled={clusterIds.has(primaryCategoryId)}
+                />
+              </div>
+            )}
+
             {/* Secondary categories */}
             {primaryCategoryId && (
               <div className="space-y-2">
@@ -2200,7 +2281,7 @@ export function ArticleEditor({
                   Article will also appear on these category pages
                 </p>
                 <CategoryMultiSelect
-                  categories={categories}
+                  categories={nonClusterCategories}
                   primaryCategoryId={primaryCategoryId}
                   selectedIds={secondaryCategoryIds}
                   onChange={handleSecondaryCategoryChange}
@@ -2216,7 +2297,7 @@ export function ArticleEditor({
                   Specific sub-categories for finer cross-listing
                 </p>
                 <CategoryTertiarySelect
-                  categories={categories}
+                  categories={nonClusterCategories}
                   secondaryCategoryIds={secondaryCategoryIds}
                   selectedIds={tertiaryCategoryIds}
                   onChange={handleTertiaryCategoryChange}

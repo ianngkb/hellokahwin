@@ -150,6 +150,8 @@ export interface CategoryDirtyFields {
   primaryCategoryId: string;
   secondaryCategoryIds: string;
   tertiaryCategoryIds: string;
+  /** The Cluster picker's value (`''` = none). Optional for older callers. */
+  clusterId?: string;
 }
 
 /**
@@ -182,6 +184,7 @@ export function foldSavedValuesIntoBaseline<T extends CategoryDirtyFields>(
     primaryCategoryId: previous.primaryCategoryId,
     secondaryCategoryIds: previous.secondaryCategoryIds,
     tertiaryCategoryIds: previous.tertiaryCategoryIds,
+    clusterId: previous.clusterId,
   };
 }
 
