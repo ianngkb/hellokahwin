@@ -28,6 +28,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
   return (
     <div className="hk-public flex min-h-screen flex-col">
       <Navbar />
+      {/* No top padding: the navbar is sticky (in flow), see navbar.tsx. */}
       <main className="flex-1">{children}</main>
       <Suspense>
         <AnalyticsTracker />

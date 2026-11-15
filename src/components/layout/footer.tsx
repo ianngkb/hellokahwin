@@ -1,46 +1,102 @@
 import Link from 'next/link';
+import { getMastheadCategories } from '@/lib/services/inspire-nav';
+import { type MenuCategory } from '@/components/inspire/inspire-nav-menu';
+import { withDeadline } from '@/lib/api/timeout';
+import { SiteWordmark } from '@/components/brand/site-wordmark';
+
+const linkClass = 'text-plum-deep-muted text-sm transition-colors hover:text-white';
+const headingClass =
+  'text-plum-deep-accent mb-3 text-[10px] font-semibold tracking-[0.14em] uppercase';
 
 /**
- * Public footer — Editorial Monotone. Centred colophon: wordmark, one line of
- * positioning copy, a hairline, then the small-caps link row. Nothing else —
- * the last thing a reader sees should be quiet.
+ * Public footer — a port of twn-new's footer layout: dark band, brand column
+ * plus three link columns (2-up on phones, 4-up from `md`), copyright below.
+ *
+ * Colours are HelloKahwin's tokens: `--plum-deep` resolves to the
+ * `.hk-public` ink, so the band is HelloKahwin's dark, not TWN's plum. TWN's
+ * gold column headings use `--brass`, which `.hk-public` neutralises to ink
+ * (invisible on this band), so headings use `--plum-deep-accent` — the token
+ * defined for secondary text on this surface.
+ *
+ * Not ported: social icons (HelloKahwin has no confirmed accounts), the
+ * newsletter row (no subscription backend here), vendor/login links (no
+ * accounts).
+ *
+ * Soft-fails like the navbar: without categories the "Topik" column simply
+ * is not rendered.
  */
-export function Footer() {
+export async function Footer() {
+  let categories: MenuCategory[] = [];
+  try {
+    categories = await withDeadline(getMastheadCategories(), 3000, 'footer-categories');
+  } catch (err) {
+    console.error('[footer] categories unavailable:', err);
+  }
+  // Only real category pages — admin-managed custom links (`url`) stay in the navbar.
+  const topics = categories.filter((c) => !c.url).slice(0, 8);
+  const firstHalf = topics.slice(0, Math.ceil(topics.length / 2));
+  const secondHalf = topics.slice(Math.ceil(topics.length / 2));
+
   return (
-    <footer className="border-border mt-20 border-t">
-      <div className="mx-auto max-w-6xl px-4 py-12 text-center lg:py-16">
-        {/* `hk-tap` — the colophon wordmark is a link, and `leading-none` on
-            18px serif measured it at 182.8 x 21. It is not in this item's DoD
-            list because that list is four illustrations; it is here because
-            the audit enumerated every target rather than looking up four. */}
-        <Link
-          href="/"
-          className="hk-tap font-serif text-lg leading-none tracking-[0.22em] uppercase"
-        >
-          HelloKahwin
-        </Link>
-        <p className="hk-deck mx-auto mt-4 max-w-md text-[0.9375rem]">
-          Idea, tips dan panduan perkahwinan untuk pasangan Malaysia.
-        </p>
+    <footer className="bg-plum-deep text-plum-deep-muted py-12">
+      <div className="container mx-auto px-4 lg:px-6">
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+          <div className="col-span-2 md:col-span-1">
+            <Link
+              href="/"
+              aria-label="HelloKahwin — Laman utama"
+              className="mb-3 inline-block text-white"
+            >
+              <SiteWordmark />
+            </Link>
+            <p className="text-plum-deep-accent font-accent mb-4 text-sm leading-relaxed italic">
+              Idea, tips dan panduan perkahwinan untuk pasangan Malaysia.
+            </p>
+          </div>
+          <div>
+            <h4 className={headingClass}>Teroka</h4>
+            <div className="flex flex-col gap-2">
+              <Link href="/artikel" className={linkClass}>
+                Semua Artikel
+              </Link>
+              {firstHalf.map((cat) => (
+                <Link key={cat.slug} href={`/artikel/${cat.slug}`} className={linkClass}>
+                  {cat.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+          {secondHalf.length > 0 && (
+            <div>
+              <h4 className={headingClass}>Topik</h4>
+              <div className="flex flex-col gap-2">
+                {secondHalf.map((cat) => (
+                  <Link key={cat.slug} href={`/artikel/${cat.slug}`} className={linkClass}>
+                    {cat.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+          <div>
+            <h4 className={headingClass}>HelloKahwin</h4>
+            <div className="flex flex-col gap-2">
+              <Link href="/" className={linkClass}>
+                Laman Utama
+              </Link>
+              <Link href="/artikel#cari" className={linkClass}>
+                Cari Artikel
+              </Link>
+              <Link href="/brand" className={linkClass}>
+                Jenama &amp; Media
+              </Link>
+            </div>
+          </div>
+        </div>
 
-        <nav
-          aria-label="Pautan kaki"
-          className="border-border mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 border-t pt-8"
-        >
-          {/* `hk-tap` — 99.4 x 15.4 and 103.7 x 15.4 before UI-11. The row keeps
-              `gap-y-3`, so two 24px targets still read as one quiet line. */}
-          <Link href="/" className="hk-eyebrow hk-tap hover:text-foreground transition-colors">
-            Laman Utama
-          </Link>
-          <Link
-            href="/artikel"
-            className="hk-eyebrow hk-tap hover:text-foreground transition-colors"
-          >
-            Semua Artikel
-          </Link>
-        </nav>
-
-        <p className="hk-meta mt-8">© {new Date().getFullYear()} HelloKahwin</p>
+        <div className="text-plum-deep-muted mt-10 border-t border-white/10 pt-6 text-center text-sm">
+          &copy; {new Date().getFullYear()} HelloKahwin. Hak cipta terpelihara.
+        </div>
       </div>
     </footer>
   );
