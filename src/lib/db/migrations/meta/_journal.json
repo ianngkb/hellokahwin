@@ -43,6 +43,13 @@
       "when": 1793326039600,
       "tag": "0005_analytics_events",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1794756782032,
+      "tag": "0006_cluster_series_box",
+      "breakpoints": true
     }
   ]
 }

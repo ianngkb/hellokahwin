@@ -102,6 +102,11 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
         keywords: 'section topic taxonomy',
       },
       {
+        label: 'Clusters',
+        href: '/admin/inspire/clusters',
+        keywords: 'pillar cluster series siri topical authority thin views',
+      },
+      {
         label: 'Tags',
         href: '/admin/inspire/tags',
         keywords: 'label keyword taxonomy hidden',

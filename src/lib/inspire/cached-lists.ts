@@ -57,6 +57,9 @@ export interface InspireCategoryOption {
   name: string;
   parentId: string | null;
   slug: string;
+  /** Pillar flag + code: lets the editor's Cluster picker tell clusters apart. */
+  isPillar: boolean;
+  pillarCode: string | null;
 }
 
 export interface InspireTagOption {
@@ -88,6 +91,8 @@ export const getInspireCategoriesCached = cachedJson(
         name: inspireCategories.name,
         parentId: inspireCategories.parentId,
         slug: inspireCategories.slug,
+        isPillar: inspireCategories.isPillar,
+        pillarCode: inspireCategories.pillarCode,
       })
       .from(inspireCategories)
       .orderBy(inspireCategories.displayOrder),

@@ -1,0 +1,68 @@
+<title>HelloKahwin Clusters Build</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: single reading column; plain plan document */
+:root{--bg:#f6f7f9;--surface:#fff;--fg:#1d1f24;--muted:#5d6370;--line:#dfe2e8;--accent:#7a1f3d;--accent-soft:#f6e8ed;
+--body:system-ui,-apple-system,"Segoe UI",sans-serif;--mono:ui-monospace,Consolas,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14151a;--surface:#1c1e25;--fg:#e8e9ee;--muted:#a2a7b3;--line:#2e313b;--accent:#e58aa8;--accent-soft:#3a1d28;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#14151a;--surface:#1c1e25;--fg:#e8e9ee;--muted:#a2a7b3;--line:#2e313b;--accent:#e58aa8;--accent-soft:#3a1d28;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:15px/1.6 var(--body)}
+.wrap{max-width:820px;margin:0 auto;padding-block:36px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{margin:0;line-height:1.25;text-wrap:balance}h1{font-size:1.8rem}h2{font-size:1.2rem}h3{font-size:1rem}
+p{margin:0;max-width:68ch}section{display:flex;flex-direction:column;gap:10px}
+ul,ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;max-width:68ch}
+.eyebrow{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.lede{color:var(--muted)}.callout{background:var(--accent-soft);border-radius:10px;padding:14px 16px}
+code{font-family:var(--mono);font-size:.85em}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:8px}
+</style>
+<div class="wrap">
+<header style="display:flex;flex-direction:column;gap:8px">
+  <div class="eyebrow">HelloKahwin · Build plan · 15 Nov 2026 · Standard track</div>
+  <h1>Clusters for HelloKahwin</h1>
+  <p class="lede">This builds on HelloKahwin's existing pillar and cluster system. Today, pillars and clusters are categories, set up once by a script, and every article links back up to its pillar. Nothing new competes with that system. This adds the parts that are missing: a place to manage clusters, a box on each article listing the rest of its cluster, a clear way to put an article in a cluster, and per-cluster numbers.</p>
+</header>
+
+<div class="callout"><b>In plain words:</b> after this, you can open an admin page and see every cluster (for example "Mas kahwin ikut negeri") with its articles, which are live, which are drafts, how many views each got, and which clusters are thin. Readers on an article see a "Dalam siri ini" box near the top linking to the other guides in the same cluster.</div>
+
+<section>
+  <h2>What gets built</h2>
+  <div class="card"><h3>1. Clusters admin page (new, English)</h3>
+  <ul>
+    <li>A new "Clusters" tab in the Inspire admin. Shows every pillar and, under it, each cluster with its counts (live, draft or scheduled), last published date, and page views over the last 28 days.</li>
+    <li>Opening a cluster shows its articles with status, publish date and 28-day views. It warns about clusters with fewer than 3 live articles and pillar articles that aren't in any cluster.</li>
+    <li>You can edit a cluster's or pillar's linking phrase, pillar intro and series-box description, turn the series box on or off, and add a new cluster under a pillar.</li>
+  </ul></div>
+  <div class="card"><h3>2. "Cluster" picker in the article editor</h3>
+  <ul><li>One clear dropdown to put an article in a cluster. An article belongs to one cluster at most, and choosing one replaces the old one. It shows which pillar the cluster sits under.</li></ul></div>
+  <div class="card"><h3>3. "Dalam siri ini" box on articles (public, Malay)</h3>
+  <ul>
+    <li>Appears near the top of an article when its cluster has the box switched on and at least one other live article. The title is the cluster's Malay linking phrase, then an optional short description, then up to 8 sibling guides. The current article is marked but not linked. A last link goes to the pillar page.</li>
+    <li>One column on phones, two on wider screens. No extra images. Built for low-end Android, like the rest of the site.</li>
+    <li>Off by default for every cluster, so nothing changes for readers until you switch a cluster on.</li>
+  </ul></div>
+</section>
+
+<section>
+  <h2>Deliberately not included</h2>
+  <ul>
+    <li>TWN's separate "series" tables. HelloKahwin keeps one cluster system, its categories.</li>
+    <li>Search Console clicks and positions inside the admin. That's a follow-up; this version shows site page views.</li>
+    <li>Ordering a cluster's articles by hand. Siblings are listed newest first.</li>
+    <li>The /cluster writing workflow. That's the next, separate job: reviewing it and adapting it for HelloKahwin.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Technical notes</h2>
+  <ul>
+    <li><b>Data:</b> one additive migration on <code>inspire_categories</code>: <code>series_enabled boolean NOT NULL DEFAULT false</code> and <code>series_description text</code>. It follows the repo's migration convention and is applied by hand at ship time. HelloKahwin has one database (production); the change is additive and off by default, so it's safe to apply before the deploy.</li>
+    <li><b>Reuse:</b> <code>pillar-queries.ts</code> (<code>getPillarUpLink</code>, <code>getClusterSiblings</code>, <code>categoryAnchor</code>), the categories admin actions and audit pattern, and the cache tags <code>articles</code> / <code>inspire-categories</code>. The article page's <code>withDeadline</code>/<code>budgetLeft</code> fallback pattern means the box is non-critical: on a timeout the article still renders.</li>
+    <li><b>Security:</b> every new server action goes through the same admin-allowlist check the existing Inspire actions use. Inputs are validated with zod, and the description is plain text capped at 600 characters.</li>
+    <li><b>Analytics:</b> 28-day views come from <code>analytics_events</code> using the existing pathname+created_at index. Each panel has a time limit and shows an empty state rather than breaking the page.</li>
+    <li><b>Checks:</b> unit tests for the queries, actions (auth, validation, one-cluster rule), series box rendering (off, on, too few siblings, current marked) and editor picker. Before review, the full repo gate on the final HEAD: <code>pnpm test &amp;&amp; pnpm typecheck &amp;&amp; pnpm lint</code>.</li>
+    <li><b>Order:</b> migration and schema → queries → admin page and actions → editor picker → public box → tests → full gate → one Codex review → local preview for Ian → <code>/imdone</code>. It stops at the queue; shipping is Ian's call.</li>
+  </ul>
+</section>
+<p class="lede">Copy of record: <code>_bmad-output/autopilot/runs/20261115-clusters/spec-clusters.html</code> on branch <code>ianngkb/clusters</code>.</p>
+</div>

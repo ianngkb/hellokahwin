@@ -17,6 +17,12 @@ export interface LocalAutosaveData {
   secondaryCategoryIds: string[];
   tertiaryCategoryIds: string[];
   /**
+   * The Cluster picker's value (`''` = none). Optional: snapshots written
+   * before the picker existed have no such field, and a restore of one keeps
+   * the article's current cluster.
+   */
+  clusterId?: string;
+  /**
    * True when the article editor's category reads failed on the render that
    * produced this snapshot, so the three category fields above are empty for
    * lack of data rather than by the admin's intent. Restoring them would push

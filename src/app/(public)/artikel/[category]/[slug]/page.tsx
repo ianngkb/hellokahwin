@@ -48,6 +48,8 @@ import {
 import { MobileArticleBar } from '@/components/inspire/mobile-article-bar';
 import { Breadcrumbs, BreadcrumbJsonLd } from '@/components/common/breadcrumbs';
 import { PillarUpLinkBlock } from '@/components/inspire/pillar-up-link';
+import { SeriesBox } from '@/components/inspire/series-box';
+import { buildSeriesBox, SERIES_BOX_MAX_SIBLINGS } from '@/lib/inspire/series-box';
 import { getPillarUpLink, getClusterSiblings } from '@/lib/inspire/pillar-queries';
 import { ImageCredit } from '@/components/inspire/image-credit';
 import { buildArticleDescription } from '@/lib/seo/meta';
@@ -697,14 +699,24 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
   // far too loose an association for a sideways link, and the plan is explicit
   // that siblings link inside their own cluster. Articles outside the pillar
   // architecture keep the original behaviour via the fallback below.
+  //
+  // The SAME read also feeds the "Dalam siri ini" box, which is why it asks
+  // for up to 8 siblings: the box lists 8, the grid shows the first 6. One
+  // query, no new deadline to lose; when it fails the box simply isn't shown.
   let relatedArticles: Awaited<ReturnType<typeof getRelatedArticles>> = [];
+  let clusterSiblings: Awaited<ReturnType<typeof getClusterSiblings>> = [];
   if (pillarUpLink?.cluster) {
     try {
-      relatedArticles = await withDeadline(
-        getClusterSiblings(pillarUpLink.cluster.id, article.id, 6),
+      clusterSiblings = await withDeadline(
+        getClusterSiblings(
+          pillarUpLink.cluster.id,
+          article.id,
+          pillarUpLink.cluster.seriesEnabled ? SERIES_BOX_MAX_SIBLINGS : 6,
+        ),
         budgetLeft(),
         `inspire-cluster-siblings:${slug}`,
       );
+      relatedArticles = clusterSiblings.slice(0, 6);
     } catch {
       // Non-critical — fall through to the primary-category block below.
     }
@@ -729,6 +741,14 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
   // the bar inherits that relevance for free. Null when an article has no
   // siblings at all, and the bar handles that.
   const nextUp = relatedArticles[0];
+
+  // "Dalam siri ini" — null unless the cluster has the box switched on and at
+  // least one other live article. Built from data already in hand above.
+  const seriesBox = buildSeriesBox(
+    pillarUpLink,
+    { title: article.title, slug: article.slug, publishedAt: article.publishedAt },
+    clusterSiblings,
+  );
   const nextArticle = nextUp
     ? {
         title: nextUp.title,
@@ -1090,6 +1110,10 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_280px]">
             {/* Main article content */}
             <article>
+              {/* The cluster's series box, at the head of the body rather than
+                  above the cover, so it never pushes the hero photograph (the
+                  page's largest paint) further down a phone screen. */}
+              <SeriesBox box={seriesBox} />
               {/* The contents list renders inline at the top of the body,
                   inside the renderer, from the same `article.content` the
                   renderer anchors its headings from. */}
