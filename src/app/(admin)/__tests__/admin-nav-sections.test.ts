@@ -29,3 +29,20 @@ describe('admin nav: site analytics (D11)', () => {
     expect(ADMIN_NAV_GROUPS[0]?.id).toBe('articles');
   });
 });
+
+describe('admin nav: articles homepage curation', () => {
+  const groups = resolveAdminGroups();
+
+  it('lists /admin/inspire/homepage and routes it to the articles group', () => {
+    expect(flattenAdminNav(groups).map((i) => i.href)).toContain('/admin/inspire/homepage');
+    expect(findGroupForPath(groups, '/admin/inspire/homepage')?.id).toBe('articles');
+  });
+
+  it('is findable from the ⌘K palette by "featured" and "pin"', () => {
+    const flat = flattenAdminNav(groups);
+    expect(searchAdminNav(flat, 'featured').map((i) => i.href)).toContain(
+      '/admin/inspire/homepage',
+    );
+    expect(searchAdminNav(flat, 'pin').map((i) => i.href)).toContain('/admin/inspire/homepage');
+  });
+});
