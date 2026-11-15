@@ -1,6 +1,13 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { eq, ne, and, ilike, desc, sql, count, isNotNull, isNull } from 'drizzle-orm';
+import { eq, ne, and, ilike, desc, sql, count, isNotNull, isNull, type SQL } from 'drizzle-orm';
+import { safePanel } from '@/lib/admin/safe-panel';
+import {
+  getArticleViewMetrics,
+  getAllArticleViewMetrics,
+  type ArticleViewMetrics,
+} from '@/lib/analytics/article-views';
+import { parseViewSort, sortByViews } from '@/lib/analytics/article-view-sort';
 import { requireAdminSection } from '@/lib/auth/admin';
 import { db } from '@/lib/db/drizzle';
 import {
@@ -44,6 +51,9 @@ export default async function AdminInspirePage({
     review?: string;
     hiddenTagId?: string;
     page?: string;
+    /** View-column sort: `views` | `week` | `month` (article-view-sort.ts). */
+    sort?: string;
+    dir?: string;
   }>;
 }) {
   await requireAdminSection('inspire');
@@ -173,7 +183,10 @@ export default async function AdminInspirePage({
   // join would silently drop every unreviewed article from the list.
   const reviewer = alias(profiles, 'reviewer');
 
-  const [rows, totalResult] = await Promise.all([
+  // The full row shape the table renders. One builder serves both the default
+  // page and the view-sorted page (fetched by id), so the two can never drift
+  // apart in what they select or which rows the joins drop.
+  const selectArticleRows = (where: SQL | undefined) =>
     db
       .select({
         id: articles.id,
@@ -209,12 +222,15 @@ export default async function AdminInspirePage({
       .leftJoin(inspireCategories, eq(articles.primaryCategoryId, inspireCategories.id))
       .innerJoin(profiles, eq(articles.authorId, profiles.id))
       .leftJoin(reviewer, eq(articles.reviewedBy, reviewer.id))
-      .where(whereClause)
-      // Pending-first, replacing the old plain `created_at DESC`. What the owner
-      // opens this page to do is work a review queue, so the queue is what the
-      // page opens on: everything awaiting a decision, then everything already
-      // settled. Within the pending band, AI above human — that is the queue the
-      // owner actually asked for — and newest first inside that.
+      .where(where);
+
+  // Pending-first, replacing the old plain `created_at DESC`. What the owner
+  // opens this page to do is work a review queue, so the queue is what the
+  // page opens on: everything awaiting a decision, then everything already
+  // settled. Within the pending band, AI above human — that is the queue the
+  // owner actually asked for — and newest first inside that.
+  const defaultPage = () =>
+    selectArticleRows(whereClause)
       .orderBy(
         sql`CASE ${articles.reviewStatus}
               WHEN 'pending_review' THEN 0
@@ -225,11 +241,62 @@ export default async function AdminInspirePage({
         desc(articles.createdAt),
       )
       .limit(limit)
-      .offset(offset),
-    db.select({ count: count() }).from(articles).where(whereClause),
-  ]);
+      .offset(offset);
 
-  const total = totalResult[0]?.count ?? 0;
+  // A view-column sort (?sort=views|week|month) ranks the WHOLE filtered
+  // catalogue, so it needs every article's numbers before it can pick page 1:
+  // one catalogue-wide aggregation (cached 600s) instead of the 25-slug read.
+  // Behind `safePanel` with a `null` fallback — distinct from an empty map,
+  // which would mean "nothing has any views" — so a slow or failed analytics
+  // read drops the page back to the default order rather than 500-ing.
+  const viewSort = parseViewSort(params.sort, params.dir);
+  const [totalResult, defaultRows, allViewMetrics, candidates] = await Promise.all([
+    db.select({ count: count() }).from(articles).where(whereClause),
+    viewSort ? Promise.resolve(null) : defaultPage(),
+    viewSort
+      ? safePanel('inspire:all-view-metrics', () => getAllArticleViewMetrics(), null)
+      : Promise.resolve(null),
+    // Every id/slug/createdAt in the filtered set, with the same inner join to
+    // `profiles` as the row select so an id the full select would drop is never
+    // ranked into a page slot it then can't fill. Caught: a sort is optional.
+    viewSort
+      ? db
+          .select({ id: articles.id, slug: articles.slug, createdAt: articles.createdAt })
+          .from(articles)
+          .innerJoin(profiles, eq(articles.authorId, profiles.id))
+          .where(whereClause)
+          .catch((err) => {
+            console.error('[admin-inspire] view-sort candidates read failed:', err);
+            return null;
+          })
+      : Promise.resolve(null),
+  ]);
+  const sortActive = viewSort !== null && allViewMetrics !== null && candidates !== null;
+
+  let rows: Awaited<ReturnType<typeof defaultPage>>;
+  if (viewSort && allViewMetrics && candidates) {
+    // Rank in memory (see article-view-sort.ts for why not SQL), slice this
+    // page, load the full rows for just those ids, and restore ranked order.
+    const pageIds = sortByViews(candidates, allViewMetrics, viewSort.key, viewSort.dir).slice(
+      offset,
+      offset + limit,
+    );
+    const pageRows =
+      pageIds.length > 0
+        ? await selectArticleRows(and(inArray(articles.id, pageIds), whereClause))
+        : [];
+    const byId = new Map(pageRows.map((r) => [r.id, r]));
+    rows = pageIds.flatMap((id) => {
+      const r = byId.get(id);
+      return r ? [r] : [];
+    });
+  } else {
+    rows = defaultRows ?? (await defaultPage());
+  }
+
+  // A sorted page is sliced from `candidates`, which inner-joins `profiles`
+  // like the row select; the plain count does not.
+  const total = sortActive && candidates ? candidates.length : (totalResult[0]?.count ?? 0);
   const totalPages = Math.ceil(total / limit);
 
   const articleIds = rows.map((r) => r.id);
@@ -263,8 +330,24 @@ export default async function AdminInspirePage({
     secondaryCategoriesByArticle.set(row.articleId, existing);
   }
 
+  // Per-article view metrics for ONLY the rows on screen, behind safePanel so a
+  // slow analytics read blanks the Views column instead of the article list.
+  // With a sort active the catalogue-wide map already holds them; with a sort
+  // that just DEGRADED, analytics is already slow, so don't stack a retry.
+  const viewMetrics =
+    sortActive && allViewMetrics
+      ? allViewMetrics
+      : viewSort
+        ? new Map<string, ArticleViewMetrics>()
+        : await safePanel(
+            'inspire:view-metrics',
+            () => getArticleViewMetrics(rows.map((r) => r.slug)),
+            new Map<string, ArticleViewMetrics>(),
+          );
+
   const serialized = rows.map((r) => ({
     ...r,
+    viewMetrics: viewMetrics.get(r.slug) ?? null,
     hasVariants: Boolean(r.hasVariants),
     secondaryCategories: secondaryCategoriesByArticle.get(r.id) ?? [],
     reviewedAt: r.reviewedAt?.toISOString() ?? null,
@@ -307,6 +390,7 @@ export default async function AdminInspirePage({
           isHouseAccount: a.isHouseAccount,
         }))}
         searchParams={params}
+        activeViewSort={sortActive ? viewSort : null}
         currentPage={page}
         totalPages={totalPages}
         total={total}
