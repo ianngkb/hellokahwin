@@ -176,7 +176,19 @@ export interface PillarUpLink {
   /** Anchor text — the pillar's Malay entity phrase. */
   anchor: string;
   /** The cluster this article sits in, when it has one. */
-  cluster: { id: string; slug: string; name: string; anchor: string } | null;
+  cluster: {
+    id: string;
+    slug: string;
+    name: string;
+    anchor: string;
+    /**
+     * The cluster's "Dalam siri ini" box switch and its optional description.
+     * Riding this read (rather than a separate one) is what lets the article
+     * page add the box without adding a query to its deadline budget.
+     */
+    seriesEnabled: boolean;
+    seriesDescription: string | null;
+  } | null;
 }
 
 /**
@@ -203,6 +215,8 @@ export const getPillarUpLink = unstable_cache(
         name: inspireCategories.name,
         entityPhrase: inspireCategories.entityPhrase,
         isPillar: inspireCategories.isPillar,
+        seriesEnabled: inspireCategories.seriesEnabled,
+        seriesDescription: inspireCategories.seriesDescription,
         parentId: inspireCategories.parentId,
         parentSlug: sql<string | null>`parent.slug`,
         parentName: sql<string | null>`parent.name`,
@@ -247,6 +261,8 @@ export const getPillarUpLink = unstable_cache(
             slug: clusterRow.slug,
             name: clusterRow.name,
             anchor: categoryAnchor(clusterRow),
+            seriesEnabled: clusterRow.seriesEnabled === true,
+            seriesDescription: clusterRow.seriesDescription ?? null,
           }
         : null,
     };
