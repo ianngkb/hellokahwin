@@ -61,6 +61,7 @@ describe("admin nav: Inspire matches The Wedding Notebook's tab order", () => {
       ['Categories', '/admin/inspire/categories'],
       ['Tags', '/admin/inspire/tags'],
       ['Authors', '/admin/inspire/authors'],
+      ['Clusters', '/admin/inspire/clusters'],
       ['Navigation', '/admin/inspire/navigation'],
       ['Dynamic Blocks', '/admin/inspire/dynamic-blocks'],
     ]);
@@ -70,7 +71,6 @@ describe("admin nav: Inspire matches The Wedding Notebook's tab order", () => {
     const hrefs = flattenAdminNav(groups).map((i) => i.href);
     for (const missing of [
       '/admin/inspire/analytics',
-      '/admin/inspire/clusters',
       '/admin/inspire/vendor-credits',
       '/admin/inspire/angpow-rates',
       '/admin/pinterest-export',
@@ -100,6 +100,15 @@ describe("admin nav: Inspire matches The Wedding Notebook's tab order", () => {
       '/admin/inspire/dynamic-blocks',
     );
     expect(findActiveTabHref(inspire, '/admin/inspire/abc/edit')).toBeNull();
+  });
+
+  it('highlights Clusters on a cluster editor, and finds it by "series"', () => {
+    expect(
+      findActiveTabHref(inspire, '/admin/inspire/clusters/0b7c4f8e-1111-4222-8333-444455556666'),
+    ).toBe('/admin/inspire/clusters');
+    expect(searchAdminNav(flattenAdminNav(groups), 'series').map((i) => i.href)).toContain(
+      '/admin/inspire/clusters',
+    );
   });
 
   it('keeps the create screens reachable from ⌘K', () => {

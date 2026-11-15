@@ -55,7 +55,7 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
   {
     // ONE Inspire group, in The Wedding Notebook's tab order and labels, for
     // every Inspire screen HelloKahwin has. TWN screens HelloKahwin lacks
-    // (Article Analytics, Clusters, Vendor Credits, Ang Pow Rates, Pinterest
+    // (Article Analytics, Vendor Credits, Ang Pow Rates, Pinterest
     // Export) are deliberately absent — an entry for a screen that does not
     // exist is a dead link. TWN's "More" overflow is not reproduced: the tab
     // bar here scrolls sideways instead (`admin-group-tabs.tsx`).
@@ -116,6 +116,15 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
         href: '/admin/inspire/authors',
         keywords:
           'writer byline contributor avatar profile photo headshot bio title socials instagram linkedin website public author archive attribution',
+      },
+      {
+        // TWN's label and slot (after Authors; TWN's Article Analytics sits
+        // between them when it exists). Hand-picked article groups and the
+        // reader-facing "series" switch — "series" stays in the keywords
+        // because that is what an admin types to reach this page.
+        label: 'Clusters',
+        href: '/admin/inspire/clusters',
+        keywords: 'article clusters groups hand-picked recirculation journey series series box',
       },
       {
         label: 'Navigation',
