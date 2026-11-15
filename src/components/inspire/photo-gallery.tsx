@@ -207,7 +207,7 @@ export function PhotoGallery({ images, trigger }: PhotoGalleryProps) {
       aria-modal="true"
       aria-label={`Galeri foto — ${currentIndex + 1} daripada ${images.length}`}
       tabIndex={-1}
-      className="fixed inset-0 z-50 flex flex-col bg-black/95 outline-none"
+      className="fixed inset-0 z-[var(--z-overlay)] flex flex-col bg-black/95 outline-none"
     >
       {/* Top bar */}
       <div className="flex h-14 shrink-0 items-center justify-between px-4">
