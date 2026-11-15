@@ -10,6 +10,9 @@ import { FigureBlock } from './figure-block';
 import { CtaButtonBlock } from './cta-button-block';
 import { PdfLinkBlock } from './pdf-link-block';
 import { PdfLinkInline } from './pdf-link-inline';
+import { IframeEmbed } from './iframe-embed';
+import { LINK_HTML_ATTRIBUTES } from './link-rel';
+import { LinkRelPolicy } from './link-rel-policy';
 
 // Shared article-writer extension set — the full node/mark vocabulary of
 // `articles.content`. Used by the article editor and the dynamic-block editor
@@ -25,11 +28,17 @@ export function createArticleBaseExtensions() {
     CtaButtonBlock as unknown as typeof StarterKit,
     PdfLinkBlock as unknown as typeof StarterKit,
     PdfLinkInline as unknown as typeof StarterKit,
+    IframeEmbed as unknown as typeof StarterKit,
     Table.configure({ resizable: true }),
     TableRow,
     TableHeader,
     TableCell,
-    TiptapLink.configure({ openOnClick: false, defaultProtocol: 'https' }),
+    TiptapLink.configure({
+      openOnClick: false,
+      defaultProtocol: 'https',
+      HTMLAttributes: LINK_HTML_ATTRIBUTES,
+    }),
     TiptapUnderline,
+    LinkRelPolicy as unknown as typeof StarterKit,
   ];
 }

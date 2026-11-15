@@ -25,6 +25,19 @@ export interface LocalAutosaveData {
    * localStorage; absent means "not degraded", which was true of all of them.
    */
   categoriesDegraded?: boolean;
+  /**
+   * Optional: snapshots written before the excerpt field existed must leave
+   * the stored excerpt alone on restore, not blank it.
+   */
+  excerpt?: string;
+  /**
+   * Tags now persist only on Save, so an unsaved tag edit lives here until
+   * then. Optional for the same reason as `excerpt`; `tagsDegraded` mirrors
+   * `categoriesDegraded` — a snapshot taken while the tag reads failed holds
+   * ids that mean "unknown", and restoring them would clear real tags.
+   */
+  selectedTagIds?: string[];
+  tagsDegraded?: boolean;
   publishedAt: string;
   updatedAt: string;
   scheduledPublishAt: string;

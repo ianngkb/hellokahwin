@@ -82,7 +82,6 @@ import {
 import {
   updateArticleAction,
   updateArticleCategoriesAction,
-  updateArticleTagsAction,
   regenerateArticleImagesAction,
   acquireLockAction,
 } from './actions';
@@ -148,6 +147,17 @@ import { uploadInspireImage } from '@/lib/storage/inspire-upload';
 import { trackFiles, markCompleted, markFailed } from '@/lib/storage/upload-progress';
 import { formatDate, formatDateTime } from '@/lib/utils/format-date';
 import { useUploadProgressToast } from '@/components/inspire/upload-progress-toast';
+import {
+  findPendingUploads,
+  describePendingUploads,
+  isPendingUploadSrc,
+} from '@/lib/tiptap/upload-placeholder';
+import {
+  beginUploadPlaceholder,
+  settleUploadPlaceholder,
+  discardUploadPlaceholder,
+  useInFlightUploadPlaceholders,
+} from '@/lib/tiptap/upload-placeholder-editor';
 /** Convert UTC ISO string to datetime-local value in MYT (Asia/Kuala_Lumpur).
  *  Uses sv-SE locale because it produces ISO-like "YYYY-MM-DD HH:mm:ss" format
  *  reliably across modern browsers, which we then reshape to "YYYY-MM-DDTHH:mm". */
@@ -254,6 +264,7 @@ interface ArticleEditorProps {
     id: string;
     title: string;
     slug: string;
+    excerpt: string | null;
     content: unknown;
     coverImageUrl: string | null;
     coverImageVariants: unknown;
@@ -309,6 +320,20 @@ interface ArticleEditorProps {
   }[];
   publishedDynamicBlocks?: DynamicBlockOption[];
   autoAttachedDynamicBlocks?: DynamicBlockOption[];
+}
+
+/**
+ * An upload finished but no node carried its placeholder. Usually the admin
+ * deleted the image before the upload completed, which is fine; but this is
+ * also the exact shape of the silent miss that let `blob:` URLs reach a live
+ * article, so it is logged rather than ignored.
+ */
+function reportUnsettledUpload(path: string, file: string, url: string) {
+  console.warn('[article-editor] upload finished but its placeholder was not found', {
+    path,
+    file,
+    url,
+  });
 }
 
 // Per-instance factory: `publishedBlockIds` is baked into the embed extension
@@ -644,6 +669,11 @@ export function ArticleEditor({
   );
   const [title, setTitle] = useState(article.title);
   const [slug, setSlug] = useState(article.slug);
+  const [excerpt, setExcerpt] = useState(article.excerpt ?? '');
+  // Tags are part of the form like every other field: a click only changes
+  // this state, and the ids travel inside the next save. Declared up here
+  // (not beside the tag combobox) because the dirty check below reads it.
+  const [selectedTagIds, setSelectedTagIds] = useState<string[]>(initialTagIds);
   const [coverImageUrl, setCoverImageUrl] = useState(article.coverImageUrl ?? '');
   const [coverImageVariants, setCoverImageVariants] = useState<ImageVariants | null>(
     (article.coverImageVariants as ImageVariants) ?? null,
@@ -842,6 +872,8 @@ export function ArticleEditor({
   const initialValues = useRef({
     title: article.title,
     slug: article.slug,
+    excerpt: article.excerpt ?? '',
+    selectedTagIds: JSON.stringify(initialTagIds),
     coverImageUrl: article.coverImageUrl ?? '',
     coverImageVariants: JSON.stringify(article.coverImageVariants ?? null),
     coverImageQuality: article.coverImageQuality ?? 'high',
@@ -864,6 +896,8 @@ export function ArticleEditor({
   const isDirty =
     title !== initialValues.current.title ||
     slug !== initialValues.current.slug ||
+    excerpt !== initialValues.current.excerpt ||
+    JSON.stringify(selectedTagIds) !== initialValues.current.selectedTagIds ||
     coverImageUrl !== initialValues.current.coverImageUrl ||
     JSON.stringify(coverImageVariants) !== initialValues.current.coverImageVariants ||
     coverImageQuality !== initialValues.current.coverImageQuality ||
@@ -916,6 +950,15 @@ export function ArticleEditor({
     if (!data) return;
     setTitle(data.title);
     setSlug(data.slug);
+    // Optional on the snapshot: a recovery file written before the excerpt
+    // field existed must leave the stored excerpt alone, not blank it.
+    if (data.excerpt !== undefined) setExcerpt(data.excerpt);
+    // Same rule as the categories below: a snapshot taken while the tag reads
+    // failed holds ids that mean "unknown", and so does this render if its own
+    // reads failed. Unknown tags are dropped rather than written back.
+    if (data.selectedTagIds && !data.tagsDegraded && !degraded.tags) {
+      setSelectedTagIds(data.selectedTagIds.filter((id) => allTags.some((t) => t.id === id)));
+    }
     setEditorContent(data.content);
     // Update the Tiptap editor instance directly (initialContent is only consumed once)
     editorRef.current?.commands.setContent(data.content);
@@ -974,8 +1017,11 @@ export function ArticleEditor({
     const rawContent = editorRef.current?.getJSON() ?? editorContent;
     return {
       categoriesDegraded: degraded.categories,
+      tagsDegraded: degraded.tags,
       title,
       slug,
+      excerpt,
+      selectedTagIds,
       content: JSON.parse(JSON.stringify(rawContent)),
       coverImageUrl,
       coverImageVariants,
@@ -997,6 +1043,8 @@ export function ArticleEditor({
   }, [
     title,
     slug,
+    excerpt,
+    selectedTagIds,
     editorContent,
     coverImageUrl,
     coverImageVariants,
@@ -1016,8 +1064,8 @@ export function ArticleEditor({
     scheduledPublishAt,
   ]);
 
-  // Tags state
-  const [selectedTagIds, setSelectedTagIds] = useState<string[]>(initialTagIds);
+  // Tag combobox state (the selected ids themselves are declared with the
+  // other form fields, above the dirty check).
   const [tagSearchOpen, setTagSearchOpen] = useState(false);
   const [tagSearch, setTagSearch] = useState('');
   const tagComboboxRef = useRef<HTMLDivElement>(null);
@@ -1145,6 +1193,50 @@ export function ArticleEditor({
       // that React Server Action serialization (React Flight) silently drops.
       const rawContent = editorRef.current?.getJSON() ?? editorContent;
       const freshContent = JSON.parse(JSON.stringify(rawContent));
+
+      // A `blob:` preview src is only valid inside this tab; stored, it is a
+      // permanently broken image on the live article. Refuse the save while any
+      // remain — loudly for a click, quietly for the 60s autosave (the 2s local
+      // snapshot still protects the text, and the banner above the editor says
+      // what is pending). `updateArticleAction` refuses the same payload
+      // server-side, so no other path can store one either.
+      const pendingUploads = findPendingUploads(freshContent);
+      // A status-only click that takes the article OFF the public site (Move
+      // to Draft, Unpublish) must still work with a broken image in the body —
+      // that is exactly when an admin needs it. Those saves go out WITHOUT the
+      // body, so the stored text is left as it was. Publish and Schedule put
+      // the broken image in front of readers, so they are refused like any
+      // other save.
+      const takesOffline =
+        !!options?.statusOverride &&
+        options.statusOverride !== 'published' &&
+        !options?.scheduledPublishAtOverride;
+      const includeContent = pendingUploads.length === 0;
+      if (!includeContent && !takesOffline) {
+        if (!options?.silent) toast.error(describePendingUploads(pendingUploads));
+        return;
+      }
+      if (!includeContent) {
+        toast.warning(
+          `Status changed, but the article text was not saved: ${describePendingUploads(pendingUploads)}`,
+        );
+      }
+      // Same rule for the cover: its upload preview must never be stored.
+      if (isPendingUploadSrc(coverImageUrl)) {
+        if (!options?.silent) {
+          toast.error(
+            'The cover image has not finished uploading. Wait for the upload, then save again.',
+          );
+        }
+        return;
+      }
+
+      // Tags travel inside this save, not in a separate click-time write. A
+      // degraded tag read means the local id set is empty for the wrong reason,
+      // so the field is omitted entirely — `undefined` leaves the stored tags
+      // alone, where `[]` would delete them all.
+      const wroteTags = shouldWriteTags(degraded);
+
       startTransition(async () => {
         // The whole save is fenced: a server action that THROWS (deploy skew,
         // network drop, a 500 mid-response — Sentry issue TWN-NEW-1X, seen 30×)
@@ -1160,7 +1252,9 @@ export function ArticleEditor({
             {
               title,
               slug,
-              content: freshContent,
+              excerpt,
+              ...(includeContent ? { content: freshContent } : {}),
+              ...(wroteTags ? { tagIds: selectedTagIds } : {}),
               // `primaryCategoryId` is spread in only when the category reads
               // succeeded. The action ignores a falsy value, but it also derives the
               // category-move 301 redirect from this field — writing it while the
@@ -1234,16 +1328,21 @@ export function ArticleEditor({
                 );
               }
             }
-            clearLocalAutosave(article.id, userId);
+            // The local snapshot is the only copy of a body this save held back
+            // (pending uploads), so it is kept until the text itself is saved.
+            if (includeContent) clearLocalAutosave(article.id, userId);
             // Skipped category writes must NOT be folded into the baseline, or
             // `isDirty` flips false and the unsaved-changes guard stops warning
             // about an edit that was never persisted. See
             // `foldSavedValuesIntoBaseline`.
-            initialValues.current = foldSavedValuesIntoBaseline(
-              initialValues.current,
+            const previousBaseline = initialValues.current;
+            const foldedBaseline = foldSavedValuesIntoBaseline(
+              previousBaseline,
               {
                 title,
                 slug,
+                excerpt,
+                selectedTagIds: JSON.stringify(selectedTagIds),
                 coverImageUrl,
                 coverImageVariants: JSON.stringify(coverImageVariants),
                 coverImageQuality,
@@ -1264,6 +1363,14 @@ export function ArticleEditor({
               },
               wroteCategories,
             );
+            // Likewise for the two fields this save may have left out: a body
+            // held back by the pending-upload guard, and tags skipped because
+            // their read failed. Both are still unsaved, so both stay dirty.
+            initialValues.current = {
+              ...foldedBaseline,
+              ...(includeContent ? {} : { content: previousBaseline.content }),
+              ...(wroteTags ? {} : { selectedTagIds: previousBaseline.selectedTagIds }),
+            };
           }
         } catch (err) {
           // Neither clearLocalAutosave nor the baseline fold ran, so the state
@@ -1285,6 +1392,8 @@ export function ArticleEditor({
       article.id,
       title,
       slug,
+      excerpt,
+      selectedTagIds,
       editorContent,
       coverImageUrl,
       coverImageVariants,
@@ -1335,31 +1444,27 @@ export function ArticleEditor({
     return () => clearTimeout(timer);
   }, [article.id, userId, lockAcquired, getFormData]);
 
-  // Both tag mutations go through `updateArticleTagsAction`, which clears the
-  // article's tag rows and re-inserts what it is given. When the tag reads
-  // failed, `selectedTagIds` seeded from an empty array we don't trust — so
-  // refuse the write outright rather than persist it. The UI disables these
+  // Tag clicks used to write straight to the database, outside the Save button
+  // entirely — so a tag change went live while the rest of the edit was still
+  // a draft in this tab, and there was no way to back it out by not saving.
+  // Tags are now part of the form: a click only changes local state, the ids
+  // ride the next save (manual or autosave), and leaving the page with unsaved
+  // tags warns like any other field.
+  //
+  // The `shouldWriteTags` guard stays. When the tag reads failed,
+  // `selectedTagIds` seeded from an empty array we don't trust, so a click on
+  // top of it would build a set that means nothing. The UI disables these
   // controls too; this is the backstop.
   function handleTagToggle(tagId: string) {
     if (!shouldWriteTags(degraded)) return;
-    const newIds = selectedTagIds.includes(tagId)
-      ? selectedTagIds.filter((id) => id !== tagId)
-      : [...selectedTagIds, tagId];
-    setSelectedTagIds(newIds);
-    startTransition(async () => {
-      const result = await updateArticleTagsAction(article.id, newIds);
-      if (result.error) toast.error(result.error);
-    });
+    setSelectedTagIds((ids) =>
+      ids.includes(tagId) ? ids.filter((id) => id !== tagId) : [...ids, tagId],
+    );
   }
 
   function handleTagRemove(tagId: string) {
     if (!shouldWriteTags(degraded)) return;
-    const newIds = selectedTagIds.filter((id) => id !== tagId);
-    setSelectedTagIds(newIds);
-    startTransition(async () => {
-      const result = await updateArticleTagsAction(article.id, newIds);
-      if (result.error) toast.error(result.error);
-    });
+    setSelectedTagIds((ids) => ids.filter((id) => id !== tagId));
   }
 
   // Close tag combobox on click outside
@@ -1431,6 +1536,7 @@ export function ArticleEditor({
 
       // Insert a placeholder so the user sees something immediately
       const placeholderSrc = URL.createObjectURL(file);
+      beginUploadPlaceholder(placeholderSrc);
       if (pos != null) {
         editor
           .chain()
@@ -1452,25 +1558,18 @@ export function ArticleEditor({
           file,
         );
 
-        // Find the placeholder node and replace its attributes with the real upload data
-        let found = false;
-        editor.state.doc.descendants((node, nodePos) => {
-          if (found) return false;
-          if (node.type.name === 'image' && node.attrs.src === placeholderSrc) {
-            found = true;
-            editor
-              .chain()
-              .setNodeSelection(nodePos)
-              .updateAttributes('image', {
-                src: result.url,
-                'data-original-src': result.originalUrl,
-                'data-quality': result.defaultQuality,
-                'data-variants': JSON.stringify(result.variants),
-              })
-              .run();
-            return false;
-          }
+        // Swap the placeholder for the real upload wherever it now lives. The
+        // node may no longer be an `image`: "Add Caption" turns it into a
+        // `figureBlock` that carries the same placeholder src, and a swap that
+        // only looked for `image` nodes would miss it silently and let the
+        // `blob:` URL reach the database (see upload-placeholder-editor.ts).
+        const settled = settleUploadPlaceholder(editor, placeholderSrc, {
+          src: result.url,
+          'data-original-src': result.originalUrl,
+          'data-quality': result.defaultQuality,
+          'data-variants': JSON.stringify(result.variants),
         });
+        if (settled === 0) reportUnsettledUpload('drop-paste', file.name, result.url);
 
         markCompleted();
         toast.warning(NO_ALT_WARNING, { description: NO_ALT_WARNING_DETAIL, duration: 10000 });
@@ -1479,12 +1578,7 @@ export function ArticleEditor({
         markFailed();
         toast.error(err instanceof Error ? err.message : 'Image upload failed');
         // Remove the placeholder on failure
-        editor.state.doc.descendants((node, nodePos) => {
-          if (node.type.name === 'image' && node.attrs.src === placeholderSrc) {
-            editor.chain().setNodeSelection(nodePos).deleteSelection().run();
-            return false;
-          }
-        });
+        discardUploadPlaceholder(editor, placeholderSrc);
         URL.revokeObjectURL(placeholderSrc);
       }
 
@@ -1512,6 +1606,7 @@ export function ArticleEditor({
           continue;
         }
         const src = URL.createObjectURL(file);
+        beginUploadPlaceholder(src);
         // Insert at the current end-of-selection, which advances after each insertion
         const insertPos = editor.state.selection.to;
         editor
@@ -1538,36 +1633,22 @@ export function ArticleEditor({
       for (const { file, src } of placeholders) {
         uploadInspireImage({ slug: article.slug, articleId: article.id, alt: '' }, file)
           .then((result) => {
-            let found = false;
-            editor.state.doc.descendants((node, nodePos) => {
-              if (found) return false;
-              if (node.type.name === 'image' && node.attrs.src === src) {
-                found = true;
-                editor
-                  .chain()
-                  .setNodeSelection(nodePos)
-                  .updateAttributes('image', {
-                    src: result.url,
-                    'data-original-src': result.originalUrl,
-                    'data-quality': result.defaultQuality,
-                    'data-variants': JSON.stringify(result.variants),
-                  })
-                  .run();
-                return false;
-              }
+            // Matched by src across image AND figureBlock — see the drop
+            // handler above for why the node type cannot be relied on.
+            const settled = settleUploadPlaceholder(editor, src, {
+              src: result.url,
+              'data-original-src': result.originalUrl,
+              'data-quality': result.defaultQuality,
+              'data-variants': JSON.stringify(result.variants),
             });
+            if (settled === 0) reportUnsettledUpload('slash-command', file.name, result.url);
             markCompleted();
             URL.revokeObjectURL(src);
           })
           .catch((err) => {
             markFailed();
             toast.error(err instanceof Error ? err.message : `${file.name}: Upload failed`);
-            editor.state.doc.descendants((node, nodePos) => {
-              if (node.type.name === 'image' && node.attrs.src === src) {
-                editor.chain().setNodeSelection(nodePos).deleteSelection().run();
-                return false;
-              }
-            });
+            discardUploadPlaceholder(editor, src);
             URL.revokeObjectURL(src);
           });
       }
@@ -1585,10 +1666,63 @@ export function ArticleEditor({
 
   const isReadOnly = !!lockedByOther || lockLost;
 
+  // Images whose src is still a `blob:` preview. While an upload is active this
+  // is expected and the banner just explains why Save waits; once nothing is
+  // uploading, a leftover placeholder means the swap was lost (tab closed
+  // mid-upload, or a document saved by an older build) and only replacing the
+  // image clears it. The file itself always reaches the media library first.
+  const inFlight = useInFlightUploadPlaceholders();
+  const pendingUploads = useMemo(() => findPendingUploads(editorContent), [editorContent]);
+  // Only THIS editor's own uploads count as "still uploading". The page-wide
+  // progress tracker also moves for the media picker's bulk uploader and the
+  // cover uploader, which would hide the stale-placeholder instructions.
+  const uploadsActive = pendingUploads.some((p) => inFlight.has(p.src));
+
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_340px]">
       {/* Main content area */}
       <div className="space-y-4">
+        {pendingUploads.length > 0 && (
+          <div
+            className="border-warning bg-warning-subtle text-warning flex items-start gap-2 rounded-md border px-4 py-3 text-sm"
+            role="status"
+            data-testid="pending-uploads-banner"
+          >
+            <AlertTriangleIcon className="mt-0.5 size-4 shrink-0" />
+            <div>
+              {uploadsActive ? (
+                <>
+                  <strong>
+                    {pendingUploads.length === 1
+                      ? '1 image is still uploading.'
+                      : `${pendingUploads.length} images are still uploading.`}
+                  </strong>{' '}
+                  Save and Publish wait until it finishes — save again once the progress toast
+                  completes.
+                </>
+              ) : (
+                <>
+                  <strong>
+                    {pendingUploads.length === 1
+                      ? '1 image never finished uploading'
+                      : `${pendingUploads.length} images never finished uploading`}
+                    {pendingUploads.some((p) => p.alt)
+                      ? ` (${pendingUploads
+                          .map((p) => p.alt)
+                          .filter(Boolean)
+                          .join(', ')})`
+                      : ''}
+                    .
+                  </strong>{' '}
+                  The file is in the media library — remove the broken image and insert it again
+                  from the media library. The article cannot be saved until every placeholder is
+                  replaced.
+                </>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* Locked-by banner */}
         {lockedByOther && (
           <div className="border-warning bg-warning-subtle text-warning flex items-center gap-2 rounded-md border px-4 py-3 text-sm">
@@ -2359,6 +2493,29 @@ export function ArticleEditor({
                   The old URL will automatically 301-redirect to the new one when you save.
                 </p>
               )}
+          </div>
+
+          {/* Excerpt — the short blurb for article cards and feeds. Until now it
+              had no field here: only the WordPress import ever wrote it, so
+              imported articles carry an excerpt nobody could edit. Left blank,
+              readers see the opening of the body instead. */}
+          <div className="space-y-2">
+            <Label htmlFor="article-excerpt" className="text-sm font-semibold">
+              Excerpt
+              {excerpt.length > 0 && (
+                <span className="text-muted-foreground float-right text-xs font-normal">
+                  {excerpt.length} characters
+                </span>
+              )}
+            </Label>
+            <Textarea
+              id="article-excerpt"
+              value={excerpt}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setExcerpt(e.target.value)}
+              placeholder="The one- or two-line blurb shown on article cards."
+              rows={3}
+              className="text-sm"
+            />
           </div>
 
           {/* Dates (MYT) — Published is auto-set on publish; Last Updated drives the

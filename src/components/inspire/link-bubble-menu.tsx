@@ -9,13 +9,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
-
-function normaliseUrl(raw: string): string {
-  const trimmed = raw.trim();
-  if (!trimmed) return '';
-  if (/^https?:\/\//i.test(trimmed) || /^mailto:/i.test(trimmed)) return trimmed;
-  return `https://${trimmed}`;
-}
+import {
+  buildLinkAttrs,
+  dialogNofollow,
+  hasNofollow,
+  isInternalHref,
+  normaliseLinkInput,
+} from '@/lib/tiptap/link-rel';
 
 export function LinkBubbleMenu() {
   const { editor } = useEditor();
@@ -35,6 +35,9 @@ function LinkBubbleContent({ editor }: { editor: Editor }) {
   const [mode, setMode] = useState<'preview' | 'edit'>('preview');
   const [url, setUrl] = useState('');
   const [openInNewTab, setOpenInNewTab] = useState(false);
+  const [nofollow, setNofollow] = useState(false);
+  // True once the nofollow box was set by hand, or the link already existed.
+  const [nofollowExplicit, setNofollowExplicit] = useState(false);
   const [copied, setCopied] = useState(false);
   const rangeRef = useRef<{ from: number; to: number } | null>(null);
 
@@ -68,18 +71,24 @@ function LinkBubbleContent({ editor }: { editor: Editor }) {
     setUrl(href);
     getCurrentLinkInfo(); // populate rangeRef
     setOpenInNewTab(attrs.target === '_blank');
+    setNofollow(hasNofollow(attrs.rel));
+    setNofollowExplicit(Boolean(href));
     setMode('edit');
-  }, [href, attrs.target, getCurrentLinkInfo]);
+  }, [href, attrs.target, attrs.rel, getCurrentLinkInfo]);
 
   const save = useCallback(() => {
-    const normalised = normaliseUrl(url);
+    const normalised = normaliseLinkInput(url);
     if (!normalised) return;
 
-    const linkAttrs = {
-      href: normalised,
-      target: openInNewTab ? '_blank' : null,
-      rel: openInNewTab ? 'noopener noreferrer nofollow' : null,
-    };
+    const linkAttrs = buildLinkAttrs(normalised, {
+      openInNewTab,
+      nofollow: dialogNofollow({
+        href: normalised,
+        openInNewTab,
+        nofollow,
+        explicit: nofollowExplicit,
+      }),
+    });
 
     const range = rangeRef.current;
     if (range) {
@@ -93,7 +102,7 @@ function LinkBubbleContent({ editor }: { editor: Editor }) {
     }
 
     setMode('preview');
-  }, [editor, url, openInNewTab]);
+  }, [editor, url, openInNewTab, nofollow, nofollowExplicit]);
 
   const unlink = useCallback(() => {
     editor.chain().focus().unsetLink().run();
@@ -137,10 +146,30 @@ function LinkBubbleContent({ editor }: { editor: Editor }) {
             <Checkbox
               id="bubble-newtab"
               checked={openInNewTab}
-              onCheckedChange={(v) => setOpenInNewTab(v === true)}
+              onCheckedChange={(v) => {
+                // New tab links default to nofollow, as they always have.
+                setOpenInNewTab(v === true);
+                // Auto-tick nofollow only for an outbound link; our own pages
+                // stay followed unless the editor ticks the box themselves.
+                // (a preview only — the saved value is decided from the final href)
+                if (!nofollowExplicit) setNofollow(v === true && !isInternalHref(url));
+              }}
             />
             <Label htmlFor="bubble-newtab" variant="inline" className="cursor-pointer text-xs">
               Open in new tab
+            </Label>
+          </div>
+          <div className="flex items-center gap-2">
+            <Checkbox
+              id="bubble-nofollow"
+              checked={nofollow}
+              onCheckedChange={(v) => {
+                setNofollow(v === true);
+                setNofollowExplicit(true);
+              }}
+            />
+            <Label htmlFor="bubble-nofollow" variant="inline" className="cursor-pointer text-xs">
+              Nofollow (untick for paid guest post links)
             </Label>
           </div>
           <div className="flex justify-end gap-2">

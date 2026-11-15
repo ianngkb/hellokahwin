@@ -366,8 +366,18 @@ export function ArticlesTable({
   function handleDuplicate(articleId: string) {
     startTransition(async () => {
       const result = await duplicateArticleAction(articleId);
-      if (result.error) toast.error(result.error);
-      else toast.success('Article duplicated');
+      if (result.error) {
+        toast.error(result.error);
+      } else if (result.assetsIncomplete) {
+        // The copy shares some photos with its source, so deleting the source
+        // would break it. Saying only "duplicated" here would hide that.
+        toast.warning('Article duplicated, but some photos could not be copied', {
+          description:
+            'It still shares those photos with the original — deleting the original would break them.',
+        });
+      } else {
+        toast.success('Article duplicated');
+      }
     });
   }
 

@@ -10,6 +10,11 @@ import { MediaPickerDialog } from '@/components/media/media-picker-dialog';
 import type { PickedMedia } from '@/lib/media/picked-media';
 import { uploadInspireImage } from '@/lib/storage/inspire-upload';
 import { trackFiles, markCompleted, markFailed } from '@/lib/storage/upload-progress';
+import {
+  beginUploadPlaceholder,
+  settleUploadPlaceholder,
+  discardUploadPlaceholder,
+} from '@/lib/tiptap/upload-placeholder-editor';
 import { toast } from 'sonner';
 
 export function FigureBlockNodeView({
@@ -57,6 +62,7 @@ export function FigureBlockNodeView({
 
       // Show local preview immediately
       const previewUrl = URL.createObjectURL(file);
+      beginUploadPlaceholder(previewUrl);
       updateAttributes({ src: previewUrl, alt: '' });
 
       try {
@@ -66,7 +72,12 @@ export function FigureBlockNodeView({
         const articleSlug = storage?.articleSlug || '';
 
         const result = await uploadInspireImage({ slug: articleSlug, articleId, alt: '' }, file);
-        updateAttributes({
+        // Written back by placeholder src through the editor, NOT through this
+        // view's `updateAttributes`: if the figure was moved, undone/redone or
+        // otherwise re-created while the upload ran, that handle points at a
+        // destroyed node view and Tiptap silently drops the write — leaving a
+        // `blob:` src that the save guard would then refuse forever.
+        const settled = settleUploadPlaceholder(editor, previewUrl, {
           src: result.url,
           // No silent default. See NO_ALT_WARNING in the article editor: a
           // filename is not a description, and shipping one makes an
@@ -76,6 +87,12 @@ export function FigureBlockNodeView({
           'data-quality': result.defaultQuality,
           'data-variants': JSON.stringify(result.variants),
         });
+        if (settled === 0 && !editor.isDestroyed) {
+          console.warn('[figure-block] upload finished but its placeholder was not found', {
+            file: file.name,
+            url: result.url,
+          });
+        }
         markCompleted();
         toast.warning('Image uploaded without alt text.', {
           description:
@@ -85,13 +102,13 @@ export function FigureBlockNodeView({
       } catch (err) {
         markFailed();
         toast.error(err instanceof Error ? err.message : 'Image upload failed');
-        updateAttributes({ src: null, alt: null });
+        discardUploadPlaceholder(editor, previewUrl);
       } finally {
         URL.revokeObjectURL(previewUrl);
         setUploading(false);
       }
     },
-    [updateAttributes],
+    [updateAttributes, editor],
   );
 
   const handleDrop = useCallback(

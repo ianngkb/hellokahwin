@@ -7,6 +7,7 @@ import StarterKit from '@tiptap/starter-kit';
 import ImageExtension from '@tiptap/extension-image';
 import { fallbackImageAlt, resolveImageAlt } from '@/lib/inspire/image-alt';
 import { InternalAwareLink } from '@/lib/inspire/internal-links';
+import { IframeEmbed } from '@/lib/tiptap/iframe-embed';
 import UnderlineExtension from '@tiptap/extension-underline';
 import Table from '@tiptap/extension-table';
 import TableRow from '@tiptap/extension-table-row';
@@ -297,6 +298,12 @@ export const extensions = [
   CustomImageRenderer,
   PdfLinkInlineRenderer,
   DynamicBlockEmbedRenderer,
+  // The editor's general embed block (YouTube / Vimeo / Instagram). Schema-only
+  // and shared with the editor, so the host allowlist that decides what can be
+  // STORED is the same file that renders it; `sanitizeOptions` below is the
+  // second gate on what can be EMITTED. Without this entry `generateHTML`
+  // would throw on the node and silently drop that slice of the article.
+  IframeEmbed,
   ...NestedBlockFallbacks,
   // Internal links are emitted followed and same-tab; see the module header.
   InternalAwareLink.configure({ openOnClick: false }),

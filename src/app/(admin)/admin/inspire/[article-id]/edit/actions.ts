@@ -26,6 +26,11 @@ import { articleUpdateSchema, formatArticleValidationError } from '@/lib/validat
 import { INSPIRE_AUTHORS_TAG, listSelectableAuthors } from '@/lib/authors/queries';
 import { isAuthorReattribution } from '@/lib/authors/gate';
 import { extractImageUrlsFromContent } from '@/lib/inspire/content-media';
+import {
+  describePendingUploads,
+  findPendingUploads,
+  isPendingUploadSrc,
+} from '@/lib/tiptap/upload-placeholder';
 import { getR2Client, getR2Bucket } from '@/lib/r2/client';
 import { generateVariants, getDefaultPresets } from '@/lib/storage/image-variants';
 import { generateLqipForCover } from '@/lib/storage/lqip';
@@ -40,6 +45,17 @@ import {
  * unhandled rejection — the form just shows nothing to the admin. */
 function parseArticleId(value: unknown): string | null {
   return typeof value === 'string' && z.string().uuid().safeParse(value).success ? value : null;
+}
+
+type ArticleTx = Parameters<Parameters<typeof db.transaction>[0]>[0];
+
+/** Same members, ignoring order and duplicates. */
+function isSameIdSet(a: readonly string[], b: readonly string[]): boolean {
+  const left = new Set(a);
+  const right = new Set(b);
+  if (left.size !== right.size) return false;
+  for (const id of left) if (!right.has(id)) return false;
+  return true;
 }
 
 /**
@@ -60,6 +76,22 @@ export async function updateArticleAction(
   const parsed = articleUpdateSchema.safeParse(data);
   if (!parsed.success) return { error: formatArticleValidationError(parsed.error) };
   const validated = parsed.data;
+
+  // A `blob:`/`data:` image src is an upload preview that only resolved inside
+  // the tab that minted it. Stored, it is a broken image on the live article
+  // for every reader. The editor refuses to send one; this refuses to store
+  // one from ANY path — manual save, autosave, a stale tab on an older build —
+  // so a lost placeholder swap can never reach the database. The upload itself
+  // always completes first, so the file is in the media library to re-pick.
+  if ('content' in validated) {
+    const pendingUploads = findPendingUploads(validated.content);
+    if (pendingUploads.length > 0) return { error: describePendingUploads(pendingUploads) };
+  }
+  if (isPendingUploadSrc(validated.coverImageUrl)) {
+    return {
+      error: 'The cover image has not finished uploading. Wait for the upload, then save again.',
+    };
+  }
 
   // Pinterest Board Name is compulsory for real-wedding articles (the outbound
   // export needs a < 50-char board title). Resolve the effective primary category
@@ -107,6 +139,9 @@ export async function updateArticleAction(
 
   if (validated.title) updateData.title = validated.title;
   if (validated.slug) updateData.slug = validated.slug;
+  // Excerpt: the card blurb. An empty box means "no excerpt", which the column
+  // spells NULL — the same rule metaTitle/metaDescription use.
+  if ('excerpt' in validated) updateData.excerpt = validated.excerpt?.trim() || null;
   if ('content' in validated) {
     updateData.content = validated.content;
   }
@@ -288,6 +323,32 @@ export async function updateArticleAction(
     .where(eq(articles.id, articleId))
     .limit(1);
 
+  // Tags ride the save instead of writing on click, so the article row and its
+  // tag rows commit in ONE transaction: a save that fails leaves both as they
+  // were, and a cancelled edit never half-applies. `undefined` (a degraded tag
+  // read on the client) leaves the rows alone; `[]` really does clear them.
+  // The rows are only rewritten when the set actually changed, so the 60-second
+  // autosave does not delete-and-reinsert identical rows every minute.
+  const tagIds = validated.tagIds ? [...new Set(validated.tagIds)] : undefined;
+  let tagsChanged = false;
+  if (tagIds) {
+    const stored = await db
+      .select({ id: articleTags.tagId })
+      .from(articleTags)
+      .where(eq(articleTags.articleId, articleId));
+    tagsChanged = !isSameIdSet(
+      tagIds,
+      stored.map((r) => r.id),
+    );
+  }
+  const writeTags = async (tx: ArticleTx) => {
+    if (!tagIds || !tagsChanged) return;
+    await tx.delete(articleTags).where(eq(articleTags.articleId, articleId));
+    if (tagIds.length > 0) {
+      await tx.insert(articleTags).values(tagIds.map((tagId) => ({ articleId, tagId })));
+    }
+  };
+
   // Auto-301 on slug change: if the slug of a previously-published article is
   // changing, write a redirect row atomically with the slug change. The
   // current-state read runs INSIDE the transaction so a concurrent save can't
@@ -340,6 +401,7 @@ export async function updateArticleAction(
         }
 
         await tx.update(articles).set(updateData).where(eq(articles.id, articleId));
+        await writeTags(tx);
 
         if (!redirect) return null;
         const { sourcePath, destinationPath } = redirect;
@@ -404,8 +466,23 @@ export async function updateArticleAction(
         metadata: { from: slugRedirect.sourcePath, to: slugRedirect.destinationPath },
       });
     }
+  } else if (tagsChanged) {
+    await db.transaction(async (tx) => {
+      await tx.update(articles).set(updateData).where(eq(articles.id, articleId));
+      await writeTags(tx);
+    });
   } else {
     await db.update(articles).set(updateData).where(eq(articles.id, articleId));
+  }
+
+  if (tagsChanged) {
+    logAuditEvent({
+      entityType: 'article',
+      entityId: articleId,
+      action: 'tags_updated',
+      performedBy: user.id,
+      metadata: { tagIds },
+    });
   }
 
   // Sync the derived indexes (media_article_usage, whatsapp_link_placements)
@@ -573,6 +650,12 @@ export async function updateArticleCategoriesAction(
   return { success: true };
 }
 
+/**
+ * NOT PART OF THE EDITOR'S SAVE PATH, and no longer called by the editor: tag
+ * clicks used to write here immediately, outside the Save button. Tags now
+ * ride `updateArticleAction` (`tagIds`) so they commit with the rest of the
+ * save. Kept as a standalone entry point for any other caller.
+ */
 export async function updateArticleTagsAction(articleId: string, tagIds: string[]) {
   const { error: authError, user } = await requireAdminSectionAction('inspire');
   if (authError || !user) return { error: authError ?? 'Unauthorized' };
