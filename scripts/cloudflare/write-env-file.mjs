@@ -63,6 +63,12 @@ env.CRON_SECRET = process.env.HK_CF_PREVIEW_CRON_SECRET;
 env.HK_READ_ONLY = '1';
 env.NEXT_PUBLIC_HOSTING = 'cloudflare';
 env.NEXT_TELEMETRY_DISABLED = '1';
+// wrangler/OpenNext read the platform proxy before a deploy and refuse a
+// Hyperdrive binding without a LOCAL connection string. It is only used to
+// emulate Hyperdrive in `wrangler dev`; a deploy never connects to it, so a
+// placeholder pointing nowhere is correct here.
+env.CLOUDFLARE_HYPERDRIVE_LOCAL_CONNECTION_STRING_HYPERDRIVE =
+  'postgres://local:local@127.0.0.1:5432/local';
 env.CLOUDFLARE_API_TOKEN = process.env.CLOUDFLARE_API_TOKEN;
 env.CLOUDFLARE_ACCOUNT_ID = '249af9c6ea41ab1c7cd049f2adf80eb2';
 
