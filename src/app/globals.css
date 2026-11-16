@@ -1494,6 +1494,35 @@ nav.article-toc ul a,
   font-size: 0.75rem;
   color: var(--muted-foreground);
 }
+/* Desktop rail (article page, 17 Nov 2026): the sticky list scrolls on its own
+   when it is taller than the screen under the 106px header, and the section
+   being read (`aria-current`, set by TocScrollSpy) is marked by a brand rule on
+   its left edge. Every rail entry carries a transparent 2px rule so marking one
+   never shifts the text. */
+.article-toc-rail .article-toc-rail-scroll {
+  max-height: calc(100vh - 170px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.article-toc-rail nav.article-toc > ol {
+  border-left: 1px solid var(--border);
+}
+.article-toc-rail nav.article-toc a {
+  margin-left: -1px;
+  border-left: 2px solid transparent;
+  padding-left: 0.75rem;
+}
+.article-toc-rail nav.article-toc ul {
+  padding-left: 0;
+}
+.article-toc-rail nav.article-toc ul a {
+  padding-left: 1.5rem;
+}
+.article-toc-rail nav.article-toc a[aria-current='location'] {
+  border-left-color: var(--primary);
+  color: var(--foreground);
+  font-weight: 600;
+}
 nav.article-toc a:hover,
 .inspire-prose nav.article-toc a:hover {
   color: var(--primary);

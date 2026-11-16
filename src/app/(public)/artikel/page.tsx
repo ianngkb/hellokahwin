@@ -1,11 +1,7 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
-import Image from 'next/image';
 import { unstable_cache } from 'next/cache';
-import { ArticleCard } from '@/components/inspire/article-card';
 import { OpenSearchOnCariHash } from '@/components/inspire/inspire-article-search';
-import { Chip } from '@/components/ui/chip';
-import { getSmartCropUrl } from '@/lib/storage/smart-crop-url';
+import { bottomCategoryPills, FeaturedHub } from '@/components/inspire/featured-hub';
 import { getPublicInspireHomepageResolvedData } from '@/lib/inspire/homepage-queries';
 import { INSPIRE_HOMEPAGE_CACHE_TAG } from '@/lib/inspire/homepage-curation';
 
@@ -64,43 +60,14 @@ const getInspireHomeData = unstable_cache(
   },
 );
 
-function formatTarikh(value: Date | string | null): string | null {
-  if (!value) return null;
-  return new Date(value).toLocaleDateString('ms-MY', {
-    timeZone: 'Asia/Kuala_Lumpur',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
-}
-
 export default async function InspireHomePage() {
   const { resolution, allCategories } = await getInspireHomeData();
   const featured = resolution.featured.map(({ article }) => article);
   const latest = resolution.latest.map(({ article }) => article);
-  const resolvedArticles = [...featured, ...latest];
 
-  // Build top-level categories with aggregated descendant counts — twn's rule,
-  // exactly (Ian, 15 Nov 2026: "exactly like TWN", knowing it yields only a
-  // few pills against HelloKahwin's taxonomy).
-  const topCategories = allCategories
-    .filter((c) => !c.parentId)
-    .map((parent) => {
-      const children = allCategories.filter((c) => c.parentId === parent.id);
-      const grandchildren = allCategories.filter((c) =>
-        children.some((ch) => ch.id === c.parentId),
-      );
-      const totalCount =
-        parent.articleCount +
-        children.reduce((sum, c) => sum + c.articleCount, 0) +
-        grandchildren.reduce((sum, c) => sum + c.articleCount, 0);
-      return { ...parent, articleCount: totalCount, children, grandchildren };
-    });
-
-  // Sort categories by article count descending for bottom pills
-  const bottomCategories = [...topCategories]
-    .filter((c) => c.articleCount > 0)
-    .sort((a, b) => b.articleCount - a.articleCount);
+  // twn's pill rule, exactly (Ian, 15 Nov 2026: "exactly like TWN", knowing it
+  // yields only a few pills against HelloKahwin's taxonomy).
+  const bottomCategories = bottomCategoryPills(allCategories);
 
   return (
     <div className="inspire-editorial">
@@ -110,221 +77,17 @@ export default async function InspireHomePage() {
           page would start at h2. */}
       <h1 className="sr-only">Artikel Perkahwinan HelloKahwin</h1>
 
-      <section className="py-2 lg:py-6">
-        <div className="container mx-auto px-4 lg:px-6">
-          {resolvedArticles.length > 0 ? (
-            <>
-              {/* Featured hero section */}
-              {featured.length >= 3 ? (
-                <div className="mb-1 grid grid-cols-1 gap-4 lg:mb-12 lg:grid-cols-[1.4fr_1fr] lg:grid-rows-2">
-                  {/* Main featured article */}
-                  <Link
-                    href={`/artikel/${featured[0].categorySlug}/${featured[0].slug}`}
-                    className="group rounded-card relative min-h-[240px] overflow-hidden lg:row-span-2 lg:min-h-[480px]"
-                  >
-                    <div className="bg-muted absolute inset-0">
-                      {featured[0].coverImageUrl ? (
-                        <Image
-                          src={
-                            getSmartCropUrl(
-                              featured[0].coverImageSmartCrops,
-                              'crop-4x3-article-card',
-                            ) ??
-                            (
-                              featured[0].coverImageVariants as Record<
-                                string,
-                                { url: string }
-                              > | null
-                            )?.high?.url ??
-                            featured[0].coverImageUrl
-                          }
-                          alt={featured[0].title}
-                          fill
-                          sizes="(max-width: 1024px) 100vw, 60vw"
-                          className="object-cover transition-transform duration-500 group-hover:scale-105"
-                          priority
-                        />
-                      ) : (
-                        <div className="flex h-full items-center justify-center">
-                          <span className="text-muted-foreground text-sm">Tiada gambar</span>
-                        </div>
-                      )}
-                    </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                    <div className="absolute right-0 bottom-0 left-0 p-6 text-white lg:p-8">
-                      <span className="inspire-overline text-brand-secondary">
-                        {featured[0].categoryName}
-                      </span>
-                      <h2 className="mt-2 text-xl leading-tight text-white lg:text-[1.75rem]">
-                        {featured[0].title}
-                      </h2>
-                      {featured[0].publishedAt && (
-                        <p className="mt-2 text-sm text-white/60">
-                          {formatTarikh(featured[0].publishedAt)}
-                        </p>
-                      )}
-                    </div>
-                  </Link>
-
-                  {/* Side featured articles */}
-                  {featured.slice(1, 3).map((article) => (
-                    <Link
-                      key={article.id}
-                      href={`/artikel/${article.categorySlug}/${article.slug}`}
-                      className="group rounded-card relative min-h-[240px] overflow-hidden lg:min-h-[230px]"
-                    >
-                      <div className="bg-muted absolute inset-0">
-                        {article.coverImageUrl ? (
-                          <Image
-                            src={
-                              getSmartCropUrl(
-                                article.coverImageSmartCrops,
-                                'crop-4x3-article-card',
-                              ) ??
-                              (article.coverImageVariants as Record<string, { url: string }> | null)
-                                ?.low?.url ??
-                              article.coverImageUrl
-                            }
-                            alt={article.title}
-                            fill
-                            sizes="(max-width: 1024px) 100vw, 40vw"
-                            className="object-cover transition-transform duration-500 group-hover:scale-105"
-                          />
-                        ) : (
-                          <div className="flex h-full items-center justify-center">
-                            <span className="text-muted-foreground text-sm">Tiada gambar</span>
-                          </div>
-                        )}
-                      </div>
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                      <div className="absolute right-0 bottom-0 left-0 p-5 text-white">
-                        <span className="inspire-overline text-brand-secondary">
-                          {article.categoryName}
-                        </span>
-                        <h2 className="mt-1.5 text-xl leading-snug text-white lg:text-lg">
-                          {article.title}
-                        </h2>
-                        {article.publishedAt && (
-                          <p className="mt-1.5 text-xs text-white/60">
-                            {formatTarikh(article.publishedAt)}
-                          </p>
-                        )}
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              ) : (
-                /* Fewer than 3 articles — simpler hero */
-                <div className="mb-1 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:mb-12">
-                  {featured.map((article) => (
-                    <Link
-                      key={article.id}
-                      href={`/artikel/${article.categorySlug}/${article.slug}`}
-                      className="group rounded-card relative min-h-[280px] overflow-hidden"
-                    >
-                      <div className="bg-muted absolute inset-0">
-                        {article.coverImageUrl ? (
-                          <Image
-                            src={
-                              getSmartCropUrl(
-                                article.coverImageSmartCrops,
-                                'crop-4x3-article-card',
-                              ) ??
-                              (article.coverImageVariants as Record<string, { url: string }> | null)
-                                ?.low?.url ??
-                              article.coverImageUrl
-                            }
-                            alt={article.title}
-                            fill
-                            sizes="(max-width: 640px) 100vw, 50vw"
-                            className="object-cover transition-transform duration-500 group-hover:scale-105"
-                          />
-                        ) : (
-                          <div className="flex h-full items-center justify-center">
-                            <span className="text-muted-foreground text-sm">Tiada gambar</span>
-                          </div>
-                        )}
-                      </div>
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                      <div className="absolute right-0 bottom-0 left-0 p-6 text-white">
-                        <span className="inspire-overline text-brand-secondary">
-                          {article.categoryName}
-                        </span>
-                        <h2 className="mt-2 text-xl leading-snug text-white">{article.title}</h2>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              )}
-
-              {/* twn places its above-grid banner here; banners are out of
-                  scope, so nothing renders. Search lives in the header on every
-                  page. Old `/artikel#cari` links still open the search screen. */}
-              <OpenSearchOnCariHash />
-
-              {/* Latest section */}
-              {latest.length > 0 && (
-                <>
-                  <div className="flex items-center gap-4 py-3">
-                    <h2 className="text-2xl whitespace-nowrap">Terkini</h2>
-                    <div className="bg-border h-px flex-1" />
-                  </div>
-                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                    {latest.map((article) => (
-                      <ArticleCard
-                        key={article.id}
-                        title={article.title}
-                        slug={article.slug}
-                        categorySlug={article.categorySlug ?? 'uncategorized'}
-                        categories={article.categories ?? []}
-                        coverImageUrl={article.coverImageUrl}
-                        coverImageVariants={
-                          article.coverImageVariants as Record<
-                            string,
-                            { url: string; sizeBytes: number }
-                          > | null
-                        }
-                        smartCrops={
-                          article.coverImageSmartCrops as Record<
-                            string,
-                            { url: string; width: number; height: number }
-                          > | null
-                        }
-                        publishedAt={
-                          article.publishedAt ? new Date(article.publishedAt).toISOString() : null
-                        }
-                      />
-                    ))}
-                  </div>
-                </>
-              )}
-            </>
-          ) : (
-            <div className="py-20 text-center">
-              <p className="text-lg font-medium">Belum ada artikel</p>
-              <p className="text-muted-foreground mt-1 text-sm">
-                Idea dan panduan perkahwinan akan datang tidak lama lagi.
-              </p>
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* Browse by Category — pills sorted by article count */}
-      {bottomCategories.length > 0 && (
-        <section className="border-border mt-6 border-t py-12">
-          <div className="container mx-auto px-4 lg:px-6">
-            <h2 className="inspire-display mb-8 text-center text-2xl">Teroka Ikut Kategori</h2>
-            <div className="flex flex-wrap justify-center gap-2">
-              {bottomCategories.map((cat) => (
-                <Chip key={cat.id} variant="outline" asChild>
-                  <Link href={`/artikel/${cat.slug}`}>{cat.name}</Link>
-                </Chip>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+      <FeaturedHub
+        featured={featured}
+        latest={latest}
+        categories={bottomCategories}
+        afterFeatured={
+          /* twn places its above-grid banner here; banners are out of scope, so
+             nothing renders. Search lives in the header on every page. Old
+             `/artikel#cari` links still open the search screen. */
+          <OpenSearchOnCariHash />
+        }
+      />
     </div>
   );
 }

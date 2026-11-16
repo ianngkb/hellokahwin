@@ -85,9 +85,10 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
         ],
       },
       {
-        label: 'Inspire Homepage',
+        label: 'Homepage curation',
         href: '/admin/inspire/homepage',
-        keywords: 'featured latest pin category curation article order artikel front',
+        keywords:
+          'inspire homepage laman utama home front featured latest pin category curation article order artikel',
       },
       {
         label: 'Media Library',
