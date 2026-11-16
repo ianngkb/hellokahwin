@@ -285,10 +285,91 @@
         <h2>Selected: A — Refined Classic</h2>
         <p>
           The local implementation uses original outlined vectors, black and white downloads, and a
-          strengthened unframed HK for small browser tabs. The full website review and queueing
-          remain with the controller. B and C below are retained as decision history.
+          strengthened unframed HK for small browser tabs. The website is implemented locally and
+          awaiting deployment. B and C below are retained as decision history.
         </p>
       </aside>
+      <section aria-label="Implemented artwork and website preview">
+        <h2>The finished artwork</h2>
+        <div class="grid">
+          <article class="option">
+            <div class="tag">Production wordmark</div>
+            <div style="background: white; padding: 32px 20px">
+              <img
+                src="production/hellokahwin-horizontal.svg"
+                alt="Implemented HelloKahwin wordmark"
+                width="720"
+                height="112"
+              />
+            </div>
+            <div style="background: black; padding: 32px 20px">
+              <img
+                src="production/hellokahwin-horizontal-white.svg"
+                alt="White HelloKahwin wordmark"
+                width="720"
+                height="112"
+              />
+            </div>
+            <p>Original outlined SVG artwork, ready for light and dark backgrounds.</p>
+          </article>
+          <article class="option">
+            <div class="tag">Editorial seal</div>
+            <div style="background: white; padding: 28px">
+              <img
+                src="production/hellokahwin-monogram.svg"
+                alt="Implemented round HK editorial seal"
+                width="500"
+                height="500"
+              />
+            </div>
+            <p>The circular seal keeps A's gently curved connection and short K.</p>
+          </article>
+          <article class="option">
+            <div class="tag">Browser and home-screen icons</div>
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 24px;
+                background: white;
+                padding: 28px;
+                min-height: 180px;
+              "
+            >
+              <img
+                src="production/icon.svg"
+                alt="HK at 16 pixels"
+                style="width: 16px; height: 16px"
+              />
+              <img
+                src="production/icon.svg"
+                alt="HK at 32 pixels"
+                style="width: 32px; height: 32px"
+              />
+              <img
+                src="production/icon.svg"
+                alt="HK at 48 pixels"
+                style="width: 48px; height: 48px"
+              />
+            </div>
+            <p>16, 32 and 48px, shown at actual size. The 180px Apple icon uses the full seal.</p>
+            <p>
+              <a href="production/favicon.ico" download>Download favicon.ico</a> ·
+              <a href="production/apple-icon.png" download>Download Apple icon</a>
+            </p>
+          </article>
+        </div>
+        <p>
+          <a href="production/mobile-brand.png">Open mobile website preview</a> ·
+          <a href="production/desktop-footer.png">Open desktop header and footer preview</a>
+        </p>
+        <p>
+          Local checks: 1,785 tests passed; TypeScript, lint and formatting passed. Favicon audit:
+          11/11; negative-control self-test: 9/9. Authenticated admin pages were updated in code but
+          not visually tested. Existing published editorial cover images retain their artwork; newly
+          generated covers use this wordmark.
+        </p>
+      </section>
       <section id="options" aria-label="Three editorial seal refinements">
         <div class="grid">
           <article class="option" id="option-a">
