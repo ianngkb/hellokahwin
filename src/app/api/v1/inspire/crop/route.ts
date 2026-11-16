@@ -104,12 +104,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // The angle actually applied. media-tools (the Worker path) only accepts
+    // whole degrees, so there it is rounded HERE, before any geometry, so the
+    // bounds below and the extract box are computed on the canvas media-tools
+    // will really produce. sharp (Vercel, local) keeps the exact angle.
+    const remoteEngine = getMediaTools() !== null;
+    const angle = remoteEngine ? Math.round(rotation) : rotation;
+
     // F6: Validate extract area bounds against (potentially rotated) image dimensions.
     // After rotation Sharp auto-expands canvas — compute rotated dimensions.
     let imgW = srcW;
     let imgH = srcH;
-    if (rotation !== 0) {
-      const rad = Math.abs((rotation * Math.PI) / 180);
+    if (angle !== 0) {
+      const rad = Math.abs((angle * Math.PI) / 180);
       imgW = Math.round(srcW * Math.abs(Math.cos(rad)) + srcH * Math.abs(Math.sin(rad)));
       imgH = Math.round(srcW * Math.abs(Math.sin(rad)) + srcH * Math.abs(Math.cos(rad)));
     }
@@ -131,10 +138,10 @@ export async function POST(request: NextRequest) {
     //    everywhere else with sharp, exactly as before.
     let outputBuffer: Buffer;
     let outputMetadata: { width?: number; height?: number };
-    if (getMediaTools()) {
+    if (remoteEngine) {
       const out = await mediaTransform(sourceBuffer, {
         orient: false,
-        angle: rotation !== 0 ? rotation : undefined,
+        angle: angle !== 0 ? angle : undefined,
         extract: `${cropX},${cropY},${cropW},${cropH}`,
         format: 'webp',
         q: 80,
@@ -197,8 +204,8 @@ export async function POST(request: NextRequest) {
     if (zoom !== 1) {
       filename += `-s${zoom.toFixed(1)}`;
     }
-    if (rotation !== 0) {
-      filename += `-r${rotation}`;
+    if (angle !== 0) {
+      filename += `-r${angle}`;
     }
     filename += '.webp';
 

@@ -75,6 +75,12 @@ article renders returned 500; at 10, 0 of 90 did (15 Nov 2026). Both configs
 use `origin_connection_limit` 10. Change it with
 `cf.ps1 hyperdrive update <id> --origin-connection-limit <n>`.
 
+**No DATABASE_URL on the Worker.** Every database client comes from the
+request's `HYPERDRIVE` binding: `db` (Drizzle) and `getSqlClient()` (the raw
+postgres-js client, used by `/api/cron/gsc-sync`) both resolve per request.
+`sqlClient`, the module-level DATABASE_URL pool, is for Vercel and the CLI
+scripts only; app code must not import it.
+
 `src/lib/db/prefer-prepared.ts` keeps Drizzle's `unsafe()` calls prepared
 behind Hyperdrive (`prepare: false` there causes intermittent hangs, per
 Cloudflare). Smart Placement moves the Worker next to the data.
@@ -124,7 +130,9 @@ service over the `MEDIA` binding (secret `MEDIA_TOOLS_KEY`, vault
 | Saliency fallback                | `detectSaliencyFocalPoint`                                                     | `/v1/image/focal`                                                                                                           |
 | Manual crop                      | `/api/v1/inspire/crop`                                                         | `/v1/image/transform?angle=…&extract=…&format=webp&q=80`                                                                    |
 
-Every transform sends `orient=0`: the sharp pipelines never apply EXIF
+media-tools accepts whole-degree angles only, so on the Worker the manual crop
+rounds the angle before it validates the crop box (sharp keeps the exact
+angle). Every transform sends `orient=0`: the sharp pipelines never apply EXIF
 orientation, so crop windows are computed on the stored pixels on both
 engines. sharp itself stays aliased to a throwing stub in the Cloudflare
 build (`next.config.ts`, `sharp-unavailable.ts`); no Worker path reaches it.

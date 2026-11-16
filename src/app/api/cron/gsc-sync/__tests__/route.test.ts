@@ -2,7 +2,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { NextRequest } from 'next/server';
 
-vi.mock('@/lib/db/drizzle', () => ({ sqlClient: { fake: true } }));
+vi.mock('@/lib/db/drizzle', () => ({ getSqlClient: () => ({ fake: true }) }));
 const openGscSession = vi.fn();
 vi.mock('@/lib/analytics/gsc/client', () => {
   class GscAuthError extends Error {}

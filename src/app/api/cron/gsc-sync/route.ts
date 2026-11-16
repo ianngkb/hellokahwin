@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { sqlClient } from '@/lib/db/drizzle';
+import { getSqlClient } from '@/lib/db/drizzle';
 import { GscAuthError, openGscSession } from '@/lib/analytics/gsc/client';
 import { reresolveUnresolvedPages, syncPageDaily, ymd } from '@/lib/analytics/gsc/sync';
 
@@ -32,6 +32,8 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   }
 
   const startedAt = Date.now();
+  // DATABASE_URL pool on Vercel; the request's Hyperdrive client on a Worker.
+  const sqlClient = getSqlClient();
   const log = (message: string) => console.log(`[gsc-sync] ${message}`);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://hellokahwin.com';
 
