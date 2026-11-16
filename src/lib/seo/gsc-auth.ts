@@ -25,8 +25,9 @@ import { readFileSync } from 'node:fs';
  * `hellokahwin-gsc@twn-new.iam.gserviceaccount.com`, which holds `siteFullUser`
  * on the `https://hellokahwin.com/` property. Supply it as EITHER:
  *
- *   GSC_SERVICE_ACCOUNT_JSON  the JSON itself (Doppler: project `hellokahwin`,
- *                             config `prd`; GitHub Actions: repository secret), or
+ *   GSC_SERVICE_ACCOUNT_JSON  the JSON itself (Infisical: project `hellokahwin`,
+ *                             `79665911-0240-4eab-b23c-caae042efecf`, env `prod`;
+ *                             GitHub Actions: repository secret), or
  *   GSC_CREDENTIALS_PATH      a path to the JSON file (the local MCP server
  *                             already sets this to
  *                             ~/.claude/secrets/gsc-service-account.json).

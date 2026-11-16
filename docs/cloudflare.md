@@ -168,7 +168,7 @@ OpenNext Docker build at a time.
 
 ```bash
 # 1. env file, OUTSIDE the checkout (values come from Vercel's env + the vault;
-#    Doppler `hellokahwin` is empty)
+#    Infisical `hellokahwin` mirrors only the production env, under `prod`)
 pwsh -NoProfile -File scripts/cloudflare/write-env-file.ps1 <scratch>/cf.env
 
 # 2. build + deploy the workers.dev preview, then push runtime values

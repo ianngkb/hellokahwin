@@ -646,7 +646,8 @@ async function main() {
         '  sitemap, but Google finds it on its own schedule — days, on this property.\n' +
         '  To supply it:\n' +
         '    $env:GSC_CREDENTIALS_PATH = "$HOME/.claude/secrets/gsc-service-account.json"\n' +
-        '  or inject GSC_SERVICE_ACCOUNT_JSON from Doppler (project hellokahwin, config prd).\n',
+        '  or inject GSC_SERVICE_ACCOUNT_JSON from Infisical, which keeps it off argv:\n' +
+        '    infisical run --projectId 79665911-0240-4eab-b23c-caae042efecf --env prod -- <this command>\n',
     );
   }
 

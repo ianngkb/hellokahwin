@@ -22,10 +22,13 @@
 #   scripts/cloudflare/cf-docker.sh check            # bundle, then inspect the output
 #   scripts/cloudflare/cf-docker.sh sh '<cmd>'       # anything else, in the built /work
 #
-# Requires an env file at $ENV_FILE holding the Doppler dev values plus
+# Requires an env file at $ENV_FILE holding the dev runtime values plus
 # CLOUDFLARE_API_TOKEN/CLOUDFLARE_ACCOUNT_ID. Generate it with
 # scripts/cloudflare/write-env-file.ps1 and delete it the moment this script returns.
-# (Values come from Vercel's env, not Doppler: Doppler `hellokahwin` is empty.)
+# (Values come from Vercel's env and the local vault. Infisical project
+# `hellokahwin` mirrors the production env under `prod`
+# (`infisical run --projectId 79665911-0240-4eab-b23c-caae042efecf --env=prod -- ...`);
+# its `dev` env holds only ANALYTICS_SALT and the GSC key, not the dev runtime env.)
 set -euo pipefail
 
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
