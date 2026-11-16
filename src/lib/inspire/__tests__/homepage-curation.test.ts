@@ -250,3 +250,25 @@ describe('Inspire homepage curation', () => {
     });
   });
 });
+
+describe('homepage surfaces', () => {
+  it('keeps the site homepage and /artikel in separate settings and caches', async () => {
+    const { HOMEPAGE_SURFACES, INSPIRE_HOMEPAGE_SETTING_KEY, INSPIRE_HOMEPAGE_CACHE_TAG } =
+      await import('../homepage-curation');
+    // /artikel keeps its original key, so what is already saved is untouched.
+    expect(HOMEPAGE_SURFACES.artikel.settingKey).toBe(INSPIRE_HOMEPAGE_SETTING_KEY);
+    expect(HOMEPAGE_SURFACES.artikel.cacheTag).toBe(INSPIRE_HOMEPAGE_CACHE_TAG);
+    expect(HOMEPAGE_SURFACES.home.settingKey).not.toBe(HOMEPAGE_SURFACES.artikel.settingKey);
+    expect(HOMEPAGE_SURFACES.home.cacheTag).not.toBe(HOMEPAGE_SURFACES.artikel.cacheTag);
+    expect(HOMEPAGE_SURFACES.home.path).toBe('/');
+  });
+
+  it('narrows an untrusted surface to artikel unless it is exactly home', async () => {
+    const { parseHomepageSurface } = await import('../homepage-curation');
+    expect(parseHomepageSurface('home')).toBe('home');
+    expect(parseHomepageSurface('artikel')).toBe('artikel');
+    expect(parseHomepageSurface('inspire_homepage')).toBe('artikel');
+    expect(parseHomepageSurface(undefined)).toBe('artikel');
+    expect(parseHomepageSurface({ toString: () => 'home' })).toBe('artikel');
+  });
+});

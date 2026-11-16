@@ -4,6 +4,38 @@ export const INSPIRE_HOMEPAGE_SETTING_KEY = 'inspire_homepage';
 export const INSPIRE_HOMEPAGE_CACHE_TAG = 'inspire-homepage';
 export const INSPIRE_HOMEPAGE_VERSION = 1 as const;
 
+/**
+ * The same curation model drives two public pages, each with its OWN saved
+ * arrangement so an editor can lead the site homepage with different stories
+ * from the /artikel hub. `artikel` keeps the original key and tag, so what is
+ * already saved for /artikel is untouched.
+ */
+export type HomepageSurface = 'artikel' | 'home';
+
+export const HOMEPAGE_SURFACES: Record<
+  HomepageSurface,
+  { settingKey: string; cacheTag: string; path: string; label: string; auditLabel: string }
+> = {
+  home: {
+    settingKey: 'site_homepage',
+    cacheTag: 'site-homepage',
+    path: '/',
+    label: 'Laman utama (/)',
+    auditLabel: 'Site homepage',
+  },
+  artikel: {
+    settingKey: INSPIRE_HOMEPAGE_SETTING_KEY,
+    cacheTag: INSPIRE_HOMEPAGE_CACHE_TAG,
+    path: '/artikel',
+    label: 'Artikel (/artikel)',
+    auditLabel: 'Inspire homepage',
+  },
+};
+
+export function parseHomepageSurface(value: unknown): HomepageSurface {
+  return value === 'home' ? 'home' : 'artikel';
+}
+
 export type InspireHomepageSource = 'latest' | 'category';
 
 export interface InspireHomepageZoneConfig {

@@ -5,8 +5,9 @@ import { articleCategories, articles, inspireCategories } from '@/lib/db/schema/
 import {
   categoryTreeIds,
   DEFAULT_INSPIRE_HOMEPAGE_CONFIG,
-  INSPIRE_HOMEPAGE_SETTING_KEY,
+  HOMEPAGE_SURFACES,
   parseInspireHomepageConfig,
+  type HomepageSurface,
   resolveInspireHomepage,
   type InspireHomepageArticle,
   type InspireHomepageConfig,
@@ -94,14 +95,14 @@ async function getCategoryEligibleArticles(
   return rows.map(asEligibleArticle);
 }
 
-export async function getInspireHomepageConfig(): Promise<{
+export async function getInspireHomepageConfig(surface: HomepageSurface = 'artikel'): Promise<{
   config: InspireHomepageConfig;
   invalid: boolean;
 }> {
   const [row] = await db
     .select({ value: adminSettings.value })
     .from(adminSettings)
-    .where(eq(adminSettings.key, INSPIRE_HOMEPAGE_SETTING_KEY))
+    .where(eq(adminSettings.key, HOMEPAGE_SURFACES[surface].settingKey))
     .limit(1);
   if (!row) return { config: DEFAULT_INSPIRE_HOMEPAGE_CONFIG, invalid: false };
   return parseInspireHomepageConfig(row.value);
@@ -115,12 +116,14 @@ export async function getInspireHomepageConfig(): Promise<{
  * back to the automatic layout (newest articles) — the same page production
  * shows before anyone curates. The admin screen keeps the strict read.
  */
-export async function getInspireHomepageConfigOrDefault(): Promise<{
+export async function getInspireHomepageConfigOrDefault(
+  surface: HomepageSurface = 'artikel',
+): Promise<{
   config: InspireHomepageConfig;
   invalid: boolean;
 }> {
   try {
-    return await getInspireHomepageConfig();
+    return await getInspireHomepageConfig(surface);
   } catch (err) {
     console.warn('[inspire-homepage] curation unreadable, using the automatic layout:', err);
     return { config: DEFAULT_INSPIRE_HOMEPAGE_CONFIG, invalid: false };
@@ -164,12 +167,13 @@ export async function getInspireHomepageCategories(): Promise<InspireHomepageCat
  * would overwrite the arrangement actually saved (review R1).
  */
 export async function getInspireHomepageResolvedData(
-  options: { tolerateUnreadableConfig?: boolean } = {},
+  options: { tolerateUnreadableConfig?: boolean; surface?: HomepageSurface } = {},
 ) {
+  const surface = options.surface ?? 'artikel';
   const [{ config, invalid }, allCategories] = await Promise.all([
     options.tolerateUnreadableConfig
-      ? getInspireHomepageConfigOrDefault()
-      : getInspireHomepageConfig(),
+      ? getInspireHomepageConfigOrDefault(surface)
+      : getInspireHomepageConfig(surface),
     getInspireHomepageCategories(),
   ]);
   const allPinnedIds = [
@@ -258,4 +262,9 @@ export function pickerArticlesForConfig(
 /** /artikel's read: never fails because the curation is unreadable. */
 export function getPublicInspireHomepageResolvedData() {
   return getInspireHomepageResolvedData({ tolerateUnreadableConfig: true });
+}
+
+/** The site homepage's read (`/`): its own arrangement, same tolerance. */
+export function getPublicSiteHomepageResolvedData() {
+  return getInspireHomepageResolvedData({ tolerateUnreadableConfig: true, surface: 'home' });
 }

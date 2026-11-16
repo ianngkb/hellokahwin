@@ -10,9 +10,10 @@ import { requireAdminSectionAction } from '@/lib/auth/admin';
 import { logAuditEventAsync } from '@/lib/audit/log';
 import {
   DEFAULT_INSPIRE_HOMEPAGE_CONFIG,
-  INSPIRE_HOMEPAGE_CACHE_TAG,
-  INSPIRE_HOMEPAGE_SETTING_KEY,
+  HOMEPAGE_SURFACES,
   inspireHomepageConfigSchema,
+  parseHomepageSurface,
+  type HomepageSurface,
   type InspireHomepageConfig,
 } from '@/lib/inspire/homepage-curation';
 import type { InspireHomepagePickerArticle } from '@/lib/inspire/homepage-queries';
@@ -20,18 +21,22 @@ import type { InspireHomepagePickerArticle } from '@/lib/inspire/homepage-querie
 export type InspireHomepageActionResult = { success: true } | { error: string };
 
 /**
- * Ported from The Wedding Notebook's Inspire homepage manager. The public
- * surface here is `/artikel`, and the tag is purged with HelloKahwin's
+ * Ported from The Wedding Notebook's Inspire homepage manager. It curates two
+ * public surfaces — the site homepage `/` and the `/artikel` hub — each saved
+ * under its own `admin_settings` key (see `HOMEPAGE_SURFACES`); the surface
+ * arrives as an untrusted argument and is narrowed by `parseHomepageSurface`. The
+ * tag is purged with HelloKahwin's the tag is purged with HelloKahwin's
  * `PURGE_IMMEDIATELY` convention rather than twn's `'max'` (stale-while-
  * revalidate): an editor who pins a story expects the next reader to see it.
  * `revalidatePath` alone does not evict an `unstable_cache` entry — only the
  * tag does — so both are needed.
  */
-function refreshInspireHomepage() {
-  revalidatePath('/artikel');
+function refreshInspireHomepage(surface: HomepageSurface) {
+  const { path, cacheTag } = HOMEPAGE_SURFACES[surface];
+  revalidatePath(path);
   revalidatePath('/admin/inspire/homepage');
-  revalidateTag(INSPIRE_HOMEPAGE_CACHE_TAG, PURGE_IMMEDIATELY);
-  updateTag(INSPIRE_HOMEPAGE_CACHE_TAG);
+  revalidateTag(cacheTag, PURGE_IMMEDIATELY);
+  updateTag(cacheTag);
 }
 
 async function validateReferences(config: InspireHomepageConfig): Promise<string | null> {
@@ -70,9 +75,12 @@ async function validateReferences(config: InspireHomepageConfig): Promise<string
 
 export async function saveInspireHomepageAction(
   input: unknown,
+  surfaceInput: unknown = 'artikel',
 ): Promise<InspireHomepageActionResult> {
   const { error: authError, user } = await requireAdminSectionAction('inspire');
   if (authError || !user) return { error: authError ?? 'Unauthorized' };
+  const surface = parseHomepageSurface(surfaceInput);
+  const { settingKey, auditLabel } = HOMEPAGE_SURFACES[surface];
 
   const parsed = inspireHomepageConfigSchema.safeParse(input);
   if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? 'Invalid settings' };
@@ -83,7 +91,7 @@ export async function saveInspireHomepageAction(
     await db
       .insert(adminSettings)
       .values({
-        key: INSPIRE_HOMEPAGE_SETTING_KEY,
+        key: settingKey,
         value: parsed.data,
         updatedAt: new Date(),
       })
@@ -93,8 +101,8 @@ export async function saveInspireHomepageAction(
       });
     await logAuditEventAsync({
       entityType: 'settings',
-      entityId: INSPIRE_HOMEPAGE_SETTING_KEY,
-      entityLabel: 'Inspire homepage',
+      entityId: settingKey,
+      entityLabel: auditLabel,
       action: 'updated',
       performedBy: user.id,
       metadata: parsed.data as unknown as Record<string, unknown>,
@@ -104,20 +112,24 @@ export async function saveInspireHomepageAction(
     return { error: 'Could not save the articles homepage — please try again.' };
   }
 
-  refreshInspireHomepage();
+  refreshInspireHomepage(surface);
   return { success: true };
 }
 
-export async function resetInspireHomepageAction(): Promise<InspireHomepageActionResult> {
+export async function resetInspireHomepageAction(
+  surfaceInput: unknown = 'artikel',
+): Promise<InspireHomepageActionResult> {
   const { error: authError, user } = await requireAdminSectionAction('inspire');
   if (authError || !user) return { error: authError ?? 'Unauthorized' };
+  const surface = parseHomepageSurface(surfaceInput);
+  const { settingKey, auditLabel } = HOMEPAGE_SURFACES[surface];
 
   try {
-    await db.delete(adminSettings).where(eq(adminSettings.key, INSPIRE_HOMEPAGE_SETTING_KEY));
+    await db.delete(adminSettings).where(eq(adminSettings.key, settingKey));
     await logAuditEventAsync({
       entityType: 'settings',
-      entityId: INSPIRE_HOMEPAGE_SETTING_KEY,
-      entityLabel: 'Inspire homepage',
+      entityId: settingKey,
+      entityLabel: auditLabel,
       action: 'reset',
       performedBy: user.id,
       metadata: DEFAULT_INSPIRE_HOMEPAGE_CONFIG as unknown as Record<string, unknown>,
@@ -127,7 +139,7 @@ export async function resetInspireHomepageAction(): Promise<InspireHomepageActio
     return { error: 'Could not reset the articles homepage — please try again.' };
   }
 
-  refreshInspireHomepage();
+  refreshInspireHomepage(surface);
   return { success: true };
 }
 

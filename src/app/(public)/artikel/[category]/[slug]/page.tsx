@@ -30,6 +30,8 @@ import { buildItemListJsonLd } from '@/lib/inspire/listicle-schema';
 import { buildFaqPageJsonLd } from '@/lib/inspire/faq-schema';
 import type { GalleryImage } from '@/components/inspire/article-renderer';
 import { ArticleSidebar } from '@/components/inspire/article-sidebar';
+import { ArticleToc, hasArticleToc } from '@/components/inspire/article-toc';
+import { TocScrollSpy } from '@/components/inspire/toc-scroll-spy';
 import { ArticleCard } from '@/components/inspire/article-card';
 import { ArticleCoverMobile } from '@/components/inspire/article-cover-mobile';
 import {
@@ -637,6 +639,10 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
   // Article content with dynamic blocks merged in (falls back to the raw
   // content for any straggler cache entries from before the field existed).
   const renderContent = pageData.renderContent ?? article.content;
+  // The contents list is built from the SAME content the renderer anchors its
+  // headings from (dynamic blocks merged in), so every `href="#…"` resolves.
+  const tocHeadings = extractHeadings(renderContent);
+  const showToc = hasArticleToc(tocHeadings);
 
   // An article whose primary category was deleted (FK is ON DELETE SET NULL)
   // has no canonical URL: without this guard it renders under EVERY
@@ -1122,9 +1128,14 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
                   above the cover, so it never pushes the hero photograph (the
                   page's largest paint) further down a phone screen. */}
               <SeriesBox box={seriesBox} />
-              {/* The contents list renders inline at the top of the body,
-                  inside the renderer, from the same `article.content` the
-                  renderer anchors its headings from. */}
+              {/* Phones and tablets: the contents list is a one-line box that
+                  opens on tap, flush with the text. Desktop has it in the rail
+                  instead (below), so the renderer's own inline copy is off. */}
+              {showToc && (
+                <div className="lg:hidden">
+                  <ArticleToc headings={tocHeadings} variant="collapsible" />
+                </div>
+              )}
               {/* Read-depth, section drop-off and in-body link clicks for the
                   admin Article Analytics. All three only queue events into the
                   existing first-party tracker (no extra request on load), and
@@ -1135,6 +1146,7 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
                 <ArticleClickTracker articleId={article.id}>
                   <ArticleRenderer
                     content={renderContent}
+                    showToc={false}
                     articleId={article.id}
                     /* Only used to build a fallback `alt` for images the editor
                        uploaded without one — see `fallbackImageAlt`. */
@@ -1148,9 +1160,25 @@ export default async function InspireArticlePage({ params }: ArticlePageProps) {
               <PillarUpLinkBlock link={pillarUpLink} />
             </article>
 
-            {/* Sidebar — deliberately NOT sticky, as on The Wedding Notebook. */}
+            {/* Sidebar — the meta block is NOT sticky, as on The Wedding
+                Notebook. The contents list under it IS: once a reader scrolls
+                past the meta it stays on screen beside the text and marks the
+                section being read (Ian, 17 Nov 2026 — it used to sit above the
+                first paragraph, indented 120px off the text's left edge). The
+                grid cell stretches to the article's height, which is what
+                gives the sticky block room to travel. */}
             <div className="hidden lg:block">
               <ArticleSidebar {...sidebarProps} />
+              {showToc && (
+                <div className="article-toc-rail sticky top-[130px] mt-8">
+                  <p id="rail-toc-heading" className="hk-eyebrow mb-2.5">
+                    Dalam artikel ini
+                  </p>
+                  <TocScrollSpy>
+                    <ArticleToc headings={tocHeadings} labelledBy="rail-toc-heading" />
+                  </TocScrollSpy>
+                </div>
+              )}
             </div>
           </div>
 
