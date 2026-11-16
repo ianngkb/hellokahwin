@@ -4,6 +4,7 @@ import { apiSuccess, apiError } from '@/lib/api/response';
 import { ApiError } from '@/lib/api/errors';
 import { extractKeyFromUrl } from '@/lib/r2/client';
 import { processSmartCrops } from '@/lib/storage/smart-crop';
+import { MediaToolsError } from '@/lib/media/media-client';
 
 export async function POST(request: NextRequest) {
   try {
@@ -44,6 +45,10 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     if (error instanceof ApiError) {
       return apiError(error.message, error.statusCode);
+    }
+    // Worker only: media-tools refused the image (4xx) or is unavailable (503, retryable).
+    if (error instanceof MediaToolsError) {
+      return apiError(error.message, error.status);
     }
     console.error('POST /api/v1/inspire/generate-smart-crops error:', error);
     return apiError('Internal server error', 500);

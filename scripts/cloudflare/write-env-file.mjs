@@ -1,6 +1,6 @@
 // Write the docker env file a Cloudflare build/deploy of HelloKahwin needs.
 //
-//   node scripts/cloudflare/write-env-file.mjs <out-path>
+//   node scripts/cloudflare/write-env-file.mjs <out-path> [--production]
 //
 // Run it through scripts/cloudflare/write-env-file.ps1, which injects the three
 // credentials it reads (never on a command line):
@@ -24,8 +24,12 @@
 import { writeFileSync } from 'node:fs';
 
 const out = process.argv[2];
-if (!out) throw new Error('usage: write-env-file.mjs <out-path>');
-for (const k of ['VERCEL_TOKEN', 'CLOUDFLARE_API_TOKEN', 'HK_CF_PREVIEW_CRON_SECRET']) {
+if (!out) throw new Error('usage: write-env-file.mjs <out-path> [--production]');
+const production = process.argv.includes('--production');
+const required = production
+  ? ['VERCEL_TOKEN', 'CLOUDFLARE_API_TOKEN', 'NEXT_SERVER_ACTIONS_ENCRYPTION_KEY']
+  : ['VERCEL_TOKEN', 'CLOUDFLARE_API_TOKEN', 'HK_CF_PREVIEW_CRON_SECRET'];
+for (const k of required) {
   if (!process.env[k]) throw new Error(`${k} is not set — run through write-env-file.ps1`);
 }
 
@@ -59,8 +63,17 @@ async function decrypted(key, target) {
 const env = {};
 for (const key of FROM_PRODUCTION) env[key] = await decrypted(key, 'production');
 env.DATABASE_URL = await decrypted('DATABASE_URL', 'preview');
-env.CRON_SECRET = process.env.HK_CF_PREVIEW_CRON_SECRET;
-env.HK_READ_ONLY = '1';
+if (production) {
+  // The production Worker (`--env production`). Same build inputs as the
+  // preview — prerendering still reads through the READ-ONLY role — minus the
+  // read-only switch, plus the Server Actions key, which Next embeds at build
+  // time and must equal the Worker's runtime secret (push-prod-secrets.mjs).
+  env.NEXT_SERVER_ACTIONS_ENCRYPTION_KEY = process.env.NEXT_SERVER_ACTIONS_ENCRYPTION_KEY;
+  env.NEXT_PUBLIC_SITE_URL = 'https://hellokahwin.com';
+} else {
+  env.CRON_SECRET = process.env.HK_CF_PREVIEW_CRON_SECRET;
+  env.HK_READ_ONLY = '1';
+}
 env.NEXT_PUBLIC_HOSTING = 'cloudflare';
 env.NEXT_TELEMETRY_DISABLED = '1';
 // wrangler/OpenNext read the platform proxy before a deploy and refuse a

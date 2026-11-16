@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import sharp from 'sharp';
+import type { Sharp } from 'sharp';
 import { PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 import {
   getR2Client,
@@ -12,6 +12,37 @@ import {
 import { detectFaces, detectLabels } from '@/lib/rekognition/detect';
 import { COVER_RENDITIONS, type CoverRenditionSpec, type MidsizeRendition } from './midsize-cover';
 import { encodeUnderCeiling } from './byte-ceiling';
+import type { EncodedImage } from './image-engine';
+import {
+  getImageMetadata,
+  getMediaTools,
+  isFocalResult,
+  loadSharp,
+  mediaToolsJson,
+  mediaTransform,
+  readObjectBody,
+  type TransformParams,
+} from '@/lib/media/media-client';
+
+// -- Where the pixels are pushed ------------------------------------------
+//
+// On Vercel, in `next dev`, the CLI scripts and tests, sharp runs in-process
+// exactly as before (loaded lazily, so a Workers bundle never evaluates it).
+// On the Cloudflare Worker the `MEDIA` binding is present and the same work
+// goes to media-tools (`@/lib/media/media-client`). `orient: false` throughout:
+// the local pipelines never call `.rotate()`, so they work on the STORED
+// pixels, and the crop windows are computed against the stored size.
+
+/** media-tools answered `null`, which only happens when `MEDIA` is unbound. */
+function remote<T>(value: T | null): T {
+  if (value === null) throw new Error('media-tools binding disappeared mid-request');
+  return value;
+}
+
+async function remoteEncode(source: Buffer, params: TransformParams): Promise<EncodedImage> {
+  const out = remote(await mediaTransform(source, { orient: false, ...params }));
+  return { data: out.data, width: out.width, height: out.height };
+}
 import type { FaceBoundingBox, LabelInstance } from '@/lib/rekognition/detect';
 
 // ── Types ──────────────────────────────────────────────────────────────
@@ -306,6 +337,7 @@ async function attentionAxis(
   targetHeight: number,
   axis: 'x' | 'y',
 ): Promise<number> {
+  const sharp = await loadSharp();
   const { info } = await sharp(imageBuffer)
     .resize({ width: targetWidth, height: targetHeight, fit: 'cover', position: 'attention' })
     .toBuffer({ resolveWithObject: true });
@@ -326,6 +358,14 @@ async function attentionAxis(
 }
 
 export async function detectSaliencyFocalPoint(imageBuffer: Buffer): Promise<FocalPoint> {
+  // On a Worker: media-tools `/v1/image/focal`, the same two thin
+  // cover+attention probes as below, run with sharp inside the container.
+  if (getMediaTools()) {
+    const focal = remote(await mediaToolsJson('/v1/image/focal', {}, imageBuffer, isFocalResult));
+    return { x: focal.x, y: focal.y, method: 'saliency' };
+  }
+
+  const sharp = await loadSharp();
   const metadata = await sharp(imageBuffer).metadata();
   const imageWidth = metadata.width ?? 1;
   const imageHeight = metadata.height ?? 1;
@@ -522,6 +562,24 @@ export async function renderCoverRendition(
   // — the box, `fit:'inside'`, and the encoder effort — stays here; only the
   // step-down loop is shared. A rendition over budget still comes back flagged
   // rather than thrown, for the reason stated above.
+  if (getMediaTools()) {
+    // media-tools has no encoder-effort knob; its WebP uses libvips' default
+    // effort, so a remote rendition can be a few percent larger at the same
+    // quality. The ladder still holds it under the same ceiling.
+    return encodeUnderCeiling(
+      (quality) =>
+        remoteEncode(source, {
+          w: spec.WIDTH,
+          h: spec.HEIGHT,
+          fit: 'inside',
+          enlarge: false,
+          format: 'webp',
+          q: quality,
+        }),
+      spec,
+    );
+  }
+  const sharp = await loadSharp();
   return encodeUnderCeiling(
     (quality) =>
       sharp(source)
@@ -556,9 +614,12 @@ export async function generateSmartCrops(
     dirPrefix = originalKey.substring(0, lastSlash + 1) + filename + '/';
   }
 
-  const metadata = await sharp(originalBuffer).metadata();
-  const imageWidth = metadata.width ?? 1;
-  const imageHeight = metadata.height ?? 1;
+  // STORED width/height: what sharp's `metadata()` reports and what an
+  // un-rotated `extract` addresses (media-tools or sharp, same numbers).
+  const metadata = await getImageMetadata(originalBuffer);
+  const imageWidth = metadata.storedWidth || 1;
+  const imageHeight = metadata.storedHeight || 1;
+  const sharp = getMediaTools() ? null : await loadSharp();
 
   // Crops are written to a fixed key under `immutable` year-long caching, so any
   // change to the bytes must change the stored URL or the CDN serves the old
@@ -585,19 +646,29 @@ export async function generateSmartCrops(
     // at its native size. Never upscale — Sharp interpolating a 1000px window
     // up to 2350px only fabricates pixels, and the browser then resamples again
     // for DPR, stacking two lossy passes.
-    const cropPipeline = (quality: number) =>
-      sharp(originalBuffer)
-        .extract({
-          left: cropWindow.left,
-          top: cropWindow.top,
-          width: cropWindow.width,
-          height: cropWindow.height,
-        })
-        .resize(target.outputWidth, target.outputHeight, {
-          fit: 'inside',
-          withoutEnlargement: true,
-        })
-        .webp({ quality });
+    const cropPipeline = (quality: number): Sharp | Promise<EncodedImage> =>
+      sharp
+        ? sharp(originalBuffer)
+            .extract({
+              left: cropWindow.left,
+              top: cropWindow.top,
+              width: cropWindow.width,
+              height: cropWindow.height,
+            })
+            .resize(target.outputWidth, target.outputHeight, {
+              fit: 'inside',
+              withoutEnlargement: true,
+            })
+            .webp({ quality })
+        : remoteEncode(originalBuffer, {
+            extract: `${cropWindow.left},${cropWindow.top},${cropWindow.width},${cropWindow.height}`,
+            w: target.outputWidth,
+            h: target.outputHeight,
+            fit: 'inside',
+            enlarge: false,
+            format: 'webp',
+            q: quality,
+          });
 
     // ── Rung 0, kept SEPARATELY from whatever gets served ─────────────────
     //
@@ -614,9 +685,11 @@ export async function generateSmartCrops(
     // the ceiling — the `.s-row` thumbnail and the article cover for those
     // covers would visibly degrade, which is not a trade this item is making.
     // So the renditions always consume rung 0, and only the stored object steps.
-    const rung0 = await cropPipeline(CROP_CEILING.QUALITY_LADDER[0]).toBuffer({
-      resolveWithObject: true,
-    });
+    const first = cropPipeline(CROP_CEILING.QUALITY_LADDER[0]);
+    const rung0 =
+      'toBuffer' in first
+        ? await first.toBuffer({ resolveWithObject: true })
+        : await first.then((e) => ({ data: e.data, info: { width: e.width, height: e.height } }));
 
     // Under the ceiling at rung 0 — the overwhelming majority — is the
     // pre-ceiling behaviour exactly, byte for byte, with no second encode.
@@ -728,6 +801,32 @@ export async function generateSmartCrops(
 const MAX_REKOGNITION_DIMENSION = 4096;
 const MAX_REKOGNITION_BYTES = 5 * 1024 * 1024; // 5 MB
 
+/** Rekognition input on the local path: JPEG, <=4096 px, <=5 MB (sharp). */
+async function localDetectionBuffer(originalBuffer: Buffer): Promise<Buffer> {
+  const sharp = await loadSharp();
+  const metadata = await sharp(originalBuffer).metadata();
+  const needsResize =
+    (metadata.width && metadata.width > MAX_REKOGNITION_DIMENSION) ||
+    (metadata.height && metadata.height > MAX_REKOGNITION_DIMENSION);
+
+  let pipeline = sharp(originalBuffer);
+  if (needsResize) {
+    pipeline = pipeline.resize({
+      width: MAX_REKOGNITION_DIMENSION,
+      height: MAX_REKOGNITION_DIMENSION,
+      fit: 'inside',
+      withoutEnlargement: true,
+    });
+  }
+  let detectionBuffer = await pipeline.jpeg({ quality: 90 }).toBuffer();
+
+  // Re-encode at lower quality if still over the 5 MB Rekognition limit
+  if (detectionBuffer.length > MAX_REKOGNITION_BYTES) {
+    detectionBuffer = await sharp(detectionBuffer).jpeg({ quality: 80 }).toBuffer();
+  }
+  return detectionBuffer;
+}
+
 export async function processSmartCrops(
   originalKey: string,
   options?: {
@@ -760,7 +859,8 @@ export async function processSmartCrops(
     );
 
     if (!response.Body) throw new Error('Original image not found in R2');
-    originalBuffer = Buffer.from(await response.Body.transformToByteArray());
+    // Vercel: the old full read. Worker: capped at media-tools' 40 MB.
+    originalBuffer = await readObjectBody(response.Body, response.ContentLength);
   }
 
   let focalPoint: FocalPoint;
@@ -780,25 +880,25 @@ export async function processSmartCrops(
     // Prepare a detection-safe buffer for Rekognition (JPEG only, ≤4096px, ≤5MB).
     // Always re-encode through sharp to normalise colour space (CMYK→sRGB),
     // strip unsupported formats (WebP/AVIF/HEIC), and enforce size limits.
-    const metadata = await sharp(originalBuffer).metadata();
-    const needsResize =
-      (metadata.width && metadata.width > MAX_REKOGNITION_DIMENSION) ||
-      (metadata.height && metadata.height > MAX_REKOGNITION_DIMENSION);
-
-    let pipeline = sharp(originalBuffer);
-    if (needsResize) {
-      pipeline = pipeline.resize({
-        width: MAX_REKOGNITION_DIMENSION,
-        height: MAX_REKOGNITION_DIMENSION,
-        fit: 'inside',
-        withoutEnlargement: true,
-      });
-    }
-    let detectionBuffer = await pipeline.jpeg({ quality: 90 }).toBuffer();
-
-    // Re-encode at lower quality if still over the 5 MB Rekognition limit
-    if (detectionBuffer.length > MAX_REKOGNITION_BYTES) {
-      detectionBuffer = await sharp(detectionBuffer).jpeg({ quality: 80 }).toBuffer();
+    let detectionBuffer: Buffer;
+    if (getMediaTools()) {
+      // Same recipe through media-tools: <=4096 px inside, no upscale, JPEG q90,
+      // stored orientation (the sharp pipeline below never rotates either).
+      detectionBuffer = (
+        await remoteEncode(originalBuffer, {
+          w: MAX_REKOGNITION_DIMENSION,
+          h: MAX_REKOGNITION_DIMENSION,
+          fit: 'inside',
+          enlarge: false,
+          format: 'jpeg',
+          q: 90,
+        })
+      ).data;
+      if (detectionBuffer.length > MAX_REKOGNITION_BYTES) {
+        detectionBuffer = (await remoteEncode(detectionBuffer, { format: 'jpeg', q: 80 })).data;
+      }
+    } else {
+      detectionBuffer = await localDetectionBuffer(originalBuffer);
     }
 
     // 3. DetectFaces

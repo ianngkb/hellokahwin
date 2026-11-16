@@ -1,0 +1,82 @@
+// @vitest-environment node
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
+import { describe, expect, it } from 'vitest';
+import { CRON_ROUTES, cronRequest, isCronEnabled, wantsNoindex } from '../worker-entry';
+
+const root = path.resolve(__dirname, '../../../..');
+
+describe('wantsNoindex', () => {
+  it('stamps the read-only preview everywhere', () => {
+    expect(wantsNoindex(new Request('https://hellokahwin.com/'), { HK_NOINDEX: '1' })).toBe(true);
+  });
+
+  it('stamps any workers.dev address, including the production Worker before the switch', () => {
+    expect(
+      wantsNoindex(new Request('https://hellokahwin.misty-glitter-43d0.workers.dev/'), {}),
+    ).toBe(true);
+  });
+
+  it('leaves hellokahwin.com and its subdomains alone in production', () => {
+    expect(wantsNoindex(new Request('https://hellokahwin.com/artikel'), {})).toBe(false);
+    expect(wantsNoindex(new Request('https://cf-test.hellokahwin.com/'), {})).toBe(false);
+  });
+});
+
+describe('scheduled jobs', () => {
+  it('run only when HK_CRON_ENABLED is exactly 1', () => {
+    expect(isCronEnabled({})).toBe(false);
+    expect(isCronEnabled({ HK_CRON_ENABLED: '0' })).toBe(false);
+    expect(isCronEnabled({ HK_CRON_ENABLED: 'true' })).toBe(false);
+    expect(isCronEnabled({ HK_CRON_ENABLED: '1' })).toBe(true);
+  });
+
+  it('call the route the way Vercel Cron did: GET with the bearer secret', () => {
+    const req = cronRequest('/api/cron/gsc-sync', {
+      CRON_SECRET: 's3cret',
+      NEXT_PUBLIC_SITE_URL: 'https://hellokahwin.com/',
+    });
+    expect(req.method).toBe('GET');
+    expect(req.url).toBe('https://hellokahwin.com/api/cron/gsc-sync');
+    expect(req.headers.get('authorization')).toBe('Bearer s3cret');
+  });
+
+  it('match vercel.json and the wrangler production trigger one for one', () => {
+    const vercel = JSON.parse(readFileSync(path.join(root, 'vercel.json'), 'utf8')) as {
+      crons: { path: string; schedule: string }[];
+    };
+    const fromVercel = Object.fromEntries(vercel.crons.map((c) => [c.schedule, c.path]));
+    expect(CRON_ROUTES).toEqual(fromVercel);
+
+    const wrangler = readFileSync(path.join(root, 'wrangler.jsonc'), 'utf8');
+    const crons = /"triggers":\s*\{\s*"crons":\s*\[([^\]]*)\]/.exec(wrangler)?.[1] ?? '';
+    const schedules = [...crons.matchAll(/"([^"]+)"/g)].map((m) => m[1]);
+    expect(schedules.sort()).toEqual(Object.keys(CRON_ROUTES).sort());
+  });
+});
+
+describe('wrangler.jsonc production environment', () => {
+  const wrangler = readFileSync(path.join(root, 'wrangler.jsonc'), 'utf8');
+  const prod = wrangler.slice(wrangler.indexOf('"production"'));
+
+  it('is the `hellokahwin` Worker, with the preview renamed', () => {
+    expect(wrangler).toMatch(/^\s*"name": "hellokahwin-preview",/m);
+    expect(prod).toMatch(/"name": "hellokahwin",/);
+  });
+
+  it('carries no read-only or noindex switch and no HK_CRON_ENABLED var', () => {
+    expect(prod).not.toMatch(/"HK_READ_ONLY"/);
+    expect(prod).not.toMatch(/"HK_NOINDEX"/);
+    expect(prod).not.toMatch(/"HK_CRON_ENABLED":/);
+  });
+
+  it('binds media-tools-twn as MEDIA and uses the production Hyperdrive, not the read-only one', () => {
+    expect(prod).toMatch(/"binding": "MEDIA",\s*"service": "media-tools-twn"/);
+    expect(prod).not.toContain('a7579bc5a9b64c4e8ab49dab9dc070c8');
+    expect(prod).toMatch(/"binding": "HYPERDRIVE",\s*"id": "[0-9a-f]{32}"/);
+  });
+
+  it('attaches no routes yet: the domain moves at the switch', () => {
+    expect(prod).not.toMatch(/"routes"\s*:/);
+  });
+});

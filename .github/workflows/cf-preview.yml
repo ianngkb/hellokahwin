@@ -3,9 +3,10 @@
 #
 # This workflow cannot touch production:
 #   * `workflow_dispatch` only - no push, pull_request or schedule trigger.
-#   * wrangler.jsonc has no routes and no custom domain. The only address the
-#     Worker answers on is hellokahwin.misty-glitter-43d0.workers.dev.
-#     hellokahwin.com stays on Vercel.
+#   * It never passes `--env production`, so it only ever reaches the
+#     top-level Worker `hellokahwin-preview` and its workers.dev address.
+#     The production Worker `hellokahwin` is deployed from a workstation
+#     (docs/cloudflare.md).
 #   * mode=version (the default) runs `wrangler versions upload`: a new version
 #     with its own preview URL, taking no traffic. mode=deploy makes it the
 #     version the workers.dev address serves - still the preview.

@@ -16,6 +16,7 @@
 import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import path from 'node:path';
+import { getMediaTools, mediaPdfCompress } from '@/lib/media/media-client';
 
 const require = createRequire(import.meta.url);
 
@@ -150,11 +151,33 @@ async function runGhostscript(input: Buffer): Promise<Buffer | null> {
   }
 }
 
+/** The Ghostscript settings above, as media-tools `/v1/pdf/compress` parameters. */
+export const REMOTE_PDF_PARAMS = {
+  preset: 'ebook',
+  dpi: 150,
+  monoDpi: 300,
+  compat: '1.5',
+} as const;
+
 /**
  * Compress a PDF. Only ever shrinks: if gs fails, errors, or produces output that
  * is not a smaller valid PDF, the original is returned untouched (`compressed: false`).
+ *
+ * On a Cloudflare Worker (`MEDIA` bound) Ghostscript cannot run in-process, so the
+ * same compression runs in media-tools. There, an unreachable or misbehaving
+ * service THROWS (`MediaToolsUnavailableError`, 503, retryable) instead of
+ * quietly keeping the original, so the caller can tell "nothing to gain" from
+ * "could not try"; a refused file throws `MediaToolsError` with its status.
+ * Either way nothing is overwritten.
  */
 export async function compressPdf(input: Buffer): Promise<{ output: Buffer; compressed: boolean }> {
+  if (getMediaTools()) {
+    const result = await mediaPdfCompress(input, REMOTE_PDF_PARAMS);
+    if (result && !result.keptOriginal && result.data.length < input.length) {
+      return { output: result.data, compressed: true };
+    }
+    return { output: input, compressed: false };
+  }
   try {
     const output = await runGhostscript(input);
     if (output && output.length < input.length && isPdf(output) && endsWithEof(output)) {
