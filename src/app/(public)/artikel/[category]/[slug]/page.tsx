@@ -419,9 +419,10 @@ const getRelatedArticles = unstable_cache(
 // build-phase semaphore around the page's DB reads, or `experimental.workerThreads`
 // / `cpus` turned down for the export phase — and must be proven by a green
 // `pnpm build` before landing, run WITH the app's build env. That env, including
-// DATABASE_URL, lives in Vercel (`vercel env pull .env.local --environment=production`);
-// the Infisical project hellokahwin (79665911-0240-4eab-b23c-caae042efecf) holds only
-// the Ahrefs/GSC keys, so `infisical run` alone does not supply what this build needs.
+// DATABASE_URL, lives in Vercel (`vercel env pull .env.local --environment=production`)
+// and is mirrored in the Infisical project hellokahwin, env `prod`:
+// `infisical run --projectId 79665911-0240-4eab-b23c-caae042efecf --env=prod -- pnpm build`.
+// Its `dev` env holds only ANALYTICS_SALT and the GSC key, so `--env=dev` will not do.
 // Raising the limit alone will not work.
 export async function generateStaticParams(): Promise<Array<{ category: string; slug: string }>> {
   return [];
