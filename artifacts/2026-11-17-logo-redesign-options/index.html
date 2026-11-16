@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>HelloKahwin — Astra Review &amp; Seal Options</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #111;
+        --muted: #555;
+        --line: #d7d7d7;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 24px;
+      }
+      body {
+        margin: 0;
+        background: white;
+        color: var(--ink);
+        font:
+          16px/1.6 Arial,
+          sans-serif;
+      }
+      main {
+        max-width: 1240px;
+        margin: auto;
+        padding: 42px 28px 64px;
+      }
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+      h1 {
+        font:
+          400 clamp(42px, 7vw, 82px)/1.03 Georgia,
+          serif;
+        letter-spacing: -0.04em;
+        margin-bottom: 24px;
+      }
+      h2 {
+        font:
+          400 34px/1.16 Georgia,
+          serif;
+        margin-bottom: 16px;
+      }
+      h3 {
+        font:
+          400 25px/1.2 Georgia,
+          serif;
+        margin-bottom: 12px;
+      }
+      p {
+        max-width: 760px;
+        color: var(--muted);
+      }
+      a {
+        color: inherit;
+        text-underline-offset: 4px;
+      }
+      a:focus-visible,
+      summary:focus-visible {
+        outline: 2px solid #111;
+        outline-offset: 5px;
+      }
+      .eyebrow {
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        margin-bottom: 16px;
+      }
+      .intro {
+        padding-bottom: 28px;
+        border-bottom: 1px solid var(--ink);
+      }
+      .lead {
+        font-size: 20px;
+        max-width: 800px;
+      }
+      .status {
+        display: inline-block;
+        border: 1px solid var(--line);
+        padding: 6px 12px;
+        font-size: 12px;
+        margin-bottom: 20px;
+      }
+      nav {
+        display: flex;
+        gap: 18px;
+        flex-wrap: wrap;
+        padding: 18px 0 36px;
+        font-size: 13px;
+      }
+      .recommendation {
+        background: #111;
+        color: white;
+        padding: 28px;
+        margin-bottom: 36px;
+      }
+      .recommendation p {
+        color: #eee;
+        margin: 0;
+      }
+      .recommendation h2 {
+        font-size: 29px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 24px;
+      }
+      .option {
+        min-width: 0;
+      }
+      .option img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border: 1px solid var(--line);
+      }
+      .option a {
+        display: block;
+      }
+      .option h3 {
+        margin-top: 18px;
+      }
+      .option p {
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
+      .tag {
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 8px;
+      }
+      .note {
+        font-size: 13px;
+      }
+      .section {
+        padding-top: 48px;
+      }
+      .review-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 22px;
+      }
+      .review-grid article {
+        border-top: 1px solid var(--line);
+        padding-top: 20px;
+      }
+      .review-grid h3 {
+        font-size: 22px;
+      }
+      .review-grid p {
+        font-size: 15px;
+      }
+      .reference {
+        display: flex;
+        gap: 32px;
+        align-items: center;
+        border: 1px solid var(--line);
+        padding: 24px;
+      }
+      .reference img {
+        width: 140px;
+        max-width: 30%;
+        height: auto;
+      }
+      .reference p {
+        margin-bottom: 0;
+      }
+      .table-wrap {
+        overflow-x: auto;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 14px;
+      }
+      th,
+      td {
+        padding: 14px;
+        text-align: left;
+        vertical-align: top;
+        border-bottom: 1px solid var(--line);
+      }
+      th {
+        background: #f5f5f5;
+      }
+      details {
+        border-top: 1px solid var(--line);
+        padding: 20px 0;
+      }
+      summary {
+        cursor: pointer;
+        font-size: 17px;
+        font-weight: 600;
+      }
+      details > div {
+        padding-top: 22px;
+      }
+      details img {
+        display: block;
+        width: 100%;
+        height: auto;
+        margin: 16px 0 24px;
+        border: 1px solid var(--line);
+      }
+      .finding {
+        padding: 18px 0;
+        border-top: 1px solid var(--line);
+      }
+      .finding h3 {
+        font:
+          600 16px/1.4 Arial,
+          sans-serif;
+      }
+      .finding p {
+        font-size: 14px;
+        margin-bottom: 8px;
+      }
+      footer {
+        border-top: 1px solid var(--ink);
+        margin-top: 44px;
+        padding-top: 18px;
+        font-size: 12px;
+      }
+      @media (max-width: 760px) {
+        main {
+          padding: 28px 18px 40px;
+        }
+        .grid,
+        .review-grid {
+          grid-template-columns: 1fr;
+        }
+        .grid {
+          gap: 30px;
+        }
+        h2 {
+          font-size: 29px;
+        }
+        .recommendation {
+          padding: 22px;
+        }
+        .reference {
+          gap: 18px;
+          padding: 18px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header class="intro">
+        <p class="eyebrow">HelloKahwin / Identity study / Astra review / 17 November 2026</p>
+        <h1>A quieter signature.</h1>
+        <p class="lead">
+          Ian selected A — Refined Classic: the round HK Editorial Seal with its gently curved
+          connection, paired with the light Fashion Publication wordmark.
+        </p>
+        <span class="status">Selected A · Implemented locally · Not deployed</span>
+        <p>
+          Unified name. Black and white. A premium wedding publication for Malaysia and Indonesia.
+          No added wedding symbol.
+        </p>
+      </header>
+      <nav aria-label="Review sections">
+        <a href="#options">Three options</a><a href="#review">Astra’s assessment</a
+        ><a href="#rollout">Website applications</a><a href="#history">Original concepts</a>
+      </nav>
+      <aside class="recommendation">
+        <h2>Selected: A — Refined Classic</h2>
+        <p>
+          The local implementation uses original outlined vectors, black and white downloads, and a
+          strengthened unframed HK for small browser tabs. The full website review and queueing
+          remain with the controller. B and C below are retained as decision history.
+        </p>
+      </aside>
+      <section id="options" aria-label="Three editorial seal refinements">
+        <div class="grid">
+          <article class="option" id="option-a">
+            <div class="tag">Selected and implemented locally</div>
+            <a
+              href="astra-a-refined-classic.png"
+              aria-label="Open option A Refined Classic at full size"
+              ><img
+                src="astra-a-refined-classic.png"
+                width="1448"
+                height="1086"
+                alt="Option A: Refined Classic, shown in black on white and white on black"
+            /></a>
+            <h3>A / Refined Classic</h3>
+            <p>
+              Closest to your original choice. The curved connection retains a little warmth; the
+              shorter K keeps it composed.
+            </p>
+            <p>
+              <strong>Trade-off:</strong> The fine curved junction still needs a careful small-size
+              redraw.
+            </p>
+          </article>
+          <article class="option" id="option-b">
+            <div class="tag">Clearest construction</div>
+            <a href="astra-b-shared-stem.png" aria-label="Open option B Shared Stem at full size"
+              ><img
+                src="astra-b-shared-stem.png"
+                width="1448"
+                height="1086"
+                alt="Option B: Shared Stem, shown in black on white and white on black"
+            /></a>
+            <h3>B / Shared Stem</h3>
+            <p>
+              A straight crossbar and shared upright make the initials more explicit. Slightly more
+              formal and structured.
+            </p>
+            <p>
+              <strong>Trade-off:</strong> A good candidate for small uses, but its favicon
+              performance has not been tested.
+            </p>
+          </article>
+          <article class="option" id="option-c">
+            <div class="tag">Fashion alternative</div>
+            <a href="astra-c-tall-oval.png" aria-label="Open option C Tall Oval at full size"
+              ><img
+                src="astra-c-tall-oval.png"
+                width="1448"
+                height="1086"
+                alt="Option C: Tall Oval, shown in black on white and white on black"
+            /></a>
+            <h3>C / Tall Oval</h3>
+            <p>
+              A taller frame and narrow lettering give it a fashion-label feel. The biggest
+              departure from the round seal.
+            </p>
+            <p>
+              <strong>Trade-off:</strong> Less efficient in square avatars. The concept's K reads
+              lower-case and would need correction to uppercase HK.
+            </p>
+          </article>
+        </div>
+        <p class="note" style="margin-top: 24px">
+          Open any sheet to enlarge it. These are generated concept references, not final vector
+          masters. The wordmark is intended to stay consistent; small variations between generated
+          sheets are not separate typeface choices. Reverse examples demonstrate direction, not
+          validated small-size performance.
+        </p>
+      </section>
+      <section class="section" id="review">
+        <p class="eyebrow">Astra’s assessment</p>
+        <h2>The direction is right. The execution needs discipline.</h2>
+        <div class="review-grid">
+          <article>
+            <h3>Restore the chosen wordmark</h3>
+            <p>
+              The right-hand Fashion Publication option was light, upright and restrained. Later
+              boards introduced a heavier face and a sweeping K. The new options remove that sweep;
+              final artwork should match the original selection’s proportions.
+            </p>
+          </article>
+          <article>
+            <h3>Let the name lead</h3>
+            <p>
+              Use HelloKahwin as the website masthead. The seal is a companion for avatars,
+              editorial signatures and brand moments. These large seal specimens are for inspection,
+              not a proposed header layout.
+            </p>
+          </article>
+          <article>
+            <h3>Make a small-size cut</h3>
+            <p>
+              The circle reduces the space available to HK. Test actual 16, 32 and 48px vectors. If
+              needed, strengthen the hairlines and simplify the junction; an unframed HK can be
+              tested at the smallest size.
+            </p>
+          </article>
+          <article>
+            <h3>Keep the identity consistent</h3>
+            <p>
+              The website already has outlined, all-capital SVG logos and a separate icon generator.
+              The pink PNG reviewed earlier is not an adequate picture of the current system.
+              Replacement must include those assets and their usage rules.
+            </p>
+          </article>
+        </div>
+        <div class="reference">
+          <img
+            src="twn-reference-mark.png"
+            width="426"
+            height="340"
+            alt="The Wedding Notebook's actual mark: two interlocking rings with a diamond"
+          />
+          <div>
+            <h3>A separate mark from The Wedding Notebook</h3>
+            <p>
+              TWN’s actual symbol is a pair of interlocking rings with a diamond. I would keep the
+              HK seal distinct: it suits a publication-led identity. Share editorial quality and
+              monochrome treatments where appropriate; reusing the ring symbol would imply a much
+              closer brand relationship.
+            </p>
+          </div>
+        </div>
+      </section>
+      <section class="section" id="rollout">
+        <p class="eyebrow">Website applications</p>
+        <h2>One identity, adapted to the space.</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Surface</th>
+                <th>Proposed use</th>
+                <th>Check before replacement</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Desktop and mobile masthead</td>
+                <td>Unified Fashion Publication wordmark; compact seal only where space allows.</td>
+                <td>Spacing and readability at the real header width.</td>
+              </tr>
+              <tr>
+                <td>Footer and editorial signature</td>
+                <td>Wordmark, with an optional modest seal beside it.</td>
+                <td>Relative scale and white-on-black weight.</td>
+              </tr>
+              <tr>
+                <td>Browser and home-screen icons</td>
+                <td>Seal or simplified HK derived from the same drawing.</td>
+                <td>16, 32, 48 and 180px exports; visible H and K.</td>
+              </tr>
+              <tr>
+                <td>Console, brand downloads and sharing assets</td>
+                <td>Use the same new masters wherever the site presents its identity.</td>
+                <td>Find every consumer; update old sizes, colours and documentation.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note" style="margin-top: 18px">
+          The logo colours become black and white. This does not automatically redesign every
+          website colour or change editorial content. Existing brand measurements cannot be reused
+          until the new geometry is tested.
+        </p>
+      </section>
+      <section class="section" id="history">
+        <details>
+          <summary>Original concepts and recorded choices</summary>
+          <div>
+            <h3>Selected wordmark: Fashion Publication, right-hand option</h3>
+            <img
+              src="wordmark-options.png"
+              loading="lazy"
+              alt="Original wordmark board; Fashion Publication at right was selected"
+            />
+            <h3>Selected logomark: Editorial Seal, bottom left</h3>
+            <img
+              src="logomark-options.png"
+              loading="lazy"
+              alt="Original six logomark board; circular HK Editorial Seal at bottom left was selected"
+            />
+            <p>
+              The sweeping wordmark beneath this seal was not the earlier selected wordmark. Use the
+              right-hand wordmark above as the source of intent.
+            </p>
+            <details>
+              <summary>Wedding additions — not selected</summary>
+              <div>
+                <p>
+                  Retained only as exploration history. Ian returned to the original Editorial Seal.
+                </p>
+                <img
+                  src="editorial-seal-wedding-options.png"
+                  loading="lazy"
+                  alt="Earlier wedding-inspired variations, not selected"
+                />
+              </div>
+            </details>
+          </div>
+        </details>
+        <details>
+          <summary>Full design review findings</summary>
+          <div>
+            <p>
+              Two Astra review passes examined the original artifact: design critique and document
+              structure. This is a design review, not a production-code verdict. The review skill
+              helped identify drift from the approved selection and reorganise the comparison.
+            </p>
+            <article class="finding">
+              <h3>Recommended direction</h3>
+              <p>
+                <strong>Finding:</strong> The page recommends blending three wordmarks despite
+                selection of Fashion Publication.
+              </p>
+              <p>
+                <strong>Action:</strong> Treat the right-hand Fashion Publication wordmark as the
+                reference.
+              </p>
+              <p>
+                <strong>Consequence:</strong> Further refinement could lose the restraint Ian
+                selected.
+              </p>
+            </article>
+            <article class="finding">
+              <h3>Logomark board — wordmarks</h3>
+              <p>
+                <strong>Finding:</strong> The later board restores a sweeping K absent from the
+                selected wordmark.
+              </p>
+              <p>
+                <strong>Action:</strong> Use a straight, restrained K and match the selected lighter
+                proportions.
+              </p>
+              <p>
+                <strong>Consequence:</strong> Approval of the seal could be mistaken for approval of
+                different lettering.
+              </p>
+            </article>
+            <article class="finding">
+              <h3>Wedding-led variations and System card</h3>
+              <p>
+                <strong>Finding:</strong> Wedding symbols remain active recommendations after Ian
+                returned to the original seal.
+              </p>
+              <p><strong>Action:</strong> Archive the wedding additions as not selected.</p>
+              <p>
+                <strong>Consequence:</strong> The implementation could drift from the selected
+                editorial identity.
+              </p>
+            </article>
+            <article class="finding">
+              <h3>Original Editorial Seal — HK junction</h3>
+              <p><strong>Finding:</strong> Both letters rely on a delicate curved connection.</p>
+              <p>
+                <strong>Action:</strong> Compare the curved connection with a clearer straight H
+                crossbar.
+              </p>
+              <p>
+                <strong>Consequence:</strong> HK may read as an ornament before it reads as
+                initials.
+              </p>
+            </article>
+            <article class="finding">
+              <h3>Small applications</h3>
+              <p>
+                <strong>Finding:</strong> Enlarged concept boards do not establish favicon
+                legibility.
+              </p>
+              <p>
+                <strong>Action:</strong> Test final vectors at actual 16, 32 and 48px, and at the
+                mobile header size.
+              </p>
+              <p>
+                <strong>Consequence:</strong> The circle can crowd the letters and hairlines can
+                disappear.
+              </p>
+            </article>
+            <article class="finding">
+              <h3>Monochrome specimens</h3>
+              <p><strong>Finding:</strong> The original boards lack white-on-black examples.</p>
+              <p>
+                <strong>Action:</strong> Add reverse concepts now and matched production proofs
+                after vector construction.
+              </p>
+              <p>
+                <strong>Consequence:</strong> Reversed artwork may appear heavier or lose internal
+                detail.
+              </p>
+            </article>
+            <article class="finding">
+              <h3>Production artwork</h3>
+              <p>
+                <strong>Finding:</strong> No verified vector master exists for the selected
+                combination.
+              </p>
+              <p>
+                <strong>Action:</strong> Label concepts accurately and compare final outlined
+                vectors against the selected reference.
+              </p>
+              <p>
+                <strong>Consequence:</strong> A font substitution or trace could change the approved
+                design.
+              </p>
+            </article>
+            <article class="finding">
+              <h3>Seal and wordmark hierarchy</h3>
+              <p>
+                <strong>Finding:</strong> The large seal above the name does not establish a
+                wordmark-led website hierarchy.
+              </p>
+              <p>
+                <strong>Action:</strong> Use the name as masthead, the seal for avatars, and test a
+                modest combined signature.
+              </p>
+              <p>
+                <strong>Consequence:</strong> A site-wide rollout could become dominated by badges.
+              </p>
+            </article>
+            <article class="finding">
+              <h3>Existing website brand registry</h3>
+              <p>
+                <strong>Finding:</strong> Existing variants permit KAHWIN alone, stacked words, warm
+                ink, parchment and gold.
+              </p>
+              <p>
+                <strong>Action:</strong> Replace logo variants and logo colour rules consistently;
+                remeasure proportions and minimum sizes.
+              </p>
+              <p>
+                <strong>Consequence:</strong> Old variants and measurements could survive the
+                rollout.
+              </p>
+            </article>
+            <article class="finding">
+              <h3>Relationship to The Wedding Notebook</h3>
+              <p>
+                <strong>Finding:</strong> The earlier recommendation did not show the actual TWN
+                mark.
+              </p>
+              <p>
+                <strong>Action:</strong> Show the actual interlocking-ring TWN mark and identify the
+                distinct HK seal.
+              </p>
+              <p>
+                <strong>Consequence:</strong> The relationship and implications of symbol reuse
+                remain unclear.
+              </p>
+            </article>
+            <h3>Structure pass</h3>
+            <p>
+              Purpose: help Ian choose a refinement. Model: recommendation first, supporting
+              evidence below. Four findings: move the confirmed selection to the opening; add a
+              labelled refinement shortlist; move rejected wedding additions into history; preserve
+              visual comparisons and whitespace. These changes are reflected above.
+            </p>
+            <p class="note">
+              The original HTML word-count tool returned 347 source tokens, not meaningful
+              rendered-word counts. The reviewer estimated 203 visible words, including lettering
+              inside images; moving the rejected section removes about 36 words from the main
+              decision path. The full recommendations would save roughly 6–16 words after adding a
+              status statement, before new option descriptions. This is an estimate, not a measured
+              page reduction.
+            </p>
+            <p>
+              <a href="astra-review-findings.json">Design findings as JSON</a> ·
+              <a href="astra-generation-prompts.json">Generation prompts and reference inputs</a>
+            </p>
+          </div>
+        </details>
+      </section>
+      <footer>
+        Concept review prepared with Astra; reference sheets generated with Codex’s built-in image
+        tool. Selected A has been redrawn as vector artwork and implemented locally. Production
+        branding has not changed.
+      </footer>
+    </main>
+  </body>
+</html>

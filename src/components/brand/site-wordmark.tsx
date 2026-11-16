@@ -2,7 +2,7 @@ import { HORIZONTAL_MARK_SVG } from './horizontal-mark-svg';
 import { cn } from '@/lib/utils';
 
 /**
- * The real DES-13 outlined mark, INLINED — not `<img src>`.
+ * The approved Refined Classic outlined wordmark, inlined to inherit colour.
  *
  * `/brand`'s cards use `<img src="...svg">`, which is fine there because every
  * card is shown on one fixed ground. An `<img>` referencing an external SVG
@@ -20,10 +20,8 @@ import { cn } from '@/lib/utils';
  * The markup comes from a bundled string (`./horizontal-mark-svg`), not a
  * `readFileSync` of `public/` — a Cloudflare Worker has no filesystem.
  *
- * Sized off `--fs-wordmark` (tokens.css, DES-05): `clamp(18px, ..., 24px)`.
- * That floor is not a coincidence — it is `brand-assets.ts`'s stated
- * `minHeight` for the horizontal lockup. Using the token rather than a new
- * literal means the two specs cannot drift apart.
+ * An explicit fallback also sizes the logo outside the public token scope
+ * (console and login). The caller can set a smaller height where needed.
  */
 const HORIZONTAL_MARK = HORIZONTAL_MARK_SVG;
 
@@ -31,7 +29,7 @@ export function SiteWordmark({ className }: { className?: string }) {
   return (
     <span
       className={cn(
-        'inline-block h-[var(--fs-wordmark)] w-auto align-middle [&_svg]:block [&_svg]:h-full [&_svg]:w-auto',
+        'inline-block h-[var(--fs-wordmark,24px)] w-auto shrink-0 align-middle text-black dark:text-white [&_svg]:block [&_svg]:h-full [&_svg]:w-auto',
         className,
       )}
       dangerouslySetInnerHTML={{ __html: HORIZONTAL_MARK }}

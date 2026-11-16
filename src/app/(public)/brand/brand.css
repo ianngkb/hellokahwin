@@ -103,7 +103,7 @@
 
 .bp-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
   border-left: 1px solid var(--bp-rule);
   border-top: 1px solid var(--bp-rule);
 }
@@ -120,11 +120,13 @@
   align-items: center;
   justify-content: center;
   min-height: 140px;
-  background: var(--bp-surface);
+  background: #fff;
 }
 .bp-mark {
   width: 100%;
   max-width: 260px;
+  max-height: 220px;
+  object-fit: contain;
   height: auto;
   color: var(--bp-fg);
   display: block;
@@ -195,8 +197,8 @@
 }
 
 .bp-reverse {
-  background: var(--bp-ink);
-  color: var(--bp-page);
+  background: #000;
+  color: #fff;
   padding: 72px 28px;
   display: flex;
   align-items: center;
@@ -335,6 +337,7 @@
 .bp-icon {
   margin: 0;
   display: flex;
+  flex-wrap: wrap;
   gap: 20px;
   align-items: flex-start;
   border-top: 1px solid var(--bp-rule);
@@ -359,6 +362,8 @@
   gap: 6px;
   font-size: 0.9rem;
   line-height: 1.5;
+  flex: 1 1 150px;
+  min-width: 0;
 }
 .bp-icon figcaption b {
   font-family: var(--bp-data);
@@ -375,6 +380,7 @@
   font-family: var(--bp-data);
   font-size: 0.78rem;
   color: var(--bp-mute);
+  overflow-wrap: anywhere;
 }
 .bp-icon-note {
   max-width: 1080px;

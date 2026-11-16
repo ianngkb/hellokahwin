@@ -48,7 +48,7 @@ export async function Footer() {
               aria-label="HelloKahwin — Laman utama"
               className="mb-3 inline-block text-white"
             >
-              <SiteWordmark />
+              <SiteWordmark className="h-[22px] text-white" />
             </Link>
             <p className="text-plum-deep-accent font-accent mb-4 text-sm leading-relaxed italic">
               Idea, tips dan panduan perkahwinan untuk pasangan Malaysia.

@@ -13,3 +13,7 @@ scripts/**/*.sh text eol=lf
 # stale on every Windows machine for a reason that has nothing to do with the
 # icon. Same class of failure as the two rules above.
 public/icon.svg text eol=lf
+
+# Refined Classic generators and the inline/public parity check compare bytes.
+public/brand/logos/*.svg text eol=lf
+src/components/brand/horizontal-mark-svg.ts text eol=lf
