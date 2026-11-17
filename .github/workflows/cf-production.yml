@@ -1,0 +1,84 @@
+# Deploy hellokahwin.com's production Worker (`hellokahwin`, wrangler.jsonc
+# env.production) on every push to master — the Cloudflare twin of Vercel's
+# git deploy. docs/cloudflare.md, "Deploys after the switch".
+#
+# While both hosts run, every master push deploys to BOTH: Vercel (its git
+# integration, unchanged) and this Worker. Whichever one DNS points at is live;
+# the other is the warm fallback, so a rollback never serves stale code.
+#
+# Inert until switched on: the job runs only when the repository variable
+# HK_CF_PROD_DEPLOY is `on`. It is set at the domain switch, after the secrets
+# below exist (scripts/cloudflare/set-github-deploy-secrets.ps1).
+#
+# Runtime secrets are NOT passed here: a deploy keeps the Worker's existing
+# secrets (scripts/cloudflare/push-prod-secrets.ps1 sets them).
+#
+# Repository secrets (names only):
+#   CLOUDFLARE_API_TOKEN                 TWN account Workers token (vault cloudflare.workers-twn)
+#   CLOUDFLARE_ACCOUNT_ID                the TWN account id
+#   CF_PREVIEW_DATABASE_URL              the READ-ONLY role's URL (Vercel Preview
+#                                        DATABASE_URL); `next build` prerenders with it
+#   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY    inlined into the client bundle
+#   NEXT_SERVER_ACTIONS_ENCRYPTION_KEY   embedded at build; MUST equal the Worker's
+#                                        runtime secret (Infisical hellokahwin/prod)
+# Repository variables (public values):
+#   NEXT_PUBLIC_R2_ASSETS_PUBLIC_URL, R2_PUBLIC_URL, R2_ASSETS_PUBLIC_URL, HK_CF_PROD_DEPLOY
+name: Cloudflare production
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+# One production deploy at a time, in push order; never cancel one mid-upload.
+concurrency:
+  group: cf-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: vars.HK_CF_PROD_DEPLOY == 'on'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build the Worker bundle
+        env:
+          NEXT_TELEMETRY_DISABLED: '1'
+          NEXT_PUBLIC_HOSTING: cloudflare
+          NEXT_PUBLIC_SITE_URL: https://hellokahwin.com
+          DATABASE_URL: ${{ secrets.CF_PREVIEW_DATABASE_URL }}
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
+          NEXT_SERVER_ACTIONS_ENCRYPTION_KEY: ${{ secrets.NEXT_SERVER_ACTIONS_ENCRYPTION_KEY }}
+          NEXT_PUBLIC_R2_ASSETS_PUBLIC_URL: ${{ vars.NEXT_PUBLIC_R2_ASSETS_PUBLIC_URL }}
+          R2_PUBLIC_URL: ${{ vars.R2_PUBLIC_URL }}
+          R2_ASSETS_PUBLIC_URL: ${{ vars.R2_ASSETS_PUBLIC_URL }}
+        run: |
+          test -n "$NEXT_SERVER_ACTIONS_ENCRYPTION_KEY" || { echo "NEXT_SERVER_ACTIONS_ENCRYPTION_KEY is not set"; exit 1; }
+          pnpm exec opennextjs-cloudflare build
+
+      - name: Deploy the production Worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # Placeholder: wrangler insists on one for a Hyperdrive binding; a deploy never uses it.
+          CLOUDFLARE_HYPERDRIVE_LOCAL_CONNECTION_STRING_HYPERDRIVE: postgres://local:local@127.0.0.1:5432/local
+        run: pnpm exec wrangler deploy --env production --message "${{ github.sha }} master push"
+
+      - name: Smoke the live site
+        run: |
+          for path in / /artikel /robots.txt; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "https://hellokahwin.com$path")
+            echo "$path -> $code"
+            [ "$code" = 200 ] || exit 1
+          done

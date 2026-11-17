@@ -240,6 +240,22 @@ from vault `cloudflare.workers-twn`).
 `.github/workflows/cf-preview.yml` (manual only) still targets the preview and
 has no repository secrets set; production is deployed from a workstation.
 
+## Deploys after the switch
+
+`.github/workflows/cf-production.yml` deploys the production Worker on **every
+push to `master`**, the same trigger as Vercel's git deploy, then smoke-tests
+hellokahwin.com. While both hosts exist, every master merge lands on both:
+whichever one DNS points at is live and the other is a warm fallback, so a
+rollback never serves stale code.
+
+It is inert until the repository variable `HK_CF_PROD_DEPLOY` is `on`. Its
+secrets and variables are set by
+`pwsh -NoProfile -File scripts/cloudflare/set-github-deploy-secrets.ps1`
+(copied from Vercel, the vault and Infisical; never printed). The workflow
+reaches `master` only when this branch is merged there, so **the domain must
+not stay on the Worker while `master` lacks this workflow**: until then a
+master merge would reach only Vercel and miss the live site.
+
 ## Switching the domain
 
 The zone `hellokahwin.com` is on Cloudflare DNS (zone token

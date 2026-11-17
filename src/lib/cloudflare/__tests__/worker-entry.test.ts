@@ -80,3 +80,26 @@ describe('wrangler.jsonc production environment', () => {
     expect(prod).not.toMatch(/"routes"\s*:/);
   });
 });
+
+describe('.github/workflows/cf-production.yml', () => {
+  const wf = readFileSync(path.join(root, '.github/workflows/cf-production.yml'), 'utf8');
+
+  it('deploys on every master push, one at a time, never cancelling a deploy', () => {
+    expect(wf).toMatch(/on:\s*\n\s*push:\s*\n\s*branches: \[master\]/);
+    expect(wf).toMatch(/cancel-in-progress: false/);
+  });
+
+  it('is inert until HK_CF_PROD_DEPLOY is on', () => {
+    expect(wf).toMatch(/if: vars\.HK_CF_PROD_DEPLOY == 'on'/);
+  });
+
+  it('deploys only the production environment and builds with the Server Actions key', () => {
+    const deploys = [...wf.matchAll(/wrangler deploy([^\n]*)/g)].map((m) => m[1]);
+    expect(deploys.length).toBeGreaterThan(0);
+    for (const d of deploys) expect(d).toContain('--env production');
+    expect(wf).toContain(
+      'NEXT_SERVER_ACTIONS_ENCRYPTION_KEY: ${{ secrets.NEXT_SERVER_ACTIONS_ENCRYPTION_KEY }}',
+    );
+    expect(wf).not.toMatch(/HK_READ_ONLY/);
+  });
+});
