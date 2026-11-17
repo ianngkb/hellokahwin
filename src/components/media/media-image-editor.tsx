@@ -13,6 +13,7 @@ import { toast } from 'sonner';
 import { createMediaRecordAction } from '@/app/(admin)/admin/inspire/media/actions';
 import type { Media } from '@/lib/db/schema/media';
 import type { ImageVariants } from '@/lib/storage/image-variants';
+import { snapRotation } from './snap-rotation';
 
 interface MediaImageEditorProps {
   media: Media;
@@ -33,7 +34,9 @@ const ROTATION_PRESETS = [0, 90, 180, 270];
 export function MediaImageEditor({ media, onBack, onSaved }: MediaImageEditorProps) {
   const [crop, setCrop] = useState<Point>({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
-  const [rotation, setRotation] = useState(0);
+  const [rotation, setRotationRaw] = useState(0);
+  // Whole degrees only, from every input: see ./snap-rotation.
+  const setRotation = useCallback((value: unknown) => setRotationRaw(snapRotation(value)), []);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
   const [aspect, setAspect] = useState<number | undefined>(undefined);
   const [saving, setSaving] = useState(false);
@@ -224,10 +227,11 @@ export function MediaImageEditor({ media, onBack, onSaved }: MediaImageEditorPro
               <Input
                 type="number"
                 value={rotation}
-                onChange={(e) => setRotation(Number(e.target.value) || 0)}
+                onChange={(e) => setRotation(e.target.value)}
                 className="h-7 w-16 text-right text-xs"
                 min={0}
                 max={360}
+                step={1}
               />
               <span className="text-muted-foreground text-xs">deg</span>
             </div>
