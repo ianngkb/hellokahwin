@@ -6,6 +6,7 @@ import { requireRole } from '@/lib/api/middleware';
 import { apiSuccess, apiError } from '@/lib/api/response';
 import { ApiError } from '@/lib/api/errors';
 import { compressPdf } from '@/lib/storage/pdf-compress';
+import { MediaToolsError, readObjectBody } from '@/lib/media/media-client';
 import { db } from '@/lib/db/drizzle';
 import { media } from '@/lib/db/schema/media';
 
@@ -51,7 +52,8 @@ export async function POST(request: NextRequest) {
       return apiError('PDF too large to compress', 413);
     }
 
-    const input = Buffer.from(await obj.Body.transformToByteArray());
+    // Vercel: the old full read. Worker: capped at media-tools' 40 MB.
+    const input = await readObjectBody(obj.Body, obj.ContentLength);
     if (input.length > MAX_COMPRESS_SOURCE_SIZE) {
       return apiError('PDF too large to compress', 413);
     }
@@ -88,6 +90,11 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     if (error instanceof ApiError) {
       return apiError(error.message, error.statusCode);
+    }
+    // Worker only: media-tools refused the PDF (4xx) or is unavailable (503,
+    // retryable). The stored PDF is untouched either way.
+    if (error instanceof MediaToolsError) {
+      return apiError(error.message, error.status);
     }
     if ((error as { name?: string })?.name === 'NoSuchKey') {
       return apiError('PDF not found', 404);

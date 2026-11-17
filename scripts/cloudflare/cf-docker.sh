@@ -17,7 +17,8 @@
 # caches survive, on their own volumes.
 #
 #   scripts/cloudflare/cf-docker.sh build            # bundle only
-#   scripts/cloudflare/cf-docker.sh deploy           # bundle, then upload to workers.dev
+#   scripts/cloudflare/cf-docker.sh deploy           # bundle, then deploy the preview (workers.dev)
+#   scripts/cloudflare/cf-docker.sh deploy-prod      # bundle, then deploy production (`--env production`)
 #   scripts/cloudflare/cf-docker.sh secrets          # push runtime values to the Worker
 #   scripts/cloudflare/cf-docker.sh check            # bundle, then inspect the output
 #   scripts/cloudflare/cf-docker.sh sh '<cmd>'       # anything else, in the built /work
@@ -48,16 +49,20 @@ ENV_FILE="${ENV_FILE:?set ENV_FILE to the generated docker env file}"
 
 case "${1:-build}" in
   build)  INNER='pnpm exec opennextjs-cloudflare build' ;;
-  # The top-level (workers.dev preview) Worker. There is no production env in
-  # wrangler.jsonc; hellokahwin.com stays on Vercel.
+  # The top-level Worker: the read-only workers.dev preview, `hellokahwin-preview`.
   deploy) INNER='pnpm exec opennextjs-cloudflare build && pnpm exec wrangler deploy' ;;
+  # The production Worker, `hellokahwin` (wrangler.jsonc env.production). Needs
+  # the env file from `write-env-file.ps1 -Production`; refuses a preview one.
+  deploy-prod) INNER='test -z "${HK_READ_ONLY:-}" || { echo "ABORT: HK_READ_ONLY is set: this is the preview env file, not -Production" >&2; exit 5; }
+    test -n "${NEXT_SERVER_ACTIONS_ENCRYPTION_KEY:-}" || { echo "ABORT: NEXT_SERVER_ACTIONS_ENCRYPTION_KEY missing: use write-env-file.ps1 -Production" >&2; exit 5; }
+    pnpm exec opennextjs-cloudflare build && pnpm exec wrangler deploy --env production' ;;
   # Push only the runtime values the read-only preview reads. The temp file is
   # written inside the container and deleted in the same shell.
   secrets) INNER='node -e '"'"'
       const keys=["CRON_SECRET","NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY","NEXT_PUBLIC_R2_ASSETS_PUBLIC_URL","R2_PUBLIC_URL","R2_ASSETS_PUBLIC_URL","R2_BUCKET_NAME","R2_ASSETS_BUCKET_NAME"];
       const out={}; const missing=[];
       for (const k of keys) { if (process.env[k]) out[k]=process.env[k]; else missing.push(k); }
-      require("fs").writeFileSync("/tmp/cf-secrets.json", JSON.stringify(out));
+      require("fs").writeFileSync("/tmp/cf-secrets.json", JSON.stringify(out), { mode: 0o600 });
       console.log("pushing", Object.keys(out).length, "secrets; missing:", missing.join(",")||"(none)");
     '"'"' && pnpm exec wrangler secret bulk /tmp/cf-secrets.json; rc=$?; rm -f /tmp/cf-secrets.json; exit $rc' ;;
   check) INNER='pnpm exec opennextjs-cloudflare build >/dev/null && echo "--- DO exports ---" && grep -c DOQueueHandler .open-next/worker.js && ls -la .open-next/worker.js && du -sh .open-next/assets .open-next/server-functions' ;;

@@ -1,12 +1,19 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  // HelloKahwin on Cloudflare — PREVIEW ONLY (docs/cloudflare.md).
-  // Served at https://hellokahwin.misty-glitter-43d0.workers.dev, TWN account.
-  // No routes, no custom domain: hellokahwin.com stays on Vercel.
-  "name": "hellokahwin",
+  // HelloKahwin on Cloudflare, TWN account (docs/cloudflare.md).
+  //
+  // Two Workers from one build:
+  //   top level        `hellokahwin-preview`, the read-only workers.dev copy.
+  //                    `wrangler deploy`
+  //   env.production   `hellokahwin`, the real site (public pages AND admin).
+  //                    `wrangler deploy --env production`
+  //
+  // Most keys below are NOT inherited by env.production (vars, bindings,
+  // durable_objects, migrations, triggers); each environment states its own.
+  "name": "hellokahwin-preview",
   "account_id": "249af9c6ea41ab1c7cd049f2adf80eb2",
   // cf-worker.ts wraps the generated .open-next/worker.js (noindex header,
-  // resized-image cache). See that file.
+  // scheduled jobs). See that file.
   "main": "cf-worker.ts",
   // Pinned: must not be later than the workerd inside the pinned wrangler.
   "compatibility_date": "2026-11-13",
@@ -52,7 +59,7 @@
     {
       // Self-reference for the revalidation queue; must equal "name".
       "binding": "WORKER_SELF_REFERENCE",
-      "service": "hellokahwin",
+      "service": "hellokahwin-preview",
     },
   ],
   // Page/fetch cache (ISR, unstable_cache) bodies. Shared by every Next app
@@ -86,9 +93,98 @@
       "new_sqlite_classes": ["DOQueueHandler"],
     },
   ],
-  // Cloudflare Images: stands in for sharp (src/lib/storage/image-engine.ts)
-  // and answers /_next/image.
+  // Cloudflare Images: stands in for sharp at upload (src/lib/storage/image-engine.ts).
   "images": { "binding": "IMAGES" },
-  // Scheduled jobs: none. vercel.json declares no crons; the one /api/cron
-  // route is called by the ingest CLI, not a timer. See docs/cloudflare.md.
+  // The preview runs no scheduled jobs: it shares the production database.
+
+  "env": {
+    "production": {
+      // The Worker that has existed since the pilot. It now carries the real
+      // site; the preview moved to `hellokahwin-preview` above.
+      "name": "hellokahwin",
+      // Kept on until hellokahwin.com is attached, so the deployed version can
+      // be tested before the switch. cf-worker.ts stamps noindex on every
+      // *.workers.dev response, so this address is never indexed.
+      "workers_dev": true,
+      "preview_urls": true,
+      "placement": { "mode": "smart" },
+      "observability": { "enabled": true },
+      // Admin analytics pages and the GSC sync were allowed 60-120 s on
+      // Vercel. CPU time is a fraction of that (most of it is waiting on
+      // Postgres and Google), but the 30 s default is too close.
+      "limits": { "cpu_ms": 120000 },
+      "vars": {
+        "NEXT_PUBLIC_HOSTING": "cloudflare",
+        // Ingest revalidation drops the Worker's own cache (D1 tag time); there
+        // is no Vercel CDN copy to purge (src/lib/cache/edge-purge.ts).
+        "HK_EDGE_HOSTING": "cloudflare",
+        "NEXT_PUBLIC_SITE_URL": "https://hellokahwin.com",
+        // HK_CRON_ENABLED is deliberately NOT here. It is a secret set at the
+        // DNS switch, in the same step Vercel's cron is switched off, so the
+        // nightly job never runs on both (cf-worker.ts, docs/cloudflare.md).
+      },
+      // Production Hyperdrive `hellokahwin-db-prod`, created 17 Nov 2026 by
+      // scripts/cloudflare/create-prod-hyperdrive.mjs. Origin: the EXISTING
+      // production DATABASE_URL (Vercel, target Production): same user and
+      // password, not a new credential. Vercel uses Supavisor's transaction
+      // port 6543; Hyperdrive needs prepared statements, so it uses the same
+      // host's SESSION port 5432 (as the preview does). Query caching off;
+      // origin_connection_limit 10, under Supavisor's per-role session cap of
+      // 15 (the preview measured 0 of 90 cold renders failing at 10). Vercel
+      // is on the transaction port, so it does not count against that cap.
+      "hyperdrive": [
+        {
+          "binding": "HYPERDRIVE",
+          "id": "8844e0ca9287432c8c86a8c3407a52a3",
+        },
+      ],
+      "services": [
+        {
+          "binding": "WORKER_SELF_REFERENCE",
+          "service": "hellokahwin",
+        },
+        {
+          // Sharp and Ghostscript work for the admin (smart crops, manual crop,
+          // PDF compression): src/lib/media/media-client.ts. The TWN account's
+          // deploy of media-tools; secret MEDIA_TOOLS_KEY on this Worker.
+          "binding": "MEDIA",
+          "service": "media-tools-twn",
+        },
+      ],
+      "r2_buckets": [
+        {
+          "binding": "NEXT_INC_CACHE_R2_BUCKET",
+          "bucket_name": "twn-next-cache",
+        },
+      ],
+      "d1_databases": [
+        {
+          "binding": "NEXT_TAG_CACHE_D1",
+          "database_name": "twn-next-tags",
+          "database_id": "e19dd168-21cb-43aa-92fb-63e8cd7fb487",
+        },
+      ],
+      "durable_objects": {
+        "bindings": [
+          {
+            "name": "NEXT_CACHE_DO_QUEUE",
+            "class_name": "DOQueueHandler",
+          },
+        ],
+      },
+      // Same tag the pilot `hellokahwin` Worker already applied; no new migration.
+      "migrations": [
+        {
+          "tag": "v1",
+          "new_sqlite_classes": ["DOQueueHandler"],
+        },
+      ],
+      "images": { "binding": "IMAGES" },
+      // Nightly Google Search Console sync, moved from vercel.json (19:30 UTC).
+      // Fires every night but only does work when HK_CRON_ENABLED=1.
+      "triggers": { "crons": ["30 19 * * *"] },
+      // No "routes" yet: hellokahwin.com and www are attached as custom
+      // domains at the switch (docs/cloudflare.md, "Switching the domain").
+    },
+  },
 }

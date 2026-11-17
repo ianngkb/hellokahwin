@@ -1,9 +1,16 @@
 import { type NextRequest } from 'next/server';
-import sharp from 'sharp';
 import { GetObjectCommand, PutObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3';
 import { requireRole } from '@/lib/api/middleware';
 import { apiSuccess, apiError } from '@/lib/api/response';
 import { ApiError } from '@/lib/api/errors';
+import {
+  getImageMetadata,
+  getMediaTools,
+  loadSharp,
+  mediaTransform,
+  MediaToolsError,
+  readObjectBody,
+} from '@/lib/media/media-client';
 import { getR2Client, getR2Bucket, getR2PublicUrl, extractKeyFromUrl } from '@/lib/r2/client';
 
 const MAX_PIXEL_COUNT = 50_000_000; // 50 megapixels
@@ -70,7 +77,8 @@ export async function POST(request: NextRequest) {
       if (!getResponse.Body) {
         return apiError('Source image not found in R2', 404);
       }
-      sourceBuffer = Buffer.from(await getResponse.Body.transformToByteArray());
+      // Vercel: the old full read. Worker: capped at media-tools' 40 MB.
+      sourceBuffer = await readObjectBody(getResponse.Body, getResponse.ContentLength);
     } catch (err: unknown) {
       if (
         err &&
@@ -84,9 +92,11 @@ export async function POST(request: NextRequest) {
     }
 
     // F3: Check source image dimensions before processing to prevent memory bombs
-    const sourceMeta = await sharp(sourceBuffer).metadata();
-    const srcW = sourceMeta.width ?? 0;
-    const srcH = sourceMeta.height ?? 0;
+    // STORED dimensions (sharp's `metadata()`); the pipeline below never applies
+    // EXIF orientation, on either engine.
+    const sourceMeta = await getImageMetadata(sourceBuffer);
+    const srcW = sourceMeta.storedWidth;
+    const srcH = sourceMeta.storedHeight;
     if (srcW * srcH > MAX_PIXEL_COUNT) {
       return apiError(
         `Source image too large (${srcW}x${srcH} = ${((srcW * srcH) / 1_000_000).toFixed(1)}MP). Max ${MAX_PIXEL_COUNT / 1_000_000}MP.`,
@@ -94,21 +104,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 2. Process with Sharp: rotate → extract → webp
-    let pipeline = sharp(sourceBuffer);
-
-    if (rotation !== 0) {
-      pipeline = pipeline.rotate(rotation, {
-        background: { r: 0, g: 0, b: 0, alpha: 0 },
-      });
-    }
+    // The angle actually applied. media-tools (the Worker path) only accepts
+    // whole degrees, so there it is rounded HERE, before any geometry, so the
+    // bounds below and the extract box are computed on the canvas media-tools
+    // will really produce. sharp (Vercel, local) keeps the exact angle.
+    const remoteEngine = getMediaTools() !== null;
+    const angle = remoteEngine ? Math.round(rotation) : rotation;
 
     // F6: Validate extract area bounds against (potentially rotated) image dimensions.
     // After rotation Sharp auto-expands canvas — compute rotated dimensions.
     let imgW = srcW;
     let imgH = srcH;
-    if (rotation !== 0) {
-      const rad = Math.abs((rotation * Math.PI) / 180);
+    if (angle !== 0) {
+      const rad = Math.abs((angle * Math.PI) / 180);
       imgW = Math.round(srcW * Math.abs(Math.cos(rad)) + srcH * Math.abs(Math.sin(rad)));
       imgH = Math.round(srcW * Math.abs(Math.sin(rad)) + srcH * Math.abs(Math.cos(rad)));
     }
@@ -125,15 +133,39 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    pipeline = pipeline.extract({
-      left: cropX,
-      top: cropY,
-      width: cropW,
-      height: cropH,
-    });
-
-    const outputBuffer = await pipeline.webp({ quality: 80 }).toBuffer();
-    const outputMetadata = await sharp(outputBuffer).metadata();
+    // 2. rotate -> extract -> WebP q80. On a Worker through media-tools
+    //    (`angle` with a transparent fill, then `extract`, stored orientation);
+    //    everywhere else with sharp, exactly as before.
+    let outputBuffer: Buffer;
+    let outputMetadata: { width?: number; height?: number };
+    if (remoteEngine) {
+      const out = await mediaTransform(sourceBuffer, {
+        orient: false,
+        angle: angle !== 0 ? angle : undefined,
+        extract: `${cropX},${cropY},${cropW},${cropH}`,
+        format: 'webp',
+        q: 80,
+      });
+      if (!out) throw new Error('media-tools binding disappeared mid-request');
+      outputBuffer = out.data;
+      outputMetadata = { width: out.width, height: out.height };
+    } else {
+      const sharp = await loadSharp();
+      let pipeline = sharp(sourceBuffer);
+      if (rotation !== 0) {
+        pipeline = pipeline.rotate(rotation, {
+          background: { r: 0, g: 0, b: 0, alpha: 0 },
+        });
+      }
+      pipeline = pipeline.extract({
+        left: cropX,
+        top: cropY,
+        width: cropW,
+        height: cropH,
+      });
+      outputBuffer = await pipeline.webp({ quality: 80 }).toBuffer();
+      outputMetadata = await sharp(outputBuffer).metadata();
+    }
 
     // 3. Determine edit number by listing existing crop files in the R2 directory
     // F5: Paginate ListObjectsV2 for correctness
@@ -172,8 +204,8 @@ export async function POST(request: NextRequest) {
     if (zoom !== 1) {
       filename += `-s${zoom.toFixed(1)}`;
     }
-    if (rotation !== 0) {
-      filename += `-r${rotation}`;
+    if (angle !== 0) {
+      filename += `-r${angle}`;
     }
     filename += '.webp';
 
@@ -202,6 +234,10 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     if (error instanceof ApiError) {
       return apiError(error.message, error.statusCode);
+    }
+    // media-tools refused the file (4xx) or is unavailable (503, retryable).
+    if (error instanceof MediaToolsError) {
+      return apiError(error.message, error.status);
     }
     console.error('POST /api/v1/inspire/crop error:', error);
     return apiError('Internal server error', 500);

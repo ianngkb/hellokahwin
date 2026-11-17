@@ -121,35 +121,44 @@ const vercelDb = drizzle(client, { schema });
 // Vercel runtime, vitest and the CLI scripts are unchanged.
 type CloudflareRequestContext = { env?: { HYPERDRIVE?: { connectionString: string } } };
 type Db = typeof vercelDb;
+type SqlClient = typeof client;
 
-const requestDbs = new WeakMap<object, Db>();
+const requestClients = new WeakMap<object, { db: Db; sql: SqlClient }>();
 
-function cloudflareDb(): Db | null {
+/**
+ * The per-request client pair (Drizzle + the raw postgres-js client under it)
+ * when running inside a Worker request with the HYPERDRIVE binding; `null`
+ * everywhere else. One pair per request context, so `db` and `getSqlClient()`
+ * share the same small pool within a request.
+ */
+function cloudflareClients(): { db: Db; sql: SqlClient } | null {
   const ctx = (globalThis as Record<symbol, unknown>)[Symbol.for('__cloudflare-context__')] as
     CloudflareRequestContext | undefined;
   const hyperdrive = ctx?.env?.HYPERDRIVE;
   if (!ctx || !hyperdrive) return null;
-  let perRequest = requestDbs.get(ctx);
+  let perRequest = requestClients.get(ctx);
   if (!perRequest) {
-    perRequest = drizzle(
-      // Prepared statements, as Cloudflare requires behind Hyperdrive
-      // (`prepare: false` there hangs/fails intermittently). preferPrepared
-      // extends that to Drizzle's unsafe() calls and transactions.
-      preferPrepared(
-        postgres(hyperdrive.connectionString, {
-          max: 5,
-          prepare: true,
-          // Hyperdrive answers the type lookup itself; skipping it saves a round trip.
-          fetch_types: false,
-          connect_timeout: 8,
-          idle_timeout: 5,
-        }),
-      ),
-      { schema },
+    // Prepared statements, as Cloudflare requires behind Hyperdrive
+    // (`prepare: false` there hangs/fails intermittently). preferPrepared
+    // extends that to Drizzle's unsafe() calls and transactions.
+    const sql = preferPrepared(
+      postgres(hyperdrive.connectionString, {
+        max: 5,
+        prepare: true,
+        // Hyperdrive answers the type lookup itself; skipping it saves a round trip.
+        fetch_types: false,
+        connect_timeout: 8,
+        idle_timeout: 5,
+      }),
     );
-    requestDbs.set(ctx, perRequest);
+    perRequest = { db: drizzle(sql, { schema }), sql };
+    requestClients.set(ctx, perRequest);
   }
   return perRequest;
+}
+
+function cloudflareDb(): Db | null {
+  return cloudflareClients()?.db ?? null;
 }
 
 export const db: Db = new Proxy(vercelDb, {
@@ -160,9 +169,18 @@ export const db: Db = new Proxy(vercelDb, {
   },
 });
 
-// The raw postgres-js client behind Drizzle. Exposed for the few code paths
-// that share the tagged-template SQL engine with CLI scripts (e.g. the Pinterest
-// export engine in src/lib/pinterest/export-engine.ts), so the cron worker and
-// the CLI run the exact same publish code against one pool. Prefer `db` for
-// everything else.
+// The raw postgres-js client behind Drizzle, on the module-level DATABASE_URL
+// pool. For CLI scripts and Vercel only: a Cloudflare Worker has no
+// DATABASE_URL, so app code that needs the raw tagged-template client must
+// call `getSqlClient()` instead. Prefer `db` for everything else.
 export const sqlClient = client;
+
+/**
+ * The raw postgres-js client for THIS request: on a Cloudflare Worker, the
+ * per-request client on the HYPERDRIVE binding (the same one `db` uses in that
+ * request); everywhere else, the module-level `sqlClient` pool on
+ * DATABASE_URL, exactly as before.
+ */
+export function getSqlClient(): SqlClient {
+  return cloudflareClients()?.sql ?? client;
+}
