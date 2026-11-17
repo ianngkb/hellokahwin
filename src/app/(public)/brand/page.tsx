@@ -29,10 +29,14 @@ function LogoCard({ logo }: { logo: BrandLogo }) {
   return (
     <figure className="bp-card">
       <div className="bp-stage">
-        {/* eslint-disable-next-line @next/next/no-img-element -- outlined SVG,
-            under 3KB, and currentColor must inherit; next/image would rasterise
-            the sizing decision this page exists to demonstrate. */}
-        <img src={logo.src} alt={`HelloKahwin ${logo.name}`} className="bp-mark" />
+        {/* eslint-disable-next-line @next/next/no-img-element -- native vector preview. */}
+        <img
+          src={logo.src}
+          alt={`HelloKahwin ${logo.name}`}
+          width={logo.width}
+          height={logo.height}
+          className="bp-mark"
+        />
       </div>
       <figcaption className="bp-meta">
         <div className="bp-meta-head">
@@ -42,7 +46,10 @@ function LogoCard({ logo }: { logo: BrandLogo }) {
         <p>{logo.description}</p>
         <div className="bp-actions">
           <a className="bp-btn" href={logo.src} download>
-            Download SVG
+            Black SVG
+          </a>
+          <a className="bp-btn" href={logo.whiteSrc} download>
+            White SVG
           </a>
           <span className="bp-min">Min height {logo.minHeight}px</span>
         </div>
@@ -58,8 +65,8 @@ export default function BrandPage() {
         <p className="bp-eyebrow">HelloKahwin · Brand</p>
         <h1>Brand assets</h1>
         <p className="bp-lede">
-          The wordmark, the monogram, the palette, and the six ways to get them wrong. Every mark
-          below is an outlined SVG under 3&nbsp;KB — one file per lockup, in any brand colour.
+          The Refined Classic wordmark and round HK editorial seal. Download the outlined artwork in
+          black or white, ready to use without installing a font.
         </p>
       </header>
 
@@ -67,8 +74,8 @@ export default function BrandPage() {
         <div className="bp-sec-head">
           <h2>Master logo</h2>
           <p>
-            The primary lockup runs at <strong>10.0 : 1</strong>. That proportion is the mark —
-            regenerate rather than rescale if the tracking ever changes.
+            Let the unified HelloKahwin name lead. Use the seal as a companion and keep each
+            complete mark in its original proportions.
           </p>
         </div>
         <div className="bp-grid">
@@ -80,10 +87,10 @@ export default function BrandPage() {
 
       <section className="bp-sec" id="short">
         <div className="bp-sec-head">
-          <h2>Shortmark &amp; monogram</h2>
+          <h2>Editorial seal &amp; small HK</h2>
           <p>
-            For surfaces the full wordmark cannot survive. The monogram is the only mark that works
-            as a favicon, an app icon or an avatar.
+            The seal keeps the gently curved connection and short K from the approved artwork. At
+            tiny sizes, use the strengthened HK without the circle.
           </p>
         </div>
         <div className="bp-grid">
@@ -97,12 +104,8 @@ export default function BrandPage() {
         <div className="bp-sec-head">
           <h2>Favicon &amp; app icon</h2>
           <p>
-            The monogram on a full-bleed parchment tile, in <strong>ink</strong> — measured, not
-            preferred: at 16px on an ink ground the H crossbar comes back at 0.29 of full ink and
-            the K collapses; on parchment the same crossbar holds at 0.38 and both glyphs survive.
-            Every file is generated from the monogram by <code>pnpm brand:icons</code>, so a palette
-            change cannot leave one behind. Shown below at the size a browser actually paints it —
-            anything larger would be a picture of an icon rather than a test of one.
+            Black artwork on a white tile. Browser tabs use the strengthened HK; home-screen icons
+            use the round seal. These previews show the files at their actual display sizes.
           </p>
         </div>
         <div className="bp-icons">
@@ -128,10 +131,9 @@ export default function BrandPage() {
           ))}
         </div>
         <p className="bp-icon-note">
-          Also shipped: <code>/favicon.ico</code>, carrying 16, 32 and 48px BMP entries for Windows
+          Also available: <code>/favicon.ico</code>, carrying 16, 32 and 48px entries for Windows
           pins and older browsers, and <code>/apple-icon.png</code> at 180&times;180. The tile is
-          square because <code>--radius</code> is <code>0</code> — a rounded icon would be the only
-          rounded object the brand owns.
+          square so the device can apply its own corner mask.
         </p>
       </section>
 
@@ -139,14 +141,14 @@ export default function BrandPage() {
         <div className="bp-sec-head">
           <h2>On dark</h2>
           <p>
-            There is no separate reversed file. Every mark inherits <code>currentColor</code>, so
-            the same SVG serves ink, parchment and gold.
+            Use the white artwork on dark backgrounds. Every download above includes a white version
+            that keeps its colour when placed as an image.
           </p>
         </div>
         <div className="bp-reverse">
           {/* eslint-disable-next-line @next/next/no-img-element -- see LogoCard */}
           <img
-            src="/brand/logos/hellokahwin-horizontal.svg"
+            src="/brand/logos/hellokahwin-horizontal-white.svg"
             alt="HelloKahwin wordmark reversed on the dark ground"
             className="bp-mark"
           />
@@ -155,11 +157,11 @@ export default function BrandPage() {
 
       <section className="bp-sec" id="colour">
         <div className="bp-sec-head">
-          <h2>Colour</h2>
+          <h2>Site palette</h2>
           <p>
-            Every text pairing was computed, not eyeballed. Where a value is stated it is the
-            measured ratio against the ground it sits on; WCAG AA (4.5&nbsp;:&nbsp;1) is the floor
-            for body text.
+            The logo uses black or white. The existing site palette remains below for other uses.
+            Where a value is stated it is the measured ratio against the ground it sits on; WCAG AA
+            (4.5&nbsp;:&nbsp;1) is the floor for body text.
           </p>
         </div>
         <div className="bp-colours">

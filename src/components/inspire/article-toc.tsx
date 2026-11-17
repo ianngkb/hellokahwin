@@ -121,6 +121,7 @@ function groupHeadings(headings: ArticleHeading[]): TocEntry[] {
 export function ArticleToc({
   headings,
   labelledBy,
+  variant = 'box',
 }: {
   headings: ArticleHeading[];
   /**
@@ -129,39 +130,78 @@ export function ArticleToc({
    * nothing about the inline render changes.
    */
   labelledBy?: string;
+  /**
+   * Inline shape when there is no rail. `box` is the always-open callout;
+   * `collapsible` is the phone form (17 Nov 2026): a one-line
+   * `<details>` reading "Dalam artikel ini · N bahagian" that opens on tap, so
+   * the list no longer pushes the article a whole screen down. The links are
+   * in the server HTML either way — a closed `<details>` still ships them.
+   * Ignored when `labelledBy` is set.
+   */
+  variant?: 'box' | 'collapsible';
 }) {
   const entries = groupHeadings(headings);
   if (!hasArticleToc(headings)) return null;
 
-  // The box chrome is an INLINE-CALLOUT treatment: bordered card, centred,
-  // capped at the 680px reading measure. Inside a 268px rail column that is a
-  // card in a card, and `lg:max-w-[680px]` fights the column's own width.
-  const chrome = labelledBy
-    ? 'article-toc'
-    : 'article-toc border-border bg-muted/40 my-8 rounded-md border px-4 py-3.5 lg:mx-auto lg:max-w-[680px]';
+  const list = (
+    <ol>
+      {entries.map((entry) => (
+        <li key={entry.heading.id}>
+          <a href={`#${entry.heading.id}`}>{entry.heading.text}</a>
+          {entry.children.length > 0 && (
+            <ul>
+              {entry.children.map((child) => (
+                <li key={child.id}>
+                  <a href={`#${child.id}`}>{child.text}</a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
+      ))}
+    </ol>
+  );
+
+  if (labelledBy) {
+    // Rail: the container supplies the heading, the box and the spacing.
+    return (
+      <nav aria-labelledby={labelledBy} className="article-toc">
+        {list}
+      </nav>
+    );
+  }
+
+  // The inline box spans the full text column, flush with the paragraphs and
+  // the cover above it. It used to be capped at 680px and centred
+  // (`lg:mx-auto lg:max-w-[680px]`) inside a 920px column, which set it 120px
+  // in from every other left edge on the page — the misalignment Ian reported.
+  const box = 'article-toc border-border bg-muted/40 my-8 rounded-md border';
+
+  if (variant === 'collapsible') {
+    return (
+      <nav aria-label="Dalam artikel ini" className={box}>
+        <details className="article-toc-details group">
+          <summary className="flex min-h-11 cursor-pointer list-none items-center gap-2 px-4 py-2.5 [&::-webkit-details-marker]:hidden">
+            <span className="hk-eyebrow">Dalam artikel ini</span>
+            <span className="text-muted-foreground text-xs">· {entries.length} bahagian</span>
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 16 16"
+              className="text-muted-foreground ml-auto size-4 transition-transform group-open:rotate-180"
+            >
+              <path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.5" />
+            </svg>
+          </summary>
+          <div className="border-border border-t px-4 pt-2 pb-3.5">{list}</div>
+        </details>
+      </nav>
+    );
+  }
 
   return (
-    <nav
-      {...(labelledBy ? { 'aria-labelledby': labelledBy } : { 'aria-label': 'Dalam artikel ini' })}
-      className={chrome}
-    >
-      {!labelledBy && <p className="hk-eyebrow mb-2.5">Dalam artikel ini</p>}
-      <ol>
-        {entries.map((entry) => (
-          <li key={entry.heading.id}>
-            <a href={`#${entry.heading.id}`}>{entry.heading.text}</a>
-            {entry.children.length > 0 && (
-              <ul>
-                {entry.children.map((child) => (
-                  <li key={child.id}>
-                    <a href={`#${child.id}`}>{child.text}</a>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </li>
-        ))}
-      </ol>
+    <nav aria-label="Dalam artikel ini" className={`${box} px-4 py-3.5`}>
+      <p className="hk-eyebrow mb-2.5">Dalam artikel ini</p>
+      {list}
     </nav>
   );
 }

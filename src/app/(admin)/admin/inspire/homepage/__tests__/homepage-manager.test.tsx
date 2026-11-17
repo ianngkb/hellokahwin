@@ -72,6 +72,7 @@ describe('Inspire homepage manager', () => {
         expect.objectContaining({
           featured: expect.objectContaining({ pinnedArticleIds: [SECOND.id, FIRST.id] }),
         }),
+        'artikel',
       ),
     );
     expect(h.refresh).toHaveBeenCalled();
@@ -89,6 +90,7 @@ describe('Inspire homepage manager', () => {
         expect.objectContaining({
           featured: expect.objectContaining({ pinnedArticleIds: [SECOND.id] }),
         }),
+        'artikel',
       ),
     );
   });
@@ -117,6 +119,7 @@ describe('Inspire homepage manager', () => {
         expect.objectContaining({
           featured: expect.objectContaining({ pinnedArticleIds: [FIRST.id] }),
         }),
+        'artikel',
       ),
     );
   });
@@ -131,5 +134,29 @@ describe('Inspire homepage manager', () => {
     await waitFor(() => expect(h.reset).toHaveBeenCalledOnce());
     expect(h.success).toHaveBeenCalledWith('Inspire homepage reset to automatic');
     expect(h.refresh).toHaveBeenCalled();
+  });
+
+  it('saves and resets the site homepage under its own surface, never /artikel', async () => {
+    vi.spyOn(window, 'confirm').mockReturnValue(true);
+    const view = render(
+      <InspireHomepageManager
+        surface="home"
+        pageLabel="Laman utama (/)"
+        initialConfig={DEFAULT_INSPIRE_HOMEPAGE_CONFIG}
+        categories={[]}
+        initialPins={{ featured: [], latest: [] }}
+      />,
+    );
+    const ui = within(view.container);
+
+    fireEvent.click(ui.getByRole('button', { name: 'Save Laman utama (/)' }));
+    await waitFor(() => expect(h.save).toHaveBeenCalledWith(expect.anything(), 'home'));
+    await waitFor(() => expect(h.success).toHaveBeenCalledWith('Laman utama (/) updated'));
+    await waitFor(() =>
+      expect(ui.getByRole('button', { name: 'Reset to automatic' })).not.toBeDisabled(),
+    );
+
+    fireEvent.click(ui.getByRole('button', { name: 'Reset to automatic' }));
+    await waitFor(() => expect(h.reset).toHaveBeenCalledWith('home'));
   });
 });

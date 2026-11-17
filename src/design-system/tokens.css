@@ -88,7 +88,7 @@
      §2.2). Interpolated linearly between 360px and 1024px of viewport,
      clamped at both ends. Body line-height is a STEP at 1024px (1.65 →
      1.70), not part of the clamp. ── */
-  --t-wordmark: clamp(1.125rem, 0.9217rem + 0.9036vw, 1.5rem); /* 18 → 24 */
+  --t-wordmark: clamp(1.5rem, 1.2967rem + 0.9036vw, 1.875rem); /* 24 → 30 */
   --t-h1: clamp(1.875rem, 1.4006rem + 2.1084vw, 2.75rem); /* 30 → 44 */
   --t-h2: clamp(1.375rem, 1.2395rem + 0.6024vw, 1.625rem); /* 22 → 26 */
   --t-h3: clamp(1.1875rem, 1.1197rem + 0.3012vw, 1.3125rem); /* 19 → 21 */
@@ -141,11 +141,8 @@
      targeting 75 by the formula would have shipped 81 in fact. ───────── */
   --measure-prose: 33em;
 
-  /* the two faces the spec licenses, and where each may appear (§2.1, 2.4).
-     Bodoni Moda is a DIFFERENT cut at each surface — opsz 6 for the
-     wordmark, opsz 11 PINNED for the h1 — see the DES-13 finding quoted in
-     the work-done entry. They are never the same font-variation-settings
-     value and must not be unified into one alias. */
+  /* Editorial type tokens. The Refined Classic logo is outlined artwork,
+     independent of these fonts and their optical-size settings. */
   --font-serif: 'Bodoni Moda', Didot, 'Bodoni MT', Georgia, serif;
   --font-sys:
     -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;

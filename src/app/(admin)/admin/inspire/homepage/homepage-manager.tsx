@@ -17,6 +17,7 @@ import {
 import { SectionCard } from '@/components/ui/section-card';
 import {
   DEFAULT_INSPIRE_HOMEPAGE_CONFIG,
+  type HomepageSurface,
   type InspireHomepageConfig,
   type InspireHomepageZoneConfig,
 } from '@/lib/inspire/homepage-curation';
@@ -264,10 +265,16 @@ function ZoneEditor({
 }
 
 export function InspireHomepageManager({
+  surface = 'artikel',
+  pageLabel = 'Inspire homepage',
   initialConfig,
   categories,
   initialPins,
 }: {
+  /** Which public page this editor saves to. Each has its own arrangement. */
+  surface?: HomepageSurface;
+  /** Human name of that page, used in the button and messages. */
+  pageLabel?: string;
   initialConfig: InspireHomepageConfig;
   categories: InspireHomepageCategory[];
   initialPins: {
@@ -306,26 +313,29 @@ export function InspireHomepageManager({
 
   function save() {
     startSaving(async () => {
-      const result = await saveInspireHomepageAction(config);
+      const result = await saveInspireHomepageAction(config, surface);
       if ('error' in result) {
         toast.error(result.error);
         return;
       }
-      toast.success('Inspire homepage updated');
+      toast.success(`${pageLabel} updated`);
       router.refresh();
     });
   }
   function reset() {
-    if (!window.confirm('Reset both sections to the newest published articles?')) return;
+    if (
+      !window.confirm(`Reset both sections of the ${pageLabel} to the newest published articles?`)
+    )
+      return;
     startSaving(async () => {
-      const result = await resetInspireHomepageAction();
+      const result = await resetInspireHomepageAction(surface);
       if ('error' in result) {
         toast.error(result.error);
         return;
       }
       setConfig(DEFAULT_INSPIRE_HOMEPAGE_CONFIG);
       setPins({ featured: [], latest: [] });
-      toast.success('Inspire homepage reset to automatic');
+      toast.success(`${pageLabel} reset to automatic`);
       router.refresh();
     });
   }
@@ -360,7 +370,7 @@ export function InspireHomepageManager({
         </Button>
         <Button type="button" onClick={save} disabled={saving}>
           {saving ? <Loader2 className="animate-spin" /> : null}
-          Save Inspire homepage
+          Save {pageLabel}
         </Button>
       </div>
     </div>

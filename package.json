@@ -42,6 +42,8 @@
     "backfill:midsize": "tsx scripts/backfill-midsize-cover.mts",
     "audit:rendition": "node scripts/audit-cover-rendition.mjs",
     "measure:cold": "tsx scripts/measure-cold-render.mts",
+    "brand:logos": "node scripts/generate-brand-logos.mjs",
+    "brand:logos:check": "node scripts/generate-brand-logos.mjs --check",
     "brand:icons": "node scripts/generate-brand-icons.mjs",
     "brand:icons:check": "node scripts/generate-brand-icons.mjs --check",
     "audit:favicon": "node scripts/audit-favicon.mjs",

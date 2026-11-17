@@ -56,7 +56,7 @@ describe("admin nav: Inspire matches The Wedding Notebook's tab order", () => {
   it('lists the Inspire tabs in TWN order, with TWN labels, for screens HelloKahwin has', () => {
     expect(inspire.tabs.map((t) => [t.label, t.href])).toEqual([
       ['Articles', '/admin/inspire'],
-      ['Inspire Homepage', '/admin/inspire/homepage'],
+      ['Homepage curation', '/admin/inspire/homepage'],
       ['Media Library', '/admin/inspire/media'],
       ['Categories', '/admin/inspire/categories'],
       ['Clusters', '/admin/inspire/clusters'],

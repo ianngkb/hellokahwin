@@ -53,6 +53,7 @@
  */
 import sharp from 'sharp';
 import { FONT_SANS, FONT_SERIF, mix, type BrandTokens } from './brand-tokens.mts';
+import { HORIZONTAL_MARK_SVG } from '../../src/components/brand/horizontal-mark-svg.ts';
 
 export const CANVAS_WIDTH = 2464;
 export const CANVAS_HEIGHT = 3080;
@@ -235,7 +236,6 @@ function blockHeight(lineCount: number, lineHeight: number): number {
 // the site's.
 
 const styles = (t: BrandTokens) => ({
-  wordmark: { size: 76, family: FONT_SANS, weight: 600, letterSpacing: 13, fill: t['brass-deep'] },
   kicker: { size: 72, family: FONT_SANS, weight: 600, letterSpacing: 9, fill: t['brass-deep'] },
   title: { size: 150, family: FONT_SERIF, weight: 400, letterSpacing: -3, fill: t.foreground },
   rowsTitle: {
@@ -307,9 +307,14 @@ export async function renderCover(spec: CoverSpec, t: BrandTokens): Promise<Rend
   parts.push(rect(MARGIN_X, BAND_BOTTOM, CONTENT_W, 2, mix(t.primary, t['brand-secondary'], 0.45)));
 
   // ── Masthead ──────────────────────────────────────────────────────────────
-  parts.push(textEl('HELLOKAHWIN', { ...s.wordmark, x: MARGIN_X, baseline: 250, anchor: 'start' }));
+  parts.push(
+    HORIZONTAL_MARK_SVG.replace(
+      'width="720" height="112"',
+      `x="${MARGIN_X}" y="155" width="610.714" height="95"`,
+    ).replace('fill="currentColor"', 'fill="#000000"'),
+  );
   parts.push(rect(MARGIN_X, 300, CONTENT_W, 3, t.hairline));
-  region('wordmark', 250 - s.wordmark.size * 0.8, 303);
+  region('wordmark', 155, 303);
 
   // ── Kicker + title, bottom-anchored to the plate ──────────────────────────
   // The masthead stays at the top of the page; the kicker travels with the

@@ -436,9 +436,9 @@ export default async function DesignSystemPage({
                 <tr className="border-t">
                   <td className="p-2 font-semibold">Wordmark</td>
                   <td className="p-2 font-mono text-[11px]">
-                    Bodoni Moda, wght 400, opsz 6 — outlined SVG in production
+                    Refined Classic — custom outlined mixed-case SVG
                   </td>
-                  <td className="p-2 text-xs">SIL OFL 1.1</td>
+                  <td className="p-2 text-xs">HelloKahwin original artwork</td>
                   <td className="p-2 text-right font-mono tabular-nums">0</td>
                 </tr>
                 <tr className="border-t">
@@ -459,11 +459,9 @@ export default async function DesignSystemPage({
             </table>
           </div>
           <p className="text-muted-foreground max-w-[74ch] text-xs">
-            The wordmark (opsz 6) and the h1 (opsz 11) are different instances of the same variable
-            font and must never share a font-variation-settings value — DES-13 measured opsz moving
-            the hairline 94% across its range. Demonstrated live below, loaded here via
-            next/font/google scoped to this admin page only; the public article&rsquo;s self-hosted,
-            preloaded, subsetted woff2 is DES-08&rsquo;s build task.
+            The mixed-case wordmark is custom outlined artwork from the approved Refined Classic
+            direction. It has no font dependency. The heading specimen below retains its own
+            typography; it is not a substitute for the logo.
           </p>
           <div className={`hk s-pad ${bodoniModa.variable} border py-6`} style={FONT_DEMO_STYLE}>
             <Wordmark />
@@ -488,7 +486,7 @@ export default async function DesignSystemPage({
               </thead>
               <tbody>
                 {[
-                  ['Wordmark', '18.00', '24.00', '1.00', '—'],
+                  ['Wordmark', '24.00', '30.00', '1.00', '—'],
                   ['h1 · display', '30.00', '44.00', '1.08', '22–30ch'],
                   ['h2', '22.00', '26.00', '1.25', '34ch'],
                   ['h3', '19.00', '21.00', '1.30', '40ch'],

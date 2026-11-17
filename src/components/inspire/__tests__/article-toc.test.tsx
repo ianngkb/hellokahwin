@@ -87,19 +87,42 @@ describe('ArticleToc', () => {
     const inRail = renderToStaticMarkup(
       <ArticleToc headings={extractHeadings(doc(h2s(3)))} labelledBy="rail-toc-heading" />,
     );
-    for (const cls of [
-      'border',
-      'bg-muted/40',
-      'rounded-md',
-      'px-4',
-      'py-3.5',
-      'my-8',
-      'lg:max-w-[680px]',
-    ]) {
+    for (const cls of ['border', 'bg-muted/40', 'rounded-md', 'px-4', 'py-3.5', 'my-8']) {
       expect(inline).toContain(cls);
       expect(inRail).not.toContain(cls);
     }
     expect(inRail).toContain('class="article-toc"');
+  });
+
+  it('keeps the inline box flush with the text column, never centred inside it', () => {
+    // 17 Nov 2026: a 680px cap centred in a 920px column set the box 120px in
+    // from the paragraphs and the cover — the misalignment Ian reported.
+    const inline = render(h2s(3));
+    expect(inline).not.toContain('lg:mx-auto');
+    expect(inline).not.toContain('lg:max-w-[680px]');
+  });
+
+  it('collapses to a one-line summary on phones, with every link still in the HTML', () => {
+    const headings = extractHeadings(doc(h2s(3)));
+    const html = renderToStaticMarkup(<ArticleToc headings={headings} variant="collapsible" />);
+    expect(html).toContain('<details');
+    expect(html).not.toContain('<details open');
+    expect(html).toContain('<summary');
+    expect(html).toContain('· 3 bahagian');
+    expect(html).toContain('aria-label="Dalam artikel ini"');
+    for (const h of headings) expect(html).toContain(`href="#${h.id}"`);
+  });
+
+  it('ignores the collapsible variant in the rail', () => {
+    const html = renderToStaticMarkup(
+      <ArticleToc
+        headings={extractHeadings(doc(h2s(3)))}
+        labelledBy="rail-toc-heading"
+        variant="collapsible"
+      />,
+    );
+    expect(html).not.toContain('<details');
+    expect(html).toContain('class="article-toc"');
   });
 
   it('links every h2 to the id that heading will carry in the body', () => {

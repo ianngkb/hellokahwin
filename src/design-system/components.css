@@ -118,15 +118,6 @@
   padding-bottom: 14px;
   border-bottom: 1px solid var(--rule);
 }
-.s-wm {
-  font-family: var(--font-serif);
-  font-variation-settings: 'opsz' 6; /* wordmark cut — DES-13. Never opsz 11. */
-  font-weight: 400;
-  letter-spacing: 0.092em;
-  text-transform: uppercase;
-  line-height: 1;
-  font-size: var(--fs-wordmark);
-}
 .s-nav {
   display: flex;
   gap: 26px;
