@@ -3,6 +3,7 @@ import { getMastheadCategories } from '@/lib/services/inspire-nav';
 import { type MenuCategory } from '@/components/inspire/inspire-nav-menu';
 import { withDeadline } from '@/lib/api/timeout';
 import { SiteWordmark } from '@/components/brand/site-wordmark';
+import { SiteSeal } from '@/components/brand/site-seal';
 import { SearchTrigger } from '@/components/search/search-trigger';
 
 const linkClass = 'text-plum-deep-muted text-sm transition-colors hover:text-white';
@@ -46,8 +47,9 @@ export async function Footer() {
             <Link
               href="/"
               aria-label="HelloKahwin — Laman utama"
-              className="mb-3 inline-block text-white"
+              className="mb-3 inline-flex flex-col items-start gap-3 text-white"
             >
+              <SiteSeal className="size-16 text-white" />
               <SiteWordmark className="h-[22px] text-white" />
             </Link>
             <p className="text-plum-deep-accent font-accent mb-4 text-sm leading-relaxed italic">

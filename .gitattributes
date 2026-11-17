@@ -17,3 +17,4 @@ public/icon.svg text eol=lf
 # Refined Classic generators and the inline/public parity check compare bytes.
 public/brand/logos/*.svg text eol=lf
 src/components/brand/horizontal-mark-svg.ts text eol=lf
+src/components/brand/editorial-seal-svg.ts text eol=lf

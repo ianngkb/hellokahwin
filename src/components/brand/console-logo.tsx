@@ -1,5 +1,6 @@
 import { cn } from '@/lib/utils';
 import { SiteWordmark } from './site-wordmark';
+import { SiteSeal } from './site-seal';
 
 /**
  * Console brand lockup — the HelloKahwin wordmark plus a surface label.
@@ -17,6 +18,7 @@ export function ConsoleLogo({
 }) {
   return (
     <span className={cn('flex items-center gap-2', className)}>
+      <SiteSeal className="size-8 text-black [[data-theme=dark]_&]:text-white" />
       <SiteWordmark className="h-[20px] text-black [[data-theme=dark]_&]:text-white" />
       {subtitle ? (
         <span className="text-muted-foreground text-[10.5px] font-semibold tracking-[0.14em] uppercase">
