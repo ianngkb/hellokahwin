@@ -128,6 +128,14 @@ describe('.github/workflows/cf-production.yml', () => {
     expect(wf).not.toMatch(/curl /);
   });
 
+  it('passes deploy arguments that survive the OpenNext hand-off (no spaces in values)', () => {
+    const step = wf.slice(wf.indexOf('- name: Deploy the production Worker'));
+    const deploy = step.slice(step.indexOf('run: >-'), step.indexOf('- name:', 10));
+    expect(deploy).toContain('wrangler deploy --env production');
+    expect(deploy).toContain('--message gitSha=${{ github.sha }}');
+    expect(deploy).not.toMatch(/"[^"]*\s[^"]*"/);
+  });
+
   it('is inert until HK_CF_PROD_DEPLOY is on', () => {
     expect(wf).toMatch(/if: vars\.HK_CF_PROD_DEPLOY == 'on'/);
   });

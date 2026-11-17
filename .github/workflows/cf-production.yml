@@ -79,7 +79,7 @@ jobs:
         run: >-
           pnpm exec wrangler deploy --env production
           --var HK_BUILD_SHA:${{ github.sha }}
-          --message "${{ github.sha }} master push"
+          --message gitSha=${{ github.sha }}
 
       # Exactly 200, no redirects followed, and x-hk-build == this commit, or the
       # job fails. The workers.dev address reaches the Worker directly, so it is
