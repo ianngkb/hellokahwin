@@ -6,6 +6,7 @@ import { MenuIcon } from 'lucide-react';
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { resolveAdminGroups } from './admin-nav-sections';
 import { AdminNavContents } from './admin-nav-contents';
+import { ConsoleLogo } from '@/components/brand/console-logo';
 
 /**
  * Below `lg`, the sidebar collapses into this sheet. It renders the SAME
@@ -51,7 +52,10 @@ export function AdminMobileNav({ badges }: { badges?: Record<string, number> }) 
       >
         <div className="border-hairline border-b px-5 pt-5 pb-4">
           <SheetTitle className="text-[15px] font-semibold tracking-[-0.02em]">
-            HelloKahwin Admin
+            <span className="sr-only">HelloKahwin Admin</span>
+            <span aria-hidden="true">
+              <ConsoleLogo subtitle="Admin" />
+            </span>
           </SheetTitle>
         </div>
         <div className="p-4">

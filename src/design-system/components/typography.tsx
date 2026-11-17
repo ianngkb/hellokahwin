@@ -11,10 +11,11 @@
  * `Heading` below and its use in content.tsx.
  */
 import type { ElementType, ReactNode } from 'react';
+import { SiteWordmark } from '@/components/brand/site-wordmark';
 
-/** The masthead wordmark. opsz 6 — see components.css `.s-wm`. Never opsz 11. */
-export function Wordmark({ children = 'HelloKahwin' }: { children?: ReactNode }) {
-  return <span className="s-wm">{children}</span>;
+/** The same outlined masthead used on public pages. */
+export function Wordmark() {
+  return <SiteWordmark className="[.hk-dark_&]:text-white" />;
 }
 
 /** Category eyebrow / section label / Rekod field name. NEVER a heading
@@ -38,7 +39,7 @@ export function Label({
   );
 }
 
-/** Article / Category / 404 h1. opsz 11 PINNED — never the wordmark's opsz 6. */
+/** Article / Category / 404 h1. opsz 11 PINNED for editorial headings. */
 export function H1({ children, style }: { children: ReactNode; style?: React.CSSProperties }) {
   return (
     <h1 className="s-h1" style={style}>

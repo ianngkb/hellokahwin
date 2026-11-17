@@ -1,0 +1,72 @@
+[
+  {
+    "lens": "adversarial",
+    "location": "Recommended direction",
+    "trigger_condition": "The page recommends blending three wordmarks despite selection of Fashion Publication.",
+    "guard_snippet": "Treat the right-hand Fashion Publication wordmark as the reference.",
+    "potential_consequence": "Further refinement could lose the restraint Ian selected."
+  },
+  {
+    "lens": "adversarial",
+    "location": "Logomark board — wordmarks",
+    "trigger_condition": "The later board restores a sweeping K absent from the selected wordmark.",
+    "guard_snippet": "Use a straight, restrained K and match the selected lighter proportions.",
+    "potential_consequence": "Approval of the seal could be mistaken for approval of different lettering."
+  },
+  {
+    "lens": "adversarial",
+    "location": "Wedding-led variations and System card",
+    "trigger_condition": "Wedding symbols remain active recommendations after Ian returned to the original seal.",
+    "guard_snippet": "Archive the wedding additions as not selected.",
+    "potential_consequence": "The implementation could drift from the selected editorial identity."
+  },
+  {
+    "lens": "adversarial",
+    "location": "Original Editorial Seal — HK junction",
+    "trigger_condition": "Both letters rely on a delicate curved connection.",
+    "guard_snippet": "Compare the curved connection with a clearer straight H crossbar.",
+    "potential_consequence": "HK may read as an ornament before it reads as initials."
+  },
+  {
+    "lens": "adversarial",
+    "location": "Small applications",
+    "trigger_condition": "Enlarged concept boards do not establish favicon legibility.",
+    "guard_snippet": "Test final vectors at actual 16, 32 and 48px, and at the mobile header size.",
+    "potential_consequence": "The circle can crowd the letters and hairlines can disappear."
+  },
+  {
+    "lens": "adversarial",
+    "location": "Monochrome specimens",
+    "trigger_condition": "The original boards lack white-on-black examples.",
+    "guard_snippet": "Add reverse concepts now and matched production proofs after vector construction.",
+    "potential_consequence": "Reversed artwork may appear heavier or lose internal detail."
+  },
+  {
+    "lens": "adversarial",
+    "location": "Production artwork",
+    "trigger_condition": "No verified vector master exists for the selected combination.",
+    "guard_snippet": "Label concepts accurately and compare final outlined vectors against the selected reference.",
+    "potential_consequence": "A font substitution or trace could change the approved design."
+  },
+  {
+    "lens": "adversarial",
+    "location": "Seal and wordmark hierarchy",
+    "trigger_condition": "The large seal above the name does not establish a wordmark-led website hierarchy.",
+    "guard_snippet": "Use the name as masthead, the seal for avatars, and test a modest combined signature.",
+    "potential_consequence": "A site-wide rollout could become dominated by badges."
+  },
+  {
+    "lens": "adversarial",
+    "location": "Existing website brand registry",
+    "trigger_condition": "Existing variants permit KAHWIN alone, stacked words, warm ink, parchment and gold.",
+    "guard_snippet": "Replace logo variants and logo colour rules consistently; remeasure proportions and minimum sizes.",
+    "potential_consequence": "Old variants and measurements could survive the rollout."
+  },
+  {
+    "lens": "adversarial",
+    "location": "Relationship to The Wedding Notebook",
+    "trigger_condition": "The earlier recommendation did not show the actual TWN mark.",
+    "guard_snippet": "Show the actual interlocking-ring TWN mark and identify the distinct HK seal.",
+    "potential_consequence": "The relationship and implications of symbol reuse remain unclear."
+  }
+]

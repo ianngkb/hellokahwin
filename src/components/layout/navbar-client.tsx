@@ -18,7 +18,7 @@ import { SearchTrigger } from '@/components/search/search-trigger';
 
 interface NavbarClientProps {
   categories: MenuCategory[];
-  /** The HelloKahwin wordmark, rendered on the server (it reads the SVG from disk). */
+  /** The HelloKahwin wordmark, rendered from the bundled outlined SVG. */
   wordmark: React.ReactNode;
 }
 

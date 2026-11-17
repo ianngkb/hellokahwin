@@ -85,11 +85,9 @@ export const metadata: Metadata = {
   },
   description:
     'Idea, tips dan panduan perkahwinan untuk pasangan Malaysia. Rancang majlis impian anda mengikut bajet.',
-  // UI-20. Every file here is generated from
-  // `public/brand/logos/hellokahwin-monogram.svg` by
-  // `scripts/generate-brand-icons.mjs` — run `pnpm brand:icons` after any
-  // change to the monogram or to --hk-parchment-100 / --hk-ink-900, and
-  // `pnpm brand:icons:check` fails the moment public/ drifts from either.
+  // Refined Classic icons are generated from scripts/brand/artwork.mjs by
+  // pnpm brand:icons. Tabs use the small HK cut; home screens use the seal.
+  // pnpm brand:icons:check detects generated assets that have drifted.
   //
   // These are DECLARED here rather than dropped into `src/app/` as Next's
   // icon.svg / apple-icon.png file conventions, on purpose: the conventions
