@@ -8,6 +8,8 @@
 //     (the production Worker keeps its workers.dev address for testing), so no
 //     copy of the site ever competes with hellokahwin.com. Next's own headers
 //     are left untouched.
+//   - x-hk-build: the git SHA the version was built from (HK_BUILD_SHA, set by
+//     cf-production.yml), so a deploy check can prove which version answered.
 //   - scheduled: the nightly Google Search Console sync that Vercel Cron used
 //     to call (`/api/cron/gsc-sync`, vercel.json). The Cron Trigger lives in
 //     wrangler.jsonc env.production. It only does work when HK_CRON_ENABLED=1,
@@ -24,7 +26,7 @@ import {
   CRON_ROUTES,
   cronRequest,
   isCronEnabled,
-  wantsNoindex,
+  responseStamps,
   type WorkerEnv,
 } from './src/lib/cloudflare/worker-entry';
 
@@ -34,9 +36,10 @@ type ScheduledController = { cron: string; scheduledTime: number };
 export default {
   async fetch(request: Request, env: WorkerEnv, ctx: Ctx): Promise<Response> {
     const response: Response = await openNextWorker.fetch(request, env, ctx);
-    if (!wantsNoindex(request, env)) return response;
+    const stamps = responseStamps(request, env);
+    if (!stamps) return response;
     const stamped = new Response(response.body, response);
-    stamped.headers.set('x-robots-tag', 'noindex, nofollow');
+    for (const [name, value] of Object.entries(stamps)) stamped.headers.set(name, value);
     return stamped;
   },
 

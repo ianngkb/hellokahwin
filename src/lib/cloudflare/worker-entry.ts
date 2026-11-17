@@ -7,6 +7,8 @@
 
 export type WorkerEnv = {
   HK_NOINDEX?: string;
+  /** The git SHA this version was built from (cf-production.yml: `--var HK_BUILD_SHA:<sha>`). */
+  HK_BUILD_SHA?: string;
   HK_CRON_ENABLED?: string;
   CRON_SECRET?: string;
   NEXT_PUBLIC_SITE_URL?: string;
@@ -45,4 +47,19 @@ export function cronRequest(path: string, env: WorkerEnv): Request {
   const headers = new Headers({ 'user-agent': 'cloudflare-cron' });
   if (env.CRON_SECRET) headers.set('authorization', `Bearer ${env.CRON_SECRET}`);
   return new Request(`${origin}${path}`, { method: 'GET', headers });
+}
+
+/** Response header that names the build a Worker response came from. */
+export const BUILD_HEADER = 'x-hk-build';
+
+/**
+ * The headers `cf-worker.ts` adds to a response, or `null` when it adds none
+ * (so the response passes through untouched). `x-hk-build` lets a deploy check
+ * prove WHICH version answered (cf-production.yml, verify-deploy.mjs).
+ */
+export function responseStamps(request: Request, env: WorkerEnv): Record<string, string> | null {
+  const stamps: Record<string, string> = {};
+  if (wantsNoindex(request, env)) stamps['x-robots-tag'] = 'noindex, nofollow';
+  if (env.HK_BUILD_SHA) stamps[BUILD_HEADER] = env.HK_BUILD_SHA;
+  return Object.keys(stamps).length > 0 ? stamps : null;
 }

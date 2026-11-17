@@ -22,7 +22,8 @@
 #   NEXT_SERVER_ACTIONS_ENCRYPTION_KEY   embedded at build; MUST equal the Worker's
 #                                        runtime secret (Infisical hellokahwin/prod)
 # Repository variables (public values):
-#   NEXT_PUBLIC_R2_ASSETS_PUBLIC_URL, R2_PUBLIC_URL, R2_ASSETS_PUBLIC_URL, HK_CF_PROD_DEPLOY
+#   NEXT_PUBLIC_R2_ASSETS_PUBLIC_URL, R2_PUBLIC_URL, R2_ASSETS_PUBLIC_URL,
+#   HK_CF_PROD_DEPLOY (deploys on), HK_CF_LIVE (hellokahwin.com is on the Worker)
 name: Cloudflare production
 
 on:
@@ -73,12 +74,25 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           # Placeholder: wrangler insists on one for a Hyperdrive binding; a deploy never uses it.
           CLOUDFLARE_HYPERDRIVE_LOCAL_CONNECTION_STRING_HYPERDRIVE: postgres://local:local@127.0.0.1:5432/local
-        run: pnpm exec wrangler deploy --env production --message "${{ github.sha }} master push"
+        # HK_BUILD_SHA makes every response carry `x-hk-build: <sha>` (cf-worker.ts),
+        # so the next step can prove this exact version is the one answering.
+        run: >-
+          pnpm exec wrangler deploy --env production
+          --var HK_BUILD_SHA:${{ github.sha }}
+          --message "${{ github.sha }} master push"
 
-      - name: Smoke the live site
+      # Exactly 200, no redirects followed, and x-hk-build == this commit, or the
+      # job fails. The workers.dev address reaches the Worker directly, so it is
+      # always checked; hellokahwin.com is checked too once DNS points at the
+      # Worker (repository variable HK_CF_LIVE=on, set at the switch and unset on
+      # a rollback), because until then Vercel answers there.
+      - name: Verify the deployed version is the one answering
+        env:
+          WORKER_URL: https://hellokahwin.misty-glitter-43d0.workers.dev
+          LIVE: ${{ vars.HK_CF_LIVE }}
         run: |
-          for path in / /artikel /robots.txt; do
-            code=$(curl -s -o /dev/null -w '%{http_code}' "https://hellokahwin.com$path")
-            echo "$path -> $code"
-            [ "$code" = 200 ] || exit 1
-          done
+          urls="$WORKER_URL/ $WORKER_URL/artikel $WORKER_URL/robots.txt"
+          if [ "$LIVE" = on ]; then
+            urls="$urls https://hellokahwin.com/ https://hellokahwin.com/artikel https://hellokahwin.com/robots.txt"
+          fi
+          node scripts/cloudflare/verify-deploy.mjs --sha "${{ github.sha }}" $urls

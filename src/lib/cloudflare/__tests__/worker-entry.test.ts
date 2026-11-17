@@ -2,7 +2,14 @@
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { CRON_ROUTES, cronRequest, isCronEnabled, wantsNoindex } from '../worker-entry';
+import {
+  BUILD_HEADER,
+  CRON_ROUTES,
+  cronRequest,
+  isCronEnabled,
+  responseStamps,
+  wantsNoindex,
+} from '../worker-entry';
 
 const root = path.resolve(__dirname, '../../../..');
 
@@ -20,6 +27,28 @@ describe('wantsNoindex', () => {
   it('leaves hellokahwin.com and its subdomains alone in production', () => {
     expect(wantsNoindex(new Request('https://hellokahwin.com/artikel'), {})).toBe(false);
     expect(wantsNoindex(new Request('https://cf-test.hellokahwin.com/'), {})).toBe(false);
+  });
+});
+
+describe('responseStamps', () => {
+  const req = (u: string) => new Request(u);
+
+  it('stamps x-hk-build with the build SHA when the Worker has one', () => {
+    expect(responseStamps(req('https://hellokahwin.com/'), { HK_BUILD_SHA: 'abc1234' })).toEqual({
+      [BUILD_HEADER]: 'abc1234',
+    });
+  });
+
+  it('adds noindex on workers.dev alongside the build stamp', () => {
+    expect(
+      responseStamps(req('https://hellokahwin.misty-glitter-43d0.workers.dev/'), {
+        HK_BUILD_SHA: 'abc1234',
+      }),
+    ).toEqual({ 'x-robots-tag': 'noindex, nofollow', [BUILD_HEADER]: 'abc1234' });
+  });
+
+  it('leaves the response untouched when there is nothing to stamp', () => {
+    expect(responseStamps(req('https://hellokahwin.com/'), {})).toBeNull();
   });
 });
 
@@ -87,6 +116,16 @@ describe('.github/workflows/cf-production.yml', () => {
   it('deploys on every master push, one at a time, never cancelling a deploy', () => {
     expect(wf).toMatch(/on:\s*\n\s*push:\s*\n\s*branches: \[master\]/);
     expect(wf).toMatch(/cancel-in-progress: false/);
+  });
+
+  it('stamps the deployed version with the commit and verifies exactly that version answers', () => {
+    expect(wf).toContain('--var HK_BUILD_SHA:${{ github.sha }}');
+    expect(wf).toMatch(
+      /node scripts\/cloudflare\/verify-deploy\.mjs --sha "\$\{\{ github\.sha \}\}"/,
+    );
+    expect(wf).toContain('WORKER_URL: https://hellokahwin.misty-glitter-43d0.workers.dev');
+    // No status-only curl smoke left behind.
+    expect(wf).not.toMatch(/curl /);
   });
 
   it('is inert until HK_CF_PROD_DEPLOY is on', () => {

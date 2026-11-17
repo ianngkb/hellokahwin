@@ -248,6 +248,14 @@ hellokahwin.com. While both hosts exist, every master merge lands on both:
 whichever one DNS points at is live and the other is a warm fallback, so a
 rollback never serves stale code.
 
+Each deploy is stamped with its commit (`--var HK_BUILD_SHA:<sha>`; the
+Worker answers with `x-hk-build: <sha>`), and the job then runs
+`scripts/cloudflare/verify-deploy.mjs`: exactly 200, no redirects followed,
+and `x-hk-build` equal to the commit, on the Worker's workers.dev address and,
+once the repository variable `HK_CF_LIVE` is `on` (set at the switch, unset on
+a rollback), on hellokahwin.com too. Anything else (Vercel answering, an older
+version, a redirect) fails the job.
+
 It is inert until the repository variable `HK_CF_PROD_DEPLOY` is `on`. Its
 secrets and variables are set by
 `pwsh -NoProfile -File scripts/cloudflare/set-github-deploy-secrets.ps1`
