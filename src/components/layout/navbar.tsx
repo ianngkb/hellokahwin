@@ -3,6 +3,7 @@ import { type MenuCategory } from '@/components/inspire/inspire-nav-menu';
 import { NavbarClient } from '@/components/layout/navbar-client';
 import { withDeadline } from '@/lib/api/timeout';
 import { SiteWordmark } from '@/components/brand/site-wordmark';
+import { SiteSeal } from '@/components/brand/site-seal';
 
 /**
  * Public masthead — The Wedding Notebook's navbar, HelloKahwin's brand.
@@ -38,7 +39,15 @@ export async function Navbar() {
 
   return (
     <header className="sticky top-0 z-[var(--z-nav)]">
-      <NavbarClient categories={categories} wordmark={<SiteWordmark />} />
+      <NavbarClient
+        categories={categories}
+        wordmark={
+          <span className="inline-flex items-center gap-2 md:gap-3">
+            <SiteSeal className="size-10 md:size-12" />
+            <SiteWordmark />
+          </span>
+        }
+      />
     </header>
   );
 }

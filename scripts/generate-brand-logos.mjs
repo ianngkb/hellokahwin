@@ -37,6 +37,13 @@ outputs.push([
     { parser: 'typescript', singleQuote: true, printWidth: 96 },
   ),
 ]);
+outputs.push([
+  'src/components/brand/editorial-seal-svg.ts',
+  await format(
+    `// GENERATED from public/brand/logos/hellokahwin-monogram.svg — do not edit by hand.\n// Regenerate: pnpm brand:logos\nexport const EDITORIAL_SEAL_SVG = ${JSON.stringify(svg(...lockups.monogram))};\n`,
+    { parser: 'typescript', singleQuote: true, printWidth: 96 },
+  ),
+]);
 // Preserve the URL and 886×290 metadata contract used by sharing and JSON-LD.
 const compatibility = svg(
   886,
