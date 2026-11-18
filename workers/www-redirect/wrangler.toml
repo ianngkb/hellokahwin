@@ -1,0 +1,8 @@
+name = "hellokahwin-www-redirect"
+main = "index.js"
+compatibility_date = "2026-11-01"
+account_id = "249af9c6ea41ab1c7cd049f2adf80eb2"
+workers_dev = false
+routes = [
+  { pattern = "www.hellokahwin.com/*", zone_name = "hellokahwin.com" }
+]
